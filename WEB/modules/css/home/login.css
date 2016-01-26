@@ -1,0 +1,101 @@
+﻿body {
+background-color:#fff;
+}
+
+.login-body{ background:url(/modules/images/loginMainBackground.jpg) no-repeat right bottom; background-size:cover; width:100%; height:100%; position:fixed;}
+
+.login-body .main{ margin:120px auto; width:320px;background-color:#fff;padding:35px 30px 60px 40px;opacity:0.9;
+background:url(/modules/images/bg-loginBackground.png) no-repeat left top; background-size:100% 100%;
+
+}
+
+.login-body .login-header {
+padding:15px;
+}
+
+.header-logo {
+    cursor: pointer;
+}
+
+.login-body .headerTitle {margin-left:5px; color:#4a98e7; text-align:center; font-size:16px;font-weight:bold; line-height:24px;}
+
+.login-body .main .login{ width:320px;margin-top:25px;}
+
+.login-body .main .login .loginbar{ width:100%;height:40px; margin:10px 0px; background-color:#fff;position:relative;}
+
+.main .loginTitle {color:#4a98e7; text-align:center; font-size:22px;}
+
+.login-body .loginbar .input{ width:308px;height:40px; border:solid 1px #ccc;color:#333;  text-indent:26px;}
+
+
+.icoUserName { background:url(/modules/images/ico-name.png) no-repeat 7px 11px;border-radius:3px;}
+
+.icoUserPwd { background:url(/modules/images/ico-pwd.png) no-repeat 7px 11px;border-radius:3px;}
+
+.icoMobileCode { background:url(/modules/images/ico-mobilecode.png) no-repeat 7px 11px;border-radius:3px;}
+
+.icoUserCompany { background:url(/modules/images/ico-company.png) no-repeat 7px 11px;border-radius:3px;}
+
+.icoName { background:url(/modules/images/ico-username.png) no-repeat 7px 11px;border-radius:3px;}
+
+.icoSurePwd { background:url(/modules/images/ico-surepwd.png) no-repeat 7px 11px;border-radius:3px;}
+
+.remember-box { height:30px; margin-top:20px; }
+
+.remember-box .cb-remember-password { cursor:pointer; padding-left:2px; color:#666; }
+
+.btnLogin { height:40px;line-height:40px; background-color:#4A98E7 ; color:#fff; font-size:16px; text-align:center;
+border:none; font-weight:bold; cursor:pointer; display:inline-block; border-radius:3px; width:320px;}
+
+.other-account { border-top:dashed 1px #999; margin-top:20px; position:relative; }
+
+.other-account .other-text { text-align:center; top:-10px; position:absolute; left:115px; color:#666; background-color:#FCFCFC; }
+
+.other-account .accounts { height:40px; margin-top:20px; text-align:center; }
+
+.other-account .accounts a{ height:40px; width:40px;display:inline-block}
+
+.accounts .mingdao {background:url(/Content/homeico/mingdao.png) no-repeat; }
+
+.accounts .mingdao:hover {background:url(/Content/homeico/mingdao-hover.png) no-repeat; }
+
+.login-body .copyright{ position:fixed; bottom:20px; right:20px; color:#333; text-align:right}
+
+
+.login-body .registerErr{width:100%;height:40px; margin:10px 0px; background-color:#ffd0d0; 
+line-height:40px;text-align:center;color:red;border-radius:3px;}
+
+.linkRegister {color:#4a98e7;font-size:14px;}
+
+.divRegister {padding:25px;float:right;}
+
+.btnRegister 
+{ height:26px;line-height:26px;padding:0px 28px 0px 8px; background-color:#fff ; color:#aaa; font-size:14px; text-align:center; 
+cursor:pointer; border-radius:3px;opacity:0.8;border:solid 1px #aaa;
+background:url(/modules/images/ico-goregister.png) no-repeat 40px center;
+}
+
+.btnRegister:hover
+{ height:26px;line-height:26px;padding:0px 28px 0px 8px; background-color:#fff ; color:#4A98E7; font-size:14px; text-align:center; 
+cursor:pointer; border-radius:3px;opacity:0.8;border:solid 1px #4A98E7;
+background:url(/modules/images/ico-goregister-hover.png) no-repeat 40px center;
+}
+
+.error-body {
+    display: none;
+}
+
+.error-lump { border-right:solid 7px #ffd0d0; border-top:solid 8px transparent ;border-bottom:solid 8px transparent; 
+ width:0; height:0; position:absolute; left:325px; top:12px;z-index:100; }
+
+.error-msg {
+padding:8px;background-color:#ffd0d0;color:red;position:absolute;left:331px;top:5px;z-index:100;width:120px;
+}
+
+.txtBoxPassword {
+    position:absolute;top:0px;left:0px;width:308px;height:40px;line-height:40px; color:#999; text-indent:31px;display:block;
+}
+
+
+
+

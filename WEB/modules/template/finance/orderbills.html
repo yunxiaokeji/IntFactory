@@ -1,0 +1,17 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <!--<td class=""><span data-id="{%=item.BillingID%}" class="ico-check check"></span></td>-->
+    <td class=""><a href="/Finance/OrderBillsDetail/{%=item.BillingID%}" target="_blank">{%=item.BillingCode%}</a> </td>
+    <td class="tRight">{%=item.TotalMoney.toFixed(2)%}</td>
+    <td class="center {%=item.PayStatus<2?'red':''%}">{%=item.PayStatusStr%}</td>
+    <td class="tRight">{%=item.PayMoney.toFixed(2)%}</td>
+    <td class="center {%=item.InvoiceStatus<2?'red':''%}">{%=item.InvoiceStatusStr%}</td>
+    <td class="tRight">{%=item.InvoiceMoney.toFixed(2)%}</td>
+    <td class="center"><a href="/Orders/Detail/{%=item.OrderID%}" target="_blank">{%=item.OrderCode%}</a> </td>
+    <td class='center'>{%=(item.CreateUser ? item.CreateUser.Name:"--")%}</td>
+    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+</tr>
+{% } %}

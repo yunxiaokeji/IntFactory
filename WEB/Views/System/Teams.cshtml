@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "销售团队";
+}
+
+@section css{
+    <link rel="stylesheet" href="/modules/css/system/system.css" />
+}
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/system/teams"], function (obj) {
+            obj.init('');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">销售团队设置</span>
+    <div class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"108020301"))" id="addTeam">添加销售团队</div>
+</div>
+<div class="content-body mTop20">
+    <div class="team-header">
+        销售团队
+    </div>
+    <div id="teams" class="team-list">
+
+    </div>
+</div>
+<ul class="dropdown-ul hide" id="ddlTeam" style="width:90px;">
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020301"))" id="editTeam">编辑团队</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020303"))" id="addUser">添加成员</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020302"))" id="deleteTeam">删除团队</li>
+</ul>
+
+<ul class="dropdown-ul hide" id="ddlUser" style="width:90px;">
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020303"))" id="removeObject">移出团队</li>
+</ul>

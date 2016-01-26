@@ -1,0 +1,17 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<div class="log-item">
+    <div class="left createuser">
+        <img src="{%=item.CreateUser.Avatar%}" />
+        <h2 class="long">{%=item.CreateUser.Name%}</h2> 
+    </div>
+    <div class="left mLeft20">
+        <p>{%=item.Remark%}</p>
+        <div class="createtime">
+            时间：{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}
+        </div>
+    </div>
+</div>
+{% } %}

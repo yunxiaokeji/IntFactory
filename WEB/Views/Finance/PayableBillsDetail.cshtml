@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "采购账单详情";
+}
+@section css{
+
+}
+@section scripts{
+    <script src="/modules/plug/laydate/laydate.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/finance/detail"], function (ObjectJS) {
+            ObjectJS.init('@ViewBag.ID');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">采购账单详情</span>
+    <a class="ico-back right" href="/Finance/PayableBills" >
+        返回
+    </a>
+</div>
+<div class="content-body mTop20">
+    <div class="content-title">
+        <div class="left titlename" id="infoBillingCode"></div>
+    </div>
+    <ul class="content-info">
+        <li>
+            <span class="column-title">应付金额：</span>
+            <span class="column-value" id="infoTotalMoney"></span>
+        </li>
+        <li>
+            <span class="column-title">采购单号：</span>
+            <span class="column-value">
+                <a href="/Purchase/DocDetail" target="_blank" id="infoSourceCode"> </a>
+            </span>
+        </li>
+        <li>
+            <span class="column-title">已付金额：</span>
+            <span class="column-value" id="infoPayMoney"></span>
+        </li>
+        <li>
+            <span class="column-title">开票金额：</span>
+            <span class="column-value" id="infoInvoiceMoney"></span>
+        </li>
+        <li>
+            <span class="column-title">创建人：</span>
+            <span class="column-value" id="infoCreateUser"></span>
+        <li>
+            <span class="column-title">创建时间：</span>
+            <span class="column-value" id="infoCreateTime"></span>
+        </li>
+    </ul>
+    <div class="tab-nav mTop30">
+        <ul class="tab-nav-ul left">
+            <li class="hover" data-id="navPays">付款记录</li>
+            <li class="" data-id="navInvoices">开票记录</li>
+        </ul>
+        <div id="addPay" class="btn right @(ExpandClass.IsLimits(HttpContext.Current,"104010101"))">付款登记</div>
+        <div id="addInvoice" class="btn right @(ExpandClass.IsLimits(HttpContext.Current,"104010102"))">发票登记</div>
+    </div>
+    <table id="navPays" class="nav-partdiv table-list mTop20">
+        <tr class="tr-header">
+            <td class="width150 tLeft">付款日期</td>
+            <td class="">付款金额</td>
+            <td class="width100">支付方式</td>
+            <td class="tLeft">备注</td>
+            <td class="width150">登记人</td>
+            <td class="width200 tRight">登记时间</td>
+        </tr>
+    </table>
+    <table id="navInvoices" class="nav-partdiv table-list mTop20 hide">
+        <tr class="tr-header">
+            <td class="width100 tLeft">发票类型</td>
+            <td class="">开票金额</td>
+            <td class="">发票号码</td>
+            <td class="tLeft">备注</td>
+            <td class="width150">登记人</td>
+            <td class="width200">登记时间</td>
+            <td class="width50">操作</td>
+        </tr>
+    </table>
+</div>
+<ul class="dropdown-ul hide" style="width:65px;">
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"104010103"))" id="deleteInvoice">删除</li>
+</ul>

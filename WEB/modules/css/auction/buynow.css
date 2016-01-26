@@ -1,0 +1,190 @@
+﻿.step {
+width:900px;
+margin:10px auto 20px auto;
+}
+
+.selectProduct {
+background:url('/modules/images/auction/bg-select-product-active.png') center center;
+width:290px;
+height:60px;
+background-color:#fff;
+}
+
+.sureOrder {
+background:url('/modules/images/auction/bg-sure-order.png') center center;
+width:290px;
+height:60px;
+background-color:#fff;
+}
+
+.payOrder {
+background:url('/modules/images/auction/bg-pay-order.png') center center;
+width:290px;
+height:60px;
+background-color:#fff;
+}
+
+.stepIco {
+width:22px;
+height:22px;
+border-radius:11px;
+color:#fff;
+background-color:#666;
+line-height:22px;
+text-align:center;
+margin-top:20px;
+margin-left:20px;
+}
+
+.stepIcoActive {
+color:#4a98e7;
+background-color:#fff;
+}
+
+.stepIcoFinish {
+color:#fff;
+background-color:#4a98e7;
+}
+
+.stepDes {
+margin-top:21px;
+margin-left:20px;
+font-size:16px;
+color:#666;
+}
+
+.stepDesActive {
+color:#fff;
+}
+
+.stepDesFinish {
+color:#4a98e7;
+}
+
+.productList {
+width:858px;
+margin:0px auto;
+padding:20px;
+border:solid 1px #eee;
+border-radius:2px;
+}
+
+table td 
+{
+width:175px;
+color:#999;
+font-size:12px;
+padding:12px 0px;
+text-align:center;
+border-bottom:solid 1px #eee;
+}
+
+
+.trBG {
+background-color:#eee;
+}
+
+.trBG td{
+padding:0px;
+border-bottom:solid 2px #cee;
+}
+
+.tdBG {
+background-color:#eee;
+}
+
+.tdBG1 {
+background-color:#4a98e7;
+color:#fff;
+}
+
+.tdBG2 {
+background-color:#2F73B8;
+color:#fff;
+}
+
+.tdBG3 {
+background-color:rgb(134, 186, 236);
+color:#fff;
+}
+
+.trLast td{
+border-bottom:solid 2px #cee;
+}
+
+
+
+.selectPrpduct ul {
+list-style:none;
+}
+
+.selectPrpduct ul li{
+line-height:48px;
+}
+
+.diagonalDiv {
+width:16px;height:16px;
+}
+
+.diagonalDiv2 {
+width:16px;height:16px;position:absolute;left:0px;top:1px;
+}
+
+.diagonalLine {
+border:8px transparent solid;border-left-color: #999;border-bottom-color: #999;
+}
+
+.diagonalLine2 {
+border:8px transparent solid;border-left-color: #eee;border-bottom-color: #eee;
+}
+
+
+.productOrder {
+width:858px;
+margin:0px auto;
+padding:20px;
+border:solid 1px #eee;
+border-radius:2px;
+}
+
+.payProductOrder {
+width:858px;
+margin:0px auto;
+padding:20px;
+border:solid 1px #eee;
+border-radius:2px;
+}
+
+.totalPrice {
+border-top:solid 1px #4a98e7;width:160px;padding-top:15px;
+}
+
+.totalPrice span {
+color:#4a98e7;font-size:18px;
+}
+
+.orderInfo span {
+color:#333;
+font-size:12px;
+}
+
+.orderInfoTitle {
+color:#666;font-size:18px;
+}
+
+.orderInfoDetail {
+border-bottom:dashed 1px #eee;padding:10px 0px;
+}
+
+.orderInfoPrice {
+color:#4a98e7;font-size:18px;
+}
+
+.buyDes {
+color:#666;font-size:18px;padding:10px 0px;
+}
+
+.buyGoodPrice {
+color:#666;font-size:14px;margin-left:10px;
+}
+

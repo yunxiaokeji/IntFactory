@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "添加新材料";
+    var model = (IntFactoryEntity.Category)ViewBag.Model;
+}
+<link href="/modules/css/stock/products.css" rel="stylesheet" />
+<link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
+    <script src="/modules/plug/umeditor/umeditor.config.js"></script>
+    <script src="/modules/plug/umeditor/umeditor.min.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/products/product"], function (product) {
+            var um = UM.getEditor('remark');
+            product.init(um);
+        });
+    </script>
+}
+
+<div class="header-box">
+    <span class="header-title left">添加材料 >> @(model.CategoryName)</span>
+    <a class="ico-back left mLeft5" title="返回" href="/Products/ProductAdd">返回</a>
+    <input type="hidden" id="categoryID" value="@(model.CategoryID)" />
+</div>
+<div class="content-body mTop20">
+    <ul class="table-add product-add">
+        <li>
+            <span class="column-name">材料名称：</span><input type="text" style="width:300px;" maxlength="50" id="productName" data-empty="必填" class="input verify" />
+        </li>
+        <li>
+            <span class="column-name">材料编码：</span><input type="text" maxlength="50" id="productCode" class="input" />
+        </li>
+        <li>
+            <span class="column-name">条形码：</span><input type="text" maxlength="50" id="shapeCode" class="input" />
+        </li>
+        <li>
+            <span class="column-name">供应商：</span>
+            <select id="prodiver">
+            @foreach (IntFactoryEntity.ProvidersEntity providers in (List<IntFactoryEntity.ProvidersEntity>)ViewBag.Providers)
+            {
+                <option value="@providers.ProviderID">@providers.Name</option> 
+            }
+            </select>
+        </li>
+        
+        @foreach (IntFactoryEntity.ProductAttr attr in model.AttrLists)
+        {
+            <li data-id="@attr.AttrID" class="product-attr">
+                <span class="column-name">@attr.AttrName：</span>
+                <select>
+                    @foreach (IntFactoryEntity.AttrValue value in attr.AttrValues)
+                    {
+                        <option value="@value.ValueID">@value.ValueName</option> 
+                    }
+                </select>
+            </li>
+        }
+        <li>
+            <span class="column-name">单位：</span>
+
+            <select id="smallUnit">
+            @foreach (IntFactoryEntity.ProductUnit unit in (List<IntFactoryEntity.ProductUnit>)ViewBag.UnitList)
+            {
+                <option value="@unit.UnitID">@unit.UnitName</option> 
+            }
+            </select>
+        </li>
+        <li>
+            <span class="column-name">价格：</span><input type="text" maxlength="10" data-empty="必填" data-type="double" data-text="请输入数字!"  id="price" class="input verify width80" />
+        </li>
+        <li>
+            <span class="column-name">缩略图：</span><span id="productIco"></span>
+        </li>
+         <li>
+            <span class="column-name">是否启用：</span><label><input type="checkbox" checked="checked" id="status" />是</label> 
+        </li>
+        <li class="color666">
+            组合设置子产品
+        </li>
+        @foreach (IntFactoryEntity.ProductAttr attr in model.SaleAttrs)
+        {
+            <li data-id="@attr.AttrID" data-text="@attr.AttrName" class="productsalesattr">
+                <span class="column-name">@attr.AttrName：</span>
+                @foreach (IntFactoryEntity.AttrValue value in attr.AttrValues)
+                {
+                    <label class="mRight10"><input type="checkbox" class="attritem" data-id="@attr.AttrID" data-text="@value.ValueName" value="@value.ValueID" />@value.ValueName</label> 
+                }
+            </li>
+        }
+        <li class="child-product-li">
+         
+        </li>
+        <li>
+            <span class="column-name">说明：</span><div id="remark"></div>
+        </li>
+
+    </ul>
+    <img class="product-img" id="productImg" alt="" src="/modules/images/default.png" />
+    <div class="mTop20">
+        <div  class="btn" id="btnSaveProduct">保存</div>
+    </div>
+</div>

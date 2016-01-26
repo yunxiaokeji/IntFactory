@@ -1,0 +1,21 @@
+﻿
+/*头部搜索*/
+.chooseuser-header { margin-bottom: 10px; }
+
+/**/
+.chooseuser-body { width:700px; overflow:auto; border-bottom:solid 1px #ccc; padding-bottom:15px; margin-bottom:15px;  }
+.chooseuser-body .choosecustomer { width:700px; }
+.choosecustomer .fillter-type { border-bottom:solid 3px #ccc; height:30px; }
+.choosecustomer .fillter-type li{ height:30px; line-height:30px; font-size:12px;  border-bottom:solid 3px #ccc; margin-bottom:-3px; }
+.choosecustomer .fillter-type li span{ float:left; display:inline-block; }
+
+.choosecustomer .customerlist-items { height:250px; overflow-x:hidden; overflow-y:scroll; }
+.choosecustomer .customerlist-items li{ width:100%; height:30px; line-height:30px;cursor:pointer; margin-top:5px; }
+.choosecustomer .customer-header { border-bottom:solid 2px #eee;}
+
+.choosecustomer .customerlist-items li span{ float:left;}
+.choosecustomer .check{ width:30px; display:inline-block;}
+.choosecustomer .customer-type { border:solid 1px #4a98e7; height:20px; width:20px; border-radius:11px; line-height:18px; text-align:center; 
+                                 font-size:14px; color:#4a98e7; margin:4px 8px 0 0;}
+.choosecustomer  .name{ width:260px;}
+

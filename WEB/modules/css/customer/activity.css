@@ -1,0 +1,194 @@
+﻿
+.displayTab {
+cursor:pointer;
+}
+
+.member {
+padding-top:3px;
+}
+
+.member img{
+width:24px;
+height:24px;
+border-radius:12px;
+
+}
+
+.column-name {
+width: 85px;
+float: left;
+}
+
+.edui-container {
+float:left;
+}
+
+.table-add {
+overflow:auto;
+}
+
+.activityCardList {
+margin-top:15px;
+}
+
+.activityCardList ul{
+list-style:none;
+}
+
+.activityCardListLi {
+width:245px;
+float:left;
+margin-right:40px;
+margin-bottom:25px;
+}
+
+.activityCardListLi .activityItem {
+width:245px;
+border:solid 1px #ccc;
+}
+
+
+.activityCardListLi .activityImg img{
+width:245px;
+height:123px;
+
+}
+
+.activityCardListLi .activityMember {
+margin:10px;
+}
+
+.activityCardListLi .activityItem tr td{
+padding:8px 0px;
+color:#999;
+}
+
+.activityUnderline1 {
+height:1px;
+margin:0px 5px;
+border:solid 1px #ccc;
+border-top:none;
+}
+
+.activityUnderline2 {
+height:1px;
+margin:0px 5px;
+border:solid 1px #ccc;
+border-top:none;
+}
+
+.activityOwnerImg {
+width:24px;
+height:24px;
+border-radius:12px;
+}
+
+.activityListLi {
+margin-bottom:20px;
+}
+
+.activityListLi .activityTD{
+border:solid 1px #ccc;
+border-radius:2px;
+padding:10px;
+}
+
+.activityListLi .activityItem {
+padding:10px;
+border:solid 1px #ccc;
+
+}
+
+.activityUnderline3 {
+height:1px;
+margin:0px 2px;
+border:solid 1px #ccc;
+border-top:none;
+}
+
+.activityUnderline4{
+height:1px;
+margin:0px 2px;
+border:solid 1px #ccc;
+border-top:none;
+}
+
+.activityListLi .activityImg{
+width:250px;
+height:200px;
+}
+
+.activityListLi .activityMember {
+padding-top:12px;
+}
+
+.activityListLi .activityInfo tr td{
+padding:7px 0px;
+color:#999;
+}
+
+
+.activityListLi .activityDetailImg{
+width:400px;
+height:300px;
+}
+
+.activityDetailInfo tr td{
+padding:12px 0px;
+color:#aaa;
+font-size:14px;
+}
+
+.activityDetailInfo tr td span{
+color:#aaa;
+font-size:14px;
+}
+
+#MemberList {
+list-style:none;
+width:500px;
+white-space: nowrap; 
+overflow: hidden; 
+text-overflow: ellipsis; 
+color:#666;
+}
+
+#MemberList li{
+ margin-right:10px;
+ float:left;
+ color:#666;
+}
+
+#CardMemberList {
+width:120px;
+white-space:nowrap; 
+overflow: hidden; 
+text-overflow:ellipsis;
+}
+
+.cardActivityName {
+width:200px;
+white-space:nowrap; 
+overflow: hidden; 
+text-overflow:ellipsis;
+}
+
+#CardMemberList li {
+float:left;
+color:#666;
+margin-right:8px;
+}
+
+.replyMsg {
+width:600px;
+height:150px;
+border:solid 1px #eee;
+background-color:#f9f9f9;
+}
+
+.cardActivityAddress {
+width:120px;
+white-space:nowrap;
+overflow: hidden; 
+text-overflow:ellipsis;
+}

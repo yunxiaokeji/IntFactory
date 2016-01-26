@@ -1,0 +1,103 @@
+﻿@{
+    
+}
+
+@section scripts{
+    <script src="/modules/plug/laydate/laydate.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/orders/orders"], function (ObjectJS) {
+            ObjectJS.init('@ViewBag.Type');
+        });
+        $(function () {
+            var begin = {
+                elem: '#BeginTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                    end.start = datas //将结束日的初始值设定为开始日
+                }
+            };
+
+            var end = {
+                elem: '#EndTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    begin.max = datas; //结束日选好后，重置开始日的最大日期
+                }
+            };
+            laydate(begin);
+            laydate(end);
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">@ViewBag.Title</span>
+    <a href="javascript:void(0)"  id="createOrder" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"102029001"))">新建销售机会</a>
+</div>
+<div class="search-box">
+    <div class="search-header">
+        <ul class="search-tab search-status">
+            <li data-id="-1" class="hover">全部订单</li>
+            <li data-id="1" class="">待审核订单</li>
+            <li data-id="2" class="">已审核订单</li>
+            <li data-id="3" class="">已退单</li>
+        </ul>
+        <ul class="search-tab-status search-returnstatus">
+            <li data-id="-1">全部</li>
+            <li data-id="0" class="hover">正常</li>
+            <li data-id="1">申请退货</li>
+            <li data-id="2">部分退货</li>
+            <li data-id="3">已退货</li>
+        </ul>
+    </div>
+</div>
+<div class="content-body">
+    <div class="search-body">
+        <div class="left mRight20" id="chooseBranch"></div>
+        <div class="left" id="orderType"></div>
+        <div class="left mLeft20" id="payStatus"></div>
+        <div class="left mLeft20" id="invoiceStatus"></div>
+        <div class="left mLeft20">
+            <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input width80"  />
+            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width80"  />
+            <span class="btn mLeft10" id="btnSearch">搜索</span>
+        </div>
+        <div class="right searth-module" data-text="关键字搜索..." data-width="160"> </div>
+    </div>
+    <table class="table-list mTop10">
+        <tr class="tr-header">
+            <td class="width30"></td>
+            <td class="tLeft width150">订单编号</td>
+            <td class="tLeft minwidth70">客户名称</td>
+            <td class="width100">订单类型</td>
+            <td class="width80">状态</td>
+            <td class="width80 tRight">总金额</td>
+            <td class="width100">联系人</td>
+            <td class="width100">联系电话</td>     
+            <td class="width100">拥有者</td>
+            <td class="width100">发货状态</td>
+            <td class="width150">创建时间</td>
+            <td class="width50">操作</td>
+        </tr>
+    </table>
+    <ul class="left batch-operate mTop20">
+        <li class="width100 mTop5">
+            <span class="ico-check pLeft5" id="checkAll">批量操作</span>
+        </li>
+        <li>
+            <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" id="batchChangeOwner">更换拥有者</a>
+        </li>
+    </ul>
+    <div id="pager" class="mTop20"></div>
+</div>
+<ul class="dropdown-ul hide" style="width:105px;">
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" id="changeOwner">更换拥有者</li>
+    <li class="" id="auditOrReturn">审核/退单</li>
+</ul>
+

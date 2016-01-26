@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "订单出库";
+    var model = (IntFactoryEntity.AgentOrderEntity)ViewBag.Model;
+}
+@section scripts{
+
+    <script type="text/javascript">
+        seajs.use(["scripts/storageout/storageout"], function (ObjectJS) {
+            ObjectJS.initDetail('@(model.OrderID)');
+        });
+
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">订单出库</span>
+</div>
+<div class="search-box">
+    
+</div>
+<div class="content-body">
+    <div class="content-title">
+        <div class="left titlename">订单编号：@(model.OrderCode)</div>
+    </div>
+    <ul class="content-info">
+        <li>
+            <span class="column-title">总金额：</span>
+            <label class="column-value">@(model.TotalMoney.ToString("f2"))</label>
+        </li>
+        <li>
+            <span class="column-title">发货方式：</span>
+            <label class="column-value">@(model.ExpressTypeStr)</label>
+        </li>
+        <li>
+            <span class="column-title">收货人：</span>
+            <label class="column-value">@(model.PersonName)</label>
+        </li>
+        <li>
+            <span class="column-title">联系方式：</span>
+            <label class="column-value">@(model.MobileTele)</label>
+        </li>
+            
+        <li>
+            <span class="column-title">收货地址：</span>
+            <label class="column-value">@(model.Address)</label>
+        </li>
+        <li>
+            <span class="column-title">邮编：</span>
+            <label class="column-value">@(model.PostalCode)</label>
+        </li>
+        
+        <li style="width:100%;">
+            <span class="column-title">备注：</span> 
+            <label class="column-value">@(model.Remark.Trim())</label>
+        </li>
+    </ul>
+    <div class="tab-nav mTop30">
+        <ul class="tab-nav-ul left">
+            <li class="hover" data-id="navProducts">产品明细</li>
+        </ul>
+    </div>
+    <div id="navProducts" class="nav-partdiv">
+        <table class="table-list mTop20">
+            <tr class="tr-header">
+                <td class="tLeft">产品名称</td>
+                <td class="tLeft">规格</td>
+                <td class="width80">单位</td>
+                <td class="tRight">单价</td>
+                <td class="">数量</td>
+                <td class="tRight">小计</td>
+            </tr>
+            @foreach (var detail in model.Details)
+            { 
+                <tr class="item cart-item">
+                    <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
+                    <td>@(detail.Remark)</td>
+                    <td class="center">@(detail.UnitName)</td>
+                    <td class="tRight"><label class="quantity">@(detail.Price.ToString("f2"))</label></td>
+                    <td class="center"><label class="quantity">@(detail.Quantity)</label></td>
+                    <td class="tRight">@((detail.TotalMoney).ToString("f2"))</td>
+                </tr>
+            }
+            <tr class="amount-item">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="tRight">合计：</td>
+                <td class="tRight">@(model.TotalMoney.ToString("f2"))</td>
+            </tr>
+        </table>
+    </div>
+    <div class="btn right mTop20 @(ExpandClass.IsLimits(HttpContext.Current,"103040101"))" id="btnSubmit">确认出库</div>
+
+</div>

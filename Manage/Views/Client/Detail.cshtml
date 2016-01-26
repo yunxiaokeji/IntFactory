@@ -1,0 +1,232 @@
+﻿@{
+    ViewBag.Title = "客户详情";
+}
+<link href="/modules/css/clients.css" rel="stylesheet" />
+
+<script src="/modules/plug/laydate/laydate.js"></script>
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/clients"], function (client) {
+            client.detailInit('@ViewBag.ID');
+        });
+
+        
+        $(function () {
+            var endTime = {
+                elem: '#endTime',
+                format: 'YYYY-MM-DD',
+                min: laydate.now(),
+                max: '2099-06-16',
+                istime: false,
+                istoday: false
+            };
+            laydate(endTime);
+
+            var begin = {
+                elem: '#orderBeginTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                    end.start = datas //将结束日的初始值设定为开始日
+                }
+            };
+
+            var end = {
+                elem: '#orderEndTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    begin.max = datas; //结束日选好后，重置开始日的最大日期
+                }
+            };
+            laydate(begin);
+            laydate(end);
+        });
+    </script>
+}
+
+<div class="clientnav">
+    <ul>
+        <li class="navactive" data-index="0">客户详情</li>
+        <li  data-index="1">服务升级</li>
+        <li  data-index="2">订单</li>
+        <li  data-index="3">日志</li>
+@*        <li  data-index="4">账单</li>*@
+        <div class="clear"></div>
+    </ul>
+</div>
+
+<div class="content-body">
+    <div name="navContent">
+        <ul class="contentnew">
+        <li>
+            <span class="columnname">公司名称：</span>
+            <span><input type="text" id="name" class="verify" data-empty="公司名称不能为空!" /></span>
+        </li>
+        <li>
+            <span class="columnname">联系人：</span>
+            <span><input type="text" id="contact" class="verify" data-empty="联系人不能为空!" /></span>
+        </li>
+        <li>
+            <span class="columnname">联系电话：</span>
+            <span><input type="text" id="mobile" class="verify" data-type="mobile" maxlength="11" data-text="格式不正确!" data-empty="电话不能为空!" /></span>
+        </li>
+        <li>
+            <span class="columnname">行业：</span>
+            <span>
+                 <select id="industry">
+                    @foreach (IntFactoryEntity.Industry model in (List<IntFactoryEntity.Industry>)ViewBag.Industry)
+                    {
+                        <option value="@(model.IndustryID)" data-name="@(model.Name)">@(model.Name)</option>
+                    }
+                    <option value="">其他行业</option>
+                </select>
+            </span>
+             <span id="otherIndustry" class="hide">
+                名称：
+                <input type="text" id="industryName" /><a href="javascript:void(0)" id="saveIndustry" class="btnS mLeft10 hide">保存</a>
+            </span>
+        </li>
+        <li>
+            <span class="columnname">地址：</span>
+            <span id="citySpan">
+            
+            </span>
+        </li>
+        <li>
+            <span class="columnname"></span>
+            <span><input type="text" placeholder="详细地址..." class="width300" id="address" /></span>
+        </li>
+
+        <li>
+            <span class="columnname">备注：</span>
+            <span><textarea id="description"></textarea></span>
+        </li>
+        <li>
+            
+        </li>
+    </ul>
+
+        <div class="mTop20">
+            <input type="button" id="saveClient" class="btn" value="保存" />
+        </div>
+    </div>
+
+    <div name="navContent" class="hide">
+        <div class="pBottom10">
+            <span id="span_giveSystem">
+                <input type="radio" id="giveSystem" checked="checked"  name="serviceType"/>
+                <label for="giveSystem"  class="font16">赠送</label>
+            </span>
+
+            <span class="mLeft30" id="span_buySystem">
+                <input  type="radio" id="buySystem" name="serviceType"/>
+                <label for="buySystem"  class="font16">购买</label>
+            </span>
+            
+        </div>
+
+        <ul class="contentnew" id="div_give">
+            <li>
+                <span class="columnname">赠送类型：</span> 
+                <select id="giveType" >
+                    <option value="1">人数</option>
+                    <option value="2">时间</option>
+                </select>
+            </li>
+
+            <li  id="li_userQuantity">
+                <span class="columnname">人数：</span>
+                <span><input type="text" id="userQuantity"  /></span>
+            </li>
+
+            <li class="hide" id="li_endTime">
+                <span class="columnname">到期时间：</span>
+                <span><input type="text" id="endTime"    maxlength="11"   /></span>
+            </li>
+            
+        </ul>
+
+        <ul class="contentnew hide" id="div_buy">
+            <li>
+                <span class="columnname">购买类型：</span> 
+                <select id="buyType" >
+                    <option value="1">付费</option>
+                    <option value="2">购买人数</option>
+                    <option value="3">续费</option>
+                </select>
+            </li>
+
+            <li id="li_buyUserQuantity">
+                <span class="columnname">人数：</span>
+                <span><input type="text"  id="buyUserQuantity" /></span>
+            </li>
+
+            <li id="li_buyUserYears">
+                <span class="columnname">年数：</span> 
+                <select id="buyUserYears" >
+                    <option value="1">1年</option>
+                    <option value="2">2年</option>
+                    <option value="3">3年</option>
+                </select>
+            </li>
+            
+        </ul>
+
+         <div class="mTop20">
+            <input type="button" id="saveClientAuthorize" class="btn" value="保存" />
+        </div>
+    </div>
+
+    <div name="navContent" class="hide">
+        <div id="OrderTypes" class="left"></div>
+        <div id="OrderStatus" class="left mLeft20"></div>
+
+        <div class="left mLeft20">
+            <span class="width80">订单时间：</span><input type="text" id="orderBeginTime"  class="input"  />
+            <span style="padding:0px 5px 0px 3px;">至</span><input type="text" id="orderEndTime"  class="input"  />
+            <span class="btn mLeft10" id="SearchClientOrders">搜索</span>
+
+        </div>
+        <div class="clear"></div>
+
+        <table class="table-list mTop10" id="tb-clientOrders">
+            <tr class="tr-header" id="clientOrders">
+                <td class="tLeft minwidth70">订单时间</td>
+                <td class="width200">购买人数</td>
+                <td class="width150">购买年数</td>
+                <td class="width150">金额</td>
+                <td class="width200">订单类型</td>     
+                <td class="width200">订单状态</td>     
+                <td class="width150">创建人</td>
+                <td class="width150">操作</td>
+            </tr>
+        </table>
+
+        <div id="pager2" class="mTop20"></div>
+    </div>
+
+    <div class="contentnew hide" name="navContent" style="border-bottom:none;">
+        <table class="table-list" id="tb-clientLog">
+            <tr class="tr-header" id="client-header">
+                <td class="">授权类型</td>
+                <td class="">授权方式</td>
+                <td class="">授权人数</td>
+                <td class="">开始时间</td>
+                <td class="">结束时间</td>
+                <td class="">创建时间</td>
+            </tr>
+        </table>
+
+        <div id="pager" class="mTop20"></div>
+    </div>
+
+
+
+</div>
+

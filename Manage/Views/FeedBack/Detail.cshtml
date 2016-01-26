@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "意见反馈详情";
+
+    var item = (IntFactoryEntity.Manage.FeedBack)ViewBag.Item;
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/feedback"], function (feedback) {
+            feedback.detailInit('@ViewBag.id');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title">意见反馈详情</span>
+</div>
+
+<div class="content-body">
+    <ul class="contentnew">
+        <li>
+            <span class="columnname">标题：</span>
+            <span id="Title"></span>
+        </li>
+
+         <li>
+            <span class="columnname">类型：</span>
+             <span id="Type"></span>
+        </li>
+        <li>
+            <span class="columnname">状态：</span>
+            <span id="Status"></span>
+        </li>
+        <li>
+            <span class="columnname">联系人：</span>
+            <span id="ContactName"></span>
+        </li>
+        <li>
+            <span class="columnname">电话：</span>
+            <span id="MobilePhone"></span>
+        </li>
+        <li>
+            <span class="columnname">附件：</span>
+            <span></span>
+        </li>
+        <li>
+            <span class="columnname">描述：</span>
+            <span id="Remark"></span>
+        </li>
+        <li>
+            <span class="columnname">创建时间：</span>
+            <span id="CreateTime"></span>
+        </li>
+    </ul>
+
+    <div class="mTop20">
+        <input type="button" id="btn-finish" class="btn" value="已解决" />
+        <input type="button" id="btn-cancel" class="btn mLeft5" value="驳回" />
+        <input type="button" id="btn-delete" class="btn mLeft5" value="删除" />
+    </div>
+</div>
+
+    

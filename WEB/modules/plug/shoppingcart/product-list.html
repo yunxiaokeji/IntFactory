@@ -1,0 +1,31 @@
+﻿<tr class="tr-header">
+    <td>产品名称</td>
+    <td>规格</td>
+    <td style="width:60px;" class="center">单位</td>
+    <td style="width:60px;" class="center">数量</td>
+    <td class="tRight">小计</td>
+    <td style="width:80px;" class="center">删除</td>
+</tr>
+<tr class="line">
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="item">
+    <td><a href="/Products/ChooseDetail?pid={%=item.ProductID%}&did={%=item.ProductDetailID%}" class="long productname" style="width:200px;" target="_blank"><img src="{%=item.ImgS%}" />{%=item.ProductName%}</a></td>
+    <td>{%=item.Description%}</td>
+    <td class="center">{%=item.UnitName%}</td>
+    <td class="center">{%=item.Quantity%}</td>
+    <td class="tRight amount">{%=(item.Price*item.Quantity).toFixed(2)%}</td>
+    <td class="center">
+        <a class="ico-del" href="javascript:void(0)" title="删除" data-id="{%=item.AutoID%}"></a>
+    </td>
+</tr>
+{% } %}

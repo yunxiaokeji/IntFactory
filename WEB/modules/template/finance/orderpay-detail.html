@@ -1,0 +1,37 @@
+﻿
+<ul class="easydialog-create">
+    <li>
+        <span class="create-column">类型：</span>
+        <span>
+              <select id="type">
+                  <option value="2">收款</option>
+                  <option value="1">退款</option>
+              </select>
+        </span>
+    </li>
+    <li>
+        <span class="create-column">支付方式：</span>
+        <span>
+              <select id="paytype">
+                  <option value="1">现金支付</option>
+                  <option value="2">在线支付</option>
+                  <option value="3">支付宝</option>
+                  <option value="4">微信</option>
+                  <option value="5">线下汇款</option>
+              </select>
+        </span>
+    </li>    
+    <li>
+        <span class="create-column">金额：</span>
+        <span><input type="text" maxlength="20" id="paymoney" data-empty="必填" data-type="double" class="verify width80" /></span> 
+    </li>
+     <li>
+        <span class="create-column">日期：</span>
+        <span><input type="text" id="paytime" /></span>
+    </li>   
+    <li>
+        <span class="create-column">备注：</span>
+        <textarea id="remark"></textarea>
+    </li>
+</ul>
+

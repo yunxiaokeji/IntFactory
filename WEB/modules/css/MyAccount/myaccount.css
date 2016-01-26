@@ -1,0 +1,23 @@
+﻿
+.accountMenu { position: fixed; left: 0px; width: 200px; height: 100%; background-color: #fff; border-right: solid 1px #ccc; }
+
+.accountTitle { margin-top: 20px; padding-bottom:20px; border-bottom: solid 1px #ccc; background:url('/modules/images/ico-member.png') no-repeat 45px 0px; }
+
+.accountTitle .title { font-size: 16px; margin-left:70px; }
+.accountUl { margin-top: 15px; }
+
+.accountUl li { line-height: 40px; }
+.accountUl li a{ line-height: 40px; font-size: 13px; width:200px; text-align:center; display:inline-block; color:#333; }
+
+.accountUl .active { background-color: #eee; }
+
+.accountContent { margin: 0px 0px 0px 0px; }
+
+.accountHeader { line-height: 62px; border-bottom: solid 1px #ccc; font-size: 16px; color: #666; }
+
+.error-body { display: none; }
+
+.error-lump { border-right:solid 7px #ED9E9E; border-top:solid 8px transparent ;border-bottom:solid 8px transparent; 
+                width:0; height:0; position:absolute; left:325px; top:12px;z-index:100; }
+
+.error-msg { padding: 8px; background-color: #ED9E9E; color: red; position: absolute; left: 332px; top: 5px; z-index: 100; width: 110px; }

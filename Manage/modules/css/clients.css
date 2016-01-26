@@ -1,0 +1,25 @@
+﻿
+/*新建客户端*/
+.clientnav {
+border-bottom: solid 1px #ccc;
+padding:14px 0px 0px 0px;
+}
+
+.clientnav ul li {
+font-size:16px;
+color:#999;
+float:left;
+padding:0px 10px 13px 10px;
+margin-right:25px;
+cursor:pointer;
+}
+
+.clientnav .navactive {
+color:#002463;
+border-bottom:4px solid #06c;
+}
+
+.clientnav ul li:hover {
+color:#06c;
+}
+

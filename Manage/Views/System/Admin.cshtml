@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "管理员设置";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/admin"], function (admin) {
+            admin.detailInit();
+        });
+        
+    </script>
+}
+
+<div class="content-body">
+    <ul class="contentnew" style="display:block;">
+        <li>
+            <span class="columnname">账号：</span>
+            <span><input type="text" id="LoginName"   maxlength="11"/></span>
+            <span id="LoginNameError" class="red mLeft10"></span>
+        </li>
+         <li>
+            <span class="columnname">原密码：</span>
+            <span><input id="OldPwd" type="password"/></span>
+             <span id="OldPwdError" class="red mLeft10"></span>
+        </li>
+        <li>
+            <span class="columnname">新密码：</span>
+            <span><input id="NewPwd" type="password" /></span>
+            <span id="NewPwdError" class="red mLeft10"></span>
+        </li>
+        <li>
+            <span class="columnname">确认密码：</span>
+            <span><input id="NewConfirmPwd" type="password"/></span>
+            <span id="NewConfirmPwdError" class="red mLeft10"></span>
+        </li>
+    </ul>
+    <div class="mTop20">
+        <input type="button" id="saveAdmin" class="btn" value="保存" />
+    </div>
+</div>
+

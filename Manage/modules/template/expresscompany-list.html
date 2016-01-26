@@ -1,0 +1,15 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td class="center">
+        <a href="/ExpressCompany/Detail/{%=item.ExpressID%}" class="ico-edit" title="设置" data-id="{%=item.ExpressID%}"></a>
+        <a  class="ico-del mLeft10" href="javascript:void(0);"  title="删除" data-id="{%=item.ExpressID%}"></a>
+    </td>
+    <td class="center">{%=item.Name%}</td>
+    <td class="center">{%=item.Website%}</td>
+    <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+
+</tr>
+{% } %}

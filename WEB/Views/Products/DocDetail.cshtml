@@ -1,0 +1,76 @@
+﻿@{
+    var model = (IntFactoryEntity.StorageDoc)ViewBag.Model;
+    ViewBag.Title = "采购单详情";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/purchase/docdetail"], function (obj) {
+            obj.init('@(model.DocID)');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">采购单详情</span>
+</div>
+<div class="content-body mTop20">
+    <div class="content-title">
+        <span class="titlename">单据编号：@(model.DocCode)</span>
+    </div>
+    <ul class="content-info">
+        <li><span class="column-title">总金额：</span>@(model.TotalMoney.ToString("f2"))</li>
+        <li><span class="column-title">状态：</span>@(model.StatusStr)</li>
+        <li><span class="column-title">创建人：</span>@(model.CreateUser.Name)</li>
+        <li><span class="column-title">创建日期：</span>@(model.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"))</li>
+        <li><span class="column-title">仓库：</span>@(model.WareHouse!=null?model.WareHouse.Name:"")</li>
+        <li style="width:100%;"><span class="column-title">备注：</span>@(model.Remark)</li>
+    </ul>
+     <div class="tab-nav mTop30">
+        <ul class="tab-nav-ul left">
+            <li class="hover " data-id="navProduct">材料明细</li>
+            <li data-id="navLog">操作日志</li>
+        </ul>
+    </div>
+    <table class="table-list mTop20 nav-partdiv" id="navProduct">
+        <tr class="tr-header">
+            <td></td>
+            <td class="tLeft">材料名称</td>
+            <td class="tLeft">规格</td>
+            <td class="center width80">单位</td>
+            <td class="tLeft">批次</td>
+            <td class="tRight">采购价</td>
+            <td class="center">数量</td>
+            <td class="tRight">小计</td>
+        </tr>
+        @foreach (var item in model.Details)
+        { 
+            <tr class="item" >
+                 <td class="width50"><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" target="_blank"><img src="@(item.Imgs)" /></a></td>
+                <td><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" target="_blank"> @(item.ProductName)</a></td>
+                <td>@(item.Remark)</td>
+                <td class="center">@(item.UnitName)</td>
+                <td>@(item.BatchCode)</td>
+                <td class=" tRight">@(item.Price.ToString("f2"))</td>
+                <td class="center">@(item.Quantity)</td>
+                <td class="tRight">@(item.TotalMoney.ToString("f2"))</td>
+            </tr>
+        }
+        <tr class="amount-item">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="tRight">合计：</td>
+            <td class="tRight">@(model.TotalMoney.ToString("f2"))</td>
+        </tr>
+    </table>
+    <div id="navLog" class="hide nav-partdiv">
+        <div class="log-body">
+
+        </div>
+        <div class="mTop20" id="pager"></div>
+    </div>
+    
+</div>

@@ -1,0 +1,16 @@
+﻿
+
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+    <li data-first="{%=item.FirstName%}">
+        <span class="check ico-check mTop5" data-id="{%=item.CustomerID%}" data-name="{%=item.Name%}"></span>
+        <span class="customer-type">{%=item.Type==1?"企":"个"%}</span>
+		<span class="name long">{%=item.Name%}</span>
+        <span class="width100 long">{%= item.Source?item.Source.SourceName:"--" %}</span>
+        <span class="width100 long">{%= item.Stage?item.Stage.StageName:"--" %}</span>
+        <span class="width150 center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
+        
+	</li>
+{% } %}

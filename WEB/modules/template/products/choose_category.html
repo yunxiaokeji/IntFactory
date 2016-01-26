@@ -1,0 +1,14 @@
+﻿<li class="category-layer">
+    <div class="category-header"><span class="long">全部分类</span></div>
+    <ul class="category-list">
+        {%
+	        for(var i=0, j=$data.length; i < j; i++){
+	        var item = $data[i];
+        %}
+        <li data-id="{%=item.CategoryID%}" data-layer="{%=item.Layers%}" title="{%=item.Description%}">
+            <span class="category-name left long {%=item.Status==1?'':'colorccc'%}">{%=item.CategoryName%}</span>
+            <span title="添加新品"  class="add-product ico-add right"></span>
+        </li>
+        {% } %}
+    </ul>
+</li>

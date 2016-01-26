@@ -1,0 +1,15 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td class=""><a href="/Orders/Detail/{%=item.OrderID%}" target="_blank">{%=item.OrderCode%}</a> </td>
+    <td class='center'>{%= (item.OrderType&&item.OrderType.TypeName)?item.OrderType.TypeName:"--" %}</td>
+    <td class="center">{%=item.StatusStr%}</td>
+    <td class="tRight">{%=item.TotalMoney.toFixed(2)%}</td>
+    <td class='center'>{%= item.PersonName ||"--"%} </td>
+    <td class="center">{%=item.MobileTele||"--"%}</td>
+    <td class='center'>{%=(item.Owner ? item.Owner.Name:"--")%}</td>
+    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+</tr>
+{% } %}

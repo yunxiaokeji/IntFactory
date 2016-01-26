@@ -1,0 +1,16 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item" data-id="{%=item.InvoiceID%}">
+    <td class=''>{%=item.Type==1?"普通":"增值"%}</td>
+    <td class="center money">{%=item.InvoiceMoney.toFixed(2)%}</td>
+    <td class="center">{%=item.InvoiceCode%}</td>
+    <td class="">{%=item.Remark%}</td>
+    <td class='center'>{%=(item.CreateUser ? item.CreateUser.Name:"--")%}</td>
+    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class="center dropdown" data-id="{%=item.InvoiceID%}">
+        <span class="ico-dropdown"></span>
+    </td>
+</tr>
+{% } %}

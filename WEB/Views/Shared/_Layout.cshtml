@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+ @{
+    IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+    string controller =  Url.RequestContext.RouteData.Values["controller"].ToString().ToUpper();
+    string action = Url.RequestContext.RouteData.Values["action"].ToString().ToUpper();
+    IntFactoryEntity.Menu controllerMenu = ExpandClass.GetController(HttpContext.Current, controller);
+    string logo = string.IsNullOrEmpty(CurrentUser.Client.Logo) ? "/modules/images/ico-home.png" : CurrentUser.Client.Logo;
+    string companyName = string.IsNullOrEmpty(CurrentUser.Client.CompanyName) ? "" : CurrentUser.Client.CompanyName;
+}
+<html>
+<head>
+    <title>@ViewBag.Title @companyName</title>
+    <meta name="robots" content="noindex,nofollow">
+    <link href="/modules/css/base.css" rel="stylesheet" />
+    <link href="/modules/css/layout.css" rel="stylesheet" />
+    <link href="/modules/css/default/detail.css" rel="stylesheet" />
+    <link href="/modules/css/default/list.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="/modules/images/logo_login.png">
+    @RenderSection("css", false)
+</head>
+<body>
+   
+    <header>
+        <div class="logo left"><a href="/Home/Index"><img id="companyLogo" src="@logo"/></a></div>
+        <div class="left companyname long" id="companyName" title="@companyName">@companyName</div>
+        <ul id="modulesMenu" class="menu left">
+              <li class="left">
+                    <a href="/Home/Index" class="">
+                        <img class="ico" data-ico="/Content/menuico/home.png" data-hover="/Content/menuico/homehover.png" src="/Content/menuico/home.png" /> 
+                        <span class="name">首页</span>
+                        <span class="cursor"></span>
+                    </a> 
+                </li>
+            @foreach (IntFactoryEntity.Menu model in ExpandClass.GetChildMenuByCode(HttpContext.Current, ExpandClass.CLIENT_TOP_CODE))
+            { 
+                <li class="left" data-code="@(model.MenuCode)">
+                    <a class="@(model.MenuCode.ToUpper()==controllerMenu.PCode.ToUpper() ? "select" : "")" href="/@(model.Controller)/@(model.View)">
+                        <img class="ico" data-ico="@(model.IcoPath)" data-hover="@(model.IcoHover)" src="@(model.IcoPath)" /> 
+                        <span class="name">@(model.Name)</span>
+                        <span class="cursor"></span>
+                    </a> 
+                </li>
+            }
+        </ul>
+        <div id="currentUser" class="currentuser right">
+            <span>
+                <img src="@(string.IsNullOrEmpty(CurrentUser.Avatar)?"/modules/images/defaultavatar.png":CurrentUser.Avatar)" class="avatar" />
+            </span>
+            <span class="username">
+                @(CurrentUser.Name)
+            </span>
+            <span class="dropdown">
+                <span class="dropdown-top"></span>
+                <span class="dropdown-bottom"></span>
+            </span>
+        </div>
+    </header>
+
+    <div class="main-body">
+        <nav>
+            @foreach (IntFactoryEntity.Menu model in ExpandClass.GetChildMenuByCode(HttpContext.Current, controllerMenu.PCode))
+            { 
+                <div class="controller @(model.Controller.ToUpper()==controller ? "select" : "")" data-code="@(model.MenuCode)">
+                    <div class="controller-box">
+                        <div class="controller-name">
+                            <span class="open left @(model.Controller.ToUpper()==controller ? "rotate" : "")"></span>
+                            <span class="name left">@(model.Name)</span>
+                        </div>
+                    </div>
+                    <ul class="action-box @(model.Controller.ToUpper()==controller ? "" : "hide")">
+                        @foreach (IntFactoryEntity.Menu view in ExpandClass.GetChildMenuByCode(HttpContext.Current, model.MenuCode))
+                        {
+                            <li class="action @(view.View.ToUpper()==action ? "select" : "")" data-code="@(view.MenuCode)">
+                                <a href="/@(view.Controller + "/" + view.View)" ><span class="name">@(view.Name)</span></a>
+                            </li>
+                        }
+                     </ul>
+                </div>
+            }
+        </nav>
+        <div class="main-content">
+            @RenderBody()
+        </div>
+    </div>
+
+    @*点击头像展开下拉列表*@
+    <div class="dropdown-userinfo hide">
+        <div class="top-lump"></div>
+        <ul class="items-list">
+             <li class="item"><a href="/MyAccount/Index">个人中心</a></li>
+            <li class="item"><a href="/Home/Logout">安全退出</a></li>
+        </ul>
+    </div>
+
+    @*点击公司名称展开下拉列表*@
+    <div class="dropdown-companyinfo hide">
+        <div class="top-lump"></div>
+        <ul class="items-list">
+            <li class="item">剩余使用天数还有<span id="remainderDays" style="font-size:14px;" class="blue"></span>天</li>
+            <li class="item pTop5" style="border:none;"><a href="/Auction/BuyNow" class="btn btn-buy">立即购买</a></li>
+           
+        </ul>
+    </div>
+
+    <ul class="help-feedback">
+        <li title="联系我们"><a class="ico-contact" target="_blank" href="http://www.yunxiaokeji.com/about.html"></a></li>
+        <li title="帮助"><a class="ico-help" target="_blank" href="http://www.yunxiaokeji.com/help.html"></a></li>
+        <li class="ico-feedback feedback" title="意见反馈"></li>
+    </ul>
+
+    @*<div class="feedback">意见反馈</div>*@
+    <input id="feedback-filepath" type="hidden" />
+    <input id="txt_username" value="@CurrentUser.Name" type="hidden" />
+    <input id="txt_usermobilephone" value="@CurrentUser.MobilePhone" type="hidden" />
+
+    <script src="/Scripts/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="/Scripts/sea.js"></script>
+    <script type="text/javascript" src="/Scripts/sea-config.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/layout"], function (layout) {
+            layout.init();
+        });
+
+    </script>
+    @RenderSection("scripts", false)
+</body>
+    
+</html>

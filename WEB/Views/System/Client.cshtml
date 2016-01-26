@@ -1,0 +1,187 @@
+﻿@{
+    ViewBag.Title = "公司信息";
+}
+
+@section scripts{
+<script src="/modules/plug/laydate/laydate.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/system/client"], function (obj) {
+            obj.init(@ViewBag.Option);
+        });
+
+        $(function () {
+            var begin = {
+                elem: '#orderBeginTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                    end.start = datas //将结束日的初始值设定为开始日
+                }
+            };
+
+            var end = {
+                elem: '#orderEndTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    begin.max = datas; //结束日选好后，重置开始日的最大日期
+                }
+            };
+            laydate(begin);
+            laydate(end);
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">公司信息</span>
+</div>
+
+<div class="search-box">
+    <div class="search-header">
+        <ul class="search-tab search-stages">
+            <li data-id="0" class="hover">基本信息</li>
+            <li data-id="1">授权信息</li>
+            <li data-id="2">公司密钥</li>
+            <li data-id="3">订单列表</li>
+        </ul>
+    </div>
+</div>
+
+<div class="content-body">
+    <div name="clientInfo">
+        <ul class="table-add">
+            <li>
+                <span class="width80">公司名称：</span>
+                <input type="text" id="CompanyName" data-empty="* 必填" class="input verify" />
+            </li>
+            <li>
+                <span class="width80">公司Logo：</span>
+                <span id="Logo"></span>
+            </li>
+            <li>
+                <span class="width80">联系人：</span>
+                <span><input type="text" id="ContactName" class="verify" data-empty="联系人不能为空!" /></span>
+            </li>
+            <li>
+                <span class="width80">联系电话：</span>
+                <span><input type="text" id="MobilePhone" class="verify"  maxlength="11" data-empty="电话不能为空!" /></span>
+            </li>
+            <li>
+                <span class="width80">办公电话：</span>
+                <span><input type="text" id="OfficePhone" /></span>
+            </li>
+            <li>
+                <span class="width80">行业：</span>
+                <span>
+                     <select id="Industry">
+                        @foreach (IntFactoryEntity.Industry model in (List<IntFactoryEntity.Industry>)ViewBag.Industry)
+                        {
+                            <option value="@(model.IndustryID)" data-name="@(model.Name)">@(model.Name)</option>
+                        }
+                        <option value="">其他行业</option>
+                    </select>
+                </span>
+            </li>
+            <li>
+                <span class="width80">地址：</span>
+                <span id="citySpan">
+            
+                </span>
+            </li>
+            <li>
+                <span class="width80"></span>
+                <span><input type="text" placeholder="详细地址..." class="width300" id="Address" /></span>
+            </li>
+            <li>
+                <span class="width80">备注：</span>
+                <textarea id="Description" style="max-width:800px;max-height:600px;"></textarea>
+            </li>
+        </ul>
+
+        <img class="brand-img hide" id="PosterDisImg" alt="" />
+
+        <div class="mTop20">
+            <span  class="btn @(ExpandClass.IsLimits(HttpContext.Current,"108020701"))" id="btnSaveClient" >保存</span>
+            <a href="javascript:void(0);" onclick="history.go(-1)"  class="btn mLeft10">返回</a>
+        </div>
+    </div>
+
+    <div class="hide" name="clientInfo">
+        <ul class="table-add">
+            <li>
+                <span class="width100">当前人数上限：</span><span id="UserQuantity"></span>
+            </li>
+            <li>
+                <span class="width100">上限日期：</span><span id="EndTime"></span>
+            </li>
+            <li>
+                <span class="width100">剩余使用还有：</span><span id="agentRemainderDays"></span><span>天</span>
+            </li>
+        </ul>
+
+        <div class="mTop20">
+            <a class="btn btn-buy @(ExpandClass.IsLimits(HttpContext.Current,"108020702"))" href="/Auction/BuyNow" >立即购买</a>
+        </div>
+    </div>
+
+    <div class="hide" name="clientInfo">
+        <ul class="table-add">
+            <li>
+                <span class="width100">公司身份(cid)：</span><span id="cid"></span>
+            </li>
+           @* <li>
+                <span class="red">*您需要输入登录密码才能查看公司密钥</span>
+            </li>*@
+         @*    <li>
+                <span class="width100">登录密码：</span><span><input  type="password" placeholder="请输入密码"/></span>
+                <span><input type="button" id="btn-getKey" class="btn" value="获取key"/></span>
+            </li>*@
+            <li>
+                <span class="width100">公司密钥(key)：</span><span id="ckey"></span>
+            </li>
+        </ul>
+
+      @*  <div class="mTop20">
+            <a class="btn btn-buy @(ExpandClass.IsLimits(HttpContext.Current,"108020702"))" href="/Auction/BuyNow" >立即购买</a>
+        </div>*@
+    </div>
+
+    <div class="hide" name="clientInfo">
+        <div id="OrderTypes" class="left"></div>
+        <div id="OrderStatus" class="left mLeft20"></div>
+
+        <div class="left mLeft20">
+            <span class="width80">订单时间：</span><input type="text" id="orderBeginTime"  class="input"  />
+            <span style="padding:0px 5px 0px 3px;">至</span><input type="text" id="orderEndTime"  class="input"  />
+            <span class="btn mLeft10" id="SearchClientOrders">搜索</span>
+
+        </div>
+        <div class="clear"></div>
+
+        <table class="table-list mTop10">
+            <tr class="tr-header">
+                <td class="tLeft minwidth70">订单时间</td>
+                <td class="width200">购买人数</td>
+                <td class="width150">购买年数</td>
+                <td class="width150">金额</td>
+                <td class="width200">订单类型</td>     
+                <td class="width200">订单状态</td>     
+                <td class="width150">创建人</td>
+                <td class="width150">操作</td>
+            </tr>
+        </table>
+
+        <div id="pager" class="mTop20"></div>
+    </div>
+</div>
+
+<input type="hidden" id="CompanyLogo" />
+<ul class="dropdown-ul hide" style="width:110px;">
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020702"))" id="PayClientOrder">继续付款</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020703"))" id="CloseClientOrder">关闭</li>
+</ul>

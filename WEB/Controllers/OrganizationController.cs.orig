@@ -1,0 +1,301 @@
+﻿using CloudSalesBusiness;
+using CloudSalesEntity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using YXERP.Models;
+
+namespace YXERP.Controllers
+{
+    public class OrganizationController : BaseController
+    {
+        //
+        // GET: /Organization/
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Department()
+        {
+            return View();
+        }
+
+        public ActionResult Roles()
+        {
+            return View();
+        }
+
+        public ActionResult RolePermission(string id)
+        {
+            ViewBag.Model = OrganizationBusiness.GetRoleByID(id, CurrentUser.AgentID);
+            ViewBag.Menus = CommonBusiness.ClientMenus.Where(m => m.PCode == ExpandClass.CLIENT_TOP_CODE).ToList();
+            return View();
+        }
+
+        public ActionResult Users()
+        {
+            ViewBag.Roles = OrganizationBusiness.GetRoles(CurrentUser.AgentID);
+            ViewBag.Departments = OrganizationBusiness.GetDepartments(CurrentUser.AgentID);
+            return View();
+        }
+
+        public ActionResult Structure()
+        {
+
+            return View();
+        }
+
+        #region Ajax
+
+        /// <summary>
+        /// 获取部门列表
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetDepartments()
+        {
+            var list = OrganizationBusiness.GetDepartments(CurrentUser.AgentID);
+            JsonDictionary.Add("items", list);
+            return new JsonResult() 
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior=JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 保存部门
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public JsonResult SaveDepartment(string entity)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            Department model = serializer.Deserialize<Department>(entity);
+
+            if (string.IsNullOrEmpty(model.DepartID))
+            {
+                model.DepartID = new OrganizationBusiness().CreateDepartment(model.Name, model.ParentID, model.Description, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            }
+            else
+            {
+                bool bl = new OrganizationBusiness().UpdateDepartment(model.DepartID, model.Name, model.Description, CurrentUser.UserID, OperateIP, CurrentUser.AgentID);
+                if (!bl)
+                {
+                    model.DepartID = "";
+                }
+            }
+            JsonDictionary.Add("model", model);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 删除部门
+        /// </summary>
+        /// <param name="departid"></param>
+        /// <returns></returns>
+        public JsonResult DeleteDepartment(string departid)
+        {
+            var status = new OrganizationBusiness().UpdateDepartmentStatus(departid, CloudSalesEnum.EnumStatus.Delete, CurrentUser.UserID, OperateIP, CurrentUser.AgentID);
+            JsonDictionary.Add("status", (int)status);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 获取角色列表
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetRoles()
+        {
+            var list = OrganizationBusiness.GetRoles(CurrentUser.AgentID);
+            JsonDictionary.Add("items", list);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 保存角色
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public JsonResult SaveRole(string entity)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            Role model = serializer.Deserialize<Role>(entity);
+
+            if (string.IsNullOrEmpty(model.RoleID))
+            {
+                model.RoleID = new OrganizationBusiness().CreateRole(model.Name, model.ParentID, model.Description, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            }
+            else
+            {
+                bool bl = new OrganizationBusiness().UpdateRole(model.RoleID, model.Name, model.Description, CurrentUser.UserID, OperateIP, CurrentUser.AgentID);
+                if (!bl)
+                {
+                    model.RoleID = "";
+                }
+            }
+            JsonDictionary.Add("model", model);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 删除角色
+        /// </summary>
+        /// <param name="roleid"></param>
+        /// <returns></returns>
+        public JsonResult DeleteRole(string roleid)
+        {
+            int result = 0;
+            bool bl = new OrganizationBusiness().DeleteRole(roleid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, out result);
+            JsonDictionary.Add("status", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 保存角色权限
+        /// </summary>
+        /// <param name="roleid"></param>
+        /// <param name="permissions"></param>
+        /// <returns></returns>
+        public JsonResult SaveRolePermission(string roleid, string permissions)
+        {
+            if (permissions.Length > 0)
+            {
+                permissions = permissions.Substring(0, permissions.Length - 1);
+               
+            }
+            bool bl = new OrganizationBusiness().UpdateRolePermission(roleid, permissions, CurrentUser.UserID, OperateIP);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 获取明道用户列表
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetMDUsers()
+        {
+            if (!string.IsNullOrEmpty(CurrentUser.MDToken))
+            {
+                var list = MD.SDK.UserBusiness.GetUserAll(CurrentUser.MDToken, "", 1, 1000).users;
+                JsonDictionary.Add("status", true);
+                JsonDictionary.Add("items", list.OrderBy(u => u.name));
+            }
+            else 
+            {
+                JsonDictionary.Add("status", false);
+            }
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 添加明道用户
+        /// </summary>
+        /// <param name="parentid">上级ID</param>
+        /// <param name="mduserids">明道Id列表</param>
+        /// <returns></returns>
+        public JsonResult SaveMDUser(string parentid, string mduserids)
+        {
+            bool bl = false;
+
+            string[] list = mduserids.Split(',');
+            foreach (string mduserid in list)
+            {
+                if (!string.IsNullOrEmpty(mduserid) && !string.IsNullOrEmpty(CurrentUser.MDToken))
+                {
+                    var model = MD.SDK.UserBusiness.GetUserDetail(CurrentUser.MDToken, mduserid);
+                    if (model.error_code <= 0)
+                    {
+                        var user = model.user;
+                        int error = 0, result = 0; 
+
+                        bool isAdmin = MD.SDK.Entity.App.AppBusiness.IsAppAdmin(CurrentUser.MDToken, user.id, out error);
+
+                        OrganizationBusiness.CreateUser("", "", user.name, user.mobile_phone, user.email, "", "", "", "", "", parentid, CurrentUser.AgentID, CurrentUser.ClientID, user.id, user.project.id, isAdmin ? 1 : 0, CurrentUser.UserID, out result);
+                        //添加成功
+                        if (result == 1)
+                        {
+                            bl = true;
+                        }
+                    }
+                }
+            }
+
+            JsonDictionary.Add("status", bl);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+<<<<<<< HEAD
+
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetUsers(string filter)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            FilterUser model = serializer.Deserialize<FilterUser>(filter);
+            int totalCount = 0;
+            int pageCount = 0;
+
+            var list = OrganizationBusiness.GetUsers(model.Keywords,model.DepartID,model.RoleID, PageSize, model.PageIndex, ref totalCount, ref pageCount);
+            JsonDictionary.Add("items", list);
+=======
+        /// <summary>
+        /// 根据上级获取用户列表
+        /// </summary>
+        /// <param name="parentid"></param>
+        /// <returns></returns>
+        public JsonResult GetUsersByParentID(string parentid)
+        {
+>>>>>>> 948637d278ce76ac64422efe15f0499057e55fda
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 948637d278ce76ac64422efe15f0499057e55fda
+        #endregion
+
+    }
+}

@@ -1,0 +1,23 @@
+﻿
+/*下拉框插件样式*/
+.dropdown-module { position: relative; height:26px; border:solid 1px #ccc; border-radius:2px; cursor:pointer;z-index:1000; }
+.dropdown-module .dropdown-text { height:26px; line-height:26px; margin-left:5px; color:#666; }
+.dropdown-module .dropdown-ico { height:24px; width:24px; position:absolute; top:1px; right:1px; background-color:#ccc; }
+.dropdown-module .dropdown-ico span{ border-top:solid 6px #fff; border-left:solid 6px transparent ;border-right:solid 6px transparent; 
+                                     width:0px;height:0px; position:absolute; top:10px; right:6px; }
+
+.dropdown-module:hover { border:solid 1px #318ae4; }
+.dropdown-module:hover .dropdown-text { color:#318ae4; }
+.dropdown-module:hover .dropdown-ico { background-color:#318ae4; }
+
+.dropdown-module.hover { border:solid 1px #318ae4; }
+.dropdown-module.hover .dropdown-text { color:#318ae4; }
+.dropdown-module.hover .dropdown-ico { background-color:#318ae4; }
+
+.dropdown-items-modules { max-height:200px; overflow-x:hidden; overflow-y:auto; border:solid 1px #ccc; position:absolute; z-index:1005; background-color:#fff; }
+.dropdown-items-modules li{ height:25px; line-height:25px; text-indent:5px; color:#666; cursor:pointer; }
+
+.dropdown-items-modules:hover { border:solid 1px #318ae4; }
+.dropdown-items-modules li:hover{ color:#fff; background-color:#318ae4; }
+
+

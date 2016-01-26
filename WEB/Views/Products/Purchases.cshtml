@@ -1,0 +1,85 @@
+﻿@{
+    
+}
+@section css{
+    <link href="/modules/css/stock/stock.css" rel="stylesheet" />
+}
+@section scripts{
+    <script src="/modules/plug/laydate/laydate.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/purchase/purchases"], function (obj) {
+            obj.init('@ViewBag.Type', '@Html.ToJSONString((List<IntFactoryEntity.WareHouse>)ViewBag.Wares)', '@Html.ToJSONString((List<IntFactoryEntity.ProvidersEntity>)ViewBag.Providers)');
+        });
+        $(function () {
+            var begin = {
+                elem: '#BeginTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                    end.start = datas //将结束日的初始值设定为开始日
+                }
+            };
+
+            var end = {
+                elem: '#EndTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    begin.max = datas; //结束日选好后，重置开始日的最大日期
+                }
+            };
+            laydate(begin);
+            laydate(end);
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">@ViewBag.Title</span>
+    <div id="btnCreate" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"103029001"))">新建采购</div>
+</div>
+<div class="search-box">
+    <div class="search-header">
+        <ul class="search-tab search-status">
+            <li data-id="-1" class="hover">全部</li>
+            <li data-id="0" class="">待审核</li>
+            <li data-id="2" class="">已入库</li>
+            <li data-id="4" class="">已作废</li>
+        </ul>
+        
+    </div>
+</div>
+<div class="content-body">
+    <div class="search-body">
+        <div id="providers" class="left"></div>
+        <div id="wares" class="left mLeft10"></div>
+        <div class="left mLeft20">
+            <span class="width80">采购日期：</span><input type="text" id="BeginTime"  class="input width100"  />
+            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width100"  />
+            <span class="btn mLeft10" id="btnSearch">搜索</span>
+        </div>
+        <div class="right searth-module" data-text="关键字搜索..." data-width="160"> </div> 
+    </div>
+    <table class="table-list">
+        <tr class="tr-header">
+            <td class="tLeft">采购单号</td>
+            <td class="tLeft">仓库</td>
+            <td class="tLeft">供应商</td>
+            <td class="width100">状态</td>
+            <td class="tRight width150">总金额</td>
+            <td class="width150">采购员</td>
+            <td class="width200">采购日期</td>
+            <td class="width80">操作</td>
+        </tr>
+    </table>
+    <div class="mTop20" id="pager"></div>
+</div>
+<ul class="dropdown-ul hide" style="width:65px;">
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"103029002"))" id="audit">审核</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"103029003"))" id="invalid">作废</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"103029004"))" id="delete">删除</li>
+</ul>

@@ -1,0 +1,15 @@
+﻿<li class="category-layer">
+    <div class="category-header long">全部分类</div>
+    <ul class="category-list">
+        {%
+	        for(var i=0, j=$data.length; i < j; i++){
+	        var item = $data[i];
+        %}
+        <li data-id="{%=item.CategoryID%}" title="{%=item.Description%}" data-layer="{%=item.Layers%}">
+            <span class="category-name long left width150 {%=item.Status==1?'':'color999'%}">{%=item.CategoryName%}</span>
+            <span data-id="{%=item.CategoryID%}" class="ddlcategory ico-dropdown right"></span>
+        </li>
+        {% } %}
+    </ul>
+    <div class="create-child" data-id="" data-layer="1">+ 新建分类</div>
+</li>

@@ -1,0 +1,14 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td class=''>{%=item.PayTime.toDate("yyyy-MM-dd")%}</td>
+    <td class="center">{%=item.Type==1?"退款":"收款"%}</td>
+    <td class="center">{%=item.PayMoney.toFixed(2)%}</td>
+    <td class="center">{%=item.PayTypeStr%}</td>
+    <td class="">{%=item.Remark%}</td>
+    <td class='center'>{%=(item.CreateUser ? item.CreateUser.Name:"--")%}</td>
+    <td class='tRight'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+</tr>
+{% } %}

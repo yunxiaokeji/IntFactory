@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "行业列表";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/industry"], function (Industry) {
+            Industry.init();
+        });
+    </script>
+}
+
+<div class="header-box">
+    <span class="header-title">行业列表</span>
+    <div class="right searth-module"> </div>
+</div>
+
+<div class="content-body">
+    <table class="table-list">
+        <tr class="tr-header">
+            <td width="10%">操作</td>
+            <td class="">名称</td>
+            <td class="">描述</td>
+            <td class="">创建时间</td>
+        </tr>
+    </table>
+</div>

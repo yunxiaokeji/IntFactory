@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "个人中心";
+    Layout = "/Views/Shared/_LayoutUserCenter.cshtml";
+    IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];    
+}
+
+@section css{
+<link href="/modules/css/myaccount/myaccount.css" rel="stylesheet" />
+}
+@section scripts{
+<script type="text/javascript">
+    $(function () {
+        $(".bindloginmobile").hide();
+        seajs.use(["scripts/myaccount/account"], function (ObjectJS) {
+            ObjectJS.init();
+        }); 
+    });
+</script>
+}
+<div class="accountContent">
+    <div class="accountHeader">
+        账号设置
+    </div>
+
+    <div class="search-box">
+        <div class="search-header">
+            <ul class="search-tab search-stages">
+                <li data-id="0"  class="hover">账号设置</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-body">
+        <div name="accountInfo">
+            <ul class="table-add mLeft10">
+                <li>
+                    <span class="width80">账号：</span>
+                    <span id="S_LoginName">@(CurrentUser.LoginName)</span>
+                    @if (string.IsNullOrEmpty(CurrentUser.LoginName))
+                    {
+                       <input type="button" id="bindLogioName" class="btn" value="设置" />
+                    }
+                </li>
+                <li>
+                    <span class="width80">手机：</span>
+                    <span id="S_BindMobile">@(CurrentUser.BindMobilePhone)</span>
+                    <input type="text" id="mobilePhone" class="input bindloginmobile hide" value="@(CurrentUser.BindMobilePhone)" />
+                    <input type="button" id="bindLoginMobile" class="btn" value="@(string.IsNullOrEmpty(CurrentUser.BindMobilePhone)?"绑定":"解绑")" />
+                    <span class="mLeft10 red loginError"  id="BindMobileError"></span>
+                </li>
+                <li class="bindloginmobile hide">
+                    <span class="width80">验证码：</span>
+                    <span></span>
+                    <input type="text"id="BindMobileCode" class="input width60" />
+                    <input type="button" id="SendBindMobileCode" class="btn mLeft5" value="获取验证码" />
+                    <span class="mLeft10 red loginError"  id="BindMobileCodeError"></span>
+                </li>
+                 <li class="bindloginmobile hide">
+                    <span class="width80"></span>
+                    <span></span>
+                    <input type="button" id="saveLoginMobile" class="btn" value="保存" />
+                    <input type="button" id="cancleLoginMobile" class="btn bindloginmobile mLeft5" value="取消" />
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+       
+
+
+
+
+

@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "账户明细";
+}
+@section css{
+
+}
+@section scripts{
+    <script src="/modules/plug/laydate/laydate.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/finance/accountbills"], function (ObjectJS) {
+            ObjectJS.init();
+        });
+        $(function () {
+            var begin = {
+                elem: '#BeginTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                    end.start = datas //将结束日的初始值设定为开始日
+                }
+            };
+
+            var end = {
+                elem: '#EndTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    begin.max = datas; //结束日选好后，重置开始日的最大日期
+                }
+            };
+            laydate(begin);
+            laydate(end);
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">账户明细</span>
+</div>
+<div class="search-box">
+    <div class="search-header">
+        <ul class="search-status search-tab">
+            <li data-id="-1" class="hover">全部</li>
+            <li data-id="0" class="">收入</li>
+            <li data-id="1" class="">支出</li>
+        </ul>
+    </div>
+</div>
+<div class="content-body">
+    <div class="search-body">
+        <div class="left">
+            <span class="width80">时间：</span><input type="text" id="BeginTime"  class="input width100"  />
+            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width100"  />
+            <span class="btn mLeft10" id="btnSearch">搜索</span>
+        </div>
+        <div class="right searth-module" data-text="关键字搜索..." data-width="160"> </div>
+    </div>
+    <table class="table-list mTop10">
+        <tr class="tr-header">
+            <td class="width100 tLeft">类型</td>
+            <td class="width150">发生金额</td>
+            <td class="width150">末期余额</td>
+            <td class="tLeft">备注</td>
+            <td class="width100">操作人</td>
+            <td class="width150">操作时间</td>
+        </tr>
+    </table>
+    <div id="pager" class="mTop20"></div>
+</div>
+

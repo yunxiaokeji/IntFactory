@@ -1,0 +1,64 @@
+﻿
+<div class="chooseuser-header">
+	<div id="chooseuserSearch" data-width="660" data-text="输入姓名/手机号/邮箱搜索..." ></div>
+</div>
+<div class="chooseuser-body">
+    <div class="chooseuser-left left">
+        <ul class="fillter-type">
+            <li class="hover">所有人</li>
+        </ul>
+        <div class="userlist-all">
+            <div id="letterfilter" class="letters">
+				<a href="javascript:;" class="hover">全部</a>
+				<a href="javascript:;">A</a>
+				<a href="javascript:;">B</a>
+				<a href="javascript:;">C</a>
+				<a href="javascript:;">D</a>
+				<a href="javascript:;">E</a>
+				<a href="javascript:;">F</a>
+				<a href="javascript:;">G</a>
+				<a href="javascript:;">H</a>
+				<a href="javascript:;">I</a>
+				<a href="javascript:;">J</a>
+				<a href="javascript:;">K</a>
+				<a href="javascript:;">L</a>
+				<a href="javascript:;">M</a>
+				<a href="javascript:;">N</a>
+				<a href="javascript:;">O</a>
+				<a href="javascript:;">P</a>
+				<a href="javascript:;">Q</a>
+				<a href="javascript:;">R</a>
+				<a href="javascript:;">S</a>
+				<a href="javascript:;">T</a>
+				<a href="javascript:;">U</a>
+				<a href="javascript:;">V</a>
+				<a href="javascript:;">W</a>
+				<a href="javascript:;">X</a>
+				<a href="javascript:;">Y</a>
+				<a href="javascript:;">Z</a>
+			</div>
+            <ul class="userlist-items">
+            {%
+	            for(var i=0, j=$data.length; i < j; i++){
+	            var item = $data[i];
+            %}
+                <li data-first="{%=item.firstname%}" data-search="{%=item.name.toLowerCase()+"|"+item.email.toLowerCase()+"|"+item.mobile_phone.toLowerCase()%}" data-id="{%=item.id%}">
+				    <img class="left" src="{%=item.avatar%}" alt=""/>
+				    <span class="left name long">{%=item.name%}</span>
+				    <span class="left mobile long">{%=item.mobile_phone||item.email%}</span>
+				    <a href="javascript:void(0);" data-id="{%=item.id%}" class="right useradd mRight20">添加</a>
+			    </li>
+            {% } %}
+            </ul>
+        </div>
+    </div>
+    <div class="chooseuser-right right">
+        <ul class="choose-type">
+            <li class="left">已选中</li>
+            <li class="right clear-choose" id="clearChoose">全部清空</li>
+        </ul>
+        <ul class="userlist-choose" id="userlistChoose">
+
+        </ul>
+    </div>
+</div>

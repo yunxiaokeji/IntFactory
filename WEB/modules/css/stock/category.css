@@ -1,0 +1,63 @@
+﻿
+/*分类*/
+.category-all { overflow-x:auto; overflow-y:hidden; white-space:nowrap; }
+
+.category-layer { width:200px; float:left; background-color:#f6f6f6; padding:10px; border:solid 1px #ccc; margin-right:5px; }
+
+.category-header {  height:30px; width:180px; line-height:30px;padding:0 10px; font-size:14px; }
+.category-header span { width:100px; }
+
+.category-list { width:200px; overflow-x:hidden; overflow-y:auto; margin-top:10px; }
+.category-list li { height:30px; width:180px; line-height:30px; padding:0 10px; cursor:pointer; position:relative; }
+.category-list li .ddlcategory, .category-list li .add-product{ display:none; }
+.category-list li .ico-dropdown{ position:absolute; top:10px; right:10px;}
+
+.category-list li:hover .ddlcategory,.category-list li:hover .add-product { display:inline-block; }
+.category-list li:hover,.category-list .hover { background-color:#fff; }
+.category-list .hover .ddlcategory,.category-list .hover .add-product  { display:inline-block; }
+
+.category-list li .ico-add { margin-top:3px; padding-left:0px; }
+
+.category-layer .create-child { height:30px; line-height:30px; color:#999; cursor:pointer; text-indent:5px; margin-top:5px; }
+.category-layer .create-child:hover { background-color:#fff; color:#333; }
+
+/*分类属性*/
+.category-attr-layer { width:230px; float:left; margin-left:10px; }
+
+.category-attr-header { background-color:#2F73B8; height:30px; width:210px; line-height:30px;padding:0 10px; border:solid 1px #2F73B8; }
+.category-attr-header span { width:100px;  color:#fff;}
+
+.category-attr-list { width:230px; overflow-x:hidden; overflow-y:auto; border:solid 1px #2F73B8; position:relative; margin-bottom:5px; }
+.category-attr-list li { height:30px; width:210px; line-height:30px; padding:0 10px; cursor:pointer; }
+.category-attr-list li .ico-dropdown{ margin-top:10px; }
+
+.category-attr-list .header { background-color:#eee; }
+
+.category-attr-list li span{ float:left;}
+.category-attr-list li  .category-attr-name{ width:155px;}
+.category-attr-list li:hover .category-attr-name{color:#2F73B8; }
+
+/*通用属性*/
+.common-attr-layer { width:230px; float:left; margin-left:5px; }
+
+.common-attr-header { background-color:#2F73B8; height:30px; width:210px; line-height:30px;padding:0 10px; border:solid 1px #2F73B8;  }
+.common-attr-header span { width:100px; color:#fff; }
+
+.common-attr-list { width:230px; overflow-x:hidden; overflow-y:auto; border:solid 1px #2F73B8; position:relative; margin-bottom:5px; }
+.common-attr-list li { height:30px; width:210px; line-height:30px; padding:0 10px; cursor:pointer; }
+.common-attr-list li .ico-edit,.category-attr-list li .ico-del{ display:none;}
+
+.common-attr-list li:hover { background-color:#eee; }
+
+.common-attr-list .header { background-color:#eee; }
+.common-attr-list li span{ float:left;}
+.common-attr-list li  .category-name{ width:155px;}
+
+.common-attr-list a {text-decoration:underline;}
+.common-attr-list a:hover {color:red; }
+
+.category-attr-header .ico-add { color:#fff; background:url(/modules/images/ico-add-fff.png) no-repeat;}
+
+
+
+

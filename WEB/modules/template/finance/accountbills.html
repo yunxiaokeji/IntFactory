@@ -1,0 +1,13 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td class="">{%=item.Mark==0?"收入":"支出"%}</td>
+    <td class="center">{%=item.HappenMoney.toFixed(2)%}</td>
+    <td class="center">{%=item.EndMoney.toFixed(2)%}</td>
+    <td class="">{%=item.Remark%}</td>
+    <td class='center'>{%=(item.CreateUser ? item.CreateUser.Name:"--")%}</td>
+    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+</tr>
+{% } %}

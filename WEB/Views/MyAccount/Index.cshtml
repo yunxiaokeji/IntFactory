@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "个人中心";
+    Layout = "/Views/Shared/_LayoutUserCenter.cshtml";
+    var departs = (List<IntFactoryEntity.Department>)ViewBag.Departments;
+    
+}
+
+@section css{
+    <link href="/modules/css/myaccount/myaccount.css" rel="stylesheet" />
+}
+<div class="accountContent">
+    <div class="accountHeader">
+        基本信息
+    </div>
+
+    <div class="search-box">
+        <div class="search-header">
+            <ul class="search-tab search-stages">
+                <li data-id="0"  class="hover">基本信息</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-body">
+        <div name="accountInfo" id="accountInfo">
+            <ul class="table-add pLeft10">
+                <li>
+                    <span class="width80">姓名：</span><input type="text" id="Name" data-empty="* 必填" class="input verify" />
+                </li>
+                <li>
+                    <span class="width80">职位：</span><input type="text" id="Jobs"  class="input" />
+                </li>
+                <li>
+                    <span class="width80">部门：</span><span id="ddlDepart"></span>
+                </li>
+                 <li>
+                    <span class="width80">手机：</span><input type="text" id="MobilePhone" data-text="手机格式不对" data-type="mobile" class="input verify" />
+                </li>
+                <li>
+                    <span class="width80">办公电话：</span><input type="text" id="OfficePhone"  class="input" />
+                </li>
+                <li>
+                    <span class="width80">邮箱：</span><input type="text" id="Email" data-text="邮箱格式不对" data-type="email" class="input verify" />
+                </li>
+                <li>
+                    <span class="width80">生日：</span><input type="text" id="Birthday"  class="input "/>
+                </li>
+            </ul>
+
+            <div class="mTop20">
+                <span  class="btn" id="btnSaveAccountInfo" >保存</span>
+            </div>
+        </div>
+    </div>
+</div>
+       
+
+@section scripts{
+<script src="/Scripts/jquery-1.11.1.js"></script>
+<script src="/modules/plug/laydate/laydate.js"></script>
+
+<script type="text/javascript">
+   
+    $(function () {
+        seajs.use(["scripts/myaccount/myaccount"], function (ObjectJS) {
+            ObjectJS.init('@Html.ToJSONString(departs)','@ViewBag.Option');
+        }); 
+    });
+
+    var begin = {
+        elem: '#Birthday',
+        format: 'YYYY-MM-DD',
+        max: '2099-06-16',
+        istime: false,
+        istoday: false
+    };
+    laydate(begin);
+</script>
+}
+<input type="hidden" id="DepartmentName" />
+<input type="hidden" id="DepartID" />
+
+

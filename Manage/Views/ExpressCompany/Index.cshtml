@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "快递公司列表";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/expresscompany"], function (ExpressCompany) {
+            ExpressCompany.init();
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title">快递公司列表</span>
+    <div class="right searth-module"> </div>
+</div>
+
+<div class="content-body">
+    <table class="table-list">
+        <tr class="tr-header">
+            <td width="10%">操作</td>
+            <td class="">名称</td>
+            <td class="">网址</td>
+            <td class="">创建时间</td>
+        </tr>
+    </table>
+
+    <div id="pager" class="mTop20"></div>
+</div>
+

@@ -1,0 +1,105 @@
+.jPaginate{
+    height:34px;
+    position:relative;
+    color:#a5a5a5;
+    font-size:small;   
+	width:100%;
+}
+.jPaginate a{
+    cursor:pointer;
+    padding:4px 8px;
+    margin:2px;
+    float:left;
+    border:solid 1px #ccc;
+}
+.jPag-control-back{
+	position:absolute;
+	left:0px;
+}
+.jPag-control-front{
+	position:absolute;
+	top:0px;
+}
+.jPaginate span{
+    cursor:pointer;
+}
+ul.jPag-pages{
+    float:left;
+    list-style-type:none;
+    margin:0px 0px 0px 0px;
+    padding:0px;
+}
+ul.jPag-pages li{
+    display:inline;
+    float:left;
+    padding:0px;
+    margin:0px;
+}
+ul.jPag-pages li a{
+    float:left;
+    padding:4px 8px;
+}
+span.jPag-current{
+    cursor:default;
+    font-weight:normal;
+    padding:4px 8px;
+    margin:2px;
+    float:left;
+}
+ul.jPag-pages li span.jPag-previous,
+ul.jPag-pages li span.jPag-next,
+span.jPag-sprevious,
+span.jPag-snext,
+ul.jPag-pages li span.jPag-previous-img,
+ul.jPag-pages li span.jPag-next-img,
+span.jPag-sprevious-img,
+span.jPag-snext-img{
+    margin:2px;
+    float:left;
+}
+
+ul.jPag-pages li span.jPag-previous,
+ul.jPag-pages li span.jPag-previous-img{
+    margin:2px 0px 2px 2px;
+    font-size:12px;
+    font-weight:bold;
+        width:10px;
+
+}
+ul.jPag-pages li span.jPag-next,
+ul.jPag-pages li span.jPag-next-img{
+    margin:2px 2px 2px 0px;
+    font-size:12px;
+    font-weight:bold;
+    width:10px;
+}
+span.jPag-sprevious,
+span.jPag-sprevious-img{
+    margin:2px 0px 2px 2px;
+    padding:4px 8px;
+    color: rgb(51, 51, 51); 
+    border: 1px solid rgb(74, 158, 238); 
+    background-color: rgb(255, 255, 255);
+}
+span.jPag-snext,
+span.jPag-snext-img{
+    margin:2px 0px 2px 2px;
+    padding:4px 8px;
+    color: rgb(51, 51, 51); 
+    border: 1px solid rgb(74, 158, 238); 
+    background-color: rgb(255, 255, 255);
+}
+ul.jPag-pages li span.jPag-previous-img { background: transparent url(../images/previous.png) no-repeat center right; }
+ul.jPag-pages li span.jPag-next-img { background: transparent url(../images/next.png) no-repeat center left; }
+span.jPag-sprevious-img { background: transparent url(../images/sprevious.png) no-repeat center right; }
+span.jPag-snext-img { background: transparent url(../images/snext.png) no-repeat center left; }
+
+.jPag-count {color:#333; height:33px; line-height:33px; display:inline-block; position:absolute; top:0; right:0; text-align:right; font-size:13px;}
+.jPag-count input{width:20px; border:solid 1px #ccc; text-align:center;}
+
+.jPag-first { padding: 4px 5px; }
+
+
+
+
+

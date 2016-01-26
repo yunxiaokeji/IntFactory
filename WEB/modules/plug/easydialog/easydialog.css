@@ -1,0 +1,27 @@
+button::-moz-focus-inner { border: 0; padding: 0; margin: 0; }
+.easyDialog_wrapper { color: #333; border:1px solid #666;background-color:#fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); display: none; }
+.easyDialog_wrapper .easyDialog_content { border-radius: 4px; background: #fff; }
+
+.easyDialog_wrapper .easyDialog_title { margin: 0px 0px!important; height: 30px; line-height: 25px; overflow: hidden; 
+                                        color: #333; font-size:11pt; border-bottom: 1px solid #eee; }
+
+/*.easyDialog_title span { border-left: solid #7faaca 5px; height:20px; display:inline-block; }*/
+
+.easyDialog_wrapper .close_btn {float:right; background:#fff url(ico-close.png) no-repeat; height:16px; width:16px;  }
+.easyDialog_wrapper .close_btn:hover { background:url(ico-close-hover.png) no-repeat; }
+
+.easyDialog_wrapper .easyDialog_text { padding-top:15px; font-size:12px; line-height: 22px; }
+
+.easyDialog_wrapper { padding: 10px 20px; *zoom: 1; }
+
+.easyDialog_wrapper .easyDialog_footer:after { content: ''; display: block; height: 0; overflow: hidden; visibility: hidden; clear: both; }
+
+.easyDialog_wrapper .btn_highlight,
+.easyDialog_wrapper .btn_normal { border:none; border-radius: 2px; cursor: pointer; font-family: "Microsoft yahei", Arial; float: right; 
+                                  font-size: 12px; padding: 6px 15px; }
+.easyDialog_wrapper .btn_highlight { margin-left:10px; background: #4a98e7; color: #fff; }
+.easyDialog_wrapper .btn_highlight:hover { background: #2F73B8; }
+
+.btn_normal{border-color: white!important;background-color: white!important;}
+
+.easyDialog_footer{ margin-top:10px; padding-bottom:10px; }

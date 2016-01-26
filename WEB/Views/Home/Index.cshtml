@@ -1,0 +1,145 @@
+﻿@{
+    
+    Layout = "/Views/Shared/_LayoutNoLeft.cshtml";
+    IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+    ViewBag.Title = "首页";
+}
+
+@section css{
+<link href="/modules/css/home/home.css" rel="stylesheet" />
+<style type="text/css">
+    .main-content { margin-left:0px; }
+</style>
+}
+
+
+@section scripts{
+<script type="text/javascript">
+    seajs.use(["scripts/home"], function (layout) {
+        layout.initHome();
+    });
+</script>
+}
+<div class="home-body">
+   <div class="report-box">
+       <div class="report-item">
+           <div class="item-header bgactive">
+               <div class="active-ico"></div>
+               <h1>新增活动数</h1>
+               <div class="triangle"></div>
+           </div>
+           <div class="item-main">
+               <ul class="item-title">
+                   <li>昨天</li>
+                   <li>上周</li>
+                   <li>上月</li>
+               </ul>
+               <ul class="item-value">
+                   <li><label id="activeDay">0</label></li>
+                   <li><label id="activeWeek">0</label></li>
+                   <li><label id="activeMonth">0</label></li>
+               </ul>
+           </div>
+       </div>
+       <div class="report-item">
+           <div class="item-header bgcustom">
+               <div class="custom-ico"></div>
+               <h1>新增客户数</h1>
+               <div class="triangle"></div>
+           </div>
+           <div class="item-main">
+               <ul class="item-title">
+                   <li>昨天</li>
+                   <li>上周</li>
+                   <li>上月</li>
+               </ul>
+               <ul class="item-value">
+                   <li><label id="customDay">0</label></li>
+                   <li><label id="customWeek">0</label></li>
+                   <li><label id="customMonth">0</label></li>
+               </ul>
+           </div>
+       </div>
+       <div class="report-item">
+           <div class="item-header bgoppor">
+               <div class="oppor-ico"></div>
+               <h1>新增机会数</h1>
+               <div class="triangle"></div>
+           </div>
+           <div class="item-main">
+               <ul class="item-title">
+                   <li>昨天</li>
+                   <li>上周</li>
+                   <li>上月</li>
+               </ul>
+               <ul class="item-value">
+                   <li><label id="opporDay">0</label></li>
+                   <li><label id="opporWeek">0</label></li>
+                   <li><label id="opporMonth">0</label></li>
+               </ul>
+           </div>
+       </div>
+       <div class="report-item">
+           <div class="item-header bgorder">
+               <div class="order-ico"></div>
+               <h1>新增订单数</h1>
+               <div class="triangle"></div>
+           </div>
+           <div class="item-main">
+               <ul class="item-title">
+                   <li>昨天</li>
+                   <li>上周</li>
+                   <li>上月</li>
+               </ul>
+               <ul class="item-value">
+                   <li><label id="orderDay">0</label></li>
+                   <li><label id="orderWeek">0</label></li>
+                   <li><label id="orderMonth">0</label></li>
+               </ul>
+           </div>
+       </div>
+       <div class="report-item">
+           <div class="item-header bglogin">
+               <div class="login-ico"></div>
+               <h1>登录人次</h1>
+               <div class="triangle"></div>
+           </div>
+           <div class="item-main">
+               <ul class="item-title">
+                   <li>昨天</li>
+                   <li>上周</li>
+                   <li>上月</li>
+               </ul>
+               <ul class="item-value">
+                   <li><label id="loginDay">0</label></li>
+                   <li><label id="loginWeek">0</label></li>
+                   <li><label id="loginMonth">0</label></li>
+               </ul>
+           </div>
+       </div>
+       <div class="report-item">
+           <div class="item-header bgbuy">
+               <div class="buy-ico"></div>
+               <h1>授权信息</h1>
+               <div class="triangle"></div>
+           </div>
+           <div class="item-main">
+               <ul class="item-title">
+                   <li>剩余天数</li>
+                   <li>购买人数</li>
+                   <li>当前员工</li>
+               </ul>
+               <ul class="item-value">
+                   <li>@ViewBag.RemainderDays</li>
+                   <li>@ViewBag.UserQuantity</li>
+                   <li>@(ViewBag.UserCount)</li>
+               </ul>
+           </div>
+       </div>
+   </div>
+</div>
+
+
+
+
+

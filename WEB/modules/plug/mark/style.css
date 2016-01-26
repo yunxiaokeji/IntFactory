@@ -1,0 +1,14 @@
+﻿
+.mark-color { display: inline-block; cursor:pointer; vertical-align:middle; width:14px; height:14px; border-radius:8px; }
+
+
+.mark-color-list { height:24px; overflow:auto; position:absolute; padding:3px 5px; background-color:#fff; border:solid 1px #eee; border-radius:2px; box-shadow:0 0 2px #eee; }
+.mark-color-item { width:16px; height:16px; cursor:pointer; padding:2px; border:solid 1px #fff; margin-top:2px; float:left;}
+.mark-color-item:hover { border-radius:10px; border:solid 1px #4a98e7; }
+
+.mark-color-item span{ width:16px; height:16px; display:inline-block; border-radius:8px;}
+
+.mark-color-all,.mark-color-item.all span { width:16px; height:16px; border-radius:8px; background:url(ico-ball.png) no-repeat; display: inline-block; background-size:cover;}
+.mark-color-item.first span { width:14px; height:14px; border-radius:8px;  border:solid 1px #ccc; display: inline-block;}
+
+

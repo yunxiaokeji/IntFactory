@@ -1,0 +1,11 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<div class="branchitem">
+    <div></div>
+    <span class="{%=(i==$data.length-1)?'lastline':'leftline'%} left"></span>
+    <span data-id="{%=item.UserID%}" data-eq="{%=(i==$data.length-1)?'last':''%}" data-state="close" class="{%=(item.ChildUsers.length>0)?'icoopen left openchild':''%} "></span>
+    <span data-id="{%=item.UserID%}" data-search="{%=item.Name%}" class="left name change-user">{%=item.Name%}</span>
+</div>
+{% } %}

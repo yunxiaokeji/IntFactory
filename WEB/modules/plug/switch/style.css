@@ -1,0 +1,3 @@
+﻿
+.switch { position: relative; display: inline-block; cursor:pointer; vertical-align:middle; }
+.switch .bar { position:absolute; box-shadow:0 0 1px #D7D7D7;  }

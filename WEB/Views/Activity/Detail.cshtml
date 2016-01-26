@@ -1,0 +1,139 @@
+﻿@{
+    ViewBag.Title = "活动详情";
+}
+
+@section css{
+<link href="/modules/css/customer/activity.css" rel="stylesheet" />
+<link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
+<style type="text/css">
+    /*描述*/
+.edui-container { overflow:auto; line-height:25px; width:100% !important; border:none;}
+</style>
+}
+
+@section scripts{
+<script src="/modules/plug/laydate/laydate.js"></script>
+<script type="text/javascript">
+        seajs.use(["scripts/activity/activity"], function (ObjectJS) {
+            ObjectJS.initDetail();
+        });
+</script>
+}
+
+<div class="header-box">
+    <span class="header-title left">活动详情</span>
+    <a class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"101019001"))" href="/Customer/Create/@ViewBag.ActivityID" target="_blank">新建客户</a>
+</div>
+
+<div class="content-body mTop20">
+    <table width="100%">
+        <tr class="activityListLi">
+            <td width="410">
+                <div>
+                    <img id="Poster" class="activityDetailImg" src="/modules/images/defaultactivity.jpg" onerror="javascript:this.src='/modules/images/defaultactivity.jpg';" />
+                </div>
+            </td>
+            <td valign="top">
+                <div class="activityDetailInfo mLeft30">
+                    <table width="100%" class="activityInfoTB">
+                        <tr>
+                            <td colspan="2">
+                                <span style="font-size:20px;color:#666;" id="Name"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="60">负责人：</td>
+                            <td><span class="activitymember member" id="OwnerName" style="color:#666;"></span></td>
+                        </tr>
+                         <tr>
+                            <td>
+                                时间：
+                            </td>
+                            <td><span id="BeginTime" style="color:#666;"></span><span style="color:#666;"> - </span><span id="EndTime" style="color:#666;"></span></td>
+                        </tr>
+                         <tr>
+                            <td>成员：</td>
+                            <td>
+                                <ul id="MemberList"></ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">地址：</td>
+                            <td><span id="Address" style="color:#666;"></span></td>
+                        </tr>
+                         <tr id="tr_shareMD" class="hide">
+                            <td colspan="2">
+                                <div style="margin-top:46px;"><img class="hand btn_shareMD" src="/modules/images/btn-share-mingdao.png" id="btn_shareMD"/></div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+         </tr>
+    </table>
+
+    <div class="mTop40">
+        <div class="tab-nav">
+            <ul class="tab-nav-ul">
+                <li class="hover" data-id="replyList">评论</li>
+                <li data-id="activityCustoms">客户列表</li>
+                <li data-id="activityRemark">活动详情</li>
+            </ul>
+        </div>
+        
+        <div id="replyList" name="activityDetail">
+            <div class="mTop20">
+                <div class="left">
+                    <textarea id="Msg" class="replyMsg"></textarea>
+                </div>
+                <div class="left mLeft10" style="padding-top:123px;">
+                    <div class="btn" id="btnSaveActivityReply">评论</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="mTop15" style="border-bottom:solid 1px #06c;padding-bottom:10px;width:657px;">
+                <span style="color:#666;">全部评论</span>
+            </div>
+
+            <div class="mBottom50">
+                <table width="657" id="activityReplyList"></table>
+            </div>
+
+        </div>
+
+        <div id="activityCustoms" class="hide" name="activityDetail">
+            <table class="table-list mTop10">
+                <tr class="tr-header">
+                    <td class="tLeft">客户名称</td>
+                    <td class="width50">类型</td>
+                    <td class="width100">阶段</td>
+                    <td class="width100">联系人</td>
+                    <td class="width100">联系电话</td>     
+                    <td class="width100">拥有者</td>
+                    <td class="width150">创建时间</td>
+                </tr>
+            </table>
+            
+             <div id="pager" class="mTop20"></div>
+           
+        </div>
+        
+        <div id="activityRemark" class="hide mTop15" name="activityDetail">
+            <div class="edui-container">
+                <div class="edui-editor-body">
+                    <div class="description  edui-body-container" id="Remark">
+                     </div>
+                </div>
+            </div>
+            
+        </div>
+
+        
+
+    <input type="hidden" id="ActivityID" value="@ViewBag.ActivityID" />
+    <input type="hidden" id="OwnerID" value="" />
+    <input type="hidden" id="MemberID" value="" />
+        <input type="hidden" id="MDUserID" value="@ViewBag.MDUserID" />
+</div>
+</div>

@@ -1,0 +1,24 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<div class="child-item">
+    <div></div>
+    <span class="{%=(i==$data.length-1)?'lastline':'leftline'%} left"></span>
+    <span data-id="{%=item.UserID%}" data-eq="{%=(i==$data.length-1)?'last':''%}" data-state="close" class="{%=(item.ChildUsers.length>0)?'icoopen left openchild':''%} "></span>
+    <div class="user-item">
+        <div class="user-avatar">
+            <img src="{%=item.Avatar||'/modules/images/defaultavatar.png'%}" />
+        </div>
+        <ul class="user-name">
+            <li class="long">
+                {%=item.Name %}
+            </li>
+            <li class="long">
+                {%=item.Jobs || item.Department?item.Department.Name:(item.Role?item.Role.Name:"")%}
+            </li>
+        </ul>
+        <div class="ico-dropdown" data-id="{%=item.UserID%}"></div>
+    </div>
+</div>
+{% } %}

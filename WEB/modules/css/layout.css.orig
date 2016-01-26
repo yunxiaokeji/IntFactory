@@ -1,0 +1,195 @@
+﻿
+<<<<<<< HEAD
+
+* { padding: 0; margin: 0; font-size:9pt; color:#333; font-family:"Microsoft yahei","微软雅黑"; }/*033d91*/
+li{ list-style-type:none;}
+a { text-decoration: none; color: #4a98e7; }
+
+input[type="text"] { border:solid 1px #ccc; border-radius:2px;height:25px; line-height:25px; padding:0 5px; }
+input[type="text"]:focus { border:solid 1px #318ae4; }
+
+input[type="password"] { border:solid 1px #ccc; border-radius:2px;height:25px; line-height:25px; padding:0 5px; }
+input[type="password"]:focus { border:solid 1px #318ae4; }
+
+textarea { min-height: 75px; border:solid 1px #ccc; border-radius:2px;text-indent:3px;resize:none;}
+textarea:focus { border:solid 1px #318ae4;}
+
+select{ border:solid 1px #ccc; border-radius:2px; height:25px; line-height:25px; padding:0 5px;}
+select option{ padding:2px; }
+
+/*按钮和图标*/
+.btn {  padding:5px 10px; background-color:#4a98e7; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; }
+.btn:hover { background-color:#2F73B8; }
+
+.btnccc {  padding:5px 10px; background-color:#ccc; color:#333; border:none; cursor:pointer; display:inline-block; border-radius:2px; }
+.btnccc:hover { background-color:#999; }
+
+
+
+/*添加*/
+.ico-add{ background:url(../images/ico-add.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+          display:inline-block; cursor:pointer; padding-left:28px; color:#666; font-size:13px; }
+.ico-add:hover{ background:url(../images/ico-addhover.png) no-repeat; color:#4a98e7; }
+
+/*返回*/
+.ico-back{ background:url(../images/ico-back.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+          display:inline-block; cursor:pointer; color:#4a98e7; padding-left:28px; font-size:13px;  }
+.ico-back:hover{ background:url(../images/ico-back.png) no-repeat;color:#2F73B8;}
+
+/*编辑*/
+.ico-edit{ background:url(../images/ico-edit-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+          display:inline-block; cursor:pointer;  color:#666; }
+.ico-edit:hover{ background:url(../images/ico-edit-deep.png) no-repeat;}
+
+/*删除-垃圾箱*/
+.ico-del{ background:url(../images/ico-del-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+          display:inline-block; cursor:pointer; color:#666; }
+.ico-del:hover{ background:url(../images/ico-del-deep.png) no-repeat;}
+
+/*删除 叉*/
+.ico-delete{ background:url(../images/ico-delete.png) no-repeat; height:20px; min-width:20px; line-height:20px; 
+          display:inline-block; cursor:pointer;}
+
+/*帮助*/
+.ico-help{ background:url(../images/ico-help.png) no-repeat; height:20px; min-width:20px; line-height:20px; 
+          display:inline-block; cursor:pointer;}
+
+/*下拉*/
+.ico-dropdown{ background:url(../images/ico-dropdown.png) no-repeat; height:12px; min-width:12px; line-height:12px; 
+          display:inline-block; cursor:pointer;}
+.ico-dropdown-white{ background:url(../images/ico-dropdown-white.png) no-repeat; height:11px; min-width:11px; line-height:11px; 
+          display:inline-block; cursor:pointer;}
+
+/*排序*/
+.ico-orderby-down{ background:url(../images/ico-orderby-down.png) no-repeat; height:12px; min-width:12px; line-height:12px; 
+          display:inline-block; cursor:pointer;}
+
+.ico-orderby-down-hover{ background:url(../images/ico-orderby-down-hover.png) no-repeat; height:12px; min-width:12px; line-height:12px; 
+          display:inline-block; cursor:pointer;}
+
+
+=======
+>>>>>>> e120ce69d736fa0d20b0121079caf69b81276bb1
+/*header样式*/
+header { height:50px; width:100%; background-color:#2F73B8; position:fixed; top:0; z-index:999; opacity:0.9;}
+
+header .logo { width:30px; height:30px; margin-top:10px; margin-left:15px; }
+header .logo img{ height:30px; }
+
+/*二级菜单*/
+header .menu { height:50px; margin-left:160px; }
+header .menu a{  height:50px; line-height:50px;text-align:center; width:110px; display:inline-block; }
+header .menu a img{ width:16px; height:16px; margin-top:18px; margin-left:15px; float:left; }
+header .menu a span{ margin-left:8px; float:left; color:#BFD2F2; font-size:14px;}
+header .menu .select{ background-color:#174A7F;color:#fff;}
+header .menu a:hover span,header .menu .select span{ color:#fff;}
+
+
+/*登录信息*/
+header .currentuser { margin-right:50px; cursor:pointer;}
+header .currentuser span{ display:inline-block; float:left;}
+header .currentuser .avatar { height:35px; width:35px; border:solid 1px #2F74B9; border-radius:18px; margin-top:7px;}
+header .currentuser .username { margin-left:10px; color:#BFD2F2; line-height:50px; font-size:14px; font-weight:bold; }
+
+header .currentuser .dropdown { width:16px; height:16px; position:relative; overflow:hidden; margin-left:5px; margin-top:24px; }
+header .dropdown .dropdown-top { border-top:solid 6px #BFD2F2; border-left:solid 6px transparent ;border-right:solid 6px transparent ; }
+header .dropdown .dropdown-bottom { border-top:solid 6px #2F74B9; border-left:solid 6px transparent ;
+                                    border-right:solid 6px transparent; position:absolute; top:-3px; left:0; }
+
+header .currentuser:hover .username{ color:#fff;}
+header .currentuser:hover .dropdown-top{ border-top:solid 6px #fff;}
+
+
+.dropdown-userinfo { position:fixed; background-color:#fff; width:120px; z-index:1000; border-radius:2px; border:solid 1px #eee;
+                     box-shadow:0 0 5px #ccc; top:50px; right:40px;}
+.dropdown-userinfo .top-lump { border-bottom:solid 10px #fff; border-left:solid 12px transparent ;border-right:solid 12px transparent; 
+                               width:0; height:0; position:absolute; left:50px; top:-9px; }
+.dropdown-userinfo .items-list { padding:5px 0; overflow:auto; }
+.dropdown-userinfo .items-list .item{ height:35px; line-height:35px; float:left; width:120px; }
+.items-list .item a{ width:70px;padding-left:30px; display:inline-block; font-size:14px; color:#666;}
+.dropdown-userinfo .items-list .item:hover{ background-color:#eee; }
+.modules-list .modules-item:hover a{ color:#2F73B8; }
+
+/*左侧菜单栏*/
+nav { width:160px; position:fixed; left:0; top:50px; height:100%;background-color:#eee; border-right:solid 1px #ccc;}
+
+nav .top-nav { width:160px; height:50px; border-bottom:1px solid #ccc; }
+nav .top-nav span{ width:160px; text-align:center; font-size:16px; line-height:48px; color:#666; display:inline-block;}
+
+nav  .nav-list{ border-top:1px solid #fff; }
+nav .action-box { width:156px; border-left:solid 4px #eee; height:50px; }
+nav .action-box .action { width:100px; float:left; margin-left:25px;}
+nav .action-box a{ width:100px; height:50px;line-height:50px; display:inline-block; color:#666; text-align:center;}
+
+nav .action-box:hover{  border-left-color:#318AE4; }
+nav .action-box:hover a,nav .select a{ color:#318AE4;}
+
+nav .select { background-color:#fff; border-left-color:#318AE4; margin-top:-2px; border-right:solid 1px #fff; 
+              border-bottom:solid 1px #ccc;border-top:solid 1px #ccc;}
+
+/*内容页样式*/
+.main-content { margin-left:160px; padding-top:50px; }
+
+.header-box { border-bottom:solid 1px #ddd; margin:15px; height:35px; }
+.ico-goback { background:url(../images/ico-goback.png) no-repeat; width:32px; height:32px; cursor:pointer; display:inline-block; }
+.ico-gonext { background:url(../images/ico-gonext.png) no-repeat; width:32px; height:32px; cursor:pointer; display:inline-block; }
+.header-box .header-title { height:28px; line-height:28px; color:#666; font-size:18px; background:url('/modules/images/ico-nav.png') no-repeat 0px 5px; padding-left:25px; }
+.header-box .ico-add { margin:3px 0 0 20px; }
+.header-box .ico-back { margin:3px 0 0 20px; }
+
+/*搜索条件*/
+.search-box { margin:10px 15px; overflow:auto;}
+
+.content-body{ padding:0 15px 80px; overflow:auto; }
+
+/*底部样式*/
+.bottom-body { height:40px; background-color:#666; width:100%; position:fixed; bottom:0px; border-bottom:solid 3px #947443;opacity:0.8; z-index:1001; }
+.bottom-body .bottom-main { margin:0 160px;}
+
+/*主菜单切换*/
+.bottom-body .bottom-main  .modules { width:100px; height:40px; background-color:#333; margin-top:-10px; cursor:pointer; padding-top:10px; }
+.bottom-main  .modules .ico-menu { background:url('/modules/images/ico-menu.png') no-repeat 16px 0; height:18px; width:50px; padding-top:20px; 
+                     line-height:20px; color:#fff; margin:0 auto; text-align:center;}
+.bottom-main  .modules .open-modules { height:40px; line-height:30px; position:relative; color:#fff; width:80px; padding-left:20px; display:none; }
+.bottom-main  .modules .open-modules span{ border-bottom:solid 6px #fff; border-left:solid 6px transparent ;border-right:solid 6px transparent; 
+                             top:13px; right:10px; position:absolute; }
+
+.modules:hover .ico-menu,.modules.hover .ico-menu { display:none; }
+.modules:hover .open-modules,.modules.hover .open-modules { display:block; }
+
+.modules.hover .open-modules { display:block; color:#333; line-height:40px; }
+.modules.hover .open-modules span{ border-top:solid 6px #333; border-left:solid 6px transparent ;border-right:solid 6px transparent; top:17px;}
+
+.bottom-main .hover { background-color:#fff !important; }
+
+.choose-modules { position:fixed; background-color:#fff; width:140px; z-index:1000; border-radius:2px; border:solid 1px #eee; 
+                  box-shadow:0 0 5px #ccc; bottom:43px; left:160px;}
+.choose-modules .modules-list { padding:5px 0; }
+.choose-modules .modules-list .modules-item{ height:35px; line-height:35px; }
+.modules-list .modules-item a{ padding-left:35px; display:block; font-size:14px; color:#666; line-height:35px;}
+.modules-list .modules-item a img{ height:16px; display:inline-block; margin-top:10px; float:left;}
+.choose-modules .modules-list .modules-item:hover{ background-color:#fff;  }
+.modules-list .modules-item:hover a span{ color:#2F73B8;}
+
+
+/*数据验证错误*/
+.verify-fail-err { height:20px; line-height:20px; padding-left:10px; padding-top:2px;}
+
+/*表格样式*/
+.table-list { width: 100%; background-color: #ddd; border-collapse: separate; border-spacing: 1px; box-shadow:0px 0px 3px #eee; }
+.table-list tr{ height:25px;  background-color: #fff;}
+.table-list tr:hover { background-color: #f6f6f6; }
+.table-list td{ padding:5px 10px; line-height:25px; }
+.table-list a{ color:#4a98e7;  vertical-align:middle;}
+.table-list a:hover{ color:red; text-decoration:underline; }
+.table-list .tr-header{ text-align:center; font-weight:bold; height:35px; background-color:#eee; color:#333;}
+
+/*新建样式*/
+.table-add {  border-bottom:solid 1px #ccc; padding-bottom:20px; }
+.table-add li{ line-height:25px; margin-top:5px;  padding: 2px 20px;}
+.table-add li input[type="text"] { height:20px; line-height:20px; padding:2px 5px; width:150px;max-width:150px;}
+.table-add li textarea {resize:none; height:80px; line-height:20px; padding:1px 5px; border:solid 1px #ccc; width:350px; border-radius:2px;}
+.table-add span {  display:inline-block; color:#333; vertical-align:top;}
+
+
+

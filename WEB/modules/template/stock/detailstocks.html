@@ -1,0 +1,16 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item" data-pid="{%=item.ProductID%}">
+    <td>{%=item.DetailsCode%}</td>
+    <td>{%=item.SaleAttrValueString%}</td>
+    <td class="center">{%=item.StockIn%}</td>
+    <td class="center">{%=item.LogicOut%}</td>
+    <td class="center">{%=item.StockIn-item.LogicOut%}</td>
+    <td class="center">{%=item.SaleCount%}</td>
+    <td class="center">{%=item.StockIn-item.SaleCount%}</td>
+    <td class="center">
+    </td>
+</tr>
+{% } %}

@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "快递公司";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/expresscompany"], function (ExpressCompany) {
+            ExpressCompany.detailInit('@ViewBag.ExpressID');
+        });
+    </script>
+}
+<link href="/modules/css/clients.css" rel="stylesheet" />
+
+<div class="header-box">
+    <span class="header-title">添加快递公司</span>
+</div>
+
+<div class="content-body">
+    <ul class="contentnew" style="display:block;">
+        <li>
+            <span class="columnname">名称：</span>
+            <span><input type="text" id="Name" class="verify"  maxlength="11"  data-empty="名称不能为空!" /></span>
+        </li>
+         <li>
+            <span class="columnname">网址：</span>
+            <span><input type="text" id="Website" style="width:270px;" class="verify"  data-empty="网址不能为空!" /></span>
+        </li>
+    </ul>
+
+    <div class="mTop20">
+        <input type="button" id="saveExpressCompany" class="btn" value="添加" />
+    </div>
+</div>
+    

@@ -1,0 +1,31 @@
+﻿
+
+
+.login-body{ background:url(/modules/images/loginMainBackground.jpg) no-repeat right bottom; background-size:cover; width:100%; height:100%; position:fixed;}
+
+.login-body .main{ margin:200px auto 0; width:340px; height:340px; }
+.login-body .main .title{width:186px; height:30px;margin:0 auto;}
+
+.login-body .main .login{ width:340px;float:left;margin-top:30px;}
+.login-body .main .login .loginbar{width:100%;height:40px; margin:10px 0px; background-color:#fff; }
+.login-body .loginbar input{ width:330px;height:40px; border:solid 1px #ccc; border-radius:0px; color:#333;  text-indent:30px;}
+
+#iptUserName { background:url(/modules/images/ico-name.png) no-repeat 5px 10px; }
+#iptPwd { background:url(/modules/images/ico-pwd.png) no-repeat 5px 10px; }
+
+
+.remember-box { height:30px; margin-top:20px; }
+.remember-box .cb-remember-password { cursor:pointer; padding-left:2px; color:#666; }
+
+
+
+#btnLogin { height:40px;line-height:40px; background-color:#4A98E7 ; color:#fff; font-size:16px; text-align:center;
+            border:none; font-weight:bold; cursor:pointer; display:inline-block; border-radius:2px; width:340px;}
+
+
+
+.login-body .copyright{ position:fixed; bottom:20px; right:20px; color:#333; text-align:right}
+
+
+
+

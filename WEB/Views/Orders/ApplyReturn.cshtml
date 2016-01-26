@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "申请退货";
+    var model = (IntFactoryEntity.OrderEntity)ViewBag.Model;
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/orders/applydetail"], function (obj) {
+            obj.init('@(model.OrderID)','@(model.Status)','@Html.ToJSONString(model)');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">申请退货</span>
+    <a class="ico-back right" href="@(Url.RequestContext.HttpContext.Request.UrlReferrer == null ? "/Orders/MyOrder" : "javascript:if(history.length>1){ history.go(-1);} else{ location.href='/Orders/MyOrder'}")">
+        返回订单列表
+    </a>
+</div>
+<div class="content-body mTop20">
+    <div class="content-title">
+        <div class="left titlename">订单编号：@(model.OrderCode)</div>
+        <span class="right lineHeight25 mRight10 mTop2" id="lblStatus">@(model.StatusStr)</span>
+        <span class="right lineHeight25 mTop2">订单状态：</span>
+    </div>
+    <ul class="content-info">
+        <li>
+            <span class="column-title">客户名称：</span> 
+            <a href="/Customer/Detail/@(model.CustomerID)" target="_blank">@(model.Customer.Name)</a> </li>
+        <li>
+            <span class="column-title">拥有者：</span> <label class="left" id="lblOwner">@(model.Owner.Name)</label>
+        </li>
+        <li>
+            <span class="column-title">总金额：</span>
+            <label>@(model.TotalMoney.ToString("f2"))</label>
+        </li>
+        <li>
+            <span class="column-title">发货方式：</span>
+            <label>@(model.ExpressTypeStr)</label>
+        </li>
+        <li>
+            <span class="column-title">收货人：</span>
+            <label>@(model.PersonName)</label>
+        </li>
+        <li>
+            <span class="column-title">联系方式：</span>
+            <label>@(model.MobileTele)</label>
+        </li>
+            
+        <li>
+            <span class="column-title">收货地址：</span>
+            <label>@(model.City!=null?(model.City.Province+" "+model.City.City+" "+model.City.Counties):"")@(model.Address)</label>
+        </li>
+        <li>
+            <span class="column-title">订单类型：</span>
+            <label>@(model.OrderType!=null?model.OrderType.TypeName:"--")</label>
+        </li>
+        <li>
+            <span class="column-title">邮编：</span>
+            <label>@(model.PostalCode)</label>
+        </li>
+         <li>
+            <span class="column-title">审核时间：</span>
+            <label id="infoPaymoney">@(model.AuditTime.ToString("yyyy-MM-dd HH:mm:ss"))</label>
+        </li>
+       
+        <li style="width:100%;">
+            <span class="column-title">备注：</span> 
+            <label>@(model.Remark.Trim())</label>
+        </li>
+    </ul>
+    <div class="tab-nav mTop30">
+        <ul class="tab-nav-ul left">
+            <li class="hover" data-id="navProducts">产品明细</li>
+        </ul>
+    </div>
+    <div id="navProducts" class="nav-partdiv">
+        <table class="table-list mTop20">
+            <tr class="tr-header">
+                <td class="tLeft">产品名称</td>
+                <td class="tLeft">规格</td>
+                <td class="width80">单位</td>
+                <td class="tRight">单价</td>
+                <td class="">数量</td>
+                <td class="">已退数量</td>
+                <td class="">申请退货数量</td>
+                <td class="tRight">小计</td>
+            </tr>
+            @foreach (var detail in model.Details)
+            { 
+                <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
+                    <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
+                    <td>@(detail.Remark)</td>
+                    <td class="center">@(detail.UnitName)</td>
+                    <td class="tRight">@detail.Price.ToString("f2")</td>
+                    <td class="center"><label>@(detail.Quantity)</label></td>
+                    <td class="center"><label>@(detail.ReturnQuantity)</label></td>
+                    <td class="center"><input type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-max="@(detail.Quantity-detail.ReturnQuantity)" data-value="@(detail.ApplyQuantity)" class="quantity width80" value="@(detail.ApplyQuantity)" /></td>
+                    <td class="tRight">@((detail.TotalMoney).ToString("f2"))</td>
+                </tr>
+            }
+            <tr class="amount-item">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="tRight">合计：</td>
+                <td class="tRight">@(model.TotalMoney.ToString("f2"))</td>
+            </tr>
+        </table>
+
+        <div class="btn right mTop20" id="btnconfirm" >提交退货申请</div>
+    </div>
+</div>

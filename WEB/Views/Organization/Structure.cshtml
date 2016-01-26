@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "组织架构";
+    var model = (IntFactoryEntity.Users)ViewBag.Model;
+}
+
+@section css{
+    <link rel="stylesheet" href="/modules/css/system/organization.css" />
+}
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/organization/structure"], function (obj) {
+            obj.init('@(Html.ToJSONString(model))');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">组织架构</span>
+</div>
+<div class="content-body">
+
+    <div id="structure" class="structure-list">
+        <div class="child-item">
+             <div class="user-item">
+                 <div class="user-avatar">
+                     <img src="@(string.IsNullOrEmpty(model.Avatar)?"/modules/images/defaultavatar.png":model.Avatar)" />
+                 </div>
+                 <ul class="user-name">
+                     <li class="long">
+                         @(model.Name)
+                     </li>
+                     <li class="long">
+                         @(model.Department!=null?model.Department.Name:"")
+                     </li>
+                 </ul>
+                 <div class="ico-dropdown" data-id="@(model.UserID)"></div>
+            </div>
+        </div>
+    </div>
+   
+    <div class="create-first hide">
+        <span class="plus">+</span>
+        添加最高领导人
+    </div>
+</div>
+<ul class="dropdown-ul hide" style="width:90px;">
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108010401"))" id="addChild">添加下属</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108010402"))" id="changeObject">替换人员</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108010403"))" id="removeObject">移除人员</li>
+</ul>

@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewBag.Title = "个人中心";
+    Layout = "/Views/Shared/_LayoutUserCenter.cshtml";
+
+}
+
+@section css{
+<link href="/modules/css/myaccount/myaccount.css" rel="stylesheet" />
+<link href="/modules/css/myaccount/cropbox.css" rel="stylesheet" />
+}
+<div class="accountContent">
+    <div class="accountHeader">
+        设置头像
+    </div>
+
+    <div class="search-box">
+        <div class="search-header">
+            <ul class="search-tab search-stages">
+                <li data-id="0"  class="hover">头像设置</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-body">
+        <div name="accountInfo">
+            <div class="container">
+                    <div class="imageBox">
+                        <div class="thumbBox"></div>
+                        <div class="spinner" style="display: none">上传头像</div>
+                    </div>
+                <div class="action"> 
+                    <div class="left">
+                        <label for="upload-file" class="btn" >上传头像</label>
+                        <input type="file" class="upload-file" name="upload-file" id="upload-file" />
+                    </div>
+                    <div class="right">
+                            
+                        <input type="button" id="btnCrop"  class="btn mLeft10" value="保存">
+                    </div>
+                    <div class="clear"></div>
+                        
+                </div>
+                <div class="cropped2">
+                    <div><input type="button" id="btnZoomIn" class="btn" style="padding:5px 16px;background-color:#eee;color:#666;font-size:18px;" value="+"  ></div>
+                    <div style="margin-top:325px;"><input type="button" id="btnZoomOut" class="btn mTop20" style="padding:5px 18px;background-color:#eee;color:#666;font-size:20px;" value="-" ></div>
+                </div>
+                <div class="cropped hide"></div>
+            </div>
+        </div>
+    </div>
+</div>
+       
+
+@section scripts{
+<script src="/Scripts/jquery-1.11.1.js"></script>
+
+<script src="/modules/scripts/myaccount/cropbox.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        seajs.use(["scripts/myaccount/setavatar"], function (ObjectJS) {
+            ObjectJS.init();
+        }); 
+    });
+</script>
+}

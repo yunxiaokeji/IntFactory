@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "新建客户";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/customer/create"], function (ObjectJS) {
+            ObjectJS.init('@ViewBag.ActivityID');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">新建客户</span>
+    
+</div>
+<div class="content-body mTop20">
+    <ul class="table-add">
+        <li>
+            <span class="column-title">客户名称：</span>
+            <span><input type="text" maxlength="50" id="name" style="width:300px;" data-empty="必填" class="input verify" /></span> 
+        </li>
+        <li>
+            <span class="column-title">客户来源：</span>
+            <select id="source">
+            @foreach (IntFactoryEntity.CustomSourceEntity model in (List<IntFactoryEntity.CustomSourceEntity>)ViewBag.Sources)
+            {
+                <option value="@(model.SourceID)" data-code="@(model.SourceCode)">@(model.SourceName)</option> 
+            }
+            </select>
+            <label class="mLeft20" id="activityName"></label>
+        </li>
+        <li>
+            <span class="column-title">客户类型：</span> 
+            <span class="ico-checked mTop2 customtype" id="companyCustom" data-type="1">企业客户</span>
+            <span class="ico-check mTop2 customtype" data-type="0">个人客户</span>
+        </li>
+        <li>
+            <span class="column-title">省份城市：</span> 
+            <span id="city"></span>
+        </li>
+        <li>
+            <span class="column-title">详细地址：</span> 
+            <span><input type="text" maxlength="200" style="width:300px;" id="address" class="input" /></span>
+        </li>
+        
+        <li class="company">
+            <span class="column-title">行业：</span>
+            <select id="industry">
+            @foreach (IntFactoryEntity.Industry model in (List<IntFactoryEntity.Industry>)ViewBag.Industrys)
+            {
+                <option value="@(model.IndustryID)">@(model.Name)</option> 
+            }
+            </select>
+        </li>
+        <li  class="company">
+            <span class="column-title">公司规模：</span>
+            <select id="extent">
+            @foreach (IntFactoryEntity.ExtentEntity model in (List<IntFactoryEntity.ExtentEntity>)ViewBag.Extents)
+            {
+                <option value="@(model.ExtentID)">@(model.ExtentName)</option> 
+            }
+            </select>
+        </li>
+        <li  class="company">
+            <span class="column-title">联系人：</span> 
+            <span><input type="text" maxlength="50" id="contactName" class="input" /></span>
+        </li>
+        <li>
+            <span class="column-title">联系电话：</span> 
+            <span><input type="text" maxlength="11" id="contactMobile" data-type="mobile" class="input verify" /></span>
+        </li>
+        <li>
+            <span class="column-title">邮箱：</span>
+            <span><input type="text" maxlength="200" id="email" data-type="email" class="input verify" /></span>
+        </li>
+        <li class="company">
+            <span class="column-title">职位：</span> 
+            <span><input type="text" maxlength="20" id="jobs" class="input" /></span>
+        </li>
+        <li>
+            <span class="column-title">备注：</span>
+            <textarea id="remark"></textarea>
+        </li>
+
+    </ul>
+    <div class="mTop20">
+        <div class="btn" id="btnSave">保存</div>
+        <a class="btn mLeft10" href="@(Url.RequestContext.HttpContext.Request.UrlReferrer == null ? "/Customer/MyCustomer" : "javascript:if(history.length>1){ history.go(-1);} else{ location.href='/Customer/MyCustomer'}")">
+            返回
+        </a>
+    </div>
+</div>
+

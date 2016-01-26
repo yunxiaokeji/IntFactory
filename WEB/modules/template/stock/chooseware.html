@@ -1,0 +1,10 @@
+﻿<ul class="ware-items">
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+    <li class="ware-item" data-id="{%=item.WareID%}">
+        {%=item.Name%}
+    </li>
+{% } %}
+</ul>

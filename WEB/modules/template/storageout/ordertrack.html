@@ -1,0 +1,18 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td class=""><a href="/StorageOut/Detail/{%=item.OrderID%}" target="_blank">{%=item.OrderCode%}</a> </td>
+    <td class="center">{%=item.TotalMoney.toFixed(2)%}</td>
+    <td class="" title="{%=item.Address ||"--"%}">{%=item.Address ||"--"%} </td>
+    <td class='center'>{%=item.PostalCode ||"--"%} </td>
+    <td class='center'>{%= item.PersonName ||"--"%} </td>
+    <td class="center">{%=item.MobileTele||"--"%}</td>
+    <td class="center">{%=item.SendStatusStr%}</td>
+    <td class="center"><a href="/Stock/Detail/{%=item.DocID%}" target="_blank">{%=item.DocCode%}</a> </td>
+    <td class="center">{%=item.ExpressCompany?item.ExpressCompany.Name:""%}</td>
+    <td class="center">{%=item.ExpressCode%}</td>
+    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+</tr>
+{% } %}

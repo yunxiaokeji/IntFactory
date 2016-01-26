@@ -1,0 +1,17 @@
+﻿
+<div class="choose-modules">
+    <div class="top-lump"></div>
+    <ul class="modules-list">
+        {%
+	        for(var i=0, j=$data.length; i < j; i++){
+	        var item = $data[i];
+        %}
+        <li class="modules-item">
+            <a href="/{%=item.Controller%}/{%=item.View%}">
+                <img data-ico="{%=item.IcoPath%}" data-hover="{%=item.IcoHover%}" src="{%=item.IcoPath%}" /> 
+                <span class="mLeft10">{%=item.Name%}</span>
+            </a>
+        </li>
+        {% } %}
+    </ul>
+</div>

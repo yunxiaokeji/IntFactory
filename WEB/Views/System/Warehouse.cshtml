@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "仓库设置";
+}
+<link href="/modules/css/system/system.css" rel="stylesheet" />
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/system/warehouse"], function (obj) {
+            obj.init();
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">仓库设置</span>
+    <div id="addWarehouse" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"108020601"))">新建仓库</div>
+   
+</div>
+<div class="content-body mTop20">
+    <div class="search-body">
+         <div class="right searth-module"> </div> 
+    </div>
+    <table class="table-list">
+        <tr class="tr-header" id="warehouse-items">
+            <td class="tLeft">仓库名称</td>
+            <td class="tLeft">仓库编码</td>
+            <td class="width100">简称</td>
+            <td class="width150">所在地</td>
+            <td class="width100">启用/禁用</td>
+            <td class="width100">设置货位</td>
+            <td class="width300">描述</td>
+            <td class="width100">操作</td>
+        </tr>
+    </table>
+    <div id="pager" class="mTop20"></div>
+</div>
+<ul class="dropdown-ul hide"  style="width:65px;">
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020601"))" id="updateObject">编辑</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020603"))" id="deleteObject">删除</li>
+</ul>

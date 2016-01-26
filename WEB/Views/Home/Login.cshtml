@@ -1,0 +1,75 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="UTF-8">
+    <meta content="二当家，直销平台，企业管理，让营销行云流水" name="keywords">
+    <meta content="中国市场先进的企业供应链SaaS平台系统,提供客户管理,销售管理,进销存管理和分销管理一站式服务。支持第三方应用对接，可针对企业特殊业务流程订制分销模式。" name="description">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <title>二当家-云销科技</title>
+    <link href="/modules/css/layout.css" rel="stylesheet" />
+    <link href="/modules/css/home/login.css" rel="stylesheet" />
+    <link href="/modules/css/base.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="/modules/images/logo_login.png">
+    <script src="/Scripts/sea.js"></script>
+    <script src="/Scripts/sea-config.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/home"], function (home) {
+            home.initLogin('@(ViewBag.Status)');
+
+
+        });
+    </script>
+</head>
+<body>
+    <div class="login-body">
+        <div class="login-header">
+            <div class="left header-logo" onclick="location.href='http://www.yunxiaokeji.com'">
+                <div class="left"><img src="/modules/images/logo_login.png"  style="width:26px;"/></div>
+                <div class="left headerTitle">云销科技</div>
+                <div class="clear"></div>
+            </div>
+            <a class="btnRegister right" href="/Home/Register">注册</a>
+       </div>
+
+        <div class="main">
+             <div class="loginTitle">登录</div>
+            <div class="login">
+                <div class="registerErr hide"></div>
+
+                <div class="loginbar">
+                    <input type="text" class="input icoUserName" id="iptUserName" placeholder="请输入账号" value="@ViewBag.UserName" maxlength="25"/>
+                </div>
+                <div class="loginbar" style="position:relative;">
+                    <input type="password" class="input icoUserPwd" id="iptPwd"/>
+                    <div class="txtBoxPassword">请输入密码</div>
+                </div>
+
+                <div class="remember-box">
+                    <div class="cb-remember-password ico-check ">
+                        一周内保持登录
+                    </div>
+
+                    <div class="right pRight5"><a href="/Home/FindPassword" class="linkRegister">忘记密码?</a></div>
+                </div>
+
+                <div class="btnLogin" id="btnLogin">登录</div>
+
+                <div class="other-account">
+                    <div class="other-text">使用其他账号登录</div>
+                    <div class="accounts">
+                       <a class="mingdao" href="/Home/MDLogin?ReturnUrl=@ViewBag.ReturnUrl"></a>
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+        <div class="copyright">
+            Copyright©2015-2016 <a href="http://www.yunxiaokeji.com">云销科技</a> 沪ICP备15042543号-2
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,232 @@
+﻿
+.left { float:left !important; }
+.right { float:right !important; }
+.hand { cursor:pointer; }
+.middle { vertical-align:middle;}
+.bolder { font-weight:bold; }
+.clear { clear:both; }
+.tLeft { text-align:left !important;}
+.center { text-align:center; }
+.tRight { text-align:right !important;}
+.hide { display:none; }
+.block { display:block; }
+
+/*超过长度显示...*/
+.long { display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.blue { color:#4a98e7 !important;}
+.red { color:red !important;}
+.bRed { border-color:red !important; }
+
+/*字体*/
+.font14 {font-size:14px; }
+.font16 {font-size:16px; }
+.font18 {font-size:18px; }
+.font20 {font-size:20px; }
+
+.color333 { color:#333 !important; }
+.color666 { color:#666 !important; }
+.color999 { color:#999 !important; }
+.colorccc { color:#ccc !important; }
+
+.lineHeight15 { height:15px; line-height:15px;}
+.lineHeight20 { height:20px; line-height:20px;}
+.lineHeight25 { height:25px; line-height:25px;}
+.lineHeight30 { height:30px; line-height:30px;}
+.lineHeight35 { height:35px; line-height:35px;}
+
+/*间距*/
+.pLeft1 {padding-left:1px;}
+.pLeft2 {padding-left:2px;}
+.pLeft3 {padding-left:3px;}
+.pLeft4 {padding-left:4px;}
+.pLeft5 {padding-left:5px;}
+.pLeft10 {padding-left:10px;}
+.pLeft15 {padding-left:15px;}
+.pLeft20 {padding-left:20px;}
+.pLeft25 {padding-left:25px;}
+.pLeft30 {padding-left:30px;}
+.pLeft50 {padding-left:50px;}
+
+.pTop5 {padding-top:5px;}
+.pTop10 {padding-top:10px;}
+.pTop20 {padding-top:20px;}
+.pTop30 {padding-top:30px;}
+.pTop50 {padding-top:50px;}
+
+.pBottom10 {padding-bottom:10px;}
+.pBottom20 {padding-bottom:20px;}
+.pBottom50 {padding-bottom:50px;}
+/*margin*/ 
+.mTop1 {margin-top:1px;}
+.mTop2 {margin-top:2px;}
+.mTop3 {margin-top:3px;}
+.mTop4 {margin-top:4px;}
+.mTop5 {margin-top:5px;}
+.mTop10 {margin-top:10px;}
+.mTop15 {margin-top:15px;}
+.mTop20 {margin-top:20px;}
+.mTop30 {margin-top:30px;}
+.mTop40 {margin-top:40px;}
+.mTop50 {margin-top:50px;}
+
+.mLeft1 {margin-left:1px;}
+.mLeft2 {margin-left:2px;}
+.mLeft3 {margin-left:3px;}
+.mLeft4 {margin-left:4px;}
+.mLeft5 {margin-left:5px;}
+.mLeft10 {margin-left:10px;}
+.mLeft15 {margin-left:15px;}
+.mLeft20 {margin-left:20px;}
+.mLeft30 {margin-left:30px;}
+.mLeft40 {margin-left:40px;}
+.mLeft50 {margin-left:50px;}
+
+.mRight1 {margin-right:1px;}
+.mRight2 {margin-right:2px;}
+.mRight3 {margin-right:3px;}
+.mRight4 {margin-right:4px;}
+.mRight5 {margin-right:5px;}
+.mRight10 {margin-right:10px;}
+.mRight15 {margin-right:15px;}
+.mRight20 {margin-right:20px;}
+.mRight30 {margin-right:30px;}
+.mRight50 {margin-right:50px;}
+
+.mBottom1 {margin-bottom:1px;}
+.mBottom2 {margin-bottom:2px;}
+.mBottom3 {margin-bottom:3px;}
+.mBottom4 {margin-bottom:4px;}
+.mBottom5 {margin-bottom:5px;}
+.mBottom10 {margin-bottom:10px;}
+.mBottom15 {margin-bottom:15px;}
+.mBottom20 {margin-bottom:20px;}
+.mBottom30 {margin-bottom:30px;}
+.mBottom50 {margin-bottom:50px;}
+
+/*常用宽度*/
+.width30 { width:30px !important; }
+.width50 { width:50px !important; }
+.width60 { width:60px !important; }
+.minwidth70 { min-width:70px !important; }
+.width80 { width:80px !important; }
+.width100 { width:100px !important; }
+.width120 { width:120px !important; }
+.width150 { width:150px !important; }
+.width200 { width:200px !important; }
+.width300 { width:300px !important; }
+.width310 { width:310px !important; }
+.width500 { width:500px !important; }
+
+
+* { padding: 0; margin: 0; font-size:9pt; color:#333; font-family:'Microsoft YaHei' !important; }/*033d91*/
+li{ list-style-type:none;}
+a { color: #4a98e7; text-decoration: none;}
+
+input[type="text"] { border:solid 1px #ccc; border-radius:2px;height:25px; line-height:25px; padding:0 5px; }
+input[type="text"]:focus { border:solid 1px #318ae4; }
+
+input[type="password"] { border:solid 1px #ccc; border-radius:2px;height:25px; line-height:25px; padding:0 5px; }
+input[type="password"]:focus { border:solid 1px #318ae4; }
+
+textarea { min-height: 60px; border:solid 1px #ccc; border-radius:2px;text-indent:3px;resize:none;}
+textarea:focus { border:solid 1px #318ae4;}
+
+select{ border:solid 1px #ccc; border-radius:2px; height:25px; line-height:25px; padding:0 5px;}
+select option{ padding:2px; }
+
+/*按钮和图标*/
+.btn {  padding:5px 10px; background-color:#4a98e7; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; line-height:18px;
+        -moz-transition:all 0.3s;
+        -webkit-transition:all 0.3s;
+        -o-transition:all 0.3s;
+}
+.btn:hover { background-color:#2F73B8; }
+
+.btn-add{ background:url(../images/ico-btnadd.png) no-repeat 7px 7px; line-height:18px; padding:5px 10px; border-radius:2px;
+          display:inline-block; cursor:pointer; padding-left:23px; color:#fff; background-color:#4a98e7;
+          -moz-transition:all 0.3s;
+          -webkit-transition:all 0.3s;
+          -o-transition:all 0.3s;
+}
+.btn-add:hover{ background-color:#2F73B8;}
+
+.btnccc {  padding:5px 10px; background-color:#ccc; color:#333; border:none; cursor:pointer; display:inline-block; border-radius:2px; line-height:18px; }
+.btnccc:hover { background-color:#999; color:#fff; }
+
+.btn999 {  padding:5px 10px; background-color:#999; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; line-height:18px; }
+.btn999:hover { background-color:#666; color:#fff; }
+
+/*添加*/
+.ico-add{ background:url(../images/ico-add.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+          display:inline-block; cursor:pointer; padding-left:28px; color:#666; font-size:13px; }
+.ico-add:hover{ background:url(../images/ico-addhover.png) no-repeat; color:#4a98e7; }
+
+/*返回*/
+.ico-back{ background:url(../images/ico-back.png) no-repeat 0px -1px; height:24px; min-width:24px; line-height:24px; 
+          display:inline-block; cursor:pointer; color:#4a98e7; padding-left:28px; font-size:13px;  }
+.ico-back:hover{ color:#2F73B8; }
+
+/*替换*/
+.ico-change{ background:url(../images/ico-change.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+          display:inline-block; cursor:pointer; padding-left:28px; color:#666; font-size:13px; }
+.ico-change:hover{ background:url(../images/ico-changehover.png) no-repeat; color:#4a98e7; }
+
+/*编辑*/
+.ico-edit{ background:url(../images/ico-edit-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+          display:inline-block; cursor:pointer;  color:#666; }
+.ico-edit:hover{ background:url(../images/ico-edit-deep.png) no-repeat;}
+
+/*删除-垃圾箱*/
+.ico-del{ background:url(../images/ico-del-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+          display:inline-block; cursor:pointer; color:#666; }
+.ico-del:hover{ background:url(../images/ico-del-deep.png) no-repeat;}
+
+/*删除 叉*/
+.ico-delete{ background:url(../images/ico-delete.png) no-repeat; height:20px; min-width:20px; line-height:20px; 
+          display:inline-block; cursor:pointer;}
+
+/*帮助*/
+.ico-help{ background:url(../images/ico-help.png) no-repeat; height:20px; min-width:20px; line-height:20px; 
+          display:inline-block; cursor:pointer;}
+
+/*下拉*/
+.ico-dropdown{ background:url(../images/ico-dropdown.png) no-repeat; height:12px; min-width:12px; line-height:12px; 
+          display:inline-block; cursor:pointer;}
+.ico-dropdown-white{ background:url(../images/ico-dropdown-white.png) no-repeat; height:11px; min-width:11px; line-height:11px; 
+          display:inline-block; cursor:pointer;}
+
+/*复选框*/
+.ico-check{ background:url(../images/ico-check.png) no-repeat; height:20px; min-width:20px; line-height:20px; text-indent:20px; 
+          display:inline-block; cursor:pointer;}
+.ico-checked{ background:url(../images/ico-checked.png) no-repeat; height:20px; min-width:20px; line-height:20px;  text-indent:20px;
+          display:inline-block; cursor:pointer;}
+
+
+/*alert 弹出层样式*/
+
+.alert-layer {position: fixed; z-index:99998; top:0; left:0;right:0; bottom:0; background-color:#666; opacity:0.6;}
+
+.alert { border: 1px solid #2F73B8; background-color: #fff; font-size: 13px; position: fixed; top:35%; z-index: 99999; 
+         min-width: 330px; max-width:450px; box-shadow: 0 0 2px #666; overflow:auto; }
+
+.alert .alert-header { height:30px;line-height:30px; font-weight:bold; font-size:14px; color:#fff; text-indent:15px; background-color:#2F73B8;}
+.alert .alert-wrap { line-height:20px; margin:20px 15px;word-wrap: break-word;  word-break:break-all; text-align:center; }
+.alert .alert-bottom { height:25px; margin:10px 15px 15px; text-align:center; }
+
+.alert .confirm { padding:5px 10px; background-color:#4a98e7; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; }
+.alert .confirm:hover {  background-color:#2F73B8;  }
+.alert .close { padding:5px 10px; background-color:#ccc; color:#666; border:none; cursor:pointer; display:inline-block; border-radius:2px; }
+.alert .close:hover {  background-color:#999; color:#fff; }
+
+
+/*下拉菜单样式*/
+.dropdown { cursor:pointer; }
+.dropdown-ul { padding:10px 0; border:solid 1px #ccc; border-radius:5px; position:absolute; background-color:#fff; overflow:auto; box-shadow:0 0 5px #999; }
+.dropdown-ul li{ padding:0 20px; height:25px; line-height:25px; cursor:pointer; }
+.dropdown-ul li:hover{  background-color:#eee; color:#318ae4; }
+
+
+/*上传按钮样式*/
+.ico-upload {  padding:5px 10px; background-color:#4a98e7; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; }
+.ico-upload:hover { background-color:#2F73B8; }

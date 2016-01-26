@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "新建出库单";
+    var ware = (IntFactoryEntity.WareHouse)ViewBag.Ware;
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/stock/createhandout"], function (obj) {
+            obj.init('@(ware.WareID)');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">新建出库单</span>
+</div>
+<div class="content-body mTop20">
+     <ul class="table-add">
+        <li>
+            <span class="column-title">仓库：</span>
+            @ware.Name
+        </li>
+        <li>
+            <span class="column-title">备注：</span> 
+            <span">
+                 <textarea id="remark" class="width310"></textarea>
+            </span>
+           
+        </li>
+    </ul>
+    <div class="tab-nav mTop30">
+        <ul class="tab-nav-ul left">
+            <li class="hover" data-id="navRemark">产品明细</li>
+        </ul>
+        <div class="btn right" id="btnChooseProduct">添加出库产品</div>
+    </div>
+    <table class="table-list">
+        <tr class="tr-header">
+            <td class="tLeft">产品名称</td>
+            <td class="tLeft">规格</td>
+            <td class="center width80">货位</td>
+            <td class="tLeft">批次</td>
+            <td class="center">数量</td>
+            <td class="center width80">删除</td>
+        </tr>
+        @foreach (var model in (List<IntFactoryEntity.ProductDetail>)ViewBag.Items)
+        { 
+            <tr class="item cart-item" data-autoid="@(model.AutoID)" data-id="@(model.ProductDetailID)" >
+                <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)&type=1" target="_blank">@(model.ProductName)</a></td>
+                <td>@(model.Description)</td>
+                <td class="center">@(model.DepotCode)</td>
+                <td>@(model.BatchCode)</td>
+                <td class="center tr-quantity"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity)" /></td>
+                <td class="center">
+                    <a class="ico-del" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="mTop20">
+        <div class="btn right" id="btnconfirm">提交出库单</div>
+    </div>
+</div>

@@ -1,0 +1,170 @@
+﻿@{
+    ViewBag.Title = "购买二当家";
+    Layout = "/Views/Shared/_LayoutNoLeft.cshtml";
+}
+
+@section css{
+<style type="text/css">
+body{
+background-color:#fff;    
+}
+
+.main-content {
+  margin-left:0px;  
+}
+</style>
+
+<link href="/modules/css/auction/buynow.css" rel="stylesheet" />
+}
+
+<div class="content-body">
+
+    <div class="step">
+        <div class="mBottom20">
+            <div class="left selectProduct">
+                <div class="stepIco stepIcoActive left">1</div>
+                <div class="left stepDes stepDesActive">选择产品</div>
+                <div class="clear"></div>
+            </div>
+            <div class="left mLeft15 sureOrder">
+                <div class="stepIco left" style="margin-left:46px;">2</div>
+                <div class="left stepDes">确认订单</div>
+                <div class="clear"></div>
+            </div>
+            <div class="left mLeft15 payOrder">
+                <div class="stepIco left" style="margin-left:46px;">3</div>
+                <div class="left stepDes">支付订单</div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear "></div>
+        </div>
+    </div>
+
+
+    <div class="productList">
+        <table class="productListTB" border="0"  cellpadding="0" cellspacing="0" >
+            <tr class="trBG">
+                <td style="border:none;">
+                    <div style="padding:8px 45px;">
+                        <div class="left" style="position:relative;width:16px;">
+                            <div class="diagonalDiv">
+                                <div class="diagonalLine"></div>
+                            </div>
+                            <div class="diagonalDiv2">
+                                <div class="diagonalLine2"></div>
+                            </div>      
+                       </div>
+                        <div class="left" style="color:#999;">时间</div>
+                        <div class="clear"></div>
+
+               
+                        <div style="position:relative;width:16px;margin-left:16px;">
+                            <div class="diagonalDiv">
+                                <div class="diagonalLine"></div>
+                            </div>
+                            <div class="diagonalDiv2">
+                                <div class="diagonalLine2"></div>
+                            </div>
+                            <div style="position:absolute;width:24px;left:-23px;top:-3px;color:#999;">人数</div>
+                       </div>
+                    </div>
+                </td> 
+                <td>1年价格(元)</td> 
+                <td>2年价格(元)</td> 
+                <td>3年价格(元)</td>  
+            </tr>
+        </table> 
+
+        <div class="buyDes">选择购买人数<span class="buyGoodPrice">(首次购买,特惠<span class="red font20 mLeft5 mRight5">@ViewBag.Discount</span>折)</span></div>
+
+        <div class="selectPrpduct">
+            <ul>
+                <li>
+                    <span>人数</span>
+                    <span class="mLeft10">
+                        <input type="text" style="width:65px;" id="UserCount" data-empty="* 必填" value="@ViewBag.UserQuantity" class="input verify" data-type="int" data-text="格式不正确!"/>
+                    </span>
+                    <span style="color:#06c;">* 首次购买人数不能少于10人,若您公司人数超过500人，请<a href="#">联系我们</a>，为您专业定制</span>
+                </li>
+                <li>
+                    <span>时间</span>
+                    <span class="mLeft10">
+                        <select id="UserYear">
+                            <option value="1">1年</option>
+                            <option value="2">2年</option>
+                            <option value="3">3年</option>
+                        </select>
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="mTop20">
+            <div class="totalPrice">
+                <span>金额</span>
+                <span class="mLeft10" id="Price">@ViewBag.RealAmount</span><span>￥</span>
+            </div>
+            <div class="mTop20"><input type="button" id="btn_sureOrder" value="下一步" class="btn" /></div>
+        </div>
+
+    </div>
+
+    <div class="productOrder hide">
+        <div class="orderInfo">
+            <div class="orderInfoTitle">产品信息</div>
+            <div class="orderInfoDetail">
+                <span>人数 :</span><span class="mLeft5" id="orderUserCount">@ViewBag.UserQuantity</span><span>人</span>
+                <span class="mLeft20">时间 :</span><span class="mLeft5" id="orderYear">@ViewBag.Years</span><span>年</span>
+                <span class="mLeft20" style="color:#4a98e7;font-size:18px;">金额 :</span>
+                <span class="mLeft5" style="color:#4a98e7;font-size:18px;" id="orderPrice">@ViewBag.RealAmount</span>
+                <span class="mLeft5" style="color:#4a98e7;font-size:18px;">￥</span>
+            </div>
+        </div>
+
+         <div class="mTop50">
+             <input type="button" id="btn_backSelectPrpduct" style="background-color:#aaa;" value="上一步" class="btn" />
+             <input type="button"  id="btn_payOrder" value="下一步" class="btn mLeft20" />
+
+         </div>
+    </div>
+
+    <div class="payProductOrder hide">
+          <div class="orderInfoTitle">订单信息</div>
+            <div class="orderInfoDetail">
+                <span class="mLeft20" style="color:#4a98e7;font-size:18px;">金额 :</span>
+                <span class="mLeft5" style="color:#4a98e7;font-size:18px;" id="orderAmount">@ViewBag.RealAmount</span>
+                <span class="mLeft5" style="color:#4a98e7;font-size:18px;">￥</span>
+            </div>
+
+          <div class="orderInfo mTop15">
+            <div class="orderInfoTitle">支付方式 <span>(现仅支持支付宝)</span></div>
+            <div style="border:solid 1px #eee;padding:10px;width:125px;margin-top:20px;">
+                <img style="width:125px;height:38px;" src="/modules/images/ico-alipay.png"/>
+            </div>
+        </div>
+
+        <div class="mTop50">
+             <input type="button"  id="btn_toPayOrder" value="下一步" class="btn" />
+
+         </div>
+    </div>
+
+</div>
+
+@section scripts{
+<script src="/modules/scripts/auction/buynow.js"></script>
+
+<script type="text/javascript">
+
+    seajs.use(["scripts/auction/buynow"], function (ObjectJS) {
+        ObjectJS.init(1, '@ViewBag.ClientOrdersCount', '@ViewBag.OrderID');
+    });
+</script>
+}
+
+
+
+
+
+
+

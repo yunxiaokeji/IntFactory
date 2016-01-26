@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "新建员工";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/organization/users"], function (ObjectJS) {
+            ObjectJS.initCreate();
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">新建员工</span>
+    
+</div>
+<div class="content-body mTop20">
+    <ul class="table-add">
+        <li>
+            <span class="column-title">登录账号：</span> 
+            <span><input type="text" maxlength="20" id="loginname" data-empty="账号不能为空！" data-text="格式不正确！" data-type="word" class="input verify" /></span>
+        </li>
+        <li>
+            <span class="column-title">姓名：</span>
+            <span><input type="text" maxlength="50" id="name"  data-empty="必填" class="input verify" /></span> 
+        </li>
+        <li>
+            <span class="column-title">部门：</span>
+            <select id="departments">
+            @foreach (IntFactoryEntity.Department model in (List<IntFactoryEntity.Department>)ViewBag.Departments)
+            {
+                <option value="@(model.DepartID)">@(model.Name)</option> 
+            }
+            </select>
+        </li>
+        <li>
+            <span class="column-title">角色：</span>
+            <select id="role">
+            @foreach (IntFactoryEntity.Role model in (List<IntFactoryEntity.Role>)ViewBag.Roles)
+            {
+                <option value="@(model.RoleID)">@(model.Name)</option> 
+            }
+            </select>
+        </li>
+        <li>
+            <span class="column-title">职位：</span> 
+            <span><input type="text" maxlength="20" id="jobs" class="input" /></span>
+        </li>
+        <li>
+            <span class="column-title">省份城市：</span> 
+            <span id="city"></span>
+        </li>
+        <li>
+            <span class="column-title">详细地址：</span> 
+            <span><input type="text" maxlength="200" style="width:300px;" id="address" class="input" /></span>
+        </li>
+        <li>
+            <span class="column-title">邮箱：</span>
+            <span><input type="text" maxlength="200" id="email" data-type="email" class="input verify" /></span>
+        </li>
+        <li>
+            <span class="column-title">备注：</span>
+            <textarea id="remark"></textarea>
+        </li>
+
+    </ul>
+    <div class="mTop20">
+        <div class="btn @(ExpandClass.IsLimits(HttpContext.Current,"108010302"))" id="btnSave">保存</div>
+        <a class="btn mLeft10" href="/Organization/Users">
+            返回
+        </a>
+    </div>
+</div>
+

@@ -1,0 +1,15 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td>{%=item.DepotCode%}</td>
+    <td>{%=item.Name%}</td>
+    <td>{%=item.WareName%}</td>
+    <td class='center'><div class="status" data-id="{%=item.DepotID%}" data-value="{%=item.Status==1%}"></div></td>
+    <td title="{%=item.Description%}" class="width300">{%=item.Description%}</td>
+    <td class="center dropdown" data-id="{%=item.DepotID%}">
+        <span  class="ico-dropdown"></span>
+    </td>
+</tr>
+{% } %}

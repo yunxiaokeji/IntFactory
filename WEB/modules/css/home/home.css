@@ -1,0 +1,40 @@
+﻿
+
+.home-body {  position:fixed; bottom:0; top:0; width:100%; background:url('/Content/homeico/homebg.jpg') no-repeat right bottom; background-size:cover; }
+
+.report-box { margin:0 auto; padding-left:20px; display:none; }
+
+.report-item { width:300px; height:210px; margin:20px; float:left; border-radius:10px; border:solid 1px #eee; box-shadow:0 0 2px #eee;}
+
+.report-item .item-header { height:100px; padding-top:20px; position:relative; border-top-left-radius:10px; border-top-right-radius:10px;}
+.report-item h1 { color:#fff; text-align:center; line-height:30px; font-size:15px; }
+.report-item .triangle {border-bottom:solid 10px #fff; border-left:solid 10px transparent ;border-right:solid 10px transparent; 
+                                   width:0; height:0; position:absolute; bottom:0px; left:140px;}
+
+.report-item .item-main { background-color:#fff; height:70px; padding-top:20px; }
+.item-title li{ width:33.3%; color:#999; float:left; text-align:center; line-height:20px; }
+
+.item-value li{ width:33%;float:left; text-align:center;  line-height:30px;  color:#000; font-size:20px;}
+.item-value li:first-child{ border-right:solid 1px #ccc;}
+.item-value li:last-child{ border-left:solid 1px #ccc;}
+.item-value li label{ color:#000; font-size:20px; }
+
+.report-item .bgactive { background-color:#99c2f9; }
+.report-item .active-ico { height:55px; background:url('/Content/homeico/active.png') no-repeat center; }
+
+.report-item .bgcustom { background-color:#f9da8d; }
+.report-item .custom-ico { height:55px; background:url('/Content/homeico/custom.png') no-repeat center; }
+
+.report-item .bgoppor { background-color:#c8eba0; }
+.report-item .oppor-ico { height:55px; background:url('/Content/homeico/oppor.png') no-repeat center; }
+
+.report-item .bgorder { background-color:#c1afef;}
+.report-item .order-ico { height:55px; background:url('/Content/homeico/order.png') no-repeat center; }
+
+.report-item .bglogin { background-color:#f8aa9b; }
+.report-item .login-ico { height:55px; background:url('/Content/homeico/login.png') no-repeat center; }
+
+.report-item .bgbuy { background-color:#93dcf6; }
+.report-item .buy-ico { height:55px; background:url('/Content/homeico/buy.png') no-repeat center; }
+
+

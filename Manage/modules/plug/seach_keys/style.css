@@ -1,0 +1,6 @@
+﻿
+/*页面头部搜素框*/
+.searth-module { position: relative; }
+.searth-module .search-ipt { min-width: 260px; height:28px; line-height:28px; border-radius:2px; text-indent:5px; }
+.searth-module .search-ico { background: url("/modules/images/ico_search.png") no-repeat scroll rgba(0, 0, 0, 0); height: 18px; position: absolute; right: 7px; top: 5px; width: 18px; }
+

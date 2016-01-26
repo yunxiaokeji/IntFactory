@@ -1,0 +1,52 @@
+﻿
+
+/*搜索条件*/
+.search-box { margin-top:15px; }
+
+/*search-tab*/
+.search-header { height:35px; overflow:auto;}
+.search-header .search-tab { height:35px; float:left; }
+.search-header .search-tab li{ padding:0 10px; cursor:pointer; min-width:70px; text-align:center; margin-right:5px;height:30px; line-height:30px; color:#fff;
+                               float:left; background-color:#B5C2CA; border-radius:2px; }
+.search-header .search-tab li:hover{ background-color:#fff; color:#4a98e7;}
+.search-header .search-tab li.hover{ height:35px; background-color:#fff; color:#4a98e7; border-bottom-left-radius:0; border-bottom-right-radius:0;}
+
+.search-header .search-tab-status { float:right; height:25px; line-height:25px;margin-top:5px; }
+.search-header .search-tab-status li{ float:left; margin-left:5px; padding:0 15px; cursor:pointer; text-align:center; color:#666; border-radius:13px;}
+.search-header .search-tab-status li:hover{ background-color:#ccc; color:#fff;}
+.search-header .search-tab-status li.hover{ background-color:#4a98e7; color:#fff;}
+
+
+/*表格样式*/
+.table-list { width: 100%; border-spacing: 0px;}
+
+.table-list .tr-header{ height:35px; text-align:center; }
+.table-list .tr-header td{ height:35px; border-bottom:solid 2px #eee; font-size:13px; color:#999; padding:0 5px;
+                           white-space:nowrap; overflow: hidden; text-overflow:ellipsis; }
+
+.table-list tr:not(:first-child){ height:35px; cursor:pointer; }
+.table-list tr:not(:first-child):hover { background-color: #f6f6f6; }
+.table-list tr:not(:first-child) td{ padding:5px; line-height:35px; border-bottom:solid 1px #eee; max-width:500px; color:#333; 
+                                     white-space:nowrap; overflow: hidden; text-overflow:ellipsis;  }
+
+.table-list td a{ color:#4a98e7;  vertical-align:middle;}
+.table-list td a:hover{ color:red; text-decoration:underline; }
+
+.table-list td img{ width:40px; height:40px;  vertical-align:middle;}
+
+.table-list .ico-check { vertical-align:middle; }
+.table-list .ico-checked { vertical-align:middle; }
+
+/*批量操作*/
+.batch-operate { padding-left:5px; height:20px; line-height:20px; }
+.batch-operate li{ float:left;}
+
+/*表格样式-rpt*/
+.table-list-rpt { width:100%; border-top:solid 1px #ccc;border-left:solid 1px #ccc; border-collapse:collapse;border-spacing:0;}
+.table-list-rpt tr{ height:25px; line-height:25px;  background-color: #fff;}
+.table-list-rpt tr:hover { background-color: #eee; }
+.table-list-rpt td{ border-bottom:solid 1px #ccc;border-right:solid 1px #ccc; padding:5px 10px; vertical-align:middle;  }
+.table-list-rpt a{ color:#333;  vertical-align:middle;}
+.table-list-rpt a:hover{ color:red; text-decoration:underline; }
+.table-list-rpt .tr-header{ text-align:center;font-weight:bold; height:35px; }
+.table-list-rpt .tr-header td{ background-color:#eee; color:#2a3441;}

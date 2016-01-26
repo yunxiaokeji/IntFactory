@@ -1,0 +1,69 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<li class="activityCardListLi">
+    <div class="activityItem">
+        <div class="activityImg">
+            <a href="/Activity/Detail/{%=item.ActivityID%}" target="_blank">
+                <img src="{%=item.Poster==''?'/modules/images/defaultactivity.jpg':item.Poster%}" onerror="javascript:this.src='/modules/images/defaultactivity.jpg';" />
+            </a>
+        </div>
+
+        <div style="margin:8px;">
+            <table width="100%" cellspacing="0">
+                <tr>
+                    <td colspan="2">
+                        <div class="cardActivityName" title="{%=item.Name%}">
+                            <a  style="color:#666;font-size:18px;" href="/Activity/Detail/{%=item.ActivityID%}" target="_blank">{%=item.Name%}</a>
+                        </div>
+                    </td>
+                    <td align="right">
+                        <div class="dropdown" data-id="{%=item.ActivityID%}" style="background-color:#4A98E7;border-radius:3px;padding:1px 6px 1px 4px;">
+                            <span class="ico-dropdown-white"></span>
+                        </div>
+                    </td>
+                 </tr>
+                 <tr>
+                    <td width="48">负责人：</td>
+                    <td><span class="activitymember" style="color:#666;" data-id="{%=item.Owner.UserID%}">{%=item.Owner.Name%}</span></td>
+                    <td></td>
+                </tr>
+                 <tr>
+                    <td>成员：</td>
+                    <td>
+                        <div id="CardMemberList">
+                        {%
+	                        for(var l=0; l<item.Members.length;l++){
+	                        var m = item.Members[l];
+                        %}
+
+                        {%=m.Name%}
+
+                        {% } %}
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>时间：</td>
+                    <td style="color:#666;">{%=item.BeginTime.toDate("yyyy-MM-dd") %} - {%=item.EndTime.toDate("yyyy-MM-dd") %}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>地址：</td>
+                    <td>
+                        <div class="cardActivityAddress" style="color:#666;" title="{%=item.Address%}">{%=item.Address%}</div>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="activityUnderline1"></div>
+    <div class="activityUnderline2"></div>
+</li>
+{% } %}
+<div class="clear"></div>

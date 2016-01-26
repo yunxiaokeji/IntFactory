@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "员工管理";
+    var roles = (List<IntFactoryEntity.Role>)ViewBag.Roles;
+    var departs = (List<IntFactoryEntity.Department>)ViewBag.Departments;
+}
+
+@section css{
+    <link rel="stylesheet" href="/modules/css/system/organization.css" />
+}
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/organization/users"], function (obj) {
+            obj.init('@Html.ToJSONString(roles)', '@Html.ToJSONString(departs)', '@ViewBag.MDToken');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">员工管理</span>
+    <a href="CreateUser" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"108010302"))" id="addUser">添加员工</a>
+    <div class="btn-add right mRight10 @(ExpandClass.IsLimits(HttpContext.Current,"108010301"))" id="addMDUser">添加明道用户</div>
+</div>
+
+<div class="content-body mTop20">
+    <div class="search-body">
+        <div id="ddlDepart" class="left"></div>
+        <div id="ddlRole" class="left mLeft20"></div>
+        <div class="right searth-module" data-text="输入姓名/手机/Email..." data-width="200"> </div>
+    </div>
+    <table class="table-list">
+        <tr class="tr-header">
+            <td class="tLeft">姓名</td>
+            <td class="width150">手机号码</td>
+            <td class="tLeft">Email</td>
+            <td>部门</td>
+            <td>角色</td>
+            <td class="width150">创建时间</td>
+            <td class="width150">创建人</td>
+            <td class="width80">操作</td>
+        </tr>
+    </table>
+    <div id="pager" class="mTop20"></div>
+</div>
+<ul class="dropdown-ul hide" style="width:90px;">
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108010303"))" id="setObjectRole">角色设置</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108010304"))" id="deleteObject">注销员工</li>
+</ul>

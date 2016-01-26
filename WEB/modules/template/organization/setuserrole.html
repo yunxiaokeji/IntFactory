@@ -1,0 +1,10 @@
+﻿<ul id="setUserRoleBox" class="role-items">
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+    <li class="role-item" data-id="{%=item.RoleID%}">
+        {%=item.Name%}
+    </li>
+{% } %}
+</ul>

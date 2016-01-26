@@ -1,0 +1,249 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="/modules/css/base.css" rel="stylesheet" />
+    <link href="/modules/css/layout.css" rel="stylesheet" />
+    <link href="/modules/css/default/detail.css" rel="stylesheet" />
+    <link href="/modules/css/default/list.css" rel="stylesheet" />
+    @RenderSection("css", false)
+</head>
+
+<body>
+    @{
+        IntFactoryEntity.Manage.M_Users CurrentUser = (IntFactoryEntity.Manage.M_Users)Session["Manager"];
+        string controller =  Url.RequestContext.RouteData.Values["controller"].ToString().ToLower();
+        string action = Url.RequestContext.RouteData.Values["action"].ToString().ToLower();
+        var logo = "/modules/images/logo.png";
+    }
+
+    <header>
+        <div class="logo left">
+            <a href="/Home/Index"><img src="@logo" /></a>
+        </div>
+        <div class="left companyname long" title="上海云销信管理后台">
+            上海云销信息科技有限公司
+        </div>
+        <ul id="modulesMenu" class="menu left">
+             <li class="left" BindController="home">
+                    <a href="/home/index" >
+                        <span class="name">首页</span>
+                        <span class="cursor"></span>
+                    </a> 
+                </li>
+                <li class="left" BindController="client">
+                    <a href="/Client/index" >
+                        <span class="name">客户</span>
+                        <span class="cursor"></span>
+                    </a> 
+                </li>
+                <li class="left" BindController="modulesproduct">
+                    <a href="/ModulesProduct/index" >
+                        <span class="name">产品</span>
+                        <span class="cursor"></span>
+                    </a> 
+                </li>
+                <li class="left" BindController="expresscompany">
+                    <a href="/ExpressCompany/index" >
+                        <span class="name">快递公司</span>
+                        <span class="cursor"></span>
+                    </a> 
+                </li>
+                <li class="left" BindController="industry">
+                    <a href="/Industry/index" >
+                        <span class="name">公司行业</span>
+                        <span class="cursor"></span>
+                    </a> 
+                </li>
+                <li class="left" BindController="feedback">
+                    <a href="/FeedBack/index" >
+                        <span class="name">意见反馈</span>
+                        <span class="cursor"></span>
+                    </a> 
+                </li>
+                <li class="left" BindController="order">
+                    <a href="/Order/index" >
+                        <span class="name">订单</span>
+                        <span class="cursor"></span>
+                    </a> 
+                </li>
+                <li class="left" BindController="report">
+                    <a href="/Report/AgentActionReport" >
+                        <span class="name">统计</span>
+                        <span class="cursor"></span>
+                    </a> 
+                </li>
+                <li class="left" BindController="system">
+                    <a href="/System/Admin" >
+                        <span class="name">系统</span>
+                        <span class="cursor"></span>
+                    </a> 
+            </li>
+        </ul>
+        <div id="currentUser" class="currentuser right">
+            <span>
+                <img src="@(string.IsNullOrEmpty(CurrentUser.Avatar)?"/modules/images/defaultavatar.png":CurrentUser.Avatar)" class="avatar" />
+            </span>
+            <span class="username">
+                @(CurrentUser.Name)
+            </span>
+            <span class="dropdown">
+                <span class="dropdown-top"></span>
+                <span class="dropdown-bottom"></span>
+            </span>
+        </div>
+    </header>
+
+    <div class="main-body">
+        <nav> 
+            <div class="controller" BindController="client">
+                <div class="controller-box">
+                    <div class="controller-name">
+                        <span class="open left"></span>
+                        <span class="name left">客户管理</span>
+                    </div>
+                </div>
+
+                <ul class="action-box">
+                    <li class="action" BindAction="create"><a href="/Client/Create" >添加客户</a></li>
+                    <li class="action" BindAction="index"><a href="/Client/index" >客户列表</a></li>
+                </ul>
+            </div>
+
+            <div class="controller" BindController="modulesproduct">
+                <div class="controller-box">
+                    <div class="controller-name">
+                        <span class="open left"></span>
+                        <span class="name left">产品管理</span>
+                    </div>
+                </div>
+
+                <ul class="action-box">
+                    <li class="action " BindAction="detail"><a href="/ModulesProduct/Detail" >添加产品</a></li>
+                    <li class="action " BindAction="index"><a href="/ModulesProduct/index" >产品列表</a></li>
+                </ul>
+            </div>
+
+            <div class="controller" BindController="expresscompany">
+                <div class="controller-box">
+                    <div class="controller-name">
+                        <span class="open left"></span>
+                        <span class="name left">快递公司管理</span>
+                    </div>
+                </div>
+
+                <ul class="action-box">
+                    <li class="action " BindAction="detail"><a href="/ExpressCompany/Detail" >添加快递公司</a></li>
+                    <li class="action " BindAction="index"><a href="/ExpressCompany/index" >快递公司列表</a></li>
+                </ul>
+            </div>
+
+            <div class="controller" BindController="industry">
+                <div class="controller-box">
+                    <div class="controller-name">
+                        <span class="open left"></span>
+                        <span class="name left">公司行业管理</span>
+                    </div>
+                </div>
+
+                <ul class="action-box">
+                     <li class="action " BindAction="detail"><a href="/Industry/Detail" >添加公司行业</a></li>
+                     <li class="action " BindAction="index"><a href="/Industry/index" >公司行业列表</a></li>
+                </ul>
+            </div>
+
+            <div class="controller" BindController="feedback">
+                <div class="controller-box">
+                    <div class="controller-name">
+                        <span class="open left"></span>
+                        <span class="name left">意见反馈管理</span>
+                    </div>
+                </div>
+
+                <ul class="action-box">
+                     <li class="action " BindAction="index"><a href="/FeedBack/index" >意见反馈列表</a></li>
+                </ul>
+            </div>
+
+            <div class="controller" BindController="order">
+                <div class="controller-box">
+                    <div class="controller-name">
+                        <span class="open left"></span>
+                        <span class="name left">订单</span>
+                    </div>
+                </div>
+
+                <ul class="action-box">
+                     <li class="action " BindAction="index"><a href="/Order/Index" >客户订单列表</a></li>
+                </ul>
+            </div>
+
+            <div class="controller" BindController="report">
+                <div class="controller-box">
+                    <div class="controller-name">
+                        <span class="open left"></span>
+                        <span class="name left">统计</span>
+                    </div>
+                </div>
+
+                <ul class="action-box">
+                     <li class="action " BindAction="agentactionreport"><a href="/Report/AgentActionReport" >客户行为统计</a></li>
+                </ul>
+            </div>
+
+            <div class="controller" BindController="system">
+                <div class="controller-box">
+                    <div class="controller-name">
+                        <span class="open left"></span>
+                        <span class="name left">系统信息</span>
+                    </div>
+                </div>
+
+                <ul class="action-box">
+                     <li class="action " BindAction="admin"><a href="/System/admin" >管理员设置</a></li>
+                </ul>
+            </div>
+
+
+        </nav>
+
+        <div class="main-content">
+            @RenderBody()
+        </div>
+    </div>
+
+
+    @*点击头像展开下拉列表*@
+    <div class="dropdown-userinfo hide">
+        <div class="top-lump"></div>
+        <ul class="items-list">
+          @*   <li class="item"><a href="/MyAccount/Index">个人中心</a></li>*@
+            <li class="item"><a href="/Home/Logout">安全退出</a></li>
+        </ul>
+    </div>
+
+    <script src="/Scripts/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="/Scripts/sea.js"></script>
+    <script type="text/javascript" src="/Scripts/sea-config.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/layout"], function (layout)
+        {
+            layout.init();
+        });
+
+        $(function ()
+        {
+            $("#modulesMenu li[BindController='@controller']").addClass("select");
+            $(".controller[BindController='@controller']").css("display","block");
+            $(".controller[BindController='@controller'] .action-box li[BindAction='@action']").addClass("select");
+
+            if('@controller'=='home')
+                $(".controller").css("display", "block");
+
+        });
+    </script>
+
+    @RenderSection("scripts", false)
+</body>
+</html>

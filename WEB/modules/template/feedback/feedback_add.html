@@ -1,0 +1,42 @@
+﻿<ul class="feedback_dialog">
+    <li>
+        <span class="width80">标题：</span>
+        <span>
+            <input type="text" class="verify input" data-empty="必填" style="width:260px;" maxlength="20" id="feedback-title" />
+        </span>
+    </li>
+    <li>
+        <span class="width80">反馈类型：</span>
+        <span>
+            <select id="feedback-type">
+                <option value="1">问题</option>
+                <option value="2">建议</option>
+                <option value="3">需求</option>
+            </select>
+        </span>
+    </li>
+    <li>
+        <span class="width80">联系人：</span>
+        <span>
+            <input type="text" class="input" maxlength="20" id="feedback-contactname" />
+        </span>
+    </li>
+        <li>
+        <span class="width80">手机号：</span>
+        <span>
+            <input type="text" class="input" maxlength="20" id="feedback-mobilephone" />
+        </span>
+    </li>
+    
+    <li>
+        <span class="width80">附件：</span>
+        <span id="feedback-file"></span>
+        <span class="mLeft10" id="feedback-filename"></span>
+    </li>
+    <li>
+        <!--<span class="width80"></span>-->
+        <div class="width80 left">描述：</div>
+        <div class="left"><textarea id="feedback-remark" class="textarea"></textarea></div>
+        <div class="clear"></div>
+    </li>
+</ul>

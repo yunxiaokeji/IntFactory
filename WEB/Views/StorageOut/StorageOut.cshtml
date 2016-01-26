@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "订单出库";
+}
+@section css{
+
+}
+@section scripts{
+    <script src="/modules/plug/laydate/laydate.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/storageout/storageout"], function (ObjectJS) {
+            ObjectJS.init();
+        });
+        $(function () {
+            var begin = {
+                elem: '#BeginTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                    end.start = datas //将结束日的初始值设定为开始日
+                }
+            };
+
+            var end = {
+                elem: '#EndTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    begin.max = datas; //结束日选好后，重置开始日的最大日期
+                }
+            };
+            laydate(begin);
+            laydate(end);
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">订单出库</span>
+</div>
+<div class="search-box">
+    <div class="search-header">
+        <ul class="search-tab search-status">
+            <li data-id="-1">全部</li>
+            <li data-id="0" class="hover">未出库</li>
+            <li data-id="11">已出库</li>
+        </ul>
+    </div>   
+</div>
+<div class="content-body">
+    <div class="search-body">
+         <div class="left">
+            <span class="width80">订货时间：</span><input type="text" id="BeginTime"  class="input width100"  />
+            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width100"  />
+            <span class="btn mLeft10" id="btnSearch">搜索</span>
+        </div>
+        <div class="right searth-module" data-text="订单编号/收货人/联系电话..." data-width="200"> </div>
+    </div>
+    <table class="table-list mTop10">
+        <tr class="tr-header">
+            <td class="width50">出库</td>
+            <td class="tLeft">订单编号</td>
+            <td class="width100">总金额</td>
+            <td class="tLeft">地址</td>
+            <td class="">邮编</td>
+            <td class="">收货人</td>
+            <td class="width100">联系电话</td>
+            <td class="width150">出库单号</td>
+            <td class="width150">订货时间</td>
+        </tr>
+    </table>
+    <div id="pager" class="mTop20"></div>
+</div>
+

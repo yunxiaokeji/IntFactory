@@ -1,0 +1,127 @@
+﻿.selectShareType {
+width:120px;
+border:solid 1px #eee;
+border-radius:2px;
+box-shadow: 0 0 5px #eee;
+color:#666;
+background-color:#fff;
+opacity:0.9;
+position:absolute;
+left:0px;
+top:0px;
+}
+
+.selectShareType ul{
+list-style:none;
+margin:0px;
+padding:10px 0px;
+    
+}
+
+.selectShareType li{
+padding:14px 15px;
+cursor:pointer;
+}
+
+.selectShareType li div:hover{
+color:#06c;
+}
+
+.selectShareType li span{
+display:inline-block;
+}
+
+.shareTypeIco {
+width:18px;
+height:18px;
+}
+
+.selectShareType .top-lump {
+border-bottom: solid 10px #eee;
+border-left: solid 12px transparent;
+border-right: solid 12px transparent;
+width: 0;
+height: 0;
+position: absolute;
+left: 48px;
+top: -9px;
+}
+
+.selectShareType .top-lump2 {
+border-bottom: solid 10px #fff;
+border-left: solid 12px transparent;
+border-right: solid 12px transparent;
+width: 0;
+height: 0;
+position: absolute;
+left: 48px;
+top: -7px;
+}
+
+/**/
+.shareMingdaoDialog {
+color:#666;
+}
+.shareMingdaoDialog li {
+margin-top:25px;
+}
+
+.shareMingdaoDialog li .input {
+width:300px;
+padding:2px 8px;
+}
+
+.shareMingdaoDialog li .input :focus {
+border:solid 1px #0091ea;
+}
+
+.shareMingdaoDialog li .textarea {
+width:380px;
+padding:2px 8px;
+border: solid 1px #eee;
+background-color: #f9f9f9;   
+}
+
+.shareMingdaoDialog li span {
+display:inline-block;
+}
+
+.shareMingdaoDialog .postMsg {
+height:150px;
+width:500px;
+border: solid 1px #eee;
+background-color: #f9f9f9;
+padding:2px 8px;     
+}
+
+.shareMDGroups {
+position:absolute;right:0px;background-color:#fff;border:solid 1px #ccc;width:180px;
+border-radius:2px;
+box-shadow: 0 0 5px #ccc;
+top:27px;
+z-index:1100;
+}
+
+.shareMDGroups li {
+padding:10px 20px; 
+margin-top:0px;
+}
+
+.shareMDGroups li:hover {
+background-color:#eee;
+
+}
+
+.shareMDGroups li span {
+cursor:pointer;
+}
+
+.btn_selectMDGroups {
+color:#666;cursor:pointer;
+}
+
+.viewTo {
+width:18px;
+height:13px;
+background: url(images/Ico_Eye.gif) no-repeat left center;
+}

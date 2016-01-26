@@ -1,0 +1,46 @@
+﻿
+<ul class="easydialog-create">
+    <li>
+        <span class="create-column">类型：</span>
+        <span>
+              <select id="customertype">
+                  <option value="1">公司</option>
+                  <option value="0">个人</option>
+              </select>
+        </span>
+    </li>      
+    <li>
+        <span class="create-column">开票金额：</span>
+        <span><input type="text" maxlength="20" id="invoicemoney" data-empty="必填" data-type="double" class="verify width80" /></span> 
+    </li>
+    
+    <li>
+        <span class="create-column">抬头：</span>
+        <span><input type="text" maxlength="50" id="invoicetitle" /></span>
+    </li>
+    <li>
+        <span class="create-column">地区：</span>
+        <span  id="invoicecity"></span>
+    </li>
+    <li>
+        <span class="create-column">详细地址：</span>
+        <span><input type="text" maxlength="50" id="invoiceaddress" /></span>
+    </li>
+    <li>
+        <span class="create-column">邮编：</span>
+        <span><input type="text" maxlength="6" id="invoicepostalcode" /></span>
+    </li>
+    <li>
+        <span class="create-column">收货人：</span>
+        <span><input type="text" maxlength="20" id="contactname" /></span>
+    </li>
+    <li>
+        <span class="create-column">联系电话：</span>
+        <span><input type="text" maxlength="11" id="contactmobile" class="verify" data-type="mobile" /></span>
+    </li>
+    <li>
+        <span class="create-column">备注：</span>
+        <textarea id="remark"></textarea>
+    </li>
+</ul>
+

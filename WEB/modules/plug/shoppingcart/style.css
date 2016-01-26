@@ -1,0 +1,33 @@
+﻿
+.shopping-cart { position:fixed; right:0; bottom:0px; background-color:#333; z-index:1002; }
+
+.shopping-cart .cart-header { background:url('/modules/images/ico-gouwuche.png') no-repeat 10px 5px; height:33px; width:150px; line-height:33px; 
+                              font-size:20px; text-indent:40px;  padding:3px 10px; cursor:pointer; color:#fff; box-shadow:0 0 2px #666; }
+.shopping-cart .cart-header .totalcount{ line-height:35px;  font-size:20px; color:#fff; margin-left:10px; }
+
+.cart-mainbody { padding:20px; position:relative; background-color:#f9f9f9; border-top:solid 1px #ccc; border-left:solid 1px #ccc; box-shadow:-1px -1px 1px #ccc;  }
+
+.cart-product-div { max-height:450px; overflow-y:auto; overflow-x:hidden; }
+
+/*表格样式*/
+.cart-product-list { border-collapse:collapse;border-spacing:0; }
+.cart-product-list .tr-header{ font-weight:bold; height:35px; }
+.cart-product-list .tr-header td{ color:#2a3441;}
+.cart-product-list .line td{ border-right:solid 2px #fff; background-color:#ccc; height:3px; }
+
+.cart-product-list a{ color:#333;  vertical-align:middle;}
+.cart-product-list a:hover{ color:red; text-decoration:underline; }
+
+.cart-product-list .item { height:50px; vertical-align:middle; background-color:#fff; border-bottom:dashed 1px #ccc; }
+.cart-product-list .item img { width:30px; height:30px; display:inline-block;vertical-align:middle; }
+.cart-product-list .item .price { width:120px;}
+.cart-product-list .item .quantity { width:60px;}
+
+.bottom-div { width:99%; padding:20px 0px; }
+.btnconfirm { height:36px; background-color:#B10000; line-height:35px; color:#fff; font-size:14px; font-weight:bold; padding:0 50px; border:none; cursor:pointer; }
+
+
+.btnclose { height:36px; background-color:#ccc; line-height:35px; color:#333; font-size:14px; font-weight:bold; padding:0 50px; border:none; cursor:pointer; }
+.btnclose:hover { background-color:#999;}
+
+

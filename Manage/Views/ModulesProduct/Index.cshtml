@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "模块产品列表";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/modulesproduct"], function (ModulesProduct) {
+            ModulesProduct.init();
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title">模块产品列表</span>
+    <div class="right searth-module"> </div>
+</div>
+
+<div class="content-body">
+    <table class="table-list">
+        <tr class="tr-header">
+            <td width="10%">操作</td>
+            <td class="">模块</td>
+            <td class="">周期量</td>
+            <td class="">周期</td>
+            <td class="">人数</td>
+            <td class="">价格</td>
+            <td class="">描述</td>
+            <td class="">创建时间</td>
+        </tr>
+    </table>
+    <div id="pager" class="mTop20"></div>
+</div>

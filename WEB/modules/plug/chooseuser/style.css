@@ -1,0 +1,44 @@
+﻿
+/*头部搜索*/
+.chooseuser-header { margin-bottom: 10px; }
+
+/**/
+.chooseuser-body { width:700px; overflow:auto; border-bottom:solid 1px #ccc; padding-bottom:15px; margin-bottom:15px;  }
+.chooseuser-body .chooseuser-left { width:400px; }
+.chooseuser-left .fillter-type { border-bottom:solid 3px #ccc; height:30px; }
+.chooseuser-left .fillter-type li{ height:30px; line-height:30px; font-size:12px; width:80px; text-align:center; cursor:pointer; 
+                                   border-bottom:solid 3px #ccc; margin-bottom:-3px; float:left;}
+.chooseuser-left .fillter-type li:hover{ color:#2F73B8;}
+.chooseuser-left .fillter-type .hover{ color:#2F73B8; border-bottom-color:#2F73B8;}
+
+.chooseuser-left .letters { padding: 5px 0; }
+.chooseuser-left .letters a{ padding:0 3px; color:#666; }
+.chooseuser-left .letters a:hover{ color:#2F73B8; }
+.chooseuser-left .letters .hover{ color:#2F73B8; font-weight:bold; }
+
+.chooseuser-left .userlist-items { height:250px; overflow-x:hidden; overflow-y:scroll; }
+.chooseuser-left .userlist-items li{ width:100%; height:30px; line-height:30px;cursor:pointer; margin-top:5px; }
+.chooseuser-left .userlist-items li img{ height:24px; width:24px; border-radius:12px; margin-top:3px; margin-left:5px;}
+.chooseuser-left .userlist-items li .name{ width:80px; margin-left:20px;}
+.chooseuser-left .userlist-items li .mobile{ width:190px; margin-left:10px;}
+.chooseuser-left .userlist-items li a{ display:none; margin-left:5px;}
+
+.chooseuser-left .userlist-items li:hover{ background-color:#eee; }
+.chooseuser-left .userlist-items li:hover a{ display:inline-block; }
+
+/*右侧已选中*/
+.chooseuser-body .chooseuser-right { width:270px; }
+.chooseuser-right .choose-type { border-bottom:solid 3px #ccc; height:30px; }
+.chooseuser-right .choose-type li{ height:30px; line-height:30px; font-size:12px; width:80px; text-align:center; cursor:pointer;}
+.chooseuser-right .choose-type .clear-choose { color:#2F73B8; }
+.chooseuser-right .choose-type .clear-choose:hover { text-decoration:underline; }
+
+.chooseuser-right .userlist-choose { height:270px; overflow-x:hidden; overflow-y:scroll; margin-top:10px; }
+
+.chooseuser-right .userlist-choose li{ width:100%; height:30px; line-height:30px;cursor:pointer; margin-top:5px; }
+.chooseuser-right .userlist-choose li img{ height:24px; width:24px; border-radius:12px; margin-top:3px; margin-left:5px;}
+.chooseuser-right .userlist-choose li .name{ width:150px; margin-left:20px;}
+.chooseuser-right .userlist-choose li a{ display:none; margin-left:5px;}
+
+.chooseuser-right .userlist-choose li:hover{ background-color:#eee; }
+.chooseuser-right .userlist-choose li:hover a{ display:inline-block; }

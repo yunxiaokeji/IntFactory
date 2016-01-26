@@ -1,0 +1,24 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td class='center'><span class="mark" data-id="{%= item.CustomerID %}" data-value="{%= item.Mark %}"></span> </td>
+    <td class=""><span data-id="{%=item.CustomerID%}" data-userid="{%=item.OwnerID%}" class="ico-check check"></span></td>
+    <td class=""> <a href="/Customer/Detail/{%=item.CustomerID%}" target="_blank">{%=item.Name%}</a> </td>
+    <td class="center">{%=item.Type==1?"企业":"个人"%}</td>
+    <td class='center'>{%= item.Source?item.Source.SourceName:"--" %}</td>
+    <td class='center'>{%= item.Stage?item.Stage.StageName:"--" %}</td>
+    <td class='center'>{%= item.ContactName
+                                        ?(item.ContactName + (item.Jobs?"("+item.Jobs+")":"") )
+                                        :"--" %}    
+    </td>
+    <td class="center">{%=item.MobilePhone%}</td>
+    <td class="center">{%=item.ReplyTimes%}</td>
+    <td class='center'>{%=(item.Owner ? item.Owner.Name:"--")%}</td>
+    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd")%}</td>
+    <td class="center dropdown" data-id="{%=item.CustomerID%}" data-userid="{%=item.OwnerID%}">
+        <span class="ico-dropdown"></span>
+    </td>
+</tr>
+{% } %}

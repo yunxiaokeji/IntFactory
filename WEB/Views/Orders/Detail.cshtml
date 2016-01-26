@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "销售订单详情";
+    var model = (IntFactoryEntity.OrderEntity)ViewBag.Model;
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/orders/detail"], function (obj) {
+            obj.init('@(model.OrderID)','@(model.Status)','@Html.ToJSONString(model)');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">销售订单详情</span>
+    <a class="ico-back right" href="@(Url.RequestContext.HttpContext.Request.UrlReferrer == null ? "/Orders/MyOrder" : "javascript:if(history.length>1){ history.go(-1);} else{ location.href='/Orders/MyOrder'}")">
+        返回订单列表
+    </a>
+</div>
+<div class="content-body mTop20">
+    <div class="content-title">
+        <div class="left titlename">订单编号：@(model.OrderCode)</div>
+        <div id="updateOrderInfo" class="left ico-edit mLeft50"></div>
+        <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current,"102019005"))" id="btnreturn" >申请退单</div>
+        <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current,"102019003"))" id="btndelete" >删除订单</div>
+        <div class="btn right mRight10 @(ExpandClass.IsLimits(HttpContext.Current,"102019002"))" id="btnconfirm" >审核订单</div>
+        <span class="right lineHeight25 mRight10 mTop2" id="lblStatus">@(model.StatusStr)</span>
+        <span class="right lineHeight25 mTop2">订单状态：</span>
+    </div>
+    <ul class="content-info">
+        <li>
+            <span class="column-title">客户名称：</span> 
+            <a href="/Customer/Detail/@(model.CustomerID)" target="_blank">@(model.Customer.Name)</a> </li>
+        <li>
+            <span class="column-title">拥有者：</span> <label class="left" id="lblOwner">@(model.Owner!=null?model.Owner.Name:"--")</label>
+            <span title="更换拥有者" class="ico-change left mTop5 mLeft10 @(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner"></span>
+        </li>
+        <li>
+            <span class="column-title">总金额：</span>
+            <label>@(model.TotalMoney.ToString("f2"))</label>
+        </li>
+        <li>
+            <span class="column-title">付款金额：</span>
+            <label id="infoPaymoney">0.00</label>
+        </li>
+        <li>
+            <span class="column-title">收货人：</span>
+            <label>@(model.PersonName)</label>
+        </li>
+        <li>
+            <span class="column-title">联系方式：</span>
+            <label>@(model.MobileTele)</label>
+        </li>
+            
+        <li>
+            <span class="column-title">收货地址：</span>
+            <label>@(model.City!=null?(model.City.Province+" "+model.City.City+" "+model.City.Counties):"")@(model.Address)</label>
+        </li>
+        <li>
+            <span class="column-title">订单类型：</span>
+            <label>@(model.OrderType!=null?model.OrderType.TypeName:"--")</label>
+        </li>
+        <li>
+            <span class="column-title">邮编：</span>
+            <label>@(model.PostalCode)</label>
+        </li>
+        <li>
+            <span class="column-title">发货方式：</span>
+            <label>@(model.ExpressTypeStr)</label>
+        </li>
+        <li style="width:100%;">
+            <span class="column-title">备注：</span> 
+            <label>@(model.Remark.Trim())</label>
+        </li>
+    </ul>
+    <div class="tab-nav mTop30">
+        <ul class="tab-nav-ul left">
+            <li class="hover" data-id="navProducts">产品明细</li>
+            <li data-id="navPays" class="hide navPays">付款记录</li>
+            <li data-id="navInvoices" class="hide navInvoices">开票记录</li>
+            <li data-id="navLog">日志</li>
+        </ul>
+        <div id="addInvoice" class="btn right">开票申请</div>
+    </div>
+    <div id="navProducts" class="nav-partdiv">
+        <table class="table-list mTop20">
+            <tr class="tr-header">
+                <td class="tLeft">产品名称</td>
+                <td class="tLeft">规格</td>
+                <td class="width80">单位</td>
+                <td class="tLeft">单价</td>
+                <td class="">数量</td>
+                <td class="tRight">小计</td>
+            </tr>
+            @foreach (var detail in model.Details)
+            { 
+                <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
+                    <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
+                    <td>@(detail.Remark)</td>
+                    <td class="center">@(detail.UnitName)</td>
+                    <td class="tr-price"><input type="text" data-value="@(detail.Price.ToString("f2"))" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)" class="price width80" value="@(detail.Price.ToString("f2"))" /></td>
+                    <td class="tr-quantity center"><label class="quantity">@(detail.Quantity)</label></td>
+                    <td class="tRight amount">@((detail.Price*detail.Quantity).ToString("f2"))</td>
+                </tr>
+            }
+            <tr class="amount-item">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="tRight">合计：</td>
+                <td class="tRight"><label id="amount"></label></td>
+            </tr>
+        </table>
+    </div>
+     <table id="navPays" class="nav-partdiv table-list mTop20 hide">
+        <tr class="tr-header">
+            <td class="width150 tLeft">收款日期</td>
+            <td class="">类型</td>
+            <td class="">收款金额</td>
+            <td class="width100">支付方式</td>
+            <td class="tLeft">备注</td>
+            <td class="width150">登记人</td>
+            <td class="width200 tRight">登记时间</td>
+        </tr>
+    </table>
+    <table id="navInvoices" class="nav-partdiv table-list mTop20 hide">
+        <tr class="tr-header">
+            <td class="width100 tLeft">发票类型</td>
+            <td class="width50">状态</td>
+            <td class="">抬头</td>
+            <td class="width100">开票金额</td>
+            <td class="tLeft">邮寄地址</td>
+            <td class="width100">收件人</td>
+            <td class="width150">联系电话</td>
+            <td class="tLeft">备注</td>
+            <td class="width50">操作</td>
+        </tr>
+    </table>
+    @*日志*@
+    <div class="nav-partdiv hide" id="navLog">
+        <div class="log-body" id="orderLog">
+
+        </div>
+        <div id="pagerLogs" class="mTop10">
+
+        </div>
+    </div>
+</div>
+<ul class="dropdown-ul hide" style="width:65px;">
+    <li id="deleteInvoice">撤销</li>
+</ul>

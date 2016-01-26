@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <style type="text/css">
+        body{
+            margin:0;
+            padding:0;
+            background-color:#ccc;
+        }
+
+        .user_card{
+            margin-top:200px;
+            width:100px;
+            cursor:pointer;
+            padding:10px;
+            margin-left:100px;
+        }
+
+
+        .businessCard {
+        display:none;
+        position:absolute;
+        background-color:#fff;
+        border:solid 2px #eee;
+        border-radius:5px;
+        z-index:1000;
+        width:300px;
+        height:100px;
+        }
+
+        .businessCard ul {
+        list-style:none;
+        margin:0;
+        padding:10px 20px;
+        }
+
+        .businessCard ul li {
+            line-height:25px;
+        }
+
+        .businessCard .userAvatar{
+            max-height:36px;
+            max-width:36px;
+            border-radius:18px;
+        }
+
+        .userArrowBox {
+        position: relative;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        top: 14px;
+        left: 15px;
+        }
+
+        .userArrow {
+        border: 10px transparent solid;
+        border-top-color: #fff;
+        border-bottom-width: 0;
+        display: inline-block;
+        vertical-align: top;
+        }
+
+        .left{float:left;}
+        .clear {
+        clear:both;
+        }
+        .mLeft10 {
+        margin-left:10px;
+        }
+    </style>
+    <script src="http://localhost:8888/Scripts/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var fadeInTimer = null;
+            var fadeOutTimer = null;
+
+            $("div.user_card").hover(function () {
+                clearTimeout(fadeInTimer);
+                clearTimeout(fadeOutTimer);
+
+                var left = $(this).offset().left;
+                var top = $(this).offset().top - 104;
+
+                $("div.businessCard").css({ "left": left + "px", "top": top + "px" });
+                
+                if(!$("div.businessCard").is(":visible"))
+                    fadeOutTimer = setTimeout(function () { $("div.businessCard").fadeIn(); }, 50);
+            },
+            function () {
+                clearTimeout(fadeInTimer);
+                clearTimeout(fadeOutTimer);
+
+                if ($("div.businessCard").is(":visible"))
+                    fadeInTimer = setTimeout(function () { $("div.businessCard").fadeOut() }, 300);
+            });
+
+            $("div.businessCard").hover(function () {
+                clearTimeout(fadeInTimer);
+                clearTimeout(fadeOutTimer);
+
+            }, function () {
+                clearTimeout(fadeInTimer);
+                clearTimeout(fadeOutTimer);
+
+                if ($("div.businessCard").is(":visible"))
+                    fadeInTimer = setTimeout(function () { $("div.businessCard").fadeOut() }, 100);
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div>demo:</div>
+    <div class="user_card">mu</div>
+
+    <div class="businessCard">
+        <ul>
+            <li>
+                <div class="left"><img class="userAvatar" src="https://dn-mdpic.qbox.me/UserAvatar/6f00e353-446b-4d2f-a0e1-6dc527e5ca27.jpg?imageView2/1/w/100/h/100/q/90" /></div>
+                <div class="left mLeft10">name</div>
+                <div class="clear"></div>
+            </li>
+            <li>上海万企明道软件有限公司</li>
+            <li>研发总经理</li>
+        </ul>
+        <span class="userArrowBox">
+            <span class="userArrow"></span>
+        </span>
+        
+    </div>
+</body>
+</html>

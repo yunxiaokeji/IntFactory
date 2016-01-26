@@ -1,0 +1,18 @@
+﻿{%
+	var item = $data;
+%}
+<div class="user-item">
+    <div class="user-avatar">
+        <img src="{%=item.Avatar||'/modules/images/defaultavatar.png'%}" />
+    </div>
+    <ul class="user-name">
+        <li class="long">
+            {%=item.Name %}
+        </li>
+        <li class="long">
+            {%=item.Jobs || item.Department?item.Department.Name:(item.Role?item.Role.Name:"")%}
+        </li>
+    </ul>
+    <div class="ico-dropdown" data-id="{%=item.UserID%}"></div>
+</div>
+{%  %}

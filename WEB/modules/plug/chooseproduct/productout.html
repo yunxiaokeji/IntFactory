@@ -1,0 +1,16 @@
+﻿
+
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+    <li>
+        <span class="check ico-check mTop5" data-pid="{%=item.ProductID%}" data-did="{%=item.ProductDetailID%}" 
+             data-batch="{%=item.BatchCode%}" data-depotid="{%=item.DepotID%}" data-remark="{%= item.SaleAttrValueString %}"></span>
+		<span class="name long" title="{%=item.ProductName%}">{%=item.ProductName%}</span>
+        <span class="width200 long" title="{%= item.SaleAttrValueString %}">{%= item.SaleAttrValueString %}</span>
+        <span class="width100 long">{%= item.DepotCode %}</span>
+        <span class="width100 long">{%=item.BatchCode||"--"%}</span> 
+        <span class="width50 long">{%=(item.StockIn-item.StockOut)%}</span> 
+	</li>
+{% } %}

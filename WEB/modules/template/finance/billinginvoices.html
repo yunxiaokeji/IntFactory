@@ -1,0 +1,18 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item" data-id="{%=item.InvoiceID%}">
+    <td class=''>{%=item.CustomerType==1?"公司":"个人"%}</td>
+    <td class='center invoicestatus'>{%=item.Status==1?"已审核":"待审核"%}</td>
+    <td class="center">{%=item.InvoiceTitle%}</td>
+    <td class="center money">{%=item.InvoiceMoney.toFixed(2)%}</td>
+    <td class="">{%=item.Address%}</td>
+    <td class="center">{%=item.ContactName%}</td>
+    <td class="center">{%=item.ContactPhone%}</td>
+    <td class="">{%=item.Remark%}</td>
+    <td class="center dropdown" data-id="{%=item.InvoiceID%}" data-billingid="{%=item.BillingID%}" data-status="{%=item.Status%}">
+        <span class="ico-dropdown" data-status="{%=item.Status%}"></span>
+    </td>
+</tr>
+{% } %}

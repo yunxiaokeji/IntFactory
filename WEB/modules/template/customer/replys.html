@@ -1,0 +1,36 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr>
+    <td class="user-avatar">
+        <img data-id="{%=item.CreateUser.UserID%}" src="{%=item.CreateUser.Avatar||'/modules/images/defaultavatar.png'%}"/>
+    </td>
+    <td class="pTop20">
+        <div style="padding-bottom:10px;">
+            <div class="left">
+                <div class="pTop5" >
+                    <span style="color:#2f73b8;">{%=item.CreateUser.Name%}{%=item.FromReplyUser!=null?" 回复 "+item.FromReplyUser.Name:""%}:</span>
+                    <span style="color:#777;">{%=decodeURI(item.Content)%}</span>
+                </div>
+                <div class="pTop5" style="color:#999;">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss") %}</div>
+            </div>
+            <div class="right mTop15 hand btn-reply">
+                <div class="left" style="padding-top:3px;"><img src="/modules/images/ico-reply-gray.png"/></div>
+                <div class="left mLeft5" style="color:#777;font-size:14px;">回复</div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="mTop10 hide reply-box">
+                <div>
+                    <textarea id="Msg_{%=item.ReplyID%}" style="width:655px;"></textarea>
+                </div>
+                <div class="right mTop10 btn save-reply" data-id="{%=item.GUID%}" data-replyid="{%=item.ReplyID%}" data-createuserid="{%=item.CreateUserID%}" data-agentid="{%=item.AgentID%}">
+                    回复
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </td>
+</tr>
+{% } %}

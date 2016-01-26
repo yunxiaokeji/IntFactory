@@ -1,0 +1,17 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td class="name {%=item.Role ?'':'red'%}">{%=item.Name%}</td>
+    <td class="center">{%=item.MobilePhone%}</td>
+    <td class="">{%=item.Email%}</td>
+    <td class='center'>{%=(item.Department ? item.Department.Name:"--")%}</td>
+    <td class='center'>{%=(item.Role ? item.Role.Name:"--")%}</td>
+    <td class="center {%=item.Role ?'':'red'%}">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class='center'>{%=(item.CreateUser ? item.CreateUser.Name:"--")%}</td>
+    <td class="center dropdown" data-roleid="{%=item.RoleID%}"  data-id="{%=item.UserID%}">
+        <span class="ico-dropdown"></span>
+    </td>
+</tr>
+{% } %}

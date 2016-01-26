@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "客户行为统计";
+}
+
+
+@section scripts{
+    <script src="/modules/plug/laydate/laydate.js"></script>
+        <script type="text/javascript">
+            seajs.use(["scripts/agentactionreport"], function (agentactionreport) {
+                agentactionreport.init();
+            });
+
+            $(function () {
+                var begin = {
+                    elem: '#BeginTime',
+                    format: 'YYYY-MM-DD',
+                    max: '2099-06-16',
+                    istime: false,
+                    istoday: false,
+                    choose: function (datas) {
+                        end.min = datas; //开始日选好后，重置结束日的最小日期
+                        end.start = datas //将结束日的初始值设定为开始日
+                    }
+                };
+
+                var end = {
+                    elem: '#EndTime',
+                    format: 'YYYY-MM-DD',
+                    max: '2099-06-16',
+                    istime: false,
+                    istoday: false,
+                    choose: function (datas) {
+                        begin.max = datas; //结束日选好后，重置开始日的最大日期
+                    }
+                };
+                laydate(begin);
+                laydate(end);
+            });
+    </script>
+}
+
+<div class="header-box">
+    <span class="header-title">客户行为统计</span>
+</div>
+
+<div class="content-body">
+        <div class="search-body">
+        <div id="FeedTypes" class="left"></div>
+        <div id="FeedStatus" class="left mLeft20"></div>
+
+        <div class="left mLeft20">
+            <span class="width80">时间段：</span><input type="text" id="BeginTime"  class="input"  />
+            <span style="padding:0px 5px 0px 3px;">至</span><input type="text" id="EndTime"  class="input"  />
+            <span class="btn mLeft10" id="SearchList">搜索</span>
+
+        </div>
+        <div class="right searth-module" data-text="输入关键字..." data-width="150"></div>
+        <div class="clear"></div>
+    </div>
+
+    <table class="table-list">
+        <tr class="tr-header">
+            <td>公司名称</td>
+            <td>客户数</td>
+            <td>订单数</td>
+            <td>活动数</td>
+            <td>产品数</td>
+            <td>员工数</td>
+            <td>代理商数</td>
+            <td>机会数</td>
+            <td>采购数</td>
+            <td>出库数</td>
+        </tr>
+    </table>
+</div>

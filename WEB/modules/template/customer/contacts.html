@@ -1,0 +1,16 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td>{%=item.Name%}</td>
+    <td class="center">{%=item.MobilePhone%}</td>
+    <td class='center'>{%=item.Jobs%}</td>
+    <td>{%=item.Email%}</td>
+    <td>{%=item.City ? item.City.Province + " " + item.City.City + " " + item.City.Counties : ""%} {%=item.Address%}</td>
+    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class="center dropdown" data-id="{%=item.ContactID%}">
+        <span class="ico-dropdown"></span>
+    </td>
+</tr>
+{% } %}

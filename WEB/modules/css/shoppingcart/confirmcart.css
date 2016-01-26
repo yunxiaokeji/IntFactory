@@ -1,0 +1,8 @@
+﻿
+/*底部样式*/
+.bottom-div { width:99%; margin-top:30px; }
+
+.goback { display:inline-block; height:35px; line-height:35px; margin-right:50px; color:#C97; }
+.goback:hover { text-decoration:underline; color:#B10000; }
+.btnconfirm { height:36px; background-color:#B10000; color:#fff; font-size:14px; font-weight:bold; padding:0 20px; border:none; cursor:pointer; }
+

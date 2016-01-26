@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+        <link href="/modules/css/base.css" rel="stylesheet" />
+        <script src="/Scripts/jquery-1.11.1.js"></script>
+    <script src="/Scripts/sea.js"></script>
+    <script src="/Scripts/sea-config.js"></script>
+    <script src="demo.js"></script>
+</head>
+<body>
+<!--<input style="margin:200px;margin-bottom:0px;" type="button" value="share" class="btn" id="demo"/>-->
+    <img style="margin:200px;margin-bottom:0px;" src="/modules/images/btn-share-mingdao.png" id="demo"/>
+ <script type="text/javascript">
+     
+
+     $(function () {
+         seajs.use(["/modules/plug/sharemingdao/demo"], function (ObjectJS) {
+             ObjectJS.init(
+                 {
+                     share_post: true,
+                     share_task: true,
+                     share_schedule: true,
+                     post_pars: {
+                         content: 'a',
+                         groups: [],
+                         share_type: 0
+                     },
+                     task_pars: {
+                         name: 'b',
+                         end_date: '2015-1-1',
+                         charger_id: '',
+                         members: [],
+                         des: 'c'
+                     },
+                     schedule_pars: {
+                         name: 'c',
+                         start_date: '2015-1-1',
+                         end_date: '2015-12-1',
+                         members: [],
+                         address: 'b',
+                         des: 'c'
+                     }
+                 }
+                 );
+         });
+     });
+ </script>
+</body>
+
+</html>

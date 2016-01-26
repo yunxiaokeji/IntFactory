@@ -1,0 +1,62 @@
+﻿
+
+/*创建弹出层*/
+.create-model {  }
+.create-model li{ margin-top:10px; overflow:auto; }
+.create-model li .columnname{ width:60px; }
+.create-model li input{ width:180px; }
+.create-model li textarea{ width:300px; }
+
+/*权限树状结构样式*/
+.menulist { border-bottom:solid 1px #ccc; padding-bottom:20px; }
+.menulist .menuitem { height:40px; }
+.menulist .menuitem label{ height:28px; line-height:26px; cursor:pointer; display:inline-block; padding:0 15px 0 10px; margin:6px 0 0 5px; border-radius:2px;}
+.menulist .menuitem label:hover{ border:solid 1px #4a98e7; }
+.menulist .menuitem .check { background:url('/modules/images/ico-check.png') no-repeat 4px 4px; border:solid 1px #ccc; }
+.menulist .menuitem .checked { background:url('/modules/images/ico-checked.png') no-repeat 4px 4px; border:solid 1px #4a98e7; }
+
+.menulist .menuitem input{ margin-top:8px; opacity:0;}
+.menulist .menuitem label span{ margin-left:10px; color:#333; font-size:14px;}
+.menulist .menuitem label:hover span,.menulist .menuitem .checked span{ color:#4a98e7; }
+
+.menulist .icoopen,.menulist  .icoclose { display:inline-block; width:20px; height:20px; margin-top:12px; cursor:pointer; margin-left:-28px;}
+.menulist .icoopen{ background:url('/modules/images/ico-tree-open.png') no-repeat;  }
+.menulist .icoclose{ background:url('/modules/images/ico-tree-pull.png') no-repeat;}
+.menulist .leftline{ background:url('/modules/images/ico-tree-full.png') no-repeat -5px;display:inline-block; width:35px; height:40px; }
+.menulist .lastline{ background:url('/modules/images/ico-tree-last.png') no-repeat -5px; display:inline-block; width:35px; height:40px;}
+.menulist .line{ background:url('/modules/images/ico-tree-line.png') no-repeat -5px;display:inline-block; width:35px; height:40px; }
+.menulist .null{ display:inline-block; width:40px; height:40px;}
+
+/*组织架构*/
+.create-first { height:120px; line-height:120px; margin:100px auto; width:400px; border:solid 1px #eee; box-shadow:0 0 10px #ccc; text-align:center;
+                color:#4a98e7; font-size:18px; cursor:pointer;}
+.create-first .plus{color:#4a98e7; font-size:30px; font-weight:bold; top:3px; position:relative; }
+
+
+.child-item { height:85px; width:100%; }
+.structure-list .user-item { height:50px; width:180px; border:solid 1px #ccc; border-radius:2px; box-shadow:0 0 3px #eee;
+                             margin-top:12px; padding:10px; position:relative; cursor:pointer; float:left; border-radius:8px;}
+.structure-list .user-item:hover { border:solid 1px #4a98e7; }
+.structure-list .user-avatar { height:50px; width:50px; float:left; }
+.structure-list .user-avatar img{ height:50px; width:50px; border-radius:25px;}
+
+.structure-list  .user-name{ height:50px; width:120px; float:left; margin-left:10px; padding-top:7px; }
+.structure-list  .user-name li{ line-height:15px;width:120px; }
+
+.structure-list .ico-dropdown { position:absolute; right:10px; top:10px; }
+
+.child-item .icoopen,.child-item  .icoclose { display:inline-block; width:20px; height:20px; margin-top:40px; cursor:pointer; margin-left:-46px;}
+.child-item .icoopen{ background:url('/modules/images/ico-tree-open.png') no-repeat;  }
+.child-item .icoclose{ background:url('/modules/images/ico-tree-pull.png') no-repeat;}
+.child-item .leftline{ background:url('/modules/images/ico-structure-full.png') no-repeat -5px;display:inline-block; width:65px; height:85px; }
+.child-item .lastline{ background:url('/modules/images/ico-structure-last.png') no-repeat -5px; display:inline-block; width:65px; height:85px;}
+.child-item .line{ background:url('/modules/images/ico-structure-line.png') no-repeat -5px;display:inline-block; width:65px; height:85px; }
+.child-item .null{ display:inline-block; width:65px; height:85px;}
+
+/*设置员工角色*/
+.role-items { width:336px; overflow:auto; }
+.role-items li{ width:100px; height:35px; float:left; line-height:35px; border:solid 1px #ccc; margin:10px 5px; text-align:center; cursor:pointer; }
+.role-items li:hover{ border-color:#2F73B8; color:#2F73B8;}
+.role-items li.hover{ border-color:#2F73B8; color:#fff; background-color:#2F73B8;}
+
+

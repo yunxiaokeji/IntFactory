@@ -1,0 +1,6 @@
+﻿
+/*选择仓库*/
+.ware-items { width:336px; overflow:auto; }
+.ware-items li{ width:100px; height:35px; float:left; line-height:35px; border:solid 1px #ccc; margin:10px 5px; text-align:center; cursor:pointer; }
+.ware-items li:hover{ border-color:#2F73B8; color:#2F73B8;}
+.ware-items li.hover{ border-color:#2F73B8; color:#fff; background-color:#2F73B8;}

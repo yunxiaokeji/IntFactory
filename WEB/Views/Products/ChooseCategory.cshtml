@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "添加新材料";
+}
+<link href="/modules/css/stock/category.css" rel="stylesheet" />
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/products/choosecategory"], function (category) {
+            category.init();
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">选择分类</span>
+</div>
+<div class="content-body mTop20">
+    <ul class="category-all ">
+        <li class="category-layer">
+            <div class="category-header">全部分类</div>
+            <ul class="category-list">
+                @foreach (IntFactoryEntity.Category model in (List<IntFactoryEntity.Category>)ViewBag.Items)
+                { 
+                    <li data-id="@(model.CategoryID)" data-layer="@(model.Layers)" title="@(model.Description)">
+                        <span class="category-name left long @(model.Status.Value==1?"":"colorccc")">@(model.CategoryName)</span>
+                        <span class="add-product ico-add right"></span>
+                    </li>
+                }
+            </ul>
+        </li>
+    </ul>
+</div>

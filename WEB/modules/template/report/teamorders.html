@@ -1,0 +1,33 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="item-tr tr-checked" data-id="{%=item.GUID%}">
+    <td class="center"><span class="ico-checked check mTop5"></span></td>
+    <td class="open-child hand" data-id="{%=item.GUID%}">{%=item.Name%}</td>
+    {%
+	    for(var ii=0, jj=item.Types.length; ii < jj; ii++){
+	    var value = item.Types[ii];
+    %}
+        <td class="useritemcount center" data-typeid="{%=value.TypeID%}">{%=value.Count%}</td>
+        <td class="useritemmoney center" data-typeid="{%=value.TypeID%}">{%=value.Money.toFixed(2).toMoney()%}</td>
+    {% } %}
+    <td class="usercounttotal center"></td>
+    <td class="usermoneytotal center"></td>
+</tr>
+{%if(i==$data.length-1){%}
+    <tr class="total-tr">
+        <td  class="center"><span class="ico-checked check check-all mTop5"></span></td>
+        <td>合计</td>
+        {%
+	        for(var ii=0, jj=item.Types.length; ii < jj; ii++){
+	        var value = item.Types[ii];
+        %}
+            <td class="useritemcount center useritemcounttotal" data-typeid="{%=value.TypeID%}"></td>
+            <td class="useritemmoney center useritemmoneytotal" data-typeid="{%=value.TypeID%}"></td>
+        {% } %}
+        <td class="usercounttotal center"></td>
+        <td class="usermoneytotal center"></td>
+    </tr>
+{% } }%}
+

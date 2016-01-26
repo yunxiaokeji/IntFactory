@@ -1,0 +1,16 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<div class="child-item">
+    <div></div>
+    <span class="{%=(i==$data.length-1)?'lastline':'leftline'%} left"></span>
+    <span data-id="{%=item.TeamID%}" data-eq="{%=(i==$data.length-1)?'last':''%}" data-state="close" class="{%=(item.Users && item.Users.length>0)?'icoopen left openchild':''%} "></span>
+    <div class="team-item">
+        <div class="name long">
+            {%=item.TeamName %}
+        </div>
+        <div class="ico-dropdown ddlteam" data-id="{%=item.TeamID%}"></div>
+    </div>
+</div>
+{% } %}
