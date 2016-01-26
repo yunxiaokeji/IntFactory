@@ -150,6 +150,7 @@
     <Content Include="Content\homeico\oppor.png" />
     <Content Include="Content\homeico\order.png" />
     <Content Include="DLL\JsonObject.dll" />
+    <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
     <Content Include="modules\css\opportunitys.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
@@ -209,12 +210,6 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
     <None Include="modules\plug\umeditor\net\Uploader.cs" />
     <Compile Include="Models\FilterUser.cs" />
     <Compile Include="Models\FilterCustomer.cs" />
@@ -243,7 +238,6 @@
     <Content Include="Content\menuico\systemhover.png" />
     <Content Include="Content\menuico\customhover.png" />
     <Content Include="Content\menuico\custom.png" />
-    <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
     <Content Include="modules\css\default\detail.css" />
     <Content Include="modules\css\default\list.css" />
     <Content Include="modules\css\auction\buynow.css" />
