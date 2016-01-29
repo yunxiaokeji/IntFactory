@@ -384,7 +384,7 @@
     <None Include="Procedures\ShoppingCart\P_DeleteCart.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\System\P_DeleteOpportunityStage.sql" />
+    <None Include="Procedures\System\P_DeletetOrderStage.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Sales\P_UpdateOpportunityStage.sql" />
@@ -445,5 +445,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\System\P_CreateOrderProcess.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\System\P_UpdateOrderProcessDefault.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\System\P_InsertOrderStage.sql" />
   </ItemGroup>
 </Project>

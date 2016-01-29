@@ -207,7 +207,9 @@
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\xi_zang_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\yun_nan_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\zhe_jiang_geo.json" />
+    <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
+    <Content Include="modules\scripts\system\orderstages.js" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="Views\System\OrderProcess.cshtml" />
@@ -560,7 +562,6 @@
     <Content Include="modules\scripts\system\stages.js" />
     <Content Include="modules\scripts\system\teams.js" />
     <Content Include="modules\scripts\system\client.js" />
-    <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\template\activity\activity_list.html" />
     <Content Include="modules\template\activity\activity_card_list.html" />
     <Content Include="modules\template\activity\activity_reply_list.html" />
@@ -731,6 +732,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
+    <Content Include="Views\System\OrderStages.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -28,7 +28,7 @@ namespace IntFactoryBusiness
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
                 model.OrderType = SystemBusiness.BaseBusiness.GetOrderTypeByID(model.TypeID, model.AgentID, model.ClientID);
-                model.Stage = SystemBusiness.BaseBusiness.GetOpportunityStageByID(model.StageID, model.AgentID, model.ClientID);
+                model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
                 list.Add(model);
@@ -91,7 +91,7 @@ namespace IntFactoryBusiness
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
-                model.Stage = SystemBusiness.BaseBusiness.GetOpportunityStageByID(model.StageID, model.AgentID, model.ClientID);
+                model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
 
                 list.Add(model);
             }
@@ -299,12 +299,12 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOpportunityStage(string opportunityid, string stageid, string operateid, string ip, string agentid, string clientid)
+        public bool UpdateOpportunityStage(string opportunityid,string processid, string stageid, string operateid, string ip, string agentid, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOpportunityStage(opportunityid, stageid, operateid, agentid, clientid);
             if (bl)
             {
-                var model = SystemBusiness.BaseBusiness.GetOpportunityStageByID(stageid, agentid, clientid);
+                var model = SystemBusiness.BaseBusiness.GetOrderStageByID(stageid, processid, agentid, clientid);
                 string msg = "机会阶段更换为：" + model.StageName;
                 LogBusiness.AddLog(opportunityid, EnumLogObjectType.Orders, msg, operateid, ip, stageid, agentid, clientid);
             }

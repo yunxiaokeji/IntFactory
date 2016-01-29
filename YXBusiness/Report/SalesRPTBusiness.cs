@@ -238,7 +238,7 @@ namespace IntFactoryBusiness
             List<ReportCommonEntity> list = new List<ReportCommonEntity>();
             DataSet ds = SalesRPTDAL.BaseProvider.GetOpportunityStageRate(begintime, endtime, UserID, TeamID, agentid, clientid);
 
-            var stages = SystemBusiness.BaseBusiness.GetOpportunityStages(agentid, clientid);
+            var stages = SystemBusiness.BaseBusiness.GetOrderStages("", agentid, clientid);
             decimal total = 0, prev = 0;
             foreach (var stage in stages)
             {
@@ -292,7 +292,7 @@ namespace IntFactoryBusiness
 
             DataTable dt = ds.Tables["Users"];
 
-            var stages = SystemBusiness.BaseBusiness.GetOpportunityStages(agentid, clientid);
+            var stages = SystemBusiness.BaseBusiness.GetOrderStages("", agentid, clientid);
 
             #region 统计所有
             var teams = SystemBusiness.BaseBusiness.GetTeams(agentid);

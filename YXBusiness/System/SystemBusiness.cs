@@ -22,7 +22,7 @@ namespace IntFactoryBusiness
 
         private static Dictionary<string, List<OrderProcessEntity>> _orderprocess;
 
-        private static Dictionary<string, List<OpportunityStageEntity>> _opportunitystages;
+        private static Dictionary<string, List<OrderStageEntity>> _orderstages;
 
         private static Dictionary<string, List<OrderTypeEntity>> _ordertypes;
         private static Dictionary<string, List<TeamEntity>> _teams;
@@ -85,21 +85,21 @@ namespace IntFactoryBusiness
         }
 
         /// <summary>
-        /// 机会阶段
+        /// 订单阶段
         /// </summary>
-        private static Dictionary<string, List<OpportunityStageEntity>> OpportunityStages
+        private static Dictionary<string, List<OrderStageEntity>> OrderStages
         {
             get
             {
-                if (_opportunitystages == null)
+                if (_orderstages == null)
                 {
-                    _opportunitystages = new Dictionary<string, List<OpportunityStageEntity>>();
+                    _orderstages = new Dictionary<string, List<OrderStageEntity>>();
                 }
-                return _opportunitystages;
+                return _orderstages;
             }
             set
             {
-                _opportunitystages = value;
+                _orderstages = value;
             }
         }
 
@@ -288,46 +288,67 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<OpportunityStageEntity> GetOpportunityStages(string agentid, string clientid)
+        public OrderProcessEntity GetOrderProcessByID(string processid, string agentid, string clientid)
         {
-            if (OpportunityStages.ContainsKey(clientid))
+            var list = GetOrderProcess(agentid, clientid);
+
+            if (list.Where(m => m.ProcessID == processid).Count() > 0)
             {
-                return OpportunityStages[clientid].OrderBy(m => m.Probability).ToList();
+                return list.Where(m => m.ProcessID == processid).FirstOrDefault();
+            }
+            OrderProcessEntity model = new OrderProcessEntity();
+            DataTable dt = SystemDAL.BaseProvider.GetOrderProcessByID(processid);
+            if (dt.Rows.Count > 0)
+            {
+                
+                model.FillData(dt.Rows[0]);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, agentid);
+
+                OrderProcess[clientid].Add(model);
+            }
+            return model;
+        }
+
+        public List<OrderStageEntity> GetOrderStages(string processid, string agentid, string clientid)
+        {
+            if (OrderStages.ContainsKey(processid))
+            {
+                return OrderStages[processid].OrderBy(m => m.Sort).ToList();
             }
 
-            List<OpportunityStageEntity> list = new List<OpportunityStageEntity>();
-            DataSet ds = SystemDAL.BaseProvider.GetOpportunityStages(clientid);
+            List<OrderStageEntity> list = new List<OrderStageEntity>();
+            DataSet ds = SystemDAL.BaseProvider.GetOrderStages(processid);
             foreach (DataRow dr in ds.Tables["Stages"].Rows)
             {
-                OpportunityStageEntity model = new OpportunityStageEntity();
+                OrderStageEntity model = new OrderStageEntity();
                 model.FillData(dr);
-
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, agentid);
                 list.Add(model);
             }
-            OpportunityStages.Add(clientid, list);
+            OrderStages.Add(processid, list);
 
             return list;
         }
 
-        public OpportunityStageEntity GetOpportunityStageByID(string stageid, string agentid, string clientid)
+        public OrderStageEntity GetOrderStageByID(string stageid, string processid, string agentid, string clientid)
         {
-            if (string.IsNullOrEmpty(stageid))
+            if (string.IsNullOrEmpty(stageid) || string.IsNullOrEmpty(processid))
             {
                 return null;
             }
-            var list = GetOpportunityStages(agentid, clientid);
+            var list = GetOrderStages(processid, agentid, clientid);
             if (list.Where(m => m.StageID == stageid).Count() > 0)
             {
                 return list.Where(m => m.StageID == stageid).FirstOrDefault();
             }
 
-            OpportunityStageEntity model = new OpportunityStageEntity();
-            DataTable dt = SystemDAL.BaseProvider.GetOpportunityStageByID(stageid);
+            OrderStageEntity model = new OrderStageEntity();
+            DataTable dt = SystemDAL.BaseProvider.GetOrderStageByID(stageid);
             if (dt.Rows.Count > 0)
             {
                 model.FillData(dt.Rows[0]);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, agentid);
-                OpportunityStages[clientid].Add(model);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, agentid);
+                OrderStages[clientid].Add(model);
             }
 
             return model;
@@ -627,42 +648,70 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        public string CreateOrderProcess(string name, int type, int days, int isdefault, string ownerid, string userid, string clientid)
+        public string CreateOrderProcess(string name, int type, int days, int isdefault, string ownerid, string userid, string agentid, string clientid)
         {
             string id = Guid.NewGuid().ToString().ToLower();
             bool bl = SystemDAL.BaseProvider.CreateOrderProcess(id, name, type, days, isdefault, ownerid, userid, clientid);
             if (bl)
             {
+                if(!OrderProcess.ContainsKey(clientid))
+                {
+                    GetOrderProcess(agentid, clientid);
+                }
+                OrderProcess[clientid].Add(
+                    new OrderProcessEntity()
+                    {
+                        ProcessID = id,
+                        ProcessName = name,
+                        ProcessType = type,
+                        PlanDays = days,
+                        CreateTime = DateTime.Now,
+                        OwnerID = ownerid,
+                        Owner = OrganizationBusiness.GetUserByUserID(ownerid, agentid),
+                        IsDefault = 0,
+                        Status = 1,
+                        ClientID = clientid
+                    }
+                );
                 return id;
             }
             return "";
         }
 
-        public string CreateOpportunityStage(string stagename, decimal probability, string userid, string agentid, string clientid)
+        public string CreateOrderStage(string name, int sort, string pid, string processid, string userid, string agentid, string clientid, out int result)
         {
-            string guid = Guid.NewGuid().ToString();
+            string stageid = Guid.NewGuid().ToString();
 
-            bool bl = SystemDAL.BaseProvider.CreateOpportunityStage(guid, stagename, probability, userid, clientid);
+            bool bl = SystemDAL.BaseProvider.CreateOrderStage(stageid, name, sort, pid, processid, userid, clientid, out result);
             if (bl)
             {
-                if (!OpportunityStages.ContainsKey(clientid))
+                if (!OrderStages.ContainsKey(processid))
                 {
-                    GetOpportunityStages(agentid, clientid);
+                    GetOrderStages(processid, agentid, clientid);
                 }
 
-                OpportunityStages[clientid].Add(new OpportunityStageEntity()
+                var list = OrderStages[processid].Where(m => m.Sort >= sort && m.Status == 1).ToList();
+                foreach (var model in list)
                 {
-                    StageID = guid.ToLower(),
-                    StageName = stagename,
-                    Probability = probability,
+                    model.Sort += 1;
+                }
+
+                OrderStages[processid].Add(new OrderStageEntity()
+                {
+                    StageID = stageid.ToLower(),
+                    StageName = name,
+                    Sort = sort,
+                    PID = pid,
+                    Mark = 0,
                     Status = 1,
                     CreateTime = DateTime.Now,
-                    CreateUserID = userid,
-                    CreateUser = OrganizationBusiness.GetUserByUserID(userid, agentid),
+                    ProcessID=processid,
+                    OwnerID = userid,
+                    Owner = OrganizationBusiness.GetUserByUserID(userid, agentid),
                     ClientID = clientid
                 });
 
-                return guid;
+                return stageid;
             }
             return "";
         }
@@ -861,31 +910,123 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOpportunityStage(string stageid, string stagename, decimal probability, string userid, string ip, string agentid, string clientid)
+        public bool UpdateOrderProcess(string processid, string name, int days, string userid, string ip, string agentid, string clientid)
         {
-            var model = GetOpportunityStageByID(stageid, agentid, clientid);
-
-            bool bl = SystemDAL.BaseProvider.UpdateOpportunityStage(stageid, stagename, probability, clientid);
+            var model = GetOrderProcessByID(processid, agentid, clientid);
+            bool bl = SystemDAL.BaseProvider.UpdateOrderProcess(processid, name, days);
             if (bl)
             {
-                model.StageName = stagename;
-                model.Probability = probability;
+                model.ProcessName = name;
+                model.PlanDays = days;
             }
             return bl;
         }
 
-        public bool DeleteOpportunityStage(string stageid, string userid, string ip, string agentid, string clientid)
+        public bool DeleteOrderProcess(string processid, string userid, string ip, string agentid, string clientid)
         {
-            var model = GetOpportunityStageByID(stageid, agentid, clientid);
-            //新客户和成交客户不能删除
+            var model = GetOrderProcessByID(processid, agentid, clientid);
+            //默认流程不能删除
+            if (model.IsDefault == 1)
+            {
+                return false;
+            }
+            bool bl = SystemDAL.BaseProvider.DeleteOrderProcess(processid);
+            if (bl)
+            {
+                OrderProcess[clientid].Remove(model);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderProcessOwner(string processid, string ownerid, string userid, string ip, string agentid, string clientid)
+        {
+            var model = GetOrderProcessByID(processid, agentid, clientid);
+
+            if (ownerid == model.OwnerID)
+            {
+                return true;
+            }
+
+            bool bl = SystemDAL.BaseProvider.UpdateOrderProcessOwner(processid, ownerid);
+            if (bl)
+            {
+                model.OwnerID = ownerid;
+                model.Owner = OrganizationBusiness.GetUserByUserID(ownerid, agentid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderProcessDefault(string processid, string userid, string ip, string agentid, string clientid)
+        {
+            var model = GetOrderProcessByID(processid, agentid, clientid);
+            //默认流程不能删除
+            if (model.IsDefault == 1)
+            {
+                return true;
+            }
+            bool bl = SystemDAL.BaseProvider.UpdateOrderProcessDefault(processid, model.ProcessType, model.ClientID);
+            if (bl)
+            {
+                foreach (var item in OrderProcess[clientid])
+                {
+                    if (item.IsDefault == 1 && item.ProcessType == model.ProcessType)
+                    {
+                        item.IsDefault = 0;
+                    }
+                }
+                model.IsDefault = 1;
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderStage(string stageid, string stagename, string processid,  string userid, string ip, string agentid, string clientid)
+        {
+            var model = GetOrderStageByID(stageid, processid, agentid, clientid);
+
+            bool bl = SystemDAL.BaseProvider.UpdateOrderStage(stageid, stagename, clientid);
+            if (bl)
+            {
+                model.StageName = stagename;
+            }
+            return bl;
+        }
+
+        public bool DeleteOrderStage(string stageid, string processid, string userid, string ip, string agentid, string clientid)
+        {
+            var model = GetOrderStageByID(stageid, processid, agentid, clientid);
+            //新订单和内置不能删除
             if (model.Mark != 0)
             {
                 return false;
             }
-            bool bl = SystemDAL.BaseProvider.DeleteOpportunityStage(stageid, userid, clientid);
+            bool bl = SystemDAL.BaseProvider.DeleteOrderStage(stageid, processid, userid, clientid);
             if (bl)
             {
-                OpportunityStages[clientid].Remove(model);
+                OrderStages[processid].Remove(model);
+
+                var list = OrderStages[processid].Where(m => m.Sort > model.Sort && m.Status == 1).ToList();
+                foreach (var stage in list)
+                {
+                    stage.Sort -= 1;
+                }
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderStageOwner(string stageid, string processid, string ownerid, string userid, string ip, string agentid, string clientid)
+        {
+            var model = GetOrderStageByID(stageid, processid, agentid, clientid);
+
+            if (ownerid == model.OwnerID)
+            {
+                return true;
+            }
+
+            bool bl = SystemDAL.BaseProvider.UpdateOrderStageOwner(stageid, ownerid);
+            if (bl)
+            {
+                model.OwnerID = ownerid;
+                model.Owner = OrganizationBusiness.GetUserByUserID(ownerid, agentid);
             }
             return bl;
         }

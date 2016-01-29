@@ -2,9 +2,12 @@
     var Global = require("global"),
         doT = require("dot"),
         Verify = require("verify"), VerifyObject,
+        ChooseUser = require("chooseuser"),
         Easydialog = require("easydialog");
     require("switch");
-    var Model = {};
+    var Params = {
+        Type: -1
+    };
 
     var ObjectJS = {};
     //初始化
@@ -23,32 +26,74 @@
                 $(".dropdown-ul").hide();
             }
         });
+
+        $(".search-status li").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+                Params.Type = _this.data("id");
+                _self.getList();
+            }
+        });
         //添加
         $("#createModel").click(function () {
             var _this = $(this);
-            Model.SourceID = "";
-            Model.SourceName = "";
-            Model.SourceCode = "";
             _self.createModel();
         });
         //删除
         $("#deleteObject").click(function () {
             var _this = $(this);
-            confirm("客户来源删除后不可恢复,确认删除吗？",function(){
+            confirm("阶段流程删除后不可恢复,确认删除吗？",function(){
                 _self.deleteModel(_this.data("id"), function (status) {
-                    if (status == 1) {
+                    if (status) {
                         _self.getList();
-                    } 
+                    } else {
+                        alert("系统异常，请稍后重试!");
+                    }
                 });
             });
         });
         //编辑
         $("#updateObject").click(function () {
             var _this = $(this);
-            Global.post("/System/GetCustomSourceByID", { id: _this.data("id") }, function (data) {
+            Global.post("/System/GetOrderProcessByID", { id: _this.data("id") }, function (data) {
                 var model = data.model;
                 _self.createModel(model);
             });
+        });
+
+        //转移拥有者
+        $("#updateOwner").click(function () {
+            var _this = $(this);
+            ChooseUser.create({
+                title: "更换负责人",
+                type: 1,
+                single: true,
+                callback: function (items) {
+                    if (items.length > 0) {
+                        Global.post("/System/UpdateOrderProcessOwner", {
+                            userid: items[0].id,
+                            id: _this.data("id")
+                        }, function (data) {
+                            if (data.status) {
+                                _self.getList();
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+        $("#updateDefault").click(function () {
+            var _this = $(this);
+            Global.post("/System/UpdateOrderProcessDefault", { id: _this.data("id") }, function (data) {
+                if (data.status) {
+                    _self.getList();
+                } else {
+                    alert("系统异常，请稍后重试!");
+                }
+            })
         });
 
     }
@@ -103,8 +148,8 @@
     ObjectJS.getList = function () {
         var _self = this;
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='6'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
-        Global.post("/System/GetOrderProcess", { type: -1 }, function (data) {
+        $(".tr-header").after("<tr><td colspan='7'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        Global.post("/System/GetOrderProcess", { type: Params.Type }, function (data) {
             _self.bindList(data.items);
         });
     }
@@ -123,8 +168,10 @@
                     var _this = $(this);
                     if (_this.data("type") == 1) {
                         $("#deleteObject").hide();
+                        $("#updateDefault").hide();
                     } else {
                         $("#deleteObject").show();
+                        $("#updateDefault").show();
                     }
                     var position = _this.find(".ico-dropdown").position();
                     $(".dropdown-ul li").data("id", _this.data("id"));
@@ -147,7 +194,7 @@
             });
         }
         else {
-            $(".tr-header").after("<tr><td colspan='6'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='7'><div class='noDataTxt' >暂无数据!<div></td></tr>");
         }
     }
     //更改类型
@@ -170,16 +217,16 @@
     ObjectJS.saveModel = function (model) {
         var _self = this;
         Global.post("/System/SaveOrderProcess", { entity: JSON.stringify(model) }, function (data) {
-            if (data.status == 1) {
+            if (data.model && data.model.ProcessID) {
                 _self.getList();
-            } else if (data.status == 2) {
-                alert("保存失败,编码已存在!");
+            } else {
+                alert("系统异常，请稍后重试!");
             }
         })
     }
     //删除
     ObjectJS.deleteModel = function (id, callback) {
-        Global.post("/System/DeleteCustomSource", { id: id }, function (data) {
+        Global.post("/System/DeleteOrderProcess", { id: id }, function (data) {
             !!callback && callback(data.status);
         })
     }

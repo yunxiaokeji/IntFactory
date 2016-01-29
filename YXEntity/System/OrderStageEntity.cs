@@ -6,7 +6,7 @@ using System.Text;
 namespace IntFactoryEntity
 {
     [Serializable]
-    public class OpportunityStageEntity
+    public class OrderStageEntity
     {
         [Property("Lower")]
         public string StageID { get; set; }
@@ -22,6 +22,9 @@ namespace IntFactoryEntity
         public int Status { get; set; }
 
         [Property("Lower")]
+        public string ProcessID { get; set; }
+
+        [Property("Lower")]
         public string PID { get; set; }
 
         public DateTime CreateTime { get; set; }
@@ -30,6 +33,10 @@ namespace IntFactoryEntity
         public string CreateUserID { get; set; }
 
         public Users CreateUser { get; set; }
+
+        public string OwnerID { get; set; }
+
+        public Users Owner { get; set; }
 
         [Property("Lower")]
         public string ClientID { get; set; }

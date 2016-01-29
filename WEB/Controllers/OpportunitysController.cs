@@ -25,7 +25,6 @@ namespace YXERP.Controllers
         public ActionResult MyOpportunity()
         {
             ViewBag.Title = "我的机会";
-            ViewBag.Stages = SystemBusiness.BaseBusiness.GetOpportunityStages(CurrentUser.AgentID, CurrentUser.ClientID);
             ViewBag.Type = (int)EnumSearchType.Myself;
             return View("Opportunitys");
         }
@@ -33,7 +32,6 @@ namespace YXERP.Controllers
         public ActionResult BranchOpportunity()
         {
             ViewBag.Title = "下属机会";
-            ViewBag.Stages = SystemBusiness.BaseBusiness.GetOpportunityStages(CurrentUser.AgentID, CurrentUser.ClientID);
             ViewBag.Type = (int)EnumSearchType.Branch;
             return View("Opportunitys");
         }
@@ -41,7 +39,6 @@ namespace YXERP.Controllers
         public ActionResult Opportunitys()
         {
             ViewBag.Title = "所有机会";
-            ViewBag.Stages = SystemBusiness.BaseBusiness.GetOpportunityStages(CurrentUser.AgentID, CurrentUser.ClientID);
             ViewBag.Type = (int)EnumSearchType.All;
             return View("Opportunitys");
         }
@@ -67,7 +64,7 @@ namespace YXERP.Controllers
             ViewBag.Model = model;
             if (model.Status == 0)
             {
-                ViewBag.Stages = SystemBusiness.BaseBusiness.GetOpportunityStages(CurrentUser.AgentID, CurrentUser.ClientID);
+                ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.AgentID, CurrentUser.ClientID);
                 ViewBag.OrderTypes = SystemBusiness.BaseBusiness.GetOrderTypes(CurrentUser.AgentID, CurrentUser.ClientID);
                 return View("ConfirmOrder");
             }
@@ -200,13 +197,13 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateOpportunityStage(string ids, string stageid)
+        public JsonResult UpdateOpportunityStage(string ids, string stageid, string processid)
         {
             bool bl = false;
             string[] list = ids.Split(',');
             foreach (var id in list)
             {
-                if (!string.IsNullOrEmpty(id) && OrdersBusiness.BaseBusiness.UpdateOpportunityStage(id, stageid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID))
+                if (!string.IsNullOrEmpty(id) && OrdersBusiness.BaseBusiness.UpdateOpportunityStage(id, processid, stageid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID))
                 {
                     bl = true;
                 }

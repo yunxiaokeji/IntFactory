@@ -53,7 +53,9 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string StageID { get; set; }
 
-        public OpportunityStageEntity Stage { get; set; }
+        public string ProcessID { get; set; }
+
+        public OrderStageEntity Stage { get; set; }
 
 
         /// <summary>

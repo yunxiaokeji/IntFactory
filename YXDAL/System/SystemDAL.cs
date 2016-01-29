@@ -65,19 +65,29 @@ namespace IntFactoryDAL
 
         }
 
-        public DataSet GetOpportunityStages(string clientid)
+        public DataTable GetOrderProcessByID(string processid)
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@ClientID",clientid)
+                                       new SqlParameter("@ProcessID",processid)
                                    };
 
-            return GetDataSet("select * from OpportunityStage where ClientID=@ClientID and Status=1 Order by Probability", paras, CommandType.Text, "Stages");
+            return GetDataTable("select * from OrderProcess where ProcessID=@ProcessID and Status=1", paras, CommandType.Text);
 
         }
 
-        public DataTable GetOpportunityStageByID(string stageid)
+        public DataSet GetOrderStages(string processid)
         {
-            string sqlText = "select * from OpportunityStage where StageID=@StageID and Status=1";
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@ProcessID",processid)
+                                   };
+
+            return GetDataSet("select * from OrderStage where ProcessID=@ProcessID and Status=1 Order By Sort", paras, CommandType.Text, "Stages");
+
+        }
+
+        public DataTable GetOrderStageByID(string stageid)
+        {
+            string sqlText = "select * from OrderStage where StageID=@StageID and Status=1";
             SqlParameter[] paras = { 
                                      new SqlParameter("@StageID",stageid)
                                    };
@@ -271,18 +281,23 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqlText, paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool CreateOpportunityStage(string stageid, string stagename, decimal probability, string userid, string clientid)
+        public bool CreateOrderStage(string stageid, string name, int sort, string pid, string processid, string userid, string clientid, out int result)
         {
-            string sqlText = "insert into OpportunityStage(StageID,StageName,Probability,Status,Mark,CreateUserID,ClientID) " +
-                                           " values(@StageID,@StageName,@Probability,1,0,@CreateUserID,@ClientID) ";
+            result = 0;
             SqlParameter[] paras = { 
-                                     new SqlParameter("@StageID" , stageid),
-                                     new SqlParameter("@StageName" , stagename),
-                                     new SqlParameter("@Probability" , probability),
+                                     new SqlParameter("@Result",result),
+                                     new SqlParameter("@StageID",stageid),
+                                     new SqlParameter("@StageName",name),
+                                     new SqlParameter("@Sort",sort),
+                                     new SqlParameter("@PID",pid),
+                                     new SqlParameter("@ProcessID",processid),
                                      new SqlParameter("@CreateUserID" , userid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
-            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
+            paras[0].Direction = ParameterDirection.Output;
+            bool bl = ExecuteNonQuery("P_InsertOrderStage", paras, CommandType.StoredProcedure) > 0;
+            result = Convert.ToInt32(paras[0].Value);
+            return bl;
         }
 
         public bool CreateOrderType(string typeid, string typename, string typecode, string userid, string clientid)
@@ -392,13 +407,61 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool UpdateOpportunityStage(string stageid, string stagename, decimal probability, string clientid)
+        public bool UpdateOrderProcess(string processid, string name, int days)
         {
-            string sqltext = "update OpportunityStage set StageName=@StageName,Probability=@Probability where StageID=@StageID and ClientID=@ClientID";
+            string sqltext = "update OrderProcess set ProcessName=@ProcessName,PlanDays=@PlanDays where ProcessID=@ProcessID";
+
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@ProcessID",processid),
+                                     new SqlParameter("@ProcessName",name),
+                                     new SqlParameter("@PlanDays",days)
+                                   };
+            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+            return bl;
+        }
+
+        public bool DeleteOrderProcess(string processid)
+        {
+            string sqltext = "update OrderProcess set Status=9 where ProcessID=@ProcessID";
+
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@ProcessID",processid)
+                                   };
+            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+            return bl;
+        }
+
+        public bool UpdateOrderProcessOwner(string processid, string ownerid)
+        {
+            string sqltext = "update OrderProcess set OwnerID=@OwnerID where ProcessID=@ProcessID";
+
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@ProcessID",processid),
+                                     new SqlParameter("@OwnerID",ownerid)
+                                   };
+            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+            return bl;
+        }
+
+        public bool UpdateOrderProcessDefault(string processid, int type, string clientid)
+        {
+            string sqltext = "P_UpdateOrderProcessDefault";
+
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@ProcessID",processid),
+                                     new SqlParameter("@ProcessType",type),
+                                     new SqlParameter("@ClientID",clientid)
+                                   };
+            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.StoredProcedure) > 0;
+            return bl;
+        }
+
+        public bool UpdateOrderStage(string stageid, string stagename, string clientid)
+        {
+            string sqltext = "update OrderStage set StageName=@StageName where StageID=@StageID and ClientID=@ClientID";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@StageID",stageid),
-                                     new SqlParameter("@Probability",probability),
                                      new SqlParameter("@StageName",stagename),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
@@ -417,14 +480,27 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool DeleteOpportunityStage(string stageid, string userid, string clientid)
+        public bool DeleteOrderStage(string stageid, string processid, string userid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@StageID",stageid),
+                                     new SqlParameter("@ProcessID",processid),
                                      new SqlParameter("@UserID",userid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
-            bool bl = ExecuteNonQuery("P_DeleteOpportunityStage", paras, CommandType.StoredProcedure) > 0;
+            bool bl = ExecuteNonQuery("P_DeletetOrderStage", paras, CommandType.StoredProcedure) > 0;
+            return bl;
+        }
+
+        public bool UpdateOrderStageOwner(string stageid, string ownerid)
+        {
+            string sqltext = "update OrderStage set OwnerID=@OwnerID where StageID=@StageID";
+
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@StageID",stageid),
+                                     new SqlParameter("@OwnerID",ownerid)
+                                   };
+            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
             return bl;
         }
 

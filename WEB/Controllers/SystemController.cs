@@ -35,6 +35,20 @@ namespace YXERP.Controllers
         {
             return View();
         }
+
+        public ActionResult OrderStages(string id)
+        {
+            var model = new SystemBusiness().GetOrderProcessByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
+            if (string.IsNullOrEmpty(model.ProcessID))
+            {
+                return Redirect("/System/OrderProcess");
+            }
+            ViewBag.ID = model.ProcessID;
+            ViewBag.Name = model.ProcessName;
+            ViewBag.Items = new SystemBusiness().GetOrderStages(id, CurrentUser.AgentID, CurrentUser.ClientID);
+            return View();
+        }
+
         public ActionResult Teams()
         {
             return View();
@@ -244,7 +258,6 @@ namespace YXERP.Controllers
 
         #region 订单阶段
 
-
         public JsonResult GetOrderProcess(int type = -1)
         {
             var list = new SystemBusiness().GetOrderProcess(CurrentUser.AgentID, CurrentUser.ClientID).ToList();
@@ -263,6 +276,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetOrderProcessByID(string id)
+        {
+            var model = new SystemBusiness().GetOrderProcessByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("model", model);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult SaveOrderProcess(string entity)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -270,11 +294,11 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.ProcessID))
             {
-                model.ProcessID = new SystemBusiness().CreateOrderProcess(model.ProcessName, model.ProcessType, model.PlanDays, model.IsDefault, CurrentUser.UserID, CurrentUser.UserID, CurrentUser.ClientID);
+                model.ProcessID = new SystemBusiness().CreateOrderProcess(model.ProcessName, model.ProcessType, model.PlanDays, model.IsDefault, CurrentUser.UserID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             }
             else
             {
-                bool bl = new SystemBusiness().UpdateOpportunityStage(model.ProcessID, model.ProcessName, model.ProcessType, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                bool bl = new SystemBusiness().UpdateOrderProcess(model.ProcessID, model.ProcessName, model.PlanDays, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
                 if (!bl)
                 {
                     model.ProcessID = "";
@@ -290,11 +314,10 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOpportunityStages()
+        public JsonResult DeleteOrderProcess(string id)
         {
-
-            var list = new SystemBusiness().GetOpportunityStages(CurrentUser.AgentID, CurrentUser.ClientID).ToList();
-            JsonDictionary.Add("items", list);
+            bool bl = new SystemBusiness().DeleteOrderProcess(id, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -302,11 +325,10 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOpportunityStageByID(string id)
+        public JsonResult UpdateOrderProcessOwner(string id, string userid)
         {
-
-            var model = new SystemBusiness().GetOpportunityStageByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("model", model);
+            bool bl = new SystemBusiness().UpdateOrderProcessOwner(id, userid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -314,24 +336,40 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult SaveOpportunityStage(string entity)
+        public JsonResult UpdateOrderProcessDefault(string id)
+        {
+            bool bl = new SystemBusiness().UpdateOrderProcessDefault(id, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SaveOrderStage(string entity)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            OpportunityStageEntity model = serializer.Deserialize<OpportunityStageEntity>(entity);
+            OrderStageEntity model = serializer.Deserialize<OrderStageEntity>(entity);
+
+            int result = 0;
 
             if (string.IsNullOrEmpty(model.StageID))
             {
-                model.StageID = new SystemBusiness().CreateOpportunityStage(model.StageName, model.Probability, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                model.StageID = new SystemBusiness().CreateOrderStage(model.StageName, model.Sort, "", model.ProcessID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+
+                model.Owner = OrganizationBusiness.GetUserByUserID(CurrentUser.UserID, CurrentUser.AgentID);
             }
             else
             {
-                bool bl = new SystemBusiness().UpdateOpportunityStage(model.StageID, model.StageName, model.Probability, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
-                if (!bl)
+                bool bl = new SystemBusiness().UpdateOrderStage(model.StageID, model.StageName, model.ProcessID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                if (bl)
                 {
-                    model.StageID = "";
+                    result = 1;
                 }
-                
             }
+            
+            JsonDictionary.Add("status", result);
             JsonDictionary.Add("model", model);
             return new JsonResult
             {
@@ -340,9 +378,20 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult DeleteOpportunityStage(string id)
+        public JsonResult DeleteOrderStage(string id, string processid)
         {
-            bool bl = new SystemBusiness().DeleteOpportunityStage(id, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            bool bl = new SystemBusiness().DeleteOrderStage(id, processid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateOrderStageOwner(string id, string processid, string userid)
+        {
+            bool bl = new SystemBusiness().UpdateOrderStageOwner(id, processid, userid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {

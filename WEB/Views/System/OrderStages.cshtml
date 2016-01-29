@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "阶段流程配置";
+    var list = (List<IntFactoryEntity.OrderStageEntity>)ViewBag.Items;
+}
+
+@section css{
+    <link rel="stylesheet" href="/modules/css/system/system.css" />
+}
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/system/orderstages"], function (obj) {
+            obj.init('@ViewBag.ID');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">阶段流程配置-@ViewBag.Name</span>
+</div>
+<div class="content-body mTop20">
+    <ul class="stages-box">
+        @foreach (var model in list.Where(m => m.PID == "").ToList())
+        { 
+            <li class="stages-item">
+                <div class="name"><span class="long">@(model.StageName)</span><input type="text" data-sort="@(model.Sort)" maxlength="50" id="@(model.StageID)" class="hide" /></div>
+                <div class="ico-dropdown operatestage" data-type="@(model.Mark)" data-id="@(model.StageID)"></div>
+                <ul class="child-items">
+                    
+                </ul>
+                <div class="create-action hide">
+                    <textarea class="" maxlength="200">
+
+                    </textarea>
+                </div>
+                <div class="pLeft10">
+                    负责人：<label id="owner@(model.StageID)">@(model.Owner.Name)</label> 
+                </div>
+                @*<div class="create-child" data-id="@(model.StageID)">+ 新建阶段行为</div>*@
+            </li>
+        }
+    </ul>
+</div>
+<ul class="dropdown-ul hide ddlStage" id="ddlStage" style="width:150px;">
+    <li class="" id="editObject">修改状态名称</li>
+    <li class="" id="editOwner">更换负责人</li>
+    <li class="" id="addObject">在此后添加新状态</li>
+    <li class="" id="deleteObject">删除状态</li>
+</ul>

@@ -13,7 +13,16 @@
     <span class="header-title left">阶段流程管理</span>
     <div class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"108020101"))" id="createModel">新建阶段流程</div>
 </div>
-<div class="content-body mTop20">
+<div class="search-box">
+    <div class="search-header">
+        <ul class="search-tab search-status">
+            <li data-id="-1" class="hover">全部</li>
+            <li data-id="1" class="">打样</li>
+            <li data-id="2" class="">大货</li>
+        </ul>
+    </div>
+</div>
+<div class="content-body">
     <table class="table-list">
         <tr class="tr-header">
             <td class="tLeft">名称</td>
@@ -21,12 +30,14 @@
             <td class="width150">订单阶段</td>
             <td class="width150">负责人</td>
             <td class="width150">创建时间</td>
-            
+            <td class="width100"></td>
             <td class="width80">操作</td>
         </tr>
     </table>
 </div>
-<ul class="dropdown-ul hide"  style="width:65px;">
+<ul class="dropdown-ul hide"  style="width:105px;">
+    <li class="" id="updateOwner">更换负责人</li>
+    <li class="" id="updateDefault">设为默认</li>
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020101"))" id="updateObject">编辑</li>
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020102"))" id="deleteObject">删除</li>
 </ul>
