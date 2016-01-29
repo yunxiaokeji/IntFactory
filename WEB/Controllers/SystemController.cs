@@ -31,7 +31,7 @@ namespace YXERP.Controllers
             ViewBag.Items = new SystemBusiness().GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View();
         }
-        public ActionResult OpportunityStages()
+        public ActionResult OrderProcess()
         {
             return View();
         }
@@ -242,7 +242,53 @@ namespace YXERP.Controllers
 
         #endregion
 
-        #region 机会订单阶段
+        #region 订单阶段
+
+
+        public JsonResult GetOrderProcess(int type = -1)
+        {
+            var list = new SystemBusiness().GetOrderProcess(CurrentUser.AgentID, CurrentUser.ClientID).ToList();
+            if (type > 0)
+            {
+                JsonDictionary.Add("items", list.Where(m => m.ProcessType == type).ToList());
+            }
+            else
+            {
+                JsonDictionary.Add("items", list);
+            }
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SaveOrderProcess(string entity)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            OrderProcessEntity model = serializer.Deserialize<OrderProcessEntity>(entity);
+
+            if (string.IsNullOrEmpty(model.ProcessID))
+            {
+                model.ProcessID = new SystemBusiness().CreateOrderProcess(model.ProcessName, model.ProcessType, model.PlanDays, model.IsDefault, CurrentUser.UserID, CurrentUser.UserID, CurrentUser.ClientID);
+            }
+            else
+            {
+                bool bl = new SystemBusiness().UpdateOpportunityStage(model.ProcessID, model.ProcessName, model.ProcessType, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                if (!bl)
+                {
+                    model.ProcessID = "";
+                }
+
+            }
+            model.Owner = OrganizationBusiness.GetUserByUserID(CurrentUser.UserID, CurrentUser.AgentID);
+            JsonDictionary.Add("model", model);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
         public JsonResult GetOpportunityStages()
         {

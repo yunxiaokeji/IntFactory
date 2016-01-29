@@ -14,10 +14,13 @@ namespace IntFactoryBusiness
     public class SystemBusiness
     {
         public static SystemBusiness BaseBusiness = new SystemBusiness();
+
         #region Cache
 
         private static Dictionary<string, List<CustomSourceEntity>> _source;
         private static Dictionary<string, List<CustomStageEntity>> _stages;
+
+        private static Dictionary<string, List<OrderProcessEntity>> _orderprocess;
 
         private static Dictionary<string, List<OpportunityStageEntity>> _opportunitystages;
 
@@ -64,6 +67,22 @@ namespace IntFactoryBusiness
             }
         }
 
+        //订单流程
+        private static Dictionary<string, List<OrderProcessEntity>> OrderProcess
+        {
+            get
+            {
+                if (_orderprocess == null)
+                {
+                    _orderprocess = new Dictionary<string, List<OrderProcessEntity>>();
+                }
+                return _orderprocess;
+            }
+            set
+            {
+                _orderprocess = value;
+            }
+        }
 
         /// <summary>
         /// 机会阶段
@@ -246,6 +265,27 @@ namespace IntFactoryBusiness
                 CustomStages[clientid].Add(model);
             }
             return model;
+        }
+
+        public List<OrderProcessEntity> GetOrderProcess(string agentid, string clientid)
+        {
+            if (OrderProcess.ContainsKey(clientid))
+            {
+                return OrderProcess[clientid].ToList();
+            }
+
+            List<OrderProcessEntity> list = new List<OrderProcessEntity>();
+            DataSet ds = SystemDAL.BaseProvider.GetOrderProcess(clientid);
+            foreach (DataRow dr in ds.Tables["Stages"].Rows)
+            {
+                OrderProcessEntity model = new OrderProcessEntity();
+                model.FillData(dr);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, agentid);
+                list.Add(model);
+            }
+            OrderProcess.Add(clientid, list);
+
+            return list;
         }
 
         public List<OpportunityStageEntity> GetOpportunityStages(string agentid, string clientid)
@@ -449,16 +489,6 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        /// <summary>
-        /// 获取货位列表
-        /// </summary>
-        /// <param name="keyWords">关键词</param>
-        /// <param name="pageSize">每页条数</param>
-        /// <param name="pageIndex">页码</param>
-        /// <param name="totalCount">总记录数</param>
-        /// <param name="pageCount">总页数</param>
-        /// <param name="clientID">客户端ID</param>
-        /// <returns></returns>
         public List<DepotSeat> GetDepotSeats(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID, string wareid = "")
         {
             DataSet ds = SystemDAL.BaseProvider.GetDepotSeats(keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, clientID, wareid);
@@ -472,7 +502,6 @@ namespace IntFactoryBusiness
             }
             return list;
         }
-        
 
         public List<DepotSeat> GetDepotSeatsByWareID(string wareid, string clientid)
         {
@@ -594,6 +623,17 @@ namespace IntFactoryBusiness
                 });
 
                 return itemid;
+            }
+            return "";
+        }
+
+        public string CreateOrderProcess(string name, int type, int days, int isdefault, string ownerid, string userid, string clientid)
+        {
+            string id = Guid.NewGuid().ToString().ToLower();
+            bool bl = SystemDAL.BaseProvider.CreateOrderProcess(id, name, type, days, isdefault, ownerid, userid, clientid);
+            if (bl)
+            {
+                return id;
             }
             return "";
         }

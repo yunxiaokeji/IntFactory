@@ -55,6 +55,16 @@ namespace IntFactoryDAL
             return GetDataSet(sqlText, paras, CommandType.Text, "Stages|Items");
         }
 
+        public DataSet GetOrderProcess(string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+
+            return GetDataSet("select * from OrderProcess where ClientID=@ClientID and Status=1", paras, CommandType.Text, "Stages");
+
+        }
+
         public DataSet GetOpportunityStages(string clientid)
         {
             SqlParameter[] paras = { 
@@ -243,6 +253,22 @@ namespace IntFactoryDAL
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
+        }
+
+        public bool CreateOrderProcess(string id, string name, int type, int days, int isdefault, string ownerid, string userid, string clientid)
+        {
+            string sqlText = "P_CreateOrderProcess";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@ProcessID" , id),
+                                     new SqlParameter("@ProcessName" , name),
+                                     new SqlParameter("@ProcessType" , type),
+                                     new SqlParameter("@PlanDays" , days),
+                                     new SqlParameter("@IsDefault" , isdefault),
+                                     new SqlParameter("@OwnerID" , ownerid),
+                                     new SqlParameter("@UserID" , userid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+            return ExecuteNonQuery(sqlText, paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool CreateOpportunityStage(string stageid, string stagename, decimal probability, string userid, string clientid)

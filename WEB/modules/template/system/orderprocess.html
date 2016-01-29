@@ -1,0 +1,15 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td class="">{%=item.ProcessName%}</td>
+    <td class="center">{%=item.PlanDays%}</td>
+    <td class="center">{%=item.ProcessType==1?"打样":"大货"%}</td>
+    <td class='center'>{%=(item.Owner ? item.Owner.Name:"--")%}</td>
+    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class="center dropdown" data-type="{%=item.IsDefault%}" data-id="{%=item.ProcessID%}">
+        <span data-type="{%=item.IsDefault%}" class="ico-dropdown"></span>
+    </td>
+</tr>
+{% } %}

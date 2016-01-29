@@ -443,4 +443,7 @@
   <ItemGroup>
     <None Include="Procedures\Manage\M_Get_Report_AgentAction_Day.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\System\P_CreateOrderProcess.sql" />
+  </ItemGroup>
 </Project>
