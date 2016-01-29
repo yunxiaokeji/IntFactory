@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Net.Sourceforge.Pinyin4j">
-      <HintPath>..\YXERP\DLL\Net.Sourceforge.Pinyin4j.dll</HintPath>
+      <HintPath>..\WEB\DLL\Net.Sourceforge.Pinyin4j.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

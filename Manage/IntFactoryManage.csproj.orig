@@ -194,6 +194,15 @@
     <Content Include="Scripts\jquery-1.11.1.js" />
     <Content Include="Scripts\sea-config.js" />
     <Content Include="Scripts\sea.js" />
+<<<<<<< HEAD
+=======
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+>>>>>>> b1c4fdcdb361199b6152417fb54f34ce468bbc08
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
   </ItemGroup>

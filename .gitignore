@@ -10,6 +10,7 @@
 *_i.c
 *_p.c
 *.ncb
+*.config
 *.suo
 *.tlb
 *.tlh
@@ -27,9 +28,8 @@ obj/
 _ReSharper*/
 tempFiles
 tempfile
-upload
 UploadFiles
 *.dbmdl
-
+upload/
 [Ww]eb.config
 *.sql
