@@ -214,11 +214,11 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.ItemID))
             {
-                model.ItemID = new SystemBusiness().CreateStageItem(model.ItemName, model.StageID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                model.ItemID = new SystemBusiness().CreateStageItem(model.ItemName, model.StageID, model.ProcessID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             }
             else
             {
-                bool bl = new SystemBusiness().UpdateStageItem(model.ItemID, model.ItemName, model.StageID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                bool bl = new SystemBusiness().UpdateStageItem(model.ItemID, model.ItemName, model.StageID, model.ProcessID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
                 if (!bl)
                 {
                     model.ItemID = "";
@@ -243,9 +243,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult DeleteStageItem(string id, string stageid)
+        public JsonResult DeleteStageItem(string id, string stageid,string processid)
         {
-            bool bl = new SystemBusiness().DeleteStageItem(id, stageid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            bool bl = new SystemBusiness().DeleteStageItem(id, stageid, processid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {

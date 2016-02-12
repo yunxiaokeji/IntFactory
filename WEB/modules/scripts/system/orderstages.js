@@ -120,7 +120,8 @@
             confirm("阶段行为删除后不可恢,确认删除吗？", function () {
                 Global.post("/System/DeleteStageItem", {
                     id: _this.data("id"),
-                    stageid: _this.data("stageid")
+                    stageid: _this.data("stageid"),
+                    processid: _self.processid
                 }, function (data) {
                     if (data.status) {
                         $("#" + _this.data("id")).remove();
@@ -196,7 +197,8 @@
             var model = {
                 ItemID: _this.data("id"),
                 ItemName: _this.val().trim(),
-                StageID: _this.data("stageid")
+                StageID: _this.data("stageid"),
+                ProcessID: _self.processid
             };
             Global.post("/System/SaveStageItem", { entity: JSON.stringify(model) }, function (data) {
                 if (data.model.ItemID) {

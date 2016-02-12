@@ -81,18 +81,18 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ProcessID",processid)
                                    };
 
-            return GetDataSet("select * from OrderStage where ProcessID=@ProcessID and Status=1 Order By Sort", paras, CommandType.Text, "Stages");
+            return GetDataSet("select * from OrderStage where ProcessID=@ProcessID and Status=1 Order By Sort; select * from StageItem where ProcessID=@ProcessID and Status=1;", paras, CommandType.Text, "Stages|Items");
 
         }
 
-        public DataTable GetOrderStageByID(string stageid)
+        public DataSet GetOrderStageByID(string stageid)
         {
-            string sqlText = "select * from OrderStage where StageID=@StageID and Status=1";
+            string sqlText = "select * from OrderStage where StageID=@StageID and Status=1; select * from StageItem where StageID=@StageID and Status=1;";
             SqlParameter[] paras = { 
                                      new SqlParameter("@StageID",stageid)
                                    };
 
-            return GetDataTable(sqlText, paras, CommandType.Text);
+            return GetDataSet(sqlText, paras, CommandType.Text, "Stages|Items");
         }
 
         public DataSet GetOrderTypes(string clientid)
@@ -251,14 +251,15 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool CreateStageItem(string itemid, string name, string stageid, string userid, string clientid)
+        public bool CreateStageItem(string itemid, string name, string stageid, string processid, string userid, string clientid)
         {
-            string sqlText = "insert into StageItem(ItemID,ItemName,StageID,CreateUserID,ClientID) " +
-                                           " values(@ItemID,@ItemName,@StageID,@CreateUserID,@ClientID) ";
+            string sqlText = "insert into StageItem(ItemID,ItemName,StageID,ProcessID,CreateUserID,ClientID) " +
+                                           " values(@ItemID,@ItemName,@StageID,@ProcessID,@CreateUserID,@ClientID) ";
             SqlParameter[] paras = { 
                                      new SqlParameter("@ItemID" , itemid),
                                      new SqlParameter("@ItemName" , name),
                                      new SqlParameter("@StageID" , stageid),
+                                     new SqlParameter("@ProcessID",processid),
                                      new SqlParameter("@CreateUserID" , userid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };

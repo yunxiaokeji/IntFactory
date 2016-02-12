@@ -323,6 +323,13 @@ namespace IntFactoryBusiness
                 OrderStageEntity model = new OrderStageEntity();
                 model.FillData(dr);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, agentid);
+                model.StageItem = new List<StageItemEntity>();
+                foreach (DataRow itemdr in ds.Tables["Items"].Rows)
+                {
+                    StageItemEntity item = new StageItemEntity();
+                    item.FillData(itemdr);
+                    model.StageItem.Add(item);
+                }
                 list.Add(model);
             }
             OrderStages.Add(processid, list);
@@ -343,11 +350,18 @@ namespace IntFactoryBusiness
             }
 
             OrderStageEntity model = new OrderStageEntity();
-            DataTable dt = SystemDAL.BaseProvider.GetOrderStageByID(stageid);
-            if (dt.Rows.Count > 0)
+            DataSet ds = SystemDAL.BaseProvider.GetOrderStageByID(stageid);
+            if (ds.Tables["Stages"].Rows.Count > 0)
             {
-                model.FillData(dt.Rows[0]);
+                model.FillData(ds.Tables["Stages"].Rows[0]);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, agentid);
+                model.StageItem = new List<StageItemEntity>();
+                foreach (DataRow itemdr in ds.Tables["Items"].Rows)
+                {
+                    StageItemEntity item = new StageItemEntity();
+                    item.FillData(itemdr);
+                    model.StageItem.Add(item);
+                }
                 OrderStages[clientid].Add(model);
             }
 
@@ -622,14 +636,14 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        public string CreateStageItem(string name, string stageid, string userid, string agentid, string clientid)
+        public string CreateStageItem(string name, string stageid, string processid, string userid, string agentid, string clientid)
         {
             string itemid = Guid.NewGuid().ToString().ToLower();
 
-            bool bl = SystemDAL.BaseProvider.CreateStageItem(itemid, name, stageid, userid, clientid);
+            bool bl = SystemDAL.BaseProvider.CreateStageItem(itemid, name, stageid, processid, userid, clientid);
             if (bl)
             {
-                var model = GetCustomStageByID(stageid, agentid, clientid);
+                var model = GetOrderStageByID(stageid, processid, agentid, clientid);
                 if (model.StageItem == null)
                 {
                     model.StageItem = new List<StageItemEntity>();
@@ -884,9 +898,9 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateStageItem(string itemid, string name, string stageid, string userid, string ip, string agentid, string clientid)
+        public bool UpdateStageItem(string itemid, string name, string stageid, string processid, string userid, string ip, string agentid, string clientid)
         {
-            var model = GetCustomStageByID(stageid, agentid, clientid);
+            var model = GetOrderStageByID(stageid, processid, agentid, clientid);
 
             bool bl = CommonBusiness.Update("StageItem", "ItemName", name, "ItemID='" + itemid + "'");
             if (bl)
@@ -897,9 +911,9 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool DeleteStageItem(string itemid, string stageid, string userid, string ip, string agentid, string clientid)
+        public bool DeleteStageItem(string itemid, string stageid, string processid, string userid, string ip, string agentid, string clientid)
         {
-            var model = GetCustomStageByID(stageid, agentid, clientid);
+            var model = GetOrderStageByID(stageid, processid, agentid, clientid);
 
             bool bl = CommonBusiness.Update("StageItem", "Status", "9", "ItemID='" + itemid + "'");
             if (bl)
