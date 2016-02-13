@@ -59,6 +59,11 @@ define(function (require, exports, module) {
             _this.addClass("hover");
             _this.parents(".category-layer").nextAll().remove();
 
+            if (_this.data("layer") == 3) {
+                location.href = "/Products/ProductAdd/" + _this.data("id");
+                return false;
+            }
+
             Global.post("/Products/GetChildCategorysByID", {
                 categoryid: _this.data("id")
             }, function (data) {

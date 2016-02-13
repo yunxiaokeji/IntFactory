@@ -9,12 +9,14 @@
 
 .category-list { width:200px; overflow-x:hidden; overflow-y:auto; margin-top:10px; }
 .category-list li { height:30px; width:180px; line-height:30px; padding:0 10px; cursor:pointer; position:relative; }
-.category-list li .ddlcategory { display:none; }
+.category-list li .ddlcategory, .category-list li .add-product{ display:none; }
 .category-list li .ico-dropdown{ position:absolute; top:10px; right:10px;}
 
 .category-list li:hover .ddlcategory,.category-list li:hover .add-product { display:inline-block; }
 .category-list li:hover,.category-list .hover { background-color:#fff; }
 .category-list .hover .ddlcategory,.category-list .hover .add-product  { display:inline-block; }
+
+.category-list li .ico-add { margin-top:3px; padding-left:0px; }
 
 .category-layer .create-child { height:30px; line-height:30px; color:#999; cursor:pointer; text-indent:5px; margin-top:5px; }
 .category-layer .create-child:hover { background-color:#fff; color:#333; }

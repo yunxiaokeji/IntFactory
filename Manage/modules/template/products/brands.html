@@ -1,0 +1,17 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td class="center"><img alt="" src="{%=item.IcoPath%}" /></td>
+    <td>{%=item.Name%}</td>
+    <td>{%=item.AnotherName%}</td>
+    <td>{%=item.BrandStyle%}</td>
+    <td class='center'><div class="status" data-id="{%=item.BrandID%}" data-value="{%=item.Status==1%}"></div></td>
+    <td title="{%=item.Remark%}">{%=item.Remark%}</td>
+    <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+     <td class="center dropdown" data-id="{%=item.BrandID%}">
+        <span  class="ico-dropdown"></span>
+    </td>
+</tr>
+{% } %}

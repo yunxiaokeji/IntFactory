@@ -1,0 +1,17 @@
+﻿
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td>{%=item.AttrName%}</td>
+    <td class="">{%=item.Description%}</td>
+    <td class="center attr-values" data-id="{%=item.AttrID%}"><a href="javascript:void(0);">设置属性值</a></td>
+    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class='center'>{%=(item.CreateUser ? item.CreateUser.Name:"--")%}</td>
+    <td class="center dropdown" data-id="{%=item.AttrID%}">
+        <span class="ico-dropdown"></span>
+    </td>
+</tr>
+{% } %}
+

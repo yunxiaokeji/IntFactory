@@ -50,10 +50,9 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public DataTable GetClientUnits(string clientid)
+        public DataTable GetClientUnits()
         {
-            SqlParameter[] paras = { new SqlParameter("@ClientID", clientid) };
-            DataTable dt = GetDataTable("select * from ProductUnit where ClientID=@ClientID and Status<>9", paras, CommandType.Text);
+            DataTable dt = GetDataTable("select * from ProductUnit where Status<>9");
             return dt;
         }
 
@@ -64,14 +63,14 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public DataSet GetAttrs(string clientid)
+        public DataSet GetAttrs()
         {
-            SqlParameter[] paras = { new SqlParameter("@ClientID", clientid) };
+            SqlParameter[] paras = { new SqlParameter("@ClientID", "") };
             DataSet ds = GetDataSet("P_GetAttrsByClientID", paras, CommandType.StoredProcedure, "Attrs|Values");
             return ds;
         }
 
-        public DataSet GetAttrList(string categoryid, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientid)
+        public DataSet GetAttrList(string categoryid, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
@@ -79,8 +78,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@keyWords",keyWords),
                                        new SqlParameter("@pageSize",pageSize),
                                        new SqlParameter("@pageIndex",pageIndex),
-                                       new SqlParameter("@CategoryID", categoryid),
-                                       new SqlParameter("@ClientID",clientid)
+                                       new SqlParameter("@CategoryID", categoryid)
                                    };
             paras[0].Value = totalCount;
             paras[1].Value = pageCount;
@@ -94,11 +92,10 @@ namespace IntFactoryDAL
 
         }
 
-        public DataTable GetAttrList(string categoryid, string clientid)
+        public DataTable GetAttrList(string categoryid)
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@CategoryID", categoryid),
-                                       new SqlParameter("@ClientID", clientid) 
+                                       new SqlParameter("@CategoryID", categoryid)
                                    };
 
             return GetDataTable("P_GetAttrsByCategoryID", paras, CommandType.StoredProcedure);
@@ -112,13 +109,12 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataTable GetChildCategorysByID(string categoryid, string clientid)
+        public DataTable GetChildCategorysByID(string categoryid)
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@PID", categoryid) ,
-                                       new SqlParameter("@ClientID", clientid) 
+                                       new SqlParameter("@PID", categoryid) 
                                    };
-            DataTable dt = GetDataTable("select * from Category where PID=@PID and ClientID=@ClientID and Status<>9 Order by CreateTime", paras, CommandType.Text);
+            DataTable dt = GetDataTable("select * from Category where PID=@PID and Status<>9 Order by CreateTime", paras, CommandType.Text);
             return dt;
         }
 

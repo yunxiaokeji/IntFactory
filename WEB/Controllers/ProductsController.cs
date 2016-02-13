@@ -42,7 +42,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public ActionResult Unit() 
         {
-            ViewBag.Items = new ProductsBusiness().GetClientUnits(CurrentUser.ClientID);
+            ViewBag.Items = new ProductsBusiness().GetClientUnits();
             return View();
         }
 
@@ -52,7 +52,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public ActionResult Category() 
         {
-            var list = new ProductsBusiness().GetChildCategorysByID("", CurrentUser.ClientID);
+            var list = new ProductsBusiness().GetChildCategorysByID("");
             ViewBag.Items = list;
             return View();
         }
@@ -74,13 +74,13 @@ namespace YXERP.Controllers
         {
             if (string.IsNullOrEmpty(id))
             {
-                var list = new ProductsBusiness().GetChildCategorysByID("", CurrentUser.ClientID);
+                var list = new ProductsBusiness().GetChildCategorysByID("");
                 ViewBag.Items = list;
                 return View("ChooseCategory");
             }
             ViewBag.Model = new ProductsBusiness().GetCategoryDetailByID(id);
             ViewBag.Providers = StockBusiness.BaseBusiness.GetProviders(CurrentUser.ClientID);
-            ViewBag.UnitList = new ProductsBusiness().GetClientUnits(CurrentUser.ClientID);
+            ViewBag.UnitList = new ProductsBusiness().GetClientUnits();
             return View();
         }
 
@@ -94,7 +94,7 @@ namespace YXERP.Controllers
             var model = new ProductsBusiness().GetProductByID(id);
             ViewBag.Model = model;
             ViewBag.Providers = StockBusiness.BaseBusiness.GetProviders(CurrentUser.ClientID);
-            ViewBag.UnitList = new ProductsBusiness().GetClientUnits(CurrentUser.ClientID);
+            ViewBag.UnitList = new ProductsBusiness().GetClientUnits();
             return View();
         }
         /// <summary>
@@ -293,11 +293,11 @@ namespace YXERP.Controllers
             string UnitID = "";
             if (string.IsNullOrEmpty(model.UnitID))
             {
-                UnitID = new ProductsBusiness().AddUnit(model.UnitName, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
+                UnitID = new ProductsBusiness().AddUnit(model.UnitName, model.Description, CurrentUser.UserID);
             }
             else
             {
-                bool bl = new ProductsBusiness().UpdateUnit(model.UnitID, model.UnitName, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
+                bool bl = new ProductsBusiness().UpdateUnit(model.UnitID, model.UnitName, model.Description, CurrentUser.UserID);
                 if (bl)
                 {
                     UnitID = model.UnitID;
@@ -316,7 +316,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult DeleteUnit(string unitID)
         {
-            bool bl = new ProductsBusiness().UpdateUnitStatus(unitID, EnumStatus.Delete, OperateIP, CurrentUser.UserID, CurrentUser.ClientID);
+            bool bl = new ProductsBusiness().UpdateUnitStatus(unitID, EnumStatus.Delete, OperateIP, CurrentUser.UserID);
             JsonDictionary.Add("Status", bl);
             return new JsonResult
             {
@@ -340,7 +340,7 @@ namespace YXERP.Controllers
             List<ProductAttr> list = new List<ProductAttr>();
 
             int totalCount = 0, pageCount = 0;
-            list = new ProductsBusiness().GetAttrList("", keyWorks, PageSize, index, ref totalCount, ref pageCount, CurrentUser.AgentID, CurrentUser.ClientID);
+            list = new ProductsBusiness().GetAttrList("", keyWorks, PageSize, index, ref totalCount, ref pageCount);
 
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
@@ -358,7 +358,7 @@ namespace YXERP.Controllers
         public JsonResult GetAttrsByCategoryID(string categoryid)
         {
             List<ProductAttr> list = new List<ProductAttr>();
-            list = new ProductsBusiness().GetAttrList(categoryid, CurrentUser.ClientID);
+            list = new ProductsBusiness().GetAttrList(categoryid);
 
             JsonDictionary.Add("Items", list);
             return new JsonResult
@@ -381,9 +381,9 @@ namespace YXERP.Controllers
             string attrID = string.Empty;
             if (string.IsNullOrEmpty(model.AttrID))
             {
-                attrID = new ProductsBusiness().AddProductAttr(model.AttrName, model.Description, model.CategoryID, model.Type, CurrentUser.UserID, CurrentUser.ClientID);
+                attrID = new ProductsBusiness().AddProductAttr(model.AttrName, model.Description, model.CategoryID, model.Type, CurrentUser.UserID);
             }
-            else if (new ProductsBusiness().UpdateProductAttr(model.AttrID, model.AttrName, model.Description, OperateIP, CurrentUser.UserID, CurrentUser.ClientID))
+            else if (new ProductsBusiness().UpdateProductAttr(model.AttrID, model.AttrName, model.Description, OperateIP, CurrentUser.UserID))
             {
                 attrID = model.AttrID.ToString();
             }
@@ -410,7 +410,7 @@ namespace YXERP.Controllers
             }
             else
             {
-                var model = new ProductsBusiness().GetProductAttrByID(attrID, CurrentUser.ClientID);
+                var model = new ProductsBusiness().GetProductAttrByID(attrID);
                 JsonDictionary.Add("Item", model);
             }
             return new JsonResult
@@ -435,9 +435,9 @@ namespace YXERP.Controllers
             {
                 if (string.IsNullOrEmpty(model.ValueID))
                 {
-                    valueID = new ProductsBusiness().AddAttrValue(model.ValueName, model.AttrID, CurrentUser.UserID, CurrentUser.ClientID);
+                    valueID = new ProductsBusiness().AddAttrValue(model.ValueName, model.AttrID, CurrentUser.UserID);
                 }
-                else if (new ProductsBusiness().UpdateAttrValue(model.ValueID, model.AttrID, model.ValueName, OperateIP, CurrentUser.UserID, CurrentUser.ClientID))
+                else if (new ProductsBusiness().UpdateAttrValue(model.ValueID, model.AttrID, model.ValueName, OperateIP, CurrentUser.UserID))
                 {
                     valueID = model.ValueID.ToString();
                 }
@@ -507,9 +507,9 @@ namespace YXERP.Controllers
         /// </summary>
         /// <param name="valueid"></param>
         /// <returns></returns>
-        public JsonResult DeleteAttrValue(string valueid)
+        public JsonResult DeleteAttrValue(string valueid, string attrid)
         {
-            bool bl = new ProductsBusiness().UpdateAttrValueStatus(valueid, EnumStatus.Delete, OperateIP, CurrentUser.UserID);
+            bool bl = new ProductsBusiness().UpdateAttrValueStatus(valueid, attrid, EnumStatus.Delete, OperateIP, CurrentUser.UserID);
             JsonDictionary.Add("Status", bl);
             return new JsonResult
             {
@@ -545,7 +545,7 @@ namespace YXERP.Controllers
             string caregoryid = "";
             if (string.IsNullOrEmpty(model.CategoryID))
             {
-                caregoryid = new ProductsBusiness().AddCategory(model.CategoryCode, model.CategoryName, model.PID, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID, CurrentUser.ClientID);
+                caregoryid = new ProductsBusiness().AddCategory(model.CategoryCode, model.CategoryName, model.PID, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID);
             }
             else
             {
@@ -570,7 +570,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult GetChildCategorysByID(string categoryid)
         {
-            var list = new ProductsBusiness().GetChildCategorysByID(categoryid, CurrentUser.ClientID);
+            var list = new ProductsBusiness().GetChildCategorysByID(categoryid);
             JsonDictionary.Add("Items", list);
             return new JsonResult
             {
@@ -612,7 +612,7 @@ namespace YXERP.Controllers
         public JsonResult DeleteCategory(string id)
         {
             int result = 0;
-            bool bl = new ProductsBusiness().DeleteCategory(id,CurrentUser.UserID,OperateIP,CurrentUser.AgentID,CurrentUser.ClientID,out result);
+            bool bl = new ProductsBusiness().DeleteCategory(id, CurrentUser.UserID, OperateIP, out result);
             JsonDictionary.Add("status", result);
             return new JsonResult
             {
