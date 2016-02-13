@@ -43,7 +43,7 @@
             <span><input type="text" maxlength="200" style="width:300px;" id="address" class="input" /></span>
         </li>
         
-        <li class="company">
+@*        <li class="company">
             <span class="column-title">行业：</span>
             <select id="industry">
             @foreach (IntFactoryEntity.Industry model in (List<IntFactoryEntity.Industry>)ViewBag.Industrys)
@@ -60,11 +60,11 @@
                 <option value="@(model.ExtentID)">@(model.ExtentName)</option> 
             }
             </select>
-        </li>
-        <li  class="company">
+        </li>*@
+        @*<li  class="company">
             <span class="column-title">联系人：</span> 
             <span><input type="text" maxlength="50" id="contactName" class="input" /></span>
-        </li>
+        </li>*@
         <li>
             <span class="column-title">联系电话：</span> 
             <span><input type="text" maxlength="11" id="contactMobile" data-type="mobile" class="input verify" /></span>
@@ -73,10 +73,10 @@
             <span class="column-title">邮箱：</span>
             <span><input type="text" maxlength="200" id="email" data-type="email" class="input verify" /></span>
         </li>
-        <li class="company">
+@*        <li class="company">
             <span class="column-title">职位：</span> 
             <span><input type="text" maxlength="20" id="jobs" class="input" /></span>
-        </li>
+        </li>*@
         <li>
             <span class="column-title">备注：</span>
             <textarea id="remark"></textarea>

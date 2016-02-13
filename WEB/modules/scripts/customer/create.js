@@ -48,11 +48,11 @@
             if (!_this.hasClass("ico-checked")) {
                 $(".customtype").removeClass("ico-checked").addClass("ico-check");
                 _this.addClass("ico-checked").removeClass("ico-check");
-                if (_this.data("type") == 1) {
-                    $(".company").show();
-                } else {
-                    $(".company").hide();
-                }
+                //if (_this.data("type") == 1) {
+                //    $(".company").show();
+                //} else {
+                //    $(".company").hide();
+                //}
             }
         });
 
@@ -66,16 +66,16 @@
         var model = {
             Name: $("#name").val().trim(),
             Type: $("#companyCustom").hasClass("ico-checked") ? 1 : 0,
-            IndustryID: $("#industry").val().trim(),
-            ActivityID: activityid,
+            //IndustryID: $("#industry").val().trim(),
+            //ActivityID: activityid,
             SourceID: $("#source").val().trim(),
-            Extent: $("#extent").val().trim(),
+            //Extent: $("#extent").val().trim(),
             CityCode: CityObject.getCityCode(),
             Address: $("#address").val().trim(),
-            ContactName: $("#contactName").val().trim(),
+            //ContactName: $("#contactName").val().trim(),
             MobilePhone: $("#contactMobile").val().trim(),
             Email: $("#email").val().trim(),
-            Jobs: $("#jobs").val().trim(),
+            //Jobs: $("#jobs").val().trim(),
             Description: $("#remark").val().trim()
         };
         Global.post("/Customer/SaveCustomer", { entity: JSON.stringify(model) }, function (data) {
@@ -83,7 +83,7 @@
                 confirm("客户保存成功,是否继续添加客户?", function () {
                     location.href = location.href;
                 }, function () {
-                    location.href = "/Customer/MyCustomer";
+                    location.href = "/Customer/Customers";
                 })
                 
             } else {

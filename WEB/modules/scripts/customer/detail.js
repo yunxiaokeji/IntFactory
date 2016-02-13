@@ -35,11 +35,11 @@
     //样式
     ObjectJS.bindStyle = function () {
 
-        var stages = $(".stage-items"), width = stages.width();
+        //var stages = $(".stage-items"), width = stages.width();
 
-        stages.find("li .leftbg").first().removeClass("leftbg");
-        stages.find("li .rightbg").last().removeClass("rightbg");
-        stages.find("li").width(width / stages.find("li").length - 20);
+        //stages.find("li .leftbg").first().removeClass("leftbg");
+        //stages.find("li .rightbg").last().removeClass("rightbg");
+        //stages.find("li").width(width / stages.find("li").length - 20);
     }
     //基本信息
     ObjectJS.bindCustomerInfo = function (model) {
@@ -65,21 +65,21 @@
 
         if (model.Type == 0) {
             $("#lblType").html("人")
-            $(".companyinfo").hide();
+            //$(".companyinfo").hide();
         } else {
             $("#lblType").html("企")
-            $(".companyinfo").show();
+            //$(".companyinfo").show();
         }
 
         //处理阶段
-        var stage = $(".stage-items li[data-id='" + model.StageID + "']");
-        stage.addClass("hover");
-        if (model.Stage) {
-            CacheIems[model.StageID] = model.Stage.StageItem;
-            if (model.Stage.StageItem) {
-                _self.bindStageItems(model.Stage.StageItem);
-            }
-        }
+        //var stage = $(".stage-items li[data-id='" + model.StageID + "']");
+        //stage.addClass("hover");
+        //if (model.Stage) {
+        //    CacheIems[model.StageID] = model.Stage.StageItem;
+        //    if (model.Stage.StageItem) {
+        //        _self.bindStageItems(model.Stage.StageItem);
+        //    }
+        //}
 
     }
     //阶段行为项
@@ -188,7 +188,7 @@
         $("#changeOwner").click(function () {
             var _this = $(this);
             ChooseUser.create({
-                title: "更换拥有者",
+                title: "更换负责人",
                 type: 1,
                 single: true,
                 callback: function (items) {
@@ -269,50 +269,6 @@
                 });
             });
         });
-
-        require.async("sharemingdao", function () {
-            $("#btn_shareMD").sharemingdao({
-                post_pars: {
-                    content: model.Name,
-                    groups: [],
-                    share_type: 0
-                },
-                task_pars: {
-                    name: model.Name,
-                    end_date: "",
-                    charger: model.Owner,
-                    members: [model.Owner],
-                    des: "",
-                    url: "/Customer/Detail?id=" + model.CustomerID + "&source=md"
-                },
-                schedule_pars: {
-                    name: model.Name,
-                    start_date: "",
-                    end_date: "",
-                    members: [model.Owner],
-                    address: model.Address,
-                    des: "",
-                    url: "/Customer/Detail?id=" + model.CustomerID + "&source=md"
-                },
-                callback: function (type, url) {
-                    if (type == "Calendar") {
-                        url = "<a href='" + url + "' target='_blank'>分享明道日程，点击查看详情</a>";
-                    } else if (type == "Task") {
-                        url = "<a href='" + url + "' target='_blank'>分享明道任务，点击查看详情</a>";
-                    }
-
-                    var entity = {
-                        GUID: model.CustomerID,
-                        Content: encodeURI(url),
-                        FromReplyID: "",
-                        FromReplyUserID: "",
-                        FromReplyAgentID: ""
-                    };
-                    _self.saveReply(entity);
-                }
-            });
-        });
-
     }
     //获取日志
     ObjectJS.getLogs = function (customerid, page) {
@@ -566,24 +522,25 @@
                 regText: "data-text"
             });
 
-            $("#extent").val(model.Extent);
+            //$("#extent").val(model.Extent);
 
-            $("#industry").val(model.IndustryID);
+            //$("#industry").val(model.IndustryID);
 
             if (model.Type == 0) {
-                $(".edit-company").hide();
+                
             }
+            $(".edit-company").hide();
             //切换类型
             $(".customtype").click(function () {
                 var _this = $(this);
                 if (!_this.hasClass("ico-checked")) {
                     $(".customtype").removeClass("ico-checked").addClass("ico-check");
                     _this.addClass("ico-checked").removeClass("ico-check");
-                    if (_this.data("type") == 1) {
-                        $(".edit-company").show();
-                    } else {
-                        $(".edit-company").hide();
-                    }
+                    //if (_this.data("type") == 1) {
+                    //    $(".edit-company").show();
+                    //} else {
+                    //    $(".edit-company").hide();
+                    //}
                 }
             });
         });

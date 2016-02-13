@@ -8,11 +8,11 @@
     <td class=""> <a href="/Customer/Detail/{%=item.CustomerID%}" target="_blank">{%=item.Name%}</a> </td>
     <td class="center">{%=item.Type==1?"企业":"个人"%}</td>
     <td class='center'>{%= item.Source?item.Source.SourceName:"--" %}</td>
-    <td class='center'>{%= item.Stage?item.Stage.StageName:"--" %}</td>
-    <td class='center'>{%= item.ContactName
+    <!--<td class='center'>{%= item.Stage?item.Stage.StageName:"--" %}</td>-->
+    <!--<td class='center'>{%= item.ContactName
                                         ?(item.ContactName + (item.Jobs?"("+item.Jobs+")":"") )
                                         :"--" %}    
-    </td>
+    </td>-->
     <td class="center">{%=item.MobilePhone%}</td>
     <td class="center">{%=item.ReplyTimes%}</td>
     <td class='center'>{%=(item.Owner ? item.Owner.Name:"--")%}</td>
