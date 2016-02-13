@@ -259,6 +259,10 @@ define(function (require, exports, module) {
             _this.addClass("hover");
             _this.parents(".category-layer").nextAll(".category-layer,.category-attr-layer,.common-attr-layer").remove();
             
+            if (layer >= 2) {
+                return;
+            }
+
             //加载下级分类
             Global.post("/Products/GetChildCategorysByID", {
                 categoryid: _this.data("id")
@@ -283,6 +287,8 @@ define(function (require, exports, module) {
     }
     //显示分类属性
     ObjectJS.showAttrs = function (obj) {
+
+        return;
 
         var _self = this;
         //属性设置
