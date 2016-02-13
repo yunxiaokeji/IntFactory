@@ -322,6 +322,36 @@ namespace IntFactoryBusiness
             return model;
         }
 
+        public List<Category> GetChildOrderCategorysByID(string categoryid)
+        {
+            var dal = new ProductsDAL();
+            DataTable dt = dal.GetChildOrderCategorysByID(categoryid);
+
+            List<Category> list = new List<Category>();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                Category model = new Category();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
+
+        public Category GetOrderCategoryByID(string categoryid)
+        {
+            var dal = new ProductsDAL();
+            DataTable dt = dal.GetOrderCategoryByID(categoryid);
+
+            Category model = new Category();
+            if (dt.Rows.Count > 0)
+            {
+                model.FillData(dt.Rows[0]);
+            }
+
+            return model;
+        }
+
         public List<Products> GetProductList(string categoryid, string prodiverid, string beginprice, string endprice, string keyWords, string orderby, bool isasc, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
         {
             var dal = new ProductsDAL();
@@ -637,6 +667,12 @@ namespace IntFactoryBusiness
             return dal.AddCategory(categoryCode, categoryName, pid, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid, "");
         }
 
+        public string AddOrderCategory(string categoryCode, string categoryName, string pid, int status, List<string> attrlist, List<string> saleattr, string description, string operateid)
+        {
+            var dal = new ProductsDAL();
+            return dal.AddOrderCategory(categoryCode, categoryName, pid, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid, "");
+        }
+
         public string AddProduct(string productCode, string productName, string generalName, bool iscombineproduct, string prodiverid, string brandid, string bigunitid, string smallunitid, int bigSmallMultiple,
                                  string categoryid, int status, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price, decimal weight, bool isnew,
                                  bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, List<ProductDetail> details, string operateid, string agentid, string clientid)
@@ -845,10 +881,23 @@ namespace IntFactoryBusiness
             return dal.UpdateCategory(categoryid, categoryName, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid);
         }
 
+        public bool UpdateOrderCategory(string categoryid, string categoryName, int status, List<string> attrlist, List<string> saleattr, string description, string operateid)
+        {
+            var dal = new ProductsDAL();
+            return dal.UpdateOrderCategory(categoryid, categoryName, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid);
+        }
+
+
         public bool DeleteCategory(string categoryid, string operateid, string ip, out int result)
         {
             var dal = new ProductsDAL();
             return dal.DeleteCategory(categoryid, operateid, out result);
+        }
+
+        public bool DeleteOrderCategory(string categoryid, string operateid, string ip, out int result)
+        {
+            var dal = new ProductsDAL();
+            return dal.DeleteOrderCategory(categoryid, operateid, out result);
         }
 
         public bool UpdateProductStatus(string productid, EnumStatus status, string operateIP, string operateID)

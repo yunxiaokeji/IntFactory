@@ -452,4 +452,13 @@
   <ItemGroup>
     <None Include="Procedures\System\P_InsertOrderStage.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Products\P_InsertOrderCategory.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Products\P_UpdateOrderCategory.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Products\P_DeleteOrderCategory.sql" />
+  </ItemGroup>
 </Project>
