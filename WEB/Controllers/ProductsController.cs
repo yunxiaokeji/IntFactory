@@ -52,7 +52,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public ActionResult Category() 
         {
-            var list = new ProductsBusiness().GetChildOrderCategorysByID("");
+            var list = new ProductsBusiness().GetChildOrderCategorysByID("", CurrentUser.ClientID);
             ViewBag.Items = list;
             return View();
         }
@@ -303,7 +303,7 @@ namespace YXERP.Controllers
             string caregoryid = "";
             if (string.IsNullOrEmpty(model.CategoryID))
             {
-                caregoryid = new ProductsBusiness().AddOrderCategory(model.CategoryCode, model.CategoryName, model.PID, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID);
+                caregoryid = new ProductsBusiness().AddOrderCategory(model.CategoryCode, model.CategoryName, model.PID, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID, CurrentUser.ClientID);
             }
             else
             {
@@ -339,7 +339,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetChildOrderCategorysByID(string categoryid)
         {
-            var list = new ProductsBusiness().GetChildOrderCategorysByID(categoryid);
+            var list = new ProductsBusiness().GetChildOrderCategorysByID(categoryid, CurrentUser.ClientID);
             JsonDictionary.Add("Items", list);
             return new JsonResult
             {

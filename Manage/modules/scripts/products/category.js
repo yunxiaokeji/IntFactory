@@ -259,6 +259,8 @@ define(function (require, exports, module) {
             _this.addClass("hover");
             _this.parents(".category-layer").nextAll(".category-layer,.category-attr-layer,.common-attr-layer").remove();
             
+            
+
             //加载下级分类
             Global.post("/Products/GetChildCategorysByID", {
                 categoryid: _this.data("id")
@@ -269,11 +271,13 @@ define(function (require, exports, module) {
                     //绑定添加事件
                     html.find(".category-header").html(_this.find(".category-name").html()+" >>");
 
-                    _self.addBindEvent(html.find(".create-child").data("id", _this.data("id")).data("layer", _this.data("layer") * 1 + 1));
-
-                    _self.bindElementEvent(html.find("li"));
+                    if (layer < 3) {
+                        _self.addBindEvent(html.find(".create-child").data("id", _this.data("id")).data("layer", _this.data("layer") * 1 + 1));
+                        _self.bindElementEvent(html.find("li"));
+                    }
 
                     _this.parents(".category-layer").after(html);
+
                     _self.bindStyle();
 
                     _self.showAttrs(_this);

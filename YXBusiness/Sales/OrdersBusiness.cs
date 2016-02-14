@@ -9,12 +9,20 @@ using IntFactoryDAL;
 using IntFactoryEntity;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
+using System.Web;
 
 namespace IntFactoryBusiness
 {
     public class OrdersBusiness
     {
         public static OrdersBusiness BaseBusiness = new OrdersBusiness();
+
+        /// <summary>
+        /// 文件默认存储路径
+        /// </summary>
+        public string FILEPATH = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Orders/" + DateTime.Now.ToString("yyyyMM") + "/";
+        public string TempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
 
         #region 查询
 
@@ -27,7 +35,6 @@ namespace IntFactoryBusiness
             {
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
-                model.OrderType = SystemBusiness.BaseBusiness.GetOrderTypeByID(model.TypeID, model.AgentID, model.ClientID);
                 model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
@@ -46,7 +53,7 @@ namespace IntFactoryBusiness
             {
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
-                model.OrderType = SystemBusiness.BaseBusiness.GetOrderTypeByID(model.TypeID, model.AgentID, model.ClientID);
+
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
@@ -72,7 +79,7 @@ namespace IntFactoryBusiness
             {
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
-                model.OrderType = SystemBusiness.BaseBusiness.GetOrderTypeByID(model.TypeID, model.AgentID, model.ClientID);
+
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
@@ -106,7 +113,6 @@ namespace IntFactoryBusiness
             {
                 
                 model.FillData(ds.Tables["Order"].Rows[0]);
-                model.OrderType = SystemBusiness.BaseBusiness.GetOrderTypeByID(model.TypeID, model.AgentID, model.ClientID);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
                 model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
 
@@ -169,12 +175,33 @@ namespace IntFactoryBusiness
 
         #region 添加
 
-        public string CreateOrder(string customerid, string operateid, string agentid, string clientid)
+        public string CreateOrder(string name, string mobile, int type, string categoryid, string price, string orderimg, string citycode, string address, string remark, string operateid, string agentid, string clientid)
         {
             string id = Guid.NewGuid().ToString();
             string code = DateTime.Now.ToString("yyyyMMddHHmmssfff");
 
-            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, customerid, operateid, agentid, clientid);
+            if (!string.IsNullOrEmpty(orderimg))
+            {
+                if (orderimg.IndexOf("?") > 0)
+                {
+                    orderimg = orderimg.Substring(0, orderimg.IndexOf("?"));
+                }
+
+                DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
+                if (!directory.Exists)
+                {
+                    directory.Create();
+                }
+
+                FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
+                orderimg = FILEPATH + file.Name;
+                if (file.Exists)
+                {
+                    file.MoveTo(HttpContext.Current.Server.MapPath(orderimg));
+                }
+            }
+
+            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, name, mobile, type, categoryid, price, orderimg, citycode, address, remark, operateid, agentid, clientid);
             if (!bl)
             {
                 return "";
@@ -182,7 +209,7 @@ namespace IntFactoryBusiness
             else
             {
                 //日志
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Opportunity, EnumLogType.Create, "", operateid, agentid, clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Orders, EnumLogType.Create, "", operateid, agentid, clientid);
             }
             return id;
         }

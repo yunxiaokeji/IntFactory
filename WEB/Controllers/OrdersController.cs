@@ -47,7 +47,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Type = (int)EnumDocType.Order;
             ViewBag.GUID = id;
-            ViewBag.Title = "新建机会订单-选择产品";
+            ViewBag.Title = "加工订单-选择材料";
             return View("FilterProducts");
         }
 
@@ -57,19 +57,11 @@ namespace YXERP.Controllers
 
             if (model == null || string.IsNullOrEmpty(model.OrderID))
             {
-                return Redirect("/Orders/MyOrder");
+                return Redirect("/Orders/Orders");
             }
 
 
-            ViewBag.Model = model;
-            if (model.Status == 0)
-            {
-                return Redirect("/Opportunitys/Detail/" + model.OrderID);
-            }
-            else
-            {
-                return View();
-            }
+            return View();
         }
 
         public ActionResult ApplyReturn(string id)
@@ -78,7 +70,7 @@ namespace YXERP.Controllers
 
             if (model == null || string.IsNullOrEmpty(model.OrderID))
             {
-                return Redirect("/Orders/MyOrder");
+                return Redirect("/Orders/Orders");
             }
 
             if (model.Status != 2 || model.SendStatus == 0 || model.ReturnStatus == 1)
@@ -90,18 +82,11 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult Create(string id)
+        public ActionResult Create()
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return Redirect("/Orders/MyOrder");
-            }
-            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(id, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
-            if (string.IsNullOrEmpty(orderid))
-            {
-                return Redirect("/Orders/MyOrder");
-            }
-            return Redirect("/Orders/ChooseProducts/" + orderid);
+            var list = new ProductsBusiness().GetChildOrderCategorysByID("", CurrentUser.ClientID);
+            ViewBag.Items = list;
+            return View();
         }
 
 
@@ -157,9 +142,13 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult CreateOrder(string customerid)
+        public JsonResult CreateOrder(string entity)
         {
-            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(customerid, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
+
+            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.PersonName, model.MobileTele, model.OrderType, model.CategoryID, model.PlanPrice, 
+                                                                     model.OrderImg, model.CityCode, model.Address, model.Remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
             {

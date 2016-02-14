@@ -118,12 +118,13 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public DataTable GetChildOrderCategorysByID(string categoryid)
+        public DataTable GetChildOrderCategorysByID(string categoryid, string clientid)
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@PID", categoryid) 
+                                       new SqlParameter("@PID", categoryid) ,
+                                       new SqlParameter("@ClientID", clientid)
                                    };
-            DataTable dt = GetDataTable("select * from OrderCategory where PID=@PID and Status<>9 Order by CreateTime", paras, CommandType.Text);
+            DataTable dt = GetDataTable("select * from OrderCategory where PID=@PID and ClientID=@ClientID and Status<>9 Order by CreateTime", paras, CommandType.Text);
             return dt;
         }
 

@@ -322,10 +322,10 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public List<Category> GetChildOrderCategorysByID(string categoryid)
+        public List<Category> GetChildOrderCategorysByID(string categoryid, string clientid)
         {
             var dal = new ProductsDAL();
-            DataTable dt = dal.GetChildOrderCategorysByID(categoryid);
+            DataTable dt = dal.GetChildOrderCategorysByID(categoryid, clientid);
 
             List<Category> list = new List<Category>();
 
@@ -667,10 +667,10 @@ namespace IntFactoryBusiness
             return dal.AddCategory(categoryCode, categoryName, pid, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid, "");
         }
 
-        public string AddOrderCategory(string categoryCode, string categoryName, string pid, int status, List<string> attrlist, List<string> saleattr, string description, string operateid)
+        public string AddOrderCategory(string categoryCode, string categoryName, string pid, int status, List<string> attrlist, List<string> saleattr, string description, string operateid, string clientid)
         {
             var dal = new ProductsDAL();
-            return dal.AddOrderCategory(categoryCode, categoryName, pid, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid, "");
+            return dal.AddOrderCategory(categoryCode, categoryName, pid, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid, clientid);
         }
 
         public string AddProduct(string productCode, string productName, string generalName, bool iscombineproduct, string prodiverid, string brandid, string bigunitid, string smallunitid, int bigSmallMultiple,
