@@ -21,7 +21,7 @@ define(function (require, exports, module) {
     var ObjectJS = {};
     //初始化数据
     ObjectJS.init = function () {
-        ObjectJS.cache();
+        //ObjectJS.cache();
         ObjectJS.bindStyle();
         ObjectJS.bindEvent();
     }
@@ -80,7 +80,7 @@ define(function (require, exports, module) {
         $("#deleteCategory").click(function () {
             var _this = $(this);
             confirm("分类删除后不可恢复,确认删除吗?", function () {
-                Global.post("/Products/DeleteCategory", { id: _this.data("id") }, function (data) {
+                Global.post("/Products/DeleteOrderCategory", { id: _this.data("id") }, function (data) {
                     if (data.status == 1) {
                         $(".category-list li[data-id='" + _this.data("id") + "']").remove();
                     } else if (data.status == 10002) {
@@ -95,7 +95,7 @@ define(function (require, exports, module) {
         $("#editCategory").click(function () {
             var _this = $(this);
             
-            Global.post("/Products/GetCategoryByID", {
+            Global.post("/Products/GetOrderCategoryByID", {
                 categoryid: _this.data("id")
             }, function (data) {
                 Category = data.Model;
@@ -264,7 +264,7 @@ define(function (require, exports, module) {
             }
 
             //加载下级分类
-            Global.post("/Products/GetChildCategorysByID", {
+            Global.post("/Products/GetChildOrderCategorysByID", {
                 categoryid: _this.data("id")
             }, function (data) {
                 doT.exec("template/products/categorys.html", function (templateFun) {

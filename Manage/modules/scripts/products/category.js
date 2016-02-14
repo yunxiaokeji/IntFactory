@@ -79,7 +79,7 @@ define(function (require, exports, module) {
         //删除分类
         $("#deleteCategory").click(function () {
             var _this = $(this);
-            confirm("分类删除后不可恢复,确认删除吗?", function () {
+            if (confirm("分类删除后不可恢复,确认删除吗?")) {
                 Global.post("/Products/DeleteCategory", { id: _this.data("id") }, function (data) {
                     if (data.status == 1) {
                         $(".category-list li[data-id='" + _this.data("id") + "']").remove();
@@ -89,7 +89,7 @@ define(function (require, exports, module) {
                         alert("删除失败!");
                     }
                 });
-            });
+            }
         });
         //编辑分类
         $("#editCategory").click(function () {
@@ -116,7 +116,7 @@ define(function (require, exports, module) {
         //删除属性
         $("#deleteAttr").click(function () {
             var _this = $(this);
-            confirm("删除后不可恢复,确认删除吗?", function () {
+            if (confirm("删除后不可恢复,确认删除吗?")) {
                 Global.post("/Products/DeleteCategoryAttr", {
                     categoryid: _this.data("categoryid"),
                     attrid: _this.data("id"),
@@ -129,7 +129,7 @@ define(function (require, exports, module) {
 
                     }
                 });
-            });
+            }
         });
         //编辑属性
         $("#editAttr").click(function () {
@@ -476,11 +476,11 @@ define(function (require, exports, module) {
         elments.find(".ico-delete").click(function () {
             var _this = $(this);
             if (_this.data("id") != "") {
-                confirm("删除后不可恢复,确认删除吗？", function () {
+                if (confirm("删除后不可恢复,确认删除吗？")) {
                     _self.deleteValue(_this.data("id"), function (status) {
                         status && _this.parent().remove();
                     });
-                });
+                }
             } else {
                 _this.parent().remove();
             }

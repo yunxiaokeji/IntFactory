@@ -328,6 +328,17 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult GetChildCategorysByID(string categoryid)
         {
+            var list = new ProductsBusiness().GetChildCategorysByID(categoryid);
+            JsonDictionary.Add("Items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetChildOrderCategorysByID(string categoryid)
+        {
             var list = new ProductsBusiness().GetChildOrderCategorysByID(categoryid);
             JsonDictionary.Add("Items", list);
             return new JsonResult
@@ -342,6 +353,16 @@ namespace YXERP.Controllers
         /// <param name="categoryid"></param>
         /// <returns></returns>
         public JsonResult GetCategoryByID(string categoryid)
+        {
+            var model = new ProductsBusiness().GetCategoryByID(categoryid);
+            JsonDictionary.Add("Model", model);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult GetOrderCategoryByID(string categoryid)
         {
             var model = new ProductsBusiness().GetOrderCategoryByID(categoryid);
             JsonDictionary.Add("Model", model);
@@ -368,6 +389,17 @@ namespace YXERP.Controllers
         }
 
         public JsonResult DeleteCategory(string id)
+        {
+            int result = 0;
+            bool bl = new ProductsBusiness().DeleteCategory(id, CurrentUser.UserID, OperateIP, out result);
+            JsonDictionary.Add("status", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult DeleteOrderCategory(string id)
         {
             int result = 0;
             bool bl = new ProductsBusiness().DeleteOrderCategory(id, CurrentUser.UserID, OperateIP, out result);
