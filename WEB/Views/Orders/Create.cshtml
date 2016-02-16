@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "新建订单";
+}
+
+<style>
+    .product-img { position:absolute; top:200px; right:50px; width:150px; }
+    .product-img img{ width:150px;}
+</style>
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/orders/create"], function (ObjectJS) {
+            ObjectJS.init();
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">新建订单</span>
+    
+</div>
+<div class="content-body mTop20">
+    <ul class="table-add">
+        <li>
+            <span class="column-title">订单类别：</span> 
+            <span class="ico-checked mTop2 customtype" id="companyCustom" data-type="1">打样</span>
+            <span class="ico-check mTop2 customtype" data-type="2">大货</span>
+        </li>
+        <li>
+            <span class="column-title">订单品类：</span>
+            <select id="ordercategory">
+            @foreach (IntFactoryEntity.Category model in (List<IntFactoryEntity.Category>)ViewBag.Items)
+            {
+                <option value="@(model.CategoryID)">@(model.CategoryName)</option> 
+            }
+            </select>
+        </li>
+        <li>
+            <span class="column-title">期望价格：</span>
+            <span><input type="text" maxlength="50" id="planPrice" class="input verify" /></span>
+        </li>
+        <li>
+            <span class="column-title">附件：</span>
+            <span id="productIco"></span>
+        </li>
+        <li>
+            <span class="column-title">详细需求：</span>
+            <textarea id="remark"></textarea>
+        </li>
+        <li  class="company">
+            <span class="column-title">姓名：</span> 
+            <span><input type="text" maxlength="50" id="name" data-empty="必填" class="input verify" /></span>
+        </li>
+        <li>
+            <span class="column-title">联系电话：</span> 
+            <span><input type="text" maxlength="11" id="contactMobile" data-empty="必填" data-type="mobile" class="input verify" /></span>
+        </li>
+        <li>
+            <span class="column-title">邮寄地址：</span> 
+            <span id="city"></span>
+        </li>
+        <li>
+            <span class="column-title">详细地址：</span> 
+            <span><input type="text" maxlength="200" style="width:300px;" id="address" class="input" /></span>
+        </li>
+    </ul>
+    <img class="product-img" id="productImg" alt="" src="/modules/images/default.png" />
+    <div class="mTop20">
+        <div class="btn" id="btnSave">保存</div>
+    </div>
+</div>
+

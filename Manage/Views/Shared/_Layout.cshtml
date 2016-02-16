@@ -38,9 +38,15 @@
                         <span class="cursor"></span>
                     </a> 
                 </li>
+                <li class="left" BindController="products">
+                    <a href="/Products/index" >
+                        <span class="name">材料</span>
+                        <span class="cursor"></span>
+                    </a> 
+                </li>
                 <li class="left" BindController="modulesproduct">
                     <a href="/ModulesProduct/index" >
-                        <span class="name">产品</span>
+                        <span class="name">收费产品</span>
                         <span class="cursor"></span>
                     </a> 
                 </li>
@@ -110,7 +116,20 @@
                     <li class="action" BindAction="index"><a href="/Client/index" >客户列表</a></li>
                 </ul>
             </div>
+            <div class="controller" BindController="products">
+                <div class="controller-box">
+                    <div class="controller-name">
+                        <span class="open left"></span>
+                        <span class="name left">材料管理</span>
+                    </div>
+                </div>
 
+                <ul class="action-box">
+                    <li class="action " BindAction="unit"><a href="/Products/Unit" >单位管理</a></li>
+                    <li class="action " BindAction="attr"><a href="/Products/Attr" >属性/规格</a></li>
+                    <li class="action " BindAction="category"><a href="/Products/Category" >类别设置</a></li>
+                </ul>
+            </div>
             <div class="controller" BindController="modulesproduct">
                 <div class="controller-box">
                     <div class="controller-name">

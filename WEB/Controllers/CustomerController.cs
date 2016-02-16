@@ -26,21 +26,21 @@ namespace YXERP.Controllers
         {
             ViewBag.Title = "我的客户";
             ViewBag.Type = (int)EnumSearchType.Myself;
-            ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
+            //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
         }
         public ActionResult BranchCustomer()
         {
             ViewBag.Title = "下属客户";
             ViewBag.Type = (int)EnumSearchType.Branch;
-            ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
+            //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
         }
         public ActionResult Customers()
         {
             ViewBag.Title = "所有客户";
             ViewBag.Type = (int)EnumSearchType.All;
-            ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
+            //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
         }
 
@@ -55,15 +55,15 @@ namespace YXERP.Controllers
                 ViewBag.Sources = new SystemBusiness().GetCustomSources(CurrentUser.AgentID, CurrentUser.ClientID);
             }
             ViewBag.ActivityID = id;
-            ViewBag.Industrys = IntFactoryBusiness.Manage.IndustryBusiness.GetIndustrys();
-            ViewBag.Extents = CustomBusiness.GetExtents();
+            //ViewBag.Industrys = IntFactoryBusiness.Manage.IndustryBusiness.GetIndustrys();
+            //ViewBag.Extents = CustomBusiness.GetExtents();
             return View();
         }
 
         public ActionResult Detail(string id)
         {
             ViewBag.MDToken = CurrentUser.MDToken;
-            ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID).OrderBy(m => m.Sort).ToList();
+            //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID).OrderBy(m => m.Sort).ToList();
             ViewBag.ID = id;
             return View();
         }

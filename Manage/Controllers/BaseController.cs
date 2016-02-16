@@ -15,6 +15,17 @@ namespace YXManage.Controllers
 
         protected Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
 
+        /// <summary>
+        /// 登录IP
+        /// </summary>
+        protected string OperateIP
+        {
+            get
+            {
+                return string.IsNullOrEmpty(Request.Headers.Get("X-Real-IP")) ? Request.UserHostAddress : Request.Headers["X-Real-IP"];
+            }
+        }
+
         protected IntFactoryEntity.Manage.M_Users CurrentUser
         {
             get

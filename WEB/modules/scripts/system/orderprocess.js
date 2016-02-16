@@ -63,6 +63,11 @@
             });
         });
 
+        $("#setStages").click(function () {
+            var _this = $(this);
+            location.href = "/System/OrderStages/" +_this.data("id");
+        });
+
         //转移拥有者
         $("#updateOwner").click(function () {
             var _this = $(this);
@@ -117,7 +122,7 @@
                         entity.ProcessID = model ? model.ProcessID : "";
                         entity.ProcessName = $("#processName").val().trim();
                         entity.ProcessType = $("#processType").val();
-                        entity.PlanDays = $("#planDays").val().trim();
+                        entity.PlanDays = 0;//$("#planDays").val().trim();
                         entity.IsDefault = 0;
                         _self.saveModel(entity);
                     },
@@ -148,7 +153,7 @@
     ObjectJS.getList = function () {
         var _self = this;
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='7'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='6'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/System/GetOrderProcess", { type: Params.Type }, function (data) {
             _self.bindList(data.items);
         });
@@ -194,25 +199,10 @@
             });
         }
         else {
-            $(".tr-header").after("<tr><td colspan='7'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='6'><div class='noDataTxt' >暂无数据!<div></td></tr>");
         }
     }
-    //更改类型
-    ObjectJS.editIsChoose = function (obj, id, status, callback) {
-        var _self = this;
-        var model = {};
-        model.SourceID = id;
-        model.IsChoose = status ? 0 : 1;
-        Global.post("/System/SaveCustomSource", {
-            entity: JSON.stringify(model)
-        }, function (data) {
-            if (data.result == "10001") {
-                alert("您没有此操作权限，请联系管理员帮您添加权限！");
-                return;
-            }
-            !!callback && callback(data.status);
-        });
-    }
+
     //保存实体
     ObjectJS.saveModel = function (model) {
         var _self = this;

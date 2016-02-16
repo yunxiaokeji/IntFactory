@@ -74,21 +74,6 @@ namespace YXERP.Controllers
             }
         }
 
-        public ActionResult Create(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-            {
-                return Redirect("/Opportunitys/MyOpportunity");
-            }
-            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(id, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
-            if (string.IsNullOrEmpty(orderid))
-            {
-                return Redirect("/Opportunitys/MyOpportunity");
-            }
-            return Redirect("/Opportunitys/ChooseProducts/" + orderid);
-        }
-
-
         #region Ajax
 
         public JsonResult GetOpportunitys(string filter)

@@ -50,10 +50,9 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public DataTable GetClientUnits(string clientid)
+        public DataTable GetClientUnits()
         {
-            SqlParameter[] paras = { new SqlParameter("@ClientID", clientid) };
-            DataTable dt = GetDataTable("select * from ProductUnit where ClientID=@ClientID and Status<>9", paras, CommandType.Text);
+            DataTable dt = GetDataTable("select * from ProductUnit where Status<>9");
             return dt;
         }
 
@@ -64,14 +63,14 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public DataSet GetAttrs(string clientid)
+        public DataSet GetAttrs()
         {
-            SqlParameter[] paras = { new SqlParameter("@ClientID", clientid) };
+            SqlParameter[] paras = { new SqlParameter("@ClientID", "") };
             DataSet ds = GetDataSet("P_GetAttrsByClientID", paras, CommandType.StoredProcedure, "Attrs|Values");
             return ds;
         }
 
-        public DataSet GetAttrList(string categoryid, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientid)
+        public DataSet GetAttrList(string categoryid, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
@@ -79,8 +78,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@keyWords",keyWords),
                                        new SqlParameter("@pageSize",pageSize),
                                        new SqlParameter("@pageIndex",pageIndex),
-                                       new SqlParameter("@CategoryID", categoryid),
-                                       new SqlParameter("@ClientID",clientid)
+                                       new SqlParameter("@CategoryID", categoryid)
                                    };
             paras[0].Value = totalCount;
             paras[1].Value = pageCount;
@@ -94,11 +92,10 @@ namespace IntFactoryDAL
 
         }
 
-        public DataTable GetAttrList(string categoryid, string clientid)
+        public DataTable GetAttrList(string categoryid)
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@CategoryID", categoryid),
-                                       new SqlParameter("@ClientID", clientid) 
+                                       new SqlParameter("@CategoryID", categoryid)
                                    };
 
             return GetDataTable("P_GetAttrsByCategoryID", paras, CommandType.StoredProcedure);
@@ -112,13 +109,22 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataTable GetChildCategorysByID(string categoryid, string clientid)
+        public DataTable GetChildCategorysByID(string categoryid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@PID", categoryid) 
+                                   };
+            DataTable dt = GetDataTable("select * from Category where PID=@PID and Status<>9 Order by CreateTime", paras, CommandType.Text);
+            return dt;
+        }
+
+        public DataTable GetChildOrderCategorysByID(string categoryid, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@PID", categoryid) ,
-                                       new SqlParameter("@ClientID", clientid) 
+                                       new SqlParameter("@ClientID", clientid)
                                    };
-            DataTable dt = GetDataTable("select * from Category where PID=@PID and ClientID=@ClientID and Status<>9 Order by CreateTime", paras, CommandType.Text);
+            DataTable dt = GetDataTable("select * from OrderCategory where PID=@PID and ClientID=@ClientID and Status<>9 Order by CreateTime", paras, CommandType.Text);
             return dt;
         }
 
@@ -134,6 +140,13 @@ namespace IntFactoryDAL
             SqlParameter[] paras = { new SqlParameter("@CategoryID", categoryid) };
             DataSet ds = GetDataSet("P_GetCategoryDetailByID", paras, CommandType.StoredProcedure, "Category|Attrs|Values");
             return ds;
+        }
+
+        public DataTable GetOrderCategoryByID(string categoryid)
+        {
+            SqlParameter[] paras = { new SqlParameter("@CategoryID", categoryid) };
+            DataTable dt = GetDataTable("select * from OrderCategory where CategoryID=@CategoryID", paras, CommandType.Text);
+            return dt;
         }
 
         public DataSet GetProductList(string categoryid, string prodiverid, string beginprice, string endprice, string keyWords, string orderby, int isasc, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
@@ -316,6 +329,29 @@ namespace IntFactoryDAL
             paras[0].Direction = ParameterDirection.InputOutput;
 
             ExecuteNonQuery("P_InsertCategory", paras, CommandType.StoredProcedure);
+            id = paras[0].Value.ToString();
+            return id;
+        }
+
+        public string AddOrderCategory(string categoryCode, string categoryName, string pid, int status, string attrlist, string saleattr, string description, string operateid, string clientid)
+        {
+            string id = "";
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@CategoryID",SqlDbType.NVarChar,64),
+                                       new SqlParameter("@CategoryCode",categoryCode),
+                                       new SqlParameter("@CategoryName",categoryName),
+                                       new SqlParameter("@PID",pid),
+                                       new SqlParameter("@Status",status),
+                                       new SqlParameter("@AttrList",attrlist),
+                                       new SqlParameter("@SaleAttr",saleattr),
+                                       new SqlParameter("@Description",description),
+                                       new SqlParameter("@CreateUserID",operateid),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+            paras[0].Value = id;
+            paras[0].Direction = ParameterDirection.InputOutput;
+
+            ExecuteNonQuery("P_InsertOrderCategory", paras, CommandType.StoredProcedure);
             id = paras[0].Value.ToString();
             return id;
         }
@@ -525,6 +561,24 @@ namespace IntFactoryDAL
            
         }
 
+
+        public bool UpdateOrderCategory(string categoryid, string categoryName, int status, string attrlist, string saleattr, string description, string operateid)
+        {
+            string sql = "P_UpdateOrderCategory";
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@CategoryID",categoryid),
+                                       new SqlParameter("@CategoryName",categoryName),
+                                       new SqlParameter("@Status",status),
+                                       new SqlParameter("@AttrList",attrlist),
+                                       new SqlParameter("@SaleAttr",saleattr),
+                                       new SqlParameter("@UserID",operateid),
+                                       new SqlParameter("@Description",description)
+                                   };
+
+            return ExecuteNonQuery(sql, paras, CommandType.StoredProcedure) > 0;
+
+        }
+
         public bool DeleteCategory(string categoryid, string operateid, out int result)
         {
             result = 0;
@@ -535,6 +589,20 @@ namespace IntFactoryDAL
                                    };
             paras[0].Direction = ParameterDirection.Output;
             bool bl = ExecuteNonQuery("P_DeleteCategory", paras, CommandType.StoredProcedure) > 0;
+            result = Convert.ToInt32(paras[0].Value);
+            return bl;
+        }
+
+        public bool DeleteOrderCategory(string categoryid, string operateid, out int result)
+        {
+            result = 0;
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@Result",result),
+                                       new SqlParameter("@CategoryID",categoryid),
+                                       new SqlParameter("@OperateID",operateid)
+                                   };
+            paras[0].Direction = ParameterDirection.Output;
+            bool bl = ExecuteNonQuery("P_DeleteOrderCategory", paras, CommandType.StoredProcedure) > 0;
             result = Convert.ToInt32(paras[0].Value);
             return bl;
         }

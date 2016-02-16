@@ -42,7 +42,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public ActionResult Unit() 
         {
-            ViewBag.Items = new ProductsBusiness().GetClientUnits(CurrentUser.ClientID);
+            ViewBag.Items = new ProductsBusiness().GetClientUnits();
             return View();
         }
 
@@ -52,7 +52,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public ActionResult Category() 
         {
-            var list = new ProductsBusiness().GetChildCategorysByID("", CurrentUser.ClientID);
+            var list = new ProductsBusiness().GetChildOrderCategorysByID("", CurrentUser.ClientID);
             ViewBag.Items = list;
             return View();
         }
@@ -74,13 +74,13 @@ namespace YXERP.Controllers
         {
             if (string.IsNullOrEmpty(id))
             {
-                var list = new ProductsBusiness().GetChildCategorysByID("", CurrentUser.ClientID);
+                var list = new ProductsBusiness().GetChildCategorysByID("");
                 ViewBag.Items = list;
                 return View("ChooseCategory");
             }
             ViewBag.Model = new ProductsBusiness().GetCategoryDetailByID(id);
             ViewBag.Providers = StockBusiness.BaseBusiness.GetProviders(CurrentUser.ClientID);
-            ViewBag.UnitList = new ProductsBusiness().GetClientUnits(CurrentUser.ClientID);
+            ViewBag.UnitList = new ProductsBusiness().GetClientUnits();
             return View();
         }
 
@@ -94,7 +94,7 @@ namespace YXERP.Controllers
             var model = new ProductsBusiness().GetProductByID(id);
             ViewBag.Model = model;
             ViewBag.Providers = StockBusiness.BaseBusiness.GetProviders(CurrentUser.ClientID);
-            ViewBag.UnitList = new ProductsBusiness().GetClientUnits(CurrentUser.ClientID);
+            ViewBag.UnitList = new ProductsBusiness().GetClientUnits();
             return View();
         }
         /// <summary>
@@ -278,248 +278,6 @@ namespace YXERP.Controllers
 
         #endregion
 
-        #region 单位
-
-        /// <summary>
-        /// 保存单位
-        /// </summary>
-        /// <param name="unit"></param>
-        /// <returns></returns>
-        public JsonResult SaveUnit(string unit)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            ProductUnit model = serializer.Deserialize<ProductUnit>(unit);
-
-            string UnitID = "";
-            if (string.IsNullOrEmpty(model.UnitID))
-            {
-                UnitID = new ProductsBusiness().AddUnit(model.UnitName, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
-            }
-            else
-            {
-                bool bl = new ProductsBusiness().UpdateUnit(model.UnitID, model.UnitName, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
-                if (bl)
-                {
-                    UnitID = model.UnitID;
-                }
-            }
-            JsonDictionary.Add("ID", UnitID);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-        /// <summary>
-        /// 删除单位
-        /// </summary>
-        /// <returns></returns>
-        public JsonResult DeleteUnit(string unitID)
-        {
-            bool bl = new ProductsBusiness().UpdateUnitStatus(unitID, EnumStatus.Delete, OperateIP, CurrentUser.UserID, CurrentUser.ClientID);
-            JsonDictionary.Add("Status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        #endregion
-
-        #region 属性
-
-        /// <summary>
-        /// 获取属性列表
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="keyWorks"></param>
-        /// <returns></returns>
-        public JsonResult GetAttrList(int index, string keyWorks)
-        {
-            List<ProductAttr> list = new List<ProductAttr>();
-
-            int totalCount = 0, pageCount = 0;
-            list = new ProductsBusiness().GetAttrList("", keyWorks, PageSize, index, ref totalCount, ref pageCount, CurrentUser.AgentID, CurrentUser.ClientID);
-
-            JsonDictionary.Add("Items", list);
-            JsonDictionary.Add("TotalCount", totalCount);
-            JsonDictionary.Add("PageCount", pageCount);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-        /// <summary>
-        /// 获取所有属性
-        /// </summary>
-        /// <returns></returns>
-        public JsonResult GetAttrsByCategoryID(string categoryid)
-        {
-            List<ProductAttr> list = new List<ProductAttr>();
-            list = new ProductsBusiness().GetAttrList(categoryid, CurrentUser.ClientID);
-
-            JsonDictionary.Add("Items", list);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
-        /// 保存属性
-        /// </summary>
-        /// <param name="attr"></param>
-        /// <returns></returns>
-        public JsonResult SaveAttr(string attr)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            ProductAttr model = serializer.Deserialize<ProductAttr>(attr);
-
-            string attrID = string.Empty;
-            if (string.IsNullOrEmpty(model.AttrID))
-            {
-                attrID = new ProductsBusiness().AddProductAttr(model.AttrName, model.Description, model.CategoryID, model.Type, CurrentUser.UserID, CurrentUser.ClientID);
-            }
-            else if (new ProductsBusiness().UpdateProductAttr(model.AttrID, model.AttrName, model.Description, OperateIP, CurrentUser.UserID, CurrentUser.ClientID))
-            {
-                attrID = model.AttrID.ToString();
-            }
-
-
-            JsonDictionary.Add("ID", attrID);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
-        /// 获取属性详情
-        /// </summary>
-        /// <param name="attr"></param>
-        /// <returns></returns>
-        public JsonResult GetAttrByID(string attrID = "")
-        {
-            if (string.IsNullOrEmpty(attrID))
-            {
-                JsonDictionary.Add("Item", null);
-            }
-            else
-            {
-                var model = new ProductsBusiness().GetProductAttrByID(attrID, CurrentUser.ClientID);
-                JsonDictionary.Add("Item", model);
-            }
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
-        /// 保存属性值
-        /// </summary>
-        /// <param name="attr"></param>
-        /// <returns></returns>
-        public JsonResult SaveAttrValue(string value)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            AttrValue model = serializer.Deserialize<AttrValue>(value);
-
-            string valueID = string.Empty;
-            if (!string.IsNullOrEmpty(model.AttrID))
-            {
-                if (string.IsNullOrEmpty(model.ValueID))
-                {
-                    valueID = new ProductsBusiness().AddAttrValue(model.ValueName, model.AttrID, CurrentUser.UserID, CurrentUser.ClientID);
-                }
-                else if (new ProductsBusiness().UpdateAttrValue(model.ValueID, model.AttrID, model.ValueName, OperateIP, CurrentUser.UserID, CurrentUser.ClientID))
-                {
-                    valueID = model.ValueID.ToString();
-                }
-            }
-
-            JsonDictionary.Add("ID", valueID);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
-        /// 删除分类属性
-        /// </summary>
-        /// <param name="categoryid"></param>
-        /// <param name="attrid"></param>
-        /// <returns></returns>
-        public JsonResult DeleteCategoryAttr(string categoryid, string attrid, int type)
-        {
-            bool bl = new ProductsBusiness().UpdateCategoryAttrStatus(categoryid, attrid, EnumStatus.Delete, type, OperateIP, CurrentUser.UserID);
-            JsonDictionary.Add("Status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
-        /// 添加分类通用属性
-        /// </summary>
-        /// <param name="categoryid"></param>
-        /// <param name="attrid"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public JsonResult AddCategoryAttr(string categoryid, string attrid, int type)
-        {
-            bool bl = new ProductsBusiness().AddCategoryAttr(categoryid, attrid, type, OperateIP, CurrentUser.UserID);
-            JsonDictionary.Add("Status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        } 
-
-        /// <summary>
-        /// 删除属性
-        /// </summary>
-        /// <param name="attrid"></param>
-        /// <returns></returns>
-        public JsonResult DeleteProductAttr(string attrid)
-        {
-            bool bl = new ProductsBusiness().UpdateProductAttrStatus(attrid, EnumStatus.Delete, OperateIP, CurrentUser.UserID);
-            JsonDictionary.Add("Status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
-        /// 删除属性值
-        /// </summary>
-        /// <param name="valueid"></param>
-        /// <returns></returns>
-        public JsonResult DeleteAttrValue(string valueid)
-        {
-            bool bl = new ProductsBusiness().UpdateAttrValueStatus(valueid, EnumStatus.Delete, OperateIP, CurrentUser.UserID);
-            JsonDictionary.Add("Status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        #endregion
-
         #region 分类
 
         /// <summary>
@@ -545,11 +303,11 @@ namespace YXERP.Controllers
             string caregoryid = "";
             if (string.IsNullOrEmpty(model.CategoryID))
             {
-                caregoryid = new ProductsBusiness().AddCategory(model.CategoryCode, model.CategoryName, model.PID, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID, CurrentUser.ClientID);
+                caregoryid = new ProductsBusiness().AddOrderCategory(model.CategoryCode, model.CategoryName, model.PID, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID, CurrentUser.ClientID);
             }
             else
             {
-                bool bl = new ProductsBusiness().UpdateCategory(model.CategoryID, model.CategoryName, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID);
+                bool bl = new ProductsBusiness().UpdateOrderCategory(model.CategoryID, model.CategoryName, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID);
                 if (bl)
                 {
                     caregoryid = model.CategoryID;
@@ -570,7 +328,18 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult GetChildCategorysByID(string categoryid)
         {
-            var list = new ProductsBusiness().GetChildCategorysByID(categoryid, CurrentUser.ClientID);
+            var list = new ProductsBusiness().GetChildCategorysByID(categoryid);
+            JsonDictionary.Add("Items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetChildOrderCategorysByID(string categoryid)
+        {
+            var list = new ProductsBusiness().GetChildOrderCategorysByID(categoryid, CurrentUser.ClientID);
             JsonDictionary.Add("Items", list);
             return new JsonResult
             {
@@ -586,6 +355,16 @@ namespace YXERP.Controllers
         public JsonResult GetCategoryByID(string categoryid)
         {
             var model = new ProductsBusiness().GetCategoryByID(categoryid);
+            JsonDictionary.Add("Model", model);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult GetOrderCategoryByID(string categoryid)
+        {
+            var model = new ProductsBusiness().GetOrderCategoryByID(categoryid);
             JsonDictionary.Add("Model", model);
             return new JsonResult
             {
@@ -612,7 +391,18 @@ namespace YXERP.Controllers
         public JsonResult DeleteCategory(string id)
         {
             int result = 0;
-            bool bl = new ProductsBusiness().DeleteCategory(id,CurrentUser.UserID,OperateIP,CurrentUser.AgentID,CurrentUser.ClientID,out result);
+            bool bl = new ProductsBusiness().DeleteCategory(id, CurrentUser.UserID, OperateIP, out result);
+            JsonDictionary.Add("status", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult DeleteOrderCategory(string id)
+        {
+            int result = 0;
+            bool bl = new ProductsBusiness().DeleteOrderCategory(id, CurrentUser.UserID, OperateIP, out result);
             JsonDictionary.Add("status", result);
             return new JsonResult
             {

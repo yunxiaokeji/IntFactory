@@ -43,18 +43,17 @@
 <div class="search-box">
     <div class="search-header">
         <ul class="search-tab search-stages">
-            <li data-id="" class="hover">全部</li>
-            @foreach (var model in (List<IntFactoryEntity.CustomStageEntity>)ViewBag.Stages)
+            <li data-id="" class="hover">所有客户</li>
+            @*@foreach (var model in (List<IntFactoryEntity.CustomStageEntity>)ViewBag.Stages)
             {
                 <li data-id="@(model.StageID)">@(model.StageName)</li>
-            }
+            }*@
         </ul>
-        <ul class="search-tab-status search-status">
+        @*<ul class="search-tab-status search-status">
             <li data-id="-1">全部</li>
             <li data-id="1" class="hover">正常</li>
             <li data-id="2">关闭</li>
-           @* <li data-id="3">丢失</li>*@
-        </ul>
+        </ul>*@
     </div>
    
 </div>
@@ -74,14 +73,14 @@
         <tr class="tr-header">
             <td class="width30"><span id="filterMark"></span></td>  
             <td class="width30"></td>
-            <td class="tLeft">客户名称</td>
+            <td class="tLeft width200">客户名称</td>
             <td class="width50">类型</td>
             <td class="width150">来源</td>
-            <td class="width100">阶段</td>
-            <td class="width100">联系人</td>
+           @* <td class="width100">阶段</td>*@
+            @*<td class="width100">联系人</td>*@
             <td class="width100">联系电话</td> 
             <td class="width80">备忘数</td>     
-            <td class="width100">拥有者</td>
+            <td class="width100">负责人</td>
             <td class="width100">创建时间</td>
             <td class="width50">操作</td>
         </tr>
@@ -94,13 +93,13 @@
             <span class="ico-check pLeft5 mTop5" id="checkAll">批量操作</span>
         </li>
         <li>
-            <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"101019002"))" id="batchChangeOwner">更换拥有者</a>
+            <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"101019002"))" id="batchChangeOwner">更换负责人</a>
         </li>
          
     </ul>
     <div id="pager" class="mTop20"></div>
 </div>
 <ul class="dropdown-ul hide" style="width:110px;">
-    <li id="changeOwner" class="@(ExpandClass.IsLimits(HttpContext.Current,"101019002"))">更换拥有者</li>
+    <li id="changeOwner" class="@(ExpandClass.IsLimits(HttpContext.Current,"101019002"))">更换负责人</li>
 </ul>
 

@@ -37,7 +37,14 @@ namespace IntFactoryEntity
         [Property("Lower")] 
         public string TypeID{ get; set; }
 
-        public OrderTypeEntity OrderType { get; set; }
+        public int OrderType { get; set; }
+
+        public string PlanPrice { get; set; }
+
+        public string CategoryID { get; set; }
+
+        public string OrderImg { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

@@ -17,8 +17,8 @@
     <div class="search-header">
         <ul class="search-tab search-status">
             <li data-id="-1" class="hover">全部</li>
-            <li data-id="1" class="">打样</li>
-            <li data-id="2" class="">大货</li>
+            <li data-id="1" class="">打样流程</li>
+            <li data-id="2" class="">大货流程</li>
         </ul>
     </div>
 </div>
@@ -26,7 +26,7 @@
     <table class="table-list">
         <tr class="tr-header">
             <td class="tLeft">名称</td>
-            <td class="">周期（天）</td>
+            @*<td class="">周期（天）</td>*@
             <td class="width150">订单阶段</td>
             <td class="width150">负责人</td>
             <td class="width150">创建时间</td>
@@ -38,6 +38,7 @@
 <ul class="dropdown-ul hide"  style="width:105px;">
     <li class="" id="updateOwner">更换负责人</li>
     <li class="" id="updateDefault">设为默认</li>
+    <li class="" id="setStages">配置流程</li>
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020101"))" id="updateObject">编辑</li>
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020102"))" id="deleteObject">删除</li>
 </ul>

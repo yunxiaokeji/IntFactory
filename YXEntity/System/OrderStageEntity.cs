@@ -41,6 +41,8 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string ClientID { get; set; }
 
+        public List<StageItemEntity> StageItem { get; set; }
+
         public void FillData(System.Data.DataRow dr)
         {
             dr.FillData(this);

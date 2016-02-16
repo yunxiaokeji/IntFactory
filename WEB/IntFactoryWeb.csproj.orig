@@ -138,6 +138,7 @@
     <Compile Include="Controllers\StorageOutController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Controllers\OpportunitysController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -208,21 +209,25 @@
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\yun_nan_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\zhe_jiang_geo.json" />
 <<<<<<< HEAD
+    <Content Include="modules\plug\fullcalendar\agenda-views.html" />
+    <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
+    <Content Include="modules\plug\fullcalendar\css\fullcalendar.print.css" />
+    <Content Include="modules\plug\fullcalendar\fullcalendar.js" />
+    <Content Include="modules\plug\fullcalendar\fullcalendar.min.js" />
+    <Content Include="modules\plug\fullcalendar\lib\jquery.min.js" />
+    <Content Include="modules\plug\fullcalendar\lib\moment.min.js" />
+    <Content Include="modules\scripts\orders\orderplans.js" />
+=======
+    <Content Include="modules\scripts\orders\create.js" />
+>>>>>>> 0969c35dc3c42dc94ba7b52872a2c9cb9c9633f5
+    <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
+    <Content Include="modules\scripts\system\orderstages.js" />
+    <Content Include="modules\scripts\task\task.js" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="modules\template\task\task-list.html" />
     <Content Include="Views\System\OrderProcess.cshtml" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-=======
->>>>>>> d06c4866efc21af543a76d5dfd302e710b14aa9d
     <None Include="modules\plug\umeditor\net\Uploader.cs" />
     <Compile Include="Models\FilterUser.cs" />
     <Compile Include="Models\FilterCustomer.cs" />
@@ -572,7 +577,6 @@
     <Content Include="modules\scripts\system\stages.js" />
     <Content Include="modules\scripts\system\teams.js" />
     <Content Include="modules\scripts\system\client.js" />
-    <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\template\activity\activity_list.html" />
     <Content Include="modules\template\activity\activity_card_list.html" />
     <Content Include="modules\template\activity\activity_reply_list.html" />
@@ -743,6 +747,13 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
+    <Content Include="Views\System\OrderStages.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Views\Task\MyTask.cshtml" />
+    <Content Include="Views\Orders\OrderPlans.cshtml" />
+=======
+    <Content Include="Views\Orders\Create.cshtml" />
+>>>>>>> 0969c35dc3c42dc94ba7b52872a2c9cb9c9633f5
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "材料类别设置";
+    ViewBag.Title = "订单类别设置";
 }
 <link href="/modules/css/stock/products.css" rel="stylesheet" />
 <link href="/modules/css/stock/category.css" rel="stylesheet" />
@@ -12,7 +12,7 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">材料类别设置</span>
+    <span class="header-title left">订单类别设置</span>
 </div>
 <div class="content-body mTop20">
     <ul id="category-all" class="category-all">
@@ -30,16 +30,6 @@
             <div class="create-child @(ExpandClass.IsLimits(HttpContext.Current,"103010401"))" data-id="" data-layer="1">+ 新建分类</div>
         </li>
     </ul>
-    <div class="attr-value-box" id="attrValueBox">
-        <div class="title">
-            <span class="header-title">颜色</span>
-            <div class="add-value"><input class="value-name" type="text" id="valueName" placeholder="添加属性值" maxlength="20" /><span class="ico-input-add">+</span></div>
-        </div>
-        
-        <ul id="attrValues">
-            
-        </ul>
-    </div>
 </div>
 <ul class="dropdown-ul hide" id="ddlCategory" style="width:65px;">
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"103010401"))" id="editCategory">编辑</li>

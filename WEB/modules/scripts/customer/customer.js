@@ -164,7 +164,7 @@
         $("#changeOwner").click(function () {
             var _this = $(this);
             ChooseUser.create({
-                title: "更换拥有者",
+                title: "更换负责人",
                 type: 1,
                 single: true,
                 callback: function (items) {
@@ -183,7 +183,7 @@
             var checks = $(".table-list .ico-checked");
             if (checks.length > 0) {
                 ChooseUser.create({
-                    title: "批量更换拥有者",
+                    title: "批量更换负责人",
                     type: 1,
                     single: true,
                     callback: function (items) {
@@ -246,7 +246,7 @@
         var _self = this;
         $("#checkAll").addClass("ico-check").removeClass("ico-checked");
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='12'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
 
         Global.post("/Customer/GetCustomers", { filter: JSON.stringify(Params) }, function (data) {
             _self.bindList(data);
@@ -306,7 +306,7 @@
         }
         else
         {
-            $(".tr-header").after("<tr><td colspan='12'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
         }
 
         $("#pager").paginate({
