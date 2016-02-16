@@ -67,6 +67,7 @@
     <Compile Include="Stock\StockBusiness.cs" />
     <Compile Include="System\OrganizationBusiness.cs" />
     <Compile Include="System\SystemBusiness.cs" />
+    <Compile Include="Task\TaskBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YXDAL\IntFactoryDAL.csproj">

@@ -165,6 +165,24 @@ namespace IntFactoryBusiness
 
         }
 
+        public static List<OrderEntity> GetOrderPlans(string ownerID, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            List<OrderEntity> list = new List<OrderEntity>();
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderPlans(ownerID, beginDate, endDate, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderEntity model = new OrderEntity();
+                model.FillData(dr);
+                //model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                //model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
+                //model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
+
+                list.Add(model);
+            }
+
+            return list;
+        }
         #endregion
 
         #region 添加

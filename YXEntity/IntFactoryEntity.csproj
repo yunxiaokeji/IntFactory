@@ -117,6 +117,7 @@
     <Compile Include="System\TeamEntity.cs" />
     <Compile Include="System\OrderStageEntity.cs" />
     <Compile Include="System\OrderProcessEntity.cs" />
+    <Compile Include="Task\TaskEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Manage\ClientOrderDetail.cs" />

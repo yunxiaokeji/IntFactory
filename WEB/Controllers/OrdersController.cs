@@ -51,6 +51,11 @@ namespace YXERP.Controllers
             return View("FilterProducts");
         }
 
+        public ActionResult OrderPlans()
+        {
+            return View();
+        }
+
         public ActionResult Detail(string id)
         {
             var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
@@ -150,6 +155,28 @@ namespace YXERP.Controllers
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetOrderPlans(bool isMy, string beginDate, string endDate, int pageSize, int pageIndex)
+        {
+            int pageCount = 0;
+            int totalCount = 0;
+            string ownerID = string.Empty;
+            if (isMy)
+            {
+                ownerID = CurrentUser.UserID;
+            }
+
+            List<OrderEntity> list =OrdersBusiness.GetOrderPlans(ownerID, beginDate, endDate, CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            JsonDictionary.Add("Items", list);
+            JsonDictionary.Add("TotalCount", totalCount);
+            JsonDictionary.Add("PageCount", pageCount);
+
             return new JsonResult
             {
                 Data = JsonDictionary,

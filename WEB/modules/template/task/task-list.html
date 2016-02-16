@@ -1,0 +1,13 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td class="name">{%=item.Title%}</td>
+    <td class="desc">{%=item.OrderID%}</td>
+    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class="center dropdown" data-id="{%=item.TaskID%}">
+        <span class="ico-dropdown"></span>
+    </td>
+</tr>
+{% } %}

@@ -68,6 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\OrganizationDAL.cs" />
     <Compile Include="System\SystemDAL.cs" />
+    <Compile Include="Task\TaskDAL.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

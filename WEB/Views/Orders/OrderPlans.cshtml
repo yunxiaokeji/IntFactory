@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "订单排期";
+    Layout = "/Views/Shared/_LayoutNoLeft.cshtml";
+}
+
+@section css{
+<link href='/modules/plug/fullcalendar/css/fullcalendar.css' rel='stylesheet' />
+<link href='/modules/plug/fullcalendar/css/fullcalendar.print.css' rel='stylesheet' media='print' />
+}
+
+@section scripts{
+<script src='/modules/plug/fullcalendar/lib/moment.min.js'></script>
+<script src='/modules/plug/fullcalendar/lib/jquery.min.js'></script>
+<script src='/modules/plug/fullcalendar/fullcalendar.min.js'></script>
+
+
+<script type="text/javascript"> 
+    //$(document).ready(function () {
+    //    seajs.use(["scripts/orders/orderplans"], function (obj) {
+    //        obj.getList();
+    //    });
+
+    //});
+
+    $(document).ready(function () {
+        var Params = {
+            isMy: false,
+            beginDate: '',
+            endDate: '',
+            pageSize: 20,
+            pageIndex:1
+        };
+
+        $.post("/Orders/GetOrderPlans", Params, function (data) {
+            $(".tr-header").nextAll().remove();
+
+            if (data.Items.length > 0) {
+                var eventsDatas = [];
+                for (var i = 0; len = data.Items.length, i < len; i++) {
+                    var item = data.Items[i];
+                    var eventsData = {};
+                    eventsData.id = item.OrderID;
+                    eventsData.title = item.OrderID;
+                    eventsData.start = item.OrderTime;
+
+                    eventsDatas.push(eventsData);
+                }
+
+                $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
+                    },
+                    defaultDate: (new Date()).toLocaleDateString(),
+                    editable: false,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: eventsDatas,
+                    eventClick: function (calEvent, jsEvent, view) {
+
+                        alert('Event: ' + calEvent.id);
+                        //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+
+                        // change the border color just for fun
+                        //$(this).css('border-color', 'red');
+
+                    }
+                });
+
+            }
+            else {
+                $(".tr-header").after("<tr><td colspan='8'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
+
+        });
+    });
+</script>
+}
+<div class="header-box">
+    <span class="header-title left">订单排期</span>
+</div>
+
+<div class="content-body mTop20">
+    <div id='calendar'></div>
+</div>
+

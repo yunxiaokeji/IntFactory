@@ -93,6 +93,33 @@ namespace IntFactoryDAL
             return ds;
         }
 
+        public DataTable GetOrderPlans(string ownerID, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@totalCount",SqlDbType.Int),
+                                       new SqlParameter("@pageCount",SqlDbType.Int),
+                                       new SqlParameter("@OwnerID",ownerID),
+                                       new SqlParameter("@BeginDate",beginDate),
+                                       new SqlParameter("@EndDate",endDate),
+                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@PageSize",pageSize),
+                                       new SqlParameter("@PageIndex",pageIndex),
+   
+                                   };
+
+            paras[0].Value = totalCount;
+            paras[1].Value = pageCount;
+
+            paras[0].Direction = ParameterDirection.InputOutput;
+            paras[1].Direction = ParameterDirection.InputOutput;
+
+            DataSet ds = GetDataSet("P_GetOrderPlans", paras, CommandType.StoredProcedure);
+
+            totalCount = Convert.ToInt32(paras[0].Value);
+            pageCount = Convert.ToInt32(paras[1].Value);
+
+            return ds.Tables[0];
+        }
         #endregion
 
         #region 添加
