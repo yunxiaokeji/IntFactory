@@ -3,25 +3,62 @@
     Layout = "/Views/Shared/_LayoutNoLeft.cshtml";
 }
 
-@section css{
-    @*<link rel="stylesheet" href="/modules/css/system/organization.css" />*@
-}
 @section scripts{
+    <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/task/task"], function (obj) {
-            obj.init();
+            obj.init('@ViewBag.IsMy');
+        });
+
+        $(function () {
+            var begin = {
+                elem: '#BeginTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                    end.start = datas //将结束日的初始值设定为开始日
+                }
+            };
+
+            var end = {
+                elem: '#EndTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    begin.max = datas; //结束日选好后，重置开始日的最大日期
+                }
+            };
+            laydate(begin);
+            laydate(end);
         });
     </script>
 }
 <div class="header-box">
     <span class="header-title left">我的任务</span>
-    @*<div class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"108010101"))" id="createModel">新建部门</div>*@
 </div>
+
 <div class="content-body mTop20">
+    <div class="search-body">
+        <div class="left" id="taskStatus"></div>
+        <div class="left mLeft20">
+            <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input width80"  />
+            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width80"  />
+            <span class="btn mLeft10" id="btnSearch">搜索</span>
+        </div>
+        <div class="right searth-module" data-text="关键字搜索..." data-width="160"> </div>
+    </div>
+
     <table class="table-list">
         <tr class="tr-header">
-            <td class="tLeft">部门名称</td>
-            <td class="tLeft">描述</td>
+            <td class="tLeft">任务名称</td>
+            <td class="tLeft">订单编号</td>
+            <td class="tLeft">负责人</td>
+            <td class="width150">截至日期</td>
             <td class="width150">创建时间</td>
             <td class="width80">操作</td>
         </tr>

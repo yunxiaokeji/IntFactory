@@ -50,7 +50,9 @@ seajs.config({
         //显示用户名片层
         "businesscard": "plug/businesscard/businesscard.js",
         //分享明道
-        "sharemingdao": "plug/sharemingdao/sharemingdao.js"
+        "sharemingdao": "plug/sharemingdao/sharemingdao.js",
+        //分享明道
+        "fullcalendar": "plug/fullcalendar/fc.js"
     }
 });
 

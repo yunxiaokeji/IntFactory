@@ -22,12 +22,14 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_CreateTask", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public DataTable GetTasks(string ownerID, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public DataTable GetTasks(string keyWords, string ownerID, int finishStatus, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
                                        new SqlParameter("@pageCount",SqlDbType.Int),
                                        new SqlParameter("@OwnerID",ownerID),
+                                       new SqlParameter("@FinishStatus",finishStatus),
+                                       new SqlParameter("@KeyWords",keyWords),
                                        new SqlParameter("@BeginDate",beginDate),
                                        new SqlParameter("@EndDate",endDate),
                                        new SqlParameter("@ClientID",clientID),
@@ -50,6 +52,16 @@ namespace IntFactoryDAL
             return ds.Tables[0];
         }
 
+        public  DataTable GetTasksByOrderID(string orderID)
+        {
+            string sqltext = "select * from  OrderTask where OrderID=@OrderID";
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@OrderID",orderID)
+                                   };
+
+            return GetDataTable(sqltext, paras, CommandType.Text);
+
+        }
         public bool UpdateTaskOwner(string taskID, string ownerID)
         {
             string sqltext = "update OrderTask set OwnerID=@OwnerID where TaskID=@TaskID";

@@ -180,7 +180,7 @@ namespace IntFactoryBusiness
             {
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
-                //model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
                 //model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
                 //model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
 

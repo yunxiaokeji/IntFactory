@@ -5,6 +5,8 @@
 
     var Params = {
         isMy: true,
+        finishStatus: -1,
+        keyWords:'',
         beginDate: '',
         endDate: '',
         pageSize: 20,
@@ -13,13 +15,67 @@
 
     var ObjectJS = {};
 
-    ObjectJS.init = function () {
+    ObjectJS.init = function (isMy) {
+        if (isMy == "0")
+        {
+            Params.isMy = false;
+            document.title = "所有任务";
+            $(".header-title").html("所有任务");
+        }
         ObjectJS.bindEvent();
 
         ObjectJS.getList();
     }
 
-    ObjectJS.bindEvent =function() {}
+    ObjectJS.bindEvent = function () {
+        //关键字查询
+        require.async("search", function () {
+            $(".searth-module").searchKeys(function (keyWords) {
+                Params.pageIndex = 1;
+                Params.keyWords = keyWords;
+                ObjectJS.getList();
+            });
+        });
+
+        //进度状态查询
+        require.async("dropdown", function () {
+            var Types = [
+                {
+                    ID: 0,
+                    Name: "进行中"
+                },
+                {
+                    ID: 1,
+                    Name: "已完成"
+                }
+            ];
+
+            $("#taskStatus").dropdown({
+                prevText: "进度状态-",
+                defaultText: "所有",
+                defaultValue: "-1",
+                data: Types,
+                dataValue: "ID",
+                dataText: "Name",
+                width: "120",
+                onChange: function (data) {
+                    Params.pageIndex = 1;
+                    Params.finishStatus = data.value;
+                    ObjectJS.getList();
+                }
+            });
+
+        });
+
+        //时间段查询
+        $("#btnSearch").click(function () {
+            Params.pageIndex = 1;
+            Params.beginDate = $("#BeginTime").val();
+            Params.endDate = $("#EndTime").val();
+            ObjectJS.getList();
+        });
+
+    }
 
     ObjectJS.getList = function () {
         $(".tr-header").nextAll().remove();

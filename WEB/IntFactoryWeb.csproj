@@ -209,6 +209,7 @@
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\yun_nan_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\zhe_jiang_geo.json" />
     <Content Include="modules\plug\fullcalendar\agenda-views.html" />
+    <Content Include="modules\plug\fullcalendar\fc.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.print.css" />

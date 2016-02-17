@@ -26,6 +26,8 @@ namespace IntFactoryEntity.Task
         [Property("Lower")]
         public string OwnerID { get; set; }
 
+        public Users Owner { get; set; }
+
         public DateTime EndTime { get; set; }
 
         public int Status { get; set; }
@@ -40,6 +42,8 @@ namespace IntFactoryEntity.Task
         [Property("Lower")]
         public string ClientID { get; set; }
 
+        [Property("Lower")]
+        public string AgentID { get; set; }
         /// <summary>
         /// 填充数据
         /// </summary>

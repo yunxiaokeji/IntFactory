@@ -29,7 +29,9 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 获取任务列表
         /// </summary>
+        /// <param name="keyWords"></param>
         /// <param name="ownerID"></param>
+        /// <param name="finishStatus">-1：所有；0：进行中；1：已完成</param>
         /// <param name="beginDate"></param>
         /// <param name="EndDate"></param>
         /// <param name="clientID"></param>
@@ -38,15 +40,38 @@ namespace IntFactoryBusiness
         /// <param name="TotalCount"></param>
         /// <param name="PageCount"></param>
         /// <returns></returns>
-        public static List<TaskEntity> GetTasks(string ownerID, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
+        public static List<TaskEntity> GetTasks(string keyWords, string ownerID, int finishStatus, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
         {
             List<TaskEntity> list = new List<TaskEntity>();
-            DataTable dt = TaskDAL.BaseProvider.GetTasks(ownerID, beginDate, endDate, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            DataTable dt = TaskDAL.BaseProvider.GetTasks(keyWords,ownerID,finishStatus, beginDate, endDate, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
 
             foreach (DataRow dr in dt.Rows)
             {
                 TaskEntity model = new TaskEntity();
                 model.FillData(dr);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+
+                list.Add(model);
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// 获取订单的任务列表
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <returns></returns>
+        public static List<TaskEntity> GetTasksByOrderID(string orderID) 
+        {
+            List<TaskEntity> list = new List<TaskEntity>();
+            DataTable dt = TaskDAL.BaseProvider.GetTasksByOrderID(orderID);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                TaskEntity model = new TaskEntity();
+                model.FillData(dr);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
                 list.Add(model);
             }
