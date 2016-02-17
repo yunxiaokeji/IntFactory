@@ -3,7 +3,7 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td class="name">{%=item.Title%}</td>
+    <td class="name"><a href="/Orders/Detail/{%=item.OrderID%}" target="_blank">{%=item.Title%}</a></td>
     <td class="desc">{%=item.OrderID%}</td>
     <td class="desc">{%=item.Owner.Name%}</td>
      <td class='center'>{%=item.EndTime==null?"未指定日期":item.EndTime.toDate("yyyy-MM-dd")%}</td>
