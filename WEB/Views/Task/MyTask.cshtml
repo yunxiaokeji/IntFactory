@@ -54,14 +54,14 @@
 
     <table class="table-list">
         <tr class="tr-header">
-            <td class="width50">任务进度</td>
-            <td class="width150">订单编号</td>
             <td class="width150">订单图片</td>
-            <td class="tLeft">任务内容</td>
-            <td class="tLeft">负责人</td>
+            <td class="width150">订单编号</td>
+            <td class="width200">任务内容</td>
+            <td class="width100">任务进度</td>
+            <td class="width150">负责人</td>
             <td class="width150">截至日期</td>
             <td class="width150">创建时间</td>
-            <td class="width80">操作</td>
+           @* <td class="width80">操作</td>*@
         </tr>
     </table>
 
@@ -70,9 +70,7 @@
 
 
 
-<ul class="dropdown-ul hide"  style="width:120px;">
+@*<ul class="dropdown-ul hide"  style="width:120px;">
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108010101"))" id="updateObjectEndDate">指定日期</li>
-@*    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108010101"))" id="Object">标记完成</li>
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108010101"))" id="updateObject">标记未完成</li>*@
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108010102"))" id="deleteObject">删除</li>
-</ul>
+</ul>*@
