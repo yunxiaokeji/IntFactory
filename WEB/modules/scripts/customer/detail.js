@@ -14,10 +14,6 @@
         _self.customerid = customerid;
         _self.bindStyle();
 
-        if (!MDToken) {
-            $("#btn_shareMD").hide();
-        }
-
         Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
             if (data.model.CustomerID) {
                 _self.bindCustomerInfo(data.model);
@@ -56,20 +52,20 @@
         $("#lblTime").text(model.CreateTime.toDate("yyyy-MM-dd hh:mm:ss"));
         $("#lblUser").text(model.CreateUser ? model.CreateUser.Name : "--");
 
-        $("#lblSource").text(model.Source ? model.Source.SourceName : "--");
+        $("#lblSource").text(model.SourceType == 1 ? "阿里客户" : model.SourceType == 2 ? "自助下单" : "手工创建");
 
         $("#lblOwner").text(model.Owner ? model.Owner.Name : "--");
         $("#changeOwner").data("userid", model.OwnerID);
 
         $("#lblReamrk").text(model.Description);
 
-        if (model.Type == 0) {
-            $("#lblType").html("人")
-            //$(".companyinfo").hide();
-        } else {
-            $("#lblType").html("企")
-            //$(".companyinfo").show();
-        }
+        //if (model.Type == 0) {
+        //    $("#lblType").html("人")
+        //    $(".companyinfo").hide();
+        //} else {
+        //    $("#lblType").html("企")
+        //    $(".companyinfo").show();
+        //}
 
         //处理阶段
         //var stage = $(".stage-items li[data-id='" + model.StageID + "']");
@@ -494,9 +490,9 @@
                         var entity = {
                             CustomerID: model.CustomerID,
                             Name: $("#name").val().trim(),
-                            Type: $("#companyCustom").hasClass("ico-checked") ? 1 : 0,
-                            IndustryID: $("#industry").val().trim(),
-                            Extent: $("#extent").val().trim(),
+                            Type: 0,//$("#companyCustom").hasClass("ico-checked") ? 1 : 0,
+                            IndustryID: "",//$("#industry").val().trim(),
+                            Extent: 0,//$("#extent").val().trim(),
                             CityCode: CityObject.getCityCode(),
                             Address: $("#address").val().trim(),
                             MobilePhone: $("#contactMobile").val().trim(),

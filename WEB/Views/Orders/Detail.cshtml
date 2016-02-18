@@ -12,7 +12,7 @@
 }
 <div class="header-box">
     <span class="header-title left">销售订单详情</span>
-    <a class="ico-back right" href="@(Url.RequestContext.HttpContext.Request.UrlReferrer == null ? "/Orders/MyOrder" : "javascript:if(history.length>1){ history.go(-1);} else{ location.href='/Orders/MyOrder'}")">
+    <a class="ico-back right" href="@(Url.RequestContext.HttpContext.Request.UrlReferrer == null ? "/Orders/Orderss" : "javascript:if(history.length>1){ history.go(-1);} else{ location.href='/Orders/MyOrder'}")">
         返回订单列表
     </a>
 </div>
@@ -54,10 +54,6 @@
         <li>
             <span class="column-title">收货地址：</span>
             <label>@(model.City!=null?(model.City.Province+" "+model.City.City+" "+model.City.Counties):"")@(model.Address)</label>
-        </li>
-        <li>
-            <span class="column-title">订单类型：</span>
-            <label>@(model.OrderType!=null?model.OrderType.TypeName:"--")</label>
         </li>
         <li>
             <span class="column-title">邮编：</span>

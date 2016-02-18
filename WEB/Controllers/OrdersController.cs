@@ -65,7 +65,7 @@ namespace YXERP.Controllers
                 return Redirect("/Orders/Orders");
             }
 
-
+            ViewBag.Model = model;
             return View();
         }
 
@@ -86,14 +86,6 @@ namespace YXERP.Controllers
             ViewBag.Model = model;
             return View();
         }
-
-        public ActionResult Create()
-        {
-            var list = new ProductsBusiness().GetChildOrderCategorysByID("", CurrentUser.ClientID);
-            ViewBag.Items = list;
-            return View();
-        }
-
 
         #region Ajax
 
@@ -174,8 +166,8 @@ namespace YXERP.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
 
-            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.PersonName, model.MobileTele, model.OrderType, model.CategoryID, model.PlanPrice, 
-                                                                     model.OrderImg, model.CityCode, model.Address, model.Remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.PersonName, model.MobileTele, model.OrderType, model.CategoryID, model.PlanPrice, model.PlanQuantity,
+                                                                     model.OrderImage, model.CityCode, model.Address, model.Remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
             {

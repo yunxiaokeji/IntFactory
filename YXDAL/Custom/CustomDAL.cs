@@ -14,7 +14,7 @@ namespace IntFactoryDAL
 
         #region 查询
 
-        public DataSet GetCustomers(int searchtype, int type, string sourceid, string stageid, int status, int mark, string activityid, string searchuserid, string searchteamid, string searchagentid, 
+        public DataSet GetCustomers(int searchtype, int type, int sourcetype, string sourceid, string stageid, int status, int mark, string activityid, string searchuserid, string searchteamid, string searchagentid, 
                                     string begintime, string endtime, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
@@ -22,6 +22,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@pageCount",SqlDbType.Int),
                                        new SqlParameter("@SearchType",searchtype),
                                        new SqlParameter("@Type",type),
+                                       new SqlParameter("@SourceType",sourcetype),
                                        new SqlParameter("@SourceID",sourceid),
                                        new SqlParameter("@StageID",stageid),
                                        new SqlParameter("@Status",status),
@@ -70,7 +71,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@AgentID", agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
-            return GetDataSet("P_GetCustomerByID", paras, CommandType.StoredProcedure, "Customer|Contact|Activity");
+            return GetDataSet("P_GetCustomerByID", paras, CommandType.StoredProcedure, "Customer");
         }
 
         public DataTable GetContactsByCustomerID(string customerid)

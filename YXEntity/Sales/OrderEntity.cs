@@ -43,7 +43,9 @@ namespace IntFactoryEntity
 
         public string CategoryID { get; set; }
 
-        public string OrderImg { get; set; }
+        public int PlanQuantity { get; set; }
+
+        public string OrderImage { get; set; }
 
         /// <summary>
         /// 

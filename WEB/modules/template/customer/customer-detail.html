@@ -7,9 +7,12 @@
         <span><input type="text" maxlength="50" id="name" style="width:300px;" data-empty="必填" class="input verify" value="{%=item.Name%}" /></span> 
     </li>
     <li>
-        <span class="width80">客户类型：</span> 
-        <span class="{%=item.Type==1?'ico-checked':'ico-check'%} mTop2 customtype" id="companyCustom" data-type="1">企业客户</span>
-        <span class="{%=item.Type==1?'ico-check':'ico-checked'%} mTop2 customtype" data-type="0">个人客户</span>
+        <span class="width80">联系电话：</span> 
+        <span><input type="text" maxlength="11" id="contactMobile" data-type="mobile" data-empty="必填" class="input verify" value="{%=item.MobilePhone%}" /></span>
+    </li>
+    <li>
+        <span class="width80">邮箱：</span>
+        <span><input type="text" maxlength="200" id="email" data-type="email" class="input verify" value="{%=item.Email%}" /></span>
     </li>
     <li>
         <span class="width80">省份城市：</span> 
@@ -18,35 +21,6 @@
     <li>
         <span class="width80">详细地址：</span> 
         <span><input type="text" maxlength="200" style="width:300px;" id="address" class="input"  value="{%=item.Address%}" /></span>
-    </li>
-        
-    <li class="edit-company">
-        <span class="width80">行业：</span>
-        <select id="industry">
-        {% for(var i=0, j=item.Industrys.length; i < j; i++){
-	        var industry = item.Industrys[i];
-        %}
-            <option value="{%=industry.IndustryID%}">{%=industry.Name%}</option> 
-        {% } %}
-        </select>
-    </li>
-    <li  class="edit-company">
-        <span class="width80">公司规模：</span>
-        <select id="extent">
-        {% for(var i=0, j=item.Extents.length; i < j; i++){
-	        var extent = item.Extents[i];
-        %}
-            <option value="{%=extent.ExtentID%}">{%=extent.ExtentName%}</option> 
-        {% } %}
-        </select>
-    </li>
-    <li>
-        <span class="width80">联系电话：</span> 
-        <span><input type="text" maxlength="11" id="contactMobile" data-type="mobile" class="input verify" value="{%=item.MobilePhone%}" /></span>
-    </li>
-    <li>
-        <span class="width80">邮箱：</span>
-        <span><input type="text" maxlength="200" id="email" data-type="email" class="input verify" value="{%=item.Email%}" /></span>
     </li>
     <li>
         <span class="width80">备注：</span>

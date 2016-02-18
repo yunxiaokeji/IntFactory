@@ -676,7 +676,7 @@
     <Content Include="Views\Customer\Create.cshtml" />
     <Content Include="Views\Auction\BuyNow.cshtml" />
     <Content Include="Views\Customer\Detail.cshtml" />
-    <Content Include="Views\Orders\Orders.cshtml" />
+    <Content Include="Views\Customer\Orders.cshtml" />
     <Content Include="Views\System\Client.cshtml" />
     <Content Include="Views\Orders\Detail.cshtml" />
     <Content Include="Views\Opportunitys\ConfirmOrder.cshtml" />
@@ -747,7 +747,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\System\OrderStages.cshtml" />
     <Content Include="Views\Task\MyTask.cshtml" />
-    <Content Include="Views\Orders\Create.cshtml" />
+    <Content Include="Views\Customer\CreateOrder.cshtml" />
     <Content Include="Views\Orders\OrderPlans.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

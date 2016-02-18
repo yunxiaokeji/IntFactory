@@ -67,14 +67,15 @@
             CategoryID: $("#ordercategory").val().trim(),
             CityCode: CityObject.getCityCode(),
             Address: $("#address").val().trim(),
-            OrderImg: _self.ProductImage,
+            OrderImage: _self.ProductImage,
             PlanPrice: $("#planPrice").val().trim(),
+            PlanQuantity: $("#planQuantity").val().trim(),
             MobileTele: $("#contactMobile").val().trim(),
             Remark: $("#remark").val().trim()
         };
         Global.post("/Orders/CreateOrder", { entity: JSON.stringify(model) }, function (data) {
             if (data.id) {
-                location.href = "/Orders/Orders";
+                location.href = "/Customer/Orders";
                 
             } else {
                 alert("网络异常,请稍后重试!");
