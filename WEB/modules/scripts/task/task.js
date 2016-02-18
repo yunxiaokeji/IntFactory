@@ -51,7 +51,7 @@
             ];
 
             $("#taskStatus").dropdown({
-                prevText: "进度状态-",
+                prevText: "任务进度-",
                 defaultText: "所有",
                 defaultValue: "-1",
                 data: Types,
@@ -91,16 +91,26 @@
 
                     $(".tr-header").after(innerhtml);
 
-                    //下拉事件
-                    innerhtml.find(".dropdown").click(function () {
-                        var _this = $(this);
-                        var position = _this.find(".ico-dropdown").position();
-                        $(".dropdown-ul li").data("id", _this.data("id"));
-                        $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 80 }).show().mouseleave(function () {
-                            $(this).hide();
-                        });
-                        return false;
+                    //标记任务完成
+                    $(".table-list span.ico-check").click(function () {
+                        if (!$(this).hasClass("ico-checked")) {
+                            ObjectJS.FinishTask($(this).data("taskid"));
+                        }
                     });
+
+                    //设置任务到期时间
+                    $(".table-list a.updateTaskEndTime").each(function () {
+                        var EndTime = {
+                            elem: '#'+$(this).attr("id"),
+                            format: 'YYYY-MM-DD',
+                            max: '2099-06-16',
+                            istime: false,
+                            istoday: false
+                        };
+
+                        laydate(EndTime);
+                    });
+
                 });
             }
             else {
@@ -122,6 +132,22 @@
             });
 
         });
+    }
+
+    ObjectJS.FinishTask = function (taskID) {
+
+        confirm("标记完成的任务不可逆,确定完成?", function () {
+            Global.post("/Task/FinishTask", { taskID: taskID }, function (data) {
+                if (data.Result == 1) {
+                    $("#btn_finishTask_" + taskID).addClass("ico-checked");
+                    alert("标记任务完成");
+                }
+                else if (data.Result == 2) {
+                    alert("前面阶段任务有未完成,不能标记完成");
+                }
+            });
+        });
+
     }
 
     module.exports = ObjectJS;

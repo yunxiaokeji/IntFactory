@@ -53,6 +53,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult FinishTask(string taskID) {
+            int result = 0;
+            TaskBusiness.FinishTask(taskID,ref result);
+
+            JsonDictionary.Add("Result", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         #endregion
 
 

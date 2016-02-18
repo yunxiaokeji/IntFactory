@@ -3,15 +3,12 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td class="desc"><span class="check ico-checked" title="已完成"></span></td>
-    <td class="center"><a href="/Orders/Detail/{%=item.OrderID%}" target="_blank">{%=item.OrderID%}</a></td>
     <td class="center">{%=item.OrderImg%}</td>
-    <td class="desc">{%=item.Stage.StageName%}</td>
-    <td class="desc">{%=item.Owner.Name%}</td>
-     <td class='center'>{%=item.EndTime==null?"未指定日期":item.EndTime.toDate("yyyy-MM-dd")%}<a class="mLeft5">指定日期</a></td>
+    <td class="center"><a href="/Orders/Detail/{%=item.OrderID%}" target="_blank">{%=item.OrderID%}</a></td>
+    <td class="center"><a href="/Orders/Detail/{%=item.OrderID%}" target="_blank">{%=item.Stage.StageName%}</a></td>
+    <td class="center"><span>{%=item.FinishStatus==1?'已完成':'进行中'%}</span></td>
+    <td class="center">{%=item.Owner.Name%}</td>
+     <td class='center'>{%=item.EndTime.toDate("yyyy-MM-dd")=="3939-01-01"?"未指定日期":item.EndTime.toDate("yyyy-MM-dd")%}</td>
     <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
-    <td class="center dropdown" data-id="{%=item.TaskID%}">
-        <span class="ico-dropdown"></span>
-    </td>
 </tr>
 {% } %}
