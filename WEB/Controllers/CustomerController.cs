@@ -81,6 +81,27 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult OrderDetail(string id)
+        {
+            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
+
+            if (model == null || string.IsNullOrEmpty(model.OrderID))
+            {
+                return Redirect("/Customer/Orders");
+            }
+
+            ViewBag.Model = model;
+            return View();
+        }
+
+        public ActionResult ChooseProducts(string id)
+        {
+            ViewBag.Type = (int)EnumDocType.Order;
+            ViewBag.GUID = id;
+            ViewBag.Title = "选择订单材料";
+            return View("FilterProducts");
+        }
+
         #region Ajax
 
 

@@ -343,7 +343,7 @@
                     Easydialog.open({
                         container: {
                             id: "product-add-div",
-                            header: "加入购物车",
+                            header: "选择材料",
                             content: html,
 
                             callback: function () {
@@ -362,7 +362,7 @@
                 Easydialog.open({
                     container: {
                         id: "product-add-div",
-                        header: "加入购物车",
+                        header: "选择材料",
                         content: html,
 
                         callback: function () {

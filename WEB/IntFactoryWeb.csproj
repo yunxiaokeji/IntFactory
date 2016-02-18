@@ -150,6 +150,7 @@
     <Content Include="Content\homeico\login.png" />
     <Content Include="Content\homeico\oppor.png" />
     <Content Include="Content\homeico\order.png" />
+    <Content Include="Content\menuico\saleshover.png" />
     <Content Include="DLL\JsonObject.dll" />
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
     <Content Include="modules\css\opportunitys.css" />
@@ -247,7 +248,6 @@
     <Content Include="Content\menuico\report.png" />
     <Content Include="Content\menuico\reporthover.png" />
     <Content Include="Content\menuico\sales.png" />
-    <Content Include="Content\menuico\saleshover.png" />
     <Content Include="Content\menuico\stock.png" />
     <Content Include="Content\menuico\stockhover.png" />
     <Content Include="Content\menuico\system.png" />
@@ -678,7 +678,7 @@
     <Content Include="Views\Customer\Detail.cshtml" />
     <Content Include="Views\Customer\Orders.cshtml" />
     <Content Include="Views\System\Client.cshtml" />
-    <Content Include="Views\Orders\Detail.cshtml" />
+    <Content Include="Views\Customer\OrderDetail.cshtml" />
     <Content Include="Views\Opportunitys\ConfirmOrder.cshtml" />
     <Content Include="Views\Finance\Index.cshtml" />
     <Content Include="Views\Finance\PayableBills.cshtml" />

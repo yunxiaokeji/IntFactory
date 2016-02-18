@@ -113,6 +113,15 @@ define(function (require, exports, module) {
         });
 
         $("#btnconfirm").click(function () {
+            var bl = false;
+
+            $(".cart-item").each(function () {
+                bl = true;
+            });
+            if (!bl) {
+                alert("请选择采购材料！");
+                return;
+            }
             confirm("采购单提交后不可编辑，确认提交吗？", function () {
                 _self.submitOrder();
             });

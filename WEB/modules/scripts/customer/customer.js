@@ -173,7 +173,7 @@
                         if (_this.data("userid") != items[0].id) {
                             _self.ChangeOwner(_this.data("id"), items[0].id);
                         } else {
-                            alert("请选择不同人员进行转移!");
+                            alert("请选择不同人员进行更换!");
                         }
                     }
                 }
@@ -199,7 +199,7 @@
                             if (ids.length > 0) {
                                 _self.ChangeOwner(ids, userid);
                             } else {
-                                alert("请选择不同人员进行转移!");
+                                alert("请选择不同人员进行更换!");
                             }
                         }
                     }

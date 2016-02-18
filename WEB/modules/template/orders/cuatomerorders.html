@@ -4,7 +4,7 @@
 %}
 <tr class="list-item">
     <td class=""><img style="width:40px; height:40px; vertical-align:middle;" alt="无样图" src="{%=item.OrderImage%}" /></td>
-    <td class=""><a href="/Orders/Detail/{%=item.OrderID%}" target="_blank">{%=item.OrderCode%}</a> </td>
+    <td class=""><a href="/Customer/OrderDetail/{%=item.OrderID%}" target="_blank">{%=item.OrderCode%}</a> </td>
     <td class='center'>{%=item.OrderType==1?"打样":"大货" %}</td>
     <td class="center">{%=item.StatusStr%}</td>
     <td class="center">{%=item.PlanQuantity%}</td>

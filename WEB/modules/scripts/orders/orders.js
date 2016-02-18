@@ -216,7 +216,7 @@
         $("#changeOwner").click(function () {
             var _this = $(this);
             ChooseUser.create({
-                title: "更换拥有者",
+                title: "更换负责人",
                 type: 1,
                 single: true,
                 callback: function (items) {
@@ -224,7 +224,7 @@
                         if (_this.data("userid") != items[0].id) {
                             _self.ChangeOwner(_this.data("id"), items[0].id);
                         } else {
-                            alert("请选择不同人员进行转移!");
+                            alert("请选择不同人员进行更换!");
                         }
                     }
                 }
@@ -241,7 +241,7 @@
             var checks = $(".table-list .ico-checked");
             if (checks.length > 0) {
                 ChooseUser.create({
-                    title: "批量更换拥有者",
+                    title: "批量更换负责人",
                     type: 1,
                     single: true,
                     callback: function (items) {
@@ -256,7 +256,7 @@
                             if (ids.length > 0) {
                                 _self.ChangeOwner(ids, userid);
                             } else {
-                                alert("请选择不同人员进行转移!");
+                                alert("请选择不同人员进行更换!");
                             }
                         }
                     }

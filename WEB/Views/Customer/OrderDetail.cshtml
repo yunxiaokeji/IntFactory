@@ -12,7 +12,7 @@
 }
 <div class="header-box">
     <span class="header-title left">销售订单详情</span>
-    <a class="ico-back right" href="@(Url.RequestContext.HttpContext.Request.UrlReferrer == null ? "/Orders/Orderss" : "javascript:if(history.length>1){ history.go(-1);} else{ location.href='/Orders/MyOrder'}")">
+    <a class="ico-back right" href="@(Url.RequestContext.HttpContext.Request.UrlReferrer == null ? "/Customer/Orders" : "javascript:if(history.length>1){ history.go(-1);} else{ location.href='/Customer/Orders'}")">
         返回订单列表
     </a>
 </div>
@@ -31,8 +31,16 @@
             <span class="column-title">客户名称：</span> 
             <a href="/Customer/Detail/@(model.CustomerID)" target="_blank">@(model.Customer.Name)</a> </li>
         <li>
-            <span class="column-title">拥有者：</span> <label class="left" id="lblOwner">@(model.Owner!=null?model.Owner.Name:"--")</label>
-            <span title="更换拥有者" class="ico-change left mTop5 mLeft10 @(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner"></span>
+            <span class="column-title">负责人：</span> <label class="left" id="lblOwner">@(model.Owner!=null?model.Owner.Name:"--")</label>
+            <span title="更换负责人" class="ico-change left mTop5 mLeft10 @(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner"></span>
+        </li>
+        <li>
+            <span class="column-title">加工数量：</span>
+            <label>@(model.PlanQuantity)</label>
+        </li>
+        <li>
+            <span class="column-title">期望价格：</span>
+            <label>@(model.PlanPrice)</label>
         </li>
         <li>
             <span class="column-title">总金额：</span>
@@ -59,18 +67,14 @@
             <span class="column-title">邮编：</span>
             <label>@(model.PostalCode)</label>
         </li>
-        <li>
-            <span class="column-title">发货方式：</span>
-            <label>@(model.ExpressTypeStr)</label>
-        </li>
         <li style="width:100%;">
-            <span class="column-title">备注：</span> 
+            <span class="column-title">详细需求：</span> 
             <label>@(model.Remark.Trim())</label>
         </li>
     </ul>
     <div class="tab-nav mTop30">
         <ul class="tab-nav-ul left">
-            <li class="hover" data-id="navProducts">产品明细</li>
+            <li class="hover" data-id="navProducts">材料列表</li>
             <li data-id="navPays" class="hide navPays">付款记录</li>
             <li data-id="navInvoices" class="hide navInvoices">开票记录</li>
             <li data-id="navLog">日志</li>
@@ -80,7 +84,7 @@
     <div id="navProducts" class="nav-partdiv">
         <table class="table-list mTop20">
             <tr class="tr-header">
-                <td class="tLeft">产品名称</td>
+                <td class="tLeft">材料名称</td>
                 <td class="tLeft">规格</td>
                 <td class="width80">单位</td>
                 <td class="tLeft">单价</td>
@@ -107,6 +111,7 @@
                 <td class="tRight"><label id="amount"></label></td>
             </tr>
         </table>
+        <a href="/Customer/ChooseProducts/@(model.OrderID)" class="btn right mTop10">添加材料</a>
     </div>
      <table id="navPays" class="nav-partdiv table-list mTop20 hide">
         <tr class="tr-header">
