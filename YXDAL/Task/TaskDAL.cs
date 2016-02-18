@@ -12,11 +12,10 @@ namespace IntFactoryDAL
     {
         public static TaskDAL BaseProvider = new TaskDAL();
 
-        public bool CreateTask(string orderID, string stageID)
+        public bool CreateTask(string orderID)
         {
             SqlParameter[] paras = { 
-                                     new SqlParameter("@OrderID",orderID),
-                                     new SqlParameter("@StageID",stageID)
+                                     new SqlParameter("@OrderID",orderID)
                                    };
 
             return ExecuteNonQuery("P_CreateTask", paras, CommandType.StoredProcedure) > 0;
@@ -98,15 +97,18 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
         }
 
-        public bool FinishTask(string taskID)
+        public void FinishTask(string taskID, ref int result)
         {
-            string sqltext = "update OrderTask set FinishStatus=1 where TaskID=@TaskID";
-
             SqlParameter[] paras = { 
+                                     new SqlParameter("@Result",SqlDbType.Int),
                                      new SqlParameter("@TaskID",taskID)
                                    };
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
 
-            return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+            ExecuteNonQuery("P_FinishTask", paras, CommandType.StoredProcedure);
+
+            result = Convert.ToInt32(paras[0].Value);
         }
 
         public bool UnFinishTask(string taskID)

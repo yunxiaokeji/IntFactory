@@ -16,12 +16,10 @@ namespace IntFactoryBusiness
         /// 创建任务
         /// </summary>
         /// <param name="orderID"></param>
-        /// <param name="stageID"></param>
-        /// <param name="createUserID"></param>
         /// <returns></returns>
-        public static bool CreateTask(string orderID, string stageID, string createUserID) 
+        public static bool CreateTask(string orderID) 
         {
-            return TaskDAL.BaseProvider.CreateTask(orderID, stageID);
+            return TaskDAL.BaseProvider.CreateTask(orderID);
         }
         #endregion
 
@@ -49,6 +47,7 @@ namespace IntFactoryBusiness
             {
                 TaskEntity model = new TaskEntity();
                 model.FillData(dr);
+                model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
                 list.Add(model);
@@ -119,9 +118,9 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="taskID"></param>
         /// <returns></returns>
-        public static bool FinishTask(string taskID)
+        public static void FinishTask(string taskID,ref int result)
         {
-            return TaskDAL.BaseProvider.FinishTask(taskID);
+            TaskDAL.BaseProvider.FinishTask(taskID,ref result);
         }
 
         /// <summary>
@@ -131,7 +130,7 @@ namespace IntFactoryBusiness
         /// <returns></returns>
         public static bool UnFinishTask(string taskID)
         {
-            return TaskDAL.BaseProvider.FinishTask(taskID);
+            return TaskDAL.BaseProvider.UnFinishTask(taskID);
         }
         #endregion
     }
