@@ -38,15 +38,19 @@
 }
 <div class="header-box">
     <span class="header-title left">@ViewBag.Title</span>
-    <a href="/Orders/Create"  id="createOrder" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"102029001"))">新建订单</a>
+    <a href="/Customer/CreateOrder"  id="createOrder" class="btn-add right">新建订单</a>
 </div>
 <div class="search-box">
     <div class="search-header">
         <ul class="search-tab search-status">
             <li data-id="-1" class="hover">全部订单</li>
-            <li data-id="1" class="">待审核订单</li>
-            <li data-id="2" class="">已审核订单</li>
-            <li data-id="3" class="">已退单</li>
+            <li data-id="0" class="">待分配</li>
+            <li data-id="1" class="">打样中</li>
+            <li data-id="2" class="">合价中</li>
+            <li data-id="3" class="">封样封价</li>
+            <li data-id="4" class="">生产中</li>
+            <li data-id="5" class="">生产完成</li>
+            <li data-id="6" class="">交易结束</li>
         </ul>
         <ul class="search-tab-status search-returnstatus">
             <li data-id="-1">全部</li>
@@ -73,14 +77,16 @@
     <table class="table-list mTop10">
         <tr class="tr-header">
             <td class="width30"></td>
+            <td class="tLeft width50">样图</td>
             <td class="tLeft width150">订单编号</td>
-            <td class="tLeft minwidth70">客户名称</td>
+            <td class="tLeft minwidth70">客户</td>
             <td class="width100">订单类型</td>
             <td class="width80">状态</td>
-            <td class="width80 tRight">总金额</td>
-            <td class="width100">联系人</td>
+            <td class="width100">加工数量</td>
+            <td class="width100">期望价格</td>
+            <td class="width80 tRight">成本价</td>
             <td class="width100">联系电话</td>     
-            <td class="width100">拥有者</td>
+            <td class="width100">负责人</td>
             <td class="width100">发货状态</td>
             <td class="width150">创建时间</td>
             <td class="width50">操作</td>
@@ -91,13 +97,12 @@
             <span class="ico-check pLeft5" id="checkAll">批量操作</span>
         </li>
         <li>
-            <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" id="batchChangeOwner">更换拥有者</a>
+            <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" id="batchChangeOwner">更换负责人</a>
         </li>
     </ul>
     <div id="pager" class="mTop20"></div>
 </div>
 <ul class="dropdown-ul hide" style="width:105px;">
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" id="changeOwner">更换拥有者</li>
-    <li class="" id="auditOrReturn">审核/退单</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" id="changeOwner">更换负责人</li>
 </ul>
 

@@ -13,16 +13,24 @@ namespace IntFactoryEnum
     {
         [DescriptionAttribute("全部")]
         All = -1,
-        [DescriptionAttribute("机会订单")]
+        [DescriptionAttribute("待分配")]
         Normal = 0,
-        [DescriptionAttribute("待审核")]
-        New = 1,
-        [DescriptionAttribute("已审核")]
-        Success = 2,
-        [DescriptionAttribute("已退单")]
-        Return = 3,
+        [DescriptionAttribute("打样中")]
+        DY = 1,
+        [DescriptionAttribute("合价中")]
+        HJ = 2,
+        [DescriptionAttribute("封样封价")]
+        FYFJ = 3,
+        [DescriptionAttribute("生产中")]
+        SC = 4,
+        [DescriptionAttribute("生产完成")]
+        SCWC = 5,
+        [DescriptionAttribute("交易结束")]
+        JYJS = 6,
+        [DescriptionAttribute("退单")]
+        TD = 7,
         [DescriptionAttribute("作废")]
-        Invalid = 4
+        Delete = 8
     }
     /// <summary>
     /// 出库状态

@@ -74,7 +74,7 @@ namespace IntFactoryBusiness
         public List<OrderEntity> GetOrdersByCustomerID(string customerid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataTable dt = CommonBusiness.GetPagerData("Orders", "*", "CustomerID='" + customerid + "' and Status between 1 and 3", "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
+            DataTable dt = CommonBusiness.GetPagerData("Orders", "*", "CustomerID='" + customerid + "' and Status<>9 ", "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
             foreach (DataRow dr in dt.Rows)
             {
                 OrderEntity model = new OrderEntity();
@@ -193,7 +193,7 @@ namespace IntFactoryBusiness
 
         #region 添加
 
-        public string CreateOrder(string name, string mobile, int type, string categoryid, string price, string orderimg, string citycode, string address, string remark, string operateid, string agentid, string clientid)
+        public string CreateOrder(string name, string mobile, int type, string categoryid, string price, int quantity, string orderimg, string citycode, string address, string remark, string operateid, string agentid, string clientid)
         {
             string id = Guid.NewGuid().ToString();
             string code = DateTime.Now.ToString("yyyyMMddHHmmssfff");
@@ -219,7 +219,7 @@ namespace IntFactoryBusiness
                 }
             }
 
-            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, name, mobile, type, categoryid, price, orderimg, citycode, address, remark, operateid, agentid, clientid);
+            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, name, mobile, type, categoryid, price, quantity, orderimg, citycode, address, remark, operateid, agentid, clientid);
             if (!bl)
             {
                 return "";
@@ -269,7 +269,7 @@ namespace IntFactoryBusiness
             if (bl)
             {
                 var model = OrganizationBusiness.GetUserByUserID(userid, agentid);
-                string msg = "拥有者更换为：" + model.Name;
+                string msg = "负责人更换为：" + model.Name;
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, userid, agentid, clientid);
             }
             return bl;

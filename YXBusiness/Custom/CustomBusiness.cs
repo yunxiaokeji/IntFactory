@@ -36,18 +36,18 @@ namespace IntFactoryBusiness
         }
 
 
-        public List<CustomerEntity> GetCustomers(EnumSearchType searchtype, int type, string sourceid, string stageid, int status, int mark, string activityid, string searchuserid, string searchteamid, string searchagentid,
+        public List<CustomerEntity> GetCustomers(EnumSearchType searchtype, int type, int sourcetype, string sourceid, string stageid, int status, int mark, string activityid, string searchuserid, string searchteamid, string searchagentid,
                                                  string begintime, string endtime, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             List<CustomerEntity> list = new List<CustomerEntity>();
-            DataSet ds = CustomDAL.BaseProvider.GetCustomers((int)searchtype, type, sourceid, stageid, status, mark, activityid, searchuserid, searchteamid, searchagentid, begintime, endtime, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
+            DataSet ds = CustomDAL.BaseProvider.GetCustomers((int)searchtype, type, sourcetype, sourceid, stageid, status, mark, activityid, searchuserid, searchteamid, searchagentid, begintime, endtime, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 CustomerEntity model = new CustomerEntity();
                 model.FillData(dr);
 
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
-                model.Source = SystemBusiness.BaseBusiness.GetCustomSourcesByID(model.SourceID, model.AgentID, model.ClientID);
+                //model.Source = SystemBusiness.BaseBusiness.GetCustomSourcesByID(model.SourceID, model.AgentID, model.ClientID);
                 //model.Stage = SystemBusiness.BaseBusiness.GetCustomStageByID(model.StageID, model.AgentID, model.ClientID);
                 list.Add(model);
             }
@@ -97,26 +97,26 @@ namespace IntFactoryBusiness
             {
                 model.FillData(ds.Tables["Customer"].Rows[0]);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
-                model.Source = SystemBusiness.BaseBusiness.GetCustomSourcesByID(model.SourceID, model.AgentID, model.ClientID);
+                //model.Source = SystemBusiness.BaseBusiness.GetCustomSourcesByID(model.SourceID, model.AgentID, model.ClientID);
                 //model.Stage = SystemBusiness.BaseBusiness.GetCustomStageByID(model.StageID, model.AgentID, model.ClientID);
-                if (model.Extent > 0)
-                {
-                    model.ExtentStr = GetExtents().Where(m => m.ExtentID == model.Extent.ToString()).FirstOrDefault().ExtentName;
-                }
+                //if (model.Extent > 0)
+                //{
+                //    model.ExtentStr = GetExtents().Where(m => m.ExtentID == model.Extent.ToString()).FirstOrDefault().ExtentName;
+                //}
 
                 model.City = CommonBusiness.Citys.Where(m => m.CityCode == model.CityCode).FirstOrDefault();
 
                 model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
 
-                if (!string.IsNullOrEmpty(model.IndustryID))
-                {
-                    model.Industry = Manage.IndustryBusiness.GetIndustryDetail(model.IndustryID);
-                }
-                if (ds.Tables["Activity"].Rows.Count > 0)
-                {
-                    model.Activity = new ActivityEntity();
-                    model.Activity.FillData(ds.Tables["Activity"].Rows[0]);
-                }
+                //if (!string.IsNullOrEmpty(model.IndustryID))
+                //{
+                //    model.Industry = Manage.IndustryBusiness.GetIndustryDetail(model.IndustryID);
+                //}
+                //if (ds.Tables["Activity"].Rows.Count > 0)
+                //{
+                //    model.Activity = new ActivityEntity();
+                //    model.Activity.FillData(ds.Tables["Activity"].Rows[0]);
+                //}
 
                 //if (ds.Tables["Contact"].Rows.Count > 0)
                 //{
@@ -253,7 +253,7 @@ namespace IntFactoryBusiness
             if (bl)
             {
                 var model = OrganizationBusiness.GetUserByUserID(userid, agentid);
-                string msg = "客户拥有者更换为：" + model.Name;
+                string msg = "客户负责人更换为：" + model.Name;
                 LogBusiness.AddLog(customerid, EnumLogObjectType.Customer, msg, operateid, ip, userid, agentid, clientid);
             }
             return bl;

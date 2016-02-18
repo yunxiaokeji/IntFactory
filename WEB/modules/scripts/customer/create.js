@@ -22,16 +22,16 @@
             _self.saveModel(activityid);
         });
 
-        if (activityid) {
-            $("#source option[data-code='Source-Activity']").prop("selected", true);
-            $("#source").prop("disabled", true);
+        //if (activityid) {
+        //    $("#source option[data-code='Source-Activity']").prop("selected", true);
+        //    $("#source").prop("disabled", true);
 
-            Global.post("/Customer/GetActivityBaseInfoByID", { activityid: activityid }, function (data) {
-                if (data.model.Name) {
-                    $("#activityName").text("活动：" + data.model.Name);
-                }
-            })
-        }
+        //    Global.post("/Customer/GetActivityBaseInfoByID", { activityid: activityid }, function (data) {
+        //        if (data.model.Name) {
+        //            $("#activityName").text("活动：" + data.model.Name);
+        //        }
+        //    })
+        //}
 
         VerifyObject = Verify.createVerify({
             element: ".verify",
@@ -65,26 +65,26 @@
 
         var model = {
             Name: $("#name").val().trim(),
-            Type: $("#companyCustom").hasClass("ico-checked") ? 1 : 0,
+            MobilePhone: $("#contactMobile").val().trim(),
+            //Type: $("#companyCustom").hasClass("ico-checked") ? 1 : 0,
             //IndustryID: $("#industry").val().trim(),
             //ActivityID: activityid,
-            SourceID: $("#source").val().trim(),
+            //SourceID: $("#source").val().trim(),
             //Extent: $("#extent").val().trim(),
             CityCode: CityObject.getCityCode(),
             Address: $("#address").val().trim(),
             //ContactName: $("#contactName").val().trim(),
-            MobilePhone: $("#contactMobile").val().trim(),
             Email: $("#email").val().trim(),
             //Jobs: $("#jobs").val().trim(),
             Description: $("#remark").val().trim()
         };
         Global.post("/Customer/SaveCustomer", { entity: JSON.stringify(model) }, function (data) {
             if (data.model.CustomerID) {
-                confirm("客户保存成功,是否继续添加客户?", function () {
+                confirm("客户创建成功,是否继续创建客户?", function () {
                     location.href = location.href;
                 }, function () {
-                    location.href = "/Customer/Customers";
-                })
+                    location.href = "/Customer/Customers"
+                });
                 
             } else {
                 alert("网络异常,请稍后重试!");

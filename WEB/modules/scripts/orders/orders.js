@@ -6,6 +6,8 @@
         ChooseUser = require("chooseuser");
     require("pager");
 
+    var ColumnCount = 14;
+
     var Params = {
         SearchType: 1,
         TypeID: '',
@@ -98,22 +100,24 @@
             });
         });
         //订单类型
-        Global.post("/System/GetOrderTypes", {}, function (data) {
-            require.async("dropdown", function () {
-                $("#orderType").dropdown({
-                    prevText: "类型-",
-                    defaultText: "全部",
-                    defaultValue: "",
-                    data: data.items,
-                    dataValue: "TypeID",
-                    dataText: "TypeName",
-                    width: "120",
-                    onChange: function (data) {
-                        Params.PageIndex = 1;
-                        Params.TypeID = data.value;
-                        _self.getList();
-                    }
-                });
+        require.async("dropdown", function () {
+            var items = [
+                { ID: 1, Name: "打样" },
+                { ID: 2, Name: "大货" }
+            ];
+            $("#orderType").dropdown({
+                prevText: "订单类型-",
+                defaultText: "全部",
+                defaultValue: "",
+                data: items,
+                dataValue: "ID",
+                dataText: "Name",
+                width: "120",
+                onChange: function (data) {
+                    Params.PageIndex = 1;
+                    Params.TypeID = data.value;
+                    _self.getList();
+                }
             });
         });
 
@@ -268,7 +272,7 @@
         var _self = this;
         $("#checkAll").addClass("ico-check").removeClass("ico-checked");
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='12'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='" + ColumnCount + "'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
 
         Global.post("/Orders/GetOrders", { filter: JSON.stringify(Params) }, function (data)
         {
@@ -320,7 +324,7 @@
         }
         else
         {
-            $(".tr-header").after("<tr><td colspan='12'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='" + ColumnCount + "'><div class='noDataTxt' >暂无数据!<div></td></tr>");
         }
 
         $("#pager").paginate({

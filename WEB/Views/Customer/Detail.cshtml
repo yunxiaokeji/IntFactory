@@ -15,21 +15,18 @@
 }
 <div class="header-box">
     <span class="header-title left">客户详情</span>
-    <a href="/Orders/Create/@ViewBag.ID" target="_blank" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"102029001"))">新建订单</a>
 </div>
 <div class="content-body mTop20">
     <div class="content-title">
-        <div id="lblType" class="left customer-type mTop2"></div>
-        <div id="spCustomerName" class="left titlename mLeft10"></div>
+        @*<div id="lblType" class="left customer-type mTop2"></div>*@
+        <div id="spCustomerName" class="left titlename"></div>
         <div id="updateCustomer" class="left ico-edit mLeft50 mTop2"></div>
 
-        <div class="left mLeft50"><img class="hand btn_shareMD" src="/modules/images/btn-share-mingdao.png" id="btn_shareMD"/></div>
-
-@*        <div class="btn999 right" id="loseCustomer">丢失</div>*@
-        <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current,"101019004"))" id="closeCustomer">关闭</div>
+        @*<div class="btn999 right" id="loseCustomer">丢失</div>*@
+        @*<div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current,"101019004"))" id="closeCustomer">关闭</div>
         <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current,"101019005"))" id="recoveryCustomer">恢复</div>
         <span class="right lineHeight25 mRight20 blue mTop2" id="lblStatus"></span>
-        <span class="right lineHeight25 mTop2">客户状态：</span>
+        <span class="right lineHeight25 mTop2">客户状态：</span>*@
     </div>
     <ul class="content-info">
         <li><span>来源：</span><label id="lblSource"></label></li>
@@ -107,31 +104,20 @@
     <div class="nav-partdiv hide" id="navOrder">
          <table class="table-list mTop10">
             <tr class="tr-header">
+                <td class="tLeft width50">样图</td>
                 <td class="tLeft width150">订单编号</td>
                 <td class="width100">订单类型</td>
                 <td class="width80">状态</td>
-                <td class="width80 tRight">总金额</td>
-                <td class="width100">联系人</td>
+                <td class="width100">加工数量</td>
+                <td class="width100">期望价格</td>
+                <td class="width80 tRight">成本价</td>
+                <td class="width100">联系人</td> 
                 <td class="width100">联系电话</td>     
-                <td class="width100">拥有者</td>
+                <td class="width100">负责人</td>
                 <td class="width150">创建时间</td>
             </tr>
         </table>
         <div id="pagerOrders" class="mTop10"></div>
-    </div>
-     <div class="nav-partdiv hide" id="navOppor">
-         <table class="table-list mTop10">
-            <tr class="tr-header">
-                <td class="tLeft width150">机会编号</td>
-                <td class="width100">阶段</td>
-                <td class="width80 tRight">总金额</td>
-                <td class="width100">联系人</td>
-                <td class="width100">联系电话</td>     
-                <td class="width100">拥有者</td>
-                <td class="width150">创建时间</td>
-            </tr>
-        </table>
-        <div id="pagerOppors" class="mTop10"></div>
     </div>
 </div>
 <ul class="dropdown-ul hide" style="width:65px;">

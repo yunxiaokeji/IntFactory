@@ -17,6 +17,8 @@ namespace YXERP.Models
 
         public string SourceID { get; set; }
 
+        public int SourceType { get; set; }
+
         public string StageID { get; set; }
 
         public int Status { get; set; }

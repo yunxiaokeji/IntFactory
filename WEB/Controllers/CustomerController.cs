@@ -38,7 +38,7 @@ namespace YXERP.Controllers
         }
         public ActionResult Customers()
         {
-            ViewBag.Title = "所有客户";
+            ViewBag.Title = "客户列表";
             ViewBag.Type = (int)EnumSearchType.All;
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
@@ -46,15 +46,15 @@ namespace YXERP.Controllers
 
         public ActionResult Create(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                ViewBag.Sources = new SystemBusiness().GetCustomSources(CurrentUser.AgentID, CurrentUser.ClientID).Where(m => m.IsChoose == 1).ToList();
-            }
-            else
-            {
-                ViewBag.Sources = new SystemBusiness().GetCustomSources(CurrentUser.AgentID, CurrentUser.ClientID);
-            }
-            ViewBag.ActivityID = id;
+            //if (string.IsNullOrEmpty(id))
+            //{
+            //    ViewBag.Sources = new SystemBusiness().GetCustomSources(CurrentUser.AgentID, CurrentUser.ClientID).Where(m => m.IsChoose == 1).ToList();
+            //}
+            //else
+            //{
+            //    ViewBag.Sources = new SystemBusiness().GetCustomSources(CurrentUser.AgentID, CurrentUser.ClientID);
+            //}
+            //ViewBag.ActivityID = id;
             //ViewBag.Industrys = IntFactoryBusiness.Manage.IndustryBusiness.GetIndustrys();
             //ViewBag.Extents = CustomBusiness.GetExtents();
             return View();
@@ -62,9 +62,22 @@ namespace YXERP.Controllers
 
         public ActionResult Detail(string id)
         {
-            ViewBag.MDToken = CurrentUser.MDToken;
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID).OrderBy(m => m.Sort).ToList();
             ViewBag.ID = id;
+            return View();
+        }
+
+        public ActionResult Orders()
+        {
+            ViewBag.Title = "订单列表";
+            ViewBag.Type = (int)EnumSearchType.All;
+            return View();
+        }
+
+        public ActionResult CreateOrder()
+        {
+            var list = new ProductsBusiness().GetChildOrderCategorysByID("", CurrentUser.ClientID);
+            ViewBag.Items = list;
             return View();
         }
 
@@ -116,7 +129,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomers(model.SearchType, model.Type, model.SourceID, model.StageID, model.Status, model.Mark, model.ActivityID, model.UserID, model.TeamID, model.AgentID, model.BeginTime, model.EndTime, model.Keywords, model.PageSize, model.PageIndex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomers(model.SearchType, model.Type, model.SourceType, model.SourceID, model.StageID, model.Status, model.Mark, model.ActivityID, model.UserID, model.TeamID, model.AgentID, model.BeginTime, model.EndTime, model.Keywords, model.PageSize, model.PageIndex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -142,8 +155,8 @@ namespace YXERP.Controllers
         public JsonResult GetCustomerByID(string customerid)
         {
             var model = CustomBusiness.BaseBusiness.GetCustomerByID(customerid, CurrentUser.AgentID, CurrentUser.ClientID);
-            model.Industrys = IntFactoryBusiness.Manage.IndustryBusiness.GetIndustrys();
-            model.Extents = CustomBusiness.GetExtents();
+            //model.Industrys = IntFactoryBusiness.Manage.IndustryBusiness.GetIndustrys();
+            //model.Extents = CustomBusiness.GetExtents();
             JsonDictionary.Add("model", model);
             return new JsonResult
             {
@@ -310,6 +323,8 @@ namespace YXERP.Controllers
             };
         }
 
+        #region 联系人
+
         public JsonResult GetContacts(string customerid)
         {
             var list = CustomBusiness.BaseBusiness.GetContactsByCustomerID(customerid, CurrentUser.AgentID);
@@ -367,6 +382,8 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
+        #endregion
 
         #region 讨论
 

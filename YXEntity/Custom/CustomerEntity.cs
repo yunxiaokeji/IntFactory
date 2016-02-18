@@ -48,6 +48,9 @@ namespace IntFactoryEntity
 
         public string Description { get; set; }
 
+        public int SourceType { get; set; }
+             
+
         [Property("Lower")]
         public string SourceID { get; set; }
         public CustomSourceEntity Source { get; set; }

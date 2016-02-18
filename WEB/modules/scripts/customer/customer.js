@@ -8,6 +8,7 @@
     var Params = {
         SearchType: 1,
         Type: -1,
+        SourceType: -1,
         SourceID: "",
         StageID: "",
         Status: 1,
@@ -77,29 +78,29 @@
             });
         });
         //客户来源
-        Global.post("/Customer/GetCustomerSources", { }, function (data) {
-            require.async("dropdown", function () {
-                $("#customerSource").dropdown({
-                    prevText: "来源-",
-                    defaultText: "全部",
-                    defaultValue: "",
-                    data: data.items,
-                    dataValue: "SourceID",
-                    dataText: "SourceName",
-                    width: "140",
-                    onChange: function (data) {
-                        Params.PageIndex = 1;
-                        Params.SourceID = data.value;
-                        _self.getList();
-                    }
-                });
-            });
-        });
+        //Global.post("/Customer/GetCustomerSources", { }, function (data) {
+        //    require.async("dropdown", function () {
+        //        $("#customerSource").dropdown({
+        //            prevText: "来源-",
+        //            defaultText: "全部",
+        //            defaultValue: "",
+        //            data: data.items,
+        //            dataValue: "SourceID",
+        //            dataText: "SourceName",
+        //            width: "140",
+        //            onChange: function (data) {
+        //                Params.PageIndex = 1;
+        //                Params.SourceID = data.value;
+        //                _self.getList();
+        //            }
+        //        });
+        //    });
+        //});
         //客户类型
         require.async("dropdown", function () {
-            var items = [{ ID: 1, Name: "企业客户" }, { ID: 0, Name: "个人客户" }];
-            $("#customerType").dropdown({
-                prevText: "类型-",
+            var items = [{ ID: 1, Name: "阿里客户" }, { ID: 2, Name: "自助下单" }, { ID: 3, Name: "手工创建" }];
+            $("#sourceType").dropdown({
+                prevText: "客户来源-",
                 defaultText: "全部",
                 defaultValue: "-1",
                 data: items,
@@ -108,7 +109,7 @@
                 width: "120",
                 onChange: function (data) {
                     Params.PageIndex = 1;
-                    Params.Type = data.value;
+                    Params.SourceType = data.value;
                     _self.getList();
                 }
             });
@@ -246,7 +247,7 @@
         var _self = this;
         $("#checkAll").addClass("ico-check").removeClass("ico-checked");
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='9'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
 
         Global.post("/Customer/GetCustomers", { filter: JSON.stringify(Params) }, function (data) {
             _self.bindList(data);
@@ -306,7 +307,7 @@
         }
         else
         {
-            $(".tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='9'><div class='noDataTxt' >暂无数据!<div></td></tr>");
         }
 
         $("#pager").paginate({
