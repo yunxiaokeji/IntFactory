@@ -15,7 +15,7 @@ namespace IntFactoryEntity.Task
         [Property("Lower")]
         public string OrderID { get; set; }
 
-        public string Title { get; set; }
+        public string OrderImg { get; set; }
 
         [Property("Lower")]
         public string ProcessID { get; set; }
@@ -23,12 +23,16 @@ namespace IntFactoryEntity.Task
         [Property("Lower")]
         public string StageID { get; set; }
 
+        public OrderStageEntity Stage { get; set; }
+
         [Property("Lower")]
         public string OwnerID { get; set; }
 
         public Users Owner { get; set; }
 
         public DateTime EndTime { get; set; }
+
+        public int Sort { get; set; }
 
         public int Status { get; set; }
 

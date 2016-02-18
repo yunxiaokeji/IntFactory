@@ -71,6 +71,8 @@
     <Folder Include="Procedures\Report" />
     <Folder Include="Procedures\Planwork" />
     <Folder Include="Procedures\RepotLog" />
+    <Folder Include="Table" />
+    <Folder Include="Procedures\Task" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\InitDatabase.sql" />
@@ -460,5 +462,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Products\P_DeleteOrderCategory.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Table\OrderTask.sql" />
+    <Build Include="Procedures\Task\P_CreateTask.sql" />
+    <Build Include="Procedures\Task\P_GetTasks.sql" />
+    <Build Include="Procedures\Task\P_FinishTask.sql" />
   </ItemGroup>
 </Project>
