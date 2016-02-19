@@ -92,24 +92,17 @@
                     $(".tr-header").after(innerhtml);
 
                     //标记任务完成
-                    $(".table-list span.ico-check").click(function () {
-                        if (!$(this).hasClass("ico-checked")) {
-                            ObjectJS.FinishTask($(this).data("taskid"));
-                        }
-                    });
+                    //$(".table-list span.ico-check").click(function () {
+                    //    if (!$(this).hasClass("ico-checked")) {
+                    //        ObjectJS.FinishTask($(this).data("taskid"));
+                    //    }
+                    //});
 
-                    //设置任务到期时间
-                    $(".table-list a.updateTaskEndTime").each(function () {
-                        var EndTime = {
-                            elem: '#'+$(this).attr("id"),
-                            format: 'YYYY-MM-DD',
-                            max: '2099-06-16',
-                            istime: false,
-                            istoday: false
-                        };
-
-                        laydate(EndTime);
+                    //显示任务详情
+                    require.async("showtaskdetail", function () {
+                        $(".table-list .list-item").showtaskdetail();
                     });
+                    
 
                 });
             }

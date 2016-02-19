@@ -2,7 +2,7 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-<tr class="list-item">
+<tr class="list-item" data-taskid="{%=item.TaskID%}" data-orderid="{%=item.OrderID%}">
     <td class="center">{%=item.OrderImg%}</td>
     <td class="center"><a href="/Customer/OrderDetail/{%=item.OrderID%}" target="_blank">{%=item.OrderID%}</a></td>
     <td class="center"><a href="/Customer/OrderDetail/{%=item.OrderID%}" target="_blank">{%=item.Stage.StageName%}</a></td>
