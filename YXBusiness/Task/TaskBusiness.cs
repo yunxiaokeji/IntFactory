@@ -108,7 +108,7 @@ namespace IntFactoryBusiness
         /// <param name="taskID"></param>
         /// <param name="endTime"></param>
         /// <returns></returns>
-        public static bool UpdateTaskEndTime(string taskID, DateTime endTime)
+        public static bool UpdateTaskEndTime(string taskID, DateTime? endTime)
         {
             return TaskDAL.BaseProvider.UpdateTaskEndTime(taskID, endTime);
         }

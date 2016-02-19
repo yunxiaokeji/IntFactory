@@ -58,6 +58,22 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UpdateTaskEndTime(string taskID, string endTime)
+        {
+            int result = 0;
+            DateTime? endDate = null;
+            if (!string.IsNullOrEmpty(endTime)) endDate = DateTime.Parse(endTime);
+
+            result=TaskBusiness.UpdateTaskEndTime(taskID, endDate)?1:0;
+
+            JsonDictionary.Add("Result", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult FinishTask(string taskID) {
             int result = 0;
             TaskBusiness.FinishTask(taskID,ref result);

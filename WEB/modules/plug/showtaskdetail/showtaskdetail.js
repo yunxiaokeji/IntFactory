@@ -39,6 +39,7 @@ define(function (require, exports, module) {
         var drawTaskDetail = function (taskid,orderid) {
 
             doT.exec("template/task/task-detail.html", function (template) {
+                //获取任务详情内容
                 var arr = [];
                 arr.push({ TaskID: taskid });
                 var html = template(arr);
@@ -48,21 +49,56 @@ define(function (require, exports, module) {
 
                 $("#taskDetailContent").animate({ right: '0px' }, 500);
 
+                //更新任务到期日期
                 var taskEndTime = {
                     elem: '#UpdateTaskEndTime',
                     format: 'YYYY-MM-DD',
                     max: '2099-06-16',
                     istime: false,
-                    istoday: false
+                    istoday: false,
+                    choose: function () {
+                        UpdateTaskEndTime(taskid);
+                    }
                 };
                 laydate(taskEndTime);
 
-                initTalk(orderid);
+                //标记任务完成
+                $("#FinishTask").click(function () {
+                    FinishTask(taskid);
+                });
+
+                //任务讨论列表
+                initTalkReply(orderid);
             });
             
         }
 
-        var initTalk = function (orderid) {
+        //更新任务到期日期
+        var UpdateTaskEndTime = function (taskID) {
+            Global.post("/Task/UpdateTaskEndTime", { taskID: taskID, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
+                if (data.Result == 1)
+                {
+                    alert("保存成功");
+                }
+            });
+        }
+
+        //标记任务完成
+        var FinishTask = function (taskID) {
+            confirm("标记完成的任务不可逆,确定完成?", function () {
+                Global.post("/Task/FinishTask", { taskID: taskID }, function (data) {
+                    if (data.Result == 1) {
+                        alert("标记任务完成");
+                    }
+                    else if (data.Result == 2) {
+                        alert("前面阶段任务有未完成,不能标记完成");
+                    }
+                });
+            });
+        }
+
+        //初始化任务讨论列表
+        var initTalkReply = function (orderid) {
             var _self = this;
 
             $("#btnSaveTalk").click(function () {
@@ -87,7 +123,7 @@ define(function (require, exports, module) {
 
         }
 
-        //
+        //获取任务讨论列表
         var getTaskReplys = function (orderid, page) {
             var _self = this;
             $("#replyList").empty();
@@ -160,7 +196,7 @@ define(function (require, exports, module) {
             });
         }
 
-        //
+        //保存任务讨论
         var saveTaskReply = function (model) {
             var _self = this;
 

@@ -85,7 +85,7 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateTaskEndTime(string taskID, DateTime endTime)
+        public bool UpdateTaskEndTime(string taskID, DateTime? endTime)
         {
             string sqltext = "update OrderTask set endTime=@EndTime where TaskID=@TaskID";
 

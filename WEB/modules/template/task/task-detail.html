@@ -5,10 +5,13 @@
 <div class="taskContent" id="taskDetailContent" data-taskid="{%=item.TaskID%}">
     <div class="taskOperate">
         <div class="left">
-            <input type="text" style="width:80px;" id="UpdateTaskEndTime" value="设置到期日期"/>
+            <div class="left"><img style="width:32px;" src="/modules/images/ico-endtime.png" /></div>
+            <div class="left mLeft5"><input type="text" style="width:80px;" id="UpdateTaskEndTime" value="设置到期日期"/></div>
+            <div class="clear"></div>
+            
         </div>
         <div class="right mRight10">
-            <input type="button" class="btn" value="标记完成"/>
+            <input type="button" class="btn" id="{%=item.FinishStatus==1?'':'FinishTask'%}" value="{%=item.FinishStatus==1?'已完成':'标记完成'%}"/>
         </div>
         <div class="clear"></div>
     </div>
@@ -25,10 +28,6 @@
             </li>
             <li>
                 <span class="column-title">负责人:</span>
-                <span>测试中</span>
-            </li>
-            <li>
-                <span class="column-title">任务进度:</span>
                 <span>测试中</span>
             </li>
         </ul>

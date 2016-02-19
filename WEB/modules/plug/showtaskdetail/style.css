@@ -1,17 +1,17 @@
 ﻿.taskContent {
-        padding:15px;
-        width:350px;
-        position: fixed;
-        right: -380px;
-        top: 50px;
-        height: 100%;
-        background-color: #fff;
-        border-left: solid 1px #eee;
-        opacity:1;
-    }
+padding:15px;
+width:350px;
+position: fixed;
+right: -380px;
+top: 50px;
+height: 100%;
+background-color: #fff;
+border-left: solid 1px #eee;
+opacity:1;
+}
 
 .taskContent li {
-    line-height:35px;
+line-height:35px;
 }
 
 .taskOperate {
@@ -22,11 +22,11 @@ border-bottom:1px solid #eee;
 .taskDetail {
 }
 
-    .taskDetail li {
-    line-height:50px;
-    }
+.taskDetail li {
+line-height:50px;
+}
 
-    .taskDetail .column-title {
-        width:100px;
-        display:inline-block;
-    }
+.taskDetail .column-title {
+width:100px;
+display:inline-block;
+}
