@@ -316,16 +316,16 @@
     <Content Include="Views\ModulesProduct\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\ExpressCompany\Detail.cshtml" />
+    <Content Include="Views\ExpressCompany\ExpressCompanyDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\ExpressCompany\Index.cshtml" />
+    <Content Include="Views\ExpressCompany\ExpressCompanys.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Industry\Detail.cshtml" />
+    <Content Include="Views\Industry\IndustryDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Industry\Index.cshtml" />
+    <Content Include="Views\Industry\Industrys.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -334,10 +334,10 @@
     <Content Include="Views\System\Admin.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\FeedBack\Index.cshtml" />
+    <Content Include="Views\FeedBack\FeedBacks.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\FeedBack\Detail.cshtml" />
+    <Content Include="Views\FeedBack\FeedBackDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Report\AgentActionReport.cshtml" />

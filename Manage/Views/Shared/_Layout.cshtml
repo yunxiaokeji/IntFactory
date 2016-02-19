@@ -50,24 +50,24 @@
                         <span class="cursor"></span>
                     </a> 
                 </li>
-                <li class="left" BindController="expresscompany">
+              @*  <li class="left" BindController="expresscompany">
                     <a href="/ExpressCompany/index" >
                         <span class="name">快递公司</span>
                         <span class="cursor"></span>
                     </a> 
-                </li>
-                <li class="left" BindController="industry">
+                </li>*@
+            @*    <li class="left" BindController="industry">
                     <a href="/Industry/index" >
                         <span class="name">公司行业</span>
                         <span class="cursor"></span>
                     </a> 
-                </li>
-                <li class="left" BindController="feedback">
+                </li>*@
+              @*  <li class="left" BindController="feedback">
                     <a href="/FeedBack/index" >
                         <span class="name">意见反馈</span>
                         <span class="cursor"></span>
                     </a> 
-                </li>
+                </li>*@
                 <li class="left" BindController="order">
                     <a href="/Order/index" >
                         <span class="name">订单</span>
@@ -144,47 +144,6 @@
                 </ul>
             </div>
 
-            <div class="controller" BindController="expresscompany">
-                <div class="controller-box">
-                    <div class="controller-name">
-                        <span class="open left"></span>
-                        <span class="name left">快递公司管理</span>
-                    </div>
-                </div>
-
-                <ul class="action-box">
-                    <li class="action " BindAction="detail"><a href="/ExpressCompany/Detail" >添加快递公司</a></li>
-                    <li class="action " BindAction="index"><a href="/ExpressCompany/index" >快递公司列表</a></li>
-                </ul>
-            </div>
-
-            <div class="controller" BindController="industry">
-                <div class="controller-box">
-                    <div class="controller-name">
-                        <span class="open left"></span>
-                        <span class="name left">公司行业管理</span>
-                    </div>
-                </div>
-
-                <ul class="action-box">
-                     <li class="action " BindAction="detail"><a href="/Industry/Detail" >添加公司行业</a></li>
-                     <li class="action " BindAction="index"><a href="/Industry/index" >公司行业列表</a></li>
-                </ul>
-            </div>
-
-            <div class="controller" BindController="feedback">
-                <div class="controller-box">
-                    <div class="controller-name">
-                        <span class="open left"></span>
-                        <span class="name left">意见反馈管理</span>
-                    </div>
-                </div>
-
-                <ul class="action-box">
-                     <li class="action " BindAction="index"><a href="/FeedBack/index" >意见反馈列表</a></li>
-                </ul>
-            </div>
-
             <div class="controller" BindController="order">
                 <div class="controller-box">
                     <div class="controller-name">
@@ -211,16 +170,51 @@
                 </ul>
             </div>
 
-            <div class="controller" BindController="system">
-                <div class="controller-box">
+            <div class="controller select" BindController="system">
+                 <div class="controller-box">
                     <div class="controller-name">
                         <span class="open left"></span>
-                        <span class="name left">系统信息</span>
+                        <span class="name left">公司行业管理</span>
                     </div>
                 </div>
 
                 <ul class="action-box">
-                     <li class="action " BindAction="admin"><a href="/System/admin" >管理员设置</a></li>
+                     <li class="action " BindAction="industrydetail"><a href="/Industry/IndustryDetail" >添加公司行业</a></li>
+                     <li class="action " BindAction="industrys"><a href="/Industry/Industrys" >公司行业列表</a></li>
+                </ul>
+
+                 <div class="controller-box">
+                    <div class="controller-name">
+                        <span class="open left"></span>
+                        <span class="name left">快递公司管理</span>
+                    </div>
+                </div>
+
+                <ul class="action-box">
+                    <li class="action " BindAction="expresscompanydetail"><a href="/ExpressCompany/ExpressCompanyDetail" >添加快递公司</a></li>
+                    <li class="action " BindAction="expresscompanys"><a href="/ExpressCompany/ExpressCompanys" >快递公司列表</a></li>
+                </ul>
+
+                <div class="controller-box">
+                    <div class="controller-name">
+                        <span class="open left"></span>
+                        <span class="name left">意见反馈管理</span>
+                    </div>
+                </div>
+
+                <ul class="action-box">
+                     <li class="action " BindAction="feedbacks"><a href="/FeedBack/FeedBacks" >意见反馈列表</a></li>
+                </ul>
+
+                <div class="controller-box">
+                    <div class="controller-name">
+                        <span class="open left"></span>
+                        <span class="name left">用户管理</span>
+                    </div>
+                </div>
+
+                <ul class="action-box">
+                     <li class="action " BindAction="admin"><a href="/System/Admin" >管理员设置</a></li>
                 </ul>
             </div>
 
@@ -237,11 +231,11 @@
     <div class="dropdown-userinfo hide">
         <div class="top-lump"></div>
         <ul class="items-list">
-          @*   <li class="item"><a href="/MyAccount/Index">个人中心</a></li>*@
             <li class="item"><a href="/Home/Logout">安全退出</a></li>
         </ul>
     </div>
 
+    <input type="hidden" value="@controller" id="page-controller" />
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script type="text/javascript" src="/Scripts/sea.js"></script>
     <script type="text/javascript" src="/Scripts/sea-config.js"></script>
@@ -253,12 +247,16 @@
 
         $(function ()
         {
-            $("#modulesMenu li[BindController='@controller']").addClass("select");
-            $(".controller[BindController='@controller']").css("display","block");
-            $(".controller[BindController='@controller'] .action-box li[BindAction='@action']").addClass("select");
+            var controller = $("#page-controller").val();
+            if (controller == "expresscompany" || controller == "industry" || controller == "feedback")
+                controller = "system";
 
-            if('@controller'=='home')
-                $(".controller").css("display", "block");
+            $("#modulesMenu li[BindController='" + controller + "']").addClass("select");
+            $(".controller[BindController='" + controller + "']").show();
+            $(".controller[BindController='" + controller + "'] .action-box li[BindAction='@action']").addClass("select");
+
+            if (controller == 'home')
+                $(".controller").show();
 
         });
     </script>

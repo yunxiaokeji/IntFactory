@@ -45,15 +45,15 @@ define(function (require, exports, module) {
         });
 
         $(".controller-box").click(function () {
-            var _this = $(this).parent();
+            var _this = $(this);
             if (!_this.hasClass("select")) {
                 _self.setRotateR(_this.find(".open"), 0, 90);
                 _this.addClass("select");
-                _this.find(".action-box").slideDown(200);
+                $(this).next().slideUp(200);
             } else {
                 _self.setRotateL(_this.find(".open"), 90, 0);
                 _this.removeClass("select");
-                _this.find(".action-box").slideUp(200);
+                $(this).next().slideDown(200);
             }
         });
 

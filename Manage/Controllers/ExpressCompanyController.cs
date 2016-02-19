@@ -13,12 +13,12 @@ namespace YXManage.Controllers
     public class ExpressCompanyController:BaseController
     {
         #region view
-        public ActionResult Index()
+        public ActionResult ExpressCompanys()
         {
             return View();
         }
 
-        public ActionResult Detail(string id)
+        public ActionResult ExpressCompanyDetail(string id)
         {
             ViewBag.ExpressID =id;
 
@@ -69,7 +69,7 @@ namespace YXManage.Controllers
             ExpressCompany model = serializer.Deserialize<ExpressCompany>(expressCompany);
 
             bool flag = false;
-            if (model.AutoID == 0)
+            if (string.IsNullOrEmpty(model.ExpressID))
             {
                 model.CreateUserID = string.Empty;
                 flag = ExpressCompanyBusiness.InsertExpressCompany(model);

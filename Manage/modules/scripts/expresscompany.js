@@ -56,7 +56,7 @@ define(function (require, exports, module) {
 
             Global.post("/ExpressCompany/SaveExpressCompany", { expressCompany: JSON.stringify(expressCompany) }, function (data) {
                 if (data.Result == "1") {
-                    location.href = "/ExpressCompany/Index";
+                    location.href = "/ExpressCompany/ExpressCompanys";
                 }
             });
         });
@@ -110,7 +110,7 @@ define(function (require, exports, module) {
                     {
                         Global.post("/ExpressCompany/DeleteExpressCompany", { id: $(this).data("id") }, function (data) {
                             if (data.Result == 1) {
-                                location.href = "/ExpressCompany/Index";
+                                location.href = "/ExpressCompany/ExpressCompanys";
                             }
                             else
                             {

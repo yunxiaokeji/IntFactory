@@ -15,12 +15,12 @@ namespace YXManage.Controllers
         //
         // GET: /FeedBack/
 
-        public ActionResult Index()
+        public ActionResult FeedBacks()
         {
             return View();
         }
 
-        public ActionResult Detail(string id)
+        public ActionResult FeedBackDetail(string id)
         {
             ViewBag.id = id;
             return View();
