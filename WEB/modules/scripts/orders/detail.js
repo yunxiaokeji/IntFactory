@@ -17,9 +17,22 @@ define(function (require, exports, module) {
         _self.bindEvent();
         _self.getAmount();
 
-
+        _self.bindStyle(_self.model);
 
         $("#addInvoice").hide();
+    }
+
+    ObjectJS.bindStyle = function (model) {
+
+        var stages = $(".stage-items"), width = stages.width();
+
+        stages.find("li .leftbg").first().removeClass("leftbg");
+        stages.find("li .rightbg").last().removeClass("rightbg");
+        stages.find("li").width(width / stages.find("li").length - 20);
+
+        //处理阶段
+        var stage = $(".stage-items li[data-id='" + model.StageID + "']");
+        stage.addClass("hover");
     }
     //绑定事件
     ObjectJS.bindEvent = function () {
@@ -53,22 +66,59 @@ define(function (require, exports, module) {
             });
         });
 
+        //编辑单价
+        $(".price").change(function () {
+            var _this = $(this);
+            if (_this.val().isDouble() && _this.val() > 0) {
+                _self.editPrice(_this);
+            } else {
+                _this.val(_this.data("value"));
+            }
+        });
+
+        //编辑数量
+        $(".quantity").change(function () {
+            if ($(this).val().isDouble() && $(this).val() > 0) {
+                _self.editQuantity($(this));
+            } else {
+                $(this).val($(this).data("value"));
+            }
+        });
+
+        //编辑损耗
+        $(".loss").change(function () {
+            if ($(this).val().isDouble() && $(this).val() >= 0) {
+                _self.editLoss($(this));
+            } else {
+                $(this).val($(this).data("value"));
+            }
+        });
+
+        //删除产品
+        $(".ico-del").click(function () {
+            var _this = $(this);
+            confirm("确认从清单中移除此材料吗？", function () {
+                Global.post("/Orders/DeleteProduct", {
+                    orderid: _self.orderid,
+                    autoid: _this.data("id"),
+                    name: _this.data("name")
+                }, function (data) {
+                    if (!data.status) {
+                        alert("系统异常，请重新操作！");
+                    } else {
+                        _this.parents("tr.item").remove();
+                        _self.getAmount();
+                    }
+                });
+            });
+        });
+
         if (_self.status == 1) {
             $("#btnconfirm,#btndelete,#updateOrderInfo").show();
 
             //订单类型
             Global.post("/System/GetOrderTypes", {}, function (data) {
                 _self.model.OrderTypes = data.items;
-            });
-
-            //编辑单价
-            $(".price").change(function () {
-                var _this = $(this);
-                if (_this.val().isDouble() && _this.val() > 0) {
-                    _self.editPrice(_this);
-                } else {
-                    _this.val(_this.data("value"));
-                }
             });
 
             //删除订单
@@ -212,6 +262,76 @@ define(function (require, exports, module) {
         });
         
     }
+    //更改材料单价
+    ObjectJS.editPrice = function (ele) {
+        var _self = this;
+        Global.post("/Orders/UpdateOrderPrice", {
+            orderid: _self.orderid,
+            autoid: ele.data("id"),
+            name: ele.data("name"),
+            price: ele.val()
+        }, function (data) {
+            if (!data.status) {
+                ele.val(ele.data("value"));
+                alert("价格修改失败，可能因为订单状态已改变，请刷新页面后重试！");
+            } else {
+                ele.parent().nextAll(".amount").html((ele.parent().prevAll(".tr-quantity").find("label").text() * ele.val()).toFixed(2));
+                ele.data("value", ele.val());
+                _self.getAmount();
+            }
+        });
+    }
+
+    //更改消耗量
+    ObjectJS.editQuantity = function (ele) {
+        var _self = this;
+        Global.post("/Orders/UpdateProductQuantity", {
+            orderid: _self.orderid,
+            autoid: ele.data("id"),
+            name: ele.data("name"),
+            quantity: ele.val()
+        }, function (data) {
+            if (!data.status) {
+                ele.val(ele.data("value"));
+                alert("系统异常，请重新操作！");
+            } else {
+                ele.data("value", ele.val());
+                _self.getAmount();
+            }
+        });
+    }
+
+    //更改损耗量
+    ObjectJS.editLoss = function (ele) {
+        var _self = this;
+        Global.post("/Orders/UpdateProductLoss", {
+            orderid: _self.orderid,
+            autoid: ele.data("id"),
+            name: ele.data("name"),
+            quantity: ele.val()
+        }, function (data) {
+            if (!data.status) {
+                ele.val(ele.data("value"));
+                alert("系统异常，请重新操作！");
+            } else {
+                ele.data("value", ele.val());
+                _self.getAmount();
+            }
+        });
+    }
+
+    //计算总金额
+    ObjectJS.getAmount = function () {
+        var amount = 0;
+        $(".amount").each(function () {
+            var _this = $(this);
+            _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
+            amount += _this.html() * 1;
+        });
+        $("#amount").text(amount.toFixed(2));
+        $("#totalMoney").text((amount * $("#planQuantity").text()).toFixed(2));
+    }
+
     //编辑信息
     ObjectJS.editOrder = function (model) {
         var _self = this;
@@ -260,6 +380,7 @@ define(function (require, exports, module) {
             $("#industry").val(model.IndustryID);
         });
     }
+
     //登记发票
     ObjectJS.addInvoice = function () {
         var _self = this;
@@ -324,6 +445,7 @@ define(function (require, exports, module) {
             });
         });
     }
+
     //保存发票信息
     ObjectJS.saveOrderInvoice = function (model) {
         Easydialog.close();
@@ -337,6 +459,7 @@ define(function (require, exports, module) {
             }
         });
     }
+
     //绑定支付列表
     ObjectJS.getPays = function (items, empty) {
         var _self = this;
@@ -381,35 +504,7 @@ define(function (require, exports, module) {
             $("#navInvoices .tr-header").after(innerhtml);
         });
     }
-    //计算总金额
-    ObjectJS.getAmount = function () {
-        var amount = 0;
-        $(".amount").each(function () {
-            var _this = $(this);
-            _this.html((_this.prevAll(".tr-quantity").find("label").text() * _this.prevAll(".tr-price").find("input").val()).toFixed(2));
-            amount += _this.html() * 1;
-        });
-        $("#amount").text(amount.toFixed(2));
-    }
-    //更改数量
-    ObjectJS.editPrice = function (ele) {
-        var _self = this;
-        Global.post("/Orders/UpdateOrderPrice", {
-            orderid: _self.orderid,
-            autoid: ele.data("id"),
-            name: ele.data("name"),
-            price: ele.val()
-        }, function (data) {
-            if (!data.status) {
-                ele.val(ele.data("value"));
-                alert("价格修改失败，可能因为订单状态已改变，请刷新页面后重试！");
-            } else {
-                ele.parent().nextAll(".amount").html((ele.parent().prevAll(".tr-quantity").find("label").text() * ele.val()).toFixed(2));
-                ele.data("value", ele.val());
-                _self.getAmount();
-            }
-        });
-    }
+
     //删除订单
     ObjectJS.deleteOrder = function () {
         var _self = this;
@@ -421,6 +516,7 @@ define(function (require, exports, module) {
             }
         });
     }
+
     //获取日志
     ObjectJS.getLogs = function (page) {
         var _self = this;
@@ -457,5 +553,6 @@ define(function (require, exports, module) {
             });
         });
     }
+
     module.exports = ObjectJS;
 })

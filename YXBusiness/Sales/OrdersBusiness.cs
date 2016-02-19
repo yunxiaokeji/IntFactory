@@ -246,7 +246,40 @@ namespace IntFactoryBusiness
             bool bl = OrdersDAL.BaseProvider.UpdateOrderPrice(orderid, autoid, price, operateid, agentid, clientid);
             if (bl)
             {
-                string msg = "修改产品" + name + "价格：" + price;
+                string msg = "修改材料" + name + "价格：" + price;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, autoid, agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateProductQuantity(string orderid, string autoid, string name, decimal quantity, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateProductQuantity(orderid, autoid, quantity, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "修改材料" + name + "消耗量：" + quantity;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, autoid, agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateProductLoss(string orderid, string autoid, string name, decimal quantity, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateProductLoss(orderid, autoid, quantity, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "修改材料" + name + "损耗量：" + quantity;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, autoid, agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool DeleteProduct(string orderid, string autoid, string name, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.DeleteProduct(orderid, autoid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "删除材料" + name;
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, autoid, agentid, clientid);
             }
             return bl;
@@ -263,6 +296,17 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateOrderProcess(string orderid, string processid, string name, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderProcess(orderid, processid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单流程更换为：" + name;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, processid, agentid, clientid);
+            }
+            return bl;
+        }
+
         public bool UpdateOrderOwner(string orderid, string userid, string operateid, string ip, string agentid, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderOwner(orderid, userid, operateid, agentid, clientid);
@@ -271,6 +315,17 @@ namespace IntFactoryBusiness
                 var model = OrganizationBusiness.GetUserByUserID(userid, agentid);
                 string msg = "负责人更换为：" + model.Name;
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, userid, agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderStatus(string orderid, EnumOrderStatus status, string name, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单状态更换为：" + CommonBusiness.GetEnumDesc<EnumOrderStatus>(status);
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
             }
             return bl;
         }

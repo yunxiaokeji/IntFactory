@@ -15,8 +15,16 @@ namespace IntFactoryBusiness
     {
         public static int GetShoppingCartCount(EnumDocType ordertype, string guid)
         {
-            object obj = CommonBusiness.Select("ShoppingCart", "count(0)", "ordertype=" + (int)ordertype + " and [GUID]='" + guid + "'");
-            return Convert.ToInt32(obj);
+            if (ordertype == EnumDocType.Order)
+            {
+                object obj = CommonBusiness.Select("OrderDetail", "count(0)", "[OrderID]='" + guid + "'");
+                return Convert.ToInt32(obj);
+            }
+            else
+            {
+                object obj = CommonBusiness.Select("ShoppingCart", "count(0)", "ordertype=" + (int)ordertype + " and [GUID]='" + guid + "'");
+                return Convert.ToInt32(obj);
+            }
         }
         /// <summary>
         /// 获取购物车列表
