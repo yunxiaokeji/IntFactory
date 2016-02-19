@@ -17,9 +17,22 @@ define(function (require, exports, module) {
         _self.bindEvent();
         _self.getAmount();
 
-
+        _self.bindStyle(_self.model);
 
         $("#addInvoice").hide();
+    }
+
+    ObjectJS.bindStyle = function (model) {
+
+        var stages = $(".stage-items"), width = stages.width();
+
+        stages.find("li .leftbg").first().removeClass("leftbg");
+        stages.find("li .rightbg").last().removeClass("rightbg");
+        stages.find("li").width(width / stages.find("li").length - 20);
+
+        //处理阶段
+        var stage = $(".stage-items li[data-id='" + model.StageID + "']");
+        stage.addClass("hover");
     }
     //绑定事件
     ObjectJS.bindEvent = function () {
@@ -371,6 +384,7 @@ define(function (require, exports, module) {
             $("#industry").val(model.IndustryID);
         });
     }
+
     //登记发票
     ObjectJS.addInvoice = function () {
         var _self = this;
@@ -435,6 +449,7 @@ define(function (require, exports, module) {
             });
         });
     }
+
     //保存发票信息
     ObjectJS.saveOrderInvoice = function (model) {
         Easydialog.close();

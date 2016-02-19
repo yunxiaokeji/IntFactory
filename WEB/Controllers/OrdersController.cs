@@ -64,7 +64,6 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Orders/Orders");
             }
-
             ViewBag.Model = model;
             return View();
         }

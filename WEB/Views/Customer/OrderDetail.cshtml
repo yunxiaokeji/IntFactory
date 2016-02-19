@@ -2,7 +2,9 @@
     ViewBag.Title = "订单详情页";
     var model = (IntFactoryEntity.OrderEntity)ViewBag.Model;
 }
-
+@section css{
+    <link href="/modules/css/opportunitys.css" rel="stylesheet" />
+}
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/orders/detail"], function (obj) {
@@ -71,6 +73,17 @@
             <span class="column-title">详细需求：</span> 
             <label>@(model.Remark.Trim())</label>
         </li>
+    </ul>
+    <div class="clear"></div>
+    <ul class="stage-items mTop30">
+        @foreach (var stage in (List<IntFactoryEntity.OrderStageEntity>)ViewBag.Stages)
+        { 
+            <li data-id="@(stage.StageID)" data-mark="@(stage.Mark)">
+                <span class="leftbg bg"></span>
+                <span class="name">@(stage.StageName)(@((stage.Probability*100).ToString("f2"))%)</span>
+                <span class="rightbg bg"></span>
+            </li>
+        }
     </ul>
     <div class="tab-nav mTop30">
         <ul class="tab-nav-ul left">
