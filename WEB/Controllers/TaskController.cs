@@ -58,6 +58,18 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetTaskDetail(string taskID)
+        {
+            var item = TaskBusiness.GetTaskDetail(taskID);
+            JsonDictionary.Add("Item", item);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult UpdateTaskEndTime(string taskID, string endTime)
         {
             int result = 0;

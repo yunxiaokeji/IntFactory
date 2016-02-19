@@ -39,36 +39,46 @@ define(function (require, exports, module) {
         var drawTaskDetail = function (taskid,orderid) {
 
             doT.exec("template/task/task-detail.html", function (template) {
-                //获取任务详情内容
-                var arr = [];
-                arr.push({ TaskID: taskid });
-                var html = template(arr);
+                Global.post("/task/GetTaskDetail", { taskID: taskid }, function (data) {
+                    //获取任务详情内容
+                    var arr = [];
+                    arr.push(data.Item);
+                    var html = template(arr);
 
-                $("#taskDetailContent").remove();
-                $("body").append(html);
+                    $("#taskDetailContent").remove();
+                    $("body").append(html);
 
-                $("#taskDetailContent").animate({ right: '0px' }, 500);
+                    $("#taskDetailContent").animate({ right: '0px' }, 500);
 
-                //更新任务到期日期
-                var taskEndTime = {
-                    elem: '#UpdateTaskEndTime',
-                    format: 'YYYY-MM-DD',
-                    max: '2099-06-16',
-                    istime: false,
-                    istoday: false,
-                    choose: function () {
-                        UpdateTaskEndTime(taskid);
-                    }
-                };
-                laydate(taskEndTime);
+                    //隐藏下拉
+                    //$(document).click(function (e) {
+                    //    if (!$(e.target).parents().hasClass("taskContent")) {
+                    //        $(".taskContent").animate({ right: '-380px' }, 500);
+                    //    }
+                    //});
 
-                //标记任务完成
-                $("#FinishTask").click(function () {
-                    FinishTask(taskid);
+                    //更新任务到期日期
+                    var taskEndTime = {
+                        elem: '#UpdateTaskEndTime',
+                        format: 'YYYY-MM-DD',
+                        max: '2099-06-16',
+                        istime: false,
+                        istoday: false,
+                        choose: function () {
+                            UpdateTaskEndTime(taskid);
+                        }
+                    };
+                    laydate(taskEndTime);
+
+                    //标记任务完成
+                    $("#FinishTask").click(function () {
+                        FinishTask(taskid);
+                    });
+
+                    //任务讨论列表
+                    initTalkReply(orderid);
                 });
 
-                //任务讨论列表
-                initTalkReply(orderid);
             });
             
         }

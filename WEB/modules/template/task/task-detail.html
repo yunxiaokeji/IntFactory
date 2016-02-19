@@ -5,13 +5,13 @@
 <div class="taskContent" id="taskDetailContent" data-taskid="{%=item.TaskID%}">
     <div class="taskOperate">
         <div class="left">
-            <div class="left"><img style="width:32px;" src="/modules/images/ico-endtime.png" /></div>
-            <div class="left mLeft5"><input type="text" style="width:80px;" id="UpdateTaskEndTime" value="设置到期日期"/></div>
+            <div class="left"><img style="width:30px;" src="/modules/images/ico-endtime.png" /></div>
+            <div class="left mLeft5"><input type="text" style="width:80px;" id="UpdateTaskEndTime" value="{%=item.EndTime.toDate('yyyy-MM-dd')=='3939-01-01'?'未指定日期':item.EndTime.toDate('yyyy-MM-dd')%}" placeholder="设置到期日期"/></div>
             <div class="clear"></div>
             
         </div>
         <div class="right mRight10">
-            <input type="button" class="btn" id="{%=item.FinishStatus==1?'':'FinishTask'%}" value="{%=item.FinishStatus==1?'已完成':'标记完成'%}"/>
+            <input type="button" class="{%=item.FinishStatus==1?'btnccc':'btn'%}" id="{%=item.FinishStatus==1?'':'FinishTask'%}" value="{%=item.FinishStatus==1?'已完成':'标记完成'%}"/>
         </div>
         <div class="clear"></div>
     </div>
@@ -20,15 +20,15 @@
         <ul>
             <li>
                 <span class="column-title">任务内容:</span>
-                <span>测试中</span>
+                <span>{%=item.Stage.StageName%}</span>
             </li>
              <li>
                 <span class="column-title">样图:</span>
-                <span>测试中</span>
+                <span>{%=item.OrderImg%}</span>
             </li>
             <li>
                 <span class="column-title">负责人:</span>
-                <span>测试中</span>
+                <span>{%=item.Owner.Name%}</span>
             </li>
         </ul>
 
