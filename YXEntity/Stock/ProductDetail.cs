@@ -229,7 +229,7 @@ namespace IntFactoryEntity
 
         public string UnitName { get; set; }
 
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
         public string BatchCode { get; set; }
 
