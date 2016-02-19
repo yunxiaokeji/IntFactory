@@ -14,12 +14,12 @@ namespace YXManage.Controllers
     public class IndustryController:BaseController
     {
         #region view
-        public ActionResult Index()
+         public ActionResult Industrys()
         {
             return View();
         }
 
-        public ActionResult Detail(string id)
+        public ActionResult IndustryDetail(string id)
         {
             ViewBag.IndustryID = id;
 

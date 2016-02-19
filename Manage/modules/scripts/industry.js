@@ -55,7 +55,7 @@ define(function (require, exports, module) {
 
             Global.post("/Industry/SaveIndustry", { industry: JSON.stringify(industry) }, function (data) {
                 if (data.Result == "1") {
-                    location.href = "/Industry/Index";
+                    location.href = "/Industry/Industrys";
                 }
             });
         });
