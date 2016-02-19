@@ -51,8 +51,10 @@ seajs.config({
         "businesscard": "plug/businesscard/businesscard.js",
         //分享明道
         "sharemingdao": "plug/sharemingdao/sharemingdao.js",
-        //分享明道
-        "fullcalendar": "plug/fullcalendar/fc.js"
+        //日程列表
+        "fullcalendar": "plug/fullcalendar/fc.js",
+        //显示任务详情
+        "showtaskdetail": "plug/showtaskdetail/showtaskdetail.js"
     }
 });
 
