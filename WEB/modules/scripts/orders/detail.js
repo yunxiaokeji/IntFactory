@@ -40,8 +40,6 @@ define(function (require, exports, module) {
 
         $("#btnreturn,#btnconfirm,#btndelete,#updateOrderInfo").hide();
 
-
-
         //转移拥有者
         $("#changeOwner").click(function () {
             var _this = $(this);
@@ -122,8 +120,6 @@ define(function (require, exports, module) {
             Global.post("/System/GetOrderTypes", {}, function (data) {
                 _self.model.OrderTypes = data.items;
             });
-
-            
 
             //删除订单
             $("#btndelete").click(function () {
@@ -463,6 +459,7 @@ define(function (require, exports, module) {
             }
         });
     }
+
     //绑定支付列表
     ObjectJS.getPays = function (items, empty) {
         var _self = this;
@@ -508,7 +505,6 @@ define(function (require, exports, module) {
         });
     }
 
-    
     //删除订单
     ObjectJS.deleteOrder = function () {
         var _self = this;
@@ -520,6 +516,7 @@ define(function (require, exports, module) {
             }
         });
     }
+
     //获取日志
     ObjectJS.getLogs = function (page) {
         var _self = this;
@@ -556,5 +553,6 @@ define(function (require, exports, module) {
             });
         });
     }
+
     module.exports = ObjectJS;
 })

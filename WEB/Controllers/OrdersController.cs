@@ -256,6 +256,28 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UpdateOrderProcess(string orderid, string processid, string name)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderProcess(orderid, processid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateOrderStatus(string orderid, int status, string name)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStatus)status, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult DeleteOrder(string orderid)
         {
             var bl = OrdersBusiness.BaseBusiness.DeleteOrder(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);

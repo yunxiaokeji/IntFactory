@@ -296,6 +296,17 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateOrderProcess(string orderid, string processid, string name, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderProcess(orderid, processid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单流程更换为：" + name;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, processid, agentid, clientid);
+            }
+            return bl;
+        }
+
         public bool UpdateOrderOwner(string orderid, string userid, string operateid, string ip, string agentid, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderOwner(orderid, userid, operateid, agentid, clientid);
@@ -304,6 +315,17 @@ namespace IntFactoryBusiness
                 var model = OrganizationBusiness.GetUserByUserID(userid, agentid);
                 string msg = "负责人更换为：" + model.Name;
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, userid, agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderStatus(string orderid, EnumOrderStatus status, string name, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单状态更换为：" + CommonBusiness.GetEnumDesc<EnumOrderStatus>(status);
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
             }
             return bl;
         }

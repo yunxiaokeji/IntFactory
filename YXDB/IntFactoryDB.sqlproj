@@ -471,5 +471,7 @@
     <None Include="Procedures\Sales\P_UpdateOrderProductQuantity.sql" />
     <None Include="Procedures\Sales\P_UpdateOrderProductLoss.sql" />
     <None Include="Procedures\Sales\P_DeleteOrderProduct.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderProcess.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderStatus.sql" />
   </ItemGroup>
 </Project>
