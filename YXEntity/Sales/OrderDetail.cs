@@ -28,7 +28,6 @@ namespace IntFactoryEntity
 		#region Model
 		private int _autoid;
 		private string _productid;
-		private int _quantity=0;
 		private decimal _price=0M;
 		private decimal _totalmoney=0M;
 		private decimal _taxmoney=0M;
@@ -69,11 +68,7 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public int Quantity
-		{
-			set{ _quantity=value;}
-			get{return _quantity;}
-		}
+        public decimal Quantity { set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -82,6 +77,8 @@ namespace IntFactoryEntity
 			set{ _price=value;}
 			get{return _price;}
 		}
+        public decimal Loss { get; set; }
+
 		/// <summary>
 		/// 
 		/// </summary>

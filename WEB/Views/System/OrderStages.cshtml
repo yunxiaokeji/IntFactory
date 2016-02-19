@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "阶段流程配置";
+    ViewBag.Title = "配置流程任务";
     var list = (List<IntFactoryEntity.OrderStageEntity>)ViewBag.Items;
 }
 
@@ -14,7 +14,7 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">阶段流程配置-@ViewBag.Name</span>
+    <span class="header-title left">配置流程任务-@ViewBag.Name</span>
 </div>
 <div class="content-body mTop20">
     <ul class="stages-box">
@@ -41,7 +41,7 @@
                     </textarea>
                 </div>
                 
-                <div class="create-child" data-id="@(model.StageID)">+ 新建子状态</div>
+                <div class="create-child" data-id="@(model.StageID)">+ 新建子任务</div>
             </li>
         }
     </ul>
@@ -49,10 +49,10 @@
 <ul class="dropdown-ul hide ddlStage" id="ddlStage" style="width:150px;">
     <li class="" id="editObject">修改名称</li>
     <li class="" id="editOwner">更换负责人</li>
-    <li class="" id="addObject">在此后添加新状态</li>
-    <li class="" id="deleteObject">删除状态</li>
+    <li class="" id="addObject">在此后添加新任务</li>
+    <li class="" id="deleteObject">删除任务</li>
 </ul>
-<ul class="dropdown-ul hide ddlItem" id="ddlItem" style="width:120px;">
-    <li class="" id="editItem">编辑阶段行为</li>
-    <li class="" id="deleteItem">删除阶段行为</li>
+<ul class="dropdown-ul hide ddlItem" id="ddlItem" style="width:90px;">
+    <li class="" id="editItem">编辑名称</li>
+    <li class="" id="deleteItem">删除</li>
 </ul>

@@ -67,6 +67,8 @@ namespace IntFactoryEntity
         public OrderStageEntity Stage { get; set; }
 
 
+        public decimal Price { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

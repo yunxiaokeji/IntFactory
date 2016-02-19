@@ -468,5 +468,8 @@
     <Build Include="Procedures\Task\P_CreateTask.sql" />
     <Build Include="Procedures\Task\P_GetTasks.sql" />
     <Build Include="Procedures\Task\P_FinishTask.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderProductQuantity.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderProductLoss.sql" />
+    <None Include="Procedures\Sales\P_DeleteOrderProduct.sql" />
   </ItemGroup>
 </Project>
