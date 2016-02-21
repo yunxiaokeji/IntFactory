@@ -7,7 +7,9 @@ define(function (require, exports, module) {
     (function ($) {
         //默认参数
         var defaultParas = {
-            name: "tb-task-list"
+            Name: "tb-task-list",
+            UpdateTaskEndTimeCallBack: function (endtime, taskid) { },
+            FinishTaskCallBack: function () { }
         };
 
         $.fn.showtaskdetail = function (options) {
@@ -98,6 +100,7 @@ define(function (require, exports, module) {
             Global.post("/Task/UpdateTaskEndTime", { taskID: taskID, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
                 if (data.Result == 1)
                 {
+                    defaultParas.UpdateTaskEndTimeCallBack($("#UpdateTaskEndTime").val(), taskID);
                     //alert("保存成功");
                 }
             });
@@ -110,6 +113,8 @@ define(function (require, exports, module) {
                     if (data.Result == 1) {
                         alert("标记任务完成");
                         $("#FinishTask").addClass("btnccc").val("已完成").attr("disabled", "disabled");
+
+                        defaultParas.FinishTaskCallBack();
                     }
                     else if (data.Result == 2) {
                         alert("前面阶段任务有未完成,不能标记完成");
