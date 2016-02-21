@@ -83,7 +83,8 @@ namespace YXERP.Controllers
 
         public JsonResult FinishTask(string taskID) {
             int result = 0;
-            TaskBusiness.FinishTask(taskID,ref result);
+
+            TaskBusiness.FinishTask(taskID,CurrentUser.UserID,ref result);
 
             JsonDictionary.Add("Result", result);
             return new JsonResult

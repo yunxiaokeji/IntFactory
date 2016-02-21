@@ -172,6 +172,7 @@
     <Content Include="modules\images\ico-username.png" />
     <Content Include="modules\images\img-noimg.gif" />
     <Content Include="modules\images\img-noimg.jpg" />
+    <Content Include="modules\images\img-noimg.png" />
     <Content Include="modules\images\loginBackground.png" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
     <Content Include="modules\plug\chooseproduct\productin.html" />
