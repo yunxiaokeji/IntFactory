@@ -12,6 +12,8 @@ namespace IntFactoryEntity.Task
         [Property("Lower")]
         public string TaskID { get; set; }
 
+        public string Title { get; set; }
+
         [Property("Lower")]
         public string OrderID { get; set; }
 
@@ -25,6 +27,8 @@ namespace IntFactoryEntity.Task
 
         [Property("Lower")]
         public string StageID { get; set; }
+
+        
 
         public OrderStageEntity Stage { get; set; }
 

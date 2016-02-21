@@ -170,6 +170,8 @@
     <Content Include="modules\images\ico-mobilecode.png" />
     <Content Include="modules\images\ico-surepwd.png" />
     <Content Include="modules\images\ico-username.png" />
+    <Content Include="modules\images\img-noimg.gif" />
+    <Content Include="modules\images\img-noimg.jpg" />
     <Content Include="modules\images\loginBackground.png" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
     <Content Include="modules\plug\chooseproduct\productin.html" />
@@ -757,7 +759,6 @@
     <Content Include="Views\Task\MyTask.cshtml" />
     <Content Include="Views\Customer\CreateOrder.cshtml" />
     <Content Include="Views\Orders\OrderPlans.cshtml" />
-    <Content Include="Views\Task\TaskDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -18,11 +18,6 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult TaskDetail()
-        {
-            return View();
-        }
-
         public ActionResult MyTask()
         {
             ViewBag.IsMy = 1;

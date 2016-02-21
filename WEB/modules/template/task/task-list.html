@@ -3,10 +3,10 @@
 	var item = $data[i];
 %}
 <tr class="list-item" data-taskid="{%=item.TaskID%}" data-orderid="{%=item.OrderID%}" data-stageid="{%=item.StageID%}">
-    <td class="center">{%=item.OrderImg%}</td>
-    <td class="center"><a href="/Customer/OrderDetail/{%=item.OrderID%}" target="_blank">{%=item.OrderCode%}</a></td>
-    <td class="center"><a href="/Customer/OrderDetail/{%=item.OrderID%}" target="_blank">{%=item.Stage.StageName%}</a></td>
-    <td class="center"><span>{%=item.FinishStatus==1?'已完成':'进行中'%}</span></td>
+    <td class="center"><img onerror="$(this).attr('src','/modules/images/img-noimg.jpg')" src="{%=item.OrderImg==''?'/modules/images/img-noimg.jpg':item.OrderImg%}"/></td>
+    <td class="center">{%=item.OrderCode%}</td>
+    <td class="center">{%=item.Title%}</td>
+    <td class="center"><span class="{%=item.FinishStatus==1?'':'blue'%}">{%=item.FinishStatus==1?'已完成':'进行中'%}</span></td>
     <td class="center">{%=item.Owner.Name%}</td>
      <td class='center'>{%=item.EndTime.toDate("yyyy-MM-dd")=="3939-01-01"?"未指定日期":item.EndTime.toDate("yyyy-MM-dd")%}</td>
     <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
