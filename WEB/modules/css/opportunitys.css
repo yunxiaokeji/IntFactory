@@ -30,11 +30,13 @@
 
 .status-items { margin-right:20px; }
 .status-items li{width:100%; overflow:auto; }
-.status-items span { display:inline-block; line-height:16px; float:left; }
+.status-items span { display:inline-block; line-height:16px; float:left; color:#999; }
 .status-items .status-bg { width:16px;height:16px; border-radius:8px; background-color:#ccc; }
 .status-items .status-line { width:4px;height:30px; background-color:#eee; margin-left:6px; }
 
 .status-items .status-time { width:70px; }
+
+
 .nav-partdiv { margin-bottom:100px; }
 
 
