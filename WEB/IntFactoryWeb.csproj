@@ -170,7 +170,6 @@
     <Content Include="modules\images\ico-mobilecode.png" />
     <Content Include="modules\images\ico-surepwd.png" />
     <Content Include="modules\images\ico-username.png" />
-    <Content Include="modules\images\img-noimg.gif" />
     <Content Include="modules\images\img-noimg.jpg" />
     <Content Include="modules\images\img-noimg.png" />
     <Content Include="modules\images\loginBackground.png" />
