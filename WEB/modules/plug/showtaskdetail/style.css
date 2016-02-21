@@ -1,13 +1,13 @@
 ﻿.taskContent {
+width:460px;
 padding:15px;
-width:450px;
-height:100%;
 position:absolute;
 right: -480px;
 top: 50px;
 background-color: #fff;
 border-left: solid 1px #eee;
 opacity:1;
+overflow-y:scroll;
 }
 
 .taskContent .taskDetail {
@@ -19,7 +19,8 @@ padding-bottom:25px;
 }
 
 .taskOperate {
-padding-bottom:15px;
+margin-top:9px;
+padding-bottom:14px;
 border-bottom:1px solid #eee; 
 }
 

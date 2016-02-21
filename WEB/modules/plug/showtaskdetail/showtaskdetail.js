@@ -50,7 +50,8 @@ define(function (require, exports, module) {
                     $("#taskDetailContent").remove();
                     $("body").append(html);
 
-                    $("#taskDetailContent").animate({ right: '0px' }, 500);
+
+                    $("#taskDetailContent").css("height",($(document).height()-70)+"px").animate({ right: '0px' }, 500);
 
                     //隐藏下拉
                     $(document).click(function (e) {
