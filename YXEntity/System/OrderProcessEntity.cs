@@ -15,6 +15,7 @@
 *└──────────────────────────────────┘
 */
 using System;
+using System.Collections.Generic;
 namespace IntFactoryEntity
 {
 	/// <summary>
@@ -105,6 +106,8 @@ namespace IntFactoryEntity
         public Users CreateUser { get; set; }
 
         public Users Owner { get; set; }
+
+        public List<OrderStageEntity> OrderStages { get; set; }
 
         public void FillData(System.Data.DataRow dr)
         {

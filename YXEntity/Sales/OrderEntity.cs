@@ -64,7 +64,7 @@ namespace IntFactoryEntity
 
         public string ProcessID { get; set; }
 
-        public OrderStageEntity Stage { get; set; }
+        public OrderProcessEntity OrderProcess { get; set; }
 
 
         public decimal Price { get; set; }
@@ -163,6 +163,8 @@ namespace IntFactoryEntity
         /// 明细
         /// </summary>
         public List<OrderDetail> Details { get; set; }
+
+        public List<Task.TaskEntity> Tasts { get; set; }
 
         public string Remark { get; set; }
 

@@ -267,9 +267,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateOrderStatus(string orderid, int status, string name)
+        public JsonResult UpdateOrderStatus(string orderid, int status)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStatus)status, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStatus)status, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {

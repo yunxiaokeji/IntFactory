@@ -24,7 +24,6 @@
         <div id="updateOrderInfo" class="left ico-edit mLeft50"></div>
         <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current,"102019005"))" id="btnreturn" >申请退单</div>
         <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current,"102019003"))" id="btndelete" >删除订单</div>
-        <div class="btn right mRight10 @(ExpandClass.IsLimits(HttpContext.Current,"102019002"))" id="btnconfirm" >审核订单</div>
         <span class="right lineHeight25 mRight10 mTop2" id="lblStatus">@(model.StatusStr)</span>
         <span class="right lineHeight25 mTop2">订单状态：</span>
     </div>
@@ -59,8 +58,7 @@
         <li>
             <span class="column-title">联系方式：</span>
             <label>@(model.MobileTele)</label>
-        </li>
-            
+        </li>  
         <li>
             <span class="column-title">收货地址：</span>
             <label>@(model.City!=null?(model.City.Province+" "+model.City.City+" "+model.City.Counties):"")@(model.Address)</label>
@@ -75,16 +73,43 @@
         </li>
     </ul>
     <div class="clear"></div>
-    <ul class="stage-items mTop30">
-        @foreach (var stage in (List<IntFactoryEntity.OrderStageEntity>)ViewBag.Stages)
-        { 
-            <li data-id="@(stage.StageID)" data-mark="@(stage.Mark)">
-                <span class="leftbg bg"></span>
-                <span class="name">@(stage.StageName)(@((stage.Probability*100).ToString("f2"))%)</span>
-                <span class="rightbg bg"></span>
-            </li>
-        }
-    </ul>
+    <div class="process-stages mTop30">
+        <div class="process-info">
+            <div class="left info">订单流程：@(model.OrderProcess.ProcessName)</div>
+            <span title="更换流程" class="ico-change left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current,"102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess"></span>
+            <div class="left info mLeft20">负责人：@(model.OrderProcess.Owner.Name)</div>
+            <div class="btn left mLeft20" id="changeOrderStatus"></div>
+        </div>
+        <div class="clear"></div>
+        <ul class="stage-items mTop20">
+            @if (model.Status > 0)
+            {
+                 foreach (var stage in model.Tasts)
+                { 
+                    <li data-id="@(stage.StageID)" class="normal">
+                        <span class="name">@(stage.TaskName)(@stage.Owner.Name)</span>
+                        <span class="status-bg right">
+                            <span class="status-color"></span>
+                        </span>
+                        <span class="status right">未开始</span>
+                    </li>
+                }
+            }
+            else
+            {
+                foreach (var stage in model.OrderProcess.OrderStages)
+                { 
+                    <li data-id="@(stage.StageID)" class="normal">
+                        <span class="name">@(stage.StageName)(@(stage.Owner.Name))</span>
+                        <span class="status-bg right">
+                            <span class="status-color"></span>
+                        </span>
+                        <span class="status right">未开始</span>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
     <div class="tab-nav mTop30">
         <ul class="tab-nav-ul left">
             <li class="hover" data-id="navProducts">材料列表</li>

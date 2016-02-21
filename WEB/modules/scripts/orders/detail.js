@@ -5,6 +5,7 @@ define(function (require, exports, module) {
         Global = require("global"),
         doT = require("dot"),
         ChooseUser = require("chooseuser"),
+        ChooseProcess = require("chooseprocess"),
         Easydialog = require("easydialog");
     require("pager");
     var ObjectJS = {};
@@ -23,16 +24,33 @@ define(function (require, exports, module) {
     }
 
     ObjectJS.bindStyle = function (model) {
-
+        var _self = this;
         var stages = $(".stage-items"), width = stages.width();
 
         stages.find("li .leftbg").first().removeClass("leftbg");
         stages.find("li .rightbg").last().removeClass("rightbg");
         stages.find("li").width(width / stages.find("li").length - 20);
 
-        //处理阶段
-        var stage = $(".stage-items li[data-id='" + model.StageID + "']");
-        stage.addClass("hover");
+        if (_self.status != 0 && _self.status != 3){
+            $("#changeProcess").hide();
+        }
+
+        if (model.OrderType == 1 && _self.status == 0) {
+            $("#changeOrderStatus").html("开始打样");
+        } else if (model.OrderType == 2 && (_self.status == 0 || _self.status == 3)) {
+            $("#changeOrderStatus").html("开始生产");
+        } else if (_self.status == 1) {
+            $("#changeOrderStatus").html("打样完成");
+        } else if (_self.status == 2) {
+            $("#changeOrderStatus").html("合价完成");
+        } else if (_self.status == 3) {
+            $("#changeOrderStatus").html("开始生产");
+        } else if (_self.status == 4) {
+            $("#changeOrderStatus").html("生产完成");
+        } else if (_self.status == 5) {
+            $("#changeOrderStatus").html("交易结束");
+        }
+
     }
     //绑定事件
     ObjectJS.bindEvent = function () {
@@ -60,6 +78,32 @@ define(function (require, exports, module) {
                             });
                         } else {
                             alert("请选择不同人员进行转移!");
+                        }
+                    }
+                }
+            });
+        });
+
+        //转移拥有者
+        $("#changeProcess").click(function () {
+            var _this = $(this);
+            ChooseProcess.create({
+                title: "更换流程",
+                type: _self.model.OrderType,
+                callback: function (items) {
+                    if (items.length > 0) {
+                        if (_this.data("processid") != items[0].id) {
+                            Global.post("/Orders/UpdateOrderProcess", {
+                                processid: items[0].id,
+                                orderid: _this.data("id"),
+                                name: items[0].name
+                            }, function (data) {
+                                if (data.status) {
+                                    location.href = location.href;
+                                }
+                            });
+                        } else {
+                            alert("请选择不同流程进行更换!");
                         }
                     }
                 }
@@ -113,119 +157,43 @@ define(function (require, exports, module) {
             });
         });
 
-        if (_self.status == 1) {
-            $("#btnconfirm,#btndelete,#updateOrderInfo").show();
-
-            //订单类型
-            Global.post("/System/GetOrderTypes", {}, function (data) {
-                _self.model.OrderTypes = data.items;
-            });
-
-            //删除订单
-            $("#btndelete").click(function () {
-                confirm("订单删除后不可恢复，确认删除吗？", function () {
-                    _self.deleteOrder();
+        $("#changeOrderStatus").click(function () {
+            //开始打样
+            if (_self.model.OrderType == 1 && _self.status == 0) {
+                confirm("开始打样后流程不可变更，确认开始打样吗？", function () {
+                    _self.updateOrderStatus(1);
                 });
-            });
-
-            //审核订单
-            $("#btnconfirm").click(function () {
-                confirm("确认审核订单吗？", function () {
-                    Global.post("/Orders/EffectiveOrder", { orderid: _self.orderid }, function (data) {
-                        if (data.status) {
-                            location.href = location.href;
-                        } else {
-                            if (data.result = 0) {
-                                alert("订单审核失败，可能因为订单状态已改变，请刷新页面后重试！");
-                            } else if (data.result = 2) {
-                                alert("产品库存不足，订单审核失败！");
-                            } else if (data.result = 3) {
-                                alert("账户余额不足，订单审核失败！");
-                            } else {
-                                alert("订单审核失败！");
-                            }
-                        }
-                    });
+            } //开始生产
+            else if (_self.model.OrderType == 2 && (_self.status == 0 || _self.status == 3)) {
+                confirm("开始生产后流程不可变更，确认开始生产吗？", function () {
+                    _self.updateOrderStatus(4);
                 });
-            });
-
-            $("#updateOrderInfo").click(function () {
-                _self.editOrder(_self.model);
-            });
-
-        } else if (_self.status == 2) {
-            $(".navPays,.navInvoices").show();
-
-            $("#lblStatus").addClass("blue");
+            }
             
-            $(".cart-item").find(".tr-price input").prop("disabled", true);
+        });
 
-            if (_self.model.SendStatus > 0) {
-                $("#btnreturn").html("申请退货")
-            }
+        //编辑订单信息
+        $("#updateOrderInfo").click(function () {
+            _self.editOrder(_self.model);
+        });
 
-            if (_self.model.ReturnStatus == 0) {
-                $("#btnreturn").show();
-                $("#btnreturn").click(function () {
-                    //未出库
-                    if (_self.model.SendStatus == 0) {
-                        confirm("确认申请退单吗？", function () {
-                            Global.post("/Orders/ApplyReturnOrder", { orderid: _self.orderid }, function (data) {
-                                if (data.status) {
-                                    location.href = location.href;
-                                } else {
-                                    alert("申请退单失败，可能因为订单状态已改变，请刷新页面后重试！");
-                                }
-                            });
-                        });
-                    } else {
-                        location.href = "/Orders/ApplyReturn/" + _self.orderid;
-                    }
-                });
+        Global.post("/Finance/GetOrderBillByID", { id: _self.orderid }, function (data) {
+            var model = data.model;
+            if (model.BillingID) {
+                $("#infoPaymoney").text(model.PayMoney.toFixed(2));
+                _self.getPays(model.BillingPays, true);
+                _self.getInvoices(model.BillingInvoices, true);
 
-            } else if (_self.model.ReturnStatus == 1) {
-                if (_self.model.SendStatus == 0) {
-                    $("#lblStatus").html("申请退单中");
-                } else {
-                    $("#lblStatus").html("申请退货中");
+                //申请开票
+                if (model.InvoiceStatus == 0) {
+                    _self.billingid = model.BillingID;
+                    $("#addInvoice").click(function () {
+                        _self.addInvoice();
+                    });
                 }
-            } else if (_self.model.ReturnStatus == 2) {
-                $("#lblStatus").html("部分退货");
-                $("#btnreturn").show();
-                $("#btnreturn").click(function () {
-                    location.href = "/Orders/ApplyReturn/" + _self.orderid;
-                });
-            } else if (_self.model.ReturnStatus == 3) {
-                $("#lblStatus").html("已退货");
             }
+        });  
 
-            Global.post("/Finance/GetOrderBillByID", { id: _self.orderid }, function (data) {
-                var model = data.model;
-                if (model.BillingID) {
-                    $("#infoPaymoney").text(model.PayMoney.toFixed(2));
-                    _self.getPays(model.BillingPays, true);
-                    _self.getInvoices(model.BillingInvoices, true);
-                    
-                    //申请开票
-                    if(model.InvoiceStatus == 0 ){
-                        _self.billingid = model.BillingID;
-                        $("#addInvoice").click(function () {
-                            _self.addInvoice();
-                        });
-                    }
-                }
-            });
-
-        } else if (_self.status == 3) { 
-            $("#lblStatus").addClass("red");
-
-            $(".cart-item").find(".tr-price input").prop("disabled", true);
-        } else {
-
-            $("#lblStatus").addClass("red");
-
-            $(".cart-item").find(".tr-price input").prop("disabled", true);
-        }
         //删除发票信息
         $("#deleteInvoice").click(function () {
             var _this = $(this);
@@ -443,6 +411,21 @@ define(function (require, exports, module) {
                 verifyType: "data-type",
                 regText: "data-text"
             });
+        });
+    }
+
+    //更改订单状态
+    ObjectJS.updateOrderStatus = function (status) {
+        var _self = this;
+        Global.post("/Orders/UpdateOrderStatus", {
+            orderid: _self.orderid,
+            status: status
+        }, function (data) {
+            if (!data.status) {
+                alert("系统异常，请重新操作！");
+            } else {
+                location.href = location.href;
+            }
         });
     }
 

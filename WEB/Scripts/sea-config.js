@@ -41,6 +41,8 @@ seajs.config({
         "chooseuser": "plug/chooseuser/chooseuser.js",
         //选择客户
         "choosecustomer": "plug/choosecustomer/choosecustomer.js",
+        //选择流程
+        "chooseprocess": "plug/chooseprocess/chooseprocess.js",
         //选择产品
         "chooseproduct": "plug/chooseproduct/chooseproduct.js",
         //选择下属

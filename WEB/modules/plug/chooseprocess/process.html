@@ -1,0 +1,14 @@
+﻿
+
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+    <li data-first="{%=item.FirstName%}">
+        <span class="check ico-check mTop5" data-id="{%=item.ProcessID%}" data-name="{%=item.ProcessName%}"></span>
+		<span class="name long">{%=item.ProcessName%}</span>
+        <span class="width100 center">{%= item.ProcessType==1?"打样":"大货" %}</span>
+        <span class="width100 center">{%= item.Owner?item.Owner.Name:"--" %}</span>
+        <span class="width150 center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
+	</li>
+{% } %}
