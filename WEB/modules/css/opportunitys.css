@@ -8,14 +8,19 @@
 .stage-items { height:40px; width:80%; }
 .stage-items  li{ float:left; height:40px; position:relative; cursor:pointer;  margin-right:10px; }
 .stage-items  li:hover{ background-color:#2F73B8;}
-.stage-items  li.normal{ background-color:#eee; border:solid 1px #ccc;}
+.stage-items  li.normal{ background-color:#f3f3f3; border:solid 1px #ccc;}
+.stage-items  li.ing{ background-color:#bfeed3 ; border:solid 1px #C0EED2;}
+.stage-items  li.over{ background-color:#a4d2f8; border:solid 1px #3A7DE5;}
 .stage-items  li span{ float:left; display:inline-block; font-size:14px;}
 
 .stage-items  li .name{ height:40px; line-height:40px; color:#333; padding-left:10px;}
 .stage-items  li .status{ height:40px; line-height:40px; color:#333;}
 .stage-items  li .status-bg { width:20px; height:20px; border-radius:10px; background-color:#fff; margin:10px; }
-.stage-items  li .status-bg .status-color { width:14px;height:14px; border-radius:7px; margin:3px; background-color:#ccc; }
+.stage-items  li .status-bg .status-color { width:14px;height:14px; border-radius:7px; margin:3px;  }
 
+.stage-items  li.normal .status-color{ background-color:#ccc;}
+.stage-items  li.ing .status-color{ background-color:#0AA350 ;}
+.stage-items  li.over .status-color{ background-color:#3A7DE5;}
 
 /*阶段行为项*/
 .stageitems { width:100%; overflow:auto; }

@@ -40,15 +40,15 @@ define(function (require, exports, module) {
         } else if (model.OrderType == 2 && (_self.status == 0 || _self.status == 3)) {
             $("#changeOrderStatus").html("开始生产");
         } else if (_self.status == 1) {
-            $("#changeOrderStatus").html("打样完成");
+            $("#changeOrderStatus").html("完成打样");
         } else if (_self.status == 2) {
-            $("#changeOrderStatus").html("封样封价");
-        } else if (_self.status == 3) {
-            $("#changeOrderStatus").html("开始生产");
+            $("#changeOrderStatus").html("完成合价");
+        } else if (_self.status == 3 && model.OrderType == 1) {
+            $("#changeOrderStatus").html("转为大货");
         } else if (_self.status == 4) {
-            $("#changeOrderStatus").html("生产完成");
+            $("#changeOrderStatus").html("完成生产");
         } else if (_self.status == 5) {
-            $("#changeOrderStatus").html("交易结束");
+            $("#changeOrderStatus").html("完成交易");
         }
 
     }
@@ -158,6 +158,7 @@ define(function (require, exports, module) {
         });
 
         $("#changeOrderStatus").click(function () {
+            var _this=$(this);
             //开始打样
             if (_self.model.OrderType == 1 && _self.status == 0) {
                 confirm("开始打样后流程不可变更，确认开始打样吗？", function () {
@@ -167,6 +168,11 @@ define(function (require, exports, module) {
             else if (_self.model.OrderType == 2 && (_self.status == 0 || _self.status == 3)) {
                 confirm("开始生产后流程不可变更，确认开始生产吗？", function () {
                     _self.updateOrderStatus(4);
+                });
+            }
+            else {
+                confirm("操作后不可回滚，确认" + _this.html() + "吗？", function () {
+                    _self.updateOrderStatus(_self.status * 1 + 1);
                 });
             }
             
