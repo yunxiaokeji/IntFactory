@@ -6,7 +6,7 @@
     <div class="taskOperate">
         <div class="left">
             <div class="left"><img title="到期日期" style="width:30px;" src="/modules/images/ico-endtime.png" /></div>
-            <div class="left mLeft5"><input type="text" style="width:80px;" id="UpdateTaskEndTime" value="{%=item.EndTime.toDate('yyyy-MM-dd')=='3939-01-01'?'未指定日期':item.EndTime.toDate('yyyy-MM-dd')%}" placeholder="设置到期日期"/></div>
+            <div class="left mLeft10"><input type="text" style="width:80px;" id="UpdateTaskEndTime" value="{%=item.EndTime.toDate('yyyy-MM-dd')=='3939-01-01'?'未指定日期':item.EndTime.toDate('yyyy-MM-dd')%}" placeholder="设置到期日期"/></div>
             <div class="clear"></div>
             
         </div>
@@ -21,7 +21,7 @@
         <ul class="left">
             <li>
                 <span class="column-title">任务内容:</span>
-                <span>{%=item.Stage.StageName%}</span>
+                <span>{%=item.Title%}</span>
             </li>
              <li>
                 <span class="column-title">负责人:</span>
@@ -33,7 +33,7 @@
             </li>
            
         </ul>
-        <div class="right"> <img class="right width100" src="{%=item.OrderImg==''?'/modules/images/default.png':item.OrderImg%}"/></div>
+        <div class="right"> <img class="right width100" onerror="$(this).attr('src','/modules/images/img-noimg.jpg')" src="{%=item.OrderImg==''?'/modules/images/img-noimg.jpg':item.OrderImg%}"/></div>
         <div class="clear"></div>
 
     </div>

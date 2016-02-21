@@ -5,8 +5,14 @@ define(function (require, exports, module) {
     var Global = require("global");
 
     (function ($) {
+        //默认参数
+        var defaultParas = {
+            name: "tb-task-list"
+        };
 
-        $.fn.showtaskdetail=function (options) {
+        $.fn.showtaskdetail = function (options) {
+            defaultParas = $.extend([], defaultParas, options);
+
             $(this).click(function () {
                 var taskid = $(this).data("taskid");
                 var orderid = $(this).data("orderid");
@@ -25,11 +31,11 @@ define(function (require, exports, module) {
                     }
                     else//隐藏显示的任务详情
                     {
-                        if ($taskDetailContent.css("right")=="0px")
-                        //if ($taskDetailContent.position().left < $(document).width()-10)
-                            $taskDetailContent.animate({ right: '-480px' }, 500);
+                        if ($taskDetailContent.css("right") == "0px") {
+                            $taskDetailContent.animate({ right: '-490px' }, 500, function () { $("#taskDetailContent") .hide()});
+                        }
                         else
-                            $taskDetailContent.animate({ right: '0px' }, 500);
+                            $taskDetailContent.show().animate({ right: '0px' }, 500);
                     }
                     
                 }
@@ -55,8 +61,8 @@ define(function (require, exports, module) {
 
                     //隐藏下拉
                     $(document).click(function (e) {
-                        if (!$(e.target).parents().hasClass("taskContent") && !$(e.target).parents().hasClass("table-list")) {
-                            $(".taskContent").animate({ right: '-480px' }, 500);
+                        if (!$(e.target).parents().hasClass("taskContent") && !$(e.target).hasClass("taskContent") && !$(e.target).parents().hasClass(defaultParas.name) && !$(e.target).hasClass(defaultParas.name) && !$(e.target).parents().hasClass("jPag-pages") && !$(e.target).hasClass("jPag-pages")) {
+                            $("#taskDetailContent").animate({ right: '-490px' }, 500, function () { $("#taskDetailContent").hide()});
                         }
                     });
 
@@ -91,7 +97,7 @@ define(function (require, exports, module) {
             Global.post("/Task/UpdateTaskEndTime", { taskID: taskID, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
                 if (data.Result == 1)
                 {
-                    alert("保存成功");
+                    //alert("保存成功");
                 }
             });
         }
@@ -101,7 +107,9 @@ define(function (require, exports, module) {
             confirm("标记完成的任务不可逆,确定完成?", function () {
                 Global.post("/Task/FinishTask", { taskID: taskID }, function (data) {
                     if (data.Result == 1) {
-                        alert("标记任务完成");
+                        //alert("标记任务完成");
+                        $("#FinishTask").addClass("btnccc").val("已完成").attr("disabled", "disabled");
+
                     }
                     else if (data.Result == 2) {
                         alert("前面阶段任务有未完成,不能标记完成");
@@ -200,7 +208,7 @@ define(function (require, exports, module) {
                     mouse: 'slide',
                     float: "left",
                     onChange: function (page) {
-                        getReplys(orderid,stageid, page);
+                        getTaskReplys(orderid, stageid, page);
                     }
                 });
             });
@@ -239,6 +247,7 @@ define(function (require, exports, module) {
                                 FromReplyAgentID: _this.data("agentid")
                             };
                             saveTaskReply(entity);
+
                         }
                         $("#Msg_" + _this.data("replyid")).val('');
                         $(this).parent().slideUp(100);
