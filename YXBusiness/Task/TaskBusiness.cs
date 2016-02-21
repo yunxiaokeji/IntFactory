@@ -139,9 +139,9 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="taskID"></param>
         /// <returns></returns>
-        public static void FinishTask(string taskID,ref int result)
+        public static void FinishTask(string taskID, string userID, ref int result)
         {
-            TaskDAL.BaseProvider.FinishTask(taskID,ref result);
+            TaskDAL.BaseProvider.FinishTask(taskID,userID,ref result);
         }
 
         /// <summary>

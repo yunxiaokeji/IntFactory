@@ -6,12 +6,18 @@
     <div class="taskOperate">
         <div class="left">
             <div class="left"><img title="到期日期" style="width:30px;" src="/modules/images/ico-endtime.png" /></div>
-            <div class="left mLeft10"><input type="text" style="width:80px;" id="UpdateTaskEndTime" value="{%=item.EndTime.toDate('yyyy-MM-dd')=='3939-01-01'?'未指定日期':item.EndTime.toDate('yyyy-MM-dd')%}" placeholder="设置到期日期"/></div>
+            <div class="left mLeft10"><input type="text" style="width:80px;" id="{%=item.FinishStatus==2?'':'UpdateTaskEndTime'%}" value="{%=item.EndTime.toDate('yyyy-MM-dd')=='3939-01-01'?'未指定日期':item.EndTime.toDate('yyyy-MM-dd')%}" placeholder="设置到期日期"/></div>
             <div class="clear"></div>
             
         </div>
         <div class="right mRight10">
-            <input type="button" class="{%=item.FinishStatus==1?'btnccc':'btn'%}" id="{%=item.FinishStatus==1?'':'FinishTask'%}" value="{%=item.FinishStatus==1?'已完成':'标记完成'%}"/>
+            {%
+            if(item.FinishStatus==1){%}
+            <input type="button" class="btn" id="FinishTask" value="标记完成"/>
+            {% }
+            else{%}
+            <span class="taskFinishStatus">{%=item.FinishStatus==0?'未分配':'已完成'%}</span>
+            {% } %}
         </div>
         <div class="clear"></div>
     </div>
@@ -33,7 +39,7 @@
             </li>
            
         </ul>
-        <div class="right"> <img class="right width100" onerror="$(this).attr('src','/modules/images/img-noimg.jpg')" src="{%=item.OrderImg==''?'/modules/images/img-noimg.jpg':item.OrderImg%}"/></div>
+        <div class="right"> <img class="right width100" onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="{%=item.OrderImg==''?'/modules/images/img-noimg.png':item.OrderImg%}"/></div>
         <div class="clear"></div>
 
     </div>

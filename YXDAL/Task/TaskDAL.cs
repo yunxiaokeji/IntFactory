@@ -99,21 +99,20 @@ namespace IntFactoryDAL
 
         public bool UpdateTaskEndTime(string taskID, DateTime? endTime)
         {
-            string sqltext = " update OrderTask set FinishStatus=1 where TaskID=@TaskID and (endTime is null or endTime='') and FinishStatus=0  ";
-            sqltext +=" update OrderTask set endTime=@EndTime where TaskID=@TaskID";
             SqlParameter[] paras = { 
                                      new SqlParameter("@TaskID",taskID),
                                      new SqlParameter("@EndTime",endTime)
                                    };
 
-            return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+            return ExecuteNonQuery("P_UpdateTaskEndTime", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public void FinishTask(string taskID, ref int result)
+        public void FinishTask(string taskID,string userID, ref int result)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@Result",SqlDbType.Int),
-                                     new SqlParameter("@TaskID",taskID)
+                                     new SqlParameter("@TaskID",taskID),
+                                     new SqlParameter("@UserID",userID)
                                    };
             paras[0].Value = result;
             paras[0].Direction = ParameterDirection.InputOutput;

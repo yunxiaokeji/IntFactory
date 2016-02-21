@@ -14,6 +14,7 @@ define(function (require, exports, module) {
             defaultParas = $.extend([], defaultParas, options);
 
             $(this).click(function () {
+                $(this).addClass("taskDetailContent");
                 var taskid = $(this).data("taskid");
                 var orderid = $(this).data("orderid");
                 var stageid = $(this).data("stageid");
@@ -61,7 +62,7 @@ define(function (require, exports, module) {
 
                     //隐藏下拉
                     $(document).click(function (e) {
-                        if (!$(e.target).parents().hasClass("taskContent") && !$(e.target).hasClass("taskContent") && !$(e.target).parents().hasClass(defaultParas.name) && !$(e.target).hasClass(defaultParas.name) && !$(e.target).parents().hasClass("jPag-pages") && !$(e.target).hasClass("jPag-pages")) {
+                        if (!$(e.target).parents().hasClass("taskContent") && !$(e.target).hasClass("taskContent") && !$(e.target).parents().hasClass("taskDetailContent") && !$(e.target).hasClass("taskDetailContent") && !$(e.target).parents().hasClass("jPag-pages") && !$(e.target).hasClass("jPag-pages")) {
                             $("#taskDetailContent").animate({ right: '-490px' }, 500, function () { $("#taskDetailContent").hide()});
                         }
                     });
@@ -107,12 +108,14 @@ define(function (require, exports, module) {
             confirm("标记完成的任务不可逆,确定完成?", function () {
                 Global.post("/Task/FinishTask", { taskID: taskID }, function (data) {
                     if (data.Result == 1) {
-                        //alert("标记任务完成");
+                        alert("标记任务完成");
                         $("#FinishTask").addClass("btnccc").val("已完成").attr("disabled", "disabled");
-
                     }
                     else if (data.Result == 2) {
                         alert("前面阶段任务有未完成,不能标记完成");
+                    }
+                    else if (data.Result == 3) {
+                        alert("无权限操作");
                     }
                 });
             });

@@ -127,21 +127,5 @@
         });
     }
 
-    ObjectJS.FinishTask = function (taskID) {
-
-        confirm("标记完成的任务不可逆,确定完成?", function () {
-            Global.post("/Task/FinishTask", { taskID: taskID }, function (data) {
-                if (data.Result == 1) {
-                    $("#btn_finishTask_" + taskID).addClass("ico-checked");
-                    alert("标记任务完成");
-                }
-                else if (data.Result == 2) {
-                    alert("前面阶段任务有未完成,不能标记完成");
-                }
-            });
-        });
-
-    }
-
     module.exports = ObjectJS;
 });
