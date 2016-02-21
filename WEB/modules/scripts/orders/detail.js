@@ -42,7 +42,7 @@ define(function (require, exports, module) {
         } else if (_self.status == 1) {
             $("#changeOrderStatus").html("打样完成");
         } else if (_self.status == 2) {
-            $("#changeOrderStatus").html("合价完成");
+            $("#changeOrderStatus").html("封样封价");
         } else if (_self.status == 3) {
             $("#changeOrderStatus").html("开始生产");
         } else if (_self.status == 4) {
@@ -170,6 +170,11 @@ define(function (require, exports, module) {
                 });
             }
             
+        });
+
+
+        require.async("showtaskdetail", function () {
+            $(".task-item").showtaskdetail();
         });
 
         //编辑订单信息
