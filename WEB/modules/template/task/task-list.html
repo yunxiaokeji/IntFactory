@@ -2,9 +2,9 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-<tr class="list-item" data-taskid="{%=item.TaskID%}" data-orderid="{%=item.OrderID%}">
+<tr class="list-item" data-taskid="{%=item.TaskID%}" data-orderid="{%=item.OrderID%}" data-stageid="{%=item.StageID%}">
     <td class="center">{%=item.OrderImg%}</td>
-    <td class="center"><a href="/Customer/OrderDetail/{%=item.OrderID%}" target="_blank">{%=item.OrderID%}</a></td>
+    <td class="center"><a href="/Customer/OrderDetail/{%=item.OrderID%}" target="_blank">{%=item.OrderCode%}</a></td>
     <td class="center"><a href="/Customer/OrderDetail/{%=item.OrderID%}" target="_blank">{%=item.Stage.StageName%}</a></td>
     <td class="center"><span>{%=item.FinishStatus==1?'已完成':'进行中'%}</span></td>
     <td class="center">{%=item.Owner.Name%}</td>

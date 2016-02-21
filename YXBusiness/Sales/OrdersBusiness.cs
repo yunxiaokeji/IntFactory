@@ -149,10 +149,14 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public static List<ReplyEntity> GetReplys(string guid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public static List<ReplyEntity> GetReplys(string guid, string stageID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             List<ReplyEntity> list = new List<ReplyEntity>();
             string whereSql = " Status<>9 and GUID='" + guid + "' ";
+            if (!string.IsNullOrEmpty(stageID))
+            {
+                whereSql += " and StageID='" + stageID+"' ";
+            }
             DataTable dt = CommonBusiness.GetPagerData("OrderReply", "*", whereSql, "AutoID", "CreateTime desc ", pageSize, pageIndex, out totalCount, out pageCount, false);
 
             foreach (DataRow dr in dt.Rows)
@@ -232,9 +236,9 @@ namespace IntFactoryBusiness
             return id;
         }
 
-        public static string CreateReply(string guid, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
+        public static string CreateReply(string guid,string stageID, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
         {
-            return OrdersDAL.BaseProvider.CreateReply(guid, content, userID, agentID, fromReplyID, fromReplyUserID, fromReplyAgentID);
+            return OrdersDAL.BaseProvider.CreateReply(guid,stageID, content, userID, agentID, fromReplyID, fromReplyUserID, fromReplyAgentID);
         }
 
         #endregion

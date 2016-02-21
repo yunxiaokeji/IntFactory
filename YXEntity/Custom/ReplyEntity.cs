@@ -15,6 +15,9 @@ namespace IntFactoryEntity
 
         public string Content { get; set; }
 
+        [Property("Lower")]
+        public string StageID { get; set; }
+
         public int Status { get; set; }
 
         [Property("Lower")]

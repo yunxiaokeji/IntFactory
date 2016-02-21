@@ -212,7 +212,6 @@
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\zhe_jiang_geo.json" />
     <Content Include="modules\plug\fullcalendar\agenda-views.html" />
     <Content Include="modules\plug\fullcalendar\fc.js" />
-    <Content Include="modules\plug\showtaskdetail\customer.css" />
     <Content Include="modules\plug\showtaskdetail\showtaskdetail.js" />
     <Content Include="modules\plug\showtaskdetail\style.css" />
     <Content Include="modules\scripts\orders\create.js" />
