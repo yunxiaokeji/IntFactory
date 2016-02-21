@@ -31,7 +31,9 @@ define(function (require, exports, module) {
         stages.find("li .rightbg").last().removeClass("rightbg");
         stages.find("li").width(width / stages.find("li").length - 20);
 
-        if (_self.status != 0 && _self.status != 3){
+        
+
+        if (_self.status != 0){
             $("#changeProcess").hide();
         }
 
@@ -61,8 +63,6 @@ define(function (require, exports, module) {
         for (var i = 0; i < model.OrderStatus.length; i++) {
             $(".status-items li[data-status='" + model.OrderStatus[i].Status + "']").find(".status-time-text").html(model.OrderStatus[i].CreateTime.toDate("yyyy-MM-dd"));
         }
-        console.log(model.OrderStatus);
-
     }
     //绑定事件
     ObjectJS.bindEvent = function () {
