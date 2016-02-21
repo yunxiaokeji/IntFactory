@@ -324,7 +324,7 @@ namespace IntFactoryBusiness
                 model.FillData(dr);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, agentid);
                 model.StageItem = new List<StageItemEntity>();
-                foreach (DataRow itemdr in ds.Tables["Items"].Rows)
+                foreach (DataRow itemdr in ds.Tables["Items"].Select("StageID='" + model.StageID + "'"))
                 {
                     StageItemEntity item = new StageItemEntity();
                     item.FillData(itemdr);
