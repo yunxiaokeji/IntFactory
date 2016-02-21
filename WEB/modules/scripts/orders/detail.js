@@ -51,6 +51,18 @@ define(function (require, exports, module) {
             $("#changeOrderStatus").html("完成交易");
         }
 
+        $(".status-items li").each(function () {
+            var _this = $(this), status = _this.data("status");
+            if (status <= _self.status) {
+                _this.find("span").css("color", "#3D90F0");
+                _this.find(".status-bg,.status-line").css("background-color", "#3D90F0");
+            }
+        });
+        for (var i = 0; i < model.OrderStatus.length; i++) {
+            $(".status-items li[data-status='" + model.OrderStatus[i].Status + "']").find(".status-time-text").html(model.OrderStatus[i].CreateTime.toDate("yyyy-MM-dd"));
+        }
+        console.log(model.OrderStatus);
+
     }
     //绑定事件
     ObjectJS.bindEvent = function () {

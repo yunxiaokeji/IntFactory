@@ -10,11 +10,11 @@
 .stage-items  li:hover{ background-color:#2F73B8;}
 .stage-items  li.normal{ background-color:#f3f3f3; border:solid 1px #ccc;}
 .stage-items  li.ing{ background-color:#bfeed3 ; border:solid 1px #C0EED2;}
-.stage-items  li.over{ background-color:#a4d2f8; border:solid 1px #3A7DE5;}
+.stage-items  li.over{ background-color:#3A7DE5; border:solid 1px #3A7DE5;}
 .stage-items  li span{ float:left; display:inline-block; font-size:14px;}
 
 .stage-items  li .name{ height:40px; line-height:40px; color:#333; padding-left:10px;}
-.stage-items  li .status{ height:40px; line-height:40px; color:#333;}
+.stage-items  li .status{ height:40px; line-height:40px;}
 .stage-items  li .status-bg { width:20px; height:20px; border-radius:10px; background-color:#fff; margin:10px; }
 .stage-items  li .status-bg .status-color { width:14px;height:14px; border-radius:7px; margin:3px;  }
 
@@ -22,10 +22,19 @@
 .stage-items  li.ing .status-color{ background-color:#0AA350 ;}
 .stage-items  li.over .status-color{ background-color:#3A7DE5;}
 
-/*阶段行为项*/
-.stageitems { width:100%; overflow:auto; }
-.stageitems li{ width:33%; height:25px; min-width:200px; line-height:25px; float:left; color:#666; text-indent:5px; }
+.stage-items  li.normal .status,.stage-items  li.normal .name{ color:#333;}
+.stage-items  li.ing .status,.stage-items  li.ing .name{ color:#333 ;}
+.stage-items  li.over .status,.stage-items  li.over .name{ color:#fff;}
 
+/*订单状态记录*/
+
+.status-items { margin-right:20px; }
+.status-items li{width:100%; overflow:auto; }
+.status-items span { display:inline-block; line-height:16px; float:left; }
+.status-items .status-bg { width:16px;height:16px; border-radius:8px; background-color:#ccc; }
+.status-items .status-line { width:4px;height:30px; background-color:#eee; margin-left:6px; }
+
+.status-items .status-time { width:70px; }
 .nav-partdiv { margin-bottom:100px; }
 
 

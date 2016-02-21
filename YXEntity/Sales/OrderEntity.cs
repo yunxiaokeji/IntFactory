@@ -197,6 +197,8 @@ namespace IntFactoryEntity
 
         public int ReplyTimes { get; set; }
 
+        public List<OrderStatusEntity> OrderStatus { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>
@@ -206,6 +208,21 @@ namespace IntFactoryEntity
             dr.FillData(this);
         }
 
+    }
+
+    public class OrderStatusEntity
+    {
+        public int Status { get; set; }
+        public DateTime CreateTime { get; set; }
+
+        /// <summary>
+        /// 填充数据
+        /// </summary>
+        /// <param name="dr"></param>
+        public void FillData(System.Data.DataRow dr)
+        {
+            dr.FillData(this);
+        }
     }
 }
 

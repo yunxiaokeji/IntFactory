@@ -23,18 +23,17 @@
     <div class="content-title">
         <div class="left titlename">订单编号：@(model.OrderCode)</div>
         <div id="updateOrderInfo" class="left ico-edit mLeft50"></div>
-        <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current,"102019005"))" id="btnreturn" >申请退单</div>
-        <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current,"102019003"))" id="btndelete" >删除订单</div>
-        <span class="right lineHeight25 mRight10 mTop2" id="lblStatus">@(model.StatusStr)</span>
-        <span class="right lineHeight25 mTop2">订单状态：</span>
+        <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >申请退单</div>
+        <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除订单</div>
     </div>
-    <ul class="content-info">
+    
+    <ul class="content-info left">
         <li>
             <span class="column-title">客户名称：</span> 
             <a href="/Customer/Detail/@(model.CustomerID)" target="_blank">@(model.Customer.Name)</a> </li>
         <li>
-            <span class="column-title">负责人：</span> <label class="left" id="lblOwner">@(model.Owner!=null?model.Owner.Name:"--")</label>
-            <span title="更换负责人" class="ico-change left mTop5 mLeft10 @(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner"></span>
+            <span class="column-title">负责人：</span> <label class="left" id="lblOwner">@(model.Owner != null ? model.Owner.Name : "--")</label>
+            <span title="更换负责人" class="ico-change left mTop5 mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner"></span>
         </li>
         <li>
             <span class="column-title">加工数量：</span>
@@ -62,7 +61,7 @@
         </li>  
         <li>
             <span class="column-title">收货地址：</span>
-            <label>@(model.City!=null?(model.City.Province+" "+model.City.City+" "+model.City.Counties):"")@(model.Address)</label>
+            <label>@(model.City != null ? (model.City.Province + " " + model.City.City + " " + model.City.Counties) : "")@(model.Address)</label>
         </li>
         @*<li>
             <span class="column-title">邮编：</span>
@@ -73,11 +72,67 @@
             <label>@(model.Remark.Trim())</label>
         </li>
     </ul>
+
+    <ul class="left status-items">
+        @if (model.OrderType == 1)
+        {
+            <li data-status="0">
+                <span class="status-time mRight5">@(model.CreateTime.ToString("yyyy-MM-dd"))</span>
+                <span class="status-bg"></span>
+                <span class="mLeft5">客户下单</span>
+            </li>
+            <li data-status="1"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
+            <li data-status="1">
+                <span class="status-time status-time-text mRight5">&nbsp;</span>
+                <span class="status-bg"></span>
+                <span class="mLeft5">打样中</span>
+            </li>
+            <li data-status="2"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
+            <li data-status="2">
+                <span class="status-time status-time-text mRight5">&nbsp;</span>
+                <span class="status-bg"></span>
+                <span class="mLeft5">合价中</span>
+            </li>
+            <li data-status="3"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
+            <li data-status="3">
+                <span class="status-time status-time-text mRight5">&nbsp;</span>
+                <span class="status-bg"></span>
+                <span class="mLeft5">封样封价</span>
+            </li>
+        }
+        else
+        {
+            <li data-status="0">
+                <span class="status-time mRight5">@(model.OrderTime.ToString("yyyy-MM-dd"))</span>
+                <span class="status-bg"></span>
+                <span class="mLeft5">客户下单</span>
+            </li>
+            <li data-status="4"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
+            <li data-status="4">
+                <span class="status-time status-time-text mRight5">&nbsp;</span>
+                <span class="status-bg"></span>
+                <span class="mLeft5">生产中</span>
+            </li>
+            <li data-status="5"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
+            <li data-status="5">
+                <span class="status-time status-time-text mRight5">&nbsp;</span>
+                <span class="status-bg"></span>
+                <span class="mLeft5">生产完成</span>
+            </li>
+            <li data-status="6"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
+            <li data-status="6">
+                <span class="status-time status-time-text mRight5">&nbsp;</span>
+                <span class="status-bg"></span>
+                <span class="mLeft5">交易结束</span>
+            </li>
+        }
+    </ul>
+
     <div class="clear"></div>
     <div class="process-stages mTop30">
         <div class="process-info">
             <div class="left info">订单流程：@(model.OrderProcess.ProcessName)</div>
-            <span title="更换流程" class="ico-change left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current,"102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess"></span>
+            <span title="更换流程" class="ico-change left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess"></span>
             <div class="left info mLeft20">负责人：@(model.OrderProcess.Owner.Name)</div>
             <div class="btn right mLeft20" id="changeOrderStatus"></div>
         </div>
@@ -85,14 +140,14 @@
         <ul class="stage-items mTop20">
             @if (model.Status > 0)
             {
-                 foreach (var stage in model.Tasts)
+                foreach (var stage in model.Tasts)
                 { 
-                    <li data-stageid="@(stage.StageID)" data-orderid="@(model.OrderID)" data-taskid="@(stage.TaskID)" class="@(stage.FinishStatus==0?"normal":stage.FinishStatus==1?"ing":"over") task-item">
+                    <li data-stageid="@(stage.StageID)" data-orderid="@(model.OrderID)" data-taskid="@(stage.TaskID)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
                         <span class="name">@(stage.Title)(@stage.Owner.Name)</span>
                         <span class="status-bg right">
                             <span class="status-color"></span>
                         </span>
-                        <span class="status right">@(stage.FinishStatus==0?"未开始":stage.FinishStatus==1?"进行中":"已完成")</span>
+                        <span class="status right">@(stage.FinishStatus == 0 ? "未开始" : stage.FinishStatus == 1 ? "进行中" : "已完成")</span>
                     </li>
                 }
             }

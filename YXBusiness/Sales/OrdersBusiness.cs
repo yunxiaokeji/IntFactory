@@ -131,9 +131,9 @@ namespace IntFactoryBusiness
                 
                 model.OrderProcess.OrderStages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, model.AgentID, model.ClientID);
 
+                model.Tasts = new List<IntFactoryEntity.Task.TaskEntity>();
                 if (model.Status > 0 && ds.Tables["Tasks"].Rows.Count > 0)
                 {
-                    model.Tasts = new List<IntFactoryEntity.Task.TaskEntity>();
                     foreach (DataRow dr in ds.Tables["Tasks"].Rows)
                     {
                         IntFactoryEntity.Task.TaskEntity task = new IntFactoryEntity.Task.TaskEntity();
@@ -142,6 +142,16 @@ namespace IntFactoryBusiness
                         model.Tasts.Add(task);
                     }
                     
+                }
+                model.OrderStatus = new List<OrderStatusEntity>();
+                if (model.Status > 0 && ds.Tables["Status"].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables["Status"].Rows)
+                    {
+                        OrderStatusEntity status = new IntFactoryEntity.OrderStatusEntity();
+                        status.FillData(dr);
+                        model.OrderStatus.Add(status);
+                    }
                 }
 
                 model.City = CommonBusiness.GetCityByCode(model.CityCode);
