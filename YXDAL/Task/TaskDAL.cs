@@ -99,8 +99,8 @@ namespace IntFactoryDAL
 
         public bool UpdateTaskEndTime(string taskID, DateTime? endTime)
         {
-            string sqltext = "update OrderTask set endTime=@EndTime where TaskID=@TaskID";
-
+            string sqltext = " update OrderTask set FinishStatus=1 where TaskID=@TaskID and (endTime is null or endTime='') and FinishStatus=0  ";
+            sqltext +=" update OrderTask set endTime=@EndTime where TaskID=@TaskID";
             SqlParameter[] paras = { 
                                      new SqlParameter("@TaskID",taskID),
                                      new SqlParameter("@EndTime",endTime)
