@@ -77,6 +77,7 @@
   <ItemGroup>
     <None Include="Procedures\InitDatabase.sql" />
     <None Include="Procedures\P_GetPagerData.sql" />
+    <None Include="Alter.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Manage\M_InsertClient.sql" />

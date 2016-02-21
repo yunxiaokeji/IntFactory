@@ -53,7 +53,7 @@ namespace IntFactoryDAL
 
         public  DataTable GetTasksByOrderID(string orderID)
         {
-            string sqltext = "select * from  OrderTask where OrderID=@OrderID";
+            string sqltext = "select * from  OrderTask where OrderID=@OrderID and status<>9";
             SqlParameter[] paras = { 
                                        new SqlParameter("@OrderID",orderID)
                                    };
@@ -61,6 +61,18 @@ namespace IntFactoryDAL
             return GetDataTable(sqltext, paras, CommandType.Text);
 
         }
+
+        public DataTable GetTaskDetail(string taskID)
+        {
+            string sqltext = "select * from  OrderTask where TaskID=@TaskID";
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@TaskID",taskID)
+                                   };
+
+            return GetDataTable(sqltext, paras, CommandType.Text);
+
+        }
+
         public bool UpdateTaskOwner(string taskID, string ownerID)
         {
             string sqltext = "update OrderTask set OwnerID=@OwnerID where TaskID=@TaskID";
@@ -85,7 +97,7 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateTaskEndTime(string taskID, DateTime endTime)
+        public bool UpdateTaskEndTime(string taskID, DateTime? endTime)
         {
             string sqltext = "update OrderTask set endTime=@EndTime where TaskID=@TaskID";
 

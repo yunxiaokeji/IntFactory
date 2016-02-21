@@ -57,6 +57,27 @@ namespace IntFactoryBusiness
         }
 
         /// <summary>
+        /// 获取任务详情
+        /// </summary>
+        /// <param name="taskID"></param>
+        /// <returns></returns>
+        public static TaskEntity GetTaskDetail(string taskID)
+        {
+            TaskEntity model = null;
+            DataTable dt = TaskDAL.BaseProvider.GetTaskDetail(taskID);
+
+            if(dt.Rows.Count==1)
+            {
+                model = new TaskEntity();
+                model.FillData(dt.Rows[0]);
+                model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+            }
+
+            return model;
+        }
+
+        /// <summary>
         /// 获取订单的任务列表
         /// </summary>
         /// <param name="orderID"></param>
@@ -108,7 +129,7 @@ namespace IntFactoryBusiness
         /// <param name="taskID"></param>
         /// <param name="endTime"></param>
         /// <returns></returns>
-        public static bool UpdateTaskEndTime(string taskID, DateTime endTime)
+        public static bool UpdateTaskEndTime(string taskID, DateTime? endTime)
         {
             return TaskDAL.BaseProvider.UpdateTaskEndTime(taskID, endTime);
         }

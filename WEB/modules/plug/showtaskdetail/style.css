@@ -1,32 +1,45 @@
 ﻿.taskContent {
-        padding:15px;
-        width:350px;
-        position: fixed;
-        right: -380px;
-        top: 50px;
-        height: 100%;
-        background-color: #fff;
-        border-left: solid 1px #eee;
-        opacity:1;
-    }
+width:460px;
+padding:15px;
+position:absolute;
+right: -480px;
+top: 50px;
+background-color: #fff;
+border-left: solid 1px #eee;
+opacity:1;
+overflow-y:scroll;
+}
 
-.taskContent li {
-    line-height:35px;
+.taskContent .taskDetail {
+padding-top:15px;
+}
+
+.taskContent .taskDetail li {
+padding-bottom:25px;
 }
 
 .taskOperate {
-padding-bottom:15px;
+margin-top:9px;
+padding-bottom:14px;
 border-bottom:1px solid #eee; 
 }
 
-.taskDetail {
+
+.taskDetail .column-title {
+width:70px;
+display:inline-block;
 }
 
-    .taskDetail li {
-    line-height:50px;
-    }
 
-    .taskDetail .column-title {
-        width:100px;
-        display:inline-block;
-    }
+/*讨论备忘*/
+.talk-body { }
+.talk-body .content-main {position:relative; width:450px; }
+.talk-body .content-main .txt-content { height:80px; width:450px; background-color:#f7f7f7; border:solid 1px #eee; }
+.talk-body .content-main .txt-content:focus { border:solid 1px #318ae4;}
+.talk-body .content-main .btn-save { position:absolute; right:0; bottom:0px; }
+
+.talk-body .talk-title { border-bottom: solid 1px #4a98e7; height:40px; line-height:40px; width: 450px; color:#666; }
+.talk-body .content-list { width: 450px;}
+.talk-body .content-list td{ border-bottom:dashed 1px #ccc; }
+.talk-body .content-list .user-avatar { width:35px; padding-top:20px; vertical-align:top; }
+.talk-body .content-list .user-avatar img{ width:24px; height:24px; border-radius:12px;  vertical-align:top; }

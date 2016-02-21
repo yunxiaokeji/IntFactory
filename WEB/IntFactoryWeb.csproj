@@ -160,6 +160,7 @@
     <Content Include="modules\images\ico-company.png" />
     <Content Include="modules\images\ico-contact-hover.png" />
     <Content Include="modules\images\ico-contact.png" />
+    <Content Include="modules\images\ico-endtime.png" />
     <Content Include="modules\images\ico-feedback-hover.png" />
     <Content Include="modules\images\ico-feedback.png" />
     <Content Include="modules\images\ico-goregister-hover.png" />

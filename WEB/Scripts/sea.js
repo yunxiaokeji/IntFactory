@@ -10,7 +10,7 @@
 
     var seajs = global.seajs = {
         // The current version of Sea.js being used
-        version: "2.1.1"
+        version: "2.1.2"
     }
 
     var data = seajs.data = {}

@@ -1,7 +1,6 @@
 ﻿
 define(function (require, exports, module) {
     require("plug/showtaskdetail/style.css");
-    require("plug/showtaskdetail/customer.css");
     var doT = require("dot");
     var Global = require("global");
 
@@ -11,21 +10,24 @@ define(function (require, exports, module) {
             $(this).click(function () {
                 var taskid = $(this).data("taskid");
                 var orderid = $(this).data("orderid");
-                var $taskDetailContent = $("#taskDetailContent");
+                var stageid = $(this).data("stageid");
 
+                var $taskDetailContent = $("#taskDetailContent");
+  
                 //没有任务详情对象
                 if ($taskDetailContent.length == 0){
-                    drawTaskDetail(taskid, orderid);
+                    drawTaskDetail(taskid, orderid, stageid);
                 }
                 else{
                     //查询新的任务详情
                     if ($taskDetailContent.data("taskid") != taskid) {
-                        drawTaskDetail(taskid, orderid);
+                        drawTaskDetail(taskid, orderid, stageid);
                     }
                     else//隐藏显示的任务详情
                     {
-                        if ($taskDetailContent.offset().left < $(document).width()-10)
-                            $taskDetailContent.animate({ right: '-380px' }, 500);
+                        if ($taskDetailContent.css("right")=="0px")
+                        //if ($taskDetailContent.position().left < $(document).width()-10)
+                            $taskDetailContent.animate({ right: '-480px' }, 500);
                         else
                             $taskDetailContent.animate({ right: '0px' }, 500);
                     }
@@ -36,33 +38,80 @@ define(function (require, exports, module) {
         };
 
         //获取任务详情
-        var drawTaskDetail = function (taskid,orderid) {
+        var drawTaskDetail = function (taskid, orderid, stageid) {
 
             doT.exec("template/task/task-detail.html", function (template) {
-                var arr = [];
-                arr.push({ TaskID: taskid });
-                var html = template(arr);
+                Global.post("/task/GetTaskDetail", { taskID: taskid }, function (data) {
+                    //获取任务详情内容
+                    var arr = [];
+                    arr.push(data.Item);
+                    var html = template(arr);
 
-                $("#taskDetailContent").remove();
-                $("body").append(html);
+                    $("#taskDetailContent").remove();
+                    $("body").append(html);
 
-                $("#taskDetailContent").animate({ right: '0px' }, 500);
 
-                var taskEndTime = {
-                    elem: '#UpdateTaskEndTime',
-                    format: 'YYYY-MM-DD',
-                    max: '2099-06-16',
-                    istime: false,
-                    istoday: false
-                };
-                laydate(taskEndTime);
+                    $("#taskDetailContent").css("height",($(document).height()-70)+"px").animate({ right: '0px' }, 500);
 
-                initTalk(orderid);
+                    //隐藏下拉
+                    $(document).click(function (e) {
+                        if (!$(e.target).parents().hasClass("taskContent") && !$(e.target).parents().hasClass("table-list")) {
+                            $(".taskContent").animate({ right: '-480px' }, 500);
+                        }
+                    });
+
+                    //更新任务到期日期
+                    var taskEndTime = {
+                        elem: '#UpdateTaskEndTime',
+                        format: 'YYYY-MM-DD',
+                        max: '2099-06-16',
+                        istime: false,
+                        istoday: false,
+                        choose: function () {
+                            UpdateTaskEndTime(taskid);
+                        }
+                    };
+                    laydate(taskEndTime);
+
+                    //标记任务完成
+                    $("#FinishTask").click(function () {
+                        FinishTask(taskid);
+                    });
+
+                    //任务讨论列表
+                    initTalkReply(orderid, stageid);
+                });
+
             });
             
         }
 
-        var initTalk = function (orderid) {
+        //更新任务到期日期
+        var UpdateTaskEndTime = function (taskID) {
+            Global.post("/Task/UpdateTaskEndTime", { taskID: taskID, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
+                if (data.Result == 1)
+                {
+                    alert("保存成功");
+                }
+            });
+        }
+
+        //标记任务完成
+        var FinishTask = function (taskID) {
+            confirm("标记完成的任务不可逆,确定完成?", function () {
+                Global.post("/Task/FinishTask", { taskID: taskID }, function (data) {
+                    if (data.Result == 1) {
+                        alert("标记任务完成");
+                    }
+                    else if (data.Result == 2) {
+                        alert("前面阶段任务有未完成,不能标记完成");
+                    }
+                });
+            });
+        }
+
+        //初始化任务讨论列表
+        var initTalkReply = function (orderid, stageid) {
             var _self = this;
 
             $("#btnSaveTalk").click(function () {
@@ -71,6 +120,7 @@ define(function (require, exports, module) {
                 if (txt.val().trim()) {
                     var model = {
                         GUID: orderid,
+                        StageID: stageid,
                         Content: txt.val().trim(),
                         FromReplyID: "",
                         FromReplyUserID: "",
@@ -83,17 +133,18 @@ define(function (require, exports, module) {
 
             });
 
-            getTaskReplys(orderid, 1);
+            getTaskReplys(orderid,stageid, 1);
 
         }
 
-        //
-        var getTaskReplys = function (orderid, page) {
+        //获取任务讨论列表
+        var getTaskReplys = function (orderid,stageid, page) {
             var _self = this;
             $("#replyList").empty();
 
             Global.post("/Opportunitys/GetReplys", {
                 guid: orderid,
+                stageid:stageid,
                 pageSize: 10,
                 pageIndex: page
             }, function (data) {
@@ -119,6 +170,7 @@ define(function (require, exports, module) {
                         if ($("#Msg_" + _this.data("replyid")).val().trim()) {
                             var entity = {
                                 GUID: _this.data("id"),
+                                StageID: _this.data("stageid"),
                                 Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                                 FromReplyID: _this.data("replyid"),
                                 FromReplyUserID: _this.data("createuserid"),
@@ -143,24 +195,18 @@ define(function (require, exports, module) {
                     start: page,
                     display: 5,
                     border: true,
-                    border_color: '#fff',
-                    text_color: '#333',
-                    background_color: '#fff',
-                    border_hover_color: '#ccc',
-                    text_hover_color: '#000',
-                    background_hover_color: '#efefef',
                     rotate: true,
                     images: false,
                     mouse: 'slide',
                     float: "left",
                     onChange: function (page) {
-                        getReplys(orderid, page);
+                        getReplys(orderid,stageid, page);
                     }
                 });
             });
         }
 
-        //
+        //保存任务讨论
         var saveTaskReply = function (model) {
             var _self = this;
 
