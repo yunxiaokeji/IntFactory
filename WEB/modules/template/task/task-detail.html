@@ -12,11 +12,11 @@
         </div>
         <div class="right mRight10">
             {%
-            if(item.FinishStatus==1){%}
+            if(item.FinishStatus==1 || item.FinishStatus==0){%}
             <input type="button" class="btn" id="FinishTask" value="标记完成"/>
             {% }
             else{%}
-            <span class="taskFinishStatus">{%=item.FinishStatus==0?'未分配':'已完成'%}</span>
+            <span class="taskFinishStatus">已完成</span>
             {% } %}
         </div>
         <div class="clear"></div>

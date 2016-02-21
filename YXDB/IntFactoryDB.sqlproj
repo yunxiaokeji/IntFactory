@@ -474,5 +474,6 @@
     <None Include="Procedures\Sales\P_DeleteOrderProduct.sql" />
     <None Include="Procedures\Sales\P_UpdateOrderProcess.sql" />
     <None Include="Procedures\Sales\P_UpdateOrderStatus.sql" />
+    <Build Include="Procedures\Task\P_UpdateTaskEndTime.sql" />
   </ItemGroup>
 </Project>

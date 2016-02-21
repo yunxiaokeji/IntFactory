@@ -42,10 +42,14 @@
             var Types = [
                 {
                     ID: 0,
-                    Name: "进行中"
+                    Name: "未分配"
                 },
                 {
                     ID: 1,
+                    Name: "进行中"
+                },
+                {
+                    ID: 2,
                     Name: "已完成"
                 }
             ];
@@ -100,7 +104,12 @@
 
                     //显示任务详情
                     require.async("showtaskdetail", function () {
-                        $(".table-list .list-item").showtaskdetail();
+                        $(".table-list .list-item").showtaskdetail({
+                            UpdateTaskEndTimeCallBack: function (endtime, taskid) {
+                                $("#EndTime-" + taskid).html(endtime);
+                            }
+                        });
+
                     });
                     
 
