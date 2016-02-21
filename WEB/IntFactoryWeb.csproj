@@ -213,6 +213,10 @@
     <Content Include="modules\plug\fullcalendar\fc.js" />
     <Content Include="modules\plug\showtaskdetail\showtaskdetail.js" />
     <Content Include="modules\plug\showtaskdetail\style.css" />
+    <Content Include="modules\plug\chooseprocess\chooseprocess.html" />
+    <Content Include="modules\plug\chooseprocess\chooseprocess.js" />
+    <Content Include="modules\plug\chooseprocess\process.html" />
+    <Content Include="modules\plug\chooseprocess\style.css" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.print.css" />

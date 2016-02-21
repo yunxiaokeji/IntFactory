@@ -35,7 +35,6 @@ namespace IntFactoryBusiness
             {
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
-                model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
                 list.Add(model);
@@ -98,7 +97,6 @@ namespace IntFactoryBusiness
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
-                model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
 
                 list.Add(model);
             }
@@ -126,6 +124,24 @@ namespace IntFactoryBusiness
                 else if (model.Status < 2)
                 {
                     model.SendStatusStr = "--";
+                }
+
+                model.OrderProcess = SystemBusiness.BaseBusiness.GetOrderProcessByID(model.ProcessID, model.AgentID, model.ClientID);
+
+                
+                model.OrderProcess.OrderStages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, model.AgentID, model.ClientID);
+
+                if (model.Status > 0 && ds.Tables["Tasks"].Rows.Count > 0)
+                {
+                    model.Tasts = new List<IntFactoryEntity.Task.TaskEntity>();
+                    foreach (DataRow dr in ds.Tables["Tasks"].Rows)
+                    {
+                        IntFactoryEntity.Task.TaskEntity task = new IntFactoryEntity.Task.TaskEntity();
+                        task.FillData(dr);
+                        task.Owner = OrganizationBusiness.GetUserByUserID(task.OwnerID, model.AgentID);
+                        model.Tasts.Add(task);
+                    }
+                    
                 }
 
                 model.City = CommonBusiness.GetCityByCode(model.CityCode);
@@ -319,7 +335,7 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderStatus(string orderid, EnumOrderStatus status, string name, string operateid, string ip, string agentid, string clientid)
+        public bool UpdateOrderStatus(string orderid, EnumOrderStatus status, string operateid, string ip, string agentid, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, operateid, agentid, clientid);
             if (bl)

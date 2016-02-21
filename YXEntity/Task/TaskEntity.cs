@@ -48,6 +48,8 @@ namespace IntFactoryEntity.Task
 
         [Property("Lower")]
         public string AgentID { get; set; }
+
+        public string TaskName { get; set; }
         /// <summary>
         /// 填充数据
         /// </summary>
