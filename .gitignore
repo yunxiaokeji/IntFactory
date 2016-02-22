@@ -34,3 +34,4 @@ UploadFiles
 upload/
 [Ww]eb.config
 *.sql
+YXDB/IntFactoryDB.sqlproj
