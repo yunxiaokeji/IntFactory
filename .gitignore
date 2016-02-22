@@ -12,6 +12,7 @@
 *.ncb
 *.config
 *.suo
+*.sqlproj
 *.tlb
 *.tlh
 *.bak
