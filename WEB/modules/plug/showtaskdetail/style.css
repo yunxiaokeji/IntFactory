@@ -1,8 +1,7 @@
 ﻿.taskContent {
-width:460px;
-padding:15px;
+width:0px;
 position:absolute;
-right: -480px;
+right: 0px;
 top: 50px;
 background-color: #fff;
 border-left: solid 1px #eee;
