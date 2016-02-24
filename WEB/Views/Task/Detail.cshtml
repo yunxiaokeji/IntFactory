@@ -9,7 +9,7 @@
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@(model.TaskID)', '@(model.StageID)', '@(model.OrderID)');
+                obj.init('@(model.TaskID)', '@(model.StageID)', '@(model.OrderID)','@(model.Mark)');
             });
         });
     </script>
@@ -61,9 +61,12 @@
     </div>
 
     <div id="navRemark" class=" talk-body nav-partdiv">
+        @{
+          if(model.Mark==1)
+          {
         <div class="talk-title">物料列表</div>
 
-            <div id="navProducts" class="nav-partdiv">
+        <div id="navProducts" class="nav-partdiv">
                 <table class="table-list mTop20">
                     <tr class="tr-header">
                         <td class="tLeft">材料名称</td>
@@ -102,8 +105,14 @@
                     </tr>
                 </table>
                 <a href="/Customer/ChooseProducts/@(model.OrderID)" class="btn right mTop10">添加材料</a>
+                <div class="clear"></div>
             </div>
+        }
+        }
 
+        @{
+          if(model.Mark==2)
+          {
         <div class="talk-title mTop10">制版信息</div>
 
         <div class="platemakingContent">
@@ -137,8 +146,10 @@
                 </tr>
             </table>
         </div>
+        }
+        }
 
-        <div class="content-main mTop10">
+        <div class="content-main mTop30">
             <textarea id="txtContent" class="txt-content" placeholder="发表评论"></textarea><br />
             <div class="btn right mTop5" id="btnSaveTalk">提交</div>
             <div class="clear"></div>
@@ -156,4 +167,3 @@
         </ul>
     </div>
 </div>
-<input type="hidden" id="txt-taskID" value="@(model.TaskID)"/>

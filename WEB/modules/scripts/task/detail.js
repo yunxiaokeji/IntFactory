@@ -5,12 +5,17 @@
 
     var ObjectJS = {};
 
-    ObjectJS.init = function (taskid, stageid, orderid) {
+    ObjectJS.init = function (taskid, stageid, orderid, mark) {
         ObjectJS.orderid = orderid;
+        ObjectJS.taskid = taskid;
 
         ObjectJS.bindEvent(taskid, stageid, orderid);
-        ObjectJS.bindPlatemakingEvent();
-        ObjectJS.bindProduct();
+        if (mark == "1") {
+            ObjectJS.bindProduct();
+        }
+        else if (mark == "2") {
+            ObjectJS.bindPlatemakingEvent();
+        }
     };
 
     //任务制版相关事件
@@ -127,6 +132,21 @@
     //任务基本信息操作事件
     //更新任务到期日期
     ObjectJS.bindEvent = function (taskid, stageid, orderid) {
+        setTimeout(function () {
+            //更新任务到期日期
+            var taskEndTime = {
+                elem: '#UpdateTaskEndTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function () {
+                    ObjectJS.UpdateTaskEndTime(ObjectJS.taskid);
+                }
+            };
+            laydate(taskEndTime);
+        }, 300);
+
         //标记任务完成
         $("#FinishTask").click(function () {
             ObjectJS.FinishTask(taskid);
@@ -161,7 +181,6 @@
             });
         });
     }
-
 
 
     //初始化任务讨论列表
@@ -202,19 +221,6 @@
             pageSize: 10,
             pageIndex: page
         }, function (data) {
-            //更新任务到期日期
-            var taskEndTime = {
-                elem: '#UpdateTaskEndTime',
-                format: 'YYYY-MM-DD',
-                max: '2099-06-16',
-                istime: false,
-                istoday: false,
-                choose: function () {
-                    ObjectJS.UpdateTaskEndTime($("#txt-taskID").val());
-                }
-            };
-            laydate(taskEndTime);
-
             $("#replyList").empty();
             if (data.items.length > 0) {
                 doT.exec("template/customer/replys.html", function (template) {
