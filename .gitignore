@@ -12,6 +12,7 @@
 *.ncb
 *.config
 *.suo
+*.sqlproj
 *.tlb
 *.tlh
 *.bak
@@ -33,3 +34,4 @@ UploadFiles
 upload/
 [Ww]eb.config
 *.sql
+YXDB/IntFactoryDB.sqlproj

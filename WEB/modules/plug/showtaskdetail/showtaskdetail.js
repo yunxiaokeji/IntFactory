@@ -12,35 +12,41 @@ define(function (require, exports, module) {
             FinishTaskCallBack: function () { }
         };
 
+        var IsClickEventFinish = true;
         $.fn.showtaskdetail = function (options) {
             defaultParas = $.extend([], defaultParas, options);
 
             $(this).click(function () {
-                $(this).addClass("taskDetailContent");
-                var taskid = $(this).data("taskid");
-                var orderid = $(this).data("orderid");
-                var stageid = $(this).data("stageid");
+                if (IsClickEventFinish) {
+                    IsClickEventFinish = false;
+                    $(this).addClass("taskDetailContent");
 
-                var $taskDetailContent = $("#taskDetailContent");
-  
-                //没有任务详情对象
-                if ($taskDetailContent.length == 0){
-                    drawTaskDetail(taskid, orderid, stageid);
-                }
-                else{
-                    //查询新的任务详情
-                    if ($taskDetailContent.data("taskid") != taskid) {
+                    var taskid = $(this).data("taskid");
+                    var orderid = $(this).data("orderid");
+                    var stageid = $(this).data("stageid");
+
+                    var $taskDetailContent = $("#taskDetailContent");
+
+                    //没有任务详情对象
+                    if ($taskDetailContent.length == 0) {
                         drawTaskDetail(taskid, orderid, stageid);
                     }
-                    else//隐藏显示的任务详情
-                    {
-                        if ($taskDetailContent.css("right") == "0px") {
-                            $taskDetailContent.animate({ right: '-490px' }, 500, function () { $("#taskDetailContent") .hide()});
+                    else {
+                        //查询新的任务详情
+                        if ($taskDetailContent.data("taskid") != taskid) {
+                            drawTaskDetail(taskid, orderid, stageid);
                         }
-                        else
-                            $taskDetailContent.show().animate({ right: '0px' }, 500);
+                        else//隐藏显示的任务详情
+                        {
+                            if ($taskDetailContent.css("width") == "480px") {
+                                $taskDetailContent.animate({ width: '0px' }, 500);
+                            }
+                            else
+                                $taskDetailContent.show().animate({ width: '480px' }, 500);
+                        }
                     }
-                    
+                    IsClickEventFinish = true;
+
                 }
 
             });
@@ -60,12 +66,12 @@ define(function (require, exports, module) {
                     $("body").append(html);
 
 
-                    $("#taskDetailContent").css("height",($(document).height()-70)+"px").animate({ right: '0px' }, 500);
+                    $("#taskDetailContent").css({"height":($(document).height() - 80) + "px"}).animate({ width: '480px' }, 500);
 
                     //隐藏下拉
                     $(document).click(function (e) {
                         if (!$(e.target).parents().hasClass("taskContent") && !$(e.target).hasClass("taskContent") && !$(e.target).parents().hasClass("taskDetailContent") && !$(e.target).hasClass("taskDetailContent") && !$(e.target).parents().hasClass("jPag-pages") && !$(e.target).hasClass("jPag-pages")) {
-                            $("#taskDetailContent").animate({ right: '-490px' }, 500, function () { $("#taskDetailContent").hide()});
+                            $("#taskDetailContent").animate({ width: '0px' }, 500);
                         }
                     });
 
