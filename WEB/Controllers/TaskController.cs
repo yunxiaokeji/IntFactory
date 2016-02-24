@@ -13,7 +13,7 @@ namespace YXERP.Controllers
         //
         // GET: /Task/
 
-        public ActionResult Index()
+        public ActionResult Detail()
         {
             return View();
         }

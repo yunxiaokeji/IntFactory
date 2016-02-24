@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "Detail";
+}
+
+<style type="text/css">
+    .tb-list {
+    padding:0px;
+    margin:0px;
+    
+    }
+
+    .tbContent {
+    cursor:pointer;
+    }
+
+     .tbContentIpt {
+    width:120px;
+    }
+
+    .tb-list tr{
+    }
+
+    .tb-list td{
+    border:solid 1px #ccc;
+    padding:30px;
+    }
+</style>
+<script src="/Scripts/jquery-1.11.1.js"></script>
+<script type="text/javascript">
+    
+    $(function () {
+        bindDocumentClick();
+        binddropdown();
+        
+        bindAddColumn();
+        bindRemoveColumn();
+
+        bindAddRow();
+        bindRemoveRow();
+
+        bindContentClick();
+        bindInputBlur();
+    });
+
+    var bindDocumentClick = function () {
+        $(document).unbind().bind("click", function (e) {
+            //隐藏下拉
+            if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
+                $(".dropdown-ul").hide();
+            }
+
+            if (!$(e.target).parents().hasClass("tbContentIpt") && !$(e.target).hasClass("tbContentIpt") && !$(e.target).hasClass("tbContent") && !$(e.target).parents().hasClass("tbContent")) {
+                $(".tbContentIpt:visible").each(function () {
+                    $(this).hide().prev().html($(this).val()).show();
+                });
+            }
+        });
+    }
+    
+    var binddropdown = function () {
+        $(".ico-dropdown").unbind().bind("click", function () {
+            var _this = $(this);
+            var position = _this.position();
+            $(".dropdown-ul li").data("columnname", _this.data("columnname"));
+            $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 70 }).show().mouseleave(function () {
+                $(this).hide();
+            });
+            return false;
+        });
+
+    }
+
+    var bindContentClick = function () {
+        $(".table-list span.tbContent").unbind().bind("click", function () {
+            $(this).hide().next().show();
+        });
+    }
+
+    var bindInputBlur = function () {
+        $(".table-list input").unbind().bind("blur", function () {
+            $(this).hide().prev().html($(this).val()).show();
+        });
+    }
+
+    var bindAddColumn = function () {
+        $("#btn-addColumn").unbind().bind("click", function () {
+            var date = new Date();
+            var columnnameid = date.toLocaleString()+date.getMilliseconds();
+            var newColumnHeadr = '<td class="width50 tLeft" data-columnname="columnname' + columnnameid + '"><span class="tbContent">新列名</span><input class="hide tbContentIpt" value="新列名" type="text"/><span class="ico-dropdown mLeft10" data-columnname="columnname' + columnnameid + '"></span></td>';
+            $("td[data-columnname='" + $(this).data("columnname") + "']").eq(0).after(newColumnHeadr);
+
+            var newColumn = '<td class="tLeft width50" data-columnname="columnname' + columnnameid + '"><span class="tbContent">无内容</span><input class="hide tbContentIpt" value="无内容" type="text"/></td>';
+            $("td[data-columnname='" + $(this).data("columnname") + "']:gt(0)").after(newColumn);
+
+            binddropdown();
+            bindContentClick();
+            bindInputBlur();
+        });
+    }
+    
+    var bindRemoveColumn = function () {
+        $("#btn-removeColumn").unbind().bind("click", function () {
+            if ($(".tr-header td").length == 2) {
+                alert("只剩最后一列,不能删除");
+                return;
+            }
+
+            $("td[data-columnname='" + $(this).data("columnname") + "']").remove();
+        });
+    }
+
+    var bindAddRow = function () {
+        $("span.btn-addRow").unbind().bind('click',function () {
+            var $newTR = $("<tr>" + $(this).parent().parent().html() + "</tr>");
+            $(this).parent().parent().after($newTR);
+
+            bindContentClick();
+            bindInputBlur();
+
+            bindAddRow();
+            bindRemoveRow();
+        });
+    }
+
+    var bindRemoveRow = function () {
+        $("span.btn-removeRow").unbind().bind('click', function () {
+            if ($("span.btn-removeRow").length == 1)
+            {
+                alert("只剩最后一行,不能删除");
+                return;
+            }
+
+            $(this).parent().parent().remove();
+        });
+    }
+
+    
+</script>
+
+<table class="table-list tb-task-list mTop10">
+        <tr class="tr-header">
+            <td class="width150 tLeft"></td>
+            <td class="width50 tLeft" data-columnname="columnname1">
+                <span class="tbContent">列名1</span>
+                <input class="hide tbContentIpt" value="列名1" type="text"/>
+                <span class="ico-dropdown mLeft10" data-columnname="columnname1"></span>
+            </td>
+            <td class="width150 tLeft" data-columnname="columnname2">
+                <span class="tbContent">列名2</span>
+                <input class="hide tbContentIpt" value="列名2" type="text"/>
+                <span class="ico-dropdown mLeft10" data-columnname="columnname2"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="width150 tLeft">
+                <span class="btn-addRow btn">添加新行</span>
+                <span class="mLeft10 btn-removeRow btn">删除此行</span>
+            </td>
+            <td class="width50 tLeft" data-columnname="columnname1">
+                <span class="tbContent">无内容</span>
+                <input class="hide tbContentIpt" value="无内容" type="text"/>
+            </td>
+            <td class="width150 tLeft" data-columnname="columnname2">
+                <span class="tbContent">无内容</span>
+                <input class="hide tbContentIpt" value="无内容" type="text"/>
+            </td>
+        </tr>
+</table>
+
+<ul class="dropdown-ul hide"  style="width:90px;">
+    <li id="btn-addColumn">添加新列</li>
+    <li id="btn-removeColumn">删除此列</li>
+</ul>
