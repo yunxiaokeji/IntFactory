@@ -178,7 +178,7 @@
     ObjectJS.getList = function () {
         var _self = this;
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='8'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='9'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/Organization/GetUsers", { filter: JSON.stringify(ObjectJS.Params) }, function (data) {
             _self.bindList(data.items);
 
@@ -230,55 +230,8 @@
             });
         }
         else {
-            $(".tr-header").after("<tr><td colspan='8'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='9'><div class='noDataTxt' >暂无数据!<div></td></tr>");
         }
-    }
-
-    //添加/编辑弹出层
-    ObjectJS.createModel = function () {
-        var _self = this;
-
-        doT.exec("template/organization/department-detail.html", function (template) {
-            var html = template([]);
-            Easydialog.open({
-                container: {
-                    id: "show-model-detail",
-                    header: !Model.DepartID ? "新建部门" : "编辑部门",
-                    content: html,
-                    yesFn: function () {
-                        if (!VerifyObject.isPass()) {
-                            return false;
-                        }
-                        Model.Name = $("#modelName").val();
-                        Model.Description = $("#modelDescription").val();
-                        Model.ParentID = "";
-                        _self.saveModel(Model);
-                    },
-                    callback: function () {
-
-                    }
-                }
-            });
-            VerifyObject = Verify.createVerify({
-                element: ".verify",
-                emptyAttr: "data-empty",
-                verifyType: "data-type",
-                regText: "data-text"
-            });
-            $("#modelName").focus();
-            $("#modelName").val(Model.Name);
-            $("#modelDescription").val(Model.Description);
-
-        });
-    }
-    //保存实体
-    ObjectJS.saveModel = function (model) {
-        var _self = this;
-        Global.post("/Organization/SaveDepartment", { entity: JSON.stringify(model) }, function (data) {
-            if (data.model.DepartID.length > 0) {
-                _self.getList();
-            }
-        })
     }
 
     //新建员工逻辑和交互

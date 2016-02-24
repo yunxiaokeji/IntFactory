@@ -721,6 +721,7 @@ namespace IntFactoryBusiness
                     CreateTime = DateTime.Now,
                     ProcessID=processid,
                     OwnerID = userid,
+                    StageItem = new List<StageItemEntity>(),
                     Owner = OrganizationBusiness.GetUserByUserID(userid, agentid),
                     ClientID = clientid
                 });
