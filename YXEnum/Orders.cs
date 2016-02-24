@@ -13,7 +13,7 @@ namespace IntFactoryEnum
     {
         [DescriptionAttribute("全部")]
         All = -1,
-        [DescriptionAttribute("待分配")]
+        [DescriptionAttribute("需求单")]
         Normal = 0,
         [DescriptionAttribute("打样中")]
         DY = 1,
@@ -21,16 +21,18 @@ namespace IntFactoryEnum
         HJ = 2,
         [DescriptionAttribute("封样封价")]
         FYFJ = 3,
-        [DescriptionAttribute("生产中")]
+        [DescriptionAttribute("待大货")]
         SC = 4,
+        [DescriptionAttribute("生产中")]
+        DQR = 5,
         [DescriptionAttribute("生产完成")]
-        SCWC = 5,
+        SCWC = 6,
         [DescriptionAttribute("交易结束")]
-        JYJS = 6,
-        [DescriptionAttribute("退单")]
-        TD = 7,
-        [DescriptionAttribute("作废")]
-        Delete = 8
+        JYJS = 7,
+        [DescriptionAttribute("回退")]
+        TD = 8,
+        [DescriptionAttribute("已删除")]
+        Delete = 9
     }
     /// <summary>
     /// 出库状态

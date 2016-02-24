@@ -124,11 +124,12 @@ namespace IntFactoryDAL
 
         #region 添加
 
-        public bool CreateOrder(string orderid, string ordercode, string name, string mobile, int type, string categoryid, string price, int quantity, string orderimg, string citycode, string address, string remark, string operateid, string agentid, string clientid)
+        public bool CreateOrder(string orderid, string ordercode, string customerid, string name, string mobile, int type, string categoryid, string price, int quantity, string orderimg, string citycode, string address, string remark, string operateid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@OrderCode",ordercode),
+                                     new SqlParameter("@CustomerID",customerid),
                                      new SqlParameter("@Name" , name),
                                      new SqlParameter("@Mobile" , mobile),
                                      new SqlParameter("@OrderType" , type),
@@ -251,11 +252,13 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderProcess", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderStatus(string orderid, int status, string operateid, string agentid, string clientid)
+        public bool UpdateOrderStatus(string orderid, int status, int quantity, string operateid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@Status",status),
+                                     new SqlParameter("@PlanQuantity",quantity),
+                                     new SqlParameter("@DocCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)

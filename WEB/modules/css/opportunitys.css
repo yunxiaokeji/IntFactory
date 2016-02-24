@@ -5,7 +5,7 @@
 .process-info .info{ font-size:16px; height:25px; line-height:25px;}
 
 /*阶段*/
-.stage-items { height:40px; width:80%; }
+.stage-items { height:40px; width:100%; }
 .stage-items  li{ float:left; height:40px; position:relative; cursor:pointer;  margin-right:10px; }
 .stage-items  li:hover{ background-color:#2F73B8;}
 .stage-items  li.normal{ background-color:#f3f3f3; border:solid 1px #ccc;}
@@ -35,7 +35,6 @@
 .status-items .status-line { width:4px;height:30px; background-color:#eee; margin-left:6px; }
 
 .status-items .status-time { width:70px; }
-
 
 .nav-partdiv { margin-bottom:100px; }
 

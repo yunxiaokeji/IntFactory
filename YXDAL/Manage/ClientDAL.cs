@@ -32,6 +32,7 @@ namespace IntFactoryDAL.Manage
             SqlParameter[] parms = { 
                                        new SqlParameter("@Result",result),
                                        new SqlParameter("@ClientID",clientid),
+                                       new SqlParameter("@ClientCode",GetCode(6)),
                                        new SqlParameter("@CompanyName",companyName),
                                        new SqlParameter("@MobilePhone",mobilePhone),
                                        new SqlParameter("@Industry",industry),

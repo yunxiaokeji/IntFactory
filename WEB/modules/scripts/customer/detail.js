@@ -31,11 +31,6 @@
     //样式
     ObjectJS.bindStyle = function () {
 
-        //var stages = $(".stage-items"), width = stages.width();
-
-        //stages.find("li .leftbg").first().removeClass("leftbg");
-        //stages.find("li .rightbg").last().removeClass("rightbg");
-        //stages.find("li").width(width / stages.find("li").length - 20);
     }
     //基本信息
     ObjectJS.bindCustomerInfo = function (model) {
@@ -311,14 +306,16 @@
             pagesize: 10,
             pageindex: page
         }, function (data) {
+            if (data.items.length > 0) {
+                doT.exec("template/orders/customerorders.html", function (template) {
+                    var innerhtml = template(data.items);
 
-            doT.exec("template/orders/cuatomerorders.html", function (template) {
-                var innerhtml = template(data.items);
-                console.log(innerhtml);
-
-                innerhtml = $(innerhtml);
-                $("#navOrder .tr-header").after(innerhtml);
-            });
+                    innerhtml = $(innerhtml);
+                    $("#navOrder .tr-header").after(innerhtml);
+                });
+            } else {
+                $("#navOrder .tr-header").after("<tr><td colspan='11'><div class='noDataTxt' >暂无订单!<div></td></tr>");
+            }
             $("#pagerOrders").paginate({
                 total_count: data.totalCount,
                 count: data.pageCount,
@@ -342,7 +339,7 @@
         });
     }
 
-    //获取订单
+    //获取需求
     ObjectJS.getOpportunitys = function (customerid, page) {
         var _self = this;
         $("#navOppor .tr-header").nextAll().remove();
@@ -351,14 +348,16 @@
             pagesize: 10,
             pageindex: page
         }, function (data) {
+            if (data.items.length > 0) {
+                doT.exec("template/orders/customeroppors.html", function (template) {
+                    var innerhtml = template(data.items);
 
-            doT.exec("template/orders/customeroppors.html", function (template) {
-                var innerhtml = template(data.items);
-                console.log(innerhtml);
-
-                innerhtml = $(innerhtml);
-                $("#navOppor .tr-header").after(innerhtml);
-            });
+                    innerhtml = $(innerhtml);
+                    $("#navOppor .tr-header").after(innerhtml);
+                });
+            } else {
+                $("#navOppor .tr-header").after("<tr><td colspan='9'><div class='noDataTxt' >暂无需求!<div></td></tr>");
+            }
             $("#pagerOppors").paginate({
                 total_count: data.totalCount,
                 count: data.pageCount,

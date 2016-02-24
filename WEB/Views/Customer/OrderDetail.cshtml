@@ -23,8 +23,8 @@
     <div class="content-title">
         <div class="left titlename">订单编号：@(model.OrderCode)</div>
         <div id="updateOrderInfo" class="left ico-edit mLeft50"></div>
-        <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >申请退单</div>
-        <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除订单</div>
+        <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >回退</div>
+        <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
     </div>
     
     <ul class="content-info left">
@@ -79,7 +79,7 @@
             <li data-status="0">
                 <span class="status-time mRight5">@(model.CreateTime.ToString("yyyy-MM-dd"))</span>
                 <span class="status-bg"></span>
-                <span class="mLeft5">客户下单</span>
+                <span class="mLeft5">需求单</span>
             </li>
             <li data-status="1"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
             <li data-status="1">
@@ -105,22 +105,28 @@
             <li data-status="0">
                 <span class="status-time mRight5">@(model.OrderTime.ToString("yyyy-MM-dd"))</span>
                 <span class="status-bg"></span>
-                <span class="mLeft5">客户下单</span>
+                <span class="mLeft5">需求单</span>
             </li>
             <li data-status="4"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
             <li data-status="4">
                 <span class="status-time status-time-text mRight5">&nbsp;</span>
                 <span class="status-bg"></span>
-                <span class="mLeft5">生产中</span>
+                <span class="mLeft5">待大货</span>
             </li>
             <li data-status="5"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
             <li data-status="5">
                 <span class="status-time status-time-text mRight5">&nbsp;</span>
                 <span class="status-bg"></span>
-                <span class="mLeft5">生产完成</span>
+                <span class="mLeft5">生产中</span>
             </li>
             <li data-status="6"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
             <li data-status="6">
+                <span class="status-time status-time-text mRight5">&nbsp;</span>
+                <span class="status-bg"></span>
+                <span class="mLeft5">生产完成</span>
+            </li>
+            <li data-status="7"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
+            <li data-status="7">
                 <span class="status-time status-time-text mRight5">&nbsp;</span>
                 <span class="status-bg"></span>
                 <span class="mLeft5">交易结束</span>
@@ -138,12 +144,12 @@
         </div>
         <div class="clear"></div>
         <ul class="stage-items mTop20">
-            @if (model.Status > 0)
+            @if (model.Status != 0 && model.Status != 4)
             {
                 foreach (var stage in model.Tasts)
                 { 
                     <li data-stageid="@(stage.StageID)" data-orderid="@(model.OrderID)" data-taskid="@(stage.TaskID)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
-                        <span class="name">@(stage.Title)(@stage.Owner.Name)</span>
+                        <span class="name">@(stage.Title)</span>
                         <span class="status-bg right">
                             <span class="status-color"></span>
                         </span>
@@ -156,7 +162,7 @@
                 foreach (var stage in model.OrderProcess.OrderStages)
                 { 
                     <li data-id="@(stage.StageID)" class="normal">
-                        <span class="name">@(stage.StageName)(@(stage.Owner.Name))</span>
+                        <span class="name">@(stage.StageName)</span>
                         <span class="status-bg right">
                             <span class="status-color"></span>
                         </span>
