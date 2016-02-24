@@ -32,7 +32,7 @@
 .table-list td a{ color:#4a98e7;  vertical-align:middle;}
 .table-list td a:hover{ color:red; text-decoration:underline; }
 
-.table-list td img{ width:40px; height:40px;  vertical-align:middle;}
+.table-list td img{ width:80px; height:80px; display:inline-block;  vertical-align:middle;}
 
 .table-list .ico-check { vertical-align:middle; }
 .table-list .ico-checked { vertical-align:middle; }
