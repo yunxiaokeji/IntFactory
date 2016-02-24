@@ -3,7 +3,7 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td class=""><a href="/Products/ChooseDetail?pid={%=item.ProductID%}" target="_blank"><img style="width:40px; height:40px; vertical-align:middle;" alt="略缩图" src="{%=item.ProductImage%}" /></a></td>
+    <td class=""><a href="/Products/ChooseDetail?pid={%=item.ProductID%}" target="_blank"><img style="width:80px; height:80px; vertical-align:middle;" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="略缩图" src="{%=item.ProductImage%}" /></a></td>
     <td><a href="/Products/ChooseDetail?pid={%=item.ProductID%}" target="_blank">{%=item.ProductName%}</a></td>
     <td>{%=item.ProductCode%}</td>
     <td class="center">{%=item.Price.toFixed(2)+'/'+item.UnitName%}</td>

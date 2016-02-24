@@ -29,18 +29,18 @@ define(function (require, exports, module) {
 
         stages.find("li .leftbg").first().removeClass("leftbg");
         stages.find("li .rightbg").last().removeClass("rightbg");
-        stages.find("li").width(width / stages.find("li").length - 20);
+        stages.find("li").width(width / stages.find("li").length - 15);
 
-        
-
-        if (_self.status != 0){
+        if (_self.status != 0 && _self.status != 4) {
             $("#changeProcess").hide();
         }
 
-        if (model.OrderType == 1 && _self.status == 0) {
-            $("#changeOrderStatus").html("开始打样");
-        } else if (model.OrderType == 2 && (_self.status == 0 || _self.status == 3)) {
-            $("#changeOrderStatus").html("开始生产");
+        if (_self.status >= 7) {
+            $("#changeOrderStatus,#updateOrderInfo").hide();
+        }
+
+        if (_self.status == 0) {
+            $("#changeOrderStatus").html("转为订单");
         } else if (_self.status == 1) {
             $("#changeOrderStatus").html("完成打样");
         } else if (_self.status == 2) {
@@ -48,9 +48,11 @@ define(function (require, exports, module) {
         } else if (_self.status == 3 && model.OrderType == 1) {
             $("#changeOrderStatus").html("转为大货");
         } else if (_self.status == 4) {
-            $("#changeOrderStatus").html("完成生产");
+            $("#changeOrderStatus").html("开始生产");
         } else if (_self.status == 5) {
-            $("#changeOrderStatus").html("完成交易");
+            $("#changeOrderStatus").html("完成生产");
+        } else if (_self.status == 6) {
+            $("#changeOrderStatus").html("交易完成");
         }
 
         $(".status-items li").each(function () {
@@ -68,7 +70,7 @@ define(function (require, exports, module) {
     ObjectJS.bindEvent = function () {
         var _self = this;
 
-        $("#btnreturn,#btnconfirm,#btndelete,#updateOrderInfo").hide();
+        $("#btnreturn,#btnconfirm,#btndelete").hide();
 
         //转移拥有者
         $("#changeOwner").click(function () {
@@ -173,17 +175,44 @@ define(function (require, exports, module) {
             var _this=$(this);
             //开始打样
             if (_self.model.OrderType == 1 && _self.status == 0) {
-                confirm("开始打样后流程不可变更，确认开始打样吗？", function () {
+                confirm("转为订单后不可撤销且不能变更流程，确认转为订单吗？", function () {
                     _self.updateOrderStatus(1);
                 });
             } //开始生产
-            else if (_self.model.OrderType == 2 && (_self.status == 0 || _self.status == 3)) {
-                confirm("开始生产后流程不可变更，确认开始生产吗？", function () {
+            else if (_self.model.OrderType == 2 && _self.status == 0) {
+                confirm("转为订单后不可撤销且不能变更流程，确认转为订单吗？", function () {
                     _self.updateOrderStatus(4);
                 });
             }
+            else if (_self.status == 4) {
+                doT.exec("template/orders/surequantity.html", function (template) {
+                    var innerText = template();
+                    Easydialog.open({
+                        container: {
+                            id: "show-surequantity",
+                            header: "确认大货数量",
+                            content: innerText,
+                            yesFn: function () {
+                                var quantity = $("#produceQuantity").val().trim();
+                                if (!quantity.isInt() || quantity <= 0) {
+                                    alert("大货数量必须为正整数！");
+                                    return false;
+                                }
+                                _self.updateOrderStatus(5, quantity);
+                            },
+                            callback: function () {
+
+                            }
+                        }
+                    });
+
+                    $("#produceQuantity").focus();
+                    $("#produceQuantity").val($("#planQuantity").html())
+                    
+                });
+            }
             else {
-                confirm("操作后不可回滚，确认" + _this.html() + "吗？", function () {
+                confirm("操作后不可撤销，确认" + _this.html() + "吗？", function () {
                     _self.updateOrderStatus(_self.status * 1 + 1);
                 });
             }
@@ -340,9 +369,9 @@ define(function (require, exports, module) {
                             MobileTele: $("#mobileTele").val().trim(),
                             CityCode: CityObj.getCityCode(),
                             Address: $("#address").val().trim(),
-                            TypeID: $("#orderType").val().trim(),
-                            ExpressType: $("#expressType").val().trim(),
-                            PostalCode: $("#postalcode").val().trim(),
+                            TypeID: "",//$("#orderType").val().trim(),
+                            ExpressType: 0,//$("#expressType").val().trim(),
+                            PostalCode: "",//$("#postalcode").val().trim(),
                             Remark: $("#remark").val().trim()
                         };
                         Global.post("/Opportunitys/EditOrder", { entity: JSON.stringify(entity) }, function (data) {
@@ -438,11 +467,12 @@ define(function (require, exports, module) {
     }
 
     //更改订单状态
-    ObjectJS.updateOrderStatus = function (status) {
+    ObjectJS.updateOrderStatus = function (status, quantity) {
         var _self = this;
         Global.post("/Orders/UpdateOrderStatus", {
             orderid: _self.orderid,
-            status: status
+            status: status,
+            quantity: quantity ? quantity : 0
         }, function (data) {
             if (!data.status) {
                 alert("系统异常，请重新操作！");

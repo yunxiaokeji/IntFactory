@@ -7,13 +7,27 @@
 
     var ObjectJS = {};
     //初始化
-    ObjectJS.init = function () {
+    ObjectJS.init = function (customerid) {
         var _self = this;
-        _self.bindEvent();
+        _self.customerid = customerid;
+        
+        if (customerid) {
+            Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
+                console.log(data.model);
+                if (data.model.CustomerID) {
+                    $("#name").val(data.model.Name);
+                    $("#contactMobile").val(data.model.MobilePhone);
+                    $("#address").val(data.model.Address);
+                    _self.bindEvent(data.model.CityCode);
+                } else { }
+            });
+        } else {
+            _self.bindEvent('');
+        }
     }
 
     //绑定事件
-    ObjectJS.bindEvent = function () {
+    ObjectJS.bindEvent = function (citycode) {
         var _self = this;
         //保存
         $("#btnSave").click(function () {
@@ -45,6 +59,7 @@
             regText: "data-text"
         });
         CityObject = City.createCity({
+            cityCode: citycode,
             elementID: "city"
         });
         //切换类型
@@ -62,6 +77,7 @@
         var _self = this;
 
         var model = {
+            CustomerID: _self.customerid,
             PersonName: $("#name").val().trim(),
             OrderType: $("#companyCustom").hasClass("ico-checked") ? 1 : 2,
             CategoryID: $("#ordercategory").val().trim(),

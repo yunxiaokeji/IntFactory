@@ -165,7 +165,7 @@ namespace YXERP.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
 
-            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.PersonName, model.MobileTele, model.OrderType, model.CategoryID, model.PlanPrice, model.PlanQuantity,
+            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID,model.PersonName, model.MobileTele, model.OrderType, model.CategoryID, model.PlanPrice, model.PlanQuantity,
                                                                      model.OrderImage, model.CityCode, model.Address, model.Remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
@@ -267,9 +267,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateOrderStatus(string orderid, int status)
+        public JsonResult UpdateOrderStatus(string orderid, int status, int quantity)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStatus)status, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStatus)status, quantity, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {

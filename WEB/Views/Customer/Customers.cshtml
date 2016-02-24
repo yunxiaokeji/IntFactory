@@ -44,16 +44,7 @@
     <div class="search-header">
         <ul class="search-tab search-stages">
             <li data-id="" class="hover">客户列表</li>
-            @*@foreach (var model in (List<IntFactoryEntity.CustomStageEntity>)ViewBag.Stages)
-            {
-                <li data-id="@(model.StageID)">@(model.StageName)</li>
-            }*@
         </ul>
-        @*<ul class="search-tab-status search-status">
-            <li data-id="-1">全部</li>
-            <li data-id="1" class="hover">正常</li>
-            <li data-id="2">关闭</li>
-        </ul>*@
     </div>
    
 </div>
@@ -61,7 +52,6 @@
     <div class="search-body">
         <div class="left mRight20" id="chooseBranch"></div>
         <div class="left" id="sourceType"></div>
-        @*<div class="left mLeft20" id="customerSource"></div>*@
         <div class="left mLeft20">
             <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input width100"  />
             <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width100"  />
@@ -75,10 +65,7 @@
             <td class="width30"></td>
             <td class="tLeft width200">客户名称</td>
             <td class="width100">联系电话</td> 
-            @*<td class="width50">类型</td>*@
             <td class="width150">来源</td>
-            @*<td class="width100">阶段</td>*@
-            @*<td class="width100">联系人</td>*@
             <td class="width80">备忘数</td>     
             <td class="width100">负责人</td>
             <td class="width100">创建时间</td>

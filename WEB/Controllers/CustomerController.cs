@@ -29,6 +29,7 @@ namespace YXERP.Controllers
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
         }
+
         public ActionResult BranchCustomer()
         {
             ViewBag.Title = "下属客户";
@@ -36,6 +37,7 @@ namespace YXERP.Controllers
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
         }
+
         public ActionResult Customers()
         {
             ViewBag.Title = "客户列表";
@@ -74,9 +76,10 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult CreateOrder()
+        public ActionResult CreateOrder(string cid)
         {
             var list = new ProductsBusiness().GetChildOrderCategorysByID("", CurrentUser.ClientID);
+            ViewBag.CID = cid;
             ViewBag.Items = list;
             return View();
         }
