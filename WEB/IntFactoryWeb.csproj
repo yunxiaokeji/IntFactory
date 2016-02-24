@@ -155,6 +155,7 @@
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
     <Content Include="modules\css\opportunitys.css" />
     <Content Include="modules\css\stock\stock.css" />
+    <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
     <Content Include="modules\images\ico-alipay.png" />
     <Content Include="modules\images\ico-company.png" />
@@ -231,6 +232,7 @@
     <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
     <Content Include="modules\scripts\system\orderstages.js" />
+    <Content Include="modules\scripts\task\detail.js" />
     <Content Include="modules\scripts\task\task.js" />
     <Content Include="modules\template\orders\surequantity.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
@@ -760,6 +762,7 @@
     <Content Include="Views\Task\MyTask.cshtml" />
     <Content Include="Views\Customer\CreateOrder.cshtml" />
     <Content Include="Views\Orders\OrderPlans.cshtml" />
+    <Content Include="Views\Task\Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

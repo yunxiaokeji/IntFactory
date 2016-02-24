@@ -95,22 +95,15 @@
 
                     $(".tr-header").after(innerhtml);
 
-                    //标记任务完成
-                    //$(".table-list span.ico-check").click(function () {
-                    //    if (!$(this).hasClass("ico-checked")) {
-                    //        ObjectJS.FinishTask($(this).data("taskid"));
-                    //    }
-                    //});
-
                     //显示任务详情
-                    require.async("showtaskdetail", function () {
-                        $(".table-list .list-item").showtaskdetail({
-                            UpdateTaskEndTimeCallBack: function (endtime, taskid) {
-                                $("#EndTime-" + taskid).html(endtime);
-                            }
-                        });
+                    //require.async("showtaskdetail", function () {
+                    //    $(".table-list .list-item").showtaskdetail({
+                    //        UpdateTaskEndTimeCallBack: function (endtime, taskid) {
+                    //            $("#EndTime-" + taskid).html(endtime);
+                    //        }
+                    //    });
 
-                    });
+                    //});
                     
 
                 });

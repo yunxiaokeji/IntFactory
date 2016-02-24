@@ -5,7 +5,7 @@
 <tr class="list-item" data-taskid="{%=item.TaskID%}" data-orderid="{%=item.OrderID%}" data-stageid="{%=item.StageID%}">
     <td class="tLeft"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="{%=item.OrderImg==''?'/modules/images/img-noimg.png':item.OrderImg%}"/></td>
     <td class="center">{%=item.OrderCode%}</td>
-    <td class="center">{%=item.Title%}</td>
+    <td class="center"><a href="/Task/Detail/{%=item.TaskID%}" target="_blank">{%=item.Title%}</a></td>
     <td class="center"><span class="{%=item.FinishStatus==1?'blue':item.FinishStatus==0?'red':''%}">{%=item.FinishStatus==0?'未分配':item.FinishStatus==2?'已完成':'进行中'%}</span></td>
     <td class="center">{%=item.Owner.Name%}</td>
      <td class='center' id="EndTime-{%=item.TaskID%}">{%=item.EndTime.toDate("yyyy-MM-dd")=="3939-01-01"?"未指定日期":item.EndTime.toDate("yyyy-MM-dd")%}</td>

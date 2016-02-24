@@ -43,6 +43,10 @@ namespace IntFactoryEntity.Task
 
         public int Status { get; set; }
 
+        public int Mark { get; set; }
+
+        public string Remark { get; set; }
+
         public int FinishStatus { get; set; }
 
         public DateTime CreateTime { get; set; }
