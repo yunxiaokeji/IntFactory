@@ -13,8 +13,16 @@ namespace YXERP.Controllers
         //
         // GET: /Task/
 
-        public ActionResult Detail()
+        public ActionResult Detail(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return Redirect("/Task/MyTask");
+            }
+
+            var task = TaskBusiness.GetTaskDetail(id);
+            ViewBag.Model = task;
+            ViewBag.Order = OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
             return View();
         }
 
