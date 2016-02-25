@@ -1,22 +1,29 @@
 ﻿@{
     ViewBag.Title = "材料列表";
 }
-
-<link rel="stylesheet" href="/modules/css/shoppingcart/filterproducts.css" />
+<link href="/modules/css/products/filterproducts.css" rel="stylesheet" />
 
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/products/product"], function (obj) {
-            obj.initList();
+            obj.initList('@ViewBag.Url');
         });
     </script>
 }
 
 <div class="header-box">
-    <span class="header-title left">材料列表</span>
-    <a href="ProductAdd" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"103010500"))">添加材料</a> 
+    <span class="header-title left">材料列表</span> 
 </div>
-<div class="content-body mTop20">
+<div class="search-box">
+    <div class="search-header">
+        <ul class="search-tab search-status">
+            <li data-id="-1" class="hover">全部</li>
+            <li data-id="1" class="">待审核</li>
+            <li data-id="2" class="">已公开</li>
+        </ul>
+    </div>
+</div>
+<div class="content-body">
     <div class="top-div">
         <ul class="category-map left">
             <li data-id="">全部分类 <span>></span></li>
@@ -54,13 +61,7 @@
             </li>
         </ul>
     </div>
-    <div class="filter-orderby">
-        <div class="left" id="prodiver"></div>
-        <ul class="orderby right">
-            <li class="orderby-new hover">日期<span class="shang"></span><span class="xia"></span></li>
-            <li class="orderby-price">价格<span class="shang"></span><span class="xia"></span></li>
-        </ul>
-    </div>
+
     <div class="clear"></div>
     <table class="table-list mTop20">
         <tr class="tr-header" id="product-items">
@@ -68,11 +69,10 @@
             <td class="tLeft">材料名称</td>
             <td class="m-len tLeft">材料编码</td>
             <td class="m-len">价格/单位</td>
-            <td class="m-len">是否启用</td>
-            <td class="m-len">公开状态</td>
+            <td class="m-len">状态</td>
             <td class="m-len tLeft">分类名称</td>
             <td class="m-len tLeft">供应商</td>
-            <td class="s-len">编辑</td>
+            <td class="s-len tRight">操作</td>
         </tr>
     </table>
     <div id="pager" class="mTop20"></div>

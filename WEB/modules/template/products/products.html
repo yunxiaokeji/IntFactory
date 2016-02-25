@@ -3,11 +3,12 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td class=""><a href="/Products/ChooseDetail?pid={%=item.ProductID%}" target="_blank"><img style="width:80px; height:80px; vertical-align:middle;" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="略缩图" src="{%=item.ProductImage%}" /></a></td>
+    <td class=""><a href="/Products/ChooseDetail?pid={%=item.ProductID%}" target="_blank"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="略缩图" src="{%=item.ProductImage%}" /></a></td>
     <td><a href="/Products/ChooseDetail?pid={%=item.ProductID%}" target="_blank">{%=item.ProductName%}</a></td>
     <td>{%=item.ProductCode%}</td>
     <td class="center">{%=item.Price.toFixed(2)+'/'+item.UnitName%}</td>
     <td class='center'><div class="status" data-id="{%=item.ProductID%}" data-value="{%=item.Status==1%}"></div></td>
+    <td class='center'>{%=item.IsPublic==1?"待审核":item.IsPublic==2?"已公开":"未公开"%}</td>
     <td>{%=item.CategoryName%}</td>
     <td>{%=item.ProviderName%}</td>
     <td class="center"><a class="ico-edit" title="编辑" href="ProductDetail/{%=item.ProductID%}"></a></td>

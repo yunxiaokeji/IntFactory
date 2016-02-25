@@ -371,6 +371,26 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<Products> GetProductsAll(string categoryid, string prodiverid, string beginprice, string endprice, int ispublic, string keyWords, string orderby, bool isasc, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            var dal = new ProductsDAL();
+            DataSet ds = dal.GetProductsAll(categoryid, prodiverid, beginprice, endprice, ispublic, keyWords, orderby, isasc ? 1 : 0, pageSize, pageIndex, ref totalCount, ref pageCount);
+
+            List<Products> list = new List<Products>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                Products model = new Products();
+                model.FillData(dr);
+                if (!string.IsNullOrEmpty(model.SmallUnitID))
+                {
+                    model.UnitName = GetUnitByID(model.SmallUnitID).UnitName;
+                }
+                list.Add(model);
+            }
+            return list;
+        }
+
+
         public Products GetProductByID(string productid)
         {
             var dal = new ProductsDAL();
@@ -674,7 +694,7 @@ namespace IntFactoryBusiness
         }
 
         public string AddProduct(string productCode, string productName, string generalName, bool iscombineproduct, string prodiverid, string brandid, string bigunitid, string smallunitid, int bigSmallMultiple,
-                                 string categoryid, int status, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price, decimal weight, bool isnew,
+                                 string categoryid, int status, int ispublic, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price, decimal weight, bool isnew,
                                  bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, List<ProductDetail> details, string operateid, string agentid, string clientid)
         {
             lock (SingleLock)
@@ -701,7 +721,7 @@ namespace IntFactoryBusiness
                 }
 
                 var dal = new ProductsDAL();
-                string pid = dal.AddProduct(productCode, productName, generalName, iscombineproduct, prodiverid, brandid, bigunitid, smallunitid, bigSmallMultiple, categoryid, status, attrlist,
+                string pid = dal.AddProduct(productCode, productName, generalName, iscombineproduct, prodiverid, brandid, bigunitid, smallunitid, bigSmallMultiple, categoryid, status, ispublic, attrlist,
                                         valuelist, attrvaluelist, commonprice, price, weight, isnew, isRecommend, isallow, isautosend, effectiveDays, discountValue, productImg, shapeCode, description, operateid, clientid);
                 //产品添加成功添加子产品
                 if (!string.IsNullOrEmpty(pid))
@@ -910,13 +930,35 @@ namespace IntFactoryBusiness
             return CommonBusiness.Update("Products", "IsNew", isNew ? "1" : "0", " ProductID='" + productid + "'");
         }
 
+        public bool AuditProductIsPublic(string productid, int ispublic, string operateIP, string operateID)
+        {
+            bool bl = CommonBusiness.Update("Products", "IsPublic", ispublic, " ProductID='" + productid + "' and IsPublic=1");
+            if (bl)
+            {
+                string msg = ispublic == 2 ? "通过材料公开申请" : "驳回材料公开申请";
+                LogBusiness.AddLog(productid, EnumLogObjectType.Product, msg, operateID, operateIP, "", "", "");
+            }
+            return bl;
+        }
+
+        public bool DeleteProductIsPublic(string productid, string operateIP, string operateID)
+        {
+            bool bl = CommonBusiness.Update("Products", "IsPublic", 0, " ProductID='" + productid + "' and IsPublic=2");
+            if (bl)
+            {
+                string msg = "取消材料公开状态";
+                LogBusiness.AddLog(productid, EnumLogObjectType.Product, msg, operateID, operateIP, "", "", "");
+            }
+            return bl;
+        }
+
         public bool UpdateProductIsRecommend(string productid, bool isRecommend, string operateIP, string operateID)
         {
             return CommonBusiness.Update("Products", "IsRecommend", isRecommend ? "1" : "0", " ProductID='" + productid + "'");
         }
 
         public bool UpdateProduct(string productid, string productCode, string productName, string generalName, bool iscombineproduct, string prodiverid, string brandid, string bigunitid, string smallunitid, int bigSmallMultiple,
-                         int status, string categoryid, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price, decimal weight, bool isnew,
+                         int status, int ispublic, string categoryid, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price, decimal weight, bool isnew,
                          bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid)
         {
 
@@ -941,7 +983,7 @@ namespace IntFactoryBusiness
             }
 
             var dal = new ProductsDAL();
-            return dal.UpdateProduct(productid, productCode, productName, generalName, iscombineproduct, prodiverid, brandid, bigunitid, smallunitid, bigSmallMultiple, status, categoryid, attrlist,
+            return dal.UpdateProduct(productid, productCode, productName, generalName, iscombineproduct, prodiverid, brandid, bigunitid, smallunitid, bigSmallMultiple, status, ispublic, categoryid, attrlist,
                                     valuelist, attrvaluelist, commonprice, price, weight, isnew, isRecommend, isallow, isautosend, effectiveDays, discountValue, productImg, shapeCode, description, operateid, clientid);
         }
 

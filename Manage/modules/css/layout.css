@@ -83,7 +83,7 @@ nav .action-box .select { width:201px; background-color:#f2f4f8; height:40px; li
 .header-box .ico-back { margin:6px 0 0 20px; }
 
 /*内容页样式*/
-.content-body{ padding:20px 10px 80px;margin-top:20px; overflow:auto; background-color:#fff; border-radius:2px; min-height:400px; }
+.content-body{ padding:20px 10px 80px; overflow:auto; background-color:#fff; border-radius:2px; min-height:400px; }
 .search-body { height:35px; }
 
 /*底部样式*/
