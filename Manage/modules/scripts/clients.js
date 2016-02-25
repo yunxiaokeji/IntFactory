@@ -355,7 +355,7 @@ define(function (require, exports, module) {
                 Description: $("#description").val()
             };
 
-            Global.post("/Client/SaveClient", { client: JSON.stringify(client), loginName: $("#loginName").val() }, function (data) {
+            Global.post("/Client/SaveClient", { client: JSON.stringify(client), loginName: $("#loginName").val(), }, function (data) {
                 if (data.Result == "1") {
                     location.href = "/Client/Index";
                 } else if (data.Result == "2") {
