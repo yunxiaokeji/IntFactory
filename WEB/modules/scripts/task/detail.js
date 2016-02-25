@@ -18,133 +18,24 @@
         }
     };
 
-    //任务制版相关事件
-    ObjectJS.bindPlatemakingEvent = function () {
-        ObjectJS.bindDocumentClick();
-        ObjectJS.binddropdown();
-
-        ObjectJS.bindContentClick();
-        ObjectJS.bindInputBlur();
-
-        ObjectJS.bindAddColumn();
-        ObjectJS.bindRemoveColumn();
-
-        ObjectJS.bindAddRow();
-        ObjectJS.bindRemoveRow();
-    };
-
-    ObjectJS.bindDocumentClick = function () {
-        $(document).unbind().bind("click", function (e) {
-            //隐藏下拉
-            if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
-                $(".dropdown-ul").hide();
-            }
-
-            if (!$(e.target).parents().hasClass("tbContentIpt") && !$(e.target).hasClass("tbContentIpt") && !$(e.target).hasClass("tbContent") && !$(e.target).parents().hasClass("tbContent")) {
-                
-                $(".tbContentIpt:visible").each(function () {
-                    $(this).hide().prev().html($(this).val()).show();
-                });
-            }
-        });
-
-
-    }
-    
-    ObjectJS.binddropdown = function () {
-        $(".ico-dropdown").unbind().bind("click", function () {
-            var _this = $(this);
-            var position = _this.position();
-            $(".dropdown-ul li").data("columnname", _this.data("columnname"));
-            $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 70 }).show().mouseleave(function () {
-                $(this).hide();
-            });
-            return false;
-        });
-
-    }
-
-    ObjectJS.bindContentClick = function () {
-        $(".table-list span.tbContent").unbind().bind("click", function () {
-            $(this).hide().next().show();
-        });
-    }
-
-    ObjectJS.bindInputBlur = function () {
-        $(".table-list .tbContentIpt").unbind().bind("blur", function () {
-            $(this).hide().prev().html($(this).val()).show();
-        });
-    }
-
-    ObjectJS.bindAddColumn = function () {
-        $("#btn-addColumn").unbind().bind("click", function () {
-            var date = new Date();
-            var columnnameid = date.toLocaleString()+date.getMilliseconds();
-            var newColumnHeadr = '<td class="width50 tLeft" data-columnname="columnname' + columnnameid + '"><span class="tbContent">新列名</span><input class="hide tbContentIpt" value="新列名" type="text"/><span class="ico-dropdown mLeft10" data-columnname="columnname' + columnnameid + '"></span></td>';
-            $("td[data-columnname='" + $(this).data("columnname") + "']").eq(0).after(newColumnHeadr);
-
-            var newColumn = '<td class="tLeft width50" data-columnname="columnname' + columnnameid + '"><span class="tbContent">无内容</span><input class="hide tbContentIpt" value="无内容" type="text"/></td>';
-            $("td[data-columnname='" + $(this).data("columnname") + "']:gt(0)").after(newColumn);
-
-            ObjectJS.binddropdown();
-            ObjectJS.bindContentClick();
-            ObjectJS.bindInputBlur();
-        });
-    }
-    
-    ObjectJS.bindRemoveColumn = function () {
-        $("#btn-removeColumn").unbind().bind("click", function () {
-            if ($(".tr-header td").length == 2) {
-                alert("只剩最后一列,不能删除");
-                return;
-            }
-
-            $("td[data-columnname='" + $(this).data("columnname") + "']").remove();
-        });
-    }
-
-    ObjectJS.bindAddRow = function () {
-        $("span.btn-addRow").unbind().bind('click',function () {
-            var $newTR = $("<tr>" + $(this).parent().parent().html() + "</tr>");
-            $(this).parent().parent().after($newTR);
-
-            ObjectJS.bindContentClick();
-            ObjectJS.bindInputBlur();
-
-            ObjectJS.bindAddRow();
-            ObjectJS.bindRemoveRow();
-        });
-    }
-
-    ObjectJS.bindRemoveRow = function () {
-        $("span.btn-removeRow").unbind().bind('click', function () {
-            if ($("span.btn-removeRow").length == 1)
-            {
-                alert("只剩最后一行,不能删除");
-                return;
-            }
-
-            $(this).parent().parent().remove();
-        });
-    }
-
-
     //任务基本信息操作事件
     //更新任务到期日期
     ObjectJS.bindEvent = function (taskid, stageid, orderid) {
         setTimeout(function () {
-            //更新任务到期日期
-            var taskEndTime = {
-                elem: '#UpdateTaskEndTime',
-                format: 'YYYY-MM-DD',
-                max: '2099-06-16',
-                istime: false,
-                istoday: false,
-                choose: function () {
-                    ObjectJS.UpdateTaskEndTime(ObjectJS.taskid);
-                }
-            };
-            laydate(taskEndTime);
+            if ($("#UpdateTaskEndTime").length == 1) {
+                //更新任务到期日期
+                var taskEndTime = {
+                    elem: '#UpdateTaskEndTime',
+                    format: 'YYYY-MM-DD',
+                    max: '2099-06-16',
+                    istime: false,
+                    istoday: false,
+                    choose: function () {
+                        ObjectJS.UpdateTaskEndTime(ObjectJS.taskid);
+                    }
+                };
+                laydate(taskEndTime);
+            }
         }, 300);
 
         //标记任务完成
@@ -437,6 +328,128 @@
         });
         $("#amount").text(amount.toFixed(2));
         $("#totalMoney").text((amount * $("#planQuantity").text()).toFixed(2));
+    }
+
+
+    //任务制版相关事件
+    ObjectJS.bindPlatemakingEvent = function () {
+        ObjectJS.bindDocumentClick();
+        ObjectJS.binddropdown();
+
+        ObjectJS.bindContentClick();
+        ObjectJS.bindInputBlur();
+
+        ObjectJS.bindAddColumn();
+        ObjectJS.bindRemoveColumn();
+
+        ObjectJS.bindAddRow();
+        ObjectJS.bindRemoveRow();
+
+        $("#btn-updateTaskRemark").click(function () {
+            ObjectJS.updateTaskRemark();
+        });
+    };
+
+    ObjectJS.bindDocumentClick = function () {
+        $(document).unbind().bind("click", function (e) {
+            //隐藏下拉
+            if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
+                $(".dropdown-ul").hide();
+            }
+
+            if (!$(e.target).parents().hasClass("tbContentIpt") && !$(e.target).hasClass("tbContentIpt") && !$(e.target).hasClass("tbContent") && !$(e.target).parents().hasClass("tbContent")) {
+
+                $(".tbContentIpt:visible").each(function () {
+                    $(this).hide().prev().html($(this).val()).show();
+                });
+            }
+        });
+
+
+    }
+
+    ObjectJS.binddropdown = function () {
+        $(".ico-dropdown").unbind().bind("click", function () {
+            var _this = $(this);
+            var position = _this.position();
+            $(".dropdown-ul li").data("columnname", _this.data("columnname"));
+            $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 70 }).show().mouseleave(function () {
+                $(this).hide();
+            });
+            return false;
+        });
+
+    }
+
+    ObjectJS.bindContentClick = function () {
+        $(".table-list span.tbContent").unbind().bind("click", function () {
+            $(this).hide().next().show();
+        });
+    }
+
+    ObjectJS.bindInputBlur = function () {
+        $(".table-list .tbContentIpt").unbind().bind("blur", function () {
+            $(this).hide().prev().html($(this).val()).show();
+        });
+    }
+
+    ObjectJS.bindAddColumn = function () {
+        $("#btn-addColumn").unbind().bind("click", function () {
+            var date = new Date();
+            var columnnameid = date.toLocaleString() + date.getMilliseconds();
+            var newColumnHeadr = '<td class="width100 tLeft" data-columnname="columnname' + columnnameid + '"><span class="tbContent">新列名</span><input class="hide tbContentIpt" value="新列名" type="text"/><span class="ico-dropdown mRight10 right" data-columnname="columnname' + columnnameid + '"></span></td>';
+            $("td[data-columnname='" + $(this).data("columnname") + "']").eq(0).after(newColumnHeadr);
+
+            var newColumn = '<td class="tLeft width100" data-columnname="columnname' + columnnameid + '"><span class="tbContent">无内容</span><input class="hide tbContentIpt" value="无内容" type="text"/></td>';
+            $("td[data-columnname='" + $(this).data("columnname") + "']:gt(0)").after(newColumn);
+
+            ObjectJS.binddropdown();
+            ObjectJS.bindContentClick();
+            ObjectJS.bindInputBlur();
+        });
+    }
+
+    ObjectJS.bindRemoveColumn = function () {
+        $("#btn-removeColumn").unbind().bind("click", function () {
+            if ($(".tr-header td").length == 2) {
+                alert("只剩最后一列,不能删除");
+                return;
+            }
+
+            $("td[data-columnname='" + $(this).data("columnname") + "']").remove();
+        });
+    }
+
+    ObjectJS.bindAddRow = function () {
+        $("span.btn-addRow").unbind().bind('click', function () {
+            var $newTR = $("<tr>" + $(this).parent().parent().html() + "</tr>");
+            $(this).parent().parent().after($newTR);
+
+            ObjectJS.bindContentClick();
+            ObjectJS.bindInputBlur();
+
+            ObjectJS.bindAddRow();
+            ObjectJS.bindRemoveRow();
+        });
+    }
+
+    ObjectJS.bindRemoveRow = function () {
+        $("span.btn-removeRow").unbind().bind('click', function () {
+            if ($("span.btn-removeRow").length == 1) {
+                alert("只剩最后一行,不能删除");
+                return;
+            }
+
+            $(this).parent().parent().remove();
+        });
+    }
+
+    ObjectJS.updateTaskRemark = function () {
+        Global.post("/Task/UpdateTaskRemark", { taskID: ObjectJS.taskid, remark:encodeURI( $(".platemakingContent").html()) }, function (data) {
+            if (data.Result == 1) {
+                alert("保存成功");
+            }
+        });
     }
 
     module.exports = ObjectJS;

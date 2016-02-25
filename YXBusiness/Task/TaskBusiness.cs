@@ -113,14 +113,14 @@ namespace IntFactoryBusiness
         }
 
         /// <summary>
-        /// 修改任务名称
+        /// 修改任务备注 （打板信息）
         /// </summary>
         /// <param name="taskID"></param>
         /// <param name="title"></param>
         /// <returns></returns>
-        public static bool UpdateTaskTitle(string taskID,string title)
+        public static bool UpdateTaskRemark(string taskID, string remark)
         {
-            return TaskDAL.BaseProvider.UpdateTaskTitle(taskID, title);
+            return TaskDAL.BaseProvider.UpdateTaskRemark(taskID, remark);
         }
 
         /// <summary>

@@ -11,6 +11,8 @@
             seajs.use(["scripts/task/detail"], function (obj) {
                 obj.init('@(model.TaskID)', '@(model.StageID)', '@(model.OrderID)','@(model.Mark)');
             });
+
+            //$(".platemakingContent").html();
         });
     </script>
 }
@@ -64,89 +66,130 @@
         @{
           if(model.Mark==1)
           {
-        <div class="talk-title">物料列表</div>
+            <div class="talk-title">物料列表</div>
 
-        <div id="navProducts" class="nav-partdiv">
-                <table class="table-list mTop20">
-                    <tr class="tr-header">
-                        <td class="tLeft">材料名称</td>
-                        <td class="tLeft">规格</td>
-                        <td class="width80">单位</td>
-                        <td class="tLeft">单价</td>
-                        <td class="">消耗量</td>
-                        <td class="">损耗量</td>
-                        <td class="tRight">小计</td>
-                        <td class="">删除</td>
-                    </tr>
-                    @foreach (var detail in order.Details)
-                    { 
-                        <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
-                            <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
-                            <td>@(detail.Remark)</td>
-                            <td class="center">@(detail.UnitName)</td>
-                            <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
-                            <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
-                            <td class="center tr-loss"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Loss.ToString("f2"))" class="loss width50" value="@(detail.Loss.ToString("f2"))" /></td>
-                            <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
-                            <td class="center">
-                                <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
-                            </td>
+            <div id="navProducts" class="nav-partdiv">
+                    <table class="table-list mTop20">
+                        <tr class="tr-header">
+                            <td class="tLeft">材料名称</td>
+                            <td class="tLeft">规格</td>
+                            <td class="width80">单位</td>
+                            <td class="tLeft">单价</td>
+                            <td class="">消耗量</td>
+                            <td class="">损耗量</td>
+                            <td class="tRight">小计</td>
+                            <td class="">删除</td>
                         </tr>
-                    }
-                    <tr class="amount-item">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="tRight">成本合计：</td>
-                        <td class="tRight"><label id="amount"></label></td>
-                        <td></td>
-                    </tr>
-                </table>
-                <a href="/Customer/ChooseProducts/@(model.OrderID)" class="btn right mTop10">添加材料</a>
-                <div class="clear"></div>
-            </div>
-        }
+                        @foreach (var detail in order.Details)
+                        { 
+                            <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
+                                <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
+                                <td>@(detail.Remark)</td>
+                                <td class="center">@(detail.UnitName)</td>
+                                <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
+                                <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
+                                <td class="center tr-loss"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Loss.ToString("f2"))" class="loss width50" value="@(detail.Loss.ToString("f2"))" /></td>
+                                <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
+                                <td class="center">
+                                    <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
+                                </td>
+                            </tr>
+                        }
+                        <tr class="amount-item">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="tRight">成本合计：</td>
+                            <td class="tRight"><label id="amount"></label></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <a href="/Customer/ChooseProducts/@(model.OrderID)" class="btn right mTop10">添加材料</a>
+                    <div class="clear"></div>
+                </div>
+            }
         }
 
         @{
           if(model.Mark==2)
           {
-        <div class="talk-title mTop10">制版信息</div>
+            <div class="talk-title mTop10">制版信息</div>
 
-        <div class="platemakingContent">
-            <table class="table-list mTop10">
-                <tr class="tr-header">
-                    <td class="width150 tLeft">行操作</td>
-                    <td class="width50 tLeft" data-columnname="columnname1">
-                        <span class="tbContent">列名1</span>
-                        <input class="hide tbContentIpt" value="列名1" type="text"/>
-                        <span class="ico-dropdown mLeft10" data-columnname="columnname1"></span>
-                    </td>
-                    <td class="width150 tLeft" data-columnname="columnname2">
-                        <span class="tbContent">列名2</span>
-                        <input class="hide tbContentIpt" value="列名2" type="text"/>
-                        <span class="ico-dropdown mLeft10" data-columnname="columnname2"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="width150 tLeft">
-                        <span class="btn-addRow btn">添加</span>
-                        <span class="mLeft10 btn-removeRow btn">删除</span>
-                    </td>
-                    <td class="width50 tLeft" data-columnname="columnname1">
-                        <span class="tbContent">无内容</span>
-                        <input class="hide tbContentIpt" value="无内容" type="text"/>
-                    </td>
-                    <td class="width150 tLeft" data-columnname="columnname2">
-                        <span class="tbContent">无内容</span>
-                        <input class="hide tbContentIpt" value="无内容" type="text"/>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        }
+            <div class="platemakingContent" id="platemakingContent">
+               @{
+                   if(string.IsNullOrEmpty(model.Remark))
+                   {
+                    <table class="table-list">
+                        <tr class="tr-header">
+                            <td class="width100 tLeft" data-columnname="columnname1">
+                                <span class="tbContent">列名1</span>
+                                <input class="hide tbContentIpt" value="列名1" type="text"/>
+                                <span class="right ico-dropdown mRight5" data-columnname="columnname1"></span>
+                            </td>
+                            <td class="width100 tLeft" data-columnname="columnname2">
+                                <span class="tbContent">列名2</span>
+                                <input class="hide tbContentIpt" value="列名2" type="text"/>
+                                <span class="right ico-dropdown mRight5" data-columnname="columnname2"></span>
+                            </td>
+                            <td class="width100 tLeft" data-columnname="columnname3">
+                                <span class="tbContent">列名3</span>
+                                <input class="hide tbContentIpt" value="列名3" type="text"/>
+                                <span class="right ico-dropdown mRight5" data-columnname="columnname3"></span>
+                            </td>
+                             <td class="width100 tLeft" data-columnname="columnname4">
+                                <span class="tbContent">列名4</span>
+                                <input class="hide tbContentIpt" value="列名4" type="text"/>
+                                <span class="right ico-dropdown mRight5" data-columnname="columnname4"></span>
+                            </td>
+                            <td class="width100 tLeft" data-columnname="columnname5">
+                                <span class="tbContent">列名5</span>
+                                <input class="hide tbContentIpt" value="列名5" type="text"/>
+                                <span class="right ico-dropdown mRight5" data-columnname="columnname5"></span>
+                            </td>
+                            <td class="width150 center">操作</td>
+                        </tr>
+                        <tr>
+                            <td class="width100 tLeft" data-columnname="columnname1">
+                                <span class="tbContent">无内容</span>
+                                <input class="hide tbContentIpt" value="无内容" type="text"/>
+                            </td>
+                            <td class="width100 tLeft" data-columnname="columnname2">
+                                <span class="tbContent">无内容</span>
+                                <input class="hide tbContentIpt" value="无内容" type="text"/>
+                            </td>
+                            <td class="width100 tLeft" data-columnname="columnname3">
+                                <span class="tbContent">无内容</span>
+                                <input class="hide tbContentIpt" value="无内容" type="text"/>
+                            </td>
+                            <td class="width100 tLeft" data-columnname="columnname4">
+                                <span class="tbContent">无内容</span>
+                                <input class="hide tbContentIpt" value="无内容" type="text"/>
+                            </td>
+                            <td class="width100 tLeft" data-columnname="columnname5">
+                                <span class="tbContent">无内容</span>
+                                <input class="hide tbContentIpt" value="无内容" type="text"/>
+                            </td>
+                            <td class="width150 center">
+                                <span class="btn-addRow btn">添加新行</span>
+                                <span class="mLeft10 btn-removeRow btn">删除此行</span>
+                            </td>
+                        </tr>
+                    </table>
+               }
+               else
+               {
+                   <script type="text/javascript">
+                       document.getElementById("platemakingContent").innerHTML = decodeURI('@(model.Remark)');
+                   </script>    
+               }
+            } 
+            </div>
+            <a href="javascript:void(0);" class="btn right mTop10" id="btn-updateTaskRemark">保存制版</a>
+            <div class="clear"></div>
+            
+          }
         }
 
         <div class="content-main mTop30">
