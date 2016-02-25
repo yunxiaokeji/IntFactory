@@ -268,7 +268,11 @@
 
         Global.post("/ShoppingCart/GetProductListForShopping", { filter: JSON.stringify(opt) }, function (data) {
             $("#productlist").empty();
+
+            console.log(data.Items);
+
             doT.exec("template/shoppingcart/filter-products.html", function (templateFun) {
+
                 var html = templateFun(data.Items);
                 html = $(html);
 

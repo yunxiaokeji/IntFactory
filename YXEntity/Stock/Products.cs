@@ -440,8 +440,11 @@ namespace IntFactoryEntity
         /// </summary>
         public List<ProductAttr> SaleAttrs { get; set; }
 
+        [Property("Lower")] 
+        public string SaleAttrValue { get; set; }
 
         public int StockIn { get; set; }
+
         public int LogicOut { get; set; }
 
         public int IsPublic { get; set; }

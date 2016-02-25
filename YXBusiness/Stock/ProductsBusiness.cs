@@ -451,7 +451,7 @@ namespace IntFactoryBusiness
             return Convert.ToInt32(obj) > 0;
         }
 
-        public List<Products> GetFilterProducts(string categoryid, List<FilterAttr> Attrs, int doctype, string beginprice, string endprice, string keyWords, string orderby, bool isasc, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
+        public List<ProductDetail> GetFilterProducts(string categoryid, List<FilterAttr> Attrs, int doctype, string beginprice, string endprice, string keyWords, string orderby, bool isasc, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
         {
             var dal = new ProductsDAL();
             StringBuilder attrbuild = new StringBuilder();
@@ -470,11 +470,32 @@ namespace IntFactoryBusiness
 
             DataSet ds = dal.GetFilterProducts(categoryid, attrbuild.ToString(), salebuild.ToString(), doctype, beginprice, endprice, keyWords, orderby, isasc ? 1 : 0, pageSize, pageIndex, ref totalCount, ref pageCount, clientID);
 
-            List<Products> list = new List<Products>();
+            List<ProductDetail> list = new List<ProductDetail>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                Products model = new Products();
+                ProductDetail model = new ProductDetail();
                 model.FillData(dr);
+                model.SaleAttrValueString = "";
+                if (!string.IsNullOrEmpty(model.SaleAttrValue))
+                {
+                    string[] attrs = model.SaleAttrValue.Split(',');
+                    foreach (string attrid in attrs)
+                    {
+                        if (!string.IsNullOrEmpty(attrid))
+                        {
+                            var attr = new ProductsBusiness().GetProductAttrByID(attrid.Split(':')[0]);
+                            var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
+                            if (attr != null && value != null)
+                            {
+                                model.SaleAttrValueString += attr.AttrName + "：" + value.ValueName + "，";
+                            }
+                        }
+                    }
+                    if (model.SaleAttrValueString.Length > 0)
+                    {
+                        model.SaleAttrValueString = model.SaleAttrValueString.Substring(0, model.SaleAttrValueString.Length - 1);
+                    }
+                }
                 list.Add(model);
             }
             return list;
