@@ -34,13 +34,7 @@
                 </li>
                 <li class="left" BindController="client">
                     <a href="/Client/index" >
-                        <span class="name">客户</span>
-                        <span class="cursor"></span>
-                    </a> 
-                </li>
-               <li class="left" BindController="order">
-                    <a href="/Order/index" >
-                        <span class="name">订单</span>
+                        <span class="name">客户端</span>
                         <span class="cursor"></span>
                     </a> 
                 </li>
@@ -83,25 +77,13 @@
                 <div class="controller-box">
                     <div class="controller-name">
                         <span class="open left"></span>
-                        <span class="name left">客户管理</span>
+                        <span class="name left">客户端管理</span>
                     </div>
                 </div>
 
                 <ul class="action-box">
-                    <li class="action" BindAction="create"><a href="/Client/Create" >添加客户</a></li>
-                    <li class="action" BindAction="index"><a href="/Client/index" >客户列表</a></li>
-                </ul>
-            </div>
-            <div class="controller" BindController="order">
-                <div class="controller-box">
-                    <div class="controller-name">
-                        <span class="open left"></span>
-                        <span class="name left">订单</span>
-                    </div>
-                </div>
-
-                <ul class="action-box">
-                     <li class="action " BindAction="index"><a href="/Order/Index" >订单列表</a></li>
+                    <li class="action"  BindAction="index"><a href="/Client/index" >客户列表</a></li>
+                    <li class="action " BindAction="orders"><a href="/Order/Orders" >客户订单</a></li>
                 </ul>
             </div>
             <div class="controller" BindController="products">
@@ -192,8 +174,11 @@
         $(function ()
         {
             var controller = $("#page-controller").val();
-            if (controller == "expresscompany" || controller == "industry" || controller == "feedback" || controller == "modulesproduct")
+            if (controller == "expresscompany" || controller == "industry" || controller == "feedback" || controller == "modulesproduct") {
                 controller = "system";
+            } else if (controller == "order") {
+                controller = "client";
+            }
 
             $("#modulesMenu li[BindController='" + controller + "']").addClass("select");
             $(".controller[BindController='" + controller + "']").show();

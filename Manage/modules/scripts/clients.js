@@ -167,8 +167,8 @@ define(function (require, exports, module) {
     //绑定事件
     Clients.detailEvent = function () {
         //客户设置菜单
-        $(".clientnav ul li").click(function () {
-            $(this).addClass("navactive").siblings().removeClass("navactive");
+        $(".search-tab li").click(function () {
+            $(this).addClass("hover").siblings().removeClass("hover");
 
             var index = $(this).data("index");
             $(".content-body div[name='navContent']").hide().eq(parseInt(index)).show();
