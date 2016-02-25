@@ -85,13 +85,13 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateTaskTitle(string taskID, string title)
+        public bool UpdateTaskRemark(string taskID, string remark)
         {
-            string sqltext = "update OrderTask set Title=@Title where TaskID=@TaskID";
+            string sqltext = "update OrderTask set Remark=@Remark where TaskID=@TaskID";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@TaskID",taskID),
-                                     new SqlParameter("@Title",title)
+                                     new SqlParameter("@Remark",remark)
                                    };
 
             return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;

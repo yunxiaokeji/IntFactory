@@ -101,6 +101,22 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
+        [ValidateInput(false)]
+        public JsonResult UpdateTaskRemark(string taskID, string remark)
+        {
+            int result = 0;
+            remark = HttpUtility.HtmlEncode(remark);
+
+            result = TaskBusiness.UpdateTaskRemark(taskID, remark) ? 1 : 0;
+
+            JsonDictionary.Add("Result", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         #endregion
 
 

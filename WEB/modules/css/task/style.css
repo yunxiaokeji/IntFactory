@@ -41,7 +41,9 @@ display:inline-block;
 
 
 .platemakingContent {
-    padding:20px 0px;
+    margin:30px 0px;
+    border-top:1px solid #eee;
+    border-left:1px solid #eee;
 }
 
 .platemakingContent .tbContent {
@@ -49,5 +51,10 @@ cursor:pointer;
 }
 
 .platemakingContent .tbContentIpt {
-width:120px;
+width:60px;
+}
+
+.platemakingContent td {
+    border-bottom:1px solid #eee;
+    border-right:1px solid #eee;
 }
