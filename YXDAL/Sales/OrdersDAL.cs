@@ -267,6 +267,18 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderStatus", paras, CommandType.StoredProcedure) > 0;
         }
 
+        public bool UpdateOrderPlatemaking(string orderid, string platemaking)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@Platemaking",platemaking)
+                                   };
+
+            string sqlText = " update orders set Platemaking=@Platemaking where OrderID=@OrderID";
+
+            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
+        }
+
         public bool DeleteOrder(string orderid, string operateid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 

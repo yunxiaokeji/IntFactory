@@ -103,12 +103,10 @@ namespace YXERP.Controllers
         }
 
         [ValidateInput(false)]
-        public JsonResult UpdateTaskRemark(string taskID, string remark)
+        public JsonResult UpdateOrderPlatemaking(string orderid, string platemaking)
         {
             int result = 0;
-            remark = HttpUtility.HtmlEncode(remark);
-
-            result = TaskBusiness.UpdateTaskRemark(taskID, remark) ? 1 : 0;
+            result = OrdersBusiness.BaseBusiness.UpdateOrderPlatemaking(orderid, platemaking) ? 1 : 0;
 
             JsonDictionary.Add("Result", result);
             return new JsonResult

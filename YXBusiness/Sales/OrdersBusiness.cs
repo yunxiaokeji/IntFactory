@@ -365,6 +365,10 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateOrderPlatemaking(string orderid, string platemaking) {
+            return OrdersDAL.BaseProvider.UpdateOrderPlatemaking(orderid, platemaking);
+        }
+
         public bool SubmitOrder(string orderid, string operateid, string ip, string agentid, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.SubmitOrder(orderid, operateid, agentid, clientid);
