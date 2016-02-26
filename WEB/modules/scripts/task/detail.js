@@ -17,6 +17,10 @@
         else if (mark == "2") {
             ObjectJS.bindPlatemakingEvent();
         }
+        else {
+            ObjectJS.getAmount();
+        }
+
     };
 
     //任务基本信息操作事件
