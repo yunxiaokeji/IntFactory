@@ -452,7 +452,11 @@
     <Build Include="Procedures\Task\P_UpdateTaskEndTime.sql" />
     <Build Include="Table\OrderTask.sql" />
     <None Include="Procedures\Products\P_GetProductsAll.sql" />
+<<<<<<< HEAD
     <None Include="Procedures\Products\P_GetProductUseLogs.sql" />
+=======
+    <None Include="AlterSql.sql" />
     <Build Include="Procedures\Sales\P_GetOrderPlans.sql" />
+>>>>>>> 6178a98216db556fcb2443aae6ab8de8dea7c194
   </ItemGroup>
 </Project>
