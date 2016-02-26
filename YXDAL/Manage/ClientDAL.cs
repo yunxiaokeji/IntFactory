@@ -24,7 +24,7 @@ namespace IntFactoryDAL.Manage
 
         #region 添加
 
-        public string InsertClient(string companyName, string contactName, string mobilePhone, string industry, string cityCode, string address,
+        public string InsertClient(string companyName, string loginname, string contactName, string mobilePhone, string industry, string cityCode, string address,
                                    string description, string bindMobilePhone, string loginPwd, string email, string mduserid, string mdprojectid, string userid, out int result)
         {
             string clientid = Guid.NewGuid().ToString();
@@ -32,6 +32,7 @@ namespace IntFactoryDAL.Manage
             SqlParameter[] parms = { 
                                        new SqlParameter("@Result",result),
                                        new SqlParameter("@ClientID",clientid),
+                                       new SqlParameter("@LoginName",loginname),
                                        new SqlParameter("@ClientCode",GetCode(6)),
                                        new SqlParameter("@CompanyName",companyName),
                                        new SqlParameter("@MobilePhone",mobilePhone),

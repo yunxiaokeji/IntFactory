@@ -186,6 +186,7 @@ namespace IntFactoryEntity.Manage
         public int Years { get; set; }
 
         public DateTime EndTime { get; set; }
+
 		#endregion Model
 
 

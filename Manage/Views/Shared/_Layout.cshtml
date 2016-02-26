@@ -22,8 +22,8 @@
         <div class="logo left">
             <a href="/Home/Index"><img src="@logo" /></a>
         </div>
-        <div class="left companyname long" title="上海云销信管理后台">
-            上海云销信息科技有限公司
+        <div class="left companyname long" title="智能工厂管理后台">
+            智能工厂管理后台
         </div>
         <ul id="modulesMenu" class="menu left">
              <li class="left" BindController="home">
@@ -34,43 +34,13 @@
                 </li>
                 <li class="left" BindController="client">
                     <a href="/Client/index" >
-                        <span class="name">客户</span>
+                        <span class="name">客户端</span>
                         <span class="cursor"></span>
                     </a> 
                 </li>
                 <li class="left" BindController="products">
                     <a href="/Products/index" >
                         <span class="name">材料</span>
-                        <span class="cursor"></span>
-                    </a> 
-                </li>
-                <li class="left" BindController="modulesproduct">
-                    <a href="/ModulesProduct/index" >
-                        <span class="name">收费产品</span>
-                        <span class="cursor"></span>
-                    </a> 
-                </li>
-              @*  <li class="left" BindController="expresscompany">
-                    <a href="/ExpressCompany/index" >
-                        <span class="name">快递公司</span>
-                        <span class="cursor"></span>
-                    </a> 
-                </li>*@
-            @*    <li class="left" BindController="industry">
-                    <a href="/Industry/index" >
-                        <span class="name">公司行业</span>
-                        <span class="cursor"></span>
-                    </a> 
-                </li>*@
-              @*  <li class="left" BindController="feedback">
-                    <a href="/FeedBack/index" >
-                        <span class="name">意见反馈</span>
-                        <span class="cursor"></span>
-                    </a> 
-                </li>*@
-                <li class="left" BindController="order">
-                    <a href="/Order/index" >
-                        <span class="name">订单</span>
                         <span class="cursor"></span>
                     </a> 
                 </li>
@@ -107,13 +77,13 @@
                 <div class="controller-box">
                     <div class="controller-name">
                         <span class="open left"></span>
-                        <span class="name left">客户管理</span>
+                        <span class="name left">客户端管理</span>
                     </div>
                 </div>
 
                 <ul class="action-box">
-                    <li class="action" BindAction="create"><a href="/Client/Create" >添加客户</a></li>
-                    <li class="action" BindAction="index"><a href="/Client/index" >客户列表</a></li>
+                    <li class="action"  BindAction="index"><a href="/Client/index" >客户列表</a></li>
+                    <li class="action " BindAction="orders"><a href="/Order/Orders" >客户订单</a></li>
                 </ul>
             </div>
             <div class="controller" BindController="products">
@@ -128,34 +98,10 @@
                     <li class="action " BindAction="unit"><a href="/Products/Unit" >单位管理</a></li>
                     <li class="action " BindAction="attr"><a href="/Products/Attr" >属性/规格</a></li>
                     <li class="action " BindAction="category"><a href="/Products/Category" >类别设置</a></li>
-                </ul>
-            </div>
-            <div class="controller" BindController="modulesproduct">
-                <div class="controller-box">
-                    <div class="controller-name">
-                        <span class="open left"></span>
-                        <span class="name left">产品管理</span>
-                    </div>
-                </div>
-
-                <ul class="action-box">
-                    <li class="action " BindAction="detail"><a href="/ModulesProduct/Detail" >添加产品</a></li>
-                    <li class="action " BindAction="index"><a href="/ModulesProduct/index" >产品列表</a></li>
+                    <li class="action " BindAction="products"><a href="/Products/Products" >材料审核</a></li>
                 </ul>
             </div>
 
-            <div class="controller" BindController="order">
-                <div class="controller-box">
-                    <div class="controller-name">
-                        <span class="open left"></span>
-                        <span class="name left">订单</span>
-                    </div>
-                </div>
-
-                <ul class="action-box">
-                     <li class="action " BindAction="index"><a href="/Order/Index" >客户订单列表</a></li>
-                </ul>
-            </div>
 
             <div class="controller" BindController="report">
                 <div class="controller-box">
@@ -174,36 +120,16 @@
                  <div class="controller-box">
                     <div class="controller-name">
                         <span class="open left"></span>
-                        <span class="name left">公司行业管理</span>
+                        <span class="name left">系统管理</span>
+
                     </div>
                 </div>
 
                 <ul class="action-box">
-                     <li class="action " BindAction="industrydetail"><a href="/Industry/IndustryDetail" >添加公司行业</a></li>
-                     <li class="action " BindAction="industrys"><a href="/Industry/Industrys" >公司行业列表</a></li>
-                </ul>
-
-                 <div class="controller-box">
-                    <div class="controller-name">
-                        <span class="open left"></span>
-                        <span class="name left">快递公司管理</span>
-                    </div>
-                </div>
-
-                <ul class="action-box">
-                    <li class="action " BindAction="expresscompanydetail"><a href="/ExpressCompany/ExpressCompanyDetail" >添加快递公司</a></li>
-                    <li class="action " BindAction="expresscompanys"><a href="/ExpressCompany/ExpressCompanys" >快递公司列表</a></li>
-                </ul>
-
-                <div class="controller-box">
-                    <div class="controller-name">
-                        <span class="open left"></span>
-                        <span class="name left">意见反馈管理</span>
-                    </div>
-                </div>
-
-                <ul class="action-box">
-                     <li class="action " BindAction="feedbacks"><a href="/FeedBack/FeedBacks" >意见反馈列表</a></li>
+                    <li class="action " BindAction="index"><a href="/ModulesProduct/index" >收费设置</a></li>
+                    <li class="action " BindAction="industrys"><a href="/Industry/Industrys" >行业设置</a></li>
+                    <li class="action " BindAction="expresscompanys"><a href="/ExpressCompany/ExpressCompanys" >快递公司</a></li>
+                    <li class="action " BindAction="feedbacks"><a href="/FeedBack/FeedBacks" >意见反馈</a></li>
                 </ul>
 
                 <div class="controller-box">
@@ -248,8 +174,11 @@
         $(function ()
         {
             var controller = $("#page-controller").val();
-            if (controller == "expresscompany" || controller == "industry" || controller == "feedback")
+            if (controller == "expresscompany" || controller == "industry" || controller == "feedback" || controller == "modulesproduct") {
                 controller = "system";
+            } else if (controller == "order") {
+                controller = "client";
+            }
 
             $("#modulesMenu li[BindController='" + controller + "']").addClass("select");
             $(".controller[BindController='" + controller + "']").show();

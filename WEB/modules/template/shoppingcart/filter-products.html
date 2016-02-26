@@ -5,13 +5,13 @@
 <li>
     <div class="product-item" >
         <a target="_blank" href="/Products/ChooseDetail?pid={%=item.ProductID%}&did={%=item.ProductDetailID%}" class="productimg">
-            <img src="{%=item.ProductImage%}" alt="" />
+            <img src="{%=item.ImgS %}" alt="" />
         </a>
         <h2 class="price">
             ￥{%=item.Price.toFixed(2)%}
         </h2>
         <a target="_blank" href="/Products/ChooseDetail?pid={%=item.ProductID%}&did={%=item.ProductDetailID%}" class="name">
-            {%=item.ProductName%}
+            {%=item.ProductName+(item.SaleAttrValueString?"("+item.SaleAttrValueString+")":"") %}
         </a>
         <div class="btnAddCart" data-pid="{%=item.ProductID%}" data-did="{%=item.ProductDetailID%}">
             选择材料

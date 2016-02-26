@@ -178,6 +178,36 @@ namespace IntFactoryDAL
 
         }
 
+        public DataSet GetProductsAll(string categoryid, string prodiverid, string beginprice, string endprice, int ispublic, string keyWords, string orderby, int isasc, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@totalCount",SqlDbType.Int),
+                                       new SqlParameter("@pageCount",SqlDbType.Int),
+                                       new SqlParameter("@orderColumn",orderby),
+                                       new SqlParameter("@isAsc",isasc),
+                                       new SqlParameter("@BeginPrice",beginprice),
+                                       new SqlParameter("@EndPrice",endprice),
+                                       new SqlParameter("@CategoryID",categoryid),
+                                       new SqlParameter("@ProdiverID",prodiverid),
+                                       new SqlParameter("@keyWords",keyWords),
+                                       new SqlParameter("@pageSize",pageSize),
+                                       new SqlParameter("@pageIndex",pageIndex),
+                                       new SqlParameter("@IsPublic",ispublic)
+                                       
+                                   };
+            paras[0].Value = totalCount;
+            paras[1].Value = pageCount;
+
+            paras[0].Direction = ParameterDirection.InputOutput;
+            paras[1].Direction = ParameterDirection.InputOutput;
+            DataSet ds = GetDataSet("P_GetProductsAll", paras, CommandType.StoredProcedure);
+            totalCount = Convert.ToInt32(paras[0].Value);
+            pageCount = Convert.ToInt32(paras[1].Value);
+            return ds;
+
+        }
+
+
         public DataSet GetProductByID(string productid)
         {
             SqlParameter[] paras = { new SqlParameter("@ProductID", productid) };
@@ -357,7 +387,7 @@ namespace IntFactoryDAL
         }
 
         public string AddProduct(string productCode, string productName, string generalName, bool iscombineproduct,string prodiverid, string brandid, string bigunitid, string smallunitid, int bigSmallMultiple,
-                                 string categoryid, int status, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price,
+                                 string categoryid, int status, int ispublic, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price,
                                  decimal weight, bool isnew, bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid)
         {
             string id = "";
@@ -376,6 +406,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@BigSmallMultiple",bigSmallMultiple),
                                        new SqlParameter("@CategoryID",categoryid),
                                        new SqlParameter("@Status",status),
+                                       new SqlParameter("@IsPublic",ispublic),
                                        new SqlParameter("@AttrList",attrlist),
                                        new SqlParameter("@ValueList",valuelist),
                                        new SqlParameter("@AttrValueList",attrvaluelist),
@@ -608,7 +639,7 @@ namespace IntFactoryDAL
         }
 
         public bool UpdateProduct(string productid, string productCode, string productName, string generalName, bool iscombineproduct, string prodiverid, string brandid, string bigunitid, string smallunitid, int bigSmallMultiple,
-                                 int status, string categoryid, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price,
+                                 int status, int ispublic, string categoryid, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price,
                                  decimal weight, bool isnew, bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
@@ -623,6 +654,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@SmallUnitID",smallunitid),
                                        new SqlParameter("@BigSmallMultiple",bigSmallMultiple),
                                        new SqlParameter("@Status",status),
+                                       new SqlParameter("@IsPublic",ispublic),
                                        new SqlParameter("@CategoryID",categoryid),
                                        new SqlParameter("@AttrList",attrlist),
                                        new SqlParameter("@ValueList",valuelist),

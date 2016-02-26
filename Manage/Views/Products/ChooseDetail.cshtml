@@ -1,0 +1,100 @@
+﻿@{
+    var model = (IntFactoryEntity.Products)ViewBag.Model;
+    ViewBag.Title = model.ProductName;
+}
+@section css{
+    <link href="../../modules/css/products/filterdetails.css" rel="stylesheet" />
+    <link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/products/filterdetails"], function (obj) {
+            obj.init('@Html.ToJSONString(model)', '', '', '');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">材料详情</span>
+</div>
+<div class="content-body mTop20">
+    <div class="top-div">
+        <div class="image left">
+            <img id="productimg" src="@(ViewBag.Url+ model.ProductImage)" />
+        </div>
+        <div class="product-name left">
+            <h1>@(model.ProductName)</h1>
+
+            <ul class="price">
+                <li class="column">价&nbsp;&nbsp;格：</li>
+                <li id="price" class="salesprice">￥@(model.Price.ToString("f2"))</li>
+                @*<li class="commonprice">￥@(model.CommonPrice.Value.ToString("f2"))</li>*@
+            </ul>
+            <div class="attrs" id="saleattr">
+                @foreach (var attr in model.SaleAttrs)
+                { 
+                    <ul class="attr-item salesattr" data-id="@attr.AttrID">
+                        <li class="attrkey">@attr.AttrName：</li>
+                        <li class="attrValues">
+                            <ul>
+                                @foreach (var value in attr.AttrValues)
+                                { 
+                                    <li class="value" data-id="@value.ValueID">@value.ValueName</li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                }
+                <ul class="attr-item">
+                    <li class="attrkey">单位：</li>
+                    <li class="attrValues">
+                        <ul id="unit">
+                            <li class="value hover" id="small" data-value="0" data-id="@(model.SmallUnit.UnitID)">@(model.SmallUnit.UnitName)</li>
+                            @if (model.SmallUnitID != model.BigUnitID)
+                            {
+                                <li class="value" id="big"  data-value="1" data-id="@(model.BigUnit.UnitID)">@(model.BigUnit.UnitName)</li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+           </div>
+            <div class="choose-div">
+                <div class="choose-quantity left">
+                    <input type="text" value="1" id="quantity" />
+                    <span class="quantity-add" id="quantityadd">+</span>
+                    <span class="quantity-reduce" id="quantityreduce">-</span>
+                </div>
+                <div class="left mLeft10">
+                    <input type="button" class="addcart" id="addcart" value="加入清单" />
+                </div>
+                <div class="left mLeft10 stock">
+                    库存：<label id="productStockQuantity">0</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="show-nav">
+        <ul class="show-nav-ul">
+            <li class="hover">材料介绍</li>
+        </ul>
+    </div>
+    
+    <ul class="product-attr">
+        <li class="long">材料名称：@(model.ProductName)</li>
+        <li class="long">材料编码：@(model.ProductCode)</li>
+        <li class="long">添加日期：@(model.OnlineTime.ToString("yyyy-MM-dd"))</li>
+        @foreach (var attr in model.AttrLists)
+        { 
+            <li class="long">@attr.AttrName：@attr.AttrValues[0].ValueName</li>
+         }
+        
+    </ul>
+    <div class="edui-container">
+        <div class="edui-editor-body">
+            <div class="description  edui-body-container" id="description">
+
+             </div>
+        </div>
+    </div>
+    
+</div>

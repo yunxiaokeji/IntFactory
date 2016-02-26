@@ -339,7 +339,7 @@ namespace YXERP.Controllers
                 else
                 {
                     Clients client = new Clients() { CompanyName = companyName, ContactName = name, MobilePhone = loginName };
-                    ClientBusiness.InsertClient(client, loginName, loginPWD, string.Empty, out result);
+                    ClientBusiness.InsertClient(client, "", loginName, loginPWD, string.Empty, out result);
 
                     if (result == 1)
                     {

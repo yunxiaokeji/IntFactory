@@ -7,9 +7,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using YXManage.Models;
 
 namespace YXManage.Controllers
 {
+    [YXManage.Common.UserAuthorize]
     public class ProductsController : BaseController
     {
         //
@@ -47,6 +49,28 @@ namespace YXManage.Controllers
         {
             var list = new ProductsBusiness().GetChildCategorysByID("");
             ViewBag.Items = list;
+            return View();
+        }
+
+        public ActionResult Products()
+        {
+            ViewBag.Url = CloudSalesTool.AppSettings.Settings["IntFactoryUrl"];
+            return View();
+        }
+
+        public ActionResult ChooseDetail(string pid)
+        {
+            if (string.IsNullOrEmpty(pid))
+            {
+                return Redirect("ProductList");
+            }
+            var model = new ProductsBusiness().GetProductByIDForDetails(pid);
+            if (model == null || string.IsNullOrEmpty(model.ProductID))
+            {
+                return Redirect("ProductList");
+            }
+            ViewBag.Url = CloudSalesTool.AppSettings.Settings["IntFactoryUrl"];
+            ViewBag.Model = model;
             return View();
         }
 
@@ -394,6 +418,46 @@ namespace YXManage.Controllers
         }
 
         #endregion
+
+        public JsonResult GetProductList(string filter)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            FilterProduct model = serializer.Deserialize<FilterProduct>(filter);
+            int totalCount = 0;
+            int pageCount = 0;
+
+            List<Products> list = new ProductsBusiness().GetProductsAll(model.CategoryID, model.ProviderID, model.BeginPrice, model.EndPrice, model.IsPublic, model.Keywords, model.OrderBy, model.IsAsc, PageSize, model.PageIndex, ref totalCount, ref pageCount);
+            JsonDictionary.Add("Items", list);
+            JsonDictionary.Add("TotalCount", totalCount);
+            JsonDictionary.Add("PageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateProductIsPublic(string productid, int ispublic)
+        {
+            bool bl = new ProductsBusiness().AuditProductIsPublic(productid, ispublic, OperateIP, CurrentUser.UserID);
+            JsonDictionary.Add("Status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult DeleteProductIsPublic(string productid)
+        {
+            bool bl = new ProductsBusiness().DeleteProductIsPublic(productid, OperateIP, CurrentUser.UserID);
+            JsonDictionary.Add("Status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
     }
 }

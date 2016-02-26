@@ -16,7 +16,12 @@ namespace YXManage.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return Redirect("Orders");
+        }
+
+        public ActionResult Orders()
+        {
+            return View("Index");
         }
 
         public JsonResult GetClientOrders(int status, int type, string beginDate, string endDate, int pageSize, int pageIndex)

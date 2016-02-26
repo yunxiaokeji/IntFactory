@@ -161,7 +161,7 @@ namespace IntFactoryBusiness
         /// </summary>
         public static async void AddLog(string logguid, EnumLogObjectType type, string remark, string userid, string operateip, string guid, string agentid, string clientid)
         {
-            string tablename = "";
+            string tablename = "OperateLog";
             switch (type)
             {
                 case EnumLogObjectType.Customer:
@@ -169,6 +169,9 @@ namespace IntFactoryBusiness
                     break;
                 case EnumLogObjectType.Orders:
                     tablename = "OrdersLog";
+                    break;
+                default:
+                    tablename = "OperateLog";
                     break;
             }
             await LogDAL.AddLog(tablename, logguid, remark, userid, operateip, guid, agentid, clientid);

@@ -117,6 +117,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\FilterProduct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -124,12 +125,14 @@
     <Content Include="modules\css\category.css" />
     <Content Include="modules\css\clients.css" />
     <Content Include="modules\css\default\detail.css" />
+    <Content Include="modules\css\products\filterdetails.css" />
     <Content Include="modules\css\default\list.css" />
     <Content Include="modules\css\home.css" />
     <Content Include="modules\css\base.css" />
     <Content Include="modules\css\layout.css" />
     <Content Include="modules\css\login.css" />
     <Content Include="modules\css\products.css" />
+    <Content Include="modules\css\products\filterproducts.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
     <Content Include="modules\images\btn-share-mingdao.png" />
     <Content Include="modules\images\default.png" />
@@ -196,6 +199,7 @@
     <Content Include="modules\images\ico-username.png" />
     <Content Include="modules\images\ico_search.png" />
     <Content Include="modules\images\ico_searchhover.png" />
+    <Content Include="modules\images\img-noimg.png" />
     <Content Include="modules\images\loginBackground.png" />
     <Content Include="modules\images\loginMainBackground.jpg" />
     <Content Include="modules\images\logo.png" />
@@ -242,6 +246,8 @@
     <Content Include="modules\scripts\products\attr.js" />
     <Content Include="modules\scripts\products\attrplug.js" />
     <Content Include="modules\scripts\products\category.js" />
+    <Content Include="modules\scripts\products\filterdetails.js" />
+    <Content Include="modules\scripts\products\product.js" />
     <Content Include="modules\scripts\products\unit.js" />
     <Content Include="modules\template\client-orders.html" />
     <Content Include="modules\template\client-list.html" />
@@ -254,7 +260,6 @@
     <Content Include="modules\template\agent-orders.html" />
     <Content Include="modules\template\products\attrs.html" />
     <Content Include="modules\template\products\brand-detail.html" />
-    <Content Include="modules\template\products\brands.html" />
     <Content Include="modules\template\products\category-attrs.html" />
     <Content Include="modules\template\products\categorys.html" />
     <Content Include="modules\template\products\category_add.html" />
@@ -352,6 +357,8 @@
     <Content Include="Views\Products\Unit.cshtml" />
     <Content Include="Views\Products\Attr.cshtml" />
     <Content Include="Views\Products\Category.cshtml" />
+    <Content Include="Views\Products\Products.cshtml" />
+    <Content Include="Views\Products\ChooseDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

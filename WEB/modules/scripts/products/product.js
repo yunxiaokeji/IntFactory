@@ -185,6 +185,7 @@ define(function (require, exports, module) {
             BigSmallMultiple: 1,
             CategoryID: $("#categoryID").val(),
             Status: $("#status").prop("checked") ? 1 : 0,
+            IsPublic: $("#isPublic").prop("checked") ? 1 : 0,
             AttrList: attrlist,
             ValueList: valuelist,
             AttrValueList: attrvaluelist,
@@ -537,6 +538,7 @@ define(function (require, exports, module) {
         //$("#effectiveDays").val(model.EffectiveDays);
 
         $("#status").prop("checked", model.Status == 1);
+        $("#isPublic").prop("checked", model.IsPublic > 0);
         //$("#isNew").prop("checked", model.IsNew == 1);
         //$("#isRecommend").prop("checked", model.IsRecommend == 1);
         //$("#isAllow").prop("checked", model.IsAllow == 1);
