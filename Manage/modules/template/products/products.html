@@ -7,7 +7,7 @@
     <td><a href="/Products/ChooseDetail?pid={%=item.ProductID%}" target="_blank">{%=item.ProductName%}</a></td>
     <td>{%=item.ProductCode%}</td>
     <td class="center">{%=item.Price.toFixed(2)+'/'+item.UnitName%}</td>
-    <td class='center'>{%=item.IsPublic==1?"待审核":"已公开"%}</td>
+    <td class='center'>{%=item.IsPublicStr%}</td>
     <td>{%=item.CategoryName%}</td>
     <td>{%=item.ProviderName%}</td>
     <td class="tRight">

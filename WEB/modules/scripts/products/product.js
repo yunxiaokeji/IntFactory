@@ -538,7 +538,7 @@ define(function (require, exports, module) {
         //$("#effectiveDays").val(model.EffectiveDays);
 
         $("#status").prop("checked", model.Status == 1);
-        $("#isPublic").prop("checked", model.IsPublic > 0);
+        $("#isPublic").prop("checked", (model.IsPublic > 0 && model.IsPublic < 3));
         //$("#isNew").prop("checked", model.IsNew == 1);
         //$("#isRecommend").prop("checked", model.IsRecommend == 1);
         //$("#isAllow").prop("checked", model.IsAllow == 1);

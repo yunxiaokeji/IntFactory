@@ -366,6 +366,9 @@ namespace IntFactoryBusiness
                 {
                     model.UnitName = GetUnitByID(model.SmallUnitID).UnitName;
                 }
+
+                model.IsPublicStr = CommonBusiness.GetEnumDesc((EnumProductPublicStatus)model.IsPublic);
+
                 list.Add(model);
             }
             return list;
@@ -385,6 +388,7 @@ namespace IntFactoryBusiness
                 {
                     model.UnitName = GetUnitByID(model.SmallUnitID).UnitName;
                 }
+                model.IsPublicStr = CommonBusiness.GetEnumDesc((EnumProductPublicStatus)model.IsPublic);
                 list.Add(model);
             }
             return list;
@@ -536,6 +540,20 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<ProductUseLogEntity> GetProductUseLogs(string productid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            DataSet ds = ProductsDAL.BaseProvider.GetProductUseLogs(productid, pageSize, pageIndex, ref totalCount, ref pageCount);
+
+            List<ProductUseLogEntity> list = new List<ProductUseLogEntity>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                ProductUseLogEntity model = new ProductUseLogEntity();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
+
         /// <summary>
         /// 获取产品信息（加入购物车页面）
         /// </summary>
@@ -552,14 +570,23 @@ namespace IntFactoryBusiness
                 model.FillData(ds.Tables["Product"].Rows[0]);
 
                 //单位
-                model.BigUnit = new ProductUnit();
-                model.BigUnit.FillData(ds.Tables["Unit"].Select("UnitID='" + model.BigUnitID + "'").FirstOrDefault());
+                model.BigUnit = GetUnitByID(model.BigUnitID);
 
-                model.SmallUnit = new ProductUnit();
-                model.SmallUnit.FillData(ds.Tables["Unit"].Select("UnitID='" + model.SmallUnitID + "'").FirstOrDefault());
+                model.SmallUnit = GetUnitByID(model.SmallUnitID);
 
                 model.AttrLists = new List<ProductAttr>();
                 model.SaleAttrs = new List<ProductAttr>();
+
+                model.Providers = new ProvidersEntity();
+                if (!string.IsNullOrEmpty(model.ProdiverID))
+                {
+                    model.Providers.FillData(ds.Tables["Providers"].Rows[0]);
+                    if (!string.IsNullOrEmpty(model.Providers.CityCode))
+                    {
+                        var city = CommonBusiness.GetCityByCode(model.Providers.CityCode);
+                        model.Providers.Address = city.Province + city.City + city.Counties + model.Providers.Address;
+                    }
+                }
 
                 foreach (DataRow attrtr in ds.Tables["Attrs"].Rows)
                 {
@@ -581,7 +608,6 @@ namespace IntFactoryBusiness
                                 break;
                             }
                         }
-                       
                     }
                     else
                     {
@@ -619,6 +645,7 @@ namespace IntFactoryBusiness
 
             return model;
         }
+
         #endregion
 
         #region 添加
@@ -964,10 +991,10 @@ namespace IntFactoryBusiness
 
         public bool DeleteProductIsPublic(string productid, string operateIP, string operateID)
         {
-            bool bl = CommonBusiness.Update("Products", "IsPublic", 0, " ProductID='" + productid + "' and IsPublic=2");
+            bool bl = CommonBusiness.Update("Products", "IsPublic", 4, " ProductID='" + productid + "' and IsPublic=2");
             if (bl)
             {
-                string msg = "取消材料公开状态";
+                string msg = "撤销材料公开状态";
                 LogBusiness.AddLog(productid, EnumLogObjectType.Product, msg, operateID, operateIP, "", "", "");
             }
             return bl;

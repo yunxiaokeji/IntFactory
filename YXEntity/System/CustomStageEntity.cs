@@ -55,6 +55,7 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string CreateUserID { get; set; }
 
+        [Property("Lower")]
         public string ProcessID { get; set; }
 
         [Property("Lower")]

@@ -34,6 +34,7 @@ namespace IntFactoryEntity
 
         public Users CreateUser { get; set; }
 
+        [Property("Lower")]
         public string OwnerID { get; set; }
 
         public Users Owner { get; set; }

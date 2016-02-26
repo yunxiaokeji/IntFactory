@@ -260,11 +260,12 @@ namespace IntFactoryBusiness
         /// <returns></returns>
         public static Users GetUserByUserID(string userid, string agentid)
         {
+            
             if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(agentid))
             {
                 return null;
             }
-
+            userid = userid.ToLower();
             var list = GetUsers(agentid);
             if (list.Where(u => u.UserID == userid).Count() > 0)
             {

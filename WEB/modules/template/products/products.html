@@ -8,7 +8,7 @@
     <td>{%=item.ProductCode%}</td>
     <td class="center">{%=item.Price.toFixed(2)+'/'+item.UnitName%}</td>
     <td class='center'><div class="status" data-id="{%=item.ProductID%}" data-value="{%=item.Status==1%}"></div></td>
-    <td class='center'>{%=item.IsPublic==1?"待审核":item.IsPublic==2?"已公开":"未公开"%}</td>
+    <td class='center'>{%=item.IsPublicStr%}</td>
     <td>{%=item.CategoryName%}</td>
     <td>{%=item.ProviderName%}</td>
     <td class="center"><a class="ico-edit" title="编辑" href="ProductDetail/{%=item.ProductID%}"></a></td>
