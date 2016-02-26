@@ -92,7 +92,10 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Customer/Orders");
             }
-            ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.AgentID, CurrentUser.ClientID);
+            if (model.Status == 0)
+            {
+                ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.AgentID, CurrentUser.ClientID);
+            }
             ViewBag.Model = model;
             return View();
         }

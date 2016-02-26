@@ -454,5 +454,10 @@
     <None Include="Procedures\Products\P_GetProductsAll.sql" />
     <None Include="Procedures\Products\P_GetProductUseLogs.sql" />
     <Build Include="Procedures\Sales\P_GetOrderPlans.sql" />
+    <None Include="Procedures\Sales\P_UpdateProfitPrice.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderProcess.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderProductLoss.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderProductQuantity.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderStatus.sql" />
   </ItemGroup>
 </Project>

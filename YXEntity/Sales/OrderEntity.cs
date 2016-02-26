@@ -41,6 +41,9 @@ namespace IntFactoryEntity
 
         public string PlanPrice { get; set; }
 
+        public decimal FinalPrice { get; set; }
+
+        [Property("Lower")]
         public string CategoryID { get; set; }
 
         public int PlanQuantity { get; set; }
@@ -62,12 +65,15 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string StageID { get; set; }
 
+        [Property("Lower")]
         public string ProcessID { get; set; }
 
         public OrderProcessEntity OrderProcess { get; set; }
 
 
         public decimal Price { get; set; }
+
+        public decimal ProfitPrice { get; set; }
 
         /// <summary>
         /// 

@@ -7,6 +7,7 @@
 /*阶段*/
 .stage-items { height:40px; width:100%; }
 .stage-items  li{ float:left; height:40px; position:relative; cursor:pointer;  margin-right:10px; }
+.stage-items  li a { overflow:auto; display:inline-block; height:40px; }
 .stage-items  li:hover{ background-color:#2F73B8;}
 .stage-items  li.normal{ background-color:#f3f3f3; border:solid 1px #ccc;}
 .stage-items  li.ing{ background-color:#bfeed3 ; border:solid 1px #C0EED2;}
@@ -29,7 +30,7 @@
 /*订单状态记录*/
 
 .status-items { margin-right:20px; }
-.status-items li{width:100%; overflow:auto; }
+.status-items li{ width:100%; overflow:auto; }
 .status-items span { display:inline-block; line-height:16px; float:left; color:#999; }
 .status-items .status-bg { width:16px;height:16px; border-radius:8px; background-color:#ccc; }
 .status-items .status-line { width:4px;height:30px; background-color:#eee; margin-left:6px; }

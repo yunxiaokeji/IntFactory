@@ -65,6 +65,7 @@ namespace IntFactoryEntity
 
         public int IsDefault { get; set; }
 
+        [Property("Lower")] 
         public string OwnerID { get; set; }
 		/// <summary>
 		/// 

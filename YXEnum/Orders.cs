@@ -22,7 +22,7 @@ namespace IntFactoryEnum
         [DescriptionAttribute("封样封价")]
         FYFJ = 3,
         [DescriptionAttribute("待大货")]
-        SC = 4,
+        DDH = 4,
         [DescriptionAttribute("生产中")]
         DQR = 5,
         [DescriptionAttribute("生产完成")]

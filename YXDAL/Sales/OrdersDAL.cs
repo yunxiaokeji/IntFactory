@@ -252,12 +252,13 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderProcess", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderStatus(string orderid, int status, int quantity, string operateid, string agentid, string clientid)
+        public bool UpdateOrderStatus(string orderid, int status, int quantity, decimal price, string operateid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@Status",status),
                                      new SqlParameter("@PlanQuantity",quantity),
+                                     new SqlParameter("@FinalPrice",price),
                                      new SqlParameter("@DocCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@AgentID" , agentid),
@@ -265,6 +266,19 @@ namespace IntFactoryDAL
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderStatus", paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool UpdateProfitPrice(string orderid, decimal profit, string operateid, string agentid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@Profit",profit),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@AgentID" , agentid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            return ExecuteNonQuery("P_UpdateProfitPrice", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool DeleteOrder(string orderid, string operateid, string agentid, string clientid)

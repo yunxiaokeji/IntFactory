@@ -23,8 +23,9 @@
     <div class="content-title">
         <div class="left titlename">订单编号：@(model.OrderCode)</div>
         <div id="updateOrderInfo" class="left ico-edit mLeft50"></div>
-        <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >回退</div>
+        @*<div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >回退</div>*@
         <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
+        @*<div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >转移工厂</div>*@
     </div>
     
     <ul class="content-info left">
@@ -35,16 +36,30 @@
             <span class="column-title">负责人：</span> <label class="left" id="lblOwner">@(model.Owner != null ? model.Owner.Name : "--")</label>
             <span title="更换负责人" class="ico-change left mTop5 mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner"></span>
         </li>
-        <li>
-            <span class="column-title">加工数量：</span>
-            <label id="planQuantity">@(model.PlanQuantity)</label>
-        </li>
+        
         <li>
             <span class="column-title">期望价格：</span>
             <label>@(model.PlanPrice)</label>
         </li>
         <li>
-            <span class="column-title">总成本：</span>
+            <span class="column-title">最终报价：</span>
+            <label>@(model.FinalPrice.ToString("f2"))</label>
+        </li>
+        <li>
+            <span class="column-title">成本：</span>
+            <label>@(model.Price.ToString("f2"))</label>
+        </li>
+        <li>
+            <span class="column-title">利润比例(%)：</span>
+            <label class="left" id="profitPrice">@((model.ProfitPrice*100).ToString("f2"))</label> <div id="updateProfitPrice" class="left ico-edit mLeft20 mTop5"></div>
+        </li>
+        <li>
+            <span class="column-title">加工数量：</span>
+            <label id="planQuantity">@(model.PlanQuantity)</label>
+        </li>
+       
+        <li>
+            <span class="column-title">总金额：</span>
             <label id="totalMoney">@(model.TotalMoney.ToString("f2"))</label>
         </li>
         <li>
@@ -149,11 +164,13 @@
                 foreach (var stage in model.Tasts)
                 { 
                     <li data-stageid="@(stage.StageID)" data-orderid="@(model.OrderID)" data-taskid="@(stage.TaskID)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
-                        <span class="name">@(stage.Title)</span>
-                        <span class="status-bg right">
-                            <span class="status-color"></span>
-                        </span>
-                        <span class="status right">@(stage.FinishStatus == 0 ? "未开始" : stage.FinishStatus == 1 ? "进行中" : "已完成")</span>
+                        <a href="/Task/Detail/@(stage.TaskID)">
+                            <span class="name">@(stage.Title)</span>
+                            <span class="status-bg right">
+                                <span class="status-color"></span>
+                            </span>
+                            <span class="status right">@(stage.FinishStatus == 0 ? "未开始" : stage.FinishStatus == 1 ? "进行中" : "已完成")</span>
+                         </a>
                     </li>
                 }
             }
@@ -191,7 +208,6 @@
                 <td class="">消耗量</td>
                 <td class="">损耗量</td>
                 <td class="tRight">小计</td>
-                <td class="">删除</td>
             </tr>
             @foreach (var detail in model.Details)
             { 
@@ -200,12 +216,9 @@
                     <td>@(detail.Remark)</td>
                     <td class="center">@(detail.UnitName)</td>
                     <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
-                    <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
-                    <td class="center tr-loss"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Loss.ToString("f2"))" class="loss width50" value="@(detail.Loss.ToString("f2"))" /></td>
+                    <td class="center tr-quantity"><label class="quantity">@(detail.Quantity.ToString("f2"))</label></td>
+                    <td class="center tr-loss"><label class="loss">@(detail.Loss.ToString("f2"))</label></td>
                     <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
-                    <td class="center">
-                        <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
-                    </td>
                 </tr>
             }
             <tr class="amount-item">
@@ -219,7 +232,6 @@
                 <td></td>
             </tr>
         </table>
-        <a href="/Customer/ChooseProducts/@(model.OrderID)" class="btn right mTop10">添加材料</a>
     </div>
      <table id="navPays" class="nav-partdiv table-list mTop20 hide">
         <tr class="tr-header">

@@ -29,7 +29,7 @@ define(function (require, exports, module) {
 
         stages.find("li .leftbg").first().removeClass("leftbg");
         stages.find("li .rightbg").last().removeClass("rightbg");
-        stages.find("li").width(width / stages.find("li").length - 15);
+        stages.find("li,a").width(width / stages.find("li").length - 15);
 
         if (_self.status != 0 && _self.status != 4) {
             $("#changeProcess").hide();
@@ -45,8 +45,8 @@ define(function (require, exports, module) {
             $("#changeOrderStatus").html("完成打样");
         } else if (_self.status == 2) {
             $("#changeOrderStatus").html("完成合价");
-        } else if (_self.status == 3 && model.OrderType == 1) {
-            $("#changeOrderStatus").html("转为大货");
+        } else if (_self.status == 3) {
+            $("#changeOrderStatus").html("开始大货");
         } else if (_self.status == 4) {
             $("#changeOrderStatus").html("开始生产");
         } else if (_self.status == 5) {
@@ -70,7 +70,106 @@ define(function (require, exports, module) {
     ObjectJS.bindEvent = function () {
         var _self = this;
 
-        $("#btnreturn,#btnconfirm,#btndelete").hide();
+        $("#btnreturn").hide();
+        if (_self.status > 0) {
+            $("#btndelete").hide();//#btnreturn,
+
+            if (_self.status >= 3) {
+                $("#updateProfitPrice").hide();
+            } else {
+                //设置利润比例
+                $("#updateProfitPrice").click(function () {
+                    doT.exec("template/orders/updateProfitPrice.html", function (template) {
+                        var innerText = template();
+                        Easydialog.open({
+                            container: {
+                                id: "show-updateProfitPrice",
+                                header: "设置利润比例",
+                                content: innerText,
+                                yesFn: function () {
+                                    var price = $("#iptProfitPrice").val().trim();
+                                    if (!price.isDouble() || price < 0) {
+                                        alert("利润比例必须为不小于0的数字！");
+                                        return false;
+                                    }
+                                    _self.updateProfitPrice(price);
+                                },
+                                callback: function () {
+
+                                }
+                            }
+                        });
+
+                        $("#iptProfitPrice").focus();
+                        $("#iptProfitPrice").val($("#profitPrice").html())
+                    });
+                });
+            }
+        } else { //需求单
+            $("#btndelete").show();//#btnreturn,
+
+            //删除需求单
+            $("#btndelete").click(function () {
+                confirm("需求单删除后不可恢复，确认删除吗？", function () {
+                    _self.deleteOrder();
+                });
+            });
+            //转移工厂
+            $("#btnchangeclient").click(function () {
+                doT.exec("template/orders/changeclient.html", function (template) {
+                    var innerText = template();
+                    Easydialog.open({
+                        container: {
+                            id: "show-changeclient",
+                            header: "需求单转移工厂",
+                            content: innerText,
+                            yesFn: function () {
+                                var clientcode = $("#produceQuantity").val().trim();
+                                if (!clientcode || clientcode.length < 6) {
+                                    alert("工厂编码不能小于6位字符！");
+                                    return false;
+                                }
+                                
+                            },
+                            callback: function () {
+
+                            }
+                        }
+                    });
+
+                    $("#produceQuantity").focus();
+                    $("#produceQuantity").val($("#planQuantity").html())
+
+                });
+            });
+
+            //更换流程
+            $("#changeProcess").click(function () {
+                var _this = $(this);
+                ChooseProcess.create({
+                    title: "更换流程",
+                    type: _self.model.OrderType,
+                    callback: function (items) {
+                        if (items.length > 0) {
+                            if (_this.data("processid") != items[0].id) {
+                                Global.post("/Orders/UpdateOrderProcess", {
+                                    processid: items[0].id,
+                                    orderid: _this.data("id"),
+                                    name: items[0].name
+                                }, function (data) {
+                                    if (data.status) {
+                                        location.href = location.href;
+                                    }
+                                });
+                            } else {
+                                alert("请选择不同流程进行更换!");
+                            }
+                        }
+                    }
+                });
+            });
+
+        }
 
         //转移拥有者
         $("#changeOwner").click(function () {
@@ -98,79 +197,7 @@ define(function (require, exports, module) {
             });
         });
 
-        //转移拥有者
-        $("#changeProcess").click(function () {
-            var _this = $(this);
-            ChooseProcess.create({
-                title: "更换流程",
-                type: _self.model.OrderType,
-                callback: function (items) {
-                    if (items.length > 0) {
-                        if (_this.data("processid") != items[0].id) {
-                            Global.post("/Orders/UpdateOrderProcess", {
-                                processid: items[0].id,
-                                orderid: _this.data("id"),
-                                name: items[0].name
-                            }, function (data) {
-                                if (data.status) {
-                                    location.href = location.href;
-                                }
-                            });
-                        } else {
-                            alert("请选择不同流程进行更换!");
-                        }
-                    }
-                }
-            });
-        });
-
-        //编辑单价
-        $(".price").change(function () {
-            var _this = $(this);
-            if (_this.val().isDouble() && _this.val() > 0) {
-                _self.editPrice(_this);
-            } else {
-                _this.val(_this.data("value"));
-            }
-        });
-
-        //编辑数量
-        $(".quantity").change(function () {
-            if ($(this).val().isDouble() && $(this).val() > 0) {
-                _self.editQuantity($(this));
-            } else {
-                $(this).val($(this).data("value"));
-            }
-        });
-
-        //编辑损耗
-        $(".loss").change(function () {
-            if ($(this).val().isDouble() && $(this).val() >= 0) {
-                _self.editLoss($(this));
-            } else {
-                $(this).val($(this).data("value"));
-            }
-        });
-
-        //删除产品
-        $(".ico-del").click(function () {
-            var _this = $(this);
-            confirm("确认从清单中移除此材料吗？", function () {
-                Global.post("/Orders/DeleteProduct", {
-                    orderid: _self.orderid,
-                    autoid: _this.data("id"),
-                    name: _this.data("name")
-                }, function (data) {
-                    if (!data.status) {
-                        alert("系统异常，请重新操作！");
-                    } else {
-                        _this.parents("tr.item").remove();
-                        _self.getAmount();
-                    }
-                });
-            });
-        });
-
+        //更改订单状态
         $("#changeOrderStatus").click(function () {
             var _this=$(this);
             //开始打样
@@ -178,12 +205,64 @@ define(function (require, exports, module) {
                 confirm("转为订单后不可撤销且不能变更流程，确认转为订单吗？", function () {
                     _self.updateOrderStatus(1);
                 });
-            } //开始生产
+            } //开始大货
             else if (_self.model.OrderType == 2 && _self.status == 0) {
                 confirm("转为订单后不可撤销且不能变更流程，确认转为订单吗？", function () {
                     _self.updateOrderStatus(4);
                 });
-            }
+            }//合价完成
+            else if (_self.status == 2) {
+                doT.exec("template/orders/sureprice.html", function (template) {
+                    var innerText = template();
+                    Easydialog.open({
+                        container: {
+                            id: "show-surequantity",
+                            header: "确认打样价格",
+                            content: innerText,
+                            yesFn: function () {
+                                var price = $("#iptFinalPrice").val().trim();
+                                if (!price.isDouble() || price <= 0) {
+                                    alert("价格必须为大于0的数字！");
+                                    return false;
+                                }
+                                _self.updateOrderStatus(3, 0, price);
+                            },
+                            callback: function () {
+
+                            }
+                        }
+                    });
+
+                    $("#iptFinalPrice").focus();
+                    $("#iptFinalPrice").val(($("#amount").text() * (1 + $("#profitPrice").text() / 100)).toFixed(2))
+                });
+            } //开始大货
+            else if (_self.status == 3) {
+                doT.exec("template/orders/surequantity.html", function (template) {
+                    var innerText = template();
+                    Easydialog.open({
+                        container: {
+                            id: "show-surequantity",
+                            header: "确认大货数量",
+                            content: innerText,
+                            yesFn: function () {
+                                var quantity = $("#produceQuantity").val().trim();
+                                if (!quantity.isInt() || quantity <= 0) {
+                                    alert("大货数量必须为正整数！");
+                                    return false;
+                                }
+                                _self.updateOrderStatus(4, quantity, 0);
+                            },
+                            callback: function () {
+
+                            }
+                        }
+                    });
+
+                    $("#produceQuantity").focus();
+                    $("#produceQuantity").val($("#planQuantity").html())
+                });
+            }//开始生产
             else if (_self.status == 4) {
                 doT.exec("template/orders/surequantity.html", function (template) {
                     var innerText = template();
@@ -198,7 +277,7 @@ define(function (require, exports, module) {
                                     alert("大货数量必须为正整数！");
                                     return false;
                                 }
-                                _self.updateOrderStatus(5, quantity);
+                                _self.updateOrderStatus(5, quantity, 0);
                             },
                             callback: function () {
 
@@ -208,20 +287,13 @@ define(function (require, exports, module) {
 
                     $("#produceQuantity").focus();
                     $("#produceQuantity").val($("#planQuantity").html())
-                    
                 });
-            }
-            else {
+            }else {
                 confirm("操作后不可撤销，确认" + _this.html() + "吗？", function () {
                     _self.updateOrderStatus(_self.status * 1 + 1);
                 });
             }
             
-        });
-
-
-        require.async("showtaskdetail", function () {
-            $(".task-item").showtaskdetail();
         });
 
         //编辑订单信息
@@ -263,6 +335,7 @@ define(function (require, exports, module) {
                 });
             });
         });
+
         //切换模块
         $(".tab-nav-ul li").click(function () {
             var _this = $(this);
@@ -280,62 +353,46 @@ define(function (require, exports, module) {
                 $("#addInvoice").show();
             }
         });
-        
     }
-    //更改材料单价
-    ObjectJS.editPrice = function (ele) {
+
+    //删除订单
+    ObjectJS.deleteOrder = function () {
         var _self = this;
-        Global.post("/Orders/UpdateOrderPrice", {
-            orderid: _self.orderid,
-            autoid: ele.data("id"),
-            name: ele.data("name"),
-            price: ele.val()
-        }, function (data) {
-            if (!data.status) {
-                ele.val(ele.data("value"));
-                alert("价格修改失败，可能因为订单状态已改变，请刷新页面后重试！");
+        Global.post("/Orders/DeleteOrder", { orderid: _self.orderid }, function (data) {
+            if (data.status) {
+                location.href = "/Customer/Orders";
             } else {
-                ele.parent().nextAll(".amount").html((ele.parent().prevAll(".tr-quantity").find("label").text() * ele.val()).toFixed(2));
-                ele.data("value", ele.val());
-                _self.getAmount();
+                alert("需求单删除失败，可能因为单据状态已改变，请刷新页面后重试！");
             }
         });
     }
 
-    //更改消耗量
-    ObjectJS.editQuantity = function (ele) {
+    //转移工厂
+    ObjectJS.changeOrderClient = function (code) {
         var _self = this;
-        Global.post("/Orders/UpdateProductQuantity", {
+        Global.post("/Orders/UpdateOrderClient", {
             orderid: _self.orderid,
-            autoid: ele.data("id"),
-            name: ele.data("name"),
-            quantity: ele.val()
+            clientcode: code
         }, function (data) {
-            if (!data.status) {
-                ele.val(ele.data("value"));
-                alert("系统异常，请重新操作！");
+            if (data.status) {
+                location.href = "/Customer/Orders";
             } else {
-                ele.data("value", ele.val());
-                _self.getAmount();
+                alert("需求单转移失败，可能因为单据状态已改变，请刷新页面后重试！");
             }
         });
     }
 
-    //更改损耗量
-    ObjectJS.editLoss = function (ele) {
+    //转移工厂
+    ObjectJS.updateProfitPrice = function (profit) {
         var _self = this;
-        Global.post("/Orders/UpdateProductLoss", {
+        Global.post("/Orders/UpdateProfitPrice", {
             orderid: _self.orderid,
-            autoid: ele.data("id"),
-            name: ele.data("name"),
-            quantity: ele.val()
+            profit: profit
         }, function (data) {
-            if (!data.status) {
-                ele.val(ele.data("value"));
-                alert("系统异常，请重新操作！");
+            if (data.status) {
+                location.href = location.href;
             } else {
-                ele.data("value", ele.val());
-                _self.getAmount();
+                alert("利润比例设置失败，可能因为订单状态已改变，请刷新页面后重试！");
             }
         });
     }
@@ -345,11 +402,10 @@ define(function (require, exports, module) {
         var amount = 0;
         $(".amount").each(function () {
             var _this = $(this);
-            _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
+            _this.html(((_this.prevAll(".tr-quantity").find("label").text() * 1 + _this.prevAll(".tr-loss").find("label").text() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
             amount += _this.html() * 1;
         });
         $("#amount").text(amount.toFixed(2));
-        $("#totalMoney").text((amount * $("#planQuantity").text()).toFixed(2));
     }
 
     //编辑信息
@@ -467,15 +523,16 @@ define(function (require, exports, module) {
     }
 
     //更改订单状态
-    ObjectJS.updateOrderStatus = function (status, quantity) {
+    ObjectJS.updateOrderStatus = function (status, quantity, price) {
         var _self = this;
         Global.post("/Orders/UpdateOrderStatus", {
             orderid: _self.orderid,
             status: status,
-            quantity: quantity ? quantity : 0
+            quantity: quantity ? quantity : 0,
+            price: price ? price : 0
         }, function (data) {
             if (!data.status) {
-                alert("系统异常，请重新操作！");
+                alert("订单状态有变更，请重新操作！");
             } else {
                 location.href = location.href;
             }
@@ -538,18 +595,6 @@ define(function (require, exports, module) {
             });
 
             $("#navInvoices .tr-header").after(innerhtml);
-        });
-    }
-
-    //删除订单
-    ObjectJS.deleteOrder = function () {
-        var _self = this;
-        Global.post("/Orders/DeleteOrder", { orderid: _self.orderid }, function (data) {
-            if (data.status) {
-                location.href = location.href;
-            } else {
-                alert("订单删除失败，可能因为订单状态已改变，请刷新页面后重试！");
-            }
         });
     }
 

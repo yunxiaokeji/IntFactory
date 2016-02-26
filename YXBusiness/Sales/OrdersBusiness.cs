@@ -320,7 +320,7 @@ namespace IntFactoryBusiness
             bool bl = OrdersDAL.BaseProvider.DeleteOrder(orderid, operateid, agentid, clientid);
             if (bl)
             {
-                string msg = "删除订单";
+                string msg = "删除需求单";
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
             }
             return bl;
@@ -349,18 +349,34 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderStatus(string orderid, EnumOrderStatus status, int quantity, string operateid, string ip, string agentid, string clientid)
+        public bool UpdateOrderStatus(string orderid, EnumOrderStatus status, int quantity, decimal price, string operateid, string ip, string agentid, string clientid)
         {
-            bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, quantity,operateid, agentid, clientid);
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, quantity, price, operateid, agentid, clientid);
             if (bl)
             {
                 string msg = "订单状态更换为：" + CommonBusiness.GetEnumDesc<EnumOrderStatus>(status);
-                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
 
-                if (quantity > 0)
+                switch (status)
                 {
-                    LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, "大货数量确认为：" + quantity, operateid, ip, "", agentid, clientid);
+                    case EnumOrderStatus.FYFJ:
+                        msg = "打样单完成合价，最终报价为：" + price;
+                        break;
+                    case EnumOrderStatus.DDH:
+                        msg = "打样单开始大货，大货数量为：" + quantity;
+                        break;
                 }
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateProfitPrice(string orderid, decimal profit, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateProfitPrice(orderid, profit, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单利润比例设置为：" + profit;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
             }
             return bl;
         }
