@@ -125,7 +125,7 @@ namespace YXERP.Controllers
         /// <param name="did"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public ActionResult ChooseDetail(string pid, string did, int type = 0, string guid = "")
+        public ActionResult ChooseDetail(string pid, string did, int type = 0, string guid = "",string tid="")
         {
             if (string.IsNullOrEmpty(pid))
             {
@@ -140,6 +140,7 @@ namespace YXERP.Controllers
             ViewBag.DetailID = did;
             ViewBag.OrderType = type;
             ViewBag.GUID = guid;
+            ViewBag.TID = tid;
             return View();
         }
 

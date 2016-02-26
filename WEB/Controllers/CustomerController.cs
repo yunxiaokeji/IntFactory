@@ -97,10 +97,11 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult ChooseProducts(string id)
+        public ActionResult ChooseProducts(string id,string tid="")
         {
             ViewBag.Type = (int)EnumDocType.Order;
             ViewBag.GUID = id;
+            ViewBag.TID = tid;
             ViewBag.Title = "选择订单材料";
             return View("FilterProducts");
         }

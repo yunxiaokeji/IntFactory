@@ -10,7 +10,7 @@
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/shoppingcart/filterdetails"], function (obj) {
-            obj.init('@Html.ToJSONString(model)', '@ViewBag.DetailID', '@ViewBag.OrderType', '@ViewBag.GUID');
+            obj.init('@Html.ToJSONString(model)', '@ViewBag.DetailID', '@ViewBag.OrderType', '@ViewBag.GUID','@ViewBag.TID');
         });
     </script>
 }

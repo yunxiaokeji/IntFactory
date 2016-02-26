@@ -7,7 +7,7 @@
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/shoppingcart/filterproducts"], function (obj) {
-            obj.init('@ViewBag.Type', '@ViewBag.GUID');
+            obj.init('@ViewBag.Type', '@ViewBag.GUID','@ViewBag.TID');
         });
     </script>
 }

@@ -14,7 +14,11 @@
         });
     </script>
 }
-<div class="taskContent" id="taskDetailContent" data-taskid="@(model.TaskID)">
+<div class="header-box">
+    <span class="header-title left">任务详情</span>
+</div>
+
+<div class="taskContent mTop20" id="taskDetailContent" data-taskid="@(model.TaskID)">
     <div class="taskOperate">
         <div class="left">
             <div class="left"><img title="到期日期" style="width:30px;" src="/modules/images/ico-endtime.png" /></div>
@@ -54,7 +58,7 @@
             </li>
            
         </ul>
-        <div class="right"> <img class="right width100" onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@( string.IsNullOrEmpty(model.OrderImg)?"/modules/images/img-noimg.png":model.OrderImg)"/></div>
+        <div class="right"> <img class="right width150" onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@( string.IsNullOrEmpty(model.OrderImg)?"/modules/images/img-noimg.png":model.OrderImg)"/></div>
         <div class="clear"></div>
 
         
@@ -104,7 +108,7 @@
                             <td></td>
                         </tr>
                     </table>
-                    <a href="/Customer/ChooseProducts/@(model.OrderID)" class="btn right mTop10">添加材料</a>
+                    <a href="/Customer/ChooseProducts?id=@(model.OrderID)&tid=@(model.TaskID)" class="btn right mTop10">添加材料</a>
                     <div class="clear"></div>
                 </div>
             }
@@ -187,7 +191,7 @@
                {
                    <script type="text/javascript">
                        document.getElementById("platemakingContent").innerHTML = decodeURI('@(model.Remark)');
-                   </script>    
+                   </script>   
                }
             } 
             </div>
