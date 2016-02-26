@@ -249,7 +249,7 @@ namespace IntFactoryDAL
         public DataSet GetProductByIDForDetails(string productid)
         {
             SqlParameter[] paras = { new SqlParameter("@ProductID", productid) };
-            DataSet ds = GetDataSet("P_GetProductByIDForDetails", paras, CommandType.StoredProcedure, "Product|Details|Unit|Attrs|Values");
+            DataSet ds = GetDataSet("P_GetProductByIDForDetails", paras, CommandType.StoredProcedure, "Product|Details|Providers|Attrs|Values");
             return ds;
         }
 
@@ -262,6 +262,26 @@ namespace IntFactoryDAL
                                    };
 
             DataSet ds = GetDataSet("P_GetProductDetails", paras, CommandType.StoredProcedure, "Products");
+            return ds;
+        }
+
+        public DataSet GetProductUseLogs(string productid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@totalCount",SqlDbType.Int),
+                                       new SqlParameter("@pageCount",SqlDbType.Int),
+                                       new SqlParameter("@ProductID",productid),
+                                       new SqlParameter("@pageSize",pageSize),
+                                       new SqlParameter("@pageIndex",pageIndex)
+                                   };
+            paras[0].Value = totalCount;
+            paras[1].Value = pageCount;
+
+            paras[0].Direction = ParameterDirection.InputOutput;
+            paras[1].Direction = ParameterDirection.InputOutput;
+            DataSet ds = GetDataSet("P_GetProductUseLogs", paras, CommandType.StoredProcedure, "Products");
+            totalCount = Convert.ToInt32(paras[0].Value);
+            pageCount = Convert.ToInt32(paras[1].Value);
             return ds;
         }
 

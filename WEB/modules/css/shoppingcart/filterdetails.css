@@ -41,12 +41,32 @@
 .show-nav { height: 30px; width: 90%; line-height: 30px; margin-top: 20px; border-width: 2px 1px 1px; border-style: solid; 
             border-color: #999 #DEDFDE #DEDFDE; background-color: #F7F7F7; overflow: visible; }
 .show-nav-ul { float: left; height: 31px; margin-bottom: -1px; }
-.show-nav-ul li { height:30px; float:left; padding:0 20px; }
+.show-nav-ul li { height:30px; float:left; padding:0 20px; cursor:pointer; }
 .show-nav-ul .hover { position: relative; height: 35px; line-height: 35px; margin-top: -6px; margin-left: -1px; border-top: 2px solid #E4393C;
           border-left: 1px solid #DEDFDE; border-right: 1px solid #DEDFDE; background-color: #FFF; }
 
 .product-attr { padding:30px 50px; width:90%; border-style:solid ; border-width:0 1px 1px; border-color:#DEDFDE; margin-bottom:20px; box-sizing:padding-box; }
 .product-attr li{ width:22%; padding:5px 1%;}
+
+.product-uselog { padding:10px 20px; width:90%; border-style:solid ; border-width:0 1px 1px; border-color:#DEDFDE; margin-bottom:20px; box-sizing:padding-box;
+                  overflow:auto;
+}
+
+
+/*表格样式*/
+.use-table-list { width: 100%; border-spacing: 0px;}
+
+.use-table-list .tr-header{ height:35px; text-align:center; }
+.use-table-list .tr-header td{ height:35px; border-bottom:solid 2px #eee; font-size:13px; color:#999; padding:0 5px;
+                           white-space:nowrap; overflow: hidden; text-overflow:ellipsis; }
+
+.use-table-list tr:not(:first-child){ height:35px; cursor:pointer; }
+.use-table-list tr:not(:first-child):hover { background-color: #f6f6f6; }
+.use-table-list tr:not(:first-child) td{ padding:5px; line-height:35px; border-bottom:solid 1px #eee; max-width:500px; color:#333; 
+                                     white-space:nowrap; overflow: hidden; text-overflow:ellipsis;  }
+
+.use-table-list td a{ color:#4a98e7;  vertical-align:middle;}
+.use-table-list td a:hover{ color:red; text-decoration:underline; }
 
 /*描述*/
 .edui-container { overflow:auto; line-height:25px; width:90% !important; }

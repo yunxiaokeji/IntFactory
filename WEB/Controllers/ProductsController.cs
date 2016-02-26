@@ -658,6 +658,23 @@ namespace YXERP.Controllers
             };
         }
 
+
+        public JsonResult GetProductUseLogs(string productid,int pageindex)
+        {
+            int totalCount = 0;
+            int pageCount = 0;
+
+            var list = new ProductsBusiness().GetProductUseLogs(productid, 20, pageindex, ref totalCount, ref pageCount);
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         #endregion
 
         #endregion

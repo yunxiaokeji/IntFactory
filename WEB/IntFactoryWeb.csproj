@@ -235,6 +235,7 @@
     <Content Include="modules\scripts\task\detail.js" />
     <Content Include="modules\scripts\task\task.js" />
     <Content Include="modules\template\orders\surequantity.html" />
+    <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\task\task-list.html" />
