@@ -337,7 +337,6 @@
         ObjectJS.binddropdown();
 
         ObjectJS.bindContentClick();
-        ObjectJS.bindInputBlur();
 
         ObjectJS.bindAddColumn();
         ObjectJS.bindRemoveColumn();
@@ -350,14 +349,16 @@
         });
     };
 
+    //文档点击的隐藏事件
     ObjectJS.bindDocumentClick = function () {
         $(document).unbind().bind("click", function (e) {
-            //隐藏下拉
+            //隐藏制版列操作下拉框
             if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
                 $(".dropdown-ul").hide();
             }
 
-            if (!$(e.target).parents().hasClass("tbContentIpt") && !$(e.target).hasClass("tbContentIpt") && !$(e.target).hasClass("tbContent") && !$(e.target).parents().hasClass("tbContent")) {
+            //隐藏制版行的输入框
+            if (!$(e.target).parents().hasClass("table-list") && !$(e.target).hasClass("table-list") && !$(e.target).hasClass("tbContent") && !$(e.target).parents().hasClass("tbContent")) {
 
                 $(".tbContentIpt:visible").each(function () {
                     $(this).hide().prev().html($(this).val()).show();
@@ -368,6 +369,7 @@
 
     }
 
+    //显示制版列操作下拉框
     ObjectJS.binddropdown = function () {
         $(".ico-dropdown").unbind().bind("click", function () {
             var _this = $(this);
@@ -381,34 +383,42 @@
 
     }
 
+    //制版的内容点击
     ObjectJS.bindContentClick = function () {
-        $(".table-list span.tbContent").unbind().bind("click", function () {
-            $(this).hide().next().show();
+        $(".table-list td").unbind().bind("click", function () {
+            $(".tbContentIpt:visible").each(function () {
+                $(this).hide().prev().html($(this).val()).show();
+            });
+
+            $(this).find('.tbContent').hide();
+            $(this).find('.tbContentIpt').show();
         });
     }
 
-    ObjectJS.bindInputBlur = function () {
-        $(".table-list .tbContentIpt").unbind().bind("blur", function () {
-            $(this).hide().prev().html($(this).val()).show();
-        });
-    }
-
+    //添加新列
     ObjectJS.bindAddColumn = function () {
         $("#btn-addColumn").unbind().bind("click", function () {
             var date = new Date();
             var columnnameid = date.toLocaleString() + date.getMilliseconds();
-            var newColumnHeadr = '<td class="width100 tLeft" data-columnname="columnname' + columnnameid + '"><span class="tbContent">新列名</span><input class="hide tbContentIpt" value="新列名" type="text"/><span class="ico-dropdown mRight10 right" data-columnname="columnname' + columnnameid + '"></span></td>';
+
+            var newColumnHeadr = '<td class="width100 tLeft" data-columnname="columnname' + columnnameid + '"></td>';
+            newColumnHeadr += '<span class="tbContent">新列名</span>';
+            newColumnHeadr += '<input class="hide tbContentIpt" value="新列名" type="text"/>';
+            newColumnHeadr += '<span class="ico-dropdown mRight10 right" data-columnname="columnname' + columnnameid + '"></span>';
+
             $("td[data-columnname='" + $(this).data("columnname") + "']").eq(0).after(newColumnHeadr);
 
-            var newColumn = '<td class="tLeft width100" data-columnname="columnname' + columnnameid + '"><span class="tbContent">无内容</span><input class="hide tbContentIpt" value="无内容" type="text"/></td>';
+            var newColumn = '<td class="tLeft width100" data-columnname="columnname' + columnnameid + '">/td>';
+            newColumn += '<span class="tbContent">无内容</span>';
+            newColumn += '<input class="hide tbContentIpt" value="无内容" type="text"/><';
             $("td[data-columnname='" + $(this).data("columnname") + "']:gt(0)").after(newColumn);
 
             ObjectJS.binddropdown();
             ObjectJS.bindContentClick();
-            ObjectJS.bindInputBlur();
         });
     }
 
+    //删除列
     ObjectJS.bindRemoveColumn = function () {
         $("#btn-removeColumn").unbind().bind("click", function () {
             if ($(".tr-header td").length == 2) {
@@ -420,31 +430,35 @@
         });
     }
 
+    //添加行
     ObjectJS.bindAddRow = function () {
-        $("span.btn-addRow").unbind().bind('click', function () {
-            var $newTR = $("<tr>" + $(this).parent().parent().html() + "</tr>");
-            $(this).parent().parent().after($newTR);
+        $("div.btn-addRow").unbind().bind('click', function () {
+            var $newTR = $("<tr>" + $(this).parent().parent().parent().html() + "</tr>");
+            $(this).parent().parent().parent().after($newTR);
 
             ObjectJS.bindContentClick();
-            ObjectJS.bindInputBlur();
 
             ObjectJS.bindAddRow();
             ObjectJS.bindRemoveRow();
         });
     }
 
+    //删除行
     ObjectJS.bindRemoveRow = function () {
-        $("span.btn-removeRow").unbind().bind('click', function () {
-            if ($("span.btn-removeRow").length == 1) {
+        $("div.btn-removeRow").unbind().bind('click', function () {
+            if ($("div.btn-removeRow").length == 1) {
                 alert("只剩最后一行,不能删除");
                 return;
             }
 
-            $(this).parent().parent().remove();
+            $(this).parent().parent().parent().remove();
         });
     }
 
+    //保存制版信息
     ObjectJS.updateTaskRemark = function () {
+        $(".table-list input.tbContentIpt").hide();
+
         Global.post("/Task/UpdateTaskRemark", { taskID: ObjectJS.taskid, remark:encodeURI( $(".platemakingContent").html()) }, function (data) {
             if (data.Result == 1) {
                 alert("保存成功");

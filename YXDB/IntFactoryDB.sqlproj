@@ -71,13 +71,12 @@
     <Folder Include="Procedures\Report" />
     <Folder Include="Procedures\Planwork" />
     <Folder Include="Procedures\RepotLog" />
-    <Folder Include="Table" />
     <Folder Include="Procedures\Task" />
+    <Folder Include="Table" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\InitDatabase.sql" />
     <None Include="Procedures\P_GetPagerData.sql" />
-    <None Include="Alter.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Manage\M_InsertClient.sql" />
@@ -387,7 +386,7 @@
     <None Include="Procedures\ShoppingCart\P_DeleteCart.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\System\P_DeletetOrderStage.sql" />
+    <None Include="Procedures\System\P_DeleteOpportunityStage.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Sales\P_UpdateOpportunityStage.sql" />
@@ -447,34 +446,13 @@
     <None Include="Procedures\Manage\M_Get_Report_AgentAction_Day.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\System\P_CreateOrderProcess.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Procedures\System\P_UpdateOrderProcessDefault.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Procedures\System\P_InsertOrderStage.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Procedures\Products\P_InsertOrderCategory.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Procedures\Products\P_UpdateOrderCategory.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Procedures\Products\P_DeleteOrderCategory.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="Table\OrderTask.sql" />
     <Build Include="Procedures\Task\P_CreateTask.sql" />
-    <Build Include="Procedures\Task\P_GetTasks.sql" />
     <Build Include="Procedures\Task\P_FinishTask.sql" />
-    <None Include="Procedures\Sales\P_UpdateOrderProductQuantity.sql" />
-    <None Include="Procedures\Sales\P_UpdateOrderProductLoss.sql" />
-    <None Include="Procedures\Sales\P_DeleteOrderProduct.sql" />
-    <None Include="Procedures\Sales\P_UpdateOrderProcess.sql" />
-    <None Include="Procedures\Sales\P_UpdateOrderStatus.sql" />
+    <Build Include="Procedures\Task\P_GetTasks.sql" />
     <Build Include="Procedures\Task\P_UpdateTaskEndTime.sql" />
+    <Build Include="Table\OrderTask.sql" />
     <None Include="Procedures\Products\P_GetProductsAll.sql" />
+    <None Include="AlterSql.sql" />
+    <Build Include="Procedures\Sales\P_GetOrderPlans.sql" />
   </ItemGroup>
 </Project>

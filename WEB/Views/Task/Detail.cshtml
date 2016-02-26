@@ -11,8 +11,6 @@
             seajs.use(["scripts/task/detail"], function (obj) {
                 obj.init('@(model.TaskID)', '@(model.StageID)', '@(model.OrderID)','@(model.Mark)');
             });
-
-            //$(".platemakingContent").html();
         });
     </script>
 }
@@ -119,14 +117,18 @@
 
             <div class="platemakingContent" id="platemakingContent">
                @{
-                   if(string.IsNullOrEmpty(model.Remark))
+                   if(!string.IsNullOrEmpty(model.Remark))
                    {
                     <table class="table-list">
                         <tr class="tr-header">
                             <td class="width100 tLeft" data-columnname="columnname1">
                                 <span class="tbContent">列名1</span>
-                                <input class="hide tbContentIpt" value="列名1" type="text"/>
-                                <span class="right ico-dropdown mRight5" data-columnname="columnname1"></span>
+                                <div class="left">
+                                    <input class="hide tbContentIpt" value="列名1" type="text"/>
+                                </div>
+                                
+                                <div class="right ico-dropdown mRight5" data-columnname="columnname1"></div>
+                                <div class="clear"></div>
                             </td>
                             <td class="width100 tLeft" data-columnname="columnname2">
                                 <span class="tbContent">列名2</span>
@@ -172,8 +174,11 @@
                                 <input class="hide tbContentIpt" value="无内容" type="text"/>
                             </td>
                             <td class="width150 center">
-                                <span class="btn-addRow btn">添加新行</span>
-                                <span class="mLeft10 btn-removeRow btn">删除此行</span>
+                                <div class="platemakingOperate">
+                                    <div class="btn-addRow btn-create left" title="添加新行"></div>
+                                    <div class="btn-removeRow btn-remove mLeft10 left" title="删除此行"></div>
+                                    <div class="clear"></div>
+                                </div>
                             </td>
                         </tr>
                     </table>
