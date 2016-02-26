@@ -162,12 +162,15 @@ define(function (require, exports, module) {
             productid: _self.productid,
             pageindex: page
         }, function (data) {
-
-            doT.exec("template/products/uselogs.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
-                $(".use-table-list .tr-header").after(innerhtml);
-            });
+            if (data.items.length > 0) {
+                doT.exec("template/products/uselogs.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
+                    $(".use-table-list .tr-header").after(innerhtml);
+                });
+            } else {
+                $(".use-table-list .tr-header").after("<tr><td colspan='5'><div class='noDataTxt' >暂无记录!<div></td></tr>");
+            }
             $("#pagerUseLogs").paginate({
                 total_count: data.totalCount,
                 count: data.pageCount,

@@ -388,6 +388,7 @@ namespace IntFactoryBusiness
                 {
                     model.UnitName = GetUnitByID(model.SmallUnitID).UnitName;
                 }
+                model.IsPublicStr = CommonBusiness.GetEnumDesc((EnumProductPublicStatus)model.IsPublic);
                 list.Add(model);
             }
             return list;
