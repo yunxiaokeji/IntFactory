@@ -7,7 +7,7 @@ define(function (require, exports, module) {
 
     var ObjectJS = {};
     //添加页初始化
-    ObjectJS.init = function (model, detailid, ordertype, guid) {
+    ObjectJS.init = function (model, detailid, ordertype, guid,tid) {
         var _self = this;
         _self.detailid = detailid;
         _self.ordertype = ordertype;
@@ -23,7 +23,8 @@ define(function (require, exports, module) {
         if (ordertype && ordertype > 0) {
             $(".content-body").createCart({
                 ordertype: ordertype,
-                guid: guid
+                guid: guid,
+                tid:tid
             });
         } else {
             $(".choose-div").hide();

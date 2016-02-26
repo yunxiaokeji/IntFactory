@@ -22,16 +22,18 @@
 
     var ObjectJS = {};
     //初始化
-    ObjectJS.init = function (type, guid) {
+    ObjectJS.init = function (type, guid,tid) {
         var _self = this;
         _self.type = type;
         _self.guid = guid;
+        _self.tid = tid;
         Params.DocType = type;
         _self.getChildCategory("");
         _self.bindEvent();
         $(".content-body").createCart({
             ordertype: type,
-            guid: guid
+            guid: guid,
+            tid: tid
         });
     }
 
@@ -278,7 +280,7 @@
 
                 //打开产品详情页
                 html.find(".productimg,.name").each(function () {
-                    $(this).attr("href", $(this).attr("href") + "&type=" + _self.type + "&guid=" + _self.guid);
+                    $(this).attr("href", $(this).attr("href") + "&type=" + _self.type + "&guid=" + _self.guid + "&tid=" + _self.tid);
                 });
                 //加入购物车
                 html.find(".btnAddCart").click(function () {

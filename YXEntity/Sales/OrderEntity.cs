@@ -205,6 +205,7 @@ namespace IntFactoryEntity
 
         public List<OrderStatusEntity> OrderStatus { get; set; }
 
+        public string Platemaking { get; set; }
         /// <summary>
         /// 填充数据
         /// </summary>

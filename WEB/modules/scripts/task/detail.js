@@ -10,12 +10,17 @@
         ObjectJS.taskid = taskid;
 
         ObjectJS.bindEvent(taskid, stageid, orderid);
-        if (mark == "1") {
+        //材料任务
+        if (mark == "1" || mark == "3") {
             ObjectJS.bindProduct();
-        }
+        }//制版任务
         else if (mark == "2") {
             ObjectJS.bindPlatemakingEvent();
         }
+        else {
+            ObjectJS.getAmount();
+        }
+
     };
 
     //任务基本信息操作事件
@@ -271,7 +276,7 @@
         }, function (data) {
             if (!data.status) {
                 ele.val(ele.data("value"));
-                alert("价格修改失败，可能因为订单状态已改变，请刷新页面后重试！");
+                alert("当前订单状态,不能进行修改");
             } else {
                 ele.parent().nextAll(".amount").html((ele.parent().prevAll(".tr-quantity").find("label").text() * ele.val()).toFixed(2));
                 ele.data("value", ele.val());
@@ -291,7 +296,7 @@
         }, function (data) {
             if (!data.status) {
                 ele.val(ele.data("value"));
-                alert("系统异常，请重新操作！");
+                alert("当前订单状态,不能进行修改");
             } else {
                 ele.data("value", ele.val());
                 _self.getAmount();
@@ -310,7 +315,7 @@
         }, function (data) {
             if (!data.status) {
                 ele.val(ele.data("value"));
-                alert("系统异常，请重新操作！");
+                alert("当前订单状态,不能进行修改");
             } else {
                 ele.data("value", ele.val());
                 _self.getAmount();
@@ -345,7 +350,7 @@
         ObjectJS.bindRemoveRow();
 
         $("#btn-updateTaskRemark").click(function () {
-            ObjectJS.updateTaskRemark();
+            ObjectJS.updateOrderPlatemaking();
         });
     };
 
@@ -456,10 +461,10 @@
     }
 
     //保存制版信息
-    ObjectJS.updateTaskRemark = function () {
+    ObjectJS.updateOrderPlatemaking = function () {
         $(".table-list input.tbContentIpt").hide();
 
-        Global.post("/Task/UpdateTaskRemark", { taskID: ObjectJS.taskid, remark:encodeURI( $(".platemakingContent").html()) }, function (data) {
+        Global.post("/Task/UpdateOrderPlatemaking", { orderid: ObjectJS.orderid, platemaking: encodeURI($(".platemakingContent").html()) }, function (data) {
             if (data.Result == 1) {
                 alert("保存成功");
             }

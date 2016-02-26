@@ -268,6 +268,7 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderStatus", paras, CommandType.StoredProcedure) > 0;
         }
 
+<<<<<<< HEAD
         public bool UpdateProfitPrice(string orderid, decimal profit, string operateid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
@@ -279,8 +280,7 @@ namespace IntFactoryDAL
                                    };
 
             return ExecuteNonQuery("P_UpdateProfitPrice", paras, CommandType.StoredProcedure) > 0;
-        }
-
+=======
         public bool UpdateOrderPlatemaking(string orderid, string platemaking)
         {
             SqlParameter[] paras = { 
@@ -291,6 +291,7 @@ namespace IntFactoryDAL
             string sqlText = " update orders set Platemaking=@Platemaking where OrderID=@OrderID";
 
             return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
+>>>>>>> aee88355e4f2482f8f2f27480b7fceca86ec1311
         }
 
         public bool DeleteOrder(string orderid, string operateid, string agentid, string clientid)
