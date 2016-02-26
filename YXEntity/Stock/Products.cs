@@ -357,6 +357,9 @@ namespace IntFactoryEntity
 			set{ _prodiverid=value;}
 			get{return _prodiverid;}
 		}
+
+        public ProvidersEntity Providers { get; set; }
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -448,6 +451,8 @@ namespace IntFactoryEntity
         public int LogicOut { get; set; }
 
         public int IsPublic { get; set; }
+
+        public string IsPublicStr { get; set; }
 
         /// <summary>
         /// 填充数据

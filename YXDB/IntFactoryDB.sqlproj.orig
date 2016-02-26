@@ -450,12 +450,13 @@
     <Build Include="Procedures\Task\P_FinishTask.sql" />
     <Build Include="Procedures\Task\P_GetTasks.sql" />
     <Build Include="Procedures\Task\P_UpdateTaskEndTime.sql" />
-<<<<<<< HEAD
     <Build Include="Table\OrderTask.sql" />
+    <None Include="Procedures\Products\P_GetProductsAll.sql" />
+<<<<<<< HEAD
+    <None Include="Procedures\Products\P_GetProductUseLogs.sql" />
+=======
     <None Include="AlterSql.sql" />
     <Build Include="Procedures\Sales\P_GetOrderPlans.sql" />
-=======
-    <None Include="Procedures\Products\P_GetProductsAll.sql" />
->>>>>>> 2f6717e0c6069530e6041645d68dadedf6debdc2
+>>>>>>> 6178a98216db556fcb2443aae6ab8de8dea7c194
   </ItemGroup>
 </Project>
