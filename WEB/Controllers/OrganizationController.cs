@@ -255,24 +255,24 @@ namespace YXERP.Controllers
         /// 获取明道用户列表
         /// </summary>
         /// <returns></returns>
-        public JsonResult GetMDUsers()
-        {
-            if (!string.IsNullOrEmpty(CurrentUser.MDToken))
-            {
-                var list = AlibabaSdk.UserBusiness.GetUserAll(CurrentUser.MDToken, "", 0, 1000).users;
-                JsonDictionary.Add("status", true);
-                JsonDictionary.Add("items", list.OrderBy(u => u.name));
-            }
-            else 
-            {
-                JsonDictionary.Add("status", false);
-            }
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
+        //public JsonResult GetMDUsers()
+        //{
+        //    if (!string.IsNullOrEmpty(CurrentUser.MDToken))
+        //    {
+        //        var list = AlibabaSdk.UserBusiness.GetUserAll(CurrentUser.MDToken, "", 0, 1000).users;
+        //        JsonDictionary.Add("status", true);
+        //        JsonDictionary.Add("items", list.OrderBy(u => u.name));
+        //    }
+        //    else 
+        //    {
+        //        JsonDictionary.Add("status", false);
+        //    }
+        //    return new JsonResult()
+        //    {
+        //        Data = JsonDictionary,
+        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+        //    };
+        //}
 
         /// <summary>
         /// 添加明道用户
