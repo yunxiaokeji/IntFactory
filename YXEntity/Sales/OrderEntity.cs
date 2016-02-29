@@ -206,6 +206,15 @@ namespace IntFactoryEntity
         public List<OrderStatusEntity> OrderStatus { get; set; }
 
         public string Platemaking { get; set; }
+
+        public int TaskCount { get; set; }
+
+        public int TaskOver { get; set; }
+
+        public string OriginalID { get; set; }
+
+        public string OriginalCode { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

@@ -46,7 +46,7 @@ define(function (require, exports, module) {
         } else if (_self.status == 2) {
             $("#changeOrderStatus").html("完成合价");
         } else if (_self.status == 3) {
-            $("#changeOrderStatus").html("开始大货");
+            $("#changeOrderStatus").html("大货下单");
         } else if (_self.status == 4) {
             $("#changeOrderStatus").html("开始生产");
         } else if (_self.status == 5) {
@@ -205,7 +205,7 @@ define(function (require, exports, module) {
                 confirm("转为订单后不可撤销且不能变更流程，确认转为订单吗？", function () {
                     _self.updateOrderStatus(1);
                 });
-            } //开始大货
+            } //开始大货(无)
             else if (_self.model.OrderType == 2 && _self.status == 0) {
                 confirm("转为订单后不可撤销且不能变更流程，确认转为订单吗？", function () {
                     _self.updateOrderStatus(4);
@@ -236,7 +236,7 @@ define(function (require, exports, module) {
                     $("#iptFinalPrice").focus();
                     $("#iptFinalPrice").val(($("#amount").text() * (1 + $("#profitPrice").text() / 100)).toFixed(2))
                 });
-            } //开始大货
+            } //大货下单
             else if (_self.status == 3) {
                 doT.exec("template/orders/surequantity.html", function (template) {
                     var innerText = template();

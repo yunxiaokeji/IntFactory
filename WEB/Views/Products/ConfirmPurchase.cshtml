@@ -39,7 +39,6 @@
             <td class="tLeft">材料名称</td>
             <td class="tLeft">规格</td>
             <td class="tLeft">供应商</td>
-            <td class="tLeft">批次</td>
             <td class="tLeft">采购价</td>
             <td class="center">数量</td>
             <td class="tRight">小计</td>
@@ -48,13 +47,12 @@
         @foreach (var model in (List<IntFactoryEntity.ProductDetail>)ViewBag.Items)
         { 
             <tr class="item cart-item" data-autoid="@(model.AutoID)" data-id="@(model.ProductDetailID)" >
-                <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank"><img src="@(model.ImgS)" /></a></td>
+                <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@(model.ImgS)" /></a></td>
                 <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
                 <td>@(model.Description)</td>
                 <td>@(model.ProviderName)</td>
-                <td><input  type="text" class="batch" data-id="@(model.AutoID)" data-value="@(model.BatchCode)" value="@(model.BatchCode)" /></td>
                 <td class="tr-price"><input type="text" data-id="@(model.AutoID)" data-value="@(model.Price.ToString("f2"))" class="price width80" value="@(model.Price.ToString("f2"))" /></td>
-                <td class="center tr-quantity"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity)" /></td>
+                <td class="center tr-quantity"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f2"))" /></td>
                 <td class="tRight amount">@((model.Price*model.Quantity).ToString("f2"))</td>
                 <td class="center">
                     <a class="ico-del" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
@@ -62,7 +60,6 @@
             </tr>
         }
         <tr class="amount-item">
-            <td></td>
             <td></td>
             <td></td>
             <td></td>

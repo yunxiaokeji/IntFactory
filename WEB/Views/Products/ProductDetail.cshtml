@@ -8,7 +8,6 @@
 }
 
 @section scripts{
-    <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/umeditor/umeditor.config.js"></script>
     <script src="/modules/plug/umeditor/umeditor.min.js"></script>
     <script type="text/javascript">
@@ -94,7 +93,7 @@
                 <span class="column-name">是否启用：</span><label><input type="checkbox" checked="checked" id="status" />是</label> 
             </li>
             <li>
-                <span class="column-name">是否公开：</span><label><input type="checkbox" id="isPublic" />是<span class="red">(谨慎操作)</span> </label> 
+                <span class="column-name">是否公开：</span><label><input type="checkbox" id="isPublic" />是<span class="red">(谨慎操作:材料公开后其他厂商也可以查看和选购)</span> </label> 
             </li>
             <li>
                 <span class="column-name">材料说明：</span><div id="remark"></div>
@@ -110,6 +109,7 @@
     <div id="childproduct" class="hide mTop20">
         <table class="table-list child-table-list clear">
             <tr class="tr-header" id="header-items">
+                <td class="tLeft">略缩图</td>
                 <td class="tLeft">编码</td>
                 <td class="tLeft">规格</td>
                 <td class="m-len tRight">价格/@(model.SmallUnit.UnitName)</td>
