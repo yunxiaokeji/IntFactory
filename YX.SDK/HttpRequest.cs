@@ -12,11 +12,12 @@ namespace AlibabaSdk
     {
         public static string RequestServer(ApiOption apiOption, Dictionary<string, object> paras, string token="", RequestType requestType = RequestType.Get)
         {
-            string urlPath = "param2/1/cn.alibaba.open" + ApiUrlArr[(int)apiOption] + AppConfig.AppKey;
+            ;
+            string urlPath = "param2/1/cn.alibaba.open" + Enum.GetName(typeof(ApiOption), apiOption) + AppConfig.AppKey;
             string url = AppConfig.AlibabaApiUrl + "/openapi/" + urlPath;
             string paraStr = string.Empty;
 
-            if (apiOption == ApiOption.oauth2_access_token)
+            if (apiOption == ApiOption.accessToken)
             {
                 urlPath = "/openapi/http/1/system.oauth2/getToken/" + AppConfig.AppKey;
                 url = AppConfig.AlibabaApiUrl + urlPath;
@@ -24,10 +25,7 @@ namespace AlibabaSdk
             else
             {
                 string signature = sign(urlPath, paras);
-
                 paraStr = "_aop_signature=" + signature + "&access_token="+token;
-                if(apiOption == ApiOption.passport_detail)
-                    paraStr = "_aop_signature=" + signature;
             }
             
             try
@@ -100,26 +98,7 @@ namespace AlibabaSdk
         }
 
         public static string[] ApiUrlArr = new string[] { 
-        "/oauth2/access_token",
-
-        "/user/all",
-        "/user/detail",
         "/member.get/",
-
-        "/post/v2/all",
-        "/post/v2/detail",
-        "/post/update",
-
-
-        "/group/my_joined",
-
-        "/message/create_sys",
-
-        "/task/v4/addTask",
-
-        "/calendar/create",
-
-        "/app/is_admin"
         };
 
         /// <summary>

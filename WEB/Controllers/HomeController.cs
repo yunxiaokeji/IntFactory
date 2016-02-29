@@ -35,8 +35,8 @@ namespace YXERP.Controllers
 
         public ActionResult Register(string code)
         {
-            //ViewBag.Msg = "";
-            //if(!string.IsNullOrEmpty(code))
+            ViewBag.Msg = "";
+            //if (!string.IsNullOrEmpty(code))
             //    ViewBag.Msg = AlibabaSdk.Business.OauthBusiness.GetUserInfo(code);
 
             return View();

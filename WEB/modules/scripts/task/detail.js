@@ -16,9 +16,10 @@
         }//制版任务
         else if (mark == "2") {
             ObjectJS.bindPlatemakingEvent();
+            ObjectJS.getAmount2();
         }
         else {
-            ObjectJS.getAmount();
+            ObjectJS.getAmount2();
         }
 
     };
@@ -335,6 +336,14 @@
         $("#totalMoney").text((amount * $("#planQuantity").text()).toFixed(2));
     }
 
+    ObjectJS.getAmount2 = function () {
+        var amount = 0;
+        $(".amount").each(function () {
+            var _this = $(this);
+            amount += _this.html() * 1;
+        });
+        $("#amount").text(amount.toFixed(2));
+    }
 
     //任务制版相关事件
     ObjectJS.bindPlatemakingEvent = function () {
@@ -406,16 +415,18 @@
             var date = new Date();
             var columnnameid = date.toLocaleString() + date.getMilliseconds();
 
-            var newColumnHeadr = '<td class="width100 tLeft" data-columnname="columnname' + columnnameid + '"></td>';
+            var newColumnHeadr = '<td class="width100 tLeft" data-columnname="columnname' + columnnameid + '">';
             newColumnHeadr += '<span class="tbContent">新列名</span>';
             newColumnHeadr += '<input class="hide tbContentIpt" value="新列名" type="text"/>';
             newColumnHeadr += '<span class="ico-dropdown mRight10 right" data-columnname="columnname' + columnnameid + '"></span>';
+            newColumnHeadr += '</td>';
 
             $("td[data-columnname='" + $(this).data("columnname") + "']").eq(0).after(newColumnHeadr);
 
-            var newColumn = '<td class="tLeft width100" data-columnname="columnname' + columnnameid + '">/td>';
+            var newColumn = '<td class="tLeft width100" data-columnname="columnname' + columnnameid + '">';
             newColumn += '<span class="tbContent">无内容</span>';
-            newColumn += '<input class="hide tbContentIpt" value="无内容" type="text"/><';
+            newColumn += '<input class="hide tbContentIpt" value="无内容" type="text"/>';
+            newColumn += '</td>';
             $("td[data-columnname='" + $(this).data("columnname") + "']:gt(0)").after(newColumn);
 
             ObjectJS.binddropdown();

@@ -58,11 +58,5 @@ namespace AlibabaSdk
         public string token { get; set; }
 
 
-
-        public ProjectEntity project
-        {
-            get;
-            set;
-        }
     }
 }

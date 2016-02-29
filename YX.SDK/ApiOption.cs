@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -7,26 +8,31 @@ namespace AlibabaSdk
 {
     public enum ApiOption
     {
-        oauth2_access_token=0,
+        [Description("getToken")]
+        accessToken=0,
 
-        user_all=1,
-        user_detail=2,
-        passport_detail=3,
+        [Description("member.get")]
+        memberDetail=1,
 
-        post_v2_all=4,
-        post_v2_detail=5,
-        post_update=6,
+        [Description("erp.manufacture.pullFentGoodsCodes")]
+        pullFentGoodsCodes = 2,
 
-        group_my_joined=7,
+        [Description("erp.manufacture.pullFentDataList")]
+        pullFentDataList = 3,
 
-        message_create_sys=8,
+        [Description("erp.manufacture.batchUpdateFent")]
+        batchUpdateFent = 4,
 
-        task_v4_addTask=9,
+        [Description("erp.manufacture.pullBulkGoodsCodes")]
+        pullBulkGoodsCodes = 5,
 
-        calendar_create=10,
+        [Description("erp.manufacture.pullBulkDataList")]
+        pullBulkDataList = 6,
 
-        app_is_admin = 11
+        [Description("erp.manufacture.batchUpdateBulk")]
+        batchUpdateBulk = 7,
 
-
+        [Description("erp.manufacture.pushProductionPlan")]
+        pushProductionPlan = 8
     }
 }
