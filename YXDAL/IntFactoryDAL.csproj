@@ -7,8 +7,8 @@
     <ProjectGuid>{03242F3B-5C14-42D6-AAA1-26CE56A3499F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CloudSalesDAL</RootNamespace>
-    <AssemblyName>CloudSalesDAL</AssemblyName>
+    <RootNamespace>IntFactoryDAL</RootNamespace>
+    <AssemblyName>IntFactoryDAL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -64,7 +64,6 @@
     <Compile Include="Stock\ProductsDAL.cs" />
     <Compile Include="Common\CommonDAL.cs" />
     <Compile Include="Manage\ClientDAL.cs" />
-    <Compile Include="Manage\ModulesDAL.cs" />
     <Compile Include="Manage\M_UsersDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\OrganizationDAL.cs" />

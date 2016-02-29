@@ -32,7 +32,7 @@ namespace YXManage.Controllers
 
              if (!string.IsNullOrEmpty(id))
              {
-                 model = SystemBusiness.GetSystemMenu(id);
+                 model = ManageSystemBusiness.GetSystemMenu(id);
                  menuCode = model.MenuCode;
                  pCodeName = model.PCodeName;
              }
@@ -51,7 +51,7 @@ namespace YXManage.Controllers
              var pCodeName = string.Empty;
              var layer = 0;
 
-             model = SystemBusiness.GetSystemMenu(id);
+             model = ManageSystemBusiness.GetSystemMenu(id);
              pCode = model.MenuCode;
              pCodeName = model.PCodeName;
              layer = model.Layer+1;
@@ -105,7 +105,7 @@ namespace YXManage.Controllers
 
         public JsonResult GetSystemMenus()
         {
-            var list = SystemBusiness.GetSystemMenus();
+            var list = ManageSystemBusiness.GetSystemMenus();
 
             JsonDictionary.Add("Items", list);
 
@@ -118,7 +118,7 @@ namespace YXManage.Controllers
 
         public JsonResult GetSystemMenu(string menuCode)
         {
-            var item = SystemBusiness.GetSystemMenu(menuCode);
+            var item = ManageSystemBusiness.GetSystemMenu(menuCode);
             JsonDictionary.Add("Item", item);
 
             return new JsonResult()
@@ -136,13 +136,13 @@ namespace YXManage.Controllers
 
             if (!string.IsNullOrEmpty(model.MenuCode))
             {
-                flag=SystemBusiness.UpdateSystemMenu(model);
+                flag = ManageSystemBusiness.UpdateSystemMenu(model);
             }
             else
             {
                 model.MenuCode = DateTime.Now.Ticks.ToString();
                 model.Type = 2;
-                flag = SystemBusiness.AddSystemMenu(model);
+                flag = ManageSystemBusiness.AddSystemMenu(model);
             }
 
             JsonDictionary.Add("Result",flag?1:0);
@@ -157,7 +157,7 @@ namespace YXManage.Controllers
         {
             bool flag = false;
 
-            flag = SystemBusiness.DeleteSystemMenu(menuCode);
+            flag = ManageSystemBusiness.DeleteSystemMenu(menuCode);
 
 
             JsonDictionary.Add("Result", flag ? 1 : 0);

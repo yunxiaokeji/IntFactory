@@ -9,7 +9,7 @@ using System.Data;
 using IntFactoryDAL.Manage;
 namespace IntFactoryEntity.Manage
 {
-    public class SystemBusiness
+    public class ManageSystemBusiness
     {
         public static List<SystemMenu> GetSystemMenus() {
             List<SystemMenu> list = new List<SystemMenu>();

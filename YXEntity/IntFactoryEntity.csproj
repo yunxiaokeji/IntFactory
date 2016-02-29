@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IntFactoryEntity</RootNamespace>
-    <AssemblyName>CloudSalesEntity</AssemblyName>
+    <AssemblyName>IntFactoryEntity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -109,7 +109,6 @@
     <Compile Include="Log\Log_Operate.cs" />
     <Compile Include="Manage\Clients.cs" />
     <Compile Include="Manage\Dictionary.cs" />
-    <Compile Include="Manage\Modules.cs" />
     <Compile Include="Manage\SystemMenu.cs" />
     <Compile Include="Manage\M_Users.cs" />
     <Compile Include="Common\Permission.cs" />

@@ -7,8 +7,8 @@
     <ProjectGuid>{B86924C1-EC31-449F-97F3-258DFA43A44F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CloudSalesEnum</RootNamespace>
-    <AssemblyName>CloudSalesEnum</AssemblyName>
+    <RootNamespace>IntFactoryEnum</RootNamespace>
+    <AssemblyName>IntFactoryEnum</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
