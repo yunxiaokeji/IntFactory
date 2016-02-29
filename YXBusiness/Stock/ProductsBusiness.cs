@@ -777,9 +777,30 @@ namespace IntFactoryBusiness
                     //日志
                     LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Product, EnumLogType.Create, "", operateid, agentid, clientid);
 
+
+
                     foreach (var model in details)
                     {
-                        model.ImgS = "";
+                        if (!string.IsNullOrEmpty(model.ImgS))
+                        {
+                            if (model.ImgS.IndexOf("?") > 0)
+                            {
+                                model.ImgS = model.ImgS.Substring(0, model.ImgS.IndexOf("?"));
+                            }
+
+                            DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
+                            if (!directory.Exists)
+                            {
+                                directory.Create();
+                            }
+
+                            FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(model.ImgS));
+                            model.ImgS = FILEPATH + file.Name;
+                            if (file.Exists)
+                            {
+                                file.MoveTo(HttpContext.Current.Server.MapPath(model.ImgS));
+                            }
+                        }
                         dal.AddProductDetails(pid, model.DetailsCode, model.ShapeCode, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Price, model.Weight, model.BigPrice, model.ImgS, model.Description, operateid, clientid);
                     }
                 }

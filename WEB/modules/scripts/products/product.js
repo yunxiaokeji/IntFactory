@@ -101,6 +101,7 @@ define(function (require, exports, module) {
                         model.attrValue = _value.val();
                         model.names = _attr.data("text") + ":" + _value.data("text");
                         model.layer = 1;
+                        model.guid = Global.guid();
                         details.push(model);
                     }else {
                         for (var i = 0, j = attrdetail.length; i < j; i++) {
@@ -111,6 +112,7 @@ define(function (require, exports, module) {
                                 model.attrValue = attrdetail[i].attrValue + "," + _value.val();
                                 model.names = attrdetail[i].names + "," + _attr.data("text") + ":" + _value.data("text");
                                 model.layer = attrdetail[i].layer + 1;
+                                model.guid = Global.guid();
                                 details.push(model);
                             }
                         }
@@ -135,6 +137,23 @@ define(function (require, exports, module) {
                     $(".child-product-li").append(innerText);
 
                     innerText.find(".price,.bigprice").val($("#price").val());
+
+                    innerText.find(".upload-child-img").each(function () {
+                        var _this = $(this);
+                        Upload.createUpload({
+                            element: "#" + _this.attr("id"),
+                            buttonText: "选择图片",
+                            className: "",
+                            data: { folder: '', action: 'add', oldPath: "" },
+                            success: function (data, status) {
+                                if (data.Items.length > 0) {
+                                    _this.siblings("img").attr("src", data.Items[0]);
+                                } else {
+                                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过10M！");
+                                }
+                            }
+                        });
+                    })
 
                     //价格必须大于0的数字
                     innerText.find(".price,.bigprice").change(function () {
@@ -213,6 +232,7 @@ define(function (require, exports, module) {
                 var modelDetail = {
                     DetailsCode: _this.find(".code").val(),
                     ShapeCode: "",
+                    ImgS: _this.find("img").attr("src"),
                     SaleAttr: _this.data("attr"),
                     AttrValue: _this.data("value"),
                     SaleAttrValue: _this.data("attrvalue"),
