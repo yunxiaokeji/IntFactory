@@ -110,7 +110,7 @@
     <Compile Include="Manage\Clients.cs" />
     <Compile Include="Manage\Dictionary.cs" />
     <Compile Include="Manage\Modules.cs" />
-    <Compile Include="Manage\ModulesMenu.cs" />
+    <Compile Include="Manage\SystemMenu.cs" />
     <Compile Include="Manage\M_Users.cs" />
     <Compile Include="Common\Permission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

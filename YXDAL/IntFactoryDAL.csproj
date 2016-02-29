@@ -54,6 +54,7 @@
     <Compile Include="Manage\FeedBackDAL.cs" />
     <Compile Include="Manage\ModulesProductDAL.cs" />
     <Compile Include="Manage\ExpressCompanyDAL.cs" />
+    <Compile Include="Manage\SystemDAL.cs" />
     <Compile Include="Report\CustomerRPTDAL.cs" />
     <Compile Include="Report\SalesRPTDAL.cs" />
     <Compile Include="Sales\OrdersDAL.cs" />

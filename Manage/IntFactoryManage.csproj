@@ -249,6 +249,7 @@
     <Content Include="modules\scripts\products\filterdetails.js" />
     <Content Include="modules\scripts\products\product.js" />
     <Content Include="modules\scripts\products\unit.js" />
+    <Content Include="modules\scripts\System\menu.js" />
     <Content Include="modules\template\client-orders.html" />
     <Content Include="modules\template\client-list.html" />
     <Content Include="modules\template\clientauthorizelog-list.html" />
@@ -269,6 +270,7 @@
     <Content Include="modules\template\products\productdetails_list.html" />
     <Content Include="modules\template\products\products.html" />
     <Content Include="modules\template\products\product_child_add_list.html" />
+    <Content Include="modules\template\system\menu-list.html" />
     <Content Include="Scripts\jquery-1.11.1.js" />
     <Content Include="Scripts\sea-config.js" />
     <Content Include="Scripts\sea.js" />
@@ -359,6 +361,8 @@
     <Content Include="Views\Products\Category.cshtml" />
     <Content Include="Views\Products\Products.cshtml" />
     <Content Include="Views\Products\ChooseDetail.cshtml" />
+    <Content Include="Views\System\Menu.cshtml" />
+    <Content Include="Views\System\MenuDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
