@@ -46,6 +46,7 @@ define(function (require, exports, module) {
             }
         });
         $("#btnSaveProduct").on("click", function () {
+
             if (!VerifyObject.isPass()) {
                 return;
             }
@@ -156,6 +157,7 @@ define(function (require, exports, module) {
     }
     //保存产品
     Product.savaProduct = function () {
+
         var _self = this, attrlist = "", valuelist = "", attrvaluelist = "";
         var bl = true;
         $(".product-attr").each(function () {
