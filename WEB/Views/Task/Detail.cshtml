@@ -92,19 +92,24 @@
                                        
                             <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
                             <td class="center tr-loss"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Loss.ToString("f2"))" class="loss width50" value="@(detail.Loss.ToString("f2"))" /></td>
+                            <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
+                             <td class="center">
+                                <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
+                            </td>
                         }
                         else
                         {
                             <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
                             <td class="center tr-loss">@(detail.Loss.ToString("f2"))</td>
-                        }
-                        }
                             <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
-                            <td class="center">
-                                <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
-                            </td>
+                            <td></td>
+                        }
+                   }
+                            
+                            
                         </tr>
                     }
+
                     <tr class="amount-item">
                         <td></td>
                         <td></td>

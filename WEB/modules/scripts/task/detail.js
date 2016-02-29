@@ -16,9 +16,10 @@
         }//制版任务
         else if (mark == "2") {
             ObjectJS.bindPlatemakingEvent();
+            ObjectJS.getAmount2();
         }
         else {
-            ObjectJS.getAmount();
+            ObjectJS.getAmount2();
         }
 
     };
@@ -335,6 +336,14 @@
         $("#totalMoney").text((amount * $("#planQuantity").text()).toFixed(2));
     }
 
+    ObjectJS.getAmount2 = function () {
+        var amount = 0;
+        $(".amount").each(function () {
+            var _this = $(this);
+            amount += _this.html() * 1;
+        });
+        $("#amount").text(amount.toFixed(2));
+    }
 
     //任务制版相关事件
     ObjectJS.bindPlatemakingEvent = function () {
