@@ -36,8 +36,8 @@ namespace YXERP.Controllers
         public ActionResult Register(string code)
         {
             ViewBag.Msg = "";
-            if (!string.IsNullOrEmpty(code))
-                ViewBag.Msg = AlibabaSdk.Business.OauthBusiness.GetUserInfo(code);
+            //if (!string.IsNullOrEmpty(code))
+            //    ViewBag.Msg = AlibabaSdk.Business.OauthBusiness.GetUserInfo(code);
 
             return View();
         }
@@ -49,7 +49,7 @@ namespace YXERP.Controllers
 
         public ActionResult Login(string ReturnUrl, int Status = 0)
         {
-            return Redirect(AlibabaSdk.Business.OauthBusiness.GetAuthorizeUrl());
+            //return Redirect(AlibabaSdk.Business.OauthBusiness.GetAuthorizeUrl());
 
             if (Session["ClientManager"] != null)
             {
