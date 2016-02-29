@@ -74,11 +74,11 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public int Quantity
-		{
-			set{ _quantity=value;}
-			get{return _quantity;}
-		}
+        public decimal Quantity
+        {
+            set;
+            get;
+        }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -156,6 +156,8 @@ namespace IntFactoryEntity
         public string UnitName { get; set; }
 
         public string Imgs { get; set; }
+
+        public string ProductCode { get; set; }
 
 		#endregion Model
         /// <summary>

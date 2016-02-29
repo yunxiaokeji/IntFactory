@@ -37,6 +37,11 @@
 
 .status-items .status-time { width:70px; }
 
+.order-imgs-div { width:100%;}
+.order-imgs-list { width:640px; height:200px; overflow:hidden; margin:20px auto; }
+.order-imgs-div img{ height:200px; width:200px;}
+
+
 .nav-partdiv { margin-bottom:100px; }
 
 

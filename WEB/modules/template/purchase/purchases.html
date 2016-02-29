@@ -3,12 +3,26 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td><a href="DocDetail/{%=item.DocID%}" target="_blank">{%=item.DocCode%}</a></td>
-    <td>{%=item.WareHouse?item.WareHouse.Name:""%}</td>
+    
+    <td>
+        {%
+	        for(var ii=0, jj=item.Details.length; ii < jj; ii++){
+	        var detail = item.Details[ii];
+        %}
+        <div class="mTop10 mBottom10">      
+                <img style="width:80px; height:80px; vertical-align:middle;" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=detail.Imgs%}" />
+                {%=detail.ProductName%}
+                {%=detail.ProductCode%}
+                {%=detail.Remark%}
+        </div>
+        {% } %}
+    </td>
+    <td>
+        <a href="DocDetail/{%=item.DocID%}" target="_blank">{%=item.DocCode%}</a>
+    </td>
     <td>{%=item.ProviderName||""%}</td>
     <td class="center {%=item.Status<2?'red':''%}">{%=item.StatusStr%}</td>
     <td class="tRight">{%=item.TotalMoney.toFixed(2)%}</td>
-    <td class="center">{%=item.CreateUser.Name%}</td>
     <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     <td class="center {%=item.Status < 2? 'dropdown':''%} " data-status="{%=item.Status%}" data-id="{%=item.DocID%}">
         <span class="{%=item.Status < 2? 'ico-dropdown':''%}"></span>

@@ -97,7 +97,14 @@ namespace YXERP.Controllers
                 ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.AgentID, CurrentUser.ClientID);
             }
             ViewBag.Model = model;
-            return View();
+            if (model.OrderType == 1)
+            {
+                return View();
+            }
+            else
+            {
+                return View("OrderDetailDH");
+            }
         }
 
         public ActionResult ChooseProducts(string id,string tid="")

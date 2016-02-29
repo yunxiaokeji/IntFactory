@@ -75,12 +75,17 @@ namespace IntFactoryBusiness
             {
                 StorageDoc model = new StorageDoc();
                 model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientID);
                 model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
-                model.WareHouse = SystemBusiness.BaseBusiness.GetWareByID(model.WareID, model.ClientID);
                 if (!string.IsNullOrEmpty(model.ProviderID))
                 {
                     model.ProviderName = BaseBusiness.GetProviderByID(model.ProviderID).Name;
+                }
+                model.Details = new List<StorageDetail>();
+                foreach (DataRow detail in ds.Tables[1].Select("DocID='" + model.DocID + "'"))
+                {
+                    StorageDetail dModel = new StorageDetail();
+                    dModel.FillData(detail);
+                    model.Details.Add(dModel);
                 }
 
                 list.Add(model);
@@ -100,7 +105,7 @@ namespace IntFactoryBusiness
 
                 model.DocTypeStr = CommonBusiness.GetEnumDesc<EnumDocType>((EnumDocType)model.DocType);
 
-                model.WareHouse = SystemBusiness.BaseBusiness.GetWareByID(model.WareID, model.ClientID);
+                //model.WareHouse = SystemBusiness.BaseBusiness.GetWareByID(model.WareID, model.ClientID);
                 model.Details = new List<StorageDetail>();
                 foreach (DataRow item in ds.Tables["Details"].Rows)
                 {
