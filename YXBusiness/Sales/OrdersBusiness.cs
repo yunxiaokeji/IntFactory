@@ -223,33 +223,52 @@ namespace IntFactoryBusiness
 
         #region 添加
 
-        public string CreateOrder(string customerid, string name, string mobile, int type, string categoryid, string price, int quantity, string orderimg, string citycode, string address, string remark, string operateid, string agentid, string clientid)
+        public string CreateOrder(string customerid, string goodscode, string title, string name, string mobile, int type, string bigcategoryid, string categoryid, string price, int quantity, string orderimgs, string citycode, string address, string remark, string operateid, string agentid, string clientid)
         {
             string id = Guid.NewGuid().ToString();
             string code = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            string firstimg = "", allimgs = "";
 
-            if (!string.IsNullOrEmpty(orderimg))
+            if (!string.IsNullOrEmpty(orderimgs))
             {
-                if (orderimg.IndexOf("?") > 0)
+                bool first = true;
+                foreach (var img in orderimgs.Split(','))
                 {
-                    orderimg = orderimg.Substring(0, orderimg.IndexOf("?"));
-                }
+                    string orderimg = img;
+                    if (!string.IsNullOrEmpty(orderimg))
+                    {
+                        if (orderimg.IndexOf("?") > 0)
+                        {
+                            orderimg = orderimg.Substring(0, orderimg.IndexOf("?"));
+                        }
 
-                DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
-                if (!directory.Exists)
-                {
-                    directory.Create();
-                }
+                        DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
+                        if (!directory.Exists)
+                        {
+                            directory.Create();
+                        }
 
-                FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
-                orderimg = FILEPATH + file.Name;
-                if (file.Exists)
-                {
-                    file.MoveTo(HttpContext.Current.Server.MapPath(orderimg));
+                        FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
+                        orderimg = FILEPATH + file.Name;
+                        if (file.Exists)
+                        {
+                            file.MoveTo(HttpContext.Current.Server.MapPath(orderimg));
+                        }
+                    }
+                    if (first)
+                    {
+                        firstimg = orderimg;
+                        first = false;
+                    }
+                    allimgs += orderimg + ",";
                 }
             }
+            if (allimgs.Length > 0)
+            {
+                allimgs = allimgs.Substring(0, allimgs.Length - 1);
+            }
 
-            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code,customerid, name, mobile, type, categoryid, price, quantity, orderimg, citycode, address, remark, operateid, agentid, clientid);
+            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, goodscode, title, customerid, name, mobile, type, bigcategoryid, categoryid, price, quantity, firstimg, allimgs, citycode, address, remark, operateid, agentid, clientid);
             if (!bl)
             {
                 return "";

@@ -124,19 +124,23 @@ namespace IntFactoryDAL
 
         #region 添加
 
-        public bool CreateOrder(string orderid, string ordercode, string customerid, string name, string mobile, int type, string categoryid, string price, int quantity, string orderimg, string citycode, string address, string remark, string operateid, string agentid, string clientid)
+        public bool CreateOrder(string orderid, string ordercode, string goodscode, string title, string customerid, string name, string mobile, int type, string bigcategoryid, string categoryid, string price, int quantity, string orderimg, string orderimages, string citycode, string address, string remark, string operateid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@OrderCode",ordercode),
+                                     new SqlParameter("@GoodsCode",goodscode),
+                                     new SqlParameter("@Title",title),
                                      new SqlParameter("@CustomerID",customerid),
                                      new SqlParameter("@Name" , name),
                                      new SqlParameter("@Mobile" , mobile),
                                      new SqlParameter("@OrderType" , type),
+                                     new SqlParameter("@BigCategoryID" , bigcategoryid),
                                      new SqlParameter("@CategoryID" , categoryid),
                                      new SqlParameter("@PlanPrice" , price),
                                      new SqlParameter("@PlanQuantity" , quantity),
                                      new SqlParameter("@OrderImg" , orderimg),
+                                     new SqlParameter("@OrderImages" , orderimages),
                                      new SqlParameter("@CityCode" , citycode),
                                      new SqlParameter("@Address" , address),
                                      new SqlParameter("@Remark" , remark),

@@ -5,7 +5,7 @@
         Verify = require("verify"), VerifyObject;
 
 
-    var ObjectJS = {};
+    var ObjectJS = {}, CacheCategory = [];
     //初始化
     ObjectJS.init = function (customerid) {
         var _self = this;
@@ -41,11 +41,19 @@
             element: "#productIco",
             buttonText: "选择图片",
             className: "",
+            multiple: true,
             data: { folder: '', action: 'add', oldPath: "" },
             success: function (data, status) {
                 if (data.Items.length > 0) {
-                    _self.ProductImage = data.Items[0];
-                    $("#productImg").attr("src", data.Items[0]);
+                    for (var i = 0; i < data.Items.length; i++) {
+                        if ($("#orderImages li").length < 5) {
+                            var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
+                            $("#orderImages").append(img);
+                            img.find(".ico-delete").click(function () {
+                                $(this).parent().remove();
+                            });
+                        }
+                    }
                 } else {
                     alert("只能上传jpg/png/gif类型的图片，且大小不能超过10M！");
                 }
@@ -70,20 +78,43 @@
                 _this.addClass("ico-checked").removeClass("ico-check");
             }
         });
+
+        $("#bigcategory").change(function () {
+            var _this = $(this);
+            $("#ordercategory").empty();
+            if (CacheCategory[_this.val()]) {
+                for (var i = 0; i < CacheCategory[_this.val()].length; i++) {
+                    $("#ordercategory").append("<option value=" + CacheCategory[_this.val()][i].CategoryID + ">" + CacheCategory[_this.val()][i].CategoryName + "</option>")
+                }
+            } else {
+                Global.post("/Products/GetChildOrderCategorysByID", { categoryid: _this.val() }, function (data) {
+                    CacheCategory[_this.val()] = data.Items;
+                    for (var i = 0; i < CacheCategory[_this.val()].length; i++) {
+                        $("#ordercategory").append("<option value=" + CacheCategory[_this.val()][i].CategoryID + ">" + CacheCategory[_this.val()][i].CategoryName + "</option>")
+                    }
+                });
+            }
+        });
+        $("#bigcategory").change();
     }
 
     //保存实体
-    ObjectJS.saveModel = function (activityid) {
+    ObjectJS.saveModel = function () {
         var _self = this;
+        var images = "";
+        $("#orderImages img").each(function () {
+            images += $(this).attr("src") + ",";
+        });
 
         var model = {
             CustomerID: _self.customerid,
             PersonName: $("#name").val().trim(),
             OrderType: $("#companyCustom").hasClass("ico-checked") ? 1 : 2,
+            BigCategoryID: $("#bigcategory").val().trim(),
             CategoryID: $("#ordercategory").val().trim(),
             CityCode: CityObject.getCityCode(),
             Address: $("#address").val().trim(),
-            OrderImage: _self.ProductImage,
+            OrderImage: images,
             PlanPrice: $("#planPrice").val().trim(),
             PlanQuantity: $("#planQuantity").val().trim(),
             MobileTele: $("#contactMobile").val().trim(),

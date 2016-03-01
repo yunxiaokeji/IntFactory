@@ -35,7 +35,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            List<ProductDetail> list = new ProductsBusiness().GetFilterProducts(model.CategoryID, model.Attrs, model.DocType, model.BeginPrice, model.EndPrice, model.Keywords, model.OrderBy, model.IsAsc, 20, model.PageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
+            List<ProductDetail> list = new ProductsBusiness().GetFilterProducts(model.CategoryID, model.Attrs, model.DocType, model.BeginPrice, model.EndPrice, model.IsPublic, model.Keywords, model.OrderBy, model.IsAsc, 20, model.PageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);

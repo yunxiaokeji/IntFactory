@@ -27,43 +27,46 @@
         <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
         @*<div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >转移工厂</div>*@
     </div>
-    
-    <ul class="content-info left">
-        <li>
-            <span class="column-title">客户名称：</span> 
-            <a href="/Customer/Detail/@(model.CustomerID)" target="_blank">@(model.Customer.Name)</a> </li>
+    <div class="order-imgs-div left">
+        <div class="order-imgs">
+            <img id="orderImage" src="@(model.OrderImage)" />
+        </div>
+        <ul class="order-imgs-list">
+
+        </ul>
+    </div>
+
+    <ul class="left order-info">
         <li>
             <span class="column-title">负责人：</span> <label class="left" id="lblOwner">@(model.Owner != null ? model.Owner.Name : "--")</label>
             <span title="更换负责人" class="ico-change left mTop5 mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner"></span>
         </li>
-        
         <li>
+            <span class="column-title">客户名称：</span> 
+            <a href="/Customer/Detail/@(model.CustomerID)" target="_blank">@(model.Customer.Name)</a> 
+        </li>
+         <li>
+            <span class="column-title">联系方式：</span>
+            <label>@(model.MobileTele)</label>
+        </li>  
+        
+         <li>
             <span class="column-title">期望价格：</span>
             <label>@(model.PlanPrice)</label>
         </li>
-        
         <li>
             <span class="column-title">成本：</span>
             <label>@(model.Price.ToString("f2"))</label>
         </li>
-        <li>
+         <li>
             <span class="column-title">利润比例(%)：</span>
             <label class="left" id="profitPrice">@((model.ProfitPrice*100).ToString("f2"))</label> <div id="updateProfitPrice" class="left ico-edit mLeft20 mTop5"></div>
         </li>
-        <li>
+         <li>
             <span class="column-title">最终报价：</span>
             <label>@(model.FinalPrice.ToString("f2"))</label>
         </li>
-        <li class="hide">
-            <span class="column-title">加工数量：</span>
-            <label id="planQuantity">@(model.PlanQuantity)</label>
-        </li>
-       
-        <li  class="hide">
-            <span class="column-title">总金额：</span>
-            <label id="totalMoney">@(model.TotalMoney.ToString("f2"))</label>
-        </li>
-        <li>
+       <li>
             <span class="column-title">付款金额：</span>
             <label id="infoPaymoney">0.00</label>
         </li>
@@ -72,24 +75,16 @@
             <label>@(model.PersonName)</label>
         </li>
         <li>
-            <span class="column-title">联系方式：</span>
-            <label>@(model.MobileTele)</label>
-        </li>  
+            <span class="column-title">收货地区：</span>
+            <label>@(model.City != null ? (model.City.Province + " " + model.City.City + " " + model.City.Counties) : "")</label>
+        </li>
         <li>
-            <span class="column-title">收货地址：</span>
-            <label>@(model.City != null ? (model.City.Province + " " + model.City.City + " " + model.City.Counties) : "")@(model.Address)</label>
+            <span class="column-title">详细地址：</span>
+            <label>@(model.Address)</label>
         </li>
-        @*<li>
-            <span class="column-title">邮编：</span>
-            <label>@(model.PostalCode)</label>
-        </li>*@
-        <li style="width:100%;">
-            <span class="column-title">详细需求：</span> 
-            <label>@(model.Remark.Trim())</label>
-        </li>
-    </ul>
+     </ul>
 
-    <ul class="left status-items">
+    <ul class="right status-items">
         <li data-status="0">
             <span class="status-time mRight5">@(model.CreateTime.ToString("yyyy-MM-dd"))</span>
             <span class="status-bg"></span>
@@ -114,13 +109,30 @@
             <span class="mLeft5">封样封价</span>
         </li>
     </ul>
-    
+
     <div class="clear"></div>
-    <div class="order-imgs-div">
-        <div class="order-imgs-list">
-            <img src="@(model.OrderImage)" />
-        </div>
-    </div>
+    <ul style="width:90%;" class="content-info mTop20">
+        <li class="hide">
+            <span class="column-title">加工数量：</span>
+            <label id="planQuantity">@(model.PlanQuantity)</label>
+        </li>
+       
+        <li  class="hide">
+            <span class="column-title">总金额：</span>
+            <label id="totalMoney">@(model.TotalMoney.ToString("f2"))</label>
+        </li>
+        @*<li>
+            <span class="column-title">邮编：</span>
+            <label>@(model.PostalCode)</label>
+        </li>*@
+        <li style="width:100%;">
+            <span class="column-title">详细需求：</span> 
+            <label>@(model.Remark.Trim())</label>
+        </li>
+    </ul>
+
+    <div class="clear"></div>
+
     <div class="process-stages mTop30">
         <div class="process-info">
             <div class="left info">订单流程：@(model.OrderProcess.ProcessName)</div>
@@ -160,9 +172,11 @@
             }
         </ul>
     </div>
+
     <div class="tab-nav mTop30">
         <ul class="tab-nav-ul left">
             <li class="hover" data-id="navProducts">成本列表</li>
+            <li data-id="navEngraving">制版详情</li>
             <li data-id="navPays" class="navPays">付款记录</li>
             <li data-id="navLog">日志</li>
         </ul>
@@ -170,7 +184,7 @@
     <div id="navProducts" class="nav-partdiv">
         <table class="table-list mTop20">
             <tr class="tr-header">
-                <td class="tLeft"></td>
+                <td class="tLeft">样图</td>
                 <td class="tLeft">材料名称</td>
                 <td class="tLeft">规格</td>
                 <td class="width80">单位</td>
@@ -182,7 +196,11 @@
             @foreach (var detail in model.Details)
             { 
                 <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
-                    <td class="width80"><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@(detail.Imgs)" /></a></td>
+                    <td class="width80">
+                        <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">
+                            <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@(detail.Imgs)" />
+                        </a>
+                    </td>
                     <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
                     <td>@(detail.Remark)</td>
                     <td class="center">@(detail.UnitName)</td>
@@ -201,11 +219,15 @@
                 <td></td>
                 <td class="tRight">成本合计：</td>
                 <td class="tRight"><label id="amount"></label></td>
-                <td></td>
             </tr>
         </table>
     </div>
-     <table id="navPays" class="nav-partdiv table-list mTop20 hide">
+
+    <div class="nav-partdiv hide mTop10" id="navEngraving">
+
+    </div>
+
+    <table id="navPays" class="nav-partdiv table-list mTop20 hide">
         <tr class="tr-header">
             <td class="width150 tLeft">收款日期</td>
             <td class="">类型</td>

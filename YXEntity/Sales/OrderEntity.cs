@@ -46,6 +46,9 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string CategoryID { get; set; }
 
+        [Property("Lower")]
+        public string BigCategoryID { get; set; }
+
         public int PlanQuantity { get; set; }
 
         public string OrderImage { get; set; }
@@ -163,6 +166,7 @@ namespace IntFactoryEntity
 
         [Property("Lower")] 
         public string ClientID { get; set; }
+
         #endregion Model
 
         /// <summary>
@@ -175,6 +179,10 @@ namespace IntFactoryEntity
         public string Remark { get; set; }
 
         public string OrderCode { get; set; }
+
+        public string GoodsCode { get; set; }
+
+        public string Title { get; set; }
 
         [Property("Lower")]
         public string OwnerID { get; set; }
@@ -215,6 +223,8 @@ namespace IntFactoryEntity
 
         public string OriginalCode { get; set; }
 
+        public string OrderImages { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>
@@ -229,6 +239,7 @@ namespace IntFactoryEntity
     public class OrderStatusEntity
     {
         public int Status { get; set; }
+
         public DateTime CreateTime { get; set; }
 
         /// <summary>
