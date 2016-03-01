@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "系统菜单管理";
+    ViewBag.Title = "管理系统菜单";
     var model = (IntFactoryEntity.Manage.SystemMenu)ViewBag.Model;
 }
 
@@ -13,7 +13,7 @@
 <link href="/modules/css/clients.css" rel="stylesheet" />
 
 <div class="header-box">
-    <span class="header-title">添加系统菜单</span>
+    <span class="header-title">管理系统菜单</span>
 </div>
 
 <div class="content-body mTop20">
@@ -41,7 +41,7 @@
     </ul>
 
     <div class="mTop20">
-        <input type="button" id="saveMenu" class="btn" value="添加" />
+        <input type="button" id="saveMenu" class="btn" value="保存" />
     </div>
 </div>
 <input type="hidden" value="@(ViewBag.MenuCode)" id="MenuCode" />

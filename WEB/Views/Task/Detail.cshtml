@@ -52,11 +52,14 @@
                 <span class="column-title">负责人:</span>
                 <span>@(model.Owner.Name)</span>
             </li>
-              <li>
+             <li>
                 <span class="column-title">订单编号:</span>
                 <a href="/Customer/OrderDetail/@(model.OrderID)" target="_blank">@(model.OrderCode)</a>
             </li>
-           
+            <li>
+                <span class="column-title">订单类型:</span>
+                <span>@(model.OrderType==1?"打样":"大货")</span>
+            </li>
         </ul>
         <div class="right"> <img class="right width150" onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@( string.IsNullOrEmpty(model.OrderImg) ? "/modules/images/img-noimg.png" : model.OrderImg)"/></div>
         <div class="clear"></div>
@@ -64,8 +67,14 @@
         
     </div>
 
-    <div id="navRemark" class=" talk-body nav-partdiv">
-        <div class="talk-title">物料列表</div>
+    <div id="navTask" class="talk-body nav-partdiv">
+        <div class="tab-nav mTop30">
+            <ul class="tab-nav-ul left">
+                <li class="hover" data-id="navProducts">物料</li>
+                <li data-id="platemakingContent">制版</li>
+                <li data-id="orderTask">讨论</li>
+            </ul>
+        </div>
 
         <div id="navProducts" class="nav-partdiv">
                 <table class="table-list mTop20">
@@ -130,107 +139,106 @@
                 <div class="clear"></div>
             </div>
 
-            <div class="talk-title mTop10">制版信息</div>
-
-            <div class="platemakingContent" id="platemakingContent">
-               @{
-                if (string.IsNullOrEmpty(order.Platemaking))
-                {
-                    <table class="table-list">
-                        <tr class="tr-header">
-                            <td class="width100 tLeft" data-columnname="columnname1">
-                                <span class="tbContent">列名1</span>
-                                <div class="left">
-                                    <input class="hide tbContentIpt" value="列名1" type="text"/>
-                                </div>
+        <div class="platemakingContent hide" id="platemakingContent">
+            @{
+            if (string.IsNullOrEmpty(order.Platemaking))
+            {
+                <table class="table-list">
+                    <tr class="tr-header">
+                        <td class="width100 tLeft" data-columnname="columnname1">
+                            <span class="tbContent">列名1</span>
+                            <div class="left">
+                                <input class="hide tbContentIpt" value="列名1" type="text"/>
+                            </div>
                                 
-                                <div class="right ico-dropdown mRight5" data-columnname="columnname1"></div>
-                                <div class="clear"></div>
-                            </td>
-                            <td class="width100 tLeft" data-columnname="columnname2">
-                                <span class="tbContent">列名2</span>
-                                <input class="hide tbContentIpt" value="列名2" type="text"/>
-                                <span class="right ico-dropdown mRight5" data-columnname="columnname2"></span>
-                            </td>
-                            <td class="width100 tLeft" data-columnname="columnname3">
-                                <span class="tbContent">列名3</span>
-                                <input class="hide tbContentIpt" value="列名3" type="text"/>
-                                <span class="right ico-dropdown mRight5" data-columnname="columnname3"></span>
-                            </td>
-                             <td class="width100 tLeft" data-columnname="columnname4">
-                                <span class="tbContent">列名4</span>
-                                <input class="hide tbContentIpt" value="列名4" type="text"/>
-                                <span class="right ico-dropdown mRight5" data-columnname="columnname4"></span>
-                            </td>
-                            <td class="width100 tLeft" data-columnname="columnname5">
-                                <span class="tbContent">列名5</span>
-                                <input class="hide tbContentIpt" value="列名5" type="text"/>
-                                <span class="right ico-dropdown mRight5" data-columnname="columnname5"></span>
-                            </td>
-                            <td class="width150 center">操作</td>
-                        </tr>
-                        <tr>
-                            <td class="width100 tLeft" data-columnname="columnname1">
-                                <span class="tbContent">无内容</span>
-                                <input class="hide tbContentIpt" value="无内容" type="text"/>
-                            </td>
-                            <td class="width100 tLeft" data-columnname="columnname2">
-                                <span class="tbContent">无内容</span>
-                                <input class="hide tbContentIpt" value="无内容" type="text"/>
-                            </td>
-                            <td class="width100 tLeft" data-columnname="columnname3">
-                                <span class="tbContent">无内容</span>
-                                <input class="hide tbContentIpt" value="无内容" type="text"/>
-                            </td>
+                            <div class="right ico-dropdown mRight5" data-columnname="columnname1"></div>
+                            <div class="clear"></div>
+                        </td>
+                        <td class="width100 tLeft" data-columnname="columnname2">
+                            <span class="tbContent">列名2</span>
+                            <input class="hide tbContentIpt" value="列名2" type="text"/>
+                            <span class="right ico-dropdown mRight5" data-columnname="columnname2"></span>
+                        </td>
+                        <td class="width100 tLeft" data-columnname="columnname3">
+                            <span class="tbContent">列名3</span>
+                            <input class="hide tbContentIpt" value="列名3" type="text"/>
+                            <span class="right ico-dropdown mRight5" data-columnname="columnname3"></span>
+                        </td>
                             <td class="width100 tLeft" data-columnname="columnname4">
-                                <span class="tbContent">无内容</span>
-                                <input class="hide tbContentIpt" value="无内容" type="text"/>
-                            </td>
-                            <td class="width100 tLeft" data-columnname="columnname5">
-                                <span class="tbContent">无内容</span>
-                                <input class="hide tbContentIpt" value="无内容" type="text"/>
-                            </td>
-                            <td class="width150 center">
-                                <div class="platemakingOperate">
-                                    <div class="btn-addRow btn-create left" title="添加新行"></div>
-                                    <div class="btn-removeRow btn-remove mLeft10 left" title="删除此行"></div>
-                                    <div class="clear"></div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                }
-                else
-                {
-                   <script type="text/javascript">
-                       document.getElementById("platemakingContent").innerHTML = decodeURI('@(order.Platemaking)');
-                   </script>   
-                }
+                            <span class="tbContent">列名4</span>
+                            <input class="hide tbContentIpt" value="列名4" type="text"/>
+                            <span class="right ico-dropdown mRight5" data-columnname="columnname4"></span>
+                        </td>
+                        <td class="width100 tLeft" data-columnname="columnname5">
+                            <span class="tbContent">列名5</span>
+                            <input class="hide tbContentIpt" value="列名5" type="text"/>
+                            <span class="right ico-dropdown mRight5" data-columnname="columnname5"></span>
+                        </td>
+                        <td class="width150 center">操作</td>
+                    </tr>
+                    <tr>
+                        <td class="width100 tLeft" data-columnname="columnname1">
+                            <span class="tbContent">无内容</span>
+                            <input class="hide tbContentIpt" value="无内容" type="text"/>
+                        </td>
+                        <td class="width100 tLeft" data-columnname="columnname2">
+                            <span class="tbContent">无内容</span>
+                            <input class="hide tbContentIpt" value="无内容" type="text"/>
+                        </td>
+                        <td class="width100 tLeft" data-columnname="columnname3">
+                            <span class="tbContent">无内容</span>
+                            <input class="hide tbContentIpt" value="无内容" type="text"/>
+                        </td>
+                        <td class="width100 tLeft" data-columnname="columnname4">
+                            <span class="tbContent">无内容</span>
+                            <input class="hide tbContentIpt" value="无内容" type="text"/>
+                        </td>
+                        <td class="width100 tLeft" data-columnname="columnname5">
+                            <span class="tbContent">无内容</span>
+                            <input class="hide tbContentIpt" value="无内容" type="text"/>
+                        </td>
+                        <td class="width150 center">
+                            <div class="platemakingOperate">
+                                <div class="btn-addRow btn-create left" title="添加新行"></div>
+                                <div class="btn-removeRow btn-remove mLeft10 left" title="删除此行"></div>
+                                <div class="clear"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
             }
-            </div>
+            else
+            {
+                <script type="text/javascript">
+                    document.getElementById("platemakingContent").innerHTML = decodeURI('@(order.Platemaking)');
+                </script>   
+            }
+            }
             @{
             if (model.Mark == 2)
             {
             <a href="javascript:void(0);" class="btn right mTop10" id="btn-updateTaskRemark">保存制版</a>
             }}
             <div class="clear"></div>
-            
-
-        <div class="content-main mTop30">
-            <textarea id="txtContent" class="txt-content" placeholder="发表评论"></textarea><br />
-            <div class="btn right mTop5" id="btnSaveTalk">提交</div>
-            <div class="clear"></div>
         </div>
+            
+        <div id="orderTask" class="mTop30 hide">
+            <div class="content-main">
+                <textarea id="txtContent" class="txt-content" placeholder="发表评论"></textarea><br />
+                <div class="btn right mTop5" id="btnSaveTalk">提交</div>
+                <div class="clear"></div>
+            </div>
 
-        <div class="talk-title"> 全部讨论</div>
+            <div class="talk-title" style="width:800px;"> 全部讨论</div>
 
-        <table class="content-list" id="replyList"></table>
+            <table class="content-list" id="replyList"></table>
 
-        <div id="pagerReply" class="mTop10"></div>
-
-        <ul class="dropdown-ul hide"  style="width:90px;">
-            <li id="btn-addColumn">添加新列</li>
-            <li id="btn-removeColumn">删除此列</li>
-        </ul>
+            <div id="pagerReply" class="mTop10"></div>
+        </div>
     </div>
 </div>
+
+<ul class="dropdown-ul hide"  style="width:90px;">
+    <li id="btn-addColumn">添加新列</li>
+    <li id="btn-removeColumn">删除此列</li>
+</ul>

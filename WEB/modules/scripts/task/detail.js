@@ -13,6 +13,8 @@
         //材料任务
         if (mark == "1" || mark == "3") {
             ObjectJS.bindProduct();
+
+            ObjectJS.bindRemoveRowBtn();
         }//制版任务
         else if (mark == "2") {
             ObjectJS.bindPlatemakingEvent();
@@ -20,6 +22,7 @@
         }
         else {
             ObjectJS.getAmount2();
+            ObjectJS.bindRemoveRowBtn();
         }
 
     };
@@ -49,8 +52,25 @@
             ObjectJS.FinishTask(taskid);
         });
 
-        //任务讨论列表
-        ObjectJS.initTalkReply(orderid, stageid);
+        //切换模块
+        $(".tab-nav-ul li").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover"))
+            {
+                if (_this.data("id") == "orderTask") {
+                    //任务讨论列表
+                    ObjectJS.initTalkReply(orderid, stageid);
+                }
+            }
+
+            _this.siblings().removeClass("hover");
+            _this.addClass("hover");
+
+            $(".tab-nav").nextAll().hide();
+            $("#" + _this.data("id")).show();
+
+            
+        });
     }
 
     ObjectJS.UpdateTaskEndTime = function (taskID) {
@@ -470,6 +490,13 @@
             $(this).parent().parent().parent().remove();
         });
     }
+
+    //删除行操作按钮
+    ObjectJS.bindRemoveRowBtn = function () {
+        $("div.btn-addRow").remove();
+        $("div.btn-removeRow").remove();
+    }
+
 
     //保存制版信息
     ObjectJS.updateOrderPlatemaking = function () {

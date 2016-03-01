@@ -27,8 +27,8 @@ display:inline-block;
 .taskFinishStatus{  padding:5px 10px; background-color:#ccc; color:#333; border:none; display:inline-block; border-radius:2px; line-height:18px; }
 
 /*讨论备忘*/
-.talk-body {width:800px; }
-.talk-body .content-main {position:relative; }
+.talk-body {}
+.talk-body .content-main {position:relative; width:800px;}
 .talk-body .content-main .txt-content { height:100px; background-color:#f7f7f7;width:800px; border:solid 1px #eee; }
 .talk-body .content-main .txt-content:focus { border:solid 1px #318ae4;}
 .talk-body .content-main .btn-save { position:absolute; right:0; bottom:0px; }
