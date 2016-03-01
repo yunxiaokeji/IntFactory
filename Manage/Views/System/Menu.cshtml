@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "菜单设置";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/system/menu"], function (Industry) {
+            Industry.init();
+        });
+    </script>
+}
+
+<div class="header-box">
+    <span class="header-title">菜单列表</span>
+    <a class="btn right" href="MenuDetail">新建主菜单</a>
+</div>
+
+<div class="content-body mTop20">
+    <div class="right searth-module"> </div>
+    <div class="clear"></div>
+    <table class="table-list mTop20">
+        <tr class="tr-header">
+            <td width="10%">操作</td>
+            <td class="">名称</td>
+            <td class="">上级菜单</td>
+            <td class="">层级</td>
+            <td class="">控制器</td>
+            <td class="">视图</td>
+            <td class="">排序</td>
+        </tr>
+    </table>
+</div>

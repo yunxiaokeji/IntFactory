@@ -24,7 +24,7 @@ namespace YXManage.Controllers
 
         public ActionResult Detail(string id)
         {
-            ViewBag.Modules = IntFactoryBusiness.ModulesBusiness.GetModules();
+            //ViewBag.Modules = IntFactoryBusiness.ModulesBusiness.GetModules();
             if(string.IsNullOrEmpty(id))
                 ViewBag.ID = 0;
             else

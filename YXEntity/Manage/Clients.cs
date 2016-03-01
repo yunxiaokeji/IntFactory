@@ -175,7 +175,7 @@ namespace IntFactoryEntity.Manage
         /// <summary>
         /// 模块列表
         /// </summary>
-        public List<Modules> Modules { get; set; }
+        //public List<Modules> Modules { get; set; }
 
         public CityEntity City { get; set; }
 

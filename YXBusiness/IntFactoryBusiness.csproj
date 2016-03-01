@@ -7,8 +7,8 @@
     <ProjectGuid>{6322CB56-2693-4600-922D-0DEC06A8F59C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CloudSalesBusiness</RootNamespace>
-    <AssemblyName>CloudSalesBusiness</AssemblyName>
+    <RootNamespace>IntFactoryBusiness</RootNamespace>
+    <AssemblyName>IntFactoryBusiness</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -52,6 +52,7 @@
     <Compile Include="Manage\ExpressCompanyBusiness.cs" />
     <Compile Include="Manage\FeedBackBusiness.cs" />
     <Compile Include="Manage\ModulesProductBusiness.cs" />
+    <Compile Include="Manage\ManageSystemBusiness.cs" />
     <Compile Include="Report\CustomerRPTBusiness.cs" />
     <Compile Include="Report\SalesRPTBusiness.cs" />
     <Compile Include="Sales\OrdersBusiness.cs" />
@@ -60,7 +61,6 @@
     <Compile Include="Stock\ProductsBusiness.cs" />
     <Compile Include="Common\CommonBusiness.cs" />
     <Compile Include="Manage\ClientBusiness.cs" />
-    <Compile Include="Manage\ModulesBusiness.cs" />
     <Compile Include="Manage\M_UsersBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\ShoppingCartBusiness.cs" />
