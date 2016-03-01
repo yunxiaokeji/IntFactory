@@ -5,6 +5,7 @@
 
     var Params = {
         isMy: true,
+        userid:"",
         finishStatus: -1,
         keyWords:'',
         beginDate: '',
@@ -21,6 +22,23 @@
             Params.isMy = false;
             document.title = "所有任务";
             $(".header-title").html("所有任务");
+
+            require.async("choosebranch", function () {
+                $("#chooseBranch").chooseBranch({
+                    prevText: "人员-",
+                    defaultText: "全部",
+                    defaultValue: "",
+                    userid: "-1",
+                    isTeam: false,
+                    width: "180",
+                    onChange: function (data) {
+                        Params.pageIndex = 1;
+                        Params.userid = data.userid;
+                        ObjectJS.getList();
+                    }
+                });
+            });
+
         }
         ObjectJS.bindEvent();
 

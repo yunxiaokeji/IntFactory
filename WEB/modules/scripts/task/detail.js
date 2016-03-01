@@ -493,6 +493,7 @@
 
     //删除行操作按钮
     ObjectJS.bindRemoveRowBtn = function () {
+        $("span.ico-dropdown").remove();
         $("div.btn-addRow").remove();
         $("div.btn-removeRow").remove();
     }

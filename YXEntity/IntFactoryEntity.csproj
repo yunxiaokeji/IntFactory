@@ -63,6 +63,8 @@
     <Compile Include="Log\UpcomingsEntity.cs" />
     <Compile Include="Manage\ClientOrder.cs" />
     <Compile Include="Manage\FeedBack.cs" />
+    <Compile Include="Manage\M_Role.cs" />
+    <Compile Include="Manage\M_RolePermission.cs" />
     <Compile Include="Report\CustomerSourceRPT.cs" />
     <Compile Include="Report\CustomerStageRPT.cs" />
     <Compile Include="Report\OrderTypeRPT.cs" />

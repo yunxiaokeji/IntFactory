@@ -1,0 +1,15 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td class="name">{%=item.Name%}</td>
+    <td class="desc">{%=item.Description%}</td>
+    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class='center'>{%=(item.CreateUser ? item.CreateUser.Name:"--")%}</td>
+    <td class='center'><a href="/Organization/RolePermission/{%=item.RoleID%}" class="setpermission" data-type="{%=item.IsDefault%}" data-id="{%=item.RoleID%}">设置权限</a></td>
+    <td class="center dropdown" data-type="{%=item.IsDefault%}" data-id="{%=item.RoleID%}">
+        <span data-type="{%=item.IsDefault%}" class="ico-dropdown"></span>
+    </td>
+</tr>
+{% } %}

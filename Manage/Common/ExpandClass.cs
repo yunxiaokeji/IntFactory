@@ -8,6 +8,15 @@ using System.Web.Script.Serialization;
 
 public static class ExpandClass
 {
+    /// <summary>
+    /// 顶层菜单编码
+    /// </summary>
+    public const string CLIENT_TOP_CODE = "100000000";
+    /// <summary>
+    /// 默认菜单编码
+    /// </summary>
+    public const string CLIENT_DEFAULT_CODE = "101000000";
+
     public static string GetActiveMenu(this HtmlHelper html, string action, string param, string style)
     {
         return action.ToLower() == param.ToLower() ? style : "";

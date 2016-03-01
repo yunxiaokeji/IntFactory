@@ -8,6 +8,7 @@ using IntFactoryBusiness.Manage;
 using System.Web.Script.Serialization;
 using IntFactoryEntity;
 using IntFactoryEntity.Manage;
+using IntFactoryBusiness;
 namespace YXManage.Controllers
 {
      [YXManage.Common.UserAuthorize]
@@ -62,6 +63,18 @@ namespace YXManage.Controllers
              ViewBag.Model = new SystemMenu();
              ViewBag.MenuCode = menuCode;
              return View("MenuDetail");
+         }
+
+         public ActionResult Roles()
+         {
+             return View();
+         }
+
+         public ActionResult RolePermission(string id)
+         {
+             ViewBag.Model = ManageSystemBusiness.GetRoleByID(id);
+             ViewBag.Menus = CommonBusiness.ClientMenus.Where(m => m.PCode == ExpandClass.CLIENT_TOP_CODE).ToList();
+             return View();
          }
         #endregion
 
@@ -162,6 +175,109 @@ namespace YXManage.Controllers
 
             JsonDictionary.Add("Result", flag ? 1 : 0);
             return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 获取角色列表
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetRoles()
+        {
+            var list = ManageSystemBusiness.GetRoles();
+            //foreach (var item in list)
+            //{
+            //    if (item.CreateUser == null && !string.IsNullOrEmpty(item.CreateUserID))
+            //    {
+            //        var user = ManageSystemBusiness.GetUserByUserID(item.CreateUserID, string.Empty);
+            //        item.CreateUser = new Users() { Name = user.Name };
+            //    }
+            //}
+            JsonDictionary.Add("items", list);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetRoleByID(string id)
+        {
+            var model = ManageSystemBusiness.GetRoleByID(id);
+            JsonDictionary.Add("model", model);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 保存角色
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public JsonResult SaveRole(string entity)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            Role model = serializer.Deserialize<Role>(entity);
+
+            if (string.IsNullOrEmpty(model.RoleID))
+            {
+                model.RoleID = new ManageSystemBusiness().CreateRole(model.Name, model.ParentID, model.Description, string.Empty);
+            }
+            else
+            {
+                bool bl = new ManageSystemBusiness().UpdateRole(model.RoleID, model.Name, model.Description,string.Empty);
+                if (!bl)
+                {
+                    model.RoleID = "";
+                }
+            }
+            JsonDictionary.Add("model", model);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 删除角色
+        /// </summary>
+        /// <param name="roleid"></param>
+        /// <returns></returns>
+        public JsonResult DeleteRole(string roleid)
+        {
+            int result = 0;
+            bool bl = new ManageSystemBusiness().DeleteRole(roleid, CurrentUser.UserID, OperateIP, out result);
+            JsonDictionary.Add("status", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 保存角色权限
+        /// </summary>
+        /// <param name="roleid"></param>
+        /// <param name="permissions"></param>
+        /// <returns></returns>
+        public JsonResult SaveRolePermission(string roleid, string permissions)
+        {
+            if (permissions.Length > 0)
+            {
+                permissions = permissions.Substring(0, permissions.Length - 1);
+
+            }
+            bool bl = new ManageSystemBusiness().UpdateRolePermission(roleid, permissions, CurrentUser.UserID, OperateIP);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
             {
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet

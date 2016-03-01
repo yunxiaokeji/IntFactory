@@ -458,5 +458,8 @@
     <None Include="Procedures\Sales\P_UpdateOrderProductLoss.sql" />
     <None Include="Procedures\Sales\P_UpdateOrderProductQuantity.sql" />
     <None Include="Procedures\Sales\P_UpdateOrderStatus.sql" />
+    <Build Include="Procedures\Manage\M_DeleteRole.sql" />
+    <Build Include="Procedures\Manage\M_UpdateRolePermission.sql" />
+    <Build Include="Procedures\Manage\M_UpdateUserRole.sql" />
   </ItemGroup>
 </Project>
