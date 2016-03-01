@@ -53,7 +53,7 @@ namespace YXManage.Controllers
 
              model = ManageSystemBusiness.GetSystemMenu(id);
              pCode = model.MenuCode;
-             pCodeName = model.PCodeName;
+             pCodeName = model.Name;
              layer = model.Layer+1;
 
              ViewBag.PCode = pCode;
