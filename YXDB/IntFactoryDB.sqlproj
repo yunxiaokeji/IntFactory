@@ -446,7 +446,6 @@
     <None Include="Procedures\Manage\M_Get_Report_AgentAction_Day.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Procedures\Task\P_CreateTask.sql" />
     <Build Include="Procedures\Task\P_FinishTask.sql" />
     <Build Include="Procedures\Task\P_GetTasks.sql" />
     <Build Include="Procedures\Task\P_UpdateTaskEndTime.sql" />

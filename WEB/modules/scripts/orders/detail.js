@@ -106,6 +106,7 @@ define(function (require, exports, module) {
                 });
             }
         } else { //需求单
+            $("#updateProfitPrice").hide();
             $("#btndelete").show();//#btnreturn,
 
             //删除需求单
