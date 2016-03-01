@@ -25,6 +25,8 @@ namespace YXERP.Models
 
         public bool IsAsc { get; set; }
 
+        public int IsPublic { get; set; }
+
         public int PageIndex { get; set; }
 
         public string ProviderID { get; set; }

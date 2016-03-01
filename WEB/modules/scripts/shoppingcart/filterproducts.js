@@ -16,6 +16,7 @@
         PageIndex: 1,
         keyWords: "",
         DocType: -1,
+        IsPublic: -1,
         OrderBy: "pd.CreateTime desc",
         IsAsc:false
     }
@@ -152,6 +153,16 @@
                 _self.getProducts();
             });
         });
+        //类型筛选
+        $("#attr-type .attrValues .type").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.addClass("hover");
+                _this.siblings().removeClass("hover");
+                Params.IsPublic = _this.data("id");
+                _self.getProducts();
+            }
+        });
         //价格筛选
         $("#attr-price .attrValues .price").click(function () {
             var _this = $(this);
@@ -264,14 +275,13 @@
             EndPrice: Params.EndPrice,
             OrderBy: Params.OrderBy,
             DocType: Params.DocType,
+            IsPublic: Params.IsPublic,
             IsAsc: Params.IsAsc,
             Attrs: attrs
         }, params);
 
         Global.post("/ShoppingCart/GetProductListForShopping", { filter: JSON.stringify(opt) }, function (data) {
             $("#productlist").empty();
-
-            console.log(data.Items);
 
             doT.exec("template/shoppingcart/filter-products.html", function (templateFun) {
 

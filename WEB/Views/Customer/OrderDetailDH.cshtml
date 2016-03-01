@@ -80,8 +80,12 @@
             <label>@(model.PersonName)</label>
         </li>
         <li>
-            <span class="column-title">收货地址：</span>
-            <label>@(model.City != null ? (model.City.Province + " " + model.City.City + " " + model.City.Counties) : "")@(model.Address)</label>
+            <span class="column-title">收货地区：</span>
+            <label>@(model.City != null ? (model.City.Province + " " + model.City.City + " " + model.City.Counties) : "")</label>
+        </li>
+        <li>
+            <span class="column-title">详细地址：</span>
+            <label>@(model.Address)</label>
         </li>
     </ul>
     <ul class="right status-items">
@@ -111,7 +115,7 @@
     </ul>
 
     <div class="clear"></div>
-    <ul class="content-info mTop20">
+    <ul  style="width:90%;" class="content-info mTop20">
         <li style="width:100%;">
             <span class="column-title">详细需求：</span> 
             <label>@(model.Remark.Trim())</label>

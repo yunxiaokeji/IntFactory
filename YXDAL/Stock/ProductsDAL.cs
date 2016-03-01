@@ -215,7 +215,7 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataSet GetFilterProducts(string categoryid, string attrwhere, string salewhere, int doctype, string beginprice, string endprice, string keyWords, string orderby, int isasc, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
+        public DataSet GetFilterProducts(string categoryid, string attrwhere, string salewhere, int doctype, string beginprice, string endprice, int ispublic, string keyWords, string orderby, int isasc, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
@@ -227,6 +227,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@DocType",doctype),
                                        new SqlParameter("@BeginPrice",beginprice),
                                        new SqlParameter("@EndPrice",endprice),
+                                       new SqlParameter("@IsPublic",ispublic),
                                        new SqlParameter("@CategoryID",categoryid),
                                        new SqlParameter("@keyWords",keyWords),
                                        new SqlParameter("@pageSize",pageSize),
