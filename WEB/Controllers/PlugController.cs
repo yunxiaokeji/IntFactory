@@ -57,6 +57,9 @@ namespace YXERP.Controllers
             List<string> list = new List<string>();
             for (int i = 0; i < Request.Files.Count; i++)
             {
+                if (i == 5) {
+                    break;
+                }
                 HttpPostedFileBase file = Request.Files[i];
                 //判断图片类型
                 string ContentType = file.ContentType;
@@ -79,7 +82,7 @@ namespace YXERP.Controllers
                 if (string.IsNullOrEmpty(oldPath) || oldPath == "/modules/images/default.png")
                 {
                     string[] arr = file.FileName.Split('.');
-                    string fileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + "." + arr[arr.Length - 1];
+                    string fileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + i + "." + arr[arr.Length - 1];
                     string filePath = uploadPath + fileName;
                     file.SaveAs(filePath);
                     list.Add(folder + fileName);

@@ -55,6 +55,7 @@ define(function (require, exports, module) {
             $("#changeOrderStatus").html("交易完成");
         }
 
+        //状态
         $(".status-items li").each(function () {
             var _this = $(this), status = _this.data("status");
             if (status <= _self.status) {
@@ -64,6 +65,27 @@ define(function (require, exports, module) {
         });
         for (var i = 0; i < model.OrderStatus.length; i++) {
             $(".status-items li[data-status='" + model.OrderStatus[i].Status + "']").find(".status-time-text").html(model.OrderStatus[i].CreateTime.toDate("yyyy-MM-dd"));
+        }
+
+        if (model.Platemaking) {
+            $("#navEngraving").html(decodeURI(model.Platemaking));
+        }
+
+        var images = model.OrderImages.split(",");
+        
+        for (var i = 0; i < images.length; i++) {
+            if (images[i]) {
+                var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
+                $(".order-imgs-list").append(img);
+                img.click(function () {
+                    var _this = $(this);
+                    if (!_this.hasClass("hover")) {
+                        _this.siblings().removeClass("hover");
+                        _this.addClass("hover");
+                        $("#orderImage").attr("src", _this.find("img").attr("src"));
+                    }
+                });
+            }
         }
     }
     //绑定事件
@@ -115,6 +137,11 @@ define(function (require, exports, module) {
                     _self.deleteOrder();
                 });
             });
+            
+        }
+        
+        if (_self.status == 0 || _self.status == 4) {
+
             //转移工厂
             $("#btnchangeclient").click(function () {
                 doT.exec("template/orders/changeclient.html", function (template) {
@@ -130,7 +157,7 @@ define(function (require, exports, module) {
                                     alert("工厂编码不能小于6位字符！");
                                     return false;
                                 }
-                                
+
                             },
                             callback: function () {
 
@@ -169,7 +196,6 @@ define(function (require, exports, module) {
                     }
                 });
             });
-
         }
 
         //转移拥有者
