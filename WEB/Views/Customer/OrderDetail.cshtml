@@ -41,10 +41,7 @@
             <span class="column-title">期望价格：</span>
             <label>@(model.PlanPrice)</label>
         </li>
-        <li>
-            <span class="column-title">最终报价：</span>
-            <label>@(model.FinalPrice.ToString("f2"))</label>
-        </li>
+        
         <li>
             <span class="column-title">成本：</span>
             <label>@(model.Price.ToString("f2"))</label>
@@ -52,6 +49,10 @@
         <li>
             <span class="column-title">利润比例(%)：</span>
             <label class="left" id="profitPrice">@((model.ProfitPrice*100).ToString("f2"))</label> <div id="updateProfitPrice" class="left ico-edit mLeft20 mTop5"></div>
+        </li>
+        <li>
+            <span class="column-title">最终报价：</span>
+            <label>@(model.FinalPrice.ToString("f2"))</label>
         </li>
         <li class="hide">
             <span class="column-title">加工数量：</span>
