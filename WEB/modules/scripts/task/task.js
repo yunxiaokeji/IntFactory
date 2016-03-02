@@ -6,7 +6,7 @@
     var Params = {
         isMy: true,
         userid:"",
-        finishStatus: -1,
+        finishStatus:0,
         keyWords:'',
         beginDate: '',
         endDate: '',
@@ -55,38 +55,17 @@
             });
         });
 
-        //进度状态查询
-        require.async("dropdown", function () {
-            var Types = [
-                {
-                    ID: 0,
-                    Name: "未分配"
-                },
-                {
-                    ID: 1,
-                    Name: "进行中"
-                },
-                {
-                    ID: 2,
-                    Name: "已完成"
-                }
-            ];
+        //切换阶段
+        $(".search-stages li").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
 
-            $("#taskStatus").dropdown({
-                prevText: "任务进度-",
-                defaultText: "所有",
-                defaultValue: "-1",
-                data: Types,
-                dataValue: "ID",
-                dataText: "Name",
-                width: "120",
-                onChange: function (data) {
-                    Params.pageIndex = 1;
-                    Params.finishStatus = data.value;
-                    ObjectJS.getList();
-                }
-            });
-
+                Params.pageIndex = 1;
+                Params.finishStatus = _this.data("id");
+                ObjectJS.getList();
+            }
         });
 
         //时间段查询
@@ -101,7 +80,7 @@
 
     ObjectJS.getList = function () {
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='8'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='9'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
 
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".tr-header").nextAll().remove();
@@ -112,22 +91,10 @@
                     innerhtml = $(innerhtml);
 
                     $(".tr-header").after(innerhtml);
-
-                    //显示任务详情
-                    //require.async("showtaskdetail", function () {
-                    //    $(".table-list .list-item").showtaskdetail({
-                    //        UpdateTaskEndTimeCallBack: function (endtime, taskid) {
-                    //            $("#EndTime-" + taskid).html(endtime);
-                    //        }
-                    //    });
-
-                    //});
-                    
-
                 });
             }
             else {
-                $(".tr-header").after("<tr><td colspan='8'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                $(".tr-header").after("<tr><td colspan='9'><div class='noDataTxt' >暂无数据!<div></td></tr>");
             }
 
             $("#pager").paginate({

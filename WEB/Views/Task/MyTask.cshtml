@@ -41,11 +41,21 @@
     <span class="header-title left">我的任务</span>
 </div>
 
-<div class="content-body mTop20">
+<div class="search-box">
+    <div class="search-header">
+        <ul class="search-tab search-stages">
+            <li data-id="-1">全部</li>
+            <li data-id="0"  class="hover">未分配</li>
+            <li data-id="1">进行中</li>
+            <li data-id="2">已完成</li>
+        </ul>
+    </div>
+</div>
+
+<div class="content-body">
     <div class="search-body">
         <div id="chooseBranch" class="left mRight20"></div>
-        <div class="left" id="taskStatus"></div>
-        <div class="left mLeft20">
+        <div class="left">
             <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input width80"  />
             <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width80"  />
             <span class="btn mLeft10" id="btnSearch">搜索</span>
@@ -56,10 +66,10 @@
     <table class="table-list tb-task-list">
         <tr class="tr-header">
             <td class="width50 tLeft">订单样图</td>
+            <td class="width200">任务标题</td>
+            <td class="width150">任务编号</td>
             <td class="width150">订单编号</td>
             <td class="width150">订单类型</td>
-            <td class="width150">任务编号</td>
-            <td class="width200">任务内容</td>
             <td class="width100">任务进度</td>
             <td class="width150">负责人</td>
             <td class="width150">到期日期</td>
