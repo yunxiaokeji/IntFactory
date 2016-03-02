@@ -142,6 +142,7 @@
             </div>
 
         <div class="platemakingContent hide" id="platemakingContent">
+            <div id="platemakingBody">
             @{
             if (string.IsNullOrEmpty(order.Platemaking))
             {
@@ -208,10 +209,11 @@
             else
             {
                 <script type="text/javascript">
-                    document.getElementById("platemakingContent").innerHTML = decodeURI('@(order.Platemaking)');
+                    document.getElementById("platemakingBody").innerHTML = decodeURI('@(order.Platemaking)');
                 </script>   
             }
             }
+            </div>
             @{
             if (model.Mark == 2 && model.FinishStatus != 2)
             {
