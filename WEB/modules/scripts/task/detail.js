@@ -5,18 +5,18 @@
 
     var ObjectJS = {};
 
-    ObjectJS.init = function (taskid, stageid, orderid, mark) {
+    ObjectJS.init = function (taskid, stageid, orderid, mark, finishStatus) {
         ObjectJS.orderid = orderid;
         ObjectJS.taskid = taskid;
 
         ObjectJS.bindEvent(taskid, stageid, orderid);
         //材料任务
-        if (mark == "1" || mark == "3") {
+        if ((mark == "1" || mark == "3") && finishStatus!=2) {
             ObjectJS.bindProduct();
 
-            ObjectJS.bindRemoveRowBtn();
+            ObjectJS.bindRemoveRowBtn(); 
         }//制版任务
-        else if (mark == "2") {
+        else if (mark == "2" && finishStatus != 2) {
             ObjectJS.bindPlatemakingEvent();
             ObjectJS.getAmount2();
         }
@@ -494,8 +494,9 @@
     //删除行操作按钮
     ObjectJS.bindRemoveRowBtn = function () {
         $("span.ico-dropdown").remove();
-        $("div.btn-addRow").remove();
-        $("div.btn-removeRow").remove();
+        $("#platemakingContent table tr").each(function () {
+            $(this).find("td:last").remove();
+        });
     }
 
 
