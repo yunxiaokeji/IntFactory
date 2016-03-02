@@ -70,7 +70,6 @@ namespace IntFactoryBusiness
             {
                 model = new TaskEntity();
                 model.FillData(dt.Rows[0]);
-                model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
             }
 
