@@ -137,7 +137,7 @@ namespace IntFactoryBusiness
             bool flag= TaskDAL.BaseProvider.UpdateTaskEndTime(taskID, endTime);
             if (flag)
             {
-                string msg = "将任务截至日期设为：" + (endTime == null ? "未指定日期" : endTime.Value.Date.ToString());
+                string msg = "将任务截至日期设为：" + (endTime == null ? "未指定日期" : endTime.Value.Date.ToString("yyyy-MM-dd"));
                 LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
             }
 
