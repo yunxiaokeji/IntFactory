@@ -9,7 +9,7 @@
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@(model.TaskID)', '@(model.StageID)', '@(model.OrderID)','@(model.Mark)');
+                obj.init('@(model.TaskID)', '@(model.StageID)', '@(model.OrderID)','@(model.Mark)','@(model.FinishStatus)');
             });
         });
     </script>
@@ -22,7 +22,7 @@
     <div class="taskOperate">
         <div class="left">
             <div class="left"><img title="到期日期" style="width:30px;" src="/modules/images/ico-endtime.png" /></div>
-            <div class="left mLeft10"><input type="text" style="width:80px;" id="@(model.FinishStatus == 2 ? "" : "UpdateTaskEndTime")" value="@(model.EndTime.ToString() == "0001-1-1 0:00:00" ? "未指定日期" : model.EndTime.ToString("yyyy-MM-dd"))" placeholder="设置到期日期"/></div>
+            <div class="left mLeft10"><input type="text" style="width:80px;" id="@(model.FinishStatus == 2 ? "" : "UpdateTaskEndTime")" value="@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定日期" : model.EndTime.ToString("yyyy-MM-dd"))" placeholder="设置到期日期"/></div>
             <div class="clear"></div>
             
         </div>
@@ -96,7 +96,7 @@
                             <td class="center">@(detail.UnitName)</td>
                             <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                             @{
-                        if (model.Mark == 1 || model.Mark == 3)
+                        if ( (model.Mark == 1 || model.Mark == 3 ) && model.FinishStatus!=2)
                         {
                                        
                             <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
@@ -131,7 +131,7 @@
                     </tr>
                 </table>
             @{
-                    if (model.Mark == 1 || model.Mark == 3)
+                if ((model.Mark == 1 || model.Mark == 3) && model.FinishStatus != 2)
                     {
                     <a href="/Customer/ChooseProducts?id=@(model.OrderID)&tid=@(model.TaskID)" class="btn right mTop10">添加材料</a>
                     }
@@ -211,7 +211,7 @@
             }
             }
             @{
-            if (model.Mark == 2)
+            if (model.Mark == 2 && model.FinishStatus != 2)
             {
             <a href="javascript:void(0);" class="btn right mTop10" id="btn-updateTaskRemark">保存制版</a>
             }}
