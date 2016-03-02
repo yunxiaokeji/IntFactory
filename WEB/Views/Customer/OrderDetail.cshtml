@@ -186,6 +186,7 @@
             <tr class="tr-header">
                 <td class="tLeft">样图</td>
                 <td class="tLeft">材料名称</td>
+                <td class="tLeft">编码</td>
                 <td class="tLeft">规格</td>
                 <td class="width80">单位</td>
                 <td class="tLeft">单价</td>
@@ -202,6 +203,7 @@
                         </a>
                     </td>
                     <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
+                    <td>@(detail.ProductCode)</td>
                     <td>@(detail.Remark)</td>
                     <td class="center">@(detail.UnitName)</td>
                     <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
@@ -211,6 +213,7 @@
                 </tr>
             }
             <tr class="amount-item">
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
