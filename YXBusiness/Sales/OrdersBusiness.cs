@@ -368,9 +368,9 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderStatus(string orderid, EnumOrderStatus status, int quantity, decimal price, string operateid, string ip, string agentid, string clientid)
+        public bool UpdateOrderStatus(string orderid, EnumOrderStatus status, int quantity, decimal price, string operateid, string ip, string agentid, string clientid, out string errinfo)
         {
-            bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, quantity, price, operateid, agentid, clientid);
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, quantity, price, operateid, agentid, clientid, out errinfo);
             if (bl)
             {
                 string msg = "订单状态更换为：" + CommonBusiness.GetEnumDesc<EnumOrderStatus>(status);

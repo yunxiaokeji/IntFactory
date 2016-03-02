@@ -1,0 +1,145 @@
+﻿@{
+    Layout = null;
+    var model = (IntFactoryEntity.Manage.Clients)ViewBag.Model;
+}
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="content-language" content="zh-CN" />
+	<meta name="author" content="zuroke" />
+	<title>智能工厂-在线下单</title>
+    <link href="../../modules/css/base.css" rel="stylesheet" />
+    <link href="/modules/css/home/common.css" rel="stylesheet" />
+    <link href="/modules/css/home/online-pay.css" rel="stylesheet" />
+    <script src="/Scripts/sea.js"></script>
+    <script src="/Scripts/sea-config.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/home/create"], function (home) {
+            home.init('@(model.ClientID)', '@(model.AgentID)');
+        });
+    </script>
+</head>
+
+<body>
+<!--页头-->
+<div class="pay-title pay-body row">
+    <div class="pay-title-name l">
+        <i><img style="width:50px;height:50px;" src="@(string.IsNullOrEmpty(model.Logo)?"/modules/images/selforder/title-logo.png":model.Logo)" alt=""/></i>
+        <span>@(model.CompanyName)</span>
+    </div>
+</div>
+<!--页头end-->
+
+<!--内容-->
+<div class="pay-content pay-body row">
+	<div class="pay-content-title">
+    	<div class="pay-content-title-info">
+            <h1>在线下单</h1>
+            <p>请填写完整订单信息，我们将根据订单生产制作</p>
+        </div>
+    </div>
+    <div class="pay-content-main row">
+    	<!----表单项---->
+    	<div class="pay-content-main-form l">
+        	<table>
+            	<tbody>
+                    <tr>
+                        <th>订单类别：</th>
+                        <td>
+                        	<span class="ico-checked mTop2 customtype" id="companyCustom" data-type="1">打样</span>
+                            <span class="ico-check mTop2 customtype" data-type="2">大货</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>订单品类：</th>
+                        <td>
+                        	<select id="bigcategory">
+                            @foreach (IntFactoryEntity.Category item in (List<IntFactoryEntity.Category>)ViewBag.Items)
+                            {
+                                <option value="@(item.CategoryID)">@(item.CategoryName)</option> 
+                            }
+                            </select>
+                            <select id="ordercategory">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>数量：</th>
+                        <td>
+                        	<input type="text" maxlength="5" id="planQuantity"  data-empty="必填" data-type="int" class="inputbox verify"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>期望价格：</th>
+                        <td>
+                        	<input type="text" maxlength="10" id="planPrice"  data-empty="必填" data-type="double"  class="inputbox verify"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>附件：</th>
+                        <td>
+                        	<span id="productIco" ></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td >
+                            <ul id="orderImages" class="order-imgs addimg"></ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text">详细需求：</th>
+                        <td>
+                        	<textarea id="remark" placeholder="如有详细需求请注明具体内容，以免制作时产品遗漏" class="textarea"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>姓名：</th>
+                        <td>
+                        	<input type="text" maxlength="50" id="name" data-empty="必填" class="inputbox verify"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>电话：</th>
+                        <td>
+                        	<input type="text" maxlength="11" id="contactMobile" data-empty="必填" data-type="mobile"  class="inputbox1 verify"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>地址：</th>
+                        <td>
+                            <span id="city"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>详细地址：</th>
+                        <td>
+                        	<input type="text" placeholder="" id="address"  class="inputbox2"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td>
+                        	<button type="button" id="btnSave" class="btn-con">确认下单</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!----表单项end---->
+        <div class="pay-content-main-ins r"><img src="/modules/images/selforder/liuc_03.png" alt=""/></div>
+    </div>
+</div>
+<!--内容end-->
+
+<!--页脚-->
+<div class="pay-bottom pay-body row">
+	<p>©2015-2016 智能工厂 沪ICP备15042543号</p>
+</div>
+<!--页脚end-->
+</body>
+</html>
+

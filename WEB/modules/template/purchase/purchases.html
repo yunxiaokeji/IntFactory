@@ -9,12 +9,20 @@
 	        for(var ii=0, jj=item.Details.length; ii < jj; ii++){
 	        var detail = item.Details[ii];
         %}
-        <div class="mTop10 mBottom10">      
-                <img style="width:80px; height:80px; vertical-align:middle;" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=detail.Imgs%}" />
-                {%=detail.ProductName%}
-                {%=detail.ProductCode%}
-                {%=detail.Remark%}
-        </div>
+        <ul class="purchase-detail">  
+            <li class="product-imgs">
+                <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=detail.Imgs%}" />
+            </li>    
+             <li class="long name">
+                 {%=detail.ProductName%}{%=detail.Remark%}
+             </li>   
+             <li class="code width120">
+                 {%=detail.ProductCode%}
+             </li>   
+             <li class="width80">
+                 {%=detail.Quantity%}
+             </li> 
+        </ul>
         {% } %}
     </td>
     <td>

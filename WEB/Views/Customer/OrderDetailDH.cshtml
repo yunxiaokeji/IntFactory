@@ -174,6 +174,7 @@
             <tr class="tr-header">
                 <td class="tLeft"></td>
                 <td class="tLeft">材料名称</td>
+                <td class="tLeft">编码</td>
                 <td class="tLeft">规格</td>
                 <td class="width80">单位</td>
                 <td class="tLeft">单价</td>
@@ -186,6 +187,7 @@
                 <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
                     <td class="width80"><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@(detail.Imgs)" /></a></td>
                     <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
+                    <td>@(detail.ProductCode)</td>
                     <td>@(detail.Remark)</td>
                     <td class="center">@(detail.UnitName)</td>
                     <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
@@ -201,9 +203,9 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
                 <td class="tRight">成本合计：</td>
                 <td class="tRight"><label id="amount"></label></td>
-                <td></td>
             </tr>
         </table>
     </div>

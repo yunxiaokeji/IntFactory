@@ -9,8 +9,29 @@ using System.IO;
 
 namespace YXERP.Controllers
 {
-    public class PlugController : BaseController
+    public class PlugController : Controller
     {
+        /// <summary>
+        /// 当前登录用户
+        /// </summary>
+        protected IntFactoryEntity.Users CurrentUser
+        {
+            get
+            {
+                if (Session["ClientManager"] == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return (IntFactoryEntity.Users)Session["ClientManager"];
+                }
+            }
+            set { Session["ClientManager"] = value; }
+        }
+
+        protected Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
+
         /// <summary>
         /// 根据cityCode获取下级地区列表
         /// </summary>

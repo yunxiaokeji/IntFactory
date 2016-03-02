@@ -153,6 +153,8 @@
     <Content Include="Content\menuico\saleshover.png" />
     <Content Include="DLL\JsonObject.dll" />
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
+    <Content Include="modules\css\home\common.css" />
+    <Content Include="modules\css\home\online-pay.css" />
     <Content Include="modules\css\opportunitys.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task\style.css" />
@@ -176,6 +178,15 @@
     <Content Include="modules\images\img-noimg.jpg" />
     <Content Include="modules\images\img-noimg.png" />
     <Content Include="modules\images\loginBackground.png" />
+    <Content Include="modules\images\selforder\bg-map.png" />
+    <Content Include="modules\images\selforder\bottom-bg.png" />
+    <Content Include="modules\images\selforder\img_03.png" />
+    <Content Include="modules\images\selforder\info-logo.png" />
+    <Content Include="modules\images\selforder\liuc_03.png" />
+    <Content Include="modules\images\selforder\shot_03.png" />
+    <Content Include="modules\images\selforder\shot_05.png" />
+    <Content Include="modules\images\selforder\title-img.png" />
+    <Content Include="modules\images\selforder\title-logo.png" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
     <Content Include="modules\plug\chooseproduct\productin.html" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\an_hui_geo.json" />
@@ -223,6 +234,7 @@
     <Content Include="modules\plug\chooseprocess\chooseprocess.js" />
     <Content Include="modules\plug\chooseprocess\process.html" />
     <Content Include="modules\plug\chooseprocess\style.css" />
+    <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.print.css" />
@@ -769,6 +781,7 @@
     <Content Include="Views\Orders\OrderPlans.cshtml" />
     <Content Include="Views\Task\Detail.cshtml" />
     <Content Include="Views\Customer\OrderDetailDH.cshtml" />
+    <Content Include="Views\Home\SelfOrder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

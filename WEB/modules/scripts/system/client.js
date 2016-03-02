@@ -87,9 +87,6 @@
                 {
                     ObjectJS.getClientOrders();
                 }
-                else if (_this.data("id") == 2) {
-                    ObjectJS.GetAgentKey();
-                }
             }
         });
 
@@ -228,7 +225,9 @@
 
                 //授权信息
                 var agent = data.Agent;
-                $("#cid").html(agent.AgentID);
+                $("#cid").attr("href", '/Home/SelfOrder/' + item.ClientID).html('/Home/SelfOrder/' + item.ClientID);
+                $("#ckey").html(item.ClientCode);
+
                 $("#UserQuantity").html(agent.UserQuantity);
                 $("#EndTime").html(agent.EndTime.toDate("yyyy-MM-dd"));
                 $("#agentRemainderDays").html(data.Days);
@@ -331,15 +330,6 @@
             }
         );
     }
-
-    //获取公司密钥
-    ObjectJS.GetAgentKey = function () {
-        if ($("#ckey").html() != '') return;
-
-        Global.post("/System/GetAgentKey", null, function (data) {
-            $("#ckey").html(data.Key);
-        });
-    };
 
     module.exports = ObjectJS;
 });

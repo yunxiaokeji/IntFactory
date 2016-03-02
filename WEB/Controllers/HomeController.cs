@@ -10,6 +10,7 @@ using IntFactoryBusiness;
 using IntFactoryEntity;
 using IntFactoryBusiness.Manage;
 using IntFactoryEntity.Manage;
+using System.Web.Script.Serialization;
 
 namespace YXERP.Controllers
 {
@@ -103,6 +104,24 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult SelfOrder(string id)
+        {
+            if (string.IsNullOrEmpty(id)) 
+            {
+                return Redirect("/Home/Login");
+            }
+            var model = ClientBusiness.GetClientDetail(id);
+            if (model == null || string.IsNullOrEmpty(model.ClientID))
+            {
+                return Redirect("/Home/Login");
+            }
+            ViewBag.Model = model;
+            var list = new ProductsBusiness().GetChildOrderCategorysByID("", id);
+            ViewBag.Items = list;
+            return View();
+        }
+
+
         public JsonResult GetAgentActions()
         {
             IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
@@ -117,7 +136,6 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-
 
         /// <summary>
         /// 明道登录
@@ -481,6 +499,34 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
 
+        }
+
+        public JsonResult GetChildOrderCategorysByID(string categoryid, string clientid)
+        {
+            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
+            var list = new ProductsBusiness().GetChildOrderCategorysByID(categoryid, clientid);
+            JsonDictionary.Add("Items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateOrder(string entity)
+        {
+            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            IntFactoryEntity.OrderEntity model = serializer.Deserialize<IntFactoryEntity.OrderEntity>(entity);
+
+            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID, model.GoodsCode, model.Title, model.PersonName, model.MobileTele, model.OrderType, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity,
+                                                                     model.OrderImage, model.CityCode, model.Address, model.Remark, "", model.AgentID, model.ClientID);
+            JsonDictionary.Add("id", orderid);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
     }

@@ -191,7 +191,7 @@ namespace IntFactoryEntity.Manage
 
 
 
-        
+        public string ClientCode { get; set; }
 
         /// <summary>
         /// 填充数据

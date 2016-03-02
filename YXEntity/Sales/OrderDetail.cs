@@ -153,6 +153,8 @@ namespace IntFactoryEntity
 
         public string Imgs { get; set; }
 
+        public string ProductCode { get; set; }
+
 		#endregion Model
         /// <summary>
         /// 填充数据
