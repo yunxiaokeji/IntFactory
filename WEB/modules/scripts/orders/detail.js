@@ -559,7 +559,7 @@ define(function (require, exports, module) {
             price: price ? price : 0
         }, function (data) {
             if (!data.status) {
-                alert("订单状态有变更，请重新操作！");
+                alert(data.errinfo);
             } else {
                 location.href = location.href;
             }

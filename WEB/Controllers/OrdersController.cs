@@ -269,8 +269,11 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderStatus(string orderid, int status, int quantity, decimal price)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStatus)status, quantity, price, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            string errinfo = "";
+
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStatus)status, quantity, price, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out errinfo);
             JsonDictionary.Add("status", bl);
+            JsonDictionary.Add("errinfo", errinfo);
             return new JsonResult
             {
                 Data = JsonDictionary,

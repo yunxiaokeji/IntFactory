@@ -46,11 +46,11 @@ define(function (require, exports, module) {
         //    _this.find(".add-product").removeClass("ico-add").html("");
         //});
         //编辑
-        element.find(".add-product").click(function () {
-            var _this = $(this);
-            location.href = "/Products/ProductAdd/" + _this.parent().data("id");
-            return false;
-        })
+        //element.find(".add-product").click(function () {
+        //    var _this = $(this);
+        //    location.href = "/Products/ProductAdd/" + _this.parent().data("id");
+        //    return false;
+        //});
 
         //点击
         element.click(function () {

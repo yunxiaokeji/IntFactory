@@ -364,6 +364,7 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         public JsonResult GetOrderCategoryByID(string categoryid)
         {
             var model = new ProductsBusiness().GetOrderCategoryByID(categoryid);
@@ -401,6 +402,7 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         public JsonResult DeleteOrderCategory(string id)
         {
             int result = 0;

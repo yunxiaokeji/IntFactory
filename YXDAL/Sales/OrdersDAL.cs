@@ -256,9 +256,11 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderProcess", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderStatus(string orderid, int status, int quantity, decimal price, string operateid, string agentid, string clientid)
+        public bool UpdateOrderStatus(string orderid, int status, int quantity, decimal price, string operateid, string agentid, string clientid, out string errinfo)
         {
+            errinfo="";
             SqlParameter[] paras = { 
+                                     new SqlParameter("@ErrorInfo",SqlDbType.NVarChar,100),
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@Status",status),
                                      new SqlParameter("@PlanQuantity",quantity),
@@ -269,7 +271,12 @@ namespace IntFactoryDAL
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
-            return ExecuteNonQuery("P_UpdateOrderStatus", paras, CommandType.StoredProcedure) > 0;
+            paras[0].Value = errinfo;
+            paras[0].Direction = ParameterDirection.InputOutput;
+            bool bl = ExecuteNonQuery("P_UpdateOrderStatus", paras, CommandType.StoredProcedure) > 0;
+            errinfo = paras[0].Value.ToString();
+
+            return bl;
         }
 
         public bool UpdateProfitPrice(string orderid, decimal profit, string operateid, string agentid, string clientid)

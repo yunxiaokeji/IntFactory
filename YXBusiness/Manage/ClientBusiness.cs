@@ -7,12 +7,20 @@ using System.Data;
 using IntFactoryEntity.Manage;
 using IntFactoryDAL.Manage;
 using CloudSalesTool;
+using System.IO;
+using System.Web;
 
 
 namespace IntFactoryBusiness.Manage
 {
     public class ClientBusiness
     {
+        /// <summary>
+        /// 文件默认存储路径
+        /// </summary>
+        public static string FILEPATH = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Logo/" + DateTime.Now.ToString("yyyyMM") + "/";
+        public static string TempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
+
         #region Cache
         private static Dictionary<string,Clients> _cacheClients;
 
@@ -35,6 +43,7 @@ namespace IntFactoryBusiness.Manage
             }
         }
         #endregion
+
         #region 查询
 
         /// <summary>
@@ -181,6 +190,27 @@ namespace IntFactoryBusiness.Manage
         /// <returns></returns>
         public static bool UpdateClient(Clients model, string userid)
         {
+
+            if (!string.IsNullOrEmpty(model.Logo) && model.Logo.IndexOf(TempPath) >= 0)
+            {
+                DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
+                if (!directory.Exists)
+                {
+                    directory.Create();
+                }
+
+                if (model.Logo.IndexOf("?") > 0)
+                {
+                    model.Logo = model.Logo.Substring(0, model.Logo.IndexOf("?"));
+                }
+                FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(model.Logo));
+                model.Logo = FILEPATH + file.Name;
+                if (file.Exists)
+                {
+                    file.MoveTo(HttpContext.Current.Server.MapPath(model.Logo));
+                }
+            }
+
             bool flag= ClientDAL.BaseProvider.UpdateClient(model.ClientID, model.CompanyName
                 , model.ContactName, model.MobilePhone, model.Industry
                 , model.CityCode, model.Address, model.Description,model.Logo,model.OfficePhone
