@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using IntFactoryEntity.Task;
 using IntFactoryDAL;
 using System.Data;
+using IntFactoryEnum;
 namespace IntFactoryBusiness
 {
     public class TaskBusiness
@@ -112,14 +113,17 @@ namespace IntFactoryBusiness
         }
 
         /// <summary>
-        /// 修改任务备注 （打板信息）
+        /// 修改任务备注 （制板信息）
         /// </summary>
         /// <param name="taskID"></param>
         /// <param name="title"></param>
         /// <returns></returns>
         public static bool UpdateTaskRemark(string taskID, string remark)
         {
-            return TaskDAL.BaseProvider.UpdateTaskRemark(taskID, remark);
+            bool flag= TaskDAL.BaseProvider.UpdateTaskRemark(taskID, remark);
+
+            
+            return flag;
         }
 
         /// <summary>
@@ -128,9 +132,16 @@ namespace IntFactoryBusiness
         /// <param name="taskID"></param>
         /// <param name="endTime"></param>
         /// <returns></returns>
-        public static bool UpdateTaskEndTime(string taskID, DateTime? endTime)
+        public static bool UpdateTaskEndTime(string taskID, DateTime? endTime, string operateid, string ip, string agentid, string clientid)
         {
-            return TaskDAL.BaseProvider.UpdateTaskEndTime(taskID, endTime);
+            bool flag= TaskDAL.BaseProvider.UpdateTaskEndTime(taskID, endTime);
+            if (flag)
+            {
+                string msg = "将任务截至日期设为：" + (endTime == null ? "未指定日期" : endTime.Value.Date.ToString());
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+            }
+
+            return flag;
         }
 
         /// <summary>
@@ -138,9 +149,15 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="taskID"></param>
         /// <returns></returns>
-        public static void FinishTask(string taskID, string userID, ref int result)
+        public static void FinishTask(string taskID, string userID, ref int result, string operateid, string ip, string agentid, string clientid)
         {
             TaskDAL.BaseProvider.FinishTask(taskID,userID,ref result);
+
+            if (result==1)
+            {
+                string msg = "将任务标记为完成";
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+            }
         }
 
         /// <summary>

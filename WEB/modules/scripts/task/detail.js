@@ -61,6 +61,10 @@
                     //任务讨论列表
                     ObjectJS.initTalkReply(orderid, stageid);
                 }
+                else if (_this.data("id") == "orderTaskLogs") {
+                    //任务讨论列表
+                    ObjectJS.getLogs(1);
+                }
             }
 
             _this.siblings().removeClass("hover");
@@ -242,6 +246,39 @@
         });
     }
 
+    //获取任务日志
+    ObjectJS.getLogs = function (page) {
+        var _self = this;
+        $("#taskLogList").empty();
+
+        Global.post("/Task/GetOrderTaskLogs", {
+            taskid: _self.taskid,
+            pageindex: page
+        }, function (data) {
+
+            doT.exec("template/common/logs.html", function (template) {
+                var innerhtml = template(data.items);
+                innerhtml = $(innerhtml);
+                $("#taskLogList").append(innerhtml);
+            });
+
+            $("#pagerLogs").paginate({
+                total_count: data.totalCount,
+                count: data.pageCount,
+                start: page,
+                display: 5,
+                border: true,
+                rotate: true,
+                images: false,
+                mouse: 'slide',
+                float: "left",
+                onChange: function (page) {
+                    _self.getLogs(page);
+                }
+
+            });
+        });
+    }
 
     //任务材料操作事件
     ObjectJS.bindProduct = function () {

@@ -108,6 +108,9 @@ namespace IntFactoryBusiness
                 case EnumLogObjectType.Orders:
                     tablename = "OrdersLog";
                     break;
+                case EnumLogObjectType.OrderTask:
+                    tablename = "OrderTaskLog";
+                    break;
             }
 
             DataTable dt = CommonBusiness.GetPagerData(tablename, "*", "LogGUID='" + guid + "'", "AutoID", pageSize, pageIndex, out totalCount, out pageCount);
@@ -169,6 +172,9 @@ namespace IntFactoryBusiness
                     break;
                 case EnumLogObjectType.Orders:
                     tablename = "OrdersLog";
+                    break;
+                case EnumLogObjectType.OrderTask:
+                    tablename = "OrderTaskLog";
                     break;
                 default:
                     tablename = "OperateLog";

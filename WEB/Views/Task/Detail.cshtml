@@ -5,6 +5,7 @@
 }
 <link href="/modules/css/task/style.css" rel="stylesheet" />
 @section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         $(function () {
@@ -73,6 +74,7 @@
                 <li class="hover" data-id="navProducts">物料</li>
                 <li data-id="platemakingContent">制版</li>
                 <li data-id="orderTask">讨论</li>
+                <li data-id="orderTaskLogs">日志</li>
             </ul>
         </div>
 
@@ -231,6 +233,16 @@
 
             <div id="pagerReply" class="mTop10"></div>
         </div>
+
+        <div id="orderTaskLogs" class="mTop30 hide">
+            <div class="log-body" id="taskLogList">
+
+            </div>
+            <div id="pagerLogs" class="mTop10">
+
+            </div>
+        </div>
+
     </div>
 </div>
 
