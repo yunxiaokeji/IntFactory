@@ -291,29 +291,8 @@ define(function (require, exports, module) {
                 });
             }//开始生产
             else if (_self.status == 4) {
-                doT.exec("template/orders/surequantity.html", function (template) {
-                    var innerText = template();
-                    Easydialog.open({
-                        container: {
-                            id: "show-surequantity",
-                            header: "确认大货数量",
-                            content: innerText,
-                            yesFn: function () {
-                                var quantity = $("#produceQuantity").val().trim();
-                                if (!quantity.isInt() || quantity <= 0) {
-                                    alert("大货数量必须为正整数！");
-                                    return false;
-                                }
-                                _self.updateOrderStatus(5, quantity, 0);
-                            },
-                            callback: function () {
-
-                            }
-                        }
-                    });
-
-                    $("#produceQuantity").focus();
-                    $("#produceQuantity").val($("#planQuantity").html())
+                confirm("开始生产后不可撤销且不能变更流程，确认开始生产吗？", function () {
+                    _self.updateOrderStatus(_self.status * 1 + 1);
                 });
             }else {
                 confirm("操作后不可撤销，确认" + _this.html() + "吗？", function () {
