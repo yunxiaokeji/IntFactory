@@ -541,7 +541,7 @@
     ObjectJS.updateOrderPlatemaking = function () {
         $(".table-list input.tbContentIpt").hide();
 
-        Global.post("/Task/UpdateOrderPlatemaking", { orderid: ObjectJS.orderid, platemaking: encodeURI($(".platemakingContent").html()) }, function (data) {
+        Global.post("/Task/UpdateOrderPlatemaking", { orderid: ObjectJS.orderid, platemaking: encodeURI($("#platemakingBody").html()) }, function (data) {
             if (data.Result == 1) {
                 alert("保存成功");
             }
