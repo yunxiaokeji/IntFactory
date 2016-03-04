@@ -83,7 +83,14 @@
                     $("#valueName").val("");
                 });
             }
-        })
+        });
+
+        $("#valueName").keydown(function (e) {
+            var _this = $(this);
+            if (e.keyCode == 13) {
+                $(".ico-input-add").click();
+            }
+        });
     }
     //获取属性列表
     ObjectJS.getList = function () {

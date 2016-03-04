@@ -8,7 +8,7 @@ header { height:50px; width:100%; background-color:#303030; position:fixed; top:
 header .logo {margin-top:13px; margin-left:10px; }
 header .logo img{ height:26px; }
 
-header .companyname { width: 168px; font-size:14px; padding:16px 0 0 5px; color: #BFD2F2; cursor: pointer;  }
+header .companyname { width: 168px; font-size:14px; padding:16px 0 0 5px; color: #eee; cursor: pointer;  }
 header .companyname:hover { color: #fff; }
 
 /*公司名称点击下拉列表*/
@@ -23,7 +23,7 @@ header .companyname:hover { color: #fff; }
 header .menu { height:50px; margin-left:30px;  }
 header .menu a{  height:50px; line-height:50px;text-align:center; padding:0px 20px; display:inline-block; position:relative; }
 header .menu .ico{ width:16px; height:16px; margin-top:18px; margin-left:10px; float:left; }
-header .menu .name{ margin-left:5px; color:#BFD2F2; font-size:14px; float:left;}
+header .menu .name{ margin-left:5px; color:#eee; font-size:14px; float:left;}
 header .menu .cursor {border-bottom:solid 9px #f2f4f8; border-left:solid 10px transparent ;border-right:solid 10px transparent; 
                                    width:0; height:0; position:absolute; left:30px; bottom:0px; display:none;  }
 header .menu a:hover .name,header .menu .select .name{ color:#fff;}
@@ -33,10 +33,10 @@ header .menu .select .cursor{ display:inline-block;}
 header .currentuser { margin-right:30px; cursor:pointer;}
 header .currentuser span{ display:inline-block; float:left;}
 header .currentuser .avatar { height:35px; width:35px; border:solid 1px #2F74B9; border-radius:18px; margin-top:7px;}
-header .currentuser .username { margin-left:10px; color:#BFD2F2; line-height:50px; font-size:14px; }
+header .currentuser .username { margin-left:10px; color:#eee; line-height:50px; font-size:14px; }
 
 header .currentuser .dropdown { width:16px; height:16px; position:relative; overflow:hidden; margin-left:5px; margin-top:24px; }
-header .dropdown .dropdown-top { border-top:solid 6px #BFD2F2; border-left:solid 6px transparent ;border-right:solid 6px transparent ; }
+header .dropdown .dropdown-top { border-top:solid 6px #eee; border-left:solid 6px transparent ;border-right:solid 6px transparent ; }
 header .dropdown .dropdown-bottom { border-top:solid 6px #2F74B9; border-left:solid 6px transparent ;
                                     border-right:solid 6px transparent; position:absolute; top:-3px; left:0; }
 

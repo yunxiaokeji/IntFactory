@@ -274,13 +274,13 @@
     <None Include="Procedures\Products\P_DeleteCategory.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Products\P_GetAttrsByClientID.sql" />
+    <None Include="Procedures\Products\P_GetAttrs.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Products\P_UpdateProductDetail.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Products\P_InsertAttr.sql" />
+    <None Include="Procedures\Products\P_AddAttr.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Products\P_InsertCategory.sql" />
@@ -298,10 +298,10 @@
     <None Include="Procedures\Products\P_UpdateProduct.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Products\P_GetProductAttrByID.sql" />
+    <None Include="Procedures\Products\P_GetAttrByID.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Products\P_GetProductAttrList.sql" />
+    <None Include="Procedures\Products\P_GetAttrList.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Products\P_GetProductByID.sql" />
@@ -446,9 +446,9 @@
     <None Include="Procedures\Manage\M_Get_Report_AgentAction_Day.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Procedures\Task\P_FinishTask.sql" />
-    <Build Include="Procedures\Task\P_GetTasks.sql" />
-    <Build Include="Procedures\Task\P_UpdateTaskEndTime.sql" />
+    <None Include="Procedures\Task\P_FinishTask.sql" />
+    <None Include="Procedures\Task\P_GetTasks.sql" />
+    <None Include="Procedures\Task\P_UpdateTaskEndTime.sql" />
     <Build Include="Table\OrderTask.sql" />
     <None Include="Procedures\Products\P_GetProductsAll.sql" />
     <None Include="Procedures\Products\P_GetProductUseLogs.sql" />

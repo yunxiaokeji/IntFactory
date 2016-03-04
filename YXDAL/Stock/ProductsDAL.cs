@@ -10,6 +10,144 @@ namespace IntFactoryDAL
     public class ProductsDAL : BaseDAL
     {
         public static ProductsDAL BaseProvider = new ProductsDAL();
+
+        #region 单位
+
+        public DataTable GetUnits()
+        {
+            DataTable dt = GetDataTable("select * from ProductUnit where Status<>9");
+            return dt;
+        }
+
+        public DataTable GetUnitByID(string unitid)
+        {
+            SqlParameter[] paras = { new SqlParameter("@UnitID", unitid) };
+            DataTable dt = GetDataTable("select * from ProductUnit where UnitID=@UnitID and Status<>9", paras, CommandType.Text);
+            return dt;
+        }
+
+        public string AddUnit(string unitname, string description, string operateid)
+        {
+            string guid = Guid.NewGuid().ToString().ToLower();
+            string sqlText = "INSERT INTO ProductUnit([UnitID] ,[UnitName],[Description],CreateUserID) "
+                                            + "values(@UnitID ,@UnitName,@Description,@CreateUserID)";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@UnitID" , guid),
+                                     new SqlParameter("@UnitName" , unitname),
+                                     new SqlParameter("@Description" , description),
+                                     new SqlParameter("@CreateUserID" , operateid)
+                                   };
+            if (ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0)
+            {
+                return guid;
+            }
+            return "";
+        }
+
+        public bool UpdateUnit(string unitid, string unitname, string description)
+        {
+            string sqlText = "Update ProductUnit set [UnitName]=@UnitName,[Description]=@Description,UpdateTime=getdate()  where [UnitID]=@UnitID";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@UnitID",unitid),
+                                     new SqlParameter("@UnitName" , unitname),
+                                     new SqlParameter("@Description" , description)
+                                   };
+            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
+        }
+
+        public bool UpdateUnitStatus(string unitid, int status)
+        {
+            string sqlText = "Update ProductUnit set Status=@Status,UpdateTime=getdate()  where [UnitID]=@UnitID";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@UnitID",unitid),
+                                     new SqlParameter("@Status" , status)
+                                   };
+            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
+        }
+
+        #endregion
+
+        #region 属性
+
+        public DataSet GetAttrs()
+        {
+            SqlParameter[] paras = { };
+            DataSet ds = GetDataSet("P_GetAttrs", paras, CommandType.StoredProcedure, "Attrs|Values");
+            return ds;
+        }
+
+        public DataSet GetAttrList(string categoryid, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@totalCount",SqlDbType.Int),
+                                       new SqlParameter("@pageCount",SqlDbType.Int),
+                                       new SqlParameter("@keyWords",keyWords),
+                                       new SqlParameter("@pageSize",pageSize),
+                                       new SqlParameter("@pageIndex",pageIndex),
+                                       new SqlParameter("@CategoryID", categoryid)
+                                   };
+            paras[0].Value = totalCount;
+            paras[1].Value = pageCount;
+
+            paras[0].Direction = ParameterDirection.InputOutput;
+            paras[1].Direction = ParameterDirection.InputOutput;
+            DataSet ds = GetDataSet("P_GetAttrList", paras, CommandType.StoredProcedure, "Attrs|Values");
+            totalCount = Convert.ToInt32(paras[0].Value);
+            pageCount = Convert.ToInt32(paras[1].Value);
+            return ds;
+
+        }
+
+        public DataTable GetAttrsByCategoryID(string categoryid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@CategoryID", categoryid)
+                                   };
+
+            return GetDataTable("P_GetAttrsByCategoryID", paras, CommandType.StoredProcedure);
+
+        }
+
+        public DataSet GetAttrByID(string attrid)
+        {
+            SqlParameter[] paras = { new SqlParameter("@AttrID", attrid) };
+            DataSet ds = GetDataSet("P_GetAttrByID", paras, CommandType.StoredProcedure, "Attrs|Values");
+            return ds;
+        }
+
+        public bool AddAttr(string attrid, string attrname, string description, string categoryid, int type, string operateid)
+        {
+            string sqlText = "P_AddAttr";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@AttrID" , attrid),
+                                     new SqlParameter("@AttrName" , attrname),
+                                     new SqlParameter("@Description" , description),
+                                     new SqlParameter("@CategoryID" , categoryid),
+                                     new SqlParameter("@Type" , type),
+                                     new SqlParameter("@CreateUserID" , operateid)
+                                   };
+            return ExecuteNonQuery(sqlText, paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool AddAttrValue(string valueid, string valuename, string attrid, string operateid)
+        {
+            string sqlText = "INSERT INTO AttrValue([ValueID] ,[ValueName],[Status],[AttrID],CreateUserID) "
+                                             + "values(@ValueID ,@ValueName,1,@AttrID,@CreateUserID) ";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@ValueID" , valueid),
+                                     new SqlParameter("@ValueName" , valuename),
+                                     new SqlParameter("@AttrID" , attrid),
+                                     new SqlParameter("@CreateUserID" , operateid)
+                                   };
+            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
+        }
+
+        #endregion
+
+        #region 分类
+
+        #endregion
+
         #region 查询
 
         public DataSet GetBrandList(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
@@ -48,65 +186,6 @@ namespace IntFactoryDAL
             SqlParameter[] paras = { new SqlParameter("@brandID", brandID) };
             DataTable dt = GetDataTable("select * from Brand where BrandID=@brandID", paras, CommandType.Text);
             return dt;
-        }
-
-        public DataTable GetClientUnits()
-        {
-            DataTable dt = GetDataTable("select * from ProductUnit where Status<>9");
-            return dt;
-        }
-
-        public DataTable GetUnitByID(string unitid)
-        {
-            SqlParameter[] paras = { new SqlParameter("@UnitID", unitid) };
-            DataTable dt = GetDataTable("select * from ProductUnit where UnitID=@UnitID and Status<>9", paras, CommandType.Text);
-            return dt;
-        }
-
-        public DataSet GetAttrs()
-        {
-            SqlParameter[] paras = { new SqlParameter("@ClientID", "") };
-            DataSet ds = GetDataSet("P_GetAttrsByClientID", paras, CommandType.StoredProcedure, "Attrs|Values");
-            return ds;
-        }
-
-        public DataSet GetAttrList(string categoryid, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
-        {
-            SqlParameter[] paras = { 
-                                       new SqlParameter("@totalCount",SqlDbType.Int),
-                                       new SqlParameter("@pageCount",SqlDbType.Int),
-                                       new SqlParameter("@keyWords",keyWords),
-                                       new SqlParameter("@pageSize",pageSize),
-                                       new SqlParameter("@pageIndex",pageIndex),
-                                       new SqlParameter("@CategoryID", categoryid)
-                                   };
-            paras[0].Value = totalCount;
-            paras[1].Value = pageCount;
-
-            paras[0].Direction = ParameterDirection.InputOutput;
-            paras[1].Direction = ParameterDirection.InputOutput;
-            DataSet ds = GetDataSet("P_GetProductAttrList", paras, CommandType.StoredProcedure, "Attrs|Values");
-            totalCount = Convert.ToInt32(paras[0].Value);
-            pageCount = Convert.ToInt32(paras[1].Value);
-            return ds;
-
-        }
-
-        public DataTable GetAttrList(string categoryid)
-        {
-            SqlParameter[] paras = { 
-                                       new SqlParameter("@CategoryID", categoryid)
-                                   };
-
-            return GetDataTable("P_GetAttrsByCategoryID", paras, CommandType.StoredProcedure);
-
-        }
-
-        public DataSet GetProductAttrByID(string attrID)
-        {
-            SqlParameter[] paras = { new SqlParameter("@AttrID", attrID) };
-            DataSet ds = GetDataSet("P_GetProductAttrByID", paras, CommandType.StoredProcedure, "Attrs|Values");
-            return ds;
         }
 
         public DataTable GetChildCategorysByID(string categoryid)
@@ -313,53 +392,7 @@ namespace IntFactoryDAL
 
         }
 
-        public string AddUnit(string unitName, string description, string operateid, string clientid)
-        {
-            string guid = Guid.NewGuid().ToString();
-            string sqlText = "INSERT INTO ProductUnit([UnitID] ,[UnitName],[Description],CreateUserID,ClientID) "
-                                            + "values(@UnitID ,@UnitName,@Description,@CreateUserID,@ClientID)";
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@UnitID" , guid),
-                                     new SqlParameter("@UnitName" , unitName),
-                                     new SqlParameter("@Description" , description),
-                                     new SqlParameter("@CreateUserID" , operateid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-            if (ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0)
-            {
-                return guid;
-            }
-            return "";
-        }
-
-        public bool AddProductAttr(string attrID, string attrName, string description, string categoryID, int type, string operateid, string clientid)
-        {
-            string sqlText = "P_InsertAttr";
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@AttrID" , attrID),
-                                     new SqlParameter("@AttrName" , attrName),
-                                     new SqlParameter("@Description" , description),
-                                     new SqlParameter("@CategoryID" , categoryID),
-                                     new SqlParameter("@Type" , type),
-                                     new SqlParameter("@CreateUserID" , operateid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-            return ExecuteNonQuery(sqlText, paras, CommandType.StoredProcedure) > 0;
-        }
-
-        public bool AddAttrValue(string valueID, string valueName, string attrID, string operateid, string clientid)
-        {
-            string sqlText = "INSERT INTO AttrValue([ValueID] ,[ValueName],[Status],[AttrID],CreateUserID,ClientID) "
-                                             + "values(@ValueID ,@ValueName,1,@AttrID,@CreateUserID,@ClientID) ";
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@ValueID" , valueID),
-                                     new SqlParameter("@ValueName" , valueName),
-                                     new SqlParameter("@AttrID" , attrID),
-                                     new SqlParameter("@CreateUserID" , operateid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
-        }
+        
 
         public string AddCategory(string categoryCode, string categoryName, string pid, int status, string attrlist, string saleattr, string description, string operateid, string clientid)
         {
@@ -518,27 +551,6 @@ namespace IntFactoryDAL
                                      new SqlParameter("@Remark" , remark),
                                      new SqlParameter("@BrandStyle" , brandStyle),
                                      new SqlParameter("@BrandID" , brandID),
-                                   };
-            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
-        }
-
-        public bool UpdateUnit(string unitID, string unitName, string description)
-        {
-            string sqlText = "Update ProductUnit set [UnitName]=@UnitName,[Description]=@Description,UpdateTime=getdate()  where [UnitID]=@UnitID";
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@UnitID",unitID),
-                                     new SqlParameter("@UnitName" , unitName),
-                                     new SqlParameter("@Description" , description)
-                                   };
-            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
-        }
-
-        public bool UpdateUnitStatus(string unitid, int status)
-        {
-            string sqlText = "Update ProductUnit set Status=@Status,UpdateTime=getdate()  where [UnitID]=@UnitID";
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@UnitID",unitid),
-                                     new SqlParameter("@Status" , status)
                                    };
             return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
         }

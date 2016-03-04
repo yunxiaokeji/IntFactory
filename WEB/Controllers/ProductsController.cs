@@ -42,7 +42,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public ActionResult Unit() 
         {
-            ViewBag.Items = new ProductsBusiness().GetClientUnits();
+            ViewBag.Items = new ProductsBusiness().GetUnits();
             return View();
         }
 
@@ -80,7 +80,7 @@ namespace YXERP.Controllers
             }
             ViewBag.Model = new ProductsBusiness().GetCategoryDetailByID(id);
             ViewBag.Providers = StockBusiness.BaseBusiness.GetProviders(CurrentUser.ClientID);
-            ViewBag.UnitList = new ProductsBusiness().GetClientUnits();
+            ViewBag.UnitList = new ProductsBusiness().GetUnits();
             return View();
         }
 
@@ -94,7 +94,7 @@ namespace YXERP.Controllers
             var model = new ProductsBusiness().GetProductByID(id);
             ViewBag.Model = model;
             ViewBag.Providers = StockBusiness.BaseBusiness.GetProviders(CurrentUser.ClientID);
-            ViewBag.UnitList = new ProductsBusiness().GetClientUnits();
+            ViewBag.UnitList = new ProductsBusiness().GetUnits();
             return View();
         }
 
