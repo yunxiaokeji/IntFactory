@@ -283,7 +283,7 @@
     <None Include="Procedures\Products\P_AddAttr.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Products\P_InsertCategory.sql" />
+    <None Include="Procedures\Products\P_AddCategory.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Products\P_InsertProduct.sql" />

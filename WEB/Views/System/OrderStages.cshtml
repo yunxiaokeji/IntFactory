@@ -23,7 +23,7 @@
             <li class="stages-item">
                 <div class="name"><span class="long">@(model.StageName)</span><input type="text" data-sort="@(model.Sort)" maxlength="50" id="@(model.StageID)" class="hide" /></div>
                 <div class="ico-dropdown operatestage" data-type="@(model.Mark)" data-id="@(model.StageID)"></div>
-                <div class="pLeft10">
+                <div class="pLeft10 mTop5">
                     负责人：<label id="owner@(model.StageID)">@(model.Owner.Name)</label> 
                 </div>
                 <ul class="child-items">
@@ -41,7 +41,7 @@
                     </textarea>
                 </div>
                 
-                <div class="create-child" data-id="@(model.StageID)">+ 新建子阶段</div>
+                @*<div class="create-child" data-id="@(model.StageID)">+ 新建子阶段</div>*@
             </li>
         }
     </ul>
@@ -52,7 +52,7 @@
     <li class="" id="addObject">在此后添加新阶段</li>
     <li class="" id="deleteObject">删除任务</li>
 </ul>
-<ul class="dropdown-ul hide ddlItem" id="ddlItem" style="width:90px;">
+@*<ul class="dropdown-ul hide ddlItem" id="ddlItem" style="width:90px;">
     <li class="" id="editItem">编辑名称</li>
     <li class="" id="deleteItem">删除</li>
-</ul>
+</ul>*@

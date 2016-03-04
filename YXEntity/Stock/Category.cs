@@ -192,6 +192,7 @@ namespace IntFactoryEntity
         }
         #endregion Model
 
+        public int CategoryType { get; set; }
 
         /// <summary>
         /// 填充数据

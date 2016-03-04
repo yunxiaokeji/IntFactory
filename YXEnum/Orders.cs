@@ -89,6 +89,7 @@ namespace IntFactoryEnum
         [DescriptionAttribute("删除")]
         Delete = 9
     }
+
     public enum EnumReturnStatus
     {
         [DescriptionAttribute("全部")]

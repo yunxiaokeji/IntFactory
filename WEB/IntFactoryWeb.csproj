@@ -923,25 +923,18 @@
     <Content Include="modules\scripts\home.js" />
     <Content Include="modules\scripts\layout.js" />
     <Content Include="modules\scripts\organization\department.js" />
-    <Content Include="modules\scripts\products\attr.js" />
     <Content Include="modules\scripts\products\brand.js" />
-    <Content Include="modules\scripts\products\category.js" />
     <Content Include="modules\scripts\shoppingcart\filterproducts.js" />
-    <Content Include="modules\scripts\products\unit.js" />
     <Content Include="modules\scripts\products\choosecategory.js" />
     <Content Include="modules\scripts\products\product.js" />
     <Content Include="modules\scripts\products\attrplug.js" />
     <Content Include="modules\scripts\shoppingcart\filterdetails.js" />
     <Content Include="modules\scripts\system\warehouse.js" />
     <Content Include="modules\scripts\system\depotseat.js" />
-    <Content Include="modules\template\products\attrs.html" />
     <Content Include="modules\template\products\brands.html" />
-    <Content Include="modules\template\products\category_add.html" />
-    <Content Include="modules\template\products\categorys.html" />
     <Content Include="modules\template\products\choose_category.html" />
     <Content Include="modules\template\products\products.html" />
     <Content Include="modules\template\products\category-attrs.html" />
-    <Content Include="modules\template\products\common-attrs.html" />
     <Content Include="modules\template\products\productdetails_add.html" />
     <Content Include="modules\template\products\productdetails_list.html" />
     <Content Include="modules\template\shoppingcart\filter-attrs.html" />
@@ -997,15 +990,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Products\Brand.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Products\Unit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Products\Category.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Products\Attr.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Products\ProductAdd.cshtml" />

@@ -78,7 +78,7 @@ namespace YXERP.Controllers
 
         public ActionResult CreateOrder(string cid)
         {
-            var list = new ProductsBusiness().GetChildOrderCategorysByID("", CurrentUser.ClientID);
+            var list = new ProductsBusiness().GetChildCategorysByID("", EnumCategoryType.Order);
             ViewBag.CID = cid;
             ViewBag.Items = list;
             return View();

@@ -47,7 +47,14 @@ namespace YXManage.Controllers
         /// <returns></returns>
         public ActionResult Category()
         {
-            var list = new ProductsBusiness().GetChildCategorysByID("");
+            var list = new ProductsBusiness().GetChildCategorysByID("", EnumCategoryType.Product);
+            ViewBag.Items = list;
+            return View();
+        }
+
+        public ActionResult OrderCategory()
+        {
+            var list = new ProductsBusiness().GetChildCategorysByID("", EnumCategoryType.Order);
             ViewBag.Items = list;
             return View();
         }
@@ -341,7 +348,7 @@ namespace YXManage.Controllers
             string caregoryid = "";
             if (string.IsNullOrEmpty(model.CategoryID))
             {
-                caregoryid = new ProductsBusiness().AddCategory(model.CategoryCode, model.CategoryName, model.PID, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID);
+                caregoryid = new ProductsBusiness().AddCategory(model.CategoryCode, model.CategoryName, model.PID, model.CategoryType, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID);
             }
             else
             {
@@ -364,9 +371,9 @@ namespace YXManage.Controllers
         /// </summary>
         /// <param name="categoryid"></param>
         /// <returns></returns>
-        public JsonResult GetChildCategorysByID(string categoryid)
+        public JsonResult GetChildCategorysByID(string categoryid, int type = 1)
         {
-            var list = new ProductsBusiness().GetChildCategorysByID(categoryid);
+            var list = new ProductsBusiness().GetChildCategorysByID(categoryid, (EnumCategoryType)type);
             JsonDictionary.Add("Items", list);
             return new JsonResult
             {
@@ -374,6 +381,7 @@ namespace YXManage.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         /// <summary>
         /// 获取分类详情
         /// </summary>
