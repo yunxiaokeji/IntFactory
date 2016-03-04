@@ -8,8 +8,11 @@
     ObjectJS.init = function (taskid, stageid, orderid, mark, finishStatus) {
         ObjectJS.orderid = orderid;
         ObjectJS.taskid = taskid;
+        ObjectJS.mark = 1;
 
         ObjectJS.bindEvent(taskid, stageid, orderid);
+        ObjectJS.initTalkReply(orderid, stageid);
+
         //材料任务
         if ((mark == "1" || mark == "3") && finishStatus!=2) {
             ObjectJS.bindProduct();
@@ -55,23 +58,28 @@
         //切换模块
         $(".tab-nav-ul li").click(function () {
             var _this = $(this);
-            if (!_this.hasClass("hover"))
-            {
-                if (_this.data("id") == "orderTask") {
-                    //任务讨论列表
-                    ObjectJS.initTalkReply(orderid, stageid);
-                }
-                else if (_this.data("id") == "orderTaskLogs") {
-                    //任务讨论列表
-                    ObjectJS.getLogs(1);
-                }
-            }
+
+            if (_this.hasClass("hover")) return;
+            ObjectJS.mark = _this.data("mark");
 
             _this.siblings().removeClass("hover");
             _this.addClass("hover");
 
             $(".tab-nav").nextAll().hide();
             $("#" + _this.data("id")).show();
+
+            if (_this.data("id") == "orderTaskLogs") {
+                //任务讨论列表
+                ObjectJS.getLogs(1);
+            }
+            else {
+                $("#taskReplys").show();
+                //任务讨论列表
+                ObjectJS.initTalkReply(orderid, stageid);
+            }
+
+
+            
 
             
         });
@@ -115,6 +123,7 @@
                 var model = {
                     GUID: orderid,
                     StageID: stageid,
+                    mark:ObjectJS.mark,
                     Content: txt.val().trim(),
                     FromReplyID: "",
                     FromReplyUserID: "",
@@ -139,6 +148,7 @@
         Global.post("/Opportunitys/GetReplys", {
             guid: orderid,
             stageid: stageid,
+            mark:ObjectJS.mark,
             pageSize: 10,
             pageIndex: page
         }, function (data) {
@@ -167,6 +177,7 @@
                             var entity = {
                                 GUID: _this.data("id"),
                                 StageID: _this.data("stageid"),
+                                Mark: ObjectJS.mark,
                                 Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                                 FromReplyID: _this.data("replyid"),
                                 FromReplyUserID: _this.data("createuserid"),
