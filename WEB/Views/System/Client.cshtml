@@ -46,8 +46,7 @@
         <ul class="search-tab search-stages">
             <li data-id="0" class="hover">基本信息</li>
             <li data-id="1">授权信息</li>
-            <li data-id="2">公司密钥</li>
-            <li data-id="3">订单列表</li>
+            <li data-id="2">订单列表</li>
         </ul>
     </div>
 </div>
@@ -58,6 +57,14 @@
             <li>
                 <span class="width80">公司名称：</span>
                 <input type="text" id="CompanyName" data-empty="* 必填" class="input verify" />
+            </li>
+            <li>
+                <span class="width80">工厂号：</span>
+                <span id="ckey"></span>
+            </li>
+            <li>
+                <span class="width80">下单地址：</span>
+                <a id="cid" href="/Home/SelfOrder/" target="_blank"></a>
             </li>
             <li>
                 <span class="width80">公司Logo：</span>
@@ -127,28 +134,6 @@
         <div class="mTop20">
             <a class="btn btn-buy @(ExpandClass.IsLimits(HttpContext.Current,"108020702"))" href="/Auction/BuyNow" >立即购买</a>
         </div>
-    </div>
-
-    <div class="hide" name="clientInfo">
-        <ul class="table-add">
-            <li>
-                <span class="width100">自助下单：</span><a id="cid" href="/Home/SelfOrder/" target="_blank"></a>
-            </li>
-           @* <li>
-                <span class="red">*您需要输入登录密码才能查看公司密钥</span>
-            </li>*@
-         @*    <li>
-                <span class="width100">登录密码：</span><span><input  type="password" placeholder="请输入密码"/></span>
-                <span><input type="button" id="btn-getKey" class="btn" value="获取key"/></span>
-            </li>*@
-            <li>
-                <span class="width100">公司编码：</span><span id="ckey"></span>
-            </li>
-        </ul>
-
-      @*  <div class="mTop20">
-            <a class="btn btn-buy @(ExpandClass.IsLimits(HttpContext.Current,"108020702"))" href="/Auction/BuyNow" >立即购买</a>
-        </div>*@
     </div>
 
     <div class="hide" name="clientInfo">
