@@ -151,7 +151,7 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_CreateOrder", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public string CreateReply(string guid,string stageID, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
+        public string CreateReply(string guid,string stageID,int mark, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
         {
             string replyID = Guid.NewGuid().ToString();
 
@@ -159,6 +159,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@ReplyID",replyID),
                                      new SqlParameter("@GUID",guid),
                                      new SqlParameter("@StageID",stageID),
+                                     new SqlParameter("@Mark",mark),
                                      new SqlParameter("@Content",content),
                                      new SqlParameter("@FromReplyID",fromReplyID),
                                      new SqlParameter("@CreateUserID" , userID),

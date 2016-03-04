@@ -1,17 +1,35 @@
 ﻿@{
-    ViewBag.Title = "Detail";
+    ViewBag.Title = "任务详情";
     var model = (IntFactoryEntity.Task.TaskEntity)ViewBag.Model;
     var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
 }
 <link href="/modules/css/task/style.css" rel="stylesheet" />
 @section scripts{
-    <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
                 obj.init('@(model.TaskID)', '@(model.StageID)', '@(model.OrderID)','@(model.Mark)','@(model.FinishStatus)');
             });
+
+            
+            var images = '@order.OrderImages'.split(",");
+
+            for (var i = 0; i < images.length; i++) {
+                if (images[i]) {
+                    var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
+                    $(".order-imgs-list").append(img);
+                    img.click(function () {
+                        var _this = $(this);
+                        if (!_this.hasClass("hover")) {
+                            _this.siblings().removeClass("hover");
+                            _this.addClass("hover");
+                            $("#orderImage").attr("src", _this.find("img").attr("src"));
+                        }
+                    });
+                }
+            }
+
         });
     </script>
 }
@@ -44,14 +62,22 @@
     
     <div class="taskDetail">
         
-        <ul class="left">
+        <ul class="left taskBaseInfo">
             <li>
-                <span class="column-title">任务内容:</span>
+                <span class="column-title">任务标题:</span>
                 <span>@(model.Title)</span>
             </li>
-             <li>
+            <li>
                 <span class="column-title">负责人:</span>
                 <span>@(model.Owner.Name)</span>
+            </li>
+             <li>
+                <span class="column-title">接受时间:</span>
+                <span>@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.EndTime.ToString("yyyy-MM-dd"))</span>
+            </li>
+            <li>
+                <span class="column-title">完成时间:</span>
+                <span>@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.EndTime.ToString("yyyy-MM-dd"))</span>
             </li>
              <li>
                 <span class="column-title">订单编号:</span>
@@ -61,8 +87,23 @@
                 <span class="column-title">订单类型:</span>
                 <span>@(model.OrderType==1?"打样":"大货")</span>
             </li>
+            <li>
+                <span class="column-title">订单产品:</span>
+                <span>@(model.ProductName)</span>
+            </li>
+            <li>
+                <span class="column-title">订单需求:</span>
+                <span>@(order.Remark)</span>
+            </li>
         </ul>
-        <div class="right"> <img class="right width150" onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@( string.IsNullOrEmpty(model.OrderImg) ? "/modules/images/img-noimg.png" : model.OrderImg)"/></div>
+        <div class="order-imgs-div right">
+            <div class="order-imgs">
+                <img id="orderImage" onerror="document.getElementById('orderImage').src='/modules/images/img-noimg.png'" src="@( string.IsNullOrEmpty(model.OrderImg) ? "/modules/images/img-noimg.png" : model.OrderImg)" />
+            </div>
+            <ul class="order-imgs-list">
+
+            </ul>
+        </div>
         <div class="clear"></div>
 
         
@@ -71,9 +112,8 @@
     <div id="navTask" class="talk-body nav-partdiv">
         <div class="tab-nav mTop30">
             <ul class="tab-nav-ul left">
-                <li class="hover" data-id="navProducts">物料</li>
-                <li data-id="platemakingContent">制版</li>
-                <li data-id="orderTask">讨论</li>
+                <li class="hover" data-id="navProducts" data-mark="1">物料</li>
+                <li data-id="platemakingContent" data-mark="2">制版</li>
                 <li data-id="orderTaskLogs">日志</li>
             </ul>
         </div>
@@ -222,7 +262,18 @@
             <div class="clear"></div>
         </div>
             
-        <div id="orderTask" class="mTop30 hide">
+        
+
+        <div id="orderTaskLogs" class="mTop30 hide">
+            <div class="log-body" id="taskLogList">
+
+            </div>
+            <div id="pagerLogs" class="mTop10">
+
+            </div>
+        </div>
+
+        <div class="mTop40" id="taskReplys">
             <div class="content-main">
                 <textarea id="txtContent" class="txt-content" placeholder="发表评论"></textarea><br />
                 <div class="btn right mTop5" id="btnSaveTalk">提交</div>
@@ -234,15 +285,6 @@
             <table class="content-list" id="replyList"></table>
 
             <div id="pagerReply" class="mTop10"></div>
-        </div>
-
-        <div id="orderTaskLogs" class="mTop30 hide">
-            <div class="log-body" id="taskLogList">
-
-            </div>
-            <div id="pagerLogs" class="mTop10">
-
-            </div>
         </div>
 
     </div>

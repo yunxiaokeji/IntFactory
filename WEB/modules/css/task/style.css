@@ -8,7 +8,7 @@ padding-bottom:100px
 padding-top:15px;
 }
 
-.taskContent .taskDetail li {
+.taskContent .taskBaseInfo li {
 padding-bottom:25px;
 }
 
@@ -42,6 +42,9 @@ display:inline-block;
 
 .platemakingContent {
 margin:20px 0px;
+}
+
+#platemakingBody {
 border-top:1px solid #eee;
 border-left:1px solid #eee;
 }
@@ -67,4 +70,11 @@ border-right:1px solid #eee;
 margin:0px auto;
 width:60px;
 }
+
+/*样图信息*/
+.order-imgs-div { width:300px; padding:10px 10px 0 0;}
+.order-imgs-div .order-imgs img{ height:260px; width:300px;}
+.order-imgs-list li{ width:40px; height:40px; float:left; border:solid 2px #eee; margin-right:5px; cursor:pointer;}
+.order-imgs-list li.hover{ border-color:red;}
+.order-imgs-list img{ width:40px; height:40px;}
 

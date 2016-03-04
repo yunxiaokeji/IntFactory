@@ -202,12 +202,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetReplys(string guid,string stageID, int pageSize, int pageIndex)
+        public JsonResult GetReplys(string guid,string stageID,int mark, int pageSize, int pageIndex)
         {
             int pageCount = 0;
             int totalCount = 0;
 
-            var list = OrdersBusiness.GetReplys(guid,stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            var list = OrdersBusiness.GetReplys(guid,stageID,mark, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -224,7 +224,7 @@ namespace YXERP.Controllers
             ReplyEntity model = serializer.Deserialize<ReplyEntity>(entity);
 
             string replyID = "";
-            replyID = OrdersBusiness.CreateReply(model.GUID,model.StageID, model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
+            replyID = OrdersBusiness.CreateReply(model.GUID,model.StageID,model.Mark,model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
 
             List<ReplyEntity> list = new List<ReplyEntity>();
             if (!string.IsNullOrEmpty(replyID))
