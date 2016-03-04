@@ -469,6 +469,7 @@ namespace IntFactoryBusiness
             {
                 Category model = new Category();
                 model.FillData(dr);
+                model.ChildCategory = new List<Category>();
                 list.Add(model);
 
                 CacheCategory.Add(model);
@@ -491,6 +492,7 @@ namespace IntFactoryBusiness
             if (dt.Rows.Count > 0)
             {
                 model.FillData(dt.Rows[0]);
+                model.ChildCategory = new List<Category>();
                 CacheCategory.Add(model);
             }
 
@@ -544,17 +546,39 @@ namespace IntFactoryBusiness
             string guid = dal.AddCategory(categoryCode, categoryName, pid, type, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid);
             if (!string.IsNullOrEmpty(guid))
             {
-                CacheCategory.Add(new Category()
+                if (string.IsNullOrEmpty(pid))
                 {
-                    CategoryID = guid.ToLower(),
-                    CategoryCode = categoryCode,
-                    CategoryName = categoryName,
-                    CategoryType = type,
-                    Layers = string.IsNullOrEmpty(pid) ? 1 : GetCategoryByID(pid).Layers + 1,
-                    PID = pid,
-                    Status = status,
-                    Description = description
-                });
+                    CacheCategory.Add(new Category()
+                    {
+                        CategoryID = guid.ToLower(),
+                        CategoryCode = categoryCode,
+                        CategoryName = categoryName,
+                        CategoryType = type,
+                        Layers = 1,
+                        PID = pid,
+                        Status = status,
+                        Description = description,
+                        ChildCategory = new List<Category>()
+                    });
+                }
+                else
+                {
+                    var PModel = GetCategoryByID(pid);
+                    var model = new Category()
+                    {
+                        CategoryID = guid.ToLower(),
+                        CategoryCode = categoryCode,
+                        CategoryName = categoryName,
+                        CategoryType = type,
+                        Layers = PModel.Layers + 1,
+                        PID = pid,
+                        Status = status,
+                        Description = description
+                    };
+                    CacheCategory.Add(model);
+                    PModel.ChildCategory.Add(model);
+                }
+                
             }
             return guid;
         }
@@ -585,6 +609,14 @@ namespace IntFactoryBusiness
             if (bl)
             {
                 var model = GetCategoryByID(categoryid);
+                if (!string.IsNullOrEmpty(model.PID))
+                {
+                    var PModel = GetCategoryByID(model.PID);
+                    if (PModel.ChildCategory.Where(m => m.CategoryID.ToLower() == model.CategoryID.ToLower()).Count() > 0)
+                    {
+                        PModel.ChildCategory.Remove(model);
+                    }
+                }
                 CacheCategory.Remove(model);
             }
             return bl;

@@ -115,6 +115,16 @@ namespace IntFactoryDAL
             return GetDataTable(sqlText, paras, CommandType.Text);
         }
 
+        public DataTable GetOrderCategorys(string clientid)
+        {
+            string sqlText = "select * from OrderCategory where ClientID=@ClientID";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@ClientID",clientid)
+                                   };
+
+            return GetDataTable(sqlText, paras, CommandType.Text);
+        }
+
         public DataTable GetTeams(string agentid)
         {
             SqlParameter[] paras = { 
@@ -516,6 +526,18 @@ namespace IntFactoryDAL
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+            return bl;
+        }
+
+        public bool UpdateOrderCategory(string categoryid, string pid, int status, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@CategoryID",categoryid),
+                                     new SqlParameter("@PID",pid),
+                                     new SqlParameter("@Status",status),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+            bool bl = ExecuteNonQuery("P_UpdateOrderCategory", paras, CommandType.StoredProcedure) > 0;
             return bl;
         }
 

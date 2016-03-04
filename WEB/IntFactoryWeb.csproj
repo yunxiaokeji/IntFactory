@@ -246,6 +246,7 @@
     <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
     <Content Include="modules\scripts\system\orderstages.js" />
+    <Content Include="modules\scripts\system\ordercategory.js" />
     <Content Include="modules\scripts\task\detail.js" />
     <Content Include="modules\scripts\task\task.js" />
     <Content Include="modules\template\orders\surequantity.html" />
@@ -782,6 +783,7 @@
     <Content Include="Views\Task\Detail.cshtml" />
     <Content Include="Views\Customer\OrderDetailDH.cshtml" />
     <Content Include="Views\Home\SelfOrder.cshtml" />
+    <Content Include="Views\System\OrderCategory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
