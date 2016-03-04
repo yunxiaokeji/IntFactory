@@ -283,7 +283,7 @@
     <None Include="Procedures\Products\P_AddAttr.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Products\P_InsertCategory.sql" />
+    <None Include="Procedures\Products\P_AddCategory.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Products\P_InsertProduct.sql" />
@@ -386,9 +386,6 @@
     <None Include="Procedures\ShoppingCart\P_DeleteCart.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\System\P_DeleteOpportunityStage.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Procedures\Sales\P_UpdateOpportunityStage.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -461,5 +458,12 @@
     <Build Include="Procedures\Manage\M_DeleteRole.sql" />
     <Build Include="Procedures\Manage\M_UpdateRolePermission.sql" />
     <Build Include="Procedures\Manage\M_UpdateUserRole.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\System\P_CreateOrderProcess.sql" />
+    <None Include="Procedures\System\P_DeletetOrderStage.sql" />
+    <Build Include="Procedures\System\P_InsertOrderStage.sql" />
+    <Build Include="Procedures\System\P_UpdateOrderProcessDefault.sql" />
+    <None Include="Procedures\System\P_UpdateOrderCategory.sql" />
   </ItemGroup>
 </Project>

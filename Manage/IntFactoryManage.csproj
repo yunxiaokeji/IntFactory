@@ -250,6 +250,7 @@
     <Content Include="modules\scripts\products\filterdetails.js" />
     <Content Include="modules\scripts\products\product.js" />
     <Content Include="modules\scripts\products\unit.js" />
+    <Content Include="modules\scripts\products\ordercategory.js" />
     <Content Include="modules\scripts\System\menu.js" />
     <Content Include="modules\scripts\System\roles.js" />
     <Content Include="modules\scripts\System\users.js" />
@@ -273,6 +274,8 @@
     <Content Include="modules\template\products\productdetails_list.html" />
     <Content Include="modules\template\products\products.html" />
     <Content Include="modules\template\products\product_child_add_list.html" />
+    <Content Include="modules\template\products\ordercategory-attrs.html" />
+    <Content Include="modules\template\products\ordercommon-attrs.html" />
     <Content Include="modules\template\system\menu-list.html" />
     <Content Include="modules\template\system\permissions.html" />
     <Content Include="modules\template\system\role-detail.html" />
@@ -375,6 +378,7 @@
     <Content Include="Views\System\RolePermission.cshtml" />
     <Content Include="Views\System\Roles.cshtml" />
     <Content Include="Views\System\Users.cshtml" />
+    <Content Include="Views\Products\OrderCategory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

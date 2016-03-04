@@ -414,6 +414,21 @@ namespace IntFactoryBusiness
             return model;
         }
 
+        public List<OrderCategory> GetOrderCategorys(string clientid)
+        {
+            List<OrderCategory> list = new List<OrderCategory>();
+
+            DataTable dt = SystemDAL.BaseProvider.GetOrderCategorys(clientid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                var model = new OrderCategory();
+                model.FillData(dr);
+                list.Add(model);
+            }
+
+            return list;
+        }
+
         public List<TeamEntity> GetTeams(string agentid)
         {
             if (Teams.ContainsKey(agentid))
@@ -1068,6 +1083,12 @@ namespace IntFactoryBusiness
             {
                 OrderTypes[clientid].Remove(model);
             }
+            return bl;
+        }
+
+        public bool UpdateOrderCategory(string categoryid, string pid, int status, string clientid)
+        {
+            bool bl = SystemDAL.BaseProvider.UpdateOrderCategory(categoryid, pid, status, clientid);
             return bl;
         }
 

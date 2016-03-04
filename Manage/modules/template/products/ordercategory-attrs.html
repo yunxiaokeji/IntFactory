@@ -1,0 +1,29 @@
+﻿<li class="category-attr-layer">
+    <div class="category-attr-header"><span class="long left">全部分类</span> <a href="javascript:void(0);" data-id="" class="right mTop3"></a></div>
+    <ul class="category-attr-list"  data-type="1">
+        <li class="center header">制版属性</li>
+        {%
+	        for(var i=0, j=$data.length; i < j; i++){
+	        var item = $data[i];
+            if(item.Type==1){
+        %}
+                <li class="attritem" data-id="{%=item.AttrID%}" data-category="{%=item.CategoryID%}" title="{%=item.Description%}">
+                    <span data-id="{%=item.AttrID%}" class="category-attr-name long">{%=item.AttrName%}</span>
+                    <span data-id="{%=item.AttrID%}" data-categoryid="{%=item.CategoryID%}" data-type="{%=item.Type%}" class="ico-dropdown ddlattr right"></span>
+                </li>
+        {% }} %}
+    </ul>
+    <ul class="category-attr-list" data-type="2">
+        <li class="center header">大货规格</li>
+        {%
+	        for(var i=0, j=$data.length; i < j; i++){
+	        var item = $data[i];
+            if(item.Type==2){
+        %}
+            <li class="attritem" data-id="{%=item.AttrID%}"  data-category="{%=item.CategoryID%}" title="{%=item.Description%}">
+                <span data-id="{%=item.AttrID%}"  class="category-attr-name long">{%=item.AttrName%}</span>
+                <span data-id="{%=item.AttrID%}" data-categoryid="{%=item.CategoryID%}" data-type="{%=item.Type%}" class="ico-dropdown ddlattr right"></span>
+            </li>
+        {% }} %}
+    </ul>
+</li>

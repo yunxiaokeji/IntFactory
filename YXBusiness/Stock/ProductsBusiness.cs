@@ -26,7 +26,6 @@ namespace IntFactoryBusiness
         #region Cache
 
         private static List<ProductUnit> _units;
-
         private static List<ProductUnit> CacheUnits
         {
             get
@@ -41,7 +40,6 @@ namespace IntFactoryBusiness
         }
 
         private static List<ProductAttr> _attrs;
-
         private static List<ProductAttr> CacheAttrs
         {
             get 
@@ -53,6 +51,23 @@ namespace IntFactoryBusiness
                 return _attrs;
             }
             set { _attrs = value; }
+        }
+
+        private static List<Category> _category;
+        private static List<Category> CacheCategory
+        {
+            get 
+            {
+                if (_category == null)
+                {
+                    _category = new List<Category>();
+                }
+                return _category;
+            }
+            set
+            {
+                _category = value;
+            }
         }
 
         #endregion
@@ -102,6 +117,54 @@ namespace IntFactoryBusiness
                 model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
             }
             return model;
+        }
+
+        public string AddBrand(string name, string anotherName, string icoPath, string countryCode, string cityCode, int status, string remark, string brandStyle, string operateIP, string operateID, string clientID)
+        {
+            lock (SingleLock)
+            {
+                if (!string.IsNullOrEmpty(icoPath))
+                {
+                    if (icoPath.IndexOf("?") > 0)
+                    {
+                        icoPath = icoPath.Substring(0, icoPath.IndexOf("?"));
+                    }
+                    FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(icoPath));
+                    icoPath = FILEPATH + file.Name;
+                    if (file.Exists)
+                    {
+                        file.MoveTo(HttpContext.Current.Server.MapPath(icoPath));
+                    }
+                }
+
+                return new ProductsDAL().AddBrand(name, anotherName, icoPath, countryCode, cityCode, status, remark, brandStyle, operateIP, operateID, clientID);
+            }
+        }
+
+        public bool UpdateBrandStatus(string brandID, EnumStatus status, string operateIP, string operateID)
+        {
+            bool bl = CommonBusiness.Update("Brand", "Status", ((int)status).ToString(), " BrandID='" + brandID + "'");
+
+            return bl;
+        }
+
+        public bool UpdateBrand(string brandID, string name, string anotherName, string countryCode, string cityCode, string icopath, int status, string remark, string brandStyle, string operateIP, string operateID)
+        {
+            if (!string.IsNullOrEmpty(icopath) && icopath.IndexOf(TempPath) >= 0)
+            {
+                if (icopath.IndexOf("?") > 0)
+                {
+                    icopath = icopath.Substring(0, icopath.IndexOf("?"));
+                }
+                FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(icopath));
+                icopath = FILEPATH + file.Name;
+                if (file.Exists)
+                {
+                    file.MoveTo(HttpContext.Current.Server.MapPath(icopath));
+                }
+            }
+            var dal = new ProductsDAL();
+            return dal.UpdateBrand(brandID, name, anotherName, countryCode, cityCode, status, icopath, remark, brandStyle, operateIP, operateID);
         }
 
         #endregion
@@ -388,12 +451,17 @@ namespace IntFactoryBusiness
 
         #endregion
 
-        #region 查询
+        #region 分类
 
-        public List<Category> GetChildCategorysByID(string categoryid)
+        public List<Category> GetChildCategorysByID(string categoryid, EnumCategoryType type)
         {
+            if (CacheCategory.Where(m => m.PID.ToLower() == categoryid.ToLower() && m.CategoryType == (int)type).Count() > 0)
+            {
+                return CacheCategory.Where(m => m.PID.ToLower() == categoryid.ToLower() && m.CategoryType == (int)type).ToList();
+            }
+
             var dal = new ProductsDAL();
-            DataTable dt = dal.GetChildCategorysByID(categoryid);
+            DataTable dt = dal.GetChildCategorysByID(categoryid, (int)type);
 
             List<Category> list = new List<Category>();
 
@@ -401,16 +469,22 @@ namespace IntFactoryBusiness
             {
                 Category model = new Category();
                 model.FillData(dr);
+                model.ChildCategory = new List<Category>();
                 list.Add(model);
+
+                CacheCategory.Add(model);
+                
             }
             return list;
         }
 
-        /// <summary>
-        /// 获取产品分类
-        /// </summary>
         public Category GetCategoryByID(string categoryid)
         {
+            if (CacheCategory.Where(m => m.CategoryID.ToLower() == categoryid.ToLower()).Count() > 0)
+            {
+                return CacheCategory.Where(m => m.CategoryID.ToLower() == categoryid.ToLower()).FirstOrDefault();
+            }
+
             var dal = new ProductsDAL();
             DataTable dt = dal.GetCategoryByID(categoryid);
 
@@ -418,14 +492,13 @@ namespace IntFactoryBusiness
             if (dt.Rows.Count > 0)
             {
                 model.FillData(dt.Rows[0]);
+                model.ChildCategory = new List<Category>();
+                CacheCategory.Add(model);
             }
 
             return model;
         }
 
-        /// <summary>
-        /// 获取产品分类详情（包括属性和值）
-        /// </summary>
         public Category GetCategoryDetailByID(string categoryid)
         {
             var dal = new ProductsDAL();
@@ -443,7 +516,7 @@ namespace IntFactoryBusiness
 
                     ProductAttr modelattr = new ProductAttr();
                     modelattr.FillData(attr);
-                    if (modelattr.Type==1)
+                    if (modelattr.Type == 1)
                     {
                         attrlist.Add(modelattr);
                     }
@@ -467,35 +540,91 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public List<Category> GetChildOrderCategorysByID(string categoryid, string clientid)
+        public string AddCategory(string categoryCode, string categoryName, string pid, int type, int status, List<string> attrlist, List<string> saleattr, string description, string operateid)
         {
             var dal = new ProductsDAL();
-            DataTable dt = dal.GetChildOrderCategorysByID(categoryid, clientid);
-
-            List<Category> list = new List<Category>();
-
-            foreach (DataRow dr in dt.Rows)
+            string guid = dal.AddCategory(categoryCode, categoryName, pid, type, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid);
+            if (!string.IsNullOrEmpty(guid))
             {
-                Category model = new Category();
-                model.FillData(dr);
-                list.Add(model);
+                if (string.IsNullOrEmpty(pid))
+                {
+                    CacheCategory.Add(new Category()
+                    {
+                        CategoryID = guid.ToLower(),
+                        CategoryCode = categoryCode,
+                        CategoryName = categoryName,
+                        CategoryType = type,
+                        Layers = 1,
+                        PID = pid,
+                        Status = status,
+                        Description = description,
+                        ChildCategory = new List<Category>()
+                    });
+                }
+                else
+                {
+                    var PModel = GetCategoryByID(pid);
+                    var model = new Category()
+                    {
+                        CategoryID = guid.ToLower(),
+                        CategoryCode = categoryCode,
+                        CategoryName = categoryName,
+                        CategoryType = type,
+                        Layers = PModel.Layers + 1,
+                        PID = pid,
+                        Status = status,
+                        Description = description
+                    };
+                    CacheCategory.Add(model);
+                    PModel.ChildCategory.Add(model);
+                }
+                
             }
-            return list;
+            return guid;
         }
 
-        public Category GetOrderCategoryByID(string categoryid)
+        public bool UpdateCategory(string categoryid, string categoryName, int status, List<string> attrlist, List<string> saleattr, string description, string operateid)
         {
             var dal = new ProductsDAL();
-            DataTable dt = dal.GetOrderCategoryByID(categoryid);
-
-            Category model = new Category();
-            if (dt.Rows.Count > 0)
+            bool bl = dal.UpdateCategory(categoryid, categoryName, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid);
+            if (bl)
             {
-                model.FillData(dt.Rows[0]);
+                var model = GetCategoryByID(categoryid);
+                model.CategoryName = categoryName;
+                model.Description = description;
             }
-
-            return model;
+            return bl;
         }
+
+        public bool AddCategoryAttr(string categoryid, string attrid, int type, string operateIP, string operateID)
+        {
+            var dal = new ProductsDAL();
+            return dal.AddCategoryAttr(categoryid, attrid, type, operateID);
+        }
+
+        public bool DeleteCategory(string categoryid, string operateid, string ip, out int result)
+        {
+            var dal = new ProductsDAL();
+            bool bl = dal.DeleteCategory(categoryid, operateid, out result);
+            if (bl)
+            {
+                var model = GetCategoryByID(categoryid);
+                if (!string.IsNullOrEmpty(model.PID))
+                {
+                    var PModel = GetCategoryByID(model.PID);
+                    if (PModel.ChildCategory.Where(m => m.CategoryID.ToLower() == model.CategoryID.ToLower()).Count() > 0)
+                    {
+                        PModel.ChildCategory.Remove(model);
+                    }
+                }
+                CacheCategory.Remove(model);
+            }
+            return bl;
+        }
+
+        #endregion
+
+        #region 产品
 
         public List<Products> GetProductList(string categoryid, string prodiverid, string beginprice, string endprice, string keyWords, string orderby, bool isasc, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
         {
@@ -538,7 +667,6 @@ namespace IntFactoryBusiness
             }
             return list;
         }
-
 
         public Products GetProductByID(string productid)
         {
@@ -699,11 +827,6 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        /// <summary>
-        /// 获取产品信息（加入购物车页面）
-        /// </summary>
-        /// <param name="productid"></param>
-        /// <returns></returns>
         public Products GetProductByIDForDetails(string productid)
         {
             var dal = new ProductsDAL();
@@ -791,44 +914,6 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        #endregion
-
-        #region 添加
-
-        public string AddBrand(string name, string anotherName, string icoPath, string countryCode, string cityCode, int status, string remark, string brandStyle, string operateIP, string operateID, string clientID)
-        {
-            lock (SingleLock)
-            {
-                if (!string.IsNullOrEmpty(icoPath))
-                {
-                    if (icoPath.IndexOf("?") > 0)
-                    {
-                        icoPath = icoPath.Substring(0, icoPath.IndexOf("?"));
-                    }
-                    FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(icoPath));
-                    icoPath = FILEPATH + file.Name;
-                    if (file.Exists)
-                    {
-                        file.MoveTo(HttpContext.Current.Server.MapPath(icoPath));
-                    }
-                }
-                
-                return new ProductsDAL().AddBrand(name, anotherName, icoPath, countryCode, cityCode, status, remark, brandStyle, operateIP, operateID, clientID);
-            }
-        }
-
-        public string AddCategory(string categoryCode, string categoryName, string pid, int status, List<string> attrlist, List<string> saleattr, string description, string operateid)
-        {
-            var dal = new ProductsDAL();
-            return dal.AddCategory(categoryCode, categoryName, pid, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid, "");
-        }
-
-        public string AddOrderCategory(string categoryCode, string categoryName, string pid, int status, List<string> attrlist, List<string> saleattr, string description, string operateid, string clientid)
-        {
-            var dal = new ProductsDAL();
-            return dal.AddOrderCategory(categoryCode, categoryName, pid, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid, clientid);
-        }
-
         public string AddProduct(string productCode, string productName, string generalName, bool iscombineproduct, string prodiverid, string brandid, string bigunitid, string smallunitid, int bigSmallMultiple,
                                  string categoryid, int status, int ispublic, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price, decimal weight, bool isnew,
                                  bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, List<ProductDetail> details, string operateid, string agentid, string clientid)
@@ -895,14 +980,8 @@ namespace IntFactoryBusiness
                 return pid;
             }
         }
-        
-        public bool AddCategoryAttr(string categoryid, string attrid, int type, string operateIP, string operateID)
-        {
-            var dal = new ProductsDAL();
-            return dal.AddCategoryAttr(categoryid, attrid, type, operateID);
-        }
 
-        public string AddProductDetails(string productid, string productCode, string shapeCode, string attrlist, string valuelist, string attrvaluelist, decimal price, decimal weight,decimal bigprice, string productImg, string description, string operateid, string clientid)
+        public string AddProductDetails(string productid, string productCode, string shapeCode, string attrlist, string valuelist, string attrvaluelist, decimal price, decimal weight, decimal bigprice, string productImg, string description, string operateid, string clientid)
         {
             lock (SingleLock)
             {
@@ -935,66 +1014,6 @@ namespace IntFactoryBusiness
             }
         }
 
-        #endregion
-
-        #region 编辑、删除
-
-        public bool UpdateBrandStatus(string brandID, EnumStatus status, string operateIP, string operateID)
-        {
-            bool bl = CommonBusiness.Update("Brand", "Status", ((int)status).ToString(), " BrandID='" + brandID + "'");
-
-            if (bl)
-            {
-                string message = "编辑品牌状态为：" + CommonBusiness.GetEnumDesc(status);
-                LogBusiness.AddOperateLog(operateID, "ProductsBusiness.UpdateBrandStatus", EnumLogType.Update, EnumLogModules.Stock, EnumLogEntity.Brand, brandID, message, operateIP);
-            }
-
-            return bl;
-        }
-
-        public bool UpdateBrand(string brandID, string name, string anotherName, string countryCode, string cityCode, string icopath, int status, string remark, string brandStyle, string operateIP, string operateID)
-        {
-            if (!string.IsNullOrEmpty(icopath) && icopath.IndexOf(TempPath) >= 0)
-            {
-                if (icopath.IndexOf("?") > 0)
-                {
-                    icopath = icopath.Substring(0, icopath.IndexOf("?"));
-                }
-                FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(icopath));
-                icopath = FILEPATH + file.Name;
-                if (file.Exists)
-                {
-                    file.MoveTo(HttpContext.Current.Server.MapPath(icopath));
-                }
-            }
-            var dal = new ProductsDAL();
-            return dal.UpdateBrand(brandID, name, anotherName, countryCode, cityCode, status, icopath, remark, brandStyle, operateIP, operateID);
-        }
-
-        public bool UpdateCategory(string categoryid, string categoryName, int status, List<string> attrlist, List<string> saleattr, string description, string operateid)
-        {
-            var dal = new ProductsDAL();
-            return dal.UpdateCategory(categoryid, categoryName, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid);
-        }
-
-        public bool UpdateOrderCategory(string categoryid, string categoryName, int status, List<string> attrlist, List<string> saleattr, string description, string operateid)
-        {
-            var dal = new ProductsDAL();
-            return dal.UpdateOrderCategory(categoryid, categoryName, status, string.Join(",", attrlist), string.Join(",", saleattr), description, operateid);
-        }
-
-
-        public bool DeleteCategory(string categoryid, string operateid, string ip, out int result)
-        {
-            var dal = new ProductsDAL();
-            return dal.DeleteCategory(categoryid, operateid, out result);
-        }
-
-        public bool DeleteOrderCategory(string categoryid, string operateid, string ip, out int result)
-        {
-            var dal = new ProductsDAL();
-            return dal.DeleteOrderCategory(categoryid, operateid, out result);
-        }
 
         public bool UpdateProductStatus(string productid, EnumStatus status, string operateIP, string operateID)
         {
@@ -1096,6 +1115,8 @@ namespace IntFactoryBusiness
             }
         }
 
+
         #endregion
+
     }
 }

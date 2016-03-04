@@ -36,26 +36,6 @@ namespace YXERP.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 产品单位列表
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Unit() 
-        {
-            ViewBag.Items = new ProductsBusiness().GetUnits();
-            return View();
-        }
-
-        /// <summary>
-        /// 产品分类列表
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Category() 
-        {
-            var list = new ProductsBusiness().GetChildOrderCategorysByID("", CurrentUser.ClientID);
-            ViewBag.Items = list;
-            return View();
-        }
 
         /// <summary>
         /// 产品属性
@@ -74,7 +54,7 @@ namespace YXERP.Controllers
         {
             if (string.IsNullOrEmpty(id))
             {
-                var list = new ProductsBusiness().GetChildCategorysByID("");
+                var list = new ProductsBusiness().GetChildCategorysByID("", EnumCategoryType.Product);
                 ViewBag.Items = list;
                 return View("ChooseCategory");
             }
@@ -283,54 +263,13 @@ namespace YXERP.Controllers
         #region 分类
 
         /// <summary>
-        /// 保存分类
-        /// </summary>
-        /// <param name="category"></param>
-        /// <param name="attrlist"></param>
-        /// <returns></returns>
-        public JsonResult SavaCategory(string category, string attrlist, string saleattr)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            Category model = serializer.Deserialize<Category>(category);
-            //参数
-            if (!string.IsNullOrEmpty(attrlist))
-            {
-                attrlist = attrlist.Substring(0, attrlist.Length - 1);
-            }
-            //规格
-            if (!string.IsNullOrEmpty(saleattr))
-            {
-                saleattr = saleattr.Substring(0, saleattr.Length - 1);
-            }
-            string caregoryid = "";
-            if (string.IsNullOrEmpty(model.CategoryID))
-            {
-                caregoryid = new ProductsBusiness().AddOrderCategory(model.CategoryCode, model.CategoryName, model.PID, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID, CurrentUser.ClientID);
-            }
-            else
-            {
-                bool bl = new ProductsBusiness().UpdateOrderCategory(model.CategoryID, model.CategoryName, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID);
-                if (bl)
-                {
-                    caregoryid = model.CategoryID;
-                }
-            }
-            JsonDictionary.Add("ID", caregoryid);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
         /// 获取下级分类
         /// </summary>
         /// <param name="categoryid"></param>
         /// <returns></returns>
         public JsonResult GetChildCategorysByID(string categoryid)
         {
-            var list = new ProductsBusiness().GetChildCategorysByID(categoryid);
+            var list = new ProductsBusiness().GetChildCategorysByID(categoryid, EnumCategoryType.Product);
             JsonDictionary.Add("Items", list);
             return new JsonResult
             {
@@ -339,16 +278,6 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetChildOrderCategorysByID(string categoryid)
-        {
-            var list = new ProductsBusiness().GetChildOrderCategorysByID(categoryid, CurrentUser.ClientID);
-            JsonDictionary.Add("Items", list);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
         /// <summary>
         /// 获取分类详情
         /// </summary>
@@ -365,16 +294,6 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrderCategoryByID(string categoryid)
-        {
-            var model = new ProductsBusiness().GetOrderCategoryByID(categoryid);
-            JsonDictionary.Add("Model", model);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
         /// <summary>
         /// 获取分类详情(带属性)
         /// </summary>
@@ -384,30 +303,6 @@ namespace YXERP.Controllers
         {
             var model = new ProductsBusiness().GetCategoryDetailByID(categoryid);
             JsonDictionary.Add("Model", model);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult DeleteCategory(string id)
-        {
-            int result = 0;
-            bool bl = new ProductsBusiness().DeleteCategory(id, CurrentUser.UserID, OperateIP, out result);
-            JsonDictionary.Add("status", result);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult DeleteOrderCategory(string id)
-        {
-            int result = 0;
-            bool bl = new ProductsBusiness().DeleteOrderCategory(id, CurrentUser.UserID, OperateIP, out result);
-            JsonDictionary.Add("status", result);
             return new JsonResult
             {
                 Data = JsonDictionary,

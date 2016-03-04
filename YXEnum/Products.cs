@@ -21,4 +21,13 @@ namespace IntFactoryEnum
         [DescriptionAttribute("撤销公开")]
         Cancel = 4
     }
+
+    public enum EnumCategoryType
+    {
+        All = -1,
+        //材料
+        Product = 1,
+        //订单
+        Order = 2
+    }
 }

@@ -10,6 +10,7 @@ using IntFactoryEntity;
 using IntFactoryBusiness.Manage;
 using IntFactoryEntity.Manage;
 using System.Web.Script.Serialization;
+using IntFactoryEnum;
 
 namespace YXERP.Controllers
 {
@@ -115,7 +116,7 @@ namespace YXERP.Controllers
                 return Redirect("/Home/Login");
             }
             ViewBag.Model = model;
-            var list = new ProductsBusiness().GetChildOrderCategorysByID("", id);
+            var list = new ProductsBusiness().GetChildCategorysByID("", EnumCategoryType.Order);
             ViewBag.Items = list;
             return View();
         }
@@ -147,90 +148,6 @@ namespace YXERP.Controllers
             else
                 return Redirect(AlibabaSdk.Business.OauthBusiness.GetAuthorizeUrl() + "&state=" + ReturnUrl);
         }
-
-        //明道登录回掉
-        //public ActionResult MDCallBack(string code, string state)
-        //{
-        //    string operateip = Common.Common.GetRequestIP();
-        //    var user = OauthBusiness.GetUserInfo(code);
-        //    if (user.error_code <= 0)
-        //    {
-        //        var model = OrganizationBusiness.GetUserByMDUserID(user.user.id, user.user.project.id, operateip);
-        //        //已注册云销账户
-        //        if (model != null)
-        //        {
-        //            //未注销
-        //            if (model.Status.Value != 9)
-        //            {
-        //                model.MDToken = user.user.token;
-        //                if (string.IsNullOrEmpty(model.Avatar)) model.Avatar = user.user.avatar;
-
-        //                Session["ClientManager"] = model;
-        //                if (string.IsNullOrEmpty(state))
-        //                    return Redirect("/Home/Index");
-        //                else
-        //                    return Redirect(state);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            int error = 0;
-        //            bool isAdmin = false;
-        //                //AlibabaSdk.Entity.App.AppBusiness.IsAppAdmin(user.user.token, user.user.id, out error);
-        //            if (isAdmin)
-        //            {
-        //                bool bl = AgentsBusiness.IsExistsMDProject(user.user.project.id);
-        //                //明道网络未注册
-        //                if (!bl)
-        //                {
-        //                    int result = 0;
-        //                    Clients clientModel = new Clients();
-        //                    clientModel.CompanyName = user.user.project.name;
-        //                    clientModel.ContactName = user.user.name;
-        //                    clientModel.MobilePhone = user.user.mobilePhone;
-        //                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", out result, user.user.email, user.user.id, user.user.project.id);
-        //                    if (!string.IsNullOrEmpty(clientid))
-        //                    {
-        //                        var current = OrganizationBusiness.GetUserByMDUserID(user.user.id, user.user.project.id, operateip);
-
-        //                        current.MDToken = user.user.token;
-        //                        if (string.IsNullOrEmpty(current.Avatar)) current.Avatar = user.user.avatar;
-        //                        Session["ClientManager"] = current;
-
-        //                        if(string.IsNullOrEmpty(state))
-        //                        return Redirect("/Home/Index");
-        //                        else
-        //                            return Redirect(state);
-        //                    }
-
-        //                }
-        //                else
-        //                {
-        //                    int result = 0;
-        //                    var newuser = OrganizationBusiness.CreateUser("", "", user.user.name, user.user.mobilePhone, user.user.email, "", "", "", "", "", "", "", "", user.user.id, user.user.project.id, 1, "", out result);
-        //                    if (newuser != null)
-        //                    {
-        //                        var current = OrganizationBusiness.GetUserByMDUserID(user.user.id, user.user.project.id, operateip);
-
-        //                        current.MDToken = user.user.token;
-        //                        if (string.IsNullOrEmpty(current.Avatar)) current.Avatar = user.user.avatar;
-        //                        Session["ClientManager"] = current;
-
-        //                        if (string.IsNullOrEmpty(state))
-        //                            return Redirect("/Home/Index");
-        //                        else
-        //                            return Redirect(state);
-        //                    }
-        //                }
-        //            }
-        //            else
-        //            {
-        //                return Redirect("/Home/Login?Status=1");
-        //            }
-        //        }
-        //    }
-        //    return Redirect("/Home/Login");
-        //}
 
         /// <summary>
         /// 员工登录
@@ -503,7 +420,7 @@ namespace YXERP.Controllers
         public JsonResult GetChildOrderCategorysByID(string categoryid, string clientid)
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            var list = new ProductsBusiness().GetChildOrderCategorysByID(categoryid, clientid);
+            var list = new ProductsBusiness().GetChildCategorysByID(categoryid, EnumCategoryType.Order);
             JsonDictionary.Add("Items", list);
             return new JsonResult
             {

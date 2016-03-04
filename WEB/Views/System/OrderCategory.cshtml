@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "设置加工品类";
+}
+
+@section css{
+    <link rel="stylesheet" href="/modules/css/system/system.css" />
+}
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/system/ordercategory"], function (obj) {
+            obj.init();
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">设置加工品类</span>
+</div>
+<div class="content-body mTop20">
+    @foreach (var model in (List<IntFactoryEntity.Category>)ViewBag.Items)
+    {
+         <div class="ordercategory-item">
+             <div class="items-header">
+                 @(model.CategoryName)
+             </div>
+             <ul class="child-items-div">
+                 @foreach (var item in model.ChildCategory)
+                 {
+                      <li class="child-item" >
+                          <span class="ico-check left pLeft5" data-pid="@(item.PID)" data-id="@(item.CategoryID)">@(item.CategoryName)</span>
+                      </li>
+                 }
+             </ul>
+         </div>
+    }
+    
+</div>
