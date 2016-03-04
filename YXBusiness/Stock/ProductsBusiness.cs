@@ -25,24 +25,9 @@ namespace IntFactoryBusiness
 
         #region Cache
 
-        private static List<ProductAttr> _attrs;
-
-        private static List<ProductAttr> ClientAttrs
-        {
-            get 
-            {
-                if (_attrs == null)
-                {
-                    _attrs = new List<ProductAttr>();
-                }
-                return _attrs;
-            }
-            set { _attrs = value; }
-        }
-
         private static List<ProductUnit> _units;
 
-        private static List<ProductUnit> ClientUnits
+        private static List<ProductUnit> CacheUnits
         {
             get
             {
@@ -55,10 +40,24 @@ namespace IntFactoryBusiness
             set { _units = value; }
         }
 
+        private static List<ProductAttr> _attrs;
+
+        private static List<ProductAttr> CacheAttrs
+        {
+            get 
+            {
+                if (_attrs == null)
+                {
+                    _attrs = new List<ProductAttr>();
+                }
+                return _attrs;
+            }
+            set { _attrs = value; }
+        }
+
         #endregion
 
-
-        #region 查询
+        #region 品牌
 
         public List<Brand> GetBrandList(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
         {
@@ -105,15 +104,19 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public List<ProductUnit> GetClientUnits()
+        #endregion
+
+        #region 单位
+
+        public List<ProductUnit> GetUnits()
         {
-            if (ClientUnits.Count()>0)
+            if (CacheUnits.Count() > 0)
             {
-                return ClientUnits;
+                return CacheUnits;
             }
 
             var dal = new ProductsDAL();
-            DataTable dt = dal.GetClientUnits();
+            DataTable dt = dal.GetUnits();
 
             List<ProductUnit> list = new List<ProductUnit>();
             foreach (DataRow dr in dt.Rows)
@@ -121,17 +124,17 @@ namespace IntFactoryBusiness
                 ProductUnit model = new ProductUnit();
                 model.FillData(dr);
                 list.Add(model);
-                ClientUnits.Add(model);
+                CacheUnits.Add(model);
             }
             return list;
         }
 
         public ProductUnit GetUnitByID(string unitid)
         {
-            var list = GetClientUnits();
-            if (list.Where(m => m.UnitID == unitid).Count() > 0)
+            var list = GetUnits();
+            if (list.Where(m => m.UnitID.ToLower() == unitid.ToLower()).Count() > 0)
             {
-                return list.Where(m => m.UnitID == unitid).FirstOrDefault();
+                return list.Where(m => m.UnitID.ToLower() == unitid.ToLower()).FirstOrDefault();
             }
 
             var dal = new ProductsDAL();
@@ -142,15 +145,56 @@ namespace IntFactoryBusiness
             {
                 model.FillData(dt.Rows[0]);
                 list.Add(model);
+                CacheUnits.Add(model);
             }
             return model;
         }
 
+        public string AddUnit(string unitname, string description, string operateid)
+        {
+            var dal = new ProductsDAL();
+            var id = dal.AddUnit(unitname, description, operateid);
+            if (!string.IsNullOrEmpty(id))
+            {
+                var list = GetUnits();
+                list.Add(new ProductUnit() { UnitID = id, UnitName = unitname });
+            }
+            return id;
+        }
+
+        public bool UpdateUnit(string unitid, string unitname, string desciption, string operateid)
+        {
+            var dal = new ProductsDAL();
+            bool bl = dal.UpdateUnit(unitid, unitname, desciption);
+            if (bl)
+            {
+                var model = GetUnitByID(unitid);
+                model.UnitName = unitname;
+            }
+            return bl;
+        }
+
+        public bool DeleteUnit(string unitid, string operateip, string operateid)
+        {
+            var dal = new ProductsDAL();
+            bool bl = dal.UpdateUnitStatus(unitid, (int)EnumStatus.Delete);
+            if (bl)
+            {
+                var model = GetUnitByID(unitid);
+                CacheUnits.Remove(model);
+            }
+            return bl;
+        }
+
+        #endregion
+
+        #region 属性
+
         public List<ProductAttr> GetAttrs()
         {
-            if (ClientAttrs.Count > 0)
+            if (CacheAttrs.Count > 0)
             {
-                return ClientAttrs;
+                return CacheAttrs;
             }
 
             List<ProductAttr> list = new List<ProductAttr>();
@@ -166,14 +210,11 @@ namespace IntFactoryBusiness
                     attrValue.FillData(item);
                     model.AttrValues.Add(attrValue);
                 }
-                ClientAttrs.Add(model);
+                CacheAttrs.Add(model);
             }
             return list;
         }
 
-        /// <summary>
-        /// 获取属性列表（包括属性值列表）
-        /// </summary>
         public List<ProductAttr> GetAttrList(string categoryid, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             var dal = new ProductsDAL();
@@ -186,16 +227,15 @@ namespace IntFactoryBusiness
                 {
                     ProductAttr model = new ProductAttr();
                     model.FillData(dr);
-                    //model.CreateUser =
 
-                    List<AttrValue> valueList = new List<AttrValue>();
-                    foreach (DataRow drValue in ds.Tables["Values"].Select("AttrID='" + model.AttrID + "'"))
-                    {
-                        AttrValue valueModel = new AttrValue();
-                        valueModel.FillData(drValue);
-                        valueList.Add(valueModel);
-                    }
-                    model.AttrValues = valueList;
+                    //List<AttrValue> valueList = new List<AttrValue>();
+                    //foreach (DataRow drValue in ds.Tables["Values"].Select("AttrID='" + model.AttrID + "'"))
+                    //{
+                    //    AttrValue valueModel = new AttrValue();
+                    //    valueModel.FillData(drValue);
+                    //    valueList.Add(valueModel);
+                    //}
+                    //model.AttrValues = valueList;
 
                     list.Add(model);
                 }
@@ -203,10 +243,10 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<ProductAttr> GetAttrList(string categoryid)
+        public List<ProductAttr> GetAttrsByCategoryID(string categoryid)
         {
             var dal = new ProductsDAL();
-            DataTable dt = dal.GetAttrList(categoryid);
+            DataTable dt = dal.GetAttrsByCategoryID(categoryid);
 
             List<ProductAttr> list = new List<ProductAttr>();
             foreach (DataRow dr in dt.Rows)
@@ -218,15 +258,15 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public ProductAttr GetProductAttrByID(string attrid)
+        public ProductAttr GetAttrByID(string attrid)
         {
             var list = GetAttrs();
-            if (list.Where(m => m.AttrID == attrid).Count() > 0)
+            if (list.Where(m => m.AttrID.ToLower() == attrid.ToLower()).Count() > 0)
             {
-                return list.Where(m => m.AttrID == attrid).FirstOrDefault();
+                return list.Where(m => m.AttrID.ToLower() == attrid.ToLower()).FirstOrDefault();
             }
             var dal = new ProductsDAL();
-            DataSet ds = dal.GetProductAttrByID(attrid);
+            DataSet ds = dal.GetAttrByID(attrid);
 
             ProductAttr model = new ProductAttr();
             if (ds.Tables.Contains("Attrs") && ds.Tables["Attrs"].Rows.Count > 0)
@@ -239,11 +279,116 @@ namespace IntFactoryBusiness
                     attrValue.FillData(item);
                     model.AttrValues.Add(attrValue);
                 }
-                ClientAttrs.Add(model);
+                CacheAttrs.Add(model);
             }
 
             return model;
         }
+
+        public string AddAttr(string attrname, string description, string categoryID, int type, string operateid)
+        {
+            var attrid = Guid.NewGuid().ToString().ToLower();
+            var dal = new ProductsDAL();
+            if (dal.AddAttr(attrid, attrname, description, categoryID, type, operateid))
+            {
+                CacheAttrs.Add(new ProductAttr()
+                {
+                    AttrID = attrid,
+                    AttrName = attrname,
+                    Description = description,
+                    CategoryID = categoryID,
+                    ClientID = "",
+                    CreateTime = DateTime.Now,
+                    CreateUserID = operateid,
+                    Status = 1,
+                    AttrValues = new List<AttrValue>()
+                });
+                return attrid;
+            }
+            return string.Empty;
+        }
+
+        public string AddAttrValue(string valueName, string attrid, string operateid)
+        {
+            var valueid = Guid.NewGuid().ToString().ToLower();
+            var dal = new ProductsDAL();
+            if (dal.AddAttrValue(valueid, valueName, attrid, operateid))
+            {
+                var model = GetAttrByID(attrid);
+                model.AttrValues.Add(new AttrValue()
+                {
+                    ValueID = valueid,
+                    ValueName = valueName,
+                    Status = 1,
+                    AttrID = attrid,
+                    CreateTime = DateTime.Now
+                });
+
+                return valueid;
+            }
+            return string.Empty;
+        }
+
+        public bool UpdateProductAttr(string attrID, string attrName, string description, string operateIP, string operateID)
+        {
+            var dal = new ProductsDAL();
+            var bl = dal.UpdateProductAttr(attrID, attrName, description);
+            if (bl)
+            {
+                var model = GetAttrByID(attrID);
+                model.AttrName = attrName;
+                model.Description = description;
+            }
+            return bl;
+        }
+
+        public bool UpdateAttrValue(string valueID, string attrid, string valueName, string operateIP, string operateID)
+        {
+            var dal = new ProductsDAL();
+            var bl = dal.UpdateAttrValue(valueID, valueName);
+            if (bl)
+            {
+                var model = GetAttrByID(attrid);
+                var value = model.AttrValues.Where(m => m.ValueID == valueID).FirstOrDefault();
+                value.ValueName = valueName;
+            }
+            return bl;
+        }
+
+        public bool UpdateProductAttrStatus(string attrid, EnumStatus status, string operateIP, string operateID)
+        {
+            var dal = new ProductsDAL();
+            var bl = dal.UpdateProductAttrStatus(attrid, (int)status);
+            if (bl)
+            {
+                var model = GetAttrByID(attrid);
+                CacheAttrs.Remove(model);
+            }
+            return bl;
+        }
+
+        public bool UpdateCategoryAttrStatus(string categoryid, string attrid, EnumStatus status, int type, string operateIP, string operateID)
+        {
+            var dal = new ProductsDAL();
+            return dal.UpdateCategoryAttrStatus(categoryid, attrid, (int)status, type);
+        }
+
+        public bool UpdateAttrValueStatus(string valueid, string attrid, EnumStatus status, string operateIP, string operateID)
+        {
+            var dal = new ProductsDAL();
+            bool bl = dal.UpdateAttrValueStatus(valueid, (int)status);
+            if (bl)
+            {
+                var model = GetAttrByID(attrid);
+                var value = model.AttrValues.Where(m => m.ValueID == valueid).FirstOrDefault();
+                model.AttrValues.Remove(value);
+            }
+            return bl;
+        }
+
+        #endregion
+
+        #region 查询
 
         public List<Category> GetChildCategorysByID(string categoryid)
         {
@@ -487,7 +632,7 @@ namespace IntFactoryBusiness
                     {
                         if (!string.IsNullOrEmpty(attrid))
                         {
-                            var attr = new ProductsBusiness().GetProductAttrByID(attrid.Split(':')[0]);
+                            var attr = new ProductsBusiness().GetAttrByID(attrid.Split(':')[0]);
                             var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
                             if (attr != null && value != null)
                             {
@@ -522,7 +667,7 @@ namespace IntFactoryBusiness
                     {
                         if (!string.IsNullOrEmpty(attrid))
                         {
-                            var attr = new ProductsBusiness().GetProductAttrByID(attrid.Split(':')[0]);
+                            var attr = new ProductsBusiness().GetAttrByID(attrid.Split(':')[0]);
                             var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
                             if (attr != null && value != null)
                             {
@@ -670,63 +815,6 @@ namespace IntFactoryBusiness
                 
                 return new ProductsDAL().AddBrand(name, anotherName, icoPath, countryCode, cityCode, status, remark, brandStyle, operateIP, operateID, clientID);
             }
-        }
-
-        public string AddUnit(string unitName, string description,string operateid)
-        {
-            var dal = new ProductsDAL();
-            var id = dal.AddUnit(unitName, description, operateid, "");
-            if (!string.IsNullOrEmpty(id))
-            {
-                var list = GetClientUnits();
-                list.Add(new ProductUnit() { UnitID = id, UnitName = unitName, ClientID = "" });
-            }
-            return id;
-        }
-
-        public string AddProductAttr(string attrName, string description, string categoryID, int type, string operateid)
-        {
-            var attrID = Guid.NewGuid().ToString().ToLower();
-            var dal = new ProductsDAL();
-            if (dal.AddProductAttr(attrID, attrName, description, categoryID, type, operateid, ""))
-            {
-                ClientAttrs.Add(new ProductAttr()
-                {
-                    AttrID = attrID,
-                    AttrName = attrName,
-                    Description = description,
-                    CategoryID = categoryID,
-                    ClientID = "",
-                    CreateTime = DateTime.Now,
-                    CreateUserID = operateid,
-                    Status = 1,
-                    AttrValues = new List<AttrValue>()
-                });
-                return attrID;
-            }
-            return string.Empty;
-        }
-
-        public string AddAttrValue(string valueName, string attrID, string operateid)
-        {
-            var valueID = Guid.NewGuid().ToString().ToLower();
-            var dal = new ProductsDAL();
-            if (dal.AddAttrValue(valueID, valueName, attrID, operateid, ""))
-            {
-                var model = GetProductAttrByID(attrID);
-                model.AttrValues.Add(new AttrValue()
-                {
-                    ValueID = valueID,
-                    ValueName = valueName,
-                    Status = 1,
-                    AttrID = attrID,
-                    ClientID = "",
-                    CreateTime = DateTime.Now
-                });
-
-                return valueID;
-            }
-            return string.Empty;
         }
 
         public string AddCategory(string categoryCode, string categoryName, string pid, int status, List<string> attrlist, List<string> saleattr, string description, string operateid)
@@ -881,87 +969,6 @@ namespace IntFactoryBusiness
             }
             var dal = new ProductsDAL();
             return dal.UpdateBrand(brandID, name, anotherName, countryCode, cityCode, status, icopath, remark, brandStyle, operateIP, operateID);
-        }
-
-        public bool UpdateUnit(string unitID, string unitName, string desciption, string operateID)
-        {
-            var dal = new ProductsDAL();
-            bool bl = dal.UpdateUnit(unitID, unitName, desciption);
-            if (bl)
-            {
-                var model = GetUnitByID(unitID);
-                model.UnitName = unitName;
-            }
-            return bl;
-        }
-
-        public bool UpdateUnitStatus(string unitID, EnumStatus status, string operateIP, string operateID)
-        {
-            var dal = new ProductsDAL();
-            bool bl = dal.UpdateUnitStatus(unitID, (int)status);
-            if (bl)
-            {
-                var model = GetUnitByID(unitID);
-                ClientUnits.Remove(model);
-            }
-            return bl;
-        }
-
-        public bool UpdateProductAttr(string attrID, string attrName, string description, string operateIP, string operateID)
-        {
-            var dal = new ProductsDAL();
-            var bl = dal.UpdateProductAttr(attrID, attrName, description);
-            if (bl)
-            {
-                var model = GetProductAttrByID(attrID);
-                model.AttrName = attrName;
-                model.Description = description;
-            }
-            return bl;
-        }
-
-        public bool UpdateAttrValue(string valueID, string attrid, string valueName, string operateIP, string operateID)
-        {
-            var dal = new ProductsDAL();
-            var bl = dal.UpdateAttrValue(valueID, valueName);
-            if (bl)
-            {
-                var model = GetProductAttrByID(attrid);
-                var value = model.AttrValues.Where(m => m.ValueID == valueID).FirstOrDefault();
-                value.ValueName = valueName;
-            }
-            return bl;
-        }
-
-        public bool UpdateProductAttrStatus(string attrid, EnumStatus status, string operateIP, string operateID)
-        {
-            var dal = new ProductsDAL();
-            var bl = dal.UpdateProductAttrStatus(attrid, (int)status);
-            if (bl)
-            {
-                var model = GetProductAttrByID(attrid);
-                ClientAttrs.Remove(model);
-            }
-            return bl;
-        }
-
-        public bool UpdateCategoryAttrStatus(string categoryid, string attrid, EnumStatus status, int type, string operateIP, string operateID)
-        {
-            var dal = new ProductsDAL();
-            return dal.UpdateCategoryAttrStatus(categoryid, attrid, (int)status, type);
-        }
-
-        public bool UpdateAttrValueStatus(string valueid, string attrid, EnumStatus status, string operateIP, string operateID)
-        {
-            var dal = new ProductsDAL();
-            bool bl = dal.UpdateAttrValueStatus(valueid, (int)status);
-            if (bl)
-            {
-                var model = GetProductAttrByID(attrid);
-                var value = model.AttrValues.Where(m => m.ValueID == valueid).FirstOrDefault();
-                model.AttrValues.Remove(value);
-            }
-            return bl;
         }
 
         public bool UpdateCategory(string categoryid, string categoryName, int status, List<string> attrlist, List<string> saleattr, string description, string operateid)

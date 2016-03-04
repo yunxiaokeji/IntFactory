@@ -196,7 +196,7 @@ namespace IntFactoryBusiness
                     {
                         if (!string.IsNullOrEmpty(attrid))
                         {
-                            var attr = new ProductsBusiness().GetProductAttrByID(attrid.Split(':')[0]);
+                            var attr = new ProductsBusiness().GetAttrByID(attrid.Split(':')[0]);
                             var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
                             if (attr != null && value != null)
                             {
@@ -232,7 +232,7 @@ namespace IntFactoryBusiness
                     {
                         if (!string.IsNullOrEmpty(attrid))
                         {
-                            var attr = new ProductsBusiness().GetProductAttrByID(attrid.Split(':')[0]);
+                            var attr = new ProductsBusiness().GetAttrByID(attrid.Split(':')[0]);
                             var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
                             if (attr != null && value != null)
                             {
@@ -267,7 +267,7 @@ namespace IntFactoryBusiness
                     {
                         if (!string.IsNullOrEmpty(attrid))
                         {
-                            var attr = new ProductsBusiness().GetProductAttrByID(attrid.Split(':')[0]);
+                            var attr = new ProductsBusiness().GetAttrByID(attrid.Split(':')[0]);
                             var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
                             if (attr != null && value != null)
                             {

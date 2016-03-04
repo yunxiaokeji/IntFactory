@@ -6,7 +6,7 @@
         ChooseUser = require("chooseuser");
     require("pager");
 
-    var ColumnCount = 15;
+    var ColumnCount = 14;
 
     var Params = {
         SearchType: 1,

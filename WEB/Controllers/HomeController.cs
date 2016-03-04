@@ -4,8 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-using AlibabaSdk;
-using AlibabaSdk.Business;
+
 using IntFactoryBusiness;
 using IntFactoryEntity;
 using IntFactoryBusiness.Manage;
@@ -26,7 +25,7 @@ namespace YXERP.Controllers
                 return Redirect("/Home/Login");
             }
 
-            IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+            Users CurrentUser = (Users)Session["ClientManager"];
             ViewBag.UserCount = OrganizationBusiness.GetUsers(CurrentUser.AgentID).Count;
             var agent = AgentsBusiness.GetAgentDetail(CurrentUser.AgentID);
             ViewBag.RemainderDays = (agent.EndTime - DateTime.Now).Days;
@@ -144,9 +143,9 @@ namespace YXERP.Controllers
         public ActionResult MDLogin(string ReturnUrl)
         {
             if(string.IsNullOrEmpty(ReturnUrl))
-            return Redirect(OauthBusiness.GetAuthorizeUrl());
+            return Redirect(AlibabaSdk.Business.OauthBusiness.GetAuthorizeUrl());
             else
-                return Redirect(OauthBusiness.GetAuthorizeUrl() + "&state=" + ReturnUrl);
+                return Redirect(AlibabaSdk.Business.OauthBusiness.GetAuthorizeUrl() + "&state=" + ReturnUrl);
         }
 
         //明道登录回掉

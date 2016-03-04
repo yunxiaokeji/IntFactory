@@ -28,7 +28,7 @@ namespace YXManage.Controllers
         /// <returns></returns>
         public ActionResult Unit()
         {
-            ViewBag.Items = new ProductsBusiness().GetClientUnits();
+            ViewBag.Items = new ProductsBusiness().GetUnits();
             return View();
         }
 
@@ -112,7 +112,7 @@ namespace YXManage.Controllers
         /// <returns></returns>
         public JsonResult DeleteUnit(string unitID)
         {
-            bool bl = new ProductsBusiness().UpdateUnitStatus(unitID, EnumStatus.Delete, OperateIP, CurrentUser.UserID);
+            bool bl = new ProductsBusiness().DeleteUnit(unitID, OperateIP, CurrentUser.UserID);
             JsonDictionary.Add("Status", bl);
             return new JsonResult
             {
@@ -154,7 +154,7 @@ namespace YXManage.Controllers
         public JsonResult GetAttrsByCategoryID(string categoryid)
         {
             List<ProductAttr> list = new List<ProductAttr>();
-            list = new ProductsBusiness().GetAttrList(categoryid);
+            list = new ProductsBusiness().GetAttrsByCategoryID(categoryid);
 
             JsonDictionary.Add("Items", list);
             return new JsonResult
@@ -177,7 +177,7 @@ namespace YXManage.Controllers
             string attrID = string.Empty;
             if (string.IsNullOrEmpty(model.AttrID))
             {
-                attrID = new ProductsBusiness().AddProductAttr(model.AttrName, model.Description, model.CategoryID, model.Type, CurrentUser.UserID);
+                attrID = new ProductsBusiness().AddAttr(model.AttrName, model.Description, model.CategoryID, model.Type, CurrentUser.UserID);
             }
             else if (new ProductsBusiness().UpdateProductAttr(model.AttrID, model.AttrName, model.Description, OperateIP, CurrentUser.UserID))
             {
@@ -206,7 +206,7 @@ namespace YXManage.Controllers
             }
             else
             {
-                var model = new ProductsBusiness().GetProductAttrByID(attrID);
+                var model = new ProductsBusiness().GetAttrByID(attrID);
                 JsonDictionary.Add("Item", model);
             }
             return new JsonResult
