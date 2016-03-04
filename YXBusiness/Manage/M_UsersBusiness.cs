@@ -30,6 +30,9 @@ namespace IntFactoryBusiness
             {
                 model = new M_Users();
                 model.FillData(dt.Rows[0]);
+
+                if(!string.IsNullOrEmpty(model.RoleID))
+                    model.Role = ManageSystemBusiness.GetRoleByIDCache(model.RoleID);
             }
 
             //记录登录日志
@@ -38,6 +41,47 @@ namespace IntFactoryBusiness
             return model;
         }
 
+        public static List<M_Users> GetUsers(string keyWords, string roleID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            string whereSql = " Status<>9";
+
+            if (!string.IsNullOrEmpty(keyWords))
+                whereSql += " and ( Name like '%" + keyWords + "%' or MobilePhone like '%" + keyWords + "%' or Email like '%" + keyWords + "%')";
+
+
+            if (!string.IsNullOrEmpty(roleID))
+                whereSql += " and RoleID='" + roleID + "'";
+
+            DataTable dt = CommonBusiness.GetPagerData("M_Users", "*", whereSql, "AutoID", pageSize, pageIndex, out totalCount, out pageCount);
+            List<M_Users> list = new List<M_Users>();
+            M_Users model;
+            foreach (DataRow item in dt.Rows)
+            {
+                model = new M_Users();
+                model.FillData(item);
+
+                if (!string.IsNullOrEmpty(model.RoleID))
+                    model.Role = ManageSystemBusiness.GetRoleByIDCache(model.RoleID);
+
+                list.Add(model);
+            }
+
+            return list;
+        }
+
+        public static M_Users GetUserDetail(string userID)
+        {
+            DataTable dt = M_UsersDAL.BaseProvider.GetUserDetail(userID);
+
+            M_Users model=null;
+            if (dt.Rows.Count == 1)
+            {
+                model = new M_Users();
+                model.FillData(dt.Rows[0]);
+            }
+
+            return model;
+        }
         #endregion
 
         #region 改

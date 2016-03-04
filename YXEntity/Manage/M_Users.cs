@@ -82,6 +82,19 @@ namespace IntFactoryEntity.Manage
 			set{ _name=value;}
 			get{return _name;}
 		}
+
+        public string RoleID
+        {
+            set;
+            get;
+        }
+
+        public M_Role Role
+        {
+            set;
+            get;
+        }
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -163,6 +176,12 @@ namespace IntFactoryEntity.Manage
 			set{ _createuserid=value;}
 			get{return _createuserid;}
 		}
+
+        public M_Users CreateUser
+        {
+            set;
+            get;
+        }
 		#endregion Model
 
         /// <summary>

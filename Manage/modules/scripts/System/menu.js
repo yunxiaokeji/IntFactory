@@ -53,7 +53,7 @@ define(function (require, exports, module) {
                 Layer: $("#Layer").val()
             };
 
-            Global.post("/System/SaveSystemMenu", { menu: JSON.stringify(Object) }, function (data) {
+            Global.post("/System/SaveSystemMenu", { menu: JSON.stringify(Object), menucode: $("#menucode").val() }, function (data) {
                 if (data.Result == "1") {
                     location.href = "/System/Menu";
                 }

@@ -252,6 +252,7 @@
     <Content Include="modules\scripts\products\unit.js" />
     <Content Include="modules\scripts\System\menu.js" />
     <Content Include="modules\scripts\System\roles.js" />
+    <Content Include="modules\scripts\System\users.js" />
     <Content Include="modules\template\client-orders.html" />
     <Content Include="modules\template\client-list.html" />
     <Content Include="modules\template\clientauthorizelog-list.html" />
@@ -277,6 +278,8 @@
     <Content Include="modules\template\system\role-detail.html" />
     <Content Include="modules\template\system\roles.html" />
     <Content Include="modules\template\system\setuserrole.html" />
+    <Content Include="modules\template\system\users.html" />
+    <Content Include="modules\template\system\user-detail.html" />
     <Content Include="Scripts\jquery-1.11.1.js" />
     <Content Include="Scripts\sea-config.js" />
     <Content Include="Scripts\sea.js" />
@@ -371,6 +374,7 @@
     <Content Include="Views\System\MenuDetail.cshtml" />
     <Content Include="Views\System\RolePermission.cshtml" />
     <Content Include="Views\System\Roles.cshtml" />
+    <Content Include="Views\System\Users.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
