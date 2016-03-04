@@ -9,6 +9,13 @@
         ObjectJS.orderid = orderid;
         ObjectJS.taskid = taskid;
         ObjectJS.mark = 1;
+        if (mark == 2) {
+            ObjectJS.mark = mark;
+            $("#navProducts").hide();
+            $("#platemakingContent").show();
+            $(".tab-nav-ul li").removeClass("hover").eq(1).addClass("hover");
+
+        }
 
         ObjectJS.bindEvent(taskid, stageid, orderid);
         ObjectJS.initTalkReply(orderid, stageid);

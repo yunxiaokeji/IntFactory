@@ -45,6 +45,10 @@ namespace IntFactoryEntity.Task
 
         public DateTime EndTime { get; set; }
 
+        public DateTime AcceptTime { get; set; }
+
+        public DateTime CompleteTime { get; set; }
+
         public int Sort { get; set; }
 
         public int Status { get; set; }
