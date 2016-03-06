@@ -23,9 +23,9 @@
     <div class="content-title">
         <div class="left titlename">订单编号：@(model.OrderCode)</div>
         <div id="updateOrderInfo" class="left ico-edit mLeft50"></div>
-        @*<div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >回退</div>*@
+        <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >退回委托</div>
         <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
-        @*<div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >转移工厂</div>*@
+        <div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >订单委托</div>
     </div>
     <div class="order-imgs-div left">
         <div class="order-imgs">

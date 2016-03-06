@@ -397,7 +397,7 @@ namespace IntFactoryBusiness
                         msg = "打样单完成合价，最终报价为：" + price;
                         break;
                     case EnumOrderStatus.DDH:
-                        msg = "打样单开始大货，大货数量为：" + quantity;
+                        msg = "打样单大货下单，大货数量为：" + quantity;
                         break;
                 }
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
@@ -412,6 +412,17 @@ namespace IntFactoryBusiness
             {
                 string msg = "订单利润比例设置为：" + profit;
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderClient(string orderid, string newclientid, string name, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderClient(orderid, newclientid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单委托给工厂：" + name;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, newclientid, agentid, clientid);
             }
             return bl;
         }
@@ -461,7 +472,7 @@ namespace IntFactoryBusiness
             bool bl = OrdersDAL.BaseProvider.ApplyReturnOrder(orderid, operateid, agentid, clientid, out result);
             if (bl)
             {
-                string msg = "申请退单";
+                string msg = "退回委托";
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
             }
             return bl;

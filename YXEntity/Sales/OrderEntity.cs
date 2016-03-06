@@ -219,11 +219,19 @@ namespace IntFactoryEntity
 
         public int TaskOver { get; set; }
 
+        [Property("Lower")] 
         public string OriginalID { get; set; }
 
         public string OriginalCode { get; set; }
 
         public string OrderImages { get; set; }
+
+        [Property("Lower")] 
+        public string EntrustClientID { get; set; }
+
+        public int EntrustStatus { get; set; }
+
+        public DateTime EntrustTime { get; set; }
 
         /// <summary>
         /// 填充数据

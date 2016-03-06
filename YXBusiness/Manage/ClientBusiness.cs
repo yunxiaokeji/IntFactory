@@ -53,7 +53,7 @@ namespace IntFactoryBusiness.Manage
         {
             string sqlWhere = "Status<>9";
             if (!string.IsNullOrEmpty(keyWords))
-                sqlWhere += " and ( CompanyName like '%" + keyWords + "%'  or  MobilePhone like '%" + keyWords + "%')";
+                sqlWhere += " and ( CompanyName like '%" + keyWords + "%'  or  MobilePhone like '%" + keyWords + "%' or  ClientCode like '%" + keyWords + "%')";
 
             DataTable dt = CommonBusiness.GetPagerData("Clients", "*", sqlWhere, "AutoID", pageSize, pageIndex, out totalCount, out pageCount);
             List<Clients> list = new List<Clients>();
@@ -64,7 +64,7 @@ namespace IntFactoryBusiness.Manage
                 model.FillData(item);
 
                 model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
-                model.IndustryEntity =Manage.IndustryBusiness.GetIndustrys().Where(i => i.IndustryID.ToLower() == model.Industry.ToLower()).FirstOrDefault();
+                //model.IndustryEntity =Manage.IndustryBusiness.GetIndustrys().Where(i => i.IndustryID.ToLower() == model.Industry.ToLower()).FirstOrDefault();
                 list.Add(model);
             }
 

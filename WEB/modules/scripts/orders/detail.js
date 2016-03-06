@@ -5,6 +5,7 @@ define(function (require, exports, module) {
         Global = require("global"),
         doT = require("dot"),
         ChooseUser = require("chooseuser"),
+        ChooseFactory = require("choosefactory"),
         ChooseProcess = require("chooseprocess"),
         Easydialog = require("easydialog");
     require("pager");
@@ -24,6 +25,7 @@ define(function (require, exports, module) {
     }
 
     ObjectJS.bindStyle = function (model) {
+
         var _self = this;
         var stages = $(".stage-items"), width = stages.width();
 
@@ -31,6 +33,65 @@ define(function (require, exports, module) {
         stages.find("li .rightbg").last().removeClass("rightbg");
         stages.find("li,a").width(width / stages.find("li").length - 15);
 
+        //转移工厂按钮
+        if (_self.status != 0 || !!model.EntrustClientID) {
+            $("#btnchangeclient").hide();
+            $("#btndelete").hide();
+        } else {
+            //转移工厂
+            $("#btnchangeclient").click(function () {
+                var _this = $(this);
+                ChooseFactory.create({
+                    title: "订单委托-选择工厂",
+                    callback: function (items) {
+                        if (items.length > 0) {
+                            if (model.ClientID != items[0].id) {
+                                Global.post("/Orders/UpdateOrderClient", {
+                                    orderid: model.OrderID,
+                                    clientid: items[0].id,
+                                    name: items[0].name
+                                }, function (data) {
+                                    if (data.status) {
+                                        alert("订单委托成功!", location.href);
+                                    }
+                                });
+                            } else {
+                                alert("请选择不同工厂进行委托!");
+                            }
+                        }
+                    }
+                });
+            });
+
+            //删除需求单
+            $("#btndelete").click(function () {
+                confirm("需求单删除后不可恢复，确认删除吗？", function () {
+                    _self.deleteOrder();
+                });
+            });
+        }
+
+        //回退委托
+        if (_self.status == 0 && !!model.EntrustClientID) {
+            $("#btnreturn").show();
+            $("#btnreturn").click(function () {
+                confirm("委托退回后不能撤销，确认退回委托吗？", function () {
+                    Global.post("/Orders/ApplyReturnOrder", {
+                        orderid: model.OrderID,
+                    }, function (data) {
+                        if (data.status) {
+                            alert("委托退回成功!", location.href);
+                        } else {
+                            alert("委托退回失败，请稍后重试")
+                        }
+                    });
+                });
+            });
+        } else {
+            $("#btnreturn").hide();
+        }
+
+        //转移流程
         if (_self.status != 0 && _self.status != 4) {
             $("#changeProcess").hide();
         }
@@ -63,6 +124,7 @@ define(function (require, exports, module) {
                 _this.find(".status-bg,.status-line").css("background-color", "#3D90F0");
             }
         });
+
         for (var i = 0; i < model.OrderStatus.length; i++) {
             $(".status-items li[data-status='" + model.OrderStatus[i].Status + "']").find(".status-time-text").html(model.OrderStatus[i].CreateTime.toDate("yyyy-MM-dd"));
         }
@@ -92,10 +154,7 @@ define(function (require, exports, module) {
     ObjectJS.bindEvent = function () {
         var _self = this;
 
-        $("#btnreturn").hide();
         if (_self.status > 0) {
-            $("#btndelete").hide();//#btnreturn,
-
             if (_self.status >= 3) {
                 $("#updateProfitPrice").hide();
             } else {
@@ -129,48 +188,9 @@ define(function (require, exports, module) {
             }
         } else { //需求单
             $("#updateProfitPrice").hide();
-            $("#btndelete").show();//#btnreturn,
-
-            //删除需求单
-            $("#btndelete").click(function () {
-                confirm("需求单删除后不可恢复，确认删除吗？", function () {
-                    _self.deleteOrder();
-                });
-            });
-            
         }
         
         if (_self.status == 0 || _self.status == 4) {
-
-            //转移工厂
-            $("#btnchangeclient").click(function () {
-                doT.exec("template/orders/changeclient.html", function (template) {
-                    var innerText = template();
-                    Easydialog.open({
-                        container: {
-                            id: "show-changeclient",
-                            header: "需求单转移工厂",
-                            content: innerText,
-                            yesFn: function () {
-                                var clientcode = $("#produceQuantity").val().trim();
-                                if (!clientcode || clientcode.length < 6) {
-                                    alert("工厂编码不能小于6位字符！");
-                                    return false;
-                                }
-
-                            },
-                            callback: function () {
-
-                            }
-                        }
-                    });
-
-                    $("#produceQuantity").focus();
-                    $("#produceQuantity").val($("#planQuantity").html())
-
-                });
-            });
-
             //更换流程
             $("#changeProcess").click(function () {
                 var _this = $(this);
@@ -312,7 +332,6 @@ define(function (require, exports, module) {
             if (model.BillingID) {
                 $("#infoPaymoney").text(model.PayMoney.toFixed(2));
                 _self.getPays(model.BillingPays, true);
-                _self.getInvoices(model.BillingInvoices, true);
 
                 //申请开票
                 if (model.InvoiceStatus == 0) {
@@ -388,7 +407,7 @@ define(function (require, exports, module) {
         });
     }
 
-    //转移工厂
+    //设置利润比例
     ObjectJS.updateProfitPrice = function (profit) {
         var _self = this;
         Global.post("/Orders/UpdateProfitPrice", {
@@ -552,7 +571,6 @@ define(function (require, exports, module) {
         Global.post("/Finance/SaveBillingInvoice", { entity: JSON.stringify(model) }, function (data) {
             if (data.item.InvoiceID) {
                 $("#addInvoice").hide();
-                _self.getInvoices([data.item], false)
             } else {
                 alert("已提交过申请，不能重复操作！");
             }
@@ -570,37 +588,6 @@ define(function (require, exports, module) {
             innerhtml = $(innerhtml);
 
             $("#navPays .tr-header").after(innerhtml);
-        });
-    }
-
-    //绑定开票列表
-    ObjectJS.getInvoices = function (items, empty) {
-        var _self = this;
-        if (empty) {
-            $("#navInvoices .tr-header").nextAll().remove();
-        }
-        doT.exec("template/finance/billinginvoices.html", function (template) {
-            var innerhtml = template(items);
-            innerhtml = $(innerhtml);
-
-            innerhtml.find(".ico-dropdown").each(function () {
-                if ($(this).data("status") == 1) {
-                    $(this).remove();
-                }
-            });
-            innerhtml.find(".dropdown").click(function () {
-                var _this = $(this);
-                if ($(this).data("status") != 1) {
-                    var position = _this.find(".ico-dropdown").position();
-                    $(".dropdown-ul li").data("id", _this.data("id")).data("billingid", _this.data("billingid"));
-                    $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 50 }).show().mouseleave(function () {
-                        $(this).hide();
-                    });
-                }
-                return false;
-            });
-
-            $("#navInvoices .tr-header").after(innerhtml);
         });
     }
 
