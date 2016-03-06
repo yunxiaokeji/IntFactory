@@ -17,7 +17,7 @@
     <td class="center">{%=item.CustomerName%}</td>
     <td class="center">{%=item.MobileTele||"--"%}</td>
     <td class='center'>{%=(item.Owner ? item.Owner.Name:"--")%}</td>
-    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class='center'>{%=item.EntrustTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     <td class="center dropdown" data-id="{%=item.OrderID%}" data-userid="{%=item.OwnerID%}">
     </td>
 </tr>
