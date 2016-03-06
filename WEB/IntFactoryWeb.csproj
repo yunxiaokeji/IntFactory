@@ -185,6 +185,7 @@
     <Content Include="modules\images\selforder\liuc_03.png" />
     <Content Include="modules\images\selforder\shot_03.png" />
     <Content Include="modules\images\selforder\shot_05.png" />
+    <Content Include="modules\images\selforder\success.png" />
     <Content Include="modules\images\selforder\title-img.png" />
     <Content Include="modules\images\selforder\title-logo.png" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
@@ -784,6 +785,7 @@
     <Content Include="Views\Customer\OrderDetailDH.cshtml" />
     <Content Include="Views\Home\SelfOrder.cshtml" />
     <Content Include="Views\System\OrderCategory.cshtml" />
+    <Content Include="Views\Home\OrderSuccess.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -278,6 +278,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetChildOrderCategorysByID(string categoryid)
+        {
+            var list = new ProductsBusiness().GetClientCategorysByPID(categoryid, EnumCategoryType.Order, CurrentUser.ClientID);
+            JsonDictionary.Add("Items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         /// <summary>
         /// 获取分类详情
         /// </summary>

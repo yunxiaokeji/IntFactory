@@ -2,6 +2,7 @@
 /*页头*/
 .pay-body{width:1000px;margin:0 auto;}
 .pay-title{height:30px;padding:20px 0;color:#4a98e7;border-bottom:2px solid #4a98e7;}
+.pay-title-name i{width:40px;height:40px;}
 .pay-title-name span{font-size:1.4em;line-height:30px;vertical-align:middle;}
 /*内容*/
 .pay-content{padding-bottom:20px;background:url(/modules/images/selforder/bottom-bg.png) no-repeat bottom right;}
@@ -24,7 +25,7 @@ td .check{margin-right:10px;}
 .inputbox,.inputbox1,.inputbox2{height:30px;padding-left:10px;border:1px solid #ccc;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;}
 .inputbox{width:90px;}.inputbox1{width:150px;}.inputbox2{width:520px;}
 .button-add{width:100px;height:30px;color:#fff;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;}
-
+.addimg{width:145px;height:145px;}
 .text{vertical-align:top;}
 .textarea{width:520px;height:120px;padding-left:10px;margin-top:-6px;line-height:30px;border:1px solid #ccc;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;}
 .address{float:left;margin-right:20px;}
@@ -34,9 +35,11 @@ td .check{margin-right:10px;}
 /*页脚*/
 .pay-bottom{padding:10px 0 40px;border-top:1px solid #ccc;}
 .pay-bottom p{font-size:.7em;text-align:right;color:#999;}
-
-
-.order-imgs { width:400px; height:60px;}
-.order-imgs li{ width:60px; height:60px; float:left; margin-right:20px; position:relative;}
-.order-imgs li img{ width:60px; height:60px; }
-.order-imgs .ico-delete { position:absolute; top:-8px; right:-8px; background-color:#fff; border-radius:12px;  }
+/*下单成功*/
+.success{width:500px;margin:200px auto 300px;}
+.success-order{display:block;background:url(/modules/images/selforder/success.png) no-repeat 0 0;}
+.success ul{padding:120px 25px 0;}.success li{margin:10px 0;color:#999;}.success .query{color:#000;}
+.success-btn{margin:30px 0;text-align:center;}
+.btn-order{display:inline-block;width:170px;height:50px; line-height:50px; margin-right:0px;color:#fff;background:#4a98e7;border:1px solid #4a98e7;border-radius:5px;moz-border-radius:5px;-webkit-border-radius:5px;}.btn-order:hover{background:#318ae4;}
+.btn-query{display:inline-block;width:170px;height:50px;color:#4a98e7;background:#fff;border:1px solid #4a98e7;border-radius:5px;moz-border-radius:5px;-webkit-border-radius:5px;}
+.btn-query:hover{color:#318ae4;border:1px solid #318ae4;}

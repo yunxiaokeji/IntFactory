@@ -103,6 +103,17 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public OrderEntity GetOrderByID(string orderid)
+        {
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderByID(orderid);
+            OrderEntity model = new OrderEntity();
+            if (dt.Rows.Count > 0)
+            {
+                model.FillData(dt.Rows[0]);
+            }
+            return model;
+        }
+
         public OrderEntity GetOrderByID(string orderid, string agentid, string clientid)
         {
             DataSet ds = OrdersDAL.BaseProvider.GetOrderByID(orderid, agentid, clientid);

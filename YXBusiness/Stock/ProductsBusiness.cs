@@ -478,6 +478,23 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<Category> GetClientCategorysByPID(string categoryid, EnumCategoryType type, string clientid)
+        {
+            var dal = new ProductsDAL();
+            DataTable dt = dal.GetClientCategorysByPID(categoryid, (int)type, clientid);
+
+            List<Category> list = new List<Category>();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                Category model = new Category();
+                model.FillData(dr);
+                list.Add(model);
+
+            }
+            return list;
+        }
+
         public Category GetCategoryByID(string categoryid)
         {
             if (CacheCategory.Where(m => m.CategoryID.ToLower() == categoryid.ToLower()).Count() > 0)
