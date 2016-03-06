@@ -11,17 +11,17 @@ namespace IntFactoryEntity.Manage
 {
     public class ManageSystemBusiness
     {
-        private static List<Role> _cacheRoles;
+        private static List<M_Role> _cacheRoles;
         /// <summary>
         /// 缓存角色信息
         /// </summary>
-        private static List<Role> Roles
+        private static List<M_Role> Roles
         {
             get
             {
                 if (_cacheRoles == null)
                 {
-                    _cacheRoles = new List<Role>();
+                    _cacheRoles = new List<M_Role>();
                 }
                 return _cacheRoles;
             }
@@ -55,9 +55,12 @@ namespace IntFactoryEntity.Manage
 
             SystemMenu item = new SystemMenu();
             DataTable dt = SystemDAL.BaseProvider.GetSystemMenu(menuCode);
-            item.FillData(dt.Rows[0]);
-            if (!string.IsNullOrEmpty(item.PCode))
-                item.PCodeName = GetSystemMenu(item.PCode).Name;
+            if (dt.Rows.Count > 0)
+            {
+                item.FillData(dt.Rows[0]);
+                if (!string.IsNullOrEmpty(item.PCode))
+                    item.PCodeName = GetSystemMenu(item.PCode).Name;
+            }
 
             return item;
         }
@@ -82,15 +85,15 @@ namespace IntFactoryEntity.Manage
         /// <summary>
         /// 获取角色列表
         /// </summary>
-        public static List<Role> GetRoles()
+        public static List<M_Role> GetRoles()
         {
             if (Roles.Count==0)
             {
                 DataTable dt = new SystemDAL().GetRoles();
-                List<Role> list = new List<Role>();
+                List<M_Role> list = new List<M_Role>();
                 foreach (DataRow dr in dt.Rows)
                 {
-                    Role model = new Role();
+                    M_Role model = new M_Role();
                     model.FillData(dr);
                     list.Add(model);
                 }
@@ -109,7 +112,7 @@ namespace IntFactoryEntity.Manage
         /// <param name="roleid"></param>
         /// <param name="agentid"></param>
         /// <returns></returns>
-        public static Role GetRoleByIDCache(string roleid)
+        public static M_Role GetRoleByIDCache(string roleid)
         {
             return GetRoles().Where(r => r.RoleID == roleid).FirstOrDefault();
         }
@@ -120,13 +123,13 @@ namespace IntFactoryEntity.Manage
         /// <param name="roleid"></param>
         /// <param name="agentid"></param>
         /// <returns></returns>
-        public static Role GetRoleByID(string roleid)
+        public static M_Role GetRoleByID(string roleid)
         {
-            Role model = null;
+            M_Role model = null;
             DataSet ds = SystemDAL.BaseProvider.GetRoleByID(roleid);
             if (ds.Tables.Contains("Role") && ds.Tables["Role"].Rows.Count > 0)
             {
-                model = new Role();
+                model = new M_Role();
                 model.FillData(ds.Tables["Role"].Rows[0]);
                 model.Menus = new List<Menu>();
                 foreach (DataRow dr in ds.Tables["Menus"].Rows)
@@ -146,7 +149,7 @@ namespace IntFactoryEntity.Manage
             if (bl)
             {
                 //处理缓存
-                var role = new Role()
+                var role = new M_Role()
                 {
                     RoleID = roleid,
                     Name = name,

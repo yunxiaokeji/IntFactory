@@ -20,6 +20,11 @@ namespace YXManage.Controllers
             return View();
         }
 
+         public ActionResult Users()
+         {
+             return View();
+         }
+
          public ActionResult Menu()
          {
              return View();
@@ -40,6 +45,8 @@ namespace YXManage.Controllers
              ViewBag.Model = model;
              ViewBag.MenuCode = menuCode;
              ViewBag.PCodeName = pCodeName;
+             ViewBag.Layer = 1;
+             ViewBag.PCode = string.Empty;
 
              return View();
          }
@@ -73,7 +80,7 @@ namespace YXManage.Controllers
          public ActionResult RolePermission(string id)
          {
              ViewBag.Model = ManageSystemBusiness.GetRoleByID(id);
-             ViewBag.Menus = CommonBusiness.ClientMenus.Where(m => m.PCode == ExpandClass.CLIENT_TOP_CODE).ToList();
+             ViewBag.Menus = CommonBusiness.ManageMenus.Where(m => m.PCode == ExpandClass.CLIENT_TOP_CODE).ToList();
              return View();
          }
         #endregion
@@ -141,7 +148,7 @@ namespace YXManage.Controllers
             };
         }
 
-        public JsonResult SaveSystemMenu(string menu)
+        public JsonResult SaveSystemMenu(string menu, string menucode)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             SystemMenu model = serializer.Deserialize<SystemMenu>(menu);
@@ -153,7 +160,9 @@ namespace YXManage.Controllers
             }
             else
             {
-                model.MenuCode = DateTime.Now.Ticks.ToString();
+                if (string.IsNullOrEmpty(model.PCode))
+                    model.PCode = "100000000";
+                model.MenuCode = menucode;
                 model.Type = 2;
                 flag = ManageSystemBusiness.AddSystemMenu(model);
             }
@@ -278,6 +287,33 @@ namespace YXManage.Controllers
             bool bl = new ManageSystemBusiness().UpdateRolePermission(roleid, permissions, CurrentUser.UserID, OperateIP);
             JsonDictionary.Add("status", bl);
             return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetUsers(string keyWords,int pageIndex)
+        {
+            int totalCount = 0, pageCount = 0;
+            var list =M_UsersBusiness.GetUsers(keyWords,string.Empty, PageSize, pageIndex, ref totalCount, ref pageCount);
+
+            JsonDictionary.Add("Items", list);
+            JsonDictionary.Add("TotalCount", totalCount);
+            JsonDictionary.Add("PageCount", pageCount);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetUserDetail(string id)
+        {
+            var item = M_UsersBusiness.GetUserDetail(id);
+
+            JsonDictionary.Add("Item", item);
+            return new JsonResult()
             {
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
