@@ -285,7 +285,11 @@
         $(".tr-header").nextAll().remove();
 
         if (data.items.length > 0) {
-            doT.exec("template/orders/orders.html", function (template) {
+            var url = "template/orders/orders.html";
+            if (Params.SearchType == 4) {
+                url = "template/orders/entrustorders.html";
+            }
+            doT.exec(url, function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
 

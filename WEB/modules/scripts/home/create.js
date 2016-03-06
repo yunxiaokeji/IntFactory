@@ -124,7 +124,7 @@
         };
         Global.post("/Home/CreateOrder", { entity: JSON.stringify(model) }, function (data) {
             if (data.id) {
-                location.href = location.href;
+                location.href = "/Home/OrderSuccess/" + data.id;
                 
             } else {
                 alert("网络异常,请稍后重试!");

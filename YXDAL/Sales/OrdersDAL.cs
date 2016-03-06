@@ -81,6 +81,16 @@ namespace IntFactoryDAL
             return ds;
         }
 
+        public DataTable GetOrderByID(string orderid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@OrderID",orderid)
+                                   };
+
+            DataTable dt = GetDataTable("Select * from Orders where OrderID=@OrderID", paras, CommandType.Text);
+            return dt;
+        }
+
         public DataSet GetOrderByID(string orderid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
@@ -291,6 +301,19 @@ namespace IntFactoryDAL
                                    };
 
             return ExecuteNonQuery("P_UpdateProfitPrice", paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool UpdateOrderClient(string orderid, string  newclientid, string operateid, string agentid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@NewClientID",newclientid),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@AgentID" , agentid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            return ExecuteNonQuery("P_UpdateOrderClient", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool UpdateOrderPlatemaking(string orderid, string platemaking)

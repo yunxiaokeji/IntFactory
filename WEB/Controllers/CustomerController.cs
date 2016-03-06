@@ -76,9 +76,16 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult EntrustOrders()
+        {
+            ViewBag.Title = "委托订单列表";
+            ViewBag.Type = (int)EnumSearchType.Entrust;
+            return View();
+        }
+
         public ActionResult CreateOrder(string cid)
         {
-            var list = new ProductsBusiness().GetChildCategorysByID("", EnumCategoryType.Order);
+            var list = new ProductsBusiness().GetClientCategorysByPID("", EnumCategoryType.Order, CurrentUser.ClientID);
             ViewBag.CID = cid;
             ViewBag.Items = list;
             return View();
@@ -351,6 +358,19 @@ namespace YXERP.Controllers
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
 
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+
+        public JsonResult GetClientByKeywords(string keywords)
+        {
+            int totalCount = 0, pageCount = 0;
+            var list = IntFactoryBusiness.Manage.ClientBusiness.GetClients(keywords, 20, 1, ref totalCount, ref pageCount);
+            JsonDictionary.Add("items", list);
             return new JsonResult
             {
                 Data = JsonDictionary,

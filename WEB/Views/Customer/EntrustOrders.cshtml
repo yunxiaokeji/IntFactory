@@ -1,0 +1,90 @@
+﻿@{
+    
+}
+
+@section scripts{
+    <script src="/modules/plug/laydate/laydate.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/orders/orders"], function (ObjectJS) {
+            ObjectJS.init('@ViewBag.Type');
+        });
+        $(function () {
+            var begin = {
+                elem: '#BeginTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                    end.start = datas //将结束日的初始值设定为开始日
+                }
+            };
+
+            var end = {
+                elem: '#EndTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    begin.max = datas; //结束日选好后，重置开始日的最大日期
+                }
+            };
+            laydate(begin);
+            laydate(end);
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">@ViewBag.Title</span>
+</div>
+<div class="search-box">
+    <div class="search-header">
+        <ul class="search-tab search-status">
+            <li data-id="-1" class="hover">全部订单</li>
+            <li data-id="0" class="">需求单</li>
+            <li data-id="1" class="">打样中</li>
+            <li data-id="2" class="">合价中</li>
+            <li data-id="3" class="">封样封价</li>
+            <li data-id="4" class="">待大货</li>
+            <li data-id="5" class="">生产中</li>
+            <li data-id="6" class="">生产完成</li>
+            <li data-id="7" class="">交易结束</li>
+        </ul>
+    </div>
+</div>
+<div class="content-body">
+    <div class="search-body">
+        <div class="left" id="orderType"></div>
+        <div class="left mLeft20" id="payStatus"></div>
+        @*<div class="left mLeft20" id="invoiceStatus"></div>*@
+        <div class="left mLeft20">
+            <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input width80"  />
+            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width80"  />
+            <span class="btn mLeft10" id="btnSearch">搜索</span>
+        </div>
+        <div class="right searth-module" data-text="关键字搜索..." data-width="160"> </div>
+    </div>
+    <table class="table-list mTop10">
+        <tr class="tr-header">
+            <td class="width30"></td>
+            <td class="tLeft width50">样图</td>
+            <td class="tLeft width150">订单编号</td>
+            <td class="width100">订单类型</td>
+            <td class="width80">状态</td>
+            <td class="width80">进度</td>
+            <td class="width100">加工数量</td>
+            <td class="width100">单价</td>
+            <td class="width80 tRight">总金额</td>
+            <td class="center">客户</td>
+            <td class="width100">联系电话</td>     
+            <td class="width100">负责人</td>
+            @*<td class="width100">发货状态</td>*@
+            <td class="width150">委托时间</td>
+            <td class="width50">操作</td>
+        </tr>
+    </table>
+    <div id="pager" class="mTop20"></div>
+</div>
+

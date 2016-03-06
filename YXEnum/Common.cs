@@ -80,7 +80,11 @@ namespace IntFactoryEnum
         /// <summary>
         /// 所有
         /// </summary>
-        All = 3
+        All = 3,
+        /// <summary>
+        /// 委托
+        /// </summary>
+        Entrust = 4
     }
 
 }

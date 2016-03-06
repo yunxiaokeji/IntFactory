@@ -185,6 +185,7 @@
     <Content Include="modules\images\selforder\liuc_03.png" />
     <Content Include="modules\images\selforder\shot_03.png" />
     <Content Include="modules\images\selforder\shot_05.png" />
+    <Content Include="modules\images\selforder\success.png" />
     <Content Include="modules\images\selforder\title-img.png" />
     <Content Include="modules\images\selforder\title-logo.png" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
@@ -234,6 +235,10 @@
     <Content Include="modules\plug\chooseprocess\chooseprocess.js" />
     <Content Include="modules\plug\chooseprocess\process.html" />
     <Content Include="modules\plug\chooseprocess\style.css" />
+    <Content Include="modules\plug\choosefactory\choosefactory.html" />
+    <Content Include="modules\plug\choosefactory\choosefactory.js" />
+    <Content Include="modules\plug\choosefactory\factory.html" />
+    <Content Include="modules\plug\choosefactory\style.css" />
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
@@ -252,6 +257,7 @@
     <Content Include="modules\template\orders\surequantity.html" />
     <Content Include="modules\template\orders\sureprice.html" />
     <Content Include="modules\template\orders\updateProfitPrice.html" />
+    <Content Include="modules\template\orders\entrustorders.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
@@ -571,11 +577,9 @@
     <Content Include="modules\scripts\myaccount\setavatar.js" />
     <Content Include="modules\scripts\myaccount\setpassword.js" />
     <Content Include="modules\scripts\myaccount\account.js" />
-    <Content Include="modules\scripts\orders\confirmorder.js" />
     <Content Include="modules\scripts\orders\orders.js" />
     <Content Include="modules\scripts\orders\detail.js" />
     <Content Include="modules\scripts\orders\applydetail.js" />
-    <Content Include="modules\scripts\orders\opportunitys.js" />
     <Content Include="modules\scripts\organization\roles.js" />
     <Content Include="modules\scripts\organization\users.js" />
     <Content Include="modules\scripts\organization\structure.js" />
@@ -635,7 +639,6 @@
     <Content Include="modules\template\orders\orders.html" />
     <Content Include="modules\template\orders\customerorders.html" />
     <Content Include="modules\plug\sharemingdao\demo.js" />
-    <Content Include="modules\template\orders\opportunitys.html" />
     <Content Include="modules\template\orders\customeroppors.html" />
     <Content Include="modules\template\purchase\provider-detail.html" />
     <Content Include="modules\template\purchase\providers.html" />
@@ -784,6 +787,8 @@
     <Content Include="Views\Customer\OrderDetailDH.cshtml" />
     <Content Include="Views\Home\SelfOrder.cshtml" />
     <Content Include="Views\System\OrderCategory.cshtml" />
+    <Content Include="Views\Home\OrderSuccess.cshtml" />
+    <Content Include="Views\Customer\EntrustOrders.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

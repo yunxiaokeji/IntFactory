@@ -288,6 +288,17 @@ namespace IntFactoryDAL
             return dt;
         }
 
+        public DataTable GetClientCategorysByPID(string categoryid, int type, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@PID", categoryid), 
+                                       new SqlParameter("@Type", type), 
+                                       new SqlParameter("@ClientID", clientid)
+                                   };
+            DataTable dt = GetDataTable("select c.* from OrderCategory o join Category c on o.CategoryID=c.CategoryID where c.PID=@PID and c.CategoryType=@Type and o.ClientID=@ClientID and Status<>9 Order by CreateTime", paras, CommandType.Text);
+            return dt;
+        }
+
         public DataTable GetCategoryByID(string categoryid)
         {
             SqlParameter[] paras = { new SqlParameter("@CategoryID", categoryid) };
