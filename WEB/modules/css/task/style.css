@@ -78,3 +78,9 @@ width:60px;
 .order-imgs-list li.hover{ border-color:red;}
 .order-imgs-list img{ width:40px; height:40px;}
 
+/*设置员工角色*/
+.role-items { width:336px; overflow:auto; }
+.role-items li{ width:100px; height:35px; float:left; line-height:35px; border:solid 1px #ccc; margin:10px 5px; text-align:center; cursor:pointer; }
+.role-items li:hover{ border-color:#2F73B8; color:#2F73B8;}
+.role-items li.hover{ border-color:#2F73B8; color:#fff; background-color:#2F73B8;}
+

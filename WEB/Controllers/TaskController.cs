@@ -23,7 +23,11 @@ namespace YXERP.Controllers
 
             var task = TaskBusiness.GetTaskDetail(id);
             ViewBag.Model = task;
-            ViewBag.Order = OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
+
+            var order=OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
+            ViewBag.Order = order;
+
+            ViewBag.ProductAttr = new ProductsBusiness().GetTaskPlateAttrByCategoryID(order.CategoryID);
             return View();
         }
 

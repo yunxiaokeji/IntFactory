@@ -348,6 +348,28 @@ namespace IntFactoryBusiness
             return model;
         }
 
+        public ProductAttr GetTaskPlateAttrByCategoryID(string categoryid)
+        {
+            var dal = new ProductsDAL();
+            DataSet ds = dal.GetTaskPlateAttrByCategoryID(categoryid);
+
+            ProductAttr model = new ProductAttr();
+            if (ds.Tables.Contains("Attrs") && ds.Tables["Attrs"].Rows.Count > 0)
+            {
+                model.FillData(ds.Tables["Attrs"].Rows[0]);
+                model.AttrValues = new List<AttrValue>();
+                foreach (DataRow item in ds.Tables["Values"].Rows)
+                {
+                    AttrValue attrValue = new AttrValue();
+                    attrValue.FillData(item);
+                    model.AttrValues.Add(attrValue);
+                }
+                CacheAttrs.Add(model);
+            }
+
+            return model;
+        }
+
         public string AddAttr(string attrname, string description, string categoryID, int type, string operateid)
         {
             var attrid = Guid.NewGuid().ToString().ToLower();
