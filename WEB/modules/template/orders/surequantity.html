@@ -1,8 +1,24 @@
-﻿
-<ul class="easydialog-create">
-    <li>
-        <span class="width80">数量：</span>
-        <span><input type="text" maxlength="10" id="produceQuantity"  value="" /></span> 
-    </li>
-</ul>
+﻿{%
+	var model = $data;
+%}
+<div class="cart-attrs" id="saleattr">
+    {%
+    for(var i=0, j=model.SaleAttrs.length; i < j; i++){
+	    var attr = model.SaleAttrs[i];
+    %}
+        <ul class="cart-attr-item salesattr" data-id="{%= attr.AttrID%}">
+            <li class="cart-attrkey">{%= attr.AttrName%}：</li>
+            <li class="cart-attrValues">
+                <ul>
+                    {%
+                    for(var ii=0, jj=attr.AttrValues.length; ii < jj; ii++){
+	                    var value = attr.AttrValues[ii];
+                    %}
+                        <li class="cart-value" data-id="{%=value.ValueID%}">{%=value.ValueName%}</li>  
+                    {% } %}
+                </ul>
+            </li>
+        </ul>
+    {% } %}
+</div>
 

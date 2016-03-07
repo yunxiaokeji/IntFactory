@@ -52,8 +52,12 @@
             <label>@(model.MobileTele)</label>
         </li> 
         <li>
-            <span class="column-title">来源打样单：</span>
+            <span class="column-title">打样订单：</span>
             <a href="/Customer/OrderDetail/@(model.OriginalID)" class="" target="_blank">@(model.OriginalCode)</a>
+            @if (string.IsNullOrEmpty(model.OriginalID))
+            {
+                <div class="btn" id="bindOriginalOrder">绑定打样款号</div> 
+            }
         </li>
         <li>
             <span class="column-title">成本：</span>
@@ -89,8 +93,14 @@
         </li>
     </ul>
     <ul class="right status-items">
-        <li data-status="4">
+        <li data-status="0">
             <span class="status-time mRight5">@(model.CreateTime.ToString("yyyy-MM-dd"))</span>
+            <span class="status-bg"></span>
+            <span class="mLeft5">需求单</span>
+        </li>
+        <li data-status="4"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
+        <li data-status="4">
+            <span class="status-time mRight5">@(model.OrderTime.ToString("yyyy-MM-dd"))</span>
             <span class="status-bg"></span>
             <span class="mLeft5">待大货</span>
         </li>
@@ -233,6 +243,3 @@
         </div>
     </div>
 </div>
-<ul class="dropdown-ul hide" style="width:65px;">
-    <li id="deleteInvoice">撤销</li>
-</ul>

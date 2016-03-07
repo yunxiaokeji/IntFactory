@@ -279,6 +279,7 @@
             _self.bindList(data);
         });
     }
+
     //加载列表
     ObjectJS.bindList = function (data) {
         var _self = this;

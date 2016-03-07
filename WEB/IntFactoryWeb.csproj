@@ -239,6 +239,10 @@
     <Content Include="modules\plug\choosefactory\choosefactory.js" />
     <Content Include="modules\plug\choosefactory\factory.html" />
     <Content Include="modules\plug\choosefactory\style.css" />
+    <Content Include="modules\plug\chooseorder\chooseorder.html" />
+    <Content Include="modules\plug\chooseorder\chooseorder.js" />
+    <Content Include="modules\plug\chooseorder\order.html" />
+    <Content Include="modules\plug\chooseorder\style.css" />
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />

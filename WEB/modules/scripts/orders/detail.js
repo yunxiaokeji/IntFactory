@@ -6,6 +6,7 @@ define(function (require, exports, module) {
         doT = require("dot"),
         ChooseUser = require("chooseuser"),
         ChooseFactory = require("choosefactory"),
+        ChooseOrder = require("chooseorder"),
         ChooseProcess = require("chooseprocess"),
         Easydialog = require("easydialog");
     require("pager");
@@ -218,7 +219,28 @@ define(function (require, exports, module) {
             });
         }
 
-        //转移拥有者
+        //绑定打样单
+        $("#bindOriginalOrder").click(function () {
+            var _this = $(this);
+            ChooseOrder.create({
+                title: "绑定打样订单",
+                callback: function (items) {
+                    if (items.length > 0) {
+                        Global.post("/Orders/UpdateOrderOriginalID", {
+                            orderid: _self.orderid,
+                            originalorderid: items[0].id,
+                            name: items[0].name
+                        }, function (data) {
+                            if (data.status) {
+                                alert("绑定打样订单成功!", location.href);
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+        //更换负责人
         $("#changeOwner").click(function () {
             var _this = $(this);
             ChooseUser.create({
@@ -237,7 +259,7 @@ define(function (require, exports, module) {
                                 }
                             });
                         } else {
-                            alert("请选择不同人员进行转移!");
+                            alert("请选择不同人员进行更换!");
                         }
                     }
                 }
@@ -285,30 +307,31 @@ define(function (require, exports, module) {
                 });
             } //大货下单
             else if (_self.status == 3) {
-                doT.exec("template/orders/surequantity.html", function (template) {
-                    var innerText = template();
-                    Easydialog.open({
-                        container: {
-                            id: "show-surequantity",
-                            header: "确认大货数量",
-                            content: innerText,
-                            yesFn: function () {
-                                var quantity = $("#produceQuantity").val().trim();
-                                if (!quantity.isInt() || quantity <= 0) {
-                                    alert("大货数量必须为正整数！");
-                                    return false;
+                Global.post("/Products/GetCategoryDetailsByID", { categoryid: _self.model.CategoryID }, function (data) {
+                    console.log(data.Model);
+                    doT.exec("template/orders/surequantity.html", function (template) {
+                        var innerText = template(data.Model);
+                        Easydialog.open({
+                            container: {
+                                id: "show-surequantity",
+                                header: "确认大货数量",
+                                content: innerText,
+                                yesFn: function () {
+                                    var quantity = $("#produceQuantity").val().trim();
+                                    if (!quantity.isInt() || quantity <= 0) {
+                                        alert("大货数量必须为正整数！");
+                                        return false;
+                                    }
+                                    _self.updateOrderStatus(4, quantity, 0);
+                                },
+                                callback: function () {
+
                                 }
-                                _self.updateOrderStatus(4, quantity, 0);
-                            },
-                            callback: function () {
-
                             }
-                        }
+                        });
                     });
-
-                    $("#produceQuantity").focus();
-                    $("#produceQuantity").val($("#planQuantity").html())
                 });
+                
             }//开始生产
             else if (_self.status == 4) {
                 confirm("开始生产后不可撤销且不能变更流程，确认开始生产吗？", function () {
@@ -326,22 +349,6 @@ define(function (require, exports, module) {
         $("#updateOrderInfo").click(function () {
             _self.editOrder(_self.model);
         });
-
-        Global.post("/Finance/GetOrderBillByID", { id: _self.orderid }, function (data) {
-            var model = data.model;
-            if (model.BillingID) {
-                $("#infoPaymoney").text(model.PayMoney.toFixed(2));
-                _self.getPays(model.BillingPays, true);
-
-                //申请开票
-                if (model.InvoiceStatus == 0) {
-                    _self.billingid = model.BillingID;
-                    $("#addInvoice").click(function () {
-                        _self.addInvoice();
-                    });
-                }
-            }
-        });  
 
         //删除发票信息
         $("#deleteInvoice").click(function () {
@@ -369,13 +376,28 @@ define(function (require, exports, module) {
             $(".nav-partdiv").hide();
             $("#" + _this.data("id")).show();
 
-            $("#addInvoice").hide();
-
             if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getLogs(1);
-            } else if (_this.data("id") == "navInvoices" && _self.billingid) {
-                $("#addInvoice").show();
+            } 
+        });
+    }
+
+    //绑定账单
+    ObjectJS.getOrderBills = function () {
+        Global.post("/Finance/GetOrderBillByID", { id: _self.orderid }, function (data) {
+            var model = data.model;
+            if (model.BillingID) {
+                $("#infoPaymoney").text(model.PayMoney.toFixed(2));
+                _self.getPays(model.BillingPays, true);
+
+                //申请开票
+                if (model.InvoiceStatus == 0) {
+                    _self.billingid = model.BillingID;
+                    $("#addInvoice").click(function () {
+                        _self.addInvoice();
+                    });
+                }
             }
         });
     }
@@ -455,7 +477,7 @@ define(function (require, exports, module) {
                             PostalCode: "",//$("#postalcode").val().trim(),
                             Remark: $("#remark").val().trim()
                         };
-                        Global.post("/Opportunitys/EditOrder", { entity: JSON.stringify(entity) }, function (data) {
+                        Global.post("/Orders/EditOrder", { entity: JSON.stringify(entity) }, function (data) {
                             if (data.status) {
                                 location.href = location.href;
                             } else {

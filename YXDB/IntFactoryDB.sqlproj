@@ -463,11 +463,14 @@
     <None Include="Procedures\System\P_CreateOrderProcess.sql" />
     <None Include="Procedures\System\P_DeletetOrderStage.sql" />
     <Build Include="Procedures\System\P_InsertOrderStage.sql" />
-    <Build Include="Procedures\System\P_UpdateOrderProcessDefault.sql" />
+    <None Include="Procedures\System\P_UpdateOrderProcessDefault.sql" />
     <None Include="Procedures\System\P_UpdateOrderCategory.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Task\P_GetTaskPlateAttrByCategoryID.sql" />
     <None Include="Procedures\Sales\P_UpdateOrderClient.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_UpdateOrderOriginalID.sql" />
   </ItemGroup>
 </Project>

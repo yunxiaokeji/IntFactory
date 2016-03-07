@@ -427,6 +427,17 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateOrderOriginalID(string orderid, string originalorderid, string name, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderOriginalID(orderid, originalorderid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "绑定打样订单：" + name;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, originalorderid, agentid, clientid);
+            }
+            return bl;
+        }
+
         public bool UpdateOrderPlatemaking(string orderid, string platemaking) {
             return OrdersDAL.BaseProvider.UpdateOrderPlatemaking(orderid, platemaking);
         }
