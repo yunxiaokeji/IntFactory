@@ -258,6 +258,7 @@
     <Content Include="modules\scripts\system\ordercategory.js" />
     <Content Include="modules\scripts\task\detail.js" />
     <Content Include="modules\scripts\task\task.js" />
+    <Content Include="modules\template\orders\orders_child_list.html" />
     <Content Include="modules\template\orders\surequantity.html" />
     <Content Include="modules\template\orders\sureprice.html" />
     <Content Include="modules\template\orders\updateProfitPrice.html" />

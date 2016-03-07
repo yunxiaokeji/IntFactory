@@ -579,6 +579,47 @@ namespace IntFactoryBusiness
             return model;
         }
 
+        public Category GetOrderCategoryDetailsByID(string categoryid, string orderid)
+        {
+            var dal = new ProductsDAL();
+            DataSet ds = dal.GetOrderCategoryDetailsByID(categoryid, orderid);
+
+            Category model = new Category();
+            if (ds.Tables.Contains("Category") && ds.Tables["Category"].Rows.Count > 0)
+            {
+                model.FillData(ds.Tables["Category"].Rows[0]);
+                List<ProductAttr> salelist = new List<ProductAttr>();
+                List<ProductAttr> attrlist = new List<ProductAttr>();
+
+                foreach (DataRow attr in ds.Tables["Attrs"].Rows)
+                {
+
+                    ProductAttr modelattr = new ProductAttr();
+                    modelattr.FillData(attr);
+                    if (modelattr.Type == 1)
+                    {
+                        attrlist.Add(modelattr);
+                    }
+                    else if (modelattr.Type == 2)
+                    {
+                        salelist.Add(modelattr);
+                    }
+                    modelattr.AttrValues = new List<AttrValue>();
+                    foreach (DataRow value in ds.Tables["Values"].Select("AttrID='" + modelattr.AttrID + "'"))
+                    {
+                        AttrValue valuemodel = new AttrValue();
+                        valuemodel.FillData(value);
+                        modelattr.AttrValues.Add(valuemodel);
+                    }
+                }
+
+                model.SaleAttrs = salelist;
+                model.AttrLists = attrlist;
+            }
+
+            return model;
+        }
+
         public string AddCategory(string categoryCode, string categoryName, string pid, int type, int status, List<string> attrlist, List<string> saleattr, string description, string operateid)
         {
             var dal = new ProductsDAL();

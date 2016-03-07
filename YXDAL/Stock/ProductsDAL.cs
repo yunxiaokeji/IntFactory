@@ -336,6 +336,16 @@ namespace IntFactoryDAL
             return ds;
         }
 
+        public DataSet GetOrderCategoryDetailsByID(string categoryid, string orderid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@CategoryID", categoryid),
+                                       new SqlParameter("@OrderID", orderid) 
+                                   };
+            DataSet ds = GetDataSet("P_GetOrderCategoryDetailsByID", paras, CommandType.StoredProcedure, "Category|Attrs|Values");
+            return ds;
+        }
+
         public bool AddCategoryAttr(string categoryid, string attrid, int type, string operateid)
         {
             SqlParameter[] paras = { 

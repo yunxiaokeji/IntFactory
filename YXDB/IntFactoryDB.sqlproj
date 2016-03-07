@@ -476,4 +476,13 @@
   <ItemGroup>
     <None Include="Procedures\Task\P_UpdateOrderPlateAttr.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Products\P_GetOrderCategoryDetailsByID.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_CreateDHOrder.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_AddOrderGoods.sql" />
+  </ItemGroup>
 </Project>

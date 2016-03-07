@@ -166,9 +166,9 @@ define(function (require, exports, module) {
                     //绑定启用插件
                     innerText.find(".ico-del").click(function () {
                         var _this = $(this);
-                        if (confirm("确认删除此规格吗？")) {
+                        confirm("确认删除此规格吗？", function () {
                             _this.parents("tr.list-item").remove();
-                        }
+                        })
                     });
                 });
             }

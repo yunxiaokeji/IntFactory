@@ -307,31 +307,7 @@ define(function (require, exports, module) {
                 });
             } //大货下单
             else if (_self.status == 3) {
-                Global.post("/Products/GetCategoryDetailsByID", { categoryid: _self.model.CategoryID }, function (data) {
-                    console.log(data.Model);
-                    doT.exec("template/orders/surequantity.html", function (template) {
-                        var innerText = template(data.Model);
-                        Easydialog.open({
-                            container: {
-                                id: "show-surequantity",
-                                header: "确认大货数量",
-                                content: innerText,
-                                yesFn: function () {
-                                    var quantity = $("#produceQuantity").val().trim();
-                                    if (!quantity.isInt() || quantity <= 0) {
-                                        alert("大货数量必须为正整数！");
-                                        return false;
-                                    }
-                                    _self.updateOrderStatus(4, quantity, 0);
-                                },
-                                callback: function () {
-
-                                }
-                            }
-                        });
-                    });
-                });
-                
+                _self.createDHOrder();
             }//开始生产
             else if (_self.status == 4) {
                 confirm("开始生产后不可撤销且不能变更流程，确认开始生产吗？", function () {
@@ -380,6 +356,130 @@ define(function (require, exports, module) {
                 _this.data("first", "1");
                 _self.getLogs(1);
             } 
+        });
+    }
+    //大货下单
+    ObjectJS.createDHOrder = function () {
+        var _self = this;
+        Global.post("/Products/GetOrderCategoryDetailsByID", {
+            categoryid: _self.model.CategoryID,
+            orderid: _self.orderid
+        }, function (data) {
+            doT.exec("template/orders/surequantity.html", function (template) {
+                var innerText = template(data.Model);
+                Easydialog.open({
+                    container: {
+                        id: "show-surequantity",
+                        header: "大货下单",
+                        content: innerText,
+                        yesFn: function () {
+                            
+                            var details = [];
+                            $(".child-product-table .list-item").each(function () {
+                                var _this = $(this);
+                                var modelDetail = {
+                                    SaleAttr: _this.data("attr"),
+                                    AttrValue: _this.data("value"),
+                                    SaleAttrValue: _this.data("attrvalue"),
+                                    Quantity: _this.find(".quantity").val(),
+                                    Description: _this.data("name")
+                                };
+                                details.push(modelDetail);
+                            });
+                            if (details.length > 0) {
+                                var orderModel = {};
+                                orderModel.OrderID = _self.orderid;
+                                orderModel.OrderGoods = details;
+                                Global.post("/Orders/CreateDHOrder", { entity: JSON.stringify(orderModel) }, function (data) {
+                                    if (data.id) {
+                                        console.log(data.id)
+                                        alert("大货下单成功!");
+                                    } else {
+                                        alert("大货下单失败，请刷新页面重试！");
+                                    }
+                                })
+                            }
+                        },
+                        callback: function () {
+
+                        }
+                    }
+                });
+                //组合下单规格
+                $(".productsalesattr .attritem").click(function () {
+                    var bl = false, details = [], isFirst = true;
+                    $(".productsalesattr").each(function () {
+                        bl = false;
+                        var _attr = $(this), attrdetail = details;
+                        //组合规格
+                        _attr.find("input:checked").each(function () {
+                            bl = true;
+                            var _value = $(this);
+                            //首个规格
+                            if (isFirst) {
+                                var model = {};
+                                model.ids = _attr.data("id") + ":" + _value.val();
+                                model.saleAttr = _attr.data("id");
+                                model.attrValue = _value.val();
+                                model.names = _attr.data("text") + ":" + _value.data("text");
+                                model.layer = 1;
+                                model.guid = Global.guid();
+                                details.push(model);
+                            } else {
+                                for (var i = 0, j = attrdetail.length; i < j; i++) {
+                                    if (attrdetail[i].ids.indexOf(_value.data("id")) < 0) {
+                                        var model = {};
+                                        model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
+                                        model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
+                                        model.attrValue = attrdetail[i].attrValue + "," + _value.val();
+                                        model.names = attrdetail[i].names + "," + _attr.data("text") + ":" + _value.data("text");
+                                        model.layer = attrdetail[i].layer + 1;
+                                        model.guid = Global.guid();
+                                        details.push(model);
+                                    }
+                                }
+                            }
+                        });
+                        isFirst = false;
+                    });
+                    //选择所有属性
+                    if (bl) {
+                        var layer = $(".productsalesattr").length, items = [];
+                        for (var i = 0, j = details.length; i < j; i++) {
+                            var model = details[i];
+                            if (model.layer == layer) {
+                                items.push(model);
+                            }
+                        }
+                        $("#childGoodsQuantity").empty();
+                        //加载子产品
+                        doT.exec("template/orders/orders_child_list.html", function (templateFun) {
+                            var innerText = templateFun(items);
+                            innerText = $(innerText);
+                            $("#childGoodsQuantity").append(innerText);
+
+                            Easydialog.toPosition();
+
+                            //价格必须大于0的数字
+                            innerText.find(".quantity").change(function () {
+                                var _this = $(this);
+                                if (!_this.val().isInt() || _this.val() <= 0) {
+                                    _this.val("1");
+                                }
+                            });
+
+                            //绑定启用插件
+                            innerText.find(".ico-del").click(function () {
+                                var _this = $(this);
+                                confirm("确认删除此规格吗？", function () {
+                                    _this.parents("tr.list-item").remove();
+                                })
+                            });
+                        });
+
+                    }
+                });
+            });
         });
     }
 
@@ -483,7 +583,7 @@ define(function (require, exports, module) {
                             } else {
                                 alert("订单信息编辑失败，请刷新页面重试！");
                             }
-                        })
+                        });
                     },
                     callback: function () {
 

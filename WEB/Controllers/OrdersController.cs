@@ -175,6 +175,20 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult CreateDHOrder(string entity)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            OrderGoodsEntity model = serializer.Deserialize<OrderGoodsEntity>(entity);
+
+            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, model.OrderGoods, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("id", orderid);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult UpdateOrderOwner(string ids, string userid)
         {
             bool bl = false;

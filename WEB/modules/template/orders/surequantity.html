@@ -2,23 +2,35 @@
 	var model = $data;
 %}
 <div class="cart-attrs" id="saleattr">
+    <ul class="table-add product-add" >
+        <li data-id="{%=model.AttrLists[0].AttrID%}" data-text="{%=model.AttrLists[0].AttrName%}" class="productsalesattr">
+            <span class="column-name">{%= model.AttrLists[0].AttrName%}：</span>
+            {%
+            for(var ii=0, jj=model.AttrLists[0].AttrValues.length; ii < jj; ii++){
+	            var value = model.AttrLists[0].AttrValues[ii];
+            %}
+                <label class="mRight10"><input type="checkbox" class="attritem" data-id="{%=model.AttrLists[0].AttrID%}" data-text="{%=value.ValueName%}" value="{%=value.ValueID%}" />{%=value.ValueName%}</label> 
+ 
+            {% } %}
+        </li>
     {%
-    for(var i=0, j=model.SaleAttrs.length; i < j; i++){
-	    var attr = model.SaleAttrs[i];
+        for(var i=0, j=model.SaleAttrs.length; i < j; i++){
+	        var attr = model.SaleAttrs[i];
     %}
-        <ul class="cart-attr-item salesattr" data-id="{%= attr.AttrID%}">
-            <li class="cart-attrkey">{%= attr.AttrName%}：</li>
-            <li class="cart-attrValues">
-                <ul>
-                    {%
-                    for(var ii=0, jj=attr.AttrValues.length; ii < jj; ii++){
-	                    var value = attr.AttrValues[ii];
-                    %}
-                        <li class="cart-value" data-id="{%=value.ValueID%}">{%=value.ValueName%}</li>  
-                    {% } %}
-                </ul>
-            </li>
-        </ul>
+        <li data-id="{%=attr.AttrID%}" data-text="{%= attr.AttrName%}" class="productsalesattr">
+            <span class="column-name">{%= attr.AttrName%}：</span>
+            {%
+            for(var ii=0, jj=attr.AttrValues.length; ii < jj; ii++){
+	            var value = attr.AttrValues[ii];
+            %}
+                <label class="mRight10"><input type="checkbox" class="attritem" data-id="{%= attr.AttrID%}" data-text="{%=value.ValueName%}" value="{%=value.ValueID%}" />{%=value.ValueName%}</label> 
+ 
+            {% } %}
+        </li>
     {% } %}
+        <li id="childGoodsQuantity" style="max-height:200px;  overflow:auto;">
+         
+        </li>
+    </ul>
 </div>
 
