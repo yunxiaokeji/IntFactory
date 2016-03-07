@@ -470,4 +470,7 @@
     <None Include="Procedures\Task\P_GetTaskPlateAttrByCategoryID.sql" />
     <None Include="Procedures\Sales\P_UpdateOrderClient.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Task\P_UpdateOrderPlateAttr.sql" />
+  </ItemGroup>
 </Project>

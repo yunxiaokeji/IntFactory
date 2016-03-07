@@ -4,18 +4,20 @@
     var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
     var productAttr = (IntFactoryEntity.ProductAttr)ViewBag.ProductAttr;
 }
+@section css{
 <link href="/modules/css/task/style.css" rel="stylesheet" />
+}
+
 @section scripts{
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@(model.TaskID)', '@(model.StageID)', '@(model.OrderID)', '@(model.Mark)', '@(model.FinishStatus)', '@Html.ToJSONString(productAttr.AttrValues)');
+                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@Html.ToJSONString(productAttr.AttrValues)');
             });
 
             
             var images = '@order.OrderImages'.split(",");
-
             for (var i = 0; i < images.length; i++) {
                 if (images[i]) {
                     var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
@@ -34,6 +36,7 @@
         });
     </script>
 }
+
 <div class="header-box">
     <span class="header-title left">任务详情</span>
 </div>
@@ -97,17 +100,15 @@
                 <span>@(order.Remark)</span>
             </li>
         </ul>
+
         <div class="order-imgs-div right">
             <div class="order-imgs">
                 <img id="orderImage" onerror="document.getElementById('orderImage').src='/modules/images/img-noimg.png'" src="@( string.IsNullOrEmpty(model.OrderImg) ? "/modules/images/img-noimg.png" : model.OrderImg)" />
             </div>
-            <ul class="order-imgs-list">
-
-            </ul>
+            <ul class="order-imgs-list"></ul>
         </div>
         <div class="clear"></div>
 
-        
     </div>
 
     <div id="navTask" class="talk-body nav-partdiv">
@@ -139,26 +140,24 @@
                             <td class="center">@(detail.UnitName)</td>
                             <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                             @{
-                        if ( (model.Mark == 1 || model.Mark == 3 ) && model.FinishStatus!=2)
-                        {
+                                if ( (model.Mark == 1 || model.Mark == 3 ) && model.FinishStatus!=2)
+                                {
                                        
-                            <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
-                            <td class="center tr-loss"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Loss.ToString("f2"))" class="loss width50" value="@(detail.Loss.ToString("f2"))" /></td>
-                            <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
-                             <td class="center">
-                                <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
-                            </td>
-                        }
-                        else
-                        {
-                            <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
-                            <td class="center tr-loss">@(detail.Loss.ToString("f2"))</td>
-                            <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
-                            <td></td>
-                        }
-                   }
-                            
-                            
+                                    <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
+                                    <td class="center tr-loss"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Loss.ToString("f2"))" class="loss width50" value="@(detail.Loss.ToString("f2"))" /></td>
+                                    <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
+                                     <td class="center">
+                                        <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
+                                    <td class="center tr-loss">@(detail.Loss.ToString("f2"))</td>
+                                    <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
+                                    <td></td>
+                                }
+                           }
                         </tr>
                     }
 
@@ -173,115 +172,55 @@
                         <td></td>
                     </tr>
                 </table>
-            @{
-                if ((model.Mark == 1 || model.Mark == 3) && model.FinishStatus != 2)
+                @{
+                    if ((model.Mark == 1 || model.Mark == 3) && model.FinishStatus != 2)
                     {
-                    <a href="/Customer/ChooseProducts?id=@(model.OrderID)&tid=@(model.TaskID)" class="btn right mTop10">添加材料</a>
+                        <a href="/Customer/ChooseProducts?id=@(model.OrderID)&tid=@(model.TaskID)" class="btn right mTop10">添加材料</a>
                     }
-            }
+                }
                 <div class="clear"></div>
             </div>
 
         <div class="platemakingContent hide" id="platemakingContent">
             <div id="platemakingBody">
             @{
-               var len=productAttr.AttrValues.Count;
-               var data=productAttr.AttrValues;
-            if (string.IsNullOrEmpty(order.Platemaking))
-            {
-                <table class="table-list">
-                    <tr class="tr-header">
-                        @{for(var i=0;i<len;i++)
-                          {
-                              var item = @data[i];
-                            <td class="width100 tLeft" data-columnname="columnname_@(item.ValueID)" >
-                                <span class="tbContent">@item.ValueName</span>
-                                <span class="right ico-dropdown mRight5" data-columnname="columnname_@(item.ValueID)"></span>
-                            </td>
-                        }
-                        }
-@*                        <td class="width100 tLeft" data-columnname="columnname2">
-                            <span class="tbContent">列名2</span>
-                            <input class="hide tbContentIpt" value="列名2" type="text"/>
-                            <span class="right ico-dropdown mRight5" data-columnname="columnname2"></span>
-                        </td>
-                        <td class="width100 tLeft" data-columnname="columnname3">
-                            <span class="tbContent">列名3</span>
-                            <input class="hide tbContentIpt" value="列名3" type="text"/>
-                            <span class="right ico-dropdown mRight5" data-columnname="columnname3"></span>
-                        </td>
-                            <td class="width100 tLeft" data-columnname="columnname4">
-                            <span class="tbContent">列名4</span>
-                            <input class="hide tbContentIpt" value="列名4" type="text"/>
-                            <span class="right ico-dropdown mRight5" data-columnname="columnname4"></span>
-                        </td>
-                        <td class="width100 tLeft" data-columnname="columnname5">
-                            <span class="tbContent">列名5</span>
-                            <input class="hide tbContentIpt" value="列名5" type="text"/>
-                            <span class="right ico-dropdown mRight5" data-columnname="columnname5"></span>
-                        </td>
-                        <td class="width150 center">操作</td>*@
-                    </tr>
-                    <tr class="tr-content">
-                         @{for(var i=0;i<len;i++)
-                          {
-                              var item = @data[i];
-                            <td class="width100 tLeft" data-columnname="columnname_@(item.ValueID)">
-                                <span class="tbContent">无内容</span>
-                                <input class="hide tbContentIpt" value="无内容" type="text"/>
-                            </td>
-                         }}
-   @*                     <td class="width100 tLeft" data-columnname="columnname2">
-                            <span class="tbContent">无内容</span>
-                            <input class="hide tbContentIpt" value="无内容" type="text"/>
-                        </td>
-                        <td class="width100 tLeft" data-columnname="columnname3">
-                            <span class="tbContent">无内容</span>
-                            <input class="hide tbContentIpt" value="无内容" type="text"/>
-                        </td>
-                        <td class="width100 tLeft" data-columnname="columnname4">
-                            <span class="tbContent">无内容</span>
-                            <input class="hide tbContentIpt" value="无内容" type="text"/>
-                        </td>
-                        <td class="width100 tLeft" data-columnname="columnname5">
-                            <span class="tbContent">无内容</span>
-                            <input class="hide tbContentIpt" value="无内容" type="text"/>
-                        </td>
-                        <td class="width150 center">
-                            <div class="platemakingOperate">
-                                <div class="btn-addRow btn-create left" title="添加新行"></div>
-                                <div class="btn-removeRow btn-remove mLeft10 left" title="删除此行"></div>
-                                <div class="clear"></div>
-                            </div>
-                        </td>*@
-                    </tr>
-                </table>
-            }
-            else
-            {
-                <script type="text/javascript">
-                    document.getElementById("platemakingBody").innerHTML = decodeURI('@(order.Platemaking)');
-                </script>   
-            }
+                if (!string.IsNullOrEmpty(order.Platemaking))
+                {
+                    <script type="text/javascript">
+                        document.getElementById("platemakingBody").innerHTML = decodeURI('@(order.Platemaking)');
+                    </script>   
+                }
+                else
+                {
+                    <script type="text/javascript">
+                        document.getElementById("platemakingBody").style.border = "none";
+                    </script>   
+                }
             }
             </div>
+            
+
             @{
-            if (model.Mark == 2 && model.FinishStatus != 2)
-            {
-            <a href="javascript:void(0);" class="btn right mTop10" id="btn-updateTaskRemark">保存制版</a>
-            }}
+                if (model.Mark == 2 && model.FinishStatus != 2)
+                {
+                    var hasPlate=!string.IsNullOrEmpty(order.Platemaking);
+                    if (string.IsNullOrEmpty(order.Platemaking))
+                    {
+                        <div class="btn-add right" id="btn-addTaskPlate">添加制版列</div>
+                    }
+
+                    <div class="btn right mTop10" style="display:@(hasPlate?"block":"none")" id="btn-updateTaskRemark">设置制版</div>
+                }
+            }
+
             <div class="clear"></div>
         </div>
             
         
 
         <div id="orderTaskLogs" class="mTop30 hide">
-            <div class="log-body" id="taskLogList">
-
-            </div>
-            <div id="pagerLogs" class="mTop10">
-
-            </div>
+            <div class="log-body" id="taskLogList"></div>
+            <div id="pagerLogs" class="mTop10"></div>
         </div>
 
         <div class="mTop40" id="taskReplys">
