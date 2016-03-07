@@ -333,9 +333,15 @@ namespace IntFactoryDAL
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
-                                     new SqlParameter("@Platemaking",platemaking)
+                                     new SqlParameter("@TaskID",taskID),
+                                     new SqlParameter("@Platehtml",platehtml),
+                                     new SqlParameter("@ValueIDS",valueIDS),
+                                     new SqlParameter("@CreateUserID",createUserID),
+                                     new SqlParameter("@AgentID",agentID),
+                                     new SqlParameter("@ClientID",clientID)
                                    };
 
+            return ExecuteNonQuery("P_UpdateOrderPlateAttr", paras, CommandType.StoredProcedure) > 0;
             string sqlText = " update orders set Platemaking=@Platemaking where OrderID=@OrderID";
 
             return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;

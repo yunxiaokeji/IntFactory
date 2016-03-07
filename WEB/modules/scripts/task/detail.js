@@ -5,25 +5,31 @@
     require("pager");
 
     var ObjectJS = {};
-    var CacheAttrValues = [];
+    var CacheAttrValues = [];//订单品类属性缓存
 
-    ObjectJS.init = function (taskid, stageid, orderid, mark, finishStatus, attrValues) {
+    ///taskid：任务id
+    ///orderid:订单id
+    ///stageid：订单阶段id
+    ///mark:任务标记 1：材料 2 制版 3大货材料
+    ///finishStatus：任务完成状态
+    ///attrValues:订单制版属性
+    ObjectJS.init = function (taskid,orderid, stageid, mark, finishStatus, attrValues) {
         ObjectJS.orderid = orderid;
+        ObjectJS.stageid = stageid;
         ObjectJS.taskid = taskid;
         CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));
 
         ObjectJS.mark = 1;
         if (mark == 2)
         {
-            ObjectJS.mark = mark;
+            ObjectJS.mark = 2;
             $("#navProducts").hide();
             $("#platemakingContent").show();
             $(".tab-nav-ul li").removeClass("hover").eq(1).addClass("hover");
-
         }
 
-        ObjectJS.bindEvent(taskid, stageid, orderid);
-        ObjectJS.initTalkReply(orderid, stageid);
+        ObjectJS.bindEvent();
+        ObjectJS.initTalkReply();
 
         //材料任务
         if ((mark == "1" || mark == "3") && finishStatus!=2) {
@@ -33,6 +39,7 @@
         }//制版任务
         else if (mark == "2" && finishStatus != 2) {
             ObjectJS.bindPlatemakingEvent();
+
             ObjectJS.getAmount2();
         }
         else {
@@ -44,7 +51,7 @@
 
     //任务基本信息操作事件
     //更新任务到期日期
-    ObjectJS.bindEvent = function (taskid, stageid, orderid) {
+    ObjectJS.bindEvent = function () {
         setTimeout(function () {
             if ($("#UpdateTaskEndTime").length == 1) {
                 //更新任务到期日期
@@ -64,21 +71,20 @@
 
         //标记任务完成
         $("#FinishTask").click(function () {
-            ObjectJS.FinishTask(taskid);
+            ObjectJS.FinishTask();
         });
 
         //切换模块
         $(".tab-nav-ul li").click(function () {
             var _this = $(this);
-
             if (_this.hasClass("hover")) return;
-            ObjectJS.mark = _this.data("mark");
 
             _this.siblings().removeClass("hover");
             _this.addClass("hover");
-
             $(".tab-nav").nextAll().hide();
             $("#" + _this.data("id")).show();
+
+            ObjectJS.mark = _this.data("mark");
 
             if (_this.data("id") == "orderTaskLogs") {
                 //任务讨论列表
@@ -87,30 +93,26 @@
             else {
                 $("#taskReplys").show();
                 //任务讨论列表
-                ObjectJS.initTalkReply(orderid, stageid);
+                ObjectJS.initTalkReply();
             }
-
-
-            
-
-            
+ 
         });
     }
 
-    ObjectJS.UpdateTaskEndTime = function (taskID) {
-        Global.post("/Task/UpdateTaskEndTime", { taskID: taskID, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
-            if (data.Result == 1) {
-                alert("保存成功");
+    //更改任务到期时间
+    ObjectJS.UpdateTaskEndTime = function () {
+        Global.post("/Task/UpdateTaskEndTime", { taskID: ObjectJS.taskid, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
+            if (data.Result != 1) {
+                alert("保存失败");
             }
         });
     }
 
     //标记任务完成
-    ObjectJS.FinishTask = function (taskID) {
+    ObjectJS.FinishTask = function () {
         confirm("标记完成的任务不可逆,确定完成?", function () {
-            Global.post("/Task/FinishTask", { taskID: taskID }, function (data) {
+            Global.post("/Task/FinishTask", { taskID: ObjectJS.taskid }, function (data) {
                 if (data.Result == 1) {
-                    alert("标记任务完成");
                     $("#FinishTask").addClass("btnccc").val("已完成").attr("disabled", "disabled");
                 }
                 else if (data.Result == 2) {
@@ -123,9 +125,8 @@
         });
     }
 
-
     //初始化任务讨论列表
-    ObjectJS.initTalkReply = function (orderid, stageid) {
+    ObjectJS.initTalkReply = function () {
         var _self = this;
 
         $("#btnSaveTalk").click(function () {
@@ -133,8 +134,8 @@
 
             if (txt.val().trim()) {
                 var model = {
-                    GUID: orderid,
-                    StageID: stageid,
+                    GUID: ObjectJS.orderid,
+                    StageID: ObjectJS.stageid,
                     mark:ObjectJS.mark,
                     Content: txt.val().trim(),
                     FromReplyID: "",
@@ -148,18 +149,18 @@
 
         });
 
-        ObjectJS.getTaskReplys(orderid, stageid, 1);
+        ObjectJS.getTaskReplys(1);
 
     }
 
     //获取任务讨论列表
-    ObjectJS.getTaskReplys = function (orderid, stageid, page) {
+    ObjectJS.getTaskReplys = function (page) {
         var _self = this;
         $("#replyList").empty();
         $("#replyList").html("<tr><td colspan='8'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/Opportunitys/GetReplys", {
-            guid: orderid,
-            stageid: stageid,
+            guid: ObjectJS.orderid,
+            stageid: ObjectJS.stageid,
             mark:ObjectJS.mark,
             pageSize: 10,
             pageIndex: page
@@ -435,12 +436,14 @@
         ObjectJS.bindAddColumn();
         ObjectJS.bindRemoveColumn();
 
-        //ObjectJS.bindAddRow();
-        //ObjectJS.bindRemoveRow();
+        ObjectJS.bindAddRow();
+        ObjectJS.bindRemoveRow();
 
         $("#btn-updateTaskRemark").click(function () {
             ObjectJS.updateOrderPlatemaking();
         });
+
+        ObjectJS.bindAddTaskPlate();
     };
 
     //文档点击的隐藏事件
@@ -479,7 +482,7 @@
 
     //制版的内容点击
     ObjectJS.bindContentClick = function () {
-        $(".tr-content td").unbind().bind("click", function () {
+        $("#platemakingBody .tr-content td").unbind().bind("click", function () {
             $(".tbContentIpt:visible").each(function () {
                 $(this).hide().prev().html($(this).val()).show();
             });
@@ -515,27 +518,35 @@
                     header: "新增制版属性列",
                     content: innerHtml,
                     yesFn: function () {
-                        var $hover = $("#setTaskPlateAttrBox li.hover");
-                        if ($hover.length == 0) return;
+                        var $hovers = $("#setTaskPlateAttrBox li.hover");
+                        if ($hovers.length == 0) return;
 
-                        var columnnameid = $hover.data("id");
-                        var columnnamename = $hover.html();
+                        var newColumnHeadr = '';
+                        var newColumn = '';
+                        $hovers.each(function () {
+                            var columnnameid = $(this).data("id");
+                            var columnnamename = $(this).html();
 
-                        var newColumnHeadr = '<td class="width100 tLeft" data-columnname="columnname_' + columnnameid + '">';
-                        newColumnHeadr += '<span>' + columnnamename + '</span>';
-                        newColumnHeadr += '<span class="ico-dropdown mRight10 right" data-columnname="columnname_' + columnnameid + '"></span>';
-                        newColumnHeadr += '</td>';
+                            newColumnHeadr += '<td class="width100 tLeft columnHeadr" data-columnname="columnname_' + columnnameid + '" data-id="' + columnnameid + '">';
+                            newColumnHeadr += '<span>' + columnnamename + '</span>';
+                            newColumnHeadr += '<span class="ico-dropdown mRight10 right" data-columnname="columnname_' + columnnameid + '"></span>';
+                            newColumnHeadr += '</td>';
+
+                            newColumn += '<td class="tLeft width100" data-columnname="columnname_' + columnnameid + '">';
+                            newColumn += '<span class="tbContent">无内容</span>';
+                            newColumn += '<input class="hide tbContentIpt" value="无内容" type="text"/>';
+                            newColumn += '</td>';
+                        });
+                        
 
                         $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']").eq(0).after(newColumnHeadr);
-
-                        var newColumn = '<td class="tLeft width100" data-columnname="columnname_' + columnnameid + '">';
-                        newColumn += '<span class="tbContent">无内容</span>';
-                        newColumn += '<input class="hide tbContentIpt" value="无内容" type="text"/>';
-                        newColumn += '</td>';
                         $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']:gt(0)").after(newColumn);
 
                         ObjectJS.binddropdown();
                         ObjectJS.bindContentClick();
+                        ObjectJS.bindAddRow();
+                        ObjectJS.bindRemoveRow();
+
                     },
                     callback: function () {
 
@@ -545,29 +556,13 @@
             });
 
             $("#setTaskPlateAttrBox .role-item").click(function () {
-                $(this).siblings().removeClass("hover");
-                $(this).addClass("hover");
+                if (!$(this).hasClass("hover"))
+                    $(this).addClass("hover");
+                else
+                    $(this).removeClass("hover");
             });
 
-            //var date = new Date();
-            //var columnnameid = date.toLocaleString() + date.getMilliseconds();
 
-            //var newColumnHeadr = '<td class="width100 tLeft" data-columnname="columnname' + columnnameid + '">';
-            //newColumnHeadr += '<span class="tbContent">新列名</span>';
-            //newColumnHeadr += '<input class="hide tbContentIpt" value="新列名" type="text"/>';
-            //newColumnHeadr += '<span class="ico-dropdown mRight10 right" data-columnname="columnname' + columnnameid + '"></span>';
-            //newColumnHeadr += '</td>';
-
-            //$("td[data-columnname='" + $(this).data("columnname") + "']").eq(0).after(newColumnHeadr);
-
-            //var newColumn = '<td class="tLeft width100" data-columnname="columnname' + columnnameid + '">';
-            //newColumn += '<span class="tbContent">无内容</span>';
-            //newColumn += '<input class="hide tbContentIpt" value="无内容" type="text"/>';
-            //newColumn += '</td>';
-            //$("td[data-columnname='" + $(this).data("columnname") + "']:gt(0)").after(newColumn);
-
-            //ObjectJS.binddropdown();
-            //ObjectJS.bindContentClick();
 
         });
     }
@@ -576,7 +571,7 @@
     ObjectJS.bindRemoveColumn = function () {
         $("#btn-removeColumn").unbind().bind("click", function () {
 
-            if ($("#platemakingBody .tr-header td").length == 1) {
+            if ($("#platemakingBody .tr-header td").length == 2) {
                 alert("只剩最后一列,不能删除");
                 return;
             }
@@ -588,7 +583,7 @@
     //添加行
     ObjectJS.bindAddRow = function () {
         $("div.btn-addRow").unbind().bind('click', function () {
-            var $newTR = $("<tr>" + $(this).parent().parent().parent().html() + "</tr>");
+            var $newTR = $("<tr class='tr-content'>" + $(this).parent().parent().parent().html() + "</tr>");
             $(this).parent().parent().parent().after($newTR);
 
             ObjectJS.bindContentClick();
@@ -613,9 +608,88 @@
     //删除行操作按钮
     ObjectJS.bindRemoveRowBtn = function () {
         $("span.ico-dropdown").remove();
-        //$("#platemakingContent table tr").each(function () {
-        //    $(this).find("td:last").remove();
-        //});
+        $("#platemakingContent table tr").each(function () {
+            $(this).find("td:last").remove();
+        });
+    }
+
+    //新增制版属性列
+    ObjectJS.bindAddTaskPlate = function () {
+        if ($("#btn-addTaskPlate").length == 0) return;
+
+        $("#btn-addTaskPlate").unbind().bind("click", function () {
+            var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
+            for (var i = 0; len = CacheAttrValues.length, i < len; i++) {
+                var item = CacheAttrValues[i];
+                innerHtml += '<li class="role-item" data-id="' + item.ValueID + '">' + item.ValueName + '</li>';
+            }
+            innerHtml += '</ul>';
+
+            Easydialog.open({
+                container: {
+                    id: "show-model-setRole",
+                    header: "新增制版属性列",
+                    content: innerHtml,
+                    yesFn: function () {
+                        var $hovers = $("#setTaskPlateAttrBox li.hover");
+                        if ($hovers.length == 0) return;
+
+                        var tableHtml = '<table class="table-list">';
+                        var newColumnHeadr = '<tr class="tr-header">';
+                        var newColumn = '<tr class="tr-content">';
+                        $hovers.each(function () {
+                            var columnnameid = $(this).data("id");
+                            var columnnamename = $(this).html();
+
+                            newColumnHeadr += '<td class="width100 tLeft columnHeadr" data-columnname="columnname_' + columnnameid + '" data-id="' + columnnameid + '">';
+                            newColumnHeadr += '<span>' + columnnamename + '</span>';
+                            newColumnHeadr += '<span class="ico-dropdown mRight10 right" data-columnname="columnname_' + columnnameid + '"></span>';
+                            newColumnHeadr += '</td>';
+
+                            newColumn += '<td class="tLeft width100" data-columnname="columnname_' + columnnameid + '">';
+                            newColumn += '<span class="tbContent">无内容</span>';
+                            newColumn += '<input class="hide tbContentIpt" value="无内容" type="text"/>';
+                            newColumn += '</td>';
+                        });
+
+                        newColumnHeadr += '<td class="width150 center">操作</td>';
+                        newColumnHeadr += '</tr>';
+
+                        newColumn += '<td class="width150 center">';
+                        newColumn += '    <div class="platemakingOperate">';
+                        newColumn += '        <div class="btn-addRow btn-create left" title="添加新行"></div>';
+                        newColumn += '        <div class="btn-removeRow btn-remove mLeft10 left" title="删除此行"></div>';
+                        newColumn += '        <div class="clear"></div>';
+                        newColumn += '   </div>';
+                        newColumn += '</td>';
+                        newColumn += '</tr>';
+
+                        tableHtml += newColumnHeadr + newColumn;
+                        tableHtml += '</table>';
+
+                        $("#platemakingBody").html(tableHtml).css({ "border-top": "1px solid #eee", "border-left": "1px solid #eee" });
+
+                        ObjectJS.binddropdown();
+                        ObjectJS.bindContentClick();
+                        ObjectJS.bindAddRow();
+                        ObjectJS.bindRemoveRow();
+
+                        $("#btn-updateTaskRemark").show();
+                        $("#btn-addTaskPlate").hide();
+                    }
+                }
+
+            });
+
+            $("#setTaskPlateAttrBox .role-item").click(function () {
+                if (!$(this).hasClass("hover"))
+                    $(this).addClass("hover");
+                else
+                    $(this).removeClass("hover");
+            });
+
+
+        });
     }
 
 
@@ -623,7 +697,17 @@
     ObjectJS.updateOrderPlatemaking = function () {
         $(".table-list input.tbContentIpt").hide();
 
-        Global.post("/Task/UpdateOrderPlatemaking", { orderid: ObjectJS.orderid, platemaking: encodeURI($("#platemakingBody").html()) }, function (data) {
+        var ValueIDs = '';
+        $("#platemakingBody .tr-header td.columnHeadr").each(function () {
+            ValueIDs += $(this).data("id")+'|';
+        });
+
+        Global.post("/Task/UpdateOrderPlateAttr", {
+            orderid: ObjectJS.orderid,
+            platehtml: encodeURI($("#platemakingBody").html()),
+            taskid: ObjectJS.taskid,
+            valueIDs: ValueIDs
+        }, function (data) {
             if (data.Result == 1) {
                 alert("保存成功");
             }

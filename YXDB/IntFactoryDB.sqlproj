@@ -473,4 +473,7 @@
   <ItemGroup>
     <None Include="Procedures\Sales\P_UpdateOrderOriginalID.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Task\P_UpdateOrderPlateAttr.sql" />
+  </ItemGroup>
 </Project>

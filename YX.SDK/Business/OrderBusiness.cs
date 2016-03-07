@@ -7,9 +7,12 @@ namespace AlibabaSdk
 {
     public class OrderBusiness
     {
+        static string token = "e67ddef5-e0ee-4094-bdde-d623354e8d1d";
         public static List<string> pullFentGoodsCodes() { 
             List<string> list=new List<string>();
+            var paras = new Dictionary<string, object>();
 
+            string aaa = HttpRequest.RequestServer(ApiOption.pullBulkGoodsCodes, paras, token, RequestType.Post);
             return list;
         }
 

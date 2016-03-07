@@ -14,7 +14,8 @@ namespace AlibabaSdk
         {
             ;
             string urlPath = "param2/1/cn.alibaba.open" + Enum.GetName(typeof(ApiOption), apiOption) + AppConfig.AppKey;
-            string url = AppConfig.AlibabaApiUrl + "/openapi/" + urlPath;
+            //string url = AppConfig.AlibabaApiUrl + "/openapi/" + urlPath;
+            string url = AppConfig.AlibabaApiUrl + "/api/" + urlPath;
             string paraStr = string.Empty;
 
             if (apiOption == ApiOption.accessToken)

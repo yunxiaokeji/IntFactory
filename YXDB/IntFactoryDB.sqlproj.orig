@@ -463,14 +463,18 @@
     <None Include="Procedures\System\P_CreateOrderProcess.sql" />
     <None Include="Procedures\System\P_DeletetOrderStage.sql" />
     <Build Include="Procedures\System\P_InsertOrderStage.sql" />
-    <Build Include="Procedures\System\P_UpdateOrderProcessDefault.sql" />
+    <None Include="Procedures\System\P_UpdateOrderProcessDefault.sql" />
     <None Include="Procedures\System\P_UpdateOrderCategory.sql" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <None Include="Procedures\Task\P_GetTaskPlateAttrByCategoryID.sql" />
-=======
     <None Include="Procedures\Sales\P_UpdateOrderClient.sql" />
->>>>>>> 0735f530e4def38411e8a923779c6beaf8153be5
+  </ItemGroup>
+  <ItemGroup>
+<<<<<<< HEAD
+    <None Include="Procedures\Sales\P_UpdateOrderOriginalID.sql" />
+=======
+    <None Include="Procedures\Task\P_UpdateOrderPlateAttr.sql" />
+>>>>>>> 7fe73c9610bbb63c6653997d68c256d9fc6f8d95
   </ItemGroup>
 </Project>

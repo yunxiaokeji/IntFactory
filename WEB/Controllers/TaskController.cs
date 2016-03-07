@@ -130,10 +130,12 @@ namespace YXERP.Controllers
         }
 
         [ValidateInput(false)]
-        public JsonResult UpdateOrderPlatemaking(string orderid, string platemaking)
+        public JsonResult UpdateOrderPlateAttr(string orderid, string taskid, string valueIDs, string platehtml)
         {
             int result = 0;
-            result = OrdersBusiness.BaseBusiness.UpdateOrderPlatemaking(orderid, platemaking) ? 1 : 0;
+            valueIDs = valueIDs.Trim('|');
+
+            result = OrdersBusiness.BaseBusiness.UpdateOrderPlateAttr(orderid, taskid, valueIDs, platehtml,CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID) ? 1 : 0;
 
             JsonDictionary.Add("Result", result);
             return new JsonResult
