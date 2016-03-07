@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Configuration;
 using System.Security.Cryptography;
+using System.ComponentModel;
 namespace AlibabaSdk
 {
     public class HttpRequest
@@ -13,7 +14,7 @@ namespace AlibabaSdk
         public static string RequestServer(ApiOption apiOption, Dictionary<string, object> paras, string token="", RequestType requestType = RequestType.Get)
         {
             ;
-            string urlPath = "param2/1/cn.alibaba.open" + Enum.GetName(typeof(ApiOption), apiOption) + AppConfig.AppKey;
+            string urlPath = "param2/1/cn.alibaba.open/" + GetEnumDesc<ApiOption>(apiOption) + "/" + AppConfig.AppKey;
             //string url = AppConfig.AlibabaApiUrl + "/openapi/" + urlPath;
             string url = AppConfig.AlibabaApiUrl + "/api/" + urlPath;
             string paraStr = string.Empty;
@@ -98,9 +99,6 @@ namespace AlibabaSdk
             return null;
         }
 
-        public static string[] ApiUrlArr = new string[] { 
-        "/member.get/",
-        };
 
         /// <summary>
         /// 获取参数签名算法
@@ -166,7 +164,15 @@ namespace AlibabaSdk
             //TO HEX
             return BitConverter.ToString(hash).Replace("-", string.Empty).ToUpper();
         }
+
+        public static string GetEnumDesc<T>(T Enumtype)
+        {
+            if (Enumtype == null) throw new ArgumentNullException("Enumtype");
+            if (!Enumtype.GetType().IsEnum) throw new Exception("参数类型不正确");
+            return ((DescriptionAttribute)Enumtype.GetType().GetField(Enumtype.ToString()).GetCustomAttributes(typeof(DescriptionAttribute), false)[0]).Description;
+        }
     }
+
 
     public enum RequestType
     {

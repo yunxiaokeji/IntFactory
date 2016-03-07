@@ -410,7 +410,11 @@
         var amount = 0;
         $(".amount").each(function () {
             var _this = $(this);
-            _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
+            
+            if (_this.prevAll(".tr-loss").find("input").length>0)
+                _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
+            else
+                _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1 ) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
             amount += _this.html() * 1;
         });
         $("#amount").text(amount.toFixed(2));

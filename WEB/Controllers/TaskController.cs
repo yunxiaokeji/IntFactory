@@ -33,6 +33,7 @@ namespace YXERP.Controllers
 
         public ActionResult MyTask()
         {
+            //AlibabaSdk.OrderBusiness.pullFentGoodsCodes();
             ViewBag.IsMy = 1;
             return View();
         }
