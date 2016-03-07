@@ -312,18 +312,7 @@
                     }
                     return false;
                 });
-
-                //innerhtml.click(function () {
-                //    var _this = $(this).find(".check");
-                //    if (!_this.hasClass("ico-checked")) {
-                //        _this.addClass("ico-checked").removeClass("ico-check");
-                //    } else {
-                //        _this.addClass("ico-check").removeClass("ico-checked");
-                //    }
-                //});
-
                 $(".tr-header").after(innerhtml);
-
             });
         }
         else
