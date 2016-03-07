@@ -14,7 +14,7 @@ namespace AlibabaSdk
         [Description("member.get")]
         memberDetail=1,
 
-        [Description("erp.manufacture.pullFentGoodsCodes")]
+        [DescriptionAttribute("erp.manufacture.pullFentGoodsCodes")]
         pullFentGoodsCodes = 2,
 
         [Description("erp.manufacture.pullFentDataList")]

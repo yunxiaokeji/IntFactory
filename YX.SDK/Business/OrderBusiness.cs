@@ -7,10 +7,12 @@ namespace AlibabaSdk
 {
     public class OrderBusiness
     {
-        static string token = "e67ddef5-e0ee-4094-bdde-d623354e8d1d";
+        static string token = "1450d672-9abe-4d14-b87d-f75d0d19e256";
         public static List<string> pullFentGoodsCodes() { 
             List<string> list=new List<string>();
             var paras = new Dictionary<string, object>();
+            paras.Add("gmtFentStart",DateTime.Parse( "2016-01-01"));
+            paras.Add("gmtFentEnd",DateTime.Parse( "2016-03-07"));
 
             string aaa = HttpRequest.RequestServer(ApiOption.pullBulkGoodsCodes, paras, token, RequestType.Post);
             return list;
