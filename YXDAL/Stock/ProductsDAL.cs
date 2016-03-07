@@ -199,6 +199,13 @@ namespace IntFactoryDAL
             return ds;
         }
 
+        public DataSet GetTaskPlateAttrByCategoryID(string categoryid)
+        {
+            SqlParameter[] paras = { new SqlParameter("@CategoryID", categoryid) };
+            DataSet ds = GetDataSet("P_GetTaskPlateAttrByCategoryID", paras, CommandType.StoredProcedure, "Attrs|Values");
+            return ds;
+        }
+
         public bool AddAttr(string attrid, string attrname, string description, string categoryid, int type, string operateid)
         {
             string sqlText = "P_AddAttr";

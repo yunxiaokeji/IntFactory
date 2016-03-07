@@ -2,6 +2,7 @@
     ViewBag.Title = "任务详情";
     var model = (IntFactoryEntity.Task.TaskEntity)ViewBag.Model;
     var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
+    var productAttr = (IntFactoryEntity.ProductAttr)ViewBag.ProductAttr;
 }
 <link href="/modules/css/task/style.css" rel="stylesheet" />
 @section scripts{
@@ -9,7 +10,7 @@
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@(model.TaskID)', '@(model.StageID)', '@(model.OrderID)','@(model.Mark)','@(model.FinishStatus)');
+                obj.init('@(model.TaskID)', '@(model.StageID)', '@(model.OrderID)', '@(model.Mark)', '@(model.FinishStatus)', '@Html.ToJSONString(productAttr.AttrValues)');
             });
 
             
@@ -184,16 +185,22 @@
         <div class="platemakingContent hide" id="platemakingContent">
             <div id="platemakingBody">
             @{
+               var len=productAttr.AttrValues.Count;
+               var data=productAttr.AttrValues;
             if (string.IsNullOrEmpty(order.Platemaking))
             {
                 <table class="table-list">
                     <tr class="tr-header">
-                        <td class="width100 tLeft" data-columnname="columnname1">
-                            <span class="tbContent">列名1</span>
-                            <input class="hide tbContentIpt" value="列名1" type="text"/>
-                            <span class="right ico-dropdown mRight5" data-columnname="columnname1"></span>
-                        </td>
-                        <td class="width100 tLeft" data-columnname="columnname2">
+                        @{for(var i=0;i<len;i++)
+                          {
+                              var item = @data[i];
+                            <td class="width100 tLeft" data-columnname="columnname_@(item.ValueID)" >
+                                <span class="tbContent">@item.ValueName</span>
+                                <span class="right ico-dropdown mRight5" data-columnname="columnname_@(item.ValueID)"></span>
+                            </td>
+                        }
+                        }
+@*                        <td class="width100 tLeft" data-columnname="columnname2">
                             <span class="tbContent">列名2</span>
                             <input class="hide tbContentIpt" value="列名2" type="text"/>
                             <span class="right ico-dropdown mRight5" data-columnname="columnname2"></span>
@@ -213,14 +220,18 @@
                             <input class="hide tbContentIpt" value="列名5" type="text"/>
                             <span class="right ico-dropdown mRight5" data-columnname="columnname5"></span>
                         </td>
-                        <td class="width150 center">操作</td>
+                        <td class="width150 center">操作</td>*@
                     </tr>
-                    <tr>
-                        <td class="width100 tLeft" data-columnname="columnname1">
-                            <span class="tbContent">无内容</span>
-                            <input class="hide tbContentIpt" value="无内容" type="text"/>
-                        </td>
-                        <td class="width100 tLeft" data-columnname="columnname2">
+                    <tr class="tr-content">
+                         @{for(var i=0;i<len;i++)
+                          {
+                              var item = @data[i];
+                            <td class="width100 tLeft" data-columnname="columnname_@(item.ValueID)">
+                                <span class="tbContent">无内容</span>
+                                <input class="hide tbContentIpt" value="无内容" type="text"/>
+                            </td>
+                         }}
+   @*                     <td class="width100 tLeft" data-columnname="columnname2">
                             <span class="tbContent">无内容</span>
                             <input class="hide tbContentIpt" value="无内容" type="text"/>
                         </td>
@@ -242,7 +253,7 @@
                                 <div class="btn-removeRow btn-remove mLeft10 left" title="删除此行"></div>
                                 <div class="clear"></div>
                             </div>
-                        </td>
+                        </td>*@
                     </tr>
                 </table>
             }

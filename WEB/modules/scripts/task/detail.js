@@ -1,15 +1,20 @@
 ﻿define(function (require, exports, module) {
     var doT = require("dot");
     var Global = require("global");
+    var Easydialog = require("easydialog");
     require("pager");
 
     var ObjectJS = {};
+    var CacheAttrValues = [];
 
-    ObjectJS.init = function (taskid, stageid, orderid, mark, finishStatus) {
+    ObjectJS.init = function (taskid, stageid, orderid, mark, finishStatus, attrValues) {
         ObjectJS.orderid = orderid;
         ObjectJS.taskid = taskid;
+        CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));
+
         ObjectJS.mark = 1;
-        if (mark == 2) {
+        if (mark == 2)
+        {
             ObjectJS.mark = mark;
             $("#navProducts").hide();
             $("#platemakingContent").show();
@@ -430,8 +435,8 @@
         ObjectJS.bindAddColumn();
         ObjectJS.bindRemoveColumn();
 
-        ObjectJS.bindAddRow();
-        ObjectJS.bindRemoveRow();
+        //ObjectJS.bindAddRow();
+        //ObjectJS.bindRemoveRow();
 
         $("#btn-updateTaskRemark").click(function () {
             ObjectJS.updateOrderPlatemaking();
@@ -474,7 +479,7 @@
 
     //制版的内容点击
     ObjectJS.bindContentClick = function () {
-        $(".table-list td").unbind().bind("click", function () {
+        $(".tr-content td").unbind().bind("click", function () {
             $(".tbContentIpt:visible").each(function () {
                 $(this).hide().prev().html($(this).val()).show();
             });
@@ -487,37 +492,96 @@
     //添加新列
     ObjectJS.bindAddColumn = function () {
         $("#btn-addColumn").unbind().bind("click", function () {
-            var date = new Date();
-            var columnnameid = date.toLocaleString() + date.getMilliseconds();
+            ObjectJS.columnnameid = $(this).data("columnname");
+            var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
+            var noHaveLi = true;
+            for (var i = 0;len = CacheAttrValues.length,i < len; i++)
+            {
+                var item = CacheAttrValues[i];
+                if ($(".table-list td[data-columnname='columnname_" + item.ValueID + "']").length == 0) {
+                    innerHtml += '<li class="role-item" data-id="' + item.ValueID + '">' + item.ValueName + '</li>';
+                    noHaveLi = false;
+                }
+            }
+            innerHtml += '</ul>';
 
-            var newColumnHeadr = '<td class="width100 tLeft" data-columnname="columnname' + columnnameid + '">';
-            newColumnHeadr += '<span class="tbContent">新列名</span>';
-            newColumnHeadr += '<input class="hide tbContentIpt" value="新列名" type="text"/>';
-            newColumnHeadr += '<span class="ico-dropdown mRight10 right" data-columnname="columnname' + columnnameid + '"></span>';
-            newColumnHeadr += '</td>';
+            if (noHaveLi) {
+                innerHtml = '<div style="width:300px;">制版属性列已全部添加设置了</div>';
+            }
 
-            $("td[data-columnname='" + $(this).data("columnname") + "']").eq(0).after(newColumnHeadr);
+            Easydialog.open({
+                container: {
+                    id: "show-model-setRole",
+                    header: "新增制版属性列",
+                    content: innerHtml,
+                    yesFn: function () {
+                        var $hover = $("#setTaskPlateAttrBox li.hover");
+                        if ($hover.length == 0) return;
 
-            var newColumn = '<td class="tLeft width100" data-columnname="columnname' + columnnameid + '">';
-            newColumn += '<span class="tbContent">无内容</span>';
-            newColumn += '<input class="hide tbContentIpt" value="无内容" type="text"/>';
-            newColumn += '</td>';
-            $("td[data-columnname='" + $(this).data("columnname") + "']:gt(0)").after(newColumn);
+                        var columnnameid = $hover.data("id");
+                        var columnnamename = $hover.html();
 
-            ObjectJS.binddropdown();
-            ObjectJS.bindContentClick();
+                        var newColumnHeadr = '<td class="width100 tLeft" data-columnname="columnname_' + columnnameid + '">';
+                        newColumnHeadr += '<span>' + columnnamename + '</span>';
+                        newColumnHeadr += '<span class="ico-dropdown mRight10 right" data-columnname="columnname_' + columnnameid + '"></span>';
+                        newColumnHeadr += '</td>';
+
+                        $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']").eq(0).after(newColumnHeadr);
+
+                        var newColumn = '<td class="tLeft width100" data-columnname="columnname_' + columnnameid + '">';
+                        newColumn += '<span class="tbContent">无内容</span>';
+                        newColumn += '<input class="hide tbContentIpt" value="无内容" type="text"/>';
+                        newColumn += '</td>';
+                        $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']:gt(0)").after(newColumn);
+
+                        ObjectJS.binddropdown();
+                        ObjectJS.bindContentClick();
+                    },
+                    callback: function () {
+
+                    }
+                }
+
+            });
+
+            $("#setTaskPlateAttrBox .role-item").click(function () {
+                $(this).siblings().removeClass("hover");
+                $(this).addClass("hover");
+            });
+
+            //var date = new Date();
+            //var columnnameid = date.toLocaleString() + date.getMilliseconds();
+
+            //var newColumnHeadr = '<td class="width100 tLeft" data-columnname="columnname' + columnnameid + '">';
+            //newColumnHeadr += '<span class="tbContent">新列名</span>';
+            //newColumnHeadr += '<input class="hide tbContentIpt" value="新列名" type="text"/>';
+            //newColumnHeadr += '<span class="ico-dropdown mRight10 right" data-columnname="columnname' + columnnameid + '"></span>';
+            //newColumnHeadr += '</td>';
+
+            //$("td[data-columnname='" + $(this).data("columnname") + "']").eq(0).after(newColumnHeadr);
+
+            //var newColumn = '<td class="tLeft width100" data-columnname="columnname' + columnnameid + '">';
+            //newColumn += '<span class="tbContent">无内容</span>';
+            //newColumn += '<input class="hide tbContentIpt" value="无内容" type="text"/>';
+            //newColumn += '</td>';
+            //$("td[data-columnname='" + $(this).data("columnname") + "']:gt(0)").after(newColumn);
+
+            //ObjectJS.binddropdown();
+            //ObjectJS.bindContentClick();
+
         });
     }
 
     //删除列
     ObjectJS.bindRemoveColumn = function () {
         $("#btn-removeColumn").unbind().bind("click", function () {
-            if ($(".tr-header td").length == 2) {
+
+            if ($("#platemakingBody .tr-header td").length == 1) {
                 alert("只剩最后一列,不能删除");
                 return;
             }
 
-            $("td[data-columnname='" + $(this).data("columnname") + "']").remove();
+            $("#platemakingBody .table-list td[data-columnname='" + $(this).data("columnname") + "']").remove();
         });
     }
 
@@ -549,9 +613,9 @@
     //删除行操作按钮
     ObjectJS.bindRemoveRowBtn = function () {
         $("span.ico-dropdown").remove();
-        $("#platemakingContent table tr").each(function () {
-            $(this).find("td:last").remove();
-        });
+        //$("#platemakingContent table tr").each(function () {
+        //    $(this).find("td:last").remove();
+        //});
     }
 
 
