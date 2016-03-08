@@ -117,10 +117,13 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult FinishTask(string taskID) {
+        public JsonResult FinishTask(string taskid, string orderid, int orderType)
+        {
             int result = 0;
 
-            TaskBusiness.FinishTask(taskID,CurrentUser.UserID,ref result,CurrentUser.UserID,Common.Common.GetRequestIP(),CurrentUser.AgentID,CurrentUser.ClientID);
+            //OrdersBusiness.BaseBusiness.EffectiveOrderProduct(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+
+            TaskBusiness.FinishTask(taskid, CurrentUser.UserID, ref result, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID);
 
             JsonDictionary.Add("Result", result);
             return new JsonResult
