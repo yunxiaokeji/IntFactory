@@ -180,7 +180,7 @@ namespace IntFactoryDAL
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
-                                     new SqlParameter("@OldOrderID",oldorderid),
+                                     new SqlParameter("@OriginalID",oldorderid),
                                      new SqlParameter("@AttrList",saleattr),
                                      new SqlParameter("@ValueList",attrvalues),
                                      new SqlParameter("@AttrValueList",saleattrvalue),

@@ -175,12 +175,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult CreateDHOrder(string entity)
+        public JsonResult CreateDHOrder(string entity, string originalid)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderGoodsEntity model = serializer.Deserialize<OrderGoodsEntity>(entity);
 
-            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, model.OrderGoods, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, originalid, model.OrderGoods, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
             {

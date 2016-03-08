@@ -144,9 +144,13 @@
                 <span title="更换流程" class="ico-change left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess"></span>
             }
             <div class="left info mLeft20">负责人：@(model.OrderProcess.Owner.Name)</div>
-            @if(model.IsSelf)
+            @if (model.IsSelf && model.OrderGoods.Count > 0)
             {
                 <div class="btn right mLeft20" id="changeOrderStatus"></div>
+            }
+            else if (model.IsSelf && model.OrderGoods.Count == 0 && !string.IsNullOrEmpty(model.OriginalID))
+            {
+                 <div class="btn right mLeft20" id="confirmDHOrder">确认大货明细</div>
             }
         </div>
         <div class="clear"></div>

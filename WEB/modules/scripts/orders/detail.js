@@ -221,6 +221,11 @@ define(function (require, exports, module) {
             });
         }
 
+        //确认大货明细
+        $("#confirmDHOrder").click(function () {
+            _self.createDHOrder(true);
+        });
+
         //绑定打样单
         $("#bindOriginalOrder").click(function () {
             var _this = $(this);
@@ -307,7 +312,7 @@ define(function (require, exports, module) {
                 });
             } //大货下单
             else if (_self.status == 3) {
-                _self.createDHOrder();
+                _self.createDHOrder(false);
             }//开始生产
             else if (_self.status == 4) {
                 confirm("开始生产后不可撤销且不能变更流程，确认开始生产吗？", function () {
@@ -359,18 +364,18 @@ define(function (require, exports, module) {
         });
     }
     //大货下单
-    ObjectJS.createDHOrder = function () {
+    ObjectJS.createDHOrder = function (isExists) {
         var _self = this;
         Global.post("/Products/GetOrderCategoryDetailsByID", {
             categoryid: _self.model.CategoryID,
-            orderid: _self.orderid
+            orderid: (_self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID)
         }, function (data) {
             doT.exec("template/orders/surequantity.html", function (template) {
                 var innerText = template(data.Model);
                 Easydialog.open({
                     container: {
                         id: "show-surequantity",
-                        header: "大货下单",
+                        header: "确认大货明细",
                         content: innerText,
                         yesFn: function () {
                             
@@ -390,14 +395,16 @@ define(function (require, exports, module) {
                                 var orderModel = {};
                                 orderModel.OrderID = _self.orderid;
                                 orderModel.OrderGoods = details;
-                                Global.post("/Orders/CreateDHOrder", { entity: JSON.stringify(orderModel) }, function (data) {
+                                Global.post("/Orders/CreateDHOrder", {
+                                    entity: JSON.stringify(orderModel),
+                                    originalid: (!isExists ? "" : _self.model.OriginalID)
+                                }, function (data) {
                                     if (data.id) {
-                                        console.log(data.id)
-                                        alert("大货下单成功!");
+                                        alert("大货下单成功!", "/Customer/OrderDetail/" + data.id);
                                     } else {
                                         alert("大货下单失败，请刷新页面重试！");
                                     }
-                                })
+                                });
                             }
                         },
                         callback: function () {

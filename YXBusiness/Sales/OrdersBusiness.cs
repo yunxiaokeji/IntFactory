@@ -308,7 +308,7 @@ namespace IntFactoryBusiness
         }
 
 
-        public string CreateDHOrder(string orderid, List<ProductDetail> details, string operateid, string agentid, string clientid)
+        public string CreateDHOrder(string orderid, string originalid, List<ProductDetail> details, string operateid, string agentid, string clientid)
         {
             var dal = new OrdersDAL();
             string id = Guid.NewGuid().ToString().ToLower();
@@ -321,14 +321,31 @@ namespace IntFactoryBusiness
             SqlTransaction tran = conn.BeginTransaction();
             try
             {
-
-                bool bl = dal.CreateDHOrder(id, orderid, operateid, clientid, tran);
-                //产品添加成功添加子产品
-                if (bl)
+                if (string.IsNullOrEmpty(originalid))
+                {
+                    bool bl = dal.CreateDHOrder(id, orderid, operateid, clientid, tran);
+                    //产品添加成功添加子产品
+                    if (bl)
+                    {
+                        foreach (var model in details)
+                        {
+                            if (!dal.AddOrderGoods(id, orderid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.Description, operateid, clientid, tran))
+                            {
+                                tran.Rollback();
+                                conn.Dispose();
+                                return "";
+                            }
+                        }
+                        tran.Commit();
+                        conn.Dispose();
+                        return id;
+                    }
+                }
+                else
                 {
                     foreach (var model in details)
                     {
-                        if (!dal.AddOrderGoods(id, orderid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.Description, operateid, clientid, tran))
+                        if (!dal.AddOrderGoods(orderid, originalid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.Description, operateid, clientid, tran))
                         {
                             tran.Rollback();
                             conn.Dispose();
@@ -337,8 +354,9 @@ namespace IntFactoryBusiness
                     }
                     tran.Commit();
                     conn.Dispose();
-                    return id;
+                    return orderid;
                 }
+                
                 return "";
             }
             catch (Exception ex)
