@@ -159,6 +159,11 @@ namespace IntFactoryEntity
 
         public string ProductCode { get; set; }
 
+        [Property("Lower")] 
+        public string ProdiverID { get; set; }
+
+        public ProvidersEntity Providers { get; set; }
+
 		#endregion Model
         /// <summary>
         /// 填充数据

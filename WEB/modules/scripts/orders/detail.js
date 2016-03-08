@@ -101,8 +101,10 @@ define(function (require, exports, module) {
             $("#changeOrderStatus,#updateOrderInfo").hide();
         }
 
-        if (_self.status == 0) {
+        if (_self.status == 0 && _self.model.OrderType == 1) {
             $("#changeOrderStatus").html("转为订单");
+        } else if (_self.status == 0 && _self.model.OrderType == 2) {
+            $("#changeOrderStatus").html("绑定打样款号");
         } else if (_self.status == 1) {
             $("#changeOrderStatus").html("完成打样");
         } else if (_self.status == 2) {
@@ -276,9 +278,7 @@ define(function (require, exports, module) {
                 });
             } //开始大货(无)
             else if (_self.model.OrderType == 2 && _self.status == 0) {
-                confirm("转为订单后不可撤销且不能变更流程，确认转为订单吗？", function () {
-                    _self.updateOrderStatus(4);
-                });
+                $("#bindOriginalOrder").click();
             }//合价完成
             else if (_self.status == 2) {
                 doT.exec("template/orders/sureprice.html", function (template) {

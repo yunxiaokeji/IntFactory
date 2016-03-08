@@ -217,7 +217,7 @@
     <None Include="Procedures\Sales\P_DeleteOrder.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Sales\P_EffectiveOrder.sql" />
+    <None Include="Procedures\Sales\P_EffectiveOrderProduct.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Finance\P_GetPayableBills.sql" />

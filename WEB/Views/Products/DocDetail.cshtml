@@ -36,7 +36,10 @@
             <td></td>
             <td class="tLeft">材料名称</td>
             <td class="tLeft">规格</td>
-            <td class="center width80">单位</td>
+            <td class="center">供应商</td>
+            <td class="center">联系人</td>
+            <td class="center">联系电话</td>
+            <td class="center">地址</td>
             <td class="tRight">采购价</td>
             <td class="center">数量</td>
             <td class="tRight">小计</td>
@@ -47,13 +50,19 @@
                  <td class="width50"><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" target="_blank"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@(item.Imgs)" /></a></td>
                 <td><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" target="_blank"> @(item.ProductName)</a></td>
                 <td>@(item.Remark)</td>
-                <td class="center">@(item.UnitName)</td>
+                <td class="center">@(item.Providers!=null?item.Providers.Name:"")</td>
+                <td class="center">@(item.Providers!=null?item.Providers.Contact:"")</td>
+                <td class="center">@(item.Providers!=null?item.Providers.MobileTele:"")</td>
+                <td class="center">@(item.Providers!=null&&item.Providers.City!=null?item.Providers.City.Description:"")</td>
                 <td class=" tRight">@(item.Price.ToString("f2"))</td>
                 <td class="center">@(item.Quantity)</td>
                 <td class="tRight">@(item.TotalMoney.ToString("f2"))</td>
             </tr>
         }
         <tr class="amount-item">
+            <td></td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
