@@ -127,6 +127,9 @@
                 else if (data.Result == 3) {
                     alert("无权限操作");
                 }
+                else if (data.Result == -1) {
+                    alert("保存失败");
+                }
             });
         });
     }

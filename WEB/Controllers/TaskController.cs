@@ -120,10 +120,20 @@ namespace YXERP.Controllers
         public JsonResult FinishTask(string taskid, string orderid, int orderType)
         {
             int result = 0;
+            bool flag = true;
 
-            //OrdersBusiness.BaseBusiness.EffectiveOrderProduct(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            if (orderType == 2)
+            {
+                OrdersBusiness.BaseBusiness.EffectiveOrderProduct(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+                if (result != 1)
+                {
+                    flag = false;
+                    result = -1;
+                }
+            }
 
-            TaskBusiness.FinishTask(taskid, CurrentUser.UserID, ref result, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID);
+            if(flag)
+                TaskBusiness.FinishTask(taskid, CurrentUser.UserID, ref result, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID);
 
             JsonDictionary.Add("Result", result);
             return new JsonResult
