@@ -13,10 +13,11 @@
     ///mark:任务标记 1：材料 2 制版 3大货材料
     ///finishStatus：任务完成状态
     ///attrValues:订单制版属性
-    ObjectJS.init = function (taskid,orderid, stageid, mark, finishStatus, attrValues) {
+    ObjectJS.init = function (taskid, orderid, stageid, mark, finishStatus, attrValues, orderType) {
         ObjectJS.orderid = orderid;
         ObjectJS.stageid = stageid;
         ObjectJS.taskid = taskid;
+        ObjectJS.orderType = orderType;
         CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));
 
         ObjectJS.mark = 1;
@@ -111,7 +112,12 @@
     //标记任务完成
     ObjectJS.FinishTask = function () {
         confirm("标记完成的任务不可逆,确定完成?", function () {
-            Global.post("/Task/FinishTask", { taskID: ObjectJS.taskid }, function (data) {
+            Global.post("/Task/FinishTask",
+                {
+                    taskid: ObjectJS.taskid,
+                    orderid: ObjectJS.orderid,
+                    orderType: ObjectJS.orderType
+            }, function (data) {
                 if (data.Result == 1) {
                     $("#FinishTask").addClass("btnccc").val("已完成").attr("disabled", "disabled");
                 }
@@ -120,6 +126,9 @@
                 }
                 else if (data.Result == 3) {
                     alert("无权限操作");
+                }
+                else if (data.Result == -1) {
+                    alert("保存失败");
                 }
             });
         });
@@ -412,7 +421,7 @@
             var _this = $(this);
             
             if (_this.prevAll(".tr-loss").find("input").length>0)
-                _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
+                _this.html(((_this.prevAll(".tr-quantity").html() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
             else
                 _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1 ) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
             amount += _this.html() * 1;
