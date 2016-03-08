@@ -28,7 +28,6 @@
     <td>
         <a href="DocDetail/{%=item.DocID%}" target="_blank">{%=item.DocCode%}</a>
     </td>
-    <td>{%=item.ProviderName||""%}</td>
     <td class="center {%=item.Status<2?'red':''%}">{%=item.StatusStr%}</td>
     <td class="tRight">{%=item.TotalMoney.toFixed(2)%}</td>
     <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>

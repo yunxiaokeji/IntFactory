@@ -126,6 +126,10 @@ namespace IntFactoryEntity
 			set{ _postalcode=value;}
 			get{return _postalcode;}
 		}
+
+
+        public string Description { get; set; }
+
 		#endregion Model
 
         /// <summary>

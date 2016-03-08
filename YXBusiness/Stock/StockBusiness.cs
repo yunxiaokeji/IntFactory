@@ -111,6 +111,11 @@ namespace IntFactoryBusiness
                 {
                     StorageDetail details = new StorageDetail();
                     details.FillData(item);
+
+                    if (!string.IsNullOrEmpty(details.ProdiverID))
+                    {
+                        details.Providers = BaseBusiness.GetProviderByID(details.ProdiverID);
+                    }
                     model.Details.Add(details);
                 }
             }
