@@ -103,7 +103,9 @@ namespace YXERP.Controllers
             {
                 ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.AgentID, CurrentUser.ClientID);
             }
+            model.IsSelf = model.ClientID == CurrentUser.ClientID;
             ViewBag.Model = model;
+            
             if (model.OrderType == 1)
             {
                 return View();

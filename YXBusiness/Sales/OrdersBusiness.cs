@@ -181,6 +181,16 @@ namespace IntFactoryBusiness
                         detail.FillData(dr);
                         model.Details.Add(detail);
                     }
+                }
+                model.OrderGoods = new List<GoodsDetailEntity>();
+                if (ds.Tables["Goods"].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables["Goods"].Rows)
+                    {
+                        GoodsDetailEntity detail = new GoodsDetailEntity();
+                        detail.FillData(dr);
+                        model.OrderGoods.Add(detail);
+                    }
                 }  
             }
             return model;
