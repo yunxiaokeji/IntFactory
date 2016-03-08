@@ -526,12 +526,12 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool EffectiveOrder(string orderid, string operateid, string ip, string agentid, string clientid,out int result)
+        public bool EffectiveOrderProduct(string orderid, string operateid, string ip, string agentid, string clientid, out int result)
         {
-            bool bl = OrdersDAL.BaseProvider.EffectiveOrder(orderid, operateid, agentid, clientid, out result);
+            bool bl = OrdersDAL.BaseProvider.EffectiveOrderProduct(orderid, operateid, agentid, clientid, out result);
             if (bl)
             {
-                string msg = "审核订单";
+                string msg = "确认大货单材料采购";
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
             }
             return bl;

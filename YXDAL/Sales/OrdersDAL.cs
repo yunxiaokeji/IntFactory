@@ -441,7 +441,7 @@ namespace IntFactoryDAL
             return result == 1;
         }
 
-        public bool EffectiveOrder(string orderid, string operateid, string agentid, string clientid, out int result)
+        public bool EffectiveOrderProduct(string orderid, string operateid, string agentid, string clientid, out int result)
         {
             result = 0;
             SqlParameter[] paras = { 
@@ -453,7 +453,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             paras[0].Direction = ParameterDirection.Output;
-            ExecuteNonQuery("P_EffectiveOrder", paras, CommandType.StoredProcedure);
+            ExecuteNonQuery("P_EffectiveOrderProduct", paras, CommandType.StoredProcedure);
             result = Convert.ToInt32(paras[0].Value);
             return result == 1;
         }

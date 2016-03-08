@@ -357,10 +357,10 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult EffectiveOrder(string orderid)
+        public JsonResult EffectiveOrderProduct(string orderid)
         {
             int result = 0;
-            var bl = OrdersBusiness.BaseBusiness.EffectiveOrder(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            var bl = OrdersBusiness.BaseBusiness.EffectiveOrderProduct(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
             JsonDictionary.Add("status", bl);
             JsonDictionary.Add("result", result);
             return new JsonResult
