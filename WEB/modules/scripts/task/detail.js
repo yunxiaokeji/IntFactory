@@ -716,7 +716,7 @@
     //保存制版信息
     ObjectJS.updateOrderPlatemaking = function () {
         $(".tbContentIpt:visible").each(function () {
-            $(this).hide().prev().html($(this).val()).show();
+            $(this).attr("value", $(this).val() ).hide().prev().html($(this).val()).show();
         });
 
         var ValueIDs = '';
