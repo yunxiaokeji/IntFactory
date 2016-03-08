@@ -99,7 +99,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ClientID",clientid)
                                    };
 
-            DataSet ds = GetDataSet("P_GetOrderByID", paras, CommandType.StoredProcedure, "Order|Customer|Details|Tasks|Status");
+            DataSet ds = GetDataSet("P_GetOrderByID", paras, CommandType.StoredProcedure, "Order|Customer|Details|Goods|Tasks|Status");
             return ds;
         }
 
@@ -165,7 +165,7 @@ namespace IntFactoryDAL
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
-                                     new SqlParameter("@OldOrderID",orderid),
+                                     new SqlParameter("@OldOrderID",oldorderid),
                                      new SqlParameter("@OrderCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)

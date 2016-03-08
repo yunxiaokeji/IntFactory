@@ -233,6 +233,10 @@ namespace IntFactoryEntity
 
         public DateTime EntrustTime { get; set; }
 
+        public List<GoodsDetailEntity> OrderGoods { get; set; }
+
+        public bool IsSelf { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>
