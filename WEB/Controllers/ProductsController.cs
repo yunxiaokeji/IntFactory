@@ -321,6 +321,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetOrderCategoryDetailsByID(string categoryid, string orderid)
+        {
+            var model = new ProductsBusiness().GetOrderCategoryDetailsByID(categoryid, orderid);
+            JsonDictionary.Add("Model", model);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         #endregion
 
         #region 产品

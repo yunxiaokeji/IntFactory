@@ -297,6 +297,49 @@ namespace IntFactoryBusiness
             return id;
         }
 
+
+        public string CreateDHOrder(string orderid, List<ProductDetail> details, string operateid, string agentid, string clientid)
+        {
+            var dal = new OrdersDAL();
+            string id = Guid.NewGuid().ToString().ToLower();
+
+            SqlConnection conn = new SqlConnection(BaseDAL.ConnectionString);
+            if (conn.State != ConnectionState.Open)
+            {
+                conn.Open();
+            }
+            SqlTransaction tran = conn.BeginTransaction();
+            try
+            {
+
+                bool bl = dal.CreateDHOrder(id, orderid, operateid, clientid, tran);
+                //产品添加成功添加子产品
+                if (bl)
+                {
+                    foreach (var model in details)
+                    {
+                        if (!dal.AddOrderGoods(id, orderid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.Description, operateid, clientid, tran))
+                        {
+                            tran.Rollback();
+                            conn.Dispose();
+                            return "";
+                        }
+                    }
+                    tran.Commit();
+                    conn.Dispose();
+                    return id;
+                }
+                return "";
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                conn.Dispose();
+                return "";
+            }
+        }
+
+
         public static string CreateReply(string guid,string stageID,int mark, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
         {
             return OrdersDAL.BaseProvider.CreateReply(guid, stageID, mark, content, userID, agentID, fromReplyID, fromReplyUserID, fromReplyAgentID);
