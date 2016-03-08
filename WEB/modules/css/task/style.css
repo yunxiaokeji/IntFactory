@@ -54,7 +54,7 @@ cursor:pointer;
 }
 
 .platemakingContent .tbContentIpt {
-width:60px;
+width:80px;
 }
 
 .platemakingContent td {
@@ -88,4 +88,8 @@ width:60px;
 .create-first { height:70px; line-height:60px; margin:50px auto; width:200px; border:solid 1px #eee; box-shadow:0 0 10px #ccc; text-align:center;
                 color:#4a98e7; font-size:18px; cursor:pointer;}
 .create-first .plus{color:#4a98e7; font-size:30px; font-weight:bold; top:3px; position:relative; }
+
+.table-list tr:not(:first-child) td {
+height:35px;
+}
 
