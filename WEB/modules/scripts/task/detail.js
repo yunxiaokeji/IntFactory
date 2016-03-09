@@ -441,6 +441,9 @@
         $("#amount").text(amount.toFixed(2));
     }
 
+
+
+
     //任务制版相关事件
     ObjectJS.bindPlatemakingEvent = function () {
         ObjectJS.bindDocumentClick();
@@ -456,6 +459,10 @@
 
         $("#btn-updateTaskRemark").click(function () {
             ObjectJS.updateOrderPlatemaking();
+        });
+
+        $("#btn-updatePlateRemark").click(function () {
+            ObjectJS.updateOrderPlateRemark();
         });
 
         ObjectJS.bindAddTaskPlate();
@@ -740,6 +747,18 @@
             platehtml: encodeURI($("#platemakingBody").html()),
             taskID: ObjectJS.taskid,
             valueIDs: ValueIDs
+        }, function (data) {
+            if (data.Result == 1) {
+                alert("保存成功");
+            }
+        });
+    }
+
+    //保存制版工艺说明
+    ObjectJS.updateOrderPlateRemark = function () {
+        Global.post("/Task/UpdateOrderPlateRemark", {
+            orderID: ObjectJS.orderid,
+            plateRemark: $("#txtPlateRemark").val()
         }, function (data) {
             if (data.Result == 1) {
                 alert("保存成功");
