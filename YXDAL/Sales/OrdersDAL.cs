@@ -161,11 +161,11 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_CreateOrder", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool CreateDHOrder(string orderid, string oldorderid, string operateid, string clientid, SqlTransaction tran)
+        public bool CreateDHOrder(string orderid, string originalid, string operateid, string clientid, SqlTransaction tran)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
-                                     new SqlParameter("@OldOrderID",oldorderid),
+                                     new SqlParameter("@OldOrderID",originalid),
                                      new SqlParameter("@OrderCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)
@@ -176,11 +176,28 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool AddOrderGoods(string orderid, string oldorderid, string saleattr, string attrvalues, string saleattrvalue, decimal quantity, string remark, string operateid, string clientid, SqlTransaction tran)
+        public bool SendOrderGoods(string docid, string orderid, string expresscode, string details, string operateid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@DocID",docid),
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@ExpressCode",expresscode),
+                                     new SqlParameter("@GoodDetails",details),
+                                     new SqlParameter("@DocCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            bool bl = ExecuteNonQuery("P_SendOrderGoods", paras, CommandType.StoredProcedure) > 0;
+
+            return bl;
+        }
+
+        public bool AddOrderGoods(string orderid, string originalid, string saleattr, string attrvalues, string saleattrvalue, decimal quantity, string remark, string operateid, string clientid, SqlTransaction tran)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
-                                     new SqlParameter("@OriginalID",oldorderid),
+                                     new SqlParameter("@OriginalID",originalid),
                                      new SqlParameter("@AttrList",saleattr),
                                      new SqlParameter("@ValueList",attrvalues),
                                      new SqlParameter("@AttrValueList",saleattrvalue),

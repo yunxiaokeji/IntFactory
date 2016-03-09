@@ -1,0 +1,26 @@
+﻿
+
+<table id="orderSendGoods" class="table-list">
+<tr class="tr-header">
+    <td class="tLeft">规格</td>
+    <td class="">下单量</td>
+    <td class="">已发货</td>
+    <td class="">发货</td>
+</tr>
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr data-id="{%=item.AutoID%}" class="list-item">
+    <td class="">{%=item.Remark%}</td>
+    <td class="center">{%=item.Quantity.toFixed(0)%}</td>
+    <td class="center">{%=item.Complete.toFixed(0)%}</td>
+    <td class=""><input class="width60 quantity" type="text" value="0" /></td>
+</tr>
+{% } %}
+
+</table>
+<div class="mTop20">
+    <span class="lineHeight25">快递单号：</span>
+    <span class="right"><input type="text" class="width200" id="expressCode" placeholder="快递单号"/></span>
+</div>

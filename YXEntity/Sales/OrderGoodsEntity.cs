@@ -9,6 +9,8 @@ namespace IntFactoryEntity
     {
         public string OrderID { get; set; }
 
+        public string ExpressCode { get; set; }
+
         public List<ProductDetail> OrderGoods { get; set; }
     }
 }

@@ -367,6 +367,19 @@ namespace IntFactoryBusiness
             }
         }
 
+        public string SendOrderGoods(string orderid, string expresscode, string details, string operateid, string agentid, string clientid)
+        {
+            var dal = new OrdersDAL();
+            string id = Guid.NewGuid().ToString().ToLower();
+
+            bool bl = dal.SendOrderGoods(id, orderid, expresscode, details, operateid, clientid);
+            if (bl)
+            {
+                return id;
+            }
+            return "";
+        }
+
 
         public static string CreateReply(string guid,string stageID,int mark, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
         {

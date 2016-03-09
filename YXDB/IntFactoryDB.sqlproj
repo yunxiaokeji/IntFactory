@@ -446,7 +446,6 @@
     <None Include="Procedures\Task\P_FinishTask.sql" />
     <None Include="Procedures\Task\P_GetTasks.sql" />
     <None Include="Procedures\Task\P_UpdateTaskEndTime.sql" />
-    <Build Include="Table\OrderTask.sql" />
     <None Include="Procedures\Products\P_GetProductsAll.sql" />
     <None Include="Procedures\Products\P_GetProductUseLogs.sql" />
     <Build Include="Procedures\Sales\P_GetOrderPlans.sql" />
@@ -484,5 +483,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Sales\P_AddOrderGoods.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_SendOrderGoods.sql" />
   </ItemGroup>
 </Project>

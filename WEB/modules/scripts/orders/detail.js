@@ -116,7 +116,7 @@ define(function (require, exports, module) {
         } else if (_self.status == 5) {
             $("#changeOrderStatus").html("完成生产");
         } else if (_self.status == 6) {
-            $("#changeOrderStatus").html("交易完成");
+            $("#changeOrderStatus").html("确认发货");
         }
 
         //状态
@@ -318,7 +318,10 @@ define(function (require, exports, module) {
                 confirm("开始生产后不可撤销且不能变更流程，确认开始生产吗？", function () {
                     _self.updateOrderStatus(_self.status * 1 + 1);
                 });
-            }else {
+            }//发货
+            else if (_self.status == 6) {
+                _self.sendGoods();
+            } else {
                 confirm("操作后不可撤销，确认" + _this.html() + "吗？", function () {
                     _self.updateOrderStatus(_self.status * 1 + 1);
                 });
@@ -495,6 +498,53 @@ define(function (require, exports, module) {
             });
         });
     }
+
+    ObjectJS.sendGoods = function () {
+        var _self = this;
+        doT.exec("template/orders/sendordergoods.html", function (template) {
+            var innerText = template(_self.model.OrderGoods);
+            
+            Easydialog.open({
+                container: {
+                    id: "show-sendordergoods",
+                    header: "大货单发货",
+                    content: innerText,
+                    yesFn: function () {
+                        var details = ""
+                        $("#orderSendGoods .list-item").each(function () {
+                            var _this = $(this);
+                            var quantity = _this.find(".quantity").val();
+                            if (quantity > 0) {
+                                details += _this.data("id") + "-" + quantity + ",";
+                            }
+                        });
+                        if (details.length > 0) {
+                            Global.post("/Orders/SendOrderGoods", {
+                                orderid: _self.orderid,
+                                expresscode: $("#expressCode").val(),
+                                details: details
+                            }, function (data) {
+                                if (data.id) {
+                                    alert("发货成功!", location.href);
+                                } else {
+                                    alert("发货成功！");
+                                }
+                            });
+                        }
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+            $("#orderSendGoods").find(".quantity").change(function () {
+                var _this = $(this);
+                if (!_this.val().isInt() || _this.val() <= 0) {
+                    _this.val("0");
+                }
+            });
+        });
+    };
 
     //绑定账单
     ObjectJS.getOrderBills = function () {
