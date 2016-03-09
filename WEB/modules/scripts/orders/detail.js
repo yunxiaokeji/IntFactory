@@ -16,13 +16,13 @@ define(function (require, exports, module) {
         var _self = this;
         _self.orderid = orderid;
         _self.status = status;
+        _self.mark = 1;
         _self.model = JSON.parse(model.replace(/&quot;/g, '"'));
         _self.bindEvent();
         _self.getAmount();
 
         _self.bindStyle(_self.model);
-
-        $("#addInvoice").hide();
+        _self.initTalkReply();
     }
 
     ObjectJS.bindStyle = function (model) {
@@ -360,6 +360,12 @@ define(function (require, exports, module) {
             if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getLogs(1);
+            } else if (_this.data("id") == "navEngraving" || _this.data("id") == "navProducts") {
+                if (_this.data("mark")) {
+                    $("#navOrderTalk").show();
+                    _self.mark = _this.data("mark");
+                    _self.getTaskReplys(1);
+                }
             } 
         });
     }
@@ -768,7 +774,7 @@ define(function (require, exports, module) {
                 var model = {
                     GUID: _self.orderid,
                     StageID: "",
-                    mark: ObjectJS.mark,
+                    mark: _self.mark,
                     Content: txt.val().trim(),
                     FromReplyID: "",
                     FromReplyUserID: "",
@@ -789,11 +795,11 @@ define(function (require, exports, module) {
     ObjectJS.getTaskReplys = function (page) {
         var _self = this;
         $("#replyList").empty();
-        $("#replyList").html("<tr><td colspan='8'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#replyList").html("<tr><td colspan='2'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/Opportunitys/GetReplys", {
             guid: _self.orderid,
             stageid: "",
-            mark: 1,
+            mark: _self.mark,
             pageSize: 10,
             pageIndex: page
         }, function (data) {
@@ -821,8 +827,8 @@ define(function (require, exports, module) {
                         if ($("#Msg_" + _this.data("replyid")).val().trim()) {
                             var entity = {
                                 GUID: _this.data("id"),
-                                StageID: _this.data("stageid"),
-                                Mark: ObjectJS.mark,
+                                StageID: "",
+                                Mark: _self.mark,
                                 Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                                 FromReplyID: _this.data("replyid"),
                                 FromReplyUserID: _this.data("createuserid"),
@@ -839,7 +845,7 @@ define(function (require, exports, module) {
                 });
             }
             else {
-                $("#replyList").html("<tr><td colspan='8'><div class='noDataTxt' >暂无评论!<div></td></tr>");
+                $("#replyList").html("<tr><td colspan='2'><div class='noDataTxt' >暂无评论!<div></td></tr>");
             }
 
             $("#pagerReply").paginate({
@@ -853,7 +859,7 @@ define(function (require, exports, module) {
                 mouse: 'slide',
                 float: "left",
                 onChange: function (page) {
-                    _self.getTaskReplys(orderid, stageid, page);
+                    _self.getTaskReplys(page);
                 }
             });
         });
@@ -867,6 +873,8 @@ define(function (require, exports, module) {
             doT.exec("template/customer/replys.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
+
+                $("#replyList .noDataTxt").parent().parent().remove();
 
                 $("#replyList").prepend(innerhtml);
 

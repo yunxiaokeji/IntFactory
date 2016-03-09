@@ -178,6 +178,7 @@
     <Content Include="modules\images\img-noimg.jpg" />
     <Content Include="modules\images\img-noimg.png" />
     <Content Include="modules\images\loginBackground.png" />
+    <Content Include="modules\images\loginMainBackground.png" />
     <Content Include="modules\images\selforder\bg-map.png" />
     <Content Include="modules\images\selforder\bottom-bg.png" />
     <Content Include="modules\images\selforder\img_03.png" />
@@ -810,7 +811,6 @@
     <Content Include="modules\css\stock\attrplug.css" />
     <Content Include="modules\css\shoppingcart\filterproducts.css" />
     <Content Include="modules\css\shoppingcart\filterdetails.css" />
-    <Content Include="modules\images\default.png" />
     <Content Include="modules\images\ico-add.png" />
     <Content Include="modules\images\ico-back.png" />
     <Content Include="modules\images\ico-del-deep.png" />

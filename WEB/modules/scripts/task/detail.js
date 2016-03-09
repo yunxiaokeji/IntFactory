@@ -166,7 +166,7 @@
     ObjectJS.getTaskReplys = function (page) {
         var _self = this;
         $("#replyList").empty();
-        $("#replyList").html("<tr><td colspan='8'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#replyList").html("<tr><td colspan='2'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/Opportunitys/GetReplys", {
             guid: ObjectJS.orderid,
             stageid: ObjectJS.stageid,
@@ -216,7 +216,7 @@
                 });
             }
             else {
-                $("#replyList").html("<tr><td colspan='8'><div class='noDataTxt' >暂无评论!<div></td></tr>");
+                $("#replyList").html("<tr><td colspan='2'><div class='noDataTxt' >暂无评论!<div></td></tr>");
             }
 
             $("#pagerReply").paginate({
@@ -230,7 +230,7 @@
                 mouse: 'slide',
                 float: "left",
                 onChange: function (page) {
-                    ObjectJS.getTaskReplys(orderid, stageid, page);
+                    ObjectJS.getTaskReplys(page);
                 }
             });
         });
@@ -244,6 +244,8 @@
             doT.exec("template/customer/replys.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
+
+                $("#replyList .noDataTxt").parent().parent().remove();
 
                 $("#replyList").prepend(innerhtml);
 
