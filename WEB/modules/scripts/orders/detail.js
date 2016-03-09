@@ -757,5 +757,150 @@ define(function (require, exports, module) {
         });
     }
 
+    //初始化任务讨论列表
+    ObjectJS.initTalkReply = function () {
+        var _self = this;
+
+        $("#btnSaveTalk").click(function () {
+            var txt = $("#txtContent");
+
+            if (txt.val().trim()) {
+                var model = {
+                    GUID: _self.orderid,
+                    StageID: "",
+                    mark: ObjectJS.mark,
+                    Content: txt.val().trim(),
+                    FromReplyID: "",
+                    FromReplyUserID: "",
+                    FromReplyAgentID: ""
+                };
+                _self.saveTaskReply(model);
+
+                txt.val("");
+            }
+
+        });
+
+        ObjectJS.getTaskReplys(1);
+
+    }
+
+    //获取任务讨论列表
+    ObjectJS.getTaskReplys = function (page) {
+        var _self = this;
+        $("#replyList").empty();
+        $("#replyList").html("<tr><td colspan='8'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        Global.post("/Opportunitys/GetReplys", {
+            guid: _self.orderid,
+            stageid: "",
+            mark: 1,
+            pageSize: 10,
+            pageIndex: page
+        }, function (data) {
+            $("#replyList").empty();
+            if (data.items.length > 0) {
+                doT.exec("template/customer/replys.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
+
+                    $("#replyList").html(innerhtml);
+
+                    innerhtml.find(".btn-reply").click(function () {
+                        var _this = $(this), reply = _this.nextAll(".reply-box");
+                        reply.slideDown(500);
+                        reply.find("textarea").focus();
+                        reply.find("textarea").blur(function () {
+                            if (!$(this).val().trim()) {
+                                reply.slideUp(200);
+                            }
+                        });
+                    });
+
+                    innerhtml.find(".save-reply").click(function () {
+                        var _this = $(this);
+                        if ($("#Msg_" + _this.data("replyid")).val().trim()) {
+                            var entity = {
+                                GUID: _this.data("id"),
+                                StageID: _this.data("stageid"),
+                                Mark: ObjectJS.mark,
+                                Content: $("#Msg_" + _this.data("replyid")).val().trim(),
+                                FromReplyID: _this.data("replyid"),
+                                FromReplyUserID: _this.data("createuserid"),
+                                FromReplyAgentID: _this.data("agentid")
+                            };
+
+                            ObjectJS.saveTaskReply(entity);
+                        }
+
+                        $("#Msg_" + _this.data("replyid")).val('');
+                        $(this).parent().slideUp(100);
+                    });
+
+                });
+            }
+            else {
+                $("#replyList").html("<tr><td colspan='8'><div class='noDataTxt' >暂无评论!<div></td></tr>");
+            }
+
+            $("#pagerReply").paginate({
+                total_count: data.totalCount,
+                count: data.pageCount,
+                start: page,
+                display: 5,
+                border: true,
+                rotate: true,
+                images: false,
+                mouse: 'slide',
+                float: "left",
+                onChange: function (page) {
+                    _self.getTaskReplys(orderid, stageid, page);
+                }
+            });
+        });
+    }
+
+    //保存任务讨论
+    ObjectJS.saveTaskReply = function (model) {
+        var _self = this;
+
+        Global.post("/Opportunitys/SavaReply", { entity: JSON.stringify(model) }, function (data) {
+            doT.exec("template/customer/replys.html", function (template) {
+                var innerhtml = template(data.items);
+                innerhtml = $(innerhtml);
+
+                $("#replyList").prepend(innerhtml);
+
+                innerhtml.find(".btn-reply").click(function () {
+                    var _this = $(this), reply = _this.nextAll(".reply-box");
+                    reply.slideDown(500);
+                    reply.find("textarea").focus();
+                    reply.find("textarea").blur(function () {
+                        if (!$(this).val().trim()) {
+                            reply.slideUp(200);
+                        }
+                    });
+                });
+
+                innerhtml.find(".save-reply").click(function () {
+                    var _this = $(this);
+                    if ($("#Msg_" + _this.data("replyid")).val().trim()) {
+                        var entity = {
+                            GUID: _this.data("id"),
+                            Content: $("#Msg_" + _this.data("replyid")).val().trim(),
+                            FromReplyID: _this.data("replyid"),
+                            FromReplyUserID: _this.data("createuserid"),
+                            FromReplyAgentID: _this.data("agentid")
+                        };
+                        ObjectJS.saveTaskReply(entity);
+
+                    }
+                    $("#Msg_" + _this.data("replyid")).val('');
+                    $(this).parent().slideUp(100);
+                });
+
+            });
+        });
+    }
+
     module.exports = ObjectJS;
 })
