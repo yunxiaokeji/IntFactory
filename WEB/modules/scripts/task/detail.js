@@ -114,8 +114,8 @@
         confirm("标记完成的任务不可逆,确定完成?", function () {
             Global.post("/Task/FinishTask",
                 {
-                    taskid: ObjectJS.taskid,
-                    orderid: ObjectJS.orderid,
+                    taskID: ObjectJS.taskid,
+                    orderID: ObjectJS.orderid,
                     orderType: ObjectJS.orderType
             }, function (data) {
                 if (data.Result == 1) {
@@ -285,7 +285,7 @@
         $("#taskLogList").empty();
 
         Global.post("/Task/GetOrderTaskLogs", {
-            taskid: _self.taskid,
+            taskID: _self.taskid,
             pageindex: page
         }, function (data) {
 
@@ -734,9 +734,9 @@
         });
 
         Global.post("/Task/UpdateOrderPlateAttr", {
-            orderid: ObjectJS.orderid,
+            orderID: ObjectJS.orderid,
             platehtml: encodeURI($("#platemakingBody").html()),
-            taskid: ObjectJS.taskid,
+            taskID: ObjectJS.taskid,
             valueIDs: ValueIDs
         }, function (data) {
             if (data.Result == 1) {

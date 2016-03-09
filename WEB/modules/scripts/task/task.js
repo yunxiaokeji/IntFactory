@@ -5,7 +5,7 @@
 
     var Params = {
         isMy: true,
-        userid:"",
+        userID:"",
         finishStatus:0,
         keyWords:'',
         beginDate: '',
@@ -16,7 +16,10 @@
 
     var ObjectJS = {};
 
-    ObjectJS.init = function (isMy) {
+    ObjectJS.init = function (isMy, nowDate) {
+        Params.beginDate = nowDate;
+        Params.endDate = nowDate;
+
         if (isMy == "0")
         {
             Params.isMy = false;
@@ -28,12 +31,12 @@
                     prevText: "人员-",
                     defaultText: "全部",
                     defaultValue: "",
-                    userid: "-1",
+                    userID: "-1",
                     isTeam: false,
                     width: "180",
                     onChange: function (data) {
                         Params.pageIndex = 1;
-                        Params.userid = data.userid;
+                        Params.userID = data.userid;
                         ObjectJS.getList();
                     }
                 });

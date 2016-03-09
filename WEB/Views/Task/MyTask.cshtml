@@ -1,14 +1,17 @@
 ﻿@{
     ViewBag.Title = "我的任务";
+    var NowDate = ViewBag.NowDate;
 }
 
 @section scripts{
+    
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/task/task"], function (obj) {
-            obj.init('@ViewBag.IsMy');
+            obj.init('@ViewBag.IsMy', '@NowDate');
         });
 
+        
         $(function () {
             var begin = {
                 elem: '#BeginTime',
@@ -56,8 +59,8 @@
     <div class="search-body">
         <div id="chooseBranch" class="left mRight20"></div>
         <div class="left">
-            <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input width80"  />
-            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width80"  />
+            <span class="width80">创建时间：</span><input type="text" value="@NowDate" id="BeginTime"  class="input width80"  />
+            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime" value="@NowDate" class="input width80"  />
             <span class="btn mLeft10" id="btnSearch">搜索</span>
         </div>
         <div class="right searth-module" data-text="关键字搜索..." data-width="160"> </div>
