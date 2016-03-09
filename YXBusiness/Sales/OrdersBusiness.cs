@@ -200,10 +200,10 @@ namespace IntFactoryBusiness
         {
             List<ReplyEntity> list = new List<ReplyEntity>();
             string whereSql = " Status<>9 and GUID='" + guid + "' ";
-            if (!string.IsNullOrEmpty(stageID))
-            {
-                whereSql += " and StageID='" + stageID+"' ";
-            }
+            //if (!string.IsNullOrEmpty(stageID))
+            //{
+            //    whereSql += " and StageID='" + stageID+"' ";
+            //}
 
             if (mark != -1)
             {
