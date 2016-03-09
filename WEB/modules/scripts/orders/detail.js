@@ -16,13 +16,13 @@ define(function (require, exports, module) {
         var _self = this;
         _self.orderid = orderid;
         _self.status = status;
+        _self.mark = 1;
         _self.model = JSON.parse(model.replace(/&quot;/g, '"'));
         _self.bindEvent();
         _self.getAmount();
 
         _self.bindStyle(_self.model);
-
-        $("#addInvoice").hide();
+        _self.initTalkReply();
     }
 
     ObjectJS.bindStyle = function (model) {
@@ -360,6 +360,12 @@ define(function (require, exports, module) {
             if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getLogs(1);
+            } else if (_this.data("id") == "navEngraving" || _this.data("id") == "navProducts") {
+                if (_this.data("mark")) {
+                    $("#navOrderTalk").show();
+                    _self.mark = _this.data("mark");
+                    _self.getTaskReplys(1);
+                }
             } 
         });
     }
@@ -753,6 +759,153 @@ define(function (require, exports, module) {
                 onChange: function (page) {
                     _self.getLogs(page);
                 }
+            });
+        });
+    }
+
+    //初始化任务讨论列表
+    ObjectJS.initTalkReply = function () {
+        var _self = this;
+
+        $("#btnSaveTalk").click(function () {
+            var txt = $("#txtContent");
+
+            if (txt.val().trim()) {
+                var model = {
+                    GUID: _self.orderid,
+                    StageID: "",
+                    mark: _self.mark,
+                    Content: txt.val().trim(),
+                    FromReplyID: "",
+                    FromReplyUserID: "",
+                    FromReplyAgentID: ""
+                };
+                _self.saveTaskReply(model);
+
+                txt.val("");
+            }
+
+        });
+
+        ObjectJS.getTaskReplys(1);
+
+    }
+
+    //获取任务讨论列表
+    ObjectJS.getTaskReplys = function (page) {
+        var _self = this;
+        $("#replyList").empty();
+        $("#replyList").html("<tr><td colspan='2'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        Global.post("/Opportunitys/GetReplys", {
+            guid: _self.orderid,
+            stageid: "",
+            mark: _self.mark,
+            pageSize: 10,
+            pageIndex: page
+        }, function (data) {
+            $("#replyList").empty();
+            if (data.items.length > 0) {
+                doT.exec("template/customer/replys.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
+
+                    $("#replyList").html(innerhtml);
+
+                    innerhtml.find(".btn-reply").click(function () {
+                        var _this = $(this), reply = _this.nextAll(".reply-box");
+                        reply.slideDown(500);
+                        reply.find("textarea").focus();
+                        reply.find("textarea").blur(function () {
+                            if (!$(this).val().trim()) {
+                                reply.slideUp(200);
+                            }
+                        });
+                    });
+
+                    innerhtml.find(".save-reply").click(function () {
+                        var _this = $(this);
+                        if ($("#Msg_" + _this.data("replyid")).val().trim()) {
+                            var entity = {
+                                GUID: _this.data("id"),
+                                StageID: "",
+                                Mark: _self.mark,
+                                Content: $("#Msg_" + _this.data("replyid")).val().trim(),
+                                FromReplyID: _this.data("replyid"),
+                                FromReplyUserID: _this.data("createuserid"),
+                                FromReplyAgentID: _this.data("agentid")
+                            };
+
+                            ObjectJS.saveTaskReply(entity);
+                        }
+
+                        $("#Msg_" + _this.data("replyid")).val('');
+                        $(this).parent().slideUp(100);
+                    });
+
+                });
+            }
+            else {
+                $("#replyList").html("<tr><td colspan='2'><div class='noDataTxt' >暂无评论!<div></td></tr>");
+            }
+
+            $("#pagerReply").paginate({
+                total_count: data.totalCount,
+                count: data.pageCount,
+                start: page,
+                display: 5,
+                border: true,
+                rotate: true,
+                images: false,
+                mouse: 'slide',
+                float: "left",
+                onChange: function (page) {
+                    _self.getTaskReplys(page);
+                }
+            });
+        });
+    }
+
+    //保存任务讨论
+    ObjectJS.saveTaskReply = function (model) {
+        var _self = this;
+
+        Global.post("/Opportunitys/SavaReply", { entity: JSON.stringify(model) }, function (data) {
+            doT.exec("template/customer/replys.html", function (template) {
+                var innerhtml = template(data.items);
+                innerhtml = $(innerhtml);
+
+                $("#replyList .noDataTxt").parent().parent().remove();
+
+                $("#replyList").prepend(innerhtml);
+
+                innerhtml.find(".btn-reply").click(function () {
+                    var _this = $(this), reply = _this.nextAll(".reply-box");
+                    reply.slideDown(500);
+                    reply.find("textarea").focus();
+                    reply.find("textarea").blur(function () {
+                        if (!$(this).val().trim()) {
+                            reply.slideUp(200);
+                        }
+                    });
+                });
+
+                innerhtml.find(".save-reply").click(function () {
+                    var _this = $(this);
+                    if ($("#Msg_" + _this.data("replyid")).val().trim()) {
+                        var entity = {
+                            GUID: _this.data("id"),
+                            Content: $("#Msg_" + _this.data("replyid")).val().trim(),
+                            FromReplyID: _this.data("replyid"),
+                            FromReplyUserID: _this.data("createuserid"),
+                            FromReplyAgentID: _this.data("agentid")
+                        };
+                        ObjectJS.saveTaskReply(entity);
+
+                    }
+                    $("#Msg_" + _this.data("replyid")).val('');
+                    $(this).parent().slideUp(100);
+                });
+
             });
         });
     }

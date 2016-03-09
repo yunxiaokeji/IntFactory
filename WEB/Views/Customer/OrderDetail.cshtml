@@ -191,8 +191,8 @@
 
     <div class="tab-nav mTop30">
         <ul class="tab-nav-ul left">
-            <li class="hover" data-id="navProducts">成本列表</li>
-            <li data-id="navEngraving">制版详情</li>
+            <li class="hover" data-id="navProducts" data-mark="1">成本列表</li>
+            <li data-id="navEngraving"  data-mark="2">制版详情</li>
             <li data-id="navPays" class="navPays">付款记录</li>
             <li data-id="navLog">日志</li>
         </ul>
@@ -265,5 +265,17 @@
         <div id="pagerLogs" class="mTop10">
 
         </div>
+    </div>
+
+    <div id="navOrderTalk" class="talk-body nav-partdiv">
+        <div class="content-main">
+            <textarea id="txtContent" class="txt-content left"></textarea>
+            <span class="btn btn-save" id="btnSaveTalk">提交</span>
+        </div>
+        <div class="talk-title"> 全部讨论 </div>
+            <table class="content-list" id="replyList">
+
+            </table>
+        <div id="pagerReply" class="mTop10"></div>
     </div>
 </div>
