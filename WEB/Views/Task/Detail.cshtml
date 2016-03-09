@@ -142,6 +142,7 @@
                           }}
 
                     </tr>
+
                     @{
                         var Mark = model.Mark;
                         var FinishStatus = model.FinishStatus;
@@ -154,40 +155,40 @@
                                 <td class="center">@(detail.UnitName)</td>
                                 <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                                 @{
-                            if (FinishStatus != 2)
-                            {
-                                if (model.Mark == 1)
-                                { 
-                                        <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
-                                }
+                                    if (FinishStatus != 2)
+                                    {
+                                        if (model.Mark == 1)
+                                        { 
+                                            <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
+                                        }
 
-                                if (model.Mark == 3)
-                                { 
+                                        if (model.Mark == 3)
+                                        { 
                                             <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
                                             <td class="center tr-loss"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Loss.ToString("f2"))" class="loss width50" value="@(detail.Loss.ToString("f2"))" /></td>
-                                }
+                                        }
                                       
                                         <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
                                         
-                                if (model.Mark == 1)
-                                { 
-                                        <td class="center">
-                                                <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
-                                        </td>
-                                }
-                            }
-                            else
-                            {
+                                        if (model.Mark == 1)
+                                        { 
+                                            <td class="center">
+                                                    <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
+                                            </td>
+                                        }
+                                    }
+                                    else
+                                    {
                                         <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
                                     
-                                    if (Mark == 3)
-                                    {
-                                        <td class="center tr-loss">@(detail.Loss.ToString("f2"))</td>
-                                    }
+                                        if (Mark == 3)
+                                        {
+                                            <td class="center tr-loss">@(detail.Loss.ToString("f2"))</td>
+                                        }
                                         
-                                    <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
-                            }
-                               }
+                                        <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
+                                    }
+                                }
                             </tr>
                         }
                     }
@@ -236,7 +237,6 @@
             }
             </div>
             
-
             @{
                 if (model.Mark == 2 && model.FinishStatus != 2)
                 {
@@ -248,16 +248,30 @@
                             添加制版
                         </div>
                     }
-
                     <div class="btn right mTop10" style="display:@(hasPlate ? "block" : "none")" id="btn-updateTaskRemark">设置制版</div>
                 }
             }
 
             <div class="clear"></div>
+
+            @{if (model.Mark == 2 && model.FinishStatus != 2){
+            <div class="content-main">
+                <textarea id="txtPlateRemark" class="txt-content"  placeholder="工艺说明">@order.PlateRemark</textarea><br />
+                <div class="btn right mTop5" id="btn-updatePlateRemark">保存工艺说明</div>
+                <div class="clear"></div>
+            </div>
+            }
+            else
+            {
+                <div class="mTop20" style="width:800px;">
+                    <div class="talk-title" >工艺说明</div>
+                    <div style="line-height:36px;word-wrap:break-word;word-break:break-all">@order.PlateRemark</div>
+                </div>
+            }
+            
+            }
         </div>
             
-        
-
         <div id="orderTaskLogs" class="mTop30 hide">
             <div class="log-body" id="taskLogList"></div>
             <div id="pagerLogs" class="mTop10"></div>

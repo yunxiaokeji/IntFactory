@@ -215,6 +215,8 @@ namespace IntFactoryEntity
 
         public string Platemaking { get; set; }
 
+        public string PlateRemark { get; set; }
+
         public int TaskCount { get; set; }
 
         public int TaskOver { get; set; }

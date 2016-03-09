@@ -514,9 +514,9 @@ namespace IntFactoryBusiness
             return OrdersDAL.BaseProvider.UpdateOrderPlateAttr(orderid, taskID, valueIDS, platehtml, createUserID, agentID, clientID);
         }
 
-        public bool UpdateOrderPlatemaking(string orderid, string platemaking)
+        public bool UpdateOrderPlateRemark(string orderid, string plateRemark)
         {
-            return OrdersDAL.BaseProvider.UpdateOrderPlatemaking(orderid, platemaking);
+            return OrdersDAL.BaseProvider.UpdateOrderPlateRemark(orderid, plateRemark);
         }
 
         public bool SubmitOrder(string orderid, string operateid, string ip, string agentid, string clientid)
