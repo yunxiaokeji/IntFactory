@@ -116,7 +116,7 @@ define(function (require, exports, module) {
         } else if (_self.status == 5) {
             $("#changeOrderStatus").html("完成生产");
         } else if (_self.status == 6) {
-            $("#changeOrderStatus").html("确认发货");
+            $("#changeOrderStatus").html("订单发货");
         }
 
         //状态
