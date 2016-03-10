@@ -1,4 +1,5 @@
 ﻿@{
+    IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
     var model = (IntFactoryEntity.Products)ViewBag.Model;
     ViewBag.Title = model.ProductName;
 }
@@ -16,6 +17,10 @@
 }
 <div class="header-box">
     <span class="header-title left">材料详情</span>
+    @if (CurrentUser.ClientID == model.ClientID)
+    {
+         <a href="/Products/ProductDetail/@(model.ProductID)" class="btn right">编辑材料</a>
+    }
 </div>
 <div class="content-body mTop20">
     <div class="top-div">

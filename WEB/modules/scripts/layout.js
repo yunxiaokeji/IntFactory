@@ -258,6 +258,7 @@ define(function (require, exports, module) {
 
         });
     }
+
     //旋转按钮（顺时针）
     LayoutObject.setRotateR = function (obj, i, v) {
         var _self = this;
@@ -269,6 +270,7 @@ define(function (require, exports, module) {
             }, 5)
         }
     }
+
     //旋转按钮(逆时针)
     LayoutObject.setRotateL = function (obj, i, v) {
         var _self = this;
@@ -280,6 +282,7 @@ define(function (require, exports, module) {
             }, 5)
         } 
     }
+
     //绑定元素定位和样式
     LayoutObject.bindStyle = function () {
 
@@ -323,8 +326,6 @@ define(function (require, exports, module) {
             }).blur();
         };
     }
-
-
 
     module.exports = LayoutObject;
 })

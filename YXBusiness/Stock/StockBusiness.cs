@@ -81,11 +81,14 @@ namespace IntFactoryBusiness
                     model.ProviderName = BaseBusiness.GetProviderByID(model.ProviderID).Name;
                 }
                 model.Details = new List<StorageDetail>();
-                foreach (DataRow detail in ds.Tables[1].Select("DocID='" + model.DocID + "'"))
+                if (ds.Tables.Contains("Details"))
                 {
-                    StorageDetail dModel = new StorageDetail();
-                    dModel.FillData(detail);
-                    model.Details.Add(dModel);
+                    foreach (DataRow detail in ds.Tables["Details"].Select("DocID='" + model.DocID + "'"))
+                    {
+                        StorageDetail dModel = new StorageDetail();
+                        dModel.FillData(detail);
+                        model.Details.Add(dModel);
+                    }
                 }
 
                 list.Add(model);

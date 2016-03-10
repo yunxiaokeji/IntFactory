@@ -3,17 +3,16 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    
+    <td class="width80">
+         <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.DocImage?item.DocImage:'/modules/images/img-noimg.png'%}" />
+    </td>
     <td>
         {%
 	        for(var ii=0, jj=item.Details.length; ii < jj; ii++){
 	        var detail = item.Details[ii];
         %}
-        <ul class="purchase-detail">  
-            <li class="product-imgs">
-                <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=detail.Imgs%}" />
-            </li>    
-             <li class="long name">
+        <ul class="purchase-detail">     
+             <li class="long name" title="{%=detail.ProductName%}{%=detail.Remark%}">
                  {%=detail.ProductName%}{%=detail.Remark%}
              </li>   
              <li class="code width120">
