@@ -19,6 +19,7 @@ define(function (require, exports, module) {
     //待办小红点
     LayoutObject.bindUpcomings = function () {
         Global.post("/Base/GetClientUpcomings", {}, function (data) {
+            console.log(data.items);
             for (var i = 0; i < data.items.length; i++) {
                 var item = data.items[i];
                 //采购
@@ -82,47 +83,38 @@ define(function (require, exports, module) {
                     if (controller.find("li[data-code='103030500']").find(".point").length == 0) {
                         controller.find("li[data-code='103030500']").find(".name").append("<span class='point'></span>");
                     }
-                } else if (item.DocType == 21) { //代理商采购单
-                    if ($("#modulesMenu li[data-code='103000000']").find(".point").length == 0) {
-                        $("#modulesMenu li[data-code='103000000']").find(".name").after("<span class='point'></span>");
+                } else if (item.DocType == 21) { //订单
+                    if ($("#modulesMenu li[data-code='101000000']").find(".point").length == 0) {
+                        $("#modulesMenu li[data-code='101000000']").find(".name").after("<span class='point'></span>");
                     }
 
-                    var controller = $("nav .controller[data-code='103040000']");
+                    var controller = $("nav .controller[data-code='101010000']");
                     if (controller.find(".point").length == 0) {
                         controller.find(".controller-box .name").after("<span class='point'></span>");
                     }
-                    if (item.SendStatus == 0) {
-                        if (controller.find("li[data-code='103040100']").find(".point").length == 0) {
-                            controller.find("li[data-code='103040100']").find(".name").append("<span class='point'></span>");
-                        }
-                    } else if (item.SendStatus == 1) {
-                        if (controller.find("li[data-code='103040200']").find(".point").length == 0) {
-                            controller.find("li[data-code='103040200']").find(".name").append("<span class='point'></span>");
-                        }
-                    }
 
-                    if (item.ReturnStatus == 1 && item.SendStatus == 0) {
-                        if (controller.find("li[data-code='103040300']").find(".point").length == 0) {
-                            controller.find("li[data-code='103040300']").find(".name").append("<span class='point'></span>");
-                        }
-                    } else if (item.ReturnStatus == 1 && item.SendStatus > 0) {
-                        if (controller.find("li[data-code='103040400']").find(".point").length == 0) {
-                            controller.find("li[data-code='103040400']").find(".name").append("<span class='point'></span>");
+                    if (item.ReturnStatus == 0 && item.SendStatus == 0) {
+                        if (controller.find("li[data-code='102010300']").find(".point").length == 0) {
+                            controller.find("li[data-code='102010300']").find(".name").append("<span class='point'></span>");
                         }
                     }
-                } else if (item.DocType == 111) { //财务
+                } else if (item.DocType == 111) { //任务
                     if (item.SendStatus == 1) {
-                        if ($("#modulesMenu li[data-code='104000000']").find(".point").length == 0) {
-                            $("#modulesMenu li[data-code='104000000']").find(".name").after("<span class='point'></span>");
-                        }
+                        //if ($("#modulesMenu li[data-code='109000000']").find(".point").length == 0) {
+                        //    $("#modulesMenu li[data-code='109000000']").find(".name").after("<span class='point'></span>");
+                        //}
 
-                        var controller = $("nav .controller[data-code='104010000']");
-                        if (controller.find(".point").length == 0) {
-                            controller.find(".controller-box .name").after("<span class='point'></span>");
-                        }
+                        //var controller = $("nav .controller[data-code='109010000']");
+                        //if (controller.find(".point").length == 0) {
+                        //    controller.find(".controller-box .name").after("<span class='point'></span>");
+                        //}
 
-                        if (controller.find("li[data-code='104010200']").find(".point").length == 0) {
-                            controller.find("li[data-code='104010200']").find(".name").append("<span class='point'></span>");
+                        //if (controller.find("li[data-code='109010100']").find(".point").length == 0) {
+                        //    controller.find("li[data-code='109010100']").find(".name").append("<span class='point'></span>");
+                        //}
+
+                        if ($(".ico-contact").find(".point").length == 0) {
+                            $(".ico-contact").append("<span class='ico-contact-point'>" + item.ReturnStatus + "</span>");
                         }
                     }
                 }

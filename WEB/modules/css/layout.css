@@ -136,8 +136,10 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .ico-feedback { background:url('/modules/images/ico-feedback.png') no-repeat; background-size:cover;}
 .ico-feedback:hover { background:url('/modules/images/ico-feedback-hover.png') no-repeat; background-size:cover;}
 
-.ico-contact { background:url('/modules/images/ico-task.png') no-repeat; background-size:cover;}
+.ico-contact { background:url('/modules/images/ico-task.png') no-repeat; background-size:cover; position:relative;}
 .ico-contact:hover { background:url('/modules/images/ico-task-hover.png') no-repeat; background-size:cover;}
+.ico-contact-point { background-color:red; width:18px; height:18px; color:#fff; border-radius:9px; display:inline-block; 
+                     position:absolute; right:-10px; top:-10px; text-align:center; }
 
 .ico-help { background:url('/modules/images/ico-help.png') no-repeat; background-size:cover;}
 .ico-help:hover { background:url('/modules/images/ico-help-hover.png') no-repeat; background-size:cover;}

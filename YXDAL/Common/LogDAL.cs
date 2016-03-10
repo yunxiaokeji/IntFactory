@@ -37,10 +37,10 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public DataTable GetClientUpcomings(string agentid, string clientid)
+        public DataTable GetClientUpcomings(string userid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
-                                       
+                                       new SqlParameter("@UserID",userid),
                                        new SqlParameter("@AgentID",agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
