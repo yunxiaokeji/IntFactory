@@ -19,7 +19,6 @@ define(function (require, exports, module) {
     //待办小红点
     LayoutObject.bindUpcomings = function () {
         Global.post("/Base/GetClientUpcomings", {}, function (data) {
-            console.log(data.items);
             for (var i = 0; i < data.items.length; i++) {
                 var item = data.items[i];
                 //采购
