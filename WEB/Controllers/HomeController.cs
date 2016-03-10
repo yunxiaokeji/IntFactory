@@ -135,25 +135,6 @@ namespace YXERP.Controllers
         }
 
 
-        public JsonResult GetAgentActions()
-        {
-            int customercount = 0, ordercount = 0;
-            decimal totalmoney = 0;
-            IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-            var model = LogBusiness.BaseBusiness.GetClientActions(CurrentUser.ClientID, ref customercount, ref ordercount, ref totalmoney);
-
-            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            JsonDictionary.Add("model", model);
-            JsonDictionary.Add("customercount", customercount);
-            JsonDictionary.Add("ordercount", ordercount);
-            JsonDictionary.Add("totalmoney", totalmoney);
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
         public JsonResult GetAgentActionData()
         {
             int customercount = 0, ordercount = 0;
@@ -268,26 +249,26 @@ namespace YXERP.Controllers
                 }
             }
 
-            JsonDictionary.Add("customercount", customercount);
-            JsonDictionary.Add("ordercount", ordercount);
-            JsonDictionary.Add("totalmoney", totalmoney);
+            JsonDictionary.Add("customercount", model.CustomerCount);
+            JsonDictionary.Add("ordercount", model.OrderCount);
+            JsonDictionary.Add("totalmoney", model.TotalMoney);
             JsonDictionary.Add("myOrders", myNeedOrders);
             JsonDictionary.Add("cooperationOrders", cooperationNeedOrders);
             JsonDictionary.Add("delegateOrders", delegateNeedOrders);
 
             JsonDictionary.Add("myFentOrder", myFentOrder);
-            JsonDictionary.Add("doMyFentOrder", doMyFentOrder);
+            JsonDictionary.Add("doMyFentOrder",myFentOrder- doMyFentOrder);
             JsonDictionary.Add("cooperationFentOrders", cooperationFentOrders);
-            JsonDictionary.Add("doCooperationFentOrders", doCooperationFentOrders);
+            JsonDictionary.Add("doCooperationFentOrders",cooperationFentOrders- doCooperationFentOrders);
             JsonDictionary.Add("delegateFentOrders", delegateFentOrders);
-            JsonDictionary.Add("doDelegateFentOrders", doDelegateFentOrders);
+            JsonDictionary.Add("doDelegateFentOrders",delegateFentOrders- doDelegateFentOrders);
 
             JsonDictionary.Add("myBulkOrder", myBulkOrder);
-            JsonDictionary.Add("doMyBulkOrder", doMyBulkOrder);
+            JsonDictionary.Add("doMyBulkOrder",myBulkOrder- doMyBulkOrder);
             JsonDictionary.Add("cooperationBulkOrders", cooperationBulkOrders);
-            JsonDictionary.Add("doCooperationBulkOrders", doCooperationBulkOrders);
+            JsonDictionary.Add("doCooperationBulkOrders",cooperationBulkOrders- doCooperationBulkOrders);
             JsonDictionary.Add("delegateBulkOrders", delegateBulkOrders);
-            JsonDictionary.Add("doDelegateBulkOrders", doDelegateBulkOrders);
+            JsonDictionary.Add("doDelegateBulkOrders",delegateBulkOrders- doDelegateBulkOrders);
 
             return new JsonResult()
             {

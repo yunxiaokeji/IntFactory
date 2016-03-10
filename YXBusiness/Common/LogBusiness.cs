@@ -57,6 +57,9 @@ namespace IntFactoryBusiness
                     entity.FillData(dr);
                     model.Actions.Add(entity);
                 }
+                model.CustomerCount = customercount;
+                model.OrderCount = ordercount;
+                model.TotalMoney = totalmoney;
                 obj = model;
                 return obj;
             }
@@ -66,6 +69,10 @@ namespace IntFactoryBusiness
                 AgentActionEntity model = new AgentActionEntity();
                 model.Date = datestr;
                 model.Actions = new List<ActionTypeEntity>();
+                model.CustomerCount = customercount;
+                model.OrderCount = ordercount;
+                model.TotalMoney = totalmoney;
+
                 foreach (DataRow dr in dt.Rows)
                 {
                     ActionTypeEntity entity = new ActionTypeEntity();

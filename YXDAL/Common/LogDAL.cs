@@ -24,9 +24,9 @@ namespace IntFactoryDAL
             paras[1].Value = ordercount;
             paras[2].Value = totalmoney;
 
-            paras[0].Direction = ParameterDirection.InputOutput;
-            paras[1].Direction = ParameterDirection.InputOutput;
-            paras[2].Direction = ParameterDirection.InputOutput;
+            paras[0].Direction = ParameterDirection.Output;
+            paras[1].Direction = ParameterDirection.Output;
+            paras[2].Direction = ParameterDirection.Output;
 
             DataTable dt = GetDataTable("R_GetClientActions", paras, CommandType.StoredProcedure);
 

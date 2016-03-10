@@ -38,45 +38,45 @@
 .report-item .buy-ico { height:55px; background:url('/Content/homeico/buy.png') no-repeat center; }
 
 
-    .main-content { margin-left:0px; }
+.main-content { margin-left:0px; }
 
-    .indexContent { width: 1200px; margin:80px auto; }
-    .orderContent { min-height: 300px; margin-bottom: 10px; }
+.indexContent { width: 1200px; margin:80px auto; }
+.orderContent { min-height: 300px; margin-bottom: 10px; }
 
-    .indexContent .header { border-left: solid 2px #999; padding-left: 8px; font-size: 14px; color: #666; }
+.indexContent .header { border-left: solid 2px #999; padding-left: 8px; font-size: 14px; color: #666; }
 
-    .fentOrderNav { margin-top: 10px; }
+.fentOrderNav { margin-top: 10px; }
 
-    .fentOrderNav .navTab li { float: left;  padding: 15px 25px; background-color: #5abcde; color: #fff; cursor: pointer; }
+.fentOrderNav .navTab li { float: left;  padding: 15px 25px; background-color: #5abcde; color: #fff; cursor: pointer; }
 
-        .fentOrderNav .navTab li span{
-        color:#fff;
-        }
+.fentOrderNav .navTab li span{
+color:#fff;
+}
 
-    .fentOrderNav .navTab li:hover { background-color: #4290b1; }
+.fentOrderNav .navTab li:hover { background-color: #4290b1; }
 
-    .fentOrderNav .navTab .hover { background-color: #4290b1; }
+.fentOrderNav .navTab .hover { background-color: #4290b1; }
 
-    .orderContentList { margin-top: 10px; width: 100%; background-color: #fff; padding-bottom: 60px; }
+.orderContentList { margin-top: 10px; width: 100%; background-color: #fff; padding-bottom: 40px; }
 
-    .orderContentList table { border-collapse: collapse; }
+.orderContentList table { border-collapse: collapse; }
 
-    .orderContentList thead td { line-height: 40px; border-bottom: solid 1px #eee; }
+.orderContentList thead td { line-height: 40px; border-bottom: solid 1px #eee; }
 
-    .orderContentList td { color: #666; line-height: 50px; border-bottom: dashed 1px #eee; text-align: center; }
+.orderContentList td { color: #666; line-height: 50px; border-bottom: dashed 1px #eee; text-align: center; }
 
-    .bulkOrderNav { margin-top: 10px; }
+.bulkOrderNav { margin-top: 10px; }
 
-    .bulkOrderNav .navTab li { float: left; padding: 15px 25px; background-color: #fb8775; color: #fff; cursor: pointer; }
+.bulkOrderNav .navTab li { float: left; padding: 15px 25px; background-color: #fb8775; color: #fff; cursor: pointer; }
 
-    .bulkOrderNav .navTab li span{
-        color:#fff;
-        }
+.bulkOrderNav .navTab li span{
+color:#fff;
+}
 
-    .bulkOrderNav .navTab li:hover { background-color: #ca5846; }
+.bulkOrderNav .navTab li:hover { background-color: #ca5846; }
 
-    .bulkOrderNav .navTab .hover { background-color: #ca5846; }
+.bulkOrderNav .navTab .hover { background-color: #ca5846; }
 
-    .itemContent { padding: 20px 32px; border: solid 1px #eee; border-radius: 3px; background-color: #fff; color: #666; }
+.itemContent { padding: 20px 32px; border: solid 1px #eee; border-radius: 3px; background-color: #fff; color: #666; }
 
 

@@ -11,6 +11,12 @@ namespace IntFactoryEntity
 
         public string Date { get; set; }
 
+        public decimal TotalMoney { get; set; }
+
+        public int OrderCount { get; set; }
+
+        public int CustomerCount { get; set; }
+
         public List<ActionTypeEntity> Actions { get; set; }
 
     }
