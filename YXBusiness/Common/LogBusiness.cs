@@ -77,9 +77,9 @@ namespace IntFactoryBusiness
             }
         }
 
-        public List<UpcomingsEntity> GetClientUpcomings(string agentid, string clientid)
+        public List<UpcomingsEntity> GetClientUpcomings(string userid, string agentid, string clientid)
         {
-            DataTable dt = new LogDAL().GetClientUpcomings(agentid, clientid);
+            DataTable dt = new LogDAL().GetClientUpcomings(userid, agentid, clientid);
             List<UpcomingsEntity> list = new List<UpcomingsEntity>();
 
             foreach (DataRow dr in dt.Rows)

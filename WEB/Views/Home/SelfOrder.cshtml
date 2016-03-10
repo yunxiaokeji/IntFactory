@@ -49,20 +49,21 @@
     </div>
     <div class="pay-content-main row">
     	<!----表单项---->
-    	<div class="pay-content-main-form l">
-        	<table>
-            	<tbody>
-                    <tr>
-                        <th>订单类别：</th>
-                        <td>
-                        	<span class="ico-checked mTop2 customtype" id="companyCustom" data-type="1">打样</span>
-                            <span class="ico-check mTop2 customtype" data-type="2">大货</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>订单品类：</th>
-                        <td>
-                        	<select id="bigcategory">
+        <div class="pay-content-main-form">
+        	<ul>
+                <li class="form-row row">
+                	<div class="th pdall">订单类别：</div>
+                    <div class="td">
+                    	<span class="ico-checked mTop2 customtype" id="companyCustom" data-type="1">打样</span>
+                        <span class="ico-check mTop2 customtype" data-type="2">大货</span>
+                    </div>
+                </li>
+                
+                <li class="form-row row">
+                	<div class="th pdall">订单品类：</div>
+                    <div class="td">
+                        <span>
+                    	    <select id="bigcategory">
                             @foreach (IntFactoryEntity.Category item in (List<IntFactoryEntity.Category>)ViewBag.Items)
                             {
                                 <option value="@(item.CategoryID)">@(item.CategoryName)</option> 
@@ -70,70 +71,73 @@
                             </select>
                             <select id="ordercategory">
                             </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>数量：</th>
-                        <td>
-                        	<input type="text" maxlength="5" id="planQuantity"  data-empty="必填" data-type="int" class="inputbox verify"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>期望价格：</th>
-                        <td>
-                        	<input type="text" maxlength="10" id="planPrice"  data-empty="必填" data-type="double"  class="inputbox verify"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>附件：</th>
-                        <td>
-                        	<span id="productIco" ></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <td >
-                            <ul id="orderImages" class="order-imgs addimg"></ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="text">详细需求：</th>
-                        <td>
-                        	<textarea id="remark" placeholder="如有详细需求请注明具体内容，以免制作时产品遗漏" class="textarea"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>姓名：</th>
-                        <td>
-                        	<input type="text" maxlength="50" id="name" data-empty="必填" class="inputbox verify"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>电话：</th>
-                        <td>
-                        	<input type="text" maxlength="11" id="contactMobile" data-empty="必填" data-type="mobile"  class="inputbox1 verify"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>地址：</th>
-                        <td>
-                            <span id="city"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>详细地址：</th>
-                        <td>
-                        	<input type="text" placeholder="" id="address"  class="inputbox2"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <td>
-                        	<button type="button" id="btnSave" class="btn-con">确认下单</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </span>
+                    </div>
+                </li>
+                
+                <li class="form-row row">
+                	<div class="th pdall">数量：</div>
+                    <div class="td">
+                    	<input type="text" maxlength="5" id="planQuantity"  data-empty="必填" data-type="int" class="inputbox verify"/>
+                    </div>
+                </li>
+                
+                <li class="form-row row">
+                	<div class="th pdall">期望价格：</div>
+                    <div class="td">
+                    	<input type="text" maxlength="10" id="planPrice"  data-empty="必填" data-type="double"  class="inputbox verify"/>
+                    </div>
+                </li>
+                
+                <li class="row">
+                	<div class="th pdall">附件：</div>
+                    <div class="td">
+                    	<span id="productIco" ></span>
+                        <ul id="orderImages" class="order-imgs addimg"></ul>
+                    </div>
+                    
+                </li>
+                
+                <li class="row">
+                	<div class="th pdall">详细需求：</div>
+                    <div class="td">
+                    	<textarea id="remark" placeholder="如有详细需求请注明具体内容，以免制作时产品遗漏" class="textarea"></textarea>
+                    </div>
+                </li>
+                
+                <li class="form-row row">
+                	<div class="th pdall">姓名：</div>
+                    <div class="td">
+                    	<input type="text" maxlength="50" id="name" data-empty="必填" class="inputbox verify"/>
+                    </div>
+                </li>
+                
+                <li class="form-row row">
+                	<div class="th pdall">电话：</div>
+                    <div class="td">
+                    	<input type="text" maxlength="11" id="contactMobile" data-empty="必填" data-type="mobile"  class="inputbox1 verify"/>
+                    </div>
+                </li>
+                
+                <li class="form-row1 row">
+                	<div class="th pdall">地址：</div>
+                    <div class="td">
+                    	<span id="city"></span>
+                    </div>
+                </li>
+                
+                <li class="form-row row">
+                	<div class="th pdall">详细地址：</div>
+                    <div class="td">
+                    	<input type="text" placeholder="" id="address"  class="inputbox2"/>
+                    </div>
+                </li>
+                
+                <li class="row">
+                    <button type="button" id="btnSave" class="btn-con">确认下单</button>
+                </li>
+            </ul>
+            
         </div>
         <!----表单项end---->
         <div class="pay-content-main-ins r"><img src="/modules/images/selforder/liuc_03.png" alt=""/></div>

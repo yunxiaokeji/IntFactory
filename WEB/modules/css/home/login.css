@@ -53,11 +53,11 @@ border:none; font-weight:bold; cursor:pointer; display:inline-block; border-radi
 
 .other-account .accounts { height:40px; margin-top:20px; text-align:center; }
 
-.other-account .accounts a{ height:40px; width:40px;display:inline-block}
+.other-account .accounts a{ height:40px; width:40px;display:inline-block; border-radius:20px;}
 
-.accounts .mingdao {background:url(/Content/homeico/mingdao.png) no-repeat; }
+.accounts .mingdao { background:url(/Content/homeico/mingdao.png) no-repeat; background-color:#ccc; }
 
-.accounts .mingdao:hover {background:url(/Content/homeico/mingdao-hover.png) no-repeat; }
+.accounts .mingdao:hover {background:url(/Content/homeico/mingdao.png) no-repeat;background-color:#4A98E7; }
 
 .login-body .copyright{ position:fixed; bottom:20px; right:20px; color:#333; text-align:right}
 
