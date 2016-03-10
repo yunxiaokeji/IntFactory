@@ -160,6 +160,7 @@ define(function (require, exports, module) {
             }
         }
     }
+
     //绑定事件
     ObjectJS.bindEvent = function () {
         var _self = this;
@@ -379,6 +380,7 @@ define(function (require, exports, module) {
             } 
         });
     }
+
     //大货下单
     ObjectJS.createDHOrder = function (isExists) {
         var _self = this;
@@ -506,6 +508,7 @@ define(function (require, exports, module) {
         });
     }
 
+    //发货
     ObjectJS.sendGoods = function () {
         var _self = this;
         doT.exec("template/orders/sendordergoods.html", function (template) {

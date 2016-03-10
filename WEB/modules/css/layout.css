@@ -156,7 +156,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .feedback_dialog span { display: inline-block; }
 
 /*图片预览定位*/
-.brand-img { position:absolute; top:180px; right:40px; height:220px; width:220px; }
+.absolute-img { position:absolute; top:180px; right:40px; height:220px; width:220px; }
 
 /*暂无数据*/
 .noDataTxt { padding: 95px 0px; font-size: 16px; text-align: center; color: #666; }

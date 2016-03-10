@@ -19,7 +19,7 @@
 /*品牌*/
 .create-brand { width:500px; }
 .list-item img{  height:18px; vertical-align:middle;}
-.brand-img { position:absolute; top:60px; right:20px; height:100px; width:100px; }
+.absolute-img { position:absolute; top:60px; right:20px; height:100px; width:100px; }
 
 /*单位*/
 .unit-list li{ height:30px; line-height:30px; width:80px;  float:left; margin:10px 10px;  text-align:center; position:relative;  }

@@ -120,23 +120,13 @@ nav .action-box .select { width:201px; background-color:#f2f4f8; height:40px; li
 .feedback_dialog span { display: inline-block; }
 
 /*图片预览定位*/
-.brand-img { position:absolute; top:180px; right:40px; height:220px; width:220px; }
+.absolute-img { position:absolute; top:180px; right:40px; height:220px; width:220px; }
 
 /*暂无数据*/
-.noDataTxt {
-padding:95px 0px;
-font-size:16px;
-text-align:center;
-color:#666;
-}
+.noDataTxt { padding: 95px 0px; font-size: 16px; text-align: center; color: #666; }
 
 /*图片loading*/
-.dataLoading {
-padding:85px 0px;
-font-size:16px;
-text-align:center;
-color:#666;
-}
+.dataLoading { padding: 85px 0px; font-size: 16px; text-align: center; color: #666; }
 
 /*添加表单*/
 .contentnew { border-bottom:solid 1px #ccc;padding-bottom: 20px;}
