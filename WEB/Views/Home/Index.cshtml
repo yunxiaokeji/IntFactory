@@ -23,13 +23,13 @@
 
     .fentOrderNav .navTab .hover { background-color: #4290b1; }
 
-    .orderContentList { margin-top: 10px; width: 100%; background-color: #fff; padding-bottom: 80px; }
+    .orderContentList { margin-top: 10px; width: 100%; background-color: #fff; padding-bottom: 60px; }
 
     .orderContentList table { border-collapse: collapse; }
 
     .orderContentList thead td { line-height: 40px; border-bottom: solid 1px #eee; }
 
-    .orderContentList td { color: #666; line-height: 60px; border-bottom: dashed 1px #eee; text-align: center; }
+    .orderContentList td { color: #666; line-height: 50px; border-bottom: dashed 1px #eee; text-align: center; }
 
     .bulkOrderNav { margin-top: 10px; }
     .bulkOrderNav .navTab { list-style-type: none; margin: 0; line-height: 0px; }
@@ -43,6 +43,13 @@
 </style>
 }
 
+@section scripts{
+<script type="text/javascript">
+    seajs.use(["scripts/home"], function (layout) {
+        layout.initHome();
+    });
+</script>
+}
 <div class="indexContent">
     <div class="left orderContent">
         <div class="header">
@@ -51,26 +58,22 @@
 
         <div class="fentOrderNav">
             <ul class="navTab">
-                <li class="hover">我负责的</li>
-                <li>我发出的</li>
-                <li>我协助的</li>
-                <div class="clear"></div>
+                <li class="hover" data-filterType="6">我负责的</li>
+                <li  data-filterType="4">我委托的</li>
+                <li  data-filterType="5">我协助的</li>
             </ul>
             <div class="clear"></div>
         </div>
 
-        <div class="orderContentList">
+        <div class="orderContentList" id="fentOrders">
             <table width="100%">
                 <thead>
+                    <tr>
                         <td width="35%">订单编号</td>
-                        <td width="30%">状态</td>
+                        <td width="30%">订单状态</td>
                         <td width="35%">创建时间</td>
+                    </tr>
                 </thead>
-                <tr>
-                    <td><a>11111111111</a></td>
-                    <td>11</td>
-                    <td>2016-1-2</td>
-                </tr>
             </table>
         </div>
     </div>
@@ -82,25 +85,22 @@
 
         <div class="bulkOrderNav">
             <ul class="navTab">
-                <li class="hover">我负责的</li>
-                <li>我发出的</li>
-                <li>我协助的</li>
+                <li class="hover" data-filterType="6">我负责的</li>
+                <li  data-filterType="4">我委托的</li>
+                <li data-filterType="5">我协助的</li>
             </ul>
             <div class="clear"></div>
         </div>
 
-        <div class="orderContentList">
+        <div class="orderContentList" id="bulkOrderList">
             <table width="100%">
                 <thead>
+                    <tr>
                         <td width="35%">订单编号</td>
-                        <td width="30%">状态</td>
+                        <td width="30%">订单状态</td>
                         <td width="35%">创建时间</td>
+                    </tr>
                 </thead>
-                <tr>
-                    <td><a>11111111111</a></td>
-                    <td>11</td>
-                    <td>2016-1-2</td>
-                </tr>
             </table>
         </div>
     </div>

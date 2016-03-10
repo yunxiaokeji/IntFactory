@@ -6,6 +6,16 @@ define(function (require, exports, module) {
     var Global = require("global"),
         doT = require("dot");
 
+    var Paras = {
+        Keywords:"",
+        TypeID: 1,
+        SearchType: 6,
+        Status:-1,
+        BeginTime: "",
+        EndTime: "",
+        PageSize:5
+    }
+
     var Home = {};
     //登陆初始化
     Home.initLogin = function (status) {
@@ -103,11 +113,15 @@ define(function (require, exports, module) {
 
     //首页JS
     Home.initHome = function () {
-        
+        var myDate = new Date();
+        Paras.EndTime = myDate.toLocaleDateString();
+        myDate.setDate( myDate.getDate()-7 );
+        Paras.BeginTime = myDate.toLocaleDateString();
+
         Home.bindStyle();
         Home.bindEvent();
 
-        Global.post('/Home/GetAgentActions', {}, function (data) {
+        Global.post('/Home/GetAgentActions',{}, function (data) {
             for (var i = 0; i < data.model.Actions.length; i++) {
                 var model = data.model.Actions[i];
                 if (model.ObjectType == 0) {
@@ -134,6 +148,8 @@ define(function (require, exports, module) {
             }
         });
 
+        Home.getList();
+        Home.getList2();
     }
 
     //首页样式
@@ -183,6 +199,96 @@ define(function (require, exports, module) {
         $("#currentUser").click(function () {
             $(".dropdown-userinfo").fadeIn("1000");
         });
+
+        $(".fentOrderNav .navTab li").click(function () {
+            var self = $(this);
+            if (!self.hasClass("hover"))
+            {
+                self.siblings().removeClass("hover");
+                self.addClass("hover");
+
+                Paras.SearchType = self.data("filtertype");
+                Home.getList();
+            }
+        });
+
+        $(".bulkOrderNav .navTab li").click(function () {
+            var self = $(this);
+            if (!self.hasClass("hover")) {
+                self.siblings().removeClass("hover");
+                self.addClass("hover");
+
+                Paras.SearchType = self.data("filtertype");
+                Home.getList2();
+            }
+        });
+    }
+
+    Home.getList = function () {
+        Paras.TypeID = 1;
+        $("#fentOrders table thead").nextAll().remove();
+        $("#fentOrders table thead").after("<tr><td colspan='3'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+
+        Global.post("/Orders/GetOrders", { filter: JSON.stringify(Paras) }, function (data) {
+            $("#fentOrders table thead").nextAll().remove();
+
+            var len=data.items.length;
+            if(len>0)
+            {
+                var html = '';
+                for(var i=0;i<len;i++){
+                    var item = data.items[i];
+
+                    html += '<tr>';
+                    html += '<td><a href="/Customer/OrderDetail/' + item.OrderID + '" target="_blank">' + item.OrderCode + '</a></td>';
+                    html += '   <td>' + item.StatusStr + '</td>';
+                    html += '     <td>' + item.CreateTime.toDate("yyyy-MM-dd") + '</td>';
+                    html += '</tr>';
+                }
+
+                $("#fentOrders table thead").after(html);
+            }
+            else
+            {
+                $("#fentOrders table thead").after("<tr><td colspan='3'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
+        });
+
+
+
+    }
+
+    Home.getList2 = function () {
+        Paras.TypeID = 2;
+        $("#bulkOrderList table thead").nextAll().remove();
+        $("#bulkOrderList table thead").after("<tr><td colspan='3'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+
+        Global.post("/Orders/GetOrders", { filter: JSON.stringify(Paras) }, function (data) {
+            $("#bulkOrderList table thead").nextAll().remove();
+
+            var len = data.items.length;
+            if (len > 0) {
+                var html = '';
+                for (var i = 0; i < len; i++) {
+                    var item = data.items[i];
+
+                    html += '<tr>';
+                    html += '<td><a href="/Customer/OrderDetail/' + item.OrderID + '" target="_blank">' + item.OrderCode + '</a></td>';
+                    html += '   <td>' + item.StatusStr + '</td>';
+                    html += '     <td>' + item.CreateTime.toDate("yyyy-MM-dd") + '</td>';
+                    html += '</tr>';
+                }
+
+                $("#bulkOrderList table thead").after(html);
+            }
+            else {
+                $("#bulkOrderList table thead").after("<tr><td colspan='3'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
+
+        });
+
+
+
     }
 
     Home.placeholderSupport = function () {
@@ -205,5 +311,6 @@ define(function (require, exports, module) {
 
         };
     }
+
     module.exports = Home;
 });
