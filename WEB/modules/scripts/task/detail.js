@@ -6,6 +6,7 @@
 
     var ObjectJS = {};
     var CacheAttrValues = [];//订单品类属性缓存
+    var Editor;
 
     ///taskid：任务id
     ///orderid:订单id
@@ -13,12 +14,13 @@
     ///mark:任务标记 1：材料 2 制版 3大货材料
     ///finishStatus：任务完成状态
     ///attrValues:订单制版属性
-    ObjectJS.init = function (taskid, orderid, stageid, mark, finishStatus, attrValues, orderType) {
+    ObjectJS.init = function (taskid, orderid, stageid, mark, finishStatus, attrValues, orderType, um, plateRemark) {
         ObjectJS.orderid = orderid;
         ObjectJS.stageid = stageid;
         ObjectJS.taskid = taskid;
         ObjectJS.orderType = orderType;
         CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));
+        Editor = um;
 
         ObjectJS.mark = 1;
         if (mark == 2)
@@ -46,6 +48,28 @@
         else {
             ObjectJS.getAmount2();
             ObjectJS.bindRemoveRowBtn();
+        }
+
+        //制版工艺描述 富文本
+        Editor.ready(function () {
+            Editor.setContent(decodeURI(plateRemark));
+
+            $(".edui-container").click(function () {
+                $(".edui-body-container").animate({ height: "600px" }, 500);
+            });
+
+            $(document).unbind().bind("click", function (e) {
+                //隐藏制版列操作下拉框
+                if (!$(e.target).parents().hasClass("edui-container") && !$(e.target).hasClass("edui-container")) {
+                    $(".edui-body-container").animate({ height: "100px" }, 500);
+                }
+            });
+
+        });
+
+        if ($("#PlateRemark").length == 1)
+        {
+            $("#PlateRemark").html(decodeURI(plateRemark));
         }
 
     };
@@ -758,7 +782,7 @@
     ObjectJS.updateOrderPlateRemark = function () {
         Global.post("/Task/UpdateOrderPlateRemark", {
             orderID: ObjectJS.orderid,
-            plateRemark: $("#txtPlateRemark").val()
+            plateRemark: encodeURI(Editor.getContent())
         }, function (data) {
             if (data.Result == 1) {
                 alert("保存成功");

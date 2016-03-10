@@ -32,7 +32,7 @@ namespace AlibabaSdk.Business
             paras.Add("client_id", AppConfig.AppKey);
             paras.Add("client_secret", AppConfig.AppSecret);
 
-            return HttpRequest.RequestServer(ApiOption.accessToken, paras, string.Empty,RequestType.Post);
+            return HttpRequest.RequestServer(ApiOption.accessToken, paras,RequestType.Post);
         }
 
         public static UserResult GetUserInfo(string code)

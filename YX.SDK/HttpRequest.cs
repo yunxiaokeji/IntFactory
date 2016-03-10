@@ -11,7 +11,7 @@ namespace AlibabaSdk
 {
     public class HttpRequest
     {
-        public static string RequestServer(ApiOption apiOption, Dictionary<string, object> paras, string token="", RequestType requestType = RequestType.Get)
+        public static string RequestServer(ApiOption apiOption, Dictionary<string, object> paras,RequestType requestType = RequestType.Get)
         {
             ;
             string urlPath = "param2/1/cn.alibaba.open/" + GetEnumDesc<ApiOption>(apiOption) + "/" + AppConfig.AppKey;
@@ -27,7 +27,7 @@ namespace AlibabaSdk
             else
             {
                 string signature = sign(urlPath, paras);
-                paraStr = "_aop_signature=" + signature + "&access_token="+token;
+                paraStr = "_aop_signature=" + signature;
             }
             
             try
