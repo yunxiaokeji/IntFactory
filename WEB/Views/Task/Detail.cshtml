@@ -3,6 +3,9 @@
     var model = (IntFactoryEntity.Task.TaskEntity)ViewBag.Model;
     var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
     var productAttr = (IntFactoryEntity.ProductAttr)ViewBag.ProductAttr;
+    var attrValues = string.Empty;
+
+    attrValues = productAttr.AttrValues == null ? "" : Html.ToJSONString(productAttr.AttrValues);
 }
 @section css{
 <link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
@@ -14,11 +17,12 @@
     <script src="/modules/plug/umeditor/umeditor.min.js"></script>
     <script src="/modules/plug/umeditor/umeditor.config.js"></script>
     <script type="text/javascript">
-        var um = UM.getEditor('txtPlateRemark');
-
         $(function () {
+            var um = null;
+            if ($("#txtPlateRemark").length == 1)
+                um = UM.getEditor('txtPlateRemark');
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@Html.ToJSONString(productAttr.AttrValues)', '@(model.OrderType)',um,'@(order.PlateRemark)');
+                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)');
             });
 
             

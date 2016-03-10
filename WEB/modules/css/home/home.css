@@ -49,6 +49,16 @@
 
 .fentOrderNav .navTab li { float: left;  padding: 15px 25px; background-color: #5abcde; color: #fff; cursor: pointer; }
 
+.liBorderLeft {
+border-top-left-radius:2px;
+border-bottom-left-radius:2px;
+}
+
+.liBorderRight {
+border-top-right-radius:2px;
+border-bottom-right-radius:2px;
+}
+
 .fentOrderNav .navTab li span{
 color:#fff;
 }
