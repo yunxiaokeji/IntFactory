@@ -5,15 +5,20 @@
     var productAttr = (IntFactoryEntity.ProductAttr)ViewBag.ProductAttr;
 }
 @section css{
+<link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
 <link href="/modules/css/task/style.css" rel="stylesheet" />
 }
 
 @section scripts{
     <script src="/modules/plug/laydate/laydate.js"></script>
+    <script src="/modules/plug/umeditor/umeditor.min.js"></script>
+    <script src="/modules/plug/umeditor/umeditor.config.js"></script>
     <script type="text/javascript">
+        var um = UM.getEditor('txtPlateRemark');
+
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@Html.ToJSONString(productAttr.AttrValues)', '@(model.OrderType)');
+                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@Html.ToJSONString(productAttr.AttrValues)', '@(model.OrderType)',um,'@(order.PlateRemark)');
             });
 
             
@@ -32,7 +37,6 @@
                     });
                 }
             }
-
         });
     </script>
 }
@@ -256,7 +260,7 @@
 
             @{if (model.Mark == 2 && model.FinishStatus != 2){
             <div class="content-main">
-                <textarea id="txtPlateRemark" class="txt-content"  placeholder="工艺说明">@order.PlateRemark</textarea><br />
+                <textarea id="txtPlateRemark" class="txt-content"  placeholder="工艺说明"></textarea><br />
                 <div class="btn right mTop5" id="btn-updatePlateRemark">保存工艺说明</div>
                 <div class="clear"></div>
             </div>
@@ -265,7 +269,11 @@
             {
                 <div class="mTop20" style="width:800px;">
                     <div class="talk-title" >工艺说明</div>
-                    <div style="line-height:36px;word-wrap:break-word;word-break:break-all">@order.PlateRemark</div>
+                    <div class="edui-container mTop15">
+                        <div class="edui-editor-body">
+                            <div class="description  edui-body-container" id="PlateRemark"></div>
+                        </div>
+                    </div>
                 </div>
             }
             

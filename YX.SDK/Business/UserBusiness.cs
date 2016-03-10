@@ -14,7 +14,7 @@ namespace AlibabaSdk
             var paras = new Dictionary<string, object>();
             paras.Add("memberId", memberId);
 
-            var result = HttpRequest.RequestServer(ApiOption.memberDetail, paras,token);
+            var result = HttpRequest.RequestServer(ApiOption.memberDetail, paras);
             return JsonConvert.DeserializeObject<UserResult>(result);
         }
 
