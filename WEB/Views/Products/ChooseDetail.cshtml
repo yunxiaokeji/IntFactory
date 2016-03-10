@@ -1,10 +1,11 @@
 ﻿@{
+    IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
     var model = (IntFactoryEntity.Products)ViewBag.Model;
     ViewBag.Title = model.ProductName;
 }
 @section css{
    <link rel="stylesheet" href="/modules/css/shoppingcart/filterdetails.css" />
-    <link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
+   <link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
 }
 
 @section scripts{
@@ -16,6 +17,10 @@
 }
 <div class="header-box">
     <span class="header-title left">材料详情</span>
+    @if (CurrentUser.ClientID == model.ClientID)
+    {
+         <a href="/Products/ProductDetail/@(model.ProductID)" class="btn right">编辑材料</a>
+    }
 </div>
 <div class="content-body mTop20">
     <div class="top-div">

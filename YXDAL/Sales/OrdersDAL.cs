@@ -418,22 +418,6 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_DeleteOrder", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool SubmitOrder(string orderid, string operateid, string agentid, string clientid)
-        {
-            int result = 0;
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@Result",result),
-                                     new SqlParameter("@OrderID",orderid),
-                                     new SqlParameter("@UserID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-            paras[0].Direction = ParameterDirection.Output;
-            ExecuteNonQuery("P_SubmitOrder", paras, CommandType.StoredProcedure);
-            result = Convert.ToInt32(paras[0].Value);
-            return result == 1;
-        }
-
         public bool EditOrder(string orderid, string personName, string mobileTele, string cityCode, string address, string postalcode, string typeid, int expresstype, string remark, string operateid, string agentid, string clientid)
         {
             int result = 0;

@@ -10,14 +10,29 @@ namespace IntFactoryDAL
 {
     public class LogDAL :BaseDAL
     {
-        public DataTable GetAgentActions(string datetime,string agentid)
+        public DataTable GetClientActions(string datetime, string clientid, ref int customercount, ref int ordercount, ref decimal totalmoney)
         {
             SqlParameter[] paras = { 
+                                       new SqlParameter("@CustomerCount",SqlDbType.Int),
+                                       new SqlParameter("@OrderCount",SqlDbType.Int),
+                                       new SqlParameter("@TotalMoney",SqlDbType.Decimal),
                                        new SqlParameter("@DateTime",datetime),
-                                       new SqlParameter("@AgentID",agentid)
+                                       new SqlParameter("@ClientID",clientid)
                                    };
 
-            DataTable dt = GetDataTable("R_GetAgentActions_Log", paras, CommandType.StoredProcedure);
+            paras[0].Value = customercount;
+            paras[1].Value = ordercount;
+            paras[2].Value = totalmoney;
+
+            paras[0].Direction = ParameterDirection.InputOutput;
+            paras[1].Direction = ParameterDirection.InputOutput;
+            paras[2].Direction = ParameterDirection.InputOutput;
+
+            DataTable dt = GetDataTable("R_GetClientActions", paras, CommandType.StoredProcedure);
+
+            customercount = Convert.ToInt32(paras[0].Value);
+            ordercount = Convert.ToInt32(paras[1].Value);
+            totalmoney = Convert.ToDecimal(paras[2].Value);
 
             return dt;
         }

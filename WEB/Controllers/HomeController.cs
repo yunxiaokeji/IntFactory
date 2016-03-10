@@ -137,12 +137,16 @@ namespace YXERP.Controllers
 
         public JsonResult GetAgentActions()
         {
+            int customercount = 0, ordercount = 0;
+            decimal totalmoney = 0;
             IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-            var model = LogBusiness.BaseBusiness.GetAgentActions(CurrentUser.AgentID);
+            var model = LogBusiness.BaseBusiness.GetClientActions(CurrentUser.ClientID, ref customercount, ref ordercount, ref totalmoney);
 
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             JsonDictionary.Add("model", model);
-
+            JsonDictionary.Add("customercount", customercount);
+            JsonDictionary.Add("ordercount", ordercount);
+            JsonDictionary.Add("totalmoney", totalmoney);
             return new JsonResult()
             {
                 Data = JsonDictionary,

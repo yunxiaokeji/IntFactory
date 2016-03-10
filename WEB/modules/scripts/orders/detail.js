@@ -133,7 +133,14 @@ define(function (require, exports, module) {
         }
 
         if (model.Platemaking) {
-            $("#navEngraving").html(decodeURI(model.Platemaking));
+            $("#navEngravingInfo").html(decodeURI(model.Platemaking));
+            $("#navEngravingInfo .ico-dropdown").remove();
+            $("#navEngravingInfo tr").each(function () {
+                $(this).find("td").last().remove();
+            });
+        }
+        if (model.PlateRemark) {
+            $("#navEngravingRemark").html(decodeURI(model.PlateRemark));
         }
 
         var images = model.OrderImages.split(",");

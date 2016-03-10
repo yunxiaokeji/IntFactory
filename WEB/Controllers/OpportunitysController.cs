@@ -114,18 +114,6 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult SubmitOrder(string orderid)
-        {
-            var bl = OrdersBusiness.BaseBusiness.SubmitOrder(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("status", bl);
-
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
         public JsonResult EditOrder(string entity)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();

@@ -799,6 +799,7 @@
     <Content Include="Views\Home\OrderSuccess.cshtml" />
     <Content Include="Views\Customer\EntrustOrders.cshtml" />
     <Content Include="Views\Task\Test.cshtml" />
+    <Content Include="Views\Shared\_LayoutContent.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -37,17 +37,17 @@ namespace IntFactoryBusiness
 
         #region 查询
 
-        public AgentActionEntity GetAgentActions(string agentid)
+        public AgentActionEntity GetClientActions(string clientid, ref int customercount, ref int ordercount, ref decimal totalmoney)
         {
             string datestr = DateTime.Now.ToString("yyyy-MM-dd");
-            if (AgentActions.ContainsKey(agentid))
+            if (AgentActions.ContainsKey(clientid))
             {
-                var obj = AgentActions[agentid];
+                var obj = AgentActions[clientid];
                 if (obj.Date == datestr)
                 {
                     return obj;
                 }
-                DataTable dt = new LogDAL().GetAgentActions(datestr + " 00:00:00", agentid);
+                DataTable dt = new LogDAL().GetClientActions(datestr + " 00:00:00", clientid, ref customercount, ref ordercount, ref totalmoney);
                 AgentActionEntity model = new AgentActionEntity();
                 model.Date = datestr;
                 model.Actions = new List<ActionTypeEntity>();
@@ -62,7 +62,7 @@ namespace IntFactoryBusiness
             }
             else
             {
-                DataTable dt = new LogDAL().GetAgentActions(datestr + " 00:00:00", agentid);
+                DataTable dt = new LogDAL().GetClientActions(datestr + " 00:00:00", clientid, ref customercount, ref ordercount, ref totalmoney);
                 AgentActionEntity model = new AgentActionEntity();
                 model.Date = datestr;
                 model.Actions = new List<ActionTypeEntity>();
@@ -72,7 +72,7 @@ namespace IntFactoryBusiness
                     entity.FillData(dr);
                     model.Actions.Add(entity);
                 }
-                AgentActions.Add(agentid, model);
+                AgentActions.Add(clientid, model);
                 return model;
             }
         }

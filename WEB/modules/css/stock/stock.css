@@ -7,12 +7,10 @@
 
 .purchase-detail { width:500px; clear:both; }
 .purchase-detail li{  float:left; height:80px;line-height:80px; padding:5px 0; }
-.purchase-detail .product-imgs { width:80px; }
-.purchase-detail .name { width:200px; padding-left:20px; }
+.purchase-detail .name { width:280px; padding-left:20px; }
 .purchase-detail .code { width:120px; }
 
 .purchase-detail-header { width:500px; clear:both; }
 .purchase-detail-header li{  float:left; color:#666; }
-.purchase-detail-header .product-imgs { width:80px; }
-.purchase-detail-header .name { width:200px; padding-left:20px; }
+.purchase-detail-header .name { width:280px; padding-left:20px; }
 .purchase-detail-header .code { width:120px; }
