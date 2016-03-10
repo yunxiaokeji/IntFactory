@@ -150,6 +150,7 @@ define(function (require, exports, module) {
 
         Home.getList();
         Home.getList2();
+        Home.GetAgentActionData();
     }
 
     //首页样式
@@ -240,7 +241,7 @@ define(function (require, exports, module) {
                     var item = data.items[i];
 
                     html += '<tr>';
-                    html += '<td><a href="/Customer/OrderDetail/' + item.OrderID + '" target="_blank">' + item.OrderCode + '</a></td>';
+                    html += '<td><a href="/Customer/OrderDetail/' + item.OrderID + '" >' + item.OrderCode + '</a></td>';
                     html += '   <td>' + item.StatusStr + '</td>';
                     html += '     <td>' + item.CreateTime.toDate("yyyy-MM-dd") + '</td>';
                     html += '</tr>';
@@ -273,7 +274,7 @@ define(function (require, exports, module) {
                     var item = data.items[i];
 
                     html += '<tr>';
-                    html += '<td><a href="/Customer/OrderDetail/' + item.OrderID + '" target="_blank">' + item.OrderCode + '</a></td>';
+                    html += '<td><a href="/Customer/OrderDetail/' + item.OrderID + '" >' + item.OrderCode + '</a></td>';
                     html += '   <td>' + item.StatusStr + '</td>';
                     html += '     <td>' + item.CreateTime.toDate("yyyy-MM-dd") + '</td>';
                     html += '</tr>';
@@ -285,6 +286,36 @@ define(function (require, exports, module) {
                 $("#bulkOrderList table thead").after("<tr><td colspan='3'><div class='noDataTxt' >暂无数据!<div></td></tr>");
             }
 
+        });
+
+
+
+    }
+
+    Home.GetAgentActionData = function () {
+
+        Global.post("/Home/GetAgentActionData", {}, function (data) {
+            $("#customercount").html(data.customercount);
+            $("#ordercount").html(data.ordercount);
+            $("#totalmoney").html(data.totalmoney);
+
+            $("#myOrders").html(data.myOrders);
+            $("#delegateOrders").html(data.delegateOrders);
+            $("#cooperationOrders").html(data.cooperationOrders);
+
+            $("#myFentOrder").html(data.myFentOrder);
+            $("#doMyFentOrder").html(data.doMyFentOrder);
+            $("#cooperationFentOrders").html(data.cooperationFentOrders);
+            $("#doCooperationFentOrders").html(data.doCooperationFentOrders);
+            $("#delegateFentOrders").html(data.delegateFentOrders);
+            $("#doDelegateFentOrders").html(data.doDelegateFentOrders);
+            
+            $("#myBulkOrder").html(data.myBulkOrder);
+            $("#doMyBulkOrder").html(data.doMyBulkOrder);
+            $("#cooperationBulkOrders").html(data.cooperationBulkOrders);
+            $("#doCooperationBulkOrders").html(data.doCooperationBulkOrders);
+            $("#delegateBulkOrders").html(data.delegateBulkOrders);
+            $("#doDelegateBulkOrders").html(data.doDelegateBulkOrders);
         });
 
 

@@ -154,6 +154,148 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetAgentActionData()
+        {
+            int customercount = 0, ordercount = 0;
+            decimal totalmoney = 0;
+            IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+            var model = LogBusiness.BaseBusiness.GetClientActions(CurrentUser.ClientID, ref customercount, ref ordercount, ref totalmoney);
+
+            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
+            JsonDictionary.Add("model", model);
+
+            int myNeedOrders = 0;
+            int cooperationNeedOrders = 0;
+            int delegateNeedOrders = 0;
+
+            int myFentOrder = 0;
+            int doMyFentOrder = 0;
+            int cooperationFentOrders = 0;
+            int doCooperationFentOrders = 0;
+            int delegateFentOrders = 0;
+            int doDelegateFentOrders = 0;
+
+            int myBulkOrder = 0;
+            int doMyBulkOrder = 0;
+            int cooperationBulkOrders = 0;
+            int doCooperationBulkOrders = 0;
+            int delegateBulkOrders = 0;
+            int doDelegateBulkOrders = 0;
+            foreach (var action in model.Actions) {
+                if (action.OrderType == 1)
+                {
+                    if (action.Status == 0)
+                    {
+                        if (action.ObjectType == 6)
+                        {
+                            myNeedOrders += action.OrderCount;
+                        }
+                        else if (action.ObjectType == 5)
+                        {
+                            cooperationNeedOrders += action.OrderCount;
+                        }
+                        else if (action.ObjectType == 4)
+                        {
+                            delegateNeedOrders += action.OrderCount;
+                        }
+                    }
+                    else
+                    {
+
+                        if (action.ObjectType == 6)
+                        {
+                            myFentOrder += action.OrderCount;
+                            if (action.Status == 1)
+                            {
+                                doMyFentOrder += action.OrderCount;
+                            }
+                        }
+                        else if (action.ObjectType == 5)
+                        {
+                            cooperationFentOrders += action.OrderCount;
+                            if (action.Status == 1)
+                            doCooperationFentOrders += action.OrderCount;
+                        }
+                        else if (action.ObjectType == 4)
+                        {
+                            delegateFentOrders += action.OrderCount;
+                            if (action.Status == 1)
+                            doDelegateFentOrders += action.OrderCount;
+                        }
+
+                    }
+                }
+                else
+                {
+                    if (action.Status == 0)
+                    {
+                        if (action.ObjectType == 6)
+                        {
+                            myNeedOrders += action.OrderCount;
+                        }
+                        else if (action.ObjectType == 5)
+                        {
+                            cooperationNeedOrders += action.OrderCount;
+                        }
+                        else if (action.ObjectType == 4)
+                        {
+                            delegateNeedOrders += action.OrderCount;
+                        }
+                    }
+                    else
+                    {
+                        if (action.ObjectType == 6)
+                        {
+                            myBulkOrder += action.OrderCount;
+                            if (action.Status == 1)
+                            {
+                                doMyBulkOrder += action.OrderCount;
+                            }
+                        }
+                        else if (action.ObjectType == 5)
+                        {
+                            cooperationBulkOrders += action.OrderCount;
+                            if (action.Status == 1)
+                                doCooperationBulkOrders += action.OrderCount;
+                        }
+                        else if (action.ObjectType == 4)
+                        {
+                            delegateBulkOrders += action.OrderCount;
+                            if (action.Status == 1)
+                                doDelegateBulkOrders += action.OrderCount;
+                        }
+                    }
+                }
+            }
+
+            JsonDictionary.Add("customercount", customercount);
+            JsonDictionary.Add("ordercount", ordercount);
+            JsonDictionary.Add("totalmoney", totalmoney);
+            JsonDictionary.Add("myOrders", myNeedOrders);
+            JsonDictionary.Add("cooperationOrders", cooperationNeedOrders);
+            JsonDictionary.Add("delegateOrders", delegateNeedOrders);
+
+            JsonDictionary.Add("myFentOrder", myFentOrder);
+            JsonDictionary.Add("doMyFentOrder", doMyFentOrder);
+            JsonDictionary.Add("cooperationFentOrders", cooperationFentOrders);
+            JsonDictionary.Add("doCooperationFentOrders", doCooperationFentOrders);
+            JsonDictionary.Add("delegateFentOrders", delegateFentOrders);
+            JsonDictionary.Add("doDelegateFentOrders", doDelegateFentOrders);
+
+            JsonDictionary.Add("myBulkOrder", myBulkOrder);
+            JsonDictionary.Add("doMyBulkOrder", doMyBulkOrder);
+            JsonDictionary.Add("cooperationBulkOrders", cooperationBulkOrders);
+            JsonDictionary.Add("doCooperationBulkOrders", doCooperationBulkOrders);
+            JsonDictionary.Add("delegateBulkOrders", delegateBulkOrders);
+            JsonDictionary.Add("doDelegateBulkOrders", doDelegateBulkOrders);
+
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         /// <summary>
         /// 明道登录
         /// </summary>
