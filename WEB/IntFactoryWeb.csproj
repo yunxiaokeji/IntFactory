@@ -798,6 +798,7 @@
     <Content Include="Views\System\OrderCategory.cshtml" />
     <Content Include="Views\Home\OrderSuccess.cshtml" />
     <Content Include="Views\Customer\EntrustOrders.cshtml" />
+    <Content Include="Views\Task\Test.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

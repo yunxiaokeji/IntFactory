@@ -14,6 +14,11 @@ namespace YXERP.Controllers
         // GET: /Task/
 
         #region view
+        public ActionResult Test() 
+        {
+
+            return View();
+        }
         /// <summary>
         /// 任务详情
         /// </summary>
