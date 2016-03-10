@@ -208,9 +208,6 @@
     <None Include="Procedures\Sales\P_GetOrderByID.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Sales\P_SubmitOrder.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Procedures\Sales\P_UpdateOrderPrice.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -486,5 +483,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Sales\P_SendOrderGoods.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\RepotLog\R_GetClientActions.sql" />
   </ItemGroup>
 </Project>

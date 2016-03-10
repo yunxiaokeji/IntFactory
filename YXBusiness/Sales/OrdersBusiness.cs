@@ -307,7 +307,6 @@ namespace IntFactoryBusiness
             return id;
         }
 
-
         public string CreateDHOrder(string orderid, string originalid, List<ProductDetail> details, string operateid, string agentid, string clientid)
         {
             var dal = new OrdersDAL();
@@ -338,6 +337,9 @@ namespace IntFactoryBusiness
                         }
                         tran.Commit();
                         conn.Dispose();
+                        //日志
+                        LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Orders, EnumLogType.Create, "", operateid, agentid, clientid);
+                        
                         return id;
                     }
                 }
@@ -379,7 +381,6 @@ namespace IntFactoryBusiness
             }
             return "";
         }
-
 
         public static string CreateReply(string guid,string stageID,int mark, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
         {
@@ -530,20 +531,6 @@ namespace IntFactoryBusiness
         public bool UpdateOrderPlateRemark(string orderid, string plateRemark)
         {
             return OrdersDAL.BaseProvider.UpdateOrderPlateRemark(orderid, plateRemark);
-        }
-
-        public bool SubmitOrder(string orderid, string operateid, string ip, string agentid, string clientid)
-        {
-            bool bl = OrdersDAL.BaseProvider.SubmitOrder(orderid, operateid, agentid, clientid);
-            if (bl)
-            {
-                string msg = "提交订单";
-                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, operateid, agentid, clientid);
-
-                //日志
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Orders, EnumLogType.Create, ip, operateid, agentid, clientid);
-            }
-            return bl;
         }
 
         public bool EditOrder(string orderid, string personName, string mobileTele, string cityCode, string address, string postalcode, string typeid, int expresstype, string remark, string operateid, string ip, string agentid, string clientid)

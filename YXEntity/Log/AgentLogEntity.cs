@@ -19,11 +19,11 @@ namespace IntFactoryEntity
     {
         public int ObjectType { get; set; }
 
-        public decimal DayValue { get; set; }
+        public int OrderType { get; set; }
 
-        public decimal WeekValue { get; set; }
+        public int Status { get; set; }
 
-        public decimal MonthValue { get; set; }
+        public int OrderCount { get; set; }
 
         public void FillData(System.Data.DataRow dr)
         {
