@@ -222,6 +222,11 @@ define(function (require, exports, module) {
             _self.createDHOrder(true);
         });
 
+        //任务详情
+        require.async("showtaskdetail", function () {
+            $(".task-item").showtaskdetail();
+        });
+
         //更换客户
         $("#changeCustomer").click(function () {
             ChooseCustomer.create({

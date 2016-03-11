@@ -278,7 +278,7 @@
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\task\task-list.html" />
-    <Content Include="modules\template\task\task-detail.html" />
+    <Content Include="modules\plug\showtaskdetail\task-detail.html" />
     <Content Include="Views\System\OrderProcess.cshtml" />
     <None Include="modules\plug\umeditor\net\Uploader.cs" />
     <Compile Include="Models\FilterUser.cs" />

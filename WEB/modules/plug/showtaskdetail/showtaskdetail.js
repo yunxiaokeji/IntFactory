@@ -2,7 +2,8 @@
 define(function (require, exports, module) {
     require("plug/showtaskdetail/style.css");
     var doT = require("dot");
-    var Global = require("global");
+    var Global = require("global"),
+        ChooseUser = require("chooseuser");
 
     (function ($) {
         //默认参数
@@ -55,7 +56,7 @@ define(function (require, exports, module) {
         //获取任务详情
         var drawTaskDetail = function (taskid, orderid, stageid) {
 
-            doT.exec("template/task/task-detail.html", function (template) {
+            doT.exec("plug/showtaskdetail/task-detail.html", function (template) {
                 Global.post("/task/GetTaskDetail", { taskID: taskid }, function (data) {
                     //获取任务详情内容
                     var arr = [];
@@ -66,35 +67,40 @@ define(function (require, exports, module) {
                     $("body").append(html);
 
 
-                    $("#taskDetailContent").css({"height":($(document).height() - 80) + "px"}).animate({ width: '480px' }, 500);
+                    $("#taskDetailContent").css({"height":($(document).height() - 80) + "px"}).animate({ width: '480px' }, 200);
 
                     //隐藏下拉
                     $(document).click(function (e) {
-                        if (!$(e.target).parents().hasClass("taskContent") && !$(e.target).hasClass("taskContent") && !$(e.target).parents().hasClass("taskDetailContent") && !$(e.target).hasClass("taskDetailContent") && !$(e.target).parents().hasClass("jPag-pages") && !$(e.target).hasClass("jPag-pages")) {
-                            $("#taskDetailContent").animate({ width: '0px' }, 500);
+                        if (!$(e.target).parents().hasClass("taskContent") && !$(e.target).hasClass("taskContent") && !$(e.target).parents().hasClass("taskDetailContent") && !$(e.target).hasClass("taskDetailContent")
+                            && !$(e.target).parents().hasClass("easyDialog_wrapper") && !$(e.target).hasClass("easyDialog_wrapper") && !$(e.target).parents().hasClass("alert") && !$(e.target).hasClass("alert")) {
+                            $("#taskDetailContent").animate({ width: '0px' }, 100);
                         }
                     });
 
-                    //更新任务到期日期
-                    var taskEndTime = {
-                        elem: '#UpdateTaskEndTime',
-                        format: 'YYYY-MM-DD',
-                        max: '2099-06-16',
-                        istime: false,
-                        istoday: false,
-                        choose: function () {
-                            UpdateTaskEndTime(taskid);
-                        }
-                    };
-                    laydate(taskEndTime);
-
-                    //标记任务完成
-                    $("#FinishTask").click(function () {
-                        FinishTask(taskid);
+                    $("#changeTaskOwner").click(function () {
+                        var _this = $(this);
+                        ChooseUser.create({
+                            title: "更换负责人",
+                            type: 1,
+                            single: true,
+                            callback: function (items) {
+                                if (items.length > 0) {
+                                    if (_this.data("userid") != items[0].id) {
+                                        Global.post("/Task/UpdateTaskOwner", {
+                                            userid: items[0].id,
+                                            taskid: taskid
+                                        }, function (data) {
+                                            if (data.status) {
+                                                $("#taskOwnerID").text(items[0].name);
+                                            }
+                                        });
+                                    } else {
+                                        alert("请选择不同人员进行更换!");
+                                    }
+                                }
+                            }
+                        });
                     });
-
-                    //任务讨论列表
-                    initTalkReply(orderid, stageid);
                 });
 
             });
