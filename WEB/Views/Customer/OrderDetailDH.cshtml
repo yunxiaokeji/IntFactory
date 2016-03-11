@@ -43,14 +43,21 @@
     <ul class="left order-info">
         <li>
             <span class="column-title">负责人：</span> <label class="left" id="lblOwner">@(model.Owner != null ? model.Owner.Name : "--")</label>
-            @if(model.IsSelf)
+            @if (model.IsSelf)
             {
                 <span title="更换负责人" class="ico-change left mTop5 mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner"></span>
             }
         </li>
         <li>
             <span class="column-title">客户名称：</span> 
-            <a href="/Customer/Detail/@(model.CustomerID)" target="_blank">@(model.Customer.Name)</a> 
+            @if (!string.IsNullOrEmpty(model.CustomerID))
+            {
+                <a href="/Customer/Detail/@(model.CustomerID)" class="left" target="_blank">@(model.Customer.Name)</a> 
+            }
+            @if (model.IsSelf && model.Status == 0)
+            {
+                <span title="更换客户" class="ico-change left mTop5 mLeft10" data-customerid="@(model.CustomerID)" data-id="@(model.OrderID)" id="changeCustomer"></span>
+            }
         </li>
         <li>
             <span class="column-title">联系方式：</span>

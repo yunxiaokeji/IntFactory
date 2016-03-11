@@ -523,6 +523,68 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateOrderCustomer(string orderid, string customerid, string name, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderCustomer(orderid, customerid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "绑定客户：" + name;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, customerid, agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderImages(string orderid, string images,  string operateid, string ip, string agentid, string clientid)
+        {
+            string firstimg = "", allimgs = "";
+
+            if (!string.IsNullOrEmpty(images))
+            {
+                bool first = true;
+                foreach (var img in images.Split(','))
+                {
+                    string orderimg = img;
+                    if (!string.IsNullOrEmpty(orderimg) && orderimg.IndexOf(TempPath) >= 0)
+                    {
+                        if (orderimg.IndexOf("?") > 0)
+                        {
+                            orderimg = orderimg.Substring(0, orderimg.IndexOf("?"));
+                        }
+
+                        DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
+                        if (!directory.Exists)
+                        {
+                            directory.Create();
+                        }
+
+                        FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
+                        orderimg = FILEPATH + file.Name;
+                        if (file.Exists)
+                        {
+                            file.MoveTo(HttpContext.Current.Server.MapPath(orderimg));
+                        }
+                    }
+                    if (first)
+                    {
+                        firstimg = orderimg;
+                        first = false;
+                    }
+                    allimgs += orderimg + ",";
+                }
+            }
+            if (allimgs.Length > 0)
+            {
+                allimgs = allimgs.Substring(0, allimgs.Length - 1);
+            }
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderImages(orderid, firstimg, allimgs, agentid, clientid);
+            if (bl)
+            {
+                string msg = "更换订单样图";
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
+            }
+            return bl;
+        }
+
         public bool UpdateOrderPlateAttr(string orderid, string taskID, string valueIDS, string platehtml, string createUserID, string agentID, string clientID)
         {
             return OrdersDAL.BaseProvider.UpdateOrderPlateAttr(orderid, taskID, valueIDS, platehtml, createUserID, agentID, clientID);

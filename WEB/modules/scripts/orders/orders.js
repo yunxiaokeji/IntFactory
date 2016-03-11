@@ -43,23 +43,6 @@
                 $(".dropdown-ul").hide();
             }
         });
-        $("#createOrder").click(function () {
-            ChooseCustomer.create({
-                title: "选择客户",
-                isAll: true,
-                callback: function (items) {
-                    if (items.length > 0) {
-                        Global.post("/Orders/CreateOrder", {
-                            customerid: items[0].id
-                        }, function (data) {
-                            if (data.id) {
-                                location.href = "/Orders/ChooseProducts/" + data.id;
-                            }
-                        });
-                    }
-                }
-            });
-        });
 
         $("#btnSearch").click(function () {
             Params.PageIndex = 1;

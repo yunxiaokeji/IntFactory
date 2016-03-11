@@ -208,16 +208,13 @@
     <None Include="Procedures\Sales\P_GetOrderByID.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Sales\P_SubmitOrder.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Procedures\Sales\P_UpdateOrderPrice.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Sales\P_DeleteOrder.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Sales\P_EffectiveOrder.sql" />
+    <None Include="Procedures\Sales\P_EffectiveOrderProduct.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Finance\P_GetPayableBills.sql" />
@@ -386,9 +383,6 @@
     <None Include="Procedures\ShoppingCart\P_DeleteCart.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Sales\P_UpdateOpportunityStage.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Procedures\Report\R_GetOpportunityStageRate.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -446,7 +440,6 @@
     <None Include="Procedures\Task\P_FinishTask.sql" />
     <None Include="Procedures\Task\P_GetTasks.sql" />
     <None Include="Procedures\Task\P_UpdateTaskEndTime.sql" />
-    <Build Include="Table\OrderTask.sql" />
     <None Include="Procedures\Products\P_GetProductsAll.sql" />
     <None Include="Procedures\Products\P_GetProductUseLogs.sql" />
     <Build Include="Procedures\Sales\P_GetOrderPlans.sql" />
@@ -471,10 +464,31 @@
     <None Include="Procedures\Sales\P_UpdateOrderClient.sql" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <None Include="Procedures\Sales\P_UpdateOrderOriginalID.sql" />
-=======
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Procedures\Task\P_UpdateOrderPlateAttr.sql" />
->>>>>>> 7fe73c9610bbb63c6653997d68c256d9fc6f8d95
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Products\P_GetOrderCategoryDetailsByID.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_CreateDHOrder.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_AddOrderGoods.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_SendOrderGoods.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\RepotLog\R_GetClientActions.sql" />
+  </ItemGroup>
+  <ItemGroup>
+<<<<<<< HEAD
+    <None Include="Procedures\Sales\P_UpdateOrderCustomer.sql" />
+=======
+    <None Include="Procedures\Task\P_UpdateTaskOwner.sql" />
+>>>>>>> 8e72a607661b30230384bde03790b741fb1088a8
   </ItemGroup>
 </Project>
