@@ -79,14 +79,14 @@ width:60px;
 .order-imgs-list img{ width:40px; height:40px;}
 
 /*设置员工角色*/
-.role-items { width:336px; overflow:auto; }
+.role-items { width:455px; overflow:auto; }
 .role-items li{ width:100px; height:35px; float:left; line-height:35px; border:solid 1px #ccc; margin:10px 5px; text-align:center; cursor:pointer; }
 .role-items li:hover{ border-color:#2F73B8; color:#2F73B8;}
 .role-items li.hover{ border-color:#2F73B8; color:#fff; background-color:#2F73B8;}
 
 /*组织架构*/
 .create-first { height:70px; line-height:60px; margin:50px auto; width:200px; border:solid 1px #eee; box-shadow:0 0 10px #ccc; text-align:center;
-                color:#4a98e7; font-size:18px; cursor:pointer;}
+color:#4a98e7; font-size:18px; cursor:pointer;}
 .create-first .plus{color:#4a98e7; font-size:30px; font-weight:bold; top:3px; position:relative; }
 
 .table-list tr:not(:first-child) td {

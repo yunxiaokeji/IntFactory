@@ -54,9 +54,12 @@
         <div class="left">
             
              <div class="setTaskEndtime @(model.FinishStatus==0?"hide":"")">
-                <div class="left"><img title="到期日期" style="width:30px;" src="/modules/images/ico-endtime.png" /></div>
+                <div class="left pTop5">
+                  @*  <img title="到期日期" style="width:30px;" src="/modules/images/ico-endtime.png" />*@
+                    到期时间:
+                </div>
                 <div class="left mLeft10">
-                    <input type="text" style="width:80px;" id="@(model.FinishStatus == 2 ? "" : "UpdateTaskEndTime")" value="@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定日期" : model.EndTime.ToString("yyyy-MM-dd"))" placeholder="设置到期日期"/>
+                    <input type="text" style="width:100px;" id="@(model.FinishStatus == 2 ? "" : "UpdateTaskEndTime")" value="@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定到期时间" : model.EndTime.ToString("yyyy-MM-dd"))" placeholder="设置到期时间"/>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -278,7 +281,9 @@
 
             @{if (model.Mark == 2 && model.FinishStatus != 2)
               {
-            <div class="content-main">
+                  
+            <div class="content-main mTop20">
+                 <div class="talk-title mBottom10" >工艺说明</div>
                 <textarea id="txtPlateRemark" class="txt-content"  placeholder="工艺说明"></textarea><br />
                 <div class="btn right mTop5" id="btn-updatePlateRemark">保存工艺说明</div>
                 <div class="clear"></div>

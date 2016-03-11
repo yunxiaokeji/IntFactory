@@ -561,10 +561,6 @@
     //制版的内容点击
     ObjectJS.bindContentClick = function () {
         $("#platemakingBody .tr-content td").unbind().bind("click", function () {
-            //$(".tbContentIpt:visible").each(function () {
-            //    $(this).hide().prev().html($(this).val()).show();
-            //});
-
             $(this).find('.tbContent').hide();
             $(this).find('.tbContentIpt').show().focus();
         });
@@ -662,7 +658,7 @@
     ObjectJS.bindAddRow = function () {
         $("div.btn-addRow").unbind().bind('click', function () {
             var $newTR = $("<tr class='tr-content'>" + $(this).parent().parent().parent().html() + "</tr>");
-            $newTR.find(".tbContentIpt").empty().show();
+            $newTR.find(".tbContentIpt").empty().attr("value","").show();
             $newTR.find(".tbContent").empty();
             $(this).parent().parent().parent().after($newTR);
 
@@ -708,7 +704,7 @@
 
             if (CacheAttrValues.length==0) {
                 noHaveLi = true;
-                innerHtml = '<div style="width:300px;">制版属性没有配置,无选择</div>';
+                innerHtml = '<div style="width:300px;">制版属性没有配置,请联系后台管理员配置</div>';
             }
 
 

@@ -25,7 +25,7 @@
                 else if(ObjectJS.type==2)
                     alert("属性缓存清理成功");
                 else if (ObjectJS.type == 3)
-                    alert("单位清理成功");
+                    alert("单位缓存清理成功");
             }
         });
     }
