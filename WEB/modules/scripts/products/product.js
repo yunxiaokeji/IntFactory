@@ -288,7 +288,7 @@ define(function (require, exports, module) {
                 var _ele = $(" <li data-id='" + CacheChildCategorys[pid][i].CategoryID + "'>" + CacheChildCategorys[pid][i].CategoryName + "</li>");
                 _ele.click(function () {
                     //处理分类MAP
-                    var _map = $(" <li data-id='" + $(this).data("id") + "'>" + $(this).html() + "<span>></span></li>");
+                    var _map = $(" <li data-id='" + $(this).data("id") + "'><a href='javascript:void(0);'>" + $(this).html() + "</a></li>");
                     _map.click(function () {
                         $(this).nextAll().remove();
                         _self.getChildCategory($(this).data("id"));
