@@ -58,16 +58,36 @@
 
 /*讨论备忘*/
 .talk-body { }
-.talk-body .content-main { height:150px; position:relative; width:700px; }
+.talk-body .content-main { position:relative; width:700px; }
 .talk-body .content-main .txt-content { height:148px; width:640px; background-color:#f7f7f7; border:solid 1px #eee; }
 .talk-body .content-main .txt-content:focus { border:solid 1px #318ae4;}
 .talk-body .content-main .btn-save { position:absolute; right:0; bottom:0px; }
 
-.talk-title { border-bottom: solid 1px #4a98e7; height:40px; line-height:40px; width: 700px; color:#666; }
+.talk-title { border-bottom: solid 1px #ccc; height:40px; line-height:40px; width: 700px; color:#666; }
 .talk-body .content-list { width: 700px; }
 .talk-body .content-list td{ border-bottom:dashed 1px #ccc; }
 .talk-body .content-list .user-avatar { width:35px; padding-top:20px; vertical-align:top; }
 .talk-body .content-list .user-avatar img{ width:24px; height:24px; border-radius:12px;  vertical-align:top; }
+
+/*任务讨论输入框*/
+.replyBox {
+width:680px;
+height:30px;
+overflow:hidden;
+border:1px solid  #ddd;
+padding:10px 10px 0px 10px;
+}
+
+.replyBox .replyContent {
+border:none;
+width:700px;
+height:100px;
+border-bottom:1px solid #ccc;
+}
+
+.autoHeight {
+height:auto;
+}
 
 
 

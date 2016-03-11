@@ -60,6 +60,21 @@
                     $(".edui-body-container").animate({ height: "600px" }, 500);
                 });
 
+
+                $(document).click(function (e) {
+                    //隐藏制版列操作下拉框
+                    if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
+
+                        $(".replyBox").removeClass("autoHeight");
+                    }
+
+
+                    //隐藏制版列操作下拉框
+                    if (!$(e.target).parents().hasClass("edui-container") && !$(e.target).hasClass("edui-container")) {
+                        $(".edui-body-container").animate({ height: "100px" }, 500);
+                    }
+                });
+
             });
         }
 
@@ -74,13 +89,12 @@
         }
 
 
-        
-
     };
 
     //任务基本信息操作事件
     //更新任务到期日期
     ObjectJS.bindEvent = function () {
+
         setTimeout(function () {
             if ($("#UpdateTaskEndTime").length == 1) {
                 //更新任务到期日期
@@ -134,17 +148,20 @@
             $(this).find(".replyContent").focus();
         });
 
-        $(document).bind("click", function (e) {
+        $(document).click(function (e) {
             //隐藏制版列操作下拉框
             if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
+                
                 $(".replyBox").removeClass("autoHeight");
             }
 
+            
             //隐藏制版列操作下拉框
-            if (!$(e.target).parents().hasClass("edui-container") && !$(e.target).hasClass("edui-container")) {
-                $(".edui-body-container").animate({ height: "100px" }, 500);
-            }
+            //if (!$(e.target).parents().hasClass("edui-container") && !$(e.target).hasClass("edui-container")) {
+            //    $(".edui-body-container").animate({ height: "100px" }, 500);
+            //}
         });
+
     }
 
     //更改任务到期时间
@@ -522,15 +539,6 @@
             if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
                 $(".dropdown-ul").hide();
             }
-
-            //隐藏制版行的输入框
-            //if (!$(e.target).parents().hasClass("table-list") && !$(e.target).hasClass("table-list") && !$(e.target).hasClass("tbContent") && !$(e.target).parents().hasClass("tbContent") && !$(e.target).hasClass("easyDialog_wrapper") && !$(e.target).parents().hasClass("easyDialog_wrapper")) {
-                
-
-            //    $(".tbContentIpt:visible").each(function () {
-            //        $(this).hide().prev().html($(this).val()).show();
-            //    });
-            //}
         });
 
 
@@ -811,7 +819,7 @@
             plateRemark: encodeURI(Editor.getContent())
         }, function (data) {
             if (data.Result == 1) {
-                alert("保存成功");
+                $(".edui-body-container").animate({ height: "100px" }, 500);
             }
         });
     }

@@ -33,7 +33,7 @@ display:inline-block;
 .talk-body .content-main .txt-content:focus { border:solid 1px #318ae4;}
 .talk-body .content-main .btn-save { position:absolute; right:0; bottom:0px; }
 
-.talk-body .talk-title { border-bottom: solid 1px #4a98e7; height:40px; line-height:40px; color:#666; }
+.talk-body .talk-title { border-bottom: solid 1px #ccc; height:40px; line-height:40px; color:#666; }
 .talk-body .content-list {width:800px;}
 .talk-body .content-list td{ border-bottom:dashed 1px #ccc; }
 .talk-body .content-list .user-avatar { width:35px; padding-top:20px; vertical-align:top; }
@@ -97,7 +97,7 @@ height:35px;
 width:780px;
 height:30px;
 overflow:hidden;
-border:1px solid  #4a98e7;
+border:1px solid  #ddd;
 padding:10px 10px 0px 10px;
 }
 
