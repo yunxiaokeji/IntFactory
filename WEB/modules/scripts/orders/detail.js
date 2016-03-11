@@ -398,14 +398,14 @@ define(function (require, exports, module) {
         });
 
         $(".replyBox").click(function () {
-            $(this).addClass("autoHeight");
+            $(this).addClass("autoHeight").css("border", "1px solid #666");
             $(this).find(".replyContent").focus();
         });
 
         $(document).click(function (e) {
             //隐藏制版列操作下拉框
             if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
-                $(".replyBox").removeClass("autoHeight");
+                $(".replyBox").removeClass("autoHeight").css("border", "1px solid #ddd");
             }
 
         });

@@ -136,7 +136,7 @@ input[type="password"] { border:solid 1px #ccc; border-radius:2px;height:25px; l
 input[type="password"]:focus { border:solid 1px #318ae4; }
 
 textarea { min-height: 60px; border:solid 1px #ccc; border-radius:2px;text-indent:3px;resize:none;}
-textarea:focus { border:solid 1px #318ae4;}
+textarea:focus { border:solid 1px #666;}
 
 select{ border:solid 1px #ccc; border-radius:2px; height:25px; line-height:25px; padding:0 5px;}
 select option{ padding:2px; }

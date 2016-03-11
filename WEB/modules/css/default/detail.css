@@ -45,6 +45,7 @@
 .tab-nav { height: 35px; width: 100%; line-height: 35px; border-bottom: solid 1px #ccc; }
 .tab-nav-ul { height: 32px;}
 .tab-nav-ul li { height:32px; float:left; padding:0 20px; cursor:pointer; }
+.tab-nav-ul li:hover{ position: relative; height: 32px; line-height: 35px; border-bottom: 3px solid #73ABE4; color:#318ae4; }
 .tab-nav-ul .hover { position: relative; height: 32px; line-height: 35px; border-bottom: 3px solid #4a98e7; color:#318ae4;  }
 
 /*日志样式*/

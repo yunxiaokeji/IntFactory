@@ -29,8 +29,7 @@ display:inline-block;
 /*讨论备忘*/
 .talk-body {}
 .talk-body .content-main {position:relative; width:800px;}
-.talk-body .content-main .txt-content { height:100px; background-color:#f7f7f7;width:800px; border:solid 1px #eee; }
-.talk-body .content-main .txt-content:focus { border:solid 1px #318ae4;}
+.talk-body .content-main .txt-content { height:100px; width:800px;}
 .talk-body .content-main .btn-save { position:absolute; right:0; bottom:0px; }
 
 .talk-body .talk-title { border-bottom: solid 1px #ccc; height:40px; line-height:40px; color:#666; }

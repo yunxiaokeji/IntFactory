@@ -14,6 +14,9 @@
     ///mark:任务标记 1：材料 2 制版 3大货材料
     ///finishStatus：任务完成状态
     ///attrValues:订单制版属性
+    ///orderType:订单类型
+    ///um:富文本编辑器
+    ///plateRemark:制版工艺描述
     ObjectJS.init = function (taskid, orderid, stageid, mark, finishStatus, attrValues, orderType, um, plateRemark) {
         ObjectJS.orderid = orderid;
         ObjectJS.stageid = stageid;
@@ -22,26 +25,19 @@
         if(attrValues!="")
             CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));
         Editor = um;
-
         ObjectJS.mark = 1;
-        if (mark == 2)
-        {
-            ObjectJS.mark = 2;
-            $("#navProducts").hide();
-            $("#platemakingContent").show();
-            $(".tab-nav-ul li").removeClass("hover").eq(1).addClass("hover");
-        }
+        if (mark == 2)ObjectJS.mark = 2;
 
         ObjectJS.bindEvent();
         ObjectJS.initTalkReply();
 
         //材料任务
-        if ((mark == "1" || mark == "3") && finishStatus!=2) {
+        if ($("#addMaterial").length==1) {
             ObjectJS.bindProduct();
 
             ObjectJS.bindRemoveRowBtn(); 
         }//制版任务
-        else if (mark == "2" && finishStatus != 2) {
+        else if ($("#btn-updateTaskRemark").length == 1) {
             ObjectJS.bindPlatemakingEvent();
 
             ObjectJS.getAmount2();
@@ -49,6 +45,15 @@
         else {
             ObjectJS.getAmount2();
             ObjectJS.bindRemoveRowBtn();
+        }
+
+        if ($("#PlateRemark").length == 1) {
+            if (plateRemark != "") {
+                $("#PlateRemark").html(decodeURI(plateRemark));
+            }
+            else {
+                $(".edui-container").hide();
+            }
         }
 
         if (Editor) {
@@ -65,7 +70,7 @@
                     //隐藏制版列操作下拉框
                     if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
 
-                        $(".replyBox").removeClass("autoHeight");
+                        $(".replyBox").removeClass("autoHeight").css("border", "1px solid #ddd");
                     }
 
 
@@ -78,23 +83,13 @@
             });
         }
 
-        if ($("#PlateRemark").length == 1)
-        {
-            if (plateRemark != "") {
-                $("#PlateRemark").html(decodeURI(plateRemark));
-            }
-            else {
-                $(".edui-container").hide();
-            }
-        }
-
-
     };
 
-    //任务基本信息操作事件
-    //更新任务到期日期
+    ///任务基本信息操作事件
+    //绑定事件
     ObjectJS.bindEvent = function () {
 
+        //绑定任务到期日期
         setTimeout(function () {
             if ($("#UpdateTaskEndTime").length == 1) {
                 //更新任务到期日期
@@ -142,24 +137,18 @@
  
         });
 
+        //任务讨论盒子点击
         $(".replyBox").click(function () {
 
-            $(this).addClass("autoHeight");
+            $(this).addClass("autoHeight").css("border", "1px solid #666");
             $(this).find(".replyContent").focus();
         });
 
+        //
         $(document).click(function (e) {
-            //隐藏制版列操作下拉框
             if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
-                
-                $(".replyBox").removeClass("autoHeight");
+                $(".replyBox").removeClass("autoHeight").css("border", "1px solid #ddd");
             }
-
-            
-            //隐藏制版列操作下拉框
-            //if (!$(e.target).parents().hasClass("edui-container") && !$(e.target).hasClass("edui-container")) {
-            //    $(".edui-body-container").animate({ height: "100px" }, 500);
-            //}
         });
 
     }
@@ -198,6 +187,8 @@
         });
     }
 
+
+    ///任务讨论
     //初始化任务讨论列表
     ObjectJS.initTalkReply = function () {
         var _self = this;
@@ -379,7 +370,9 @@
         });
     }
 
-    //任务材料操作事件
+
+    ///任务材料基本操作
+    //绑定事件
     ObjectJS.bindProduct = function () {
         ObjectJS.getAmount();
 
@@ -495,7 +488,7 @@
         $("#amount").text(amount.toFixed(2));
         $("#totalMoney").text((amount * $("#planQuantity").text()).toFixed(2));
     }
-
+    //计算总金额
     ObjectJS.getAmount2 = function () {
         var amount = 0;
         $(".amount").each(function () {
@@ -507,8 +500,9 @@
 
 
 
-
-    //任务制版相关事件
+    
+    ///任务制版相关事件
+    //绑定
     ObjectJS.bindPlatemakingEvent = function () {
         ObjectJS.bindDocumentClick();
         ObjectJS.binddropdown();
@@ -620,10 +614,6 @@
                         ObjectJS.bindContentClick();
                         ObjectJS.bindAddRow();
                         ObjectJS.bindRemoveRow();
-
-                        //setTimeout(function () {
-                        //    $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']:gt(0)").next().find(".tbContentIpt").show();
-                        //}, 100);
                     }
                 }
 
@@ -635,7 +625,6 @@
                 else
                     $(this).removeClass("hover");
             });
-
 
 
         });
@@ -663,7 +652,6 @@
             $(this).parent().parent().parent().after($newTR);
 
             ObjectJS.bindContentClick();
-
             ObjectJS.bindAddRow();
             ObjectJS.bindRemoveRow();
         });
@@ -784,23 +772,24 @@
         });
     }
 
-
     //保存制版信息
     ObjectJS.updateOrderPlatemaking = function () {
+        if ($("#platemakingBody").html() == "") return;
+
         $(".tbContentIpt:visible").each(function () {
             $(this).attr("value", $(this).val() ).hide().prev().html($(this).val()).show();
         });
 
-        var ValueIDs = '';
+        var valueIDs = '';
         $("#platemakingBody .tr-header td.columnHeadr").each(function () {
-            ValueIDs += $(this).data("id")+'|';
+            valueIDs += $(this).data("id") + '|';
         });
 
         Global.post("/Task/UpdateOrderPlateAttr", {
             orderID: ObjectJS.orderid,
             platehtml: encodeURI($("#platemakingBody").html()),
             taskID: ObjectJS.taskid,
-            valueIDs: ValueIDs
+            valueIDs: valueIDs
         }, function (data) {
             if (data.Result == 1) {
                 alert("保存成功");
