@@ -21,6 +21,7 @@
             var um = null;
             if ($("#txtPlateRemark").length == 1)
                 um = UM.getEditor('txtPlateRemark');
+
             seajs.use(["scripts/task/detail"], function (obj) {
                 obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)');
             });
@@ -41,6 +42,7 @@
                     });
                 }
             }
+
         });
     </script>
 }
@@ -95,11 +97,11 @@
             </li>
              <li>
                 <span class="column-title">接受时间:</span>
-                <span>@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.EndTime.ToString("yyyy-MM-dd"))</span>
+                <span>@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd"))</span>
             </li>
             <li>
                 <span class="column-title">完成时间:</span>
-                <span>@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.EndTime.ToString("yyyy-MM-dd"))</span>
+                <span>@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.CompleteTime.ToString("yyyy-MM-dd"))</span>
             </li>
              <li>
                 <span class="column-title">订单编号:</span>
@@ -177,36 +179,36 @@
                             {
                                 if (model.Mark == 1)
                                 { 
-                                            <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
+                                    <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
                                 }
 
                                 if (model.Mark == 3)
                                 { 
-                                            <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
-                                            <td class="center tr-loss"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Loss.ToString("f2"))" class="loss width50" value="@(detail.Loss.ToString("f2"))" /></td>
+                                    <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
+                                    <td class="center tr-loss"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Loss.ToString("f2"))" class="loss width50" value="@(detail.Loss.ToString("f2"))" /></td>
                                 }
                                       
-                                        <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
+                                <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
                                         
                                 if (model.Mark == 1)
                                 { 
-                                            <td class="center">
-                                                    <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
-                                            </td>
+                                    <td class="center">
+                                            <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
+                                    </td>
                                 }
                             }
                             else
                             {
-                                        <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
+                                <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
                                     
                                 if (Mark == 3)
                                 {
-                                            <td class="center tr-loss">@(detail.Loss.ToString("f2"))</td>
+                                    <td class="center tr-loss">@(detail.Loss.ToString("f2"))</td>
                                 }
                                         
-                                        <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
+                                    <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
                             }
-                                }
+                           }
                             </tr>
                         }
                     }
@@ -218,13 +220,13 @@
                         <td></td>
                         @{if (model.Mark == 3)
                           {
-                        <td></td>
+                            <td></td>
                           }}
                         <td class="tRight">成本合计：</td>
                         <td class="tRight"><label id="amount"></label></td>
                         @{if (model.Mark == 1 && model.FinishStatus != 2)
                           {
-                        <td></td>
+                            <td></td>
                           }}
                     </tr>
                 </table>
@@ -302,9 +304,12 @@
 
         <div class="mTop50" id="taskReplys">
             <div class="content-main">
-                <textarea id="txtContent" class="txt-content" placeholder="发表评论"></textarea><br />
-                <div class="btn right mTop5" id="btnSaveTalk">提交</div>
-                <div class="clear"></div>
+                <div class="replyBox">
+                    <textarea id="txtContent" class="replyContent" placeholder="发表评论"></textarea><br />
+                    <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
+                    <div class="clear"></div>
+                </div>
+                
             </div>
 
             <div class="talk-title" style="width:800px;"> 全部讨论</div>

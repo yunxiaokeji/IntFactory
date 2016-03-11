@@ -93,3 +93,22 @@ width:60px;
 height:35px;
 }
 
+.replyBox {
+width:780px;
+height:30px;
+overflow:hidden;
+border:1px solid  #4a98e7;
+padding:10px 10px 0px 10px;
+}
+
+.replyBox .replyContent {
+border:none;
+width:800px;
+height:100px;
+border-bottom:1px solid #eee;
+}
+
+.autoHeight {
+height:auto;
+}
+

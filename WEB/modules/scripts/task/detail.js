@@ -60,20 +60,21 @@
                     $(".edui-body-container").animate({ height: "600px" }, 500);
                 });
 
-                $(document).unbind().bind("click", function (e) {
-                    //隐藏制版列操作下拉框
-                    if (!$(e.target).parents().hasClass("edui-container") && !$(e.target).hasClass("edui-container")) {
-                        $(".edui-body-container").animate({ height: "100px" }, 500);
-                    }
-                });
-
             });
         }
 
         if ($("#PlateRemark").length == 1)
         {
-            $("#PlateRemark").html(decodeURI(plateRemark));
+            if (plateRemark != "") {
+                $("#PlateRemark").html(decodeURI(plateRemark));
+            }
+            else {
+                $(".edui-container").hide();
+            }
         }
+
+
+        
 
     };
 
@@ -86,6 +87,7 @@
                 var taskEndTime = {
                     elem: '#UpdateTaskEndTime',
                     format: 'YYYY-MM-DD',
+                    min: laydate.now(),
                     max: '2099-06-16',
                     istime: false,
                     istoday: false,
@@ -124,6 +126,24 @@
                 ObjectJS.initTalkReply();
             }
  
+        });
+
+        $(".replyBox").click(function () {
+
+            $(this).addClass("autoHeight");
+            $(this).find(".replyContent").focus();
+        });
+
+        $(document).bind("click", function (e) {
+            //隐藏制版列操作下拉框
+            if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
+                $(".replyBox").removeClass("autoHeight");
+            }
+
+            //隐藏制版列操作下拉框
+            if (!$(e.target).parents().hasClass("edui-container") && !$(e.target).hasClass("edui-container")) {
+                $(".edui-body-container").animate({ height: "100px" }, 500);
+            }
         });
     }
 
