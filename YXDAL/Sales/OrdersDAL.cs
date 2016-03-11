@@ -380,6 +380,33 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderOriginalID", paras, CommandType.StoredProcedure) > 0;
         }
 
+        public bool UpdateOrderCustomer(string orderid, string customerid, string operateid, string agentid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@CustomerID",customerid),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@AgentID" , agentid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            return ExecuteNonQuery("P_UpdateOrderCustomer", paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool UpdateOrderImages(string orderid, string image, string images, string agentid, string clientid)
+        {
+            string sql = "Update Orders set OrderImage=@OrderImage,OrderImages=@OrderImages where OrderID=@OrderID and ClientID=@ClientID";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@OrderImage",image),
+                                     new SqlParameter("@OrderImages" , images),
+                                     new SqlParameter("@AgentID" , agentid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
+        }
+
         public bool UpdateOrderPlateAttr(string orderid, string taskID, string valueIDS, string platehtml, string createUserID, string agentID, string clientID)
         {
             SqlParameter[] paras = { 

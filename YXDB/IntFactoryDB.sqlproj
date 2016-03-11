@@ -383,9 +383,6 @@
     <None Include="Procedures\ShoppingCart\P_DeleteCart.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Sales\P_UpdateOpportunityStage.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Procedures\Report\R_GetOpportunityStageRate.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -486,5 +483,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\RepotLog\R_GetClientActions.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_UpdateOrderCustomer.sql" />
   </ItemGroup>
 </Project>

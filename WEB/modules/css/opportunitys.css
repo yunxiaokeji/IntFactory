@@ -1,10 +1,14 @@
 ﻿
 /*样图信息*/
-.order-imgs-div { width:400px; padding:10px 20px 0 0;}
+.order-imgs-div { width:420px; padding:10px 20px 0 0;}
 .order-imgs-div .order-imgs img{ height:400px; width:400px;}
-.order-imgs-list li{ width:60px; height:60px; float:left; border:solid 2px #eee; margin-right:5px; cursor:pointer;}
+.order-imgs-list { height:60px; }
+.order-imgs-list li{ width:60px; height:60px; float:left; border:solid 2px #eee; margin-right:5px; cursor:pointer; position:relative;}
 .order-imgs-list li.hover{ border-color:red;}
 .order-imgs-list img{ width:60px; height:60px;}
+.order-imgs-list .edit-orderimages { font-size:40px; width:60px; height:60px;  color:#999; line-height:50px; text-align:center; }
+.order-imgs-list .ico-delete { position:absolute; top:-8px; right:-8px; background-color:#fff; border-radius:10px; }
+
 
 /*订单信息*/
 .order-info { width:400px; margin-left:50px; overflow:auto; }
