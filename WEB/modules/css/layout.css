@@ -161,7 +161,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 /*暂无数据*/
 .noDataTxt { padding: 95px 0px; font-size: 16px; text-align: center; color: #666; }
 
-/*图片loading*/
+/*图片loading  background:url('/modules/images/ico-loading.gif') no-repeat center; */
 .dataLoading { padding: 85px 0px; font-size: 16px; text-align: center; color: #666; }
 
 
