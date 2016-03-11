@@ -117,7 +117,7 @@ namespace IntFactoryDAL
 
         public DataTable GetOrderCategorys(string clientid)
         {
-            string sqlText = "select * from OrderCategory where ClientID=@ClientID";
+            string sqlText = "select o.* from OrderCategory o join Category c on o.CategoryID=c.CategoryID where c.Status=1 and o.ClientID=@ClientID";
             SqlParameter[] paras = { 
                                      new SqlParameter("@ClientID",clientid)
                                    };

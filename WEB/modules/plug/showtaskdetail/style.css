@@ -1,13 +1,5 @@
-﻿.taskContent {
-width:0px;
-position:absolute;
-right: 0px;
-top: 50px;
-background-color: #fff;
-border-left: solid 1px #eee;
-opacity:1;
-overflow-y:scroll;
-}
+﻿
+.taskContent { width: 0px; position: fixed; right: 0px; top: 50px; background-color: #fff; border-left: solid 1px #eee; opacity: 1; overflow-y: scroll; }
 
 .taskContent .taskDetail {
 padding-top:15px;

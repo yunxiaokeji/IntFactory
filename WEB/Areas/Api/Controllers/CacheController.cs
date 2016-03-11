@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using IntFactoryBusiness;
 namespace YXERP.Areas.Api.Controllers
 {
-    public class CacheController : BaseController
+    public class CacheController : BaseAPIController
     {
         //
         // GET: /Api/Cache/

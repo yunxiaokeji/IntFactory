@@ -1,10 +1,25 @@
 ﻿
 /*分类层级*/
-.top-div { height:30px; padding-bottom:5px;}
-.category-map {  }
+.top-div { height:50px; padding-bottom:5px;}
+/*.category-map {  }
 .category-map li{ height:30px; line-height:30px; color:#333; cursor:pointer; float:left; padding-right:20px; }
 .category-map li span { font-family: simsun; font-style: normal; padding-left:5px; }
-.category-map li:hover{  color:#B10000; }
+.category-map li:hover{  color:#B10000; }*/
+.top-div li { float:left; }
+.top-div li a{float:left;position:relative;display:block;height:20px;padding:10px 20px 10px 20px;margin:0 15px 0 0;font-size:14px;color:#fff;text-align:center;background:#ccc;}
+.top-div li a:after,.top-div li a:before{position:absolute;top:0;content:"";width:0;height:0;border:0 solid #ccc;border-width:20px 10px;}
+.top-div li a:after{left:100%;border-color:transparent;border-left-color:#ccc;}
+.top-div li a:before{left:-10px;border-left-color:transparent;}
+.top-div li:first-child a{border-radius:10px 0 0 10px;}
+.top-div li:first-child a:before{display:none;}
+.top-div li:last-child a{padding-right:20px;border-radius:0 10px 10px 0;}
+.top-div li:last-child a:after{display:none;}
+.top-div li a:hover{background:#ccc;}
+.top-div li a:hover:after{border-left-color:#ccc;}
+.top-div li a:hover:before{border-color:#ccc;border-left-color:transparent;}
+.top-div li:last-child a{background:#318ae4;}
+.top-div li:last-child a:after{border-left-color:#318ae4;}
+.top-div li:last-child a:before{border-color:#318ae4;border-left-color:transparent;}
 
 /*筛选条件*/
 .attr-filter { border:solid 1px #ccc; }
@@ -101,3 +116,5 @@
 .addcartun { background-color:#ccc; color:#fff;  }
 
 .choose-div .stock { height:50px; line-height:50px; }
+
+/*指向导航*/

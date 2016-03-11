@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace YXERP.Areas.Api.Controllers
 {
-    public class BaseController : Controller
+    public class BaseAPIController : Controller
     {
         /// <summary>
         /// 返回数据集合
