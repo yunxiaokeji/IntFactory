@@ -49,6 +49,16 @@
 
 .fentOrderNav .navTab li { float: left;  padding: 15px 25px; background-color: #5abcde; color: #fff; cursor: pointer; }
 
+.liBorderLeft {
+border-top-left-radius:2px;
+border-bottom-left-radius:2px;
+}
+
+.liBorderRight {
+border-top-right-radius:2px;
+border-bottom-right-radius:2px;
+}
+
 .fentOrderNav .navTab li span{
 color:#fff;
 }
@@ -78,5 +88,7 @@ color:#fff;
 .bulkOrderNav .navTab .hover { background-color: #ca5846; }
 
 .itemContent { padding: 20px 32px; border: solid 1px #eee; border-radius: 3px; background-color: #fff; color: #666; }
+
+.itemContent2 { padding: 20px 23px; border: solid 1px #eee; border-radius: 3px; background-color: #fff; color: #666; }
 
 

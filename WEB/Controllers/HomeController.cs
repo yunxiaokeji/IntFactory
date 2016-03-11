@@ -186,7 +186,7 @@ namespace YXERP.Controllers
                         if (action.ObjectType == 6)
                         {
                             myFentOrder += action.OrderCount;
-                            if (action.Status == 1)
+                            if (action.Status == 2)
                             {
                                 doMyFentOrder += action.OrderCount;
                             }
@@ -194,13 +194,13 @@ namespace YXERP.Controllers
                         else if (action.ObjectType == 5)
                         {
                             cooperationFentOrders += action.OrderCount;
-                            if (action.Status == 1)
+                            if (action.Status == 2)
                             doCooperationFentOrders += action.OrderCount;
                         }
                         else if (action.ObjectType == 4)
                         {
                             delegateFentOrders += action.OrderCount;
-                            if (action.Status == 1)
+                            if (action.Status == 2)
                             doDelegateFentOrders += action.OrderCount;
                         }
 
@@ -228,7 +228,7 @@ namespace YXERP.Controllers
                         if (action.ObjectType == 6)
                         {
                             myBulkOrder += action.OrderCount;
-                            if (action.Status == 1)
+                            if (action.Status == 2)
                             {
                                 doMyBulkOrder += action.OrderCount;
                             }
@@ -236,13 +236,13 @@ namespace YXERP.Controllers
                         else if (action.ObjectType == 5)
                         {
                             cooperationBulkOrders += action.OrderCount;
-                            if (action.Status == 1)
+                            if (action.Status == 2)
                                 doCooperationBulkOrders += action.OrderCount;
                         }
                         else if (action.ObjectType == 4)
                         {
                             delegateBulkOrders += action.OrderCount;
-                            if (action.Status == 1)
+                            if (action.Status == 2)
                                 doDelegateBulkOrders += action.OrderCount;
                         }
                     }
@@ -257,18 +257,18 @@ namespace YXERP.Controllers
             JsonDictionary.Add("delegateOrders", delegateNeedOrders);
 
             JsonDictionary.Add("myFentOrder", myFentOrder);
-            JsonDictionary.Add("doMyFentOrder",myFentOrder- doMyFentOrder);
+            JsonDictionary.Add("doMyFentOrder",doMyFentOrder);
             JsonDictionary.Add("cooperationFentOrders", cooperationFentOrders);
-            JsonDictionary.Add("doCooperationFentOrders",cooperationFentOrders- doCooperationFentOrders);
+            JsonDictionary.Add("doCooperationFentOrders",doCooperationFentOrders);
             JsonDictionary.Add("delegateFentOrders", delegateFentOrders);
-            JsonDictionary.Add("doDelegateFentOrders",delegateFentOrders- doDelegateFentOrders);
+            JsonDictionary.Add("doDelegateFentOrders",doDelegateFentOrders);
 
             JsonDictionary.Add("myBulkOrder", myBulkOrder);
-            JsonDictionary.Add("doMyBulkOrder",myBulkOrder- doMyBulkOrder);
+            JsonDictionary.Add("doMyBulkOrder",doMyBulkOrder);
             JsonDictionary.Add("cooperationBulkOrders", cooperationBulkOrders);
-            JsonDictionary.Add("doCooperationBulkOrders",cooperationBulkOrders- doCooperationBulkOrders);
+            JsonDictionary.Add("doCooperationBulkOrders",doCooperationBulkOrders);
             JsonDictionary.Add("delegateBulkOrders", delegateBulkOrders);
-            JsonDictionary.Add("doDelegateBulkOrders",delegateBulkOrders- doDelegateBulkOrders);
+            JsonDictionary.Add("doDelegateBulkOrders",doDelegateBulkOrders);
 
             return new JsonResult()
             {

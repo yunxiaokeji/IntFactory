@@ -19,7 +19,8 @@
         ObjectJS.stageid = stageid;
         ObjectJS.taskid = taskid;
         ObjectJS.orderType = orderType;
-        CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));
+        if(attrValues!="")
+            CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));
         Editor = um;
 
         ObjectJS.mark = 1;
@@ -50,22 +51,24 @@
             ObjectJS.bindRemoveRowBtn();
         }
 
-        //制版工艺描述 富文本
-        Editor.ready(function () {
-            Editor.setContent(decodeURI(plateRemark));
+        if (Editor) {
+            //制版工艺描述 富文本
+            Editor.ready(function () {
+                Editor.setContent(decodeURI(plateRemark));
 
-            $(".edui-container").click(function () {
-                $(".edui-body-container").animate({ height: "600px" }, 500);
+                $(".edui-container").click(function () {
+                    $(".edui-body-container").animate({ height: "600px" }, 500);
+                });
+
+                $(document).unbind().bind("click", function (e) {
+                    //隐藏制版列操作下拉框
+                    if (!$(e.target).parents().hasClass("edui-container") && !$(e.target).hasClass("edui-container")) {
+                        $(".edui-body-container").animate({ height: "100px" }, 500);
+                    }
+                });
+
             });
-
-            $(document).unbind().bind("click", function (e) {
-                //隐藏制版列操作下拉框
-                if (!$(e.target).parents().hasClass("edui-container") && !$(e.target).hasClass("edui-container")) {
-                    $(".edui-body-container").animate({ height: "100px" }, 500);
-                }
-            });
-
-        });
+        }
 
         if ($("#PlateRemark").length == 1)
         {
@@ -618,7 +621,7 @@
     ObjectJS.bindRemoveColumn = function () {
         $("#btn-removeColumn").unbind().bind("click", function () {
 
-            if ($("#platemakingBody .tr-header td").length == 2) {
+            if ($("#platemakingBody .tr-header td").length == 3) {
                 alert("只剩最后一列,不能删除");
                 return;
             }
@@ -667,12 +670,19 @@
         if ($("#btn-addTaskPlate").length == 0) return;
 
         $("#btn-addTaskPlate").unbind().bind("click", function () {
+            var noHaveLi = false;
             var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
             for (var i = 0; len = CacheAttrValues.length, i < len; i++) {
                 var item = CacheAttrValues[i];
                 innerHtml += '<li class="role-item" data-id="' + item.ValueID + '">' + item.ValueName + '</li>';
             }
             innerHtml += '</ul>';
+
+            if (CacheAttrValues.length==0) {
+                noHaveLi = true;
+                innerHtml = '<div style="width:300px;">制版属性没有配置,无选择</div>';
+            }
+
 
             Easydialog.open({
                 container: {
@@ -732,16 +742,12 @@
 
                         $("#btn-updateTaskRemark").show();
                         $("#btn-addTaskPlate").hide();
-                        //setTimeout(function () {
-                        //    $("#platemakingBody input.tbContentIpt").show();
-                        //}, 100);
+
                     }
                 }
 
             });
 
-            
-            //$("#platemakingBody input.tbContentIpt").show();
 
             $("#setTaskPlateAttrBox .role-item").click(function () {
                 if (!$(this).hasClass("hover"))
