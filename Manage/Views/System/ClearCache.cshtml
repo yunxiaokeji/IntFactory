@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "清理缓存";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/system/cache"], function (obj) {
+            obj.init();
+        });
+    </script>
+}
+
+<div class="header-box">
+    <span class="header-title left">清理缓存</span>
+</div>
+
+<div class="search-box">
+    <div class="search-header">
+        <ul class="search-tab search-status">
+            <li class="hover" data-index="0">系统</li>
+        </ul>
+    </div>
+</div>
+
+<div class="content-body">
+    <ul class="contentnew">
+        <li>
+            <span class="columnname">分类缓存：</span>
+            <span><input type="button" class="btn" data-type="1" value="清理" /></span>
+        </li>
+         <li>
+            <span class="columnname">属性缓存：</span>
+            <span><input type="button" class="btn" data-type="2" value="清理" /></span>
+        </li>
+         <li>
+            <span class="columnname">单位缓存：</span>
+            <span><input type="button"  class="btn" data-type="3" value="清理" /></span>
+        </li>
+    </ul>
+
+</div>
+
+

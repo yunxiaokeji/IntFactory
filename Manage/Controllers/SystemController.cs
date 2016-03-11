@@ -15,6 +15,11 @@ namespace YXManage.Controllers
     public class SystemController : BaseController
     {
         #region view
+         public ActionResult ClearCache()
+         {
+             return View();
+         }
+
          public ActionResult Admin()
         {
             return View();
@@ -197,15 +202,8 @@ namespace YXManage.Controllers
         public JsonResult GetRoles()
         {
             var list = ManageSystemBusiness.GetRoles();
-            //foreach (var item in list)
-            //{
-            //    if (item.CreateUser == null && !string.IsNullOrEmpty(item.CreateUserID))
-            //    {
-            //        var user = ManageSystemBusiness.GetUserByUserID(item.CreateUserID, string.Empty);
-            //        item.CreateUser = new Users() { Name = user.Name };
-            //    }
-            //}
             JsonDictionary.Add("items", list);
+
             return new JsonResult()
             {
                 Data = JsonDictionary,
@@ -313,6 +311,40 @@ namespace YXManage.Controllers
             var item = M_UsersBusiness.GetUserDetail(id);
 
             JsonDictionary.Add("Item", item);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+         /// <summary>
+         /// 清理系统缓存
+         /// </summary>
+        public JsonResult ClearSystemCache(int type)
+        {
+            string path = string.Empty;
+            switch (type) {
+
+                case 1: {
+                    path = "/Api/Cache/ClearCategoryCache";
+                    break;
+                }
+                case 2:
+                {
+                    path = "/Api/Cache/ClearAttrsCache";
+                    break;
+                }
+                case 3:
+                {
+                    path = "/Api/Cache/ClearUnitCache";
+                    break;
+                }
+            }
+
+            string resultStr= YXManage.Common.Common.RequestServer(path);
+
+            JsonDictionary.Add("result",!string.IsNullOrEmpty(resultStr)? 1:0);
             return new JsonResult()
             {
                 Data = JsonDictionary,
