@@ -487,4 +487,7 @@
   <ItemGroup>
     <None Include="Procedures\RepotLog\R_GetClientActions.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Task\P_UpdateTaskOwner.sql" />
+  </ItemGroup>
 </Project>

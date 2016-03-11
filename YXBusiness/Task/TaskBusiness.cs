@@ -107,9 +107,18 @@ namespace IntFactoryBusiness
         /// <param name="taskID"></param>
         /// <param name="OwnerID"></param>
         /// <returns></returns>
-        public static bool UpdateTaskOwner(string taskID,string ownerID)
+        public static bool UpdateTaskOwner(string taskID, string ownerID, string operateid, string ip, string agentid, string clientid,out int result)
         {
-            return TaskDAL.BaseProvider.UpdateTaskOwner(taskID, ownerID);
+            bool flag= TaskDAL.BaseProvider.UpdateTaskOwner(taskID, ownerID,out result);
+
+            if (flag)
+            {
+                var user=OrganizationBusiness.GetUserByUserID(ownerID,agentid);
+                string msg = "将任务负责人更改为:"+user!=null?user.Name:ownerID;
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+            }
+
+            return flag;
         }
 
         /// <summary>
@@ -149,15 +158,17 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="taskID"></param>
         /// <returns></returns>
-        public static void FinishTask(string taskID, string userID, ref int result, string operateid, string ip, string agentid, string clientid)
+        public static bool FinishTask(string taskID,string operateid, string ip, string agentid, string clientid, out int result)
         {
-            TaskDAL.BaseProvider.FinishTask(taskID,userID,ref result);
+            bool flag= TaskDAL.BaseProvider.FinishTask(taskID, operateid, out result);
 
-            if (result==1)
+            if (flag)
             {
                 string msg = "将任务标记为完成";
                 LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
             }
+
+            return flag;
         }
 
         /// <summary>

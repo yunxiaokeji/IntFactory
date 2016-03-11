@@ -159,7 +159,7 @@ namespace YXERP.Controllers
             }
 
             if(flag)
-                TaskBusiness.FinishTask(taskID, CurrentUser.UserID, ref result, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID);
+                TaskBusiness.FinishTask(taskID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID,out result);
 
             JsonDictionary.Add("Result", result);
             return new JsonResult
