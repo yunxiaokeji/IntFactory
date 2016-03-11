@@ -24,14 +24,14 @@ display:inline-block;
 .taskFinishStatus{  padding:5px 10px; background-color:#ccc; color:#333; border:none; display:inline-block; border-radius:2px; line-height:18px; }
 
 /*讨论备忘*/
-.talk-body { }
-.talk-body .content-main {position:relative; width:450px; }
-.talk-body .content-main .txt-content { height:80px; width:450px; background-color:#f7f7f7; border:solid 1px #eee; }
-.talk-body .content-main .txt-content:focus { border:solid 1px #318ae4;}
-.talk-body .content-main .btn-save { position:absolute; right:0; bottom:0px; }
+.taskContent .talk-body { }
+.taskContent .talk-body .content-main {position:relative; width:450px; }
+.taskContent .talk-body .content-main .txt-content { height:80px; width:450px; background-color:#f7f7f7; border:solid 1px #eee; }
+.taskContent .talk-body .content-main .txt-content:focus { border:solid 1px #318ae4;}
+.taskContent .talk-body .content-main .btn-save { position:absolute; right:0; bottom:0px; }
 
-.talk-body .talk-title { border-bottom: solid 1px #4a98e7; height:40px; line-height:40px; width: 450px; color:#666; }
-.talk-body .content-list { width: 450px;}
-.talk-body .content-list td{ border-bottom:dashed 1px #ccc; }
-.talk-body .content-list .user-avatar { width:35px; padding-top:20px; vertical-align:top; }
-.talk-body .content-list .user-avatar img{ width:24px; height:24px; border-radius:12px;  vertical-align:top; }
+.taskContent .talk-body .talk-title { border-bottom: solid 1px #4a98e7; height:40px; line-height:40px; width: 450px; color:#666; }
+.taskContent .talk-body .content-list { width: 450px;}
+.taskContent .talk-body .content-list td{ border-bottom:dashed 1px #ccc; }
+.taskContent .talk-body .content-list .user-avatar { width:35px; padding-top:20px; vertical-align:top; }
+.taskContent .talk-body .content-list .user-avatar img{ width:24px; height:24px; border-radius:12px;  vertical-align:top; }

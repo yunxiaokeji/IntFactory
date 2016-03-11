@@ -144,6 +144,9 @@ define(function (require, exports, module) {
         if (model.PlateRemark) {
             $("#navEngravingRemark").html(decodeURI(model.PlateRemark));
         }
+        else {
+            $(".edui-container").hide();
+        }
 
         //样图
         _self.bindOrderImages(model.OrderImages)
@@ -392,6 +395,19 @@ define(function (require, exports, module) {
                     _self.getTaskReplys(1);
                 }
             } 
+        });
+
+        $(".replyBox").click(function () {
+            $(this).addClass("autoHeight");
+            $(this).find(".replyContent").focus();
+        });
+
+        $(document).click(function (e) {
+            //隐藏制版列操作下拉框
+            if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
+                $(".replyBox").removeClass("autoHeight");
+            }
+
         });
     }
 

@@ -60,7 +60,15 @@
                     $(".edui-body-container").animate({ height: "600px" }, 500);
                 });
 
-                $(document).unbind().bind("click", function (e) {
+
+                $(document).click(function (e) {
+                    //隐藏制版列操作下拉框
+                    if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
+
+                        $(".replyBox").removeClass("autoHeight");
+                    }
+
+
                     //隐藏制版列操作下拉框
                     if (!$(e.target).parents().hasClass("edui-container") && !$(e.target).hasClass("edui-container")) {
                         $(".edui-body-container").animate({ height: "100px" }, 500);
@@ -72,20 +80,28 @@
 
         if ($("#PlateRemark").length == 1)
         {
-            $("#PlateRemark").html(decodeURI(plateRemark));
+            if (plateRemark != "") {
+                $("#PlateRemark").html(decodeURI(plateRemark));
+            }
+            else {
+                $(".edui-container").hide();
+            }
         }
+
 
     };
 
     //任务基本信息操作事件
     //更新任务到期日期
     ObjectJS.bindEvent = function () {
+
         setTimeout(function () {
             if ($("#UpdateTaskEndTime").length == 1) {
                 //更新任务到期日期
                 var taskEndTime = {
                     elem: '#UpdateTaskEndTime',
                     format: 'YYYY-MM-DD',
+                    min: laydate.now(),
                     max: '2099-06-16',
                     istime: false,
                     istoday: false,
@@ -125,6 +141,27 @@
             }
  
         });
+
+        $(".replyBox").click(function () {
+
+            $(this).addClass("autoHeight");
+            $(this).find(".replyContent").focus();
+        });
+
+        $(document).click(function (e) {
+            //隐藏制版列操作下拉框
+            if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
+                
+                $(".replyBox").removeClass("autoHeight");
+            }
+
+            
+            //隐藏制版列操作下拉框
+            //if (!$(e.target).parents().hasClass("edui-container") && !$(e.target).hasClass("edui-container")) {
+            //    $(".edui-body-container").animate({ height: "100px" }, 500);
+            //}
+        });
+
     }
 
     //更改任务到期时间
@@ -502,15 +539,6 @@
             if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
                 $(".dropdown-ul").hide();
             }
-
-            //隐藏制版行的输入框
-            //if (!$(e.target).parents().hasClass("table-list") && !$(e.target).hasClass("table-list") && !$(e.target).hasClass("tbContent") && !$(e.target).parents().hasClass("tbContent") && !$(e.target).hasClass("easyDialog_wrapper") && !$(e.target).parents().hasClass("easyDialog_wrapper")) {
-                
-
-            //    $(".tbContentIpt:visible").each(function () {
-            //        $(this).hide().prev().html($(this).val()).show();
-            //    });
-            //}
         });
 
 
@@ -533,10 +561,6 @@
     //制版的内容点击
     ObjectJS.bindContentClick = function () {
         $("#platemakingBody .tr-content td").unbind().bind("click", function () {
-            //$(".tbContentIpt:visible").each(function () {
-            //    $(this).hide().prev().html($(this).val()).show();
-            //});
-
             $(this).find('.tbContent').hide();
             $(this).find('.tbContentIpt').show().focus();
         });
@@ -634,7 +658,7 @@
     ObjectJS.bindAddRow = function () {
         $("div.btn-addRow").unbind().bind('click', function () {
             var $newTR = $("<tr class='tr-content'>" + $(this).parent().parent().parent().html() + "</tr>");
-            $newTR.find(".tbContentIpt").empty().show();
+            $newTR.find(".tbContentIpt").empty().attr("value","").show();
             $newTR.find(".tbContent").empty();
             $(this).parent().parent().parent().after($newTR);
 
@@ -680,7 +704,7 @@
 
             if (CacheAttrValues.length==0) {
                 noHaveLi = true;
-                innerHtml = '<div style="width:300px;">制版属性没有配置,无选择</div>';
+                innerHtml = '<div style="width:300px;">制版属性没有配置,请联系后台管理员配置</div>';
             }
 
 
@@ -791,7 +815,7 @@
             plateRemark: encodeURI(Editor.getContent())
         }, function (data) {
             if (data.Result == 1) {
-                alert("保存成功");
+                $(".edui-body-container").animate({ height: "100px" }, 500);
             }
         });
     }

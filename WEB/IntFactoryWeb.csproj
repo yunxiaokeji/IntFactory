@@ -121,7 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
-    <Compile Include="Areas\Api\Controllers\BaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\BaseAPIController.cs" />
     <Compile Include="Areas\Api\Controllers\CacheController.cs" />
     <Compile Include="Common\Alipay\AlipayConfig.cs" />
     <Compile Include="Common\Alipay\AlipayCore.cs" />
