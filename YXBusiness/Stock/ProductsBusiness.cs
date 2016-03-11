@@ -249,6 +249,11 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public static void ClearUnitCache()
+        {
+            CacheUnits = null;
+
+        }
         #endregion
 
         #region 属性
@@ -364,7 +369,6 @@ namespace IntFactoryBusiness
                     attrValue.FillData(item);
                     model.AttrValues.Add(attrValue);
                 }
-                CacheAttrs.Add(model);
             }
 
             return model;
@@ -471,6 +475,11 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public static void ClearAttrsCache()
+        {
+            CacheAttrs = null;
+
+        }
         #endregion
 
         #region 分类
@@ -702,6 +711,10 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public static void ClearCategoryCache() {
+            CacheCategory = null;
+
+        }
         #endregion
 
         #region 产品

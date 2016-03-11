@@ -100,6 +100,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Common.cs" />
     <Compile Include="Common\ExpandClass.cs" />
     <Compile Include="Common\UserAuthorize.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -251,6 +252,7 @@
     <Content Include="modules\scripts\products\product.js" />
     <Content Include="modules\scripts\products\unit.js" />
     <Content Include="modules\scripts\products\ordercategory.js" />
+    <Content Include="modules\scripts\System\cache.js" />
     <Content Include="modules\scripts\System\menu.js" />
     <Content Include="modules\scripts\System\roles.js" />
     <Content Include="modules\scripts\System\users.js" />
@@ -379,6 +381,7 @@
     <Content Include="Views\System\Roles.cshtml" />
     <Content Include="Views\System\Users.cshtml" />
     <Content Include="Views\Products\OrderCategory.cshtml" />
+    <Content Include="Views\System\ClearCache.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
