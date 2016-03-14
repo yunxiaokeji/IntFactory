@@ -166,7 +166,7 @@
             {
                 foreach (var stage in model.Tasts)
                 { 
-                    <li data-stageid="@(stage.StageID)" data-orderid="@(model.OrderID)" data-taskid="@(stage.TaskID)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
+                    <li data-stageid="@(stage.StageID)" data-orderid="@(model.OrderID)" data-taskid="@(stage.TaskID)" data-mark="@(stage.Mark)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
                         @*<a href="/Task/Detail/@(stage.TaskID)">*@
                             <span class="name">@(stage.Title)</span>
                             <span class="status-bg right">
@@ -279,20 +279,18 @@
         </div>
     </div>
 
-    <div id="navOrderTalk" class="talk-body nav-partdiv">
+   @* <div id="navOrderTalk" class="talk-body nav-partdiv">
         <div class="content-main">
             <div class="replyBox">
                 <textarea id="txtContent" class="replyContent" placeholder="发表评论"></textarea><br />
                 <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
                 <div class="clear"></div>
             </div>
-        @*    <textarea id="txtContent" class="txt-content left"></textarea>
-            <span class="btn btn-save" id="btnSaveTalk">提交</span>*@
         </div>
         <div class="talk-title"> 全部讨论 </div>
             <table class="content-list" id="replyList">
 
             </table>
         <div id="pagerReply" class="mTop10"></div>
-    </div>
+    </div>*@
 </div>

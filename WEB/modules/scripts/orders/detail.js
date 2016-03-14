@@ -24,7 +24,7 @@ define(function (require, exports, module) {
         _self.getAmount();
 
         _self.bindStyle(_self.model);
-        _self.initTalkReply();
+        //_self.initTalkReply();
     }
 
     ObjectJS.bindStyle = function (model) {
@@ -392,7 +392,7 @@ define(function (require, exports, module) {
                 if (_this.data("mark")) {
                     $("#navOrderTalk").show();
                     _self.mark = _this.data("mark");
-                    _self.getTaskReplys(1);
+                    //_self.getTaskReplys(1);
                 }
             } else if (_this.data("id") == "navSendDoc" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
