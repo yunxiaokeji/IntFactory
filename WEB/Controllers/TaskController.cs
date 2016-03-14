@@ -40,7 +40,17 @@ namespace YXERP.Controllers
 
             //任务对应订单的品类属性
             ViewBag.ProductAttr = new ProductsBusiness().GetTaskPlateAttrByCategoryID(order.CategoryID);
-            return View();
+
+            //打样材料
+            if (task.Mark == 1)
+                return View("MaterialDetail");
+            else if (task.Mark == 2)//打样制版
+                return View("PlateDetail");
+            else if (task.Mark == 3)//大货材料
+                return View("CargoMaterialDetail");
+            else
+                return View();
+            
         }
 
         /// <summary>

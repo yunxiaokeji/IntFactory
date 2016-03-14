@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "任务详情";
+    ViewBag.Title = "材料任务详情";
     var model = (IntFactoryEntity.Task.TaskEntity)ViewBag.Model;
     var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
     var productAttr = (IntFactoryEntity.ProductAttr)ViewBag.ProductAttr;
@@ -25,7 +25,7 @@
                 obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)');
             });
 
-
+            
             var images = '@order.OrderImages'.split(",");
             for (var i = 0; i < images.length; i++) {
                 if (images[i]) {
@@ -152,8 +152,13 @@
                         <td class="width80">单位</td>
                         <td class="tLeft">单价</td>
                         <td class="">消耗量</td>
-                        <td class="">损耗量</td>
                         <td class="tRight">小计</td>
+
+                        @{if (model.FinishStatus != 2)
+                          {
+                            <td class="">删除</td>
+                          }}
+
                     </tr>
 
                     @{
@@ -165,22 +170,45 @@
                                 <td class="center">@(detail.UnitName)</td>
                                 <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                                 @{
-                                    <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
-                                    <td class="center tr-loss">@(detail.Loss.ToString("f2"))</td>
-                                    <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>   
+
+                                    if (model.FinishStatus != 2)
+                                    { 
+                                        <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
+                                        <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
+                                        <td class="center">
+                                                <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
+                                        </td> 
+                                    }
+                                    else
+                                    {
+                                        <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
+                                        <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>    
+                                    }
                            }
                             </tr>
                         }
                     }
 
                     <tr class="amount-item">
-                        <td colspan="5"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td class="tRight">成本合计：</td>
                         <td class="tRight"><label id="amount"></label></td>
-                        
+                        @{if (model.FinishStatus != 2)
+                          {
+                            <td></td>
+                          }}
                     </tr>
                 </table>
 
+                @{
+                    if ( model.FinishStatus != 2)
+                    {
+                        <a href="/Customer/ChooseProducts?id=@(model.OrderID)&tid=@(model.TaskID)" id="btn-addMaterial" class="btn right mTop10">添加材料</a>
+                    }
+                }
                 <div class="clear"></div>
             </div>
 

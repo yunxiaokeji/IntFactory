@@ -251,7 +251,7 @@ namespace YXERP.Controllers
 
             JsonDictionary.Add("customercount", model.CustomerCount);
             JsonDictionary.Add("ordercount", model.OrderCount);
-            JsonDictionary.Add("totalmoney", model.TotalMoney);
+            JsonDictionary.Add("totalmoney", model.TotalMoney.ToString("C"));
             JsonDictionary.Add("myOrders", myNeedOrders);
             JsonDictionary.Add("cooperationOrders", cooperationNeedOrders);
             JsonDictionary.Add("delegateOrders", delegateNeedOrders);

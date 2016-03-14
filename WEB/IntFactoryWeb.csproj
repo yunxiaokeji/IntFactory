@@ -827,6 +827,9 @@
     <Content Include="Views\Customer\EntrustOrders.cshtml" />
     <Content Include="Views\Task\Test.cshtml" />
     <Content Include="Views\Shared\_LayoutContent.cshtml" />
+    <Content Include="Views\Task\MaterialDetail.cshtml" />
+    <None Include="Views\Task\PlateDetail.cshtml" />
+    <Content Include="Views\Task\CargoMaterialDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
