@@ -113,7 +113,7 @@ namespace IntFactoryBusiness
 
             if (flag)
             {
-                var user=OrganizationBusiness.GetUserByUserID(ownerID,agentid);
+                var user = OrganizationBusiness.GetUserByUserID(ownerID, agentid);
                 string msg = "将任务负责人更改为:"+user!=null?user.Name:ownerID;
                 LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
             }

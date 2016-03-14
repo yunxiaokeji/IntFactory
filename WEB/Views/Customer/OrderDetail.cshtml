@@ -59,7 +59,7 @@
                 <span title="更换客户" class="ico-change left mTop5 mLeft10" data-customerid="@(model.CustomerID)" data-id="@(model.OrderID)" id="changeCustomer"></span>
             }
         </li>
-         <li>
+         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019008"))">
             <span class="column-title">联系方式：</span>
             <label>@(model.MobileTele)</label>
         </li>  
@@ -88,15 +88,15 @@
             <span class="column-title">付款金额：</span>
             <label id="infoPaymoney">0.00</label>
         </li>
-        <li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019008"))">
             <span class="column-title">收货人：</span>
             <label>@(model.PersonName)</label>
         </li>
-        <li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019008"))">
             <span class="column-title">收货地区：</span>
             <label>@(model.City != null ? (model.City.Province + " " + model.City.City + " " + model.City.Counties) : "")</label>
         </li>
-        <li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019008"))">
             <span class="column-title">详细地址：</span>
             <label>@(model.Address)</label>
         </li>
@@ -139,10 +139,6 @@
             <span class="column-title">总金额：</span>
             <label id="totalMoney">@(model.TotalMoney.ToString("f2"))</label>
         </li>
-        @*<li>
-            <span class="column-title">邮编：</span>
-            <label>@(model.PostalCode)</label>
-        </li>*@
         <li style="width:100%;">
             <span class="column-title">详细需求：</span> 
             <label>@(model.Remark.Trim())</label>

@@ -111,6 +111,7 @@
                     });
                 });
             });
+
             //关闭客户
             $("#closeCustomer").click(function () {
                 confirm("确认关闭此客户吗?", function () {
@@ -121,6 +122,7 @@
                     });
                 });
             });
+
             //切换阶段
             $(".stage-items li").click(function () {
                 var _this = $(this);
@@ -203,13 +205,9 @@
         });
 
         //企业客户
-        if (model.Type == 1) {
-            $("#addContact").click(function () {
-                _self.addContact();
-            });
-        } else {
-            $(".tab-nav-ul li[data-id='navContact']").remove();
-        }
+        $("#addContact").click(function () {
+            _self.addContact();
+        });
 
         //切换模块
         $(".tab-nav-ul li").click(function () {
