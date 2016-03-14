@@ -21,9 +21,9 @@ namespace IntFactoryDAL
 
         }
 
-        public DataTable GetProviderByID(string ProviderID)
+        public DataTable GetProviderByID(string providerid)
         {
-            SqlParameter[] paras = { new SqlParameter("@ProviderID", ProviderID) };
+            SqlParameter[] paras = { new SqlParameter("@ProviderID", providerid) };
             DataTable dt = GetDataTable("select * from Providers where ProviderID=@ProviderID", paras, CommandType.Text);
             return dt;
         }

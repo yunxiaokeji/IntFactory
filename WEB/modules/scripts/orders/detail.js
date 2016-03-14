@@ -12,6 +12,7 @@ define(function (require, exports, module) {
         ChooseCustomer = require("choosecustomer"),
         Easydialog = require("easydialog");
     require("pager");
+
     var ObjectJS = {};
 
     ObjectJS.init = function (orderid, status, model) {

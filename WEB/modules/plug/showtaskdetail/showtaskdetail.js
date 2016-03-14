@@ -72,8 +72,9 @@ define(function (require, exports, module) {
 
                     //隐藏下拉
                     $(document).click(function (e) {
-                        if (!$(e.target).parents().hasClass("taskContent") && !$(e.target).hasClass("taskContent") && !$(e.target).parents().hasClass("taskDetailContent") && !$(e.target).hasClass("taskDetailContent")
-                            && !$(e.target).parents().hasClass("easyDialog_wrapper") && !$(e.target).hasClass("easyDialog_wrapper") && !$(e.target).parents().hasClass("alert") && !$(e.target).hasClass("alert")) {
+                        if (!$(e.target).parents().hasClass("task-layer-box") && !$(e.target).hasClass("task-layer-box")
+                            && !$(e.target).parents().hasClass("easyDialog_wrapper") && !$(e.target).hasClass("easyDialog_wrapper") && !$(e.target).parents().hasClass("alert") && !$(e.target).hasClass("alert")
+                            && !$(e.target).parents().hasClass("jPag-pages") && !$(e.target).hasClass("jPag-pages")) {
                             $("#taskDetailContent").animate({ width: '0px' }, 100);
                         }
                     });
