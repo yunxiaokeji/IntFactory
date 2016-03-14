@@ -125,6 +125,17 @@ namespace YXERP.Controllers
             return View("FilterProducts");
         }
 
+        public ActionResult DocDetail(string id)
+        {
+            var model = StockBusiness.GetStorageDetail(id, CurrentUser.ClientID);
+            if (model == null || string.IsNullOrEmpty(model.DocID))
+            {
+                return Redirect("/Customer/Orders");
+            }
+            ViewBag.Model = model;
+            return View();
+        }
+
         #region Ajax
 
 

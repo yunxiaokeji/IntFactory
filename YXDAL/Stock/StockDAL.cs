@@ -56,6 +56,16 @@ namespace IntFactoryDAL
             return ds;
         }
 
+        public DataSet GetStorageDocByOrderID(string orderid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@OriginalID", orderid) ,
+                                       new SqlParameter("@ClientID", clientid) 
+                                   };
+            DataSet ds = GetDataSet("select * from StorageDoc where OriginalID=@OriginalID and ClientID=@ClientID and DocType=2 order by AutoID desc", paras, CommandType.Text);
+            return ds;
+        }
+
         public static DataSet GetStorageDetail(string docid, string clientid)
         {
             SqlParameter[] paras = { 

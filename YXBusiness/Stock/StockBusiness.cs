@@ -96,6 +96,24 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public static List<StorageDoc> GetStorageDocByOrderID(string orderid, string clientid)
+        {
+            DataSet ds = StockDAL.BaseProvider.GetStorageDocByOrderID(orderid, clientid);
+
+            List<StorageDoc> list = new List<StorageDoc>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                StorageDoc model = new StorageDoc();
+                model.FillData(dr);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientid);
+                model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
+
+                list.Add(model);
+            }
+            return list;
+        }
+
+
         public static StorageDoc GetStorageDetail(string docid, string clientid)
         {
             DataSet ds = StockDAL.GetStorageDetail(docid, clientid);
@@ -143,7 +161,7 @@ namespace IntFactoryBusiness
                     break;
                 case 2:
                     str = doctype == 1 ? "已入库"
-                        : doctype == 2 ? "已出库"
+                        : doctype == 2 ? "已发货"
                         : doctype == 6 ? "已入库"
                         : "已审核";
                     break;

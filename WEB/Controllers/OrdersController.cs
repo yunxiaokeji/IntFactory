@@ -440,6 +440,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetStorageDocByOrderID(string orderid)
+        {
+            var list = StockBusiness.GetStorageDocByOrderID(orderid, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         #endregion
 
     }

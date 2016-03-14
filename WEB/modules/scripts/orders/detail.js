@@ -394,7 +394,10 @@ define(function (require, exports, module) {
                     _self.mark = _this.data("mark");
                     _self.getTaskReplys(1);
                 }
-            } 
+            } else if (_this.data("id") == "navSendDoc" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getSendDoc();
+            }
         });
 
         $(".replyBox").click(function () {
@@ -942,6 +945,23 @@ define(function (require, exports, module) {
                 }
             });
         });
+    }
+
+    //发货记录
+    ObjectJS.getSendDoc = function () {
+        var _self = this;
+        $("#navSendDoc .tr-header").nextAll().remove();
+        Global.post("/Orders/GetStorageDocByOrderID", {
+            orderid: _self.orderid
+        }, function (data) {
+            doT.exec("template/orders/senddocs.html", function (template) {
+                var innerhtml = template(data.items);
+                innerhtml = $(innerhtml);
+
+                $("#navSendDoc .tr-header").after(innerhtml);
+            });
+        });
+        
     }
 
     //初始化任务讨论列表

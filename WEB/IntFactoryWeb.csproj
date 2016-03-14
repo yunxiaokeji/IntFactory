@@ -293,6 +293,7 @@
     <Content Include="modules\template\orders\entrustorders.html" />
     <Content Include="modules\template\orders\sendordergoods.html" />
     <Content Include="modules\template\orders\edit-orderimages.html" />
+    <Content Include="modules\template\orders\senddocs.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
@@ -828,6 +829,7 @@
     <Content Include="Views\Task\Test.cshtml" />
     <Content Include="Views\Shared\_LayoutContent.cshtml" />
     <Content Include="Views\Task\MaterialDetail.cshtml" />
+    <Content Include="Views\Customer\DocDetail.cshtml" />
     <None Include="Views\Task\PlateDetail.cshtml" />
     <Content Include="Views\Task\CargoMaterialDetail.cshtml" />
     <None Include="Web.Debug.config">
