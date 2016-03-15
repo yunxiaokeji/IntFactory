@@ -4,8 +4,9 @@
 <tr class="tr-header">
     <td class="tLeft">规格</td>
     <td class="">下单量</td>
+    <td class="">已裁剪</td>
     <td class="">已发货</td>
-    <td class="">发货</td>
+    <td class="">发货数量</td>
 </tr>
 {%
 	for(var i=0, j=$data.length; i < j; i++){
@@ -15,7 +16,8 @@
     <td class="">{%=item.Remark%}</td>
     <td class="center">{%=item.Quantity.toFixed(0)%}</td>
     <td class="center">{%=item.Complete.toFixed(0)%}</td>
-    <td class=""><input class="width60 quantity" type="text" value="0" /></td>
+    <td class="center">{%=item.SendQuantity.toFixed(0)%}</td>
+    <td class="center"><input class="width60 quantity" type="text" data-max="{%=item.Complete-item.SendQuantity%}" value="{%=item.Complete-item.SendQuantity%}" /></td>
 </tr>
 {% } %}
 
@@ -23,7 +25,7 @@
 <ul class="easydialog-create">
     <li>
         <span class="create-column">交易结束：</span>
-        <span id="checkOver" class="ico-check pLeft5">结束</span> 
+        <span class="check ico-check pLeft5">结束</span> 
     </li>
     <li>
         <span class="width80">快递公司：</span>

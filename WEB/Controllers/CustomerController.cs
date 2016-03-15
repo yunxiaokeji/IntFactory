@@ -127,7 +127,7 @@ namespace YXERP.Controllers
 
         public ActionResult DocDetail(string id)
         {
-            var model = StockBusiness.GetStorageDetail(id, CurrentUser.ClientID);
+            var model = StockBusiness.GetGoodsDocDetail(id, CurrentUser.ClientID);
             if (model == null || string.IsNullOrEmpty(model.DocID))
             {
                 return Redirect("/Customer/Orders");

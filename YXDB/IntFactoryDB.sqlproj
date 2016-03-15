@@ -479,7 +479,7 @@
     <None Include="Procedures\Sales\P_AddOrderGoods.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Sales\P_SendOrderGoods.sql" />
+    <None Include="Procedures\Sales\P_CreateOrderGoodsDoc.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\RepotLog\R_GetClientActions.sql" />
@@ -489,5 +489,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Task\P_UpdateTaskOwner.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Stock\P_GetGoodsDocDetail.sql" />
   </ItemGroup>
 </Project>

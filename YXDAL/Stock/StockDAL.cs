@@ -56,13 +56,14 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataSet GetStorageDocByOrderID(string orderid, string clientid)
+        public DataSet GetGoodsDocByOrderID(string orderid, int doctype, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@OriginalID", orderid) ,
+                                       new SqlParameter("@DocType", doctype) ,
                                        new SqlParameter("@ClientID", clientid) 
                                    };
-            DataSet ds = GetDataSet("select * from StorageDoc where OriginalID=@OriginalID and ClientID=@ClientID and DocType=2 order by AutoID desc", paras, CommandType.Text);
+            DataSet ds = GetDataSet("select * from GoodsDoc where OriginalID=@OriginalID and ClientID=@ClientID and DocType=@DocType order by AutoID desc", paras, CommandType.Text);
             return ds;
         }
 
@@ -74,6 +75,17 @@ namespace IntFactoryDAL
                                    };
 
             DataSet ds = GetDataSet("P_GetStorageDetail", paras, CommandType.StoredProcedure, "Doc|Details");
+            return ds;
+        }
+
+        public static DataSet GetGoodsDocDetail(string docid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@DocID",docid),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+
+            DataSet ds = GetDataSet("P_GetGoodsDocDetail", paras, CommandType.StoredProcedure, "Doc|Details");
             return ds;
         }
 

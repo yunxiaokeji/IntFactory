@@ -189,9 +189,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult SendOrderGoods(string orderid, int isover, string expressid, string expresscode, string details, string remark)
+        public JsonResult CreateOrderGoodsDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
-            string id = OrdersBusiness.BaseBusiness.SendOrderGoods(orderid, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {
@@ -440,9 +440,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetStorageDocByOrderID(string orderid)
+        public JsonResult GetGoodsDocByOrderID(string orderid, int type)
         {
-            var list = StockBusiness.GetStorageDocByOrderID(orderid, CurrentUser.ClientID);
+            var list = StockBusiness.GetGoodsDocByOrderID(orderid, (EnumDocType)type, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult
             {
