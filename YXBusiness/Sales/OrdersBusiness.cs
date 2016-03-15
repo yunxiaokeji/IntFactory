@@ -200,10 +200,10 @@ namespace IntFactoryBusiness
         {
             List<ReplyEntity> list = new List<ReplyEntity>();
             string whereSql = " Status<>9 and GUID='" + guid + "' ";
-            //if (!string.IsNullOrEmpty(stageID))
-            //{
-            //    whereSql += " and StageID='" + stageID+"' ";
-            //}
+            if (!string.IsNullOrEmpty(stageID))
+            {
+                whereSql += " and StageID='" + stageID + "' ";
+            }
 
             if (mark != -1)
             {
@@ -369,12 +369,12 @@ namespace IntFactoryBusiness
             }
         }
 
-        public string SendOrderGoods(string orderid, string expresscode, string details, string operateid, string agentid, string clientid)
+        public string SendOrderGoods(string orderid, int isover, string expressid, string expresscode, string details, string remark, string operateid, string agentid, string clientid)
         {
             var dal = new OrdersDAL();
             string id = Guid.NewGuid().ToString().ToLower();
 
-            bool bl = dal.SendOrderGoods(id, orderid, expresscode, details, operateid, clientid);
+            bool bl = dal.SendOrderGoods(id, orderid, isover, expressid, expresscode, details, remark, operateid, clientid);
             if (bl)
             {
                 return id;

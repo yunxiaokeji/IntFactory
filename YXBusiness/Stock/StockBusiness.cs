@@ -1,4 +1,5 @@
-﻿using IntFactoryDAL;
+﻿using IntFactoryBusiness.Manage;
+using IntFactoryDAL;
 using IntFactoryEntity;
 using IntFactoryEnum;
 using System;
@@ -96,6 +97,28 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public static List<StorageDoc> GetStorageDocByOrderID(string orderid, string clientid)
+        {
+            DataSet ds = StockDAL.BaseProvider.GetStorageDocByOrderID(orderid, clientid);
+
+            List<StorageDoc> list = new List<StorageDoc>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                StorageDoc model = new StorageDoc();
+                model.FillData(dr);
+                if (!string.IsNullOrEmpty(model.ExpressID))
+                {
+                    model.Express = ExpressCompanyBusiness.GetExpressCompanyDetail(model.ExpressID);
+                }
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientid);
+                model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
+
+                list.Add(model);
+            }
+            return list;
+        }
+
+
         public static StorageDoc GetStorageDetail(string docid, string clientid)
         {
             DataSet ds = StockDAL.GetStorageDetail(docid, clientid);
@@ -107,6 +130,11 @@ namespace IntFactoryBusiness
                 model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
 
                 model.DocTypeStr = CommonBusiness.GetEnumDesc<EnumDocType>((EnumDocType)model.DocType);
+
+                if (!string.IsNullOrEmpty(model.ExpressID))
+                {
+                    model.Express = ExpressCompanyBusiness.GetExpressCompanyDetail(model.ExpressID);
+                }
 
                 //model.WareHouse = SystemBusiness.BaseBusiness.GetWareByID(model.WareID, model.ClientID);
                 model.Details = new List<StorageDetail>();
@@ -143,7 +171,7 @@ namespace IntFactoryBusiness
                     break;
                 case 2:
                     str = doctype == 1 ? "已入库"
-                        : doctype == 2 ? "已出库"
+                        : doctype == 2 ? "已发货"
                         : doctype == 6 ? "已入库"
                         : "已审核";
                     break;
@@ -302,7 +330,6 @@ namespace IntFactoryBusiness
         {
             return new StockDAL().AddProviders(name, contact, mobile, email, cityCode, address, remark, operateID, agentid, clientID);
         }
-
 
         public static bool CreateStorageDoc(string wareid, string remark, string userid, string operateip, string agentid, string clientid)
         {

@@ -160,16 +160,16 @@ define(function (require, exports, module) {
             _ulwrapdiv.find('li').click(function (e) {
                 selobj.html('<a>' + selobj.find('.jPag-current').html() + '</a>');
                 var currval = $(this).find('a').html();
-                $(this).html('<span class="jPag-current">' + currval + '</span>');
-                selobj = $(this);
-                $.fn.applystyle(o, $(this).parent().parent().parent(), a_css, hover_css, _first, _ul, _ulwrapdiv, _divwrapright);
-                var left = (this.offsetLeft) / 2;
-                var left2 = _ulwrapdiv.scrollLeft() + left;
-                var tmp = left - (outsidewidth / 2);
-                if (ver == 'ie7')
-                    _ulwrapdiv.animate({ scrollLeft: left + tmp - _first.parent().width() + 52 + 'px' });
-                else
-                    _ulwrapdiv.animate({ scrollLeft: left + tmp - _first.parent().width() + 'px' });
+                //$(this).html('<span class="jPag-current">' + currval + '</span>');
+                //selobj = $(this);
+                //$.fn.applystyle(o, $(this).parent().parent().parent(), a_css, hover_css, _first, _ul, _ulwrapdiv, _divwrapright);
+                //var left = (this.offsetLeft) / 2;
+                //var left2 = _ulwrapdiv.scrollLeft() + left;
+                //var tmp = left - (outsidewidth / 2);
+                //if (ver == 'ie7')
+                //    _ulwrapdiv.animate({ scrollLeft: left + tmp - _first.parent().width() + 52 + 'px' });
+                //else
+                //    _ulwrapdiv.animate({ scrollLeft: left + tmp - _first.parent().width() + 'px' });
                 o.onChange(currval);
             });
 

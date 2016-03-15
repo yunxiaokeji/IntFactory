@@ -1,25 +1,16 @@
 ﻿
-.taskContent { width: 0px; position: fixed; right: 0px; top: 50px; background-color: #fff; border-left: solid 1px #eee; opacity: 1; overflow-y: scroll; }
+.task-layer-box { position: fixed;  right:0px; bottom:0; top: 50px; background-color: #fff; border-left: solid 1px #eee; opacity: 1; overflow-y:auto; overflow-x:hidden; }
 
-.taskContent .taskDetail {
-padding-top:15px;
-}
+.taskContent { overflow-x:hidden;}
 
-.taskContent .taskDetail li {
-padding-bottom:25px;
-}
+.taskContent .taskDetail { padding-top: 15px; }
 
-.taskOperate {
-margin-top:9px;
-padding-bottom:14px;
-border-bottom:1px solid #eee; 
-}
+.taskContent .taskDetail li { padding-bottom: 25px; }
+
+.taskOperate { margin-top: 9px; padding-bottom: 14px; border-bottom: 1px solid #eee; }
 
 
-.taskDetail .column-title {
-width:70px;
-display:inline-block;
-}
+.taskDetail .column-title { width: 70px; display: inline-block; }
 
 .taskFinishStatus{  padding:5px 10px; background-color:#ccc; color:#333; border:none; display:inline-block; border-radius:2px; line-height:18px; }
 

@@ -20,7 +20,23 @@
 {% } %}
 
 </table>
-<div class="mTop20">
-    <span class="lineHeight25">快递单号：</span>
-    <span class="right"><input type="text" class="width200" id="expressCode" placeholder="快递单号"/></span>
-</div>
+<ul class="easydialog-create">
+    <li>
+        <span class="create-column">交易结束：</span>
+        <span id="checkOver" class="ico-check pLeft5">结束</span> 
+    </li>
+    <li>
+        <span class="width80">快递公司：</span>
+        <span id="expressid"></span> 
+    </li>
+    <li>
+        <span class="width80">快递单号：</span>
+        <span><input type="text" maxlength="50" id="expressCode"  /></span> 
+    </li>
+    <li>
+        <span class="width80">备注：</span>
+        <textarea id="expressRemark">
+            
+        </textarea>
+    </li>
+</ul>

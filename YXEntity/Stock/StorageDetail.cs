@@ -29,7 +29,6 @@ namespace IntFactoryEntity
 		private int _autoid;
 		private string _docid;
 		private string _productid;
-		private int _quantity=0;
 		private decimal _price=0M;
 		private decimal _totalmoney=0M;
 		private decimal _taxmoney=0M;
@@ -74,11 +73,9 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-        public decimal Quantity
-        {
-            set;
-            get;
-        }
+        public decimal Quantity { set; get; }
+
+        public decimal SurplusQuantity { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>

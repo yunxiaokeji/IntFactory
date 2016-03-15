@@ -12,6 +12,7 @@ define(function (require, exports, module) {
         ChooseCustomer = require("choosecustomer"),
         Easydialog = require("easydialog");
     require("pager");
+
     var ObjectJS = {};
 
     ObjectJS.init = function (orderid, status, model) {
@@ -24,7 +25,7 @@ define(function (require, exports, module) {
         _self.getAmount();
 
         _self.bindStyle(_self.model);
-        _self.initTalkReply();
+        //_self.initTalkReply();
     }
 
     ObjectJS.bindStyle = function (model) {
@@ -34,7 +35,7 @@ define(function (require, exports, module) {
 
         stages.find("li .leftbg").first().removeClass("leftbg");
         stages.find("li .rightbg").last().removeClass("rightbg");
-        stages.find("li,a").width(width / stages.find("li").length - 15);
+        stages.find("li,a").width(width / (stages.find("li").length > 5 ? 4 : stages.find("li").length) - 15);
 
         //转移工厂按钮
         if (_self.status != 0 || !!model.EntrustClientID) {
@@ -119,6 +120,7 @@ define(function (require, exports, module) {
             $("#changeOrderStatus").html("完成生产");
         } else if (_self.status == 6) {
             $("#changeOrderStatus").html("订单发货");
+            _self.bingCache();
         }
 
         //状态
@@ -392,9 +394,12 @@ define(function (require, exports, module) {
                 if (_this.data("mark")) {
                     $("#navOrderTalk").show();
                     _self.mark = _this.data("mark");
-                    _self.getTaskReplys(1);
+                    //_self.getTaskReplys(1);
                 }
-            } 
+            } else if (_this.data("id") == "navSendDoc" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getSendDoc();
+            }
         });
 
         $(".replyBox").click(function () {
@@ -408,6 +413,21 @@ define(function (require, exports, module) {
                 $(".replyBox").removeClass("autoHeight").css("border", "1px solid #ddd");
             }
 
+        });
+    }
+
+    //加载缓存
+    ObjectJS.bingCache = function () {
+        var _self = this;
+        Global.post("/Products/GetOrderCategoryDetailsByID", {
+            categoryid: _self.model.CategoryID,
+            orderid: (_self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID)
+        }, function (data) {
+            _self.categoryAttrs = data.Model;
+        });
+
+        Global.post("/Plug/GetExpress", {}, function (data) {
+            _self.express = data.items;
         });
     }
 
@@ -505,126 +525,122 @@ define(function (require, exports, module) {
     //大货下单
     ObjectJS.createDHOrder = function (isExists) {
         var _self = this;
-        Global.post("/Products/GetOrderCategoryDetailsByID", {
-            categoryid: _self.model.CategoryID,
-            orderid: (_self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID)
-        }, function (data) {
-            doT.exec("template/orders/surequantity.html", function (template) {
-                var innerText = template(data.Model);
-                Easydialog.open({
-                    container: {
-                        id: "show-surequantity",
-                        header: "确认大货明细",
-                        content: innerText,
-                        yesFn: function () {
-                            
-                            var details = [];
-                            $(".child-product-table .list-item").each(function () {
-                                var _this = $(this);
-                                var modelDetail = {
-                                    SaleAttr: _this.data("attr"),
-                                    AttrValue: _this.data("value"),
-                                    SaleAttrValue: _this.data("attrvalue"),
-                                    Quantity: _this.find(".quantity").val(),
-                                    Description: _this.data("name")
-                                };
-                                details.push(modelDetail);
-                            });
-                            if (details.length > 0) {
-                                var orderModel = {};
-                                orderModel.OrderID = _self.orderid;
-                                orderModel.OrderGoods = details;
-                                Global.post("/Orders/CreateDHOrder", {
-                                    entity: JSON.stringify(orderModel),
-                                    originalid: (!isExists ? "" : _self.model.OriginalID)
-                                }, function (data) {
-                                    if (data.id) {
-                                        alert("大货下单成功!", "/Customer/OrderDetail/" + data.id);
-                                    } else {
-                                        alert("大货下单失败，请刷新页面重试！");
-                                    }
-                                });
-                            }
-                        },
-                        callback: function () {
+        doT.exec("template/orders/surequantity.html", function (template) {
+            var innerText = template(_self.categoryAttrs);
+            Easydialog.open({
+                container: {
+                    id: "show-surequantity",
+                    header: "确认大货明细",
+                    content: innerText,
+                    yesFn: function () {
 
+                        var details = [];
+                        $(".child-product-table .list-item").each(function () {
+                            var _this = $(this);
+                            var modelDetail = {
+                                SaleAttr: _this.data("attr"),
+                                AttrValue: _this.data("value"),
+                                SaleAttrValue: _this.data("attrvalue"),
+                                Quantity: _this.find(".quantity").val(),
+                                Description: _this.data("name")
+                            };
+                            details.push(modelDetail);
+                        });
+                        if (details.length > 0) {
+                            var orderModel = {};
+                            orderModel.OrderID = _self.orderid;
+                            orderModel.OrderGoods = details;
+                            Global.post("/Orders/CreateDHOrder", {
+                                entity: JSON.stringify(orderModel),
+                                originalid: (!isExists ? "" : _self.model.OriginalID)
+                            }, function (data) {
+                                if (data.id) {
+                                    alert("大货下单成功!", "/Customer/OrderDetail/" + data.id);
+                                } else {
+                                    alert("大货下单失败，请刷新页面重试！");
+                                }
+                            });
                         }
+                    },
+                    callback: function () {
+
                     }
-                });
-                //组合下单规格
-                $(".productsalesattr .attritem").click(function () {
-                    var bl = false, details = [], isFirst = true;
-                    $(".productsalesattr").each(function () {
-                        bl = false;
-                        var _attr = $(this), attrdetail = details;
-                        //组合规格
-                        _attr.find("input:checked").each(function () {
-                            bl = true;
-                            var _value = $(this);
-                            //首个规格
-                            if (isFirst) {
-                                var model = {};
-                                model.ids = _attr.data("id") + ":" + _value.val();
-                                model.saleAttr = _attr.data("id");
-                                model.attrValue = _value.val();
-                                model.names = _attr.data("text") + ":" + _value.data("text");
-                                model.layer = 1;
-                                model.guid = Global.guid();
-                                details.push(model);
-                            } else {
-                                for (var i = 0, j = attrdetail.length; i < j; i++) {
-                                    if (attrdetail[i].ids.indexOf(_value.data("id")) < 0) {
-                                        var model = {};
-                                        model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
-                                        model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
-                                        model.attrValue = attrdetail[i].attrValue + "," + _value.val();
-                                        model.names = attrdetail[i].names + "," + _attr.data("text") + ":" + _value.data("text");
-                                        model.layer = attrdetail[i].layer + 1;
-                                        model.guid = Global.guid();
-                                        details.push(model);
-                                    }
+                }
+            });
+            
+            //组合下单规格
+            $(".productsalesattr .attritem").click(function () {
+                var bl = false, details = [], isFirst = true;
+                $(".productsalesattr").each(function () {
+                    bl = false;
+                    var _attr = $(this), attrdetail = details;
+                    //组合规格
+                    _attr.find("input:checked").each(function () {
+                        bl = true;
+                        var _value = $(this);
+                        //首个规格
+                        if (isFirst) {
+                            var model = {};
+                            model.ids = _attr.data("id") + ":" + _value.val();
+                            model.saleAttr = _attr.data("id");
+                            model.attrValue = _value.val();
+                            model.names = _attr.data("text") + ":" + _value.data("text");
+                            model.layer = 1;
+                            model.guid = Global.guid();
+                            details.push(model);
+                        } else {
+                            for (var i = 0, j = attrdetail.length; i < j; i++) {
+                                if (attrdetail[i].ids.indexOf(_value.data("id")) < 0) {
+                                    var model = {};
+                                    model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
+                                    model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
+                                    model.attrValue = attrdetail[i].attrValue + "," + _value.val();
+                                    model.names = attrdetail[i].names + "," + _attr.data("text") + ":" + _value.data("text");
+                                    model.layer = attrdetail[i].layer + 1;
+                                    model.guid = Global.guid();
+                                    details.push(model);
                                 }
                             }
-                        });
-                        isFirst = false;
+                        }
                     });
-                    //选择所有属性
-                    if (bl) {
-                        var layer = $(".productsalesattr").length, items = [];
-                        for (var i = 0, j = details.length; i < j; i++) {
-                            var model = details[i];
-                            if (model.layer == layer) {
-                                items.push(model);
-                            }
+                    isFirst = false;
+                });
+                //选择所有属性
+                if (bl) {
+                    var layer = $(".productsalesattr").length, items = [];
+                    for (var i = 0, j = details.length; i < j; i++) {
+                        var model = details[i];
+                        if (model.layer == layer) {
+                            items.push(model);
                         }
-                        $("#childGoodsQuantity").empty();
-                        //加载子产品
-                        doT.exec("template/orders/orders_child_list.html", function (templateFun) {
-                            var innerText = templateFun(items);
-                            innerText = $(innerText);
-                            $("#childGoodsQuantity").append(innerText);
+                    }
+                    $("#childGoodsQuantity").empty();
+                    //加载子产品
+                    doT.exec("template/orders/orders_child_list.html", function (templateFun) {
+                        var innerText = templateFun(items);
+                        innerText = $(innerText);
+                        $("#childGoodsQuantity").append(innerText);
 
-                            Easydialog.toPosition();
+                        Easydialog.toPosition();
 
-                            //价格必须大于0的数字
-                            innerText.find(".quantity").change(function () {
-                                var _this = $(this);
-                                if (!_this.val().isInt() || _this.val() <= 0) {
-                                    _this.val("1");
-                                }
-                            });
-
-                            //绑定启用插件
-                            innerText.find(".ico-del").click(function () {
-                                var _this = $(this);
-                                confirm("确认删除此规格吗？", function () {
-                                    _this.parents("tr.list-item").remove();
-                                })
-                            });
+                        //价格必须大于0的数字
+                        innerText.find(".quantity").change(function () {
+                            var _this = $(this);
+                            if (!_this.val().isInt() || _this.val() <= 0) {
+                                _this.val("1");
+                            }
                         });
 
-                    }
-                });
+                        //绑定启用插件
+                        innerText.find(".ico-del").click(function () {
+                            var _this = $(this);
+                            confirm("确认删除此规格吗？", function () {
+                                _this.parents("tr.list-item").remove();
+                            })
+                        });
+                    });
+
+                }
             });
         });
     }
@@ -652,8 +668,11 @@ define(function (require, exports, module) {
                         if (details.length > 0) {
                             Global.post("/Orders/SendOrderGoods", {
                                 orderid: _self.orderid,
+                                isover: $("#checkOver").hasClass("ico-checked") ? 1 : 0,
+                                expressid: $("#expressid").data("id"),
                                 expresscode: $("#expressCode").val(),
-                                details: details
+                                details: details,
+                                remark: $("#expressRemark").val().trim()
                             }, function (data) {
                                 if (data.id) {
                                     alert("发货成功!", location.href);
@@ -666,6 +685,30 @@ define(function (require, exports, module) {
                     callback: function () {
 
                     }
+                }
+            });
+            //快递公司
+            require.async("dropdown", function () {
+                var dropdown = $("#expressid").dropdown({
+                    prevText: "",
+                    defaultText: "请选择",
+                    defaultValue: "",
+                    data: _self.express,
+                    dataValue: "ExpressID",
+                    dataText: "Name",
+                    width: "180",
+                    isposition: true,
+                    onChange: function (data) {
+
+                    }
+                });
+            });
+            $("#checkOver").click(function () {
+                var _this = $(this);
+                if (!_this.hasClass("ico-checked")) {
+                    _this.addClass("ico-checked").removeClass("ico-check");
+                } else {
+                    _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
             $("#orderSendGoods").find(".quantity").change(function () {
@@ -942,6 +985,23 @@ define(function (require, exports, module) {
                 }
             });
         });
+    }
+
+    //发货记录
+    ObjectJS.getSendDoc = function () {
+        var _self = this;
+        $("#navSendDoc .tr-header").nextAll().remove();
+        Global.post("/Orders/GetStorageDocByOrderID", {
+            orderid: _self.orderid
+        }, function (data) {
+            doT.exec("template/orders/senddocs.html", function (template) {
+                var innerhtml = template(data.items);
+                innerhtml = $(innerhtml);
+
+                $("#navSendDoc .tr-header").after(innerhtml);
+            });
+        });
+        
     }
 
     //初始化任务讨论列表

@@ -90,9 +90,12 @@ namespace IntFactoryBusiness.Manage
             ExpressCompany model = new ExpressCompany();
 
             DataTable dt = ExpressCompanyDAL.BaseProvider.GetExpressCompanyDetail(id);
-            model.FillData(dt.Rows[0]);
+            if (dt.Rows.Count > 0)
+            {
+                model.FillData(dt.Rows[0]);
 
-            ExpressCompanys.Add(id, model);
+                ExpressCompanys.Add(id, model);
+            }
 
             return model;
         }

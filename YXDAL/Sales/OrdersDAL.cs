@@ -176,13 +176,16 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool SendOrderGoods(string docid, string orderid, string expresscode, string details, string operateid, string clientid)
+        public bool SendOrderGoods(string docid, string orderid, int isover, string expressid, string expresscode, string details, string remark, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@DocID",docid),
                                      new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@IsOver",isover),
+                                     new SqlParameter("@ExpressID",expressid),
                                      new SqlParameter("@ExpressCode",expresscode),
                                      new SqlParameter("@GoodDetails",details),
+                                     new SqlParameter("@Remark",remark),
                                      new SqlParameter("@DocCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)

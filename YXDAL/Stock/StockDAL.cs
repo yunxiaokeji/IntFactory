@@ -21,9 +21,9 @@ namespace IntFactoryDAL
 
         }
 
-        public DataTable GetProviderByID(string ProviderID)
+        public DataTable GetProviderByID(string providerid)
         {
-            SqlParameter[] paras = { new SqlParameter("@ProviderID", ProviderID) };
+            SqlParameter[] paras = { new SqlParameter("@ProviderID", providerid) };
             DataTable dt = GetDataTable("select * from Providers where ProviderID=@ProviderID", paras, CommandType.Text);
             return dt;
         }
@@ -53,6 +53,16 @@ namespace IntFactoryDAL
             DataSet ds = GetDataSet("P_GetStorageDocList", paras, CommandType.StoredProcedure, "Doc|Details");
             totalCount = Convert.ToInt32(paras[0].Value);
             pageCount = Convert.ToInt32(paras[1].Value);
+            return ds;
+        }
+
+        public DataSet GetStorageDocByOrderID(string orderid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@OriginalID", orderid) ,
+                                       new SqlParameter("@ClientID", clientid) 
+                                   };
+            DataSet ds = GetDataSet("select * from StorageDoc where OriginalID=@OriginalID and ClientID=@ClientID and DocType=2 order by AutoID desc", paras, CommandType.Text);
             return ds;
         }
 
