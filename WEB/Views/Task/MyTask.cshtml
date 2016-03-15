@@ -7,11 +7,10 @@
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
-        seajs.use(["scripts/task/task"], function (obj) {
+       seajs.use(["scripts/task/task"], function (obj) {
             obj.init('@ViewBag.IsMy', '@NowDate');
-        });
+       });
 
-        
         $(function () {
             var begin = {
                 elem: '#BeginTime',
@@ -42,7 +41,7 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">我的任务</span>
+    <span class="header-title left" onclick="task.a();">我的任务</span>
 </div>
 
 <div class="search-box">

@@ -13,13 +13,12 @@ namespace AlibabaSdk
     {
         public static string RequestServer(ApiOption apiOption, Dictionary<string, object> paras,RequestType requestType = RequestType.Get)
         {
-            ;
             string urlPath = "param2/1/cn.alibaba.open/" + GetEnumDesc<ApiOption>(apiOption) + "/" + AppConfig.AppKey;
             //string url = AppConfig.AlibabaApiUrl + "/openapi/" + urlPath;
             string url = AppConfig.AlibabaApiUrl + "/api/" + urlPath;
             string paraStr = string.Empty;
 
-            if (apiOption == ApiOption.accessToken)
+            if (apiOption == ApiOption.getToken)
             {
                 urlPath = "/openapi/http/1/system.oauth2/getToken/" + AppConfig.AppKey;
                 url = AppConfig.AlibabaApiUrl + urlPath;
@@ -32,20 +31,10 @@ namespace AlibabaSdk
             
             try
             {
-                
                 if (paras != null && paras.Count > 0)
                 {
-                    foreach (string key in paras.Keys)
-                    {
-                        if (string.IsNullOrEmpty(paraStr))
-                            paraStr = key + "=" + paras[key];
-                        else
-                            paraStr += "&" + key + "=" + paras[key];
-                    }
-
+                   paraStr+="&"+ createParameterStr(paras);
                 }
-
-
 
                 HttpWebRequest request;
                 HttpWebResponse response;
@@ -99,6 +88,23 @@ namespace AlibabaSdk
             return null;
         }
 
+        private static String createParameterStr(Dictionary<String, Object> parameters)
+        {
+            StringBuilder paramBuilder = new StringBuilder();
+            foreach (KeyValuePair<string, object> kvp in parameters)
+            {
+                String encodedValue = null;
+                if (kvp.Value != null)
+                {
+                    String tempValue = kvp.Value.ToString();
+                    byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(tempValue);
+                    encodedValue = System.Web.HttpUtility.UrlEncode(byteArray, 0, byteArray.Length);
+                }
+                paramBuilder.Append(kvp.Key).Append("=").Append(encodedValue);
+                paramBuilder.Append("&");
+            }
+            return paramBuilder.ToString();
+        }
 
         /// <summary>
         /// 获取参数签名算法

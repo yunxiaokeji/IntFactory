@@ -284,9 +284,9 @@ namespace YXERP.Controllers
         public ActionResult MDLogin(string ReturnUrl)
         {
             if(string.IsNullOrEmpty(ReturnUrl))
-            return Redirect(AlibabaSdk.Business.OauthBusiness.GetAuthorizeUrl());
+            return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl());
             else
-                return Redirect(AlibabaSdk.Business.OauthBusiness.GetAuthorizeUrl() + "&state=" + ReturnUrl);
+                return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl() + "&state=" + ReturnUrl);
         }
 
         /// <summary>

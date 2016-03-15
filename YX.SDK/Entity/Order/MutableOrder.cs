@@ -30,7 +30,7 @@ namespace AlibabaSdk
         /// <summary>
         /// 状态发生时间
         /// </summary>
-        public DateTime statusDate { get; set; }
+        public string statusDate { get; set; }
 
         /// <summary>
         /// 状态说明
