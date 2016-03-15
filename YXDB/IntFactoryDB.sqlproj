@@ -490,4 +490,7 @@
   <ItemGroup>
     <None Include="Procedures\Task\P_UpdateTaskOwner.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Stock\P_GetGoodsDocDetail.sql" />
+  </ItemGroup>
 </Project>

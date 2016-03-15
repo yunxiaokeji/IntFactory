@@ -74,6 +74,8 @@
     <Compile Include="Sales\OrderGoodsEntity.cs" />
     <Compile Include="Stock\ProductUseLogEntity.cs" />
     <Compile Include="Stock\ProvidersEntity.cs" />
+    <Compile Include="Stock\GoodsDocDetail.cs" />
+    <Compile Include="Stock\GoodsDoc.cs" />
     <Compile Include="System\CustomSourceEntity.cs" />
     <Compile Include="System\CustomStageEntity.cs" />
     <Compile Include="Manage\ClientAuthorizeLog.cs" />

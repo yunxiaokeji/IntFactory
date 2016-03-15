@@ -97,14 +97,14 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public static List<StorageDoc> GetStorageDocByOrderID(string orderid, string clientid)
+        public static List<GoodsDoc> GetGoodsDocByOrderID(string orderid, EnumDocType type, string clientid)
         {
-            DataSet ds = StockDAL.BaseProvider.GetStorageDocByOrderID(orderid, clientid);
+            DataSet ds = StockDAL.BaseProvider.GetGoodsDocByOrderID(orderid, (int)type, clientid);
 
-            List<StorageDoc> list = new List<StorageDoc>();
+            List<GoodsDoc> list = new List<GoodsDoc>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                StorageDoc model = new StorageDoc();
+                GoodsDoc model = new GoodsDoc();
                 model.FillData(dr);
                 if (!string.IsNullOrEmpty(model.ExpressID))
                 {
@@ -117,7 +117,6 @@ namespace IntFactoryBusiness
             }
             return list;
         }
-
 
         public static StorageDoc GetStorageDetail(string docid, string clientid)
         {
@@ -141,6 +140,41 @@ namespace IntFactoryBusiness
                 foreach (DataRow item in ds.Tables["Details"].Rows)
                 {
                     StorageDetail details = new StorageDetail();
+                    details.FillData(item);
+
+                    if (!string.IsNullOrEmpty(details.ProdiverID))
+                    {
+                        details.Providers = BaseBusiness.GetProviderByID(details.ProdiverID);
+                    }
+                    model.Details.Add(details);
+                }
+            }
+
+            return model;
+        }
+
+        public static GoodsDoc GetGoodsDocDetail(string docid, string clientid)
+        {
+            DataSet ds = StockDAL.GetGoodsDocDetail(docid, clientid);
+            GoodsDoc model = new GoodsDoc();
+            if (ds.Tables.Contains("Doc") && ds.Tables["Doc"].Rows.Count > 0)
+            {
+                model.FillData(ds.Tables["Doc"].Rows[0]);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientid);
+                model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
+
+                model.DocTypeStr = CommonBusiness.GetEnumDesc<EnumGoodsDocType>((EnumGoodsDocType)model.DocType);
+
+                if (!string.IsNullOrEmpty(model.ExpressID))
+                {
+                    model.Express = ExpressCompanyBusiness.GetExpressCompanyDetail(model.ExpressID);
+                }
+
+                //model.WareHouse = SystemBusiness.BaseBusiness.GetWareByID(model.WareID, model.ClientID);
+                model.Details = new List<GoodsDocDetail>();
+                foreach (DataRow item in ds.Tables["Details"].Rows)
+                {
+                    GoodsDocDetail details = new GoodsDocDetail();
                     details.FillData(item);
 
                     if (!string.IsNullOrEmpty(details.ProdiverID))

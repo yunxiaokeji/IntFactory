@@ -440,9 +440,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetStorageDocByOrderID(string orderid)
+        public JsonResult GetGoodsDocByOrderID(string orderid, int type)
         {
-            var list = StockBusiness.GetStorageDocByOrderID(orderid, CurrentUser.ClientID);
+            var list = StockBusiness.GetGoodsDocByOrderID(orderid, (EnumDocType)type, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult
             {

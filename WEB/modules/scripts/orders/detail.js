@@ -25,6 +25,7 @@ define(function (require, exports, module) {
         _self.bindStyle(_self.model);
         _self.bindEvent();
         _self.getAmount();
+        _self.bingCache();
     }
 
     ObjectJS.bindStyle = function (model) {
@@ -113,14 +114,12 @@ define(function (require, exports, module) {
             $("#changeOrderStatus").html("完成合价");
         } else if (_self.status == 3) {
             $("#changeOrderStatus").html("大货下单");
-            _self.bingCache();
         } else if (_self.status == 4) {
             $("#changeOrderStatus").html("开始生产");
         } else if (_self.status == 5) {
             $("#changeOrderStatus").html("裁剪录入");
         } else if (_self.status == 6) {
             $("#changeOrderStatus").html("订单发货");
-            _self.bingCache();
         }
 
         //状态
@@ -364,6 +363,11 @@ define(function (require, exports, module) {
             _self.editOrder(_self.model);
         });
 
+        //订单发货
+        $("#btnSendOrderGoods").click(function () {
+            _self.sendGoods();
+        });
+
         //删除发票信息
         $("#deleteInvoice").click(function () {
             var _this = $(this);
@@ -401,6 +405,9 @@ define(function (require, exports, module) {
             } else if (_this.data("id") == "navSendDoc" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getSendDoc();
+            } else if (_this.data("id") == "navCutoutDoc" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getCutoutDoc();
             }
         });
 
@@ -409,12 +416,14 @@ define(function (require, exports, module) {
     //加载缓存
     ObjectJS.bingCache = function () {
         var _self = this;
-        Global.post("/Products/GetOrderCategoryDetailsByID", {
-            categoryid: _self.model.CategoryID,
-            orderid: (_self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID)
-        }, function (data) {
-            _self.categoryAttrs = data.Model;
-        });
+        if (_self.status == 3) {
+            Global.post("/Products/GetOrderCategoryDetailsByID", {
+                categoryid: _self.model.CategoryID,
+                orderid: (_self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID)
+            }, function (data) {
+                _self.categoryAttrs = data.Model;
+            });
+        }
 
         Global.post("/Plug/GetExpress", {}, function (data) {
             _self.express = data.items;
@@ -643,12 +652,12 @@ define(function (require, exports, module) {
 
             Easydialog.open({
                 container: {
-                    id: "show-cutout-goods",
+                    id: "showCutoutGoods",
                     header: "大货单裁剪登记",
                     content: innerText,
                     yesFn: function () {
                         var details = ""
-                        $("#orderSendGoods .list-item").each(function () {
+                        $("#showCutoutGoods .list-item").each(function () {
                             var _this = $(this);
                             var quantity = _this.find(".quantity").val();
                             if (quantity > 0) {
@@ -659,7 +668,7 @@ define(function (require, exports, module) {
                             Global.post("/Orders/CreateOrderGoodsDoc", {
                                 orderid: _self.orderid,
                                 doctype: 1,
-                                isover: $("#checkOver").hasClass("ico-checked") ? 1 : 0,
+                                isover: $("#showCutoutGoods .check").hasClass("ico-checked") ? 1 : 0,
                                 expressid: "",
                                 expresscode: "",
                                 details: details,
@@ -678,7 +687,7 @@ define(function (require, exports, module) {
                     }
                 }
             });
-            $("#checkOver").click(function () {
+            $("#showCutoutGoods .check").click(function () {
                 var _this = $(this);
                 if (!_this.hasClass("ico-checked")) {
                     _this.addClass("ico-checked").removeClass("ico-check");
@@ -686,7 +695,7 @@ define(function (require, exports, module) {
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
-            $("#orderSendGoods").find(".quantity").change(function () {
+            $("#showCutoutGoods").find(".quantity").change(function () {
                 var _this = $(this);
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
@@ -703,12 +712,12 @@ define(function (require, exports, module) {
             
             Easydialog.open({
                 container: {
-                    id: "show-sendordergoods",
+                    id: "showSendOrderGoods",
                     header: "大货单发货",
                     content: innerText,
                     yesFn: function () {
                         var details = ""
-                        $("#orderSendGoods .list-item").each(function () {
+                        $("#showSendOrderGoods .list-item").each(function () {
                             var _this = $(this);
                             var quantity = _this.find(".quantity").val();
                             if (quantity > 0) {
@@ -719,7 +728,7 @@ define(function (require, exports, module) {
                             Global.post("/Orders/CreateOrderGoodsDoc", {
                                 orderid: _self.orderid,
                                 doctype: 2,
-                                isover: $("#checkOver").hasClass("ico-checked") ? 1 : 0,
+                                isover: $("#showSendOrderGoods .check").hasClass("ico-checked") ? 1 : 0,
                                 expressid: $("#expressid").data("id"),
                                 expresscode: $("#expressCode").val(),
                                 details: details,
@@ -754,7 +763,7 @@ define(function (require, exports, module) {
                     }
                 });
             });
-            $("#checkOver").click(function () {
+            $("#showSendOrderGoods .check").click(function () {
                 var _this = $(this);
                 if (!_this.hasClass("ico-checked")) {
                     _this.addClass("ico-checked").removeClass("ico-check");
@@ -762,10 +771,12 @@ define(function (require, exports, module) {
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
-            $("#orderSendGoods").find(".quantity").change(function () {
+            $("#showSendOrderGoods").find(".quantity").change(function () {
                 var _this = $(this);
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
+                } else if (_this.val() > _this.data("max")) {
+                    _this.val(_this.data("max"));
                 }
             });
         });
@@ -1042,8 +1053,9 @@ define(function (require, exports, module) {
     ObjectJS.getSendDoc = function () {
         var _self = this;
         $("#navSendDoc .tr-header").nextAll().remove();
-        Global.post("/Orders/GetStorageDocByOrderID", {
-            orderid: _self.orderid
+        Global.post("/Orders/GetGoodsDocByOrderID", {
+            orderid: _self.orderid,
+            type: 2
         }, function (data) {
             doT.exec("template/orders/senddocs.html", function (template) {
                 var innerhtml = template(data.items);
@@ -1053,6 +1065,24 @@ define(function (require, exports, module) {
             });
         });
         
+    }
+
+    //裁剪记录
+    ObjectJS.getCutoutDoc = function () {
+        var _self = this;
+        $("#navCutoutDoc .tr-header").nextAll().remove();
+        Global.post("/Orders/GetGoodsDocByOrderID", {
+            orderid: _self.orderid,
+            type: 1
+        }, function (data) {
+            doT.exec("template/orders/cutoutdoc.html", function (template) {
+                var innerhtml = template(data.items);
+                innerhtml = $(innerhtml);
+
+                $("#navCutoutDoc .tr-header").after(innerhtml);
+            });
+        });
+
     }
 
     module.exports = ObjectJS;

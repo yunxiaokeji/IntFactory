@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "/Views/Shared/_LayoutContent.cshtml";
-    var model = (IntFactoryEntity.StorageDoc)ViewBag.Model;
-    ViewBag.Title = "发货单详情";
+    var model = (IntFactoryEntity.GoodsDoc)ViewBag.Model;
+    ViewBag.Title = model.DocTypeStr + "详情";
 }
 <style>
     /*样图信息*/
@@ -19,7 +19,7 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">发货单详情</span>
+    <span class="header-title left">@(model.DocTypeStr)详情</span>
 </div>
 <div class="content-body mTop20">
     <div class="content-title">
@@ -43,13 +43,13 @@
     <div class="clear"></div>
      <div class="tab-nav mTop30">
         <ul class="tab-nav-ul left">
-            <li class="hover " data-id="navProduct">发货明细</li>
+            <li class="hover " data-id="navProduct">明细</li>
         </ul>
     </div>
     <table class="table-list mTop20 nav-partdiv" id="navProduct">
         <tr class="tr-header">
             <td class="tLeft">规格</td>
-            <td class="">发货数量</td>
+            <td class="">数量</td>
             <td class="tRight">剩余数量</td>
         </tr>
         @foreach (var item in model.Details)
