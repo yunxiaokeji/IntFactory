@@ -74,7 +74,7 @@ define(function (require, exports, module) {
                     $(document).click(function (e) {
                         if (!$(e.target).parents().hasClass("task-layer-box") && !$(e.target).hasClass("task-layer-box")
                             && !$(e.target).parents().hasClass("easyDialog_wrapper") && !$(e.target).hasClass("easyDialog_wrapper") && !$(e.target).parents().hasClass("alert") && !$(e.target).hasClass("alert")
-                            && !$(e.target).parents().hasClass("jPag-pages") && !$(e.target).hasClass("jPag-pages")) {
+                            && !$(e.target).parents().hasClass("stage-items") && !$(e.target).hasClass("stage-items")) {
                             $("#taskDetailContent").animate({ width: '0px' }, 100);
                         }
                     });

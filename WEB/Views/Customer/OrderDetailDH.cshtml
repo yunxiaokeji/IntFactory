@@ -207,8 +207,9 @@
         <table class="table-list mTop20">
             <tr class="tr-header">
                 <td class="tLeft width200">规格</td>
-                <td class="width200">数量</td>
-                <td class="width200">已发货量</td>
+                <td class="width200">下单数量</td>
+                <td class="width200">剪裁数量</td>
+                <td class="width200">发货数量</td>
                 <td class="">单价</td>
                 <td class="tRight">小计</td>
             </tr>
@@ -216,8 +217,9 @@
             { 
                 <tr class="item cart-item" >
                     <td>@(detail.Remark)</td>
-                    <td class="center">@(detail.Quantity.ToString("f0"))</td>
-                    <td class="center">@(detail.Complete.ToString("f0"))</td>
+                    <td class="center">@(detail.Quantity)</td>
+                    <td class="center">@(detail.Complete)</td>
+                    <td class="center">@(detail.SendQuantity)</td>
                     <td class="center">@(detail.Price.ToString("f2"))</td>
                     <td class="tRight">@((detail.TotalMoney).ToString("f2"))</td>
                 </tr>
