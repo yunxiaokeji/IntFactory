@@ -36,6 +36,28 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult batchUpdateFent()
+        {
+            List<AlibabaSdk.MutableOrder> list = new List<AlibabaSdk.MutableOrder>();
+            AlibabaSdk.MutableOrder order = new AlibabaSdk.MutableOrder();
+            order.bulkGoodsCode = "THZ0001AB3B01ZH00321";
+            order.title = "aaa";
+            order.status = "PRICING";
+            order.bulkPrice =1000;
+            order.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            order.statusDesc = "bbb";
+            list.Add(order);
+
+            var result = AlibabaSdk.OrderBusiness.batchUpdateFent(list, token);
+
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         List<string> codes = new List<string>();
         public JsonResult pullBulkDataList()
         {
@@ -51,6 +73,19 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult pullFentDataList()
+        {
+            codes = AlibabaSdk.OrderBusiness.pullFentGoodsCodes(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1), token).goodsCodeList;
+
+            var result = AlibabaSdk.OrderBusiness.pullFentDataList(codes, token);
+
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         /// <summary>
         /// 任务详情
         /// </summary>

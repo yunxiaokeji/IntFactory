@@ -109,7 +109,7 @@
             </li>
              <li>
                 <span class="column-title">订单编号:</span>
-                <a href="/Customer/OrderDetail/@(model.OrderID)" target="_blank">@(model.OrderCode)</a>
+                <a href="/Customer/OrderDetail/@(model.OrderID)">@(model.OrderCode)</a>
             </li>
             <li>
                 <span class="column-title">订单类型:</span>
@@ -189,6 +189,12 @@
                     </tr>
                 </table>
 
+                @{
+                    if ( model.FinishStatus != 2)
+                    {
+                        <a href="/Customer/ChooseProducts?id=@(model.OrderID)&tid=@(model.TaskID)" id="btn-addMaterial" class="btn right mTop10">添加材料</a>
+                    }
+                }
                 <div class="clear"></div>
             </div>
 

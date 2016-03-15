@@ -32,7 +32,7 @@
         ObjectJS.initTalkReply();
 
         //材料任务
-        if ($("#addMaterial").length==1) {
+        if ($("#btn-addMaterial").length == 1) {
             ObjectJS.bindProduct();
 
             ObjectJS.bindRemoveRowBtn(); 
