@@ -825,7 +825,6 @@
     <Content Include="Views\System\OrderCategory.cshtml" />
     <Content Include="Views\Home\OrderSuccess.cshtml" />
     <Content Include="Views\Customer\EntrustOrders.cshtml" />
-    <Content Include="Views\Task\Test.cshtml" />
     <Content Include="Views\Shared\_LayoutContent.cshtml" />
     <Content Include="Views\Task\MaterialDetail.cshtml" />
     <None Include="Views\Task\PlateDetail.cshtml" />

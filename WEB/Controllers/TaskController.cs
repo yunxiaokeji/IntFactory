@@ -7,18 +7,50 @@ using System.Web.Mvc;
 using IntFactoryBusiness;
 using IntFactoryEntity.Task;
 using IntFactoryEnum;
+using System.Globalization;
 namespace YXERP.Controllers
 {
     public class TaskController : BaseController
     {
         // GET: /Task/
-
+        string token = "6a4ad143-85f1-45a1-9f60-5d69f5c2cbb7";
         #region view
-        public ActionResult Test() 
+        public JsonResult batchUpdateBulk()
         {
+            List<AlibabaSdk.MutableOrder> list=new List<AlibabaSdk.MutableOrder>();
+            AlibabaSdk.MutableOrder order = new AlibabaSdk.MutableOrder();
+            order.bulkGoodsCode = "THZ0001AB3B01ZH0032B";
+            order.title = "aaa";
+            order.status = "PRODUCED";
+            order.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            order.statusDesc = "bbb";
+            list.Add(order);
+           
+            var result= AlibabaSdk.OrderBusiness.batchUpdateBulk(list,token);
 
-            return View();
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
+
+        List<string> codes = new List<string>();
+        public JsonResult pullBulkDataList()
+        {
+            codes = AlibabaSdk.OrderBusiness.pullBulkGoodsCodes(DateTime.Now.AddMonths(-3), DateTime.Now, token).goodsCodeList;
+
+            var result = AlibabaSdk.OrderBusiness.pullBulkDataList(codes, token);
+
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         /// <summary>
         /// 任务详情
         /// </summary>

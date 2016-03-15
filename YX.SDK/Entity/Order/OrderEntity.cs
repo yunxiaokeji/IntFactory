@@ -55,7 +55,7 @@ namespace AlibabaSdk
         /// <summary>
         /// 状态编码  Yang｜check｜final
         /// </summary>
-        public int status { get; set; }
+        public string status { get; set; }
 
         /// <summary>
         /// 工厂打样的价格(单元分)
@@ -77,10 +77,16 @@ namespace AlibabaSdk
         /// </summary>
         public string buyerMemberId { get; set; }
 
+
         /// <summary>
-        /// 买方地址信息
+        /// 买方会员名称
         /// </summary>
-        public string buyerAddress { get; set; }
+        public string buyerName { get; set; }
+
+        /// <summary>
+        /// 买方联系手机
+        /// </summary>
+        public string buyerMobile { get; set; }
 
         /// <summary>
         /// 类目名称

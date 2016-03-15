@@ -5,10 +5,13 @@ using System.Text;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-namespace AlibabaSdk.Business
+namespace AlibabaSdk
 {
     public class OauthBusiness
     {
+        /// <summary>
+        /// 获取用户授权url
+        /// </summary>
         public static string GetAuthorizeUrl()
         {
             Dictionary<string, string> paras = new Dictionary<string, string>();
@@ -22,6 +25,9 @@ namespace AlibabaSdk.Business
                 AppConfig.AlibabaApiUrl, AppConfig.AppKey, AppConfig.CallBackUrl, sign);
         }
 
+        /// <summary>
+        /// 通过code获取用户token
+        /// </summary>
         public static string GetUserToken(string code)
         {
             var paras = new Dictionary<string, object>();
@@ -32,9 +38,28 @@ namespace AlibabaSdk.Business
             paras.Add("client_id", AppConfig.AppKey);
             paras.Add("client_secret", AppConfig.AppSecret);
 
-            return HttpRequest.RequestServer(ApiOption.accessToken, paras,RequestType.Post);
+            return HttpRequest.RequestServer(ApiOption.getToken, paras, RequestType.Post);
         }
 
+        /// <summary>
+        /// 通过refreshToken获取用户token
+        /// </summary>
+        public static string GetTokenByRefreshToken(string refreshToken)
+        {
+            var paras = new Dictionary<string, object>();
+            paras.Add("refresh_token", refreshToken);
+            paras.Add("grant_type", "refresh_token");
+            paras.Add("client_id", AppConfig.AppKey);
+            paras.Add("client_secret",AppConfig.AppSecret);
+
+            return HttpRequest.RequestServer(ApiOption.getToken, paras, RequestType.Post);
+        }
+
+        /// <summary>
+        /// 获取用户
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
         public static UserResult GetUserInfo(string code)
         {
             var result = GetUserToken(code);

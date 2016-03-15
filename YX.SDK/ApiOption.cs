@@ -9,30 +9,30 @@ namespace AlibabaSdk
     public enum ApiOption
     {
         [Description("getToken")]
-        accessToken=0,
+        getToken,
 
         [Description("member.get")]
-        memberDetail=1,
+        memberDetail,
 
         [DescriptionAttribute("erp.manufacture.pullFentGoodsCodes")]
-        pullFentGoodsCodes = 2,
+        pullFentGoodsCodes,
 
         [Description("erp.manufacture.pullFentDataList")]
-        pullFentDataList = 3,
+        pullFentDataList,
 
         [Description("erp.manufacture.batchUpdateFent")]
-        batchUpdateFent = 4,
+        batchUpdateFent,
 
         [Description("erp.manufacture.pullBulkGoodsCodes")]
-        pullBulkGoodsCodes = 5,
+        pullBulkGoodsCodes,
 
         [Description("erp.manufacture.pullBulkDataList")]
-        pullBulkDataList = 6,
+        pullBulkDataList,
 
         [Description("erp.manufacture.batchUpdateBulk")]
-        batchUpdateBulk = 7,
+        batchUpdateBulk,
 
         [Description("erp.manufacture.pushProductionPlan")]
-        pushProductionPlan = 8
+        pushProductionPlan
     }
 }
