@@ -17,17 +17,7 @@ namespace YXERP.Controllers
         #region view
         public JsonResult batchUpdateBulk()
         {
-            List<AlibabaSdk.MutableOrder> list=new List<AlibabaSdk.MutableOrder>();
-            AlibabaSdk.MutableOrder order = new AlibabaSdk.MutableOrder();
-            order.bulkGoodsCode = "THZ0001AB3B01ZH0032B";
-            order.title = "aaa";
-            order.status = "PRODUCED";
-            order.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            order.statusDesc = "bbb";
-            list.Add(order);
-           
-            var result= AlibabaSdk.OrderBusiness.batchUpdateBulk(list,token);
-
+            var result = AlibabaSdk.OrderBusiness.batchUpdateBulk("THZ0001AB3B01ZH0032B", AlibabaSdk.BulkOrderStatus.PRODUCED, "bbb", token);
             JsonDictionary.Add("result", result);
             return new JsonResult()
             {
@@ -38,17 +28,8 @@ namespace YXERP.Controllers
 
         public JsonResult batchUpdateFent()
         {
-            List<AlibabaSdk.MutableOrder> list = new List<AlibabaSdk.MutableOrder>();
-            AlibabaSdk.MutableOrder order = new AlibabaSdk.MutableOrder();
-            order.bulkGoodsCode = "THZ0001AB3B01ZH00321";
-            order.title = "aaa";
-            order.status = "PRICING";
-            order.bulkPrice =1000;
-            order.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            order.statusDesc = "bbb";
-            list.Add(order);
 
-            var result = AlibabaSdk.OrderBusiness.batchUpdateFent(list, token);
+            var result = AlibabaSdk.OrderBusiness.batchUpdateFent("THZ0001AB3B01ZH00321",AlibabaSdk.FentOrderStatus.PRICING,"bbb",token);
 
             JsonDictionary.Add("result", result);
             return new JsonResult()

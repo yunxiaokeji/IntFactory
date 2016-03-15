@@ -27,7 +27,7 @@ namespace AlibabaSdk
         /// <summary>
         /// 根据订单编码获取打样订单列表
         /// </summary>
-        public static List<OrderEntity> pullFentDataList(List<string> goodsCodes, string token)
+        public static OrderListResult pullFentDataList(List<string> goodsCodes, string token)
         {
             var paras = new Dictionary<string, object>();
             paras.Add("fentGoodsCodes", string.Join(",", goodsCodes.ToArray()));
@@ -36,15 +36,14 @@ namespace AlibabaSdk
             string resultStr = HttpRequest.RequestServer(ApiOption.pullFentDataList, paras, RequestType.Post);
             var format = "yyyyMMddHHmmssfffzzz"; // your datetime format
             var dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = format };
-            OrderListResult result = JsonConvert.DeserializeObject<OrderListResult>(resultStr, dateTimeConverter);
 
-            return result.fentOrderList;
+            return JsonConvert.DeserializeObject<OrderListResult>(resultStr, dateTimeConverter);
         }
 
         /// <summary>
-        /// 更新打样订单
+        /// 批量更新打样订单
         /// </summary>
-        public static GoodsCodesResult batchUpdateFent(List<MutableOrder> list, string token)
+        public static GoodsCodesResult batchUpdateFentList(List<MutableOrder> list, string token)
         {
             var paras = new Dictionary<string, object>();
             paras.Add("access_token", token);
@@ -52,6 +51,22 @@ namespace AlibabaSdk
 
             var resultStr = HttpRequest.RequestServer(ApiOption.batchUpdateFent, paras, RequestType.Post);
             return JsonConvert.DeserializeObject<GoodsCodesResult>(resultStr);
+        }
+
+        /// <summary>
+        /// 更新打样订单
+        /// </summary>
+        public static GoodsCodesResult batchUpdateFent(string bulkGoodsCode, FentOrderStatus fentOrderStatus, string statusDesc, string token)
+        {
+            List<AlibabaSdk.MutableOrder> list = new List<AlibabaSdk.MutableOrder>();
+            AlibabaSdk.MutableOrder order = new AlibabaSdk.MutableOrder();
+            order.fentGoodsCode = bulkGoodsCode;
+            order.status = HttpRequest.GetEnumDesc<FentOrderStatus>(fentOrderStatus);
+            order.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            order.statusDesc = statusDesc;
+            list.Add(order);
+
+            return batchUpdateFentList(list, token);
         }
         #endregion
 
@@ -73,7 +88,7 @@ namespace AlibabaSdk
         /// <summary>
         /// 根据订单编码获取大货列表
         /// </summary>
-        public static List<OrderEntity> pullBulkDataList(List<string> goodsCodes,string token)
+        public static OrderListResult pullBulkDataList(List<string> goodsCodes, string token)
         {
             var paras = new Dictionary<string, object>();
             paras.Add("bulkGoodsCodes", string.Join(",", goodsCodes.ToArray()));
@@ -82,15 +97,14 @@ namespace AlibabaSdk
             string resultStr = HttpRequest.RequestServer(ApiOption.pullBulkDataList, paras, RequestType.Post);
             var format = "yyyyMMddHHmmssfffzzz"; // your datetime format
             var dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = format };
-            OrderListResult result = JsonConvert.DeserializeObject<OrderListResult>(resultStr, dateTimeConverter);
 
-            return result.bulkOrderList;
+            return JsonConvert.DeserializeObject<OrderListResult>(resultStr, dateTimeConverter);
         }
 
         /// <summary>
-        /// 更新大货订单
+        /// 批量更新大货订单
         /// </summary>
-        public static GoodsCodesResult batchUpdateBulk(List<MutableOrder> list, string token)
+        public static GoodsCodesResult batchUpdateBulkList(List<MutableOrder> list, string token)
         {
             var paras = new Dictionary<string, object>();
             paras.Add("access_token",token);
@@ -98,6 +112,22 @@ namespace AlibabaSdk
 
             var resultStr = HttpRequest.RequestServer(ApiOption.batchUpdateBulk, paras, RequestType.Post);
             return JsonConvert.DeserializeObject<GoodsCodesResult>(resultStr);
+        }
+
+        /// <summary>
+        /// 更新大货订单
+        /// </summary>
+        public static GoodsCodesResult batchUpdateBulk(string bulkGoodsCode, BulkOrderStatus bulkOrderStatus, string statusDesc, string token)
+        {
+            List<AlibabaSdk.MutableOrder> list = new List<AlibabaSdk.MutableOrder>();
+            AlibabaSdk.MutableOrder order = new AlibabaSdk.MutableOrder();
+            order.bulkGoodsCode = bulkGoodsCode;
+            order.status = HttpRequest.GetEnumDesc<BulkOrderStatus>(bulkOrderStatus);
+            order.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            order.statusDesc = statusDesc;
+            list.Add(order);
+
+            return batchUpdateBulkList(list, token);
         }
 
         /// <summary>
