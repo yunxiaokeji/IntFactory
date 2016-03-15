@@ -16,7 +16,7 @@ namespace AlibabaSdk
         public static GoodsCodesResult pullFentGoodsCodes(DateTime gmtFentStart, DateTime gmtFentEnd, string token)
         { 
             var paras = new Dictionary<string, object>();
-            paras.Add("gmtFentStart", gmtFentEnd.ToString("yyyyMMddHHmmssfffzzz").Replace(":", ""));
+            paras.Add("gmtFentStart", gmtFentStart.ToString("yyyyMMddHHmmssfffzzz").Replace(":", ""));
             paras.Add("gmtFentEnd", gmtFentEnd.ToString("yyyyMMddHHmmssfffzzz").Replace(":", ""));
             paras.Add("access_token", token);
 
@@ -30,7 +30,7 @@ namespace AlibabaSdk
         public static List<OrderEntity> pullFentDataList(List<string> goodsCodes, string token)
         {
             var paras = new Dictionary<string, object>();
-            paras.Add("bulkGoodsCodes", string.Join(",", goodsCodes.ToArray()));
+            paras.Add("fentGoodsCodes", string.Join(",", goodsCodes.ToArray()));
             paras.Add("access_token", token);
 
             string resultStr = HttpRequest.RequestServer(ApiOption.pullFentDataList, paras, RequestType.Post);
@@ -50,7 +50,7 @@ namespace AlibabaSdk
             paras.Add("access_token", token);
             paras.Add("fentOrderList", JsonConvert.SerializeObject(list));
 
-            var resultStr = HttpRequest.RequestServer(ApiOption.batchUpdateBulk, paras, RequestType.Post);
+            var resultStr = HttpRequest.RequestServer(ApiOption.batchUpdateFent, paras, RequestType.Post);
             return JsonConvert.DeserializeObject<GoodsCodesResult>(resultStr);
         }
         #endregion
