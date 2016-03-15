@@ -21,11 +21,10 @@ define(function (require, exports, module) {
         _self.status = status;
         _self.mark = 1;
         _self.model = JSON.parse(model.replace(/&quot;/g, '"'));
-        _self.bindEvent();
-        _self.getAmount();
 
         _self.bindStyle(_self.model);
-        //_self.initTalkReply();
+        _self.bindEvent();
+        _self.getAmount();
     }
 
     ObjectJS.bindStyle = function (model) {
@@ -118,7 +117,7 @@ define(function (require, exports, module) {
         } else if (_self.status == 4) {
             $("#changeOrderStatus").html("开始生产");
         } else if (_self.status == 5) {
-            $("#changeOrderStatus").html("完成生产");
+            $("#changeOrderStatus").html("裁剪录入");
         } else if (_self.status == 6) {
             $("#changeOrderStatus").html("订单发货");
             _self.bingCache();
@@ -346,6 +345,9 @@ define(function (require, exports, module) {
                 confirm("开始生产后不可撤销且不能变更流程，确认开始生产吗？", function () {
                     _self.updateOrderStatus(_self.status * 1 + 1);
                 });
+            }//裁剪
+            else if (_self.status == 5) {
+                _self.cutOutGoods();
             }//发货
             else if (_self.status == 6) {
                 _self.sendGoods();
@@ -395,7 +397,6 @@ define(function (require, exports, module) {
                 if (_this.data("mark")) {
                     $("#navOrderTalk").show();
                     _self.mark = _this.data("mark");
-                    //_self.getTaskReplys(1);
                 }
             } else if (_this.data("id") == "navSendDoc" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
@@ -403,18 +404,6 @@ define(function (require, exports, module) {
             }
         });
 
-        $(".replyBox").click(function () {
-            $(this).addClass("autoHeight").css("border", "1px solid #666");
-            $(this).find(".replyContent").focus();
-        });
-
-        $(document).click(function (e) {
-            //隐藏制版列操作下拉框
-            if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
-                $(".replyBox").removeClass("autoHeight").css("border", "1px solid #ddd");
-            }
-
-        });
     }
 
     //加载缓存
@@ -646,6 +635,66 @@ define(function (require, exports, module) {
         });
     }
 
+    //裁剪录入
+    ObjectJS.cutOutGoods = function () {
+        var _self = this;
+        doT.exec("template/orders/cutoutgoods.html", function (template) {
+            var innerText = template(_self.model.OrderGoods);
+
+            Easydialog.open({
+                container: {
+                    id: "show-cutout-goods",
+                    header: "大货单裁剪登记",
+                    content: innerText,
+                    yesFn: function () {
+                        var details = ""
+                        $("#orderSendGoods .list-item").each(function () {
+                            var _this = $(this);
+                            var quantity = _this.find(".quantity").val();
+                            if (quantity > 0) {
+                                details += _this.data("id") + "-" + quantity + ",";
+                            }
+                        });
+                        if (details.length > 0) {
+                            Global.post("/Orders/CreateOrderGoodsDoc", {
+                                orderid: _self.orderid,
+                                doctype: 1,
+                                isover: $("#checkOver").hasClass("ico-checked") ? 1 : 0,
+                                expressid: "",
+                                expresscode: "",
+                                details: details,
+                                remark: $("#expressRemark").val().trim()
+                            }, function (data) {
+                                if (data.id) {
+                                    alert("裁剪登记成功!", location.href);
+                                } else {
+                                    alert("裁剪登记失败！");
+                                }
+                            });
+                        }
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+            $("#checkOver").click(function () {
+                var _this = $(this);
+                if (!_this.hasClass("ico-checked")) {
+                    _this.addClass("ico-checked").removeClass("ico-check");
+                } else {
+                    _this.addClass("ico-check").removeClass("ico-checked");
+                }
+            });
+            $("#orderSendGoods").find(".quantity").change(function () {
+                var _this = $(this);
+                if (!_this.val().isInt() || _this.val() <= 0) {
+                    _this.val("0");
+                }
+            });
+        });
+    };
+
     //发货
     ObjectJS.sendGoods = function () {
         var _self = this;
@@ -667,8 +716,9 @@ define(function (require, exports, module) {
                             }
                         });
                         if (details.length > 0) {
-                            Global.post("/Orders/SendOrderGoods", {
+                            Global.post("/Orders/CreateOrderGoodsDoc", {
                                 orderid: _self.orderid,
+                                doctype: 2,
                                 isover: $("#checkOver").hasClass("ico-checked") ? 1 : 0,
                                 expressid: $("#expressid").data("id"),
                                 expresscode: $("#expressCode").val(),
@@ -1003,153 +1053,6 @@ define(function (require, exports, module) {
             });
         });
         
-    }
-
-    //初始化任务讨论列表
-    ObjectJS.initTalkReply = function () {
-        var _self = this;
-
-        $("#btnSaveTalk").click(function () {
-            var txt = $("#txtContent");
-
-            if (txt.val().trim()) {
-                var model = {
-                    GUID: _self.orderid,
-                    StageID: "",
-                    mark: _self.mark,
-                    Content: txt.val().trim(),
-                    FromReplyID: "",
-                    FromReplyUserID: "",
-                    FromReplyAgentID: ""
-                };
-                _self.saveTaskReply(model);
-
-                txt.val("");
-            }
-
-        });
-
-        ObjectJS.getTaskReplys(1);
-
-    }
-
-    //获取任务讨论列表
-    ObjectJS.getTaskReplys = function (page) {
-        var _self = this;
-        $("#replyList").empty();
-        $("#replyList").html("<tr><td colspan='2'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
-        Global.post("/Opportunitys/GetReplys", {
-            guid: _self.orderid,
-            stageid: "",
-            mark: _self.mark,
-            pageSize: 10,
-            pageIndex: page
-        }, function (data) {
-            $("#replyList").empty();
-            if (data.items.length > 0) {
-                doT.exec("template/customer/replys.html", function (template) {
-                    var innerhtml = template(data.items);
-                    innerhtml = $(innerhtml);
-
-                    $("#replyList").html(innerhtml);
-
-                    innerhtml.find(".btn-reply").click(function () {
-                        var _this = $(this), reply = _this.nextAll(".reply-box");
-                        reply.slideDown(500);
-                        reply.find("textarea").focus();
-                        reply.find("textarea").blur(function () {
-                            if (!$(this).val().trim()) {
-                                reply.slideUp(200);
-                            }
-                        });
-                    });
-
-                    innerhtml.find(".save-reply").click(function () {
-                        var _this = $(this);
-                        if ($("#Msg_" + _this.data("replyid")).val().trim()) {
-                            var entity = {
-                                GUID: _this.data("id"),
-                                StageID: "",
-                                Mark: _self.mark,
-                                Content: $("#Msg_" + _this.data("replyid")).val().trim(),
-                                FromReplyID: _this.data("replyid"),
-                                FromReplyUserID: _this.data("createuserid"),
-                                FromReplyAgentID: _this.data("agentid")
-                            };
-
-                            ObjectJS.saveTaskReply(entity);
-                        }
-
-                        $("#Msg_" + _this.data("replyid")).val('');
-                        $(this).parent().slideUp(100);
-                    });
-
-                });
-            }
-            else {
-                $("#replyList").html("<tr><td colspan='2'><div class='noDataTxt' >暂无评论!<div></td></tr>");
-            }
-
-            $("#pagerReply").paginate({
-                total_count: data.totalCount,
-                count: data.pageCount,
-                start: page,
-                display: 5,
-                border: true,
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                float: "left",
-                onChange: function (page) {
-                    _self.getTaskReplys(page);
-                }
-            });
-        });
-    }
-
-    //保存任务讨论
-    ObjectJS.saveTaskReply = function (model) {
-        var _self = this;
-
-        Global.post("/Opportunitys/SavaReply", { entity: JSON.stringify(model) }, function (data) {
-            doT.exec("template/customer/replys.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
-
-                $("#replyList .noDataTxt").parent().parent().remove();
-
-                $("#replyList").prepend(innerhtml);
-
-                innerhtml.find(".btn-reply").click(function () {
-                    var _this = $(this), reply = _this.nextAll(".reply-box");
-                    reply.slideDown(500);
-                    reply.find("textarea").focus();
-                    reply.find("textarea").blur(function () {
-                        if (!$(this).val().trim()) {
-                            reply.slideUp(200);
-                        }
-                    });
-                });
-
-                innerhtml.find(".save-reply").click(function () {
-                    var _this = $(this);
-                    if ($("#Msg_" + _this.data("replyid")).val().trim()) {
-                        var entity = {
-                            GUID: _this.data("id"),
-                            Content: $("#Msg_" + _this.data("replyid")).val().trim(),
-                            FromReplyID: _this.data("replyid"),
-                            FromReplyUserID: _this.data("createuserid"),
-                            FromReplyAgentID: _this.data("agentid")
-                        };
-                        ObjectJS.saveTaskReply(entity);
-
-                    }
-                    $("#Msg_" + _this.data("replyid")).val('');
-                    $(this).parent().slideUp(100);
-                });
-
-            });
-        });
     }
 
     module.exports = ObjectJS;

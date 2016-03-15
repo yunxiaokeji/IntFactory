@@ -369,12 +369,12 @@ namespace IntFactoryBusiness
             }
         }
 
-        public string SendOrderGoods(string orderid, int isover, string expressid, string expresscode, string details, string remark, string operateid, string agentid, string clientid)
+        public string CreateOrderGoodsDoc(string orderid, EnumDocType type,int isover, string expressid, string expresscode, string details, string remark, string operateid, string agentid, string clientid)
         {
             var dal = new OrdersDAL();
             string id = Guid.NewGuid().ToString().ToLower();
 
-            bool bl = dal.SendOrderGoods(id, orderid, isover, expressid, expresscode, details, remark, operateid, clientid);
+            bool bl = dal.CreateOrderGoodsDoc(id, orderid, (int)type, isover, expressid, expresscode, details, remark, operateid, clientid);
             if (bl)
             {
                 return id;

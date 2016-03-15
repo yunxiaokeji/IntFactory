@@ -176,11 +176,12 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool SendOrderGoods(string docid, string orderid, int isover, string expressid, string expresscode, string details, string remark, string operateid, string clientid)
+        public bool CreateOrderGoodsDoc(string docid, string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@DocID",docid),
                                      new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@DocType",doctype),
                                      new SqlParameter("@IsOver",isover),
                                      new SqlParameter("@ExpressID",expressid),
                                      new SqlParameter("@ExpressCode",expresscode),
@@ -191,7 +192,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
-            bool bl = ExecuteNonQuery("P_SendOrderGoods", paras, CommandType.StoredProcedure) > 0;
+            bool bl = ExecuteNonQuery("P_CreateOrderGoodsDoc", paras, CommandType.StoredProcedure) > 0;
 
             return bl;
         }
