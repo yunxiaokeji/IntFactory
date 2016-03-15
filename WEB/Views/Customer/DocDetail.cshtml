@@ -30,6 +30,7 @@
         <li><span class="column-title">状态：</span>@(model.StatusStr)</li>
         <li><span class="column-title">创建人：</span>@(model.CreateUser.Name)</li>
         <li><span class="column-title">创建日期：</span>@(model.CreateTime.ToString("yyyy-MM-dd"))</li>
+        <li><span class="column-title">快递公司：</span>@(model.Express!=null?model.Express.Name:"")</li>
         <li><span class="column-title">快递单号：</span>@(model.ExpressCode)</li>
         <li style="width:100%;"><span class="column-title">备注：</span>@(model.Remark)</li>
     </ul>

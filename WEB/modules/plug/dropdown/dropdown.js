@@ -81,8 +81,9 @@ define(function (require, exports, module) {
                     _items.append("<li data-id='" + opts.defaultValue + "'>" + opts.defaultText + "</li>");
                 }
                 for (var i = 0; i < opts.data.length; i++) {
-                    if (opts.data[i][opts.dataValue] != opts.defaultValue)
+                    if (opts.data[i][opts.dataValue] != opts.defaultValue) {
                         _items.append("<li data-id='" + opts.data[i][opts.dataValue] + "'>" + opts.data[i][opts.dataText] + "</li>");
+                    }
                 }
                 _items.find("li").click(function () {
                     obj.find(".dropdown-text").html(opts.prevText + $(this).html());

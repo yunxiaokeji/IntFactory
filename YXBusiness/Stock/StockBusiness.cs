@@ -1,4 +1,5 @@
-﻿using IntFactoryDAL;
+﻿using IntFactoryBusiness.Manage;
+using IntFactoryDAL;
 using IntFactoryEntity;
 using IntFactoryEnum;
 using System;
@@ -105,6 +106,10 @@ namespace IntFactoryBusiness
             {
                 StorageDoc model = new StorageDoc();
                 model.FillData(dr);
+                if (!string.IsNullOrEmpty(model.ExpressID))
+                {
+                    model.Express = ExpressCompanyBusiness.GetExpressCompanyDetail(model.ExpressID);
+                }
                 model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientid);
                 model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
 
@@ -125,6 +130,11 @@ namespace IntFactoryBusiness
                 model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
 
                 model.DocTypeStr = CommonBusiness.GetEnumDesc<EnumDocType>((EnumDocType)model.DocType);
+
+                if (!string.IsNullOrEmpty(model.ExpressID))
+                {
+                    model.Express = ExpressCompanyBusiness.GetExpressCompanyDetail(model.ExpressID);
+                }
 
                 //model.WareHouse = SystemBusiness.BaseBusiness.GetWareByID(model.WareID, model.ClientID);
                 model.Details = new List<StorageDetail>();
