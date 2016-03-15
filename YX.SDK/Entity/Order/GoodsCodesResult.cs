@@ -14,10 +14,6 @@ namespace AlibabaSdk
             set;
         }
 
-        public int error_code=0
-        {
-            set;
-            get;
-        }
+        public int error_code=0;
     }
 }
