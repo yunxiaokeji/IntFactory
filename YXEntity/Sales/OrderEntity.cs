@@ -235,7 +235,7 @@ namespace IntFactoryEntity
 
         public DateTime EntrustTime { get; set; }
 
-        public List<GoodsDetailEntity> OrderGoods { get; set; }
+        public List<OrderGoodsEntity> OrderGoods { get; set; }
 
         public bool IsSelf { get; set; }
 

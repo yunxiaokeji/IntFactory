@@ -307,6 +307,7 @@
     <Compile Include="Models\FilterOrders.cs" />
     <Compile Include="Models\FilterBills.cs" />
     <Compile Include="Models\FilterAgentsOrders.cs" />
+    <Compile Include="Models\OrderGoodsModel.cs" />
     <Compile Include="Models\ShoppingCartProduct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\homeico\mingdao-hover.png" />

@@ -114,6 +114,7 @@ define(function (require, exports, module) {
             $("#changeOrderStatus").html("完成合价");
         } else if (_self.status == 3) {
             $("#changeOrderStatus").html("大货下单");
+            _self.bingCache();
         } else if (_self.status == 4) {
             $("#changeOrderStatus").html("开始生产");
         } else if (_self.status == 5) {
