@@ -331,7 +331,6 @@ namespace IntFactoryBusiness
             return new StockDAL().AddProviders(name, contact, mobile, email, cityCode, address, remark, operateID, agentid, clientID);
         }
 
-
         public static bool CreateStorageDoc(string wareid, string remark, string userid, string operateip, string agentid, string clientid)
         {
 

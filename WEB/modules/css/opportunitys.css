@@ -16,13 +16,13 @@
 .order-info li .column-title{ width:100px; float:left; color:#999; }
 .order-info li .column-value{ max-width:300px; float:left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:#666;}
 
-.process-stages { border:dashed 1px #ccc; padding:20px; }
+.process-stages { border:dashed 1px #ccc; padding:20px; overflow:auto;  }
 
 .process-info .info{ font-size:16px; height:25px; line-height:25px;}
 
 /*阶段*/
 .stage-items { height:40px; width:100%; }
-.stage-items  li{ float:left; height:40px; position:relative; cursor:pointer;  margin-right:10px; }
+.stage-items  li{ float:left; height:40px; position:relative; cursor:pointer;  margin-right:10px; margin-top:10px; }
 .stage-items  li a { overflow:auto; display:inline-block; height:40px; }
 .stage-items  li:hover{ background-color:#2F73B8;}
 .stage-items  li.normal{ background-color:#f3f3f3; border:solid 1px #ccc;}

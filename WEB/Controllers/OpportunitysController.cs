@@ -190,7 +190,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetReplys(string guid,string stageID,int mark, int pageSize, int pageIndex)
+        public JsonResult GetReplys(string guid, string stageID, int mark, int pageSize, int pageIndex)
         {
             int pageCount = 0;
             int totalCount = 0;

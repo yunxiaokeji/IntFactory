@@ -35,7 +35,7 @@ define(function (require, exports, module) {
 
         stages.find("li .leftbg").first().removeClass("leftbg");
         stages.find("li .rightbg").last().removeClass("rightbg");
-        stages.find("li,a").width(width / stages.find("li").length - 15);
+        stages.find("li,a").width(width / (stages.find("li").length > 5 ? 4 : stages.find("li").length) - 15);
 
         //转移工厂按钮
         if (_self.status != 0 || !!model.EntrustClientID) {
