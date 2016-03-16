@@ -249,7 +249,7 @@ namespace IntFactoryBusiness
 
         #region 添加
 
-        public string CreateOrder(string customerid, string goodscode, string title, string name, string mobile, int type, string bigcategoryid, string categoryid, string price, int quantity, string orderimgs, string citycode, string address, string remark, string operateid, string agentid, string clientid)
+        public string CreateOrder(string customerid, string goodscode, string title, string name, string mobile, EnumOrderSourceType sourceType, EnumOrderType ordertype, string bigcategoryid, string categoryid, string price, int quantity, string orderimgs, string citycode, string address, string remark, string operateid, string agentid, string clientid)
         {
             string id = Guid.NewGuid().ToString();
             string code = DateTime.Now.ToString("yyyyMMddHHmmssfff");
@@ -294,7 +294,7 @@ namespace IntFactoryBusiness
                 allimgs = allimgs.Substring(0, allimgs.Length - 1);
             }
 
-            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, goodscode, title, customerid, name, mobile, type, bigcategoryid, categoryid, price, quantity, firstimg, allimgs, citycode, address, remark, operateid, agentid, clientid);
+            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, goodscode, title, customerid, name, mobile, (int)sourceType, (int)ordertype, bigcategoryid, categoryid, price, quantity, firstimg, allimgs, citycode, address, remark, operateid, agentid, clientid);
             if (!bl)
             {
                 return "";

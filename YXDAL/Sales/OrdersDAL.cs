@@ -134,7 +134,7 @@ namespace IntFactoryDAL
 
         #region 添加
 
-        public bool CreateOrder(string orderid, string ordercode, string goodscode, string title, string customerid, string name, string mobile, int type, string bigcategoryid, string categoryid, string price, int quantity, string orderimg, string orderimages, string citycode, string address, string remark, string operateid, string agentid, string clientid)
+        public bool CreateOrder(string orderid, string ordercode, string goodscode, string title, string customerid, string name, string mobile, int sourcetype, int ordertype, string bigcategoryid, string categoryid, string price, int quantity, string orderimg, string orderimages, string citycode, string address, string remark, string operateid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
@@ -144,7 +144,8 @@ namespace IntFactoryDAL
                                      new SqlParameter("@CustomerID",customerid),
                                      new SqlParameter("@Name" , name),
                                      new SqlParameter("@Mobile" , mobile),
-                                     new SqlParameter("@OrderType" , type),
+                                     new SqlParameter("@SourceType" , sourcetype),
+                                     new SqlParameter("@OrderType" , ordertype),
                                      new SqlParameter("@BigCategoryID" , bigcategoryid),
                                      new SqlParameter("@CategoryID" , categoryid),
                                      new SqlParameter("@PlanPrice" , price),
