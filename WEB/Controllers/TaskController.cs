@@ -13,8 +13,21 @@ namespace YXERP.Controllers
     public class TaskController : BaseController
     {
         // GET: /Task/
-        string token = "6a4ad143-85f1-45a1-9f60-5d69f5c2cbb7";
+        string token = "cc8ff84f-7fb2-4daf-ae48-03157d413b3d";
         #region view
+        public JsonResult batchUpdateFent()
+        {
+
+            var result = AlibabaSdk.OrderBusiness.batchUpdateFent("THZ0001AB3B01ZH00321", AlibabaSdk.FentOrderStatus.PRICING, "bbb", token);
+
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult batchUpdateBulk()
         {
             var result = AlibabaSdk.OrderBusiness.batchUpdateBulk("THZ0001AB3B01ZH0032B", AlibabaSdk.BulkOrderStatus.PRODUCED, "bbb", token);
@@ -26,10 +39,14 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult batchUpdateFent()
-        {
+        
 
-            var result = AlibabaSdk.OrderBusiness.batchUpdateFent("THZ0001AB3B01ZH00321",AlibabaSdk.FentOrderStatus.PRICING,"bbb",token);
+        List<string> codes = new List<string>();
+        public JsonResult pullFentDataList()
+        {
+            codes = AlibabaSdk.OrderBusiness.pullFentGoodsCodes(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1), token).goodsCodeList;
+
+            var result = AlibabaSdk.OrderBusiness.pullFentDataList(codes, token);
 
             JsonDictionary.Add("result", result);
             return new JsonResult()
@@ -39,7 +56,6 @@ namespace YXERP.Controllers
             };
         }
 
-        List<string> codes = new List<string>();
         public JsonResult pullBulkDataList()
         {
             codes = AlibabaSdk.OrderBusiness.pullBulkGoodsCodes(DateTime.Now.AddMonths(-3), DateTime.Now, token).goodsCodeList;
@@ -54,19 +70,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult pullFentDataList()
-        {
-            codes = AlibabaSdk.OrderBusiness.pullFentGoodsCodes(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1), token).goodsCodeList;
-
-            var result = AlibabaSdk.OrderBusiness.pullFentDataList(codes, token);
-
-            JsonDictionary.Add("result", result);
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
+        
         /// <summary>
         /// 任务详情
         /// </summary>

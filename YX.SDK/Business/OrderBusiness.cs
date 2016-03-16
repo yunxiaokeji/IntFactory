@@ -11,6 +11,44 @@ namespace AlibabaSdk
     {
         #region 打样
         /// <summary>
+        /// 下载阿里打样订单列表
+        /// </summary>
+        /// <returns></returns>
+        public static List<OrderEntity> DownFentOrders(DateTime gmtFentStart, string token)
+        {
+            GoodsCodesResult goodsCodesResult = pullFentGoodsCodes(gmtFentStart, DateTime.Now, token);
+
+            if (goodsCodesResult.error_code > 0)
+            {
+
+            }
+            else
+            {
+                var List = goodsCodesResult.goodsCodeList;
+                int numb = 10;
+                int size = (int)Math.Ceiling((decimal)List.Count / numb);
+                for (int i = 1; i <= size; i++)
+                {
+                    var qList = List.Skip( (i - 1) * numb ).Take(numb).ToList();
+
+                    OrderListResult orderListResult = pullFentDataList(qList, token);
+                    if (orderListResult.error_code > 0)
+                    {
+
+                    }
+                    else
+                    {
+                        int total = orderListResult.fentOrderList.Count;
+
+                        return orderListResult.fentOrderList;
+                    }
+                }
+
+               
+            }
+            return new List<OrderEntity>();
+        }
+        /// <summary>
         /// 获取打样订单编码
         /// </summary>
         public static GoodsCodesResult pullFentGoodsCodes(DateTime gmtFentStart, DateTime gmtFentEnd, string token)
@@ -56,11 +94,11 @@ namespace AlibabaSdk
         /// <summary>
         /// 更新打样订单
         /// </summary>
-        public static GoodsCodesResult batchUpdateFent(string bulkGoodsCode, FentOrderStatus fentOrderStatus, string statusDesc, string token)
+        public static GoodsCodesResult batchUpdateFent(string fentGoodsCode, FentOrderStatus fentOrderStatus, string statusDesc, string token)
         {
             List<AlibabaSdk.MutableOrder> list = new List<AlibabaSdk.MutableOrder>();
             AlibabaSdk.MutableOrder order = new AlibabaSdk.MutableOrder();
-            order.fentGoodsCode = bulkGoodsCode;
+            order.fentGoodsCode = fentGoodsCode;
             order.status = HttpRequest.GetEnumDesc<FentOrderStatus>(fentOrderStatus);
             order.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             order.statusDesc = statusDesc;
