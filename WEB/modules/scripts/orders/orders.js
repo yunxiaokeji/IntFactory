@@ -247,7 +247,91 @@
             } else {
                 alert("您尚未选择客户!")
             }
-        });        
+        });
+
+        var successOrderCount = 1;
+        var successOrderCountObj = null;
+        //手动同步阿里订单
+        $("#downAliOrders").click(function () {
+            doT.exec("template/orders/downAliOrders.html", function (template) {
+                var html = template([]);
+
+                Easydialog.open({
+                    container: {
+                        id: "show-model-downAliOrders",
+                        header: "手动同步阿里巴巴订单",
+                        content: html,
+                        yesFn: function () {
+                            //Global.post("/FeedBack/InsertFeedBack", { entity: JSON.stringify(entity) }, function (data) {
+                            //    if (data.Result == 1) {
+                            //        alert("谢谢反馈");
+                            //    }
+                            //});
+
+                            var html = '<div style="width:400px;border:1px solid #ccc;border-radius:4px;"><div id="downOrderBar" style="background-color:#06c;width:0px;height:10px;border-radius:4px;"></div></div>';
+                            html += '<div style="text-align:center;margin-top:3px;">(<span id="successOrderCount">1</span>/<span id="totalOrderCount">1000</span>)</div>';
+                            Easydialog.open({
+                                container: {
+                                    id: "show-model-showDownAliOrders",
+                                    header: "手动同步阿里巴巴订单进度",
+                                    content: html
+                                }
+
+                            });
+
+                            successOrderCountObj = setInterval(function () {
+
+                                Global.post("/Orders/GetSuccessOrderCount", {},
+                                    function (data) {
+                                        successOrderCount = parseInt(data.successOrderCount);
+                                        var totalOrderCount = parseInt($("#totalOrderCount").html());
+
+                                        $("#successOrderCount").html(successOrderCount);
+                                        $("#downOrderBar").css("width", (successOrderCount / totalOrderCount)*400 + "px");
+
+                                        if (successOrderCount == 100)
+                                            clearInterval(successOrderCountObj);
+
+                                });
+
+                            }, 500);
+
+                        },
+                        callback: function () {
+
+                        }
+                    }
+                });
+
+                var start = {
+                    elem: '#downStartTime',
+                    format: 'YYYY-MM-DD',
+                    max: '2099-06-16',
+                    istime: false,
+                    istoday: false,
+                    choose: function (datas) {
+                        end.min = datas; //开始日选好后，重置结束日的最小日期
+                        end.start = datas //将结束日的初始值设定为开始日
+                    }
+                };
+                laydate(start);
+
+                var end = {
+                    elem: '#downEndTime',
+                    format: 'YYYY-MM-DD',
+                    max: '2099-06-16',
+                    istime: false,
+                    istoday: false,
+                    choose: function (datas) {
+                        begin.max = datas; //结束日选好后，重置开始日的最大日期
+                    }
+                };
+                laydate(end);
+
+
+            });
+
+        });
     }
 
     //获取列表

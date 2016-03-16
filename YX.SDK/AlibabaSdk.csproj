@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="ApiEnum.cs" />
     <Compile Include="AppConfig.cs" />
+    <Compile Include="Business\CacheBusiness.cs" />
     <Compile Include="Business\OauthBusiness.cs" />
     <Compile Include="Business\OrderBusiness.cs" />
     <Compile Include="Entity\Order\MutableProductionPlan .cs" />

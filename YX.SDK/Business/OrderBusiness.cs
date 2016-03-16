@@ -14,13 +14,14 @@ namespace AlibabaSdk
         /// 下载阿里打样订单列表
         /// </summary>
         /// <returns></returns>
-        public static List<OrderEntity> DownFentOrders(DateTime gmtFentStart, string token)
+        public static bool DownFentOrders(DateTime gmtFentStart,DateTime gmtFentEnd, string token)
         {
-            GoodsCodesResult goodsCodesResult = pullFentGoodsCodes(gmtFentStart, DateTime.Now, token);
+            GoodsCodesResult goodsCodesResult = pullFentGoodsCodes(gmtFentStart, gmtFentEnd, token);
 
+            //获取打样订单编码失败
             if (goodsCodesResult.error_code > 0)
             {
-
+                return false;
             }
             else
             {
@@ -29,25 +30,35 @@ namespace AlibabaSdk
                 int size = (int)Math.Ceiling((decimal)List.Count / numb);
                 for (int i = 1; i <= size; i++)
                 {
-                    var qList = List.Skip( (i - 1) * numb ).Take(numb).ToList();
+                    var qList = List.Skip((i - 1) * numb).Take(numb).ToList();
 
                     OrderListResult orderListResult = pullFentDataList(qList, token);
+                    //根据订单编码获取打样订单列表失败
                     if (orderListResult.error_code > 0)
                     {
-
+                        return false;
                     }
                     else
                     {
-                        int total = orderListResult.fentOrderList.Count;
+                        int len = orderListResult.fentOrderList.Count;
+                        for (var j = 0; j < len; j++)
+                        {
+                            var order = orderListResult.fentOrderList[j];
 
-                        return orderListResult.fentOrderList;
+                            
+                            return true;
+
+                        }
+
+                        return true;
                     }
                 }
 
                
             }
-            return new List<OrderEntity>();
+            return true;
         }
+
         /// <summary>
         /// 获取打样订单编码
         /// </summary>

@@ -442,6 +442,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetGoodsDocByOrderID(string orderid, int type)
         {
+            
             var list = StockBusiness.GetGoodsDocByOrderID(orderid, (EnumDocType)type, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult
@@ -451,6 +452,79 @@ namespace YXERP.Controllers
             };
         }
 
+        string token = "";
+        public JsonResult DownAliOrders()
+        {
+            bool flag= AlibabaSdk.OrderBusiness.DownFentOrders(DateTime.Now.AddMonths(-3), DateTime.Now, token);
+
+            JsonDictionary.Add("result", flag?1:0);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public static bool DownFentOrders(DateTime gmtFentStart, DateTime gmtFentEnd, string token, string userID, string agentID, string clientID)
+        {
+            AlibabaSdk.GoodsCodesResult goodsCodesResult =AlibabaSdk.OrderBusiness.pullFentGoodsCodes(gmtFentStart, gmtFentEnd, token);
+
+            //获取打样订单编码失败
+            if (goodsCodesResult.error_code > 0)
+            {
+                return false;
+            }
+            else
+            {
+                var List = goodsCodesResult.goodsCodeList;
+                int numb = 10;
+                int size = (int)Math.Ceiling((decimal)List.Count / numb);
+                for (int i = 1; i <= size; i++)
+                {
+                    var qList = List.Skip((i - 1) * numb).Take(numb).ToList();
+
+                    AlibabaSdk.OrderListResult orderListResult = AlibabaSdk.OrderBusiness.pullFentDataList(qList, token);
+                    //根据订单编码获取打样订单列表失败
+                    if (orderListResult.error_code > 0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        int len = orderListResult.fentOrderList.Count;
+                        for (var j = 0; j < len; j++)
+                        {
+                            var order = orderListResult.fentOrderList[j];
+
+                            OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
+                                order.buyerName, order.buyerMobile, 2, string.Empty, string.Empty,
+                                 order.fentPrice.ToString(), order.bulkCount, string.Join(",", order.samplePicList.ToArray()),
+                                string.Empty, "dizhi", string.Empty,
+                                userID, agentID, clientID);
+                            return true;
+
+                        }
+
+                        return true;
+                    }
+                }
+
+
+            }
+            return true;
+        }
+
+
+        public JsonResult GetSuccessOrderCount()
+        {
+
+            JsonDictionary.Add("successOrderCount", 100);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         #endregion
 
     }

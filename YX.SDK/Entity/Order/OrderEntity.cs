@@ -20,7 +20,7 @@ namespace AlibabaSdk
         /// <summary>
         /// 款式编码
         /// </summary>
-        public string modelCode { get; set; }
+        public string productCode { get; set; }
 
         /// <summary>
         /// 创建时间
