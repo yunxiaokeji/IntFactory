@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiEnum.cs" />
     <Compile Include="AppConfig.cs" />
     <Compile Include="Business\OauthBusiness.cs" />
     <Compile Include="Business\OrderBusiness.cs" />

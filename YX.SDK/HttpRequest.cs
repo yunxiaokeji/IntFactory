@@ -29,25 +29,28 @@ namespace AlibabaSdk
                 paraStr = "_aop_signature=" + signature;
             }
             
+            if (paras != null && paras.Count > 0)
+            {
+                paraStr+="&"+ createParameterStr(paras);
+            }
+
+            string strResult = string.Empty;
             try
             {
-                if (paras != null && paras.Count > 0)
-                {
-                   paraStr+="&"+ createParameterStr(paras);
-                }
-
-                HttpWebRequest request;
-                HttpWebResponse response;
-                string strResult = string.Empty;
                 if (requestType == RequestType.Get)
                 {
                     url += "?" + paraStr;
-                    request = (System.Net.HttpWebRequest)WebRequest.Create(url);
-                    request.Timeout = 10000;
-                    request.Method = "GET";
-                    request.ContentType = "application/x-www-form-urlencoded";
+                    Uri uri = new Uri(url);
+                    HttpWebRequest httpWebRequest = WebRequest.Create(uri) as HttpWebRequest;
 
-                    response = (HttpWebResponse)request.GetResponse();
+                    httpWebRequest.Method = "GET";
+                    httpWebRequest.KeepAlive = false;
+                    httpWebRequest.AllowAutoRedirect = true;
+                    httpWebRequest.ContentType = "application/x-www-form-urlencoded";
+                    httpWebRequest.UserAgent = "Ocean/NET-SDKClient";
+
+                    HttpWebResponse response = httpWebRequest.GetResponse() as HttpWebResponse;
+                    Stream responseStream = response.GetResponseStream();
                     System.Text.Encoding encode = Encoding.ASCII;
                     if (response.CharacterSet.Contains("utf-8"))
                         encode = Encoding.UTF8;
@@ -59,33 +62,47 @@ namespace AlibabaSdk
                 }
                 else
                 {
-                    byte[] bData = Encoding.UTF8.GetBytes(paraStr.ToString());
+                    byte[] postData = Encoding.UTF8.GetBytes(paraStr);
+                    Uri uri = new Uri(url);
+                    HttpWebRequest httpWebRequest = WebRequest.Create(uri) as HttpWebRequest;
 
-                    request = (HttpWebRequest)WebRequest.Create(url);
-                    request.Method = "POST";
-                    request.Timeout = 5000;
-                    request.ContentType = "application/x-www-form-urlencoded";
-                    request.ContentLength = bData.Length;
+                    httpWebRequest.Method = "POST";
+                    httpWebRequest.KeepAlive = false;
+                    httpWebRequest.AllowAutoRedirect = true;
+                    httpWebRequest.ContentType = "application/x-www-form-urlencoded";
+                    httpWebRequest.UserAgent = "Ocean/NET-SDKClient";
+                    httpWebRequest.ContentLength = postData.Length;
 
-                    System.IO.Stream smWrite = request.GetRequestStream();
-                    smWrite.Write(bData, 0, bData.Length);
-                    smWrite.Close();
+                    System.IO.Stream outputStream = httpWebRequest.GetRequestStream();
+                    outputStream.Write(postData, 0, postData.Length);
+                    outputStream.Close();
+                    HttpWebResponse response = httpWebRequest.GetResponse() as HttpWebResponse;
+                    Stream responseStream = response.GetResponseStream();
 
-                    response = (HttpWebResponse)request.GetResponse();
-                    System.IO.Stream dataStream = response.GetResponseStream();
-                    System.IO.StreamReader reader = new System.IO.StreamReader(dataStream, Encoding.UTF8);
+                    System.Text.Encoding encode = Encoding.ASCII;
+                    if (response.CharacterSet.Contains("utf-8"))
+                        encode = Encoding.UTF8;
+                    StreamReader reader = new StreamReader(response.GetResponseStream(), encode);
                     strResult = reader.ReadToEnd();
 
                     reader.Close();
-                    dataStream.Close();
-                    response.Close(); 
+                    response.Close();
+
                 }
-
-                return strResult;
             }
-            catch { }
+            catch (System.Net.WebException webException)
+                    {
+                        HttpWebResponse response = webException.Response as HttpWebResponse;
+                        Stream responseStream = response.GetResponseStream();
+                        StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                        strResult = reader.ReadToEnd();
 
-            return null;
+                        reader.Close();
+                        response.Close();
+                    }
+
+            return strResult;
+
         }
 
         private static String createParameterStr(Dictionary<String, Object> parameters)
