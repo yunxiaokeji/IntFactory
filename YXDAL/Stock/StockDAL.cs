@@ -11,6 +11,7 @@ namespace IntFactoryDAL
     public class StockDAL : BaseDAL
     {
         public static StockDAL BaseProvider = new StockDAL();
+
         #region 查询
 
         public DataTable GetProviders(string clientID)

@@ -416,7 +416,7 @@ define(function (require, exports, module) {
     //加载缓存
     ObjectJS.bingCache = function () {
         var _self = this;
-        if (_self.status == 3) {
+        if (_self.status == 3 || ((_self.status == 0 || _self.status == 4) && _self.model.OrderType == 2)) {
             Global.post("/Products/GetOrderCategoryDetailsByID", {
                 categoryid: _self.model.CategoryID,
                 orderid: (_self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID)

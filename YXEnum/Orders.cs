@@ -107,4 +107,29 @@ namespace IntFactoryEnum
         /// </summary>
         AllReturn=11
     }
+
+    /// <summary>
+    /// 订单类型
+    /// </summary>
+    public enum EnumOrderType
+    {
+        [DescriptionAttribute("全部")]
+        All = -1,
+        [DescriptionAttribute("打样")]
+        ProofOrder = 1,
+        [DescriptionAttribute("大货")]
+        LargeOrder = 2,
+    }
+
+    public enum EnumOrderSourceType
+    {
+        [DescriptionAttribute("全部")]
+        All = -1,
+        [DescriptionAttribute("工厂录入")]
+        FactoryOrder = 1,
+        [DescriptionAttribute("自助下单")]
+        SelfOrder = 2,
+        [DescriptionAttribute("阿里订单")]
+        AliOrder = 3
+    }
 }
