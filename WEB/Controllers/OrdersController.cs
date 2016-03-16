@@ -40,6 +40,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Title = "所有订单";
             ViewBag.Type = (int)EnumSearchType.All;
+            
             return View("Orders");
         }
 
@@ -452,11 +453,12 @@ namespace YXERP.Controllers
             };
         }
 
-        string token = "";
+        string token = "d3e257aa-4955-404e-a094-96f7d59a89a5";
         public JsonResult DownAliOrders()
         {
-            bool flag= AlibabaSdk.OrderBusiness.DownFentOrders(DateTime.Now.AddMonths(-3), DateTime.Now, token);
+            //bool flag= DownFentOrders(DateTime.Now.AddMonths(-3), DateTime.Now, token,CurrentUser.UserID,CurrentUser.AgentID,CurrentUser.ClientID);
 
+            bool flag = DownBulkOrders(DateTime.Now.AddMonths(-3), DateTime.Now, token, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("result", flag?1:0);
             return new JsonResult
             {
@@ -479,6 +481,19 @@ namespace YXERP.Controllers
                 var List = goodsCodesResult.goodsCodeList;
                 int numb = 10;
                 int size = (int)Math.Ceiling((decimal)List.Count / numb);
+
+                Dictionary<string, int> totalCount = new Dictionary<string, int>();
+                totalCount.Add("total", List.Count);
+                totalCount.Add("successCount", 0);
+                if (AlibabaSdk.CacheBusiness.SuccessOrderCountCache.ContainsKey(agentID))
+                {
+                    AlibabaSdk.CacheBusiness.SuccessOrderCountCache[agentID] = totalCount;
+                }
+                else
+                {
+                    AlibabaSdk.CacheBusiness.SuccessOrderCountCache.Add(agentID, totalCount);
+                }
+
                 for (int i = 1; i <= size; i++)
                 {
                     var qList = List.Skip((i - 1) * numb).Take(numb).ToList();
@@ -496,12 +511,22 @@ namespace YXERP.Controllers
                         {
                             var order = orderListResult.fentOrderList[j];
 
-                            OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
-                                order.buyerName, order.buyerMobile, 2, string.Empty, string.Empty,
-                                 order.fentPrice.ToString(), order.bulkCount, string.Join(",", order.samplePicList.ToArray()),
+                            string orderID= OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
+                                order.buyerName, order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.ProofOrder, string.Empty, string.Empty,
+                                order.fentPrice.ToString(), order.bulkCount, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
                                 string.Empty, "dizhi", string.Empty,
                                 userID, agentID, clientID);
-                            return true;
+
+                            if (string.IsNullOrEmpty(orderID))
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                Dictionary<string, int> totalCount2 =AlibabaSdk.CacheBusiness.SuccessOrderCountCache[agentID];
+                                totalCount2["successCount"] += 1;
+                                AlibabaSdk.CacheBusiness.SuccessOrderCountCache[agentID] = totalCount2;
+                            }
 
                         }
 
@@ -514,11 +539,96 @@ namespace YXERP.Controllers
             return true;
         }
 
+        public static bool DownBulkOrders(DateTime gmtBulkStart, DateTime gmtBulkEnd, string token, string userID, string agentID, string clientID)
+        {
+            AlibabaSdk.GoodsCodesResult goodsCodesResult = AlibabaSdk.OrderBusiness.pullBulkGoodsCodes(gmtBulkStart, gmtBulkEnd, token);
+
+            //获取打样订单编码失败
+            if (goodsCodesResult.error_code > 0) return false;
+            else
+            {
+                var List = goodsCodesResult.goodsCodeList;
+                if (List.Count == 0) return false;
+                int numb = 10;
+                int size = (int)Math.Ceiling((decimal)List.Count / numb);
+
+                Dictionary<string, int> totalCount = new Dictionary<string, int>();
+                totalCount.Add("total", List.Count);
+                totalCount.Add("successCount", 0);
+                if (AlibabaSdk.CacheBusiness.SuccessOrderCountCache.ContainsKey(agentID))
+                {
+                    AlibabaSdk.CacheBusiness.SuccessOrderCountCache[agentID] = totalCount;
+                }
+                else
+                {
+                    AlibabaSdk.CacheBusiness.SuccessOrderCountCache.Add(agentID, totalCount);
+                }
+
+                for (int i = 1; i <= size; i++)
+                {
+                    var qList = List.Skip((i - 1) * numb).Take(numb).ToList();
+
+                    AlibabaSdk.OrderListResult orderListResult = AlibabaSdk.OrderBusiness.pullBulkDataList(qList, token);
+                    //根据订单编码获取打样订单列表失败
+                    if (orderListResult.error_code > 0) return false;
+                    else
+                    {
+                        int len = orderListResult.bulkOrderList.Count;
+                        for (var j = 0; j < len; j++)
+                        {
+                            var order = orderListResult.bulkOrderList[j];
+
+                            string orderID = OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
+                                order.buyerName, order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.ProofOrder, string.Empty, string.Empty,
+                                order.fentPrice.ToString(), order.bulkCount, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
+                                string.Empty, "dizhi", string.Empty,
+                                userID, agentID, clientID);
+
+                            //新增订单失败
+                            if (string.IsNullOrEmpty(orderID)) return false;
+                            else
+                            {
+                                Dictionary<string, int> totalCount2 = AlibabaSdk.CacheBusiness.SuccessOrderCountCache[agentID];
+                                totalCount2["successCount"] += 1;
+                                AlibabaSdk.CacheBusiness.SuccessOrderCountCache[agentID] = totalCount2;
+                            }
+
+                        }
+                    }
+
+                }
+
+            }
+
+            return true;
+        }
 
         public JsonResult GetSuccessOrderCount()
         {
+            int result = 0;
+            int totalOrderCount = 0;
+            int successOrderCount = 0;
+            if (AlibabaSdk.CacheBusiness.SuccessOrderCountCache.ContainsKey(CurrentUser.AgentID))
+            {
+                Dictionary<string, int> totalCount = AlibabaSdk.CacheBusiness.SuccessOrderCountCache[CurrentUser.AgentID];
+                totalOrderCount = totalCount["total"];
+                successOrderCount = totalCount["successCount"];
 
-            JsonDictionary.Add("successOrderCount", 100);
+                if (totalOrderCount==successOrderCount)
+                    AlibabaSdk.CacheBusiness.SuccessOrderCountCache.Remove(CurrentUser.AgentID);
+
+                result = 1;
+            }
+            else
+            {
+                result = 2;
+ 
+            }
+
+            JsonDictionary.Add("result", result);
+            JsonDictionary.Add("totalOrderCount", totalOrderCount);
+            JsonDictionary.Add("successOrderCount", successOrderCount);
+
             return new JsonResult
             {
                 Data = JsonDictionary,

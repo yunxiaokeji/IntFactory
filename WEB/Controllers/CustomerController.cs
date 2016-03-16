@@ -69,10 +69,19 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult Orders()
+        public ActionResult Orders(string id)
         {
             ViewBag.Title = "订单列表";
             ViewBag.Type = (int)EnumSearchType.All;
+            int State = -1;
+            if (!string.IsNullOrEmpty(id))
+            {
+                if (id.Equals("need", StringComparison.OrdinalIgnoreCase))
+                {
+                    State = 0;
+                }
+            }
+            ViewBag.State = State;
             return View();
         }
 

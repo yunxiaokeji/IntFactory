@@ -39,14 +39,15 @@
 }
 <div class="header-box">
     <span class="header-title left">@ViewBag.Title</span>
-
+    
     <a href="/Customer/CreateOrder"  id="createOrder" class="btn-add right">新建订单</a>
+    <div class="btn right mRight10" id="downAliOrders">同步阿里订单</div>
 </div>
 <div class="search-box">
     <div class="search-header">
         <ul class="search-tab search-status">
-            <li data-id="-1" class="hover">全部订单</li>
-            <li data-id="0" class="">需求单</li>
+            <li data-id="-1" class="@(ViewBag.State==-1?"hover":"")">全部订单</li>
+            <li data-id="0" class="@(ViewBag.State==0?"hover":"")">需求单</li>
             <li data-id="1" class="">打样中</li>
             <li data-id="2" class="">合价中</li>
             <li data-id="3" class="">封样封价</li>
@@ -55,8 +56,6 @@
             <li data-id="6" class="">生产完成</li>
             <li data-id="7" class="">交易结束</li>
         </ul>
-        <div class="btn right" id="downAliOrders">同步阿里订单</div>
-        <div class="clear"></div>
     </div>
 </div>
 <div class="content-body">

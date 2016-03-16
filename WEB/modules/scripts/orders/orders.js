@@ -249,58 +249,92 @@
             }
         });
 
-        var successOrderCount = 1;
         var successOrderCountObj = null;
         //手动同步阿里订单
         $("#downAliOrders").click(function () {
-            doT.exec("template/orders/downAliOrders.html", function (template) {
-                var html = template([]);
 
+            doT.exec("template/orders/downAliOrders.html", function (template) {
+                ObjectJS.downAliOrders = true;
+
+                var html = template([]);
                 Easydialog.open({
                     container: {
                         id: "show-model-downAliOrders",
                         header: "手动同步阿里巴巴订单",
-                        content: html,
-                        yesFn: function () {
-                            //Global.post("/FeedBack/InsertFeedBack", { entity: JSON.stringify(entity) }, function (data) {
-                            //    if (data.Result == 1) {
-                            //        alert("谢谢反馈");
-                            //    }
-                            //});
+                        content: html
+                    }
+                });
 
-                            var html = '<div style="width:400px;border:1px solid #ccc;border-radius:4px;"><div id="downOrderBar" style="background-color:#06c;width:0px;height:10px;border-radius:4px;"></div></div>';
-                            html += '<div style="text-align:center;margin-top:3px;">(<span id="successOrderCount">1</span>/<span id="totalOrderCount">1000</span>)</div>';
-                            Easydialog.open({
-                                container: {
-                                    id: "show-model-showDownAliOrders",
-                                    header: "手动同步阿里巴巴订单进度",
-                                    content: html
+
+                $("#btn-sureDown").click(function () {
+                    if ($("#downStartTime").val() == "" && $("#downEndTime").val() == "")
+                    {
+                        alert("选择创建时间");
+                        return;
+                    }
+
+                    
+                    Global.post("/Orders/DownAliOrders", {
+                        downStartTime: $("#downStartTime").val(),
+                        downEndTime: $("#downEndTime").val(),
+                        downOrderType: $("#downOrderType").val()
+                    }, function (data) {
+                        if (data.result == 0) {
+                            ObjectJS.downAliOrders = false;
+                }
+                    });
+
+
+                    Easydialog.close();
+
+                    var html = '<div style="width:400px;border:1px solid #ccc;border-radius:4px;"><div id="downOrderBar" style="background-color:#06c;width:0px;height:10px;border-radius:4px;"></div></div>';
+                    html += '<div style="text-align:center;margin-top:3px;">(<span id="successOrderCount">0</span>/<span id="totalOrderCount">0</span>)</div>';
+                    Easydialog.open({
+                        container: {
+                            id: "show-model-showDownAliOrders",
+                            header: "手动同步订单进度",
+                            content: html,
+                            yesFn: function () {
+                                location.href = "/Customer/Orders/Need";
+                            }
+                        }
+
+                    });
+
+
+                    successOrderCountObj = setInterval(function () {
+                        if (!ObjectJS.downAliOrders)
+                            clearInterval(successOrderCountObj);
+
+                        Global.post("/Orders/GetSuccessOrderCount", {},
+                            function (data) {
+                                if (data.result == 1) {
+                                    var successOrderCount = parseInt(data.successOrderCount);
+                                    $("#totalOrderCount").html(data.totalOrderCount);
+                                    var totalOrderCount = parseInt(data.totalOrderCount);
+
+                                    $("#successOrderCount").html(successOrderCount);
+                                    $("#downOrderBar").css("width", (successOrderCount / totalOrderCount) * 400 + "px");
+
+                                    if (totalOrderCount>0 && successOrderCount == totalOrderCount) {
+                                        clearInterval(successOrderCountObj);
+
+                                                
+                                    }
+                                }
+                                else if (data.result == 2) {
+                                            
+     
+                                }
+                                else {
+                         
                                 }
 
                             });
 
-                            successOrderCountObj = setInterval(function () {
+                    }, 200);
 
-                                Global.post("/Orders/GetSuccessOrderCount", {},
-                                    function (data) {
-                                        successOrderCount = parseInt(data.successOrderCount);
-                                        var totalOrderCount = parseInt($("#totalOrderCount").html());
 
-                                        $("#successOrderCount").html(successOrderCount);
-                                        $("#downOrderBar").css("width", (successOrderCount / totalOrderCount)*400 + "px");
-
-                                        if (successOrderCount == 100)
-                                            clearInterval(successOrderCountObj);
-
-                                });
-
-                            }, 500);
-
-                        },
-                        callback: function () {
-
-                        }
-                    }
                 });
 
                 var start = {
@@ -323,7 +357,7 @@
                     istime: false,
                     istoday: false,
                     choose: function (datas) {
-                        begin.max = datas; //结束日选好后，重置开始日的最大日期
+                        start.max = datas; //结束日选好后，重置开始日的最大日期
                     }
                 };
                 laydate(end);

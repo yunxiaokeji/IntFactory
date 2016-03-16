@@ -8,15 +8,15 @@ namespace AlibabaSdk
 {
     public class CacheBusiness
     {
-        private static Dictionary<string, int> _successOrderCountCache;
+        private static Dictionary<string, Dictionary<string,int>> _successOrderCountCache;
 
-        public static Dictionary<string, int> SuccessOrderCountCache
+        public static Dictionary<string, Dictionary<string, int>> SuccessOrderCountCache
         {
             get
             {
                 if (_successOrderCountCache == null)
                 {
-                    _successOrderCountCache = new Dictionary<string, int>();
+                    _successOrderCountCache = new Dictionary<string, Dictionary<string, int>>();
                 }
 
                 return _successOrderCountCache;
