@@ -460,6 +460,12 @@ namespace YXERP.Controllers
 
             bool flag = DownBulkOrders(DateTime.Now.AddMonths(-3), DateTime.Now, token, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("result", flag?1:0);
+
+            if (flag)
+            {
+                AlibabaSdk.CacheBusiness.SuccessOrderCountCache.Remove(CurrentUser.AgentID);
+            }
+
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -613,9 +619,6 @@ namespace YXERP.Controllers
                 Dictionary<string, int> totalCount = AlibabaSdk.CacheBusiness.SuccessOrderCountCache[CurrentUser.AgentID];
                 totalOrderCount = totalCount["total"];
                 successOrderCount = totalCount["successCount"];
-
-                if (totalOrderCount==successOrderCount)
-                    AlibabaSdk.CacheBusiness.SuccessOrderCountCache.Remove(CurrentUser.AgentID);
 
                 result = 1;
             }

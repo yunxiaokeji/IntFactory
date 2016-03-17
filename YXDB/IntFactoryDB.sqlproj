@@ -73,6 +73,7 @@
     <Folder Include="Procedures\RepotLog" />
     <Folder Include="Procedures\Task" />
     <Folder Include="Table" />
+    <Folder Include="Procedures\AliOrder" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\InitDatabase.sql" />

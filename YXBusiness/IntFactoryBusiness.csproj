@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agents\AgentsBusiness.cs" />
+    <Compile Include="AliOrder\AliOrderBusiness.cs" />
     <Compile Include="Common\LogBusiness.cs" />
     <Compile Include="Custom\ActivityBusiness.cs" />
     <Compile Include="Custom\CustomBusiness.cs" />
