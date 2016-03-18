@@ -125,11 +125,11 @@ namespace IntFactoryEnum
     {
         [DescriptionAttribute("全部")]
         All = -1,
-        [DescriptionAttribute("工厂录入")]
+        [DescriptionAttribute("工厂")]
         FactoryOrder = 1,
-        [DescriptionAttribute("自助下单")]
+        [DescriptionAttribute("自助")]
         SelfOrder = 2,
-        [DescriptionAttribute("阿里订单")]
+        [DescriptionAttribute("阿里")]
         AliOrder = 3
     }
 }
