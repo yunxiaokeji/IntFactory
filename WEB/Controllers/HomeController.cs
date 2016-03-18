@@ -576,7 +576,7 @@ namespace YXERP.Controllers
             IntFactoryEntity.OrderEntity model = serializer.Deserialize<IntFactoryEntity.OrderEntity>(entity);
 
             string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID, model.GoodsCode, model.Title, model.PersonName, model.MobileTele, EnumOrderSourceType.FactoryOrder, (EnumOrderType)model.OrderType, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity,
-                                                                     model.OrderImage, model.CityCode, model.Address, model.Remark, "", model.AgentID, model.ClientID);
+                                                                     model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, "", model.AgentID, model.ClientID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
             {

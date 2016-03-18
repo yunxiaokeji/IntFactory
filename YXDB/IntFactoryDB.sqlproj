@@ -494,4 +494,7 @@
   <ItemGroup>
     <None Include="Procedures\Stock\P_GetGoodsDocDetail.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_CreateOrderCustomer.sql" />
+  </ItemGroup>
 </Project>

@@ -13,7 +13,6 @@
         
         if (customerid) {
             Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
-                console.log(data.model);
                 if (data.model.CustomerID) {
                     $("#name").val(data.model.Name);
                     $("#contactMobile").val(data.model.MobilePhone);
@@ -113,6 +112,7 @@
             BigCategoryID: $("#bigcategory").val().trim(),
             CategoryID: $("#ordercategory").val().trim(),
             CityCode: CityObject.getCityCode(),
+            ExpressCode: $("#expressCode").val().trim(),
             Address: $("#address").val().trim(),
             OrderImage: images,
             PlanPrice: $("#planPrice").val().trim(),
