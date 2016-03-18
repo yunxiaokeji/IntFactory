@@ -54,6 +54,11 @@
             {
                 <a href="/Customer/Detail/@(model.CustomerID)" class="left" target="_blank">@(model.Customer.Name)</a> 
             }
+            else
+            {
+                <div id="createOrderCustomer" class="btn left mTop3 @(ExpandClass.IsLimits(HttpContext.Current,"101019001"))">创建客户</div>
+            }
+
             @if (model.IsSelf && model.Status == 0)
             {
                 <span title="更换客户" class="ico-change left mTop5 mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019008"))" data-customerid="@(model.CustomerID)" data-id="@(model.OrderID)" id="changeCustomer"></span>

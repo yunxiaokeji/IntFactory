@@ -134,7 +134,8 @@ namespace IntFactoryDAL
 
         #region 添加
 
-        public bool CreateOrder(string orderid, string ordercode, string aliOrderCode, string goodscode, string title, string customerid, string name, string mobile, int sourcetype, int ordertype, string bigcategoryid, string categoryid, string price, int quantity, string orderimg, string orderimages, string citycode, string address, string expressCode, string remark, string operateid, string agentid, string clientid)
+        public bool CreateOrder(string orderid, string ordercode, string aliOrderCode, string goodscode, string title, string customerid, string name, string mobile, 
+                                int sourcetype, int ordertype, string bigcategoryid, string categoryid, string price, int quantity, string orderimg, string orderimages, string citycode, string address, string expressCode, string remark, string operateid, string agentid, string clientid)
         {
             int result = 0;
             SqlParameter[] paras = { 
@@ -555,6 +556,20 @@ namespace IntFactoryDAL
                                    };
 
             return ExecuteNonQuery("P_UpdateOpportunityStage", paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool CreateOrderCustomer(string orderid, string operateid, string agentid, string clientid, out string customerid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@CustomerID",SqlDbType.NVarChar,64),
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+            paras[0].Direction = ParameterDirection.Output;
+            ExecuteNonQuery("P_CreateOrderCustomer", paras, CommandType.StoredProcedure);
+            customerid = paras[0].Value.ToString();
+            return !string.IsNullOrEmpty(customerid);
         }
 
         #endregion

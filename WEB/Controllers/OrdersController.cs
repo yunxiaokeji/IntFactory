@@ -453,6 +453,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult CreateOrderCustomer(string orderid)
+        {
+            var bl = OrdersBusiness.BaseBusiness.CreateOrderCustomer(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         string token = "34dbd634-127d-410f-86b7-83fdaa123d98";
         public JsonResult DownAliOrders()
         {

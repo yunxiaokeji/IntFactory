@@ -8,7 +8,7 @@
     <div class="taskOperate">
         <div class="left">
             <div class="left"><img title="到期日期" style="width:30px;" src="/modules/images/ico-endtime.png" /></div>
-            <div class="left mLeft10 mTop5">{%=item.EndTime.toDate('yyyy-MM-dd')>'3000-01-01'?'未指定日期':item.EndTime.toDate('yyyy-MM-dd')%}</div>
+            <div class="left mLeft10 mTop5">{%=item.EndTime.toDate('yyyy-MM-dd hh:mm')>'3000-01-01'?'未指定日期':item.EndTime.toDate('yyyy-MM-dd hh:mm')%}</div>
             <div class="clear"></div>
             
         </div>
@@ -34,11 +34,11 @@
             </li>
             <li>
                 <span class="column-title">接受时间:</span>
-                <span>{%=item.AcceptTime.toDate("yyyy-MM-dd") > "3000-01-01" ? "未接受" : item.AcceptTime.toDate("yyyy-MM-dd")%}</span>
+                <span>{%=item.AcceptTime.toDate("yyyy-MM-dd hh:mm") > "3000-01-01" ? "未接受" : item.AcceptTime.toDate("yyyy-MM-dd hh:mm")%}</span>
             </li>
             <li>
                 <span class="column-title">完成时间:</span>
-                <span>{%=item.CompleteTime.toDate("yyyy-MM-dd") > "3000-01-01" ? "未完成" : item.CompleteTime.toDate("yyyy-MM-dd")%}</span>
+                <span>{%=item.CompleteTime.toDate("yyyy-MM-dd hh:mm") > "3000-01-01" ? "未完成" : item.CompleteTime.toDate("yyyy-MM-dd hh:mm")%}</span>
             </li>
         </ul>
        

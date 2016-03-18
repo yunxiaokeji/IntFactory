@@ -662,6 +662,18 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool CreateOrderCustomer(string orderid, string operateid, string ip, string agentid, string clientid)
+        {
+            string id = "";
+            bool bl = OrdersDAL.BaseProvider.CreateOrderCustomer(orderid, operateid, agentid, clientid, out id);
+            if (bl)
+            {
+                string msg = "订单联系人创建新客户";
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, id, agentid, clientid);
+            }
+            return bl;
+        }
+
         #endregion
     }
 }

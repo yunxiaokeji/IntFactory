@@ -115,7 +115,7 @@ define(function (require, exports, module) {
         } else if (_self.status == 3) {
             $("#changeOrderStatus").html("大货下单");
         } else if (_self.status == 4) {
-            $("#changeOrderStatus").html("开始生产");
+            $("#changeOrderStatus").html("开始订单");
         } else if (_self.status == 5) {
             $("#changeOrderStatus").html("裁剪录入");
         } else if (_self.status == 6) {
@@ -381,6 +381,21 @@ define(function (require, exports, module) {
                         ele.remove();
                     } else {
                         alert("申请已通过审核，不能删除!");
+                    }
+                });
+            });
+        });
+
+        //订单联系人新建客户
+        $("#createOrderCustomer").click(function () {
+            confirm("确认把订单联系人信息创建为新客户吗？", function () {
+                Global.post("/Orders/CreateOrderCustomer", {
+                    orderid: _self.orderid 
+                }, function (data) {
+                    if (data.status) {
+                        alert('客户创建成功！', location.href);
+                    } else {
+                        alert("客户创建失败，请稍后重试!", location.href);
                     }
                 });
             });
