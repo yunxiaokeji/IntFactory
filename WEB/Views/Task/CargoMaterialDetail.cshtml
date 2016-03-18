@@ -112,11 +112,11 @@
             </li>
              <li>
                 <span class="column-title">接受时间:</span>
-                <span>@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd"))</span>
+                <span id="AcceptTime">@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd"))</span>
             </li>
             <li>
                 <span class="column-title">完成时间:</span>
-                <span>@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.CompleteTime.ToString("yyyy-MM-dd"))</span>
+                <span id="">@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.CompleteTime.ToString("yyyy-MM-dd"))</span>
             </li>
              <li>
                 <span class="column-title">订单编号:</span>
