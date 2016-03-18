@@ -23,6 +23,8 @@ namespace YXERP.Models
 
         public int ReturnStatus { get; set; }
 
+        public int SourceType { get; set; }
+
         public string UserID { get; set; }
 
         public string AgentID { get; set; }

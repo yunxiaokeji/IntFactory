@@ -239,6 +239,10 @@ namespace IntFactoryEntity
 
         public bool IsSelf { get; set; }
 
+        public int SourceType { get; set; }
+
+        public string SourceTypeStr { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

@@ -46,7 +46,7 @@ namespace IntFactoryDAL
         }
 
 
-        public DataSet GetOrders(int searchtype, string typeid, int status, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid, string begintime, string endtime, 
+        public DataSet GetOrders(int searchtype, string typeid, int status, int sourceType, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid, string begintime, string endtime, 
                                 string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
@@ -55,6 +55,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@SearchType",searchtype),
                                        new SqlParameter("@TypeID",typeid),
                                        new SqlParameter("@Status",status),
+                                       new SqlParameter("@SourceType",sourceType),
                                        new SqlParameter("@PayStatus",paystatus),
                                        new SqlParameter("@InvoiceStatus",invoicestatus),
                                        new SqlParameter("@ReturnStatus",returnstatus),
