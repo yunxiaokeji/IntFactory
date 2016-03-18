@@ -112,11 +112,11 @@
             </li>
              <li>
                 <span class="column-title">接受时间:</span>
-                <span>@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd"))</span>
+                <span id="AcceptTime">@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd"))</span>
             </li>
             <li>
                 <span class="column-title">完成时间:</span>
-                <span>@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.CompleteTime.ToString("yyyy-MM-dd"))</span>
+                <span id="">@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.CompleteTime.ToString("yyyy-MM-dd"))</span>
             </li>
              <li>
                 <span class="column-title">订单编号:</span>
@@ -149,8 +149,8 @@
     <div id="navTask" class="talk-body nav-partdiv">
         <div class="tab-nav mTop10">
             <ul class="tab-nav-ul left">
-                <li data-id="taskReplys" data-mark="1">讨论</li>
-                <li class="hover" data-id="navProducts" data-mark="1">物料</li>
+                <li data-id="taskReplys" data-mark="3">讨论</li>
+                <li class="hover" data-id="navProducts" data-mark="3">物料</li>
                 <li data-id="platemakingContent" data-mark="-1">制版</li>
                 <li data-id="orderTaskLogs">日志</li>
             </ul>

@@ -163,10 +163,16 @@
 
     //更改任务到期时间
     ObjectJS.UpdateTaskEndTime = function () {
-        Global.post("/Task/UpdateTaskEndTime", { taskID: ObjectJS.taskid, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
-            if (data.Result != 1) {
-                alert("保存失败");
-            }
+        confirm("任务到期时间不可逆，确定设置?", function () {
+            Global.post("/Task/UpdateTaskEndTime", { taskID: ObjectJS.taskid, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
+                if (data.Result != 1) {
+                    alert("保存失败");
+                }
+                else {
+                    var nowDate = new Date();
+                    $("#AcceptTime").html(nowDate.toLocaleDateString());
+                }
+            });
         });
     }
 
@@ -315,6 +321,7 @@
                     innerhtml = $(innerhtml);
 
                     $("#replyListOfPlate").html(innerhtml);
+                    innerhtml.find(".btn-reply").remove();
                 });
             }
             else {
@@ -357,6 +364,8 @@
                     innerhtml = $(innerhtml);
 
                     $("#replyListOfMaterial").html(innerhtml);
+
+                    innerhtml.find(".btn-reply").remove();
                 });
             }
             else {
