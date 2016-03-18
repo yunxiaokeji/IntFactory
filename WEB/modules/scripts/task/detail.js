@@ -315,6 +315,7 @@
                     innerhtml = $(innerhtml);
 
                     $("#replyListOfPlate").html(innerhtml);
+                    innerhtml.find(".btn-reply").remove();
                 });
             }
             else {
@@ -357,6 +358,8 @@
                     innerhtml = $(innerhtml);
 
                     $("#replyListOfMaterial").html(innerhtml);
+
+                    innerhtml.find(".btn-reply").remove();
                 });
             }
             else {
