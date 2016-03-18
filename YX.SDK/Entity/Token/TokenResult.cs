@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AlibabaSdk
 {
-    public class TokenEntity
+    public class TokenResult
     {
         public string access_token { get; set; }
 
@@ -16,5 +16,7 @@ namespace AlibabaSdk
         public string aliId { get; set; }
 
         public string memberId { get; set; }
+
+        public int error_code=0;
     }
 }

@@ -71,6 +71,10 @@
     <Compile Include="Task\TaskBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\YX.SDK\AlibabaSdk.csproj">
+      <Project>{c6cd2682-4dca-4ee8-a5e5-a0e117073390}</Project>
+      <Name>AlibabaSdk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YXDAL\IntFactoryDAL.csproj">
       <Project>{03242f3b-5c14-42d6-aaa1-26ce56a3499f}</Project>
       <Name>IntFactoryDAL</Name>

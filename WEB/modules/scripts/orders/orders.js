@@ -282,7 +282,15 @@
                     }, function (data) {
                         if (data.result == 0) {
                             ObjectJS.downAliOrders = false;
-                }
+                        }
+                        else {
+                            var successOrderCount = parseInt(data.successOrderCount);
+                            $("#totalOrderCount").html(data.totalOrderCount);
+                            var totalOrderCount = parseInt(data.totalOrderCount);
+
+                            $("#successOrderCount").html(successOrderCount);
+                            $("#downOrderBar").css("width", (successOrderCount / totalOrderCount) * 400 + "px");
+                        }
                     });
 
 
@@ -303,37 +311,34 @@
                     });
 
 
-                    successOrderCountObj = setInterval(function () {
-                        if (!ObjectJS.downAliOrders)
-                            clearInterval(successOrderCountObj);
+                    //successOrderCountObj = setInterval(function () {
+                    //    if (!ObjectJS.downAliOrders)
+                    //        clearInterval(successOrderCountObj);
 
-                        Global.post("/Orders/GetSuccessOrderCount", {},
-                            function (data) {
-                                if (data.result == 1) {
-                                    var successOrderCount = parseInt(data.successOrderCount);
-                                    $("#totalOrderCount").html(data.totalOrderCount);
-                                    var totalOrderCount = parseInt(data.totalOrderCount);
+                    //    Global.post("/Orders/GetSuccessOrderCount", {},
+                    //        function (data) {
+                    //            if (data.result == 1) {
+                    //                var successOrderCount = parseInt(data.successOrderCount);
+                    //                $("#totalOrderCount").html(data.totalOrderCount);
+                    //                var totalOrderCount = parseInt(data.totalOrderCount);
 
-                                    $("#successOrderCount").html(successOrderCount);
-                                    $("#downOrderBar").css("width", (successOrderCount / totalOrderCount) * 400 + "px");
+                    //                $("#successOrderCount").html(successOrderCount);
+                    //                $("#downOrderBar").css("width", (successOrderCount / totalOrderCount) * 400 + "px");
 
-                                    if (totalOrderCount>0 && successOrderCount == totalOrderCount) {
-                                        clearInterval(successOrderCountObj);
-
-                                                
-                                    }
-                                }
-                                else if (data.result == 2) {
-                                            
-     
-                                }
-                                else {
+                    //                if (totalOrderCount>0 && successOrderCount == totalOrderCount) {
+                    //                    clearInterval(successOrderCountObj);         
+                    //                }
+                    //            }
+                    //            else if (data.result == 2) {
+                    //                clearInterval(successOrderCountObj);
+                    //            }
+                    //            else {
                          
-                                }
+                    //            }
 
-                            });
+                    //        });
 
-                    }, 500);
+                    //}, 500);
 
 
                 });

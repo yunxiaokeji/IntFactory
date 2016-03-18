@@ -56,12 +56,13 @@
     <Compile Include="Business\CacheBusiness.cs" />
     <Compile Include="Business\OauthBusiness.cs" />
     <Compile Include="Business\OrderBusiness.cs" />
+    <Compile Include="Entity\Order\BatchUpdateResult.cs" />
     <Compile Include="Entity\Order\MutableProductionPlan .cs" />
     <Compile Include="Entity\Order\OrderListResult.cs" />
     <Compile Include="Entity\Order\MutableOrder.cs" />
     <Compile Include="Entity\Order\OrderEntity.cs" />
     <Compile Include="Entity\Order\GoodsCodesResult.cs" />
-    <Compile Include="Entity\Token\TokenEntity.cs" />
+    <Compile Include="Entity\Token\TokenResult.cs" />
     <Compile Include="Entity\User\UserResult.cs" />
     <Compile Include="HttpRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

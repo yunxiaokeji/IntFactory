@@ -18,17 +18,17 @@ namespace IntFactoryDAL
         /// </summary>
         /// <param name="orderType">订单类型</param>
         /// <param name="status">0:未更新；1：已更新；2：更新失败</param>
-        /// <param name="agentID"></param>
+        /// <param name="clientID"></param>
         /// <returns></returns>
-        public DataTable GetAliOrderUpdateLogs(int orderType, int status, string agentID)
+        public DataTable GetAliOrderUpdateLogs(int orderType, int status, string clientID)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@OrderType",orderType),
                                        new SqlParameter("@Status",status),
-                                       new SqlParameter("@AgentID",agentID)
+                                       new SqlParameter("@ClientID",clientID)
                                    };
 
-            DataTable dt = GetDataTable("Select * from AliOrderUpdateLog where OrderType=@OrderType and Status=@Status  and AgentID=@AgentID ", paras, CommandType.Text);
+            DataTable dt = GetDataTable("select * from AliOrderUpdateLog where OrderType=@OrderType and Status=@Status and ClientID=@ClientID ", paras, CommandType.Text);
             return dt;
         }
 
@@ -152,15 +152,31 @@ namespace IntFactoryDAL
         /// <param name="token"></param>
         /// <param name="refreshToken"></param>
         /// <returns></returns>
-        public bool UpdateAliOrderDownloadPlanToken(string planID, string token, string refreshToken)
+        public bool UpdateAliOrderDownloadPlanToken(string clientID, string token, string refreshToken)
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@planID",planID),
+                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@RefreshToken",refreshToken),
                                        new SqlParameter("@Token",token)
                                    };
 
 
-            return ExecuteNonQuery("", paras, CommandType.Text) > 0;
+            return ExecuteNonQuery(" update AliOrderDownloadPlan set Token=@Token,RefreshToken=@RefreshToken where ClientID=@ClientID", paras, CommandType.Text) > 0;
+        }
+
+        public bool UpdateAliOrderDownloadPlanSuccessTime(string clientID, int orderType, DateTime successTime)
+        {
+            string sqlStr = "";
+            if (orderType == 1)
+            {
+                sqlStr = " update AliOrderDownloadPlan set FentSuccessEndTime='" + successTime + "' where clientID='" + clientID + "'";
+            }
+            else
+            {
+                sqlStr = " update AliOrderDownloadPlan set BulkSuccessEndTime='" + successTime + "' where clientID='" + clientID + "'";
+            }
+
+            return ExecuteNonQuery(sqlStr) > 0;
         }
         #endregion
     }
