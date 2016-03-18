@@ -13,13 +13,14 @@ namespace YXERP.Controllers
     public class TaskController : BaseController
     {
         // GET: /Task/
-        string token = "cc8ff84f-7fb2-4daf-ae48-03157d413b3d";
+        string token = "41e48055-b179-4854-bc98-e467f91c2480";
+        string refreshToken = "030cc816-329e-4a64-9e20-7e71c11f1564";
         #region view
         public JsonResult batchUpdateFent()
         {
 
-            var result = AlibabaSdk.OrderBusiness.batchUpdateFent("THZ0001AB3B01ZH00321", AlibabaSdk.FentOrderStatus.PRICING, "bbb", token);
-
+            //var result = AlibabaSdk.OrderBusiness.BatchUpdateFent("THZ0001AB3B01ZH00321", AlibabaSdk.FentOrderStatus.PRICING, "bbb", token);
+            var result = string.Empty;
             JsonDictionary.Add("result", result);
             return new JsonResult()
             {
@@ -30,7 +31,8 @@ namespace YXERP.Controllers
 
         public JsonResult batchUpdateBulk()
         {
-            var result = AlibabaSdk.OrderBusiness.batchUpdateBulk("THZ0001AB3B01ZH0032B", AlibabaSdk.BulkOrderStatus.PRODUCED, "bbb", token);
+            //var result = AlibabaSdk.OrderBusiness.BatchUpdateBulk("THZ0001AB3B01ZH0032B", AlibabaSdk.BulkOrderStatus.PRODUCED, "bbb", token);
+            var result = AliOrderBusiness.UpdateAliBulkOrders(CurrentUser.ClientID, token, refreshToken);
             JsonDictionary.Add("result", result);
             return new JsonResult()
             {
@@ -44,9 +46,9 @@ namespace YXERP.Controllers
         List<string> codes = new List<string>();
         public JsonResult pullFentDataList()
         {
-            codes = AlibabaSdk.OrderBusiness.pullFentGoodsCodes(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1), token).goodsCodeList;
+            codes = AlibabaSdk.OrderBusiness.PullFentGoodsCodes(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1), token).goodsCodeList;
 
-            var result = AlibabaSdk.OrderBusiness.pullFentDataList(codes, token);
+            var result = AlibabaSdk.OrderBusiness.PullFentDataList(codes, token);
 
             JsonDictionary.Add("result", result);
             return new JsonResult()
@@ -58,9 +60,9 @@ namespace YXERP.Controllers
 
         public JsonResult pullBulkDataList()
         {
-            codes = AlibabaSdk.OrderBusiness.pullBulkGoodsCodes(DateTime.Now.AddMonths(-3), DateTime.Now, token).goodsCodeList;
+            codes = AlibabaSdk.OrderBusiness.PullBulkGoodsCodes(DateTime.Now.AddMonths(-3), DateTime.Now, token).goodsCodeList;
 
-            var result = AlibabaSdk.OrderBusiness.pullBulkDataList(codes, token);
+            var result = AlibabaSdk.OrderBusiness.PullBulkDataList(codes, token);
 
             JsonDictionary.Add("result", result);
             return new JsonResult()
@@ -87,7 +89,8 @@ namespace YXERP.Controllers
             ViewBag.Model = task;
 
             //任务对应的订单详情
-            var order=OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var order = new IntFactoryEntity.OrderEntity();
+            order=OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
             ViewBag.Order = order;
 
             //任务对应订单的品类属性

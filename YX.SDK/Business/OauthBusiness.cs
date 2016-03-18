@@ -28,7 +28,7 @@ namespace AlibabaSdk
         /// <summary>
         /// 通过code获取用户token
         /// </summary>
-        public static string GetUserToken(string code)
+        public static TokenResult GetUserToken(string code)
         {
             var paras = new Dictionary<string, object>();
             paras.Add("code", code);
@@ -38,13 +38,14 @@ namespace AlibabaSdk
             paras.Add("client_id", AppConfig.AppKey);
             paras.Add("client_secret", AppConfig.AppSecret);
 
-            return HttpRequest.RequestServer(ApiOption.getToken, paras, RequestType.Post);
+            string resultStr = HttpRequest.RequestServer(ApiOption.getToken, paras, RequestType.Post);
+            return JsonConvert.DeserializeObject<TokenResult>(resultStr);
         }
 
         /// <summary>
         /// 通过refreshToken获取用户token
         /// </summary>
-        public static string GetTokenByRefreshToken(string refreshToken)
+        public static TokenResult GetTokenByRefreshToken(string refreshToken)
         {
             var paras = new Dictionary<string, object>();
             paras.Add("refresh_token", refreshToken);
@@ -52,7 +53,8 @@ namespace AlibabaSdk
             paras.Add("client_id", AppConfig.AppKey);
             paras.Add("client_secret",AppConfig.AppSecret);
 
-            return HttpRequest.RequestServer(ApiOption.getToken, paras, RequestType.Post);
+            string resultStr= HttpRequest.RequestServer(ApiOption.getToken, paras, RequestType.Post);
+            return JsonConvert.DeserializeObject<TokenResult>(resultStr);
         }
 
         /// <summary>
@@ -62,11 +64,8 @@ namespace AlibabaSdk
         /// <returns></returns>
         public static UserResult GetUserInfo(string code)
         {
-            var result = GetUserToken(code);
-            var tokenEntity = JsonConvert.DeserializeObject<TokenEntity>(result);
-
+            var tokenEntity = GetUserToken(code);
             var model = UserBusiness.GetMemberDetail(tokenEntity.access_token, tokenEntity.memberId);
-
 
             return model;
         }
