@@ -130,6 +130,8 @@ namespace IntFactoryEntity
 		}
 		#endregion Model
 
+        public decimal LogicOut { get; set; }
+
         public void FillData(System.Data.DataRow dr)
         {
             dr.FillData(this);

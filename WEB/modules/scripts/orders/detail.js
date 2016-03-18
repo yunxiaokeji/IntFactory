@@ -804,6 +804,12 @@ define(function (require, exports, module) {
                     header: "大货单发货",
                     content: innerText,
                     yesFn: function () {
+
+                        if (!$("#expressid").data("id") || !$("#expressCode").val()) {
+                            alert("请完善快递信息!");
+                            return false;
+                        }
+
                         var details = ""
                         $("#showSendOrderGoods .list-item").each(function () {
                             var _this = $(this);

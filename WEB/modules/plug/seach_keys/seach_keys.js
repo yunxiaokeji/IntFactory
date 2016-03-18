@@ -35,7 +35,8 @@ define(function (require, exports, module) {
             _input.keydown(function (e) {
                 var _this = $(this);
                 if (e.keyCode == 13) {
-                    !!callback && callback(_this.val())
+                    !!callback && callback(_this.val());
+                    _this.blur();
                 }
             });
         }
