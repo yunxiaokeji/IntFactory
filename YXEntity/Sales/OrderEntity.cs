@@ -243,6 +243,8 @@ namespace IntFactoryEntity
 
         public string SourceTypeStr { get; set; }
 
+        public int CutStatus { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>
