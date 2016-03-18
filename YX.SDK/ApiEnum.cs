@@ -49,4 +49,15 @@ namespace AlibabaSdk
         [DescriptionAttribute("CLOSE")]
         CLOSE = 9
     }
+
+    public enum AliOrderPlanStatus
+    {
+        [DescriptionAttribute("正常")]
+        Normal = 1,
+        [DescriptionAttribute("RefreshToken无效")]
+        RefreshTokenError = 2,
+        [DescriptionAttribute("异常")]
+        Exception = 2
+    }
+
 }

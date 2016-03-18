@@ -20,7 +20,7 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <returns></returns>
         public static bool ExecuteDownAliOrdersPlan() {
-            var list = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlans(1);
+            var list = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlans();
             int successCount,total;
 
             foreach (var item in list) {
@@ -36,6 +36,7 @@ namespace IntFactoryBusiness
 
 
             }
+
             return true;
         }
 
@@ -46,6 +47,7 @@ namespace IntFactoryBusiness
         {
             successCount = 0;
             total = 0;
+            //获取打样订单编码
             AlibabaSdk.GoodsCodesResult goodsCodesResult = AlibabaSdk.OrderBusiness.PullFentGoodsCodes(gmtFentStart, gmtFentEnd, token);
 
             #region 获取订单编码失败
@@ -56,6 +58,7 @@ namespace IntFactoryBusiness
                 {
                     //通过refreshToken获取用户token
                     var tokenResult = AlibabaSdk.OauthBusiness.GetTokenByRefreshToken(refreshToken);
+
                     if (!string.IsNullOrEmpty(tokenResult.access_token))
                     {
                         token = tokenResult.access_token;
@@ -65,14 +68,14 @@ namespace IntFactoryBusiness
                     }
                     else
                     {
-                        AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, 2);
+                        AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, AlibabaSdk.AliOrderPlanStatus.RefreshTokenError);
                         return false;
                     }
 
                 }
                 else
                 {
-                    AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, 3);
+                    AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, AlibabaSdk.AliOrderPlanStatus.Exception);
                     return false;
                 }
             }
@@ -126,6 +129,7 @@ namespace IntFactoryBusiness
         {
             successCount = 0;
             total = 0;
+            //获取大货订单编码
             AlibabaSdk.GoodsCodesResult goodsCodesResult = AlibabaSdk.OrderBusiness.PullBulkGoodsCodes(gmtBulkStart, gmtBulkEnd, token);
 
             #region 获取订单编码失败
@@ -135,6 +139,7 @@ namespace IntFactoryBusiness
                 {
                     //通过refreshToken获取用户token
                     var tokenResult = AlibabaSdk.OauthBusiness.GetTokenByRefreshToken(refreshToken);
+
                     if (!string.IsNullOrEmpty(tokenResult.access_token))
                     {
                         token = tokenResult.access_token;
@@ -144,14 +149,14 @@ namespace IntFactoryBusiness
                     }
                     else
                     {
-                        AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, 2);
+                        AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, AlibabaSdk.AliOrderPlanStatus.RefreshTokenError);
                         return false;
                     }
 
                 }
                 else
                 {
-                    AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, 3);
+                    AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, AlibabaSdk.AliOrderPlanStatus.Exception);
                     return false; 
                 }
             }
@@ -249,13 +254,13 @@ namespace IntFactoryBusiness
                         }
                         else
                         {
-                            AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, 2);
+                            AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, AlibabaSdk.AliOrderPlanStatus.RefreshTokenError);
                             return false;
                         }
                     }
                     else
                     {
-                        AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, 2);
+                        AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, AlibabaSdk.AliOrderPlanStatus.Exception);
                         return false; 
                     }
                 }
@@ -336,14 +341,14 @@ namespace IntFactoryBusiness
                         }
                         else
                         {
-                            AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, 2);
+                            AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, AlibabaSdk.AliOrderPlanStatus.RefreshTokenError);
                             return false;
                         }
 
                     }
                     else
                     {
-                        AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, 3);
+                        AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanStatus(clientID, AlibabaSdk.AliOrderPlanStatus.Exception);
                         return false;
                     }
                 }
@@ -380,10 +385,10 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="status">计划状态 1：正常；2：token失效；3；系统异常</param>
         /// <returns></returns>
-        public List<AliOrderDownloadPlan> GetAliOrderDownloadPlans(int status)
+        public List<AliOrderDownloadPlan> GetAliOrderDownloadPlans()
         {
             List<AliOrderDownloadPlan> list = new List<AliOrderDownloadPlan>();
-            DataTable dt = AliOrderDAL.BaseProvider.GetAliOrderDownloadPlans(status);
+            DataTable dt = AliOrderDAL.BaseProvider.GetAliOrderDownloadPlans();
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -423,9 +428,9 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        public bool UpdateAliOrderDownloadPlanStatus(string clientID, int status)
+        public bool UpdateAliOrderDownloadPlanStatus(string clientID,AlibabaSdk.AliOrderPlanStatus status)
         {
-            bool flag = AliOrderDAL.BaseProvider.UpdateAliOrderDownloadPlanStatus(clientID, status);
+            bool flag = AliOrderDAL.BaseProvider.UpdateAliOrderDownloadPlanStatus(clientID, (int)status);
 
             return flag;
         }

@@ -118,13 +118,12 @@ namespace IntFactoryDAL
         /// </summary>
         /// <param name="status">计划状态 1：正常；2：token失效；3；系统异常</param>
         /// <returns></returns>
-        public DataTable GetAliOrderDownloadPlans(int status)
+        public DataTable GetAliOrderDownloadPlans()
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@Status",status)
                                    };
 
-            DataTable dt = GetDataTable("Select * from AliOrderDownloadPlan where Status=@Status ", paras, CommandType.Text);
+            DataTable dt = GetDataTable("Select * from AliOrderDownloadPlan where Status=1 ", paras, CommandType.Text);
             return dt;
         }
 
