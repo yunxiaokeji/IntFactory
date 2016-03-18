@@ -43,11 +43,11 @@ namespace IntFactoryBusiness
         }
 
 
-        public List<OrderEntity> GetOrders(EnumSearchType searchtype, string typeid, int status, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid,
+        public List<OrderEntity> GetOrders(EnumSearchType searchtype, string typeid, int status, EnumOrderSourceType sourceType, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid,
                                                 string begintime, string endtime, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataSet ds = OrdersDAL.BaseProvider.GetOrders((int)searchtype, typeid, status, paystatus, invoicestatus, returnstatus, searchuserid, searchteamid, searchagentid, begintime, endtime, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
+            DataSet ds = OrdersDAL.BaseProvider.GetOrders((int)searchtype, typeid, status, (int)sourceType, paystatus, invoicestatus, returnstatus, searchuserid, searchteamid, searchagentid, begintime, endtime, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 OrderEntity model = new OrderEntity();
@@ -56,6 +56,9 @@ namespace IntFactoryBusiness
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
+
+                model.SourceTypeStr = CommonBusiness.GetEnumDesc((EnumOrderSourceType)model.SourceType);
+
                 if (model.Status == 2)
                 {
                     model.SendStatusStr = CommonBusiness.GetEnumDesc((EnumSendStatus)model.SendStatus);

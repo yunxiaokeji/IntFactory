@@ -9,6 +9,7 @@
     </td>
     <td class=""><a href="/Customer/OrderDetail/{%=item.OrderID%}" target="_blank">{%=item.OrderCode%}</a> </td>
     <td class='center'>{%=item.OrderType==1?"打样":"大货" %}</td>
+    <td class="center">{%=item.SourceTypeStr%}</td>
     <td class="center {%=item.Status==0?'red':''%}">{%=item.StatusStr%}</td>
     <td class="center ">{%=(item.TaskCount>0?item.TaskOver/item.TaskCount*100:0).toFixed(2)+"%"%}</td>
     <td class="center">{%=item.OrderType==1? "1":item.PlanQuantity%}</td>
@@ -16,7 +17,6 @@
     <td class="tRight">{%=item.OrderType==1? (item.Price*(1+item.ProfitPrice)).toFixed(2):item.TotalMoney.toFixed(2)%}</td>
     <td class="center">{%=item.CustomerName%}</td>
     <td class="center">{%=item.MobileTele||"--"%}</td>
-    <td class='center'>{%=(item.Owner ? item.Owner.Name:"--")%}</td>
     <td class='center'>{%=item.EntrustTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     <td class="center dropdown" data-id="{%=item.OrderID%}" data-userid="{%=item.OwnerID%}">
     </td>

@@ -6,7 +6,7 @@
         ChooseUser = require("chooseuser");
     require("pager");
 
-    var ColumnCount = 14;
+    var ColumnCount = 15;
 
     var Params = {
         SearchType: 1,
@@ -15,6 +15,7 @@
         PayStatus: -1,
         InvoiceStatus: -1,
         ReturnStatus: 0,
+        SourceType: -1,
         UserID: "",
         AgentID: "",
         TeamID: "",
@@ -51,7 +52,7 @@
             _self.getList();
         });
 
-        //切换状态
+        //切换订单状态
         $(".search-status li").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
@@ -63,7 +64,7 @@
             }
         });
 
-        //切换状态
+        //切换退货状态
         $(".search-returnstatus li").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
@@ -126,24 +127,24 @@
                 }
             });
         });
-        //开票状态
+        //来源类型
         require.async("dropdown", function () {
             var items = [
-                { ID: 0, Name: "未开票" },
-                { ID: 1, Name: "已申请" },
-                { ID: 2, Name: "已开票" }
+                { ID: 1, Name: "工厂录入" },
+                { ID: 2, Name: "自助下单" },
+                { ID: 3, Name: "阿里订单" }
             ];
-            $("#invoiceStatus").dropdown({
-                prevText: "开票-",
+            $("#sourceType").dropdown({
+                prevText: "来源-",
                 defaultText: "全部",
                 defaultValue: "-1",
                 data: items,
                 dataValue: "ID",
                 dataText: "Name",
-                width: "90",
+                width: "120",
                 onChange: function (data) {
                     Params.PageIndex = 1;
-                    Params.InvoiceStatus = data.value;
+                    Params.SourceType = data.value;
                     _self.getList();
                 }
             });
