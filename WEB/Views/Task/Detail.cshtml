@@ -58,9 +58,20 @@
                 <div class="left pTop5">
                     到期时间:
                 </div>
-                <div class="left mLeft10">
-                    <input type="text" style="width:100px;" id="@(model.FinishStatus == 2 ? "" : "UpdateTaskEndTime")" value="@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定到期时间" : model.EndTime.ToString("yyyy-MM-dd"))" placeholder="设置到期时间"/>
-                </div>
+                 @{
+                    if (model.FinishStatus == 2 || model.FinishStatus == 1)
+                    {
+                        <div class="left mLeft10 pTop5">
+                            <span class="">@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定到期时间" : model.EndTime.ToString("yyyy-MM-dd"))</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="left mLeft10">
+                        <input type="text" style="width:100px;" id="UpdateTaskEndTime" value="@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定到期时间" : model.EndTime.ToString("yyyy-MM-dd"))" placeholder="设置到期时间"/>
+                        </div>
+                    }   
+                }
                 <div class="clear"></div>
             </div>
 
@@ -138,13 +149,31 @@
     <div id="navTask" class="talk-body nav-partdiv">
         <div class="tab-nav mTop10">
             <ul class="tab-nav-ul left">
-                <li class="hover" data-id="navProducts" data-mark="1">物料</li>
+                <li class="hover" data-id="taskReplys" data-mark="0">讨论</li>
+                <li  data-id="navProducts" data-mark="1">物料</li>
                 <li data-id="platemakingContent" data-mark="2">制版</li>
                 <li data-id="orderTaskLogs">日志</li>
             </ul>
         </div>
 
-        <div id="navProducts" class="nav-partdiv">
+        <div class="mTop50" id="taskReplys">
+            <div class="content-main">
+                <div class="replyBox">
+                    <textarea id="txtContent" class="replyContent" placeholder="发表评论"></textarea><br />
+                    <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
+                    <div class="clear"></div>
+                </div>
+                
+            </div>
+
+            <div class="talk-title" style="width:800px;"> 全部讨论</div>
+
+            <table class="content-list" id="replyList"></table>
+
+            <div id="pagerReply" class="mTop10"></div>
+        </div>
+
+        <div id="navProducts" class="nav-partdiv hide">
                 <table class="table-list mTop20">
                     <tr class="tr-header">
                         <td class="tLeft">材料名称</td>
@@ -181,6 +210,11 @@
                     </tr>
                 </table>
 
+                <div class="talk-title mTop20" style="width:800px;">物料讨论</div>
+
+                    <table class="content-list" id="replyListOfMaterial"></table>
+
+                <div id="pagerReplyOfMaterial" class="mTop10"></div>
                 <div class="clear"></div>
             </div>
 
@@ -214,6 +248,16 @@
                 </div>
             </div>
 
+            @{
+            if(order.OrderType==1)
+            {
+            <div class="talk-title mTop20" style="width:800px;">制版讨论</div>
+
+            <table class="content-list" id="replyListOfPlate"></table>
+
+            <div id="pagerReplyOfPlate" class="mTop10"></div>
+            }}
+
         </div>
             
         <div id="orderTaskLogs" class="mTop30 hide">
@@ -221,22 +265,7 @@
             <div id="pagerLogs" class="mTop10"></div>
         </div>
 
-        <div class="mTop50" id="taskReplys">
-            <div class="content-main">
-                <div class="replyBox">
-                    <textarea id="txtContent" class="replyContent" placeholder="发表评论"></textarea><br />
-                    <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
-                    <div class="clear"></div>
-                </div>
-                
-            </div>
-
-            <div class="talk-title" style="width:800px;"> 全部讨论</div>
-
-            <table class="content-list" id="replyList"></table>
-
-            <div id="pagerReply" class="mTop10"></div>
-        </div>
+        
 
     </div>
 </div>
