@@ -497,4 +497,7 @@
   <ItemGroup>
     <None Include="Procedures\Sales\P_CreateOrderCustomer.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\AliOrder\P_UpdateAllAliOrderUpdateLogStatus.sql" />
+  </ItemGroup>
 </Project>

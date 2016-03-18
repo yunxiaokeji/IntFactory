@@ -17,18 +17,16 @@ namespace IntFactoryDAL
         /// 获取订单更新日志列表
         /// </summary>
         /// <param name="orderType">订单类型</param>
-        /// <param name="status">0:未更新；1：已更新；2：更新失败</param>
         /// <param name="clientID"></param>
         /// <returns></returns>
-        public DataTable GetAliOrderUpdateLogs(int orderType, int status, string clientID)
+        public DataTable GetAliOrderUpdateLogs(int orderType,string clientID)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@OrderType",orderType),
-                                       new SqlParameter("@Status",status),
                                        new SqlParameter("@ClientID",clientID)
                                    };
 
-            DataTable dt = GetDataTable("select * from AliOrderUpdateLog where OrderType=@OrderType and Status=@Status and ClientID=@ClientID ", paras, CommandType.Text);
+            DataTable dt = GetDataTable("select * from AliOrderUpdateLog where OrderType=@OrderType and Status<>1 and ClientID=@ClientID ", paras, CommandType.Text);
             return dt;
         }
 
@@ -38,13 +36,13 @@ namespace IntFactoryDAL
         /// <param name="logIDs"></param>
         /// <param name="status">0:未更新；1：已更新；2：更新失败</param>
         /// <returns></returns>
-        public bool UpdateAllAliOrderUpdateLogStatus(int logIDs, int status)
+        public bool UpdateAllAliOrderUpdateLogStatus(string aliOrderCodes, int status)
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@LogIDs",logIDs),
+                                       new SqlParameter("@AliOrderCodes",aliOrderCodes),
                                        new SqlParameter("@Status",status)
                                    };
-            return ExecuteNonQuery("", paras, CommandType.StoredProcedure) > 0;
+            return ExecuteNonQuery("P_UpdateAllAliOrderUpdateLogStatus", paras, CommandType.StoredProcedure) > 0;
 
 
         }
@@ -126,7 +124,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@Status",status)
                                    };
 
-            DataTable dt = GetDataTable("Select * from AliOrderUpdateLog where OrderType=@OrderType and Status=@Status  and AgentID=@AgentID ", paras, CommandType.Text);
+            DataTable dt = GetDataTable("Select * from AliOrderDownloadPlan where Status=@Status ", paras, CommandType.Text);
             return dt;
         }
 
@@ -162,6 +160,17 @@ namespace IntFactoryDAL
 
 
             return ExecuteNonQuery(" update AliOrderDownloadPlan set Token=@Token,RefreshToken=@RefreshToken where ClientID=@ClientID", paras, CommandType.Text) > 0;
+        }
+
+        public bool UpdateAliOrderDownloadPlanStatus(string clientID, int status)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@Status",status)
+                                   };
+
+
+            return ExecuteNonQuery(" update AliOrderDownloadPlan set Status=@Status where ClientID=@ClientID", paras, CommandType.Text) > 0;
         }
 
         public bool UpdateAliOrderDownloadPlanSuccessTime(string clientID, int orderType, DateTime successTime)
