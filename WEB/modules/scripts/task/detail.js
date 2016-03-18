@@ -25,8 +25,7 @@
         if(attrValues!="")
             CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));
         Editor = um;
-        ObjectJS.mark = 1;
-        if (mark == 2)ObjectJS.mark = 2;
+        ObjectJS.mark = 0;
 
         ObjectJS.bindEvent();
         ObjectJS.initTalkReply();
@@ -35,7 +34,9 @@
         if ($("#btn-addMaterial").length == 1) {
             ObjectJS.bindProduct();
 
-            ObjectJS.bindRemoveRowBtn(); 
+            ObjectJS.bindRemoveRowBtn();
+
+            ObjectJS.getTaskReplysOfPlate(1);
         }//制版任务
         else if ($("#btn-updateTaskRemark").length == 1) {
             ObjectJS.bindPlatemakingEvent();
@@ -124,15 +125,22 @@
             $("#" + _this.data("id")).show();
 
             ObjectJS.mark = _this.data("mark");
-
+            if (ObjectJS.mark === -1) return;
             if (_this.data("id") == "orderTaskLogs") {
-                //任务讨论列表
+                //任务日志列表
                 ObjectJS.getLogs(1);
             }
-            else {
-                $("#taskReplys").show();
+            else if (_this.data("id") == "taskReplys") {
                 //任务讨论列表
-                ObjectJS.initTalkReply();
+                ObjectJS.getTaskReplys(1);
+            }
+            else if (ObjectJS.orderType == 1 && _this.data("id") == "platemakingContent") {
+                //任务讨论列表
+                ObjectJS.getTaskReplysOfPlate(1);
+            }
+            else if (_this.data("id") == "navProducts") {
+                //任务讨论列表
+                ObjectJS.getTaskReplysOfMaterial(1);
             }
  
         });
@@ -212,16 +220,13 @@
             }
 
         });
-
-        ObjectJS.getTaskReplys(1);
-
     }
 
     //获取任务讨论列表
     ObjectJS.getTaskReplys = function (page) {
         var _self = this;
         $("#replyList").empty();
-        $("#replyList").html("<tr><td colspan='2'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/Opportunitys/GetReplys", {
             guid: ObjectJS.orderid,
             stageid: ObjectJS.stageid,
@@ -271,7 +276,7 @@
                 });
             }
             else {
-                $("#replyList").html("<tr><td colspan='2'><div class='noDataTxt' >暂无评论!<div></td></tr>");
+                $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='noDataTxt' >暂无评论!<div></td></tr>");
             }
 
             $("#pagerReply").paginate({
@@ -286,6 +291,90 @@
                 float: "left",
                 onChange: function (page) {
                     ObjectJS.getTaskReplys(page);
+                }
+            });
+        });
+    }
+
+    //获取制版任务讨论列表
+    ObjectJS.getTaskReplysOfPlate = function (page) {
+        var _self = this;
+        $("#replyListOfPlate").empty();
+        $("#replyListOfPlate").html("<tr><td colspan='2' style='border:none;'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        Global.post("/Opportunitys/GetReplys", {
+            guid: ObjectJS.orderid,
+            stageid: ObjectJS.stageid,
+            mark: ObjectJS.mark,
+            pageSize: 10,
+            pageIndex: page
+        }, function (data) {
+            $("#replyList").empty();
+            if (data.items.length > 0) {
+                doT.exec("template/customer/replys.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
+
+                    $("#replyListOfPlate").html(innerhtml);
+                });
+            }
+            else {
+                $("#replyListOfPlate").html("<tr><td colspan='2' style='border:none;'><div class='noDataTxt' >暂无评论!<div></td></tr>");
+            }
+
+            $("#pagerReplyOfPlate").paginate({
+                total_count: data.totalCount,
+                count: data.pageCount,
+                start: page,
+                display: 5,
+                border: true,
+                rotate: true,
+                images: false,
+                mouse: 'slide',
+                float: "left",
+                onChange: function (page) {
+                    ObjectJS.getTaskReplysOfPlate(page);
+                }
+            });
+        });
+    }
+
+    //获取物料任务讨论列表
+    ObjectJS.getTaskReplysOfMaterial = function (page) {
+        var _self = this;
+        $("#replyListOfMaterial").empty();
+        $("#replyListOfMaterial").html("<tr><td colspan='2' style='border:none;'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        Global.post("/Opportunitys/GetReplys", {
+            guid: ObjectJS.orderid,
+            stageid: ObjectJS.stageid,
+            mark: ObjectJS.mark,
+            pageSize: 10,
+            pageIndex: page
+        }, function (data) {
+            $("#replyList").empty();
+            if (data.items.length > 0) {
+                doT.exec("template/customer/replys.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
+
+                    $("#replyListOfMaterial").html(innerhtml);
+                });
+            }
+            else {
+                $("#replyListOfMaterial").html("<tr><td colspan='2' style='border:none;'><div class='noDataTxt' >暂无评论!<div></td></tr>");
+            }
+
+            $("#pagerReplyOfPlate").paginate({
+                total_count: data.totalCount,
+                count: data.pageCount,
+                start: page,
+                display: 5,
+                border: true,
+                rotate: true,
+                images: false,
+                mouse: 'slide',
+                float: "left",
+                onChange: function (page) {
+                    ObjectJS.getTaskReplysOfMaterial(page);
                 }
             });
         });
