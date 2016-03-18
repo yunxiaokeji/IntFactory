@@ -812,7 +812,7 @@
     <Content Include="Views\Products\Providers.cshtml" />
     <Content Include="Views\Home\Terms.cshtml" />
     <Content Include="Views\Auction\GoAlipayPay.cshtml" />
-    <None Include="Properties\PublishProfiles\yunxiaoweb.pubxml" />
+    <None Include="Properties\PublishProfiles\intfactory.pubxml" />
     <Content Include="Views\Shared\_LayoutUserCenter.cshtml" />
     <Content Include="Views\MyAccount\SetAvatar.cshtml" />
     <Content Include="Views\MyAccount\SetPassWord.cshtml" />

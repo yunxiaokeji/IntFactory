@@ -1,6 +1,6 @@
 ﻿
 /*
-    --选择客户插件--
+    --选择工厂插件--
     --引用
     choosefactory = require("choosefactory");
     choosefactory.create({});

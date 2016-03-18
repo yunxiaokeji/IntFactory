@@ -130,9 +130,9 @@
         //来源类型
         require.async("dropdown", function () {
             var items = [
-                { ID: 1, Name: "工厂录入" },
-                { ID: 2, Name: "自助下单" },
-                { ID: 3, Name: "阿里订单" }
+                { ID: 1, Name: "工厂" },
+                { ID: 2, Name: "自助" },
+                { ID: 3, Name: "阿里" }
             ];
             $("#sourceType").dropdown({
                 prevText: "来源-",
