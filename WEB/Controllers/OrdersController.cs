@@ -453,13 +453,19 @@ namespace YXERP.Controllers
             };
         }
 
-        string token = "d3e257aa-4955-404e-a094-96f7d59a89a5";
+        string token = "34dbd634-127d-410f-86b7-83fdaa123d98";
         public JsonResult DownAliOrders()
         {
             //bool flag= DownFentOrders(DateTime.Now.AddMonths(-3), DateTime.Now, token,CurrentUser.UserID,CurrentUser.AgentID,CurrentUser.ClientID);
 
             bool flag = DownBulkOrders(DateTime.Now.AddMonths(-3), DateTime.Now, token, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("result", flag?1:0);
+
+            if (flag)
+            {
+                AlibabaSdk.CacheBusiness.SuccessOrderCountCache.Remove(CurrentUser.AgentID);
+            }
+
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -613,9 +619,6 @@ namespace YXERP.Controllers
                 Dictionary<string, int> totalCount = AlibabaSdk.CacheBusiness.SuccessOrderCountCache[CurrentUser.AgentID];
                 totalOrderCount = totalCount["total"];
                 successOrderCount = totalCount["successCount"];
-
-                if (totalOrderCount==successOrderCount)
-                    AlibabaSdk.CacheBusiness.SuccessOrderCountCache.Remove(CurrentUser.AgentID);
 
                 result = 1;
             }

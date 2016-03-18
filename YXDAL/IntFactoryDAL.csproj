@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agents\AgentsDAL.cs" />
+    <Compile Include="AliOrder\AliOrderDAL.cs" />
     <Compile Include="BaseDAL.cs" />
     <Compile Include="Common\LogDAL.cs" />
     <Compile Include="Common\ShoppingCartDAL.cs" />
