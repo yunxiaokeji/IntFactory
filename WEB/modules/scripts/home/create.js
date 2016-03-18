@@ -113,6 +113,7 @@
             BigCategoryID: $("#bigcategory").val().trim(),
             CategoryID: $("#ordercategory").val().trim(),
             CityCode: CityObject.getCityCode(),
+            ExpressCode: $("#expressCode").val().trim(),
             Address: $("#address").val().trim(),
             OrderImage: images,
             PlanPrice: $("#planPrice").val().trim(),

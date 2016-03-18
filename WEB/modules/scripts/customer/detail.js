@@ -234,6 +234,9 @@
             } else if (_this.data("id") == "navOppor" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getOpportunitys(model.CustomerID, 1);
+            } else if (_this.data("id") == "navDHOrder" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getDHOrders(model.CustomerID, 1);
             }
         });
 
@@ -295,12 +298,14 @@
             });
         });
     }
+
     //获取订单
     ObjectJS.getOrders = function (customerid, page) {
         var _self = this;
         $("#navOrder .tr-header").nextAll().remove();
         Global.post("/Orders/GetOrdersByCustomerID", {
             customerid: customerid,
+            ordertype: 1,
             pagesize: 10,
             pageindex: page
         }, function (data) {
@@ -332,6 +337,49 @@
                 float: "left",
                 onChange: function (page) {
                     _self.getOrders(customerid, page);
+                }
+            });
+        });
+    }
+
+    //获取大货订单
+    ObjectJS.getDHOrders = function (customerid, page) {
+        var _self = this;
+        $("#navDHOrder .tr-header").nextAll().remove();
+        Global.post("/Orders/GetOrdersByCustomerID", {
+            customerid: customerid,
+            ordertype: 2,
+            pagesize: 10,
+            pageindex: page
+        }, function (data) {
+            if (data.items.length > 0) {
+                doT.exec("template/orders/customerorders.html", function (template) {
+                    var innerhtml = template(data.items);
+
+                    innerhtml = $(innerhtml);
+                    $("#navDHOrder .tr-header").after(innerhtml);
+                });
+            } else {
+                $("#navDHOrder .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无订单!<div></td></tr>");
+            }
+            $("#pagerDHOrders").paginate({
+                total_count: data.totalCount,
+                count: data.pageCount,
+                start: page,
+                display: 5,
+                border: true,
+                border_color: '#fff',
+                text_color: '#333',
+                background_color: '#fff',
+                border_hover_color: '#ccc',
+                text_hover_color: '#000',
+                background_hover_color: '#efefef',
+                rotate: true,
+                images: false,
+                mouse: 'slide',
+                float: "left",
+                onChange: function (page) {
+                    _self.getDHOrders(customerid, page);
                 }
             });
         });

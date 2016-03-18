@@ -107,12 +107,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrdersByCustomerID(string customerid, int pagesize, int pageindex)
+        public JsonResult GetOrdersByCustomerID(string customerid, int ordertype, int pagesize, int pageindex)
         {
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOrdersByCustomerID(customerid, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetOrdersByCustomerID(customerid, ordertype, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -167,7 +167,7 @@ namespace YXERP.Controllers
             OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
 
             string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID, model.GoodsCode, model.Title, model.PersonName, model.MobileTele, EnumOrderSourceType.FactoryOrder, (EnumOrderType)model.OrderType, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity,
-                                                                     model.OrderImage, model.CityCode, model.Address, model.Remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                                                                     model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
             {
@@ -514,7 +514,7 @@ namespace YXERP.Controllers
                             string orderID= OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
                                 order.buyerName, order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.ProofOrder, string.Empty, string.Empty,
                                 order.fentPrice.ToString(), order.bulkCount, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
-                                string.Empty, "dizhi", string.Empty,
+                                string.Empty, "dizhi", string.Empty, string.Empty,
                                 userID, agentID, clientID);
 
                             if (string.IsNullOrEmpty(orderID))
@@ -581,7 +581,7 @@ namespace YXERP.Controllers
                             string orderID = OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
                                 order.buyerName, order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.ProofOrder, string.Empty, string.Empty,
                                 order.fentPrice.ToString(), order.bulkCount, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
-                                string.Empty, "dizhi", string.Empty,
+                                string.Empty, "dizhi", string.Empty, string.Empty,
                                 userID, agentID, clientID);
 
                             //新增订单失败
