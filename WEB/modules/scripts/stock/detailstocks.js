@@ -24,23 +24,24 @@
     ObjectJS.bindEvent = function (type) {
         var _self = this;
 
-        Global.post("/System/GetAllWareHouses", {}, function (data) {
-            require.async("dropdown", function () {
-                $("#wares").dropdown({
-                    prevText: "仓库-",
-                    defaultText: "全部",
-                    defaultValue: "",
-                    data: data.items,
-                    dataValue: "WareID",
-                    dataText: "Name",
-                    width: "180",
-                    onChange: function (data) {
-                        Params.PageIndex = 1;
-                        Params.WareID = data.value;
-                        _self.getList();
-                    }
-                });
-            });
+       
+        require.async("dropdown", function () {
+            //Global.post("/System/GetAllWareHouses", {}, function (data) {
+            //    $("#wares").dropdown({
+            //        prevText: "仓库-",
+            //        defaultText: "全部",
+            //        defaultValue: "",
+            //        data: data.items,
+            //        dataValue: "WareID",
+            //        dataText: "Name",
+            //        width: "180",
+            //        onChange: function (data) {
+            //            Params.PageIndex = 1;
+            //            Params.WareID = data.value;
+            //            _self.getList();
+            //        }
+            //    });
+            //});
         });
         //关键字搜索
         require.async("search", function () {
@@ -56,7 +57,7 @@
     ObjectJS.getList = function () {
         var _self = this;
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='9'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='6'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
 
         Global.post("/Stock/GetDetailStocks", Params, function (data) {
             _self.bindList(data);
@@ -77,7 +78,7 @@
             });
         }
         else {
-            $(".tr-header").after("<tr><td colspan='9'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='6'><div class='noDataTxt' >暂无数据!<div></td></tr>");
         }
 
         $("#pager").paginate({

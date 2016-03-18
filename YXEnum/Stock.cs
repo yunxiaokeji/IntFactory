@@ -65,9 +65,9 @@ namespace IntFactoryEnum
         /// </summary>
         All = -1,
         [DescriptionAttribute("裁剪单")]
-        RK = 1,
+        Cut = 1,
         [DescriptionAttribute("发货单")]
-        CK = 2,
+        Send = 2,
         [DescriptionAttribute("报损单")]
         BS = 3,
         [DescriptionAttribute("报溢单")]
@@ -78,8 +78,8 @@ namespace IntFactoryEnum
         TH = 6,
         [DescriptionAttribute("手工出库单")]
         SGCK = 7,
-        [DescriptionAttribute("销售订单")]
-        Order = 11,
+        [DescriptionAttribute("车缝单")]
+        Sewn = 11,
         [DescriptionAttribute("代理商订单")]
         AgentsOrder = 21,
         [DescriptionAttribute("统计用-账单")]

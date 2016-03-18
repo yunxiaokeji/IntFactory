@@ -157,6 +157,8 @@ namespace IntFactoryEntity
 
         public int Quantity { set; get; }
 
+        public int CutQuantity { get; set; }
+
         public int Complete { get; set; }
 
         public int SendQuantity { set; get; }
