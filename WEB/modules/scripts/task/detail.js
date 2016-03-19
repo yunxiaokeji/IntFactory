@@ -96,13 +96,13 @@
                 //更新任务到期日期
                 var taskEndTime = {
                     elem: '#UpdateTaskEndTime',
-                    format: 'YYYY-MM-DD',
+                    format: 'YYYY-MM-DD hh:mm:ss',
                     min: laydate.now(),
                     max: '2099-06-16',
-                    istime: false,
+                    istime: true,
                     istoday: false,
                     choose: function () {
-                        ObjectJS.UpdateTaskEndTime(ObjectJS.taskid);
+                        ObjectJS.UpdateTaskEndTime();
                     }
                 };
                 laydate(taskEndTime);

@@ -18,6 +18,9 @@ padding-bottom:14px;
 border-bottom:1px solid #eee; 
 }
 
+.taskOperate .taskEndTime {
+    width:120px;
+}
 
 .taskDetail .column-title {
 width:70px;

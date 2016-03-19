@@ -5,7 +5,8 @@
 
     var Params = {
         isMy: true,
-        userID:"",
+        userID: "",
+        orderType:-1,
         finishStatus:0,
         keyWords:'',
         beginDate: '',
@@ -69,6 +70,35 @@
                 Params.finishStatus = _this.data("id");
                 ObjectJS.getList();
             }
+        });
+
+        //订单类型搜索
+        require.async("dropdown", function () {
+            var Types = [
+                {
+                    ID: "1",
+                    Name: "打样"
+                },
+                {
+                    ID: "2",
+                    Name: "大货"
+                }
+            ];
+            $("#orderType").dropdown({
+                prevText: "订单类型-",
+                defaultText: "全部",
+                defaultValue: "-1",
+                data: Types,
+                dataValue: "ID",
+                dataText: "Name",
+                width: "120",
+                onChange: function (data) {
+                    Params.pageIndex = 1;
+                    Params.orderType = data.value;
+                    ObjectJS.getList();
+                }
+            });
+
         });
 
         //时间段查询
