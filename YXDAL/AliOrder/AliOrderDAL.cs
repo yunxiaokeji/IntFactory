@@ -100,15 +100,23 @@ namespace IntFactoryDAL
         /// <param name="agentID"></param>
         /// <param name="clientID"></param>
         /// <returns></returns>
-        public bool AddAliOrderUpdateLog(int orderType, int isSuccess, int downType, DateTime startTime, DateTime endTime, int totalCount, int successCount, int agentID, int clientID)
+        public bool AddAliOrderUpdateLog(int orderType, int isSuccess, int downType, DateTime startTime, DateTime endTime, int successCount, int totalCount, string agentID, string clientID)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@OrderType",orderType),
-                                       new SqlParameter("@IsSuccess",isSuccess)
+                                       new SqlParameter("@IsSuccess",isSuccess),
+                                       new SqlParameter("@DownType",downType),
+                                       new SqlParameter("@StartTime",startTime),
+                                       new SqlParameter("@EndTime",endTime),
+                                       new SqlParameter("@SuccessCount",successCount),
+                                       new SqlParameter("@TotalCount",totalCount),
+                                       new SqlParameter("@AgentID",agentID),
+                                       new SqlParameter("@ClientID",clientID)
                                    };
 
-
-            return ExecuteNonQuery("", paras, CommandType.Text) > 0;
+            string sqlStr = "insert into AliOrderDownloadLog(OrderType,IsSuccess,DownType,StartTime,EndTime,SuccessCount,TotalCount,AgentID,ClientID) values(@OrderType,@IsSuccess,@DownType,@StartTime,@EndTime,@SuccessCount,@TotalCount,@AgentID,@ClientID)";
+            
+            return ExecuteNonQuery(sqlStr, paras, CommandType.Text) > 0;
         }
         #endregion
 
@@ -132,13 +140,13 @@ namespace IntFactoryDAL
         /// </summary>
         /// <param name="agentID"></param>
         /// <returns></returns>
-        public DataTable GetAliOrderDownloadPlanDetail(string agentID)
+        public DataTable GetAliOrderDownloadPlanDetail(string clientID)
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@AgentID",agentID)
+                                       new SqlParameter("@ClientID",clientID)
                                    };
 
-            DataTable dt = GetDataTable("Select * from AliOrderUpdateLog where OrderType=@OrderType and Status=@Status  and AgentID=@AgentID ", paras, CommandType.Text);
+            DataTable dt = GetDataTable("Select * from AliOrderDownloadPlan where ClientID=@ClientID ", paras, CommandType.Text);
             return dt;
         }
 

@@ -261,23 +261,34 @@
                 Easydialog.open({
                     container: {
                         id: "show-model-downAliOrders",
-                        header: "手动同步阿里巴巴订单",
+                        header: "同步阿里订单",
                         content: html
                     }
                 });
 
+                var nowDate = new Date();
+                var maxDate = nowDate.toLocaleDateString();
+                var startDate = ObjectJS.AddDays(nowDate, -15);
+
+                $("#downStartTime").val(startDate);
+                $("#downEndTime").val( nowDate.getFullYear()+"-"+(nowDate.getMonth()+1)+"-"+nowDate.getDate() );
 
                 $("#btn-sureDown").click(function () {
-                    if ($("#downStartTime").val() == "" && $("#downEndTime").val() == "")
+                    if ($("#downStartTime").val() == "")
                     {
-                        alert("选择创建时间");
+                        alert("请选择起始时间");
+                        return;
+                    }
+                    else if ($("#downEndTime").val() == "")
+                    {
+                        alert("请选择截止时间");
                         return;
                     }
 
                     
                     Global.post("/Orders/DownAliOrders", {
-                        downStartTime: $("#downStartTime").val(),
-                        downEndTime: $("#downEndTime").val(),
+                        startTime: $("#downStartTime").val(),
+                        endTime: $("#downEndTime").val(),
                         downOrderType: $("#downOrderType").val()
                     }, function (data) {
                         if (data.result == 0) {
@@ -289,7 +300,10 @@
                             var totalOrderCount = parseInt(data.totalOrderCount);
 
                             $("#successOrderCount").html(successOrderCount);
-                            $("#downOrderBar").css("width", (successOrderCount / totalOrderCount) * 400 + "px");
+                            if (totalOrderCount>0)
+                                $("#downOrderBar").css("width", (successOrderCount / totalOrderCount) * 400 + "px");
+                            else
+                                $("#downOrderBar").css("width",400 + "px");
                         }
                     });
 
@@ -297,11 +311,11 @@
                     Easydialog.close();
 
                     var html = '<div style="width:400px;border:1px solid #ccc;border-radius:4px;"><div id="downOrderBar" style="background-color:#06c;width:0px;height:10px;border-radius:4px;"></div></div>';
-                    html += '<div style="text-align:center;margin-top:3px;">(<span id="successOrderCount">0</span>/<span id="totalOrderCount">0</span>)</div>';
+                    html += '<div style="text-align:center;margin-top:3px;"><span id="successOrderCount">0</span>(成功) / <span id="totalOrderCount">0</span>(总数)</div>';
                     Easydialog.open({
                         container: {
                             id: "show-model-showDownAliOrders",
-                            header: "手动同步订单进度",
+                            header: "同步进度",
                             content: html,
                             yesFn: function () {
                                 location.href = "/Customer/Orders/Need";
@@ -309,44 +323,12 @@
                         }
 
                     });
-
-
-                    //successOrderCountObj = setInterval(function () {
-                    //    if (!ObjectJS.downAliOrders)
-                    //        clearInterval(successOrderCountObj);
-
-                    //    Global.post("/Orders/GetSuccessOrderCount", {},
-                    //        function (data) {
-                    //            if (data.result == 1) {
-                    //                var successOrderCount = parseInt(data.successOrderCount);
-                    //                $("#totalOrderCount").html(data.totalOrderCount);
-                    //                var totalOrderCount = parseInt(data.totalOrderCount);
-
-                    //                $("#successOrderCount").html(successOrderCount);
-                    //                $("#downOrderBar").css("width", (successOrderCount / totalOrderCount) * 400 + "px");
-
-                    //                if (totalOrderCount>0 && successOrderCount == totalOrderCount) {
-                    //                    clearInterval(successOrderCountObj);         
-                    //                }
-                    //            }
-                    //            else if (data.result == 2) {
-                    //                clearInterval(successOrderCountObj);
-                    //            }
-                    //            else {
-                         
-                    //            }
-
-                    //        });
-
-                    //}, 500);
-
-
                 });
 
                 var start = {
                     elem: '#downStartTime',
                     format: 'YYYY-MM-DD',
-                    max: '2099-06-16',
+                    max: maxDate,
                     istime: false,
                     istoday: false,
                     choose: function (datas) {
@@ -359,9 +341,9 @@
                 var end = {
                     elem: '#downEndTime',
                     format: 'YYYY-MM-DD',
-                    max: '2099-06-16',
+                    max: maxDate,
                     istime: false,
-                    istoday: false,
+                    istoday: true,
                     choose: function (datas) {
                         start.max = datas; //结束日选好后，重置开始日的最大日期
                     }
@@ -461,6 +443,21 @@
                 _self.getList();
             }
         });
+    }
+
+    ObjectJS.AddDays=function(date, days) {
+        var nd = new Date(date);
+        nd = nd.valueOf();
+        nd = nd + days * 24 * 60 * 60 * 1000;
+        nd = new Date(nd);
+        //alert(nd.getFullYear() + "年" + (nd.getMonth() + 1) + "月" + nd.getDate() + "日");
+        var y = nd.getFullYear();
+        var m = nd.getMonth() + 1;
+        var d = nd.getDate();
+        if (m <= 9) m = "0" + m;
+        if (d <= 9) d = "0" + d;
+        var cdate = y + "-" + m + "-" + d;
+        return cdate;
     }
 
     module.exports = ObjectJS;

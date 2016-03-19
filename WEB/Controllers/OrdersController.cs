@@ -464,56 +464,43 @@ namespace YXERP.Controllers
             };
         }
 
-        string token = "41e48055-b179-4854-bc98-e467f91c248";
-        public JsonResult DownAliOrders(int downOrderType)
-        {
-             int successCount;
-             int total;
-             bool flag = false;
-
-             if (downOrderType==1)
-                flag = AliOrderBusiness.DownFentOrders(DateTime.Now.AddMonths(-3), DateTime.Now, token, "030cc816-329e-4a64-9e20-7e71c11f1564", CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID,out successCount,out total);
-             else
-                 flag = AliOrderBusiness.DownBulkOrders(DateTime.Now.AddMonths(-3), DateTime.Now, token, "030cc816-329e-4a64-9e20-7e71c11f1564", CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total);
-
-            JsonDictionary.Add("result", flag?1:0);
-            JsonDictionary.Add("totalOrderCount", total);
-            JsonDictionary.Add("successOrderCount", successCount);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult GetSuccessOrderCount()
+        public JsonResult DownAliOrders(int downOrderType, string startTime, string endTime)
         {
             int result = 0;
-            int totalOrderCount = 0;
-            int successOrderCount = 0;
-            if (AlibabaSdk.CacheBusiness.SuccessOrderCountCache.ContainsKey(CurrentUser.AgentID))
-            {
-                Dictionary<string, int> totalCount = AlibabaSdk.CacheBusiness.SuccessOrderCountCache[CurrentUser.AgentID];
-                totalOrderCount = totalCount["total"];
-                successOrderCount = totalCount["successCount"];
+            bool flag = false;
+            var plan = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlanDetail(CurrentUser.ClientID);
 
-                result = 1;
+            if (plan != null)
+            {
+
+                int successCount;
+                int total;
+                DateTime downStartTime = DateTime.Parse(startTime);
+                DateTime downEndTime = DateTime.Parse(endTime);
+                string token = plan.Token;
+                string RefreshToken = plan.RefreshToken;
+
+                if (downOrderType == 1)
+                    flag = AliOrderBusiness.DownFentOrders(downStartTime, downEndTime, token, RefreshToken, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total);
+                else
+                    flag = AliOrderBusiness.DownBulkOrders(downStartTime, downEndTime, token, RefreshToken, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total);
+
+                result = flag ? 1 : 0;
+                JsonDictionary.Add("totalOrderCount", total);
+                JsonDictionary.Add("successOrderCount", successCount);
             }
             else
-            {
                 result = 2;
-            }
 
             JsonDictionary.Add("result", result);
-            JsonDictionary.Add("totalOrderCount", totalOrderCount);
-            JsonDictionary.Add("successOrderCount", successOrderCount);
-
+            
             return new JsonResult
             {
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         #endregion
 
     }

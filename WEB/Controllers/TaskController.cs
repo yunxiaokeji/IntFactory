@@ -13,7 +13,7 @@ namespace YXERP.Controllers
     public class TaskController : BaseController
     {
         // GET: /Task/
-        string token = "41e48055-b179-4854-bc98-e467f91c2480";
+        string token = "2b835fa1-75ab-4f65-abe9-bce84a516ff3";
         string refreshToken = "030cc816-329e-4a64-9e20-7e71c11f1564";
         #region view
         public JsonResult batchUpdateFent()
@@ -41,7 +41,17 @@ namespace YXERP.Controllers
             };
         }
 
-        
+        public JsonResult ExecuteDownAliOrdersPlan()
+        {
+            var result =AliOrderBusiness.ExecuteDownAliOrdersPlan();
+
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
         List<string> codes = new List<string>();
         public JsonResult pullFentDataList()

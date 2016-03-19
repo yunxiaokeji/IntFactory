@@ -20,20 +20,29 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <returns></returns>
         public static bool ExecuteDownAliOrdersPlan() {
+            int successCount, total;
+            //获取阿里订单下载计划列表
             var list = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlans();
-            int successCount,total;
-
+            
             foreach (var item in list) {
-
                 //下载阿里打样订单
-                DownFentOrders(item.FentSuccessEndTime, DateTime.Now, item.Token, item.RefreshToken,
+                var gmtFentEnd = DateTime.Now;
+                bool flag= DownFentOrders(item.FentSuccessEndTime, gmtFentEnd, item.Token, item.RefreshToken,
                     item.UserID, item.AgentID, item.ClientID, out successCount, out total);
 
+                //新增阿里打样订单下载日志
+                AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.FentSuccessEndTime, gmtFentEnd,
+                    successCount, total, item.AgentID, item.ClientID);
 
+                
                 //下载阿里大货订单列表
-                DownBulkOrders(item.BulkSuccessEndTime, DateTime.Now, item.Token, item.RefreshToken,
+                var gmtBulkEnd = DateTime.Now;
+                flag = DownBulkOrders(item.BulkSuccessEndTime, gmtBulkEnd, item.Token, item.RefreshToken,
                     item.UserID, item.AgentID, item.ClientID, out successCount, out total);
 
+                //新增阿里大货订单下载日志
+                AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.BulkSuccessEndTime, gmtBulkEnd,
+                    successCount, total, item.AgentID, item.ClientID);
 
             }
 
@@ -102,7 +111,7 @@ namespace IntFactoryBusiness
                     var order = orderListResult.fentOrderList[j];
 
                     string orderID = OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
-                        order.buyerName, order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.ProofOrder, string.Empty, string.Empty,
+                       HttpUtility.UrlDecode(order.buyerName), order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.ProofOrder, string.Empty, string.Empty,
                         order.fentPrice.ToString(), order.bulkCount, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
                         string.Empty, string.Empty, string.Empty, string.Empty,
                         userID, agentID, clientID, order.fentGoodsCode);
@@ -183,7 +192,7 @@ namespace IntFactoryBusiness
                     var order = orderListResult.bulkOrderList[j];
 
                     string orderID = OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
-                        order.buyerName, order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.LargeOrder, string.Empty, string.Empty,
+                        HttpUtility.UrlDecode(order.buyerName), order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.LargeOrder, string.Empty, string.Empty,
                         order.bulkPrice.ToString(), order.bulkCount, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
                         string.Empty, string.Empty, string.Empty, string.Empty,
                         userID, agentID, clientID, order.bulkGoodsCode);
@@ -379,6 +388,7 @@ namespace IntFactoryBusiness
             return true;
         }
 
+
         #region 阿里订单下载计划
         /// <summary>
         /// 获取阿里订单下载计划列表
@@ -405,13 +415,19 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="agentID"></param>
         /// <returns></returns>
-        public AliOrderDownloadPlan GetAliOrderDownloadPlanDetail(string agentID)
+        public AliOrderDownloadPlan GetAliOrderDownloadPlanDetail(string clientID)
         {
-            AliOrderDownloadPlan item = new AliOrderDownloadPlan();
+            DataTable dt = AliOrderDAL.BaseProvider.GetAliOrderDownloadPlanDetail(clientID);
+            if (dt.Rows.Count == 1)
+            {
+                AliOrderDownloadPlan item = new AliOrderDownloadPlan();
+                item.FillData(dt.Rows[0]);
 
-            DataTable dt = AliOrderDAL.BaseProvider.GetAliOrderDownloadPlanDetail(agentID);
+                return item;
+            }
+            else
+                return null;
 
-            return item;
         }
 
         /// <summary>
@@ -482,10 +498,10 @@ namespace IntFactoryBusiness
         /// <param name="agentID"></param>
         /// <param name="clientID"></param>
         /// <returns></returns>
-        public bool AddAliOrderDownloadLog(EnumOrderType orderType, int isSuccess, int downType, DateTime startTime, DateTime endTime, int totalCount, int successCount, int agentID, int clientID)
+        public bool AddAliOrderDownloadLog(EnumOrderType orderType, bool isSuccess,AlibabaSdk.AliOrderDownType downType, DateTime startTime, DateTime endTime, int successCount, int totalCount, string agentID, string clientID)
         {
-            bool flag = AliOrderDAL.BaseProvider.AddAliOrderUpdateLog((int)orderType, isSuccess, downType,
-                startTime, endTime, totalCount, successCount,
+            bool flag = AliOrderDAL.BaseProvider.AddAliOrderUpdateLog((int)orderType, isSuccess?1:0,(int)downType,
+                startTime, endTime, successCount, totalCount,
                 agentID, clientID);
 
             return flag;

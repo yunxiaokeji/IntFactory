@@ -60,4 +60,12 @@ namespace AlibabaSdk
         Exception = 2
     }
 
+    public enum AliOrderDownType
+    {
+        [DescriptionAttribute("自动")]
+        Auto = 1,
+        [DescriptionAttribute("手动")]
+        Hand = 2
+    }
+
 }
