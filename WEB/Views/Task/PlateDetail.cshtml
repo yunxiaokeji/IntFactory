@@ -62,13 +62,13 @@
                     if (model.FinishStatus == 2 || model.FinishStatus == 1)
                     {
                         <div class="left mLeft10 pTop5">
-                            <span class="">@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定到期时间" : model.EndTime.ToString("yyyy-MM-dd"))</span>
+                            <span class="">@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定到期时间" : model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
                         </div>
                     }
                     else
                     {
                         <div class="left mLeft10">
-                        <input type="text" style="width:100px;" id="UpdateTaskEndTime" value="@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定到期时间" : model.EndTime.ToString("yyyy-MM-dd"))" placeholder="设置到期时间"/>
+                        <input type="text" class="taskEndTime"  id="UpdateTaskEndTime" value="@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定到期时间" : model.EndTime.ToString("yyyy-MM-dd"))" placeholder="设置到期时间"/>
                         </div>
                     }   
                 }
