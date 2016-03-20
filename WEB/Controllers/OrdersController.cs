@@ -107,6 +107,22 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetDYOrders(string keywords)
+        {
+            int totalCount = 0;
+            int pageCount = 0;
+
+            var list = OrdersBusiness.BaseBusiness.GetOrders(EnumSearchType.All, "1", 3, EnumOrderSourceType.All, -1, -1, -1, "", "", "", "", "", keywords, 10, 1, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult GetOrdersByCustomerID(string customerid, int ordertype, int pagesize, int pageindex)
         {
             int totalCount = 0;
