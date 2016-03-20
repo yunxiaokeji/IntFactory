@@ -357,6 +357,11 @@ define(function (require, exports, module) {
             _self.sewnGoods();
         });
 
+        //车缝录入
+        $("#btnSendOrder").click(function () {
+            _self.sendGoods();
+        });
+
         //绑定品类
         $("#changeOrderCategory").click(function () {
             Global.post("/System/GetClientOrderCategorys", {}, function (data) {
@@ -777,7 +782,7 @@ define(function (require, exports, module) {
                             }
                         });
                         if (details.length > 0) {
-                            Global.post("/Orders/CreateOrderGoodsDoc", {
+                            Global.post("/Orders/CreateOrderCutOutDoc", {
                                 orderid: _self.orderid,
                                 doctype: 1,
                                 isover: $("#showCutoutGoods .check").hasClass("ico-checked") ? 1 : 0,
@@ -788,6 +793,8 @@ define(function (require, exports, module) {
                             }, function (data) {
                                 if (data.id) {
                                     alert("裁片登记成功!", location.href);
+                                } else if (data.result == "10001") {
+                                    alert("您没有操作权限!")
                                 } else {
                                     alert("裁片登记失败！");
                                 }
@@ -837,7 +844,7 @@ define(function (require, exports, module) {
                             }
                         });
                         if (details.length > 0) {
-                            Global.post("/Orders/CreateOrderGoodsDoc", {
+                            Global.post("/Orders/CreateOrderSewnDoc", {
                                 orderid: _self.orderid,
                                 doctype: 11,
                                 isover: $("#showSewnGoods .check").hasClass("ico-checked") ? 1 : 0,
@@ -848,6 +855,8 @@ define(function (require, exports, module) {
                             }, function (data) {
                                 if (data.id) {
                                     alert("缝制登记成功!", location.href);
+                                } else if (data.result == "10001") {
+                                    alert("您没有操作权限!")
                                 } else {
                                     alert("缝制登记失败！");
                                 }
@@ -905,7 +914,7 @@ define(function (require, exports, module) {
                             }
                         });
                         if (details.length > 0) {
-                            Global.post("/Orders/CreateOrderGoodsDoc", {
+                            Global.post("/Orders/CreateOrderSendDoc", {
                                 orderid: _self.orderid,
                                 doctype: 2,
                                 isover: $("#showSendOrderGoods .check").hasClass("ico-checked") ? 1 : 0,
@@ -916,6 +925,8 @@ define(function (require, exports, module) {
                             }, function (data) {
                                 if (data.id) {
                                     alert("发货成功!", location.href);
+                                } else if (data.result == "10001") {
+                                    alert("您没有操作权限!")
                                 } else {
                                     alert("发货成功！");
                                 }

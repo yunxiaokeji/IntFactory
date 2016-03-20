@@ -158,7 +158,7 @@
                 <span title="更换流程" class="ico-change left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess"></span>
             }
             <div class="left info mLeft20">负责人：@(model.OrderProcess.Owner.Name)</div>
-            @if (model.IsSelf && model.OrderGoods.Count > 0 && model.Status < 7)
+            @if (model.IsSelf && model.OrderGoods.Count > 0 && model.Status < 7 && model.Status != 5)
             {
                 <div class="btn right mLeft20" id="changeOrderStatus"></div>
             }
@@ -168,12 +168,12 @@
             }
             @if (model.Status == 5)
             {
-                <div class="btn right mLeft20" id="btnSewnOrder">缝制录入</div>
+                <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" id="btnSendOrder">订单发货</div>
+                <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" id="btnSewnOrder">缝制录入</div>
                 if (model.CutStatus != 2)
                 {
-                   <div class="btn right mLeft20" id="btnCutoutOrder">裁片录入</div>
+                   <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" id="btnCutoutOrder">裁片录入</div>
                 }
-
             }
         </div>
         <div class="clear"></div>

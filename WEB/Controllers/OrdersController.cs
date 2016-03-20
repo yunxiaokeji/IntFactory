@@ -190,7 +190,29 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult CreateOrderGoodsDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        public JsonResult CreateOrderCutOutDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        {
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("id", id);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateOrderSewnDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        {
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("id", id);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateOrderSendDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
             string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
