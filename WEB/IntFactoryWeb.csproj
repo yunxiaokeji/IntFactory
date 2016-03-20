@@ -299,6 +299,8 @@
     <Content Include="modules\template\orders\cutoutdoc.html" />
     <Content Include="modules\template\orders\downAliOrders.html" />
     <Content Include="modules\template\orders\sewn-goods.html" />
+    <Content Include="modules\template\orders\add-order-cost.html" />
+    <Content Include="modules\template\orders\orderCosts.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />

@@ -245,6 +245,8 @@ namespace IntFactoryEntity
 
         public int CutStatus { get; set; }
 
+        public decimal CostPrice { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

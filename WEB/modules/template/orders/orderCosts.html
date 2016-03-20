@@ -1,0 +1,13 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td class="">{%=item.Remark%}</td>
+    <td class="center">{%=item.Price.toFixed(2)%}</td>
+    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class="center">
+        <span class="ico-del mTop5" data-id="{%=item.AutoID%}"></span>
+    </td>
+</tr>
+{% } %}

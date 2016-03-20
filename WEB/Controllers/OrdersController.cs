@@ -190,7 +190,29 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult CreateOrderGoodsDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        public JsonResult CreateOrderCutOutDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        {
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("id", id);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateOrderSewnDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        {
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("id", id);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateOrderSendDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
             string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
@@ -520,6 +542,39 @@ namespace YXERP.Controllers
 
             JsonDictionary.Add("result", result);
             
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateOrderCost(string orderid, decimal price, string remark)
+        {
+            var bl = OrdersBusiness.BaseBusiness.CreateOrderCost(orderid, price, remark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetOrderCosts(string orderid)
+        {
+            var list = OrdersBusiness.BaseBusiness.GetOrderCosts(orderid, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult DeleteOrderCost(string orderid, string autoid)
+        {
+            var bl = OrdersBusiness.BaseBusiness.DeleteOrderCost(orderid, autoid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
             return new JsonResult
             {
                 Data = JsonDictionary,
