@@ -95,15 +95,6 @@ define(function (require, exports, module) {
             $("#btnreturn").hide();
         }
 
-        //转移流程
-        if (_self.status != 0 && _self.status != 4) {
-            $("#changeProcess").hide();
-        }
-
-        if (_self.status >= 7) {
-            $("#changeOrderStatus,#updateOrderInfo").hide();
-        }
-
         if (_self.status == 0 && _self.model.OrderType == 1) {
             $("#changeOrderStatus").html("转为订单");
         } else if (_self.status == 0 && _self.model.OrderType == 2) {
@@ -157,69 +148,59 @@ define(function (require, exports, module) {
     ObjectJS.bindEvent = function () {
         var _self = this;
 
-        if (_self.status > 0) {
-            if (_self.status >= 3) {
-                $("#updateProfitPrice").hide();
-            } else {
-                //设置利润比例
-                $("#updateProfitPrice").click(function () {
-                    doT.exec("template/orders/updateProfitPrice.html", function (template) {
-                        var innerText = template();
-                        Easydialog.open({
-                            container: {
-                                id: "show-updateProfitPrice",
-                                header: "设置利润比例",
-                                content: innerText,
-                                yesFn: function () {
-                                    var price = $("#iptProfitPrice").val().trim();
-                                    if (!price.isDouble() || price < 0) {
-                                        alert("利润比例必须为不小于0的数字！");
-                                        return false;
-                                    }
-                                    _self.updateProfitPrice(price);
-                                },
-                                callback: function () {
-
+        //更换流程
+        $("#changeProcess").click(function () {
+            var _this = $(this);
+            ChooseProcess.create({
+                title: "更换流程",
+                type: _self.model.OrderType,
+                callback: function (items) {
+                    if (items.length > 0) {
+                        if (_this.data("processid") != items[0].id) {
+                            Global.post("/Orders/UpdateOrderProcess", {
+                                processid: items[0].id,
+                                orderid: _this.data("id"),
+                                name: items[0].name
+                            }, function (data) {
+                                if (data.status) {
+                                    location.href = location.href;
                                 }
-                            }
-                        });
+                            });
+                        } else {
+                            alert("请选择不同流程进行更换!");
+                        }
+                    }
+                }
+            });
+        });
 
-                        $("#iptProfitPrice").focus();
-                        $("#iptProfitPrice").val($("#profitPrice").html())
-                    });
-                });
-            }
-        } else { //需求单
-            $("#updateProfitPrice").hide();
-        }
-        
-        if (_self.status == 0 || _self.status == 4) {
-            //更换流程
-            $("#changeProcess").click(function () {
-                var _this = $(this);
-                ChooseProcess.create({
-                    title: "更换流程",
-                    type: _self.model.OrderType,
-                    callback: function (items) {
-                        if (items.length > 0) {
-                            if (_this.data("processid") != items[0].id) {
-                                Global.post("/Orders/UpdateOrderProcess", {
-                                    processid: items[0].id,
-                                    orderid: _this.data("id"),
-                                    name: items[0].name
-                                }, function (data) {
-                                    if (data.status) {
-                                        location.href = location.href;
-                                    }
-                                });
-                            } else {
-                                alert("请选择不同流程进行更换!");
+        //设置利润比例
+        $("#updateProfitPrice").click(function () {
+            doT.exec("template/orders/updateProfitPrice.html", function (template) {
+                var innerText = template();
+                Easydialog.open({
+                    container: {
+                        id: "show-updateProfitPrice",
+                        header: "设置利润比例",
+                        content: innerText,
+                        yesFn: function () {
+                            var price = $("#iptProfitPrice").val().trim();
+                            if (!price.isDouble() || price < 0) {
+                                alert("利润比例必须为不小于0的数字！");
+                                return false;
                             }
+                            _self.updateProfitPrice(price);
+                        },
+                        callback: function () {
+
                         }
                     }
                 });
+
+                $("#iptProfitPrice").focus();
+                $("#iptProfitPrice").val($("#profitPrice").html())
             });
-        }
+        });
 
         //确认大货明细
         $("#confirmDHOrder").click(function () {
@@ -376,6 +357,55 @@ define(function (require, exports, module) {
             _self.sewnGoods();
         });
 
+        //绑定品类
+        $("#changeOrderCategory").click(function () {
+            Global.post("/System/GetClientOrderCategorys", {}, function (data) {
+                doT.exec("template/orders/choose-order-category.html", function (template) {
+                    var innerText = template(data.items);
+
+                    Easydialog.open({
+                        container: {
+                            id: "bindOrderCategoryBox",
+                            header: "绑定订单品类",
+                            content: innerText,
+                            yesFn: function () {
+                                if ($("#bindOrderCategoryBox li.hover").length == 0) {
+                                    alert("请选择品类！");
+                                    return false;
+                                }
+                                var _hover = $("#bindOrderCategoryBox li.hover");
+                                confirm("订单品类绑定后不可更换，确认绑定" + _hover.data("name") + "吗？", function () {
+                                    Global.post("/Orders/UpdateOrderCategoryID", {
+                                        orderid: _self.orderid,
+                                        pid: _hover.data("pid"),
+                                        categoryid: _hover.data("id"),
+                                        name: _hover.data("name")
+                                    }, function (data) {
+                                        if (data.status) {
+                                            alert("订单品类绑定成功!", location.href);
+                                        } else {
+                                            alert("订单品类绑定失败，请刷新页面重试！");
+                                        }
+                                    });
+                                });
+                            },
+                            callback: function () {
+
+                            }
+                        }
+                    });
+
+                    $("#bindOrderCategoryBox li").click(function () {
+                        var _this = $(this);
+                        if (!_this.hasClass("hover")) {
+                            $("#bindOrderCategoryBox li").removeClass("hover");
+                            _this.addClass("hover");
+                        }
+                    });
+                });
+            });
+        });
+
         //删除发票信息
         $("#deleteInvoice").click(function () {
             var _this = $(this);
@@ -442,7 +472,7 @@ define(function (require, exports, module) {
     //加载缓存
     ObjectJS.bingCache = function () {
         var _self = this;
-        if (_self.status == 3 || ((_self.status == 0 || _self.status == 4) && _self.model.OrderType == 2)) {
+        if (_self.status == 3 || _self.status == 0 || _self.status == 4) {
             Global.post("/Products/GetOrderCategoryDetailsByID", {
                 categoryid: _self.model.CategoryID,
                 orderid: (_self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID)

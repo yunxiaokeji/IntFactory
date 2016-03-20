@@ -23,7 +23,7 @@
 <div class="content-body mTop20">
     <div class="content-title">
         <div class="left titlename">订单编号：@(model.OrderCode)</div>
-        @if(model.IsSelf)
+        @if (model.IsSelf && model.Status == 0)
         {
             <div id="updateOrderInfo" class="left ico-edit mLeft50"></div>
             <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >退回委托</div>
@@ -64,6 +64,10 @@
                 <span title="更换客户" class="ico-change left mTop5 mLeft10" data-customerid="@(model.CustomerID)" data-id="@(model.OrderID)" id="changeCustomer"></span>
             }
         </li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019008"))">
+            <span class="column-title">联系人：</span>
+            <label>@(model.PersonName)</label>
+        </li>
          <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019008"))">
             <span class="column-title">联系方式：</span>
             <label>@(model.MobileTele)</label>
@@ -80,8 +84,8 @@
          <li>
             <span class="column-title">利润比例(%)：</span>
             <label class="left" id="profitPrice">@((model.ProfitPrice*100).ToString("f2"))</label>
-             @if(model.IsSelf)
-            { 
+             @if (model.IsSelf && model.Status > 0 && model.Status < 3)
+             { 
                 <div id="updateProfitPrice" class="left ico-edit mLeft20 mTop5"></div>
              }
         </li>
@@ -93,10 +97,7 @@
             <span class="column-title">付款金额：</span>
             <label id="infoPaymoney">0.00</label>
         </li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019008"))">
-            <span class="column-title">收货人：</span>
-            <label>@(model.PersonName)</label>
-        </li>
+        
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019008"))">
             <span class="column-title">收货地区：</span>
             <label>@(model.City != null ? (model.City.Province + " " + model.City.City + " " + model.City.Counties) : "")</label>
@@ -155,14 +156,21 @@
     <div class="process-stages mTop30">
         <div class="process-info">
             <div class="left info">订单流程：@(model.OrderProcess.ProcessName)</div>
-            @if(model.IsSelf)
+            @if (model.IsSelf && model.Status == 0)
             {
                 <span title="更换流程" class="ico-change left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess"></span>
             }
             <div class="left info mLeft20">负责人：@(model.OrderProcess.Owner.Name)</div>
             @if(model.IsSelf)
             {
-                <div class="btn right mLeft20" id="changeOrderStatus"></div>
+                if (string.IsNullOrEmpty(model.CategoryID))
+                {
+                     <div class="btn right mLeft20" id="changeOrderCategory">绑定品类</div>
+                }
+                else
+                {
+                     <div class="btn right mLeft20" id="changeOrderStatus"></div>
+                }
             }
         </div>
         <div class="clear"></div>
@@ -172,13 +180,11 @@
                 foreach (var stage in model.Tasts)
                 { 
                     <li data-stageid="@(stage.StageID)" data-orderid="@(model.OrderID)" data-taskid="@(stage.TaskID)" data-mark="@(stage.Mark)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
-                        @*<a href="/Task/Detail/@(stage.TaskID)">*@
-                            <span class="name">@(stage.Title)</span>
-                            <span class="status-bg right">
-                                <span class="status-color"></span>
-                            </span>
-                            <span class="status right">@(stage.FinishStatus == 0 ? "未开始" : stage.FinishStatus == 1 ? "进行中" : "已完成")</span>
-                         @*</a>*@
+                        <span class="name">@(stage.Title)</span>
+                        <span class="status-bg right">
+                            <span class="status-color"></span>
+                        </span>
+                        <span class="status right">@(stage.FinishStatus == 0 ? "未开始" : stage.FinishStatus == 1 ? "进行中" : "已完成")</span>
                     </li>
                 }
             }

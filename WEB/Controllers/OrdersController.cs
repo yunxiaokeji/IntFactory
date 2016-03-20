@@ -293,6 +293,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UpdateOrderCategoryID(string orderid, string pid, string categoryid,string name)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderCategoryID(orderid, pid, categoryid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult UpdateOrderStatus(string orderid, int status, int quantity, decimal price)
         {
             string errinfo = "";

@@ -460,6 +460,17 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateOrderCategoryID(string orderid, string pid, string categoryid, string name, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderCategoryID(orderid, pid, categoryid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "绑定订单品类：" + name;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, categoryid, agentid, clientid);
+            }
+            return bl;
+        }
+
         public bool UpdateOrderOwner(string orderid, string userid, string operateid, string ip, string agentid, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderOwner(orderid, userid, operateid, agentid, clientid);
