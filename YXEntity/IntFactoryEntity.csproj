@@ -72,6 +72,7 @@
     <Compile Include="Report\CustomerStageRPT.cs" />
     <Compile Include="Report\OrderTypeRPT.cs" />
     <Compile Include="Report\OrderMapRPT.cs" />
+    <Compile Include="Sales\OrderCostEntity.cs" />
     <Compile Include="Sales\OrderEntity.cs" />
     <Compile Include="Sales\OrderDetail.cs" />
     <Compile Include="Sales\OrderGoodsEntity.cs" />

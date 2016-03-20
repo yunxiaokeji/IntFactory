@@ -131,6 +131,17 @@ namespace IntFactoryDAL
 
             return ds.Tables[0];
         }
+
+        public DataTable GetOrderCosts(string orderid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@OrderID",orderid)
+                                   };
+
+            DataTable dt = GetDataTable("Select * from OrderCosts where OrderID=@OrderID and Status=1 ", paras, CommandType.Text);
+            return dt;
+        }
+        
         #endregion
 
         #region 添加
@@ -246,7 +257,19 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_CreateOrderReply", paras, CommandType.StoredProcedure) > 0 ? replyID : string.Empty;
         }
 
+        public bool CreateOrderCost(string orderid, decimal price, string remark, string operateid, string agentid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@Price",price),
+                                     new SqlParameter("@Remark",remark),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@AgentID" , agentid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
 
+            return ExecuteNonQuery("P_CreateOrderCost", paras, CommandType.StoredProcedure) > 0;
+        }
         #endregion
 
         #region 编辑、删除
@@ -585,6 +608,19 @@ namespace IntFactoryDAL
             ExecuteNonQuery("P_CreateOrderCustomer", paras, CommandType.StoredProcedure);
             customerid = paras[0].Value.ToString();
             return !string.IsNullOrEmpty(customerid);
+        }
+
+        public bool DeleteOrderCost(string orderid, string autoid, string operateid, string agentid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@AutoID",autoid),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@AgentID" , agentid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            return ExecuteNonQuery("P_DeleteOrderCost", paras, CommandType.StoredProcedure) > 0;
         }
 
         #endregion

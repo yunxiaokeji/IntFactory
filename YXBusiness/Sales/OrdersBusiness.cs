@@ -248,6 +248,21 @@ namespace IntFactoryBusiness
 
             return list;
         }
+
+        public List<OrderCostEntity> GetOrderCosts(string orderid, string clientid)
+        {
+            List<OrderCostEntity> list = new List<OrderCostEntity>();
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderCosts(orderid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderCostEntity model = new OrderCostEntity();
+                model.FillData(dr);
+
+                list.Add(model);
+            }
+            return list;
+        }
+        
         #endregion
 
         #region 添加
@@ -388,6 +403,17 @@ namespace IntFactoryBusiness
         public static string CreateReply(string guid,string stageID,int mark, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
         {
             return OrdersDAL.BaseProvider.CreateReply(guid, stageID, mark, content, userID, agentID, fromReplyID, fromReplyUserID, fromReplyAgentID);
+        }
+
+        public bool CreateOrderCost(string orderid, decimal price, string remark, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.CreateOrderCost(orderid, price, remark, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单添加其他成本：" + price;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
+            }
+            return bl;
         }
 
         #endregion
@@ -684,6 +710,17 @@ namespace IntFactoryBusiness
             {
                 string msg = "订单联系人创建新客户";
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, id, agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool DeleteOrderCost(string orderid, string autoid, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.DeleteOrderCost(orderid, autoid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单删除其他成本";
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, autoid, agentid, clientid);
             }
             return bl;
         }

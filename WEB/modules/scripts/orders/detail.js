@@ -439,6 +439,11 @@ define(function (require, exports, module) {
             });
         });
 
+        //添加成本
+        $("#addOtherCost").click(function () {
+            _self.addOtherCosts();
+        })
+
         //切换模块
         $(".tab-nav-ul li").click(function () {
             var _this = $(this);
@@ -464,6 +469,9 @@ define(function (require, exports, module) {
             } else if (_this.data("id") == "navSewnDoc" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getSewnDoc();
+            } else if (_this.data("id") == "navCosts" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getCosts();
             }
         });
 
@@ -483,6 +491,54 @@ define(function (require, exports, module) {
 
         Global.post("/Plug/GetExpress", {}, function (data) {
             _self.express = data.items;
+        });
+    }
+
+    //添加成本
+    ObjectJS.addOtherCosts = function () {
+        var _self = this;
+        doT.exec("template/orders/add-order-cost.html", function (template) {
+            var innerText = template({});
+
+            Easydialog.open({
+                container: {
+                    id: "addOrderCostBox",
+                    header: "添加成本",
+                    content: innerText,
+                    yesFn: function () {
+                        if (!$("#iptCostPrice").val() || $("#iptCostPrice").val() * 1 <= 0) {
+                            alert("价格必须为大于0的数字！");
+                            return false;
+                        }
+                        if (!$("#iptCostDescription").val()) {
+                            alert("描述不能为空！");
+                            return false;
+                        };
+                        Global.post("/Orders/CreateOrderCost", {
+                            orderid: _self.orderid,
+                            price: $("#iptCostPrice").val(),
+                            remark: $("#iptCostDescription").val()
+                        }, function (data) {
+                            if (data.status) {
+                                alert("成本添加成本!", location.href);
+                            } else {
+                                alert("成本添加失败，请刷新页面重试！");
+                            }
+                        });
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+
+            $("#iptCostPrice").focus();
+            $("#iptCostPrice").change(function () {
+                var _this = $(this);
+                if (!_this.val().isDouble() || _this.val() <= 0) {
+                    _this.val("0");
+                }
+            });
         });
     }
 
@@ -1225,6 +1281,36 @@ define(function (require, exports, module) {
             });
         });
 
+    }
+
+    //其他成本
+    ObjectJS.getCosts = function () {
+        var _self = this;
+        $("#navCosts .tr-header").nextAll().remove();
+        Global.post("/Orders/GetOrderCosts", {
+            orderid: _self.orderid
+        }, function (data) {
+            doT.exec("template/orders/orderCosts.html", function (template) {
+                var innerhtml = template(data.items);
+                innerhtml = $(innerhtml);
+
+                $("#navCosts .tr-header").after(innerhtml);
+
+                innerhtml.find(".ico-del").click(function () {
+                    var _this = $(this);
+                    confirm("删除后不可恢复，确认删除吗？", function () {
+                        Global.post("/Orders/DeleteOrderCost", {
+                            orderid: _self.orderid,
+                            autoid: _this.data("id")
+                        }, function (data) {
+                            if (data.status) {
+                                _this.parents("tr").first().remove();
+                            }
+                        });
+                    });
+                });
+            });
+        });
     }
 
     module.exports = ObjectJS;

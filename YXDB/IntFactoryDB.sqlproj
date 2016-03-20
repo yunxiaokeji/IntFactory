@@ -503,4 +503,10 @@
   <ItemGroup>
     <None Include="Procedures\Sales\P_UpdateOrderCategoryID.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_CreateOrderCost.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_DeleteOrderCost.sql" />
+  </ItemGroup>
 </Project>
