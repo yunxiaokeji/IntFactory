@@ -121,9 +121,8 @@ define(function (require, exports, module) {
         Home.bindStyle();
         Home.bindEvent();
 
-
-        Home.getList();
-        Home.getList2();
+        //Home.getList();
+        //Home.getList2();
         Home.GetAgentActionData();
     }
 
