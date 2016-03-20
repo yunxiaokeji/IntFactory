@@ -21,7 +21,7 @@ namespace IntFactoryEntity
 
         public int OrderStatus { get; set; }
 
-        public decimal OrderPeice { get; set; }
+        public decimal OrderPrice { get; set; }
 
         public int FailCount { get; set; }
 
