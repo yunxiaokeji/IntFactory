@@ -78,12 +78,12 @@
             <label>@(model.PlanPrice)</label>
         </li>
         <li>
-            <span class="column-title">成本：</span>
+            <span class="column-title">材料成本：</span>
             <label>@(model.Price.ToString("f2"))</label>
         </li>
         <li>
             <span class="column-title">其他成本：</span>
-            <label>@(model.CostPrice.ToString("f2"))</label>
+            <label id="lblCostMoney">@(model.CostPrice.ToString("f2"))</label>
         </li>
          <li>
             <span class="column-title">利润比例(%)：</span>

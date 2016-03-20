@@ -81,8 +81,12 @@
             }
         </li>
         <li>
-            <span class="column-title">成本：</span>
+            <span class="column-title">材料成本：</span>
             <label>@(model.Price.ToString("f2"))</label>
+        </li>
+        <li>
+            <span class="column-title">其他成本：</span>
+            <label id="lblCostMoney">@(model.CostPrice.ToString("f2"))</label>
         </li>
         <li>
             <span class="column-title">最终报价：</span>
