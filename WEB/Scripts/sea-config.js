@@ -15,7 +15,12 @@ seajs.config({
         "pager": "plug/datapager/paginate.js",
         //报表底层
         'zrender': 'plug/echarts/zrender/zrender.js'
-    }
+    },
+    map: [
+        //可配置版本号
+        ['.css', '.css?v=20160306'],
+        ['.js', '.js?v=20160306']
+    ]
 });
 
 
