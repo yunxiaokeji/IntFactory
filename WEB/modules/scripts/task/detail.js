@@ -29,6 +29,8 @@
 
         ObjectJS.bindEvent();
         ObjectJS.initTalkReply();
+        if (mark == 0)
+            ObjectJS.getTaskReplys(1);
 
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
@@ -444,11 +446,16 @@
             pageindex: page
         }, function (data) {
 
-            doT.exec("template/common/logs.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
-                $("#taskLogList").append(innerhtml);
-            });
+            if (data.items.length > 0) {
+                doT.exec("template/common/logs.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
+                    $("#taskLogList").html(innerhtml);
+                });
+            }
+            else {
+                $("#taskLogList").html("<div class='noDataTxt'>暂无数据!</div>");
+            }
 
             $("#pagerLogs").paginate({
                 total_count: data.totalCount,

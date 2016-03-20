@@ -9,7 +9,8 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntFactor.Service
+using IntFactoryBusiness;
+namespace IntFactory.Service
 {
     public partial class Service1 : ServiceBase
     {
@@ -18,13 +19,25 @@ namespace IntFactor.Service
             InitializeComponent();
         }
 
+        System.Timers.Timer DownAliOrdersTimer = new System.Timers.Timer();
+        System.Timers.Timer UpdateAliOrdersTimer = new System.Timers.Timer();
         protected override void OnStart(string[] args)
         {
-            // TODO: 在此处添加代码以启动服务。
-            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "启动";  
-            WriteLog(state);
+            DownAliOrdersTimer.Interval =10 * 1000;
+            DownAliOrdersTimer.Elapsed += new System.Timers.ElapsedEventHandler(DownAliOrdersEvent); //到达时间的时候执行事件；   
+            DownAliOrdersTimer.AutoReset = true;   //设置是执行一次（false）还是一直执行(true)；   
+            DownAliOrdersTimer.Enabled = true;     //是否执行System.Timers.Timer.Elapsed事件；   
 
-            //timer_downdata.Start();
+            DownAliOrdersTimer.Interval = 10 * 1000;
+            DownAliOrdersTimer.Elapsed += new System.Timers.ElapsedEventHandler(UpdateAliOrdersEvent); //到达时间的时候执行事件；   
+            DownAliOrdersTimer.AutoReset = true;   //设置是执行一次（false）还是一直执行(true)；   
+            DownAliOrdersTimer.Enabled = true;     //是否执行System.Timers.Timer.Elapsed事件；   
+
+            // TODO: 在此处添加代码以启动服务。
+            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "启动";
+            WriteLog(state);
+            DownAliOrdersTimer.Start();
+            UpdateAliOrdersTimer.Start();
         }
 
         protected override void OnStop()
@@ -33,24 +46,43 @@ namespace IntFactor.Service
             string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "停止";
             WriteLog(state);
 
-            //timer_downdata.Stop();
+            DownAliOrdersTimer.Stop();
+            UpdateAliOrdersTimer.Stop();
         }
 
-        private void timer_downdata_Tick(object sender, EventArgs e)
+        public void DownAliOrdersEvent(object source, System.Timers.ElapsedEventArgs e)
         {
-            WriteLog(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
-            
+            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "DownAliOrdersEvent";
+            WriteLog(state);
+
+            AliOrderBusiness.ExecuteDownAliOrdersPlan();
         }
 
-        public void WriteLog(string str)  
-        { 
-            //using (StreamWriter sw = File.AppendText(@"c:\service.txt"))  
-            //{  
-            //    sw.WriteLine(str);  
-            //    sw.Flush();  
-            //}
+        public void UpdateAliOrdersEvent(object source, System.Timers.ElapsedEventArgs e)
+        {
+            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "UpdateAliOrdersEvent";
+            WriteLog(state,2);
 
-            FileStream fs = new FileStream(@"c:\xx.txt", FileMode.OpenOrCreate, FileAccess.Write);
+            AliOrderBusiness.ExecuteUpdateAliOrders();
+        }  
+
+
+        public void WriteLog(string str,int logType=1)  
+        {
+            string fileName = DateTime.Now.ToString("yyyy-MM-dd");
+            string fileExtention = ".txt";
+            string directoryName="downaliorders";
+            FileStream fs = null;
+            if (logType == 2)
+                directoryName = "updatealiorders";
+
+            if (!Directory.Exists(@"c:\log\" + directoryName))
+            {
+                Directory.CreateDirectory(@"c:\log\" + directoryName);
+            }
+
+            fs = new FileStream(@"c:\log\"+directoryName+"\\" + fileName + fileExtention, FileMode.OpenOrCreate, FileAccess.Write);
+
             StreamWriter sw = new StreamWriter(fs);
             sw.BaseStream.Seek(0, SeekOrigin.End);
             sw.WriteLine("WindowsService: Service Started" + str + "\n");

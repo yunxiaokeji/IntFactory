@@ -1,4 +1,4 @@
-﻿namespace IntFactor.Service
+﻿namespace IntFactory.Service
 {
     partial class Service1
     {
@@ -28,14 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.timer_downdata = new System.Windows.Forms.Timer(this.components);
-            // 
-            // timer_downdata
-            // 
-            this.timer_downdata.Enabled = true;
-            this.timer_downdata.Interval = 3600000;
-            this.timer_downdata.Tick += new System.EventHandler(this.timer_downdata_Tick);
             // 
             // Service1
             // 
@@ -45,6 +37,5 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer timer_downdata;
     }
 }

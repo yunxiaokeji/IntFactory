@@ -68,4 +68,13 @@ namespace AlibabaSdk
         Hand = 2
     }
 
+    public enum AliOrderUpdateStatus
+    {
+        [DescriptionAttribute("正常")]
+        Normal = 0,
+        [DescriptionAttribute("成功")]
+        Success = 1,
+        [DescriptionAttribute("失败")]
+        Fail = 2
+    }
 }

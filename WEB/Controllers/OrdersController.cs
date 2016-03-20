@@ -481,9 +481,24 @@ namespace YXERP.Controllers
                 string RefreshToken = plan.RefreshToken;
 
                 if (downOrderType == 1)
-                    flag = AliOrderBusiness.DownFentOrders(downStartTime, downEndTime, token, RefreshToken, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total);
+                {
+                    flag = AliOrderBusiness.DownFentOrders(downStartTime, downEndTime, token, RefreshToken, CurrentUser.UserID, 
+                        CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total);
+                    
+                    //新增阿里打样订单下载日志
+                    AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
+                        successCount, total, plan.AgentID, plan.ClientID);
+                }
                 else
-                    flag = AliOrderBusiness.DownBulkOrders(downStartTime, downEndTime, token, RefreshToken, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total);
+                {
+                   
+                    flag = AliOrderBusiness.DownBulkOrders(downStartTime, downEndTime, token, RefreshToken, CurrentUser.UserID, 
+                        CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total);
+
+                    //新增阿里大货订单下载日志
+                    AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
+                        successCount, total, plan.AgentID, plan.ClientID);
+                }
 
                 result = flag ? 1 : 0;
                 JsonDictionary.Add("totalOrderCount", total);
