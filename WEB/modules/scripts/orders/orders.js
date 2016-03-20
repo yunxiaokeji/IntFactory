@@ -28,9 +28,12 @@
 
     var ObjectJS = {};
     //初始化
-    ObjectJS.init = function (type) {
+    ObjectJS.init = function (type, status) {
         var _self = this;
         Params.SearchType = type;
+        if (status) {
+            Params.Status = status;
+        }
         _self.getList();
         _self.bindEvent(type);
     }

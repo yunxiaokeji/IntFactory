@@ -7,7 +7,7 @@
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/orders/orders"], function (ObjectJS) {
-            ObjectJS.init('@ViewBag.Type');
+            ObjectJS.init('@ViewBag.Type','@(ViewBag.State)');
         });
         $(function () {
             var begin = {

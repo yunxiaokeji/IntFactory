@@ -500,4 +500,7 @@
   <ItemGroup>
     <None Include="Procedures\AliOrder\P_UpdateAllAliOrderUpdateLogStatus.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_UpdateOrderCategoryID.sql" />
+  </ItemGroup>
 </Project>

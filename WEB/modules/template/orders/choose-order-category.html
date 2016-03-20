@@ -1,0 +1,18 @@
+﻿
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+    <div class="category-header">{%=item.CategoryName%}</div>
+    <ul class="category-items">
+        {%
+	        for(var ii=0, ji=item.ChildCategory.length; ii < ji; ii++){
+	        var child = item.ChildCategory[ii];
+         %}
+            <li class="category-item" data-pid="{%=item.CategoryID%}" data-name="{%=child.CategoryName%}" data-id="{%=child.CategoryID%}">
+                {%=child.CategoryName%}
+            </li>
+        {% } %}
+    </ul>
+{% } %}
+

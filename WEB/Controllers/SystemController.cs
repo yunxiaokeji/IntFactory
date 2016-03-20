@@ -502,6 +502,24 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetClientOrderCategorys()
+        {
+            var list = new ProductsBusiness().GetClientCategorysByPID("", IntFactoryEnum.EnumCategoryType.Order, CurrentUser.ClientID).Where(m => m.Status == 1).ToList();
+            foreach (var item in list)
+            {
+                if (item.ChildCategory == null || item.ChildCategory.Count == 0)
+                {
+                    item.ChildCategory = new ProductsBusiness().GetClientCategorysByPID(item.CategoryID, IntFactoryEnum.EnumCategoryType.Order, CurrentUser.ClientID).Where(m => m.Status == 1).ToList();
+                }
+            }
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         #endregion
 
         #region 销售团队
