@@ -31,9 +31,7 @@ namespace AlibabaSdk
             }
             
             if (paras != null && paras.Count > 0)
-            {
                 paraStr+="&"+ createParameterStr(paras);
-            }
 
             string strResult = string.Empty;
             try

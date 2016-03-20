@@ -90,7 +90,13 @@ namespace IntFactoryBusiness
             }
             #endregion
 
-            if (goodsCodesResult.goodsCodeList.Count == 0) return true;
+            if (goodsCodesResult.goodsCodeList.Count == 0) {
+                //更新订单下载成功时间
+                AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanSuccessTime(clientID, EnumOrderType.ProofOrder, gmtFentEnd);
+
+                return true; 
+            
+            }
 
             //订单编码分页
             var goodsCodeList = goodsCodesResult.goodsCodeList;
@@ -171,7 +177,10 @@ namespace IntFactoryBusiness
             }
             #endregion
 
-            if (goodsCodesResult.goodsCodeList.Count == 0) return true;
+            if (goodsCodesResult.goodsCodeList.Count == 0) {
+                AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanSuccessTime(clientID, EnumOrderType.LargeOrder, gmtBulkEnd);
+                return true; 
+            }
 
             //订单编码分页
             var goodsCodeList = goodsCodesResult.goodsCodeList;

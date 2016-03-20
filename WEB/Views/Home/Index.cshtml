@@ -17,14 +17,49 @@
 </script>
 }
 <div class="indexContent">
-    <div class="left orderContent">
+    <div style="width:500px;" class="left">
+
+    <div class="orderContent">
+        <div class="header">
+            需求
+        </div>
+
+        <div class="needOrderNav">
+            <ul class="navTab">
+                <li class="liBorderLeft" data-filterType="6">
+                    <div class="center">
+                         <div>本厂订单</div>
+                         <div class="center mTop5" id="myOrders">0</div>
+                    </div>
+                </li>
+                <li  data-filterType="7">
+                    <div class="center">
+                        <div>委托订单</div>
+                        <div class="center mTop5" id="delegateOrders">0</div>
+                    </div>
+
+                </li>
+                <li class="liBorderRight" data-filterType="5">
+                    <div class="center">
+                        <div>协助订单</div>
+                        <div class="center mTop5" id="cooperationOrders">0</div>
+                    </div>
+                </li>
+                <div class="clear"></div>
+            </ul>
+            
+        </div>
+
+    </div>
+
+    <div class="orderContent">
         <div class="header">
             打样
         </div>
 
         <div class="fentOrderNav">
             <ul class="navTab">
-                <li class="hover liBorderLeft" data-filterType="6">
+                <li class="liBorderLeft" data-filterType="6">
                     <div class="center">
                         <img style="width:18px;" src="/modules/images/home/ico-myorder.png" />
                     </div>
@@ -50,27 +85,16 @@
             
         </div>
 
-        <div class="orderContentList" id="fentOrders">
-            <table width="100%">
-                <thead>
-                    <tr>
-                        <td width="35%">订单编号</td>
-                        <td width="30%">订单状态</td>
-                        <td width="35%">创建时间</td>
-                    </tr>
-                </thead>
-            </table>
-        </div>
     </div>
 
-    <div class="left mLeft30 orderContent">
+    <div class="orderContent">
         <div class="header">
             大货
         </div>
 
         <div class="bulkOrderNav">
             <ul class="navTab">
-                <li class="hover liBorderLeft" data-filterType="6">
+                <li class="liBorderLeft" data-filterType="6">
                     <div class="center">
                         <img style="width:18px;" src="/modules/images/home/ico-myorder.png" />
                     </div>
@@ -94,25 +118,16 @@
             <div class="clear"></div>
         </div>
 
-        <div class="orderContentList" id="bulkOrderList">
-            <table width="100%">
-                <thead>
-                    <tr>
-                        <td width="35%">订单编号</td>
-                        <td width="30%">订单状态</td>
-                        <td width="35%">创建时间</td>
-                    </tr>
-                </thead>
-            </table>
-        </div>
     </div>
 
-    <div class="left mLeft30">
+    </div>
+
+    <div class="right mLeft30">
         <div class="header">
             客户
         </div>
 
-        <div class="left itemContent mTop10">
+        <div class="itemContent mTop10">
             <div class="left pTop5"><img style="width:26px;" src="/modules/images/home/ico-allcustomer.png" /></div>
             <div class="left mLeft10">
                 <div>客户数</div>
@@ -121,7 +136,7 @@
             <div class="clear"></div>
         </div>
 
-        <div class="left itemContent mTop10 mLeft10">
+        <div class="itemContent" style="margin-top:60px;">
             <div class="left pTop5">
                 <img style="width:26px;" src="/modules/images/home/ico-allorder.png" />
             </div>
@@ -131,34 +146,13 @@
             </div>
             <div class="clear"></div>
         </div>
-        <div class="clear"></div>
 
-        <div class="itemContent mTop10" style="width:100px;padding-right:5px;">
+        <div class="itemContent" style="margin-top:60px;">
             <div class="left pTop5"><img style="width:26px;" src="/modules/images/home/ico-allamount.png" /></div>
             <div class="left mLeft10" >
                 <div>订单金额</div>
                 
                 <div class="center mTop5" id="totalmoney">0</div>
-            </div>
-            <div class="clear"></div>
-        </div>
-
-        <div class="header mTop50">
-            需求
-        </div>
-
-        <div class="mTop10">
-            <div class="left itemContent2" style="border-right:none;">
-                <div>本厂订单</div>
-                <div class="center mTop5" id="myOrders">0</div>
-            </div>
-            <div class="left itemContent2" style="border-right:none;border-left:none;">
-                <div>委托订单</div>
-                <div class="center mTop5" id="delegateOrders">0</div>
-            </div>
-             <div class="left itemContent2" style="border-left:none;">
-                <div>协助订单</div>
-                <div class="center mTop5" id="cooperationOrders">0</div>
             </div>
             <div class="clear"></div>
         </div>

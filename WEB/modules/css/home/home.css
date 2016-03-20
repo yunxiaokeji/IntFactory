@@ -40,25 +40,18 @@
 
 .main-content { margin-left:0px; }
 
-.indexContent { width: 1160px; margin:80px auto; }
+.indexContent { width: 780px; margin:100px auto; }
 
-.orderContent { min-height: 300px; margin-bottom: 10px; }
+.orderContent { min-height: 130px; margin-bottom: 10px;}
 
 .indexContent .header { border-left: solid 2px #999; padding-left: 8px; font-size: 14px; color: #666; }
 
 .fentOrderNav { margin-top: 10px; }
 
-.fentOrderNav .navTab li { float: left;  padding: 15px 25px; background-color: #5abcde; color: #fff; cursor: pointer; }
-
-.liBorderLeft {
-border-top-left-radius:2px;
-border-bottom-left-radius:2px;
-}
-
-.liBorderRight {
-border-top-right-radius:2px;
-border-bottom-right-radius:2px;
-}
+.fentOrderNav .navTab li { float: left;  padding: 20px 35px; background-color: #5abcde; color: #fff; cursor: pointer; margin-right:10px;border-radius:2px;}
+.bulkOrderNav .navTab li{ float: left; padding: 20px 35px; background-color: #fb8775; color: #fff; cursor: pointer;margin-right:10px;border-radius:2px; }
+.needOrderNav .navTab li{float: left;  padding: 20px 51px; background-color: #fff; color: #fff; cursor: pointer; margin-right:10px;border-radius:2px;}
+.needOrderNav { margin-top: 10px; }
 
 .fentOrderNav .navTab li span{
 color:#fff;
@@ -78,7 +71,7 @@ color:#fff;
 
 .bulkOrderNav { margin-top: 10px; }
 
-.bulkOrderNav .navTab li { float: left; padding: 15px 25px; background-color: #fb8775; color: #fff; cursor: pointer; }
+
 
 .bulkOrderNav .navTab li span{
 color:#fff;
@@ -88,8 +81,8 @@ color:#fff;
 
 .bulkOrderNav .navTab .hover { background-color: #ca5846; }
 
-.itemContent { padding: 20px 32px; border: solid 1px #eee; border-radius: 3px; background-color: #fff; color: #666; }
+.itemContent { padding: 20px 45px; border: solid 1px #eee; border-radius: 3px; background-color: #fff; color: #666; }
 
-.itemContent2 { padding: 20px 23px; border: solid 1px #eee; border-radius: 3px; background-color: #fff; color: #666; }
+.itemContent2 { padding: 24px 31px; border: solid 1px #eee; border-radius: 3px; background-color: #fff; color: #666;margin-right:5px; }
 
 
