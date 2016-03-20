@@ -258,7 +258,6 @@
         $("#downAliOrders").click(function () {
 
             doT.exec("template/orders/downAliOrders.html", function (template) {
-                ObjectJS.downAliOrders = true;
 
                 var html = template([]);
                 Easydialog.open({
@@ -305,9 +304,25 @@
                         downOrderType: $("#downOrderType").val()
                     }, function (data) {
                         if (data.result == 0) {
-                            ObjectJS.downAliOrders = false;
+                            alert("同步失败");
                         }
-                        else {
+                        else if (data.result == 1) {
+                            Easydialog.close();
+
+                            var html = '<div style="width:400px;border:1px solid #ccc;border-radius:4px;"><div id="downOrderBar" style="background-color:#06c;width:0px;height:10px;border-radius:4px;"></div></div>';
+                            html += '<div style="text-align:center;margin-top:3px;"><span id="successOrderCount">0</span>(成功) / <span id="totalOrderCount">0</span>(总数)</div>';
+                            Easydialog.open({
+                                container: {
+                                    id: "show-model-showDownAliOrders",
+                                    header: "同步进度",
+                                    content: html,
+                                    yesFn: function () {
+                                        location.href = "/Customer/Orders/Need";
+                                    }
+                                }
+
+                            });
+
                             var successOrderCount = parseInt(data.successOrderCount);
                             $("#totalOrderCount").html(data.totalOrderCount);
                             var totalOrderCount = parseInt(data.totalOrderCount);
@@ -318,24 +333,14 @@
                             else
                                 $("#downOrderBar").css("width",400 + "px");
                         }
-                    });
-
-
-                    Easydialog.close();
-
-                    var html = '<div style="width:400px;border:1px solid #ccc;border-radius:4px;"><div id="downOrderBar" style="background-color:#06c;width:0px;height:10px;border-radius:4px;"></div></div>';
-                    html += '<div style="text-align:center;margin-top:3px;"><span id="successOrderCount">0</span>(成功) / <span id="totalOrderCount">0</span>(总数)</div>';
-                    Easydialog.open({
-                        container: {
-                            id: "show-model-showDownAliOrders",
-                            header: "同步进度",
-                            content: html,
-                            yesFn: function () {
-                                location.href = "/Customer/Orders/Need";
-                            }
+                        else if (data.result == 2) {
+                            alert("无权同步");
                         }
-
+                        else if (data.result == 3) {
+                            alert("最大下载15天内");
+                        }
                     });
+
                 });
 
                 var start = {

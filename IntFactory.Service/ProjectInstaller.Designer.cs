@@ -39,7 +39,7 @@
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "阿里巴巴订单下载更新服务";
+            this.serviceInstaller1.Description = "智能工厂自动更新服务";
             this.serviceInstaller1.ServiceName = "IntFactory.Service";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 

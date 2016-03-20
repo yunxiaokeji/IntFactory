@@ -504,7 +504,7 @@
             var _this = $(this);
             confirm("确认从清单中移除此材料吗？", function () {
                 Global.post("/Orders/DeleteProduct", {
-                    orderid: _self.orderid,
+                    orderid: ObjectJS.orderid,
                     autoid: _this.data("id"),
                     name: _this.data("name")
                 }, function (data) {

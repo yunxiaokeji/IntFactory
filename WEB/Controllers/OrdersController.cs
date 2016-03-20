@@ -501,46 +501,52 @@ namespace YXERP.Controllers
         {
             int result = 0;
             bool flag = false;
-            var plan = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlanDetail(CurrentUser.ClientID);
+            DateTime downStartTime = DateTime.Parse(startTime);
+            DateTime downEndTime = DateTime.Parse(endTime);
 
-            if (plan != null)
+            if ((downEndTime - downStartTime).Days < 16)
             {
+                var plan = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlanDetail(CurrentUser.ClientID);
 
-                int successCount;
-                int total;
-                DateTime downStartTime = DateTime.Parse(startTime);
-                DateTime downEndTime = DateTime.Parse(endTime);
-                string token = plan.Token;
-                string RefreshToken = plan.RefreshToken;
-
-                if (downOrderType == 1)
+                if (plan != null)
                 {
-                    flag = AliOrderBusiness.DownFentOrders(downStartTime, downEndTime, token, RefreshToken, CurrentUser.UserID, 
-                        CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total);
-                    
-                    //新增阿里打样订单下载日志
-                    AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
-                        successCount, total, plan.AgentID, plan.ClientID);
+
+                    int successCount;
+                    int total;
+
+                    string token = plan.Token;
+                    string refreshToken = plan.RefreshToken;
+                    if (downOrderType == 1)
+                    {
+                        flag = AliOrderBusiness.DownFentOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
+                            CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total);
+
+                        //新增阿里打样订单下载日志
+                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
+                            successCount, total, plan.AgentID, plan.ClientID);
+                    }
+                    else
+                    {
+
+                        flag = AliOrderBusiness.DownBulkOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
+                            CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total);
+
+                        //新增阿里大货订单下载日志
+                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
+                            successCount, total, plan.AgentID, plan.ClientID);
+                    }
+
+                    result = flag ? 1 : 0;
+                    JsonDictionary.Add("totalOrderCount", total);
+                    JsonDictionary.Add("successOrderCount", successCount);
                 }
                 else
-                {
-                   
-                    flag = AliOrderBusiness.DownBulkOrders(downStartTime, downEndTime, token, RefreshToken, CurrentUser.UserID, 
-                        CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total);
-
-                    //新增阿里大货订单下载日志
-                    AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
-                        successCount, total, plan.AgentID, plan.ClientID);
-                }
-
-                result = flag ? 1 : 0;
-                JsonDictionary.Add("totalOrderCount", total);
-                JsonDictionary.Add("successOrderCount", successCount);
+                    result = 2;
             }
             else
-                result = 2;
+                result = 3;
 
-            JsonDictionary.Add("result", result);
+            JsonDictionary.Add("result", 2);
             
             return new JsonResult
             {

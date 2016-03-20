@@ -53,6 +53,18 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult ExecuteUpdateAliOrders()
+        {
+            var result = AliOrderBusiness.ExecuteUpdateAliOrders();
+
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         List<string> codes = new List<string>();
         public JsonResult pullFentDataList()
         {
