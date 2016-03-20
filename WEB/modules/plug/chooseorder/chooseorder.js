@@ -69,24 +69,8 @@ define(function (require, exports, module) {
             $("#choosecustomerSearch").searchKeys(function (keyWords) {
                 if (keyWords) {
                     $(".customerlist-all .customerlist-items").empty();
-                    var params = {
-                        SearchType: 3,
-                        TypeID: '',
-                        Status: 3,
-                        PayStatus: -1,
-                        InvoiceStatus: -1,
-                        ReturnStatus: 0,
-                        UserID: "",
-                        AgentID: "",
-                        TeamID: "",
-                        Keywords: keyWords,
-                        BeginTime: "",
-                        EndTime: "",
-                        PageIndex: 1,
-                        PageSize: 20
-                    };
-                    Global.post("/Orders/GetOrders", {
-                        filter: JSON.stringify(params)
+                    Global.post("/Orders/GetDYOrders", {
+                        keywords: keyWords
                     }, function (data) {
                         $(".customerlist-all .customerlist-items").empty();
 
