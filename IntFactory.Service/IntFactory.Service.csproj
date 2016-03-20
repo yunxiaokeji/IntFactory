@@ -7,9 +7,9 @@
     <ProjectGuid>{313E5872-F99A-4B77-9987-A01DFF27B758}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IntFactor.Service</RootNamespace>
-    <AssemblyName>IntFactor.Service</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>IntFactory.Service</RootNamespace>
+    <AssemblyName>IntFactory.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>发布\</PublishUrl>
     <Install>true</Install>
@@ -37,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,6 +47,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -103,6 +105,28 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YX.SDK\AlibabaSdk.csproj">
+      <Project>{c6cd2682-4dca-4ee8-a5e5-a0e117073390}</Project>
+      <Name>AlibabaSdk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXBusiness\IntFactoryBusiness.csproj">
+      <Project>{6322cb56-2693-4600-922d-0dec06a8f59c}</Project>
+      <Name>IntFactoryBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXDAL\IntFactoryDAL.csproj">
+      <Project>{03242f3b-5c14-42d6-aaa1-26ce56a3499f}</Project>
+      <Name>IntFactoryDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXEntity\IntFactoryEntity.csproj">
+      <Project>{6e99de28-adb3-4c22-8de9-dea1e44c04bb}</Project>
+      <Name>IntFactoryEntity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXEnum\IntFactoryEnum.csproj">
+      <Project>{b86924c1-ec31-449f-97f3-258dfa43a44f}</Project>
+      <Name>IntFactoryEnum</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -99,8 +99,11 @@ namespace YXERP.Controllers
             ViewBag.Model = task;
 
             //任务对应的订单详情
-            var order = new IntFactoryEntity.OrderEntity();
-            order=OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var order=OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
+            if (order.Details == null)
+            {
+                order.Details = new List<IntFactoryEntity.OrderDetail>();
+            }
             ViewBag.Order = order;
 
             //任务对应订单的品类属性

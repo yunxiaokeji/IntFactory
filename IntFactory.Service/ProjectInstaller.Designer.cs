@@ -1,4 +1,4 @@
-﻿namespace IntFactor.Service
+﻿namespace IntFactory.Service
 {
     partial class ProjectInstaller
     {
@@ -39,8 +39,8 @@
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "阿里巴巴订单下载服务";
-            this.serviceInstaller1.ServiceName = "IntFactorDowndataService";
+            this.serviceInstaller1.Description = "阿里巴巴订单下载更新服务";
+            this.serviceInstaller1.ServiceName = "IntFactory.Service";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller

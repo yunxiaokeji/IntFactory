@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntFactory.Database", "IntF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlibabaSdk", "YX.SDK\AlibabaSdk.csproj", "{C6CD2682-4DCA-4EE8-A5E5-A0E117073390}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntFactoryDowndataService", "IntFactory.Service\IntFactoryDowndataService.csproj", "{313E5872-F99A-4B77-9987-A01DFF27B758}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntFactory.Service", "IntFactory.Service\IntFactory.Service.csproj", "{313E5872-F99A-4B77-9987-A01DFF27B758}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "IntFactoryDB", "YXDB\IntFactoryDB.sqlproj", "{86994CB6-735C-43CC-99F9-0E461EFB21A1}"
 EndProject

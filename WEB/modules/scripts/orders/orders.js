@@ -288,6 +288,16 @@
                         return;
                     }
 
+                    var dateFrom = new Date($("#downStartTime").val());
+                    var dateTo = new Date($("#downEndTime").val());
+                    var diff = dateTo.valueOf() - dateFrom.valueOf();
+                    var diff_day = parseInt(diff / (1000 * 60 * 60 * 24));
+                    if (diff_day > 15)
+                    {
+                        alert("最大下载15天内");
+                        return;
+                    }
+
                     
                     Global.post("/Orders/DownAliOrders", {
                         startTime: $("#downStartTime").val(),

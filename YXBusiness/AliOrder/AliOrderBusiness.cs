@@ -213,6 +213,27 @@ namespace IntFactoryBusiness
 
 
         /// <summary>
+        /// 执行更新阿里订单
+        /// </summary>
+        /// <returns></returns>
+        public static bool ExecuteUpdateAliOrders() {
+            //获取阿里订单下载计划列表
+            var list = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlans();
+
+            foreach (var item in list) 
+            {
+                //批量更新打样订单
+                UpdateAliFentOrders(item.ClientID, item.Token, item.RefreshToken);
+
+                //批量更新大货订单
+                UpdateAliBulkOrders(item.ClientID, item.Token, item.RefreshToken);
+            }
+
+            return true;
+        }
+
+
+        /// <summary>
         /// 批量更新打样订单
         /// </summary>
         /// <param name="agentID"></param>
@@ -277,7 +298,7 @@ namespace IntFactoryBusiness
 
                 //更新订单更新日志的更新状态成功
                 List<string> succeseGodesCodeList = batchUpdateResult.succeseGodesCodeList;
-                AliOrderBusiness.BaseBusiness.UpdateAllAliOrderUpdateLogStatus(string.Join(",", succeseGodesCodeList), 1);
+                AliOrderBusiness.BaseBusiness.UpdateAllAliOrderUpdateLogStatus(string.Join(",", succeseGodesCodeList), AlibabaSdk.AliOrderUpdateStatus.Success);
 
                 //更新订单更新日志的更新状态失败
                 if (succeseGodesCodeList.Count < list.Count)
@@ -291,7 +312,7 @@ namespace IntFactoryBusiness
                         }
 
                     }
-                    AliOrderBusiness.BaseBusiness.UpdateAllAliOrderUpdateLogStatus(string.Join(",", failGodesCodeList), 0);
+                    AliOrderBusiness.BaseBusiness.UpdateAllAliOrderUpdateLogStatus(string.Join(",", failGodesCodeList), AlibabaSdk.AliOrderUpdateStatus.Fail);
                 }
 
             }
@@ -365,7 +386,7 @@ namespace IntFactoryBusiness
 
                 //更新订单更新日志的更新状态成功
                 List<string> succeseGodesCodeList = batchUpdateResult.succeseGodesCodeList;
-                AliOrderBusiness.BaseBusiness.UpdateAllAliOrderUpdateLogStatus(string.Join(",", succeseGodesCodeList), 1);
+                AliOrderBusiness.BaseBusiness.UpdateAllAliOrderUpdateLogStatus(string.Join(",", succeseGodesCodeList), AlibabaSdk.AliOrderUpdateStatus.Success);
 
                 //更新订单更新日志的更新状态失败
                 if (succeseGodesCodeList.Count < list.Count)
@@ -379,7 +400,7 @@ namespace IntFactoryBusiness
                         }
 
                     }
-                    AliOrderBusiness.BaseBusiness.UpdateAllAliOrderUpdateLogStatus(string.Join(",", failGodesCodeList), 0);
+                    AliOrderBusiness.BaseBusiness.UpdateAllAliOrderUpdateLogStatus(string.Join(",", failGodesCodeList), AlibabaSdk.AliOrderUpdateStatus.Fail);
                 }
 
 
@@ -536,9 +557,9 @@ namespace IntFactoryBusiness
         /// <param name="aliOrderCodes"></param>
         /// <param name="status">0:未更新；1：已更新；2：更新失败</param>
         /// <returns></returns>
-        public bool UpdateAllAliOrderUpdateLogStatus(string aliOrderCodes, int status)
+        public bool UpdateAllAliOrderUpdateLogStatus(string aliOrderCodes,AlibabaSdk.AliOrderUpdateStatus status)
         {
-            bool flag = AliOrderDAL.BaseProvider.UpdateAllAliOrderUpdateLogStatus(aliOrderCodes, status);
+            bool flag = AliOrderDAL.BaseProvider.UpdateAllAliOrderUpdateLogStatus(aliOrderCodes,(int) status);
 
             return flag;
 
