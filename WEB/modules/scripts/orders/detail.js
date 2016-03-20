@@ -315,7 +315,7 @@ define(function (require, exports, module) {
                     });
 
                     $("#iptFinalPrice").focus();
-                    $("#iptFinalPrice").val(($("#amount").text() * (1 + $("#profitPrice").text() / 100)).toFixed(2))
+                    $("#iptFinalPrice").val((($("#amount").text() * 1 + $("#lblCostMoney").text() * 1) * (1 + $("#profitPrice").text() / 100)).toFixed(2))
                 });
             } //大货下单
             else if (_self.status == 3) {
@@ -525,7 +525,9 @@ define(function (require, exports, module) {
                             remark: $("#iptCostDescription").val()
                         }, function (data) {
                             if (data.status) {
-                                alert("成本添加成本!", location.href);
+                                alert("成本添加成本！");
+                                $("#lblCostMoney").text(($("#lblCostMoney").text() * 1 + $("#iptCostPrice").val() * 1).toFixed(2));
+                                _self.getCosts();
                             } else {
                                 alert("成本添加失败，请刷新页面重试！");
                             }
@@ -1315,6 +1317,7 @@ define(function (require, exports, module) {
                             autoid: _this.data("id")
                         }, function (data) {
                             if (data.status) {
+                                $("#lblCostMoney").text(($("#lblCostMoney").text() - _this.parents("tr").find(".cost-price").text()).toFixed(2));
                                 _this.parents("tr").first().remove();
                             }
                         });
