@@ -546,7 +546,7 @@ namespace YXERP.Controllers
             else
                 result = 3;
 
-            JsonDictionary.Add("result", 2);
+            JsonDictionary.Add("result", result);
             
             return new JsonResult
             {
