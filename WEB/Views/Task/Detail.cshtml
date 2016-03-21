@@ -55,11 +55,11 @@
         <div class="left">
             
              <div class="setTaskEndtime @(model.FinishStatus==0?"hide":"")">
-                <div class="left pTop5">
+                <div class="left pTop5 width70">
                     到期时间:
                 </div>
                  @{
-                    if (model.FinishStatus == 2 || model.FinishStatus == 1)
+                     if (model.FinishStatus != 0)
                     {
                         <div class="left mLeft10 pTop5">
                             <span class="">@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定到期时间" : model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
@@ -68,7 +68,7 @@
                     else
                     {
                         <div class="left mLeft10">
-                        <input type="text" class="taskEndTime"  id="UpdateTaskEndTime" value="@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定到期时间" : model.EndTime.ToString("yyyy-MM-dd"))" placeholder="设置到期时间"/>
+                        <input type="text" class="taskEndTime"  id="UpdateTaskEndTime"  placeholder="设置到期时间"/>
                         </div>
                     }   
                 }
@@ -82,11 +82,11 @@
 
         <div class="right mRight10">
             @{
-                if (model.FinishStatus != 2)
+                if (model.FinishStatus == 1)
                 {
                     <input type="button" class="btn" id="FinishTask" value="标记完成"/>
                 }
-                else
+                else if (model.FinishStatus == 2)
                 {
                     <span class="taskFinishStatus">已完成</span>
                 }
@@ -112,11 +112,11 @@
             </li>
              <li>
                 <span class="column-title">接受时间:</span>
-                <span>@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd"))</span>
+                <span id="AcceptTime">@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
             </li>
             <li>
                 <span class="column-title">完成时间:</span>
-                <span>@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.CompleteTime.ToString("yyyy-MM-dd"))</span>
+                <span id="CompleteTime">@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.CompleteTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
             </li>
              <li>
                 <span class="column-title">订单编号:</span>

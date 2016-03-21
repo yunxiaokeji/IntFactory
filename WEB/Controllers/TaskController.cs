@@ -13,7 +13,7 @@ namespace YXERP.Controllers
     public class TaskController : BaseController
     {
         // GET: /Task/
-        string token = "a004ca91-0a24-4b7b-973a-b03693b673d6";
+        string token = "af215ba9-f5fc-4f38-8274-2709138dfed5";
         string refreshToken = "030cc816-329e-4a64-9e20-7e71c11f1564";
         #region view
         public JsonResult batchUpdateFent()
