@@ -32,7 +32,8 @@ namespace YXERP.Controllers
         public JsonResult batchUpdateBulk()
         {
             //var result = AlibabaSdk.OrderBusiness.BatchUpdateBulk("THZ0001AB3B01ZH0032B", AlibabaSdk.BulkOrderStatus.PRODUCED, "bbb", token);
-            var result = AliOrderBusiness.UpdateAliBulkOrders(CurrentUser.ClientID, token, refreshToken);
+            List<string> failGodesCodes;
+            var result = AliOrderBusiness.UpdateAliBulkOrders(CurrentUser.ClientID, token, refreshToken, out failGodesCodes);
             JsonDictionary.Add("result", result);
             return new JsonResult()
             {
@@ -41,29 +42,29 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult ExecuteDownAliOrdersPlan()
-        {
-            var result =AliOrderBusiness.ExecuteDownAliOrdersPlan();
+        //public JsonResult ExecuteDownAliOrdersPlan()
+        //{
+        //    var result =AliOrderBusiness.ExecuteDownAliOrdersPlan();
 
-            JsonDictionary.Add("result", result);
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
+        //    JsonDictionary.Add("result", result);
+        //    return new JsonResult()
+        //    {
+        //        Data = JsonDictionary,
+        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+        //    };
+        //}
 
-        public JsonResult ExecuteUpdateAliOrders()
-        {
-            var result = AliOrderBusiness.ExecuteUpdateAliOrders();
+        //public JsonResult ExecuteUpdateAliOrders()
+        //{
+        //    var result = AliOrderBusiness.ExecuteUpdateAliOrders();
 
-            JsonDictionary.Add("result", result);
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
+        //    JsonDictionary.Add("result", result);
+        //    return new JsonResult()
+        //    {
+        //        Data = JsonDictionary,
+        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+        //    };
+        //}
 
         List<string> codes = new List<string>();
         public JsonResult pullFentDataList()

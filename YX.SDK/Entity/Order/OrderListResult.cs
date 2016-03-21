@@ -22,5 +22,11 @@ namespace AlibabaSdk
 
         public int error_code = 0;
 
+        public string error_message
+        {
+            get;
+            set;
+        }
+
     }
 }

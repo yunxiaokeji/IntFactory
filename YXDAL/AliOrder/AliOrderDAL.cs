@@ -100,7 +100,7 @@ namespace IntFactoryDAL
         /// <param name="agentID"></param>
         /// <param name="clientID"></param>
         /// <returns></returns>
-        public bool AddAliOrderUpdateLog(int orderType, int isSuccess, int downType, DateTime startTime, DateTime endTime, int successCount, int totalCount, string agentID, string clientID)
+        public bool AddAliOrderUpdateLog(int orderType, int isSuccess, int downType, DateTime startTime, DateTime endTime, int successCount, int totalCount,string remark, string agentID, string clientID)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@OrderType",orderType),
@@ -110,11 +110,12 @@ namespace IntFactoryDAL
                                        new SqlParameter("@EndTime",endTime),
                                        new SqlParameter("@SuccessCount",successCount),
                                        new SqlParameter("@TotalCount",totalCount),
+                                       new SqlParameter("@Remark",remark),
                                        new SqlParameter("@AgentID",agentID),
                                        new SqlParameter("@ClientID",clientID)
                                    };
 
-            string sqlStr = "insert into AliOrderDownloadLog(OrderType,IsSuccess,DownType,StartTime,EndTime,SuccessCount,TotalCount,AgentID,ClientID) values(@OrderType,@IsSuccess,@DownType,@StartTime,@EndTime,@SuccessCount,@TotalCount,@AgentID,@ClientID)";
+            string sqlStr = "insert into AliOrderDownloadLog(OrderType,IsSuccess,DownType,StartTime,EndTime,SuccessCount,TotalCount,Remark,AgentID,ClientID) values(@OrderType,@IsSuccess,@DownType,@StartTime,@EndTime,@SuccessCount,@TotalCount,@Remark,@AgentID,@ClientID)";
             
             return ExecuteNonQuery(sqlStr, paras, CommandType.Text) > 0;
         }
@@ -169,15 +170,16 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(" update AliOrderDownloadPlan set Token=@Token,RefreshToken=@RefreshToken where ClientID=@ClientID", paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateAliOrderDownloadPlanStatus(string clientID, int status)
+        public bool UpdateAliOrderDownloadPlanStatus(string clientID, int status, string remark)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@ClientID",clientID),
-                                       new SqlParameter("@Status",status)
+                                       new SqlParameter("@Status",status),
+                                       new SqlParameter("@Remark",remark)
                                    };
 
 
-            return ExecuteNonQuery(" update AliOrderDownloadPlan set Status=@Status where ClientID=@ClientID", paras, CommandType.Text) > 0;
+            return ExecuteNonQuery(" update AliOrderDownloadPlan set Status=@Status,@Remark=Remark,UpdateTime=getdate() where ClientID=@ClientID", paras, CommandType.Text) > 0;
         }
 
         public bool UpdateAliOrderDownloadPlanSuccessTime(string clientID, int orderType, DateTime successTime)

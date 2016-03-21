@@ -537,30 +537,30 @@ namespace YXERP.Controllers
 
                 if (plan != null)
                 {
-
                     int successCount;
                     int total;
 
                     string token = plan.Token;
                     string refreshToken = plan.RefreshToken;
+                    string error;
                     if (downOrderType == 1)
                     {
                         flag = AliOrderBusiness.DownFentOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
-                            CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total);
+                            CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total,out error, AlibabaSdk.AliOrderDownType.Hand);
 
                         //新增阿里打样订单下载日志
                         AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
-                            successCount, total, plan.AgentID, plan.ClientID);
+                            successCount, total,error, plan.AgentID, plan.ClientID);
                     }
                     else
                     {
 
                         flag = AliOrderBusiness.DownBulkOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
-                            CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total);
+                            CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total,out error, AlibabaSdk.AliOrderDownType.Hand);
 
                         //新增阿里大货订单下载日志
                         AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
-                            successCount, total, plan.AgentID, plan.ClientID);
+                            successCount, total, plan.AgentID,error, plan.ClientID);
                     }
 
                     result = flag ? 1 : 0;
