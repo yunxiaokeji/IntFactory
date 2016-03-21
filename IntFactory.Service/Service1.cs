@@ -34,36 +34,45 @@ namespace IntFactory.Service
             DownAliOrdersTimer.Enabled = true;     //是否执行System.Timers.Timer.Elapsed事件；   
 
             // TODO: 在此处添加代码以启动服务。
-            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "启动";
+            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + " 下载阿里订单服务启动";
             WriteLog(state);
             DownAliOrdersTimer.Start();
+
+            state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    更新阿里订单服务启动";
+            WriteLog(state, 2);
             UpdateAliOrdersTimer.Start();
         }
 
         protected override void OnStop()
         {
             // TODO: 在此处添加代码以执行停止服务所需的关闭操作。
-            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "停止";
+            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + " 下载阿里订单服务停止";
             WriteLog(state);
-
             DownAliOrdersTimer.Stop();
+
+            state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    更新阿里订单服务停止";
+            WriteLog(state, 2);
             UpdateAliOrdersTimer.Stop();
         }
 
         public void DownAliOrdersEvent(object source, System.Timers.ElapsedEventArgs e)
         {
-            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "DownAliOrdersEvent";
+            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + " DownAliOrdersEvent开启";
             WriteLog(state);
 
-            AliOrderBusiness.ExecuteDownAliOrdersPlan();
+            bool flag= AliOrderBusiness.ExecuteDownAliOrdersPlan();
+            state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    DownAliOrdersEvent结果:" + (flag ? "成功" : "失败");
+            WriteLog(state);
         }
 
         public void UpdateAliOrdersEvent(object source, System.Timers.ElapsedEventArgs e)
         {
-            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "UpdateAliOrdersEvent";
+            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + " UpdateAliOrdersEvent开启";
             WriteLog(state,2);
 
-            AliOrderBusiness.ExecuteUpdateAliOrders();
+            bool flag= AliOrderBusiness.ExecuteUpdateAliOrders();
+            state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    DownAliOrdersEvent结果:" + (flag ? "成功" : "失败");
+            WriteLog(state, 2);
         }  
 
 
