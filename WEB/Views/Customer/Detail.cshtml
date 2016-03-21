@@ -22,12 +22,6 @@
         @*<div id="lblType" class="left customer-type mTop2"></div>*@
         <div id="spCustomerName" class="left titlename"></div>
         <div id="updateCustomer" class="left ico-edit mLeft50 mTop2"></div>
-
-        @*<div class="btn999 right" id="loseCustomer">丢失</div>*@
-        @*<div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current,"101019004"))" id="closeCustomer">关闭</div>
-        <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current,"101019005"))" id="recoveryCustomer">恢复</div>
-        <span class="right lineHeight25 mRight20 blue mTop2" id="lblStatus"></span>
-        <span class="right lineHeight25 mTop2">客户状态：</span>*@
     </div>
     <ul class="content-info">
         <li><span>来源：</span><label id="lblSource"></label></li>
@@ -48,9 +42,9 @@
     <div class="tab-nav mTop30">
         <ul class="tab-nav-ul left">
             <li class="hover" data-id="navRemark">备忘</li>
-            <li data-id="navOppor">需求列表</li>
-            <li data-id="navOrder">打样订单</li>
-            <li data-id="navDHOrder">大货订单</li>
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019009"))" data-id="navOppor">需求列表</li>
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019010"))" data-id="navOrder">打样订单</li>
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019011"))" data-id="navDHOrder">大货订单</li>
             <li data-id="navContact">联系人</li>
             <li data-id="navLog">日志</li>
         </ul>

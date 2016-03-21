@@ -1307,7 +1307,13 @@ define(function (require, exports, module) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
 
+                innerhtml.find(".cost-price").each(function () {
+                    $(this).text($(this).text() * $("#navCosts").data("quantity"))
+                });
+
                 $("#navCosts .tr-header").after(innerhtml);
+
+                
 
                 innerhtml.find(".ico-del").click(function () {
                     var _this = $(this);

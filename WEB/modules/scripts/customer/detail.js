@@ -389,7 +389,7 @@
     ObjectJS.getOpportunitys = function (customerid, page) {
         var _self = this;
         $("#navOppor .tr-header").nextAll().remove();
-        Global.post("/Orders/GetOpportunityaByCustomerID", {
+        Global.post("/Orders/GetNeedsOrderByCustomerID", {
             customerid: customerid,
             pagesize: 10,
             pageindex: page

@@ -23,6 +23,8 @@
 
 .taskContent .talk-body .talk-title { border-bottom: solid 1px #4a98e7; height:40px; line-height:40px; width: 450px; color:#666; }
 .taskContent .talk-body .content-list { width: 450px;}
-.taskContent .talk-body .content-list td{ border-bottom:dashed 1px #ccc; }
+.taskContent .talk-body .content-list td{ border-bottom:dashed 1px #ccc;  }
 .taskContent .talk-body .content-list .user-avatar { width:35px; padding-top:20px; vertical-align:top; }
 .taskContent .talk-body .content-list .user-avatar img{ width:24px; height:24px; border-radius:12px;  vertical-align:top; }
+.taskContent .talk-body .reply-username { vertical-align:top; }
+.taskContent .talk-body .reply-content { display:inline-block; max-width:300px; white-space: pre-wrap;word-wrap: break-word;  }
