@@ -16,9 +16,7 @@
 }
 <div class="header-box">
     <span class="header-title left">订单详情页</span>
-    <a class="ico-back right" href="@(Url.RequestContext.HttpContext.Request.UrlReferrer == null ? "/Customer/Orders" : "javascript:if(history.length>1){ history.go(-1);} else{ location.href='/Customer/Orders'}")">
-        返回订单列表
-    </a>
+    <a class="ico-back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回 </a>
 </div>
 <div class="content-body mTop20">
     <div class="content-title">
@@ -52,7 +50,7 @@
             <span class="column-title">客户名称：</span> 
             @if (!string.IsNullOrEmpty(model.CustomerID))
             {
-                <a href="/Customer/Detail/@(model.CustomerID)" class="left" target="_blank">@(model.Customer.Name)</a> 
+                <a href="/Customer/Detail/@(model.CustomerID)" class="left">@(model.Customer.Name)</a> 
             }
             else
             {
@@ -74,7 +72,7 @@
         </li> 
         <li>
             <span class="column-title">打样订单：</span>
-            <a href="/Customer/OrderDetail/@(model.OriginalID)" class="" target="_blank">@(model.OriginalCode)</a>
+            <a href="/Customer/OrderDetail/@(model.OriginalID)" class="">@(model.OriginalCode)</a>
             @if (string.IsNullOrEmpty(model.OriginalID) && model.IsSelf)
             {
                 <div class="btn @(ExpandClass.IsLimits(HttpContext.Current, "102019018"))" id="bindOriginalOrder">绑定打样款号</div> 

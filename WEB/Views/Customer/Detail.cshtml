@@ -15,13 +15,15 @@
 }
 <div class="header-box">
     <span class="header-title left">客户详情</span>
-    <a class="btn right" href="/Customer/CreateOrder?cid=@ViewBag.ID">新建订单</a>
+    <a class="ico-back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回 </a>
+    
 </div>
 <div class="content-body mTop20">
     <div class="content-title">
         @*<div id="lblType" class="left customer-type mTop2"></div>*@
         <div id="spCustomerName" class="left titlename"></div>
         <div id="updateCustomer" class="left ico-edit mLeft50 mTop2"></div>
+        <a class="btn right" href="/Customer/CreateOrder?cid=@ViewBag.ID">新建订单</a>
     </div>
     <ul class="content-info">
         <li><span>来源：</span><label id="lblSource"></label></li>

@@ -19,7 +19,6 @@ define(function (require, exports, module) {
         var _self = this;
         _self.orderid = orderid;
         _self.status = status;
-        _self.mark = 1;
         _self.model = JSON.parse(model.replace(/&quot;/g, '"'));
 
         _self.bindStyle(_self.model);
@@ -1301,7 +1300,7 @@ define(function (require, exports, module) {
         var _self = this;
         $("#navCosts .tr-header").nextAll().remove();
         Global.post("/Orders/GetOrderCosts", {
-            orderid: _self.orderid
+            orderid: _self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID
         }, function (data) {
             doT.exec("template/orders/orderCosts.html", function (template) {
                 var innerhtml = template(data.items);
