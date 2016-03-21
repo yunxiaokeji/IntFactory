@@ -541,6 +541,17 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateOrderDiscount(string orderid, decimal discount, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderDiscount(orderid, discount, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单折扣设置为：" + discount;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
+            }
+            return bl;
+        }
+
         public bool UpdateOrderClient(string orderid, string newclientid, string name, string operateid, string ip, string agentid, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderClient(orderid, newclientid, operateid, agentid, clientid);
