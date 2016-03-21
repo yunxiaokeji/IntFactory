@@ -20,7 +20,7 @@ define(function (require, exports, module) {
         var _height = document.documentElement.clientHeight - 270;
 
         $(".category-all").css("height", _height);
-        $(".category-list").css("max-height", _height);
+        $(".category-list").css("max-height", _height-100);
     }
     //绑定事件
     ObjectJS.bindEvent = function () {

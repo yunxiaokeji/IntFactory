@@ -40,7 +40,7 @@ define(function (require, exports, module) {
         var _height = document.documentElement.clientHeight - 270;
         $(".category-all").css("height", _height);
         $(".category-all").css("width", $(".category-layer").length * 200 + 650);
-        $(".category-list").css("max-height", _height);
+        $(".category-list").css("max-height", _height-100);
 
         $("div.content-body").scrollLeft($("div.content-body").width());
     }
