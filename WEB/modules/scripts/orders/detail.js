@@ -201,6 +201,44 @@ define(function (require, exports, module) {
             });
         });
 
+        //设置订单折扣
+        $("#updateOrderDiscount").click(function () {
+            doT.exec("template/orders/update_order_discount.html", function (template) {
+                var innerText = template();
+                Easydialog.open({
+                    container: {
+                        id: "show-updateOrderDiscount",
+                        header: "设置订单折扣",
+                        content: innerText,
+                        yesFn: function () {
+                            var discount = $("#iptDiscount").val().trim();
+                            if (!discount.isDouble() || discount <= 0 || discount > 100) {
+                                alert("折扣必须为1-100的数字！");
+                                return false;
+                            }
+                            _self.updateOrderDiscount(discount);
+                        },
+                        callback: function () {
+
+                        }
+                    }
+                });
+                $("#iptDiscount").focus();
+                $("#iptDiscount").val((_self.model.Discount*100).toFixed(2));
+                $("#iptOriginalPrice").text(_self.model.OriginalPrice.toFixed(2));
+                $("#newPrice").text(_self.model.FinalPrice.toFixed(2));
+                $("#iptDiscount").change(function () {
+                    var _discount = $(this).val()
+                    if (!_discount.isDouble() || _discount <= 0 || _discount > 100) {
+                        $("#iptDiscount").val("100");
+                        $("#newPrice").text(_self.model.OriginalPrice.toFixed(2));
+                    } else {
+                        $("#newPrice").text((_self.model.OriginalPrice * _discount / 100).toFixed(2));
+                    }
+                });
+            });
+        });
+
         //确认大货明细
         $("#confirmDHOrder").click(function () {
             _self.createDHOrder(true);
@@ -1031,6 +1069,21 @@ define(function (require, exports, module) {
                 location.href = location.href;
             } else {
                 alert("利润比例设置失败，可能因为订单状态已改变，请刷新页面后重试！");
+            }
+        });
+    }
+
+    //设置折扣
+    ObjectJS.updateOrderDiscount = function (discount) {
+        var _self = this;
+        Global.post("/Orders/UpdateOrderDiscount", {
+            orderid: _self.orderid,
+            discount: discount
+        }, function (data) {
+            if (data.status) {
+                location.href = location.href;
+            } else {
+                alert("折扣设置失败，可能因为订单状态已改变，请刷新页面后重试！");
             }
         });
     }

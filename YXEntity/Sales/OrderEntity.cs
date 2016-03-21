@@ -247,6 +247,10 @@ namespace IntFactoryEntity
 
         public decimal CostPrice { get; set; }
 
+        public decimal Discount { get; set; }
+
+        public decimal OriginalPrice { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

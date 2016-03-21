@@ -509,4 +509,7 @@
   <ItemGroup>
     <None Include="Procedures\Sales\P_DeleteOrderCost.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_UpdateOrderDiscount.sql" />
+  </ItemGroup>
 </Project>

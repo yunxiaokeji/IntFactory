@@ -367,6 +367,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UpdateOrderDiscount(string orderid, decimal discount)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderDiscount(orderid, discount, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult UpdateOrderClient(string orderid, string clientid, string name)
         {
             var bl = OrdersBusiness.BaseBusiness.UpdateOrderClient(orderid, clientid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);

@@ -87,8 +87,12 @@
             <label id="lblCostMoney">@(model.CostPrice.ToString("f2"))</label>
         </li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
-            <span class="column-title">最终报价：</span>
-            <label>@(model.FinalPrice.ToString("f2"))</label>
+            <span class="column-title">单价：</span>
+            <label class="left">@(model.FinalPrice.ToString("f2"))</label>
+            @if (model.IsSelf && model.Status == 4)
+             { 
+                <div id="updateOrderDiscount" title="编辑订单折扣" class="left ico-edit mLeft20 mTop5 @(ExpandClass.IsLimits(HttpContext.Current,"102019023"))"></div>
+             }
         </li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016"))">
             <span class="column-title">加工数量：</span>
