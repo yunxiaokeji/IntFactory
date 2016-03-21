@@ -85,10 +85,21 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult EntrustOrders()
+        public ActionResult EntrustOrders(string id)
         {
             ViewBag.Title = "委托订单列表";
             ViewBag.Type = (int)EnumSearchType.Entrust;
+
+            int State = -1;
+            if (!string.IsNullOrEmpty(id))
+            {
+                if (id.Equals("need", StringComparison.OrdinalIgnoreCase))
+                {
+                    State = 0;
+                }
+            }
+            ViewBag.State = State;
+
             return View();
         }
 

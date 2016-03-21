@@ -44,6 +44,8 @@
 
 .orderContent { min-height: 130px; margin-bottom: 10px;}
 
+.orderContent a { color:#fff; }
+
 .indexContent .header { border-left: solid 2px #999; padding-left: 8px; font-size: 14px; color: #666; }
 
 .fentOrderNav { margin-top: 10px; }
