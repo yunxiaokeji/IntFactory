@@ -15,41 +15,6 @@ namespace IntFactoryBusiness
     {
         public static AliOrderBusiness BaseBusiness = new AliOrderBusiness();
 
-        ///// <summary>
-        ///// 执行下载阿里订单计划
-        ///// </summary>
-        ///// <returns></returns>
-        //public static bool ExecuteDownAliOrdersPlan() {
-        //    int successCount, total;
-        //    //获取阿里订单下载计划列表
-        //    var list = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlans();
-            
-        //    foreach (var item in list) {
-        //        string error;
-        //        //下载阿里打样订单
-        //        var gmtFentEnd = DateTime.Now;
-        //        bool flag= DownFentOrders(item.FentSuccessEndTime, gmtFentEnd, item.Token, item.RefreshToken,
-        //            item.UserID, item.AgentID, item.ClientID, out successCount, out total, out error);
-
-        //        //新增阿里打样订单下载日志
-        //        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.FentSuccessEndTime, gmtFentEnd,
-        //            successCount, total, item.AgentID, item.ClientID,error);
-
-                
-        //        //下载阿里大货订单列表
-        //        var gmtBulkEnd = DateTime.Now;
-        //        flag = DownBulkOrders(item.BulkSuccessEndTime, gmtBulkEnd, item.Token, item.RefreshToken,
-        //            item.UserID, item.AgentID, item.ClientID, out successCount, out total,out error);
-
-        //        //新增阿里大货订单下载日志
-        //        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.BulkSuccessEndTime, gmtBulkEnd,
-        //            successCount, total, item.AgentID, item.ClientID,error);
-
-        //    }
-
-        //    return true;
-        //}
-
         /// <summary>
         /// 下载阿里打样订单
         /// </summary>
@@ -124,7 +89,7 @@ namespace IntFactoryBusiness
                     string orderID = OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
                        HttpUtility.UrlDecode(order.buyerName), order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.ProofOrder, string.Empty, string.Empty,
                         order.fentPrice.ToString(), order.bulkCount, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
-                        string.Empty, string.Empty, string.Empty, string.Empty,
+                        string.Empty, order.buyerAddress, string.Empty, string.Empty,
                         userID, agentID, clientID, order.fentGoodsCode);
 
                     //新增订单失败
@@ -217,7 +182,7 @@ namespace IntFactoryBusiness
                     string orderID = OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
                         HttpUtility.UrlDecode(order.buyerName), order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.LargeOrder, string.Empty, string.Empty,
                         order.bulkPrice.ToString(), order.bulkCount, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
-                        string.Empty, string.Empty, string.Empty, string.Empty,
+                        string.Empty, order.buyerAddress, string.Empty, string.Empty,
                         userID, agentID, clientID, order.bulkGoodsCode);
 
                     //新增订单失败
@@ -240,29 +205,6 @@ namespace IntFactoryBusiness
         }
 
 
-        ///// <summary>
-        ///// 执行更新阿里订单
-        ///// </summary>
-        ///// <returns></returns>
-        //public static bool ExecuteUpdateAliOrders() {
-        //    //获取阿里订单下载计划列表
-        //    var list = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlans();
-
-        //    foreach (var item in list) 
-        //    {
-        //        List<string> failGodesCodes;
-        //        //批量更新打样订单
-        //        UpdateAliFentOrders(item.ClientID, item.Token, item.RefreshToken,out failGodesCodes);
-
-
-        //        //批量更新大货订单
-        //        UpdateAliBulkOrders(item.ClientID, item.Token, item.RefreshToken,out failGodesCodes);
-        //    }
-
-        //    return true;
-        //}
-
-
         /// <summary>
         /// 批量更新打样订单
         /// </summary>
@@ -275,6 +217,7 @@ namespace IntFactoryBusiness
             failGodesCodes = new List<string>();
             #region 获取需要更新的阿里打样订单列表
             List<AliOrderUpdateLog> logs = AliOrderBusiness.BaseBusiness.GetAliOrderUpdateLogs(EnumOrderType.ProofOrder, clientID);
+            if (logs.Count == 0) return true;
             List<AlibabaSdk.MutableOrder> list = new List<AlibabaSdk.MutableOrder>();
             foreach (var log in logs) 
             {
@@ -365,6 +308,7 @@ namespace IntFactoryBusiness
             failGodesCodes = new List<string>();
             #region 获取需要更新的阿里大货订单列表
             List<AliOrderUpdateLog> logs = AliOrderBusiness.BaseBusiness.GetAliOrderUpdateLogs(EnumOrderType.LargeOrder, clientID);
+            if (logs.Count == 0) return true;
             List<AlibabaSdk.MutableOrder> list = new List<AlibabaSdk.MutableOrder>();
             foreach (var log in logs)
             {
