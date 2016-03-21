@@ -6,7 +6,7 @@
     <td class="">
         <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />
     </td>
-    <td class=""><a href="/Customer/OrderDetail/{%=item.OrderID%}" target="_blank">{%=item.OrderCode%}</a> </td>
+    <td class=""><a href="/Customer/OrderDetail/{%=item.OrderID%}">{%=item.OrderCode%}</a> </td>
     <td class='center'>{%=item.OrderType==1?"打样":"大货" %}</td>
     <td class="center">{%=item.PlanQuantity%}</td>
     <td class="center">{%=item.PlanPrice%}</td>

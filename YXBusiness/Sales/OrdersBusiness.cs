@@ -91,7 +91,7 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<OrderEntity> GetOpportunityaByCustomerID(string customerid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
+        public List<OrderEntity> GetNeedsOrderByCustomerID(string customerid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
             DataTable dt = CommonBusiness.GetPagerData("Orders", "*", "CustomerID='" + customerid + "' and Status = 0 ", "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);

@@ -139,12 +139,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOpportunityaByCustomerID(string customerid, int pagesize, int pageindex)
+        public JsonResult GetNeedsOrderByCustomerID(string customerid, int pagesize, int pageindex)
         {
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOpportunityaByCustomerID(customerid, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetNeedsOrderByCustomerID(customerid, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
