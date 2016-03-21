@@ -90,6 +90,11 @@ namespace AlibabaSdk
         public string buyerMobile { get; set; }
 
         /// <summary>
+        /// 买方地址
+        /// </summary>
+        public string buyerAddress { get; set; }
+
+        /// <summary>
         /// 类目名称
         /// </summary>
         public string catName { get; set; }
