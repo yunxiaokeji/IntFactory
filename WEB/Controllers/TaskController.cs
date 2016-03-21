@@ -224,7 +224,7 @@ namespace YXERP.Controllers
             DateTime? endDate = null;
             if (!string.IsNullOrEmpty(endTime)) endDate = DateTime.Parse(endTime);
 
-            result = TaskBusiness.UpdateTaskEndTime(taskID, endDate, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID) ? 1 : 0;
+            TaskBusiness.UpdateTaskEndTime(taskID, endDate, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID, out result);
 
             JsonDictionary.Add("Result", result);
             return new JsonResult

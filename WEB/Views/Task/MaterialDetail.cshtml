@@ -130,10 +130,6 @@
                 <span>@(model.OrderType == 1 ? "打样" : "大货")</span>
             </li>
             <li>
-                <span class="column-title">订单产品:</span>
-                <span>@(model.ProductName)</span>
-            </li>
-            <li>
                 <span class="column-title">订单需求:</span>
                 <span>@(order.Remark)</span>
             </li>
@@ -153,7 +149,7 @@
         <div class="tab-nav mTop10">
             <ul class="tab-nav-ul left">
                 <li data-id="taskReplys" data-mark="1">讨论</li>
-                <li class="hover" data-id="navProducts" data-mark="-1">物料</li>
+                <li class="hover" data-id="navProducts" data-mark="-1">材料</li>
                 <li data-id="platemakingContent" data-mark="2">制版</li>
                 <li data-id="orderTaskLogs">日志</li>
             </ul>

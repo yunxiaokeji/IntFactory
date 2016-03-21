@@ -58,7 +58,8 @@
                 $("#PlateRemark").html(decodeURI(plateRemark));
             }
             else {
-                $(".edui-container").hide();
+                //$(".edui-container").hide();
+                $("#PlateRemark").html(decodeURI("<div class='pAll10'>暂无工艺说明</div>"));
             }
         }
 
@@ -176,8 +177,14 @@
 
         confirm("任务到期时间不可逆，确定设置?", function () {
             Global.post("/Task/UpdateTaskEndTime", { taskID: ObjectJS.taskid, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
-                if (data.Result != 1) {
+                if (data.Result == 0) {
                     alert("操作无效");
+                }
+                else if (data.Result == 2) {
+                    alert("任务已接受,不能操作");
+                }
+                else if (data.Result == 3) {
+                    alert("没有权限操作");
                 }
                 else {
                     location.href = location.href;

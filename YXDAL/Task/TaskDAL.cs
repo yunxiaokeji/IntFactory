@@ -105,14 +105,22 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateTaskEndTime(string taskID, DateTime? endTime)
+        public bool UpdateTaskEndTime(string taskID, DateTime? endTime,string userID, out int result)
         {
+            result = 0;
             SqlParameter[] paras = { 
+                                       new SqlParameter("@Result",result),
                                      new SqlParameter("@TaskID",taskID),
+                                     new SqlParameter("@UserID",userID),
                                      new SqlParameter("@EndTime",endTime)
                                    };
 
-            return ExecuteNonQuery("P_UpdateTaskEndTime", paras, CommandType.StoredProcedure) > 0;
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
+            ExecuteNonQuery("P_UpdateTaskEndTime", paras, CommandType.StoredProcedure);
+            result = Convert.ToInt32(paras[0].Value);
+
+            return result == 1;
         }
 
         public bool FinishTask(string taskID, string operateid, out int result)

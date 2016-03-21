@@ -128,10 +128,6 @@
                 <span>@(model.OrderType == 1 ? "打样" : "大货")</span>
             </li>
             <li>
-                <span class="column-title">订单产品:</span>
-                <span>@(model.ProductName)</span>
-            </li>
-            <li>
                 <span class="column-title">订单需求:</span>
                 <span>@(order.Remark)</span>
             </li>
@@ -151,7 +147,7 @@
         <div class="tab-nav mTop10">
             <ul class="tab-nav-ul left">
                 <li class="hover" data-id="taskReplys" data-mark="0">讨论</li>
-                <li  data-id="navProducts" data-mark="@(order.OrderType==1?1:3)">物料</li>
+                <li  data-id="navProducts" data-mark="@(order.OrderType==1?1:3)">材料</li>
                 <li data-id="platemakingContent" data-mark="2">制版</li>
                 <li data-id="orderTaskLogs">日志</li>
             </ul>
@@ -211,7 +207,7 @@
                     </tr>
                 </table>
 
-                <div class="talk-title mTop20" style="width:800px;">物料讨论</div>
+                <div class="talk-title mTop20" style="width:800px;">材料讨论</div>
 
                     <table class="content-list" id="replyListOfMaterial"></table>
 
