@@ -36,6 +36,7 @@ namespace YXERP.Controllers
 
         public ActionResult Register(string code)
         {
+            return Redirect("/Home/Login");
             ViewBag.Msg = "";
             //if (!string.IsNullOrEmpty(code))
             //    ViewBag.Msg = AlibabaSdk.Business.OauthBusiness.GetUserInfo(code);
