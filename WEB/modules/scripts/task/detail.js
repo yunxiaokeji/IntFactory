@@ -22,10 +22,12 @@
         ObjectJS.stageid = stageid;
         ObjectJS.taskid = taskid;
         ObjectJS.orderType = orderType;
+        ObjectJS.isPlate = false;
         if(attrValues!="")
             CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));
         Editor = um;
         ObjectJS.mark = 0;
+        ObjectJS.taskMark = mark;
 
         ObjectJS.bindEvent();
         ObjectJS.initTalkReply();
@@ -52,6 +54,7 @@
 
         if ($("#PlateRemark").length == 1) {
             if (plateRemark != "") {
+                ObjectJS.isPlate = true;
                 $("#PlateRemark").html(decodeURI(plateRemark));
             }
             else {
@@ -165,14 +168,19 @@
 
     //更改任务到期时间
     ObjectJS.UpdateTaskEndTime = function () {
+        if ($("#UpdateTaskEndTime").val() == "")
+        {
+            alert("任务到期时间不能为空");
+            return;
+        }
+
         confirm("任务到期时间不可逆，确定设置?", function () {
             Global.post("/Task/UpdateTaskEndTime", { taskID: ObjectJS.taskid, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
                 if (data.Result != 1) {
-                    alert("保存失败");
+                    alert("操作无效");
                 }
                 else {
-                    var nowDate = new Date();
-                    $("#AcceptTime").html(nowDate.toLocaleDateString());
+                    location.href = location.href;
                 }
             });
         });
@@ -180,6 +188,26 @@
 
     //标记任务完成
     ObjectJS.FinishTask = function () {
+        if (ObjectJS.taskMark == 1)
+        {
+            if ($("#navProducts .table-list tr").length == 2) {
+                alert("材料没有添加,不能标记任务完成");
+                return;
+            }
+            
+        }
+        else if (ObjectJS.taskMark == 2)
+        {
+            if ($("#platemakingBody .table-list").length == 0) {
+                alert("制版没有设置,不能标记任务完成");
+                return;
+            }
+            else if (!ObjectJS.isPlate) {
+                alert("制版没有设置,不能标记任务完成");
+                return;
+            }
+        }
+
         confirm("标记完成的任务不可逆,确定完成?", function () {
             Global.post("/Task/FinishTask",
                 {
@@ -188,13 +216,16 @@
                     orderType: ObjectJS.orderType
             }, function (data) {
                 if (data.Result == 1) {
-                    $("#FinishTask").addClass("btnccc").val("已完成").attr("disabled", "disabled");
+                    location.href = location.href;
                 }
                 else if (data.Result == 2) {
                     alert("前面阶段任务有未完成,不能标记完成");
                 }
                 else if (data.Result == 3) {
                     alert("无权限操作");
+                }
+                else if (data.Result == 4) {
+                    alert("任务没有接受，不能设置完成");
                 }
                 else if (data.Result == -1) {
                     alert("保存失败");
@@ -593,7 +624,8 @@
         $("#amount").text(amount.toFixed(2));
         $("#totalMoney").text((amount * $("#planQuantity").text()).toFixed(2));
     }
-    //计算总金额
+
+    //计算总金额 
     ObjectJS.getAmount2 = function () {
         var amount = 0;
         $(".amount").each(function () {
@@ -898,6 +930,7 @@
         }, function (data) {
             if (data.Result == 1) {
                 alert("保存成功");
+                ObjectJS.isPlate = true;
             }
         });
     }
