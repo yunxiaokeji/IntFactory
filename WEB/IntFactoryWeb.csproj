@@ -302,6 +302,7 @@
     <Content Include="modules\template\orders\add-order-cost.html" />
     <Content Include="modules\template\orders\orderCosts.html" />
     <Content Include="modules\template\orders\update_order_discount.html" />
+    <Content Include="modules\template\orders\send_orders.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />

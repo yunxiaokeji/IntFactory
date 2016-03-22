@@ -512,4 +512,7 @@
   <ItemGroup>
     <None Include="Procedures\Sales\P_UpdateOrderDiscount.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Alter.sql" />
+  </ItemGroup>
 </Project>

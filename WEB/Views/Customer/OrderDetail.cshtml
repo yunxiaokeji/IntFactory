@@ -31,9 +31,9 @@
     </div>
     <div class="order-imgs-div left">
         <div class="order-imgs">
-            <img id="orderImage" src="@(model.OrderImage)" />
+            <img id="orderImage" src="@(model.OrderImage)" data-self="@(model.IsSelf?1:0)" />
         </div>
-        <ul class="order-imgs-list">
+        <ul class="order-imgs-list" >
 
         </ul>
     </div>
@@ -52,7 +52,7 @@
             {
                 <a href="/Customer/Detail/@(model.CustomerID)" class="left">@(model.Customer.Name)</a> 
             }
-            else
+            else if(model.IsSelf)
             {
                 <div id="createOrderCustomer" class="btn left mTop3 @(ExpandClass.IsLimits(HttpContext.Current,"101019001"))">创建客户</div>
             }
@@ -165,6 +165,8 @@
             <div class="left info mLeft20">负责人：@(model.OrderProcess.Owner.Name)</div>
             @if(model.IsSelf)
             {
+                
+                
                 if (string.IsNullOrEmpty(model.CategoryID))
                 {
                      <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019019"))" id="changeOrderCategory">绑定品类</div>
@@ -176,8 +178,12 @@
 
                 if (model.Status == 1 || model.Status == 2)
                 {
-                     <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" id="addOtherCost">添加加工成本</div>
+                    <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019024"))" id="btnSendDYOrder">订单发货</div>
+                
+                    <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" id="addOtherCost">添加加工成本</div>
                 }
+                
+                
             }
         </div>
         <div class="clear"></div>
@@ -186,7 +192,7 @@
             {
                 foreach (var stage in model.Tasts)
                 { 
-                    <li data-stageid="@(stage.StageID)" data-orderid="@(model.OrderID)" data-taskid="@(stage.TaskID)" data-mark="@(stage.Mark)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
+                    <li data-stageid="@(stage.StageID)" data-self="@(model.IsSelf?1:0)" data-orderid="@(model.OrderID)" data-taskid="@(stage.TaskID)" data-mark="@(stage.Mark)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
                         <span class="name">@(stage.Title)</span>
                         <span class="status-bg right">
                             <span class="status-color"></span>
@@ -216,7 +222,7 @@
             <li data-id="navEngraving" class="hover" data-mark="2">制版详情</li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))" data-id="navProducts" data-mark="1">材料成本</li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" data-id="navCosts">加工成本</li>
-            
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019024"))" data-id="navSendDoc">发货记录</li>
             <li data-id="navPays" class="navPays @(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">付款记录</li>
             <li data-id="navLog">日志</li>
         </ul>
@@ -275,7 +281,16 @@
             <td class="width80">删除</td>
         </tr>
     </table>
-
+    <table id="navSendDoc" class="nav-partdiv table-list mTop20 hide">
+        <tr class="tr-header">
+            <td class="tLeft">单号</td>
+            <td class="">总金额</td>
+            <td class="width200">快递单号</td>
+            <td class="width200">快递公司</td>
+            <td class="width150">发货人</td>
+            <td class="width200">发货时间</td>
+        </tr>
+    </table>
     <div class="nav-partdiv  mTop10" id="navEngraving">
         <div id="navEngravingInfo"></div>
         <div class="mTop20 talk-title">制版工艺</div>

@@ -26,17 +26,18 @@ define(function (require, exports, module) {
                     var orderid = $(this).data("orderid");
                     var stageid = $(this).data("stageid");
                     var mark = $(this).data("mark");
+                    var self = $(this).data("self");
 
                     var $taskDetailContent = $("#taskDetailContent");
 
                     //没有任务详情对象
                     if ($taskDetailContent.length == 0) {
-                        drawTaskDetail(taskid, orderid, stageid, mark);
+                        drawTaskDetail(taskid, orderid, stageid, mark, self);
                     }
                     else {
                         //查询新的任务详情
                         if ($taskDetailContent.data("taskid") != taskid) {
-                            drawTaskDetail(taskid, orderid, stageid, mark);
+                            drawTaskDetail(taskid, orderid, stageid, mark, self);
                         }
                         else//隐藏显示的任务详情
                         {
@@ -55,7 +56,7 @@ define(function (require, exports, module) {
         };
 
         //获取任务详情
-        var drawTaskDetail = function (taskid, orderid, stageid, mark) {
+        var drawTaskDetail = function (taskid, orderid, stageid, mark, self) {
 
             doT.exec("plug/showtaskdetail/task-detail.html", function (template) {
                 Global.post("/task/GetTaskDetail", { taskID: taskid }, function (data) {
@@ -79,32 +80,37 @@ define(function (require, exports, module) {
                         }
                     });
 
-                    $("#changeTaskOwner").click(function () {
-                        var _this = $(this);
-                        ChooseUser.create({
-                            title: "更换负责人",
-                            type: 1,
-                            single: true,
-                            callback: function (items) {
-                                if (items.length > 0) {
-                                    if (_this.data("userid") != items[0].id) {
-                                        Global.post("/Task/UpdateTaskOwner", {
-                                            userid: items[0].id,
-                                            taskid: taskid
-                                        }, function (data) {
-                                            if (data.status) {
-                                                $("#taskOwnerID").text(items[0].name);
-                                            }
-                                        });
-                                    } else {
-                                        alert("请选择不同人员进行更换!");
+
+                    if (self == 1) {
+                        $("#changeTaskOwner").click(function () {
+                            var _this = $(this);
+                            ChooseUser.create({
+                                title: "更换负责人",
+                                type: 1,
+                                single: true,
+                                callback: function (items) {
+                                    if (items.length > 0) {
+                                        if (_this.data("userid") != items[0].id) {
+                                            Global.post("/Task/UpdateTaskOwner", {
+                                                userid: items[0].id,
+                                                taskid: taskid
+                                            }, function (data) {
+                                                if (data.status) {
+                                                    $("#taskOwnerID").text(items[0].name);
+                                                }
+                                            });
+                                        } else {
+                                            alert("请选择不同人员进行更换!");
+                                        }
                                     }
                                 }
-                            }
+                            });
                         });
-                    });
+                    } else {
+                        $("#changeTaskOwner").hide();
+                    }
 
-                    initTalkReply(orderid, stageid, mark);
+                    initTalkReply(orderid, stageid, mark, self);
 
                 });
 
@@ -144,35 +150,38 @@ define(function (require, exports, module) {
         }
 
         //初始化任务讨论列表
-        var initTalkReply = function (orderid, stageid, mark) {
+        var initTalkReply = function (orderid, stageid, mark, isSelf) {
             var _self = this;
 
-            $("#btnSaveTalk").click(function () {
-                var txt = $("#txtContent");
+            if (isSelf == 1) {
+                $("#btnSaveTalk").click(function () {
+                    var txt = $("#txtContent");
 
-                if (txt.val().trim()) {
-                    var model = {
-                        GUID: orderid,
-                        StageID: stageid,
-                        Mark: mark,
-                        Content: txt.val().trim(),
-                        FromReplyID: "",
-                        FromReplyUserID: "",
-                        FromReplyAgentID: ""
-                    };
-                    saveTaskReply(model);
+                    if (txt.val().trim()) {
+                        var model = {
+                            GUID: orderid,
+                            StageID: stageid,
+                            Mark: mark,
+                            Content: txt.val().trim(),
+                            FromReplyID: "",
+                            FromReplyUserID: "",
+                            FromReplyAgentID: ""
+                        };
+                        saveTaskReply(model);
 
-                    txt.val("");
-                }
+                        txt.val("");
+                    }
 
-            });
-
-            getTaskReplys(orderid, stageid, mark, 1);
+                });
+            } else {
+                $(".talk-body .content-main").hide();
+            }
+            getTaskReplys(orderid, stageid, mark, 1, isSelf);
 
         }
 
         //获取任务讨论列表
-        var getTaskReplys = function (orderid, stageid, mark, page) {
+        var getTaskReplys = function (orderid, stageid, mark, page, isSelf) {
             var _self = this;
             $("#replyList").empty();
 
@@ -189,16 +198,20 @@ define(function (require, exports, module) {
 
                     $("#replyList").append(innerhtml);
 
-                    innerhtml.find(".btn-reply").click(function () {
-                        var _this = $(this), reply = _this.nextAll(".reply-box");
-                        reply.slideDown(500);
-                        reply.find("textarea").focus();
-                        reply.find("textarea").blur(function () {
-                            if (!$(this).val().trim()) {
-                                reply.slideUp(200);
-                            }
+                    if (isSelf == 1) {
+                        innerhtml.find(".btn-reply").click(function () {
+                            var _this = $(this), reply = _this.nextAll(".reply-box");
+                            reply.slideDown(500);
+                            reply.find("textarea").focus();
+                            reply.find("textarea").blur(function () {
+                                if (!$(this).val().trim()) {
+                                    reply.slideUp(200);
+                                }
+                            });
                         });
-                    });
+                    } else {
+                        innerhtml.find(".btn-reply").remove();
+                    }
 
                     innerhtml.find(".save-reply").click(function () {
                         var _this = $(this);
@@ -219,10 +232,6 @@ define(function (require, exports, module) {
                         $("#Msg_" + _this.data("replyid")).val('');
                         $(this).parent().slideUp(100);
                     });
-
-                    //require.async("businesscard", function () {
-                    //    innerhtml.find("img").businessCard();
-                    //});
                 });
 
                 $("#pagerReply").paginate({
@@ -236,7 +245,7 @@ define(function (require, exports, module) {
                     mouse: 'slide',
                     float: "left",
                     onChange: function (page) {
-                        getTaskReplys(orderid, stageid, mark, page);
+                        getTaskReplys(orderid, stageid, mark, page, isSelf);
                     }
                 });
             });

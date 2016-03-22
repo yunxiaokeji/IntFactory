@@ -239,6 +239,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult CreateOrderSend(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        {
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("id", id);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult UpdateOrderOwner(string ids, string userid)
         {
             bool bl = false;

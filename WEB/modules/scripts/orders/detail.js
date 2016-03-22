@@ -394,7 +394,12 @@ define(function (require, exports, module) {
             _self.sewnGoods();
         });
 
-        //车缝录入
+        //发货录入
+        $("#btnSendDYOrder").click(function () {
+            _self.sendOrders();
+        });
+
+        //打样单发货
         $("#btnSendOrder").click(function () {
             _self.sendGoods();
         });
@@ -605,8 +610,10 @@ define(function (require, exports, module) {
                 $("#orderImage").attr("src", _this.find("img").attr("src"));
             }
         });
-        var setimage = $('<li title="编辑样图" class="edit-orderimages">+</li>');
-        $(".order-imgs-list").append(setimage);
+        if ($("#orderImage").data("self") == 1) {
+            var setimage = $('<li title="编辑样图" class="edit-orderimages">+</li>');
+            $(".order-imgs-list").append(setimage);
+        }
         setimage.click(function () {
             doT.exec("template/orders/edit-orderimages.html", function (template) {
                 var innerText = template(_self.images);
@@ -939,11 +946,6 @@ define(function (require, exports, module) {
                     content: innerText,
                     yesFn: function () {
 
-                        if (!$("#expressid").data("id") || !$("#expressCode").val()) {
-                            alert("请完善快递信息!");
-                            return false;
-                        }
-
                         var details = ""
                         $("#showSendOrderGoods .list-item").each(function () {
                             var _this = $(this);
@@ -953,6 +955,12 @@ define(function (require, exports, module) {
                             }
                         });
                         if (details.length > 0) {
+
+                            if (!$("#expressid").data("id") || !$("#expressCode").val()) {
+                                alert("请完善快递信息!");
+                                return false;
+                            }
+
                             Global.post("/Orders/CreateOrderSendDoc", {
                                 orderid: _self.orderid,
                                 doctype: 2,
@@ -970,6 +978,9 @@ define(function (require, exports, module) {
                                     alert("发货成功！");
                                 }
                             });
+                        } else {
+                            alert("请输入发货规格数量！");
+                            return false;
                         }
                     },
                     callback: function () {
@@ -1008,6 +1019,65 @@ define(function (require, exports, module) {
                 } else if (_this.val() > _this.data("max")) {
                     _this.val(_this.data("max"));
                 }
+            });
+        });
+    };
+
+    //打样单发货
+    ObjectJS.sendOrders = function () {
+        var _self = this;
+        doT.exec("template/orders/send_orders.html", function (template) {
+            var innerText = template(_self.model.OrderGoods);
+
+            Easydialog.open({
+                container: {
+                    id: "showSendOrderGoods",
+                    header: "打样单发货",
+                    content: innerText,
+                    yesFn: function () {
+                        if (!$("#expressid").data("id") || !$("#expressCode").val()) {
+                            alert("请完善快递信息!");
+                            return false;
+                        }
+
+                        Global.post("/Orders/CreateOrderSendDoc", {
+                            orderid: _self.orderid,
+                            doctype: 2,
+                            isover: 0,
+                            expressid: $("#expressid").data("id"),
+                            expresscode: $("#expressCode").val(),
+                            details: "",
+                            remark: $("#expressRemark").val().trim()
+                        }, function (data) {
+                            if (data.id) {
+                                alert("发货成功!", location.href);
+                            } else if (data.result == "10001") {
+                                alert("您没有操作权限!")
+                            } else {
+                                alert("发货成功！");
+                            }
+                        });
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+            //快递公司
+            require.async("dropdown", function () {
+                var dropdown = $("#expressid").dropdown({
+                    prevText: "",
+                    defaultText: "请选择",
+                    defaultValue: "",
+                    data: _self.express,
+                    dataValue: "ExpressID",
+                    dataText: "Name",
+                    width: "180",
+                    isposition: true,
+                    onChange: function (data) {
+
+                    }
+                });
             });
         });
     };
