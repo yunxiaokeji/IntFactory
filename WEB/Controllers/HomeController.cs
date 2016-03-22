@@ -34,13 +34,8 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult Register(string code)
+        public ActionResult Register()
         {
-            return Redirect("/Home/Login");
-            ViewBag.Msg = "";
-            //if (!string.IsNullOrEmpty(code))
-            //    ViewBag.Msg = AlibabaSdk.Business.OauthBusiness.GetUserInfo(code);
-
             return View();
         }
 
@@ -279,7 +274,7 @@ namespace YXERP.Controllers
         }
 
         /// <summary>
-        /// 明道登录
+        /// 阿里账户登录
         /// </summary>
         /// <returns></returns>
         public ActionResult MDLogin(string ReturnUrl)
@@ -289,6 +284,58 @@ namespace YXERP.Controllers
             else
                 return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl() + "&state=" + ReturnUrl);
         }
+
+        //明道登录回掉
+        public ActionResult MDCallBack(string code, string state)
+        {
+            string operateip = Common.Common.GetRequestIP();
+            var userToken = AlibabaSdk.OauthBusiness.GetUserToken(code);
+            if (userToken.error_code <= 0)
+            {
+                var model = OrganizationBusiness.GetUserByMDUserID(userToken.memberId, string.Empty, operateip);
+                //已注册云销账户
+                if (model != null)
+                {
+                    //未注销
+                    if (model.Status.Value != 9)
+                    {
+                        model.MDToken = userToken.access_token;
+                        Session["ClientManager"] = model;
+                        AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanToken(model.ClientID, userToken.access_token, userToken.refresh_token);
+
+                        if (string.IsNullOrEmpty(state))
+                            return Redirect("/Home/Index");
+                        else
+                            return Redirect(state);
+                    }
+                }
+                else
+                {
+                    int result = 0;
+                    var member = AlibabaSdk.UserBusiness.GetMemberDetail(userToken.access_token, userToken.memberId);
+                    Clients clientModel = new Clients();
+                    clientModel.CompanyName = member.companyName;
+                    clientModel.ContactName = member.sellerName;
+                    clientModel.MobilePhone = member.mobilePhone;
+                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "","", out result, member.email, member.memberId, string.Empty);
+                    if (!string.IsNullOrEmpty(clientid))
+                    {
+                        var current = OrganizationBusiness.GetUserByMDUserID(member.memberId, string.Empty, operateip);
+
+                        current.MDToken =userToken.access_token;
+                        Session["ClientManager"] = current;
+
+                        if (string.IsNullOrEmpty(state))
+                            return Redirect("/Home/Index");
+                        else
+                            return Redirect(state);
+                    }
+
+                }
+            }
+            return Redirect("/Home/Login");
+        }
+
 
         /// <summary>
         /// 员工登录

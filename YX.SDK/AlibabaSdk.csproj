@@ -63,7 +63,7 @@
     <Compile Include="Entity\Order\OrderEntity.cs" />
     <Compile Include="Entity\Order\GoodsCodesResult.cs" />
     <Compile Include="Entity\Token\TokenResult.cs" />
-    <Compile Include="Entity\User\UserResult.cs" />
+    <Compile Include="Entity\User\MemberResult.cs" />
     <Compile Include="HttpRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApiOption.cs" />

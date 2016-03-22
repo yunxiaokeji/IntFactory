@@ -191,7 +191,7 @@
                                 <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                                 @{
                                     <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
-                                    if (model.FinishStatus == 1)
+                                    if ( model.FinishStatus > 0 && order.Status<6)
                                     { 
                                        <td class="center tr-loss"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Loss.ToString("f2"))" class="loss width50" value="@(detail.Loss.ToString("f2"))" /></td>
                                     }
@@ -215,7 +215,7 @@
                 </table>
 
                 @{
-                    if ( model.FinishStatus == 1)
+                    if (model.FinishStatus > 0 && order.Status < 6)
                     {
                         <a href="/Customer/ChooseProducts?id=@(model.OrderID)&tid=@(model.TaskID)" id="btn-addMaterial" class="btn right mTop10">添加材料</a>
                     }

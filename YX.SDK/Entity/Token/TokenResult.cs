@@ -17,6 +17,8 @@ namespace AlibabaSdk
 
         public string memberId { get; set; }
 
+        public string resource_owner { get; set; }
+
         public int error_code = 0;
 
         public string error_message

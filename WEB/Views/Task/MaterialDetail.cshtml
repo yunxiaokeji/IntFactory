@@ -182,7 +182,7 @@
                         <td class="">消耗量</td>
                         <td class="tRight">小计</td>
 
-                        @{if (model.FinishStatus == 1 && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
+                        @{if ((model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
                           {
                             <td class="">删除</td>
                           }}
@@ -199,8 +199,8 @@
                                 <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                                 @{
 
-                            if (model.FinishStatus == 1 && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
-                                    { 
+                            if ( (model.FinishStatus >0 && order.Status<3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
+                               { 
                                         <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
                                         <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
                                         <td class="center">
@@ -224,7 +224,7 @@
                         <td></td>
                         <td class="tRight">成本合计：</td>
                         <td class="tRight"><label id="amount"></label></td>
-                        @{if (model.FinishStatus == 1 && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
+                        @{if ((model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
                           {
                             <td></td>
                           }}
@@ -232,7 +232,7 @@
                 </table>
 
                 @{
-                    if (model.FinishStatus == 1 && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
+                    if ((model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
                     {
                         <a href="/Customer/ChooseProducts?id=@(model.OrderID)&tid=@(model.TaskID)" id="btn-addMaterial" class="btn right mTop10">添加材料</a>
                     }

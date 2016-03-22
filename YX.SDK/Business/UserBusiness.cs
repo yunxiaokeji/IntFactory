@@ -12,14 +12,14 @@ namespace AlibabaSdk
         /// <summary>
         /// 获取用户详情
         /// </summary>
-        public static UserResult GetMemberDetail(string token, string memberId)
+        public static MemberResult GetMemberDetail(string token, string memberId)
         {
             var paras = new Dictionary<string, object>();
             paras.Add("memberId", memberId);
 
             var result = HttpRequest.RequestServer(ApiOption.memberDetail, paras);
 
-            return JsonConvert.DeserializeObject<UserResult>(result);
+            return JsonConvert.DeserializeObject<MemberResult>(result);
         }
 
     }

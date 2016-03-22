@@ -157,8 +157,8 @@
         <div class="mTop50 hide" id="taskReplys">
             <div class="content-main">
                 <div class="replyBox">
-                    <textarea id="txtContent" class="replyContent" placeholder="发表评论"></textarea><br />
-                    <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
+                    <textarea id="txtContent" class="replyContent"  placeholder="发表评论"></textarea><br />
+                    <div class="btn right mTop5 mBottom10" disabled="disabled" id="btnSaveTalk">提交</div>
                     <div class="clear"></div>
                 </div>
                 
@@ -233,7 +233,7 @@
             </div>
             
             @{
-                if (model.FinishStatus == 1 && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010102")) )
+                if ( (model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010102")))
                 {
                     var hasPlate = !string.IsNullOrEmpty(order.Platemaking);
                     if (string.IsNullOrEmpty(order.Platemaking))
@@ -248,7 +248,7 @@
             }
             <div class="clear"></div>
 
-            @{if (model.FinishStatus == 1 && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010103")) )
+            @{if ( (model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010103")))
               {
                   
                 <div class="content-main mTop20">

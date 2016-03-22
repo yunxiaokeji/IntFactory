@@ -62,7 +62,7 @@ namespace AlibabaSdk
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public static UserResult GetUserInfo(string code)
+        public static MemberResult GetUserInfo(string code)
         {
             var tokenEntity = GetUserToken(code);
             var model = UserBusiness.GetMemberDetail(tokenEntity.access_token, tokenEntity.memberId);
