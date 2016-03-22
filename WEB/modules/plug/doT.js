@@ -5,7 +5,7 @@
     "use strict";
     var doT = {
         basepath: '/modules/',//template/
-        version: '?v=20160306',
+        version: '?v=20160322',
         cache:{},
         templateSettings: {
             evaluate: /\{\%([\s\S]+?(\}?)+)\%\}/g,

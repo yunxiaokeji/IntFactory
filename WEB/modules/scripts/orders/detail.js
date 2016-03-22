@@ -610,8 +610,10 @@ define(function (require, exports, module) {
                 $("#orderImage").attr("src", _this.find("img").attr("src"));
             }
         });
-        var setimage = $('<li title="编辑样图" class="edit-orderimages">+</li>');
-        $(".order-imgs-list").append(setimage);
+        if ($("#orderImage").data("self") == 1) {
+            var setimage = $('<li title="编辑样图" class="edit-orderimages">+</li>');
+            $(".order-imgs-list").append(setimage);
+        }
         setimage.click(function () {
             doT.exec("template/orders/edit-orderimages.html", function (template) {
                 var innerText = template(_self.images);
