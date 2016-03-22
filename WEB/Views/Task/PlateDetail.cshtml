@@ -233,7 +233,7 @@
             </div>
             
             @{
-                if (model.FinishStatus == 1)
+                if (model.FinishStatus == 1 && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010102")) )
                 {
                     var hasPlate = !string.IsNullOrEmpty(order.Platemaking);
                     if (string.IsNullOrEmpty(order.Platemaking))
@@ -248,16 +248,16 @@
             }
             <div class="clear"></div>
 
-            @{if (model.Mark == 2 && model.FinishStatus == 1)
+            @{if (model.FinishStatus == 1 && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010103")) )
               {
                   
-            <div class="content-main mTop20">
-                 <div class="talk-title mBottom10" >工艺说明</div>
-                <textarea id="txtPlateRemark" class="txt-content"  placeholder="工艺说明"></textarea><br />
-                <div class="btn right mTop5" id="btn-updatePlateRemark">保存工艺说明</div>
-                <div class="clear"></div>
-            </div>
-              }
+                <div class="content-main mTop20">
+                     <div class="talk-title mBottom10" >工艺说明</div>
+                    <textarea id="txtPlateRemark" class="txt-content"  placeholder="工艺说明"></textarea><br />
+                    <div class="btn right mTop5 " id="btn-updatePlateRemark">保存工艺说明</div>
+                    <div class="clear"></div>
+                </div>
+              } 
               else
               {
                 <div class="mTop20" style="width:800px;">

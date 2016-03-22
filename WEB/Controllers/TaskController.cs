@@ -164,7 +164,7 @@ namespace YXERP.Controllers
         #endregion
 
         #region ajax
-        public JsonResult GetTasks(bool isMy, string userID, string keyWords,int orderType, int finishStatus, string beginDate, string endDate, int pageSize, int pageIndex)
+        public JsonResult GetTasks(bool isMy, string userID, string keyWords, int orderType, int taskType, int finishStatus, string beginDate, string endDate, int pageSize, int pageIndex)
         {
             int pageCount = 0;
             int totalCount = 0;
@@ -176,7 +176,7 @@ namespace YXERP.Controllers
                 ownerID = userID;
             }
 
-            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords, ownerID, finishStatus, orderType, beginDate, endDate, CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords, ownerID, finishStatus, orderType,taskType, beginDate, endDate, CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
