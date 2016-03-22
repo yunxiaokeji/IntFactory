@@ -382,6 +382,7 @@
     <Content Include="Views\System\Users.cshtml" />
     <Content Include="Views\Products\OrderCategory.cshtml" />
     <Content Include="Views\System\ClearCache.cshtml" />
+    <None Include="Properties\PublishProfiles\intfactoryManage.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
