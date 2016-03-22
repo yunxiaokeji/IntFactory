@@ -1043,9 +1043,9 @@ namespace IntFactoryBusiness
                     //日志
                     //LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Product, EnumLogType.Create, "", operateid, agentid, clientid);
 
-                    foreach (var model in details)
+                    foreach (var model in details) 
                     {
-                        if (!string.IsNullOrEmpty(model.ImgS))
+                        if (!string.IsNullOrEmpty(model.ImgS) && model.ImgS.ToLower().IndexOf("/modules/images/") < 0)
                         {
                             if (model.ImgS.IndexOf("?") > 0)
                             {
@@ -1094,10 +1094,6 @@ namespace IntFactoryBusiness
                     {
                         file.MoveTo(HttpContext.Current.Server.MapPath(productImg));
                     }
-                }
-                else
-                {
-                    productImg = FILEPATH + DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + ".png";
                 }
 
                 var dal = new ProductsDAL();
