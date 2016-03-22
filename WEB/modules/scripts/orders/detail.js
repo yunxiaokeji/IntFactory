@@ -613,75 +613,77 @@ define(function (require, exports, module) {
         if ($("#orderImage").data("self") == 1) {
             var setimage = $('<li title="编辑样图" class="edit-orderimages">+</li>');
             $(".order-imgs-list").append(setimage);
-        }
-        setimage.click(function () {
-            doT.exec("template/orders/edit-orderimages.html", function (template) {
-                var innerText = template(_self.images);
-                Easydialog.open({
-                    container: {
-                        id: "show-order-images",
-                        header: "更换订单样图",
-                        content: innerText,
-                        yesFn: function () {
-                            var newimages = "";
-                            $("#show-order-images img").each(function () {
-                                newimages += $(this).attr("src") + ",";
-                            });
-                            Global.post("/Orders/UpdateOrderImages", {
-                                orderid: _self.orderid,
-                                images: newimages
-                            }, function (data) {
-                                if (data.status) {
-                                    $(".order-imgs-list img").parent().remove();
-                                    _self.images = newimages.split(",");
-                                    for (var i = 0; i < _self.images.length; i++) {
-                                        if (_self.images[i]) {
-                                            $(".edit-orderimages").before($('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + _self.images[i] + '" /></li>'));
-                                        }
-                                    }
-                                    $(".order-imgs-list img").parent().click(function () {
-                                        var _this = $(this);
-                                        if (!_this.hasClass("hover")) {
-                                            _this.siblings().removeClass("hover");
-                                            _this.addClass("hover");
-                                            $("#orderImage").attr("src", _this.find("img").attr("src"));
-                                        }
-                                    });
-                                }
-                            });
-                        },
-                        callback: function () {
 
-                        }
-                    }
-                });
-                Upload.createUpload({
-                    element: "#addOrderImages",
-                    buttonText: "+",
-                    className: "edit-orderimages",
-                    multiple: true,
-                    data: { folder: '', action: 'add', oldPath: "" },
-                    success: function (data, status) {
-                        if (data.Items.length > 0) {
-                            for (var i = 0; i < data.Items.length; i++) {
-                                if ($("#show-order-images li").length < 6) {
-                                    var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
-                                    $("#addOrderImages").parent().before(img);
-                                    img.find(".ico-delete").click(function () {
-                                        $(this).parent().remove();
-                                    });
-                                }
+            setimage.click(function () {
+                doT.exec("template/orders/edit-orderimages.html", function (template) {
+                    var innerText = template(_self.images);
+                    Easydialog.open({
+                        container: {
+                            id: "show-order-images",
+                            header: "更换订单样图",
+                            content: innerText,
+                            yesFn: function () {
+                                var newimages = "";
+                                $("#show-order-images img").each(function () {
+                                    newimages += $(this).attr("src") + ",";
+                                });
+                                Global.post("/Orders/UpdateOrderImages", {
+                                    orderid: _self.orderid,
+                                    images: newimages
+                                }, function (data) {
+                                    if (data.status) {
+                                        $(".order-imgs-list img").parent().remove();
+                                        _self.images = newimages.split(",");
+                                        for (var i = 0; i < _self.images.length; i++) {
+                                            if (_self.images[i]) {
+                                                $(".edit-orderimages").before($('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + _self.images[i] + '" /></li>'));
+                                            }
+                                        }
+                                        $(".order-imgs-list img").parent().click(function () {
+                                            var _this = $(this);
+                                            if (!_this.hasClass("hover")) {
+                                                _this.siblings().removeClass("hover");
+                                                _this.addClass("hover");
+                                                $("#orderImage").attr("src", _this.find("img").attr("src"));
+                                            }
+                                        });
+                                    }
+                                });
+                            },
+                            callback: function () {
+
                             }
-                        } else {
-                            alert("只能上传jpg/png/gif类型的图片，且大小不能超过10M！");
                         }
-                    }
-                });
-                $("#show-order-images .ico-delete").click(function () {
-                    $(this).parent().remove();
+                    });
+                    Upload.createUpload({
+                        element: "#addOrderImages",
+                        buttonText: "+",
+                        className: "edit-orderimages",
+                        multiple: true,
+                        data: { folder: '', action: 'add', oldPath: "" },
+                        success: function (data, status) {
+                            if (data.Items.length > 0) {
+                                for (var i = 0; i < data.Items.length; i++) {
+                                    if ($("#show-order-images li").length < 6) {
+                                        var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
+                                        $("#addOrderImages").parent().before(img);
+                                        img.find(".ico-delete").click(function () {
+                                            $(this).parent().remove();
+                                        });
+                                    }
+                                }
+                            } else {
+                                alert("只能上传jpg/png/gif类型的图片，且大小不能超过10M！");
+                            }
+                        }
+                    });
+                    $("#show-order-images .ico-delete").click(function () {
+                        $(this).parent().remove();
+                    });
                 });
             });
-        });
+        }
+        
     }
 
     //大货下单
