@@ -6,7 +6,8 @@
     var Params = {
         isMy: true,
         userID: "",
-        orderType:-1,
+        orderType: -1,
+        taskType: -1,
         finishStatus:0,
         keyWords:'',
         beginDate: '',
@@ -72,7 +73,7 @@
             }
         });
 
-        //订单类型搜索
+        //订单类型、任务类型搜索
         require.async("dropdown", function () {
             var Types = [
                 {
@@ -95,6 +96,39 @@
                 onChange: function (data) {
                     Params.pageIndex = 1;
                     Params.orderType = data.value;
+                    ObjectJS.getList();
+                }
+            });
+
+            var TaskTypes = [
+                {
+                    ID: "1",
+                    Name: "打样材料"
+                },
+                {
+                    ID: "2",
+                    Name: "制版"
+                },
+                {
+                    ID: "3",
+                    Name: "大货材料"
+                },
+                {
+                    ID: "0",
+                    Name: "其他"
+                }
+            ];
+            $("#taskType").dropdown({
+                prevText: "任务类型-",
+                defaultText: "全部",
+                defaultValue: "-1",
+                data: TaskTypes,
+                dataValue: "ID",
+                dataText: "Name",
+                width: "140",
+                onChange: function (data) {
+                    Params.pageIndex = 1;
+                    Params.taskType = data.value;
                     ObjectJS.getList();
                 }
             });

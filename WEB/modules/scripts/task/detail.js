@@ -22,7 +22,7 @@
         ObjectJS.stageid = stageid;
         ObjectJS.taskid = taskid;
         ObjectJS.orderType = orderType;
-        ObjectJS.isPlate = false;
+        ObjectJS.isPlate = true;
         if(attrValues!="")
             CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));
         Editor = um;
@@ -60,6 +60,12 @@
             else {
                 //$(".edui-container").hide();
                 $("#PlateRemark").html(decodeURI("<div class='pAll10'>暂无工艺说明</div>"));
+            }
+        }
+
+        if (ObjectJS.taskMark == 2) {
+            if ($("#platemakingBody .table-list").length == 0) {
+                ObjectJS.isPlate = false;
             }
         }
 
