@@ -282,6 +282,16 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
         }
 
+        public bool UpdateAttrValueStatus(string valueid, string attrid, int sort)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@ValueID",valueid),
+                                     new SqlParameter("@Attrid" , attrid),
+                                     new SqlParameter("@Sort" , sort)
+                                   };
+            return ExecuteNonQuery("P_UpdateAttrValueSort", paras, CommandType.StoredProcedure) > 0;
+        }
+
         #endregion
 
         #region 分类

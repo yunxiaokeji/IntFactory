@@ -7,7 +7,8 @@
     var Value = {
         AttrID: "",
         ValueID: "",
-        ValueName: ""
+        ValueName: "",
+        Sort:0
     },
     Params = {
         Index: 1,
@@ -257,6 +258,109 @@
                 return;
             }
             !!callback && callback(data.Status);
+        });
+    }
+
+
+    ObjectJS.initDetail = function (attrID) {
+        Value.AttrID = attrID;
+        ObjectJS.bindDetailEvent();
+
+        ObjectJS.getAttrItems(attrID);
+    }
+
+    ObjectJS.bindDetailEvent = function () {
+        var Easydialog = require("easydialog");
+       
+
+        $("#addAttrValue").click(function () {
+            var html = '<ul class="create-attr">' +
+                        '<li><span class="width80 left">属性值：</span><input type="text" id="valueName" maxlength="10" value="" class="input verify " data-empty="必填" /></li>';
+            html += '<li><span class="width80 left">排序：</span><input type="text" class="width80 verify" value="0" data-type="number" data-text="格式不对" data-empty="必填"id=valueSort ></li></ul>';
+
+            Easydialog.open({
+                container: {
+                    id: "show-add-attrvalue",
+                    header: "新增属性值",
+                    content: html,
+                    yesFn: function () {
+                        //验证插件
+                        VerifyObject = Verify.createVerify({
+                            element: ".create-attr .verify",
+                            emptyAttr: "data-empty",
+                            verifyType: "data-type",
+                            regText: "data-text"
+                        });
+
+                        if (!VerifyObject.isPass()) {
+                            return false;
+                        };
+
+                        Value.ValueName = $("#valueName").val();
+                        Value.ValueID = "";
+                        Value.Sort = $("#valueSort").val();
+                        ObjectJS.saveAttrValue();
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+        });
+    }
+
+
+    ObjectJS.getAttrItems = function (attrID) {
+        Global.post("/Products/GetAttrByID", { attrID: attrID }, function (data) {
+            $(".header-title").html(data.Item.AttrName + " 属性(规格)");
+            document.title = data.Item.AttrName + " 属性(规格)详情";
+            var items = data.Item.AttrValues;
+
+            doT.exec("template/products/attr-detail.html", function (templateFun) {
+                var inner = templateFun(items);
+                inner = $(inner);
+                $("#attrItems").after(inner);
+
+                inner.find(".btn-setSort").click(function () {
+                    $(this).hide().next().show();
+                });
+
+                inner.find(".btn-saveSort").click(function () {
+                    $(this).parent().hide().prev().show();
+
+                    var attrid = $(this).data("attrid");
+                    var valueid = $(this).data("id");
+                    var sort = $(this).prev().val();
+                    ObjectJS.updateAttrValueSort(attrid, valueid, sort);
+                });
+
+            })
+
+
+        });
+    }
+
+    ObjectJS.updateAttrValueSort = function (attrid,valueid,sort) {
+        Global.post("/Products/UpdateAttrValueSort", { attrid: attrid, valueid: valueid, sort: sort }, function (data) {
+        
+            if(data.Status)
+            {
+                location.href=location.href;
+            }
+        });
+    }
+
+    ObjectJS.saveAttrValue = function () {
+        Global.post("/Products/SaveAttrValue", { value: JSON.stringify(Value) }, function (data) {
+            if (data.result == "10001") {
+                alert("您没有此操作权限，请联系管理员帮您添加权限！");
+                return;
+            }
+            if (data.ID.length > 0) {
+                location.href = location.href;
+            } else {
+                alert("操作失败,请稍后重试!");
+            }
         });
     }
     module.exports = ObjectJS;

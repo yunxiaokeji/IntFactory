@@ -78,6 +78,9 @@ namespace IntFactoryEntity
 			set{ _status=value;}
 			get{return _status;}
 		}
+
+        public int Sort { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
