@@ -59,6 +59,7 @@
     <Compile Include="Sales\OrdersBusiness.cs" />
     <Compile Include="Manage\IndustryBusiness.cs" />
     <Compile Include="Stock\AgentOrderBusiness.cs" />
+    <Compile Include="Stock\AttrBusiness.cs" />
     <Compile Include="Stock\ProductsBusiness.cs" />
     <Compile Include="Common\CommonBusiness.cs" />
     <Compile Include="Manage\ClientBusiness.cs" />
