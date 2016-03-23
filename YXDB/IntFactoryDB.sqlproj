@@ -272,9 +272,6 @@
     <None Include="Procedures\Products\P_DeleteCategory.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Products\P_GetAttrs.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Procedures\Products\P_UpdateProductDetail.sql" />
   </ItemGroup>
   <ItemGroup>
