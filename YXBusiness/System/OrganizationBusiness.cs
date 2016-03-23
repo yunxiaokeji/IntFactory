@@ -190,9 +190,9 @@ namespace IntFactoryBusiness
         /// <param name="mduserid"></param>
         /// <param name="mdprojectid"></param>
         /// <returns></returns>
-        public static Users GetUserByMDUserID(string mduserid, string mdprojectid, string operateip)
+        public static Users GetUserByMDUserID(string mduserid, string operateip)
         {
-            DataSet ds = new OrganizationDAL().GetUserByMDUserID(mduserid,mdprojectid);
+            DataSet ds = new OrganizationDAL().GetUserByMDUserID(mduserid);
             Users model = null;
             if (ds.Tables.Contains("User") && ds.Tables["User"].Rows.Count > 0)
             {

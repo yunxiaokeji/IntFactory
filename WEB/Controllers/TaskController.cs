@@ -13,8 +13,8 @@ namespace YXERP.Controllers
     public class TaskController : BaseController
     {
         // GET: /Task/
-        string token = "af215ba9-f5fc-4f38-8274-2709138dfed5";
-        string refreshToken = "030cc816-329e-4a64-9e20-7e71c11f1564";
+        string token = "967227e7-3a91-45a1-8ded-1818cf306f01";
+        string refreshToken = "be462dcd-1baf-4665-8444-1646d8350c8c";
         #region view
         public JsonResult batchUpdateFent()
         {
@@ -83,7 +83,7 @@ namespace YXERP.Controllers
 
         public JsonResult pullBulkDataList()
         {
-            codes = AlibabaSdk.OrderBusiness.PullBulkGoodsCodes(DateTime.Now.AddMonths(-3), DateTime.Now, token).goodsCodeList;
+            codes = AlibabaSdk.OrderBusiness.PullBulkGoodsCodes(DateTime.Now.AddMonths(-6), DateTime.Now, token).goodsCodeList;
 
             var result = AlibabaSdk.OrderBusiness.PullBulkDataList(codes, token);
 

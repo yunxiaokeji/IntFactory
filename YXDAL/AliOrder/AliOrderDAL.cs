@@ -151,6 +151,21 @@ namespace IntFactoryDAL
             return dt;
         }
 
+        public bool AddAliOrderDownloadPlan(string userID, string memberID, string token, string refreshToken, string agentID, string clientID)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@UserID",userID),
+                                       new SqlParameter("@MemberID",memberID),
+                                       new SqlParameter("@AgentID",agentID),
+                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@RefreshToken",refreshToken),
+                                       new SqlParameter("@Token",token)
+                                   };
+
+
+            return ExecuteNonQuery("P_AddAliOrderDownloadPlan", paras, CommandType.StoredProcedure) > 0;
+        }
+
         /// <summary>
         /// 更新阿里订单下载计划中的token
         /// </summary>

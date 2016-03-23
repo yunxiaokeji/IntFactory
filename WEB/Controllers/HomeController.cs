@@ -290,9 +290,15 @@ namespace YXERP.Controllers
         {
             string operateip = Common.Common.GetRequestIP();
             var userToken = AlibabaSdk.OauthBusiness.GetUserToken(code);
+            //var member = AlibabaSdk.UserBusiness.GetMemberDetail(userToken.access_token, userToken.memberId);
+            //return new JsonResult()
+            //{
+            //    Data = member,
+            //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            //};
             if (userToken.error_code <= 0)
             {
-                var model = OrganizationBusiness.GetUserByMDUserID(userToken.memberId, string.Empty, operateip);
+                var model = OrganizationBusiness.GetUserByMDUserID(userToken.memberId, operateip);
                 //已注册云销账户
                 if (model != null)
                 {
@@ -312,17 +318,23 @@ namespace YXERP.Controllers
                 else
                 {
                     int result = 0;
-                    var member = AlibabaSdk.UserBusiness.GetMemberDetail(userToken.access_token, userToken.memberId);
+                    var memberResult = AlibabaSdk.UserBusiness.GetMemberDetail(userToken.access_token, userToken.memberId);
+                    var member = memberResult.result.toReturn[0];
+
                     Clients clientModel = new Clients();
                     clientModel.CompanyName = member.companyName;
                     clientModel.ContactName = member.sellerName;
-                    clientModel.MobilePhone = member.mobilePhone;
-                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "","", out result, member.email, member.memberId, string.Empty);
+                    clientModel.MobilePhone = string.Empty;
+
+                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result, member.email, member.memberId, string.Empty);
                     if (!string.IsNullOrEmpty(clientid))
                     {
-                        var current = OrganizationBusiness.GetUserByMDUserID(member.memberId, string.Empty, operateip);
 
-                        current.MDToken =userToken.access_token;
+                        var current = OrganizationBusiness.GetUserByMDUserID(member.memberId, operateip);
+
+                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, userToken.access_token, userToken.refresh_token, current.AgentID, current.ClientID);
+
+                        current.MDToken = userToken.access_token;
                         Session["ClientManager"] = current;
 
                         if (string.IsNullOrEmpty(state))

@@ -520,5 +520,6 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Procedures\Products\P_UpdateAttrValueSort.sql" />
+    <None Include="Procedures\AliOrder\P_AddAliOrderDownloadPlan.sql" />
   </ItemGroup>
 </Project>

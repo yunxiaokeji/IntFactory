@@ -5,15 +5,9 @@ using System.Text;
 
 namespace AlibabaSdk
 {
-    public class UsetEntity
+    public class MemberEntity
     {
         public string memberId
-        {
-            get;
-            set;
-        }
-
-        public string id
         {
             get;
             set;
@@ -25,7 +19,7 @@ namespace AlibabaSdk
             set;
         }
 
-        public string name
+        public string sellerName
         {
             get;
             set;

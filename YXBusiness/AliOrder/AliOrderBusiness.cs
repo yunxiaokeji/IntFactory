@@ -428,6 +428,13 @@ namespace IntFactoryBusiness
                 return null;
 
         }
+    
+        public bool AddAliOrderDownloadPlan(string userID, string memberID, string token, string refreshToken, string agentID, string clientID)
+        {
+            bool flag = AliOrderDAL.BaseProvider.AddAliOrderDownloadPlan(userID, memberID, token, refreshToken, agentID,clientID);
+
+            return flag;
+        }
 
         /// <summary>
         /// 更新阿里订单下载计划中的token
