@@ -11,7 +11,12 @@ define(function (require, exports, module) {
     };
     var ObjectJS = {};
     //初始化数据
-    ObjectJS.init = function () {
+    ObjectJS.init = function (type, guid, tid) {
+        var _self = this;
+        _self.type = type;
+        _self.guid = guid;
+        _self.tid = tid;
+
         ObjectJS.bindStyle();
         ObjectJS.bindEvent();
     }
@@ -60,7 +65,7 @@ define(function (require, exports, module) {
             _this.parents(".category-layer").nextAll().remove();
 
             if (_this.data("layer") == 3) {
-                location.href = "/Products/ProductAdd/" + _this.data("id");
+                location.href = "/Products/ProductAdd/?id=" + _this.data("id") + "&type=" + _self.type + "&guid=" + _self.guid + "&tid=" + _self.tid;
                 return false;
             }
 

@@ -234,7 +234,7 @@
                 @{
                     if ((model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
                     {
-                        <a href="/Customer/ChooseProducts?id=@(model.OrderID)&tid=@(model.TaskID)" id="btn-addMaterial" class="btn right mTop10">添加材料</a>
+                        <a href="/Customer/ChooseMaterial?id=@(model.OrderID)&tid=@(model.TaskID)" id="btn-addMaterial" class="btn right mTop10">添加材料</a>
                     }
                 }
                 <div class="clear"></div>

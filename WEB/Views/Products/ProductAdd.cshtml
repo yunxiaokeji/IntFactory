@@ -12,14 +12,22 @@
     <script type="text/javascript">
         seajs.use(["scripts/products/product"], function (product) {
             var um = UM.getEditor('remark');
-            product.init(um);
+            product.init(um, '@(ViewBag.Type)', '@(ViewBag.GUID)', '@(ViewBag.TID)');
         });
     </script>
 }
 
 <div class="header-box">
     <span class="header-title left">添加材料 >> @(model.CategoryName)</span>
-    <a class="ico-back left mLeft5" title="返回" href="/Products/ProductAdd">返回</a>
+    @if (Convert.ToInt32(ViewBag.Type) == 11)
+    {
+         <a class="ico-back right mLeft5" title="返回" href="/Customer/ChooseMaterial?id=@(ViewBag.GUID)&tid=@(ViewBag.TID)">返回</a>
+    }
+    else
+    {
+        <a class="ico-back right mLeft5" title="返回" href="/Products/ProductList">返回</a>
+    }
+    
     <input type="hidden" id="categoryID" value="@(model.CategoryID)" />
 </div>
 <div class="content-body mTop20">

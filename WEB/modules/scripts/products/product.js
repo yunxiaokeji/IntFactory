@@ -24,8 +24,11 @@ define(function (require, exports, module) {
     var CacheChildCategorys = [];
     var Product = {};
     //添加页初始化
-    Product.init = function (Editor) {
+    Product.init = function (Editor, type, guid, tid) {
         var _self = this;
+        _self.type = type;
+        _self.guid = guid;
+        _self.tid = tid;
         editor = Editor;
         _self.bindEvent();
     }
@@ -254,12 +257,13 @@ define(function (require, exports, module) {
     //保存产品
     Product.savaProduct = function () {
 
+        var _self = this, attrlist = "", valuelist = "", attrvaluelist = "";
+
         if (!$("#prodiver").data("id")) {
             alert("请选择材料供应商!");
             return;
         };
-
-        var _self = this, attrlist = "", valuelist = "", attrvaluelist = "";
+       
         var bl = true;
         $(".product-attr").each(function () {
             var _this = $(this);
@@ -331,7 +335,16 @@ define(function (require, exports, module) {
             product: JSON.stringify(Product)
         }, function (data) {
             if (data.ID.length > 0) {
-                location.href = "/Products/ProductDetail/" + data.ID;
+                if (_self.type == "11") {
+                    confirm("材料添加成功，是否返回选择材料页面？", function () {
+                        location.href = "/Customer/ChooseMaterial?id=" + _self.guid + "&tid=" + _self.tid;
+                    }, function () {
+                        location.href = "/Products/ProductDetail/" + data.ID;
+                    });
+                    
+                } else {
+                    location.href = "/Products/ProductDetail/" + data.ID;
+                }
             }
         });
     }

@@ -136,12 +136,20 @@ namespace YXERP.Controllers
             }
         }
 
-        public ActionResult ChooseProducts(string id,string tid="")
+        public ActionResult ChooseProducts(string id)
+        {
+            ViewBag.Type = (int)EnumDocType.Order;
+            ViewBag.GUID = id;
+            ViewBag.Title = "选择材料";
+            return View("FilterProducts");
+        }
+
+        public ActionResult ChooseMaterial(string id, string tid)
         {
             ViewBag.Type = (int)EnumDocType.Order;
             ViewBag.GUID = id;
             ViewBag.TID = tid;
-            ViewBag.Title = "选择订单材料";
+            ViewBag.Title = "选择材料";
             return View("FilterProducts");
         }
 

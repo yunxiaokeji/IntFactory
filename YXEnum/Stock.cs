@@ -47,8 +47,10 @@ namespace IntFactoryEnum
         TH = 6,
         [DescriptionAttribute("手工出库单")]
         SGCK = 7,
-        [DescriptionAttribute("销售订单")]
+        [DescriptionAttribute("订单")]
         Order = 11,
+        [DescriptionAttribute("任务")]
+        Task = 12,
         [DescriptionAttribute("代理商订单")]
         AgentsOrder = 21,
         [DescriptionAttribute("统计用-账单")]

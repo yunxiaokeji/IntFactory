@@ -13,7 +13,16 @@
 }
 <div class="header-box">
     <span class="header-title left">@ViewBag.Title</span>
-    <a class="btn right" href="/Products/ProductAdd">添加材料</a>
+    @if (Convert.ToInt32(ViewBag.Type) == 11)
+    {
+        <a class="btn right mLeft20" href="/Task/Detail/@(ViewBag.TID)">返回任务详情</a>
+        <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)&tid=@(ViewBag.TID)">添加材料</a>
+    }
+    else
+    {
+        <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
+    }
+   
 </div>
 <div class="content-body mTop20">
     <div class="top-div">
