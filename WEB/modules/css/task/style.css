@@ -115,3 +115,9 @@ border-bottom:1px solid #ddd;
 height:auto;
 }
 
+.order-remark {
+    display:inline-block;
+    word-break: break-all;
+    width: 450px;
+}
+

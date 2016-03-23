@@ -130,7 +130,7 @@
             </li>
             <li>
                 <span class="column-title">订单需求:</span>
-                <span>@(order.Remark)</span>
+                <span class="order-remark">@(order.Remark)</span>
             </li>
         </ul>
 
@@ -158,13 +158,13 @@
             <div class="content-main">
                 <div class="replyBox">
                     <textarea id="txtContent" class="replyContent"  placeholder="发表评论"></textarea><br />
-                    <div class="btn right mTop5 mBottom10" disabled="disabled" id="btnSaveTalk">提交</div>
+                    <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
                     <div class="clear"></div>
                 </div>
                 
             </div>
 
-            <div class="talk-title" style="width:800px;"> 全部讨论</div>
+            <div class="talk-title" style="width:800px;">全部讨论</div>
 
             <table class="content-list" id="replyList"></table>
 
@@ -175,6 +175,7 @@
                 <table class="table-list mTop20">
                     <tr class="tr-header">
                         <td class="tLeft">材料名称</td>
+                        <td class="tLeft">编码</td>
                         <td class="tLeft">规格</td>
                         <td class="width80">单位</td>
                         <td class="tLeft">单价</td>
@@ -187,6 +188,7 @@
                         { 
                             <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
                                 <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
+                                <td>@(detail.ProductCode)</td>
                                 <td>@(detail.Remark)</td>
                                 <td class="center">@(detail.UnitName)</td>
                                 <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
@@ -197,6 +199,7 @@
                     }
 
                     <tr class="amount-item">
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
