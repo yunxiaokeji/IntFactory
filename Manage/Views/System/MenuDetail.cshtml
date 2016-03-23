@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "管理系统菜单";
+    var model = (IntFactoryEntity.Manage.SystemMenu)ViewBag.Model;
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/system/menu"], function (Industry) {
+            Industry.detailInit();
+        });
+    </script>
+}
+<link href="/modules/css/clients.css" rel="stylesheet" />
+
+<div class="header-box">
+    <span class="header-title">管理系统菜单</span>
+</div>
+
+<div class="content-body mTop20">
+    <ul class="contentnew" style="display:block;">
+        <li>
+            <span class="columnname">上级菜单：</span>
+            <span>@(ViewBag.PCodeName)</span>
+        </li>
+         <li>
+            <span class="columnname">menucode：</span>
+            <span><input type="text" id="menucode" class="verify" value=""  maxlength="11"  /></span>
+        </li>
+        <li>
+            <span class="columnname">名称：</span>
+            <span><input type="text" id="Name" class="verify" value="@(model.Name)"  maxlength="11"  data-empty="名称不能为空!" /></span>
+        </li>
+         <li>
+            <span class="columnname">控制器：</span>
+            <span><input type="text" id="Controller" class="verify" value="@(model.Controller)" maxlength="11"  data-empty="控制器不能为空!" /></span>
+        </li>
+         <li>
+            <span class="columnname">视图：</span>
+            <span><input type="text" id="View" class="verify" value="@(model.View)" maxlength="11"  data-empty="视图不能为空!" /></span>
+        </li>
+         <li>
+            <span class="columnname">排序：</span>
+            <span><input type="text" id="Sort" class="verify" value="@(model.Sort)" maxlength="11" value="0"  data-empty="排序不能为空!" /></span>
+        </li>
+    </ul>
+
+    <div class="mTop20">
+        <input type="button" id="saveMenu" class="btn" value="保存" />
+    </div>
+</div>
+<input type="hidden" value="@(ViewBag.MenuCode)" id="MenuCode" />
+<input type="hidden" value="@(ViewBag.PCode)" id="PCode" />
+<input type="hidden" value="@(ViewBag.Layer)" id="Layer" />

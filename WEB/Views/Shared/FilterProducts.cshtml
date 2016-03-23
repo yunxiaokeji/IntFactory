@@ -7,17 +7,27 @@
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/shoppingcart/filterproducts"], function (obj) {
-            obj.init('@ViewBag.Type', '@ViewBag.GUID');
+            obj.init('@ViewBag.Type', '@ViewBag.GUID','@ViewBag.TID');
         });
     </script>
 }
 <div class="header-box">
     <span class="header-title left">@ViewBag.Title</span>
+    @if (Convert.ToInt32(ViewBag.Type) == 11)
+    {
+        <a class="btn right mLeft20" href="/Task/Detail/@(ViewBag.TID)">返回任务详情</a>
+        <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)&tid=@(ViewBag.TID)">添加材料</a>
+    }
+    else
+    {
+        <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
+    }
+   
 </div>
 <div class="content-body mTop20">
     <div class="top-div">
-        <ul class="category-map left">
-            <li data-id="">全部分类 <span>></span></li>
+        <ul class="category-map">
+            <li data-id=""><a href="javascript:void(0);">全部分类</a></li>
         </ul>
         <div class="right searth-module" data-text="输入产品编码/名称/助记码" data-width="300"> </div>
     </div>
@@ -27,6 +37,16 @@
             <li class="attrValues">
                 <ul id="category-child">
 
+                </ul>
+            </li>
+        </ul>
+        <ul class="attr-item" id="attr-type">
+            <li class="attrkey">类型：</li>
+            <li class="attrValues">
+                <ul>
+                    <li class="hover type" data-id="-1">不限</li>
+                    <li class="type" data-id="1">本厂</li>
+                    <li class="type" data-id="2">共享</li>
                 </ul>
             </li>
         </ul>

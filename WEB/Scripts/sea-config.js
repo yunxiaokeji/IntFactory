@@ -15,7 +15,12 @@ seajs.config({
         "pager": "plug/datapager/paginate.js",
         //报表底层
         'zrender': 'plug/echarts/zrender/zrender.js'
-    }
+    },
+    map: [
+        //可配置版本号
+        ['.css', '.css?v=20160323'],
+        ['.js', '.js?v=20160323']
+    ]
 });
 
 
@@ -41,6 +46,10 @@ seajs.config({
         "chooseuser": "plug/chooseuser/chooseuser.js",
         //选择客户
         "choosecustomer": "plug/choosecustomer/choosecustomer.js",
+        //选择工厂
+        "choosefactory": "plug/choosefactory/choosefactory.js",
+        //选择打样单
+        "chooseorder": "plug/chooseorder/chooseorder.js",
         //选择流程
         "chooseprocess": "plug/chooseprocess/chooseprocess.js",
         //选择产品
@@ -49,6 +58,8 @@ seajs.config({
         "choosebranch": "plug/choosebranch/choosebranch.js",
         //下拉框
         "dropdown": "plug/dropdown/dropdown.js",
+        //搜索下拉框
+        "autocomplete": "plug/autocomplete/autocomplete.js",
         //显示用户名片层
         "businesscard": "plug/businesscard/businesscard.js",
         //分享明道

@@ -21,13 +21,15 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_CreateTask", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public DataTable GetTasks(string keyWords, string ownerID, int finishStatus, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public DataTable GetTasks(string keyWords, string ownerID, int finishStatus, int orderType, int taskType, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
                                        new SqlParameter("@pageCount",SqlDbType.Int),
                                        new SqlParameter("@OwnerID",ownerID),
                                        new SqlParameter("@FinishStatus",finishStatus),
+                                       new SqlParameter("@OrderType",orderType),
+                                       new SqlParameter("@TaskType",taskType),
                                        new SqlParameter("@KeyWords",keyWords),
                                        new SqlParameter("@BeginDate",beginDate),
                                        new SqlParameter("@EndDate",endDate),
@@ -73,16 +75,23 @@ namespace IntFactoryDAL
 
         }
 
-        public bool UpdateTaskOwner(string taskID, string ownerID)
+        public bool UpdateTaskOwner(string taskID, string ownerID,out int result)
         {
-            string sqltext = "update OrderTask set OwnerID=@OwnerID where TaskID=@TaskID";
-
+            result = 0;
             SqlParameter[] paras = { 
+                                     new SqlParameter("@Result",SqlDbType.Int),
                                      new SqlParameter("@TaskID",taskID),
                                      new SqlParameter("@OwnerID",ownerID)
                                    };
 
-            return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
+
+            ExecuteNonQuery("P_UpdateTaskOwner", paras, CommandType.StoredProcedure);
+
+            result = Convert.ToInt32(paras[0].Value);
+
+            return result == 1;
         }
 
         public bool UpdateTaskRemark(string taskID, string remark)
@@ -97,29 +106,41 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateTaskEndTime(string taskID, DateTime? endTime)
+        public bool UpdateTaskEndTime(string taskID, DateTime? endTime,string userID, out int result)
         {
+            result = 0;
             SqlParameter[] paras = { 
+                                       new SqlParameter("@Result",result),
                                      new SqlParameter("@TaskID",taskID),
+                                     new SqlParameter("@UserID",userID),
                                      new SqlParameter("@EndTime",endTime)
                                    };
 
-            return ExecuteNonQuery("P_UpdateTaskEndTime", paras, CommandType.StoredProcedure) > 0;
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
+            ExecuteNonQuery("P_UpdateTaskEndTime", paras, CommandType.StoredProcedure);
+            result = Convert.ToInt32(paras[0].Value);
+
+            return result == 1;
         }
 
-        public void FinishTask(string taskID,string userID, ref int result)
+        public bool FinishTask(string taskID, string operateid, out int result)
         {
+            result = 0;
             SqlParameter[] paras = { 
                                      new SqlParameter("@Result",SqlDbType.Int),
                                      new SqlParameter("@TaskID",taskID),
-                                     new SqlParameter("@UserID",userID)
+                                     new SqlParameter("@UserID",operateid)
                                    };
+
             paras[0].Value = result;
             paras[0].Direction = ParameterDirection.InputOutput;
 
             ExecuteNonQuery("P_FinishTask", paras, CommandType.StoredProcedure);
 
             result = Convert.ToInt32(paras[0].Value);
+
+            return result == 1;
         }
 
         public bool UnFinishTask(string taskID)

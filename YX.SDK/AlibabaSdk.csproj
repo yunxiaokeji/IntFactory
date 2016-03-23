@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AlibabaSdk</RootNamespace>
     <AssemblyName>AlibabaSdk</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,17 +30,20 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Net.Sourceforge.Pinyin4j">
       <HintPath>..\YXERP\DLL\Net.Sourceforge.Pinyin4j.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,27 +51,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiEnum.cs" />
     <Compile Include="AppConfig.cs" />
+    <Compile Include="Business\CacheBusiness.cs" />
     <Compile Include="Business\OauthBusiness.cs" />
-    <Compile Include="Business\Calendar\CalendarEntity.cs" />
-    <Compile Include="Entity\Token\TokenEntity.cs" />
-    <Compile Include="Entity\User\UserResult.cs" />
+    <Compile Include="Business\OrderBusiness.cs" />
+    <Compile Include="Entity\Order\BatchUpdateResult.cs" />
+    <Compile Include="Entity\Order\MutableProductionPlan .cs" />
+    <Compile Include="Entity\Order\OrderListResult.cs" />
+    <Compile Include="Entity\Order\MutableOrder.cs" />
+    <Compile Include="Entity\Order\OrderEntity.cs" />
+    <Compile Include="Entity\Order\GoodsCodesResult.cs" />
+    <Compile Include="Entity\Token\TokenResult.cs" />
+    <Compile Include="Entity\User\MemberResult.cs" />
     <Compile Include="HttpRequest.cs" />
-    <Compile Include="Entity\Project\ProjectEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApiOption.cs" />
     <Compile Include="Business\UserBusiness.cs" />
-    <Compile Include="Entity\User\UserJson.cs" />
-    <Compile Include="Entity\User\UsetEntity.cs" />
-    <Compile Include="Entity\User\UsetList.cs" />
-    <Compile Include="Entity\Post\PostList.cs" />
-    <Compile Include="Entity\Post\PostEntity.cs" />
-    <Compile Include="Entity\Group\GroupEntity.cs" />
-    <Compile Include="Entity\Group\GroupList.cs" />
+    <Compile Include="Entity\User\MemberJson.cs" />
+    <Compile Include="Entity\User\MemberEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

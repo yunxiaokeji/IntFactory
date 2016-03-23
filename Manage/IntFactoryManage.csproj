@@ -100,6 +100,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Common.cs" />
     <Compile Include="Common\ExpandClass.cs" />
     <Compile Include="Common\UserAuthorize.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -133,6 +134,7 @@
     <Content Include="modules\css\login.css" />
     <Content Include="modules\css\products.css" />
     <Content Include="modules\css\products\filterproducts.css" />
+    <Content Include="modules\css\system\role.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
     <Content Include="modules\images\btn-share-mingdao.png" />
     <Content Include="modules\images\default.png" />
@@ -249,6 +251,11 @@
     <Content Include="modules\scripts\products\filterdetails.js" />
     <Content Include="modules\scripts\products\product.js" />
     <Content Include="modules\scripts\products\unit.js" />
+    <Content Include="modules\scripts\products\ordercategory.js" />
+    <Content Include="modules\scripts\System\cache.js" />
+    <Content Include="modules\scripts\System\menu.js" />
+    <Content Include="modules\scripts\System\roles.js" />
+    <Content Include="modules\scripts\System\users.js" />
     <Content Include="modules\template\client-orders.html" />
     <Content Include="modules\template\client-list.html" />
     <Content Include="modules\template\clientauthorizelog-list.html" />
@@ -269,6 +276,16 @@
     <Content Include="modules\template\products\productdetails_list.html" />
     <Content Include="modules\template\products\products.html" />
     <Content Include="modules\template\products\product_child_add_list.html" />
+    <Content Include="modules\template\products\ordercategory-attrs.html" />
+    <Content Include="modules\template\products\ordercommon-attrs.html" />
+    <Content Include="modules\template\products\attr-detail.html" />
+    <Content Include="modules\template\system\menu-list.html" />
+    <Content Include="modules\template\system\permissions.html" />
+    <Content Include="modules\template\system\role-detail.html" />
+    <Content Include="modules\template\system\roles.html" />
+    <Content Include="modules\template\system\setuserrole.html" />
+    <Content Include="modules\template\system\users.html" />
+    <Content Include="modules\template\system\user-detail.html" />
     <Content Include="Scripts\jquery-1.11.1.js" />
     <Content Include="Scripts\sea-config.js" />
     <Content Include="Scripts\sea.js" />
@@ -359,6 +376,15 @@
     <Content Include="Views\Products\Category.cshtml" />
     <Content Include="Views\Products\Products.cshtml" />
     <Content Include="Views\Products\ChooseDetail.cshtml" />
+    <Content Include="Views\System\Menu.cshtml" />
+    <Content Include="Views\System\MenuDetail.cshtml" />
+    <Content Include="Views\System\RolePermission.cshtml" />
+    <Content Include="Views\System\Roles.cshtml" />
+    <Content Include="Views\System\Users.cshtml" />
+    <Content Include="Views\Products\OrderCategory.cshtml" />
+    <Content Include="Views\System\ClearCache.cshtml" />
+    <None Include="Properties\PublishProfiles\intfactoryManage.pubxml" />
+    <Content Include="Views\Products\AttrDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,18 +1,21 @@
 ﻿@{
     ViewBag.Title = "我的任务";
+    var NowDate = ViewBag.NowDate;
 }
 
 @section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
-        seajs.use(["scripts/task/task"], function (obj) {
-            obj.init('@ViewBag.IsMy');
-        });
+       seajs.use(["scripts/task/task"], function (obj) {
+            obj.init('@ViewBag.IsMy', '@NowDate');
+       });
 
         $(function () {
             var begin = {
                 elem: '#BeginTime',
                 format: 'YYYY-MM-DD',
+
                 max: '2099-06-16',
                 istime: false,
                 istoday: false,
@@ -38,15 +41,28 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">我的任务</span>
+    <span class="header-title left" onclick="task.a();">我的任务</span>
 </div>
 
-<div class="content-body mTop20">
+<div class="search-box">
+    <div class="search-header">
+        <ul class="search-tab search-stages">
+            <li data-id="-1">全部</li>
+            <li data-id="0"  class="hover">未接受</li>
+            <li data-id="1">进行中</li>
+            <li data-id="2">已完成</li>
+        </ul>
+    </div>
+</div>
+
+<div class="content-body">
     <div class="search-body">
-        <div class="left" id="taskStatus"></div>
-        <div class="left mLeft20">
-            <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input width80"  />
-            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width80"  />
+        <div id="chooseBranch" class="left mRight20"></div>
+        <div id="orderType" class="left mRight20"></div>
+        <div id="taskType" class="left mRight20"></div>
+        <div class="left">
+            <span class="width80">创建时间：</span><input type="text" value="@NowDate" id="BeginTime"  class="input width80"  />
+            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime" value="@NowDate" class="input width80"  />
             <span class="btn mLeft10" id="btnSearch">搜索</span>
         </div>
         <div class="right searth-module" data-text="关键字搜索..." data-width="160"> </div>
@@ -55,22 +71,17 @@
     <table class="table-list tb-task-list">
         <tr class="tr-header">
             <td class="width50 tLeft">订单样图</td>
+            <td class="width200">任务标题</td>
+            <td class="width150">任务编号</td>
             <td class="width150">订单编号</td>
-            <td class="width200">任务内容</td>
+            <td class="width150">订单类型</td>
             <td class="width100">任务进度</td>
             <td class="width150">负责人</td>
-            <td class="width150">截至日期</td>
+            <td class="width150">到期日期</td>
             <td class="width150">创建时间</td>
-           @* <td class="width80">操作</td>*@
         </tr>
     </table>
 
     <div id="pager" class="mTop20"></div>
 </div>
 
-
-
-@*<ul class="dropdown-ul hide"  style="width:120px;">
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108010101"))" id="updateObjectEndDate">指定日期</li>
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108010102"))" id="deleteObject">删除</li>
-</ul>*@

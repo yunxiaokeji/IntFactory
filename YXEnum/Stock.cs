@@ -47,8 +47,41 @@ namespace IntFactoryEnum
         TH = 6,
         [DescriptionAttribute("手工出库单")]
         SGCK = 7,
-        [DescriptionAttribute("销售订单")]
+        [DescriptionAttribute("订单")]
         Order = 11,
+        [DescriptionAttribute("任务")]
+        Task = 12,
+        [DescriptionAttribute("代理商订单")]
+        AgentsOrder = 21,
+        [DescriptionAttribute("统计用-账单")]
+        Billing = 111
+    }
+
+    /// <summary>
+    /// 成品单据类型
+    /// </summary>
+    public enum EnumGoodsDocType
+    {
+        /// <summary>
+        /// 全部（仅供查询）
+        /// </summary>
+        All = -1,
+        [DescriptionAttribute("裁剪单")]
+        Cut = 1,
+        [DescriptionAttribute("发货单")]
+        Send = 2,
+        [DescriptionAttribute("报损单")]
+        BS = 3,
+        [DescriptionAttribute("报溢单")]
+        BY = 4,
+        [DescriptionAttribute("调拨单")]
+        DB = 5,
+        [DescriptionAttribute("退货单")]
+        TH = 6,
+        [DescriptionAttribute("手工出库单")]
+        SGCK = 7,
+        [DescriptionAttribute("车缝单")]
+        Sewn = 11,
         [DescriptionAttribute("代理商订单")]
         AgentsOrder = 21,
         [DescriptionAttribute("统计用-账单")]

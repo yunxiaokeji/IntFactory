@@ -1,0 +1,63 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<div class="task-layer-box">
+<div class="taskContent" id="taskDetailContent" data-taskid="{%=item.TaskID%}">
+    <div class="pAll15">
+    <div class="taskOperate">
+        <div class="left">
+            <div class="left"><img title="到期日期" style="width:30px;" src="/modules/images/ico-endtime.png" /></div>
+            <div class="left mLeft10 mTop5">{%=item.EndTime.toDate('yyyy-MM-dd hh:mm')>'3000-01-01'?'未指定日期':item.EndTime.toDate('yyyy-MM-dd hh:mm')%}</div>
+            <div class="clear"></div>
+            
+        </div>
+        <div class="right">
+            <span class="column-title mTop3 left width60">负责人：</span>
+            <span class="left mTop3" id="taskOwnerID">{%=item.Owner.Name%}</span>
+            <span title="更换负责人" class="ico-change left mLeft10" data-userid="{%=item.Owner.UserID%}" data-id="{%=item.TaskID%}" id="changeTaskOwner"></span>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    
+    <div class="taskDetail">
+        
+        <ul class="left">
+            <li>
+                <span class="column-title">任务编号:</span>
+                <span><a class="tast-link-controller" href="/Task/Detail/{%=item.TaskID%}"> {%=item.TaskCode%}</a></span>
+            </li>
+            <li>
+                <span class="column-title">任务标题:</span>
+                <span>{%=item.Title%}</span>
+            </li>
+            <li>
+                <span class="column-title">接受时间:</span>
+                <span>{%=item.AcceptTime.toDate("yyyy-MM-dd hh:mm") > "3000-01-01" ? "未接受" : item.AcceptTime.toDate("yyyy-MM-dd hh:mm")%}</span>
+            </li>
+            <li>
+                <span class="column-title">完成时间:</span>
+                <span>{%=item.CompleteTime.toDate("yyyy-MM-dd hh:mm") > "3000-01-01" ? "未完成" : item.CompleteTime.toDate("yyyy-MM-dd hh:mm")%}</span>
+            </li>
+        </ul>
+       
+        <div class="clear"></div>
+
+    </div>
+    <div class="mTop20 talk-body nav-partdiv">
+        <div class="content-main">
+            <textarea id="txtContent" class="txt-content" placeholder="发表评论"></textarea><br />
+            <div class="btn right mTop5" id="btnSaveTalk">提交</div>
+            <div class="clear"></div>
+        </div>
+        <div class="talk-title"> 全部讨论 </div>
+         <table class="content-list" id="replyList">
+
+         </table>
+        <div id="pagerReply" class="mTop10"></div>
+    </div>
+    </div>
+</div>
+</div>
+{% } %}

@@ -12,10 +12,16 @@ namespace IntFactoryEntity.Task
         [Property("Lower")]
         public string TaskID { get; set; }
 
+        public string TaskCode { get; set; }
+
         public string Title { get; set; }
 
         [Property("Lower")]
         public string OrderID { get; set; }
+
+        public int OrderType { get; set; }
+
+        public string ProductName { get; set; }
 
         [Property("Lower")]
         public string OrderCode { get; set; }
@@ -38,6 +44,10 @@ namespace IntFactoryEntity.Task
         public Users Owner { get; set; }
 
         public DateTime EndTime { get; set; }
+
+        public DateTime AcceptTime { get; set; }
+
+        public DateTime CompleteTime { get; set; }
 
         public int Sort { get; set; }
 

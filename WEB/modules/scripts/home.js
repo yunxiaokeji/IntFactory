@@ -6,6 +6,16 @@ define(function (require, exports, module) {
     var Global = require("global"),
         doT = require("dot");
 
+    var Paras = {
+        Keywords:"",
+        TypeID: 1,
+        SearchType: 6,
+        Status:-1,
+        BeginTime: "",
+        EndTime: "",
+        PageSize:5
+    }
+
     var Home = {};
     //登陆初始化
     Home.initLogin = function (status) {
@@ -103,37 +113,17 @@ define(function (require, exports, module) {
 
     //首页JS
     Home.initHome = function () {
-        
+        var myDate = new Date();
+        Paras.EndTime = myDate.toLocaleDateString();
+        myDate.setDate( myDate.getDate()-7 );
+        Paras.BeginTime = myDate.toLocaleDateString();
+
         Home.bindStyle();
         Home.bindEvent();
 
-        Global.post('/Home/GetAgentActions', {}, function (data) {
-            for (var i = 0; i < data.model.Actions.length; i++) {
-                var model = data.model.Actions[i];
-                if (model.ObjectType == 0) {
-                    $("#loginDay").text(model.DayValue.toFixed(0));
-                    $("#loginWeek").text(model.WeekValue.toFixed(0));
-                    $("#loginMonth").text(model.MonthValue.toFixed(0));
-                } else if (model.ObjectType == 1) {
-                    $("#customDay").text(model.DayValue.toFixed(0));
-                    $("#customWeek").text(model.WeekValue.toFixed(0));
-                    $("#customMonth").text(model.MonthValue.toFixed(0));
-                } else if (model.ObjectType == 2) {
-                    $("#orderDay").text(model.DayValue.toFixed(0));
-                    $("#orderWeek").text(model.WeekValue.toFixed(0));
-                    $("#orderMonth").text(model.MonthValue.toFixed(0));
-                } else if (model.ObjectType == 3) {
-                    $("#activeDay").text(model.DayValue.toFixed(0));
-                    $("#activeWeek").text(model.WeekValue.toFixed(0));
-                    $("#activeMonth").text(model.MonthValue.toFixed(0));
-                } else if (model.ObjectType == 7) {
-                    $("#opporDay").text(model.DayValue.toFixed(0));
-                    $("#opporWeek").text(model.WeekValue.toFixed(0));
-                    $("#opporMonth").text(model.MonthValue.toFixed(0));
-                }
-            }
-        });
-
+        //Home.getList();
+        //Home.getList2();
+        Home.GetAgentActionData();
     }
 
     //首页样式
@@ -183,6 +173,126 @@ define(function (require, exports, module) {
         $("#currentUser").click(function () {
             $(".dropdown-userinfo").fadeIn("1000");
         });
+
+        $(".fentOrderNav .navTab li").click(function () {
+            var self = $(this);
+            if (!self.hasClass("hover"))
+            {
+                self.siblings().removeClass("hover");
+                self.addClass("hover");
+
+                Paras.SearchType = self.data("filtertype");
+                Home.getList();
+            }
+        });
+
+        $(".bulkOrderNav .navTab li").click(function () {
+            var self = $(this);
+            if (!self.hasClass("hover")) {
+                self.siblings().removeClass("hover");
+                self.addClass("hover");
+
+                Paras.SearchType = self.data("filtertype");
+                Home.getList2();
+            }
+        });
+    }
+
+    Home.getList = function () {
+        Paras.TypeID = 1;
+        $("#fentOrders table thead").nextAll().remove();
+        $("#fentOrders table thead").after("<tr><td colspan='3'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+
+        Global.post("/Orders/GetOrders", { filter: JSON.stringify(Paras) }, function (data) {
+            $("#fentOrders table thead").nextAll().remove();
+
+            var len=data.items.length;
+            if(len>0)
+            {
+                var html = '';
+                for(var i=0;i<len;i++){
+                    var item = data.items[i];
+
+                    html += '<tr>';
+                    html += '<td><a href="/Customer/OrderDetail/' + item.OrderID + '" >' + item.OrderCode + '</a></td>';
+                    html += '   <td>' + item.StatusStr + '</td>';
+                    html += '     <td>' + item.CreateTime.toDate("yyyy-MM-dd") + '</td>';
+                    html += '</tr>';
+                }
+
+                $("#fentOrders table thead").after(html);
+            }
+            else
+            {
+                $("#fentOrders table thead").after("<tr><td colspan='3'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
+        });
+
+
+
+    }
+
+    Home.getList2 = function () {
+        Paras.TypeID = 2;
+        $("#bulkOrderList table thead").nextAll().remove();
+        $("#bulkOrderList table thead").after("<tr><td colspan='3'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+
+        Global.post("/Orders/GetOrders", { filter: JSON.stringify(Paras) }, function (data) {
+            $("#bulkOrderList table thead").nextAll().remove();
+
+            var len = data.items.length;
+            if (len > 0) {
+                var html = '';
+                for (var i = 0; i < len; i++) {
+                    var item = data.items[i];
+
+                    html += '<tr>';
+                    html += '<td><a href="/Customer/OrderDetail/' + item.OrderID + '" >' + item.OrderCode + '</a></td>';
+                    html += '   <td>' + item.StatusStr + '</td>';
+                    html += '     <td>' + item.CreateTime.toDate("yyyy-MM-dd") + '</td>';
+                    html += '</tr>';
+                }
+
+                $("#bulkOrderList table thead").after(html);
+            }
+            else {
+                $("#bulkOrderList table thead").after("<tr><td colspan='3'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
+
+        });
+
+
+
+    }
+
+    Home.GetAgentActionData = function () {
+
+        Global.post("/Home/GetAgentActionData", {}, function (data) {
+            $("#customercount").html(data.customercount);
+            $("#ordercount").html(data.ordercount);
+            $("#totalmoney").html(data.totalmoney);
+
+            $("#myOrders").html(data.myOrders);
+            $("#delegateOrders").html(data.delegateOrders);
+            $("#cooperationOrders").html(data.cooperationOrders);
+
+            $("#myFentOrder").html(data.myFentOrder);
+            $("#doMyFentOrder").html(data.doMyFentOrder);
+            $("#cooperationFentOrders").html(data.cooperationFentOrders);
+            $("#doCooperationFentOrders").html(data.doCooperationFentOrders);
+            $("#delegateFentOrders").html(data.delegateFentOrders);
+            $("#doDelegateFentOrders").html(data.doDelegateFentOrders);
+            
+            $("#myBulkOrder").html(data.myBulkOrder);
+            $("#doMyBulkOrder").html(data.doMyBulkOrder);
+            $("#cooperationBulkOrders").html(data.cooperationBulkOrders);
+            $("#doCooperationBulkOrders").html(data.doCooperationBulkOrders);
+            $("#delegateBulkOrders").html(data.delegateBulkOrders);
+            $("#doDelegateBulkOrders").html(data.doDelegateBulkOrders);
+        });
+
+
+
     }
 
     Home.placeholderSupport = function () {
@@ -205,5 +315,6 @@ define(function (require, exports, module) {
 
         };
     }
+
     module.exports = Home;
 });

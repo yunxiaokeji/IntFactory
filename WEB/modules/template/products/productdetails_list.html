@@ -3,6 +3,7 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
+    <td class="width80"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="略缩图" src="{%=item.ImgS%}" /></td>
     <td>{%=item.DetailsCode%}</td>
     <td>{%=item.SaleAttrValueString%}</td>
     <td class="tRight">{%=item.Price.toFixed(2)%}</td>

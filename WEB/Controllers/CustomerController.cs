@@ -69,16 +69,43 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult Orders()
+        public ActionResult Orders(string id)
         {
             ViewBag.Title = "订单列表";
             ViewBag.Type = (int)EnumSearchType.All;
+            int State = -1;
+            if (!string.IsNullOrEmpty(id))
+            {
+                if (id.Equals("need", StringComparison.OrdinalIgnoreCase))
+                {
+                    State = 0;
+                }
+            }
+            ViewBag.State = State;
+            return View();
+        }
+
+        public ActionResult EntrustOrders(string id)
+        {
+            ViewBag.Title = "委托订单列表";
+            ViewBag.Type = (int)EnumSearchType.Entrust;
+
+            int State = -1;
+            if (!string.IsNullOrEmpty(id))
+            {
+                if (id.Equals("need", StringComparison.OrdinalIgnoreCase))
+                {
+                    State = 0;
+                }
+            }
+            ViewBag.State = State;
+
             return View();
         }
 
         public ActionResult CreateOrder(string cid)
         {
-            var list = new ProductsBusiness().GetChildOrderCategorysByID("", CurrentUser.ClientID);
+            var list = new ProductsBusiness().GetClientCategorysByPID("", EnumCategoryType.Order, CurrentUser.ClientID);
             ViewBag.CID = cid;
             ViewBag.Items = list;
             return View();
@@ -92,17 +119,49 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Customer/Orders");
             }
-            ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.AgentID, CurrentUser.ClientID);
+            if (model.Status == 0)
+            {
+                ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.AgentID, CurrentUser.ClientID);
+            }
+            model.IsSelf = model.ClientID == CurrentUser.ClientID;
             ViewBag.Model = model;
-            return View();
+            
+            if (model.OrderType == 1)
+            {
+                return View();
+            }
+            else
+            {
+                return View("OrderDetailDH");
+            }
         }
 
         public ActionResult ChooseProducts(string id)
         {
             ViewBag.Type = (int)EnumDocType.Order;
             ViewBag.GUID = id;
-            ViewBag.Title = "选择订单材料";
+            ViewBag.Title = "选择材料";
             return View("FilterProducts");
+        }
+
+        public ActionResult ChooseMaterial(string id, string tid)
+        {
+            ViewBag.Type = (int)EnumDocType.Order;
+            ViewBag.GUID = id;
+            ViewBag.TID = tid;
+            ViewBag.Title = "选择材料";
+            return View("FilterProducts");
+        }
+
+        public ActionResult DocDetail(string id)
+        {
+            var model = StockBusiness.GetGoodsDocDetail(id, CurrentUser.ClientID);
+            if (model == null || string.IsNullOrEmpty(model.DocID))
+            {
+                return Redirect("/Customer/Orders");
+            }
+            ViewBag.Model = model;
+            return View();
         }
 
         #region Ajax
@@ -340,6 +399,19 @@ namespace YXERP.Controllers
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
 
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+
+        public JsonResult GetClientByKeywords(string keywords)
+        {
+            int totalCount = 0, pageCount = 0;
+            var list = IntFactoryBusiness.Manage.ClientBusiness.GetClients(keywords, 20, 1, ref totalCount, ref pageCount);
+            JsonDictionary.Add("items", list);
             return new JsonResult
             {
                 Data = JsonDictionary,

@@ -4,12 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-using AlibabaSdk;
-using AlibabaSdk.Business;
+
 using IntFactoryBusiness;
 using IntFactoryEntity;
 using IntFactoryBusiness.Manage;
 using IntFactoryEntity.Manage;
+using System.Web.Script.Serialization;
+using IntFactoryEnum;
 
 namespace YXERP.Controllers
 {
@@ -25,7 +26,7 @@ namespace YXERP.Controllers
                 return Redirect("/Home/Login");
             }
 
-            IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+            Users CurrentUser = (Users)Session["ClientManager"];
             ViewBag.UserCount = OrganizationBusiness.GetUsers(CurrentUser.AgentID).Count;
             var agent = AgentsBusiness.GetAgentDetail(CurrentUser.AgentID);
             ViewBag.RemainderDays = (agent.EndTime - DateTime.Now).Days;
@@ -33,14 +34,10 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult Register(string code)
-        {
-            //ViewBag.Msg = "";
-            //if(!string.IsNullOrEmpty(code))
-            //    ViewBag.Msg = AlibabaSdk.Business.OauthBusiness.GetUserInfo(code);
-
-            return View();
-        }
+        //public ActionResult Register()
+        //{
+        //    return View();
+        //}
 
         public ActionResult FindPassword()
         {
@@ -103,13 +100,171 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public JsonResult GetAgentActions()
+        public ActionResult SelfOrder(string id)
         {
+            if (string.IsNullOrEmpty(id)) 
+            {
+                return Redirect("/Home/Login");
+            }
+            var model = ClientBusiness.GetClientDetail(id);
+            if (model == null || string.IsNullOrEmpty(model.ClientID))
+            {
+                return Redirect("/Home/Login");
+            }
+            ViewBag.Model = model;
+            var list = new ProductsBusiness().GetClientCategorysByPID("", EnumCategoryType.Order, id);
+            ViewBag.Items = list;
+            return View();
+        }
+
+        public ActionResult OrderSuccess(string id)
+        {
+            var order = OrdersBusiness.BaseBusiness.GetOrderByID(id);
+            if (order == null || string.IsNullOrEmpty(order.OrderID))
+            {
+                return Redirect("/Home/Login");
+            }
+            var model = ClientBusiness.GetClientDetail(order.ClientID);
+            ViewBag.Model = model;
+            ViewBag.Order = order;
+            return View();
+        }
+
+
+        public JsonResult GetAgentActionData()
+        {
+            int customercount = 0, ordercount = 0;
+            decimal totalmoney = 0;
             IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-            var model = LogBusiness.BaseBusiness.GetAgentActions(CurrentUser.AgentID);
+            var model = LogBusiness.BaseBusiness.GetClientActions(CurrentUser.ClientID, ref customercount, ref ordercount, ref totalmoney);
 
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             JsonDictionary.Add("model", model);
+
+            int myNeedOrders = 0;
+            int cooperationNeedOrders = 0;
+            int delegateNeedOrders = 0;
+
+            int myFentOrder = 0;
+            int doMyFentOrder = 0;
+            int cooperationFentOrders = 0;
+            int doCooperationFentOrders = 0;
+            int delegateFentOrders = 0;
+            int doDelegateFentOrders = 0;
+
+            int myBulkOrder = 0;
+            int doMyBulkOrder = 0;
+            int cooperationBulkOrders = 0;
+            int doCooperationBulkOrders = 0;
+            int delegateBulkOrders = 0;
+            int doDelegateBulkOrders = 0;
+            foreach (var action in model.Actions) {
+                if (action.OrderType == 1)
+                {
+                    if (action.Status == 0)
+                    {
+                        if (action.ObjectType == 6)
+                        {
+                            myNeedOrders += action.OrderCount;
+                        }
+                        else if (action.ObjectType == 5)
+                        {
+                            cooperationNeedOrders += action.OrderCount;
+                        }
+                        else if (action.ObjectType == 4)
+                        {
+                            delegateNeedOrders += action.OrderCount;
+                        }
+                    }
+                    else
+                    {
+
+                        if (action.ObjectType == 6)
+                        {
+                            myFentOrder += action.OrderCount;
+                            if (action.Status == 2)
+                            {
+                                doMyFentOrder += action.OrderCount;
+                            }
+                        }
+                        else if (action.ObjectType == 5)
+                        {
+                            cooperationFentOrders += action.OrderCount;
+                            if (action.Status == 2)
+                            doCooperationFentOrders += action.OrderCount;
+                        }
+                        else if (action.ObjectType == 4)
+                        {
+                            delegateFentOrders += action.OrderCount;
+                            if (action.Status == 2)
+                            doDelegateFentOrders += action.OrderCount;
+                        }
+
+                    }
+                }
+                else
+                {
+                    if (action.Status == 0)
+                    {
+                        if (action.ObjectType == 6)
+                        {
+                            myNeedOrders += action.OrderCount;
+                        }
+                        else if (action.ObjectType == 5)
+                        {
+                            cooperationNeedOrders += action.OrderCount;
+                        }
+                        else if (action.ObjectType == 4)
+                        {
+                            delegateNeedOrders += action.OrderCount;
+                        }
+                    }
+                    else
+                    {
+                        if (action.ObjectType == 6)
+                        {
+                            myBulkOrder += action.OrderCount;
+                            if (action.Status == 2)
+                            {
+                                doMyBulkOrder += action.OrderCount;
+                            }
+                        }
+                        else if (action.ObjectType == 5)
+                        {
+                            cooperationBulkOrders += action.OrderCount;
+                            if (action.Status == 2)
+                                doCooperationBulkOrders += action.OrderCount;
+                        }
+                        else if (action.ObjectType == 4)
+                        {
+                            delegateBulkOrders += action.OrderCount;
+                            if (action.Status == 2)
+                                doDelegateBulkOrders += action.OrderCount;
+                        }
+                    }
+                }
+            }
+
+            JsonDictionary.Add("customercount", model.CustomerCount);
+            JsonDictionary.Add("ordercount", model.OrderCount);
+            JsonDictionary.Add("totalmoney", model.TotalMoney.ToString("C"));
+            JsonDictionary.Add("myOrders", myNeedOrders);
+            JsonDictionary.Add("cooperationOrders", cooperationNeedOrders);
+            JsonDictionary.Add("delegateOrders", delegateNeedOrders);
+
+            JsonDictionary.Add("myFentOrder", myFentOrder);
+            JsonDictionary.Add("doMyFentOrder",doMyFentOrder);
+            JsonDictionary.Add("cooperationFentOrders", cooperationFentOrders);
+            JsonDictionary.Add("doCooperationFentOrders",doCooperationFentOrders);
+            JsonDictionary.Add("delegateFentOrders", delegateFentOrders);
+            JsonDictionary.Add("doDelegateFentOrders",doDelegateFentOrders);
+
+            JsonDictionary.Add("myBulkOrder", myBulkOrder);
+            JsonDictionary.Add("doMyBulkOrder",doMyBulkOrder);
+            JsonDictionary.Add("cooperationBulkOrders", cooperationBulkOrders);
+            JsonDictionary.Add("doCooperationBulkOrders",doCooperationBulkOrders);
+            JsonDictionary.Add("delegateBulkOrders", delegateBulkOrders);
+            JsonDictionary.Add("doDelegateBulkOrders",doDelegateBulkOrders);
 
             return new JsonResult()
             {
@@ -118,102 +273,81 @@ namespace YXERP.Controllers
             };
         }
 
-
         /// <summary>
-        /// 明道登录
+        /// 阿里账户登录
         /// </summary>
         /// <returns></returns>
         public ActionResult MDLogin(string ReturnUrl)
         {
             if(string.IsNullOrEmpty(ReturnUrl))
-            return Redirect(OauthBusiness.GetAuthorizeUrl());
+            return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl());
             else
-                return Redirect(OauthBusiness.GetAuthorizeUrl() + "&state=" + ReturnUrl);
+                return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl() + "&state=" + ReturnUrl);
         }
 
         //明道登录回掉
-        //public ActionResult MDCallBack(string code, string state)
-        //{
-        //    string operateip = Common.Common.GetRequestIP();
-        //    var user = OauthBusiness.GetUserInfo(code);
-        //    if (user.error_code <= 0)
-        //    {
-        //        var model = OrganizationBusiness.GetUserByMDUserID(user.user.id, user.user.project.id, operateip);
-        //        //已注册云销账户
-        //        if (model != null)
-        //        {
-        //            //未注销
-        //            if (model.Status.Value != 9)
-        //            {
-        //                model.MDToken = user.user.token;
-        //                if (string.IsNullOrEmpty(model.Avatar)) model.Avatar = user.user.avatar;
+        public ActionResult MDCallBack(string code, string state)
+        {
+            string operateip = Common.Common.GetRequestIP();
+            var userToken = AlibabaSdk.OauthBusiness.GetUserToken(code);
+            //var member = AlibabaSdk.UserBusiness.GetMemberDetail(userToken.access_token, userToken.memberId);
+            //return new JsonResult()
+            //{
+            //    Data = member,
+            //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            //};
+            if (userToken.error_code <= 0)
+            {
+                var model = OrganizationBusiness.GetUserByMDUserID(userToken.memberId, operateip);
+                //已注册云销账户
+                if (model != null)
+                {
+                    //未注销
+                    if (model.Status.Value != 9)
+                    {
+                        model.MDToken = userToken.access_token;
+                        Session["ClientManager"] = model;
+                        AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanToken(model.ClientID, userToken.access_token, userToken.refresh_token);
 
-        //                Session["ClientManager"] = model;
-        //                if (string.IsNullOrEmpty(state))
-        //                    return Redirect("/Home/Index");
-        //                else
-        //                    return Redirect(state);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            int error = 0;
-        //            bool isAdmin = false;
-        //                //AlibabaSdk.Entity.App.AppBusiness.IsAppAdmin(user.user.token, user.user.id, out error);
-        //            if (isAdmin)
-        //            {
-        //                bool bl = AgentsBusiness.IsExistsMDProject(user.user.project.id);
-        //                //明道网络未注册
-        //                if (!bl)
-        //                {
-        //                    int result = 0;
-        //                    Clients clientModel = new Clients();
-        //                    clientModel.CompanyName = user.user.project.name;
-        //                    clientModel.ContactName = user.user.name;
-        //                    clientModel.MobilePhone = user.user.mobilePhone;
-        //                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", out result, user.user.email, user.user.id, user.user.project.id);
-        //                    if (!string.IsNullOrEmpty(clientid))
-        //                    {
-        //                        var current = OrganizationBusiness.GetUserByMDUserID(user.user.id, user.user.project.id, operateip);
+                        if (string.IsNullOrEmpty(state))
+                            return Redirect("/Home/Index");
+                        else
+                            return Redirect(state);
+                    }
+                }
+                else
+                {
+                    int result = 0;
+                    var memberResult = AlibabaSdk.UserBusiness.GetMemberDetail(userToken.access_token, userToken.memberId);
+                    var member = memberResult.result.toReturn[0];
 
-        //                        current.MDToken = user.user.token;
-        //                        if (string.IsNullOrEmpty(current.Avatar)) current.Avatar = user.user.avatar;
-        //                        Session["ClientManager"] = current;
+                    Clients clientModel = new Clients();
+                    clientModel.CompanyName = member.companyName;
+                    clientModel.ContactName = member.sellerName;
+                    clientModel.MobilePhone = string.Empty;
 
-        //                        if(string.IsNullOrEmpty(state))
-        //                        return Redirect("/Home/Index");
-        //                        else
-        //                            return Redirect(state);
-        //                    }
+                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result, member.email, member.memberId, string.Empty);
+                    if (!string.IsNullOrEmpty(clientid))
+                    {
 
-        //                }
-        //                else
-        //                {
-        //                    int result = 0;
-        //                    var newuser = OrganizationBusiness.CreateUser("", "", user.user.name, user.user.mobilePhone, user.user.email, "", "", "", "", "", "", "", "", user.user.id, user.user.project.id, 1, "", out result);
-        //                    if (newuser != null)
-        //                    {
-        //                        var current = OrganizationBusiness.GetUserByMDUserID(user.user.id, user.user.project.id, operateip);
+                        var current = OrganizationBusiness.GetUserByMDUserID(member.memberId, operateip);
 
-        //                        current.MDToken = user.user.token;
-        //                        if (string.IsNullOrEmpty(current.Avatar)) current.Avatar = user.user.avatar;
-        //                        Session["ClientManager"] = current;
+                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, userToken.access_token, userToken.refresh_token, current.AgentID, current.ClientID);
 
-        //                        if (string.IsNullOrEmpty(state))
-        //                            return Redirect("/Home/Index");
-        //                        else
-        //                            return Redirect(state);
-        //                    }
-        //                }
-        //            }
-        //            else
-        //            {
-        //                return Redirect("/Home/Login?Status=1");
-        //            }
-        //        }
-        //    }
-        //    return Redirect("/Home/Login");
-        //}
+                        current.MDToken = userToken.access_token;
+                        Session["ClientManager"] = current;
+
+                        if (string.IsNullOrEmpty(state))
+                            return Redirect("/Home/Index");
+                        else
+                            return Redirect(state);
+                    }
+
+                }
+            }
+            return Redirect("/Home/Login");
+        }
+
 
         /// <summary>
         /// 员工登录
@@ -481,6 +615,34 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
 
+        }
+
+        public JsonResult GetChildOrderCategorysByID(string categoryid, string clientid)
+        {
+            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
+            var list = new ProductsBusiness().GetClientCategorysByPID(categoryid, EnumCategoryType.Order, clientid);
+            JsonDictionary.Add("Items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateOrder(string entity)
+        {
+            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            IntFactoryEntity.OrderEntity model = serializer.Deserialize<IntFactoryEntity.OrderEntity>(entity);
+
+            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID, model.GoodsCode, model.Title, model.PersonName, model.MobileTele, EnumOrderSourceType.SelfOrder, (EnumOrderType)model.OrderType, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity,
+                                                                     model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, "", model.AgentID, model.ClientID);
+            JsonDictionary.Add("id", orderid);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
     }

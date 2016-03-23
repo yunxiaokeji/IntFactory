@@ -5,7 +5,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntFactor.Service
+namespace IntFactory.Service
 {
     static class Program
     {

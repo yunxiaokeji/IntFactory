@@ -111,35 +111,97 @@
     <Compile Include="Controllers\ModulesProductController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PlugController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\FilterProduct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="modules\css\category.css" />
     <Content Include="modules\css\clients.css" />
     <Content Include="modules\css\default\detail.css" />
+    <Content Include="modules\css\products\filterdetails.css" />
     <Content Include="modules\css\default\list.css" />
     <Content Include="modules\css\home.css" />
     <Content Include="modules\css\base.css" />
     <Content Include="modules\css\layout.css" />
     <Content Include="modules\css\login.css" />
+    <Content Include="modules\css\products.css" />
+    <Content Include="modules\css\products\filterproducts.css" />
+    <Content Include="modules\css\system\role.css" />
+    <Content Include="modules\images\bg-loginBackground.png" />
+    <Content Include="modules\images\btn-share-mingdao.png" />
     <Content Include="modules\images\default.png" />
+    <Content Include="modules\images\defaultactivity.jpg" />
     <Content Include="modules\images\defaultavatar.png" />
+    <Content Include="modules\images\ico-add-fff.png" />
+    <Content Include="modules\images\ico-add.png" />
+    <Content Include="modules\images\ico-addhover.png" />
+    <Content Include="modules\images\ico-alipay.png" />
+    <Content Include="modules\images\ico-back.png" />
+    <Content Include="modules\images\ico-btnadd.png" />
+    <Content Include="modules\images\ico-card-blue.png" />
+    <Content Include="modules\images\ico-card-gray.png" />
+    <Content Include="modules\images\ico-change.png" />
+    <Content Include="modules\images\ico-changehover.png" />
+    <Content Include="modules\images\ico-check.png" />
+    <Content Include="modules\images\ico-checked.png" />
+    <Content Include="modules\images\ico-company.png" />
+    <Content Include="modules\images\ico-contact-hover.png" />
+    <Content Include="modules\images\ico-contact.png" />
     <Content Include="modules\images\ico-del-deep.png" />
     <Content Include="modules\images\ico-del-light.png" />
+    <Content Include="modules\images\ico-delete.png" />
+    <Content Include="modules\images\ico-dropdown-white.png" />
+    <Content Include="modules\images\ico-dropdown.png" />
     <Content Include="modules\images\ico-edit-deep.png" />
     <Content Include="modules\images\ico-edit-light.png" />
+    <Content Include="modules\images\ico-feedback-hover.png" />
+    <Content Include="modules\images\ico-feedback.png" />
+    <Content Include="modules\images\ico-goback.png" />
+    <Content Include="modules\images\ico-gonext.png" />
+    <Content Include="modules\images\ico-goregister-hover.png" />
+    <Content Include="modules\images\ico-goregister.png" />
+    <Content Include="modules\images\ico-gouwuche.png" />
+    <Content Include="modules\images\ico-help-hover.png" />
+    <Content Include="modules\images\ico-help.png" />
     <Content Include="modules\images\ico-home-hover.png" />
     <Content Include="modules\images\ico-home.png" />
+    <Content Include="modules\images\ico-list-blue.png" />
+    <Content Include="modules\images\ico-list-gray.png" />
+    <Content Include="modules\images\ico-loading.jpg" />
     <Content Include="modules\images\ico-logout-hover.png" />
     <Content Include="modules\images\ico-logout.png" />
+    <Content Include="modules\images\ico-member.png" />
+    <Content Include="modules\images\ico-menu.png" />
+    <Content Include="modules\images\ico-mingdao.png" />
+    <Content Include="modules\images\ico-mobilecode.png" />
     <Content Include="modules\images\ico-name.png" />
+    <Content Include="modules\images\ico-nav.png" />
+    <Content Include="modules\images\ico-open.png" />
+    <Content Include="modules\images\ico-pull.png" />
     <Content Include="modules\images\ico-pwd.png" />
+    <Content Include="modules\images\ico-reply-gray.png" />
+    <Content Include="modules\images\ico-structure-full.png" />
+    <Content Include="modules\images\ico-structure-last.png" />
+    <Content Include="modules\images\ico-structure-line.png" />
+    <Content Include="modules\images\ico-surepwd.png" />
+    <Content Include="modules\images\ico-time.png" />
+    <Content Include="modules\images\ico-tree-full.png" />
+    <Content Include="modules\images\ico-tree-last.png" />
+    <Content Include="modules\images\ico-tree-line.png" />
+    <Content Include="modules\images\ico-tree-open.png" />
+    <Content Include="modules\images\ico-tree-pull.png" />
+    <Content Include="modules\images\ico-username.png" />
     <Content Include="modules\images\ico_search.png" />
+    <Content Include="modules\images\ico_searchhover.png" />
+    <Content Include="modules\images\img-noimg.png" />
+    <Content Include="modules\images\loginBackground.png" />
     <Content Include="modules\images\loginMainBackground.jpg" />
     <Content Include="modules\images\logo.png" />
     <Content Include="modules\images\logo_login.png" />
@@ -182,6 +244,16 @@
     <Content Include="modules\scripts\feedback.js" />
     <Content Include="modules\scripts\agentactionreport.js" />
     <Content Include="modules\scripts\order.js" />
+    <Content Include="modules\scripts\products\attr.js" />
+    <Content Include="modules\scripts\products\attrplug.js" />
+    <Content Include="modules\scripts\products\category.js" />
+    <Content Include="modules\scripts\products\filterdetails.js" />
+    <Content Include="modules\scripts\products\product.js" />
+    <Content Include="modules\scripts\products\unit.js" />
+    <Content Include="modules\scripts\products\ordercategory.js" />
+    <Content Include="modules\scripts\System\menu.js" />
+    <Content Include="modules\scripts\System\roles.js" />
+    <Content Include="modules\scripts\System\users.js" />
     <Content Include="modules\template\client-orders.html" />
     <Content Include="modules\template\client-list.html" />
     <Content Include="modules\template\clientauthorizelog-list.html" />
@@ -191,18 +263,29 @@
     <Content Include="modules\template\feedback-list.html" />
     <Content Include="modules\template\agentactionreport-list.html" />
     <Content Include="modules\template\agent-orders.html" />
+    <Content Include="modules\template\products\attrs.html" />
+    <Content Include="modules\template\products\brand-detail.html" />
+    <Content Include="modules\template\products\category-attrs.html" />
+    <Content Include="modules\template\products\categorys.html" />
+    <Content Include="modules\template\products\category_add.html" />
+    <Content Include="modules\template\products\choose_category.html" />
+    <Content Include="modules\template\products\common-attrs.html" />
+    <Content Include="modules\template\products\productdetails_add.html" />
+    <Content Include="modules\template\products\productdetails_list.html" />
+    <Content Include="modules\template\products\products.html" />
+    <Content Include="modules\template\products\product_child_add_list.html" />
+    <Content Include="modules\template\products\ordercategory-attrs.html" />
+    <Content Include="modules\template\products\ordercommon-attrs.html" />
+    <Content Include="modules\template\system\menu-list.html" />
+    <Content Include="modules\template\system\permissions.html" />
+    <Content Include="modules\template\system\role-detail.html" />
+    <Content Include="modules\template\system\roles.html" />
+    <Content Include="modules\template\system\setuserrole.html" />
+    <Content Include="modules\template\system\users.html" />
+    <Content Include="modules\template\system\user-detail.html" />
     <Content Include="Scripts\jquery-1.11.1.js" />
     <Content Include="Scripts\sea-config.js" />
     <Content Include="Scripts\sea.js" />
-<<<<<<< HEAD
-=======
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
->>>>>>> b1c4fdcdb361199b6152417fb54f34ce468bbc08
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
   </ItemGroup>
@@ -252,16 +335,16 @@
     <Content Include="Views\ModulesProduct\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\ExpressCompany\Detail.cshtml" />
+    <Content Include="Views\ExpressCompany\ExpressCompanyDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\ExpressCompany\Index.cshtml" />
+    <Content Include="Views\ExpressCompany\ExpressCompanys.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Industry\Detail.cshtml" />
+    <Content Include="Views\Industry\IndustryDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Industry\Index.cshtml" />
+    <Content Include="Views\Industry\Industrys.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -270,10 +353,10 @@
     <Content Include="Views\System\Admin.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\FeedBack\Index.cshtml" />
+    <Content Include="Views\FeedBack\FeedBacks.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\FeedBack\Detail.cshtml" />
+    <Content Include="Views\FeedBack\FeedBackDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Report\AgentActionReport.cshtml" />
@@ -284,6 +367,21 @@
   <ItemGroup>
     <Content Include="Web.config" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Products\Unit.cshtml" />
+    <Content Include="Views\Products\Attr.cshtml" />
+    <Content Include="Views\Products\Category.cshtml" />
+    <Content Include="Views\Products\Products.cshtml" />
+    <Content Include="Views\Products\ChooseDetail.cshtml" />
+    <Content Include="Views\System\Menu.cshtml" />
+    <Content Include="Views\System\MenuDetail.cshtml" />
+    <Content Include="Views\System\RolePermission.cshtml" />
+    <Content Include="Views\System\Roles.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Views\System\Users.cshtml" />
+=======
+    <Content Include="Views\Products\OrderCategory.cshtml" />
+>>>>>>> 9894af791c180ce8c516a04240beabcdd9e0dbd1
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -309,7 +407,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>7411</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1544/</IISUrl>
+          <IISUrl>http://localhost:11544/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

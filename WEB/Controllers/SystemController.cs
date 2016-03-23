@@ -59,6 +59,21 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult OrderCategory()
+        {
+            var list = new ProductsBusiness().GetChildCategorysByID("", IntFactoryEnum.EnumCategoryType.Order);
+            foreach (var item in list)
+            {
+                if (item.ChildCategory == null || item.ChildCategory.Count == 0)
+                {
+                    item.ChildCategory = new ProductsBusiness().GetChildCategorysByID(item.CategoryID, IntFactoryEnum.EnumCategoryType.Order);
+                }
+            }
+            ViewBag.Items = list;
+
+            return View();
+        }
+
         public ActionResult Target()
         {
             return View();
@@ -457,6 +472,47 @@ namespace YXERP.Controllers
         {
             bool bl = new SystemBusiness().DeleteOrderType(id, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateOrderCategory(string categoryid, string pid, int status)
+        {
+            bool bl = new SystemBusiness().UpdateOrderCategory(categoryid, pid, status, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetOrderCategorys()
+        {
+
+            var list = new SystemBusiness().GetOrderCategorys(CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetClientOrderCategorys()
+        {
+            var list = new ProductsBusiness().GetClientCategorysByPID("", IntFactoryEnum.EnumCategoryType.Order, CurrentUser.ClientID).Where(m => m.Status == 1).ToList();
+            foreach (var item in list)
+            {
+                if (item.ChildCategory == null || item.ChildCategory.Count == 0)
+                {
+                    item.ChildCategory = new ProductsBusiness().GetClientCategorysByPID(item.CategoryID, IntFactoryEnum.EnumCategoryType.Order, CurrentUser.ClientID).Where(m => m.Status == 1).ToList();
+                }
+            }
+            JsonDictionary.Add("items", list);
             return new JsonResult
             {
                 Data = JsonDictionary,

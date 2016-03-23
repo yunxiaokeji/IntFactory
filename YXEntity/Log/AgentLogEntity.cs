@@ -11,6 +11,12 @@ namespace IntFactoryEntity
 
         public string Date { get; set; }
 
+        public decimal TotalMoney { get; set; }
+
+        public int OrderCount { get; set; }
+
+        public int CustomerCount { get; set; }
+
         public List<ActionTypeEntity> Actions { get; set; }
 
     }
@@ -19,11 +25,11 @@ namespace IntFactoryEntity
     {
         public int ObjectType { get; set; }
 
-        public decimal DayValue { get; set; }
+        public int OrderType { get; set; }
 
-        public decimal WeekValue { get; set; }
+        public int Status { get; set; }
 
-        public decimal MonthValue { get; set; }
+        public int OrderCount { get; set; }
 
         public void FillData(System.Data.DataRow dr)
         {

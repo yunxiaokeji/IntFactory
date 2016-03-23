@@ -29,7 +29,6 @@ namespace IntFactoryEntity
 		private int _autoid;
 		private string _docid;
 		private string _productid;
-		private int _quantity=0;
 		private decimal _price=0M;
 		private decimal _totalmoney=0M;
 		private decimal _taxmoney=0M;
@@ -74,11 +73,9 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public int Quantity
-		{
-			set{ _quantity=value;}
-			get{return _quantity;}
-		}
+        public decimal Quantity { set; get; }
+
+        public decimal SurplusQuantity { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -156,6 +153,13 @@ namespace IntFactoryEntity
         public string UnitName { get; set; }
 
         public string Imgs { get; set; }
+
+        public string ProductCode { get; set; }
+
+        [Property("Lower")] 
+        public string ProdiverID { get; set; }
+
+        public ProvidersEntity Providers { get; set; }
 
 		#endregion Model
         /// <summary>

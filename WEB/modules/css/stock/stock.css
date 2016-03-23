@@ -4,3 +4,13 @@
 .ware-items li{ width:100px; height:35px; float:left; line-height:35px; border:solid 1px #ccc; margin:10px 5px; text-align:center; cursor:pointer; }
 .ware-items li:hover{ border-color:#2F73B8; color:#2F73B8;}
 .ware-items li.hover{ border-color:#2F73B8; color:#fff; background-color:#2F73B8;}
+
+.purchase-detail { width:500px; clear:both; }
+.purchase-detail li{  float:left; height:80px;line-height:80px; padding:5px 0; }
+.purchase-detail .name { width:280px; padding-left:20px; }
+.purchase-detail .code { width:120px; }
+
+.purchase-detail-header { width:500px; clear:both; }
+.purchase-detail-header li{  float:left; color:#666; }
+.purchase-detail-header .name { width:280px; padding-left:20px; }
+.purchase-detail-header .code { width:120px; }

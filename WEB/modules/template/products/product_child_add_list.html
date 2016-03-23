@@ -1,6 +1,7 @@
 ﻿
 <table class="table-list child-product-table">
     <tr class="tr-header">
+        <td class="tLeft">图片</td>
         <td class="tLeft">规格</td>
         <td>编码</td>
         <td>价格</td>
@@ -12,6 +13,9 @@
 	    var item = $data[i];
     %}
     <tr class="list-item" data-attr="{%=item.saleAttr%}" data-value="{%=item.attrValue%}" data-attrvalue="{%=item.ids%}">
+        <td>
+            <img class="" src="/modules/images/default.png" /><span class="upload-child-img mTop20 mLeft20" id="{%=item.guid%}"></span>
+        </td>
         <td>{%=item.names%}</td>
         <td class="center"><input type="text" value="" class="code" /></td>
         <td class="center"><input type="text" value="0" class="price width80" /></td>

@@ -29,11 +29,10 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataSet GetUserByMDUserID(string userid, string mdprojectid)
+        public DataSet GetUserByMDUserID(string userid)
         {
             SqlParameter[] paras = { 
-                                    new SqlParameter("@MDUserID",userid),
-                                    new SqlParameter("@MDProjectID",mdprojectid)
+                                    new SqlParameter("@MDUserID",userid)
                                    };
             return GetDataSet("GetUserByMDUserID", paras, CommandType.StoredProcedure, "User|Permission");//|Department|Role
 

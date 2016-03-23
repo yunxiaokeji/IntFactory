@@ -1,0 +1,15 @@
+﻿
+
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+    <li>
+        <span class="check ico-check mTop5" data-id="{%=item.OrderID%}" data-name="{%=item.OrderCode%}"></span>
+		<span class="name long">{%=item.OrderCode%}</span>
+        <span class="width100 long">{%=item.FinalPrice.toFixed(2)%}</span>
+        <span class="width100 long">{%=item.PersonName%}</span>
+        <span class="width150 center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
+        
+	</li>
+{% } %}

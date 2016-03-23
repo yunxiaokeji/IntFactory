@@ -16,22 +16,25 @@
         PageIndex: 1,
         keyWords: "",
         DocType: -1,
+        IsPublic: -1,
         OrderBy: "pd.CreateTime desc",
         IsAsc:false
     }
 
     var ObjectJS = {};
     //初始化
-    ObjectJS.init = function (type, guid) {
+    ObjectJS.init = function (type, guid, tid) {
         var _self = this;
         _self.type = type;
         _self.guid = guid;
+        _self.tid = tid;
         Params.DocType = type;
         _self.getChildCategory("");
         _self.bindEvent();
         $(".content-body").createCart({
             ordertype: type,
-            guid: guid
+            guid: guid,
+            tid: tid
         });
     }
 
@@ -119,7 +122,7 @@
                 var _ele = $(" <li data-id='" + CacheChildCategorys[pid][i].CategoryID + "'>" + CacheChildCategorys[pid][i].CategoryName + "</li>");
                 _ele.click(function () {
                     //处理分类MAP
-                    var _map = $(" <li data-id='" + $(this).data("id") + "'>" + $(this).html() + "<span>></span></li>");
+                    var _map = $(" <li data-id='" + $(this).data("id") + "'><a href='javascript:void(0);'>" + $(this).html() + "</a></li>");
                     _map.click(function () {
                         $(this).nextAll().remove();
                         _self.getChildCategory($(this).data("id"));
@@ -149,6 +152,16 @@
                 Params.keyWords = keyWords;
                 _self.getProducts();
             });
+        });
+        //类型筛选
+        $("#attr-type .attrValues .type").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.addClass("hover");
+                _this.siblings().removeClass("hover");
+                Params.IsPublic = _this.data("id");
+                _self.getProducts();
+            }
         });
         //价格筛选
         $("#attr-price .attrValues .price").click(function () {
@@ -262,14 +275,13 @@
             EndPrice: Params.EndPrice,
             OrderBy: Params.OrderBy,
             DocType: Params.DocType,
+            IsPublic: Params.IsPublic,
             IsAsc: Params.IsAsc,
             Attrs: attrs
         }, params);
 
         Global.post("/ShoppingCart/GetProductListForShopping", { filter: JSON.stringify(opt) }, function (data) {
             $("#productlist").empty();
-
-            console.log(data.Items);
 
             doT.exec("template/shoppingcart/filter-products.html", function (templateFun) {
 
@@ -278,7 +290,7 @@
 
                 //打开产品详情页
                 html.find(".productimg,.name").each(function () {
-                    $(this).attr("href", $(this).attr("href") + "&type=" + _self.type + "&guid=" + _self.guid);
+                    $(this).attr("href", $(this).attr("href") + "&type=" + _self.type + "&guid=" + _self.guid + "&tid=" + _self.tid);
                 });
                 //加入购物车
                 html.find(".btnAddCart").click(function () {

@@ -113,6 +113,7 @@
 .width30 { width:30px !important; }
 .width50 { width:50px !important; }
 .width60 { width:60px !important; }
+.width70 { width:60px !important; }
 .minwidth70 { min-width:70px !important; }
 .width80 { width:80px !important; }
 .width100 { width:100px !important; }
@@ -122,6 +123,7 @@
 .width300 { width:300px !important; }
 .width310 { width:310px !important; }
 .width500 { width:500px !important; }
+.minwidth300 { min-width:300px !important; }
 
 
 * { padding: 0; margin: 0; font-size:9pt; color:#333; font-family:'Microsoft YaHei' !important; }/*033d91*/
@@ -135,7 +137,7 @@ input[type="password"] { border:solid 1px #ccc; border-radius:2px;height:25px; l
 input[type="password"]:focus { border:solid 1px #318ae4; }
 
 textarea { min-height: 60px; border:solid 1px #ccc; border-radius:2px;text-indent:3px;resize:none;}
-textarea:focus { border:solid 1px #318ae4;}
+textarea:focus { border:solid 1px #666;}
 
 select{ border:solid 1px #ccc; border-radius:2px; height:25px; line-height:25px; padding:0 5px;}
 select option{ padding:2px; }

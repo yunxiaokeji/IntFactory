@@ -1,0 +1,14 @@
+﻿<ul class="order-imgs-list pBottom20 minwidth300">
+
+       
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+    if(item){
+%}
+    <li><img src="{%=item%}" /><span class="ico-delete"></span></li>
+{% }} %}
+    <li title="添加图片">
+        <span id="addOrderImages" > </span>
+    </li>
+</ul>

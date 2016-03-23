@@ -1,0 +1,295 @@
+﻿@{
+    ViewBag.Title = "材料任务详情";
+    var model = (IntFactoryEntity.Task.TaskEntity)ViewBag.Model;
+    var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
+    var productAttr = (IntFactoryEntity.ProductAttr)ViewBag.ProductAttr;
+    var attrValues = string.Empty;
+
+    attrValues = productAttr.AttrValues == null ? "" : Html.ToJSONString(productAttr.AttrValues);
+}
+@section css{
+<link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
+<link href="/modules/css/task/style.css" rel="stylesheet" />
+}
+
+@section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
+    <script src="/modules/plug/laydate/laydate.js"></script>
+    <script src="/modules/plug/umeditor/umeditor.min.js"></script>
+    <script src="/modules/plug/umeditor/umeditor.config.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var um = UM.getEditor('txtPlateRemark');
+
+            seajs.use(["scripts/task/detail"], function (obj) {
+                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)');
+            });
+
+            
+            var images = '@order.OrderImages'.split(",");
+            for (var i = 0; i < images.length; i++) {
+                if (images[i]) {
+                    var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
+                    $(".order-imgs-list").append(img);
+                    img.click(function () {
+                        var _this = $(this);
+                        if (!_this.hasClass("hover")) {
+                            _this.siblings().removeClass("hover");
+                            _this.addClass("hover");
+                            $("#orderImage").attr("src", _this.find("img").attr("src"));
+                        }
+                    });
+                }
+            }
+
+        });
+    </script>
+}
+
+<div class="header-box">
+    <span class="header-title left">任务详情</span>
+    <a class="ico-back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回 </a>
+</div>
+
+<div class="taskContent mTop20" id="taskDetailContent" data-taskid="@(model.TaskID)">
+    <div class="taskOperate">
+        <div class="left">
+            
+             <div class="setTaskEndtime @(model.FinishStatus==0?"hide":"")">
+                <div class="left pTop5 width70">
+                    到期时间:
+                </div>
+               
+                @{
+                    if (model.FinishStatus != 0)
+                    {
+                        <div class="left mLeft10 pTop5">
+                            <span class="">@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定到期时间" : model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="left mLeft10">
+                        <input type="text" class="taskEndTime"  id="UpdateTaskEndTime" value="" placeholder="设置到期时间"/>
+                        </div>
+                    }   
+                }
+                    
+                <div class="clear"></div>
+            </div>
+
+            @{if(model.FinishStatus==0){
+                <input type="button" class="btn" onclick="$(this).hide().prev().show()" id="AcceptTask" value="接受任务"/>
+            }}
+        </div>
+
+        <div class="right mRight10">
+            @{
+                if (model.FinishStatus == 1)
+                {
+                    <input type="button" class="btn" id="FinishTask" value="标记完成"/>
+                }
+                else if (model.FinishStatus == 2)
+                {
+                    <span class="taskFinishStatus">已完成</span>
+                }
+             }
+        </div>
+        <div class="clear"></div>
+    </div>
+    
+    <div class="taskDetail">
+        
+        <ul class="left taskBaseInfo">
+             <li>
+                <span class="column-title">任务编码:</span>
+                <span>@(model.TaskCode)</span>
+            </li>
+            <li>
+                <span class="column-title">任务标题:</span>
+                <span>@(model.Title)</span>
+            </li>
+            <li>
+                <span class="column-title">负责人:</span>
+                <span>@(model.Owner.Name)</span>
+            </li>
+             <li>
+                <span class="column-title">接受时间:</span>
+                <span id="AcceptTime">@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+            </li>
+            <li>
+                <span class="column-title">完成时间:</span>
+                <span id="CompleteTime">@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.CompleteTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+            </li>
+             <li>
+                <span class="column-title">订单编号:</span>
+                <a href="/Customer/OrderDetail/@(model.OrderID)" >@(model.OrderCode)</a>
+            </li>
+            <li>
+                <span class="column-title">订单类型:</span>
+                <span>@(model.OrderType == 1 ? "打样" : "大货")</span>
+            </li>
+            <li>
+                <span class="column-title">订单需求:</span>
+                <span class="order-remark">@(order.Remark)</span>
+            </li>
+        </ul>
+
+        <div class="order-imgs-div right">
+            <div class="order-imgs">
+                <img id="orderImage" onerror="document.getElementById('orderImage').src='/modules/images/img-noimg.png'" src="@( string.IsNullOrEmpty(model.OrderImg) ? "/modules/images/img-noimg.png" : model.OrderImg)" />
+            </div>
+            <ul class="order-imgs-list"></ul>
+        </div>
+        <div class="clear"></div>
+
+    </div>
+
+    <div id="navTask" class="talk-body nav-partdiv">
+        <div class="tab-nav mTop10">
+            <ul class="tab-nav-ul left">
+                <li data-id="taskReplys" data-mark="1">讨论</li>
+                <li class="hover" data-id="navProducts" data-mark="-1">材料</li>
+                <li data-id="platemakingContent" data-mark="2">制版</li>
+                <li data-id="orderTaskLogs">日志</li>
+            </ul>
+        </div>
+
+        <div class="mTop50 hide" id="taskReplys">
+            <div class="content-main">
+                <div class="replyBox">
+                    <textarea id="txtContent" class="replyContent" placeholder="发表评论"></textarea><br />
+                    <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
+                    <div class="clear"></div>
+                </div>
+                
+            </div>
+
+            <div class="talk-title" style="width:800px;">全部讨论</div>
+
+            <table class="content-list" id="replyList"></table>
+
+            <div id="pagerReply" class="mTop10"></div>
+        </div>
+
+        <div id="navProducts" class="nav-partdiv">
+                <table class="table-list mTop20">
+                    <tr class="tr-header">
+                        <td class="tLeft">材料名称</td>
+                        <td class="tLeft">编码</td>
+                        <td class="tLeft">规格</td>
+                        <td class="width80">单位</td>
+                        <td class="tLeft">单价</td>
+                        <td class="">消耗量</td>
+                        <td class="tRight">小计</td>
+
+                        @{if ((model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
+                          {
+                            <td class="">删除</td>
+                          }}
+
+                    </tr>
+
+                    @{
+                        foreach (var detail in order.Details)
+                        { 
+                            <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
+                                <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
+                                <td>@(detail.ProductCode)</td>
+                                <td>@(detail.Remark)</td>
+                                <td class="center">@(detail.UnitName)</td>
+                                <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
+                                @{
+
+                            if ( (model.FinishStatus >0 && order.Status<3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
+                               { 
+                                        <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
+                                        <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
+                                        <td class="center">
+                                                <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
+                                        </td> 
+                                    }
+                                    else
+                                    {
+                                        <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
+                                        <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>    
+                                    }
+                           }
+                            </tr>
+                        }
+                    }
+
+                    <tr class="amount-item">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="tRight">成本合计：</td>
+                        <td class="tRight"><label id="amount"></label></td>
+                        @{if ((model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
+                          {
+                            <td></td>
+                          }}
+                    </tr>
+                </table>
+
+                @{
+                    if ((model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
+                    {
+                        <a href="/Customer/ChooseMaterial?id=@(model.OrderID)&tid=@(model.TaskID)" id="btn-addMaterial" class="btn right mTop10">添加材料</a>
+                    }
+                }
+                <div class="clear"></div>
+            </div>
+
+        <div class="platemakingContent hide" id="platemakingContent">
+            <div id="platemakingBody">
+            @{
+                if (!string.IsNullOrEmpty(order.Platemaking))
+                {
+                    <script type="text/javascript">
+                        document.getElementById("platemakingBody").innerHTML = decodeURI('@(order.Platemaking)');
+                    </script>   
+                }
+                else
+                {
+                    <script type="text/javascript">
+                        document.getElementById("platemakingBody").style.border = "none";
+                    </script>   
+                }
+            }
+            </div>
+           
+            <div class="clear"></div>
+
+            <div class="mTop20" style="width:800px;">
+                <div class="talk-title" >工艺说明</div>
+                <div class="edui-container mTop15">
+                    <div class="edui-editor-body">
+                        <div class="description  edui-body-container" id="PlateRemark"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="talk-title mTop20" style="width:800px;">制版讨论</div>
+
+            <table class="content-list" id="replyListOfPlate"></table>
+
+            <div id="pagerReplyOfPlate" class="mTop10"></div>
+        </div>
+            
+        <div id="orderTaskLogs" class="mTop30 hide">
+            <div class="log-body" id="taskLogList"></div>
+            <div id="pagerLogs" class="mTop10"></div>
+        </div>
+
+        
+
+    </div>
+</div>
+
+<ul class="dropdown-ul hide"  style="width:90px;">
+    <li id="btn-addColumn">添加新列</li>
+    <li id="btn-removeColumn">删除此列</li>
+</ul>

@@ -6,17 +6,20 @@ using System.Net;
 using System.Text;
 using System.Configuration;
 using System.Security.Cryptography;
+using System.ComponentModel;
+using System.Web;
 namespace AlibabaSdk
 {
     public class HttpRequest
     {
-        public static string RequestServer(ApiOption apiOption, Dictionary<string, object> paras, string token="", RequestType requestType = RequestType.Get)
+        public static string RequestServer(ApiOption apiOption, Dictionary<string, object> paras,RequestType requestType = RequestType.Get)
         {
-            string urlPath = "param2/1/cn.alibaba.open" + ApiUrlArr[(int)apiOption] + AppConfig.AppKey;
+            string urlPath = "param2/1/cn.alibaba.open/" + GetEnumDesc<ApiOption>(apiOption) + "/" + AppConfig.AppKey;
             string url = AppConfig.AlibabaApiUrl + "/openapi/" + urlPath;
+            //string url = AppConfig.AlibabaApiUrl + "/api/" + urlPath;
             string paraStr = string.Empty;
 
-            if (apiOption == ApiOption.oauth2_access_token)
+            if (apiOption == ApiOption.getToken)
             {
                 urlPath = "/openapi/http/1/system.oauth2/getToken/" + AppConfig.AppKey;
                 url = AppConfig.AlibabaApiUrl + urlPath;
@@ -24,44 +27,30 @@ namespace AlibabaSdk
             else
             {
                 string signature = sign(urlPath, paras);
-
-                paraStr = "_aop_signature=" + signature + "&access_token="+token;
-                if(apiOption == ApiOption.passport_detail)
-                    paraStr = "_aop_signature=" + signature;
+                paraStr = "_aop_signature=" + signature;
             }
             
+            if (paras != null && paras.Count > 0)
+                paraStr+="&"+ createParameterStr(paras);
+
+            string strResult = string.Empty;
             try
             {
-                
-                if (paras != null && paras.Count > 0)
-                {
-                    foreach (string key in paras.Keys)
-                    {
-                        if (string.IsNullOrEmpty(paraStr))
-                            paraStr = key + "=" + paras[key];
-                        else
-                            paraStr += "&" + key + "=" + paras[key];
-                    }
-
-                }
-
-
-
-                HttpWebRequest request;
-                HttpWebResponse response;
-                string strResult = string.Empty;
                 if (requestType == RequestType.Get)
                 {
                     url += "?" + paraStr;
-                    request = (System.Net.HttpWebRequest)WebRequest.Create(url);
-                    request.Timeout = 10000;
-                    request.Method = "GET";
-                    request.ContentType = "application/x-www-form-urlencoded";
+                    Uri uri = new Uri(url);
+                    HttpWebRequest httpWebRequest = WebRequest.Create(uri) as HttpWebRequest;
 
-                    response = (HttpWebResponse)request.GetResponse();
-                    System.Text.Encoding encode = Encoding.ASCII;
-                    if (response.CharacterSet.Contains("utf-8"))
-                        encode = Encoding.UTF8;
+                    httpWebRequest.Method = "GET";
+                    httpWebRequest.KeepAlive = false;
+                    httpWebRequest.AllowAutoRedirect = true;
+                    httpWebRequest.ContentType = "application/x-www-form-urlencoded";
+                    httpWebRequest.UserAgent = "Ocean/NET-SDKClient";
+
+                    HttpWebResponse response = httpWebRequest.GetResponse() as HttpWebResponse;
+                    Stream responseStream = response.GetResponseStream();
+                    System.Text.Encoding encode = Encoding.UTF8;
                     StreamReader reader = new StreamReader(response.GetResponseStream(), encode);
                     strResult = reader.ReadToEnd();
 
@@ -70,57 +59,66 @@ namespace AlibabaSdk
                 }
                 else
                 {
-                    byte[] bData = Encoding.UTF8.GetBytes(paraStr.ToString());
+                    byte[] postData = Encoding.UTF8.GetBytes(paraStr);
+                    Uri uri = new Uri(url);
+                    HttpWebRequest httpWebRequest = WebRequest.Create(uri) as HttpWebRequest;
 
-                    request = (HttpWebRequest)WebRequest.Create(url);
-                    request.Method = "POST";
-                    request.Timeout = 5000;
-                    request.ContentType = "application/x-www-form-urlencoded";
-                    request.ContentLength = bData.Length;
+                    httpWebRequest.Method = "POST";
+                    httpWebRequest.KeepAlive = false;
+                    httpWebRequest.AllowAutoRedirect = true;
+                    httpWebRequest.ContentType = "application/x-www-form-urlencoded";
+                    httpWebRequest.UserAgent = "Ocean/NET-SDKClient";
+                    httpWebRequest.ContentLength = postData.Length;
 
-                    System.IO.Stream smWrite = request.GetRequestStream();
-                    smWrite.Write(bData, 0, bData.Length);
-                    smWrite.Close();
+                    System.IO.Stream outputStream = httpWebRequest.GetRequestStream();
+                    outputStream.Write(postData, 0, postData.Length);
+                    outputStream.Close();
+                    HttpWebResponse response = httpWebRequest.GetResponse() as HttpWebResponse;
+                    Stream responseStream = response.GetResponseStream();
 
-                    response = (HttpWebResponse)request.GetResponse();
-                    System.IO.Stream dataStream = response.GetResponseStream();
-                    System.IO.StreamReader reader = new System.IO.StreamReader(dataStream, Encoding.UTF8);
+                    System.Text.Encoding encode = Encoding.UTF8;
+                    StreamReader reader = new StreamReader(response.GetResponseStream(), encode);
                     strResult = reader.ReadToEnd();
 
                     reader.Close();
-                    dataStream.Close();
-                    response.Close(); 
+                    response.Close();
+
                 }
-
-                return strResult;
             }
-            catch { }
+            catch (System.Net.WebException webException)
+                    {
+                        HttpWebResponse response = webException.Response as HttpWebResponse;
+                        Stream responseStream = response.GetResponseStream();
+                        StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                        strResult = reader.ReadToEnd();
 
-            return null;
+                        reader.Close();
+                        response.Close();
+                    }
+
+
+
+            return strResult;
+
         }
 
-        public static string[] ApiUrlArr = new string[] { 
-        "/oauth2/access_token",
-
-        "/user/all",
-        "/user/detail",
-        "/member.get/",
-
-        "/post/v2/all",
-        "/post/v2/detail",
-        "/post/update",
-
-
-        "/group/my_joined",
-
-        "/message/create_sys",
-
-        "/task/v4/addTask",
-
-        "/calendar/create",
-
-        "/app/is_admin"
-        };
+        private static String createParameterStr(Dictionary<String, Object> parameters)
+        {
+            StringBuilder paramBuilder = new StringBuilder();
+            foreach (KeyValuePair<string, object> kvp in parameters)
+            {
+                String encodedValue = null;
+                if (kvp.Value != null)
+                {
+                    String tempValue = kvp.Value.ToString();
+                    byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(tempValue);
+                    encodedValue = System.Web.HttpUtility.UrlEncode(byteArray, 0, byteArray.Length);
+                }
+                paramBuilder.Append(kvp.Key).Append("=").Append(encodedValue);
+                paramBuilder.Append("&");
+            }
+            return paramBuilder.ToString();
+        }
 
         /// <summary>
         /// 获取参数签名算法
@@ -186,7 +184,15 @@ namespace AlibabaSdk
             //TO HEX
             return BitConverter.ToString(hash).Replace("-", string.Empty).ToUpper();
         }
+
+        public static string GetEnumDesc<T>(T Enumtype)
+        {
+            if (Enumtype == null) throw new ArgumentNullException("Enumtype");
+            if (!Enumtype.GetType().IsEnum) throw new Exception("参数类型不正确");
+            return ((DescriptionAttribute)Enumtype.GetType().GetField(Enumtype.ToString()).GetCustomAttributes(typeof(DescriptionAttribute), false)[0]).Description;
+        }
     }
+
 
     public enum RequestType
     {

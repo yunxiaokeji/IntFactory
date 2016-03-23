@@ -2,17 +2,18 @@
 define(function (require, exports, module) {
     var Global = require("global"),
         doT = require("dot");
-
+    require("pager");
     require("cart");
 
     var ObjectJS = {};
     //添加页初始化
-    ObjectJS.init = function (model, detailid, ordertype, guid) {
+    ObjectJS.init = function (model, detailid, ordertype, guid,tid) {
         var _self = this;
         _self.detailid = detailid;
         _self.ordertype = ordertype;
         _self.guid = guid;
         model = JSON.parse(model.replace(/&quot;/g, '"'));
+        _self.productid = model.ProductID;
 
         $("#productStockQuantity").text(model.StockIn - model.LogicOut);
 
@@ -22,7 +23,8 @@ define(function (require, exports, module) {
         if (ordertype && ordertype > 0) {
             $(".content-body").createCart({
                 ordertype: ordertype,
-                guid: guid
+                guid: guid,
+                tid:tid
             });
         } else {
             $(".choose-div").hide();
@@ -117,6 +119,20 @@ define(function (require, exports, module) {
             });
         });
 
+        //切换模块
+        $(".show-nav-ul li").click(function () {
+            var _this = $(this);
+            _this.siblings().removeClass("hover");
+            _this.addClass("hover");
+            $(".nav-partdiv").hide();
+            $("#" + _this.data("id")).show();
+
+            if (_this.data("id") == "useLogs" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getUseLogs(1);
+            } 
+        });
+
     }
     //绑定信息
     ObjectJS.bindDetail = function (model) {
@@ -137,6 +153,46 @@ define(function (require, exports, module) {
             }
         }
         $("#description").html(decodeURI(model.Description));
+    }
+
+    //获取使用记录
+    ObjectJS.getUseLogs = function (page) {
+        var _self = this;
+        $(".use-table-list .tr-header").nextAll().remove();
+        Global.post("/Products/GetProductUseLogs", {
+            productid: _self.productid,
+            pageindex: page
+        }, function (data) {
+            if (data.items.length > 0) {
+                doT.exec("template/products/uselogs.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
+                    $(".use-table-list .tr-header").after(innerhtml);
+                });
+            } else {
+                $(".use-table-list .tr-header").after("<tr><td colspan='5'><div class='noDataTxt' >暂无记录!<div></td></tr>");
+            }
+            $("#pagerUseLogs").paginate({
+                total_count: data.totalCount,
+                count: data.pageCount,
+                start: page,
+                display: 5,
+                border: true,
+                border_color: '#fff',
+                text_color: '#333',
+                background_color: '#fff',
+                border_hover_color: '#ccc',
+                text_hover_color: '#000',
+                background_hover_color: '#efefef',
+                rotate: true,
+                images: false,
+                mouse: 'slide',
+                float: "left",
+                onChange: function (page) {
+                    _self.getUseLogs(page);
+                }
+            });
+        });
     }
 
     module.exports = ObjectJS;

@@ -234,7 +234,6 @@
 
         var uri = addBase(id, refUri)
         uri = parseMap(uri)
-
         return uri
     }
 

@@ -69,23 +69,6 @@ define(function (require, exports, module) {
         });
 
         require.async("dropdown", function () {
-            $("#wares").dropdown({
-                prevText: "仓库-",
-                defaultText: "全部",
-                defaultValue: "",
-                data: wares,
-                dataValue: "WareID",
-                dataText: "Name",
-                width: "180",
-                onChange: function (data) {
-                    Params.pageIndex = 1;
-                    Params.wareid = data.value;
-                    _self.getList();
-                }
-            });
-        });
-
-        require.async("dropdown", function () {
             $("#providers").dropdown({
                 prevText: "供应商-",
                 defaultText: "全部",
@@ -171,10 +154,9 @@ define(function (require, exports, module) {
     ObjectJS.getList = function () {
         var _self = this;
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='8'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='7'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         var url = "/Purchase/GetPurchases",
             template = "template/purchase/purchases.html";
-        console.log(Params);
 
         Global.post(url, Params, function (data) {
             $(".tr-header").nextAll().remove();
@@ -204,7 +186,7 @@ define(function (require, exports, module) {
                 });
             }
             else {
-                $(".tr-header").after("<tr><td colspan='8'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                $(".tr-header").after("<tr><td colspan='7'><div class='noDataTxt' >暂无数据!<div></td></tr>");
             }
 
             $("#pager").paginate({
@@ -234,13 +216,14 @@ define(function (require, exports, module) {
     ObjectJS.initDetail = function (docid, wareid) {
         var _self = this;
         _self.docid = docid;
-        Global.post("/System/GetDepotSeatsByWareID", { wareid: wareid }, function (data) {
-            CacheDepot[wareid] = data.Items;
-            $(".item").each(function () {
-                var _this = $(this), depotbox = _this.find(".depot-li");
-                _self.bindDepot(depotbox, data.Items, wareid, _this.data("id"));
-            })
-        });        
+
+        //Global.post("/System/GetDepotSeatsByWareID", { wareid: wareid }, function (data) {
+        //    CacheDepot[wareid] = data.Items;
+        //    $(".item").each(function () {
+        //        var _this = $(this), depotbox = _this.find(".depot-li");
+        //        _self.bindDepot(depotbox, data.Items, wareid, _this.data("id"));
+        //    })
+        //});        
 
         //审核入库
         $("#btnconfirm").click(function () {

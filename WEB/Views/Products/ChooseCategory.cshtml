@@ -5,7 +5,7 @@
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/products/choosecategory"], function (category) {
-            category.init();
+            category.init('@(ViewBag.Type)', '@(ViewBag.GUID)', '@(ViewBag.TID)');
         });
     </script>
 }

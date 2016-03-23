@@ -41,7 +41,13 @@ namespace IntFactoryEntity
 
         public string PlanPrice { get; set; }
 
+        public decimal FinalPrice { get; set; }
+
+        [Property("Lower")]
         public string CategoryID { get; set; }
+
+        [Property("Lower")]
+        public string BigCategoryID { get; set; }
 
         public int PlanQuantity { get; set; }
 
@@ -62,12 +68,15 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string StageID { get; set; }
 
+        [Property("Lower")]
         public string ProcessID { get; set; }
 
         public OrderProcessEntity OrderProcess { get; set; }
 
 
         public decimal Price { get; set; }
+
+        public decimal ProfitPrice { get; set; }
 
         /// <summary>
         /// 
@@ -157,6 +166,7 @@ namespace IntFactoryEntity
 
         [Property("Lower")] 
         public string ClientID { get; set; }
+
         #endregion Model
 
         /// <summary>
@@ -169,6 +179,10 @@ namespace IntFactoryEntity
         public string Remark { get; set; }
 
         public string OrderCode { get; set; }
+
+        public string GoodsCode { get; set; }
+
+        public string Title { get; set; }
 
         [Property("Lower")]
         public string OwnerID { get; set; }
@@ -199,6 +213,44 @@ namespace IntFactoryEntity
 
         public List<OrderStatusEntity> OrderStatus { get; set; }
 
+        public string Platemaking { get; set; }
+
+        public string PlateRemark { get; set; }
+
+        public int TaskCount { get; set; }
+
+        public int TaskOver { get; set; }
+
+        [Property("Lower")] 
+        public string OriginalID { get; set; }
+
+        public string OriginalCode { get; set; }
+
+        public string OrderImages { get; set; }
+
+        [Property("Lower")] 
+        public string EntrustClientID { get; set; }
+
+        public int EntrustStatus { get; set; }
+
+        public DateTime EntrustTime { get; set; }
+
+        public List<OrderGoodsEntity> OrderGoods { get; set; }
+
+        public bool IsSelf { get; set; }
+
+        public int SourceType { get; set; }
+
+        public string SourceTypeStr { get; set; }
+
+        public int CutStatus { get; set; }
+
+        public decimal CostPrice { get; set; }
+
+        public decimal Discount { get; set; }
+
+        public decimal OriginalPrice { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>
@@ -213,6 +265,7 @@ namespace IntFactoryEntity
     public class OrderStatusEntity
     {
         public int Status { get; set; }
+
         public DateTime CreateTime { get; set; }
 
         /// <summary>

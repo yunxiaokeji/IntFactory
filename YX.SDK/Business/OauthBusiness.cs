@@ -5,10 +5,13 @@ using System.Text;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-namespace AlibabaSdk.Business
+namespace AlibabaSdk
 {
     public class OauthBusiness
     {
+        /// <summary>
+        /// 获取用户授权url
+        /// </summary>
         public static string GetAuthorizeUrl()
         {
             Dictionary<string, string> paras = new Dictionary<string, string>();
@@ -22,7 +25,10 @@ namespace AlibabaSdk.Business
                 AppConfig.AlibabaApiUrl, AppConfig.AppKey, AppConfig.CallBackUrl, sign);
         }
 
-        public static string GetUserToken(string code)
+        /// <summary>
+        /// 通过code获取用户token
+        /// </summary>
+        public static TokenResult GetUserToken(string code)
         {
             var paras = new Dictionary<string, object>();
             paras.Add("code", code);
@@ -32,16 +38,34 @@ namespace AlibabaSdk.Business
             paras.Add("client_id", AppConfig.AppKey);
             paras.Add("client_secret", AppConfig.AppSecret);
 
-            return HttpRequest.RequestServer(ApiOption.oauth2_access_token, paras, string.Empty,RequestType.Post);
+            string resultStr = HttpRequest.RequestServer(ApiOption.getToken, paras, RequestType.Post);
+            return JsonConvert.DeserializeObject<TokenResult>(resultStr);
         }
 
-        public static UserResult GetUserInfo(string code)
+        /// <summary>
+        /// 通过refreshToken获取用户token
+        /// </summary>
+        public static TokenResult GetTokenByRefreshToken(string refreshToken)
         {
-            var result = GetUserToken(code);
-            var tokenEntity = JsonConvert.DeserializeObject<TokenEntity>(result);
+            var paras = new Dictionary<string, object>();
+            paras.Add("refresh_token", refreshToken);
+            paras.Add("grant_type", "refresh_token");
+            paras.Add("client_id", AppConfig.AppKey);
+            paras.Add("client_secret",AppConfig.AppSecret);
 
+            string resultStr= HttpRequest.RequestServer(ApiOption.getToken, paras, RequestType.Post);
+            return JsonConvert.DeserializeObject<TokenResult>(resultStr);
+        }
+
+        /// <summary>
+        /// 获取用户
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static MemberResult GetUserInfo(string code)
+        {
+            var tokenEntity = GetUserToken(code);
             var model = UserBusiness.GetMemberDetail(tokenEntity.access_token, tokenEntity.memberId);
-
 
             return model;
         }

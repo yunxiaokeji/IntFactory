@@ -9,8 +9,29 @@ using System.IO;
 
 namespace YXERP.Controllers
 {
-    public class PlugController : BaseController
+    public class PlugController : Controller
     {
+        /// <summary>
+        /// 当前登录用户
+        /// </summary>
+        protected IntFactoryEntity.Users CurrentUser
+        {
+            get
+            {
+                if (Session["ClientManager"] == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return (IntFactoryEntity.Users)Session["ClientManager"];
+                }
+            }
+            set { Session["ClientManager"] = value; }
+        }
+
+        protected Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
+
         /// <summary>
         /// 根据cityCode获取下级地区列表
         /// </summary>
@@ -57,6 +78,9 @@ namespace YXERP.Controllers
             List<string> list = new List<string>();
             for (int i = 0; i < Request.Files.Count; i++)
             {
+                if (i == 5) {
+                    break;
+                }
                 HttpPostedFileBase file = Request.Files[i];
                 //判断图片类型
                 string ContentType = file.ContentType;
@@ -79,7 +103,7 @@ namespace YXERP.Controllers
                 if (string.IsNullOrEmpty(oldPath) || oldPath == "/modules/images/default.png")
                 {
                     string[] arr = file.FileName.Split('.');
-                    string fileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + "." + arr[arr.Length - 1];
+                    string fileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + i + "." + arr[arr.Length - 1];
                     string filePath = uploadPath + fileName;
                     file.SaveAs(filePath);
                     list.Add(folder + fileName);

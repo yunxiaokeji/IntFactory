@@ -1,0 +1,55 @@
+﻿
+@{
+    Layout = null;
+    var model = (IntFactoryEntity.Manage.Clients)ViewBag.Model;
+    var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
+}
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="content-language" content="zh-CN" />
+	<meta name="author" content="zuroke" />
+	<title>智能工厂-在线下单成功</title>
+    <link href="../../modules/css/base.css" rel="stylesheet" />
+    <link href="/modules/css/home/common.css" rel="stylesheet" />
+    <link href="/modules/css/home/online-pay.css" rel="stylesheet" /
+</head>
+
+<body>
+<!--页头-->
+<div class="pay-title pay-body row">
+    <div class="pay-title-name l">
+        <i><img src="@(string.IsNullOrEmpty(model.Logo)?"/modules/images/selforder/title-logo.png":model.Logo)" alt=""/></i>
+        <span>@(model.CompanyName)</span>
+    </div>
+</div>
+<!--页头end-->
+
+<!--内容-->
+<div class="pay-content pay-body row">
+	<div class="success">
+    	<div class="success-order row">
+            <ul class="r">
+                <li>订单号：@(order.OrderCode)</li>
+                <li>下单时间：@(order.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"))</li>
+               @* <li class="query">可通过手机号查询您的订单状态</li>*@
+            </ul>
+        </div>
+        <div class="success-btn">
+        	<a type="button" class="btn-order" href="/Home/SelfOrder/@(model.ClientID)">继续下单</a>
+            @*<button type="button" value="订单查询" class="btn-query">订单查询</button>*@
+        </div>
+    </div>
+    
+</div>
+<!--内容end-->
+
+<!--页脚-->
+<div class="pay-bottom pay-body row">
+	<p>©2015-2016 智能工厂 沪ICP备15042543号</p>
+</div>
+<!--页脚end-->
+</body>
+</html>

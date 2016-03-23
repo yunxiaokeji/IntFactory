@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "产品详情页";
+    ViewBag.Title = "材料信息编辑";
     var model = (IntFactoryEntity.Products)ViewBag.Model;
 }
 @section css{
@@ -23,7 +23,7 @@
 }
 
 <div class="header-box">
-    <span class="header-title left">产品详情页</span>
+    <span class="header-title left">材料信息编辑</span>
     <a class="ico-back left mLeft5" title="返回" href="/Products/ProductList">返回</a>
     <a href="javascript:void(0)" id="addDetails" class="btn-add right">添加子规格材料</a>
 </div>
@@ -54,12 +54,7 @@
             </li>
             <li>
                 <span class="column-name">供应商：</span>
-                <select id="prodiver">
-                @foreach (IntFactoryEntity.ProvidersEntity providers in (List<IntFactoryEntity.ProvidersEntity>)ViewBag.Providers)
-                {
-                    <option value="@providers.ProviderID">@providers.Name</option> 
-                }
-                </select>
+                <span id="prodiver"></span>
             </li>
         
             @foreach (IntFactoryEntity.ProductAttr attr in model.Category.AttrLists)
@@ -94,7 +89,7 @@
                 <span class="column-name">是否启用：</span><label><input type="checkbox" checked="checked" id="status" />是</label> 
             </li>
             <li>
-                <span class="column-name">是否公开：</span><label><input type="checkbox" id="isPublic" />是<span class="red">(谨慎操作)</span> </label> 
+                <span class="column-name">是否公开：</span><label><input type="checkbox" id="isPublic" />是<span class="red">(谨慎操作:材料公开后其他厂商也可以查看和选购)</span> </label> 
             </li>
             <li>
                 <span class="column-name">材料说明：</span><div id="remark"></div>
@@ -110,6 +105,7 @@
     <div id="childproduct" class="hide mTop20">
         <table class="table-list child-table-list clear">
             <tr class="tr-header" id="header-items">
+                <td class="tLeft">略缩图</td>
                 <td class="tLeft">编码</td>
                 <td class="tLeft">规格</td>
                 <td class="m-len tRight">价格/@(model.SmallUnit.UnitName)</td>

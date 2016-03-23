@@ -6,13 +6,100 @@ using System.Web.Mvc;
 
 using IntFactoryBusiness;
 using IntFactoryEntity.Task;
+using IntFactoryEnum;
+using System.Globalization;
 namespace YXERP.Controllers
 {
     public class TaskController : BaseController
     {
-        //
         // GET: /Task/
+        string token = "967227e7-3a91-45a1-8ded-1818cf306f01";
+        string refreshToken = "be462dcd-1baf-4665-8444-1646d8350c8c";
+        #region view
+        public JsonResult batchUpdateFent()
+        {
 
+            //var result = AlibabaSdk.OrderBusiness.BatchUpdateFent("THZ0001AB3B01ZH00321", AlibabaSdk.FentOrderStatus.PRICING, "bbb", token);
+            var result = string.Empty;
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult batchUpdateBulk()
+        {
+            //var result = AlibabaSdk.OrderBusiness.BatchUpdateBulk("THZ0001AB3B01ZH0032B", AlibabaSdk.BulkOrderStatus.PRODUCED, "bbb", token);
+            List<string> failGodesCodes;
+            var result = AliOrderBusiness.UpdateAliBulkOrders(CurrentUser.ClientID, token, refreshToken, out failGodesCodes);
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        //public JsonResult ExecuteDownAliOrdersPlan()
+        //{
+        //    var result =AliOrderBusiness.ExecuteDownAliOrdersPlan();
+
+        //    JsonDictionary.Add("result", result);
+        //    return new JsonResult()
+        //    {
+        //        Data = JsonDictionary,
+        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+        //    };
+        //}
+
+        //public JsonResult ExecuteUpdateAliOrders()
+        //{
+        //    var result = AliOrderBusiness.ExecuteUpdateAliOrders();
+
+        //    JsonDictionary.Add("result", result);
+        //    return new JsonResult()
+        //    {
+        //        Data = JsonDictionary,
+        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+        //    };
+        //}
+
+        List<string> codes = new List<string>();
+        public JsonResult pullFentDataList()
+        {
+            codes = AlibabaSdk.OrderBusiness.PullFentGoodsCodes(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1), token).goodsCodeList;
+
+            var result = AlibabaSdk.OrderBusiness.PullFentDataList(codes, token);
+
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult pullBulkDataList()
+        {
+            codes = AlibabaSdk.OrderBusiness.PullBulkGoodsCodes(DateTime.Now.AddMonths(-6), DateTime.Now, token).goodsCodeList;
+
+            var result = AlibabaSdk.OrderBusiness.PullBulkDataList(codes, token);
+
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        
+        /// <summary>
+        /// 任务详情
+        /// </summary>
+        /// <param name="id"></param>
         public ActionResult Detail(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -20,36 +107,76 @@ namespace YXERP.Controllers
                 return Redirect("/Task/MyTask");
             }
 
+            //任务详情
             var task = TaskBusiness.GetTaskDetail(id);
             ViewBag.Model = task;
-            ViewBag.Order = OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
-            return View();
+
+            //任务对应的订单详情
+            var order=OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
+            if (order.Details == null)
+            {
+                order.Details = new List<IntFactoryEntity.OrderDetail>();
+            }
+            ViewBag.Order = order;
+
+            //任务对应订单的品类属性
+            ViewBag.ProductAttr = new ProductsBusiness().GetTaskPlateAttrByCategoryID(order.CategoryID);
+
+            //打样材料
+            if (task.Mark == 1)
+                return View("MaterialDetail");
+            else if (task.Mark == 2)//打样制版
+                return View("PlateDetail");
+            else if (task.Mark == 3)//大货材料
+                return View("CargoMaterialDetail");
+            else
+                return View();
+            
         }
 
-        public ActionResult MyTask()
+        /// <summary>
+        /// 我的任务
+        /// </summary>
+        public ActionResult MyTask(string id)
         {
+            string nowDate = string.Empty;
+            if (!string.IsNullOrEmpty(id))
+            {
+                if(id.Equals("today",StringComparison.OrdinalIgnoreCase))
+                    nowDate = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+
+            ViewBag.NowDate = nowDate;
             ViewBag.IsMy = 1;
+
             return View();
         }
 
+        /// <summary>
+        /// 所有任务
+        /// </summary>
         public ActionResult Tasks()
         {
             ViewBag.IsMy = 0;
+
             return View("MyTask");
         }
+        #endregion
 
         #region ajax
-        public JsonResult GetTasks(bool isMy, string keyWords,int finishStatus, string beginDate, string endDate, int pageSize, int pageIndex)
+        public JsonResult GetTasks(bool isMy, string userID, string keyWords, int orderType, int taskType, int finishStatus, string beginDate, string endDate, int pageSize, int pageIndex)
         {
             int pageCount = 0;
             int totalCount = 0;
             string ownerID = string.Empty;
-            if (isMy)
-            {
+            if (isMy){
                 ownerID = CurrentUser.UserID;
             }
+            else{
+                ownerID = userID;
+            }
 
-            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords,ownerID,finishStatus, beginDate, endDate, CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords, ownerID, finishStatus, orderType,taskType, beginDate, endDate, CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
@@ -73,13 +200,31 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetOrderTaskLogs(string taskID, int pageindex)
+        {
+            int totalCount = 0;
+            int pageCount = 0;
+
+            var list = LogBusiness.GetLogs(taskID, EnumLogObjectType.OrderTask, 10, pageindex, ref totalCount, ref pageCount, CurrentUser.AgentID);
+
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult UpdateTaskEndTime(string taskID, string endTime)
         {
             int result = 0;
             DateTime? endDate = null;
             if (!string.IsNullOrEmpty(endTime)) endDate = DateTime.Parse(endTime);
 
-            result=TaskBusiness.UpdateTaskEndTime(taskID, endDate)?1:0;
+            TaskBusiness.UpdateTaskEndTime(taskID, endDate, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID, out result);
 
             JsonDictionary.Add("Result", result);
             return new JsonResult
@@ -89,10 +234,23 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult FinishTask(string taskID) {
+        public JsonResult FinishTask(string taskID, string orderID, int orderType)
+        {
             int result = 0;
+            bool flag = true;
 
-            TaskBusiness.FinishTask(taskID,CurrentUser.UserID,ref result);
+            if (orderType == 2)
+            {
+                OrdersBusiness.BaseBusiness.EffectiveOrderProduct(orderID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+                if (result != 1)
+                {
+                    flag = false;
+                    result = -1;
+                }
+            }
+
+            if(flag)
+                TaskBusiness.FinishTask(taskID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID,out result);
 
             JsonDictionary.Add("Result", result);
             return new JsonResult
@@ -103,12 +261,12 @@ namespace YXERP.Controllers
         }
 
         [ValidateInput(false)]
-        public JsonResult UpdateTaskRemark(string taskID, string remark)
+        public JsonResult UpdateOrderPlateAttr(string orderID, string taskID, string valueIDs, string platehtml)
         {
             int result = 0;
-            remark = HttpUtility.HtmlEncode(remark);
+            valueIDs = valueIDs.Trim('|');
 
-            result = TaskBusiness.UpdateTaskRemark(taskID, remark) ? 1 : 0;
+            result = OrdersBusiness.BaseBusiness.UpdateOrderPlateAttr(orderID, taskID, valueIDs, platehtml, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID) ? 1 : 0;
 
             JsonDictionary.Add("Result", result);
             return new JsonResult
@@ -117,6 +275,34 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
+        public JsonResult UpdateOrderPlateRemark(string orderID, string plateRemark)
+        {
+            int result = 0;
+
+            result = OrdersBusiness.BaseBusiness.UpdateOrderPlateRemark(orderID, plateRemark) ? 1 : 0;
+
+            JsonDictionary.Add("Result", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateTaskOwner(string taskid, string userid)
+        {
+            int result = 0;
+            bool bl = TaskBusiness.UpdateTaskOwner(taskid, userid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         #endregion
 
 

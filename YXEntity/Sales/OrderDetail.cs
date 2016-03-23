@@ -132,9 +132,7 @@ namespace IntFactoryEntity
 			set{ _batchcode=value;}
 			get{return _batchcode;}
 		}
-		/// <summary>
-		/// 
-		/// </summary>
+        [Property("Lower")]
 		public string ClientID
 		{
 			set{ _clientid=value;}
@@ -154,6 +152,8 @@ namespace IntFactoryEntity
         public string UnitName { get; set; }
 
         public string Imgs { get; set; }
+
+        public string ProductCode { get; set; }
 
 		#endregion Model
         /// <summary>

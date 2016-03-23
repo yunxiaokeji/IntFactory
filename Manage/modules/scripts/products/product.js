@@ -160,7 +160,7 @@ define(function (require, exports, module) {
                     });
                     innerText.find(".cancelproduct").click(function () {
                         if (confirm("确认驳回材料的公开申请吗？")) {
-                            _self.editIsPublic($(this).data("id"), 0);
+                            _self.editIsPublic($(this).data("id"), 3);
                         }
                     });
                     innerText.find(".deleteproduct").click(function () {

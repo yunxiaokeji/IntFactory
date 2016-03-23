@@ -49,7 +49,7 @@ namespace IntFactoryEntity
                                 {
                                     property.SetValue(entity,
                                         dr[property.Name] != null && dr[property.Name] != DBNull.Value
-                                        ? dr[property.Name].ToString().ToLower().Replace("\"", "“")
+                                        ? dr[property.Name].ToString().ToLower().Replace("\"", "“").Replace("\t", "").Replace("\n", "")
                                         : "",
                                         null);
                                 }
@@ -57,7 +57,7 @@ namespace IntFactoryEntity
                                 {
                                     property.SetValue(entity,
                                         dr[property.Name] != null && dr[property.Name] != DBNull.Value
-                                        ? dr[property.Name].ToString().ToUpper().Replace("\"", "“")
+                                        ? dr[property.Name].ToString().ToUpper().Replace("\"", "“").Replace("\t", "").Replace("\n", "")
                                         : "",
                                         null);
                                 }
@@ -67,7 +67,7 @@ namespace IntFactoryEntity
                             {
                                 property.SetValue(entity,
                                     dr[property.Name] != null && dr[property.Name] != DBNull.Value
-                                    ? dr[property.Name].ToString().Replace("\"", "“")
+                                    ? dr[property.Name].ToString().Replace("\"", "“").Replace("\t", "").Replace("\n", "")
                                     : "",
                                     null);
                             }

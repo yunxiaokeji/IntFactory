@@ -43,11 +43,11 @@ namespace IntFactoryBusiness
         }
 
 
-        public List<OrderEntity> GetOrders(EnumSearchType searchtype, string typeid, int status, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid,
+        public List<OrderEntity> GetOrders(EnumSearchType searchtype, string typeid, int status, EnumOrderSourceType sourceType, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid,
                                                 string begintime, string endtime, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataSet ds = OrdersDAL.BaseProvider.GetOrders((int)searchtype, typeid, status, paystatus, invoicestatus, returnstatus, searchuserid, searchteamid, searchagentid, begintime, endtime, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
+            DataSet ds = OrdersDAL.BaseProvider.GetOrders((int)searchtype, typeid, status, (int)sourceType, paystatus, invoicestatus, returnstatus, searchuserid, searchteamid, searchagentid, begintime, endtime, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 OrderEntity model = new OrderEntity();
@@ -56,6 +56,9 @@ namespace IntFactoryBusiness
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
+
+                model.SourceTypeStr = CommonBusiness.GetEnumDesc((EnumOrderSourceType)model.SourceType);
+
                 if (model.Status == 2)
                 {
                     model.SendStatusStr = CommonBusiness.GetEnumDesc((EnumSendStatus)model.SendStatus);
@@ -70,10 +73,10 @@ namespace IntFactoryBusiness
         }
 
 
-        public List<OrderEntity> GetOrdersByCustomerID(string customerid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
+        public List<OrderEntity> GetOrdersByCustomerID(string customerid, int ordertype, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataTable dt = CommonBusiness.GetPagerData("Orders", "*", "CustomerID='" + customerid + "' and Status<>9 and Status<>0", "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
+            DataTable dt = CommonBusiness.GetPagerData("Orders", "*", "CustomerID='" + customerid + "' and OrderType=" + ordertype + " and Status<>9 and Status<>0", "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
             foreach (DataRow dr in dt.Rows)
             {
                 OrderEntity model = new OrderEntity();
@@ -88,7 +91,7 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<OrderEntity> GetOpportunityaByCustomerID(string customerid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
+        public List<OrderEntity> GetNeedsOrderByCustomerID(string customerid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
             DataTable dt = CommonBusiness.GetPagerData("Orders", "*", "CustomerID='" + customerid + "' and Status = 0 ", "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
@@ -101,6 +104,17 @@ namespace IntFactoryBusiness
                 list.Add(model);
             }
             return list;
+        }
+
+        public OrderEntity GetOrderByID(string orderid)
+        {
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderByID(orderid);
+            OrderEntity model = new OrderEntity();
+            if (dt.Rows.Count > 0)
+            {
+                model.FillData(dt.Rows[0]);
+            }
+            return model;
         }
 
         public OrderEntity GetOrderByID(string orderid, string agentid, string clientid)
@@ -170,18 +184,33 @@ namespace IntFactoryBusiness
                         detail.FillData(dr);
                         model.Details.Add(detail);
                     }
+                }
+                model.OrderGoods = new List<OrderGoodsEntity>();
+                if (ds.Tables["Goods"].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables["Goods"].Rows)
+                    {
+                        OrderGoodsEntity detail = new OrderGoodsEntity();
+                        detail.FillData(dr);
+                        model.OrderGoods.Add(detail);
+                    }
                 }  
             }
             return model;
         }
 
-        public static List<ReplyEntity> GetReplys(string guid, string stageID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public static List<ReplyEntity> GetReplys(string guid, string stageID,int mark, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             List<ReplyEntity> list = new List<ReplyEntity>();
             string whereSql = " Status<>9 and GUID='" + guid + "' ";
-            if (!string.IsNullOrEmpty(stageID))
+            if (mark==0 && !string.IsNullOrEmpty(stageID))
             {
-                whereSql += " and StageID='" + stageID+"' ";
+                whereSql += " and StageID='" + stageID + "' ";
+            }
+
+            if (mark != -1)
+            {
+                whereSql += " and Mark=" + mark + " ";
             }
             DataTable dt = CommonBusiness.GetPagerData("OrderReply", "*", whereSql, "AutoID", "CreateTime desc ", pageSize, pageIndex, out totalCount, out pageCount, false);
 
@@ -219,37 +248,71 @@ namespace IntFactoryBusiness
 
             return list;
         }
+
+        public List<OrderCostEntity> GetOrderCosts(string orderid, string clientid)
+        {
+            List<OrderCostEntity> list = new List<OrderCostEntity>();
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderCosts(orderid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderCostEntity model = new OrderCostEntity();
+                model.FillData(dr);
+
+                list.Add(model);
+            }
+            return list;
+        }
+        
         #endregion
 
         #region 添加
 
-        public string CreateOrder(string customerid, string name, string mobile, int type, string categoryid, string price, int quantity, string orderimg, string citycode, string address, string remark, string operateid, string agentid, string clientid)
+        public string CreateOrder(string customerid, string goodscode, string title, string name, string mobile, EnumOrderSourceType sourceType, EnumOrderType ordertype, string bigcategoryid, string categoryid, string price, int quantity, string orderimgs, string citycode, string address, string expressCode, string remark, string operateid, string agentid, string clientid, string aliOrderCode = "")
         {
             string id = Guid.NewGuid().ToString();
             string code = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            string firstimg = "", allimgs = "";
 
-            if (!string.IsNullOrEmpty(orderimg))
+            if (!string.IsNullOrEmpty(orderimgs))
             {
-                if (orderimg.IndexOf("?") > 0)
+                bool first = true;
+                foreach (var img in orderimgs.Split(','))
                 {
-                    orderimg = orderimg.Substring(0, orderimg.IndexOf("?"));
-                }
+                    string orderimg = img;
+                    if (!string.IsNullOrEmpty(orderimg))
+                    {
+                        if (orderimg.IndexOf("?") > 0)
+                        {
+                            orderimg = orderimg.Substring(0, orderimg.IndexOf("?"));
+                        }
 
-                DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
-                if (!directory.Exists)
-                {
-                    directory.Create();
-                }
+                        DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
+                        if (!directory.Exists)
+                        {
+                            directory.Create();
+                        }
 
-                FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
-                orderimg = FILEPATH + file.Name;
-                if (file.Exists)
-                {
-                    file.MoveTo(HttpContext.Current.Server.MapPath(orderimg));
+                        FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
+                        orderimg = FILEPATH + file.Name;
+                        if (file.Exists)
+                        {
+                            file.MoveTo(HttpContext.Current.Server.MapPath(orderimg));
+                        }
+                    }
+                    if (first)
+                    {
+                        firstimg = orderimg;
+                        first = false;
+                    }
+                    allimgs += orderimg + ",";
                 }
             }
+            if (allimgs.Length > 0)
+            {
+                allimgs = allimgs.Substring(0, allimgs.Length - 1);
+            }
 
-            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code,customerid, name, mobile, type, categoryid, price, quantity, orderimg, citycode, address, remark, operateid, agentid, clientid);
+            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, aliOrderCode, goodscode, title, customerid, name, mobile, (int)sourceType, (int)ordertype, bigcategoryid, categoryid, price, quantity, firstimg, allimgs, citycode, address, expressCode, remark, operateid, agentid, clientid);
             if (!bl)
             {
                 return "";
@@ -262,9 +325,95 @@ namespace IntFactoryBusiness
             return id;
         }
 
-        public static string CreateReply(string guid,string stageID, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
+        public string CreateDHOrder(string orderid, string originalid, List<ProductDetail> details, string operateid, string agentid, string clientid)
         {
-            return OrdersDAL.BaseProvider.CreateReply(guid,stageID, content, userID, agentID, fromReplyID, fromReplyUserID, fromReplyAgentID);
+            var dal = new OrdersDAL();
+            string id = Guid.NewGuid().ToString().ToLower();
+
+            SqlConnection conn = new SqlConnection(BaseDAL.ConnectionString);
+            if (conn.State != ConnectionState.Open)
+            {
+                conn.Open();
+            }
+            SqlTransaction tran = conn.BeginTransaction();
+            try
+            {
+                if (string.IsNullOrEmpty(originalid))
+                {
+                    bool bl = dal.CreateDHOrder(id, orderid, operateid, clientid, tran);
+                    //产品添加成功添加子产品
+                    if (bl)
+                    {
+                        foreach (var model in details)
+                        {
+                            if (!dal.AddOrderGoods(id, orderid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.Description, operateid, clientid, tran))
+                            {
+                                tran.Rollback();
+                                conn.Dispose();
+                                return "";
+                            }
+                        }
+                        tran.Commit();
+                        conn.Dispose();
+                        //日志
+                        LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Orders, EnumLogType.Create, "", operateid, agentid, clientid);
+                        
+                        return id;
+                    }
+                }
+                else
+                {
+                    foreach (var model in details)
+                    {
+                        if (!dal.AddOrderGoods(orderid, originalid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.Description, operateid, clientid, tran))
+                        {
+                            tran.Rollback();
+                            conn.Dispose();
+                            return "";
+                        }
+                    }
+                    tran.Commit();
+                    conn.Dispose();
+                    return orderid;
+                }
+                
+                return "";
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                conn.Dispose();
+                return "";
+            }
+        }
+
+        public string CreateOrderGoodsDoc(string orderid, EnumDocType type,int isover, string expressid, string expresscode, string details, string remark, string operateid, string agentid, string clientid)
+        {
+            var dal = new OrdersDAL();
+            string id = Guid.NewGuid().ToString().ToLower();
+
+            bool bl = dal.CreateOrderGoodsDoc(id, orderid, (int)type, isover, expressid, expresscode, details, remark, operateid, clientid);
+            if (bl)
+            {
+                return id;
+            }
+            return "";
+        }
+
+        public static string CreateReply(string guid,string stageID,int mark, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
+        {
+            return OrdersDAL.BaseProvider.CreateReply(guid, stageID, mark, content, userID, agentID, fromReplyID, fromReplyUserID, fromReplyAgentID);
+        }
+
+        public bool CreateOrderCost(string orderid, decimal price, string remark, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.CreateOrderCost(orderid, price, remark, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单添加其他成本：" + price;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
+            }
+            return bl;
         }
 
         #endregion
@@ -320,7 +469,7 @@ namespace IntFactoryBusiness
             bool bl = OrdersDAL.BaseProvider.DeleteOrder(orderid, operateid, agentid, clientid);
             if (bl)
             {
-                string msg = "删除订单";
+                string msg = "删除需求单";
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
             }
             return bl;
@@ -337,6 +486,17 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateOrderCategoryID(string orderid, string pid, string categoryid, string name, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderCategoryID(orderid, pid, categoryid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "绑定订单品类：" + name;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, categoryid, agentid, clientid);
+            }
+            return bl;
+        }
+
         public bool UpdateOrderOwner(string orderid, string userid, string operateid, string ip, string agentid, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderOwner(orderid, userid, operateid, agentid, clientid);
@@ -349,34 +509,141 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderStatus(string orderid, EnumOrderStatus status, int quantity, string operateid, string ip, string agentid, string clientid)
+        public bool UpdateOrderStatus(string orderid, EnumOrderStatus status, int quantity, decimal price, string operateid, string ip, string agentid, string clientid, out string errinfo)
         {
-            bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, quantity,operateid, agentid, clientid);
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, quantity, price, operateid, agentid, clientid, out errinfo);
             if (bl)
             {
                 string msg = "订单状态更换为：" + CommonBusiness.GetEnumDesc<EnumOrderStatus>(status);
-                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
 
-                if (quantity > 0)
+                switch (status)
                 {
-                    LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, "大货数量确认为：" + quantity, operateid, ip, "", agentid, clientid);
+                    case EnumOrderStatus.FYFJ:
+                        msg = "打样单完成合价，最终报价为：" + price;
+                        break;
+                    case EnumOrderStatus.DDH:
+                        msg = "打样单大货下单，大货数量为：" + quantity;
+                        break;
                 }
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
             }
             return bl;
         }
 
-        public bool SubmitOrder(string orderid, string operateid, string ip, string agentid, string clientid)
+        public bool UpdateProfitPrice(string orderid, decimal profit, string operateid, string ip, string agentid, string clientid)
         {
-            bool bl = OrdersDAL.BaseProvider.SubmitOrder(orderid, operateid, agentid, clientid);
+            bool bl = OrdersDAL.BaseProvider.UpdateProfitPrice(orderid, profit, operateid, agentid, clientid);
             if (bl)
             {
-                string msg = "提交订单";
-                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, operateid, agentid, clientid);
-
-                //日志
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Orders, EnumLogType.Create, ip, operateid, agentid, clientid);
+                string msg = "订单利润比例设置为：" + profit;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
             }
             return bl;
+        }
+
+        public bool UpdateOrderDiscount(string orderid, decimal discount, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderDiscount(orderid, discount, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单折扣设置为：" + discount;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderClient(string orderid, string newclientid, string name, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderClient(orderid, newclientid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单委托给工厂：" + name;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, newclientid, agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderOriginalID(string orderid, string originalorderid, string name, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderOriginalID(orderid, originalorderid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "绑定打样订单：" + name;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, originalorderid, agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderCustomer(string orderid, string customerid, string name, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderCustomer(orderid, customerid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "绑定客户：" + name;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, customerid, agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderImages(string orderid, string images,  string operateid, string ip, string agentid, string clientid)
+        {
+            string firstimg = "", allimgs = "";
+
+            if (!string.IsNullOrEmpty(images))
+            {
+                bool first = true;
+                foreach (var img in images.Split(','))
+                {
+                    string orderimg = img;
+                    if (!string.IsNullOrEmpty(orderimg) && orderimg.IndexOf(TempPath) >= 0)
+                    {
+                        if (orderimg.IndexOf("?") > 0)
+                        {
+                            orderimg = orderimg.Substring(0, orderimg.IndexOf("?"));
+                        }
+
+                        DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
+                        if (!directory.Exists)
+                        {
+                            directory.Create();
+                        }
+
+                        FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
+                        orderimg = FILEPATH + file.Name;
+                        if (file.Exists)
+                        {
+                            file.MoveTo(HttpContext.Current.Server.MapPath(orderimg));
+                        }
+                    }
+                    if (first)
+                    {
+                        firstimg = orderimg;
+                        first = false;
+                    }
+                    allimgs += orderimg + ",";
+                }
+            }
+            if (allimgs.Length > 0)
+            {
+                allimgs = allimgs.Substring(0, allimgs.Length - 1);
+            }
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderImages(orderid, firstimg, allimgs, agentid, clientid);
+            if (bl)
+            {
+                string msg = "更换订单样图";
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderPlateAttr(string orderid, string taskID, string valueIDS, string platehtml, string createUserID, string agentID, string clientID)
+        {
+            return OrdersDAL.BaseProvider.UpdateOrderPlateAttr(orderid, taskID, valueIDS, platehtml, createUserID, agentID, clientID);
+        }
+
+        public bool UpdateOrderPlateRemark(string orderid, string plateRemark)
+        {
+            return OrdersDAL.BaseProvider.UpdateOrderPlateRemark(orderid, plateRemark);
         }
 
         public bool EditOrder(string orderid, string personName, string mobileTele, string cityCode, string address, string postalcode, string typeid, int expresstype, string remark, string operateid, string ip, string agentid, string clientid)
@@ -390,12 +657,12 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool EffectiveOrder(string orderid, string operateid, string ip, string agentid, string clientid,out int result)
+        public bool EffectiveOrderProduct(string orderid, string operateid, string ip, string agentid, string clientid, out int result)
         {
-            bool bl = OrdersDAL.BaseProvider.EffectiveOrder(orderid, operateid, agentid, clientid, out result);
+            bool bl = OrdersDAL.BaseProvider.EffectiveOrderProduct(orderid, operateid, agentid, clientid, out result);
             if (bl)
             {
-                string msg = "审核订单";
+                string msg = "确认大货单材料采购";
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
             }
             return bl;
@@ -406,7 +673,7 @@ namespace IntFactoryBusiness
             bool bl = OrdersDAL.BaseProvider.ApplyReturnOrder(orderid, operateid, agentid, clientid, out result);
             if (bl)
             {
-                string msg = "申请退单";
+                string msg = "退回委托";
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
             }
             return bl;
@@ -442,6 +709,29 @@ namespace IntFactoryBusiness
                 var model = SystemBusiness.BaseBusiness.GetOrderStageByID(stageid, processid, agentid, clientid);
                 string msg = "机会阶段更换为：" + model.StageName;
                 LogBusiness.AddLog(opportunityid, EnumLogObjectType.Orders, msg, operateid, ip, stageid, agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool CreateOrderCustomer(string orderid, string operateid, string ip, string agentid, string clientid)
+        {
+            string id = "";
+            bool bl = OrdersDAL.BaseProvider.CreateOrderCustomer(orderid, operateid, agentid, clientid, out id);
+            if (bl)
+            {
+                string msg = "订单联系人创建新客户";
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, id, agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool DeleteOrderCost(string orderid, string autoid, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.DeleteOrderCost(orderid, autoid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单删除其他成本";
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, autoid, agentid, clientid);
             }
             return bl;
         }

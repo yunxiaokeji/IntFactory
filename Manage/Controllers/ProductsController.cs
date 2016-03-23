@@ -28,16 +28,22 @@ namespace YXManage.Controllers
         /// <returns></returns>
         public ActionResult Unit()
         {
-            ViewBag.Items = new ProductsBusiness().GetClientUnits();
+            ViewBag.Items = new ProductsBusiness().GetUnits();
             return View();
         }
 
         /// <summary>
-        /// 产品属性
+        /// 产品属性 
         /// </summary>
         /// <returns></returns>
         public ActionResult Attr()
         {
+            return View();
+        }
+
+        public ActionResult AttrDetail(string id)
+        {
+            ViewBag.AttrID = id;
             return View();
         }
 
@@ -47,7 +53,14 @@ namespace YXManage.Controllers
         /// <returns></returns>
         public ActionResult Category()
         {
-            var list = new ProductsBusiness().GetChildCategorysByID("");
+            var list = new ProductsBusiness().GetChildCategorysByID("", EnumCategoryType.Product);
+            ViewBag.Items = list;
+            return View();
+        }
+
+        public ActionResult OrderCategory()
+        {
+            var list = new ProductsBusiness().GetChildCategorysByID("", EnumCategoryType.Order);
             ViewBag.Items = list;
             return View();
         }
@@ -112,7 +125,7 @@ namespace YXManage.Controllers
         /// <returns></returns>
         public JsonResult DeleteUnit(string unitID)
         {
-            bool bl = new ProductsBusiness().UpdateUnitStatus(unitID, EnumStatus.Delete, OperateIP, CurrentUser.UserID);
+            bool bl = new ProductsBusiness().DeleteUnit(unitID, OperateIP, CurrentUser.UserID);
             JsonDictionary.Add("Status", bl);
             return new JsonResult
             {
@@ -154,7 +167,7 @@ namespace YXManage.Controllers
         public JsonResult GetAttrsByCategoryID(string categoryid)
         {
             List<ProductAttr> list = new List<ProductAttr>();
-            list = new ProductsBusiness().GetAttrList(categoryid);
+            list = new ProductsBusiness().GetAttrsByCategoryID(categoryid);
 
             JsonDictionary.Add("Items", list);
             return new JsonResult
@@ -177,7 +190,7 @@ namespace YXManage.Controllers
             string attrID = string.Empty;
             if (string.IsNullOrEmpty(model.AttrID))
             {
-                attrID = new ProductsBusiness().AddProductAttr(model.AttrName, model.Description, model.CategoryID, model.Type, CurrentUser.UserID);
+                attrID = new ProductsBusiness().AddAttr(model.AttrName, model.Description, model.CategoryID, model.Type, CurrentUser.UserID);
             }
             else if (new ProductsBusiness().UpdateProductAttr(model.AttrID, model.AttrName, model.Description, OperateIP, CurrentUser.UserID))
             {
@@ -206,7 +219,7 @@ namespace YXManage.Controllers
             }
             else
             {
-                var model = new ProductsBusiness().GetProductAttrByID(attrID);
+                var model = new ProductsBusiness().GetAttrByID(attrID);
                 JsonDictionary.Add("Item", model);
             }
             return new JsonResult
@@ -314,6 +327,23 @@ namespace YXManage.Controllers
             };
         }
 
+        /// <summary>
+        /// 更新属性值排序
+        /// </summary>
+        /// <param name="valueid"></param>
+        /// <param name="attrid"></param>
+        /// <param name="sort"></param>
+        /// <returns></returns>
+        public JsonResult UpdateAttrValueSort(string valueid, string attrid,int sort)
+        {
+            bool bl = new ProductsBusiness().UpdateAttrValueSort(valueid, attrid,sort);
+            JsonDictionary.Add("Status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         #endregion
 
         #region 分类
@@ -341,7 +371,7 @@ namespace YXManage.Controllers
             string caregoryid = "";
             if (string.IsNullOrEmpty(model.CategoryID))
             {
-                caregoryid = new ProductsBusiness().AddCategory(model.CategoryCode, model.CategoryName, model.PID, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID);
+                caregoryid = new ProductsBusiness().AddCategory(model.CategoryCode, model.CategoryName, model.PID, model.CategoryType, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID);
             }
             else
             {
@@ -364,9 +394,9 @@ namespace YXManage.Controllers
         /// </summary>
         /// <param name="categoryid"></param>
         /// <returns></returns>
-        public JsonResult GetChildCategorysByID(string categoryid)
+        public JsonResult GetChildCategorysByID(string categoryid, int type = 1)
         {
-            var list = new ProductsBusiness().GetChildCategorysByID(categoryid);
+            var list = new ProductsBusiness().GetChildCategorysByID(categoryid, (EnumCategoryType)type);
             JsonDictionary.Add("Items", list);
             return new JsonResult
             {
@@ -374,6 +404,7 @@ namespace YXManage.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         /// <summary>
         /// 获取分类详情
         /// </summary>

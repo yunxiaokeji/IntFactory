@@ -150,15 +150,22 @@
     <Content Include="Content\homeico\login.png" />
     <Content Include="Content\homeico\oppor.png" />
     <Content Include="Content\homeico\order.png" />
+    <Content Include="Content\menuico\saleshover.png" />
     <Content Include="DLL\JsonObject.dll" />
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
+    <Content Include="modules\css\home\common.css" />
+    <Content Include="modules\css\home\online-pay.css" />
     <Content Include="modules\css\opportunitys.css" />
     <Content Include="modules\css\stock\stock.css" />
+    <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
+    <Content Include="modules\images\btn-add.png" />
+    <Content Include="modules\images\btn-remove.png" />
     <Content Include="modules\images\ico-alipay.png" />
     <Content Include="modules\images\ico-company.png" />
     <Content Include="modules\images\ico-contact-hover.png" />
     <Content Include="modules\images\ico-contact.png" />
+    <Content Include="modules\images\ico-endtime.png" />
     <Content Include="modules\images\ico-feedback-hover.png" />
     <Content Include="modules\images\ico-feedback.png" />
     <Content Include="modules\images\ico-goregister-hover.png" />
@@ -167,8 +174,23 @@
     <Content Include="modules\images\ico-loading.jpg" />
     <Content Include="modules\images\ico-mobilecode.png" />
     <Content Include="modules\images\ico-surepwd.png" />
+    <Content Include="modules\images\ico-task-hover.png" />
+    <Content Include="modules\images\ico-task.png" />
     <Content Include="modules\images\ico-username.png" />
+    <Content Include="modules\images\img-noimg.jpg" />
+    <Content Include="modules\images\img-noimg.png" />
     <Content Include="modules\images\loginBackground.png" />
+    <Content Include="modules\images\loginMainBackground.png" />
+    <Content Include="modules\images\selforder\bg-map.png" />
+    <Content Include="modules\images\selforder\bottom-bg.png" />
+    <Content Include="modules\images\selforder\img_03.png" />
+    <Content Include="modules\images\selforder\info-logo.png" />
+    <Content Include="modules\images\selforder\liuc_03.png" />
+    <Content Include="modules\images\selforder\shot_03.png" />
+    <Content Include="modules\images\selforder\shot_05.png" />
+    <Content Include="modules\images\selforder\success.png" />
+    <Content Include="modules\images\selforder\title-img.png" />
+    <Content Include="modules\images\selforder\title-logo.png" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
     <Content Include="modules\plug\chooseproduct\productin.html" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\an_hui_geo.json" />
@@ -208,8 +230,24 @@
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\xi_zang_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\yun_nan_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\zhe_jiang_geo.json" />
-<<<<<<< HEAD
     <Content Include="modules\plug\fullcalendar\agenda-views.html" />
+    <Content Include="modules\plug\fullcalendar\fc.js" />
+    <Content Include="modules\plug\showtaskdetail\showtaskdetail.js" />
+    <Content Include="modules\plug\showtaskdetail\style.css" />
+    <Content Include="modules\plug\chooseprocess\chooseprocess.html" />
+    <Content Include="modules\plug\chooseprocess\chooseprocess.js" />
+    <Content Include="modules\plug\chooseprocess\process.html" />
+    <Content Include="modules\plug\chooseprocess\style.css" />
+    <Content Include="modules\plug\choosefactory\choosefactory.html" />
+    <Content Include="modules\plug\choosefactory\choosefactory.js" />
+    <Content Include="modules\plug\choosefactory\factory.html" />
+    <Content Include="modules\plug\choosefactory\style.css" />
+    <Content Include="modules\plug\chooseorder\chooseorder.html" />
+    <Content Include="modules\plug\chooseorder\chooseorder.js" />
+    <Content Include="modules\plug\chooseorder\order.html" />
+    <Content Include="modules\plug\chooseorder\style.css" />
+    <Content Include="modules\scripts\home\create.js" />
+    <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.print.css" />
     <Content Include="modules\plug\fullcalendar\fullcalendar.js" />
@@ -217,16 +255,23 @@
     <Content Include="modules\plug\fullcalendar\lib\jquery.min.js" />
     <Content Include="modules\plug\fullcalendar\lib\moment.min.js" />
     <Content Include="modules\scripts\orders\orderplans.js" />
-=======
-    <Content Include="modules\scripts\orders\create.js" />
->>>>>>> 0969c35dc3c42dc94ba7b52872a2c9cb9c9633f5
     <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
     <Content Include="modules\scripts\system\orderstages.js" />
+    <Content Include="modules\scripts\system\ordercategory.js" />
+    <Content Include="modules\scripts\task\detail.js" />
     <Content Include="modules\scripts\task\task.js" />
+    <Content Include="modules\template\orders\orders_child_list.html" />
+    <Content Include="modules\template\orders\surequantity.html" />
+    <Content Include="modules\template\orders\sureprice.html" />
+    <Content Include="modules\template\orders\updateProfitPrice.html" />
+    <Content Include="modules\template\orders\entrustorders.html" />
+    <Content Include="modules\template\orders\sendordergoods.html" />
+    <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\task\task-list.html" />
+    <Content Include="modules\template\task\task-detail.html" />
     <Content Include="Views\System\OrderProcess.cshtml" />
     <None Include="modules\plug\umeditor\net\Uploader.cs" />
     <Compile Include="Models\FilterUser.cs" />
@@ -249,7 +294,6 @@
     <Content Include="Content\menuico\report.png" />
     <Content Include="Content\menuico\reporthover.png" />
     <Content Include="Content\menuico\sales.png" />
-    <Content Include="Content\menuico\saleshover.png" />
     <Content Include="Content\menuico\stock.png" />
     <Content Include="Content\menuico\stockhover.png" />
     <Content Include="Content\menuico\system.png" />
@@ -542,11 +586,9 @@
     <Content Include="modules\scripts\myaccount\setavatar.js" />
     <Content Include="modules\scripts\myaccount\setpassword.js" />
     <Content Include="modules\scripts\myaccount\account.js" />
-    <Content Include="modules\scripts\orders\confirmorder.js" />
     <Content Include="modules\scripts\orders\orders.js" />
     <Content Include="modules\scripts\orders\detail.js" />
     <Content Include="modules\scripts\orders\applydetail.js" />
-    <Content Include="modules\scripts\orders\opportunitys.js" />
     <Content Include="modules\scripts\organization\roles.js" />
     <Content Include="modules\scripts\organization\users.js" />
     <Content Include="modules\scripts\organization\structure.js" />
@@ -604,9 +646,8 @@
     <Content Include="modules\template\myaccount\setloginname.html" />
     <Content Include="modules\template\orders\order-detail.html" />
     <Content Include="modules\template\orders\orders.html" />
-    <Content Include="modules\template\orders\cuatomerorders.html" />
+    <Content Include="modules\template\orders\customerorders.html" />
     <Content Include="modules\plug\sharemingdao\demo.js" />
-    <Content Include="modules\template\orders\opportunitys.html" />
     <Content Include="modules\template\orders\customeroppors.html" />
     <Content Include="modules\template\purchase\provider-detail.html" />
     <Content Include="modules\template\purchase\providers.html" />
@@ -678,9 +719,9 @@
     <Content Include="Views\Customer\Create.cshtml" />
     <Content Include="Views\Auction\BuyNow.cshtml" />
     <Content Include="Views\Customer\Detail.cshtml" />
-    <Content Include="Views\Orders\Orders.cshtml" />
+    <Content Include="Views\Customer\Orders.cshtml" />
     <Content Include="Views\System\Client.cshtml" />
-    <Content Include="Views\Orders\Detail.cshtml" />
+    <Content Include="Views\Customer\OrderDetail.cshtml" />
     <Content Include="Views\Opportunitys\ConfirmOrder.cshtml" />
     <Content Include="Views\Finance\Index.cshtml" />
     <Content Include="Views\Finance\PayableBills.cshtml" />
@@ -748,12 +789,20 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\System\OrderStages.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Task\MyTask.cshtml" />
+    <Content Include="Views\Customer\CreateOrder.cshtml" />
     <Content Include="Views\Orders\OrderPlans.cshtml" />
+    <Content Include="Views\Task\Detail.cshtml" />
+    <Content Include="Views\Customer\OrderDetailDH.cshtml" />
+    <Content Include="Views\Home\SelfOrder.cshtml" />
+    <Content Include="Views\System\OrderCategory.cshtml" />
+    <Content Include="Views\Home\OrderSuccess.cshtml" />
+    <Content Include="Views\Customer\EntrustOrders.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Views\Task\Test.cshtml" />
 =======
-    <Content Include="Views\Orders\Create.cshtml" />
->>>>>>> 0969c35dc3c42dc94ba7b52872a2c9cb9c9633f5
+    <Content Include="Views\Shared\_LayoutContent.cshtml" />
+>>>>>>> 519290d501e038590ff5aa3bf06573edcebd2de7
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -770,7 +819,6 @@
     <Content Include="modules\css\stock\attrplug.css" />
     <Content Include="modules\css\shoppingcart\filterproducts.css" />
     <Content Include="modules\css\shoppingcart\filterdetails.css" />
-    <Content Include="modules\images\default.png" />
     <Content Include="modules\images\ico-add.png" />
     <Content Include="modules\images\ico-back.png" />
     <Content Include="modules\images\ico-del-deep.png" />
@@ -895,25 +943,18 @@
     <Content Include="modules\scripts\home.js" />
     <Content Include="modules\scripts\layout.js" />
     <Content Include="modules\scripts\organization\department.js" />
-    <Content Include="modules\scripts\products\attr.js" />
     <Content Include="modules\scripts\products\brand.js" />
-    <Content Include="modules\scripts\products\category.js" />
     <Content Include="modules\scripts\shoppingcart\filterproducts.js" />
-    <Content Include="modules\scripts\products\unit.js" />
     <Content Include="modules\scripts\products\choosecategory.js" />
     <Content Include="modules\scripts\products\product.js" />
     <Content Include="modules\scripts\products\attrplug.js" />
     <Content Include="modules\scripts\shoppingcart\filterdetails.js" />
     <Content Include="modules\scripts\system\warehouse.js" />
     <Content Include="modules\scripts\system\depotseat.js" />
-    <Content Include="modules\template\products\attrs.html" />
     <Content Include="modules\template\products\brands.html" />
-    <Content Include="modules\template\products\category_add.html" />
-    <Content Include="modules\template\products\categorys.html" />
     <Content Include="modules\template\products\choose_category.html" />
     <Content Include="modules\template\products\products.html" />
     <Content Include="modules\template\products\category-attrs.html" />
-    <Content Include="modules\template\products\common-attrs.html" />
     <Content Include="modules\template\products\productdetails_add.html" />
     <Content Include="modules\template\products\productdetails_list.html" />
     <Content Include="modules\template\shoppingcart\filter-attrs.html" />
@@ -969,15 +1010,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Products\Brand.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Products\Unit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Products\Category.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Products\Attr.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Products\ProductAdd.cshtml" />

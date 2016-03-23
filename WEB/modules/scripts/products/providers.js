@@ -1,6 +1,6 @@
 ﻿
 define(function (require, exports, module) {
-    var City = require("city"), BrandCity,
+    var City = require("city"), CityObject,
         Global = require("global"),
         Verify = require("verify"), VerifyObject,
         doT = require("dot"),
@@ -45,7 +45,7 @@ define(function (require, exports, module) {
         $("#deleteObject").click(function () {
             var _this = $(this);
             confirm("供应商删除后不可恢复,确认删除吗？", function () {
-                Global.post("/Purchase/DeleteProvider", { id: _this.data("id") }, function (data) {
+                Global.post("/Products/DeleteProvider", { id: _this.data("id") }, function (data) {
                     if (data.status) {
                         _self.getList();
                     } else {
@@ -58,7 +58,7 @@ define(function (require, exports, module) {
         $("#updateObject").click(function () {
             var _this = $(this);
 
-            Global.post("/Purchase/GetProviderDetail", { id: _this.data("id") }, function (data) {
+            Global.post("/Products/GetProviderDetail", { id: _this.data("id") }, function (data) {
                 var model = data.model;
                 _self.createModel(model);
             });
@@ -69,7 +69,7 @@ define(function (require, exports, module) {
     ObjectJS.createModel = function (model) {
         var _self = this;
 
-        doT.exec("template/purchase/provider-detail.html", function (template) {
+        doT.exec("template/products/provider_detail.html", function (template) {
             var html = template([]);
             Easydialog.open({
                 container: {
@@ -85,12 +85,13 @@ define(function (require, exports, module) {
                             Name: $("#providerName").val().trim(),
                             Contact: $("#contact").val().trim(),
                             MobileTele: $("#mobiletele").val().trim(),
-                            CityCode: BrandCity.getCityCode(),
+                            CityCode: CityObject.getCityCode(),
                             Address: $("#address").val().trim(),
                             Remark: $("#description").val().trim()
                         };
-                        Global.post("/Purchase/SavaProviders", { entity: JSON.stringify(entity) }, function (data) {
-                            if (data.ID.length > 0) {
+                        Global.post("/Products/SavaProviders", { entity: JSON.stringify(entity) }, function (data) {
+                            if (data.status) {
+                                alert(!model ? "添加供应商" : "编辑供应商" + "成功！");
                                 _self.getList();
                             }
                         });                    },
@@ -110,39 +111,37 @@ define(function (require, exports, module) {
             $("#providerName").focus();
 
             if (model) {
-
                 $("#providerName").val(model.Name);
                 $("#contact").val(model.Contact);
                 $("#mobiletele").val(model.MobileTele);
                 $("#address").val(model.Address)
                 $("#description").val(model.Remark);
 
-                BrandCity = City.createCity({
+                CityObject = City.createCity({
                     elementID: "city",
                     cityCode: model.CityCode
                 });
             } else {
-                _self.IcoPath = "";
-                BrandCity = City.createCity({
+                CityObject = City.createCity({
                     elementID: "city"
                 });
             }
         });
     }
 
-    //获取品牌列表
+    //获取列表
     ObjectJS.getList = function () {
         var _self = this;
         $(".tr-header").nextAll().remove();
         $(".tr-header").after("<tr><td colspan='7'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
 
-        Global.post("/Purchase/GetProviders", Params, function (data) {
+        Global.post("/Products/GetProviders", Params, function (data) {
             $(".tr-header").nextAll().remove();
             if (data.items.length > 0) {
-                doT.exec("template/purchase/providers.html", function (templateFun) {
+                doT.exec("template/products/providers.html", function (templateFun) {
                     var innerText = templateFun(data.items);
                     innerText = $(innerText);
-                    $("#brand-items").after(innerText);
+                    $(".tr-header").after(innerText);
 
                     //下拉事件
                     innerText.find(".dropdown").click(function () {

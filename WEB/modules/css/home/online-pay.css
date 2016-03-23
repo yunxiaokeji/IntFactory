@@ -1,0 +1,74 @@
+﻿@charset"utf-8";
+/*页头*/
+.pay-body{width:960px;margin:0 auto;}
+.pay-title{height:30px;padding:20px 0;color:#4a98e7;border-bottom:2px solid #4a98e7;}
+.pay-title-name i{width:40px;height:40px;}
+.pay-title-name span{font-size:1.4em;line-height:30px;vertical-align:middle;}
+/*内容*/
+.pay-content{padding-bottom:20px;background:url(/modules/images/selforder/bottom-bg.png) no-repeat bottom right;}
+.pay-content-title{height:80px;padding:15px 0;background:url(/modules/images/selforder/title-img.png) no-repeat 0 center;}
+.pay-content-title-info{margin:15px 0 20px 80px;color:#666;}.pay-content-title-info h1{font-size:1.2em;}
+.pay-content-title-info p{margin-top:5px;font-size:.8em;}
+.pay-content-main{width:100%;background:url(/modules/images/selforder/bg-map.png) no-repeat right 0;}
+.pay-content-main-form{float:left;width:650px;padding:10px;color:#999;border:1px solid #cecece;}
+.pay-content-main-form li{vertical-align:middle;}
+.pay-content-main-form .th{float:left;width:10%;font-size:.8em;text-align:right;}
+.pdall{padding:10px;}.pdlt{padding:0 10px;}.button-add-pd{padding-bottom:10px;margin-top:-5px;}
+.pay-content-main-form .td{float:left;width:85%;padding:10px 0;font-size:.8em;text-align:left;}
+.form-row{line-height:40px;}.form-row1{line-height:30px;}
+.check span{display:inline-block;width:15px;height:15px;margin-right:5px;background:url(/modules/images/selforder/shot_03.png) no-repeat 0 center;vertical-align:middle;}
+.checked span{display:inline-block;width:15px;height:15px;margin-right:5px;background:url(/modules/images/selforder/shot_05.png) no-repeat 0 center;vertical-align:middle;}
+.select{position:relative;width:100px;height:30px;border:1px solid #ccc;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;cursor:pointer;}
+.select-nomal{height:30px;margin-left:10px;line-height:30px;}
+.select-pic{position:absolute;top:1px;right:1px;width:28px;height:28px;background:#ccc;}
+.select-pic span{position:absolute;top:12px;right:8px;border-top:6px solid #fff;border-left:6px solid transparent;border-right:6px solid transparent;}
+.select.hover{border:1px solid #4a98e7;}.select.hover .select-nomal{color:#4a98e7;}.select.hover .select-pic{background:#4a98e7;}
+.inputbox,.inputbox1,.inputbox2{height:30px;padding-left:10px;border:1px solid #ccc;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;}
+.inputbox{width:90px;}.inputbox1{width:150px;}.inputbox2{width:520px;}
+.button-add{width:100px;height:30px;color:#fff;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;}
+.addimg{width:145px;height:145px; margin-top:20px;}
+.text{vertical-align:top;}
+.textarea{width:520px;height:120px;padding-left:10px;margin-top:-6px;line-height:30px;border:1px solid #ccc;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;}
+.address{float:left;margin-right:20px;}
+.btn-con,.btn-cel{width:100px;height:40px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
+.btn-con{display:block;margin:10px auto;color:#fff;background:#4a98e7;}.btn-cel{color:#666;background:#ccc;}
+.btn-con:hover{background:#318ae4;}.btn-cel:hover{background:#adadad;}
+.pay-content-main-ins{max-width:280px;}.pay-content-main-ins img{width:100%;}
+/*页脚*/
+.pay-bottom{padding:10px 0 40px;border-top:1px solid #ccc;}
+.pay-bottom p{font-size:.7em;text-align:right;color:#999;}
+/*下单成功*/
+.success{width:500px;margin:200px auto 300px;}
+.success-order{display:block;background:url(/modules/images/selforder/success.png) no-repeat 0 0;}
+.success ul{padding:120px 25px 0;}.success li{margin:10px 0;color:#999;}.success .query{color:#000;}
+.success-btn{margin:30px 0;text-align:center;}
+.btn-order{display:inline-block;width:170px;height:50px; line-height:50px; margin-right:20px;color:#fff;background:#4a98e7;border:1px solid #4a98e7;border-radius:5px;moz-border-radius:5px;-webkit-border-radius:5px;}.btn-order:hover{background:#318ae4;}
+.btn-query{display:inline-block;width:170px;height:50px;color:#4a98e7;background:#fff;border:1px solid #4a98e7;border-radius:5px;moz-border-radius:5px;-webkit-border-radius:5px;}
+.btn-query:hover{color:#318ae4;border:1px solid #318ae4;}
+/*订单查询*/
+.inquire{max-width:300px;margin:20px auto;}
+.inquire-title{padding:80px 0 0;font-size:1.8em;color:#666;text-align:center;background:url(/modules/images/selforder/query-dingdan.png) no-repeat center 10px;background-size:60px 60px;}
+.inquire-form{margin-top:20px;font-size:.8em;}.inquire-form li{margin:10px 0;}
+.inquire-form-phone{width:99%;height:40px;line-height:40px;text-indent:30px;color:#999;background:url(/modules/images/selforder/query-sj.png) no-repeat 5px center;background-size:20px 20px;border:1px solid #cecece;border-radius:3px;moz-border-radius:3px;-webkit-border-radius:3px;}
+.inquire-form-numb{width:60%;height:40px;line-height:40px;text-indent:30px;color:#999;background:url(/modules/images/selforder/query-yzm.png) no-repeat 5px center;background-size:20px 20px;border:1px solid #cecece;border-radius:3px;moz-border-radius:3px;-webkit-border-radius:3px;}
+.inquire-form-btn{float:right;width:36%;height:40px;line-height:40px;color:#fff;background:#4a98e7;border:1px solid #4a98e7;border-radius:3px;moz-border-radius:3px;-webkit-border-radius:3px;}
+.inquire-form-btn:hover{background:#318ae4;}
+.inquire-form-button{width:100%;height:40px;line-height:40px;color:#666;background:#d5d5d5;border-radius:3px;moz-border-radius:3px;-webkit-border-radius:3px;}
+.inquire-form-button:hover{background:#b2b2b2;}
+.info{max-width:900px;margin:20px auto;border:1px dashed #cecece;}
+.infobox{width:400px;margin:30px auto;}
+.info-order{width:65%;font-size:.8em;}
+.info-order li{margin:0 0 20px;color:#666;}.info-order i{display:inline-block;width:30%;font-style:normal;text-align:right;}
+.info-none{min-height:200px;background:url(/modules/images/selforder/order_03.png) no-repeat center center;}
+@media only screen and (max-width: 1000px) {
+.pay-content-main-ins{display:none;}
+.pay-body{width:90%;}
+.pay-content-main{width:90;}
+.pay-content-main-form{float:none;width:95%;margin:0 auto;}
+.inputbox2,.textarea{width:auto;}
+}
+@media only screen and (max-width: 800px) {
+.pay-content-main-form .th{width:65px;}
+.pay-content-main-form .td{width:auto;}
+.address{margin:0 10px 10px 0;}
+}

@@ -1,21 +1,26 @@
 ﻿@{
+    IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
     var model = (IntFactoryEntity.Products)ViewBag.Model;
     ViewBag.Title = model.ProductName;
 }
 @section css{
    <link rel="stylesheet" href="/modules/css/shoppingcart/filterdetails.css" />
-    <link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
+   <link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
 }
 
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/shoppingcart/filterdetails"], function (obj) {
-            obj.init('@Html.ToJSONString(model)', '@ViewBag.DetailID', '@ViewBag.OrderType', '@ViewBag.GUID');
+            obj.init('@Html.ToJSONString(model)', '@ViewBag.DetailID', '@ViewBag.OrderType', '@ViewBag.GUID','@ViewBag.TID');
         });
     </script>
 }
 <div class="header-box">
     <span class="header-title left">材料详情</span>
+    @if (CurrentUser.ClientID == model.ClientID)
+    {
+         <a href="/Products/ProductDetail/@(model.ProductID)" class="btn right">编辑材料</a>
+    }
 </div>
 <div class="content-body mTop20">
     <div class="top-div">
@@ -50,10 +55,6 @@
                     <li class="attrValues">
                         <ul id="unit">
                             <li class="value hover" id="small" data-value="0" data-id="@(model.SmallUnit.UnitID)">@(model.SmallUnit.UnitName)</li>
-                            @if (model.SmallUnitID != model.BigUnitID)
-                            {
-                                <li class="value" id="big"  data-value="1" data-id="@(model.BigUnit.UnitID)">@(model.BigUnit.UnitName)</li>
-                            }
                         </ul>
                     </li>
                 </ul>
@@ -75,20 +76,36 @@
     </div>
     <div class="show-nav">
         <ul class="show-nav-ul">
-            <li class="hover">材料介绍</li>
+            <li class="hover" data-id="infoDetail">材料介绍</li>
+            <li class="" data-id="useLogs">使用记录</li>
         </ul>
     </div>
     
-    <ul class="product-attr">
+    <ul class="product-attr nav-partdiv" id="infoDetail">
         <li class="long">材料名称：@(model.ProductName)</li>
         <li class="long">材料编码：@(model.ProductCode)</li>
-        <li class="long">添加日期：@(model.OnlineTime.ToString("yyyy-MM-dd"))</li>
+        <li class="long">供应商：@(model.Providers.Name)</li>
+        <li class="long">联系人：@(model.Providers.Contact)</li>
+        <li class="long">联系电话：@(model.Providers.MobileTele)</li>
+        <li class="long">地址：@(model.Providers.Address)</li>
         @foreach (var attr in model.AttrLists)
         { 
             <li class="long">@attr.AttrName：@attr.AttrValues[0].ValueName</li>
-         }
+        }
         
     </ul>
+    <div id="useLogs" class="nav-partdiv product-uselog hide">
+        <table class="use-table-list mTop10">
+            <tr class="tr-header">
+                <td class="tLeft width150">客户</td>
+                <td class="width100">订单编号</td>
+                <td class="width100">规格</td>
+                <td class="width100">数量</td>
+                <td class="width150">采购日期</td>
+            </tr>
+        </table>
+        <div id="pagerUseLogs" class="mTop10"></div>
+    </div>
     <div class="edui-container">
         <div class="edui-editor-body">
             <div class="description  edui-body-container" id="description">

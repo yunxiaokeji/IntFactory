@@ -1,0 +1,19 @@
+﻿
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td>{%=item.ValueName%}</td>
+    <td class="center">{%=item.Sort%}</td>
+    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class="center" >
+       <a href="javascript:void(0);" class="btn-setSort">设置排序</a> 
+        <div class="hide">
+            <input type="text" value="{%=item.Sort%}" class="width80" />
+            <span class="btn-saveSort btn" data-id="{%=item.ValueID%}" data-attrid="{%=item.AttrID%}">保存</span>
+        </div>
+    </td>
+</tr>
+{% } %}
+

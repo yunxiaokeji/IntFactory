@@ -22,7 +22,7 @@ namespace IntFactoryEnum
         [DescriptionAttribute("封样封价")]
         FYFJ = 3,
         [DescriptionAttribute("待大货")]
-        SC = 4,
+        DDH = 4,
         [DescriptionAttribute("生产中")]
         DQR = 5,
         [DescriptionAttribute("生产完成")]
@@ -89,6 +89,7 @@ namespace IntFactoryEnum
         [DescriptionAttribute("删除")]
         Delete = 9
     }
+
     public enum EnumReturnStatus
     {
         [DescriptionAttribute("全部")]
@@ -105,5 +106,30 @@ namespace IntFactoryEnum
         /// 全部退单用于查询
         /// </summary>
         AllReturn=11
+    }
+
+    /// <summary>
+    /// 订单类型
+    /// </summary>
+    public enum EnumOrderType
+    {
+        [DescriptionAttribute("全部")]
+        All = -1,
+        [DescriptionAttribute("打样")]
+        ProofOrder = 1,
+        [DescriptionAttribute("大货")]
+        LargeOrder = 2,
+    }
+
+    public enum EnumOrderSourceType
+    {
+        [DescriptionAttribute("全部")]
+        All = -1,
+        [DescriptionAttribute("工厂")]
+        FactoryOrder = 1,
+        [DescriptionAttribute("自助")]
+        SelfOrder = 2,
+        [DescriptionAttribute("阿里")]
+        AliOrder = 3
     }
 }

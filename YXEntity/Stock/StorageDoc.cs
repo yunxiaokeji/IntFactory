@@ -308,6 +308,12 @@ namespace IntFactoryEntity
 
         public WareHouse WareHouse { get; set; }
 
+        public string DocImage { get; set; }
+
+        public string DocImages { get; set; }
+
+        public Manage.ExpressCompany Express { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

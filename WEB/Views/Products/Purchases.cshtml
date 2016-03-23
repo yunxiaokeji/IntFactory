@@ -5,6 +5,7 @@
     <link href="/modules/css/stock/stock.css" rel="stylesheet" />
 }
 @section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/purchase/purchases"], function (obj) {
@@ -55,9 +56,8 @@
 </div>
 <div class="content-body">
     <div class="search-body">
-        <div id="providers" class="left"></div>
-        <div id="wares" class="left mLeft10"></div>
-        <div class="left mLeft20">
+        @*<div id="providers" class="left"></div>*@
+        <div class="left">
             <span class="width80">采购日期：</span><input type="text" id="BeginTime"  class="input width100"  />
             <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width100"  />
             <span class="btn mLeft10" id="btnSearch">搜索</span>
@@ -66,12 +66,25 @@
     </div>
     <table class="table-list">
         <tr class="tr-header">
+            <td class="tLeft">
+                样图
+            </td>
+            <td class="tLeft">
+                <ul class="purchase-detail-header">      
+                     <li class="long name">
+                         名称
+                     </li>   
+                     <li class="code width120">
+                         编码
+                     </li>   
+                     <li class="width80">
+                         数量
+                     </li> 
+                </ul>
+            </td>
             <td class="tLeft">采购单号</td>
-            <td class="tLeft">仓库</td>
-            <td class="tLeft">供应商</td>
             <td class="width100">状态</td>
-            <td class="tRight width150">总金额</td>
-            <td class="width150">采购员</td>
+            <td class="tRight width100">总金额</td>
             <td class="width200">采购日期</td>
             <td class="width80">操作</td>
         </tr>

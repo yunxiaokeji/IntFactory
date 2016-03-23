@@ -11,7 +11,12 @@ define(function (require, exports, module) {
     };
     var ObjectJS = {};
     //初始化数据
-    ObjectJS.init = function () {
+    ObjectJS.init = function (type, guid, tid) {
+        var _self = this;
+        _self.type = type;
+        _self.guid = guid;
+        _self.tid = tid;
+
         ObjectJS.bindStyle();
         ObjectJS.bindEvent();
     }
@@ -20,7 +25,7 @@ define(function (require, exports, module) {
         var _height = document.documentElement.clientHeight - 270;
 
         $(".category-all").css("height", _height);
-        $(".category-list").css("max-height", _height);
+        $(".category-list").css("max-height", _height-100);
     }
     //绑定事件
     ObjectJS.bindEvent = function () {
@@ -46,11 +51,11 @@ define(function (require, exports, module) {
         //    _this.find(".add-product").removeClass("ico-add").html("");
         //});
         //编辑
-        element.find(".add-product").click(function () {
-            var _this = $(this);
-            location.href = "/Products/ProductAdd/" + _this.parent().data("id");
-            return false;
-        })
+        //element.find(".add-product").click(function () {
+        //    var _this = $(this);
+        //    location.href = "/Products/ProductAdd/" + _this.parent().data("id");
+        //    return false;
+        //});
 
         //点击
         element.click(function () {
@@ -60,7 +65,7 @@ define(function (require, exports, module) {
             _this.parents(".category-layer").nextAll().remove();
 
             if (_this.data("layer") == 3) {
-                location.href = "/Products/ProductAdd/" + _this.data("id");
+                location.href = "/Products/ProductAdd/?id=" + _this.data("id") + "&type=" + _self.type + "&guid=" + _self.guid + "&tid=" + _self.tid;
                 return false;
             }
 

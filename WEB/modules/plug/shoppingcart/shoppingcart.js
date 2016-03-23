@@ -20,7 +20,8 @@ define(function (require, exports, module) {
         }
         $.fn.createCart.defaults = {
             ordertype: 0,
-            guid: ""
+            guid: "",
+            tid: ""
         };
         $.fn.drawCart = function (obj, opts) {
             Global.post("/ShoppingCart/GetShoppingCartCount", {
@@ -89,8 +90,12 @@ define(function (require, exports, module) {
                         //入库单
                         if (opts.ordertype == 1) {
                             obj.find(".btnconfirm").attr("href", "/Purchase/ConfirmPurchase");
-                        }else if (opts.ordertype == 11) {
-                            obj.find(".btnconfirm").attr("href", "/Customer/OrderDetail/" + opts.guid);
+                        } else if (opts.ordertype == 11) { //订单
+                            if (opts.tid) {
+                                obj.find(".btnconfirm").attr("href", "/Task/Detail/" + opts.tid).html("返回任务详情");
+                            } else {
+                                obj.find(".btnconfirm").attr("href", "/Customer/OrderDetail/" + opts.guid);
+                            }
                         }
                         obj.find(".cart-product-list").append(innerText);
                     } else {

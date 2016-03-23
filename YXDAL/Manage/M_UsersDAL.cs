@@ -21,6 +21,15 @@ namespace IntFactoryDAL.Manage
             return GetDataTable("select * from M_Users where LoginName=@UserName and LoginPwd=@LoginPwd", paras, CommandType.Text);
         }
 
+        public DataTable GetUserDetail(string userID)
+        {
+
+            SqlParameter[] paras = { 
+                                    new SqlParameter("@UserID",userID)
+                                   };
+
+            return GetDataTable("select * from M_Users where UserID=@UserID", paras, CommandType.Text);
+        }
 
         public bool SetAdminAccount(string userid,string loginname, string pwd)
         {

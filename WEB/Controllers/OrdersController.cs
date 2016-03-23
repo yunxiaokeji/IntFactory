@@ -40,6 +40,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Title = "所有订单";
             ViewBag.Type = (int)EnumSearchType.All;
+            
             return View("Orders");
         }
 
@@ -95,7 +96,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOrders(model.SearchType, model.TypeID, model.Status, model.PayStatus, model.InvoiceStatus, model.ReturnStatus, model.UserID, model.TeamID, model.AgentID, model.BeginTime, model.EndTime, model.Keywords, model.PageSize, model.PageIndex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetOrders(model.SearchType, model.TypeID, model.Status, (EnumOrderSourceType)model.SourceType, model.PayStatus, model.InvoiceStatus, model.ReturnStatus, model.UserID, model.TeamID, model.AgentID, model.BeginTime, model.EndTime, model.Keywords, model.PageSize, model.PageIndex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -106,12 +107,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrdersByCustomerID(string customerid, int pagesize, int pageindex)
+        public JsonResult GetDYOrders(string keywords)
         {
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOrdersByCustomerID(customerid, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetOrders(EnumSearchType.All, "1", 3, EnumOrderSourceType.All, -1, -1, -1, "", "", "", "", "", keywords, 10, 1, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -122,12 +123,28 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOpportunityaByCustomerID(string customerid, int pagesize, int pageindex)
+        public JsonResult GetOrdersByCustomerID(string customerid, int ordertype, int pagesize, int pageindex)
         {
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOpportunityaByCustomerID(customerid, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetOrdersByCustomerID(customerid, ordertype, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetNeedsOrderByCustomerID(string customerid, int pagesize, int pageindex)
+        {
+            int totalCount = 0;
+            int pageCount = 0;
+
+            var list = OrdersBusiness.BaseBusiness.GetNeedsOrderByCustomerID(customerid, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -165,9 +182,67 @@ namespace YXERP.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
 
-            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID,model.PersonName, model.MobileTele, model.OrderType, model.CategoryID, model.PlanPrice, model.PlanQuantity,
-                                                                     model.OrderImage, model.CityCode, model.Address, model.Remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID, model.GoodsCode, model.Title, model.PersonName, model.MobileTele, EnumOrderSourceType.FactoryOrder, (EnumOrderType)model.OrderType, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity,
+                                                                     model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", orderid);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateDHOrder(string entity, string originalid)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            OrderGoodsModel model = serializer.Deserialize<OrderGoodsModel>(entity);
+
+            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, originalid, model.OrderGoods, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("id", orderid);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateOrderCutOutDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        {
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("id", id);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateOrderSewnDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        {
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("id", id);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateOrderSendDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        {
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("id", id);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateOrderSend(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        {
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("id", id);
             return new JsonResult()
             {
                 Data = JsonDictionary,
@@ -267,9 +342,89 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateOrderStatus(string orderid, int status, int quantity)
+        public JsonResult UpdateOrderCategoryID(string orderid, string pid, string categoryid,string name)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStatus)status, quantity, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderCategoryID(orderid, pid, categoryid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateOrderStatus(string orderid, int status, int quantity, decimal price)
+        {
+            string errinfo = "";
+
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStatus)status, quantity, price, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out errinfo);
+            JsonDictionary.Add("status", bl);
+            JsonDictionary.Add("errinfo", errinfo);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateProfitPrice(string orderid, decimal profit)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateProfitPrice(orderid, profit, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateOrderDiscount(string orderid, decimal discount)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderDiscount(orderid, discount, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateOrderClient(string orderid, string clientid, string name)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderClient(orderid, clientid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateOrderOriginalID(string orderid, string originalorderid, string name)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderOriginalID(orderid, originalorderid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateOrderCustomer(string orderid, string customerid, string name)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderCustomer(orderid, customerid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateOrderImages(string orderid, string images)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderImages(orderid, images, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -307,10 +462,10 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult EffectiveOrder(string orderid)
+        public JsonResult EffectiveOrderProduct(string orderid)
         {
             int result = 0;
-            var bl = OrdersBusiness.BaseBusiness.EffectiveOrder(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            var bl = OrdersBusiness.BaseBusiness.EffectiveOrderProduct(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
             JsonDictionary.Add("status", bl);
             JsonDictionary.Add("result", result);
             return new JsonResult
@@ -350,6 +505,120 @@ namespace YXERP.Controllers
             var bl = OrdersBusiness.BaseBusiness.ApplyReturnProduct(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
             JsonDictionary.Add("status", bl);
             JsonDictionary.Add("result", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetGoodsDocByOrderID(string orderid, int type)
+        {
+            
+            var list = StockBusiness.GetGoodsDocByOrderID(orderid, (EnumDocType)type, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateOrderCustomer(string orderid)
+        {
+            var bl = OrdersBusiness.BaseBusiness.CreateOrderCustomer(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult DownAliOrders(int downOrderType, string startTime, string endTime)
+        {
+            int result = 0;
+            bool flag = false;
+            DateTime downStartTime = DateTime.Parse(startTime);
+            DateTime downEndTime = DateTime.Parse(endTime);
+
+            if ((downEndTime - downStartTime).Days < 16)
+            {
+                var plan = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlanDetail(CurrentUser.ClientID);
+
+                if (plan != null)
+                {
+                    int successCount=0;
+                    int total=0;
+
+                    string token = plan.Token;
+                    string refreshToken = plan.RefreshToken;
+                    string error;
+                    if (downOrderType == 1)
+                    {
+                        flag = AliOrderBusiness.DownFentOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
+                            CurrentUser.AgentID, CurrentUser.ClientID, ref successCount, ref total,out error, AlibabaSdk.AliOrderDownType.Hand);
+
+                        //新增阿里打样订单下载日志
+                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
+                            successCount, total,error, plan.AgentID, plan.ClientID);
+                    }
+                    else
+                    {
+
+                        flag = AliOrderBusiness.DownBulkOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
+                            CurrentUser.AgentID, CurrentUser.ClientID, ref successCount, ref total,out error, AlibabaSdk.AliOrderDownType.Hand);
+
+                        //新增阿里大货订单下载日志
+                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
+                            successCount, total, plan.AgentID,error, plan.ClientID);
+                    }
+
+                    result = flag ? 1 : 0;
+                    JsonDictionary.Add("totalOrderCount", total);
+                    JsonDictionary.Add("successOrderCount", successCount);
+                }
+                else
+                    result = 2;
+            }
+            else
+                result = 3;
+
+            JsonDictionary.Add("result", result);
+            
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult CreateOrderCost(string orderid, decimal price, string remark)
+        {
+            var bl = OrdersBusiness.BaseBusiness.CreateOrderCost(orderid, price, remark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetOrderCosts(string orderid)
+        {
+            var list = OrdersBusiness.BaseBusiness.GetOrderCosts(orderid, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult DeleteOrderCost(string orderid, string autoid)
+        {
+            var bl = OrdersBusiness.BaseBusiness.DeleteOrderCost(orderid, autoid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
             return new JsonResult
             {
                 Data = JsonDictionary,

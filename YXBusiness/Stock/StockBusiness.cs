@@ -1,4 +1,5 @@
-﻿using IntFactoryDAL;
+﻿using IntFactoryBusiness.Manage;
+using IntFactoryDAL;
 using IntFactoryEntity;
 using IntFactoryEnum;
 using System;
@@ -17,55 +18,6 @@ namespace IntFactoryBusiness
 
         #region 查询
 
-
-        public List<ProvidersEntity> GetProviders(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
-        {
-            var dal = new StockDAL();
-
-            string where = " ClientID='" + clientID + "' and Status<>9";
-
-            DataTable dt = CommonBusiness.GetPagerData("Providers", "*", where, "AutoID", pageSize, pageIndex, out totalCount, out pageCount);
-
-            List<ProvidersEntity> list = new List<ProvidersEntity>();
-            foreach (DataRow dr in dt.Rows)
-            {
-                ProvidersEntity model = new ProvidersEntity();
-                model.FillData(dr);
-                model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
-                list.Add(model);
-            }
-            return list;
-        }
-
-        public List<ProvidersEntity> GetProviders(string clientID)
-        {
-            var dal = new StockDAL();
-            DataTable dt = dal.GetProviders(clientID);
-
-            List<ProvidersEntity> list = new List<ProvidersEntity>();
-            foreach (DataRow dr in dt.Rows)
-            {
-                ProvidersEntity model = new ProvidersEntity();
-                model.FillData(dr);
-                list.Add(model);
-            }
-            return list;
-        }
-
-        public ProvidersEntity GetProviderByID(string providerID)
-        {
-            var dal = new StockDAL();
-            DataTable dt = dal.GetProviderByID(providerID);
-
-            ProvidersEntity model = new ProvidersEntity();
-            if (dt.Rows.Count > 0)
-            {
-                model.FillData(dt.Rows[0]);
-                model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
-            }
-            return model;
-        }
-
         public static List<StorageDoc> GetStorageDocList(string userid, EnumDocType type, EnumDocStatus status, string keywords, string begintime, string endtime, string wareid, string providerid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
         {
             DataSet ds = StockDAL.GetStorageDocList(userid, (int)type, (int)status, keywords, begintime, endtime, wareid, providerid, pageSize, pageIndex, ref totalCount, ref pageCount, clientID);
@@ -75,13 +27,39 @@ namespace IntFactoryBusiness
             {
                 StorageDoc model = new StorageDoc();
                 model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientID);
                 model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
-                model.WareHouse = SystemBusiness.BaseBusiness.GetWareByID(model.WareID, model.ClientID);
-                if (!string.IsNullOrEmpty(model.ProviderID))
+
+                model.Details = new List<StorageDetail>();
+                if (ds.Tables.Contains("Details"))
                 {
-                    model.ProviderName = BaseBusiness.GetProviderByID(model.ProviderID).Name;
+                    foreach (DataRow detail in ds.Tables["Details"].Select("DocID='" + model.DocID + "'"))
+                    {
+                        StorageDetail dModel = new StorageDetail();
+                        dModel.FillData(detail);
+                        model.Details.Add(dModel);
+                    }
                 }
+
+                list.Add(model);
+            }
+            return list;
+        }
+
+        public static List<GoodsDoc> GetGoodsDocByOrderID(string orderid, EnumDocType type, string clientid)
+        {
+            DataSet ds = StockDAL.BaseProvider.GetGoodsDocByOrderID(orderid, (int)type, clientid);
+
+            List<GoodsDoc> list = new List<GoodsDoc>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                GoodsDoc model = new GoodsDoc();
+                model.FillData(dr);
+                if (!string.IsNullOrEmpty(model.ExpressID))
+                {
+                    model.Express = ExpressCompanyBusiness.GetExpressCompanyDetail(model.ExpressID);
+                }
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientid);
+                model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
 
                 list.Add(model);
             }
@@ -100,12 +78,53 @@ namespace IntFactoryBusiness
 
                 model.DocTypeStr = CommonBusiness.GetEnumDesc<EnumDocType>((EnumDocType)model.DocType);
 
-                model.WareHouse = SystemBusiness.BaseBusiness.GetWareByID(model.WareID, model.ClientID);
+                if (!string.IsNullOrEmpty(model.ExpressID))
+                {
+                    model.Express = ExpressCompanyBusiness.GetExpressCompanyDetail(model.ExpressID);
+                }
+
+                //model.WareHouse = SystemBusiness.BaseBusiness.GetWareByID(model.WareID, model.ClientID);
                 model.Details = new List<StorageDetail>();
                 foreach (DataRow item in ds.Tables["Details"].Rows)
                 {
                     StorageDetail details = new StorageDetail();
                     details.FillData(item);
+
+                    if (!string.IsNullOrEmpty(details.ProdiverID))
+                    {
+                        details.Providers = new ProvidersBusiness().GetProviderByID(details.ProdiverID);
+                    }
+                    model.Details.Add(details);
+                }
+            }
+
+            return model;
+        }
+
+        public static GoodsDoc GetGoodsDocDetail(string docid, string clientid)
+        {
+            DataSet ds = StockDAL.GetGoodsDocDetail(docid, clientid);
+            GoodsDoc model = new GoodsDoc();
+            if (ds.Tables.Contains("Doc") && ds.Tables["Doc"].Rows.Count > 0)
+            {
+                model.FillData(ds.Tables["Doc"].Rows[0]);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientid);
+                model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
+
+                model.DocTypeStr = CommonBusiness.GetEnumDesc<EnumGoodsDocType>((EnumGoodsDocType)model.DocType);
+
+                if (!string.IsNullOrEmpty(model.ExpressID))
+                {
+                    model.Express = ExpressCompanyBusiness.GetExpressCompanyDetail(model.ExpressID);
+                }
+
+                //model.WareHouse = SystemBusiness.BaseBusiness.GetWareByID(model.WareID, model.ClientID);
+                model.Details = new List<GoodsDocDetail>();
+                foreach (DataRow item in ds.Tables["Details"].Rows)
+                {
+                    GoodsDocDetail details = new GoodsDocDetail();
+                    details.FillData(item);
+
                     model.Details.Add(details);
                 }
             }
@@ -130,7 +149,7 @@ namespace IntFactoryBusiness
                     break;
                 case 2:
                     str = doctype == 1 ? "已入库"
-                        : doctype == 2 ? "已出库"
+                        : doctype == 2 ? "已发货"
                         : doctype == 6 ? "已入库"
                         : "已审核";
                     break;
@@ -191,7 +210,7 @@ namespace IntFactoryBusiness
                     {
                         if (!string.IsNullOrEmpty(attrid))
                         {
-                            var attr = new ProductsBusiness().GetProductAttrByID(attrid.Split(':')[0]);
+                            var attr = new ProductsBusiness().GetAttrByID(attrid.Split(':')[0]);
                             var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
                             if (attr != null && value != null)
                             {
@@ -227,7 +246,7 @@ namespace IntFactoryBusiness
                     {
                         if (!string.IsNullOrEmpty(attrid))
                         {
-                            var attr = new ProductsBusiness().GetProductAttrByID(attrid.Split(':')[0]);
+                            var attr = new ProductsBusiness().GetAttrByID(attrid.Split(':')[0]);
                             var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
                             if (attr != null && value != null)
                             {
@@ -262,7 +281,7 @@ namespace IntFactoryBusiness
                     {
                         if (!string.IsNullOrEmpty(attrid))
                         {
-                            var attr = new ProductsBusiness().GetProductAttrByID(attrid.Split(':')[0]);
+                            var attr = new ProductsBusiness().GetAttrByID(attrid.Split(':')[0]);
                             var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
                             if (attr != null && value != null)
                             {
@@ -285,11 +304,7 @@ namespace IntFactoryBusiness
 
         #region 添加
 
-        public string AddProviders(string name, string contact, string mobile,string email, string cityCode, string address,string remark, string operateID, string agentid, string clientID)
-        {
-            return new StockDAL().AddProviders(name, contact, mobile, email, cityCode, address, remark, operateID, agentid, clientID);
-        }
-
+        
 
         public static bool CreateStorageDoc(string wareid, string remark, string userid, string operateip, string agentid, string clientid)
         {
@@ -337,16 +352,7 @@ namespace IntFactoryBusiness
         #region 编辑、删除
 
 
-        public bool UpdateProvider(string providerid, string name, string contact, string mobile, string email, string cityCode, string address, string remark, string operateID, string agentid, string clientID)
-        {
-            var dal = new StockDAL();
-            return dal.UpdateProvider(providerid, name, contact, mobile, email, cityCode, address, remark, operateID, agentid, operateID);
-        }
-
-        public bool UpdateProviderStatus(string providerid, EnumStatus status, string ip, string operateid)
-        {
-            return CommonBusiness.Update("Providers", "Status", (int)status, "ProviderID='" + providerid + "'");
-        }
+        
 
         public bool DeleteDoc(string docid, string userid, string operateip, string clientid)
         {

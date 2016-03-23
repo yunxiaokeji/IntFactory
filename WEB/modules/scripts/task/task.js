@@ -5,7 +5,10 @@
 
     var Params = {
         isMy: true,
-        finishStatus: -1,
+        userID: "",
+        orderType: -1,
+        taskType: -1,
+        finishStatus:0,
         keyWords:'',
         beginDate: '',
         endDate: '',
@@ -15,12 +18,32 @@
 
     var ObjectJS = {};
 
-    ObjectJS.init = function (isMy) {
+    ObjectJS.init = function (isMy, nowDate) {
+        Params.beginDate = nowDate;
+        Params.endDate = nowDate;
+
         if (isMy == "0")
         {
             Params.isMy = false;
             document.title = "所有任务";
             $(".header-title").html("所有任务");
+
+            require.async("choosebranch", function () {
+                $("#chooseBranch").chooseBranch({
+                    prevText: "人员-",
+                    defaultText: "全部",
+                    defaultValue: "",
+                    userID: "-1",
+                    isTeam: false,
+                    width: "180",
+                    onChange: function (data) {
+                        Params.pageIndex = 1;
+                        Params.userID = data.userid;
+                        ObjectJS.getList();
+                    }
+                });
+            });
+
         }
         ObjectJS.bindEvent();
 
@@ -37,26 +60,34 @@
             });
         });
 
-        //进度状态查询
+        //切换阶段
+        $(".search-stages li").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+
+                Params.pageIndex = 1;
+                Params.finishStatus = _this.data("id");
+                ObjectJS.getList();
+            }
+        });
+
+        //订单类型、任务类型搜索
         require.async("dropdown", function () {
             var Types = [
                 {
-                    ID: 0,
-                    Name: "未分配"
+                    ID: "1",
+                    Name: "打样"
                 },
                 {
-                    ID: 1,
-                    Name: "进行中"
-                },
-                {
-                    ID: 2,
-                    Name: "已完成"
+                    ID: "2",
+                    Name: "大货"
                 }
             ];
-
-            $("#taskStatus").dropdown({
-                prevText: "任务进度-",
-                defaultText: "所有",
+            $("#orderType").dropdown({
+                prevText: "订单类型-",
+                defaultText: "全部",
                 defaultValue: "-1",
                 data: Types,
                 dataValue: "ID",
@@ -64,7 +95,40 @@
                 width: "120",
                 onChange: function (data) {
                     Params.pageIndex = 1;
-                    Params.finishStatus = data.value;
+                    Params.orderType = data.value;
+                    ObjectJS.getList();
+                }
+            });
+
+            var TaskTypes = [
+                {
+                    ID: "1",
+                    Name: "打样材料"
+                },
+                {
+                    ID: "2",
+                    Name: "制版"
+                },
+                {
+                    ID: "3",
+                    Name: "大货材料"
+                },
+                {
+                    ID: "0",
+                    Name: "其他"
+                }
+            ];
+            $("#taskType").dropdown({
+                prevText: "任务类型-",
+                defaultText: "全部",
+                defaultValue: "-1",
+                data: TaskTypes,
+                dataValue: "ID",
+                dataText: "Name",
+                width: "140",
+                onChange: function (data) {
+                    Params.pageIndex = 1;
+                    Params.taskType = data.value;
                     ObjectJS.getList();
                 }
             });
@@ -83,7 +147,7 @@
 
     ObjectJS.getList = function () {
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='8'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='9'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
 
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".tr-header").nextAll().remove();
@@ -94,22 +158,10 @@
                     innerhtml = $(innerhtml);
 
                     $(".tr-header").after(innerhtml);
-
-                    //显示任务详情
-                    //require.async("showtaskdetail", function () {
-                    //    $(".table-list .list-item").showtaskdetail({
-                    //        UpdateTaskEndTimeCallBack: function (endtime, taskid) {
-                    //            $("#EndTime-" + taskid).html(endtime);
-                    //        }
-                    //    });
-
-                    //});
-                    
-
                 });
             }
             else {
-                $(".tr-header").after("<tr><td colspan='8'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                $(".tr-header").after("<tr><td colspan='9'><div class='noDataTxt' >暂无数据!<div></td></tr>");
             }
 
             $("#pager").paginate({

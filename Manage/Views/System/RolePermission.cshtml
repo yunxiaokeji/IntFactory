@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "权限设置";
+    var menus = (List<IntFactoryEntity.Menu>)ViewBag.Menus;
+    var model = (IntFactoryEntity.Manage.M_Role)ViewBag.Model;
+}
+
+@section css{
+    <link rel="stylesheet" href="/modules/css/system/role.css" />
+}
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/system/roles"], function (obj) {
+            obj.initPermission('@(model.RoleID)', '@Html.ToJSONString(menus)', '@Html.ToJSONString(model.Menus)');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">权限设置</span>
+</div>
+<div class="content-body">
+    <h1 class="font16">@(model.Name)-权限设置</h1>
+    <div id="rolePermission" class="menulist mTop10">
+
+    </div>
+    <div class="mTop20">
+        <div class="btn" id="savePermission">保存</div>
+        <a href="/System/Roles" class="btnccc mLeft10">返回</a>
+    </div>
+</div>

@@ -3,8 +3,10 @@
 }
 
 <style>
-    .product-img { position:absolute; top:200px; right:50px; width:150px; }
-    .product-img img{ width:150px;}
+    .order-imgs { width:400px; height:60px; position:absolute; left:450px; top:260px; }
+    .order-imgs li{ width:60px; height:60px; float:left; margin-left:20px; position:relative;}
+    .order-imgs li img{ width:60px; height:60px; }
+    .order-imgs .ico-delete { position:absolute; top:-8px; right:-8px;  }
 </style>
 
 @section scripts{
@@ -27,11 +29,13 @@
         </li>
         <li>
             <span class="column-title">订单品类：</span>
-            <select id="ordercategory">
+            <select id="bigcategory">
             @foreach (IntFactoryEntity.Category model in (List<IntFactoryEntity.Category>)ViewBag.Items)
             {
                 <option value="@(model.CategoryID)">@(model.CategoryName)</option> 
             }
+            </select>
+            <select id="ordercategory">
             </select>
         </li>
         <li>
@@ -43,6 +47,10 @@
             <span><input type="text" maxlength="10" id="planPrice"  data-empty="必填" data-type="double" class="input width80 verify" /></span>
         </li>
         <li>
+            <span class="column-title">快递单号：</span> 
+            <span><input type="text" maxlength="50" id="expressCode" class="input" /></span>
+        </li>
+        <li>
             <span class="column-title">附件：</span>
             <span id="productIco"></span>
         </li>
@@ -50,6 +58,7 @@
             <span class="column-title">详细需求：</span>
             <textarea id="remark"></textarea>
         </li>
+        
         <li  class="company">
             <span class="column-title">姓名：</span> 
             <span><input type="text" maxlength="50" id="name" data-empty="必填" class="input verify" /></span>
@@ -67,7 +76,9 @@
             <span><input type="text" maxlength="200" style="width:300px;" id="address" class="input" /></span>
         </li>
     </ul>
-    <img class="product-img" id="productImg" alt="" src="/modules/images/default.png" />
+    <ul id="orderImages" class="order-imgs">
+
+    </ul>
     <div class="mTop20">
         <div class="btn" id="btnSave">保存</div>
     </div>

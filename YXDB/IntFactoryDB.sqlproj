@@ -71,13 +71,13 @@
     <Folder Include="Procedures\Report" />
     <Folder Include="Procedures\Planwork" />
     <Folder Include="Procedures\RepotLog" />
-    <Folder Include="Table" />
     <Folder Include="Procedures\Task" />
+    <Folder Include="Table" />
+    <Folder Include="Procedures\AliOrder" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\InitDatabase.sql" />
     <None Include="Procedures\P_GetPagerData.sql" />
-    <None Include="Alter.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Manage\M_InsertClient.sql" />
@@ -209,16 +209,13 @@
     <None Include="Procedures\Sales\P_GetOrderByID.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Sales\P_SubmitOrder.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Procedures\Sales\P_UpdateOrderPrice.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Sales\P_DeleteOrder.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Sales\P_EffectiveOrder.sql" />
+    <None Include="Procedures\Sales\P_EffectiveOrderProduct.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Finance\P_GetPayableBills.sql" />
@@ -275,16 +272,13 @@
     <None Include="Procedures\Products\P_DeleteCategory.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Products\P_GetAttrsByClientID.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Procedures\Products\P_UpdateProductDetail.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Products\P_InsertAttr.sql" />
+    <None Include="Procedures\Products\P_AddAttr.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Products\P_InsertCategory.sql" />
+    <None Include="Procedures\Products\P_AddCategory.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Products\P_InsertProduct.sql" />
@@ -299,10 +293,10 @@
     <None Include="Procedures\Products\P_UpdateProduct.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Products\P_GetProductAttrByID.sql" />
+    <None Include="Procedures\Products\P_GetAttrByID.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Products\P_GetProductAttrList.sql" />
+    <None Include="Procedures\Products\P_GetAttrList.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Products\P_GetProductByID.sql" />
@@ -387,12 +381,6 @@
     <None Include="Procedures\ShoppingCart\P_DeleteCart.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\System\P_DeletetOrderStage.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Procedures\Sales\P_UpdateOpportunityStage.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Procedures\Report\R_GetOpportunityStageRate.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -447,34 +435,88 @@
     <None Include="Procedures\Manage\M_Get_Report_AgentAction_Day.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\System\P_CreateOrderProcess.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Procedures\System\P_UpdateOrderProcessDefault.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Procedures\System\P_InsertOrderStage.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Procedures\Products\P_InsertOrderCategory.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Procedures\Products\P_UpdateOrderCategory.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Procedures\Products\P_DeleteOrderCategory.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="Table\OrderTask.sql" />
-    <Build Include="Procedures\Task\P_CreateTask.sql" />
-    <Build Include="Procedures\Task\P_GetTasks.sql" />
-    <Build Include="Procedures\Task\P_FinishTask.sql" />
-    <None Include="Procedures\Sales\P_UpdateOrderProductQuantity.sql" />
-    <None Include="Procedures\Sales\P_UpdateOrderProductLoss.sql" />
-    <None Include="Procedures\Sales\P_DeleteOrderProduct.sql" />
-    <None Include="Procedures\Sales\P_UpdateOrderProcess.sql" />
-    <None Include="Procedures\Sales\P_UpdateOrderStatus.sql" />
-    <Build Include="Procedures\Task\P_UpdateTaskEndTime.sql" />
+    <None Include="Procedures\Task\P_FinishTask.sql" />
+    <None Include="Procedures\Task\P_GetTasks.sql" />
+    <None Include="Procedures\Task\P_UpdateTaskEndTime.sql" />
     <None Include="Procedures\Products\P_GetProductsAll.sql" />
+    <None Include="Procedures\Products\P_GetProductUseLogs.sql" />
+    <Build Include="Procedures\Sales\P_GetOrderPlans.sql" />
+    <None Include="Procedures\Sales\P_UpdateProfitPrice.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderProcess.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderProductLoss.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderProductQuantity.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderStatus.sql" />
+    <Build Include="Procedures\Manage\M_DeleteRole.sql" />
+    <Build Include="Procedures\Manage\M_UpdateRolePermission.sql" />
+    <Build Include="Procedures\Manage\M_UpdateUserRole.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\System\P_CreateOrderProcess.sql" />
+    <None Include="Procedures\System\P_DeletetOrderStage.sql" />
+    <None Include="Procedures\System\P_InsertOrderStage.sql" />
+    <None Include="Procedures\System\P_UpdateOrderProcessDefault.sql" />
+    <None Include="Procedures\System\P_UpdateOrderCategory.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Task\P_GetTaskPlateAttrByCategoryID.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderClient.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_UpdateOrderOriginalID.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Task\P_UpdateOrderPlateAttr.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Products\P_GetOrderCategoryDetailsByID.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_CreateDHOrder.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_AddOrderGoods.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_CreateOrderGoodsDoc.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\RepotLog\R_GetClientActions.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_UpdateOrderCustomer.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Task\P_UpdateTaskOwner.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Stock\P_GetGoodsDocDetail.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_CreateOrderCustomer.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\AliOrder\P_UpdateAllAliOrderUpdateLogStatus.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_UpdateOrderCategoryID.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_CreateOrderCost.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_DeleteOrderCost.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_UpdateOrderDiscount.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Alter.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Task\P_CreateTask.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Procedures\Products\P_UpdateAttrValueSort.sql" />
+    <None Include="Procedures\AliOrder\P_AddAliOrderDownloadPlan.sql" />
   </ItemGroup>
 </Project>

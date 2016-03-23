@@ -111,6 +111,7 @@
                     });
                 });
             });
+
             //关闭客户
             $("#closeCustomer").click(function () {
                 confirm("确认关闭此客户吗?", function () {
@@ -121,6 +122,7 @@
                     });
                 });
             });
+
             //切换阶段
             $(".stage-items li").click(function () {
                 var _this = $(this);
@@ -203,13 +205,9 @@
         });
 
         //企业客户
-        if (model.Type == 1) {
-            $("#addContact").click(function () {
-                _self.addContact();
-            });
-        } else {
-            $(".tab-nav-ul li[data-id='navContact']").remove();
-        }
+        $("#addContact").click(function () {
+            _self.addContact();
+        });
 
         //切换模块
         $(".tab-nav-ul li").click(function () {
@@ -236,6 +234,9 @@
             } else if (_this.data("id") == "navOppor" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getOpportunitys(model.CustomerID, 1);
+            } else if (_this.data("id") == "navDHOrder" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getDHOrders(model.CustomerID, 1);
             }
         });
 
@@ -297,12 +298,14 @@
             });
         });
     }
+
     //获取订单
     ObjectJS.getOrders = function (customerid, page) {
         var _self = this;
         $("#navOrder .tr-header").nextAll().remove();
         Global.post("/Orders/GetOrdersByCustomerID", {
             customerid: customerid,
+            ordertype: 1,
             pagesize: 10,
             pageindex: page
         }, function (data) {
@@ -339,11 +342,54 @@
         });
     }
 
+    //获取大货订单
+    ObjectJS.getDHOrders = function (customerid, page) {
+        var _self = this;
+        $("#navDHOrder .tr-header").nextAll().remove();
+        Global.post("/Orders/GetOrdersByCustomerID", {
+            customerid: customerid,
+            ordertype: 2,
+            pagesize: 10,
+            pageindex: page
+        }, function (data) {
+            if (data.items.length > 0) {
+                doT.exec("template/orders/customerorders.html", function (template) {
+                    var innerhtml = template(data.items);
+
+                    innerhtml = $(innerhtml);
+                    $("#navDHOrder .tr-header").after(innerhtml);
+                });
+            } else {
+                $("#navDHOrder .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无订单!<div></td></tr>");
+            }
+            $("#pagerDHOrders").paginate({
+                total_count: data.totalCount,
+                count: data.pageCount,
+                start: page,
+                display: 5,
+                border: true,
+                border_color: '#fff',
+                text_color: '#333',
+                background_color: '#fff',
+                border_hover_color: '#ccc',
+                text_hover_color: '#000',
+                background_hover_color: '#efefef',
+                rotate: true,
+                images: false,
+                mouse: 'slide',
+                float: "left",
+                onChange: function (page) {
+                    _self.getDHOrders(customerid, page);
+                }
+            });
+        });
+    }
+
     //获取需求
     ObjectJS.getOpportunitys = function (customerid, page) {
         var _self = this;
         $("#navOppor .tr-header").nextAll().remove();
-        Global.post("/Orders/GetOpportunityaByCustomerID", {
+        Global.post("/Orders/GetNeedsOrderByCustomerID", {
             customerid: customerid,
             pagesize: 10,
             pageindex: page

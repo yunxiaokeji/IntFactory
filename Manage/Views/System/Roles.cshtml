@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "角色权限";
+}
+
+@section css{
+    <link rel="stylesheet" href="/modules/css/system/role.css" />
+}
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/system/roles"], function (obj) {
+            obj.init();
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">角色权限</span>
+    <div class="btn-add right" id="createModel">新建角色</div>
+</div>
+<div class="content-body mTop20">
+    <table class="table-list">
+        <tr class="tr-header">
+            <td class="tLeft">角色名称</td>
+            <td class="tLeft">描述</td>
+            <td class="width150">创建时间</td>
+            <td class="width150">创建人</td>
+            <td class="width100">设置权限</td>
+            <td class="width80">操作</td>
+        </tr>
+    </table>
+</div>
+<ul class="dropdown-ul hide" style="width:65px;">
+    <li class="" id="updateObject">编辑</li>
+    <li class="" id="deleteObject">删除</li>
+</ul>

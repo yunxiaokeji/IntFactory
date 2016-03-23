@@ -192,6 +192,9 @@ namespace IntFactoryEntity
         }
         #endregion Model
 
+        public int CategoryType { get; set; }
+
+        public List<Category> ChildCategory { get; set; }
 
         /// <summary>
         /// 填充数据
@@ -202,6 +205,18 @@ namespace IntFactoryEntity
             dr.FillData(this);
         }
 
+    }
+
+
+    public partial class OrderCategory
+    {
+        [Property("Lower")] 
+        public string CategoryID { get; set; }
+
+        public void FillData(System.Data.DataRow dr)
+        {
+            dr.FillData(this);
+        }
     }
 }
 

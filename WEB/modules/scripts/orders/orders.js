@@ -6,7 +6,7 @@
         ChooseUser = require("chooseuser");
     require("pager");
 
-    var ColumnCount = 14;
+    var ColumnCount = 15;
 
     var Params = {
         SearchType: 1,
@@ -15,6 +15,7 @@
         PayStatus: -1,
         InvoiceStatus: -1,
         ReturnStatus: 0,
+        SourceType: -1,
         UserID: "",
         AgentID: "",
         TeamID: "",
@@ -27,9 +28,12 @@
 
     var ObjectJS = {};
     //初始化
-    ObjectJS.init = function (type) {
+    ObjectJS.init = function (type, status) {
         var _self = this;
         Params.SearchType = type;
+        if (status) {
+            Params.Status = status;
+        }
         _self.getList();
         _self.bindEvent(type);
     }
@@ -43,23 +47,6 @@
                 $(".dropdown-ul").hide();
             }
         });
-        $("#createOrder").click(function () {
-            ChooseCustomer.create({
-                title: "选择客户",
-                isAll: true,
-                callback: function (items) {
-                    if (items.length > 0) {
-                        Global.post("/Orders/CreateOrder", {
-                            customerid: items[0].id
-                        }, function (data) {
-                            if (data.id) {
-                                location.href = "/Orders/ChooseProducts/" + data.id;
-                            }
-                        });
-                    }
-                }
-            });
-        });
 
         $("#btnSearch").click(function () {
             Params.PageIndex = 1;
@@ -68,7 +55,7 @@
             _self.getList();
         });
 
-        //切换状态
+        //切换订单状态
         $(".search-status li").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
@@ -80,7 +67,7 @@
             }
         });
 
-        //切换状态
+        //切换退货状态
         $(".search-returnstatus li").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
@@ -143,24 +130,24 @@
                 }
             });
         });
-        //开票状态
+        //来源类型
         require.async("dropdown", function () {
             var items = [
-                { ID: 0, Name: "未开票" },
-                { ID: 1, Name: "已申请" },
-                { ID: 2, Name: "已开票" }
+                { ID: 1, Name: "工厂" },
+                { ID: 2, Name: "自助" },
+                { ID: 3, Name: "阿里" }
             ];
-            $("#invoiceStatus").dropdown({
-                prevText: "开票-",
+            $("#sourceType").dropdown({
+                prevText: "来源-",
                 defaultText: "全部",
                 defaultValue: "-1",
                 data: items,
                 dataValue: "ID",
                 dataText: "Name",
-                width: "90",
+                width: "120",
                 onChange: function (data) {
                     Params.PageIndex = 1;
-                    Params.InvoiceStatus = data.value;
+                    Params.SourceType = data.value;
                     _self.getList();
                 }
             });
@@ -264,7 +251,127 @@
             } else {
                 alert("您尚未选择客户!")
             }
-        });        
+        });
+
+        var successOrderCountObj = null;
+        //手动同步阿里订单
+        $("#downAliOrders").click(function () {
+
+            doT.exec("template/orders/downAliOrders.html", function (template) {
+
+                var html = template([]);
+                Easydialog.open({
+                    container: {
+                        id: "show-model-downAliOrders",
+                        header: "同步阿里订单",
+                        content: html
+                    }
+                });
+
+                var nowDate = new Date();
+                var maxDate = nowDate.toLocaleDateString();
+                var startDate = ObjectJS.AddDays(nowDate, -15);
+
+                $("#downStartTime").val(startDate);
+                $("#downEndTime").val( nowDate.getFullYear()+"-"+(nowDate.getMonth()+1)+"-"+nowDate.getDate() );
+
+                $("#btn-sureDown").click(function () {
+                    if ($("#downStartTime").val() == "")
+                    {
+                        alert("请选择起始时间");
+                        return;
+                    }
+                    else if ($("#downEndTime").val() == "")
+                    {
+                        alert("请选择截止时间");
+                        return;
+                    }
+
+                    var dateFrom = new Date($("#downStartTime").val());
+                    var dateTo = new Date($("#downEndTime").val());
+                    var diff = dateTo.valueOf() - dateFrom.valueOf();
+                    var diff_day = parseInt(diff / (1000 * 60 * 60 * 24));
+                    if (diff_day > 15)
+                    {
+                        alert("最大下载15天内");
+                        return;
+                    }
+
+                    
+                    Global.post("/Orders/DownAliOrders", {
+                        startTime: $("#downStartTime").val(),
+                        endTime: $("#downEndTime").val(),
+                        downOrderType: $("#downOrderType").val()
+                    }, function (data) {
+                        if (data.result == 0) {
+                            alert("同步失败");
+                        }
+                        else if (data.result == 1) {
+                            Easydialog.close();
+
+                            var html = '<div style="width:400px;border:1px solid #ccc;border-radius:4px;"><div id="downOrderBar" style="background-color:#06c;width:0px;height:10px;border-radius:4px;"></div></div>';
+                            html += '<div style="text-align:center;margin-top:3px;"><span id="successOrderCount">0</span>(成功) / <span id="totalOrderCount">0</span>(总数)</div>';
+                            Easydialog.open({
+                                container: {
+                                    id: "show-model-showDownAliOrders",
+                                    header: "同步进度",
+                                    content: html,
+                                    yesFn: function () {
+                                        location.href = "/Customer/Orders/Need";
+                                    }
+                                }
+
+                            });
+
+                            var successOrderCount = parseInt(data.successOrderCount);
+                            $("#totalOrderCount").html(data.totalOrderCount);
+                            var totalOrderCount = parseInt(data.totalOrderCount);
+
+                            $("#successOrderCount").html(successOrderCount);
+                            if (totalOrderCount>0)
+                                $("#downOrderBar").css("width", (successOrderCount / totalOrderCount) * 400 + "px");
+                            else
+                                $("#downOrderBar").css("width",400 + "px");
+                        }
+                        else if (data.result == 2) {
+                            alert("无权同步");
+                        }
+                        else if (data.result == 3) {
+                            alert("最大下载15天内");
+                        }
+                    });
+
+                });
+
+                var start = {
+                    elem: '#downStartTime',
+                    format: 'YYYY-MM-DD',
+                    max: maxDate,
+                    istime: false,
+                    istoday: false,
+                    choose: function (datas) {
+                        end.min = datas; //开始日选好后，重置结束日的最小日期
+                        end.start = datas //将结束日的初始值设定为开始日
+                    }
+                };
+                laydate(start);
+
+                var end = {
+                    elem: '#downEndTime',
+                    format: 'YYYY-MM-DD',
+                    max: maxDate,
+                    istime: false,
+                    istoday: true,
+                    choose: function (datas) {
+                        start.max = datas; //结束日选好后，重置开始日的最大日期
+                    }
+                };
+                laydate(end);
+
+
+            });
+
+        });
     }
 
     //获取列表
@@ -279,13 +386,18 @@
             _self.bindList(data);
         });
     }
+
     //加载列表
     ObjectJS.bindList = function (data) {
         var _self = this;
         $(".tr-header").nextAll().remove();
 
         if (data.items.length > 0) {
-            doT.exec("template/orders/orders.html", function (template) {
+            var url = "template/orders/orders.html";
+            if (Params.SearchType == 4) {
+                url = "template/orders/entrustorders.html";
+            }
+            doT.exec(url, function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
 
@@ -308,18 +420,7 @@
                     }
                     return false;
                 });
-
-                //innerhtml.click(function () {
-                //    var _this = $(this).find(".check");
-                //    if (!_this.hasClass("ico-checked")) {
-                //        _this.addClass("ico-checked").removeClass("ico-check");
-                //    } else {
-                //        _this.addClass("ico-check").removeClass("ico-checked");
-                //    }
-                //});
-
                 $(".tr-header").after(innerhtml);
-
             });
         }
         else
@@ -360,6 +461,21 @@
                 _self.getList();
             }
         });
+    }
+
+    ObjectJS.AddDays=function(date, days) {
+        var nd = new Date(date);
+        nd = nd.valueOf();
+        nd = nd + days * 24 * 60 * 60 * 1000;
+        nd = new Date(nd);
+        //alert(nd.getFullYear() + "年" + (nd.getMonth() + 1) + "月" + nd.getDate() + "日");
+        var y = nd.getFullYear();
+        var m = nd.getMonth() + 1;
+        var d = nd.getDate();
+        if (m <= 9) m = "0" + m;
+        if (d <= 9) d = "0" + d;
+        var cdate = y + "-" + m + "-" + d;
+        return cdate;
     }
 
     module.exports = ObjectJS;

@@ -4,7 +4,19 @@
     Layout = "/Views/Shared/_LayoutUserCenter.cshtml";
 
 }
+    
+@section scripts{
 
+<script src="/Scripts/jquery-1.11.1.js"></script>
+<script src="/modules/scripts/myaccount/cropbox.js"></script>
+<script type="text/javascript">
+    $(function () {
+        seajs.use(["scripts/myaccount/setavatar"], function (ObjectJS) {
+            ObjectJS.init();
+        }); 
+    });
+</script>
+}
 @section css{
 <link href="/modules/css/myaccount/myaccount.css" rel="stylesheet" />
 <link href="/modules/css/myaccount/cropbox.css" rel="stylesheet" />
@@ -53,16 +65,4 @@
  
 
 
-    
-@section scripts{
 
-<script src="/Scripts/jquery-1.11.1.js"></script>
-<script src="/modules/scripts/myaccount/cropbox.js"></script>
-<script type="text/javascript">
-    $(function () {
-        seajs.use(["scripts/myaccount/setavatar"], function (ObjectJS) {
-            ObjectJS.init();
-        }); 
-    });
-</script>
-}

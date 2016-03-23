@@ -57,7 +57,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult GetClientUpcomings()
         {
-            var list = LogBusiness.BaseBusiness.GetClientUpcomings(CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = LogBusiness.BaseBusiness.GetClientUpcomings(CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult()
             {

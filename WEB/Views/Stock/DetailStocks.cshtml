@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "产品明细库存";
+    ViewBag.Title = "材料库存明细";
 }
 @section scripts{
     <script type="text/javascript">
@@ -9,24 +9,24 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">产品明细库存</span>
+    <span class="header-title left">材料库存明细</span>
 </div>
 <div class="content-body mTop20">
      <div class="search-body">
         <div class="left" id="wares"></div>
-        <div class="right searth-module" data-text="产品编码/名称/批次搜索..." data-width="200"> </div>
+        <div class="right searth-module" data-text="材料编码/名称搜索..." data-width="200"> </div>
     </div>
     <table class="table-list mTop10">
         <tr class="tr-header">
             <td class="tLeft">产品编码</td>
             <td class="tLeft">产品名称</td>
             <td class="tLeft">产品规格</td>
-            <td class="tLeft">仓库</td>
+            @*<td class="tLeft">仓库</td>
             <td class="tLeft">货位</td>
-            <td class="tLeft">批次</td>
-            <td class="width100">采购数量</td>
-            <td class="width100">出库数量</td>
-            <td class="width100">结余库存</td>
+            <td class="tLeft">批次</td>*@
+            <td class="width200">采购数量</td>
+            <td class="width200">使用数量</td>
+            <td class="width200">结余库存</td>
         </tr>
     </table>
     <div id="pager" class="mTop20"></div>

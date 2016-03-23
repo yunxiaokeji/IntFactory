@@ -1,0 +1,18 @@
+﻿
+<table class="table-list child-product-table">
+    <tr class="tr-header">
+        <td class="tLeft">规格</td>
+        <td>数量</td>
+        <td>删除</td>
+    </tr>
+    {%
+	    for(var i=0, j=$data.length; i < j; i++){
+	    var item = $data[i];
+    %}
+    <tr class="list-item" data-attr="{%=item.saleAttr%}" data-value="{%=item.attrValue%}" data-name="{%=item.names%}" data-attrvalue="{%=item.ids%}">
+        <td>{%=item.names%}</td>
+        <td class="center"><input type="text" value="1" class="quantity width80" /></td>
+        <td class="center"><a class="ico-del" title="删除" href="javascript:void(0);"></a></td>
+    </tr>
+{% } %}
+</table>

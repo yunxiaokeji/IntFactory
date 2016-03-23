@@ -7,8 +7,8 @@
     <ProjectGuid>{6E99DE28-ADB3-4C22-8DE9-DEA1E44C04BB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CloudSalesEntity</RootNamespace>
-    <AssemblyName>CloudSalesEntity</AssemblyName>
+    <RootNamespace>IntFactoryEntity</RootNamespace>
+    <AssemblyName>IntFactoryEntity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -45,6 +45,9 @@
     <Compile Include="Agents\AgentOrderEntity.cs" />
     <Compile Include="Agents\AgentOrderDetail.cs" />
     <Compile Include="Agents\Report_AgentAction_Day.cs" />
+    <Compile Include="AliOrder\AliOrderDownloadLog.cs" />
+    <Compile Include="AliOrder\AliOrderDownloadPlan.cs" />
+    <Compile Include="AliOrder\AliOrderUpdateLog.cs" />
     <Compile Include="Custom\ActivityEntity.cs" />
     <Compile Include="Custom\ActivityReplyEntity.cs" />
     <Compile Include="Custom\ContactEntity.cs" />
@@ -63,13 +66,20 @@
     <Compile Include="Log\UpcomingsEntity.cs" />
     <Compile Include="Manage\ClientOrder.cs" />
     <Compile Include="Manage\FeedBack.cs" />
+    <Compile Include="Manage\M_Role.cs" />
+    <Compile Include="Manage\M_RolePermission.cs" />
     <Compile Include="Report\CustomerSourceRPT.cs" />
     <Compile Include="Report\CustomerStageRPT.cs" />
     <Compile Include="Report\OrderTypeRPT.cs" />
     <Compile Include="Report\OrderMapRPT.cs" />
+    <Compile Include="Sales\OrderCostEntity.cs" />
     <Compile Include="Sales\OrderEntity.cs" />
     <Compile Include="Sales\OrderDetail.cs" />
+    <Compile Include="Sales\OrderGoodsEntity.cs" />
+    <Compile Include="Stock\ProductUseLogEntity.cs" />
     <Compile Include="Stock\ProvidersEntity.cs" />
+    <Compile Include="Stock\GoodsDocDetail.cs" />
+    <Compile Include="Stock\GoodsDoc.cs" />
     <Compile Include="System\CustomSourceEntity.cs" />
     <Compile Include="System\CustomStageEntity.cs" />
     <Compile Include="Manage\ClientAuthorizeLog.cs" />
@@ -108,8 +118,7 @@
     <Compile Include="Log\Log_Operate.cs" />
     <Compile Include="Manage\Clients.cs" />
     <Compile Include="Manage\Dictionary.cs" />
-    <Compile Include="Manage\Modules.cs" />
-    <Compile Include="Manage\ModulesMenu.cs" />
+    <Compile Include="Manage\SystemMenu.cs" />
     <Compile Include="Manage\M_Users.cs" />
     <Compile Include="Common\Permission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
