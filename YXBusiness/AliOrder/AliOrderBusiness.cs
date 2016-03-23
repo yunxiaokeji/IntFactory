@@ -18,11 +18,10 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 下载阿里打样订单
         /// </summary>
-        public static bool DownFentOrders(DateTime gmtFentStart, DateTime gmtFentEnd, string token, string refreshToken, string userID, string agentID, string clientID, out int successCount, out int total,out string error, AlibabaSdk.AliOrderDownType aliOrderDownType = AlibabaSdk.AliOrderDownType.Auto)
+        public static bool DownFentOrders(DateTime gmtFentStart, DateTime gmtFentEnd, string token, string refreshToken, string userID, string agentID, string clientID, ref int successCount, ref int total,out string error, AlibabaSdk.AliOrderDownType aliOrderDownType = AlibabaSdk.AliOrderDownType.Auto)
         {
-            successCount = 0;
-            total = 0;
             error = string.Empty;
+            DateTime orderCreateTime=DateTime.Now;
             //获取打样订单编码
             AlibabaSdk.GoodsCodesResult goodsCodesResult = AlibabaSdk.OrderBusiness.PullFentGoodsCodes(gmtFentStart, gmtFentEnd, token);
 
@@ -71,7 +70,7 @@ namespace IntFactoryBusiness
             //订单编码分页
             var goodsCodeList = goodsCodesResult.goodsCodeList;
             var totalCount = goodsCodeList.Count;
-            total = totalCount;
+            total += totalCount;
             int numb = 10;
             int size = (int)Math.Ceiling((decimal)totalCount / numb);
 
@@ -101,6 +100,7 @@ namespace IntFactoryBusiness
                     else
                     {
                         successCount++;
+                        orderCreateTime=order.gmtCreate;
                         if (aliOrderDownType == AlibabaSdk.AliOrderDownType.Auto)
                             //更新订单下载成功时间
                             AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanSuccessTime(clientID, EnumOrderType.ProofOrder, order.gmtCreate);
@@ -109,17 +109,23 @@ namespace IntFactoryBusiness
 
             }
 
+            if (totalCount == 1000)
+            {
+                DownFentOrders(orderCreateTime, gmtFentEnd, token, refreshToken, userID, agentID, clientID, ref successCount, ref total, out error, aliOrderDownType);
+            }
+
             return true;
         }
 
         /// <summary>
         /// 下载阿里大货订单
         /// </summary>
-        public static bool DownBulkOrders(DateTime gmtBulkStart, DateTime gmtBulkEnd, string token, string refreshToken, string userID, string agentID, string clientID, out int successCount, out int total,out string error, AlibabaSdk.AliOrderDownType aliOrderDownType = AlibabaSdk.AliOrderDownType.Auto)
+        public static bool DownBulkOrders(DateTime gmtBulkStart, DateTime gmtBulkEnd, string token, string refreshToken, string userID, string agentID, string clientID, ref int successCount, ref int total,out string error, AlibabaSdk.AliOrderDownType aliOrderDownType = AlibabaSdk.AliOrderDownType.Auto)
         {
             successCount = 0;
             total = 0;
             error = string.Empty;
+            DateTime orderCreateTime = DateTime.Now;
             //获取大货订单编码
             AlibabaSdk.GoodsCodesResult goodsCodesResult = AlibabaSdk.OrderBusiness.PullBulkGoodsCodes(gmtBulkStart, gmtBulkEnd, token);
 
@@ -194,11 +200,17 @@ namespace IntFactoryBusiness
                     else
                     {
                         successCount++;
+                        orderCreateTime = order.gmtCreate;
                         if (aliOrderDownType == AlibabaSdk.AliOrderDownType.Auto)
                             //更新订单下载成功时间
                             AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanSuccessTime(clientID, EnumOrderType.LargeOrder, order.gmtCreate);
                     }
                 }
+            }
+
+            if (totalCount == 1000)
+            {
+                DownFentOrders(orderCreateTime, gmtBulkEnd, token, refreshToken, userID, agentID, clientID, ref successCount, ref total, out error, aliOrderDownType);
             }
 
             return true;
@@ -427,6 +439,13 @@ namespace IntFactoryBusiness
             else
                 return null;
 
+        }
+    
+        public bool AddAliOrderDownloadPlan(string userID, string memberID, string token, string refreshToken, string agentID, string clientID)
+        {
+            bool flag = AliOrderDAL.BaseProvider.AddAliOrderDownloadPlan(userID, memberID, token, refreshToken, agentID,clientID);
+
+            return flag;
         }
 
         /// <summary>

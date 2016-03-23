@@ -68,8 +68,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApiOption.cs" />
     <Compile Include="Business\UserBusiness.cs" />
-    <Compile Include="Entity\User\UserJson.cs" />
-    <Compile Include="Entity\User\UsetEntity.cs" />
+    <Compile Include="Entity\User\MemberJson.cs" />
+    <Compile Include="Entity\User\MemberEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

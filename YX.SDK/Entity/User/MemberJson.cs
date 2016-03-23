@@ -5,11 +5,11 @@ using System.Text;
 
 namespace AlibabaSdk
 {
-    public class UserJson
+    public class MemberJson
     {
         public int total = 0;
 
-        public List<UsetEntity> toReturn;
+        public List<MemberEntity> toReturn;
 
         public bool success=false;
     }
