@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "通用属性（规格）详情";
+}
+
+<link href="/modules/css/products.css" rel="stylesheet" />
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/products/attr"], function (attr) {
+            attr.initDetail('@(ViewBag.AttrID)');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">属性（规格)</span>
+</div>
+<div class="content-body mTop20">
+    <div class="search-body">
+        <div class="right searth-module"></div>
+    </div>
+    <table class="table-list">
+        <tr class="tr-header" id="attrItems">
+            <td class="width300 tLeft">属性值名称</td>
+            <td class="width200">序号</td>
+            <td class="width150">创建时间</td>
+            <td class="width150">操作</td>
+        </tr>
+    </table>
+</div>
+

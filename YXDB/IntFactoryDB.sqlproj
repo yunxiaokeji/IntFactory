@@ -515,4 +515,7 @@
   <ItemGroup>
     <None Include="Procedures\Alter.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="Procedures\Products\P_UpdateAttrValueSort.sql" />
+  </ItemGroup>
 </Project>

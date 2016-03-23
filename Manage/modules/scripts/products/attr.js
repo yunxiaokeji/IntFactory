@@ -259,5 +259,51 @@
             !!callback && callback(data.Status);
         });
     }
+
+
+    ObjectJS.initDetail = function (attrID) {
+        ObjectJS.getAttrItems(attrID);
+    }
+
+    ObjectJS.getAttrItems = function (attrID) {
+        Global.post("/Products/GetAttrByID", { attrID: attrID }, function (data) {
+            $(".header-title").html(data.Item.AttrName + " 属性(规格)");
+            document.title = data.Item.AttrName + " 属性(规格)详情";
+            var items = data.Item.AttrValues;
+
+            doT.exec("template/products/attr-detail.html", function (templateFun) {
+                var inner = templateFun(items);
+                inner = $(inner);
+                $("#attrItems").after(inner);
+
+                inner.find(".btn-setSort").click(function () {
+                    $(this).hide().next().show();
+                });
+
+                inner.find(".btn-saveSort").click(function () {
+                    $(this).parent().hide().prev().show();
+
+                    var attrid = $(this).data("attrid");
+                    var valueid = $(this).data("id");
+                    var sort = $(this).prev().val();
+                    ObjectJS.updateAttrValueSort(attrid, valueid, sort);
+                });
+
+            })
+
+
+        });
+    }
+
+    ObjectJS.updateAttrValueSort = function (attrid,valueid,sort) {
+        Global.post("/Products/GetAttrByID", { attrid: attrid, valueid: valueid, sort: sort }, function (data) {
+        
+            if(data.Status)
+            {
+                location.href=location.href;
+            }
+        });
+    }
+
     module.exports = ObjectJS;
 });

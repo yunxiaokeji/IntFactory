@@ -475,6 +475,13 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateAttrValueSort(string valueid, string attrid, int sort) {
+            var dal = new ProductsDAL();
+            bool bl = dal.UpdateAttrValueStatus(valueid, attrid,sort);
+
+            return bl;
+        }
+
         public static void ClearAttrsCache()
         {
             CacheAttrs = null;

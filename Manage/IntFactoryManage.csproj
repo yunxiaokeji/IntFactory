@@ -278,6 +278,7 @@
     <Content Include="modules\template\products\product_child_add_list.html" />
     <Content Include="modules\template\products\ordercategory-attrs.html" />
     <Content Include="modules\template\products\ordercommon-attrs.html" />
+    <Content Include="modules\template\products\attr-detail.html" />
     <Content Include="modules\template\system\menu-list.html" />
     <Content Include="modules\template\system\permissions.html" />
     <Content Include="modules\template\system\role-detail.html" />
@@ -383,6 +384,7 @@
     <Content Include="Views\Products\OrderCategory.cshtml" />
     <Content Include="Views\System\ClearCache.cshtml" />
     <None Include="Properties\PublishProfiles\intfactoryManage.pubxml" />
+    <Content Include="Views\Products\AttrDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
