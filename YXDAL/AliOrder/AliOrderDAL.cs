@@ -132,7 +132,7 @@ namespace IntFactoryDAL
             SqlParameter[] paras = { 
                                    };
 
-            DataTable dt = GetDataTable("Select * from AliOrderDownloadPlan where Status=1 ", paras, CommandType.Text);
+            DataTable dt = GetDataTable("Select * from AliOrderDownloadPlan where Status<>2 ", paras, CommandType.Text);
             return dt;
         }
 

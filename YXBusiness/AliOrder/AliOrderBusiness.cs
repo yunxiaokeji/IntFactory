@@ -23,6 +23,7 @@ namespace IntFactoryBusiness
             successCount = 0;
             total = 0;
             error = string.Empty;
+            DateTime orderCreateTime=DateTime.Now;
             //获取打样订单编码
             AlibabaSdk.GoodsCodesResult goodsCodesResult = AlibabaSdk.OrderBusiness.PullFentGoodsCodes(gmtFentStart, gmtFentEnd, token);
 
@@ -101,12 +102,18 @@ namespace IntFactoryBusiness
                     else
                     {
                         successCount++;
+                        orderCreateTime=order.gmtCreate;
                         if (aliOrderDownType == AlibabaSdk.AliOrderDownType.Auto)
                             //更新订单下载成功时间
                             AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanSuccessTime(clientID, EnumOrderType.ProofOrder, order.gmtCreate);
                     }
                 }
 
+            }
+
+            if (total == 1000)
+            {
+                DownFentOrders(orderCreateTime, gmtFentEnd, token, refreshToken, userID, agentID, clientID, out successCount, out total, out error, aliOrderDownType);
             }
 
             return true;
@@ -120,6 +127,7 @@ namespace IntFactoryBusiness
             successCount = 0;
             total = 0;
             error = string.Empty;
+            DateTime orderCreateTime = DateTime.Now;
             //获取大货订单编码
             AlibabaSdk.GoodsCodesResult goodsCodesResult = AlibabaSdk.OrderBusiness.PullBulkGoodsCodes(gmtBulkStart, gmtBulkEnd, token);
 
@@ -194,11 +202,17 @@ namespace IntFactoryBusiness
                     else
                     {
                         successCount++;
+                        orderCreateTime = order.gmtCreate;
                         if (aliOrderDownType == AlibabaSdk.AliOrderDownType.Auto)
                             //更新订单下载成功时间
                             AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanSuccessTime(clientID, EnumOrderType.LargeOrder, order.gmtCreate);
                     }
                 }
+            }
+
+            if (total == 1000)
+            {
+                DownFentOrders(orderCreateTime, gmtBulkEnd, token, refreshToken, userID, agentID, clientID, out successCount, out total, out error, aliOrderDownType);
             }
 
             return true;
