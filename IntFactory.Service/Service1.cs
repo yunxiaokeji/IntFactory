@@ -86,7 +86,7 @@ namespace IntFactory.Service
         /// <returns></returns>
         public bool ExecuteDownAliOrdersPlan()
         {
-            int successCount, total;
+            int successCount=0, total=0;
             //获取阿里订单下载计划列表
             var list = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlans();
 
@@ -97,7 +97,7 @@ namespace IntFactory.Service
                 //下载阿里打样订单
                 var gmtFentEnd = DateTime.Now;
                 bool flag =AliOrderBusiness.DownFentOrders(item.FentSuccessEndTime, gmtFentEnd, item.Token, item.RefreshToken,
-                    item.UserID, item.AgentID, item.ClientID, out successCount, out total, out error);
+                    item.UserID, item.AgentID, item.ClientID, ref successCount, ref total, out error);
 
                 //新增阿里打样订单下载日志
                 AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog( EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.FentSuccessEndTime, gmtFentEnd,
@@ -113,7 +113,7 @@ namespace IntFactory.Service
                 //下载阿里大货订单列表
                 var gmtBulkEnd = DateTime.Now;
                 flag = AliOrderBusiness.DownBulkOrders(item.BulkSuccessEndTime, gmtBulkEnd, item.Token, item.RefreshToken,
-                    item.UserID, item.AgentID, item.ClientID, out successCount, out total, out error);
+                    item.UserID, item.AgentID, item.ClientID, ref successCount, ref total, out error);
 
                 //新增阿里大货订单下载日志
                 AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.BulkSuccessEndTime, gmtBulkEnd,

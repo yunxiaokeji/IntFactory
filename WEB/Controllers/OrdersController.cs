@@ -548,8 +548,8 @@ namespace YXERP.Controllers
 
                 if (plan != null)
                 {
-                    int successCount;
-                    int total;
+                    int successCount=0;
+                    int total=0;
 
                     string token = plan.Token;
                     string refreshToken = plan.RefreshToken;
@@ -557,7 +557,7 @@ namespace YXERP.Controllers
                     if (downOrderType == 1)
                     {
                         flag = AliOrderBusiness.DownFentOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
-                            CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total,out error, AlibabaSdk.AliOrderDownType.Hand);
+                            CurrentUser.AgentID, CurrentUser.ClientID, ref successCount, ref total,out error, AlibabaSdk.AliOrderDownType.Hand);
 
                         //新增阿里打样订单下载日志
                         AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
@@ -567,7 +567,7 @@ namespace YXERP.Controllers
                     {
 
                         flag = AliOrderBusiness.DownBulkOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
-                            CurrentUser.AgentID, CurrentUser.ClientID, out successCount, out total,out error, AlibabaSdk.AliOrderDownType.Hand);
+                            CurrentUser.AgentID, CurrentUser.ClientID, ref successCount, ref total,out error, AlibabaSdk.AliOrderDownType.Hand);
 
                         //新增阿里大货订单下载日志
                         AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
