@@ -488,6 +488,12 @@ namespace IntFactoryBusiness
             var dal = new ProductsDAL();
             bool bl = dal.UpdateAttrValueStatus(valueid, attrid,sort);
 
+            if (bl)
+            {
+                var model = GetAttrByID(attrid);
+                model.AttrValues=new List<AttrValue>();
+
+            }
             return bl;
         }
 

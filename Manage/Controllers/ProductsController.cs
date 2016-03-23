@@ -327,6 +327,13 @@ namespace YXManage.Controllers
             };
         }
 
+        /// <summary>
+        /// 更新属性值排序
+        /// </summary>
+        /// <param name="valueid"></param>
+        /// <param name="attrid"></param>
+        /// <param name="sort"></param>
+        /// <returns></returns>
         public JsonResult UpdateAttrValueSort(string valueid, string attrid,int sort)
         {
             bool bl = new ProductsBusiness().UpdateAttrValueSort(valueid, attrid,sort);
