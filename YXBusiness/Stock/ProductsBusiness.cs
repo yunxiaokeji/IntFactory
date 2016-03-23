@@ -266,18 +266,12 @@ namespace IntFactoryBusiness
             }
 
             List<ProductAttr> list = new List<ProductAttr>();
-            DataSet ds = new ProductsDAL().GetAttrs();
-            foreach (DataRow dr in ds.Tables["Attrs"].Rows)
+            DataTable dt = new ProductsDAL().GetAttrs();
+            foreach (DataRow dr in dt.Rows)
             {
                 ProductAttr model = new ProductAttr();
                 model.FillData(dr);
                 model.AttrValues = new List<AttrValue>();
-                foreach (DataRow item in ds.Tables["Values"].Select("AttrID='" + model.AttrID + "'"))
-                {
-                    AttrValue attrValue = new AttrValue();
-                    attrValue.FillData(item);
-                    model.AttrValues.Add(attrValue);
-                }
                 CacheAttrs.Add(model);
             }
             return list;
@@ -329,12 +323,27 @@ namespace IntFactoryBusiness
         public ProductAttr GetAttrByID(string attrid)
         {
             var list = GetAttrs();
+
             if (list.Where(m => m.AttrID.ToLower() == attrid.ToLower()).Count() > 0)
             {
-                return list.Where(m => m.AttrID.ToLower() == attrid.ToLower()).FirstOrDefault();
+                var cache = list.Where(m => m.AttrID.ToLower() == attrid.ToLower()).FirstOrDefault();
+                if (cache.AttrValues.Count > 0)
+                {
+                    return cache;
+                }
+                else
+                {
+                    DataTable dt = new ProductsDAL().GetAttrValuesByAttrID(attrid);
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        AttrValue attrValue = new AttrValue();
+                        attrValue.FillData(item);
+                        cache.AttrValues.Add(attrValue);
+                    }
+                    return cache;
+                }
             }
-            var dal = new ProductsDAL();
-            DataSet ds = dal.GetAttrByID(attrid);
+            DataSet ds = new ProductsDAL().GetAttrByID(attrid);
 
             ProductAttr model = new ProductAttr();
             if (ds.Tables.Contains("Attrs") && ds.Tables["Attrs"].Rows.Count > 0)

@@ -516,6 +516,9 @@
     <None Include="Procedures\Alter.sql" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Procedures\Task\P_CreateTask.sql" />
+  </ItemGroup>
+  <ItemGroup>
     <Build Include="Procedures\Products\P_UpdateAttrValueSort.sql" />
   </ItemGroup>
 </Project>

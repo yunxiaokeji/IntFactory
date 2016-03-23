@@ -153,11 +153,10 @@ namespace IntFactoryDAL
 
         #region 属性
 
-        public DataSet GetAttrs()
+        public DataTable GetAttrs()
         {
-            SqlParameter[] paras = { };
-            DataSet ds = GetDataSet("P_GetAttrs", paras, CommandType.StoredProcedure, "Attrs|Values");
-            return ds;
+            DataTable dt = GetDataTable("select * from ProductAttr where  Status<>9");
+            return dt;
         }
 
         public DataSet GetAttrList(string categoryid, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
@@ -190,6 +189,15 @@ namespace IntFactoryDAL
 
             return GetDataTable("P_GetAttrsByCategoryID", paras, CommandType.StoredProcedure);
 
+        }
+
+        public DataTable GetAttrValuesByAttrID(string attrid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@AttrID", attrid)
+                                   };
+            DataTable dt = GetDataTable("select * from AttrValue where Status<>9 and AttrID=@AttrID Order by Sort asc ,AutoID desc", paras, CommandType.Text);
+            return dt;
         }
 
         public DataSet GetAttrByID(string attrid)
