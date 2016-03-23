@@ -54,12 +54,7 @@
             </li>
             <li>
                 <span class="column-name">供应商：</span>
-                <select id="prodiver">
-                @foreach (IntFactoryEntity.ProvidersEntity providers in (List<IntFactoryEntity.ProvidersEntity>)ViewBag.Providers)
-                {
-                    <option value="@providers.ProviderID">@providers.Name</option> 
-                }
-                </select>
+                <span id="prodiver"></span>
             </li>
         
             @foreach (IntFactoryEntity.ProductAttr attr in model.Category.AttrLists)

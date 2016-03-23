@@ -271,6 +271,8 @@
     <Content Include="modules\plug\chooseorder\chooseorder.js" />
     <Content Include="modules\plug\chooseorder\order.html" />
     <Content Include="modules\plug\chooseorder\style.css" />
+    <Content Include="modules\plug\autocomplete\autocomplete.js" />
+    <Content Include="modules\plug\autocomplete\style.css" />
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
@@ -308,6 +310,7 @@
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\task\task-list.html" />
     <Content Include="modules\plug\showtaskdetail\task-detail.html" />
+    <Content Include="modules\css\jquery-ui.css" />
     <Content Include="Views\System\OrderProcess.cshtml" />
     <Content Include="Areas\Api\Views\Web.config" />
     <None Include="modules\plug\umeditor\net\Uploader.cs" />

@@ -733,9 +733,9 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public static void ClearCategoryCache() {
+        public static void ClearCategoryCache() 
+        {
             CacheCategory = null;
-
         }
         #endregion
 
@@ -793,10 +793,12 @@ namespace IntFactoryBusiness
             {
                 model.FillData(ds.Tables["Product"].Rows[0]);
                 model.Category = GetCategoryDetailByID(model.CategoryID);
-                var bigunit = new ProductUnit();
-                bigunit.FillData(ds.Tables["Unit"].Select("UnitID='" + model.BigUnitID + "'").FirstOrDefault());
-                model.BigUnit = bigunit;
 
+                if (!string.IsNullOrEmpty(model.ProdiverID))
+                {
+                    model.Providers = ProvidersBusiness.BaseBusiness.GetProviderByID(model.ProdiverID);
+                }
+                
                 var smallunit = new ProductUnit();
                 smallunit.FillData(ds.Tables["Unit"].Select("UnitID='" + model.SmallUnitID + "'").FirstOrDefault());
                 model.SmallUnit = smallunit;
@@ -967,7 +969,7 @@ namespace IntFactoryBusiness
                     if (!string.IsNullOrEmpty(model.Providers.CityCode))
                     {
                         var city = CommonBusiness.GetCityByCode(model.Providers.CityCode);
-                        model.Providers.Address = city.Province + city.City + city.Counties + model.Providers.Address;
+                        model.Providers.Address = city.Description + model.Providers.Address;
                     }
                 }
 

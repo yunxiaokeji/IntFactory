@@ -59,7 +59,6 @@ namespace YXERP.Controllers
                 return View("ChooseCategory");
             }
             ViewBag.Model = new ProductsBusiness().GetCategoryDetailByID(id);
-            ViewBag.Providers = ProvidersBusiness.BaseBusiness.GetProviders(CurrentUser.ClientID);
             ViewBag.UnitList = new ProductsBusiness().GetUnits();
             return View();
         }
@@ -73,7 +72,6 @@ namespace YXERP.Controllers
         {
             var model = new ProductsBusiness().GetProductByID(id);
             ViewBag.Model = model;
-            ViewBag.Providers = ProvidersBusiness.BaseBusiness.GetProviders(CurrentUser.ClientID);
             ViewBag.UnitList = new ProductsBusiness().GetUnits();
             return View();
         }
@@ -185,10 +183,10 @@ namespace YXERP.Controllers
 
         #region 供应商
 
-        public JsonResult GetProviders(string keyWords, int pageIndex, int totalCount)
+        public JsonResult GetProviders(string keyWords, int pageIndex, int totalCount = 0, int pageSize = 20)
         {
             int pageCount = 0;
-            var list = ProvidersBusiness.BaseBusiness.GetProviders(keyWords, PageSize, pageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
+            var list = ProvidersBusiness.BaseBusiness.GetProviders(keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
@@ -239,7 +237,17 @@ namespace YXERP.Controllers
                     id = model.ProviderID;
                 }
             }
-            JsonDictionary.Add("ID", id);
+            if (string.IsNullOrEmpty(id))
+            {
+                JsonDictionary.Add("status", false);
+            }
+            else 
+            {
+                model.ProviderID = id;
+                JsonDictionary.Add("status", true);
+                JsonDictionary.Add("model", model);
+            }
+            
             return new JsonResult
             {
                 Data = JsonDictionary,
