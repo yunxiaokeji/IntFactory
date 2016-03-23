@@ -18,55 +18,6 @@ namespace IntFactoryBusiness
 
         #region 查询
 
-
-        public List<ProvidersEntity> GetProviders(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
-        {
-            var dal = new StockDAL();
-
-            string where = " ClientID='" + clientID + "' and Status<>9";
-
-            DataTable dt = CommonBusiness.GetPagerData("Providers", "*", where, "AutoID", pageSize, pageIndex, out totalCount, out pageCount);
-
-            List<ProvidersEntity> list = new List<ProvidersEntity>();
-            foreach (DataRow dr in dt.Rows)
-            {
-                ProvidersEntity model = new ProvidersEntity();
-                model.FillData(dr);
-                model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
-                list.Add(model);
-            }
-            return list;
-        }
-
-        public List<ProvidersEntity> GetProviders(string clientID)
-        {
-            var dal = new StockDAL();
-            DataTable dt = dal.GetProviders(clientID);
-
-            List<ProvidersEntity> list = new List<ProvidersEntity>();
-            foreach (DataRow dr in dt.Rows)
-            {
-                ProvidersEntity model = new ProvidersEntity();
-                model.FillData(dr);
-                list.Add(model);
-            }
-            return list;
-        }
-
-        public ProvidersEntity GetProviderByID(string providerID)
-        {
-            var dal = new StockDAL();
-            DataTable dt = dal.GetProviderByID(providerID);
-
-            ProvidersEntity model = new ProvidersEntity();
-            if (dt.Rows.Count > 0)
-            {
-                model.FillData(dt.Rows[0]);
-                model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
-            }
-            return model;
-        }
-
         public static List<StorageDoc> GetStorageDocList(string userid, EnumDocType type, EnumDocStatus status, string keywords, string begintime, string endtime, string wareid, string providerid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
         {
             DataSet ds = StockDAL.GetStorageDocList(userid, (int)type, (int)status, keywords, begintime, endtime, wareid, providerid, pageSize, pageIndex, ref totalCount, ref pageCount, clientID);
@@ -77,10 +28,7 @@ namespace IntFactoryBusiness
                 StorageDoc model = new StorageDoc();
                 model.FillData(dr);
                 model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
-                if (!string.IsNullOrEmpty(model.ProviderID))
-                {
-                    model.ProviderName = BaseBusiness.GetProviderByID(model.ProviderID).Name;
-                }
+
                 model.Details = new List<StorageDetail>();
                 if (ds.Tables.Contains("Details"))
                 {
@@ -144,7 +92,7 @@ namespace IntFactoryBusiness
 
                     if (!string.IsNullOrEmpty(details.ProdiverID))
                     {
-                        details.Providers = BaseBusiness.GetProviderByID(details.ProdiverID);
+                        details.Providers = new ProvidersBusiness().GetProviderByID(details.ProdiverID);
                     }
                     model.Details.Add(details);
                 }
@@ -177,10 +125,6 @@ namespace IntFactoryBusiness
                     GoodsDocDetail details = new GoodsDocDetail();
                     details.FillData(item);
 
-                    if (!string.IsNullOrEmpty(details.ProdiverID))
-                    {
-                        details.Providers = BaseBusiness.GetProviderByID(details.ProdiverID);
-                    }
                     model.Details.Add(details);
                 }
             }
@@ -360,10 +304,7 @@ namespace IntFactoryBusiness
 
         #region 添加
 
-        public string AddProviders(string name, string contact, string mobile,string email, string cityCode, string address,string remark, string operateID, string agentid, string clientID)
-        {
-            return new StockDAL().AddProviders(name, contact, mobile, email, cityCode, address, remark, operateID, agentid, clientID);
-        }
+        
 
         public static bool CreateStorageDoc(string wareid, string remark, string userid, string operateip, string agentid, string clientid)
         {
@@ -411,16 +352,7 @@ namespace IntFactoryBusiness
         #region 编辑、删除
 
 
-        public bool UpdateProvider(string providerid, string name, string contact, string mobile, string email, string cityCode, string address, string remark, string operateID, string agentid, string clientID)
-        {
-            var dal = new StockDAL();
-            return dal.UpdateProvider(providerid, name, contact, mobile, email, cityCode, address, remark, operateID, agentid, operateID);
-        }
-
-        public bool UpdateProviderStatus(string providerid, EnumStatus status, string ip, string operateid)
-        {
-            return CommonBusiness.Update("Providers", "Status", (int)status, "ProviderID='" + providerid + "'");
-        }
+        
 
         public bool DeleteDoc(string docid, string userid, string operateip, string clientid)
         {

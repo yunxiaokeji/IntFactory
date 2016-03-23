@@ -60,7 +60,7 @@
     <Compile Include="Report\SalesRPTDAL.cs" />
     <Compile Include="Sales\OrdersDAL.cs" />
     <Compile Include="Stock\AgentOrderDAL.cs" />
-    <Compile Include="Stock\AttrDAL.cs" />
+    <Compile Include="Stock\ProvidersDAL.cs" />
     <Compile Include="Stock\StockDAL.cs" />
     <Compile Include="Manage\IndustryDAL.cs" />
     <Compile Include="Stock\ProductsDAL.cs" />

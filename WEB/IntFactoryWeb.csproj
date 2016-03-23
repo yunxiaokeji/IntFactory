@@ -687,8 +687,8 @@
     <Content Include="modules\template\orders\customerorders.html" />
     <Content Include="modules\plug\sharemingdao\demo.js" />
     <Content Include="modules\template\orders\customeroppors.html" />
-    <Content Include="modules\template\purchase\provider-detail.html" />
-    <Content Include="modules\template\purchase\providers.html" />
+    <Content Include="modules\template\products\provider_detail.html" />
+    <Content Include="modules\template\products\providers.html" />
     <Content Include="modules\template\report\teamcustomers.html" />
     <Content Include="modules\template\report\usercustomers.html" />
     <Content Include="modules\template\report\teamorders.html" />
