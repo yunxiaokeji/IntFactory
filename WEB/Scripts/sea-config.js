@@ -58,6 +58,8 @@ seajs.config({
         "choosebranch": "plug/choosebranch/choosebranch.js",
         //下拉框
         "dropdown": "plug/dropdown/dropdown.js",
+        //搜索下拉框
+        "autocomplete": "plug/autocomplete/autocomplete.js",
         //显示用户名片层
         "businesscard": "plug/businesscard/businesscard.js",
         //分享明道

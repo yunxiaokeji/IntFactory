@@ -90,7 +90,8 @@ define(function (require, exports, module) {
                             Remark: $("#description").val().trim()
                         };
                         Global.post("/Products/SavaProviders", { entity: JSON.stringify(entity) }, function (data) {
-                            if (data.ID.length > 0) {
+                            if (data.status) {
+                                alert(!model ? "添加供应商" : "编辑供应商" + "成功！");
                                 _self.getList();
                             }
                         });                    },

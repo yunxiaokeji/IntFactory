@@ -1,12 +1,14 @@
 ﻿
 define(function (require, exports, module) {
-    var Upload = require("upload"), ProductIco, ImgsIco,
+    var City = require("city"), CityObject,
+        Upload = require("upload"), ProductIco, ImgsIco,
         Global = require("global"),
-        Verify = require("verify"), VerifyObject, DetailsVerify, editor,
+        Verify = require("verify"), VerifyObject, DetailsVerify, editor, VerifyProdiver,
         doT = require("dot"),
         Easydialog = require("easydialog");
     require("pager");
     require("switch");
+    require("autocomplete");
     var Params = {
         PageIndex: 1,
         keyWords: "",
@@ -78,9 +80,84 @@ define(function (require, exports, module) {
 
         $("#productName").focus();
 
+        //选择材料供应商
+        $("#prodiver").autocomplete({
+            url: "/Products/GetProviders",
+            params: {
+                pageIndex: 1,
+                pageSize: 5
+            },
+            width: "180",
+            asyncCallback: function (data, response) {
+                response($.map(data.items, function (item) {
+                    return {
+                        text: item.Name + "(联系人：" + item.Contact + ")",
+                        name: item.Name,
+                        id: item.ProviderID
+                    }
+                }));
+            },
+            select: function (item) {
+
+            }
+        });
+
         //更改价格同步子产品
         $("#price").change(function () {
             $(".child-product-table").find(".price,.bigprice").val($("#price").val());
+        });
+
+        //快速添加供应商
+        $("#createProdiver").click(function () {
+            doT.exec("template/products/provider_detail.html", function (template) {
+                var html = template([]);
+                Easydialog.open({
+                    container: {
+                        id: "show-model-detail",
+                        header: "添加供应商",
+                        content: html,
+                        yesFn: function () {
+                            if (!VerifyObject.isPass("#show-model-detail")) {
+                                return false;
+                            }
+                            var entity = {
+                                ProviderID:  "",
+                                Name: $("#providerName").val().trim(),
+                                Contact: $("#contact").val().trim(),
+                                MobileTele: $("#mobiletele").val().trim(),
+                                CityCode: CityObject.getCityCode(),
+                                Address: $("#address").val().trim(),
+                                Remark: $("#description").val().trim()
+                            };
+                            Global.post("/Products/SavaProviders", { entity: JSON.stringify(entity) }, function (data) {
+                                if (data.status) {
+                                    $("#prodiver").data("id", data.model.ProviderID);
+                                    $("#prodiver").data("name", data.model.Name);
+                                    $("#prodiver").find("input").val(data.model.Name);
+                                } else {
+                                    alert("供应商添加失败！")
+                                }
+                            });
+                        },
+                        callback: function () {
+
+                        }
+                    }
+                });
+                VerifyProdiver = Verify.createVerify({
+                    element: ".verify",
+                    emptyAttr: "data-empty",
+                    verifyType: "data-type",
+                    regText: "data-text"
+                });
+
+
+                $("#providerName").focus();
+
+                CityObject = City.createCity({
+                    elementID: "city"
+                });
+            });
         });
 
         //组合子产品
@@ -177,6 +254,11 @@ define(function (require, exports, module) {
     //保存产品
     Product.savaProduct = function () {
 
+        if (!$("#prodiver").data("id")) {
+            alert("请选择材料供应商!");
+            return;
+        };
+
         var _self = this, attrlist = "", valuelist = "", attrvaluelist = "";
         var bl = true;
         $(".product-attr").each(function () {
@@ -200,7 +282,7 @@ define(function (require, exports, module) {
             ProductName: $("#productName").val().trim(),
             GeneralName: '',//$("#generalName").val().trim(),
             IsCombineProduct: 0,
-            ProdiverID: $("#prodiver").val(),
+            ProdiverID: $("#prodiver").data("id"),
             BigUnitID: $("#smallUnit").val().trim(),//$("#bigUnit").val().trim(),
             SmallUnitID: $("#smallUnit").val().trim(),
             BigSmallMultiple: 1,
@@ -622,6 +704,30 @@ define(function (require, exports, module) {
             $("#productinfo").hide();
             $("#childproduct").removeClass("hide").show();
             _self.showTemplate(model, "");
+        });
+
+        //选择材料供应商
+        $("#prodiver").autocomplete({
+            defaultText: model.Providers ? model.Providers.Name : "",
+            defaultValue: model.ProdiverID,
+            url: "/Products/GetProviders",
+            params: {
+                pageIndex: 1,
+                pageSize: 5
+            },
+            width: "180",
+            asyncCallback: function (data, response) {
+                response($.map(data.items, function (item) {
+                    return {
+                        text: item.Name + "(联系人：" + item.Contact + ")",
+                        name: item.Name,
+                        id: item.ProviderID
+                    }
+                }));
+            },
+            select: function (item) {
+
+            }
         });
     }
     //子产品列表

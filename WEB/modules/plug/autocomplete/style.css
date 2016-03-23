@@ -1,0 +1,14 @@
+﻿
+/*下拉框插件样式*/
+.autocomplete-module { position: relative; height:26px;  border-radius:2px; cursor:pointer;z-index:1000; }
+.autocomplete-module .autocomplete-text { height:26px; line-height:26px; color:#666; padding-right:25px !important;}
+.autocomplete-module .dropdown-ico { background: url("/modules/images/ico_search.png") no-repeat 2px 4px; height:24px; width:24px; position:absolute; top:1px; right:0px; }
+/*.autocomplete-module .dropdown-ico:hover{ background: url("/modules/images/ico_searchhover.png") no-repeat 2px 3px; }*/
+
+.autocomplete-items-modules { max-height:200px; overflow-x:hidden; overflow-y:auto; border:solid 1px #ccc; position:absolute; z-index:1005; background-color:#fff; }
+.autocomplete-items-modules li{ height:25px; line-height:25px; text-indent:5px; color:#666; cursor:pointer; }
+
+.autocomplete-items-modules:hover { border:solid 1px #318ae4; }
+.autocomplete-items-modules li:hover{ color:#fff; background-color:#318ae4; }
+
+
