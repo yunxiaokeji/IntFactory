@@ -52,6 +52,9 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public ActionResult ProductAdd(string id, string type = "", string guid = "", string tid = "") 
         {
+            if (string.IsNullOrEmpty(type)) {
+                type = "0";
+            }
             ViewBag.Type = type;
             ViewBag.GUID = guid;
             ViewBag.TID = tid;
@@ -132,7 +135,6 @@ namespace YXERP.Controllers
         {
             ViewBag.Title = "采购管理";
             ViewBag.Type = (int)EnumSearchType.All;
-            ViewBag.ProvidersBusiness = ProvidersBusiness.BaseBusiness.GetProviders(CurrentUser.ClientID);
             ViewBag.Wares = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
             return View("Purchases");
         }

@@ -810,28 +810,6 @@ namespace IntFactoryBusiness
                     ProductDetail detail = new ProductDetail();
                     detail.FillData(item);
 
-                    Dictionary<string, string> attrs = new Dictionary<string, string>();
-                    foreach (string attr in detail.SaleAttrValue.Split(','))
-                    {
-                        if (!string.IsNullOrEmpty(attr))
-                        {
-                            attrs.Add(attr.Split(':')[0], attr.Split(':')[1]);
-                        }
-                    }
-                    detail.SaleAttrValueString = "";
-                    foreach (var attr in model.Category.SaleAttrs)
-                    {
-                        if (attrs.ContainsKey(attr.AttrID))
-                        {
-                            detail.SaleAttrValueString += attr.AttrName + ":" + attr.AttrValues.Where(a => a.ValueID.ToLower() == attrs[attr.AttrID].ToLower()).FirstOrDefault().ValueName + ",";
-                        }
-                    }
-
-                    if (detail.SaleAttrValueString.Length > 0)
-                    {
-                        detail.SaleAttrValueString = detail.SaleAttrValueString.Substring(0, detail.SaleAttrValueString.Length - 1);
-                    }
-
                     model.ProductDetails.Add(detail);
                 }
             }
@@ -869,27 +847,6 @@ namespace IntFactoryBusiness
             {
                 ProductDetail model = new ProductDetail();
                 model.FillData(dr);
-                model.SaleAttrValueString = "";
-                if (!string.IsNullOrEmpty(model.SaleAttrValue))
-                {
-                    string[] attrs = model.SaleAttrValue.Split(',');
-                    foreach (string attrid in attrs)
-                    {
-                        if (!string.IsNullOrEmpty(attrid))
-                        {
-                            var attr = new ProductsBusiness().GetAttrByID(attrid.Split(':')[0]);
-                            var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
-                            if (attr != null && value != null)
-                            {
-                                model.SaleAttrValueString += attr.AttrName + "：" + value.ValueName + "，";
-                            }
-                        }
-                    }
-                    if (model.SaleAttrValueString.Length > 0)
-                    {
-                        model.SaleAttrValueString = model.SaleAttrValueString.Substring(0, model.SaleAttrValueString.Length - 1);
-                    }
-                }
                 list.Add(model);
             }
             return list;
@@ -904,27 +861,7 @@ namespace IntFactoryBusiness
             {
                 ProductDetail model = new ProductDetail();
                 model.FillData(dr);
-                model.SaleAttrValueString = "";
-                if (!string.IsNullOrEmpty(model.SaleAttrValue))
-                {
-                    string[] attrs = model.SaleAttrValue.Split(',');
-                    foreach (string attrid in attrs)
-                    {
-                        if (!string.IsNullOrEmpty(attrid))
-                        {
-                            var attr = new ProductsBusiness().GetAttrByID(attrid.Split(':')[0]);
-                            var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
-                            if (attr != null && value != null)
-                            {
-                                model.SaleAttrValueString += attr.AttrName + "：" + value.ValueName + "，";
-                            }
-                        }
-                    }
-                    if (model.SaleAttrValueString.Length > 0)
-                    {
-                        model.SaleAttrValueString = model.SaleAttrValueString.Substring(0, model.SaleAttrValueString.Length - 1);
-                    }
-                }
+
                 list.Add(model);
             }
             return list;

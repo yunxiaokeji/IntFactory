@@ -235,13 +235,17 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateStorageStatus", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool AuditStorageIn(string docid, string userid, string operateip, string agentid, string clientid, ref int result, ref string errinfo)
+        public bool AuditStorageIn(string docid, int doctype, int isover, string details, string remark, string userid, string operateip, string agentid, string clientid, ref int result, ref string errinfo)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@Result",SqlDbType.Int),
                                      new SqlParameter("@ErrInfo",SqlDbType.NVarChar,500),
                                      new SqlParameter("@DocID",docid),
                                      new SqlParameter("@BillingCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
+                                     new SqlParameter("@DocType",doctype),
+                                     new SqlParameter("@IsOver",isover),
+                                     new SqlParameter("@ProductsDetails",details),
+                                     new SqlParameter("@Remark",remark),
                                      new SqlParameter("@UserID",userid),
                                      new SqlParameter("@OperateIP",operateip),
                                      new SqlParameter("@AgentID",agentid),

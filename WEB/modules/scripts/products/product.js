@@ -179,7 +179,7 @@ define(function (require, exports, module) {
                         model.ids = _attr.data("id") + ":" + _value.val();
                         model.saleAttr = _attr.data("id");
                         model.attrValue = _value.val();
-                        model.names = _attr.data("text") + ":" + _value.data("text");
+                        model.names = "[" + _attr.data("text") + ":" + _value.data("text") + "]";
                         model.layer = 1;
                         model.guid = Global.guid();
                         details.push(model);
@@ -190,7 +190,7 @@ define(function (require, exports, module) {
                                 model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
                                 model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
                                 model.attrValue = attrdetail[i].attrValue + "," + _value.val();
-                                model.names = attrdetail[i].names + "," + _attr.data("text") + ":" + _value.data("text");
+                                model.names = attrdetail[i].names + "[" + _attr.data("text") + ":" + _value.data("text") + "]";
                                 model.layer = attrdetail[i].layer + 1;
                                 model.guid = Global.guid();
                                 details.push(model);
@@ -325,7 +325,7 @@ define(function (require, exports, module) {
                     Weight: 0,
                     Price: _this.find(".price").val(),
                     BigPrice: _this.find(".price").val(),//(Product.SmallUnitID != Product.BigUnitID ? _this.find(".bigprice").val() : _this.find(".price").val()) * Product.BigSmallMultiple,
-                    Description: ""
+                    Description: _this.data("desc")
                 };
                 details.push(modelDetail);
             });
@@ -449,24 +449,24 @@ define(function (require, exports, module) {
         });
 
         //供应商
-        require.async("dropdown", function () {
-            Global.post("/Purchase/GetAllProviders", {}, function (data) {
-                $("#prodiver").dropdown({
-                    prevText: "供应商-",
-                    defaultText: "全部",
-                    defaultValue: "",
-                    data: data.items,
-                    dataValue: "ProviderID",
-                    dataText: "Name",
-                    width: "180",
-                    onChange: function (data) {
-                        Params.PageIndex = 1;
-                        Params.ProviderID = data.value;
-                        _self.getList();
-                    }
-                });
-            })
-        });
+        //require.async("dropdown", function () {
+        //    Global.post("/Products/GetAllProviders", {}, function (data) {
+        //        $("#prodiver").dropdown({
+        //            prevText: "供应商-",
+        //            defaultText: "全部",
+        //            defaultValue: "",
+        //            data: data.items,
+        //            dataValue: "ProviderID",
+        //            dataText: "Name",
+        //            width: "180",
+        //            onChange: function (data) {
+        //                Params.PageIndex = 1;
+        //                Params.ProviderID = data.value;
+        //                _self.getList();
+        //            }
+        //        });
+        //    })
+        //});
 
         //按时间排序
         $(".orderby-new").click(function () {
@@ -802,7 +802,7 @@ define(function (require, exports, module) {
                             attrlist += _this.data("id") + ",";
                             valuelist += _this.find("select").val() + ",";
                             attrvaluelist += _this.data("id") + ":" + _this.find("select").val() + ",";
-                            //desc += "[" + _this.find(".column-name").html() + _this.find("select option:selected").text() + "]";
+                            desc += "[" + _this.find("span").html() + _this.find("select option:selected").text() + "]";
                         });
 
                         var Model = {

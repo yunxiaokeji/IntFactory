@@ -35,6 +35,8 @@ namespace IntFactoryEnum
         All = -1,
         [DescriptionAttribute("采购单")]
         RK = 1,
+        [DescriptionAttribute("入库明细")]
+        RKDetail = 101,
         [DescriptionAttribute("出库单")]
         CK = 2,
         [DescriptionAttribute("报损单")]
@@ -50,11 +52,7 @@ namespace IntFactoryEnum
         [DescriptionAttribute("订单")]
         Order = 11,
         [DescriptionAttribute("任务")]
-        Task = 12,
-        [DescriptionAttribute("代理商订单")]
-        AgentsOrder = 21,
-        [DescriptionAttribute("统计用-账单")]
-        Billing = 111
+        Task = 12
     }
 
     /// <summary>
@@ -82,10 +80,7 @@ namespace IntFactoryEnum
         SGCK = 7,
         [DescriptionAttribute("车缝单")]
         Sewn = 11,
-        [DescriptionAttribute("代理商订单")]
-        AgentsOrder = 21,
-        [DescriptionAttribute("统计用-账单")]
-        Billing = 111
+        
     }
     /// <summary>
     /// 单据状态

@@ -5,8 +5,8 @@
 
 @section scripts{
     <script type="text/javascript">
-        seajs.use(["scripts/purchase/purchases"], function (obj) {
-            obj.initDetail('@(model.DocID)','@(model.WareID)');
+        seajs.use(["scripts/products/purchases"], function (obj) {
+            obj.initDetail('@(model.DocID)','@Html.ToJSONString(model)');
         });
     </script>
 }
@@ -18,6 +18,7 @@
     <div class="content-title">
         <span class="titlename">单据编号：@(model.DocCode)</span>
     </div>
+    
     <ul class="content-info">
         <li><span class="column-title">总金额：</span>@(model.TotalMoney.ToString("f2"))</li>
         <li><span class="column-title">状态：</span>@(model.StatusStr)</li>
@@ -30,6 +31,10 @@
         <ul class="tab-nav-ul left">
             <li class="hover" data-id="navRemark">材料明细</li>
         </ul>
+         @if (model.Status < 2)
+        {
+            <input type="button" class="btn right" id="btnconfirm" value="审核入库" />
+        }
     </div>
     <table class="table-list mTop20">
         <tr class="tr-header">
@@ -41,28 +46,25 @@
             <td class="center">供应商</td>
             <td class="tRight">采购价</td>
             <td class="center">数量</td>
+            <td class="center">已入库</td>
             <td class="tRight">小计</td>
         </tr>
         @foreach (var item in model.Details)
         { 
             <tr class="item" data-id="@(item.AutoID)" >
-                <td class="width50"><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" onerror="$(this).attr('src','/modules/images/img-noimg.png')" target="_blank"><img src="@(item.Imgs)" /></a></td>
+                <td class="width50"><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" onerror="$(this).attr('src','/modules/images/img-noimg.png')" target="_blank">
+                    <img src="@(string.IsNullOrEmpty( item.Imgs)?item.ProductImage:item.Imgs)" /></a>
+                </td>
                 <td><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" target="_blank">@(item.ProductName)</a></td>
-                <td class="center">@(item.ProductCode)</td>
+                <td class="center">@(string.IsNullOrEmpty(item.DetailsCode)? item.ProductCode:item.DetailsCode)</td>
                 <td>@(item.Remark)</td>
                 <td class="center">@(item.UnitName)</td>
                 <td class="center">@(item.Providers!=null?item.Providers.Name:"")</td>
                 <td class=" tRight">@(item.Price.ToString("f2"))</td>
-                <td class="center">@(item.Quantity)</td>
+                <td class="center">@(item.Quantity.ToString("f2"))</td>
+                <td class="center">@(item.Complete.ToString("f2"))</td>
                 <td class="tRight">@(item.TotalMoney.ToString("f2"))</td>
             </tr>
         }
     </table>
-    <div class="mTop20">
-        
-        @if (model.Status < 2)
-        {
-            <input type="button" class="btn" id="btnconfirm" value="审核入库" />
-        }
-    </div>
 </div>

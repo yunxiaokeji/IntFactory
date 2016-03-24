@@ -33,7 +33,7 @@ define(function (require, exports, module) {
                                 ProductDetailID: products[i].did,
                                 BatchCode: products[i].batch,
                                 DepotID: products[i].depotid,
-                                SaleAttrValueString: products[i].remark,
+                                Description: products[i].remark,
                             });
                         }
                         entity.Products = items;
@@ -98,7 +98,7 @@ define(function (require, exports, module) {
         //删除产品
         $(".ico-del").click(function () {
             var _this = $(this);
-            confirm("确认从购物车移除此产品吗？", function () {
+            confirm("确认从采购清单中移除此材料吗？", function () {
                 Global.post("/ShoppingCart/DeleteCart", {
                     autoid: _this.data("id")
                 }, function (data) {

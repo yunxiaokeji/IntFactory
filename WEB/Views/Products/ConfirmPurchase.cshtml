@@ -1,17 +1,17 @@
 ﻿@{
-    ViewBag.Title = "新建采购单";
+    ViewBag.Title = "提交采购单";
     var ware = (IntFactoryEntity.WareHouse)ViewBag.Ware;
 }
 
 @section scripts{
     <script type="text/javascript">
-        seajs.use(["scripts/purchase/confirmpurchase"], function (obj) {
+        seajs.use(["scripts/products/confirmpurchase"], function (obj) {
             obj.init('@(ware.WareID)');
         });
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">新建采购单</span>
+    <span class="header-title left">提交采购单</span>
 </div>
 <div class="content-body mTop20">
      <ul class="table-add">
@@ -47,7 +47,10 @@
         @foreach (var model in (List<IntFactoryEntity.ProductDetail>)ViewBag.Items)
         { 
             <tr class="item cart-item" data-autoid="@(model.AutoID)" data-id="@(model.ProductDetailID)" >
-                <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@(model.ImgS)" /></a></td>
+                <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">
+                    <img onerror="$(this).attr('src','/modules/images/img-noimg.png')"  src="@(string.IsNullOrEmpty( model.ImgS)?model.ProductImage:model.ImgS)" />
+                    </a>
+                </td>
                 <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
                 <td>@(model.Description)</td>
                 <td>@(model.ProviderName)</td>

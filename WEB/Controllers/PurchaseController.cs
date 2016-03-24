@@ -120,12 +120,12 @@ namespace YXERP.Controllers
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public JsonResult AuditPurchase(string docid)
+        public JsonResult AuditPurchase(string docid, int doctype, int isover, string details, string remark)
         {
             int result = 0;
             string errinto = "";
-            bool bl = new StockBusiness().AuditStorageIn(docid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, ref result, ref errinto);
-            JsonDictionary.Add("Status", bl);
+            bool bl = new StockBusiness().AuditStorageIn(docid, doctype, isover, details, remark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, ref result, ref errinto);
+            JsonDictionary.Add("status", bl);
             return new JsonResult
             {
                 Data = JsonDictionary,

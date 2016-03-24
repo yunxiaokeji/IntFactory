@@ -74,7 +74,7 @@ namespace YXERP.Controllers
             var bl = false;
             foreach (var product in model.Products)
             {
-                if (ShoppingCartBusiness.AddShoppingCartBatchOut(product.ProductID, product.ProductDetailID, 1, product.BatchCode, product.DepotID, model.type, product.SaleAttrValueString, model.guid, CurrentUser.UserID, OperateIP))
+                if (ShoppingCartBusiness.AddShoppingCartBatchOut(product.ProductID, product.ProductDetailID, 1, product.BatchCode, product.DepotID, model.type, product.Description, model.guid, CurrentUser.UserID, OperateIP))
                 {
                     bl = true;
                 }
@@ -95,7 +95,7 @@ namespace YXERP.Controllers
             var bl = false;
             foreach (var product in model.Products)
             {
-                if (ShoppingCartBusiness.AddShoppingCartBatchIn(product.ProductID, product.ProductDetailID, 1, model.type, product.SaleAttrValueString, model.guid, CurrentUser.UserID, OperateIP))
+                if (ShoppingCartBusiness.AddShoppingCartBatchIn(product.ProductID, product.ProductDetailID, 1, model.type, product.Description, model.guid, CurrentUser.UserID, OperateIP))
                 {
                     bl = true;
                 }
