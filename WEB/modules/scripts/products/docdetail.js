@@ -14,6 +14,7 @@ define(function (require, exports, module) {
     ObjectJS.init = function (docID) {
         var _self = this;
         Params.docID = docID;
+        _self.docid=docID;
         _self.bindEvent();
         
     }
@@ -30,9 +31,31 @@ define(function (require, exports, module) {
             if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getList();
-            } 
+            } else if (_this.data("id") == "navStorageIn" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getDocList();
+            }
+            
         });
     }
+    ObjectJS.getDocList = function () {
+        var _self = this;
+        $(".log-body").empty();
+        var url = "/Purchase/GetPurchasesDetails",
+            template = "template/purchase/audit_details.html";
+
+
+        Global.post(url, {
+            docid: _self.docid
+        }, function (data) {
+            doT.exec(template, function (templateFun) {
+                var innerText = templateFun(data.items);
+                innerText = $(innerText);
+                $("#navStorageIn").append(innerText);
+            });
+        });
+    }
+
     //获取单据列表
     ObjectJS.getList = function () {
         var _self = this;

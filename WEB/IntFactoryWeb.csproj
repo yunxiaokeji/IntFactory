@@ -307,6 +307,7 @@
     <Content Include="modules\template\orders\send_orders.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />
+    <Content Include="modules\template\purchase\audit_details.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\task\task-list.html" />
@@ -637,7 +638,7 @@
     <Content Include="modules\scripts\products\providers.js" />
     <Content Include="modules\scripts\products\purchases.js" />
     <Content Include="modules\scripts\products\confirmpurchase.js" />
-    <Content Include="modules\scripts\purchase\docdetail.js" />
+    <Content Include="modules\scripts\products\docdetail.js" />
     <Content Include="modules\scripts\customerrpt\sourcerpt.js" />
     <Content Include="modules\scripts\salesrpt\opportunitystagerpt.js" />
     <Content Include="modules\scripts\salesrpt\ordermaprpt.js" />

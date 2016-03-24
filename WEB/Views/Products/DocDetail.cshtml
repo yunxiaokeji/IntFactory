@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "/Views/Shared/_LayoutContent.cshtml";
     var model = (IntFactoryEntity.StorageDoc)ViewBag.Model;
-    ViewBag.Title = "采购单详情";
+    ViewBag.Title = model.DocType == 1 ? "采购单详情" : "采购单入库明细";
 }
 <style>
     /*样图信息*/
@@ -13,13 +13,13 @@
 </style>
 @section scripts{
     <script type="text/javascript">
-        seajs.use(["scripts/purchase/docdetail"], function (obj) {
+        seajs.use(["scripts/products/docdetail"], function (obj) {
             obj.init('@(model.DocID)');
         });
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">采购单详情</span>
+    <span class="header-title left">@(model.DocType == 1 ? "采购单详情" : "采购单入库明细")</span>
 </div>
 <div class="content-body mTop20">
     <div class="content-title">
@@ -42,7 +42,11 @@
     <div class="clear"></div>
      <div class="tab-nav mTop30">
         <ul class="tab-nav-ul left">
-            <li class="hover " data-id="navProduct">材料明细</li>
+            <li class="hover " data-id="navProduct">采购明细</li>
+            @if(model.DocType==1)
+            {
+              <li data-id="navStorageIn">入库明细</li>
+            }
             @*<li data-id="navLog">操作日志</li>*@
         </ul>
     </div>
@@ -55,6 +59,10 @@
             <td class="">供应商-联系人-联系电话</td>
             <td class="tRight">采购价</td>
             <td class="center">数量</td>
+            @if(model.DocType==1)
+            {
+              <td class="center">已入库</td>
+            }
             <td class="tRight">小计</td>
         </tr>
         @foreach (var item in model.Details)
@@ -72,6 +80,10 @@
                 </td>
                 <td class="tRight">@(item.Price.ToString("f2"))</td>
                 <td class="center">@(item.Quantity.ToString("f2"))</td>
+                @if(model.DocType==1)
+                {
+                  <td class="center">@(item.Complete.ToString("f2"))</td>
+                }
                 <td class="tRight">@(item.TotalMoney.ToString("f2"))</td>
             </tr>
         }
@@ -81,6 +93,10 @@
             <td></td>
             <td></td>
             <td></td>
+            @if(model.DocType==1)
+            {
+              <td></td>
+            }
             <td></td>
             <td class="tRight">合计：</td>
             <td class="tRight">@(model.TotalMoney.ToString("f2"))</td>
@@ -92,5 +108,14 @@
         </div>
         <div class="mTop20" id="pager"></div>
     </div>
+
+    <table id="navStorageIn" class="nav-partdiv table-list mTop20 hide">
+        <tr class="tr-header">
+            <td class="tLeft">单号</td>
+            <td class="">总金额</td>
+            <td class="width150">操作人</td>
+            <td class="width200">操作日期</td>
+        </tr>
+    </table>
     
 </div>

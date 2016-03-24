@@ -65,6 +65,18 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
+        public JsonResult GetPurchasesDetails(string docid)
+        {
+            List<StorageDoc> list = StockBusiness.GetStorageDocDetails(docid);
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         /// <summary>
         ///  删除单据
         /// </summary>
