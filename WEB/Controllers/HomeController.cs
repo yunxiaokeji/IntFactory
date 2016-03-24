@@ -316,7 +316,7 @@ namespace YXERP.Controllers
                     //未注销
                     if (model.Status.Value != 9)
                     {
-                        model.MDToken = userToken.access_token;
+                        model.AliToken = userToken.access_token;
                         Session["ClientManager"] = model;
                         AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanToken(model.ClientID, userToken.access_token, userToken.refresh_token);
 
@@ -329,7 +329,6 @@ namespace YXERP.Controllers
                 else
                 {
                     Session["AliTokenInfo"] = userToken.access_token + "|" + userToken.refresh_token + "|" + userToken.memberId;
-                    
                     return Redirect("/Home/BindAccount");
                     //int result = 0;
                     //var memberResult = AlibabaSdk.UserBusiness.GetMemberDetail(userToken.access_token, userToken.memberId);
@@ -411,12 +410,11 @@ namespace YXERP.Controllers
                                     bool flag = AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(model.UserID, memberId, access_token, refresh_token, model.AgentID, model.ClientID);
                                     if (flag)
                                     {
-                                        flag = OrganizationBusiness.BindAccountAliMember(model.UserID, memberId, model.AgentID);
+                                        flag = ClientBusiness.BindClientAliMember(model.ClientID, model.UserID, memberId);
                                         if (flag)
                                         {
-                                            ClientBusiness.BindClientAliMember(model.ClientID, memberId);
-
                                             model.AliToken = access_token;
+                                            model.AliMemberID = memberId;
                                             Session.Remove("AliTokenInfo");
                                         }
                                     }

@@ -151,9 +151,9 @@ namespace IntFactoryBusiness.Manage
             return clientid;
         }
 
-        public static bool BindClientAliMember(string clientID, string memberID) {
+        public static bool BindClientAliMember(string clientID,string userID, string memberID) {
 
-            bool flag= ClientDAL.BaseProvider.BindClientAliMember(clientID, memberID);
+            bool flag= ClientDAL.BaseProvider.BindClientAliMember(clientID,userID, memberID);
 
             if (flag) {
                 if (Clients.ContainsKey(clientID))
