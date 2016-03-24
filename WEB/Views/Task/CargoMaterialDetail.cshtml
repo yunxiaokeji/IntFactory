@@ -224,7 +224,7 @@
                     if (model.FinishStatus > 0 && order.Status < 6 && order.PurchaseStatus == 0)
                     {
                         if( string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010104")) ){
-                        <a href="javascript:void(0);"  id="btnEffectiveOrderProduct" class="btn right mTop10 ">生产采购单</a>
+                        <a href="javascript:void(0);"  id="btnEffectiveOrderProduct" class="btn right mTop10 ">生成采购单</a>
                         }
                         if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101"))){
                         <a href="/Customer/ChooseProducts?id=@(model.OrderID)&tid=@(model.TaskID)" id="btn-addMaterial" class="btn right mTop10 mRight10">添加材料</a>

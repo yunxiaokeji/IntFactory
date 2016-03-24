@@ -416,7 +416,15 @@ namespace YXERP.Controllers
                                             model.AliToken = access_token;
                                             model.AliMemberID = memberId;
                                             Session.Remove("AliTokenInfo");
+
+                                            Session["ClientManager"] = model;
+                                            
+                                            result = 1;
                                         }
+                                    }
+                                    else
+                                    {
+                                        AliOrderBusiness.BaseBusiness.DeleteAliOrderDownloadPlan(model.ClientID);
                                     }
                                 }
                             }
@@ -426,14 +434,13 @@ namespace YXERP.Controllers
                             }
 
                         }
-                        else {
+                        else 
+                        {
                             result = 5;
                         }
                     }
 
-                    Session["ClientManager"] = model;
                     Common.Common.CachePwdErrorUsers.Remove(userName);
-                    result = 1;
                 }
                 else
                 {
