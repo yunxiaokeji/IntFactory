@@ -239,15 +239,15 @@ namespace YXERP.Controllers
             int result = 0;
             bool flag = true;
 
-            if (orderType == 2)
-            {
-                OrdersBusiness.BaseBusiness.EffectiveOrderProduct(orderID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
-                if (result != 1)
-                {
-                    flag = false;
-                    result = -1;
-                }
-            }
+            //if (orderType == 2)
+            //{
+            //    OrdersBusiness.BaseBusiness.EffectiveOrderProduct(orderID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            //    if (result != 1)
+            //    {
+            //        flag = false;
+            //        result = -1;
+            //    }
+            //}
 
             if(flag)
                 TaskBusiness.FinishTask(taskID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID,out result);
