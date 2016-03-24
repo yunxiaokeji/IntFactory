@@ -183,7 +183,7 @@
                         <td class="">消耗量</td>
                         <td class="tRight">小计</td>
 
-                        @{if ((model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
+                        @{if ((model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")) )
                           {
                             <td class="">删除</td>
                           }}

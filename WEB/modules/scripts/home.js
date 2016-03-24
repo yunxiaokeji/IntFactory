@@ -18,7 +18,11 @@ define(function (require, exports, module) {
 
     var Home = {};
     //登陆初始化
-    Home.initLogin = function (status) {
+    Home.initLogin = function (status, fromBindAccount) {
+        Home.fromBindAccount = 0;
+        if (fromBindAccount)
+            Home.fromBindAccount = 1;
+
         Home.placeholderSupport();
         if (status == 2) {
             alert("您的账号已在其它地点登录，如不是本人操作，请及时通知管理员对账号冻结！");
@@ -51,7 +55,8 @@ define(function (require, exports, module) {
             Global.post("/Home/UserLogin", {
                 userName: $("#iptUserName").val(),
                 pwd: $("#iptPwd").val(),
-                remember: $(".cb-remember-password").hasClass("ico-checked") ? 1 : 0
+                remember: $(".cb-remember-password").hasClass("ico-checked") ? 1 : 0,
+                fromBindAccount: Home.fromBindAccount
             },
             function (data)
             {
@@ -71,18 +76,19 @@ define(function (require, exports, module) {
                 else if (data.result == 3) {
                     $(".registerErr").html("账号或密码有误,您还有" + (3 - parseInt( data.errorCount) ) + "错误机会").slideDown();
                 }
+                else if (data.result == 4) {
+                    $(".registerErr").html("该系统已绑定过阿里账户,不能再绑定");
+                }
+                else if (data.result == 5) {
+                    alert("请重新阿里授权");
+                    setTimeout(function () { location.href = "/home/login"; }, 500);
+                }
                 else if (data.result == -1)
                 {
                     $(".registerErr").html("账号已冻结，请" + data.forbidTime + "分钟后再试").slideDown();
                 }
             });
         });
-
-        //if (!$("#iptUserName").val()) {
-        //    $("#iptUserName").focus();
-        //} else {
-        //    $("#iptPwd").focus();
-        //}
 
         //记录密码
         $(".cb-remember-password").click(function () {
@@ -93,7 +99,6 @@ define(function (require, exports, module) {
                 _this.removeClass("ico-checked").addClass("ico-check");
             }
         });
-
 
         $(".txtBoxPassword").click(function () {
             $(this).hide();

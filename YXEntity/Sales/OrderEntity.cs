@@ -207,6 +207,8 @@ namespace IntFactoryEntity
 
         public int SendStatus { get; set; }
 
+        public int PurchaseStatus { get; set; }
+
         public string SendStatusStr { get; set; }
 
         public int ReplyTimes { get; set; }

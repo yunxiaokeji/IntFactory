@@ -16,6 +16,7 @@
 *.tlb
 *.tlh
 *.bak
+*.csproj
 *.cache
 *.ilk
 *.log

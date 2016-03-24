@@ -1,0 +1,57 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="UTF-8">
+    <meta content="供应链管理，智能工厂，流程管理，服装可视化管理" name="keywords">
+    <meta content="中国市场最通用的智能工厂服装可视化管理平台，供应链管理，功能强大，2016年开始运营" name="description">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <title>智能工厂-厂盟科技</title>
+    <link href="/modules/css/layout.css" rel="stylesheet" />
+    <link href="/modules/css/home/login.css" rel="stylesheet" />
+    <link href="/modules/css/base.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="/modules/images/logo_login.png">
+    <script src="/Scripts/sea.js"></script>
+    <script src="/Scripts/sea-config.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/home"], function (home) {
+            home.initLogin('@(ViewBag.Status)',1);
+        });
+    </script>
+</head>
+<body>
+    <div class="login-body">
+        <div class="login-header">
+            <div class="left header-logo" onclick="location.href='http://www.intfactory.cn/'">
+                <div class="left"><img src="/modules/images/logo_login.png"  style="width:26px;"/></div>
+                <div class="left headerTitle">厂盟科技</div>
+                <div class="clear"></div>
+            </div>
+       </div>
+
+        <div class="main">
+             <div class="loginTitle">绑定已有账户</div>
+            <div class="login">
+                <div class="registerErr hide"></div>
+
+                <div class="loginbar">
+                    <input type="text" class="input icoUserName" id="iptUserName" placeholder="请输入账号" value="@ViewBag.UserName" maxlength="25"/>
+                </div>
+                <div class="loginbar" style="position:relative;">
+                    <input type="password" class="input icoUserPwd" id="iptPwd"/>
+                    <div class="txtBoxPassword">请输入密码</div>
+                </div>
+
+                <div class="btnLogin" id="btnLogin">绑定</div>
+                <a href="/Home/AliRegisterMember" class="btnNoLogin mTop15">不绑定账户,直接进入系统</a>
+            </div>
+        </div>
+        <div class="copyright">
+            Copyright©2016-2017，备案号：浙ICP16001314  技术支持 <a href="http://www.yunxiaokeji.com/">云销科技</a>
+        </div>
+    </div>
+</body>
+</html>

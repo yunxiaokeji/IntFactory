@@ -44,14 +44,24 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult BindAccount()
+        {
+            if (Session["AliTokenInfo"] == null)
+            {
+                return Redirect("/Home/Login");
+            }
+
+            return View();
+        }
+
         public ActionResult Login(string ReturnUrl, int Status = 0)
         {
             //return Redirect(AlibabaSdk.Business.OauthBusiness.GetAuthorizeUrl());
 
-            if (Session["ClientManager"] != null)
-            {
-                return Redirect("/Home/Index");
-            }
+            //if (Session["ClientManager"] != null)
+            //{
+            //    return Redirect("/Home/Index");
+            //}
             HttpCookie cook = Request.Cookies["cloudsales"];
             if (cook != null)
             {
@@ -293,12 +303,13 @@ namespace YXERP.Controllers
             //var member = AlibabaSdk.UserBusiness.GetMemberDetail(userToken.access_token, userToken.memberId);
             //return new JsonResult()
             //{
-            //    Data = member,
+            //    Data = userToken,
             //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
             //};
+
             if (userToken.error_code <= 0)
             {
-                var model = OrganizationBusiness.GetUserByMDUserID(userToken.memberId, operateip);
+                var model = OrganizationBusiness.GetUserByAliMemberID(userToken.memberId, operateip);
                 //已注册云销账户
                 if (model != null)
                 {
@@ -317,31 +328,33 @@ namespace YXERP.Controllers
                 }
                 else
                 {
-                    int result = 0;
-                    var memberResult = AlibabaSdk.UserBusiness.GetMemberDetail(userToken.access_token, userToken.memberId);
-                    var member = memberResult.result.toReturn[0];
+                    Session["AliTokenInfo"] = userToken.access_token + "|" + userToken.refresh_token + "|" + userToken.memberId;
+                    
+                    return Redirect("/Home/BindAccount");
+                    //int result = 0;
+                    //var memberResult = AlibabaSdk.UserBusiness.GetMemberDetail(userToken.access_token, userToken.memberId);
+                    //var member = memberResult.result.toReturn[0];
 
-                    Clients clientModel = new Clients();
-                    clientModel.CompanyName = member.companyName;
-                    clientModel.ContactName = member.sellerName;
-                    clientModel.MobilePhone = string.Empty;
+                    //Clients clientModel = new Clients();
+                    //clientModel.CompanyName = member.companyName;
+                    //clientModel.ContactName = member.sellerName;
+                    //clientModel.MobilePhone = string.Empty;
 
-                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result, member.email, member.memberId, string.Empty);
-                    if (!string.IsNullOrEmpty(clientid))
-                    {
+                    //var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result, member.email, string.Empty, string.Empty, member.memberId);
+                    //if (!string.IsNullOrEmpty(clientid))
+                    //{
+                    //    var current = OrganizationBusiness.GetUserByAliMemberID(member.memberId, operateip);
 
-                        var current = OrganizationBusiness.GetUserByMDUserID(member.memberId, operateip);
+                    //    AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, userToken.access_token, userToken.refresh_token, current.AgentID, current.ClientID);
 
-                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, userToken.access_token, userToken.refresh_token, current.AgentID, current.ClientID);
+                    //    current.MDToken = userToken.access_token;
+                    //    Session["ClientManager"] = current;
 
-                        current.MDToken = userToken.access_token;
-                        Session["ClientManager"] = current;
-
-                        if (string.IsNullOrEmpty(state))
-                            return Redirect("/Home/Index");
-                        else
-                            return Redirect(state);
-                    }
+                    //    if (string.IsNullOrEmpty(state))
+                    //        return Redirect("/Home/Index");
+                    //    else
+                    //        return Redirect(state);
+                    //}
 
                 }
             }
@@ -355,7 +368,7 @@ namespace YXERP.Controllers
         /// <param name="userName"></param>
         /// <param name="pwd"></param>
         /// <returns></returns>
-        public JsonResult UserLogin(string userName, string pwd, string remember)
+        public JsonResult UserLogin(string userName, string pwd, string remember, int fromBindAccount)
         {
             int result = 0;
             Dictionary<string, object> resultObj = new Dictionary<string, object>();
@@ -365,7 +378,7 @@ namespace YXERP.Controllers
 
             if (pwdErrorUser == null || (pwdErrorUser.ErrorCount < 3 && pwdErrorUser.ForbidTime<DateTime.Now) )
             {
-                string operateip = string.IsNullOrEmpty(Request.Headers.Get("X-Real-IP")) ? Request.UserHostAddress : Request.Headers["X-Real-IP"];
+                string operateip = Common.Common.GetRequestIP();
                 int outResult;
                 IntFactoryEntity.Users model = IntFactoryBusiness.OrganizationBusiness.GetUserByUserName(userName, pwd, out outResult, operateip);
                 if (model != null)
@@ -377,6 +390,48 @@ namespace YXERP.Controllers
                     cook["status"] = remember;
                     cook.Expires = DateTime.Now.AddDays(7);
                     Response.Cookies.Add(cook);
+
+                    //将阿里账户绑定到现有账户
+                    if (fromBindAccount == 1)
+                    {
+                        if (Session["AliTokenInfo"] != null)
+                        {
+                            var client = ClientBusiness.GetClientDetail(model.ClientID);
+                            if (string.IsNullOrEmpty(client.AliMemberID))
+                            {
+
+                                string tokenInfo = Session["AliTokenInfo"].ToString();
+                                string[] tokenArr = tokenInfo.Split('|');
+                                if (tokenArr.Length == 3)
+                                {
+                                    string access_token = tokenArr[0];
+                                    string refresh_token = tokenArr[1];
+                                    string memberId = tokenArr[2];
+
+                                    bool flag = AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(model.UserID, memberId, access_token, refresh_token, model.AgentID, model.ClientID);
+                                    if (flag)
+                                    {
+                                        flag = OrganizationBusiness.BindAccountAliMember(model.UserID, memberId, model.AgentID);
+                                        if (flag)
+                                        {
+                                            ClientBusiness.BindClientAliMember(model.ClientID, memberId);
+
+                                            model.AliToken = access_token;
+                                            Session.Remove("AliTokenInfo");
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                result = 4;
+                            }
+
+                        }
+                        else {
+                            result = 5;
+                        }
+                    }
 
                     Session["ClientManager"] = model;
                     Common.Common.CachePwdErrorUsers.Remove(userName);
@@ -428,7 +483,48 @@ namespace YXERP.Controllers
             };
         }
 
+        public ActionResult AliRegisterMember() {
 
+            string operateip = Common.Common.GetRequestIP();
+            int result;
+            if (Session["AliTokenInfo"] != null)
+            {
+                string tokenInfo = Session["AliTokenInfo"].ToString();
+                string[] tokenArr = tokenInfo.Split('|');
+                if (tokenArr.Length == 3)
+                {
+                    string access_token = tokenArr[0];
+                    string refresh_token = tokenArr[1];
+                    string memberId = tokenArr[2];
+
+                    var memberResult = AlibabaSdk.UserBusiness.GetMemberDetail(access_token,memberId);
+                    var member = memberResult.result.toReturn[0];
+
+                    Clients clientModel = new Clients();
+                    clientModel.CompanyName = member.companyName;
+                    clientModel.ContactName = member.sellerName;
+                    clientModel.MobilePhone = string.Empty;
+
+                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result,
+                        member.email,string.Empty,string.Empty,
+                        member.memberId);
+
+                    if (!string.IsNullOrEmpty(clientid))
+                    {
+                        var current = OrganizationBusiness.GetUserByAliMemberID(member.memberId, operateip);
+                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, access_token, refresh_token, current.AgentID, current.ClientID);
+
+                        current.MDToken = access_token;
+                        Session.Remove("AliTokenInfo");
+                        Session["ClientManager"] = current;
+
+                        return Redirect("/Home/Index");
+                    }
+                }
+            }
+
+            return Redirect("/Home/Login");
+        }
         /// <summary>
         /// 账号是否存在
         /// </summary>

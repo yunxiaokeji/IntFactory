@@ -176,7 +176,7 @@
                         <td class="tLeft">编码</td>
                         <td class="tLeft">规格</td>
                         <td class="width80">单位</td>
-                        <td class="tLeft">单价</td>
+                        <td >单价</td>
                         <td class="">消耗量</td>
                         <td class="">损耗量</td>
                         <td class="tRight">小计</td>
@@ -190,15 +190,19 @@
                                  <td>@(detail.ProductCode)</td>
                                 <td>@(detail.Remark)</td>
                                 <td class="center">@(detail.UnitName)</td>
-                                <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
+                                
                                 @{
-                                    <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
-                                    if ( model.FinishStatus > 0 && order.Status<6)
-                                    { 
+                                    
+                            if (model.FinishStatus > 0 && order.Status < 6 && order.PurchaseStatus == 0 && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
+                                    {
+                                       <td class="center tr-price"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Price.ToString("f2"))" class="price width50" value="@(detail.Price.ToString("f2"))" /></td>
+                                       <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
                                        <td class="center tr-loss"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Loss.ToString("f2"))" class="loss width50" value="@(detail.Loss.ToString("f2"))" /></td>
                                     }
                                     else
                                     {
+                                        <td class="tr-price center"><label class="price">@(detail.Price.ToString("f2"))</label></td>
+                                        <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
                                         <td class="center tr-loss">@(detail.Loss.ToString("f2"))</td>
                                          
                                     }
@@ -217,9 +221,15 @@
                 </table>
 
                 @{
-                    if (model.FinishStatus > 0 && order.Status < 6)
+                    if (model.FinishStatus > 0 && order.Status < 6 && order.PurchaseStatus == 0)
                     {
-                        <a href="/Customer/ChooseProducts?id=@(model.OrderID)&tid=@(model.TaskID)" id="btn-addMaterial" class="btn right mTop10">添加材料</a>
+                        if( string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010104")) ){
+                        <a href="javascript:void(0);"  id="btnEffectiveOrderProduct" class="btn right mTop10 ">生产采购单</a>
+                        }
+                        if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101"))){
+                        <a href="/Customer/ChooseProducts?id=@(model.OrderID)&tid=@(model.TaskID)" id="btn-addMaterial" class="btn right mTop10 mRight10">添加材料</a>
+                        }
+                       
                     }
                 }
                 <div class="clear"></div>

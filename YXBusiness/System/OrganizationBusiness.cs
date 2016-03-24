@@ -252,6 +252,68 @@ namespace IntFactoryBusiness
             return model;
         }
 
+        public static Users GetUserByAliMemberID(string aliMemberID, string operateip)
+        {
+            DataSet ds = new OrganizationDAL().GetUserByAliMemberID(aliMemberID);
+            Users model = null;
+            if (ds.Tables.Contains("User") && ds.Tables["User"].Rows.Count > 0)
+            {
+                model = new Users();
+                model.FillData(ds.Tables["User"].Rows[0]);
+
+                model.LogGUID = Guid.NewGuid().ToString();
+
+                model.Department = GetDepartmentByID(model.DepartID, model.AgentID);
+                model.Role = GetRoleByIDCache(model.RoleID, model.AgentID);
+                model.Client = Manage.ClientBusiness.GetClientDetail(model.ClientID);
+                //处理缓存
+                if (!Users.ContainsKey(model.AgentID))
+                {
+                    GetUsers(model.AgentID);
+                }
+                if (Users[model.AgentID].Where(u => u.UserID == model.UserID).Count() == 0)
+                {
+                    Users[model.AgentID].Add(model);
+                }
+                else
+                {
+                    var user = Users[model.AgentID].Where(u => u.UserID == model.UserID).FirstOrDefault();
+                    user.LogGUID = model.LogGUID;
+                }
+
+                //权限
+                if (model.Role != null && model.Role.IsDefault == 1)
+                {
+                    model.Menus = CommonBusiness.ClientMenus;
+                }
+                else
+                {
+                    model.Menus = new List<Menu>();
+                    foreach (DataRow dr in ds.Tables["Permission"].Rows)
+                    {
+                        Menu menu = new Menu();
+                        menu.FillData(dr);
+                        model.Menus.Add(menu);
+                    }
+                }
+            }
+            if (string.IsNullOrEmpty(operateip))
+            {
+                operateip = "";
+            }
+
+            //记录登录日志
+            if (model != null)
+            {
+                LogBusiness.AddLoginLog(aliMemberID, true, Manage.ClientBusiness.GetClientDetail(model.ClientID).AgentID == model.AgentID ? IntFactoryEnum.EnumSystemType.Client : IntFactoryEnum.EnumSystemType.Agent, operateip, model.UserID, model.AgentID, model.ClientID);
+            }
+            else
+            {
+                LogBusiness.AddLoginLog(aliMemberID, false, IntFactoryEnum.EnumSystemType.Client, operateip, "", "", "");
+            }
+            return model;
+        }
+
         /// <summary>
         /// 获取用户信息
         /// </summary>
@@ -713,6 +775,23 @@ namespace IntFactoryBusiness
             return flag;
         }
 
+        public static bool BindAccountAliMember(string userid, string memberid, string agentid)
+        {
+
+            bool flag = OrganizationDAL.BaseProvider.BindAccountAliMember(userid, memberid);
+
+            //清除缓存
+            if (flag)
+            {
+                if (Users.ContainsKey(agentid))
+                {
+                    List<Users> users = Users[agentid];
+                    Users u = users.Find(m => m.UserID == userid);
+                    u.AliMemberID = memberid;
+                }
+            }
+            return flag;
+        }
         /// <summary>
         /// 清除账户的绑定手机
         /// </summary>

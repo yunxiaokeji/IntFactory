@@ -39,6 +39,16 @@ namespace IntFactoryDAL
 
         }
 
+        public DataSet GetUserByAliMemberID(string aliMemberID)
+        {
+            SqlParameter[] paras = { 
+                                    new SqlParameter("@AliMemberID",aliMemberID)
+                                   };
+            return GetDataSet("P_GetUserByAliMemberID", paras, CommandType.StoredProcedure, "User|Permission");//|Department|Role
+
+
+        }
+
         public DataTable GetUsers(string agentid)
         {
             string sql = "select * from Users where AgentID=@AgentID";
@@ -260,6 +270,18 @@ namespace IntFactoryDAL
             SqlParameter[] paras = { 
                                        new SqlParameter("@UserID",userid),
                                        new SqlParameter("@BindMobile",bindMobile)
+                                   };
+
+            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
+        }
+
+        public bool BindAccountAliMember(string userid, string memberid)
+        {
+            string sql = "update users set AliMemberID=@AliMemberID where UserID=@UserID";
+
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@UserID",userid),
+                                       new SqlParameter("@AliMemberID",memberid)
                                    };
 
             return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
