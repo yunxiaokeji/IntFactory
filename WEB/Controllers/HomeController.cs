@@ -418,7 +418,7 @@ namespace YXERP.Controllers
                                             Session.Remove("AliTokenInfo");
 
                                             Session["ClientManager"] = model;
-                                            
+
                                             result = 1;
                                         }
                                     }
@@ -434,10 +434,16 @@ namespace YXERP.Controllers
                             }
 
                         }
-                        else 
+                        else
                         {
                             result = 5;
                         }
+                    }
+                    else
+                    {
+                        Session["ClientManager"] = model;
+
+                        result = 1;
                     }
 
                     Common.Common.CachePwdErrorUsers.Remove(userName);
