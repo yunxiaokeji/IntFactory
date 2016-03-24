@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "任务详情";
+    ViewBag.Title = "制版任务详情";
     var model = (IntFactoryEntity.Task.TaskEntity)ViewBag.Model;
     var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
     var productAttr = (IntFactoryEntity.ProductAttr)ViewBag.ProductAttr;
@@ -25,7 +25,7 @@
                 obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)');
             });
 
-
+            
             var images = '@order.OrderImages'.split(",");
             for (var i = 0; i < images.length; i++) {
                 if (images[i]) {
@@ -69,7 +69,7 @@
                     else
                     {
                         <div class="left mLeft10">
-                        <input type="text" class="taskEndTime"  id="UpdateTaskEndTime"  placeholder="设置到期时间"/>
+                        <input type="text" class="taskEndTime"  id="UpdateTaskEndTime" value="" placeholder="设置到期时间"/>
                         </div>
                     }   
                 }
@@ -79,8 +79,9 @@
             @{if(model.FinishStatus==0){
                 <input type="button" class="btn" onclick="$(this).hide().prev().show()" id="AcceptTask" value="接受任务"/>
             }}
-        </div>
 
+            
+        </div>
         <div class="right mRight10">
             @{
                 if (model.FinishStatus == 1)
@@ -146,24 +147,24 @@
     <div id="navTask" class="talk-body nav-partdiv">
         <div class="tab-nav mTop10">
             <ul class="tab-nav-ul left">
-                <li class="hover" data-id="taskReplys" data-mark="0">讨论</li>
-                <li  data-id="navProducts" data-mark="@(order.OrderType==1?1:3)">材料</li>
-                <li data-id="platemakingContent" data-mark="2">制版</li>
+                <li data-id="taskReplys" data-mark="2">讨论</li>
+                <li  data-id="navProducts" data-mark="1">材料</li>
+                <li class="hover" data-id="platemakingContent" data-mark="-1">制版</li>
                 <li data-id="orderTaskLogs">日志</li>
             </ul>
         </div>
 
-        <div class="mTop50" id="taskReplys">
+        <div class="mTop50 hide" id="taskReplys">
             <div class="content-main">
                 <div class="replyBox">
-                    <textarea id="txtContent" class="replyContent" placeholder="发表评论"></textarea><br />
+                    <textarea id="txtContent" class="replyContent"  placeholder="发表评论"></textarea><br />
                     <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
                     <div class="clear"></div>
                 </div>
                 
             </div>
 
-            <div class="talk-title" style="width:800px;"> 全部讨论</div>
+            <div class="talk-title" style="width:800px;">全部讨论</div>
 
             <table class="content-list" id="replyList"></table>
 
@@ -179,7 +180,6 @@
                         <td class="width80">单位</td>
                         <td class="tLeft">单价</td>
                         <td class="">消耗量</td>
-                        <td class="">损耗量</td>
                         <td class="tRight">小计</td>
                     </tr>
 
@@ -192,32 +192,32 @@
                                 <td>@(detail.Remark)</td>
                                 <td class="center">@(detail.UnitName)</td>
                                 <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
-                                @{
-                                    <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
-                                    <td class="center tr-loss">@(detail.Loss.ToString("f2"))</td>
-                                    <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>   
-                           }
+                                <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>     
+                                <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
                             </tr>
                         }
                     }
 
                     <tr class="amount-item">
-                        <td colspan="6"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td class="tRight">成本合计：</td>
                         <td class="tRight"><label id="amount"></label></td>
-                        
                     </tr>
                 </table>
 
                 <div class="talk-title mTop20" style="width:800px;">材料讨论</div>
 
-                    <table class="content-list" id="replyListOfMaterial"></table>
+                <table class="content-list" id="replyListOfMaterial"></table>
 
                 <div id="pagerReplyOfMaterial" class="mTop10"></div>
-                <div class="clear"></div>
+
             </div>
 
-        <div class="platemakingContent hide" id="platemakingContent">
+        <div class="platemakingContent" id="platemakingContent">
             <div id="platemakingBody">
             @{
                 if (!string.IsNullOrEmpty(order.Platemaking))
@@ -234,28 +234,46 @@
                 }
             }
             </div>
-           
-
+            
+            @{
+                if ( (model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010102")))
+                {
+                    var hasPlate = !string.IsNullOrEmpty(order.Platemaking);
+                    if (string.IsNullOrEmpty(order.Platemaking))
+                    {
+                        <div class="create-first" id="btn-addTaskPlate">
+                            <span class="plus">+</span>
+                            添加制版
+                        </div>
+                    }
+                    <div class="btn right mTop10" style="display:@(hasPlate ? "block" : "none")" id="btn-updateTaskRemark">设置制版</div>
+                }
+            }
             <div class="clear"></div>
 
-            <div class="mTop20" style="width:800px;">
-                <div class="talk-title" >工艺说明</div>
-                <div class="edui-container mTop15">
-                    <div class="edui-editor-body">
-                        <div class="description  edui-body-container" id="PlateRemark"></div>
+            @{if ( (model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010103")))
+              {
+                  
+                <div class="content-main mTop20">
+                     <div class="talk-title mBottom10" >工艺说明</div>
+                    <textarea id="txtPlateRemark" class="txt-content"  placeholder="工艺说明"></textarea><br />
+                    <div class="btn right mTop5 " id="btn-updatePlateRemark">保存工艺说明</div>
+                    <div class="clear"></div>
+                </div>
+              } 
+              else
+              {
+                <div class="mTop20" style="width:800px;">
+                    <div class="talk-title" >工艺说明</div>
+                    <div class="edui-container mTop15">
+                        <div class="edui-editor-body">
+                            <div class="description  edui-body-container" id="PlateRemark"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            @{
-            if(order.OrderType==1)
-            {
-            <div class="talk-title mTop20" style="width:800px;">制版讨论</div>
-
-            <table class="content-list" id="replyListOfPlate"></table>
-
-            <div id="pagerReplyOfPlate" class="mTop10"></div>
-            }}
+            }
+            
+            }
 
         </div>
             

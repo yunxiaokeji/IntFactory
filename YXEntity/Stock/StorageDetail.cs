@@ -152,9 +152,15 @@ namespace IntFactoryEntity
 
         public string UnitName { get; set; }
 
+        public string ProductImage { get; set; }
+
         public string Imgs { get; set; }
 
         public string ProductCode { get; set; }
+
+        public string DetailsCode { get; set; }
+
+        public decimal Complete { get; set; }
 
         [Property("Lower")] 
         public string ProdiverID { get; set; }

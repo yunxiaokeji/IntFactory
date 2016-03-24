@@ -520,7 +520,7 @@ namespace IntFactoryBusiness
 
             var list = GetWareHouses(clientid);
 
-            if (list.Where(m => m.WareID == wareid).Count() > 0)
+            if (list.Where(m => m.WareID.ToLower() == wareid.ToLower()).Count() > 0)
             {
                 return list.Where(m => m.WareID == wareid).FirstOrDefault();
             }

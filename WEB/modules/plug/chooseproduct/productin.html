@@ -6,10 +6,10 @@
 %}
     <li>
         <span class="check ico-check mTop5" data-pid="{%=item.ProductID%}" data-did="{%=item.ProductDetailID%}" 
-             data-batch="" data-depotid="" data-remark="{%= item.SaleAttrValueString %}"></span>
+             data-batch="" data-depotid="" data-remark="{%= item.Description %}"></span>
         <span class="width50"><img src="{%=item.ImgS%}" /></span>
 		<span class="name long" title="{%=item.ProductName%}">{%=item.ProductName%}</span>
-        <span class="width150 long" title="{%= item.SaleAttrValueString %}">{%= item.SaleAttrValueString %}</span>
+        <span class="width150 long" title="{%= item.Description %}">{%= item.Description %}&nbsp;</span>
         <span class="width100 long">{%= item.Price.toFixed(2) %}</span>
         <span class="width150 long" title="{%= item.ProviderName %}">{%= item.ProviderName %}</span>
 	</li>

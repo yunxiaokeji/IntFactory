@@ -113,8 +113,6 @@ namespace IntFactoryEntity
 
         public string SaleAttrValue { get; set; }
 
-        public string SaleAttrValueString { get; set; }
-
         public string WareName { get; set; }
 
         public string ProductName { get; set; }
@@ -131,6 +129,8 @@ namespace IntFactoryEntity
 		#endregion Model
 
         public decimal LogicOut { get; set; }
+
+        public string Description { get; set; }
 
         public void FillData(System.Data.DataRow dr)
         {

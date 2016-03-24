@@ -977,7 +977,7 @@ define(function (require, exports, module) {
                                 } else if (data.result == "10001") {
                                     alert("您没有操作权限!")
                                 } else {
-                                    alert("发货成功！");
+                                    alert("发货失败！");
                                 }
                             });
                         } else {
@@ -1056,7 +1056,7 @@ define(function (require, exports, module) {
                             } else if (data.result == "10001") {
                                 alert("您没有操作权限!")
                             } else {
-                                alert("发货成功！");
+                                alert("发货失败！");
                             }
                         });
                     },

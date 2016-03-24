@@ -32,7 +32,7 @@ define(function (require, exports, module) {
                                 ProductDetailID: products[i].did,
                                 BatchCode: products[i].batch,
                                 DepotID: products[i].depotid,
-                                SaleAttrValueString: products[i].remark,
+                                Description: products[i].remark,
                             });
                         }
                         entity.Products = items;

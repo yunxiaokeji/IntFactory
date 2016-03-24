@@ -21,17 +21,16 @@ define(function (require, exports, module) {
     };
     var ObjectJS = {};
     //初始化
-    ObjectJS.init = function (type, wares, providers) {
+    ObjectJS.init = function (type, wares) {
         var _self = this;
         wares = JSON.parse(wares.replace(/&quot;/g, '"'));
-        providers = JSON.parse(providers.replace(/&quot;/g, '"'));
         Params.type = type;
-        _self.bindEvent(wares, providers);
+        _self.bindEvent(wares);
         _self.getList();
     }
 
     //绑定事件
-    ObjectJS.bindEvent = function (wares, providers) {
+    ObjectJS.bindEvent = function (wares) {
         var _self = this;
 
         $(document).click(function (e) {
@@ -66,23 +65,6 @@ define(function (require, exports, module) {
             Params.begintime = $("#BeginTime").val().trim();
             Params.endtime = $("#EndTime").val().trim();
             _self.getList();
-        });
-
-        require.async("dropdown", function () {
-            $("#providers").dropdown({
-                prevText: "供应商-",
-                defaultText: "全部",
-                defaultValue: "",
-                data: providers,
-                dataValue: "ProviderID",
-                dataText: "Name",
-                width: "180",
-                onChange: function (data) {
-                    Params.pageIndex = 1;
-                    Params.providerid = data.value;
-                    _self.getList();
-                }
-            });
         });
 
         //新建采购
@@ -213,10 +195,10 @@ define(function (require, exports, module) {
     }
 
     //审核页初始化
-    ObjectJS.initDetail = function (docid, wareid) {
+    ObjectJS.initDetail = function (docid, model) {
         var _self = this;
         _self.docid = docid;
-
+        _self.model = JSON.parse(model.replace(/&quot;/g, '"'));
         //Global.post("/System/GetDepotSeatsByWareID", { wareid: wareid }, function (data) {
         //    CacheDepot[wareid] = data.Items;
         //    $(".item").each(function () {
@@ -227,15 +209,73 @@ define(function (require, exports, module) {
 
         //审核入库
         $("#btnconfirm").click(function () {
-            confirm("确认审核采购单入库吗？", function () {
-                Global.post("/Purchase/AuditPurchase", { docid: docid }, function (data) {
-                    if (data.Status) {
-                        location.href = "/Products/Purchases";
-                    };
-                });
-            });
+            _self.auditStorageIn();
         })
     }
+
+    //发货
+    ObjectJS.auditStorageIn = function () {
+        var _self = this;
+        doT.exec("template/purchase/audit_storagein.html", function (template) {
+            var innerText = template(_self.model.Details);
+
+            Easydialog.open({
+                container: {
+                    id: "showAuditStorageIn",
+                    header: "采购单入库",
+                    content: innerText,
+                    yesFn: function () {
+                        var details = ""
+                        $("#showAuditStorageIn .list-item").each(function () {
+                            var _this = $(this);
+                            var quantity = _this.find(".quantity").val();
+                            if (quantity > 0) {
+                                details += _this.data("id") + "-" + quantity + ",";
+                            }
+                        });
+                        if (details.length > 0) {
+
+                            Global.post("/Purchase/AuditPurchase", {
+                                docid: _self.docid,
+                                doctype: 101,
+                                isover: $("#showAuditStorageIn .check").hasClass("ico-checked") ? 1 : 0,
+                                details: details,
+                                remark: $("#expressRemark").val().trim()
+                            }, function (data) {
+                                if (data.status) {
+                                    alert("入库成功!", location.href);
+                                } else if (data.result == "10001") {
+                                    alert("您没有操作权限!")
+                                } else {
+                                    alert("审核入库失败！");
+                                }
+                            });
+                        } else {
+                            alert("请输入采购入库数量！");
+                            return false;
+                        }
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+            $("#showAuditStorageIn .check").click(function () {
+                var _this = $(this);
+                if (!_this.hasClass("ico-checked")) {
+                    _this.addClass("ico-checked").removeClass("ico-check");
+                } else {
+                    _this.addClass("ico-check").removeClass("ico-checked");
+                }
+            });
+            $("#showAuditStorageIn").find(".quantity").change(function () {
+                var _this = $(this);
+                if (!_this.val().isDouble() || _this.val() < 0) {
+                    _this.val("0");
+                }
+            });
+        });
+    };
 
     //绑定货位
     ObjectJS.bindDepot = function (depotbox, depots, wareid, autoid) {

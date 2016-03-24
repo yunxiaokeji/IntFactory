@@ -27,6 +27,7 @@ namespace IntFactoryBusiness
             {
                 StorageDoc model = new StorageDoc();
                 model.FillData(dr);
+
                 model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
 
                 model.Details = new List<StorageDetail>();
@@ -89,7 +90,10 @@ namespace IntFactoryBusiness
                 {
                     StorageDetail details = new StorageDetail();
                     details.FillData(item);
-
+                    if(!string.IsNullOrEmpty(details.UnitID))
+                    {
+                        details.UnitName = new ProductsBusiness().GetUnitByID(details.UnitID).UnitName;
+                    }
                     if (!string.IsNullOrEmpty(details.ProdiverID))
                     {
                         details.Providers = new ProvidersBusiness().GetProviderByID(details.ProdiverID);
@@ -202,27 +206,6 @@ namespace IntFactoryBusiness
             {
                 ProductDetail model = new ProductDetail();
                 model.FillData(dr);
-                model.SaleAttrValueString = "";
-                if (!string.IsNullOrEmpty(model.SaleAttrValue)) 
-                {
-                    string[] attrs = model.SaleAttrValue.Split(',');
-                    foreach (string attrid in attrs)
-                    {
-                        if (!string.IsNullOrEmpty(attrid))
-                        {
-                            var attr = new ProductsBusiness().GetAttrByID(attrid.Split(':')[0]);
-                            var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
-                            if (attr != null && value != null)
-                            {
-                                model.SaleAttrValueString += attr.AttrName + "：" + value.ValueName + "，";
-                            }
-                        }
-                    }
-                    if (model.SaleAttrValueString.Length > 0)
-                    {
-                        model.SaleAttrValueString = model.SaleAttrValueString.Substring(0, model.SaleAttrValueString.Length - 1);
-                    }
-                }
 
                 list.Add(model);
             }
@@ -238,27 +221,6 @@ namespace IntFactoryBusiness
             {
                 ProductStock model = new ProductStock();
                 model.FillData(dr);
-                model.SaleAttrValueString = "";
-                if (!string.IsNullOrEmpty(model.SaleAttrValue))
-                {
-                    string[] attrs = model.SaleAttrValue.Split(',');
-                    foreach (string attrid in attrs)
-                    {
-                        if (!string.IsNullOrEmpty(attrid))
-                        {
-                            var attr = new ProductsBusiness().GetAttrByID(attrid.Split(':')[0]);
-                            var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
-                            if (attr != null && value != null)
-                            {
-                                model.SaleAttrValueString += attr.AttrName + "：" + value.ValueName + "，";
-                            }
-                        }
-                    }
-                    if (model.SaleAttrValueString.Length > 0)
-                    {
-                        model.SaleAttrValueString = model.SaleAttrValueString.Substring(0, model.SaleAttrValueString.Length - 1);
-                    }
-                }
                 list.Add(model);
             }
             return list;
@@ -273,32 +235,10 @@ namespace IntFactoryBusiness
             {
                 ProductStock model = new ProductStock();
                 model.FillData(dr);
-                model.SaleAttrValueString = "";
-                if (!string.IsNullOrEmpty(model.SaleAttrValue))
-                {
-                    string[] attrs = model.SaleAttrValue.Split(',');
-                    foreach (string attrid in attrs)
-                    {
-                        if (!string.IsNullOrEmpty(attrid))
-                        {
-                            var attr = new ProductsBusiness().GetAttrByID(attrid.Split(':')[0]);
-                            var value = attr.AttrValues.Where(m => m.ValueID == attrid.Split(':')[1]).FirstOrDefault();
-                            if (attr != null && value != null)
-                            {
-                                model.SaleAttrValueString += attr.AttrName + "：" + value.ValueName + "，";
-                            }
-                        }
-                    }
-                    if (model.SaleAttrValueString.Length > 0)
-                    {
-                        model.SaleAttrValueString = model.SaleAttrValueString.Substring(0, model.SaleAttrValueString.Length - 1);
-                    }
-                }
                 list.Add(model);
             }
             return list;
         }
-
 
         #endregion
 
@@ -374,9 +314,9 @@ namespace IntFactoryBusiness
             return new StockDAL().UpdateStorageDetailBatch(docid, autoid, batch);
         }
 
-        public bool AuditStorageIn(string docid, string userid, string operateip, string agentid, string clientid, ref int result, ref string errinfo)
+        public bool AuditStorageIn(string docid, int doctype, int isover, string details, string remark, string userid, string operateip, string agentid, string clientid, ref int result, ref string errinfo)
         {
-            bool bl = new StockDAL().AuditStorageIn(docid, userid, operateip, agentid, clientid, ref result, ref errinfo);
+            bool bl = new StockDAL().AuditStorageIn(docid, doctype, isover, details, remark, userid, operateip, agentid, clientid, ref result, ref errinfo);
             return bl;
         }
 

@@ -61,7 +61,9 @@
         { 
             <tr class="item" >
                 <td><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" target="_blank"> @(item.ProductName)</a></td>
-                <td class="center">@(item.ProductCode)</td>
+                <td class="center">
+                    @(string.IsNullOrEmpty(item.DetailsCode)? item.ProductCode:item.DetailsCode)
+                </td>
                 <td>@(item.Remark)</td>
                 <td class="center">@(item.UnitName)</td>
                 <td class="center">
@@ -69,7 +71,7 @@
                     <br />@(item.Providers!=null&&item.Providers.City!=null?item.Providers.City.Description:"")@(item.Providers!=null?item.Providers.Address:"")
                 </td>
                 <td class="tRight">@(item.Price.ToString("f2"))</td>
-                <td class="center">@(item.Quantity)</td>
+                <td class="center">@(item.Quantity.ToString("f2"))</td>
                 <td class="tRight">@(item.TotalMoney.ToString("f2"))</td>
             </tr>
         }

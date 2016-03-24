@@ -99,7 +99,6 @@ namespace IntFactoryEntity
 			get{return _saleattrvalue;}
 		}
 
-        public string SaleAttrValueString { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -234,6 +233,8 @@ namespace IntFactoryEntity
         public string BatchCode { get; set; }
 
         public string DepotCode { get; set; }
+
+        public string ProductImage { get; set; }
 
         public string ProviderName { get; set; }
 

@@ -16,7 +16,7 @@
                  {%=detail.ProductName%}{%=detail.Remark%}
              </li>   
              <li class="code width120">
-                 {%=detail.ProductCode%}
+                 {%=detail.DetailsCode?detail.DetailsCode: detail.ProductCode%}
              </li>   
              <li class="width80">
                  {%=detail.Quantity%}

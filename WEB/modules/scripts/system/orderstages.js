@@ -140,10 +140,8 @@
         items.find(".operatestage").click(function () {
             var _this = $(this);
             if (_this.data("type") != 0) {
-                $("#editObject").hide();
                 $("#deleteObject").hide();
             } else {
-                $("#editObject").show();
                 $("#deleteObject").show();
             }
             var offset = _this.offset();

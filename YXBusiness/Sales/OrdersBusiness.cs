@@ -387,7 +387,7 @@ namespace IntFactoryBusiness
             }
         }
 
-        public string CreateOrderGoodsDoc(string orderid, EnumDocType type,int isover, string expressid, string expresscode, string details, string remark, string operateid, string agentid, string clientid)
+        public string CreateOrderGoodsDoc(string orderid, EnumGoodsDocType type, int isover, string expressid, string expresscode, string details, string remark, string operateid, string agentid, string clientid)
         {
             var dal = new OrdersDAL();
             string id = Guid.NewGuid().ToString().ToLower();
