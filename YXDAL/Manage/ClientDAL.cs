@@ -57,15 +57,15 @@ namespace IntFactoryDAL.Manage
             return clientid;
         }
 
-        public bool BindClientAliMember(string clientID, string memberID)
+        public bool BindClientAliMember(string clientID,string userID, string memberID)
         {
             SqlParameter[] parms = { 
                                        new SqlParameter("@ClientiD",clientID),
+                                       new SqlParameter("@UserID",userID),
                                        new SqlParameter("@AliMemberID",memberID)
                                    };
-            string cmdTxt = "update clients set AliMemberID=@AliMemberID where ClientiD=@ClientiD ";
 
-            return ExecuteNonQuery(cmdTxt, parms, CommandType.Text) > 0;
+            return ExecuteNonQuery("M_BindClientAliMember", parms, CommandType.StoredProcedure) > 0;
         }
 
         public bool InsertClientAuthorizeLog(string clientID, string agentID, string orderID, int userQuantity, DateTime? beginTime, DateTime? endTime, int type)

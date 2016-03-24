@@ -50,8 +50,10 @@ define(function (require, exports, module) {
                 $(".registerErr").html("请输入密码").slideDown();
                 return;
             }
-
-            $(this).html("登录中...").attr("disabled", "disabled");
+            if (Home.fromBindAccount==0)
+                $(this).html("登录中...").attr("disabled", "disabled");
+            else
+                $(this).html("绑定中...").attr("disabled", "disabled");
             Global.post("/Home/UserLogin", {
                 userName: $("#iptUserName").val(),
                 pwd: $("#iptPwd").val(),
@@ -60,7 +62,10 @@ define(function (require, exports, module) {
             },
             function (data)
             {
-                $("#btnLogin").html("登录").removeAttr("disabled");
+                if (Home.fromBindAccount == 0)
+                    $("#btnLogin").html("登录").removeAttr("disabled");
+                else
+                    $("#btnLogin").html("绑定").removeAttr("disabled");
 
                 if (data.result == 1)
                 {
