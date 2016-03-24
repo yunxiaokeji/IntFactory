@@ -176,7 +176,7 @@ namespace YXERP.Controllers
                 ownerID = userID;
             }
 
-            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords, ownerID, finishStatus, orderType,taskType, beginDate, endDate, CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, finishStatus, orderType,taskType, beginDate, endDate, CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
@@ -253,6 +253,19 @@ namespace YXERP.Controllers
                 TaskBusiness.FinishTask(taskID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID,out result);
 
             JsonDictionary.Add("Result", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult EffectiveOrderProduct(string orderID)
+        {
+            int result = 0;
+            OrdersBusiness.BaseBusiness.EffectiveOrderProduct(orderID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+
+            JsonDictionary.Add("result", result);
             return new JsonResult
             {
                 Data = JsonDictionary,

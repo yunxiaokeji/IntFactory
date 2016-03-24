@@ -573,6 +573,13 @@
             });
         });
 
+        if ($("#btnEffectiveOrderProduct").length== 1)
+        {
+            $("#btnEffectiveOrderProduct").click(function () {
+                ObjectJS.effectiveOrderProduct();
+            });
+        }
+
     };
 
     //更改材料单价
@@ -657,6 +664,18 @@
 
         $("#amount").text(amount.toFixed(2));
     }
+
+    ObjectJS.effectiveOrderProduct = function () {
+        Global.post("/Orders/EffectiveOrderProduct", {
+            orderID: ObjectJS.orderid
+        }, function (data) {
+            if (data.result == 1)
+            {
+                location.href = location.href;
+            }
+        });
+    }
+
 
     
     ///任务制版相关事件
