@@ -97,6 +97,7 @@ define(function (require, exports, module) {
                                             }, function (data) {
                                                 if (data.status) {
                                                     $("#taskOwnerID").text(items[0].name);
+                                                    $("#changeTaskOwner").data("userid", items[0].id);
                                                 }
                                             });
                                         } else {
