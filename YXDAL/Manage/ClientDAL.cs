@@ -25,7 +25,7 @@ namespace IntFactoryDAL.Manage
         #region 添加
 
         public string InsertClient(string companyName, string loginname, string contactName, string mobilePhone, string industry, string cityCode, string address,
-                                   string description, string bindMobilePhone, string loginPwd, string email, string mduserid, string mdprojectid, string userid, out int result)
+                                   string description, string bindMobilePhone, string loginPwd, string email, string mduserid, string mdprojectid, string userid, string aliMemberID, out int result)
         {
             string clientid = Guid.NewGuid().ToString();
             result = 0;
@@ -46,6 +46,7 @@ namespace IntFactoryDAL.Manage
                                        new SqlParameter("@Email",email),
                                        new SqlParameter("@MDUserID",mduserid),
                                        new SqlParameter("@MDprojectID",mdprojectid),
+                                       new SqlParameter("@AliMemberID",aliMemberID),
                                        new SqlParameter("@CreateUserID",userid)
                                    };
             parms[0].Direction = ParameterDirection.Output;
@@ -54,6 +55,17 @@ namespace IntFactoryDAL.Manage
 
             result = Convert.ToInt32(parms[0].Value);
             return clientid;
+        }
+
+        public bool BindClientAliMember(string clientID, string memberID)
+        {
+            SqlParameter[] parms = { 
+                                       new SqlParameter("@ClientiD",clientID),
+                                       new SqlParameter("@AliMemberID",memberID)
+                                   };
+            string cmdTxt = "update clients set AliMemberID=@AliMemberID where ClientiD=@ClientiD ";
+
+            return ExecuteNonQuery(cmdTxt, parms, CommandType.Text) > 0;
         }
 
         public bool InsertClientAuthorizeLog(string clientID, string agentID, string orderID, int userQuantity, DateTime? beginTime, DateTime? endTime, int type)

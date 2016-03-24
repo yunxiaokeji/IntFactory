@@ -187,6 +187,7 @@ namespace IntFactoryEntity.Manage
 
         public DateTime EndTime { get; set; }
 
+        public string AliMemberID { get; set; }
 		#endregion Model
 
 

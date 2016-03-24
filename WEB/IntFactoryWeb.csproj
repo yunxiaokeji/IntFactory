@@ -844,6 +844,7 @@
     <Content Include="Views\Customer\DocDetail.cshtml" />
     <Content Include="Views\Task\CargoMaterialDetail.cshtml" />
     <Content Include="Views\Task\PlateDetail.cshtml" />
+    <Content Include="Views\Home\BindAccount.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

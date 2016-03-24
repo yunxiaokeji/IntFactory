@@ -26,8 +26,9 @@
         if(attrValues!="")
             CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));
         Editor = um;
-        ObjectJS.mark = 0;
-        ObjectJS.taskMark = mark;
+        ObjectJS.mark = 0;//任务讨论标记
+        ObjectJS.taskMark = mark;//任务标记
+        ObjectJS.materialMark = 0;//任务材料标记
 
         ObjectJS.bindEvent();
         ObjectJS.initTalkReply();
@@ -36,6 +37,10 @@
 
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
+            ObjectJS.materialMark = 1;
+            if (ObjectJS.taskMark==3)
+                ObjectJS.materialMark = 2;
+
             ObjectJS.bindProduct();
 
             ObjectJS.bindRemoveRowBtn();
@@ -44,13 +49,13 @@
         }//制版任务
         else if ($("#btn-updateTaskRemark").length == 1) {
             ObjectJS.bindPlatemakingEvent();
-
-            ObjectJS.getAmount2();
         }
         else {
-            ObjectJS.getAmount2();
+           
             ObjectJS.bindRemoveRowBtn();
         }
+
+        ObjectJS.getAmount();
 
         if ($("#PlateRemark").length == 1) {
             if (plateRemark != "") {
@@ -58,7 +63,6 @@
                 $("#PlateRemark").html(decodeURI(plateRemark));
             }
             else {
-                //$(".edui-container").hide();
                 $("#PlateRemark").html(decodeURI("<div class='pAll10'>暂无工艺说明</div>"));
             }
         }
@@ -523,12 +527,19 @@
     ///任务材料基本操作
     //绑定事件
     ObjectJS.bindProduct = function () {
-        ObjectJS.getAmount();
-
         //编辑数量
         $(".quantity").change(function () {
             if ($(this).val().isDouble() && $(this).val() > 0) {
                 ObjectJS.editQuantity($(this));
+            } else {
+                $(this).val($(this).data("value"));
+            }
+        });
+
+        //编辑价位
+        $(".price").change(function () {
+            if ($(this).val().isDouble() && $(this).val() >= 0) {
+                ObjectJS.editPrice($(this));
             } else {
                 $(this).val($(this).data("value"));
             }
@@ -577,7 +588,7 @@
                 ele.val(ele.data("value"));
                 alert("当前订单状态,不能进行修改");
             } else {
-                ele.parent().nextAll(".amount").html((ele.parent().prevAll(".tr-quantity").find("label").text() * ele.val()).toFixed(2));
+                //ele.parent().nextAll(".amount").html((ele.parent().prevAll(".tr-quantity").find("label").text() * ele.val()).toFixed(2));
                 ele.data("value", ele.val());
                 _self.getAmount();
             }
@@ -628,27 +639,24 @@
         $(".amount").each(function () {
             var _this = $(this);
             
-            if (_this.prevAll(".tr-loss").find("input").length>0)
-                _this.html(((_this.prevAll(".tr-quantity").html() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
-            else
-                _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1 ) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
-            amount += _this.html() * 1;
+            if (ObjectJS.materialMark == 0)
+            {
+                amount += _this.html() * 1;
+            }
+            else if (ObjectJS.materialMark == 1)
+            {
+                _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
+                amount += _this.html() * 1;
+            }
+            else if(ObjectJS.materialMark == 2)
+            {
+                _this.html(((_this.prevAll(".tr-quantity").html() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find(".price").val() ).toFixed(2));
+                amount += _this.html() * 1;
+            }
         });
-        $("#amount").text(amount.toFixed(2));
-        $("#totalMoney").text((amount * $("#planQuantity").text()).toFixed(2));
-    }
 
-    //计算总金额 
-    ObjectJS.getAmount2 = function () {
-        var amount = 0;
-        $(".amount").each(function () {
-            var _this = $(this);
-            amount += _this.html() * 1;
-        });
         $("#amount").text(amount.toFixed(2));
     }
-
-
 
     
     ///任务制版相关事件

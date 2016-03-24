@@ -141,15 +141,27 @@ namespace IntFactoryBusiness.Manage
         /// <param name="loginPwd">密码</param>
         /// <param name="userid">操作人</param>
         /// <param name="result">0：失败 1：成功 2：账号已存在 3：模块未选择</param>
-        public static string InsertClient(Clients model, string loginname, string bindMobilePhone, string loginPwd, string userid, out int result, string email = "", string mduserid = "", string mdprojectid = "")
+        public static string InsertClient(Clients model, string loginname, string bindMobilePhone, string loginPwd, string userid, out int result, string email = "", string mduserid = "", string mdprojectid = "", string aliMemberID="")
         {
             loginPwd = CloudSalesTool.Encrypt.GetEncryptPwd(loginPwd, bindMobilePhone);
 
             string clientid = ClientDAL.BaseProvider.InsertClient(model.CompanyName, loginname, model.ContactName, model.MobilePhone, model.Industry, model.CityCode,
-                                                             model.Address, model.Description, bindMobilePhone, loginPwd, email, mduserid, mdprojectid, userid, out result);
+                                                             model.Address, model.Description, bindMobilePhone, loginPwd, email, mduserid, mdprojectid, userid,aliMemberID, out result);
 
             return clientid;
         }
+
+        public static bool BindClientAliMember(string clientID, string memberID) {
+
+            bool flag= ClientDAL.BaseProvider.BindClientAliMember(clientID, memberID);
+
+            if (flag) {
+                if (Clients.ContainsKey(clientID))
+                    Clients[clientID].AliMemberID = memberID;
+            }
+            return flag;
+        }
+
 
         /// <summary>
         /// 添加客户授权日志

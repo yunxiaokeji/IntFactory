@@ -47,6 +47,9 @@ padding:15px;
 .btnLogin { height:40px;line-height:40px; background-color:#4A98E7 ; color:#fff; font-size:16px; text-align:center;
 border:none; font-weight:bold; cursor:pointer; display:inline-block; border-radius:3px; width:320px;}
 
+.btnNoLogin { height:40px;line-height:40px; background-color:#EDBCFA ; color:#fff; font-size:16px; text-align:center;
+border:none; font-weight:bold; cursor:pointer; display:inline-block; border-radius:3px; width:320px;}
+
 .other-account { border-top:dashed 1px #999; margin-top:20px; position:relative; }
 
 .other-account .other-text { text-align:center; top:-10px; position:absolute; left:115px; color:#666; background-color:#FCFCFC; }
