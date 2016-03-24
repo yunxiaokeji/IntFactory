@@ -46,6 +46,23 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public static List<StorageDoc> GetStorageDocDetails(string docid)
+        {
+            DataTable dt = StockDAL.BaseProvider.GetStorageDocDetails(docid);
+
+            List<StorageDoc> list = new List<StorageDoc>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                StorageDoc model = new StorageDoc();
+                model.FillData(dr);
+
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
+
+                list.Add(model);
+            }
+            return list;
+        }
+
         public static List<GoodsDoc> GetGoodsDocByOrderID(string orderid, EnumDocType type, string clientid)
         {
             DataSet ds = StockDAL.BaseProvider.GetGoodsDocByOrderID(orderid, (int)type, clientid);

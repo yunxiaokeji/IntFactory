@@ -42,6 +42,14 @@ namespace IntFactoryDAL
             return ds;
         }
 
+        public DataTable GetStorageDocDetails(string docid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@DocID",docid)
+                                   };
+            return GetDataTable("select * from StorageDoc where OriginalID=@DocID and DocType=101 ", paras, CommandType.Text);
+        }
+
         public DataSet GetGoodsDocByOrderID(string orderid, int doctype, string clientid)
         {
             SqlParameter[] paras = { 
