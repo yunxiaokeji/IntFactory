@@ -211,6 +211,17 @@ namespace IntFactoryDAL
 
             return ExecuteNonQuery(sqlStr) > 0;
         }
+
+        public bool DeleteAliOrderDownloadPlan(string clientID)
+        {
+            string sqlStr = " delete from AliOrderDownloadPlan ClientID=@ClientID";
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@ClientID",clientID)
+                                   };
+
+
+            return ExecuteNonQuery(sqlStr,paras,CommandType.Text) > 0;
+        }
         #endregion
     }
 }

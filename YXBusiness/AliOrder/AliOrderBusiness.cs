@@ -469,9 +469,15 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        public bool UpdateAliOrderDownloadPlanSuccessTime(string agentID, EnumOrderType orderType, DateTime successTime)
+        public bool UpdateAliOrderDownloadPlanSuccessTime(string clientID, EnumOrderType orderType, DateTime successTime)
         {
-            bool flag = AliOrderDAL.BaseProvider.UpdateAliOrderDownloadPlanSuccessTime(agentID, (int)orderType, successTime);
+            bool flag = AliOrderDAL.BaseProvider.UpdateAliOrderDownloadPlanSuccessTime(clientID, (int)orderType, successTime);
+
+            return flag;
+        }
+
+        public bool DeleteAliOrderDownloadPlan(string clientID) {
+            bool flag = AliOrderDAL.BaseProvider.DeleteAliOrderDownloadPlan(clientID);
 
             return flag;
         }
