@@ -54,6 +54,16 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult SelectLogin()
+        {
+            if (Session["AliTokenInfo"] == null)
+            {
+                return Redirect("/Home/Login");
+            }
+
+            return View();
+        }
+
         public ActionResult Login(string ReturnUrl, int Status = 0)
         {
             //return Redirect(AlibabaSdk.Business.OauthBusiness.GetAuthorizeUrl());
