@@ -295,9 +295,7 @@
                 innerhtml.find(".mark").markColor({
                     isAll: false,
                     onChange: function (obj, callback) {
-
                         _self.markCustomer(obj.data("id"), obj.data("value"), callback);
-
                     }
                 });
 

@@ -5,13 +5,15 @@
         ChooseCustomer = require("choosecustomer"),
         ChooseUser = require("chooseuser");
     require("pager");
+    require("mark");
 
-    var ColumnCount = 15;
+    var ColumnCount = 16;
 
     var Params = {
         SearchType: 1,
         TypeID: '',
         Status: -1,
+        Mark: -1,
         PayStatus: -1,
         InvoiceStatus: -1,
         ReturnStatus: 0,
@@ -223,6 +225,17 @@
             location.href = "/Orders/Detail/" + _this.data("id");
         });
 
+        //过滤标记
+        $("#filterMark").markColor({
+            isAll: true,
+            onChange: function (obj, callback) {
+                callback && callback(true);
+                Params.PageIndex = 1;
+                Params.Mark = obj.data("value");
+                _self.getList();
+            }
+        });
+
         //批量转移
         $("#batchChangeOwner").click(function () {
             var checks = $(".table-list .ico-checked");
@@ -420,6 +433,12 @@
                     }
                     return false;
                 });
+                innerhtml.find(".mark").markColor({
+                    isAll: false,
+                    onChange: function (obj, callback) {
+                        _self.markOrders(obj.data("id"), obj.data("value"), callback);
+                    }
+                });
                 $(".tr-header").after(innerhtml);
             });
         }
@@ -459,6 +478,25 @@
         }, function (data) {
             if (data.status) {
                 _self.getList();
+            }
+        });
+    }
+
+    //标记客户
+    ObjectJS.markOrders = function (ids, mark, callback) {
+        if (mark < 0) {
+            alert("不能标记此选项!");
+            return false;
+        }
+        Global.post("/Orders/UpdateOrderMark", {
+            ids: ids,
+            mark: mark
+        }, function (data) {
+            if (data.result == "10001") {
+                alert("您没有标记订单的权限！");
+                callback && callback(false);
+            } else {
+                callback && callback(data.status);
             }
         });
     }

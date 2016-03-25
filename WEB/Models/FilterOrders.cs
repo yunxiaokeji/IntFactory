@@ -31,6 +31,8 @@ namespace YXERP.Models
 
         public string TeamID { get; set; }
 
+        public int Mark { get; set; }
+
         public string Keywords { get; set; }
 
         public string BeginTime { get; set; }

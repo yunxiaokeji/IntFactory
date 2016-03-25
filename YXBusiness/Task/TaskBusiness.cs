@@ -39,10 +39,10 @@ namespace IntFactoryBusiness
         /// <param name="TotalCount"></param>
         /// <param name="PageCount"></param>
         /// <returns></returns>
-        public static List<TaskEntity> GetTasks(string keyWords, string ownerID, int finishStatus, int orderType, int taskType, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
+        public static List<TaskEntity> GetTasks(string keyWords, string ownerID, int finishStatus, int orderType, int mark, int taskType, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
         {
             List<TaskEntity> list = new List<TaskEntity>();
-            DataTable dt = TaskDAL.BaseProvider.GetTasks(keyWords, ownerID, finishStatus, orderType, taskType, beginDate, endDate, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            DataTable dt = TaskDAL.BaseProvider.GetTasks(keyWords, ownerID, finishStatus, orderType, mark, taskType, beginDate, endDate, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -152,6 +152,18 @@ namespace IntFactoryBusiness
 
             return flag;
         }
+
+        public bool UpdateTaskColorMark(string taskid, int mark, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = CommonBusiness.Update("OrderTask", "ColorMark", mark, "TaskID='" + taskid + "'");
+            if (bl)
+            {
+                string msg = "标记任务颜色";
+                LogBusiness.AddLog(taskid, EnumLogObjectType.OrderTask, msg, operateid, ip, mark.ToString(), agentid, clientid);
+            }
+            return bl;
+        }
+
 
         /// <summary>
         /// 将任务标记完成

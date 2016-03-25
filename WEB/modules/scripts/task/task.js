@@ -2,12 +2,14 @@
     var Global = require("global"),
         doT = require("dot");
     require("pager");
+    require("mark");
 
     var Params = {
         isMy: true,
         userID: "",
         orderType: -1,
         taskType: -1,
+        mark: -1,
         finishStatus:0,
         keyWords:'',
         beginDate: '',
@@ -58,6 +60,17 @@
                 Params.keyWords = keyWords;
                 ObjectJS.getList();
             });
+        });
+
+        //过滤标记
+        $("#filterMark").markColor({
+            isAll: true,
+            onChange: function (obj, callback) {
+                callback && callback(true);
+                Params.PageIndex = 1;
+                Params.mark = obj.data("value");
+                ObjectJS.getList();
+            }
         });
 
         //切换阶段
@@ -147,7 +160,7 @@
 
     ObjectJS.getList = function () {
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='9'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='10'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
 
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".tr-header").nextAll().remove();
@@ -157,11 +170,18 @@
                     var innerhtml = template(data.Items);
                     innerhtml = $(innerhtml);
 
+                    innerhtml.find(".mark").markColor({
+                        isAll: false,
+                        onChange: function (obj, callback) {
+                            ObjectJS.markTasks(obj.data("id"), obj.data("value"), callback);
+                        }
+                    });
+
                     $(".tr-header").after(innerhtml);
                 });
             }
             else {
-                $(".tr-header").after("<tr><td colspan='9'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                $(".tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
             }
 
             $("#pager").paginate({
@@ -181,5 +201,22 @@
         });
     }
 
+    ObjectJS.markTasks = function (ids, mark, callback) {
+        if (mark < 0) {
+            alert("不能标记此选项!");
+            return false;
+        }
+        Global.post("/Task/UpdateTaskColorMark", {
+            ids: ids,
+            mark: mark
+        }, function (data) {
+            if (data.result == "10001") {
+                alert("您没有标记任务的权限！");
+                callback && callback(false);
+            } else {
+                callback && callback(data.status);
+            }
+        });
+    }
     module.exports = ObjectJS;
 });

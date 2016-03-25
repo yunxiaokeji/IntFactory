@@ -43,11 +43,11 @@ namespace IntFactoryBusiness
         }
 
 
-        public List<OrderEntity> GetOrders(EnumSearchType searchtype, string typeid, int status, EnumOrderSourceType sourceType, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid,
+        public List<OrderEntity> GetOrders(EnumSearchType searchtype, string typeid, int status, EnumOrderSourceType sourceType, int mark, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid,
                                                 string begintime, string endtime, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataSet ds = OrdersDAL.BaseProvider.GetOrders((int)searchtype, typeid, status, (int)sourceType, paystatus, invoicestatus, returnstatus, searchuserid, searchteamid, searchagentid, begintime, endtime, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
+            DataSet ds = OrdersDAL.BaseProvider.GetOrders((int)searchtype, typeid, status, (int)sourceType, mark, paystatus, invoicestatus, returnstatus, searchuserid, searchteamid, searchagentid, begintime, endtime, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 OrderEntity model = new OrderEntity();
@@ -506,6 +506,17 @@ namespace IntFactoryBusiness
                 var model = OrganizationBusiness.GetUserByUserID(userid, agentid);
                 string msg = "负责人更换为：" + model.Name;
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, userid, agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderMark(string orderid, int mark, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = CommonBusiness.Update("Orders", "Mark", mark, "OrderID='" + orderid + "'");
+            if (bl)
+            {
+                string msg = "标记订单颜色";
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, mark.ToString(), agentid, clientid);
             }
             return bl;
         }
