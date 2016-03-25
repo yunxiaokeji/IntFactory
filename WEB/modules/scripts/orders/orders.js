@@ -285,9 +285,8 @@
 
                 var nowDate = new Date();
                 var maxDate = nowDate.toLocaleDateString();
-                var startDate = ObjectJS.AddDays(nowDate, -15);
 
-                $("#downStartTime").val(startDate);
+                $("#downStartTime").val(ObjectJS.DownBeginTime);
                 $("#downEndTime").val( nowDate.getFullYear()+"-"+(nowDate.getMonth()+1)+"-"+nowDate.getDate() );
 
                 
