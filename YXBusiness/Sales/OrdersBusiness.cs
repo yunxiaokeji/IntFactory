@@ -320,6 +320,10 @@ namespace IntFactoryBusiness
 
                         FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
                         orderimg = FILEPATH + file.Name;
+                        if (first)
+                        {
+                            firstimg = FILEPATH + "small" + file.Name;
+                        }
                         if (file.Exists)
                         {
                             file.MoveTo(HttpContext.Current.Server.MapPath(orderimg));
@@ -327,7 +331,8 @@ namespace IntFactoryBusiness
                     }
                     if (first)
                     {
-                        firstimg = orderimg;
+                        CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 100, HttpContext.Current.Server.MapPath(firstimg));
+
                         first = false;
                     }
                     allimgs += orderimg + ",";
@@ -654,7 +659,16 @@ namespace IntFactoryBusiness
                     }
                     if (first)
                     {
-                        firstimg = orderimg;
+                        FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
+
+                        if (file.Exists)
+                        {
+                            firstimg = orderimg.Substring(0, orderimg.IndexOf(file.Name)) + "small" + file.Name;
+                            if (!new FileInfo(HttpContext.Current.Server.MapPath(firstimg)).Exists)
+                            {
+                                CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 100, HttpContext.Current.Server.MapPath(firstimg));
+                            }
+                        }
                         first = false;
                     }
                     allimgs += orderimg + ",";

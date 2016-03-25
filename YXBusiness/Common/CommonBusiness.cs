@@ -8,6 +8,9 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO; 
 
 namespace IntFactoryBusiness
 {
@@ -264,5 +267,67 @@ namespace IntFactoryBusiness
             if (!Enumtype.GetType().IsEnum) throw new Exception("参数类型不正确");
             return ((DescriptionAttribute)Enumtype.GetType().GetField(Enumtype.ToString()).GetCustomAttributes(typeof(DescriptionAttribute), false)[0]).Description;
         }
+
+        /// <summary>
+        /// 压缩图片
+        /// </summary>
+        /// <param name="sourceFile"></param>
+        /// <param name="quality"></param>
+        /// <param name="multiple"></param>
+        /// <param name="outputFile"></param>
+        /// <returns></returns>
+        public static bool GetThumImage(string sourceFile, long quality, int width, string outputFile)  
+        {  
+            try  
+            {  
+                long imageQuality = quality;  
+                Bitmap sourceImage = new Bitmap(sourceFile);  
+                ImageCodecInfo myImageCodecInfo = GetEncoderInfo("image/jpeg");  
+                System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;  
+                EncoderParameters myEncoderParameters = new EncoderParameters(1);  
+                EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, imageQuality);  
+                myEncoderParameters.Param[0] = myEncoderParameter;  
+                float xWidth = sourceImage.Width;  
+                float yHeight = sourceImage.Height;
+                if (xWidth > yHeight)
+                {
+                    xWidth = width * xWidth / yHeight;
+                    yHeight = width;
+                }
+                else
+                {
+                    xWidth = width;
+                    yHeight = width * yHeight / xWidth;
+                }
+                Bitmap newImage = new Bitmap((int)xWidth, (int)yHeight);  
+                Graphics g = Graphics.FromImage(newImage);
+
+                g.DrawImage(sourceImage, 0, 0, xWidth, yHeight);  
+                g.Dispose();  
+                newImage.Save(outputFile, myImageCodecInfo, myEncoderParameters);  
+                return true;  
+            }  
+            catch  
+            {  
+                return false;  
+            }  
+        }   
+  
+        /**/  
+        /// <summary>  
+        /// 获取图片编码信息  
+        /// </summary>  
+        private static ImageCodecInfo GetEncoderInfo(String mimeType)  
+        {  
+            int j;  
+            ImageCodecInfo[] encoders;  
+            encoders = ImageCodecInfo.GetImageEncoders();  
+            for (j = 0; j < encoders.Length; ++j)  
+            {  
+                if (encoders[j].MimeType == mimeType)  
+                    return encoders[j];  
+            }  
+            return null;  
+        } 
     }
 }
