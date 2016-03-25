@@ -173,6 +173,7 @@
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
     <Content Include="modules\css\home\common.css" />
     <Content Include="modules\css\home\online-pay.css" />
+    <Content Include="modules\css\home\selectlogin.css" />
     <Content Include="modules\css\opportunitys.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task\style.css" />
@@ -185,6 +186,8 @@
     <Content Include="modules\images\home\ico-cooperationorder.png" />
     <Content Include="modules\images\home\ico-delegateorder.png" />
     <Content Include="modules\images\home\ico-myorder.png" />
+    <Content Include="modules\images\ico-account-login.png" />
+    <Content Include="modules\images\ico-ali-login.png" />
     <Content Include="modules\images\ico-alipay.png" />
     <Content Include="modules\images\ico-company.png" />
     <Content Include="modules\images\ico-contact-hover.png" />
@@ -847,6 +850,7 @@
     <Content Include="Views\Task\CargoMaterialDetail.cshtml" />
     <Content Include="Views\Task\PlateDetail.cshtml" />
     <Content Include="Views\Home\BindAccount.cshtml" />
+    <Content Include="Views\Home\SelectLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

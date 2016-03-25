@@ -54,6 +54,16 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult SelectLogin()
+        {
+            if (Session["AliTokenInfo"] == null)
+            {
+                return Redirect("/Home/Login");
+            }
+
+            return View();
+        }
+
         public ActionResult Login(string ReturnUrl, int Status = 0)
         {
             //return Redirect(AlibabaSdk.Business.OauthBusiness.GetAuthorizeUrl());
@@ -300,12 +310,6 @@ namespace YXERP.Controllers
         {
             string operateip = Common.Common.GetRequestIP();
             var userToken = AlibabaSdk.OauthBusiness.GetUserToken(code);
-            //var member = AlibabaSdk.UserBusiness.GetMemberDetail(userToken.access_token, userToken.memberId);
-            //return new JsonResult()
-            //{
-            //    Data = userToken,
-            //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            //};
 
             if (userToken.error_code <= 0)
             {
@@ -329,34 +333,10 @@ namespace YXERP.Controllers
                 else
                 {
                     Session["AliTokenInfo"] = userToken.access_token + "|" + userToken.refresh_token + "|" + userToken.memberId;
-                    return Redirect("/Home/BindAccount");
-                    //int result = 0;
-                    //var memberResult = AlibabaSdk.UserBusiness.GetMemberDetail(userToken.access_token, userToken.memberId);
-                    //var member = memberResult.result.toReturn[0];
-
-                    //Clients clientModel = new Clients();
-                    //clientModel.CompanyName = member.companyName;
-                    //clientModel.ContactName = member.sellerName;
-                    //clientModel.MobilePhone = string.Empty;
-
-                    //var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result, member.email, string.Empty, string.Empty, member.memberId);
-                    //if (!string.IsNullOrEmpty(clientid))
-                    //{
-                    //    var current = OrganizationBusiness.GetUserByAliMemberID(member.memberId, operateip);
-
-                    //    AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, userToken.access_token, userToken.refresh_token, current.AgentID, current.ClientID);
-
-                    //    current.MDToken = userToken.access_token;
-                    //    Session["ClientManager"] = current;
-
-                    //    if (string.IsNullOrEmpty(state))
-                    //        return Redirect("/Home/Index");
-                    //    else
-                    //        return Redirect(state);
-                    //}
-
+                    return Redirect("/Home/SelectLogin");
                 }
             }
+
             return Redirect("/Home/Login");
         }
 
