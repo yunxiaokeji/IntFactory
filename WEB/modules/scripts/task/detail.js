@@ -1,7 +1,7 @@
 ﻿define(function (require, exports, module) {
     var doT = require("dot");
     var Global = require("global");
-    var Easydialog = require("easydialog");
+    var Easydialog = null;
     require("pager");
 
     var ObjectJS = {};
@@ -22,9 +22,9 @@
         ObjectJS.stageid = stageid;
         ObjectJS.taskid = taskid;
         ObjectJS.orderType = orderType;
-        ObjectJS.isPlate = true;
+        ObjectJS.isPlate = true;//任务是否制版
         if(attrValues!="")
-            CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));
+            CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
         Editor = um;
         ObjectJS.mark = 0;//任务讨论标记
         ObjectJS.taskMark = mark;//任务标记
@@ -32,46 +32,32 @@
 
         ObjectJS.bindEvent();
         ObjectJS.initTalkReply();
+
         if (mark == 0)
             ObjectJS.getTaskReplys(1);
 
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
             ObjectJS.materialMark = 1;
-            if (ObjectJS.taskMark==3)
+            if (ObjectJS.taskMark == 3) {
                 ObjectJS.materialMark = 2;
+            }
 
             ObjectJS.bindProduct();
 
-            ObjectJS.bindRemoveRowBtn();
-
-            ObjectJS.getTaskReplysOfPlate(1);
-        }//制版任务
+            ObjectJS.removeTaskPlateOperate();
+        }
+       //制版任务
         else if ($("#btn-updateTaskRemark").length == 1) {
+            Easydialog = require("easydialog");
             ObjectJS.bindPlatemakingEvent();
         }
-        else {
-           
-            ObjectJS.bindRemoveRowBtn();
+        else{
+            ObjectJS.removeTaskPlateOperate();
         }
 
-        ObjectJS.getAmount();
-
-        if ($("#PlateRemark").length == 1) {
-            if (plateRemark != "") {
-                ObjectJS.isPlate = true;
-                $("#PlateRemark").html(decodeURI(plateRemark));
-            }
-            else {
-                $("#PlateRemark").html(decodeURI("<div class='pAll10'>暂无工艺说明</div>"));
-            }
-        }
-
-        if (ObjectJS.taskMark == 2) {
-            if ($("#platemakingBody .table-list").length == 0) {
-                ObjectJS.isPlate = false;
-            }
-        }
+        //统计材料总金额
+        ObjectJS.getProductAmount();
 
         if (Editor) {
             //制版工艺描述 富文本
@@ -98,6 +84,21 @@
                 });
 
             });
+        }
+
+        if ($("#PlateRemark").length == 1) {
+            if (plateRemark != "") {
+                $("#PlateRemark").html(decodeURI(plateRemark));
+            }
+            else {
+                $("#PlateRemark").html(decodeURI("<div class='pAll10'>暂无工艺说明</div>"));
+            }
+        }
+
+        if (ObjectJS.taskMark == 2) {
+            if ($("#platemakingBody .table-list").length == 0) {
+                ObjectJS.isPlate = false;
+            }
         }
 
     };
@@ -567,7 +568,7 @@
                         alert("系统异常，请重新操作！");
                     } else {
                         _this.parents("tr.item").remove();
-                        ObjectJS.getAmount();
+                        ObjectJS.getProductAmount();
                     }
                 });
             });
@@ -595,9 +596,8 @@
                 ele.val(ele.data("value"));
                 alert("当前订单状态,不能进行修改");
             } else {
-                //ele.parent().nextAll(".amount").html((ele.parent().prevAll(".tr-quantity").find("label").text() * ele.val()).toFixed(2));
                 ele.data("value", ele.val());
-                _self.getAmount();
+                _self.getProductAmount();
             }
         });
     }
@@ -616,7 +616,7 @@
                 alert("当前订单状态,不能进行修改");
             } else {
                 ele.data("value", ele.val());
-                _self.getAmount();
+                _self.getProductAmount();
             }
         });
     }
@@ -635,13 +635,13 @@
                 alert("当前订单状态,不能进行修改");
             } else {
                 ele.data("value", ele.val());
-                _self.getAmount();
+                _self.getProductAmount();
             }
         });
     }
 
     //计算总金额
-    ObjectJS.getAmount = function () {
+    ObjectJS.getProductAmount = function () {
         var amount = 0;
         $(".amount").each(function () {
             var _this = $(this);
@@ -847,7 +847,7 @@
     }
 
     //删除行操作按钮
-    ObjectJS.bindRemoveRowBtn = function () {
+    ObjectJS.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
         $("#platemakingContent table tr").each(function () {
             $(this).find("td:last").remove();

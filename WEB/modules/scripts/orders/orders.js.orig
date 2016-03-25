@@ -268,7 +268,6 @@
             }
         });
 
-        var successOrderCountObj = null;
         //手动同步阿里订单
         $("#downAliOrders").click(function () {
 
@@ -285,7 +284,7 @@
 
                 var nowDate = new Date();
                 var maxDate = nowDate.toLocaleDateString();
-                var startDate = ObjectJS.AddDays(nowDate, -15);
+                var startDate = ObjectJS.DownBeginTime;
 
                 $("#downStartTime").val(startDate);
                 $("#downEndTime").val( nowDate.getFullYear()+"-"+(nowDate.getMonth()+1)+"-"+nowDate.getDate() );
@@ -492,6 +491,7 @@
         });
     }
 
+<<<<<<< HEAD
     //标记客户
     ObjectJS.markOrders = function (ids, mark, callback) {
         if (mark < 0) {
@@ -511,6 +511,20 @@
         });
     }
 
+    ObjectJS.AddDays=function(date, days) {
+        var nd = new Date(date);
+        nd = nd.valueOf();
+        nd = nd + days * 24 * 60 * 60 * 1000;
+        nd = new Date(nd);
+        //alert(nd.getFullYear() + "年" + (nd.getMonth() + 1) + "月" + nd.getDate() + "日");
+        var y = nd.getFullYear();
+        var m = nd.getMonth() + 1;
+        var d = nd.getDate();
+        if (m <= 9) m = "0" + m;
+        if (d <= 9) d = "0" + d;
+        var cdate = y + "-" + m + "-" + d;
+        return cdate;
+=======
     ObjectJS.getAliInfo = function () {
         Global.post("/Orders/GetAliInfo", null, function (data) {
             if (data.result == 1) {
@@ -519,6 +533,7 @@
                 ObjectJS.DownBeginTime = data.downBeginTime.toDate("yyyy-MM-dd");
             }
         });
+>>>>>>> c1bf9a14cfb4b67639115c9cdbdf6cdfff0c7ef3
     }
 
     module.exports = ObjectJS;

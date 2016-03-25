@@ -58,10 +58,10 @@ namespace YXERP.Controllers
         {
             //return Redirect(AlibabaSdk.Business.OauthBusiness.GetAuthorizeUrl());
 
-            //if (Session["ClientManager"] != null)
-            //{
-            //    return Redirect("/Home/Index");
-            //}
+            if (Session["ClientManager"] != null)
+            {
+                return Redirect("/Home/Index");
+            }
             HttpCookie cook = Request.Cookies["cloudsales"];
             if (cook != null)
             {
@@ -697,6 +697,34 @@ namespace YXERP.Controllers
         }
 
         public JsonResult GetAgentInfo()
+        {
+
+            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
+            int remainderDays = 0;
+            int authorizeType = 0;
+
+            if (Session["ClientManager"] != null)
+            {
+                var CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+                var agent = AgentsBusiness.GetAgentDetail(CurrentUser.AgentID);
+
+                remainderDays = (agent.EndTime - DateTime.Now).Days;
+                authorizeType = agent.AuthorizeType;
+
+            }
+
+            JsonDictionary.Add("remainderDays", remainderDays);
+            JsonDictionary.Add("authorizeType", authorizeType);
+
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+        }
+
+        public JsonResult GetAliInfo()
         {
 
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();

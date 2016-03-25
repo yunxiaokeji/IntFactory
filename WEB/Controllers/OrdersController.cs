@@ -559,50 +559,74 @@ namespace YXERP.Controllers
         {
             int result = 0;
             bool flag = false;
-            DateTime downStartTime = DateTime.Parse(startTime);
-            DateTime downEndTime = DateTime.Parse(endTime);
-
-            if ((downEndTime - downStartTime).Days < 16)
+            bool canDown=true;
+            
+            if(AliOrderBusiness.DownAliOrderLogs.ContainsKey(CurrentUser.ClientID) )
             {
-                var plan = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlanDetail(CurrentUser.ClientID);
-
-                if (plan != null)
+                var limitTime = AliOrderBusiness.DownAliOrderLogs[CurrentUser.ClientID];
+                if (limitTime> DateTime.Now)
                 {
-                    int successCount=0;
-                    int total=0;
+                    canDown = false;
+                }
+            }
 
-                    string token = plan.Token;
-                    string refreshToken = plan.RefreshToken;
-                    string error;
-                    if (downOrderType == 1)
+            if (canDown)
+            {
+                DateTime downStartTime = DateTime.Parse(startTime);
+                DateTime downEndTime = DateTime.Parse(endTime);
+
+                if ((downEndTime - downStartTime).Days < 16)
+                {
+                    var plan = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlanDetail(CurrentUser.ClientID);
+
+                    if (plan != null)
                     {
-                        flag = AliOrderBusiness.DownFentOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
-                            CurrentUser.AgentID, CurrentUser.ClientID, ref successCount, ref total,out error, AlibabaSdk.AliOrderDownType.Hand);
+                        int successCount = 0;
+                        int total = 0;
 
-                        //新增阿里打样订单下载日志
-                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
-                            successCount, total,error, plan.AgentID, plan.ClientID);
+                        string token = plan.Token;
+                        string refreshToken = plan.RefreshToken;
+                        string error;
+                        if (downOrderType == 1)
+                        {
+                            flag = AliOrderBusiness.DownFentOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
+                                CurrentUser.AgentID, CurrentUser.ClientID, ref successCount, ref total, out error, AlibabaSdk.AliOrderDownType.Hand);
+
+                            //新增阿里打样订单下载日志
+                            AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
+                                successCount, total, error, plan.AgentID, plan.ClientID);
+                        }
+                        else
+                        {
+
+                            flag = AliOrderBusiness.DownBulkOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
+                                CurrentUser.AgentID, CurrentUser.ClientID, ref successCount, ref total, out error, AlibabaSdk.AliOrderDownType.Hand);
+
+                            //新增阿里大货订单下载日志
+                            AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
+                                successCount, total, plan.AgentID, error, plan.ClientID);
+                        }
+
+                        result = flag ? 1 : 0;
+                        JsonDictionary.Add("totalOrderCount", total);
+                        JsonDictionary.Add("successOrderCount", successCount);
+
+                        if (flag)
+                        {
+                            if (AliOrderBusiness.DownAliOrderLogs.ContainsKey(CurrentUser.ClientID))
+                                AliOrderBusiness.DownAliOrderLogs[CurrentUser.ClientID] = DateTime.Now.AddHours(12);
+                            else
+                                AliOrderBusiness.DownAliOrderLogs.Add(CurrentUser.ClientID, DateTime.Now.AddHours(12));
+                        }
                     }
                     else
-                    {
-
-                        flag = AliOrderBusiness.DownBulkOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
-                            CurrentUser.AgentID, CurrentUser.ClientID, ref successCount, ref total,out error, AlibabaSdk.AliOrderDownType.Hand);
-
-                        //新增阿里大货订单下载日志
-                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
-                            successCount, total, plan.AgentID,error, plan.ClientID);
-                    }
-
-                    result = flag ? 1 : 0;
-                    JsonDictionary.Add("totalOrderCount", total);
-                    JsonDictionary.Add("successOrderCount", successCount);
+                        result = 2;
                 }
                 else
-                    result = 2;
+                    result = 3;
             }
             else
-                result = 3;
+                result = 4;
 
             JsonDictionary.Add("result", result);
             
@@ -611,6 +635,29 @@ namespace YXERP.Controllers
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public JsonResult GetAliInfo()
+        {
+            var plan= AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlanDetail(CurrentUser.ClientID);
+
+            if (plan != null)
+            {
+                JsonDictionary.Add("result", 1);
+                JsonDictionary.Add("plan", plan);
+                JsonDictionary.Add("downBeginTime", plan.CreateTime.Date<DateTime.Now.AddDays(-15).Date?DateTime.Now.AddDays(-15).Date:plan.CreateTime.Date);
+            }
+            else
+            {
+                JsonDictionary.Add("result", 0);
+            }
+
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
         }
 
         public JsonResult CreateOrderCost(string orderid, decimal price, string remark)
