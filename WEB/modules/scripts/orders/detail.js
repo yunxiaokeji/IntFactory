@@ -598,6 +598,9 @@ define(function (require, exports, module) {
         _self.images = images;
         for (var i = 0; i < images.length; i++) {
             if (images[i]) {
+                if (i == 0) {
+                    $("#orderImage").attr("src", images[i]);
+                }
                 var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
                 $(".order-imgs-list").append(img);
             }
