@@ -624,12 +624,12 @@ namespace YXERP.Controllers
             if (string.IsNullOrEmpty(model.ProductDetailID))
             {
                 id = new ProductsBusiness().AddProductDetails(model.ProductID, model.DetailsCode, model.ShapeCode, model.SaleAttr, model.AttrValue, model.SaleAttrValue,
-                                                              model.Price, model.Weight, model.BigPrice, model.ImgS, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
+                                                              model.Price, model.Weight, model.BigPrice, model.ImgS, model.Description, model.Remark, CurrentUser.UserID, CurrentUser.ClientID);
             }
             else
             {
                 bool bl = new ProductsBusiness().UpdateProductDetails(model.ProductDetailID, model.ProductID, model.DetailsCode, model.ShapeCode, model.BigPrice, model.SaleAttr, model.AttrValue, model.SaleAttrValue,
-                                                              model.Price, model.Weight, model.Description, model.ImgS, CurrentUser.UserID, CurrentUser.ClientID); 
+                                                              model.Price, model.Weight, model.Description, model.Remark, model.ImgS, CurrentUser.UserID, CurrentUser.ClientID); 
                 if (bl)
                 {
                     id = model.ProductDetailID;

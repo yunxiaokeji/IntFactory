@@ -325,6 +325,7 @@ define(function (require, exports, module) {
                     Weight: 0,
                     Price: _this.find(".price").val(),
                     BigPrice: _this.find(".price").val(),//(Product.SmallUnitID != Product.BigUnitID ? _this.find(".bigprice").val() : _this.find(".price").val()) * Product.BigSmallMultiple,
+                    Remark: _this.find(".remark").val(),
                     Description: _this.data("desc")
                 };
                 details.push(modelDetail);
@@ -818,6 +819,7 @@ define(function (require, exports, module) {
                             BigPrice: $("#detailsPrice").val(),//(model.SmallUnitID != model.BigUnitID ? $("#bigPrice").val() : $("#detailsPrice").val()) * model.BigSmallMultiple,
                             Weight: 0,
                             ImgS: _self.ImgS,
+                            Remark: $("#detailsRemark").val(),
                             Description: desc
                         };
                         Global.post("/Products/SavaProductDetail", {
@@ -862,7 +864,7 @@ define(function (require, exports, module) {
                 $("#detailsCode").val(detailsModel.DetailsCode);
                 _self.ImgS = detailsModel.ImgS;
                 $("#imgS").attr("src", detailsModel.ImgS);
-
+                $("#detailsRemark").val(detailsModel.Remark);
                 var list = detailsModel.SaleAttrValue.split(',');
                 for (var i = 0, j = list.length; i < j; i++) {
                     $("#" + list[i].split(':')[0]).val(list[i].split(':')[1]).prop("disabled", true);

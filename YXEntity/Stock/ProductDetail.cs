@@ -163,14 +163,7 @@ namespace IntFactoryEntity
 			set{ _status=value;}
 			get{return _status;}
 		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Description
-		{
-			set{ _description=value;}
-			get{return _description;}
-		}
+		
         /// <summary>
         /// 
         /// </summary>
@@ -215,6 +208,14 @@ namespace IntFactoryEntity
 		}
 		#endregion Model
 
+
+        public string Description
+        {
+            set { _description = value; }
+            get { return _description; }
+        }
+
+        public string Remark { get; set; }
 
         public string ShapeCode { get; set; }
 
