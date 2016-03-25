@@ -192,7 +192,7 @@
                         { 
                             <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
                                 <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
-                                <td>@(detail.ProductCode)</td>
+                                <td>@(string.IsNullOrEmpty(detail.DetailsCode)? detail.ProductCode:detail.DetailsCode)</td>
                                 <td>@(detail.Remark)</td>
                                 <td class="center">@(detail.UnitName)</td>
                                 <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>

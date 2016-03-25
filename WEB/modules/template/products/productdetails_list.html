@@ -3,9 +3,12 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td class="width80"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="略缩图" src="{%=item.ImgS%}" /></td>
+    <td class="width80">
+        <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="略缩图" src="{%=item.ImgS?item.ImgS:'/modules/images/img-noimg.png'%}" />
+    </td>
     <td>{%=item.DetailsCode%}</td>
     <td>{%=item.Description%}</td>
+    <td>{%=item.Remark%}</td>
     <td class="tRight">{%=item.Price.toFixed(2)%}</td>
     <td class='center'><div class="status" data-id="{%=item.ProductDetailID%}" data-value="{%=item.Status==1%}"></div></td>
     <td class="center"><a class="ico-edit" title="编辑" data-id="{%=item.ProductDetailID%}" href="javascript:void(0);"></a></td>

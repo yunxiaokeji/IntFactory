@@ -167,7 +167,6 @@ namespace YXERP.Controllers
 
         #region Ajax
 
-
         public JsonResult GetCustomerSources()
         {
             var list = new SystemBusiness().GetCustomSources(CurrentUser.AgentID, CurrentUser.ClientID);
@@ -351,6 +350,7 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         public JsonResult CloseCustomer(string ids)
         {
             bool bl = false;
@@ -369,6 +369,7 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         public JsonResult RecoveryCustomer(string ids)
         {
             bool bl = false;
@@ -388,7 +389,6 @@ namespace YXERP.Controllers
             };
         }
 
-
         public JsonResult GetCustomerLogs(string customerid, int pageindex)
         {
             int totalCount = 0;
@@ -406,7 +406,6 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-
 
         public JsonResult GetClientByKeywords(string keywords)
         {

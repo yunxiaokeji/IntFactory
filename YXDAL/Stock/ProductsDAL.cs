@@ -612,7 +612,7 @@ namespace IntFactoryDAL
 
 
 
-        public string AddProductDetails(string productid, string productCode, string shapeCode, string attrlist, string valuelist, string attrvaluelist, decimal price, decimal weight, decimal bigprice, string productImg, string description, string operateid, string clientid)
+        public string AddProductDetails(string productid, string productCode, string shapeCode, string attrlist, string valuelist, string attrvaluelist, decimal price, decimal weight, decimal bigprice, string productImg, string description, string remark, string operateid, string clientid)
         {
             string id = "";
             int result = 0;
@@ -630,6 +630,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ProductImg",productImg),
                                        new SqlParameter("@ShapeCode",shapeCode),
                                        new SqlParameter("@Description",description),
+                                       new SqlParameter("@Remark",remark),
                                        new SqlParameter("@CreateUserID",operateid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
@@ -685,7 +686,7 @@ namespace IntFactoryDAL
 
         }
 
-        public bool UpdateProductDetails(string detailid, string productid, string productCode, string shapeCode, decimal bigPrice, string attrlist, string valuelist, string attrvaluelist, decimal price, decimal weight, string description, string image)
+        public bool UpdateProductDetails(string detailid, string productid, string productCode, string shapeCode, decimal bigPrice, string attrlist, string valuelist, string attrvaluelist, decimal price, decimal weight, string description, string remark, string image)
         {
             int result = 0;
             SqlParameter[] paras = { 
@@ -701,7 +702,8 @@ namespace IntFactoryDAL
                                        new SqlParameter("@Weight",weight),
                                        new SqlParameter("@ShapeCode",shapeCode),
                                        new SqlParameter("@ImgS",image),
-                                       new SqlParameter("@Description",description)
+                                       new SqlParameter("@Description",description),
+                                       new SqlParameter("@Remark",remark)
                                    };
             paras[0].Value = result;
             paras[0].Direction = ParameterDirection.InputOutput;

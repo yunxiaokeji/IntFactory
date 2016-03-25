@@ -3,6 +3,7 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
+    <td class='center'><span class="mark" data-id="{%= item.OrderID %}" data-value="{%= item.Mark %}"></span> </td>
     <td class=""><span data-id="{%=item.OrderID%}" data-userid="{%=item.OwnerID%}" class="ico-check check"></span></td>
     <td class="">
         <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />

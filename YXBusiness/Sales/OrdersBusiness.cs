@@ -176,14 +176,15 @@ namespace IntFactoryBusiness
                     model.Customer.FillData(ds.Tables["Customer"].Rows[0]);
                 }
                 model.Details = new List<OrderDetail>();
-                if (ds.Tables["Details"].Rows.Count > 0)
+                foreach (DataRow dr in ds.Tables["Details"].Rows)
                 {
-                    foreach (DataRow dr in ds.Tables["Details"].Rows)
+                    OrderDetail detail = new OrderDetail();
+                    detail.FillData(dr);
+                    if (!string.IsNullOrEmpty(detail.UnitID))
                     {
-                        OrderDetail detail = new OrderDetail();
-                        detail.FillData(dr);
-                        model.Details.Add(detail);
+                        detail.UnitName = new ProductsBusiness().GetUnitByID(detail.UnitID).UnitName;
                     }
+                    model.Details.Add(detail);
                 }
                 model.OrderGoods = new List<OrderGoodsEntity>();
                 if (ds.Tables["Goods"].Rows.Count > 0)
