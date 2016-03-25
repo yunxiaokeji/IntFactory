@@ -3,7 +3,7 @@
 }
 
 <style>
-    .order-imgs { width:400px; height:60px; position:absolute; left:450px; top:260px; }
+    .order-imgs { width:400px; height:65px; margin-left:85px; }
     .order-imgs li{ width:60px; height:60px; float:left; margin-left:20px; position:relative;}
     .order-imgs li img{ width:60px; height:60px; }
     .order-imgs .ico-delete { position:absolute; top:-8px; right:-8px;  }
@@ -55,6 +55,9 @@
             <span id="productIco"></span>
         </li>
         <li>
+            <ul id="orderImages" class="order-imgs addimg"></ul>
+        </li>
+        <li>
             <span class="column-title">详细需求：</span>
             <textarea id="remark"></textarea>
         </li>
@@ -75,9 +78,6 @@
             <span class="column-title">详细地址：</span> 
             <span><input type="text" maxlength="200" style="width:300px;" id="address" class="input" /></span>
         </li>
-    </ul>
-    <ul id="orderImages" class="order-imgs">
-
     </ul>
     <div class="mTop20">
         <div class="btn" id="btnSave">保存</div>
