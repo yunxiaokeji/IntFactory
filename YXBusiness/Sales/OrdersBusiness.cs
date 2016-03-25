@@ -199,6 +199,31 @@ namespace IntFactoryBusiness
             return model;
         }
 
+        public OrderEntity GetOrderBaseInfoByID(string orderid, string agentid, string clientid)
+        {
+            DataSet ds = OrdersDAL.BaseProvider.GetOrderBaseInfoByID(orderid, agentid, clientid);
+            OrderEntity model = new OrderEntity();
+            if (ds.Tables["Order"].Rows.Count > 0)
+            {
+
+                model.FillData(ds.Tables["Order"].Rows[0]);
+
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
+
+                model.Details = new List<OrderDetail>();
+                if (ds.Tables["Details"].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables["Details"].Rows)
+                    {
+                        OrderDetail detail = new OrderDetail();
+                        detail.FillData(dr);
+                        model.Details.Add(detail);
+                    }
+                }
+            }
+            return model;
+        }
+
         public static List<ReplyEntity> GetReplys(string guid, string stageID,int mark, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             List<ReplyEntity> list = new List<ReplyEntity>();

@@ -42,30 +42,6 @@ namespace YXERP.Controllers
             };
         }
 
-        //public JsonResult ExecuteDownAliOrdersPlan()
-        //{
-        //    var result =AliOrderBusiness.ExecuteDownAliOrdersPlan();
-
-        //    JsonDictionary.Add("result", result);
-        //    return new JsonResult()
-        //    {
-        //        Data = JsonDictionary,
-        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-        //    };
-        //}
-
-        //public JsonResult ExecuteUpdateAliOrders()
-        //{
-        //    var result = AliOrderBusiness.ExecuteUpdateAliOrders();
-
-        //    JsonDictionary.Add("result", result);
-        //    return new JsonResult()
-        //    {
-        //        Data = JsonDictionary,
-        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-        //    };
-        //}
-
         List<string> codes = new List<string>();
         public JsonResult pullFentDataList()
         {
@@ -112,21 +88,25 @@ namespace YXERP.Controllers
             ViewBag.Model = task;
 
             //任务对应的订单详情
-            var order=OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var order=OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
             if (order.Details == null)
             {
                 order.Details = new List<IntFactoryEntity.OrderDetail>();
             }
             ViewBag.Order = order;
 
-            //任务对应订单的品类属性
-            ViewBag.ProductAttr = new ProductsBusiness().GetTaskPlateAttrByCategoryID(order.CategoryID);
+            //订单的品类属性
+            ViewBag.ProductAttr = new IntFactoryEntity.ProductAttr();
 
             //打样材料
             if (task.Mark == 1)
                 return View("MaterialDetail");
             else if (task.Mark == 2)//打样制版
+            {
+                //任务对应订单的品类属性
+                ViewBag.ProductAttr = new ProductsBusiness().GetTaskPlateAttrByCategoryID(order.CategoryID);
                 return View("PlateDetail");
+            }
             else if (task.Mark == 3)//大货材料
                 return View("CargoMaterialDetail");
             else

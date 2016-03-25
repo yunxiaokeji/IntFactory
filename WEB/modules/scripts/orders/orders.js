@@ -36,6 +36,8 @@
         }
         _self.getList();
         _self.bindEvent(type);
+
+        ObjectJS.getAliInfo();
     }
 
     //绑定事件
@@ -253,7 +255,6 @@
             }
         });
 
-        var successOrderCountObj = null;
         //手动同步阿里订单
         $("#downAliOrders").click(function () {
 
@@ -270,11 +271,12 @@
 
                 var nowDate = new Date();
                 var maxDate = nowDate.toLocaleDateString();
-                var startDate = ObjectJS.AddDays(nowDate, -15);
+                var startDate = ObjectJS.DownBeginTime;
 
                 $("#downStartTime").val(startDate);
                 $("#downEndTime").val( nowDate.getFullYear()+"-"+(nowDate.getMonth()+1)+"-"+nowDate.getDate() );
 
+                
                 $("#btn-sureDown").click(function () {
                     if ($("#downStartTime").val() == "")
                     {
@@ -297,12 +299,14 @@
                         return;
                     }
 
-                    
+                    $("#btn-sureDown").val("同步中...").attr("disabled", "disabled");
                     Global.post("/Orders/DownAliOrders", {
                         startTime: $("#downStartTime").val(),
                         endTime: $("#downEndTime").val(),
                         downOrderType: $("#downOrderType").val()
                     }, function (data) {
+                        $("#btn-sureDown").val("确定同步").removeAttr("disabled");
+
                         if (data.result == 0) {
                             alert("同步失败");
                         }
@@ -339,6 +343,9 @@
                         else if (data.result == 3) {
                             alert("最大下载15天内");
                         }
+                        else if (data.result == 4) {
+                            alert("今天已手动同步订单了,请稍后再试");
+                        }
                     });
 
                 });
@@ -347,6 +354,7 @@
                     elem: '#downStartTime',
                     format: 'YYYY-MM-DD',
                     max: maxDate,
+                    min:ObjectJS.AliStartTime,
                     istime: false,
                     istoday: false,
                     choose: function (datas) {
@@ -360,6 +368,7 @@
                     elem: '#downEndTime',
                     format: 'YYYY-MM-DD',
                     max: maxDate,
+                    min:ObjectJS.AliStartTime,
                     istime: false,
                     istoday: true,
                     choose: function (datas) {
@@ -463,19 +472,14 @@
         });
     }
 
-    ObjectJS.AddDays=function(date, days) {
-        var nd = new Date(date);
-        nd = nd.valueOf();
-        nd = nd + days * 24 * 60 * 60 * 1000;
-        nd = new Date(nd);
-        //alert(nd.getFullYear() + "年" + (nd.getMonth() + 1) + "月" + nd.getDate() + "日");
-        var y = nd.getFullYear();
-        var m = nd.getMonth() + 1;
-        var d = nd.getDate();
-        if (m <= 9) m = "0" + m;
-        if (d <= 9) d = "0" + d;
-        var cdate = y + "-" + m + "-" + d;
-        return cdate;
+    ObjectJS.getAliInfo = function () {
+        Global.post("/Orders/GetAliInfo", null, function (data) {
+            if (data.result == 1) {
+                $("#downAliOrders").removeClass("nolimits");
+                ObjectJS.AliStartTime = data.plan.CreateTime.toDate("yyyy-MM-dd");
+                ObjectJS.DownBeginTime = data.downBeginTime.toDate("yyyy-MM-dd");
+            }
+        });
     }
 
     module.exports = ObjectJS;

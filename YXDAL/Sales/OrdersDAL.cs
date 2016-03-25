@@ -104,6 +104,18 @@ namespace IntFactoryDAL
             return ds;
         }
 
+        public DataSet GetOrderBaseInfoByID(string orderid, string agentid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@OrderID",orderid),
+                                       new SqlParameter("@AgentID", agentid),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+
+            DataSet ds = GetDataSet("p_GetOrderBaseInfoByID", paras, CommandType.StoredProcedure, "Order|Details");
+            return ds;
+        }
+
         public DataTable GetOrderPlans(string ownerID, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 

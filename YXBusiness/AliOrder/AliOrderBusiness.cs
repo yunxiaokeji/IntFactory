@@ -14,6 +14,25 @@ namespace IntFactoryBusiness
     public class AliOrderBusiness
     {
         public static AliOrderBusiness BaseBusiness = new AliOrderBusiness();
+        #region 缓存
+        private static Dictionary<string,DateTime> _downAliOrderLogs;
+
+        public static Dictionary<string, DateTime> DownAliOrderLogs
+        {
+            get {
+                if (_downAliOrderLogs == null)
+                {
+                    _downAliOrderLogs = new Dictionary<string, DateTime>();
+                }
+
+                return _downAliOrderLogs;
+            }
+            set 
+            {
+                _downAliOrderLogs = value;
+            }
+        }
+        #endregion
 
         /// <summary>
         /// 下载阿里打样订单

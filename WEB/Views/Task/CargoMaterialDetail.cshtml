@@ -8,18 +8,15 @@
     attrValues = productAttr.AttrValues == null ? "" : Html.ToJSONString(productAttr.AttrValues);
 }
 @section css{
-<link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
 <link href="/modules/css/task/style.css" rel="stylesheet" />
 }
 
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
-    <script src="/modules/plug/umeditor/umeditor.min.js"></script>
-    <script src="/modules/plug/umeditor/umeditor.config.js"></script>
     <script type="text/javascript">
         $(function () {
-            var um = UM.getEditor('txtPlateRemark');
+            var um = null;
 
             seajs.use(["scripts/task/detail"], function (obj) {
                 obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)');
