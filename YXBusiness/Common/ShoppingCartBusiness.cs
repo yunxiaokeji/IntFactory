@@ -37,6 +37,10 @@ namespace IntFactoryBusiness
             {
                 ProductDetail model = new ProductDetail();
                 model.FillData(dr);
+                if (!string.IsNullOrEmpty(model.UnitID))
+                {
+                    model.UnitName = new ProductsBusiness().GetUnitByID(model.UnitID).UnitName;
+                }
                 list.Add(model);
             }
             return list;
