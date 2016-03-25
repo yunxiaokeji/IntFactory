@@ -58,7 +58,11 @@ define(function (require, exports, module) {
                         } else {
                             $("#price").html("￥" + model.ProductDetails[i].BigPrice.toFixed(2));
                         }
-                        $("#productimg").attr("src", model.ProductDetails[i].ImgS);
+                        if (model.ProductDetails[i].ImgS) {
+                            $("#productimg").attr("src", model.ProductDetails[i].ImgS);
+                        } else {
+                            $("#productimg").attr("src", model.ProductDetails[i].ProductImage);
+                        }
                         $("#productStockQuantity").text(model.ProductDetails[i].StockIn - model.ProductDetails[i].LogicOut);
                         return;
                     } else {
@@ -147,7 +151,9 @@ define(function (require, exports, module) {
                     $(".attr-item[data-id='" + item[0] + "']").find("li[data-id='" + item[1] + "']").addClass("hover");
                 }
                 $("#price").html("￥" + model.ProductDetails[i].Price.toFixed(2));
-                $("#productimg").attr("src", model.ProductDetails[i].ImgS);
+                if (model.ProductDetails[i].ImgS) {
+                    $("#productimg").attr("src", model.ProductDetails[i].ImgS);
+                }
                 $("#productStockQuantity").text(model.ProductDetails[i].StockIn - model.ProductDetails[i].LogicOut);
                 break;
             }

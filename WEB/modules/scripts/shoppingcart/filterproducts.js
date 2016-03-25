@@ -420,7 +420,11 @@
                         } else {
                             $("#price").html("￥" + model.ProductDetails[i].BigPrice.toFixed(2));
                         }
-                        $("#productimg").attr("src", model.ProductDetails[i].ImgS);
+                        if (model.ProductDetails[i].ImgS) {
+                            $("#productimg").attr("src", model.ProductDetails[i].ImgS);
+                        } else {
+                            $("#productimg").attr("src", model.ProductImage);
+                        }
                         $("#productStockQuantity").text(model.ProductDetails[i].StockIn - model.ProductDetails[i].LogicOut);
                         return;
                     } else {

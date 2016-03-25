@@ -1026,6 +1026,10 @@ namespace IntFactoryBusiness
                                 file.MoveTo(HttpContext.Current.Server.MapPath(model.ImgS));
                             }
                         }
+                        else if (model.ImgS.ToLower().IndexOf("/modules/images/") >= 0)
+                        {
+                            model.ImgS = "";
+                        }
                         dal.AddProductDetails(pid, model.DetailsCode, model.ShapeCode, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Price, model.Weight, model.BigPrice, model.ImgS, model.Description, model.Remark, operateid, clientid);
                     }
                 }
@@ -1037,7 +1041,7 @@ namespace IntFactoryBusiness
         {
             lock (SingleLock)
             {
-                if (!string.IsNullOrEmpty(productImg))
+                if (!string.IsNullOrEmpty(productImg) && productImg.IndexOf("/modules/images/") < 0)
                 {
                     DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
                     if (!directory.Exists)
@@ -1055,6 +1059,10 @@ namespace IntFactoryBusiness
                     {
                         file.MoveTo(HttpContext.Current.Server.MapPath(productImg));
                     }
+                }
+                else if (productImg.IndexOf("/modules/images/") >= 0)
+                {
+                    productImg = "";
                 }
 
                 var dal = new ProductsDAL();
@@ -1124,6 +1132,10 @@ namespace IntFactoryBusiness
                     file.MoveTo(HttpContext.Current.Server.MapPath(productImg));
                 }
             }
+            else if (productImg.ToLower().IndexOf("/modules/images/") >= 0)
+            {
+                productImg = "";
+            }
 
             var dal = new ProductsDAL();
             return dal.UpdateProduct(productid, productCode, productName, generalName, iscombineproduct, prodiverid, brandid, bigunitid, smallunitid, bigSmallMultiple, status, ispublic, categoryid, attrlist,
@@ -1157,6 +1169,10 @@ namespace IntFactoryBusiness
                     {
                         file.MoveTo(HttpContext.Current.Server.MapPath(productImg));
                     }
+                }
+                else if (productImg.ToLower().IndexOf("/modules/images/") >= 0)
+                {
+                    productImg = "";
                 }
                 var dal = new ProductsDAL();
                 return dal.UpdateProductDetails(detailid, productid, productCode, shapeCode, bigPrice, attrlist, valuelist, attrvaluelist, price, weight, description, remark, productImg);
