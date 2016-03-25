@@ -253,6 +253,8 @@ namespace IntFactoryEntity
 
         public decimal OriginalPrice { get; set; }
 
+        public int Mark { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

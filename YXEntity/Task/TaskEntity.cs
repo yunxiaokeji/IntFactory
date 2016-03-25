@@ -55,6 +55,8 @@ namespace IntFactoryEntity.Task
 
         public int Mark { get; set; }
 
+        public int ColorMark { get; set; }
+
         public string Remark { get; set; }
 
         public int FinishStatus { get; set; }
