@@ -492,7 +492,7 @@
         });
     }
 
-    //标记客户
+    //标记订单
     ObjectJS.markOrders = function (ids, mark, callback) {
         if (mark < 0) {
             alert("不能标记此选项!");

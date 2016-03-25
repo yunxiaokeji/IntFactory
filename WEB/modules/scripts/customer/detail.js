@@ -6,6 +6,7 @@
         ChooseUser = require("chooseuser"),
         Easydialog = require("easydialog");
     require("pager");
+    require("mark");
 
     var ObjectJS = {}, CacheIems = [];
     //初始化
@@ -314,6 +315,14 @@
                     var innerhtml = template(data.items);
 
                     innerhtml = $(innerhtml);
+
+                    innerhtml.find(".mark").markColor({
+                        isAll: false,
+                        onChange: function (obj, callback) {
+                            _self.markOrders(obj.data("id"), obj.data("value"), callback);
+                        }
+                    });
+
                     $("#navOrder .tr-header").after(innerhtml);
                 });
             } else {
@@ -357,6 +366,13 @@
                     var innerhtml = template(data.items);
 
                     innerhtml = $(innerhtml);
+                    innerhtml.find(".mark").markColor({
+                        isAll: false,
+                        onChange: function (obj, callback) {
+                            _self.markOrders(obj.data("id"), obj.data("value"), callback);
+                        }
+                    });
+
                     $("#navDHOrder .tr-header").after(innerhtml);
                 });
             } else {
@@ -399,6 +415,13 @@
                     var innerhtml = template(data.items);
 
                     innerhtml = $(innerhtml);
+
+                    innerhtml.find(".mark").markColor({
+                        isAll: false,
+                        onChange: function (obj, callback) {
+                            _self.markOrders(obj.data("id"), obj.data("value"), callback);
+                        }
+                    });
                     $("#navOppor .tr-header").after(innerhtml);
                 });
             } else {
@@ -622,6 +645,26 @@
         _self.getReplys(customerid, 1);
 
     }
+
+    //标记订单
+    ObjectJS.markOrders = function (ids, mark, callback) {
+        if (mark < 0) {
+            alert("不能标记此选项!");
+            return false;
+        }
+        Global.post("/Orders/UpdateOrderMark", {
+            ids: ids,
+            mark: mark
+        }, function (data) {
+            if (data.result == "10001") {
+                alert("您没有标记订单的权限！");
+                callback && callback(false);
+            } else {
+                callback && callback(data.status);
+            }
+        });
+    }
+
     //获取备忘
     ObjectJS.getReplys = function (customerid, page) {
         var _self = this;
