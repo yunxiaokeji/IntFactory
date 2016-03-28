@@ -29,26 +29,27 @@ display:inline-block;
 
 .taskFinishStatus{  padding:5px 10px; background-color:#ccc; color:#333; border:none; display:inline-block; border-radius:2px; line-height:18px; }
 
-/*讨论备忘*/
-.talk-body {}
-.talk-body .content-main {position:relative; width:800px;}
-.talk-body .content-main .txt-content { height:100px; width:800px;}
-.talk-body .content-main .btn-save { position:absolute; right:0; bottom:0px; }
-
-.talk-body .talk-title { border-bottom: solid 1px #ccc; height:40px; line-height:40px; color:#666; }
-.talk-body .content-list {width:800px;}
-.talk-body .content-list td{ border-bottom:dashed 1px #ccc; }
-.talk-body .content-list .user-avatar { width:35px; padding-top:20px; vertical-align:top; }
-.talk-body .content-list .user-avatar img{ width:24px; height:24px; border-radius:12px;  vertical-align:top; }
+/*任务样图信息*/
+.order-imgs-div { width:300px; padding:10px 10px 0 0;}
+.order-imgs-div .order-imgs img{ height:260px; width:300px;}
+.order-imgs-list li{ width:40px; height:40px; float:left; border:solid 2px #eee; margin-right:5px; cursor:pointer;}
+.order-imgs-list li.hover{ border-color:red;}
+.order-imgs-list img{ width:40px; height:40px;}
 
 
+/*制版属性*/
 .platemakingContent {
 margin:20px 0px;
 }
 
-#platemakingBody {
+.platemakingBody {
 border-top:1px solid #eee;
 border-left:1px solid #eee;
+}
+
+.platemakingBody td {
+border-bottom:1px solid #eee;
+border-right:1px solid #eee;
 }
 
 .platemakingContent .tbContent {
@@ -57,11 +58,6 @@ cursor:pointer;
 
 .platemakingContent .tbContentIpt {
 width:80px;
-}
-
-#platemakingBody td {
-border-bottom:1px solid #eee;
-border-right:1px solid #eee;
 }
 
 .platemakingContent .btn-create{ background:url(../../images/btn-add.png) no-repeat; height:24px; min-width:24px;cursor:pointer;}
@@ -73,23 +69,30 @@ margin:0px auto;
 width:60px;
 }
 
-/*样图信息*/
-.order-imgs-div { width:300px; padding:10px 10px 0 0;}
-.order-imgs-div .order-imgs img{ height:260px; width:300px;}
-.order-imgs-list li{ width:40px; height:40px; float:left; border:solid 2px #eee; margin-right:5px; cursor:pointer;}
-.order-imgs-list li.hover{ border-color:red;}
-.order-imgs-list img{ width:40px; height:40px;}
 
-/*设置员工角色*/
+/*品类属性选择层*/
 .role-items { width:455px; overflow:auto; }
 .role-items li{ width:100px; height:35px; float:left; line-height:35px; border:solid 1px #ccc; margin:10px 5px; text-align:center; cursor:pointer; }
 .role-items li:hover{ border-color:#2F73B8; color:#2F73B8;}
 .role-items li.hover{ border-color:#2F73B8; color:#fff; background-color:#2F73B8;}
 
-/*组织架构*/
+/*新增制版属性*/
 .create-first { height:70px; line-height:60px; margin:50px auto; width:200px; border:solid 1px #eee; box-shadow:0 0 10px #ccc; text-align:center;
 color:#4a98e7; font-size:18px; cursor:pointer;}
 .create-first .plus{color:#4a98e7; font-size:30px; font-weight:bold; top:3px; position:relative; }
+
+/*讨论*/
+.talk-body {}
+.talk-body .content-main {position:relative; width:800px;}
+.talk-body .content-main .txt-content { height:100px; width:800px;}
+.talk-body .content-main .btn-save { position:absolute; right:0; bottom:0px; }
+
+.talk-body .talk-title { border-bottom: solid 1px #ccc; height:40px; line-height:40px; color:#666; }
+.talk-body .content-list {width:800px;}
+.talk-body .content-list td{ border-bottom:dashed 1px #ccc; }
+.talk-body .content-list .user-avatar { width:35px; padding-top:20px; vertical-align:top; }
+.talk-body .content-list .user-avatar img{ width:24px; height:24px; border-radius:12px;  vertical-align:top; }
+
 
 .table-list tr:not(:first-child) td {
 height:35px;

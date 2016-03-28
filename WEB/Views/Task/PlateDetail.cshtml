@@ -218,7 +218,13 @@
             </div>
 
         <div class="platemakingContent" id="platemakingContent">
-            <div id="platemakingBody">
+             @{
+                 if (!string.IsNullOrEmpty(order.Platemaking) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010102")) )
+                 {
+                    <a class="btn right mTop5" href="/Task/PlatePrint/@order.OrderID" target="_blank" id="btn-platePrint">打印制版</a>
+                 }}
+            <div class="clear"></div>
+            <div id="platemakingBody" class="mTop10 platemakingBody">
             @{
                 if (!string.IsNullOrEmpty(order.Platemaking))
                 {

@@ -856,6 +856,7 @@
     <Content Include="Views\Task\PlateDetail.cshtml" />
     <Content Include="Views\Home\BindAccount.cshtml" />
     <Content Include="Views\Home\SelectLogin.cshtml" />
+    <Content Include="Views\Task\PlatePrint.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

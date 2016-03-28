@@ -548,7 +548,16 @@
 
         //编辑损耗
         $(".loss").change(function () {
-            if ($(this).val().isDouble() && $(this).val() >= 0) {
+            var loss = parseFloat($(this).val());
+            if (!isNaN(loss)) {
+                if (loss < 0)
+                {
+                    if (-loss>= parseFloat($(this).parent().prev().html()) ){
+                        $(this).val($(this).data("value"));
+                        return;
+                    }
+                }
+
                 ObjectJS.editLoss($(this));
             } else {
                 $(this).val($(this).data("value"));
@@ -665,14 +674,15 @@
         $("#amount").text(amount.toFixed(2));
     }
 
+    //生成采购单
     ObjectJS.effectiveOrderProduct = function () {
         Global.post("/Orders/EffectiveOrderProduct", {
             orderID: ObjectJS.orderid
         }, function (data) {
-            if (data.result == 1)
-            {
-                location.href = location.href;
-            }
+            //if (data.result == 1)
+            //{
+            //    location.href = location.href;
+            //}
         });
     }
 
@@ -691,6 +701,10 @@
 
         ObjectJS.bindAddRow();
         ObjectJS.bindRemoveRow();
+
+        //$("#btn-platePrint").click(function () {
+        //    ObjectJS.platePrint();
+        //});
 
         $("#btn-updateTaskRemark").click(function () {
             ObjectJS.updateOrderPlatemaking();
@@ -987,5 +1001,39 @@
         });
     }
 
+    ObjectJS.platePrint = function () {
+        //var bdhtml = window.document.body.innerHTML;;
+        //var docStr = $("#platemakingBody").html();
+        //window.document.body.innerHTML=docStr;
+        //window.print();
+        //window.document.body.innerHTML = bdhtml;
+        $("span.ico-dropdown").hide();
+        $("#platemakingContent table tr").each(function () {
+            $(this).find("td:last").hide();
+        });
+
+        var obj = $("#platemakingBody");
+        //打开一个新窗口newWindow
+        var newWindow = window.open("打印窗口", "_blank");
+        //要打印的div的内容
+        var docStr = "<style type='text/css'>.platemakingBody td {border-bottom:1px solid #eee;border-right:1px solid #eee;width:100px;}</style>";
+        docStr += obj.html();
+
+        $("span.ico-dropdown").show();
+        $("#platemakingContent table tr").each(function () {
+            $(this).find("td:last").show();
+        });
+
+        //打印内容写入newWindow文档
+        newWindow.document.write(docStr);
+        //关闭文档
+        newWindow.document.close();
+        //调用打印机
+        newWindow.print();
+        //关闭newWindow页面
+        newWindow.close();
+
+        
+    }
     module.exports = ObjectJS;
 });

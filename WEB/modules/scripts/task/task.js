@@ -8,6 +8,8 @@
         isMy: true,
         userID: "",
         orderType: -1,
+        orderProcessID:"-1",
+        orderStageID:"-1",
         taskType: -1,
         mark: -1,
         finishStatus:0,
@@ -113,38 +115,47 @@
                 }
             });
 
-            var TaskTypes = [
-                {
-                    ID: "1",
-                    Name: "打样材料"
-                },
-                {
-                    ID: "2",
-                    Name: "制版"
-                },
-                {
-                    ID: "3",
-                    Name: "大货材料"
-                },
-                {
-                    ID: "0",
-                    Name: "其他"
-                }
-            ];
-            $("#taskType").dropdown({
-                prevText: "任务类型-",
-                defaultText: "全部",
-                defaultValue: "-1",
-                data: TaskTypes,
-                dataValue: "ID",
-                dataText: "Name",
-                width: "140",
-                onChange: function (data) {
-                    Params.pageIndex = 1;
-                    Params.taskType = data.value;
-                    ObjectJS.getList();
-                }
+            Global.post("/Task/GetOrderProcess", null, function (data) {
+                $("#orderProcess").dropdown({
+                    prevText: "订单流程-",
+                    defaultText: "全部",
+                    defaultValue: "-1",
+                    data: data.items,
+                    dataValue: "ProcessID",
+                    dataText: "ProcessName",
+                    width: "140",
+                    onChange: function (data) {
+                        Params.orderProcessID = data.value;
+                        Params.orderStageID = "-1";
+                        Params.pageIndex = 1;
+                        ObjectJS.getList();
+
+
+                        Global.post("/Task/GetOrderStages", { id: data.value }, function (data) {
+
+                            $("#orderStage").dropdown({
+                                prevText: "流程阶段-",
+                                defaultText: "全部",
+                                defaultValue: "-1",
+                                data: data.items,
+                                dataValue: "StageID",
+                                dataText: "StageName",
+                                width: "140",
+                                onChange: function (data) {
+                                    Params.orderStageID = data.value;
+                                    Params.pageIndex = 1;
+                                    ObjectJS.getList();
+                                }
+                            });
+
+                        });
+
+                    }
+                });
+
             });
+
+
 
         });
 
