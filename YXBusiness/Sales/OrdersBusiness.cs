@@ -218,6 +218,10 @@ namespace IntFactoryBusiness
                     {
                         OrderDetail detail = new OrderDetail();
                         detail.FillData(dr);
+                        if (!string.IsNullOrEmpty(detail.UnitID))
+                        {
+                            detail.UnitName = new ProductsBusiness().GetUnitByID(detail.UnitID).UnitName;
+                        }
                         model.Details.Add(detail);
                     }
                 }

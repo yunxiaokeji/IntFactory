@@ -84,4 +84,18 @@
 .category-items li.hover{ border-color:#2F73B8; color:#fff; background-color:#2F73B8;}
 
 
+/*切换图片*/
+.enlarge-image-bgbox { width:100%;height:100%; position:fixed; top:0; left:0; background-color:#666; z-index:9999; opacity:0.9; }
+.enlarge-image-bgbox .close-enlarge-image { position:fixed; top:10px; right:10px;}
+
+.left-enlarge-image,.right-enlarge-image {position:fixed;  width:40px; height:100px;  cursor:pointer;cursor:pointer; }
+.left-enlarge-image { left:100px;  background:url('/modules/images/ico-prev-image.png') no-repeat;background-size:cover;}
+.left-enlarge-image:hover {  background:url('/modules/images/ico-prev-image-hover.png') no-repeat;background-size:cover;}
+.right-enlarge-image { right:100px; background:url('/modules/images/ico-next-image.png') no-repeat;background-size:cover; }
+.right-enlarge-image:hover {  background:url('/modules/images/ico-next-image-hover.png') no-repeat;background-size:cover; }
+.enlarge-image-box{ position:fixed;  top:40px; bottom:40px; left:100px; right:100px; text-align:center; z-index:19999; }
+
+.enlarge-image-box img { text-align:center; }
+
+
 

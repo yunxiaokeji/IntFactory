@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using IntFactoryDAL;
 using IntFactoryEntity;
 using System.Data;
+using IntFactoryEnum;
 
 namespace IntFactoryBusiness
 {
@@ -217,6 +218,23 @@ namespace IntFactoryBusiness
             }
             return list;
         }
+
+        public List<BillingPay> GetOrderPays(string orderid)
+        {
+            List<BillingPay> list = new List<BillingPay>();
+            DataTable dt = FinanceDAL.BaseProvider.GetOrderPays(orderid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                BillingPay model = new BillingPay();
+                model.FillData(dr);
+                model.PayTypeStr = CommonBusiness.GetEnumDesc<EnumOrderPayType>((EnumOrderPayType)model.PayType);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
+                list.Add(model);
+            }
+
+            return list;
+        }
+        
         #endregion
 
         #region 添加

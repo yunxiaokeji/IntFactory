@@ -36,44 +36,6 @@ define(function (require, exports, module) {
         stages.find("li .rightbg").last().removeClass("rightbg");
         stages.find("li,a").width(width / (stages.find("li").length > 5 ? 4 : stages.find("li").length) - 15);
 
-        //转移工厂按钮
-        if (_self.status != 0 || !!model.EntrustClientID) {
-            $("#btnchangeclient").hide();
-            $("#btndelete").hide();
-        } else {
-            //转移工厂
-            $("#btnchangeclient").click(function () {
-                var _this = $(this);
-                ChooseFactory.create({
-                    title: "订单委托-选择工厂",
-                    callback: function (items) {
-                        if (items.length > 0) {
-                            if (model.ClientID != items[0].id) {
-                                Global.post("/Orders/UpdateOrderClient", {
-                                    orderid: model.OrderID,
-                                    clientid: items[0].id,
-                                    name: items[0].name
-                                }, function (data) {
-                                    if (data.status) {
-                                        alert("订单委托成功!", location.href);
-                                    }
-                                });
-                            } else {
-                                alert("请选择不同工厂进行委托!");
-                            }
-                        }
-                    }
-                });
-            });
-
-            //删除需求单
-            $("#btndelete").click(function () {
-                confirm("需求单删除后不可恢复，确认删除吗？", function () {
-                    _self.deleteOrder();
-                });
-            });
-        }
-
         //回退委托
         if (_self.status == 0 && !!model.EntrustClientID) {
             $("#btnreturn").show();
@@ -404,6 +366,43 @@ define(function (require, exports, module) {
             _self.sendGoods();
         });
 
+        //付款登记
+        $("#addPay").click(function () {
+            _self.addPay();
+        });
+
+        //转移工厂
+        $("#btnchangeclient").click(function () {
+            var _this = $(this);
+            ChooseFactory.create({
+                title: "订单委托-选择工厂",
+                callback: function (items) {
+                    if (items.length > 0) {
+                        if (model.ClientID != items[0].id) {
+                            Global.post("/Orders/UpdateOrderClient", {
+                                orderid: model.OrderID,
+                                clientid: items[0].id,
+                                name: items[0].name
+                            }, function (data) {
+                                if (data.status) {
+                                    alert("订单委托成功!", location.href);
+                                }
+                            });
+                        } else {
+                            alert("请选择不同工厂进行委托!");
+                        }
+                    }
+                }
+            });
+        });
+
+        //删除需求单
+        $("#btndelete").click(function () {
+            confirm("需求单删除后不可恢复，确认删除吗？", function () {
+                _self.deleteOrder();
+            });
+        });
+
         //绑定品类
         $("#changeOrderCategory").click(function () {
             Global.post("/System/GetClientOrderCategorys", {}, function (data) {
@@ -519,6 +518,9 @@ define(function (require, exports, module) {
             } else if (_this.data("id") == "navCosts" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getCosts();
+            } else if (_this.data("id") == "navPays" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getPays();
             }
         });
 
@@ -686,6 +688,42 @@ define(function (require, exports, module) {
                 });
             });
         }
+
+        //图片放大功能
+        var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
+        $("#orderImage").click(function () {
+            if ($(this).attr("src")) {
+                $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
+                $("#enlargeImage").attr("src", $(this).attr("src")).css({ "height": height - 80, "max-width": width - 200 });
+                $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
+            }
+        });
+        $(".close-enlarge-image").click(function () {
+            $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+        });
+        $(".enlarge-image-bgbox").click(function () {
+            $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+        })
+        $(".left-enlarge-image").click(function () {
+            var ele = $(".order-imgs-list .hover").prev();
+            if (ele && ele.find("img").attr("src")) {
+                var _img = ele.find("img");
+                $(".order-imgs-list .hover").removeClass("hover");
+                ele.addClass("hover");
+                $("#enlargeImage").attr("src", _img.attr("src"));
+                $("#orderImage").attr("src", _img.attr("src"));
+            }
+        });
+        $(".right-enlarge-image").click(function () {
+            var ele = $(".order-imgs-list .hover").next();
+            if (ele && ele.find("img").attr("src")) {
+                var _img = ele.find("img");
+                $(".order-imgs-list .hover").removeClass("hover");
+                ele.addClass("hover");
+                $("#enlargeImage").attr("src", _img.attr("src"));
+                $("#orderImage").attr("src", _img.attr("src"));
+            }
+        });
         
     }
 
@@ -1087,25 +1125,6 @@ define(function (require, exports, module) {
         });
     };
 
-    //绑定账单
-    ObjectJS.getOrderBills = function () {
-        Global.post("/Finance/GetOrderBillByID", { id: _self.orderid }, function (data) {
-            var model = data.model;
-            if (model.BillingID) {
-                $("#infoPaymoney").text(model.PayMoney.toFixed(2));
-                _self.getPays(model.BillingPays, true);
-
-                //申请开票
-                if (model.InvoiceStatus == 0) {
-                    _self.billingid = model.BillingID;
-                    $("#addInvoice").click(function () {
-                        _self.addInvoice();
-                    });
-                }
-            }
-        });
-    }
-
     //删除订单
     ObjectJS.deleteOrder = function () {
         var _self = this;
@@ -1223,71 +1242,6 @@ define(function (require, exports, module) {
         });
     }
 
-    //登记发票
-    ObjectJS.addInvoice = function () {
-        var _self = this;
-        doT.exec("template/finance/orderinvoice-detail.html", function (template) {
-            var innerText = template();
-            Easydialog.open({
-                container: {
-                    id: "show-invoice-detail",
-                    header: "开票申请",
-                    content: innerText,
-                    yesFn: function () {
-                        if (!VerifyInvoice.isPass()) {
-                            return false;
-                        }
-                        var entity = {
-                            BillingID: _self.billingid,
-                            Type:1,
-                            CustomerType: $("#invoicetype").val(),
-                            InvoiceMoney: $("#invoicemoney").val().trim(),
-                            InvoiceTitle: $("#invoicetitle").val().trim(),
-                            CityCode: CityInvoice.getCityCode(),
-                            Address: $("#invoiceaddress").val().trim(),
-                            PostalCode: $("#invoicepostalcode").val().trim(),
-                            ContactName: $("#contactname").val().trim(),
-                            ContactPhone: $("#contactmobile").val().trim(),
-                            Remark: $("#remark").val().trim()
-                        };
-                        if (entity.InvoiceMoney <= 0) {
-                            alert("开票金额必须大于0！");
-                            return false;
-                        }
-                        confirm("提交后不能更改，确认提交吗？", function () {
-                            _self.saveOrderInvoice(entity);
-                        })
-                        return false;
-                    },
-                    callback: function () {
-
-                    }
-                }
-            });
-
-            $("#invoicemoney").focus();
-
-            $("#invoicemoney").val(_self.model.TotalMoney.toFixed(2));
-            $("#invoicetitle").val(_self.model.Customer.Name);
-            $("#invoiceaddress").val(_self.model.Address);
-            $("#invoicepostalcode").val(_self.model.PostalCode);
-            $("#contactname").val(_self.model.PersonName);
-            $("#contactmobile").val(_self.model.MobileTele);
-
-            CityInvoice = City.createCity({
-                elementID: "invoicecity",
-                cityCode: _self.model.CityCode
-            });
-
-            VerifyInvoice = Verify.createVerify({
-                element: ".verify",
-                emptyAttr: "data-empty",
-                verifyType: "data-type",
-                regText: "data-text"
-            });
-        });
-    }
-
     //更改订单状态
     ObjectJS.updateOrderStatus = function (status, quantity, price) {
         var _self = this;
@@ -1305,31 +1259,90 @@ define(function (require, exports, module) {
         });
     }
 
-    //保存发票信息
-    ObjectJS.saveOrderInvoice = function (model) {
-        Easydialog.close();
+    //登记付款
+    ObjectJS.addPay = function () {
         var _self = this;
-        Global.post("/Finance/SaveBillingInvoice", { entity: JSON.stringify(model) }, function (data) {
-            if (data.item.InvoiceID) {
-                $("#addInvoice").hide();
-            } else {
-                alert("已提交过申请，不能重复操作！");
-            }
+        doT.exec("template/finance/orderpay-detail.html", function (template) {
+            var innerText = template();
+            Easydialog.open({
+                container: {
+                    id: "show-pays-detail",
+                    header: "收款登记",
+                    content: innerText,
+                    yesFn: function () {
+                        if (!VerifyPay.isPass()) {
+                            return false;
+                        }
+                        var entity = {
+                            BillingID: _self.orderid,
+                            Type: $("#billType").val(),
+                            PayType: $("#billPaytype").val(),
+                            PayMoney: $("#billPaymoney").val().trim(),
+                            PayTime: $("#billPaytime").val().trim(),
+                            Remark: $("#billRemark").val().trim()
+                        };
+                        confirm("请核对金额和日期是否正确，提交后不可修改，确认提交吗？", function () {
+                            Easydialog.close();
+                            Global.post("/Finance/SaveOrderBillingPay", { entity: JSON.stringify(entity) }, function (data) {
+                                if (data.status) {
+                                    alert("收款登记成功!");
+                                    $("#infoPayMoney").html(($("#infoPayMoney").html() * 1 + entity.PayMoney * 1).toFixed(2));
+                                    _self.getPays()
+                                } else {
+                                    alert("网络异常,请稍后重试!");
+                                }
+                            });
+                        });
+                        return false;
+
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+
+            $("#billPaymoney").focus();
+
+            laydate({
+                elem: '#billPaytime',
+                format: 'YYYY-MM-DD',
+                min: '1900-01-01',
+                max: laydate.now(),
+                istime: false,
+                istoday: true
+            });
+            $("#billPaytime").val(Date.now().toString().toDate("yyyy-MM-dd"));
+
+            VerifyPay = Verify.createVerify({
+                element: ".verify",
+                emptyAttr: "data-empty",
+                verifyType: "data-type",
+                regText: "data-text"
+            });
         });
     }
 
     //绑定支付列表
-    ObjectJS.getPays = function (items, empty) {
+    ObjectJS.getPays = function () {
         var _self = this;
-        if (empty) {
+        $("#navPays .tr-header").nextAll().remove();
+        $("#navPays .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        Global.post("/Finance/GetOrderBillingPays", {
+            orderid: _self.orderid
+        }, function (data) {
             $("#navPays .tr-header").nextAll().remove();
-        }
-        doT.exec("template/finance/billingpays.html", function (template) {
-            var innerhtml = template(items);
-            innerhtml = $(innerhtml);
+            if (data.items.length > 0) {
+                doT.exec("template/finance/billingpays.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
 
-            $("#navPays .tr-header").after(innerhtml);
-        });
+                    $("#navPays .tr-header").after(innerhtml);
+                });
+            } else {
+                $("#navPays .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
+        }); 
     }
 
     //获取日志
@@ -1373,16 +1386,22 @@ define(function (require, exports, module) {
     ObjectJS.getSendDoc = function () {
         var _self = this;
         $("#navSendDoc .tr-header").nextAll().remove();
+        $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 2
         }, function (data) {
-            doT.exec("template/orders/senddocs.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
+            $("#navSendDoc .tr-header").nextAll().remove();
+            if (data.items.length > 0) {
+                doT.exec("template/orders/senddocs.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
 
-                $("#navSendDoc .tr-header").after(innerhtml);
-            });
+                    $("#navSendDoc .tr-header").after(innerhtml);
+                });
+            } else {
+                $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
         });
         
     }
@@ -1391,16 +1410,22 @@ define(function (require, exports, module) {
     ObjectJS.getCutoutDoc = function () {
         var _self = this;
         $("#navCutoutDoc .tr-header").nextAll().remove();
+        $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 1
         }, function (data) {
-            doT.exec("template/orders/cutoutdoc.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
+            $("#navCutoutDoc .tr-header").nextAll().remove();
+            if (data.items.length > 0) {
+                doT.exec("template/orders/cutoutdoc.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
 
-                $("#navCutoutDoc .tr-header").after(innerhtml);
-            });
+                    $("#navCutoutDoc .tr-header").after(innerhtml);
+                });
+            } else {
+                $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
         });
 
     }
@@ -1409,16 +1434,22 @@ define(function (require, exports, module) {
     ObjectJS.getSewnDoc = function () {
         var _self = this;
         $("#navSewnDoc .tr-header").nextAll().remove();
+        $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 11
         }, function (data) {
-            doT.exec("template/orders/cutoutdoc.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
+            $("#navSewnDoc .tr-header").nextAll().remove();
+            if (data.items.length > 0) {
+                doT.exec("template/orders/cutoutdoc.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
 
-                $("#navSewnDoc .tr-header").after(innerhtml);
-            });
+                    $("#navSewnDoc .tr-header").after(innerhtml);
+                });
+            } else {
+                $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
         });
 
     }
@@ -1427,36 +1458,44 @@ define(function (require, exports, module) {
     ObjectJS.getCosts = function () {
         var _self = this;
         $("#navCosts .tr-header").nextAll().remove();
+        $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/Orders/GetOrderCosts", {
             orderid: _self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID
         }, function (data) {
-            doT.exec("template/orders/orderCosts.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
+            $("#navCosts .tr-header").nextAll().remove();
+            if (data.items.length > 0) {
+                doT.exec("template/orders/orderCosts.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
 
-                innerhtml.find(".cost-price").each(function () {
-                    $(this).text($(this).text() * $("#navCosts").data("quantity"))
-                });
-
-                $("#navCosts .tr-header").after(innerhtml);
-
-                
-
-                innerhtml.find(".ico-del").click(function () {
-                    var _this = $(this);
-                    confirm("删除后不可恢复，确认删除吗？", function () {
-                        Global.post("/Orders/DeleteOrderCost", {
-                            orderid: _self.orderid,
-                            autoid: _this.data("id")
-                        }, function (data) {
-                            if (data.status) {
-                                $("#lblCostMoney").text(($("#lblCostMoney").text() - _this.parents("tr").find(".cost-price").text()).toFixed(2));
-                                _this.parents("tr").first().remove();
-                            }
-                        });
+                    innerhtml.find(".cost-price").each(function () {
+                        $(this).text($(this).text() * $("#navCosts").data("quantity"))
                     });
+
+                    $("#navCosts .tr-header").after(innerhtml);
+
+                    if (_self.model.OrderType == 1) {
+                        innerhtml.find(".ico-del").click(function () {
+                            var _this = $(this);
+                            confirm("删除后不可恢复，确认删除吗？", function () {
+                                Global.post("/Orders/DeleteOrderCost", {
+                                    orderid: _self.orderid,
+                                    autoid: _this.data("id")
+                                }, function (data) {
+                                    if (data.status) {
+                                        $("#lblCostMoney").text(($("#lblCostMoney").text() - _this.parents("tr").find(".cost-price").text()).toFixed(2));
+                                        _this.parents("tr").first().remove();
+                                    }
+                                });
+                            });
+                        });
+                    } else {
+                        innerhtml.find(".ico-del").remove();
+                    }
                 });
-            });
+            } else {
+                $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
         });
     }
 

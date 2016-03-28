@@ -118,6 +118,17 @@ namespace IntFactoryDAL
             pageCount = Convert.ToInt32(paras[1].Value);
             return ds;
         }
+
+        public DataTable GetOrderPays(string orderid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@BillingID",orderid)
+                                   };
+
+            DataTable dt = GetDataTable("select * from BillingPay where BillingID=@BillingID Order by AutoID desc", paras, CommandType.Text);
+            return dt;
+        }
+        
         #endregion
 
         #region 添加

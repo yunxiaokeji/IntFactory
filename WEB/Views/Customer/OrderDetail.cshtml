@@ -21,13 +21,18 @@
 <div class="content-body mTop20">
     <div class="content-title">
         <div class="left titlename">订单编号：@(model.OrderCode)</div>
+        @if (model.IsSelf)
+        { 
+            <div id="updateOrderInfo" class="left ico-edit mLeft50 @(ExpandClass.IsLimits(HttpContext.Current, "102019026"))"></div>
+        }
+
         @if (model.IsSelf && model.Status == 0)
         {
-            <div id="updateOrderInfo" class="left ico-edit mLeft50"></div>
             <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >退回委托</div>
             <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
             <div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >订单委托</div>
         }
+       
     </div>
     <div class="order-imgs-div left">
         <div class="order-imgs">
@@ -97,7 +102,7 @@
         </li>
        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">
             <span class="column-title">付款金额：</span>
-            <label id="infoPaymoney">0.00</label>
+            <label id="infoPayMoney">@(model.PayMoney.ToString("f2"))</label>
         </li>
         
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "101019008"))">
@@ -226,6 +231,10 @@
             <li data-id="navPays" class="navPays @(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">付款记录</li>
             <li data-id="navLog">日志</li>
         </ul>
+        @if(model.IsSelf)
+        {
+            <div id="addPay" class="btn right @(ExpandClass.IsLimits(HttpContext.Current,"104010201"))">收款登记</div>
+        }
     </div>
 
     <div id="navProducts" class="nav-partdiv hide">
@@ -307,7 +316,7 @@
         <tr class="tr-header">
             <td class="width150 tLeft">收款日期</td>
             <td class="">类型</td>
-            <td class="">收款金额</td>
+            <td class="">金额</td>
             <td class="width100">支付方式</td>
             <td class="tLeft">备注</td>
             <td class="width150">登记人</td>
@@ -323,4 +332,12 @@
 
         </div>
     </div>
+</div>
+<div class="enlarge-image-bgbox hide">
+    <div class="ico-close close-enlarge-image"></div> 
+</div>
+<div class="enlarge-image-box hide">
+    <div class="left-enlarge-image">向左</div>
+    <div class="right-enlarge-image">向右</div>
+    <img id="enlargeImage" src="" />
 </div>
