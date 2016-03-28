@@ -121,6 +121,9 @@ namespace IntFactoryEnum
         LargeOrder = 2,
     }
 
+    /// <summary>
+    /// 订单来源
+    /// </summary>
     public enum EnumOrderSourceType
     {
         [DescriptionAttribute("全部")]
@@ -131,5 +134,22 @@ namespace IntFactoryEnum
         SelfOrder = 2,
         [DescriptionAttribute("阿里")]
         AliOrder = 3
+    }
+
+    /// <summary>
+    ///支付类型
+    /// </summary>
+    public enum EnumOrderPayType
+    {
+        [DescriptionAttribute("现金支付")]
+        Cash=1,
+        [DescriptionAttribute("在线支付")]
+        OnLine=2,
+        [DescriptionAttribute("支付宝")]
+        AliPay=3,
+        [DescriptionAttribute("微信")]
+        Weixin=4,
+        [DescriptionAttribute("线下汇款")]
+        OffLine=5
     }
 }

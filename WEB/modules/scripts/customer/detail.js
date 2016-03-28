@@ -536,6 +536,7 @@
             });
         });
     }
+
     ObjectJS.saveContact = function (model) {
         var _self = this;
 

@@ -255,6 +255,8 @@ namespace IntFactoryEntity
 
         public int Mark { get; set; }
 
+        public decimal PayMoney { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

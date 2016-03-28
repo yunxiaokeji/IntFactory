@@ -366,6 +366,11 @@ define(function (require, exports, module) {
             _self.sendGoods();
         });
 
+        //付款登记
+        $("#addPay").click(function () {
+            _self.addPay();
+        });
+
         //转移工厂
         $("#btnchangeclient").click(function () {
             var _this = $(this);
@@ -513,6 +518,9 @@ define(function (require, exports, module) {
             } else if (_this.data("id") == "navCosts" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getCosts();
+            } else if (_this.data("id") == "navPays" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getPays();
             }
         });
 
@@ -1081,25 +1089,6 @@ define(function (require, exports, module) {
         });
     };
 
-    //绑定账单
-    ObjectJS.getOrderBills = function () {
-        Global.post("/Finance/GetOrderBillByID", { id: _self.orderid }, function (data) {
-            var model = data.model;
-            if (model.BillingID) {
-                $("#infoPaymoney").text(model.PayMoney.toFixed(2));
-                _self.getPays(model.BillingPays, true);
-
-                //申请开票
-                if (model.InvoiceStatus == 0) {
-                    _self.billingid = model.BillingID;
-                    $("#addInvoice").click(function () {
-                        _self.addInvoice();
-                    });
-                }
-            }
-        });
-    }
-
     //删除订单
     ObjectJS.deleteOrder = function () {
         var _self = this;
@@ -1217,71 +1206,6 @@ define(function (require, exports, module) {
         });
     }
 
-    //登记发票
-    ObjectJS.addInvoice = function () {
-        var _self = this;
-        doT.exec("template/finance/orderinvoice-detail.html", function (template) {
-            var innerText = template();
-            Easydialog.open({
-                container: {
-                    id: "show-invoice-detail",
-                    header: "开票申请",
-                    content: innerText,
-                    yesFn: function () {
-                        if (!VerifyInvoice.isPass()) {
-                            return false;
-                        }
-                        var entity = {
-                            BillingID: _self.billingid,
-                            Type:1,
-                            CustomerType: $("#invoicetype").val(),
-                            InvoiceMoney: $("#invoicemoney").val().trim(),
-                            InvoiceTitle: $("#invoicetitle").val().trim(),
-                            CityCode: CityInvoice.getCityCode(),
-                            Address: $("#invoiceaddress").val().trim(),
-                            PostalCode: $("#invoicepostalcode").val().trim(),
-                            ContactName: $("#contactname").val().trim(),
-                            ContactPhone: $("#contactmobile").val().trim(),
-                            Remark: $("#remark").val().trim()
-                        };
-                        if (entity.InvoiceMoney <= 0) {
-                            alert("开票金额必须大于0！");
-                            return false;
-                        }
-                        confirm("提交后不能更改，确认提交吗？", function () {
-                            _self.saveOrderInvoice(entity);
-                        })
-                        return false;
-                    },
-                    callback: function () {
-
-                    }
-                }
-            });
-
-            $("#invoicemoney").focus();
-
-            $("#invoicemoney").val(_self.model.TotalMoney.toFixed(2));
-            $("#invoicetitle").val(_self.model.Customer.Name);
-            $("#invoiceaddress").val(_self.model.Address);
-            $("#invoicepostalcode").val(_self.model.PostalCode);
-            $("#contactname").val(_self.model.PersonName);
-            $("#contactmobile").val(_self.model.MobileTele);
-
-            CityInvoice = City.createCity({
-                elementID: "invoicecity",
-                cityCode: _self.model.CityCode
-            });
-
-            VerifyInvoice = Verify.createVerify({
-                element: ".verify",
-                emptyAttr: "data-empty",
-                verifyType: "data-type",
-                regText: "data-text"
-            });
-        });
-    }
-
     //更改订单状态
     ObjectJS.updateOrderStatus = function (status, quantity, price) {
         var _self = this;
@@ -1299,31 +1223,91 @@ define(function (require, exports, module) {
         });
     }
 
-    //保存发票信息
-    ObjectJS.saveOrderInvoice = function (model) {
-        Easydialog.close();
+    //登记付款
+    ObjectJS.addPay = function () {
         var _self = this;
-        Global.post("/Finance/SaveBillingInvoice", { entity: JSON.stringify(model) }, function (data) {
-            if (data.item.InvoiceID) {
-                $("#addInvoice").hide();
-            } else {
-                alert("已提交过申请，不能重复操作！");
-            }
+        doT.exec("template/finance/orderpay-detail.html", function (template) {
+            var innerText = template();
+            Easydialog.open({
+                container: {
+                    id: "show-pays-detail",
+                    header: "收款登记",
+                    content: innerText,
+                    yesFn: function () {
+                        if (!VerifyPay.isPass()) {
+                            return false;
+                        }
+                        var entity = {
+                            BillingID: _self.orderid,
+                            Type: $("#type").val(),
+                            PayType: $("#paytype").val(),
+                            PayTypeStr: $("#paytype option:selected").html(),
+                            PayMoney: $("#paymoney").val().trim(),
+                            PayTime: $("#paytime").val().trim(),
+                            Remark: $("#remark").val().trim()
+                        };
+                        confirm("请核对金额和日期是否正确，提交后不可修改，确认提交吗？", function () {
+                            Easydialog.close();
+                            Global.post("/Finance/SaveOrderBillingPay", { entity: JSON.stringify(entity) }, function (data) {
+                                if (data.status) {
+                                    alert("收款登记成功!");
+                                    $("#infoPayMoney").html(($("#infoPayMoney").html() * 1 + entity.PayMoney * 1).toFixed(2));
+                                    _self.getPays()
+                                } else {
+                                    alert("网络异常,请稍后重试!");
+                                }
+                            });
+                        });
+                        return false;
+
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+
+            $("#paymoney").focus();
+
+            laydate({
+                elem: '#paytime',
+                format: 'YYYY-MM-DD',
+                min: '1900-01-01',
+                max: laydate.now(),
+                istime: false,
+                istoday: true
+            });
+            $("#paytime").val(Date.now().toString().toDate("yyyy-MM-dd"));
+
+            VerifyPay = Verify.createVerify({
+                element: ".verify",
+                emptyAttr: "data-empty",
+                verifyType: "data-type",
+                regText: "data-text"
+            });
         });
     }
 
     //绑定支付列表
-    ObjectJS.getPays = function (items, empty) {
+    ObjectJS.getPays = function () {
         var _self = this;
-        if (empty) {
+        $("#navPays .tr-header").nextAll().remove();
+        $("#navPays .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        Global.post("/Finance/GetOrderBillingPays", {
+            orderid: _self.orderid
+        }, function (data) {
             $("#navPays .tr-header").nextAll().remove();
-        }
-        doT.exec("template/finance/billingpays.html", function (template) {
-            var innerhtml = template(items);
-            innerhtml = $(innerhtml);
+            if (data.items.length > 0) {
+                doT.exec("template/finance/billingpays.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
 
-            $("#navPays .tr-header").after(innerhtml);
-        });
+                    $("#navPays .tr-header").after(innerhtml);
+                });
+            } else {
+                $("#navPays .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
+        }); 
     }
 
     //获取日志

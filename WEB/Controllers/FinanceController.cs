@@ -192,11 +192,22 @@ namespace YXERP.Controllers
             BillingPay model = serializer.Deserialize<BillingPay>(entity);
 
             bool bl = FinanceBusiness.BaseBusiness.CreateBillingPay(model.BillingID, model.Type, model.PayType, model.PayMoney, model.PayTime, model.Remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
-            if (bl)
+            
+            JsonDictionary.Add("status", bl);
+
+            return new JsonResult
             {
-                model.CreateUser = CurrentUser;
-                JsonDictionary.Add("item", model);
-            }
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetOrderBillingPays(string orderid)
+        {
+
+            var list = FinanceBusiness.BaseBusiness.GetOrderPays(orderid);
+
+            JsonDictionary.Add("items", list);
 
             return new JsonResult
             {

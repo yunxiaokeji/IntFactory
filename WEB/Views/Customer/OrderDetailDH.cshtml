@@ -112,7 +112,7 @@
         </li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">
             <span class="column-title">付款金额：</span>
-            <label id="infoPaymoney">0.00</label>
+            <label id="infoPayMoney">@(model.PayMoney.ToString("f2"))</label>
         </li>
        
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "101019008"))">
@@ -180,7 +180,8 @@
             {
                  <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019020"))" id="confirmDHOrder">确认大货明细</div>
             }
-            @if (model.Status == 5)
+
+            @if (model.IsSelf && model.Status == 5)
             {
                 <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" id="btnSendOrder">订单发货</div>
                 <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" id="btnSewnOrder">缝制录入</div>
@@ -235,6 +236,10 @@
             <li data-id="navPays" class="navPays @(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">付款记录</li>
             <li data-id="navLog">日志</li>
         </ul>
+        @if(model.IsSelf)
+        {
+            <div id="addPay" class="btn right @(ExpandClass.IsLimits(HttpContext.Current,"104010201"))">收款登记</div>
+        }
     </div>
 
     <table id="navCosts" class="table-list mTop20 nav-partdiv hide" data-quantity="@(model.PlanQuantity)">
