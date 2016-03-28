@@ -21,18 +21,26 @@
 <div class="content-body mTop20">
     <div class="content-title">
         <div class="left titlename">订单编号：@(model.OrderCode)</div>
+        @if (model.IsSelf)
+        {
+            <div id="updateOrderInfo" class="left ico-edit mLeft50 @(ExpandClass.IsLimits(HttpContext.Current, "102019026"))"></div>
+        }
+        
         @if (model.IsSelf && model.Status == 0)
         {
-            <div id="updateOrderInfo" class="left ico-edit mLeft50"></div>
             <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >退回委托</div>
             <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
             <div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >订单委托</div>
+        }
+        else if (model.IsSelf && model.Status == 4)
+        {
+             <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
         }
     </div>
     
    <div class="order-imgs-div left">
         <div class="order-imgs">
-            <img id="orderImage" data-self="@(model.IsSelf?1:0)" src="@(model.OrderImage)" />
+            <img id="orderImage" data-self="@(model.IsSelf ? 1 : 0)" src="@(model.OrderImage)" />
         </div>
         <ul class="order-imgs-list" >
 
@@ -54,7 +62,7 @@
             }
             else if (model.IsSelf)
             {
-                <div id="createOrderCustomer" class="btn left mTop3 @(ExpandClass.IsLimits(HttpContext.Current,"101019001"))">创建客户</div>
+                <div id="createOrderCustomer" class="btn left mTop3 @(ExpandClass.IsLimits(HttpContext.Current, "101019001"))">创建客户</div>
             }
 
             @if (model.IsSelf && model.Status == 0)
@@ -90,9 +98,9 @@
             <span class="column-title">单价：</span>
             <label class="left">@(model.FinalPrice.ToString("f2"))</label>
             @if (model.IsSelf && model.Status == 4)
-             { 
-                <div id="updateOrderDiscount" title="编辑订单折扣" class="left ico-edit mLeft20 mTop5 @(ExpandClass.IsLimits(HttpContext.Current,"102019023"))"></div>
-             }
+            { 
+                <div id="updateOrderDiscount" title="编辑订单折扣" class="left ico-edit mLeft20 mTop5 @(ExpandClass.IsLimits(HttpContext.Current, "102019023"))"></div>
+            }
         </li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016"))">
             <span class="column-title">加工数量：</span>
@@ -188,7 +196,7 @@
             {
                 foreach (var stage in model.Tasts)
                 { 
-                    <li data-stageid="@(stage.StageID)" data-orderid="@(model.OrderID)" data-self="@(model.IsSelf?1:0)" data-mark="@(stage.Mark)" data-taskid="@(stage.TaskID)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
+                    <li data-stageid="@(stage.StageID)" data-orderid="@(model.OrderID)" data-self="@(model.IsSelf ? 1 : 0)" data-mark="@(stage.Mark)" data-taskid="@(stage.TaskID)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
                         @*<a href="/Task/Detail/@(stage.TaskID)">*@
                             <span class="name">@(stage.Title)</span>
                             <span class="status-bg right">
@@ -282,17 +290,17 @@
                 <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
                     <td class="width80">
                         <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">
-                          <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@(string.IsNullOrEmpty(detail.ImgS)?detail.ProductImage:detail.ImgS)" />
+                          <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
                         </a>
                     </td>
                     <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
-                    <td>@(string.IsNullOrEmpty(detail.DetailsCode)? detail.ProductCode:detail.DetailsCode)</td>
+                    <td>@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
                     <td>@(detail.Remark)</td>
                     <td class="center">@(detail.UnitName)</td>
                     <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
-                    <td class="center tr-quantity"><label class="quantity">@((detail.Quantity*model.PlanQuantity).ToString("f2"))</label></td>
-                    <td class="center tr-loss"><label class="loss">@((detail.Loss*model.PlanQuantity).ToString("f2"))</label></td>
-                    <td class="tRight amount">@((detail.TotalMoney*model.PlanQuantity).ToString("f2"))</td>
+                    <td class="center tr-quantity"><label class="quantity">@((detail.Quantity * model.PlanQuantity).ToString("f2"))</label></td>
+                    <td class="center tr-loss"><label class="loss">@((detail.Loss * model.PlanQuantity).ToString("f2"))</label></td>
+                    <td class="tRight amount">@((detail.TotalMoney * model.PlanQuantity).ToString("f2"))</td>
                 </tr>
             }
             <tr class="amount-item">

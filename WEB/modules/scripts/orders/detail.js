@@ -36,44 +36,6 @@ define(function (require, exports, module) {
         stages.find("li .rightbg").last().removeClass("rightbg");
         stages.find("li,a").width(width / (stages.find("li").length > 5 ? 4 : stages.find("li").length) - 15);
 
-        //转移工厂按钮
-        if (_self.status != 0 || !!model.EntrustClientID) {
-            $("#btnchangeclient").hide();
-            $("#btndelete").hide();
-        } else {
-            //转移工厂
-            $("#btnchangeclient").click(function () {
-                var _this = $(this);
-                ChooseFactory.create({
-                    title: "订单委托-选择工厂",
-                    callback: function (items) {
-                        if (items.length > 0) {
-                            if (model.ClientID != items[0].id) {
-                                Global.post("/Orders/UpdateOrderClient", {
-                                    orderid: model.OrderID,
-                                    clientid: items[0].id,
-                                    name: items[0].name
-                                }, function (data) {
-                                    if (data.status) {
-                                        alert("订单委托成功!", location.href);
-                                    }
-                                });
-                            } else {
-                                alert("请选择不同工厂进行委托!");
-                            }
-                        }
-                    }
-                });
-            });
-
-            //删除需求单
-            $("#btndelete").click(function () {
-                confirm("需求单删除后不可恢复，确认删除吗？", function () {
-                    _self.deleteOrder();
-                });
-            });
-        }
-
         //回退委托
         if (_self.status == 0 && !!model.EntrustClientID) {
             $("#btnreturn").show();
@@ -402,6 +364,38 @@ define(function (require, exports, module) {
         //打样单发货
         $("#btnSendOrder").click(function () {
             _self.sendGoods();
+        });
+
+        //转移工厂
+        $("#btnchangeclient").click(function () {
+            var _this = $(this);
+            ChooseFactory.create({
+                title: "订单委托-选择工厂",
+                callback: function (items) {
+                    if (items.length > 0) {
+                        if (model.ClientID != items[0].id) {
+                            Global.post("/Orders/UpdateOrderClient", {
+                                orderid: model.OrderID,
+                                clientid: items[0].id,
+                                name: items[0].name
+                            }, function (data) {
+                                if (data.status) {
+                                    alert("订单委托成功!", location.href);
+                                }
+                            });
+                        } else {
+                            alert("请选择不同工厂进行委托!");
+                        }
+                    }
+                }
+            });
+        });
+
+        //删除需求单
+        $("#btndelete").click(function () {
+            confirm("需求单删除后不可恢复，确认删除吗？", function () {
+                _self.deleteOrder();
+            });
         });
 
         //绑定品类
@@ -1373,16 +1367,22 @@ define(function (require, exports, module) {
     ObjectJS.getSendDoc = function () {
         var _self = this;
         $("#navSendDoc .tr-header").nextAll().remove();
+        $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 2
         }, function (data) {
-            doT.exec("template/orders/senddocs.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
+            $("#navSendDoc .tr-header").nextAll().remove();
+            if (data.items.length > 0) {
+                doT.exec("template/orders/senddocs.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
 
-                $("#navSendDoc .tr-header").after(innerhtml);
-            });
+                    $("#navSendDoc .tr-header").after(innerhtml);
+                });
+            } else {
+                $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
         });
         
     }
@@ -1391,16 +1391,22 @@ define(function (require, exports, module) {
     ObjectJS.getCutoutDoc = function () {
         var _self = this;
         $("#navCutoutDoc .tr-header").nextAll().remove();
+        $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 1
         }, function (data) {
-            doT.exec("template/orders/cutoutdoc.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
+            $("#navCutoutDoc .tr-header").nextAll().remove();
+            if (data.items.length > 0) {
+                doT.exec("template/orders/cutoutdoc.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
 
-                $("#navCutoutDoc .tr-header").after(innerhtml);
-            });
+                    $("#navCutoutDoc .tr-header").after(innerhtml);
+                });
+            } else {
+                $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
         });
 
     }
@@ -1409,16 +1415,22 @@ define(function (require, exports, module) {
     ObjectJS.getSewnDoc = function () {
         var _self = this;
         $("#navSewnDoc .tr-header").nextAll().remove();
+        $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 11
         }, function (data) {
-            doT.exec("template/orders/cutoutdoc.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
+            $("#navSewnDoc .tr-header").nextAll().remove();
+            if (data.items.length > 0) {
+                doT.exec("template/orders/cutoutdoc.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
 
-                $("#navSewnDoc .tr-header").after(innerhtml);
-            });
+                    $("#navSewnDoc .tr-header").after(innerhtml);
+                });
+            } else {
+                $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
         });
 
     }
@@ -1427,36 +1439,44 @@ define(function (require, exports, module) {
     ObjectJS.getCosts = function () {
         var _self = this;
         $("#navCosts .tr-header").nextAll().remove();
+        $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
         Global.post("/Orders/GetOrderCosts", {
             orderid: _self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID
         }, function (data) {
-            doT.exec("template/orders/orderCosts.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
+            $("#navCosts .tr-header").nextAll().remove();
+            if (data.items.length > 0) {
+                doT.exec("template/orders/orderCosts.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
 
-                innerhtml.find(".cost-price").each(function () {
-                    $(this).text($(this).text() * $("#navCosts").data("quantity"))
-                });
-
-                $("#navCosts .tr-header").after(innerhtml);
-
-                
-
-                innerhtml.find(".ico-del").click(function () {
-                    var _this = $(this);
-                    confirm("删除后不可恢复，确认删除吗？", function () {
-                        Global.post("/Orders/DeleteOrderCost", {
-                            orderid: _self.orderid,
-                            autoid: _this.data("id")
-                        }, function (data) {
-                            if (data.status) {
-                                $("#lblCostMoney").text(($("#lblCostMoney").text() - _this.parents("tr").find(".cost-price").text()).toFixed(2));
-                                _this.parents("tr").first().remove();
-                            }
-                        });
+                    innerhtml.find(".cost-price").each(function () {
+                        $(this).text($(this).text() * $("#navCosts").data("quantity"))
                     });
+
+                    $("#navCosts .tr-header").after(innerhtml);
+
+                    if (_self.model.OrderType == 1) {
+                        innerhtml.find(".ico-del").click(function () {
+                            var _this = $(this);
+                            confirm("删除后不可恢复，确认删除吗？", function () {
+                                Global.post("/Orders/DeleteOrderCost", {
+                                    orderid: _self.orderid,
+                                    autoid: _this.data("id")
+                                }, function (data) {
+                                    if (data.status) {
+                                        $("#lblCostMoney").text(($("#lblCostMoney").text() - _this.parents("tr").find(".cost-price").text()).toFixed(2));
+                                        _this.parents("tr").first().remove();
+                                    }
+                                });
+                            });
+                        });
+                    } else {
+                        innerhtml.find(".ico-del").remove();
+                    }
                 });
-            });
+            } else {
+                $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            }
         });
     }
 
