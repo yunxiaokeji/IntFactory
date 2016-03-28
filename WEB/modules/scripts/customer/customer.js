@@ -20,7 +20,7 @@
         BeginTime: "",
         EndTime: "",
         PageIndex: 1,
-        PageSize: 20
+        PageSize: 10
     };
 
     var ObjectJS = {};

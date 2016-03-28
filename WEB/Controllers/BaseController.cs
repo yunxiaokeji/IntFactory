@@ -14,7 +14,7 @@ namespace YXERP.Controllers
         /// <summary>
         /// 默认分页Size
         /// </summary>
-        protected int PageSize = 20;
+        protected int PageSize = 10;
 
         /// <summary>
         /// 登录IP
