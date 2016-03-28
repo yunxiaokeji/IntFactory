@@ -688,6 +688,42 @@ define(function (require, exports, module) {
                 });
             });
         }
+
+        //图片放大功能
+        var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
+        $("#orderImage").click(function () {
+            if ($(this).attr("src")) {
+                $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
+                $("#enlargeImage").attr("src", $(this).attr("src")).css({ "height": height - 80, "max-width": width - 200 });
+                $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
+            }
+        });
+        $(".close-enlarge-image").click(function () {
+            $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+        });
+        $(".enlarge-image-bgbox").click(function () {
+            $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+        })
+        $(".left-enlarge-image").click(function () {
+            var ele = $(".order-imgs-list .hover").prev();
+            if (ele && ele.find("img").attr("src")) {
+                var _img = ele.find("img");
+                $(".order-imgs-list .hover").removeClass("hover");
+                ele.addClass("hover");
+                $("#enlargeImage").attr("src", _img.attr("src"));
+                $("#orderImage").attr("src", _img.attr("src"));
+            }
+        });
+        $(".right-enlarge-image").click(function () {
+            var ele = $(".order-imgs-list .hover").next();
+            if (ele && ele.find("img").attr("src")) {
+                var _img = ele.find("img");
+                $(".order-imgs-list .hover").removeClass("hover");
+                ele.addClass("hover");
+                $("#enlargeImage").attr("src", _img.attr("src"));
+                $("#orderImage").attr("src", _img.attr("src"));
+            }
+        });
         
     }
 
@@ -1239,12 +1275,11 @@ define(function (require, exports, module) {
                         }
                         var entity = {
                             BillingID: _self.orderid,
-                            Type: $("#type").val(),
-                            PayType: $("#paytype").val(),
-                            PayTypeStr: $("#paytype option:selected").html(),
-                            PayMoney: $("#paymoney").val().trim(),
-                            PayTime: $("#paytime").val().trim(),
-                            Remark: $("#remark").val().trim()
+                            Type: $("#billType").val(),
+                            PayType: $("#billPaytype").val(),
+                            PayMoney: $("#billPaymoney").val().trim(),
+                            PayTime: $("#billPaytime").val().trim(),
+                            Remark: $("#billRemark").val().trim()
                         };
                         confirm("请核对金额和日期是否正确，提交后不可修改，确认提交吗？", function () {
                             Easydialog.close();
@@ -1267,17 +1302,17 @@ define(function (require, exports, module) {
                 }
             });
 
-            $("#paymoney").focus();
+            $("#billPaymoney").focus();
 
             laydate({
-                elem: '#paytime',
+                elem: '#billPaytime',
                 format: 'YYYY-MM-DD',
                 min: '1900-01-01',
                 max: laydate.now(),
                 istime: false,
                 istoday: true
             });
-            $("#paytime").val(Date.now().toString().toDate("yyyy-MM-dd"));
+            $("#billPaytime").val(Date.now().toString().toDate("yyyy-MM-dd"));
 
             VerifyPay = Verify.createVerify({
                 element: ".verify",

@@ -189,6 +189,8 @@
     <Content Include="modules\images\ico-account-login.png" />
     <Content Include="modules\images\ico-ali-login.png" />
     <Content Include="modules\images\ico-alipay.png" />
+    <Content Include="modules\images\ico-close-hover.png" />
+    <Content Include="modules\images\ico-close.png" />
     <Content Include="modules\images\ico-company.png" />
     <Content Include="modules\images\ico-contact-hover.png" />
     <Content Include="modules\images\ico-contact.png" />
@@ -201,6 +203,10 @@
     <Content Include="modules\images\ico-loading.gif" />
     <Content Include="modules\images\ico-loading.jpg" />
     <Content Include="modules\images\ico-mobilecode.png" />
+    <Content Include="modules\images\ico-next-image-hover.png" />
+    <Content Include="modules\images\ico-next-image.png" />
+    <Content Include="modules\images\ico-prev-image-hover.png" />
+    <Content Include="modules\images\ico-prev-image.png" />
     <Content Include="modules\images\ico-surepwd.png" />
     <Content Include="modules\images\ico-task-hover.png" />
     <Content Include="modules\images\ico-task.png" />
