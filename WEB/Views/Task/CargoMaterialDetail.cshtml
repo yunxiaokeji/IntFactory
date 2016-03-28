@@ -143,7 +143,7 @@
         <div class="tab-nav mTop10">
             <ul class="tab-nav-ul left">
                 <li data-id="taskReplys" data-mark="3">讨论</li>
-                <li class="hover" data-id="navProducts" data-mark="3">材料</li>
+                <li class="hover" data-id="navProducts" data-mark="3">材料采购计划</li>
                 <li data-id="platemakingContent" data-mark="-1">制版</li>
                 <li data-id="orderTaskLogs">日志</li>
             </ul>
@@ -223,17 +223,18 @@
                         if( string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010104")) ){
                         <a href="javascript:void(0);"  id="btnEffectiveOrderProduct" class="btn right mTop10 ">生成采购单</a>
                         }
-                        if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101"))){
-                        <a href="/Customer/ChooseProducts?id=@(model.OrderID)&tid=@(model.TaskID)" id="btn-addMaterial" class="btn right mTop10 mRight10">添加材料</a>
+                        if( string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")) ){
+                        <a href="javascript:void(0);"  id="btn-addMaterial" class="hide">生成采购单</a>
                         }
-                       
+
+
                     }
                 }
                 <div class="clear"></div>
             </div>
 
         <div class="platemakingContent hide" id="platemakingContent">
-            <div id="platemakingBody">
+            <div id="platemakingBody" class="platemakingBody">
             @{
                 if (!string.IsNullOrEmpty(order.Platemaking))
                 {

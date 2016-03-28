@@ -8,6 +8,7 @@
     attrValues = productAttr.AttrValues == null ? "" : Html.ToJSONString(productAttr.AttrValues);
 }
 @section css{
+    <style type="text/css"></style>
 <link href="/modules/css/task/style.css" rel="stylesheet" />
 }
 
@@ -215,7 +216,7 @@
             </div>
 
         <div class="platemakingContent hide" id="platemakingContent">
-            <div id="platemakingBody">
+            <div id="platemakingBody" class="platemakingBody">
             @{
                 if (!string.IsNullOrEmpty(order.Platemaking))
                 {

@@ -115,7 +115,7 @@ namespace YXERP.Controllers
         }
 
         /// <summary>
-        /// 我的任务
+        /// 我的任务 
         /// </summary>
         public ActionResult MyTask(string id)
         {
@@ -141,10 +141,18 @@ namespace YXERP.Controllers
 
             return View("MyTask");
         }
+
+        public ActionResult PlatePrint(string id)
+        {
+            var order = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
+
+            ViewBag.Order = order;
+            return View();
+        }
         #endregion
 
         #region ajax
-        public JsonResult GetTasks(bool isMy, string userID, string keyWords, int orderType, int mark, int taskType, int finishStatus, string beginDate, string endDate, int pageSize, int pageIndex)
+        public JsonResult GetTasks(bool isMy, string userID, string keyWords, int orderType, string orderProcessID, string orderStageID, int taskType, int finishStatus, string beginDate, string endDate, int pageSize, int pageIndex)
         {
             int pageCount = 0;
             int totalCount = 0;
@@ -156,11 +164,34 @@ namespace YXERP.Controllers
                 ownerID = userID;
             }
 
-            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, finishStatus, orderType, mark, taskType, beginDate, endDate, CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, finishStatus, orderType,orderProcessID, orderStageID, taskType, beginDate, endDate, CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
 
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetOrderProcess() {
+            var list = SystemBusiness.BaseBusiness.GetOrderProcess(CurrentUser.AgentID, CurrentUser.ClientID);
+
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetOrderStages(string id)
+        {
+            var list = SystemBusiness.BaseBusiness.GetOrderStages(id,CurrentUser.AgentID, CurrentUser.ClientID);
+
+            JsonDictionary.Add("items", list);
             return new JsonResult
             {
                 Data = JsonDictionary,

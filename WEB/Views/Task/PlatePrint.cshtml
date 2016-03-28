@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "打印制版";
+    Layout = null;
+
+    var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
+}
+<head>
+<title>打印制版</title>
+<link href="/modules/css/base.css" rel="stylesheet" />
+<link href="/modules/css/default/list.css" rel="stylesheet" />
+<link href="/modules/css/task/style.css" rel="stylesheet" />
+</head>
+<div class="platemakingContent" id="platemakingContent" style="width:800px;">
+    <div id="platemakingBody" class="mTop10 platemakingBody">
+        @{
+            <script type="text/javascript">
+                document.getElementById("platemakingBody").innerHTML = decodeURI('@(order.Platemaking)');
+            </script>   
+
+            }
+    </div>
+</div>
+
+
+<script src="/Scripts/jquery-1.11.1.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $("span.ico-dropdown").remove();
+        $("#platemakingContent table tr").each(function () {
+            $(this).find("td:last").remove();
+        });
+        window.print();
+    });
+</script>
+     
