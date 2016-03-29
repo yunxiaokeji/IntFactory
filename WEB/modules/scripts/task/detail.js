@@ -13,7 +13,7 @@
     ///stageid：订单阶段id
     ///mark:任务标记 1：材料 2 制版 3大货材料
     ///finishStatus：任务完成状态
-    ///attrValues:订单制版属性
+    ///attrValues:订单品类属性
     ///orderType:订单类型
     ///um:富文本编辑器
     ///plateRemark:制版工艺描述
@@ -26,13 +26,11 @@
         if(attrValues!="")
             CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
         Editor = um;
-        ObjectJS.mark = 0;//任务讨论标记
-        ObjectJS.taskMark = mark;//任务标记
-        ObjectJS.materialMark = 0;//任务材料标记
+        ObjectJS.mark = 0;//任务讨论标记 用于获取讨论列表
+        ObjectJS.taskMark = mark;//任务标记 用于做标记任务完成的限制条件
+        ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
 
         ObjectJS.bindEvent();
-        ObjectJS.initTalkReply();
-
         if (mark == 0)
             ObjectJS.getTaskReplys(1);
 
@@ -107,30 +105,6 @@
     //绑定事件
     ObjectJS.bindEvent = function () {
 
-        //绑定任务到期日期
-        setTimeout(function () {
-            if ($("#UpdateTaskEndTime").length == 1) {
-                //更新任务到期日期
-                var taskEndTime = {
-                    elem: '#UpdateTaskEndTime',
-                    format: 'YYYY-MM-DD hh:mm:ss',
-                    min: laydate.now(),
-                    max: '2099-06-16',
-                    istime: true,
-                    istoday: false,
-                    choose: function () {
-                        ObjectJS.UpdateTaskEndTime();
-                    }
-                };
-                laydate(taskEndTime);
-            }
-        }, 300);
-
-        //标记任务完成
-        $("#FinishTask").click(function () {
-            ObjectJS.FinishTask();
-        });
-
         //切换模块
         $(".tab-nav-ul li").click(function () {
             var _this = $(this);
@@ -159,7 +133,7 @@
                 //任务讨论列表
                 ObjectJS.getTaskReplysOfMaterial(1);
             }
- 
+
         });
 
         //任务讨论盒子点击
@@ -169,13 +143,39 @@
             $(this).find(".replyContent").focus();
         });
 
-        //
+        //任务讨论盒子隐藏
         $(document).click(function (e) {
             if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
                 $(".replyBox").removeClass("autoHeight").css("border", "1px solid #ddd");
             }
         });
 
+        //绑定任务到期日期
+        setTimeout(function () {
+            if ($("#UpdateTaskEndTime").length == 1) {
+                //更新任务到期日期
+                var taskEndTime = {
+                    elem: '#UpdateTaskEndTime',
+                    format: 'YYYY-MM-DD hh:mm:ss',
+                    min: laydate.now(),
+                    max: '2099-06-16',
+                    istime: true,
+                    istoday: false,
+                    choose: function () {
+                        ObjectJS.UpdateTaskEndTime();
+                    }
+                };
+                laydate(taskEndTime);
+            }
+        }, 300);
+
+        //标记任务完成
+        $("#FinishTask").click(function () {
+            ObjectJS.FinishTask();
+        });
+
+       
+        ObjectJS.initTalkReply();
     }
 
     //更改任务到期时间
@@ -256,8 +256,6 @@
     ///任务讨论
     //初始化任务讨论列表
     ObjectJS.initTalkReply = function () {
-        var _self = this;
-
         $("#btnSaveTalk").click(function () {
             var txt = $("#txtContent");
 
@@ -679,10 +677,10 @@
         Global.post("/Orders/EffectiveOrderProduct", {
             orderID: ObjectJS.orderid
         }, function (data) {
-            //if (data.result == 1)
-            //{
-            //    location.href = location.href;
-            //}
+            if (data.result == 1)
+            {
+                location.href = location.href;
+            }
         });
     }
 

@@ -11,12 +11,12 @@
         orderProcessID:"-1",
         orderStageID:"-1",
         taskType: -1,
-        mark: -1,
+        colorMark: -1,
         finishStatus:0,
-        keyWords:'',
-        beginDate: '',
-        endDate: '',
-        pageSize: 20,
+        keyWords:"",
+        beginDate: "",
+        endDate: "",
+        pageSize: 10,
         pageIndex:1
     };
 
@@ -47,8 +47,8 @@
                     }
                 });
             });
-
         }
+
         ObjectJS.bindEvent();
 
         ObjectJS.getList();
@@ -69,8 +69,8 @@
             isAll: true,
             onChange: function (obj, callback) {
                 callback && callback(true);
-                Params.PageIndex = 1;
-                Params.mark = obj.data("value");
+                Params.pageIndex = 1;
+                Params.colorMark = obj.data("value");
                 ObjectJS.getList();
             }
         });
