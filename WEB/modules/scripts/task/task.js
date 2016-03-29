@@ -38,9 +38,9 @@
                     prevText: "人员-",
                     defaultText: "全部",
                     defaultValue: "",
-                    userID: "-1",
+                    userid: "-1",
                     isTeam: false,
-                    width: "180",
+                    width: "140",
                     onChange: function (data) {
                         Params.pageIndex = 1;
                         Params.userID = data.userid;
