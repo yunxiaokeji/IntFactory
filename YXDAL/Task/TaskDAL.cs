@@ -21,12 +21,13 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_CreateTask", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public DataTable GetTasks(string keyWords, string ownerID, int finishStatus, int orderType, string orderProcessID, string orderStageID,int colorMark, int taskType, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public DataTable GetTasks(string keyWords, string ownerID, int status, int finishStatus, int orderType, string orderProcessID, string orderStageID, int colorMark, int taskType, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
                                        new SqlParameter("@pageCount",SqlDbType.Int),
                                        new SqlParameter("@OwnerID",ownerID),
+                                       new SqlParameter("@Status",status),
                                        new SqlParameter("@FinishStatus",finishStatus),
                                        new SqlParameter("@OrderType",orderType),
                                        new SqlParameter("@OrderProcessID",orderProcessID),

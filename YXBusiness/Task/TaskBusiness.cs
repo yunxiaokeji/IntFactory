@@ -39,10 +39,10 @@ namespace IntFactoryBusiness
         /// <param name="TotalCount"></param>
         /// <param name="PageCount"></param>
         /// <returns></returns>
-        public static List<TaskEntity> GetTasks(string keyWords, string ownerID, int finishStatus, int orderType, string orderProcessID, string orderStageID, int colorMark, int taskType, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
+        public static List<TaskEntity> GetTasks(string keyWords, string ownerID,int status, int finishStatus, int orderType, string orderProcessID, string orderStageID, int colorMark, int taskType, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
         {
             List<TaskEntity> list = new List<TaskEntity>();
-            DataTable dt = TaskDAL.BaseProvider.GetTasks(keyWords, ownerID, finishStatus, orderType, orderProcessID, orderStageID, colorMark, taskType, beginDate, endDate, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            DataTable dt = TaskDAL.BaseProvider.GetTasks(keyWords, ownerID,status, finishStatus, orderType, orderProcessID, orderStageID, colorMark, taskType, beginDate, endDate, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
 
             foreach (DataRow dr in dt.Rows)
             {

@@ -12,6 +12,7 @@
         orderStageID:"-1",
         taskType: -1,
         colorMark: -1,
+        status: 1,
         finishStatus:0,
         keyWords:"",
         beginDate: "",
@@ -64,7 +65,7 @@
             });
         });
 
-        //过滤标记
+        //过滤颜色标记
         $("#filterMark").markColor({
             isAll: true,
             onChange: function (obj, callback) {
@@ -88,7 +89,20 @@
             }
         });
 
-        //订单类型、任务类型搜索
+        //切换任务状态
+        $(".search-returnstatus li").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+
+                Params.pageIndex = 1;
+                Params.status = _this.data("id");
+                ObjectJS.getList();
+            }
+        });
+
+        //订单流程阶段、任务类型搜索
         require.async("dropdown", function () {
             var Types = [
                 {
