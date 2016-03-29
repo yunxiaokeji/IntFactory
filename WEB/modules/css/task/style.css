@@ -30,11 +30,22 @@ display:inline-block;
 .taskFinishStatus{  padding:5px 10px; background-color:#ccc; color:#333; border:none; display:inline-block; border-radius:2px; line-height:18px; }
 
 /*任务样图信息*/
-.order-imgs-div { width:300px; padding:10px 10px 0 0;}
+.order-imgs-div { width:300px; padding:10px 10px 0 0;cursor:pointer;}
 .order-imgs-div .order-imgs img{ height:260px; width:300px;}
 .order-imgs-list li{ width:40px; height:40px; float:left; border:solid 2px #eee; margin-right:5px; cursor:pointer;}
 .order-imgs-list li.hover{ border-color:red;}
 .order-imgs-list img{ width:40px; height:40px;}
+
+.enlarge-image-bgbox { width:100%;height:100%; position:fixed; top:0; left:0; background-color:#666; z-index:9999; opacity:0.9; }
+.enlarge-image-bgbox .close-enlarge-image { position:fixed; top:10px; right:10px;}
+
+.left-enlarge-image,.right-enlarge-image {position:fixed;  width:40px; height:100px;  cursor:pointer;cursor:pointer; }
+.left-enlarge-image { left:100px;  background:url('/modules/images/ico-prev-image.png') no-repeat;background-size:cover;}
+.left-enlarge-image:hover {  background:url('/modules/images/ico-prev-image-hover.png') no-repeat;background-size:cover;}
+.right-enlarge-image { right:100px; background:url('/modules/images/ico-next-image.png') no-repeat;background-size:cover; }
+.right-enlarge-image:hover {  background:url('/modules/images/ico-next-image-hover.png') no-repeat;background-size:cover; }
+.enlarge-image-box{ position:fixed;  top:40px; bottom:40px; left:100px; right:100px; text-align:center; z-index:19999; }
+.enlarge-image-box img { text-align:center; }
 
 
 /*制版属性*/

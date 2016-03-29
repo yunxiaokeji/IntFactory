@@ -98,6 +98,11 @@ namespace YXERP.Controllers
             //订单的品类属性
             ViewBag.ProductAttr = new IntFactoryEntity.ProductAttr();
 
+            //任务状态为关闭
+            if (task.Status == 8) {
+                return View();
+            }
+
             //打样材料
             if (task.Mark == 1)
                 return View("MaterialDetail");

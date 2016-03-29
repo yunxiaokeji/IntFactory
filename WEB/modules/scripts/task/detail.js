@@ -17,7 +17,7 @@
     ///orderType:订单类型
     ///um:富文本编辑器
     ///plateRemark:制版工艺描述
-    ObjectJS.init = function (taskid, orderid, stageid, mark, finishStatus, attrValues, orderType, um, plateRemark) {
+    ObjectJS.init = function (taskid, orderid, stageid, mark, finishStatus, attrValues, orderType, um, plateRemark, orderimages) {
         ObjectJS.orderid = orderid;
         ObjectJS.stageid = stageid;
         ObjectJS.taskid = taskid;
@@ -29,6 +29,7 @@
         ObjectJS.mark = 0;//任务讨论标记 用于获取讨论列表
         ObjectJS.taskMark = mark;//任务标记 用于做标记任务完成的限制条件
         ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
+        ObjectJS.orderimages = orderimages;
 
         ObjectJS.bindEvent();
         if (mark == 0)
@@ -162,7 +163,7 @@
                     istime: true,
                     istoday: false,
                     choose: function () {
-                        ObjectJS.UpdateTaskEndTime();
+                        ObjectJS.updateTaskEndTime();
                     }
                 };
                 laydate(taskEndTime);
@@ -171,15 +172,17 @@
 
         //标记任务完成
         $("#FinishTask").click(function () {
-            ObjectJS.FinishTask();
+            ObjectJS.finishTask();
         });
 
        
         ObjectJS.initTalkReply();
+
+        ObjectJS.bindOrderImages();
     }
 
     //更改任务到期时间
-    ObjectJS.UpdateTaskEndTime = function () {
+    ObjectJS.updateTaskEndTime = function () {
         if ($("#UpdateTaskEndTime").val() == "")
         {
             alert("任务到期时间不能为空");
@@ -205,7 +208,7 @@
     }
 
     //标记任务完成
-    ObjectJS.FinishTask = function () {
+    ObjectJS.finishTask = function () {
         if (ObjectJS.taskMark == 1)
         {
             if ($("#navProducts .table-list tr").length == 2) {
@@ -252,6 +255,70 @@
         });
     }
 
+    //绑定任务样式图
+    ObjectJS.bindOrderImages = function () {
+        var orderimages = ObjectJS.orderimages;
+        var _self = this;
+        var images = orderimages.split(",");
+        _self.images = images;
+        for (var i = 0; i < images.length; i++) {
+            if (images[i]) {
+                if (i == 0) {
+                    $("#orderImage").attr("src", images[i]);
+                }
+                var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
+                $(".order-imgs-list").append(img);
+            }
+        }
+        $(".order-imgs-list img").parent().click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+                $("#orderImage").attr("src", _this.find("img").attr("src"));
+            }
+        });
+
+        //图片放大功能
+        var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
+        $("#orderImage").click(function () {
+            if ($(this).attr("src")) {
+                $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
+                $("#enlargeImage").attr("src", $(this).attr("src")).css({ "height": height - 80, "max-width": width - 200 });
+                $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
+            }
+        });
+        
+        $(".close-enlarge-image").click(function () {
+            $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+        });
+
+        $(".enlarge-image-bgbox").click(function () {
+            $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+        });
+
+        $(".left-enlarge-image").click(function () {
+            var ele = $(".order-imgs-list .hover").prev();
+            if (ele && ele.find("img").attr("src")) {
+                var _img = ele.find("img");
+                $(".order-imgs-list .hover").removeClass("hover");
+                ele.addClass("hover");
+                $("#enlargeImage").attr("src", _img.attr("src"));
+                $("#orderImage").attr("src", _img.attr("src"));
+            }
+        });
+
+        $(".right-enlarge-image").click(function () {
+            var ele = $(".order-imgs-list .hover").next();
+            if (ele && ele.find("img").attr("src")) {
+                var _img = ele.find("img");
+                $(".order-imgs-list .hover").removeClass("hover");
+                ele.addClass("hover");
+                $("#enlargeImage").attr("src", _img.attr("src"));
+                $("#orderImage").attr("src", _img.attr("src"));
+            }
+        });
+    }
 
     ///任务讨论
     //初始化任务讨论列表

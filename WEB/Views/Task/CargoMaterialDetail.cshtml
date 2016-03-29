@@ -19,25 +19,8 @@
             var um = null;
 
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)');
+                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)', '@order.OrderImages');
             });
-
-            
-            var images = '@order.OrderImages'.split(",");
-            for (var i = 0; i < images.length; i++) {
-                if (images[i]) {
-                    var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
-                    $(".order-imgs-list").append(img);
-                    img.click(function () {
-                        var _this = $(this);
-                        if (!_this.hasClass("hover")) {
-                            _this.siblings().removeClass("hover");
-                            _this.addClass("hover");
-                            $("#orderImage").attr("src", _this.find("img").attr("src"));
-                        }
-                    });
-                }
-            }
 
         });
     </script>
@@ -279,3 +262,12 @@
     <li id="btn-addColumn">添加新列</li>
     <li id="btn-removeColumn">删除此列</li>
 </ul>
+
+<div class="enlarge-image-bgbox hide">
+    <div class="ico-close close-enlarge-image"></div> 
+</div>
+<div class="enlarge-image-box hide">
+    <div class="left-enlarge-image">向左</div>
+    <div class="right-enlarge-image">向右</div>
+    <img id="enlargeImage" src="" />
+</div>
