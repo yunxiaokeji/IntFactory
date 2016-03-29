@@ -13,7 +13,7 @@ namespace YXERP.Controllers
     public class TaskController : BaseController
     {
         // GET: /Task/
-        string token = "3092f615-9aef-4288-8129-417a1d1ff46b";
+        string token = "bdc2d699-d2ba-47ea-befe-34b794460130";
         string refreshToken = "be462dcd-1baf-4665-8444-1646d8350c8c";
         #region view
         public JsonResult batchUpdateFent()
@@ -152,7 +152,7 @@ namespace YXERP.Controllers
         #endregion
 
         #region ajax
-        public JsonResult GetTasks(bool isMy, string userID, string keyWords, int orderType, string orderProcessID, string orderStageID, int taskType, int finishStatus, string beginDate, string endDate, int pageSize, int pageIndex)
+        public JsonResult GetTasks(string keyWords, bool isMy, string userID, int orderType, string orderProcessID, string orderStageID, int taskType, int colorMark, int finishStatus, string beginDate, string endDate, int pageSize, int pageIndex)
         {
             int pageCount = 0;
             int totalCount = 0;
@@ -164,7 +164,11 @@ namespace YXERP.Controllers
                 ownerID = userID;
             }
 
-            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, finishStatus, orderType,orderProcessID, orderStageID, taskType, beginDate, endDate, CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, finishStatus, 
+                orderType,orderProcessID, orderStageID,
+                colorMark,taskType,beginDate, endDate, 
+                CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
@@ -248,20 +252,7 @@ namespace YXERP.Controllers
         public JsonResult FinishTask(string taskID, string orderID, int orderType)
         {
             int result = 0;
-            bool flag = true;
-
-            //if (orderType == 2)
-            //{
-            //    OrdersBusiness.BaseBusiness.EffectiveOrderProduct(orderID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
-            //    if (result != 1)
-            //    {
-            //        flag = false;
-            //        result = -1;
-            //    }
-            //}
-
-            if(flag)
-                TaskBusiness.FinishTask(taskID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID,out result);
+            TaskBusiness.FinishTask(taskID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID,out result);
 
             JsonDictionary.Add("Result", result);
             return new JsonResult
@@ -284,19 +275,6 @@ namespace YXERP.Controllers
             }
 
             JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult EffectiveOrderProduct(string orderID)
-        {
-            int result = 0;
-            OrdersBusiness.BaseBusiness.EffectiveOrderProduct(orderID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
-
-            JsonDictionary.Add("result", result);
             return new JsonResult
             {
                 Data = JsonDictionary,
