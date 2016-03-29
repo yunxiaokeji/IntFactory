@@ -43,11 +43,11 @@ namespace IntFactoryBusiness
         }
 
 
-        public List<OrderEntity> GetOrders(EnumSearchType searchtype, string typeid, int status, EnumOrderSourceType sourceType, int mark, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid,
+        public List<OrderEntity> GetOrders(EnumSearchType searchtype, string typeid, int status, EnumOrderSourceType sourceType, int orderStatus, int mark, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid,
                                                 string begintime, string endtime, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataSet ds = OrdersDAL.BaseProvider.GetOrders((int)searchtype, typeid, status, (int)sourceType, mark, paystatus, invoicestatus, returnstatus, searchuserid, searchteamid, searchagentid, begintime, endtime, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
+            DataSet ds = OrdersDAL.BaseProvider.GetOrders((int)searchtype, typeid, status, (int)sourceType, orderStatus, mark, paystatus, invoicestatus, returnstatus, searchuserid, searchteamid, searchagentid, begintime, endtime, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 OrderEntity model = new OrderEntity();
@@ -505,6 +505,17 @@ namespace IntFactoryBusiness
             if (bl)
             {
                 string msg = "删除需求单";
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderOver(string orderid, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderOver(orderid, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "终止订单";
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
             }
             return bl;

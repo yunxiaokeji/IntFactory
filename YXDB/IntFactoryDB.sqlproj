@@ -522,5 +522,6 @@
     <None Include="Procedures\System\P_GetUserByAliMemberID.sql" />
     <Build Include="Procedures\Manage\M_BindClientAliMember.sql" />
     <None Include="Procedures\Sales\p_GetOrderBaseInfoByID.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderOver.sql" />
   </ItemGroup>
 </Project>

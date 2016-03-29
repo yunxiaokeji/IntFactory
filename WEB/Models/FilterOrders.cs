@@ -21,6 +21,8 @@ namespace YXERP.Models
 
         public int InvoiceStatus { get; set; }
 
+        public int OrderStatus { get; set; }
+
         public int ReturnStatus { get; set; }
 
         public int SourceType { get; set; }

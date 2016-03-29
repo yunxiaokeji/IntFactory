@@ -35,7 +35,7 @@
             }
             else if (model.OrderStatus == 1)
             {
-                 <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btnOverOrder" >终止订单</div>
+                 <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019027"))" id="btnOverOrder" >终止订单</div>
             }
         }
     </div>
@@ -171,7 +171,6 @@
             <div class="left info">订单流程：@(model.OrderProcess.ProcessName)</div>
             @if (model.IsSelf && model.OrderStatus == 0)
             {
-                
                 <span title="更换流程" class="ico-change left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess"></span>
             }
             <div class="left info mLeft20">负责人：@(model.OrderProcess.Owner.Name)</div>
@@ -187,7 +186,7 @@
                     <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019020"))" id="confirmDHOrder">确认大货明细</div>
                 }
 
-                if (model.Status == 5)
+                if (model.Status == 5 && model.OrderStatus == 1)
                 { 
                     <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" id="btnSendOrder">订单发货</div>
                     <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" id="btnSewnOrder">缝制录入</div>

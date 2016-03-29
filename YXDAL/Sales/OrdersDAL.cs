@@ -46,7 +46,7 @@ namespace IntFactoryDAL
         }
 
 
-        public DataSet GetOrders(int searchtype, string typeid, int status, int sourceType, int mark, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid, string begintime, string endtime, 
+        public DataSet GetOrders(int searchtype, string typeid, int status, int sourceType, int orderStatus, int mark, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid, string begintime, string endtime, 
                                 string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
@@ -55,6 +55,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@SearchType",searchtype),
                                        new SqlParameter("@TypeID",typeid),
                                        new SqlParameter("@Status",status),
+                                       new SqlParameter("@OrderStatus",orderStatus),
                                        new SqlParameter("@Mark",mark),
                                        new SqlParameter("@SourceType",sourceType),
                                        new SqlParameter("@PayStatus",paystatus),
@@ -520,6 +521,17 @@ namespace IntFactoryDAL
                                    };
 
             return ExecuteNonQuery("P_DeleteOrder", paras, CommandType.StoredProcedure) > 0;
+        }
+        public bool UpdateOrderOver(string orderid, string operateid, string agentid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@AgentID" , agentid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            return ExecuteNonQuery("P_UpdateOrderOver", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool EditOrder(string orderid, string personName, string mobileTele, string cityCode, string address, string postalcode, string typeid, int expresstype, string remark, string operateid, string agentid, string clientid)

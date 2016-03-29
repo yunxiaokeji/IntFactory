@@ -15,6 +15,7 @@
         Status: -1,
         Mark: -1,
         PayStatus: -1,
+        OrderStatus: 1,
         InvoiceStatus: -1,
         ReturnStatus: 0,
         SourceType: -1,
@@ -78,7 +79,7 @@
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
                 Params.PageIndex = 1;
-                Params.ReturnStatus = _this.data("id");
+                Params.OrderStatus = _this.data("id");
                 _self.getList();
             }
         });

@@ -403,6 +403,13 @@ define(function (require, exports, module) {
             });
         });
 
+        //终止订单
+        $("#btnOverOrder").click(function () {
+            confirm("订单终止后不可恢复，请谨慎操作，确认终止吗？", function () {
+                _self.overOrder();
+            });
+        });
+
         //绑定品类
         $("#changeOrderCategory").click(function () {
             Global.post("/System/GetClientOrderCategorys", {}, function (data) {
@@ -1131,6 +1138,20 @@ define(function (require, exports, module) {
         Global.post("/Orders/DeleteOrder", { orderid: _self.orderid }, function (data) {
             if (data.status) {
                 location.href = "/Customer/Orders";
+            } else {
+                alert("需求单删除失败，可能因为单据状态已改变，请刷新页面后重试！");
+            }
+        });
+    }
+
+    //终止订单
+    ObjectJS.overOrder = function () {
+        var _self = this;
+        Global.post("/Orders/UpdateOrderOver", { orderid: _self.orderid }, function (data) {
+            if (data.status) {
+                location.href = location.href;
+            } else if (data.result = "10001") {
+                alert("您没有操作权限！");
             } else {
                 alert("需求单删除失败，可能因为单据状态已改变，请刷新页面后重试！");
             }
