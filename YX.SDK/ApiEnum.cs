@@ -28,7 +28,7 @@ namespace AlibabaSdk
     //    CLOSE
     //}
 
-    public enum EnumOrderStatus
+    public enum EnumOrderStageStatus
     {
         [DescriptionAttribute("FENT")]
         FENT = 1,

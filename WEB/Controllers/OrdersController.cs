@@ -357,7 +357,7 @@ namespace YXERP.Controllers
         {
             string errinfo = "";
 
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStatus)status, quantity, price, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out errinfo);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStageStatus)status, quantity, price, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out errinfo);
             JsonDictionary.Add("status", bl);
             JsonDictionary.Add("errinfo", errinfo);
             return new JsonResult

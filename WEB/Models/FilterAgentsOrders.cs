@@ -11,7 +11,7 @@ namespace YXERP.Models
     [Serializable]
     public class FilterAgentsOrders
     {
-        public EnumOrderStatus status { get; set; }
+        public EnumOrderStageStatus status { get; set; }
 
         public EnumSendStatus sendstatus { get; set; }
 

@@ -254,7 +254,7 @@ namespace IntFactoryBusiness
             {
                 AlibabaSdk.MutableOrder item = new AlibabaSdk.MutableOrder();
                 item.fentGoodsCode = log.AliOrderCode;
-                item.status = AlibabaSdk.HttpRequest.GetEnumDesc<AlibabaSdk.EnumOrderStatus>( (AlibabaSdk.EnumOrderStatus)log.OrderStatus );
+                item.status = AlibabaSdk.HttpRequest.GetEnumDesc<AlibabaSdk.EnumOrderStageStatus>( (AlibabaSdk.EnumOrderStageStatus)log.OrderStatus );
                 item.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 item.statusDesc = string.Empty;
 
@@ -345,7 +345,7 @@ namespace IntFactoryBusiness
             {
                 AlibabaSdk.MutableOrder item = new AlibabaSdk.MutableOrder();
                 item.bulkGoodsCode = log.AliOrderCode;
-                item.status = AlibabaSdk.HttpRequest.GetEnumDesc<AlibabaSdk.EnumOrderStatus>((AlibabaSdk.EnumOrderStatus)log.OrderStatus);
+                item.status = AlibabaSdk.HttpRequest.GetEnumDesc<AlibabaSdk.EnumOrderStageStatus>((AlibabaSdk.EnumOrderStageStatus)log.OrderStatus);
                 item.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 item.statusDesc = string.Empty;
 

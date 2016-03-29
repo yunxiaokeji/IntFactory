@@ -60,6 +60,8 @@ namespace IntFactoryEntity
 
         public string StatusStr { get; set; }
 
+        public int OrderStatus { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -213,7 +215,7 @@ namespace IntFactoryEntity
 
         public int ReplyTimes { get; set; }
 
-        public List<OrderStatusEntity> OrderStatus { get; set; }
+        public List<OrderStatusEntity> StatusItems { get; set; }
 
         public string Platemaking { get; set; }
 

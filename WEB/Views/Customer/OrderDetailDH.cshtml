@@ -24,17 +24,19 @@
         @if (model.IsSelf)
         {
             <div id="updateOrderInfo" class="left ico-edit mLeft50 @(ExpandClass.IsLimits(HttpContext.Current, "102019026"))"></div>
-        }
-        
-        @if (model.IsSelf && model.Status == 0)
-        {
-            <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >退回委托</div>
-            <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
-            <div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >订单委托</div>
-        }
-        else if (model.IsSelf && model.Status == 4)
-        {
-             <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
+            if (model.Status == 0)
+            {
+                 <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >退回委托</div>
+                 <div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >订单委托</div>
+            }
+            if (model.OrderStatus == 0)
+            {
+                 <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
+            }
+            else if (model.OrderStatus == 1)
+            {
+                 <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btnOverOrder" >终止订单</div>
+            }
         }
     </div>
     
@@ -65,7 +67,7 @@
                 <div id="createOrderCustomer" class="btn left mTop3 @(ExpandClass.IsLimits(HttpContext.Current, "101019001"))">创建客户</div>
             }
 
-            @if (model.IsSelf && model.Status == 0)
+            @if (model.IsSelf && model.OrderStatus == 0)
             {
                 <span title="更换客户" class="ico-change left mTop5 mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "101019008"))" data-customerid="@(model.CustomerID)" data-id="@(model.OrderID)" id="changeCustomer"></span>
             }
@@ -167,44 +169,49 @@
     <div class="process-stages mTop30">
         <div class="process-info">
             <div class="left info">订单流程：@(model.OrderProcess.ProcessName)</div>
-            @if (model.IsSelf && (model.Status == 0 || model.Status == 4))
+            @if (model.IsSelf && model.OrderStatus == 0)
             {
+                
                 <span title="更换流程" class="ico-change left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess"></span>
             }
             <div class="left info mLeft20">负责人：@(model.OrderProcess.Owner.Name)</div>
-            @if (model.IsSelf && model.OrderGoods.Count > 0 && model.Status < 7 && model.Status != 5)
-            {
-                <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="changeOrderStatus"></div>
-            }
-            else if (model.IsSelf && model.OrderGoods.Count == 0 && !string.IsNullOrEmpty(model.OriginalID))
-            {
-                 <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019020"))" id="confirmDHOrder">确认大货明细</div>
-            }
 
-            @if (model.IsSelf && model.Status == 5)
+            @if (model.IsSelf)
             {
-                <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" id="btnSendOrder">订单发货</div>
-                <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" id="btnSewnOrder">缝制录入</div>
-                if (model.CutStatus != 2)
+                if (model.OrderGoods.Count > 0 && model.Status < 7 && model.Status != 5)
                 {
-                   <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" id="btnCutoutOrder">裁片录入</div>
+                    <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="changeOrderStatus"></div>
+                }
+                else if (model.OrderGoods.Count == 0 && !string.IsNullOrEmpty(model.OriginalID))
+                {
+                    <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019020"))" id="confirmDHOrder">确认大货明细</div>
+                }
+
+                if (model.Status == 5)
+                { 
+                    <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" id="btnSendOrder">订单发货</div>
+                    <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" id="btnSewnOrder">缝制录入</div>
+                    if (model.CutStatus != 2)
+                    {
+                        <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" id="btnCutoutOrder">裁片录入</div>
+                    }
                 }
             }
+
+
         </div>
         <div class="clear"></div>
         <ul class="stage-items mTop20 @(ExpandClass.IsLimits(HttpContext.Current, "102019022"))">
-            @if (model.Status != 0 && model.Status != 4)
+            @if (model.OrderStatus > 0)
             {
                 foreach (var stage in model.Tasts)
                 { 
                     <li data-stageid="@(stage.StageID)" data-orderid="@(model.OrderID)" data-self="@(model.IsSelf ? 1 : 0)" data-mark="@(stage.Mark)" data-taskid="@(stage.TaskID)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
-                        @*<a href="/Task/Detail/@(stage.TaskID)">*@
-                            <span class="name">@(stage.Title)</span>
-                            <span class="status-bg right">
-                                <span class="status-color"></span>
-                            </span>
-                            <span class="status right">@(stage.FinishStatus == 0 ? "未开始" : stage.FinishStatus == 1 ? "进行中" : "已完成")</span>
-                         @*</a>*@
+                        <span class="name">@(stage.Title)</span>
+                        <span class="status-bg right">
+                            <span class="status-color"></span>
+                        </span>
+                        <span class="status right">@(stage.FinishStatus == 0 ? "未开始" : stage.FinishStatus == 1 ? "进行中" : "已完成")</span>
                     </li>
                 }
             }
@@ -236,9 +243,9 @@
             <li data-id="navPays" class="navPays @(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">付款记录</li>
             <li data-id="navLog">日志</li>
         </ul>
-        @if(model.IsSelf)
+        @if (model.IsSelf)
         {
-            <div id="addPay" class="btn right @(ExpandClass.IsLimits(HttpContext.Current,"104010201"))">收款登记</div>
+            <div id="addPay" class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "104010201"))">收款登记</div>
         }
     </div>
 

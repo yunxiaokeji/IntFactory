@@ -9,7 +9,7 @@ namespace IntFactoryEnum
     /// <summary>
     /// 订单状态
     /// </summary>
-    public enum EnumOrderStatus
+    public enum EnumOrderStageStatus
     {
         [DescriptionAttribute("全部")]
         All = -1,
@@ -34,6 +34,23 @@ namespace IntFactoryEnum
         [DescriptionAttribute("已删除")]
         Delete = 9
     }
+
+    public enum EnumOrderStatus
+    {
+        [DescriptionAttribute("全部")]
+        All = -1,
+        [DescriptionAttribute("需求单")]
+        Need = 0,
+        [DescriptionAttribute("进行中")]
+        Normal = 1,
+        [DescriptionAttribute("完成")]
+        Complete = 2,
+        [DescriptionAttribute("终止")]
+        Over = 8,
+        [DescriptionAttribute("已删除")]
+        Delete = 9
+    }
+
     /// <summary>
     /// 出库状态
     /// </summary>

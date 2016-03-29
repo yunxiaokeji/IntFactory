@@ -83,8 +83,8 @@ define(function (require, exports, module) {
             }
         });
 
-        for (var i = 0; i < model.OrderStatus.length; i++) {
-            $(".status-items li[data-status='" + model.OrderStatus[i].Status + "']").find(".status-time-text").html(model.OrderStatus[i].CreateTime.toDate("yyyy-MM-dd"));
+        for (var i = 0; i < model.StatusItems.length; i++) {
+            $(".status-items li[data-status='" + model.StatusItems[i].Status + "']").find(".status-time-text").html(model.StatusItems[i].CreateTime.toDate("yyyy-MM-dd"));
         }
 
         if (model.Platemaking) {
