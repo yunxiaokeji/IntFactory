@@ -401,7 +401,7 @@
     <Content Include="modules\plug\businesscard\style.css" />
     <Content Include="modules\plug\choosebranch\users.html" />
     <Content Include="modules\plug\choosecustomer\customers.html" />
-    <Content Include="modules\plug\chooseuser\chooseuser.js" />
+    <Content Include="modules\plug\chooseuser\chooseuserjs.js" />
     <Content Include="modules\plug\chooseuser\choosemduser.html" />
     <Content Include="modules\plug\chooseuser\style.css" />
     <Content Include="modules\plug\chooseuser\chooseuser.html" />

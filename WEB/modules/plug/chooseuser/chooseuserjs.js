@@ -141,6 +141,7 @@ define(function (require, exports, module) {
             $("#userlistChoose").empty();
         });
     }
+
     exports.create = function (options) {
         return new PlugJS(options);
     }

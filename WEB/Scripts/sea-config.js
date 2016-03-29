@@ -18,8 +18,8 @@ seajs.config({
     },
     map: [
         //可配置版本号
-        ['.css', '.css?v=20160324'],
-        ['.js', '.js?v=20160324']
+        ['.css', '.css?v=20160328'],
+        ['.js', '.js?v=20160328']
     ]
 });
 
@@ -43,7 +43,7 @@ seajs.config({
         //购物车
         "cart": "plug/shoppingcart/shoppingcart.js",
         //选择员工
-        "chooseuser": "plug/chooseuser/chooseuser.js",
+        "chooseuser": "plug/chooseuser/chooseuserjs.js",
         //选择客户
         "choosecustomer": "plug/choosecustomer/choosecustomer.js",
         //选择工厂
