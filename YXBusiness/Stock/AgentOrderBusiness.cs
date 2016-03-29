@@ -18,7 +18,7 @@ namespace IntFactoryBusiness
 
         #region 查询
 
-        public List<AgentOrderEntity> GetAgentOrders(string searchagentid, EnumOrderStatus status, EnumSendStatus sendstatus, EnumReturnStatus returnstatus, string keywords, string begintime, string endtime, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string agentid, string clientid)
+        public List<AgentOrderEntity> GetAgentOrders(string searchagentid, EnumOrderStageStatus status, EnumSendStatus sendstatus, EnumReturnStatus returnstatus, string keywords, string begintime, string endtime, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string agentid, string clientid)
         {
             DataSet ds = AgentOrderDAL.BaseProvider.GetAgentOrders(searchagentid, (int)status, (int)sendstatus, (int)returnstatus, keywords, begintime, endtime, pageSize, pageIndex, ref totalCount, ref pageCount, agentid, clientid);
 
@@ -28,7 +28,7 @@ namespace IntFactoryBusiness
                 AgentOrderEntity model = new AgentOrderEntity();
                 model.FillData(dr);
 
-                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
 
                 model.SendStatusStr = CommonBusiness.GetEnumDesc((EnumSendStatus)model.SendStatus);
 
@@ -58,7 +58,7 @@ namespace IntFactoryBusiness
             {
                 model.FillData(ds.Tables["Order"].Rows[0]);
 
-                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
 
                 model.ExpressTypeStr = CommonBusiness.GetEnumDesc((EnumExpressType)model.ExpressType);
 

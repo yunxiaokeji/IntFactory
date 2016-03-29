@@ -55,7 +55,7 @@ namespace IntFactoryBusiness
 
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
-                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
 
                 model.SourceTypeStr = CommonBusiness.GetEnumDesc((EnumOrderSourceType)model.SourceType);
 
@@ -84,7 +84,7 @@ namespace IntFactoryBusiness
 
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
-                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
 
                 list.Add(model);
             }
@@ -128,7 +128,7 @@ namespace IntFactoryBusiness
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
                 model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
 
-                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
                 model.ExpressTypeStr = CommonBusiness.GetEnumDesc((EnumExpressType)model.ExpressType);
 
                 if (model.Status == 2)
@@ -157,14 +157,14 @@ namespace IntFactoryBusiness
                     }
                     
                 }
-                model.OrderStatus = new List<OrderStatusEntity>();
+                model.StatusItems = new List<OrderStatusEntity>();
                 if (model.Status > 0 && ds.Tables["Status"].Rows.Count > 0)
                 {
                     foreach (DataRow dr in ds.Tables["Status"].Rows)
                     {
                         OrderStatusEntity status = new IntFactoryEntity.OrderStatusEntity();
                         status.FillData(dr);
-                        model.OrderStatus.Add(status);
+                        model.StatusItems.Add(status);
                     }
                 }
 
@@ -209,7 +209,7 @@ namespace IntFactoryBusiness
 
                 model.FillData(ds.Tables["Order"].Rows[0]);
 
-                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
 
                 model.Details = new List<OrderDetail>();
                 if (ds.Tables["Details"].Rows.Count > 0)
@@ -271,7 +271,7 @@ namespace IntFactoryBusiness
                 model.FillData(dr);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
                 //model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
-                //model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStatus)model.Status);
+                //model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
 
                 list.Add(model);
             }
@@ -555,19 +555,19 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderStatus(string orderid, EnumOrderStatus status, int quantity, decimal price, string operateid, string ip, string agentid, string clientid, out string errinfo)
+        public bool UpdateOrderStatus(string orderid, EnumOrderStageStatus status, int quantity, decimal price, string operateid, string ip, string agentid, string clientid, out string errinfo)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, quantity, price, operateid, agentid, clientid, out errinfo);
             if (bl)
             {
-                string msg = "订单状态更换为：" + CommonBusiness.GetEnumDesc<EnumOrderStatus>(status);
+                string msg = "订单状态更换为：" + CommonBusiness.GetEnumDesc<EnumOrderStageStatus>(status);
 
                 switch (status)
                 {
-                    case EnumOrderStatus.FYFJ:
+                    case EnumOrderStageStatus.FYFJ:
                         msg = "打样单完成合价，最终报价为：" + price;
                         break;
-                    case EnumOrderStatus.DDH:
+                    case EnumOrderStageStatus.DDH:
                         msg = "打样单大货下单，大货数量为：" + quantity;
                         break;
                 }
