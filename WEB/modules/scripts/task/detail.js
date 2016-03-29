@@ -175,9 +175,10 @@
             ObjectJS.finishTask();
         });
 
-       
+        //初始化任务讨论列表
         ObjectJS.initTalkReply();
 
+        //绑定任务样式图
         ObjectJS.bindOrderImages();
     }
 
