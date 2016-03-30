@@ -59,14 +59,6 @@ namespace IntFactoryBusiness
 
                 model.SourceTypeStr = CommonBusiness.GetEnumDesc((EnumOrderSourceType)model.SourceType);
 
-                if (model.Status == 2)
-                {
-                    model.SendStatusStr = CommonBusiness.GetEnumDesc((EnumSendStatus)model.SendStatus);
-                }
-                else if (model.Status < 2)
-                {
-                    model.SendStatusStr = "--";
-                }
                 list.Add(model);
             }
             return list;

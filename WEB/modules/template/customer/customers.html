@@ -7,7 +7,7 @@
     <td class=""><span data-id="{%=item.CustomerID%}" data-userid="{%=item.OwnerID%}" class="ico-check check"></span></td>
     <td class=""> <a href="/Customer/Detail/{%=item.CustomerID%}">{%=item.Name%}</a> </td>
     <td class="center">{%=item.MobilePhone%}</td>
-    <td class="center">{%=item.City?(item.City.Province+item.City.City+item.City.Counties):"--"%}</td>
+    <td class="center">{%=item.City?item.City.Description:"--"%}</td>
     <td class="center">{%=item.SourceType==1?"阿里客户":item.SourceType==2?"自助下单":"手工创建"%}</td>
     <td class="center">{%=item.ReplyTimes%}</td>
     <td class='center'>{%=(item.Owner ? item.Owner.Name:"--")%}</td>
