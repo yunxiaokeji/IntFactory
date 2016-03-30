@@ -1,5 +1,4 @@
 ﻿
-
 define(function (require, exports, module) {
 
     require("jquery");
@@ -10,23 +9,23 @@ define(function (require, exports, module) {
 
     var Industry = {};
    
-    Industry.Params = {
-        pageIndex: 1,
+    Params = {
         id: "",
+        pageIndex: 1,
         keyWords:""
     };
 
     //详情初始化
     Industry.detailInit = function (id) {
+        Params.id = id;
+
         Industry.detailEvent();
 
         if (id !='')
         {
             $("#pageTitle").html("设置公司行业");
             $("#saveIndustry").val("保存");
-            Industry.Params.id = id;
-
-            Industry.getIndustryDetail();
+            Industry.getDetail();
         }
     }
     //绑定事件
@@ -48,13 +47,13 @@ define(function (require, exports, module) {
             };
 
             var industry = {
-                IndustryID: Industry.Params.id,
+                IndustryID: Params.id,
                 Name: $("#Name").val(),
                 Description: $("#Description").val()
             };
 
             Global.post("/Industry/SaveIndustry", { industry: JSON.stringify(industry) }, function (data) {
-                if (data.Result == "1") {
+                if (data.result == "1") {
                     location.href = "/Industry/Industrys";
                 }
             });
@@ -62,10 +61,10 @@ define(function (require, exports, module) {
     };
 
     //详情
-    Industry.getIndustryDetail = function () {
-        Global.post("/Industry/GetIndustryDetail", { id: Industry.Params.id }, function (data) {
-            if (data.Result == "1") {
-                var item = data.Item;
+    Industry.getDetail = function () {
+        Global.post("/Industry/GetIndustryDetail", { id: Params.id }, function (data) {
+            if (data.item) {
+                var item = data.item;
                 $("#Name").val(item.Name);
                 $("#Description").val(item.Description);
 
@@ -76,7 +75,7 @@ define(function (require, exports, module) {
     //列表初始化
     Industry.init = function () {
         Industry.bindEvent();
-        Industry.bindData();
+        Industry.getList();
     };
 
     //绑定事件
@@ -84,23 +83,28 @@ define(function (require, exports, module) {
         //关键字查询
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
-                Industry.Params.pageIndex = 1;
-                Industry.Params.keyWords = keyWords;
-                Industry.bindData();
+                Params.pageIndex = 1;
+                Params.keyWords = keyWords;
+                Industry.getList();
             });
         });
     };
 
     //绑定数据
-    Industry.bindData = function () {
+    Industry.getList = function () {
         $(".tr-header").nextAll().remove();
-
-        Global.post("/Industry/GetIndustrys", Industry.Params, function (data) {
+        $(".tr-header").after("<tr><td colspan='4'><div class='data-loading'><div></td></tr>");
+        Global.post("/Industry/GetIndustrys", Params, function (data) {
+            $(".tr-header").nextAll().remove();
             doT.exec("template/Industry-list.html?3", function (templateFun) {
-                var innerText = templateFun(data.Items);
+                var innerText = templateFun(data.items);
                 innerText = $(innerText);
                 $(".tr-header").after(innerText);
             });
+
+            if (data.items.length == 0) {
+                $(".tr-header").after("<tr><td colspan='4'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+            }
 
         });
     }

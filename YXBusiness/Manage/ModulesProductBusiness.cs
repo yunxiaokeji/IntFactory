@@ -14,8 +14,7 @@ namespace IntFactoryBusiness.Manage
         #region  增
         public static bool InsertModulesProduct(ModulesProduct model)
         {
-            string guid = Guid.NewGuid().ToString();
-            return ModulesProductDAL.BaseProvider.InsertModulesProduct(guid, model.Period, model.PeriodQuantity, model.UserQuantity,
+            return ModulesProductDAL.BaseProvider.InsertModulesProduct(model.Period, model.PeriodQuantity, model.UserQuantity,
                 model.Price, model.Description,model.Type,model.IsChild, model.CreateUserID);
         }
         #endregion
@@ -30,11 +29,9 @@ namespace IntFactoryBusiness.Manage
         #region  查
         public static List<ModulesProduct> GetModulesProducts(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
-            string sqlWhere = "p.ModulesID=m.ModulesID and p.Status<>9 ";
-            //if (!string.IsNullOrEmpty(keyWords))
-            //    sqlWhere += "p.PeriodQuantity";
+            string sqlWhere = "p.Status<>9 ";
 
-            DataTable dt = CommonBusiness.GetPagerData("ModulesProduct as p,Modules as m ", " p.*,m.name ", sqlWhere, "p.AutoID", " p.UserQuantity asc,PeriodQuantity asc ", pageSize, pageIndex, out totalCount, out pageCount);
+            DataTable dt = CommonBusiness.GetPagerData("ModulesProduct as p", " p.*", sqlWhere, "p.AutoID", " p.UserQuantity asc", pageSize, pageIndex, out totalCount, out pageCount);
             List<ModulesProduct> list = new List<ModulesProduct>();
             ModulesProduct model;
             foreach (DataRow item in dt.Rows)
@@ -121,7 +118,7 @@ namespace IntFactoryBusiness.Manage
         #region  改
         public static bool UpdateModulesProduct(ModulesProduct model)
         {
-            return ModulesProductDAL.BaseProvider.UpdateModulesProduct(model.AutoID,model.ModulesID, model.Period, model.PeriodQuantity, model.UserQuantity,
+            return ModulesProductDAL.BaseProvider.UpdateModulesProduct(model.AutoID, model.Period, model.PeriodQuantity, model.UserQuantity,
                 model.Price, model.Description,model.Type,model.IsChild);
         }
         #endregion

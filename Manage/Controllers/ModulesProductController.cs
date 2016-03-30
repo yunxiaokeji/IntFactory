@@ -24,7 +24,6 @@ namespace YXManage.Controllers
 
         public ActionResult Detail(string id)
         {
-            //ViewBag.Modules = IntFactoryBusiness.ModulesBusiness.GetModules();
             if(string.IsNullOrEmpty(id))
                 ViewBag.ID = 0;
             else
@@ -39,9 +38,9 @@ namespace YXManage.Controllers
         {
             int totalCount = 0, pageCount = 0;
             var list = ModulesProductBusiness.GetModulesProducts(keyWords, PageSize, pageIndex, ref totalCount, ref pageCount);
-            JsonDictionary.Add("Items", list);
-            JsonDictionary.Add("TotalCount", totalCount);
-            JsonDictionary.Add("PageCount", pageCount);
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
 
             return new JsonResult()
             {
@@ -53,8 +52,8 @@ namespace YXManage.Controllers
         public JsonResult GetModulesProductDetail(int id)
         {
             var item = ModulesProductBusiness.GetModulesProductDetail(id);
-            JsonDictionary.Add("Item", item);
-            JsonDictionary.Add("Result", 1);
+            JsonDictionary.Add("item", item);
+
             return new JsonResult()
             {
                 Data = JsonDictionary,
@@ -64,21 +63,20 @@ namespace YXManage.Controllers
 
         public JsonResult SaveModulesProduct(string modulesProduct)
         {
+            bool flag = false;
+
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             ModulesProduct model = serializer.Deserialize<ModulesProduct>(modulesProduct);
+            model.CreateUserID =CurrentUser.UserID;
 
-            bool flag = false;
-            if (model.AutoID==0)
-            {
-                model.CreateUserID =string.Empty;
+            if (model.AutoID==0){
                  flag =ModulesProductBusiness.InsertModulesProduct(model);
             }
-            else
-            {
-                model.CreateUserID = string.Empty;
+            else{
                 flag = ModulesProductBusiness.UpdateModulesProduct(model);
             }
-            JsonDictionary.Add("Result", flag ? 1 : 0);
+
+            JsonDictionary.Add("result", flag ? 1 : 0);
 
             return new JsonResult()
             {
@@ -90,7 +88,8 @@ namespace YXManage.Controllers
         public JsonResult DeleteModulesProduct(int id)
         {
             bool flag = ModulesProductBusiness.DeleteModulesProduct(id);
-            JsonDictionary.Add("Result", flag ? 1 : 0);
+            JsonDictionary.Add("result", flag ? 1 : 0);
+
             return new JsonResult()
             {
                 Data = JsonDictionary,

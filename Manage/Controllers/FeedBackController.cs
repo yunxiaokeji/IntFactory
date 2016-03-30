@@ -32,9 +32,10 @@ namespace YXManage.Controllers
 
             int totalCount = 0, pageCount = 0;
             var list = FeedBackBusiness.GetFeedBacks(keyWords, beginDate, endDate, type, status, PageSize, pageIndex, out totalCount, out pageCount);
-            JsonDictionary.Add("Items", list);
-            JsonDictionary.Add("TotalCount", totalCount);
-            JsonDictionary.Add("PageCount", pageCount);
+
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
 
             return new JsonResult()
             {
@@ -45,7 +46,7 @@ namespace YXManage.Controllers
 
         public JsonResult GetFeedBackDetail(string id) {
             var item = FeedBackBusiness.GetFeedBackDetail(id);
-            JsonDictionary.Add("Item", item);
+            JsonDictionary.Add("item", item);
 
             return new JsonResult()
             {
@@ -57,7 +58,7 @@ namespace YXManage.Controllers
         public JsonResult UpdateFeedBackStatus(string id,int status)
         {
             bool flag = FeedBackBusiness.UpdateFeedBackStatus(id,status);
-            JsonDictionary.Add("Result", flag?1:0);
+            JsonDictionary.Add("result", flag?1:0);
 
             return new JsonResult()
             {

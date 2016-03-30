@@ -34,9 +34,9 @@ namespace YXManage.Controllers
         {
             int totalCount = 0, pageCount = 0;
             var list = ExpressCompanyBusiness.GetExpressCompanys(keyWords, PageSize, pageIndex, ref totalCount, ref pageCount);
-            JsonDictionary.Add("Items", list);
-            JsonDictionary.Add("TotalCount", totalCount);
-            JsonDictionary.Add("PageCount", pageCount);
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
 
             return new JsonResult()
             {
@@ -51,8 +51,7 @@ namespace YXManage.Controllers
         public JsonResult GetExpressCompanyDetail(string id)
         {
             var item = ExpressCompanyBusiness.GetExpressCompanyDetail(id);
-            JsonDictionary.Add("Item", item);
-            JsonDictionary.Add("Result", 1);
+            JsonDictionary.Add("item", item);
             return new JsonResult()
             {
                 Data = JsonDictionary,
@@ -79,7 +78,7 @@ namespace YXManage.Controllers
                 model.CreateUserID = string.Empty;
                 flag = ExpressCompanyBusiness.UpdateExpressCompany(model);
             }
-            JsonDictionary.Add("Result", flag ? 1 : 0);
+            JsonDictionary.Add("result", flag ? 1 : 0);
 
             return new JsonResult()
             {
@@ -94,7 +93,7 @@ namespace YXManage.Controllers
         public JsonResult DeleteExpressCompany(string id)
         {
             bool flag = ExpressCompanyBusiness.DeleteExpressCompany(id);
-            JsonDictionary.Add("Result", flag ? 1 : 0);
+            JsonDictionary.Add("result", flag ? 1 : 0);
             return new JsonResult()
             {
                 Data = JsonDictionary,

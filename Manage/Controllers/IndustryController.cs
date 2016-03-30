@@ -38,7 +38,7 @@ namespace YXManage.Controllers
             {
                 list = list.FindAll(m => m.Name.Contains(keyWords));
             }
-            JsonDictionary.Add("Items", list);
+            JsonDictionary.Add("items", list);
 
             return new JsonResult()
             {
@@ -53,8 +53,8 @@ namespace YXManage.Controllers
         public JsonResult GetIndustryDetail(string id)
         {
             var item = IndustryBusiness.GetIndustryDetail(id);
-            JsonDictionary.Add("Item", item);
-            JsonDictionary.Add("Result", 1);
+
+            JsonDictionary.Add("item", item);
             return new JsonResult()
             {
                 Data = JsonDictionary,
@@ -81,7 +81,7 @@ namespace YXManage.Controllers
                 model.CreateUserID = string.Empty;
                 flag = IndustryBusiness.UpdateIndustry(model.IndustryID, model.Name, model.Description);
             }
-            JsonDictionary.Add("Result", flag ? 1 : 0);
+            JsonDictionary.Add("result", flag ? 1 : 0);
 
             return new JsonResult()
             {

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "系统产品";
+    ViewBag.Title = "产品收费";
 }
 
 @section scripts{
@@ -12,22 +12,12 @@
 <link href="/modules/css/clients.css" rel="stylesheet" />
 
 <div class="header-box">
-    <span class="header-title">添加产品</span>
+    <span class="header-title">添加产品收费</span>
+    <a class="btn right" href="javascript:history.go(-1);">返回</a>
 </div>
 
 <div class="content-body mTop20">
     <ul class="contentnew">
-        <li>
-            <span class="columnname">产品：</span>
-            <span>
-               @* <select id="ModulesID">
-                    @foreach (IntFactoryEntity.Manage.Modules model in (List<IntFactoryEntity.Manage.Modules>)ViewBag.Modules)
-                    {
-                        <option value="@(model.ModulesID)" data-name="@(model.Name)">@(model.Name)</option>
-                    }
-                </select>*@
-            </span>
-        </li>
         <li>
             <span class="columnname">用户类型：</span>
             <span>
@@ -78,6 +68,7 @@
             <span><textarea id="Description"></textarea></span>
         </li>
     </ul>
+
     <div class="mTop20">
         <input type="button" id="saveModulesProduct" class="btn" value="添加" />
     </div>

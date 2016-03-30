@@ -11,7 +11,7 @@ define(function (require, exports, module) {
 
     var ExpressCompany = {};
    
-    ExpressCompany.Params = {
+    Params = {
         pageIndex: 1,
         id: '',
         keyWords:''
@@ -19,15 +19,15 @@ define(function (require, exports, module) {
 
     //详情初始化
     ExpressCompany.detailInit = function (id) {
+        Params.id = id;
+
         ExpressCompany.detailEvent();
 
         if (id != '')
         {
             $("#pageTitle").html("设置产品");
             $("#saveExpressCompany").val("保存");
-            ExpressCompany.Params.id = id;
-
-            ExpressCompany.getExpressCompanyDetail();
+            ExpressCompany.getDetail();
         }
     }
     //绑定事件
@@ -49,13 +49,13 @@ define(function (require, exports, module) {
             };
 
             var expressCompany = {
-                ExpressID: ExpressCompany.Params.id,
+                ExpressID: Params.id,
                 Name: $("#Name").val(),
                 Website: $("#Website").val()
             };
 
             Global.post("/ExpressCompany/SaveExpressCompany", { expressCompany: JSON.stringify(expressCompany) }, function (data) {
-                if (data.Result == "1") {
+                if (data.result == "1") {
                     location.href = "/ExpressCompany/ExpressCompanys";
                 }
             });
@@ -63,16 +63,12 @@ define(function (require, exports, module) {
     };
 
     //详情
-    ExpressCompany.getExpressCompanyDetail = function () {
-        Global.post("/ExpressCompany/GetExpressCompanyDetail", { id: ExpressCompany.Params.id }, function (data) {
-            if (data.Result == "1") {
-                var item = data.Item;
+    ExpressCompany.getDetail = function () {
+        Global.post("/ExpressCompany/GetExpressCompanyDetail", { id: Params.id }, function (data) {
+            if (data.item) {
+                var item = data.item;
                 $("#Name").val(item.Name);
                 $("#Website").val(item.Website);
-
-            } else if (data.Result == "2") {
-                alert("登陆账号已存在!");
-                $("#loginName").val("");
             }
         });
     };
@@ -80,7 +76,7 @@ define(function (require, exports, module) {
     //列表初始化
     ExpressCompany.init = function () {
         ExpressCompany.bindEvent();
-        ExpressCompany.bindData();
+        ExpressCompany.getList();
     };
 
     //绑定事件
@@ -88,20 +84,22 @@ define(function (require, exports, module) {
         //关键字查询
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
-                ExpressCompany.Params.pageIndex = 1;
-                ExpressCompany.Params.keyWords = keyWords;
-                ExpressCompany.bindData();
+                Params.pageIndex = 1;
+                Params.keyWords = keyWords;
+                ExpressCompany.getList();
             });
         });
     };
 
     //绑定数据
-    ExpressCompany.bindData = function () {
+    ExpressCompany.getList = function () {
         $(".tr-header").nextAll().remove();
+        $(".tr-header").after("<tr><td colspan='4'><div class='data-loading'><div></td></tr>");
 
-        Global.post("/ExpressCompany/GetExpressCompanys", ExpressCompany.Params, function (data) {
+        Global.post("/ExpressCompany/GetExpressCompanys", Params, function (data) {
+            $(".tr-header").nextAll().remove();
             doT.exec("template/expresscompany-list.html?3", function (templateFun) {
-                var innerText = templateFun(data.Items);
+                var innerText = templateFun(data.items);
                 innerText = $(innerText);
                 $(".tr-header").after(innerText);
 
@@ -109,32 +107,37 @@ define(function (require, exports, module) {
                     if (confirm("确定删除?"))
                     {
                         Global.post("/ExpressCompany/DeleteExpressCompany", { id: $(this).data("id") }, function (data) {
-                            if (data.Result == 1) {
+                            if (data.result == 1) {
                                 location.href = "/ExpressCompany/ExpressCompanys";
                             }
-                            else
-                            {
+                            else{
                                 alert("删除失败");
                             }
                         });
                     }
                 });
+
             });
 
+            if (data.items.length == 0) {
+                $(".tr-header").after("<tr><td colspan='4'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+            }
+
             $("#pager").paginate({
-                total_count: data.TotalCount,
-                count: data.PageCount,
-                start: ExpressCompany.Params.pageIndex,
+                total_count: data.totalCount,
+                count: data.pageCount,
+                start: Params.pageIndex,
                 display: 5,
                 border: true,
                 rotate: true,
                 images: false,
                 mouse: 'slide',
                 onChange: function (page) {
-                    ExpressCompany.Params.pageIndex = page;
-                    ExpressCompany.bindData();
+                    Params.pageIndex = page;
+                    ExpressCompany.getList();
                 }
             });
+
         });
     }
 

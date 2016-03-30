@@ -9,7 +9,7 @@ define(function (require, exports, module) {
 
     var FeedBack = {};
    
-    FeedBack.Params = {
+    Params = {
         pageIndex: 1,
         type: -1,
         status: -1,
@@ -22,7 +22,7 @@ define(function (require, exports, module) {
     //列表初始化
     FeedBack.init = function () {
         FeedBack.bindEvent();
-        FeedBack.bindData();
+        FeedBack.getList();
     };
 
     //绑定事件
@@ -30,10 +30,10 @@ define(function (require, exports, module) {
         //关键字查询
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
-                if (FeedBack.Params.keyWords != keyWords) {
-                    FeedBack.Params.pageIndex = 1;
-                    FeedBack.Params.keyWords = keyWords;
-                    FeedBack.bindData();
+                if (Params.keyWords != keyWords) {
+                    Params.pageIndex = 1;
+                    Params.keyWords = keyWords;
+                    FeedBack.getList();
                 }
             });
         });
@@ -63,9 +63,9 @@ define(function (require, exports, module) {
                 dataText: "Name",
                 width: "120",
                 onChange: function (data) {
-                    FeedBack.Params.pageIndex = 1;
-                    FeedBack.Params.type = parseInt(data.value);
-                    FeedBack.bindData();
+                    Params.pageIndex = 1;
+                    Params.type = parseInt(data.value);
+                    FeedBack.getList();
                 }
             });
 
@@ -96,9 +96,9 @@ define(function (require, exports, module) {
                 dataText: "Name",
                 width: "120",
                 onChange: function (data) {
-                    FeedBack.Params.pageIndex = 1;
-                    FeedBack.Params.status = parseInt(data.value);
-                    FeedBack.bindData();
+                    Params.pageIndex = 1;
+                    Params.status = parseInt(data.value);
+                    FeedBack.getList();
                 }
             });
 
@@ -108,39 +108,44 @@ define(function (require, exports, module) {
 
         //时间段查询
         $("#SearchFeedBacks").click(function () {
-            if ($("#BeginTime").val() != '' || $("#EndTime").val() != '') {
-                FeedBack.Params.pageIndex = 1;
-                FeedBack.Params.beginDate = $("#BeginTime").val();
-                FeedBack.Params.endDate = $("#EndTime").val();
-                FeedBack.bindData();
-            }
+            Params.pageIndex = 1;
+            Params.beginDate = $("#BeginTime").val();
+            Params.endDate = $("#EndTime").val();
+            FeedBack.getList();
         });
 
     };
 
     //绑定数据列表
-    FeedBack.bindData = function () {
+    FeedBack.getList = function () {
         $(".tr-header").nextAll().remove();
+        $(".tr-header").after("<tr><td colspan='7'><div class='data-loading'><div></td></tr>");
 
-        Global.post("/FeedBack/GetFeedBacks", FeedBack.Params, function (data) {
+        Global.post("/FeedBack/GetFeedBacks", Params, function (data) {
+            $(".tr-header").nextAll().remove();
+
             doT.exec("template/FeedBack-list.html?3", function (templateFun) {
-                var innerText = templateFun(data.Items);
+                var innerText = templateFun(data.items);
                 innerText = $(innerText);
                 $(".tr-header").after(innerText);
             });
 
+            if (data.items.length == 0) {
+                $(".tr-header").after("<tr><td colspan='7'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+            }
+
             $("#pager").paginate({
-                total_count: data.TotalCount,
-                count: data.PageCount,
-                start: FeedBack.Params.pageIndex,
+                total_count: data.totalCount,
+                count: data.pageCount,
+                start: Params.pageIndex,
                 display: 5,
                 border: true,
                 rotate: true,
                 images: false,
                 mouse: 'slide',
                 onChange: function (page) {
-                    FeedBack.Params.pageIndex = page;
-                    FeedBack.bindData();
+                    Params.pageIndex = page;
+                    FeedBack.getList();
                 }
             });
 
@@ -148,10 +153,11 @@ define(function (require, exports, module) {
     }
 
     FeedBack.detailInit = function (id) {
-        FeedBack.Params.id = id;
+        Params.id = id;
 
         FeedBack.detailBindEvent();
-        FeedBack.getFeedBackDetail();
+
+        FeedBack.getDetail();
     }
 
     FeedBack.detailBindEvent = function () {
@@ -169,10 +175,10 @@ define(function (require, exports, module) {
     }
 
     //详情
-    FeedBack.getFeedBackDetail = function () {
-        Global.post("/FeedBack/GetFeedBackDetail", { id: FeedBack.Params.id }, function (data) {
-            if (data.Item) {
-                var item = data.Item;
+    FeedBack.getDetail = function () {
+        Global.post("/FeedBack/GetFeedBackDetail", { id: Params.id }, function (data) {
+            if (data.item) {
+                var item = data.item;
 
                 $("#Title").html(item.Title);
                 var typeName = "问题";
@@ -202,8 +208,8 @@ define(function (require, exports, module) {
 
     //更改状态
     FeedBack.updateFeedBackStatus = function (status) {
-        Global.post("/FeedBack/UpdateFeedBackStatus", { id: FeedBack.Params.id, status: status }, function (data) {
-            if (data.Result == 1) {
+        Global.post("/FeedBack/UpdateFeedBackStatus", { id: Params.id, status: status }, function (data) {
+            if (data.result == 1) {
                 alert("保存成功");
                 FeedBack.getFeedBackDetail();
             }
@@ -212,5 +218,6 @@ define(function (require, exports, module) {
             }
         });
     };
+
     module.exports = FeedBack;
 });
