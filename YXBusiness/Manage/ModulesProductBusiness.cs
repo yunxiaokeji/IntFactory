@@ -14,7 +14,8 @@ namespace IntFactoryBusiness.Manage
         #region  增
         public static bool InsertModulesProduct(ModulesProduct model)
         {
-            return ModulesProductDAL.BaseProvider.InsertModulesProduct(model.ModulesID, model.Period, model.PeriodQuantity, model.UserQuantity,
+            string guid = Guid.NewGuid().ToString();
+            return ModulesProductDAL.BaseProvider.InsertModulesProduct(guid, model.Period, model.PeriodQuantity, model.UserQuantity,
                 model.Price, model.Description,model.Type,model.IsChild, model.CreateUserID);
         }
         #endregion

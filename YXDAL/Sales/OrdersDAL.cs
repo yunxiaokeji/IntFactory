@@ -522,6 +522,7 @@ namespace IntFactoryDAL
 
             return ExecuteNonQuery("P_DeleteOrder", paras, CommandType.StoredProcedure) > 0;
         }
+
         public bool UpdateOrderOver(string orderid, string operateid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
