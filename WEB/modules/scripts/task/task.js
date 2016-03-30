@@ -226,6 +226,7 @@
         });
     }
 
+    //任务颜色标记
     ObjectJS.markTasks = function (ids, mark, callback) {
         if (mark < 0) {
             alert("不能标记此选项!");
@@ -243,5 +244,6 @@
             }
         });
     }
+
     module.exports = ObjectJS;
 });
