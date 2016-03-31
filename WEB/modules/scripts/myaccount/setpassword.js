@@ -85,7 +85,7 @@
                 }
 
                 Global.post("/MyAccount/ConfirmLoginPwd", { loginName: "", loginPwd: $("#LoginOldPWD").val() }, function (data) {
-                    if (data.Result) {
+                    if (data.result) {
                         $("#LoginOldPWDError").html("");
 
                         ObjectJS.UpdateUserAccount();
@@ -108,8 +108,9 @@
     //账户管理
     ObjectJS.UpdateUserAccount = function () {
         Global.post("/MyAccount/UpdateUserPass", { loginPwd: $("#LoginPWD").val() }, function (data) {
-            if (data.Result) {
+            if (data.result) {
                 alert("保存成功");
+
                 $("#LoginOldPWD").val("");
                 $("#LoginPWD").val("");
                 $("#LoginConfirmPWD").val("");

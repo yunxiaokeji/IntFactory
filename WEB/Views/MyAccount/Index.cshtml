@@ -2,13 +2,13 @@
 @{
     ViewBag.Title = "个人中心";
     Layout = "/Views/Shared/_LayoutUserCenter.cshtml";
-    var departs = (List<IntFactoryEntity.Department>)ViewBag.Departments;
-    
+    var departs = (List<IntFactoryEntity.Department>)ViewBag.Departments; 
 }
 
 @section css{
     <link href="/modules/css/myaccount/myaccount.css" rel="stylesheet" />
 }
+
 <div class="accountContent">
     <div class="accountHeader">
         基本信息
@@ -64,7 +64,7 @@
    
     $(function () {
         seajs.use(["scripts/myaccount/myaccount"], function (ObjectJS) {
-            ObjectJS.init('@Html.ToJSONString(departs)','@ViewBag.Option');
+            ObjectJS.init('@Html.ToJSONString(departs)');
         }); 
     });
 

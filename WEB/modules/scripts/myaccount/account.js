@@ -15,7 +15,6 @@
 
     //绑定事件
     ObjectJS.bindEvent = function () {
-
         var _self = this;
 
         $("#bindLogioName").click(function () {
@@ -23,32 +22,37 @@
 
             });
         });
+
         $("#bindLoginMobile").click(function () {
             if (!$("#S_LoginName").html()) {
                 alert("请先设置账号！");
                 return;
             }
+
             $(this).hide();
             $(".bindloginmobile").show();
+
             if ($("#S_BindMobile").html()) {
                 $("#mobilePhone").hide();
             }
         });
 
+        //取消绑定
         $("#cancleLoginMobile").click(function () {
             $(".bindloginmobile").hide();
             $("#bindLoginMobile").show();
-            $("#mobilePhone").val("");
-            $("#BindMobileCode").val("");
-            $("#BindMobileCodeError").html("");
-            $("#BindMobileError").html("");
+
+            $("#mobilePhone,#BindMobileCode").val("");
+            $("#BindMobileCodeError,#BindMobileError").html("");
             $("#SendBindMobileCode").removeAttr("disabled")
         })
 
-        $("#saveLoginMobile").click(function () {
-            _self.SaveAccountBindMobile();
-        });
         //绑定手机
+        $("#saveLoginMobile").click(function () {
+            _self.saveAccountBindMobile();
+        });
+
+        //获取手机验证码
         $("#SendBindMobileCode").click(function () {
             var BindMobile = $("#mobilePhone").val();
             var S_BindMobile = $("#S_BindMobile").html();
@@ -57,13 +61,13 @@
                 if (BindMobile != '') {
                     if (Global.validateMobilephone(BindMobile)) {
                         Global.post("/MyAccount/IsExistLoginName", { loginName: BindMobile }, function (data) {
-                            if (data.Result) {
+                            if (data.result) {
                                 $("#BindMobileError").html("手机已存在");
                             }
                             else {
                                 $("#BindMobileCodeError").html("");
 
-                                ObjectJS.SendMobileMessage("SendBindMobileCode", BindMobile);
+                                ObjectJS.sendMobileMessage("SendBindMobileCode", BindMobile);
                             }
                         });
                     }
@@ -77,7 +81,7 @@
                 }
             }
             else {
-                ObjectJS.SendMobileMessage("SendBindMobileCode", S_BindMobile);
+                ObjectJS.sendMobileMessage("SendBindMobileCode", S_BindMobile);
             }
 
         });
@@ -118,9 +122,13 @@
                                 return false;
                             }
                         }
-                        Global.post("/MyAccount/UpdateUserAccount", { loginName: $("#LoginName").val(), loginPwd: $("#LoginPWD").val() }, function (data) {
-                            if (data.Result) {
+                        Global.post("/MyAccount/UpdateUserAccount", {
+                            loginName: $("#LoginName").val(),
+                            loginPwd: $("#LoginPWD").val()
+                        }, function (data) {
+                            if (data.result) {
                                 alert("账号设置成功！");
+
                                 $("#S_LoginName").html($("#LoginName").val());
                                 $("#bindLogioName").hide();
                             }
@@ -141,11 +149,12 @@
             if ($("#S_BindMobile").html()) {
                 $(".nologinname").hide();
             }
+
             $("#LoginName").blur(function () {
                 var _this=$(this);
                 if (_this.val() && _this.val().length > 5) {
                     Global.post("/MyAccount/IsExistLoginName", { loginName: $("#LoginName").val() }, function (data) {
-                        if (data.Result) {
+                        if (data.result) {
                             alert("账号已存在，请重新输入！");
                             $("#LoginName").val("");
                         }
@@ -166,22 +175,28 @@
         });
     }
 
-    //保存绑定手机信息
-    ObjectJS.SaveAccountBindMobile = function () {
+    //绑定手机
+    ObjectJS.saveAccountBindMobile = function () {
+        if (!$("#S_LoginName").html()) {
+            alert("请先设置账号！");
+            return;
+        }
+
         var option = $("#S_BindMobile").html().trim() ? 2 : 1;
         var BindMobile = $("#mobilePhone").val();
+        var BindMobileCode = $("#BindMobileCode").val();
+
         if (option == 1) {
             if (BindMobile != '') {
                 if (Global.validateMobilephone(BindMobile)) {
                     Global.post("/MyAccount/IsExistLoginName", { loginName: BindMobile }, function (data) {
 
-                        if (data.Result) {
+                        if (data.result) {
                             $("#BindMobileError").html("手机已存在");
                         }
                         else {
                             $("#BindMobileError").html("");
 
-                            var BindMobileCode = $("#BindMobileCode").val();
                             if (BindMobileCode == "") {
                                 $("#BindMobileCodeError").html("验证码不能为空");
                             }
@@ -199,17 +214,21 @@
                                             code: $("#BindMobileCode").val(),
                                             option: option//1:绑定手机；2：解除绑定
                                         };
+
                                         Global.post("/MyAccount/SaveAccountBindMobile", Paras, function (data) {
-                                            if (data.Result == 1) {
+                                            if (data.result == 1) {
                                                 $("#S_BindMobile").html(BindMobile);
                                                 $("#cancleLoginMobile").click();
                                                 $("#bindLoginMobile").val("解绑");
                                             }
-                                            else if (data.Result == 2) {
+                                            else if (data.result == 2) {
                                                 $("#BindMobileCodeError").html("验证码有误");
                                             }
-                                            else if (data.Result == 0) {
+                                            else if (data.result == 0) {
                                                 alert("保存失败");
+                                            }
+                                            else if (data.result == 3) {
+                                                alert("请先设置账号");
                                             }
                                         });
                                     }
@@ -224,15 +243,18 @@
             } else {
                 $("#BindMobileError").html("手机不能为空");
             }
-        } else {
-            var BindMobileCode = $("#BindMobileCode").val();
+        }
+        else {
+
             if (BindMobileCode == "") {
                 $("#BindMobileCodeError").html("验证码不能为空");
-            } else {
+            }
+            else {
                 Global.post("/Home/ValidateMobilePhoneCode", { mobilePhone: $("#S_BindMobile").html().trim(), code: BindMobileCode }, function (data) {
                     if (data.Result == 0) {
                         $("#BindMobileCodeError").html("验证码有误");
-                    }else {
+                    }
+                    else {
                         $("#BindMobileCodeError").html("");
 
                         var Paras =
@@ -242,16 +264,19 @@
                             option: option//1:绑定手机；2：解除绑定
                         };
                         Global.post("/MyAccount/SaveAccountBindMobile", Paras, function (data) {
-                            if (data.Result == 1) {
+                            if (data.result == 1) {
                                 $("#S_BindMobile").html("");
                                 $("#cancleLoginMobile").click();
                                 $("#bindLoginMobile").val("绑定");
                             }
-                            else if (data.Result == 2) {
+                            else if (data.result == 2) {
                                 $("#BindMobileCodeError").html("验证码有误");
                             }
                             else if (data.Result == 0) {
                                 alert("保存失败");
+                            }
+                            else if (data.result == 3) {
+                                alert("请先设置账号");
                             }
                         });
                     }
@@ -263,7 +288,7 @@
     //发送手机验证码
     var timeCount = 60;
     var interval = null;
-    ObjectJS.SendMobileMessage = function (id, mobilePhone) {
+    ObjectJS.sendMobileMessage = function (id, mobilePhone) {
         var $btnSendCode = $("#" + id);
         $btnSendCode.attr("disabled", "disabled");
 

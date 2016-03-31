@@ -25,8 +25,6 @@ namespace YXERP.Controllers
         {
             ViewBag.Departments = OrganizationBusiness.GetDepartments(CurrentUser.AgentID);
 
-            id = id ?? "-1";
-            ViewBag.Option = id;
             return View();
         }
 
@@ -63,6 +61,7 @@ namespace YXERP.Controllers
             JsonDictionary.Add("OfficePhone", CurrentUser.OfficePhone);
             JsonDictionary.Add("Email", CurrentUser.Email);
             JsonDictionary.Add("BindMobilePhone", CurrentUser.BindMobilePhone);
+
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -80,9 +79,8 @@ namespace YXERP.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             IntFactoryEntity.Users model = serializer.Deserialize<IntFactoryEntity.Users>(entity);
 
-
             bool flag = OrganizationBusiness.UpdateUserInfo(CurrentUser.UserID, model.Name, model.Jobs, model.Birthday, 0, model.DepartID, model.Email, model.MobilePhone, model.OfficePhone, CurrentUser.AgentID);
-            JsonDictionary.Add("Result", flag?1:0);
+            JsonDictionary.Add("result", flag?1:0);
 
             if (flag)
             {
@@ -138,8 +136,8 @@ namespace YXERP.Controllers
                     
             }
 
-            JsonDictionary.Add("Result",result);
-            JsonDictionary.Add("Avatar", avatar);
+            JsonDictionary.Add("result",result);
+            JsonDictionary.Add("avatar", avatar);
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -157,7 +155,7 @@ namespace YXERP.Controllers
         public JsonResult IsExistLoginName(string loginName)
         {
             bool bl = OrganizationBusiness.IsExistLoginName(loginName);
-            JsonDictionary.Add("Result", bl);
+            JsonDictionary.Add("result", bl);
 
             return new JsonResult()
             {
@@ -174,12 +172,12 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult ConfirmLoginPwd(string loginName, string loginPwd)
         {
-            if (string.IsNullOrEmpty(loginName)) 
-            {
+            if (string.IsNullOrEmpty(loginName)) {
                 loginName = CurrentUser.LoginName;
             }
+
             bool bl = OrganizationBusiness.ConfirmLoginPwd(loginName, loginPwd);
-            JsonDictionary.Add("Result", bl);
+            JsonDictionary.Add("result", bl);
 
             return new JsonResult()
             {
@@ -197,7 +195,7 @@ namespace YXERP.Controllers
         public JsonResult UpdateUserAccount(string loginName, string loginPwd)
         {
             bool bl = OrganizationBusiness.UpdateUserAccount(CurrentUser.UserID, loginName, loginPwd, CurrentUser.AgentID);
-            JsonDictionary.Add("Result", bl);
+            JsonDictionary.Add("result", bl);
 
             if (bl) {
                 CurrentUser.LoginName = loginName;
@@ -214,7 +212,7 @@ namespace YXERP.Controllers
         public JsonResult UpdateUserPass(string loginPwd)
         {
             bool bl = OrganizationBusiness.UpdateUserPass(CurrentUser.UserID, loginPwd, CurrentUser.AgentID);
-            JsonDictionary.Add("Result", bl);
+            JsonDictionary.Add("result", bl);
 
             return new JsonResult()
             {
@@ -230,32 +228,44 @@ namespace YXERP.Controllers
         {
             bool flag = false;
             int result = 0;
-
-            bool bl = Common.Common.ValidateMobilePhoneCode(bindMobile, code);
-            if (!bl){
-                result = 2;
-            }
-            else
+            if (!string.IsNullOrEmpty( CurrentUser.LoginName) )
             {
-                if (option == 1)
-                    flag = OrganizationBusiness.UpdateAccountBindMobile(CurrentUser.UserID, bindMobile, CurrentUser.AgentID);
+                bool bl = Common.Common.ValidateMobilePhoneCode(bindMobile, code);
+                if (!bl){
+                    result = 2;
+                }
                 else
-                    flag = OrganizationBusiness.ClearAccountBindMobile(CurrentUser.UserID, CurrentUser.AgentID);
-
-                if (flag)
                 {
-                    if (option == 1)
-                        CurrentUser.BindMobilePhone = bindMobile;
-                    else
-                        CurrentUser.BindMobilePhone = string.Empty;
+                    if (option == 1){
+                        flag = OrganizationBusiness.UpdateAccountBindMobile(CurrentUser.UserID, bindMobile, CurrentUser.AgentID);
+                    }
+                    else{
+                        flag = OrganizationBusiness.ClearAccountBindMobile(CurrentUser.UserID, CurrentUser.AgentID);
+                    }
 
-                    Session["ClientManager"] = CurrentUser;
-                    Common.Common.ClearMobilePhoneCode(bindMobile);
-                    result = 1;
+                    if (flag)
+                    {
+                        if (option == 1)
+                        {
+                            CurrentUser.BindMobilePhone = bindMobile;
+                        }
+                        else
+                        {
+                            CurrentUser.BindMobilePhone = string.Empty;
+                        }
+
+                        Session["ClientManager"] = CurrentUser;
+                        Common.Common.ClearMobilePhoneCode(bindMobile);
+                        result = 1;
+                    }
                 }
             }
+            else {
+                result = 3;
+            }
+            
 
-            JsonDictionary.Add("Result",result);
+            JsonDictionary.Add("result",result);
             return new JsonResult()
             {
                 Data = JsonDictionary,

@@ -8,10 +8,11 @@
 @section css{
 <link href="/modules/css/myaccount/myaccount.css" rel="stylesheet" />
 }
+
 @section scripts{
+<script src="/Scripts/jquery-1.11.1.js"></script>
 <script type="text/javascript">
     $(function () {
-        $(".bindloginmobile").hide();
         seajs.use(["scripts/myaccount/account"], function (ObjectJS) {
             ObjectJS.init();
         }); 

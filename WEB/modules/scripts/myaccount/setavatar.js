@@ -64,8 +64,8 @@
 
             Global.post("/MyAccount/SaveAccountAvatar", { avatar: img }, function (data) {
 
-                if (data.Result == 1) {
-                    $("#currentUser .avatar").attr("src", data.Avatar + "?t=" + new Date().toLocaleString());
+                if (data.result == 1) {
+                    $("#currentUser .avatar").attr("src", data.avatar + "?t=" + new Date().toLocaleString());
                 }
                 else {
                     alert("保存失败");
