@@ -235,7 +235,7 @@ define(function (require, exports, module) {
 
         if (ObjectJS.Params.DisplayType == 1)
         {
-            $(".activityList").html("<tr><td><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+            $(".activityList").html("<tr><td><div class='data-loading'><div></td></tr>");
         }
         else {
             $(".activityCardList").html("<li ><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/></div></li>");
@@ -773,7 +773,7 @@ define(function (require, exports, module) {
     ObjectJS.getCustomersByActivityID = function () {
         var _self = this;
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='7'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='7'><div class='data-loading' ><div></td></tr>");
 
         Global.post("/Activity/GetCustomersByActivityID",
             {
@@ -794,7 +794,7 @@ define(function (require, exports, module) {
                     });
                 }
                 else {
-                    $(".tr-header").after("<tr><td colspan='7'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                    $(".tr-header").after("<tr><td colspan='7'><div class='nodata-txt' >暂无数据!<div></td></tr>");
                 }
  
                 $("#pager").paginate({

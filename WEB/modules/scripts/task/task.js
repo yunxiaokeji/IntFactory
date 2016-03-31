@@ -7,9 +7,6 @@
     var Params = {
         isMy: true,
         userID: "",
-        orderType: -1,
-        orderProcessID:"-1",
-        orderStageID:"-1",
         taskType: -1,
         colorMark: -1,
         status: 1,
@@ -17,6 +14,9 @@
         keyWords:"",
         beginDate: "",
         endDate: "",
+        orderType: -1,
+        orderProcessID: "-1",
+        orderStageID: "-1",
         pageSize: 10,
         pageIndex:1
     };
@@ -144,7 +144,6 @@
                         Params.pageIndex = 1;
                         ObjectJS.getList();
 
-
                         Global.post("/Task/GetOrderStages", { id: data.value }, function (data) {
 
                             $("#orderStage").dropdown({
@@ -185,14 +184,14 @@
 
     ObjectJS.getList = function () {
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='10'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='10'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".tr-header").nextAll().remove();
 
-            if (data.Items.length > 0) {
+            if (data.items.length > 0) {
                 doT.exec("template/task/task-list.html", function (template) {
-                    var innerhtml = template(data.Items);
+                    var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
                     innerhtml.find(".mark").markColor({
@@ -206,12 +205,12 @@
                 });
             }
             else {
-                $(".tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                $(".tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
 
             $("#pager").paginate({
-                total_count: data.TotalCount,
-                count: data.PageCount,
+                total_count: data.totalCount,
+                count: data.pageCount,
                 start: Params.pageIndex,
                 display: 5,
                 images: false,

@@ -11,6 +11,7 @@
 .hide { display:none; }
 .nolimits { display: none !important; }
 .relative {position:relative;}
+.bold {font-weight:bold}
 
 /*超过长度显示...*/
 .long { display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

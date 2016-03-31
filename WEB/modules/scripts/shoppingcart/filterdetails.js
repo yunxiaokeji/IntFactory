@@ -176,7 +176,7 @@ define(function (require, exports, module) {
                     $(".use-table-list .tr-header").after(innerhtml);
                 });
             } else {
-                $(".use-table-list .tr-header").after("<tr><td colspan='5'><div class='noDataTxt' >暂无记录!<div></td></tr>");
+                $(".use-table-list .tr-header").after("<tr><td colspan='5'><div class='nodata-txt' >暂无记录!<div></td></tr>");
             }
             $("#pagerUseLogs").paginate({
                 total_count: data.totalCount,

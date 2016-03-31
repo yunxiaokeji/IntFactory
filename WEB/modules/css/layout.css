@@ -158,11 +158,10 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 /*图片预览定位*/
 .absolute-img { position:absolute; top:180px; right:40px; height:220px; width:220px; }
 
+/*图片loading*/
+.data-loading { padding: 85px 0px; font-size: 16px; text-align: center; color: #666; background:url(/modules/images/ico-loading.jpg) no-repeat center center;}
 /*暂无数据*/
-.noDataTxt { padding: 95px 0px; font-size: 16px; text-align: center; color: #666; }
-
-/*图片loading  background:url('/modules/images/ico-loading.gif') no-repeat center; */
-.dataLoading { padding: 85px 0px; font-size: 16px; text-align: center; color: #666; }
+.nodata-txt { padding: 95px 0px; font-size: 16px; text-align: center; color: #666; }
 
 
 

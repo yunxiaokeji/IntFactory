@@ -107,7 +107,7 @@
         var _self = this;
         $("#checkAll").addClass("ico-check").removeClass("ico-checked");
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='9'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='9'><div class='data-loading'><div></td></tr>");
         Global.post("/Finance/GetOrderBills", { filter: JSON.stringify(Params) }, function (data) {
             _self.bindList(data);
         });
@@ -138,7 +138,7 @@
             });
         }
         else {
-            $(".tr-header").after("<tr><td colspan='9'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='9'><div class='nodata-txt' >暂无数据!<div></td></tr>");
         }
 
         $("#pager").paginate({

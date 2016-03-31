@@ -151,7 +151,7 @@ define(function (require, exports, module) {
     ObjectJS.getList = function () {
         var _self = this;
         $("#warehouse-items").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='8'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='8'><div class='data-loading'><div></td></tr>");
         Global.post("/System/GetWareHouses", Params, function (data) {
             $(".tr-header").nextAll().remove();
 
@@ -184,7 +184,7 @@ define(function (require, exports, module) {
                 });
             }
             else {
-                $(".tr-header").after("<tr><td colspan='8'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                $(".tr-header").after("<tr><td colspan='8'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
 
             $("#pager").paginate({

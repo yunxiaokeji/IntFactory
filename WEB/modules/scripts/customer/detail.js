@@ -304,7 +304,7 @@
     ObjectJS.getOrders = function (customerid, page) {
         var _self = this;
         $("#navOrder .tr-header").nextAll().remove();
-        $("#navOrder .tr-header").after("<tr><td colspan='12'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#navOrder .tr-header").after("<tr><td colspan='12'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetOrdersByCustomerID", {
             customerid: customerid,
             ordertype: 1,
@@ -328,7 +328,7 @@
                     $("#navOrder .tr-header").after(innerhtml);
                 });
             } else {
-                $("#navOrder .tr-header").after("<tr><td colspan='12'><div class='noDataTxt' >暂无订单!<div></td></tr>");
+                $("#navOrder .tr-header").after("<tr><td colspan='12'><div class='nodata-txt' >暂无订单!<div></td></tr>");
             }
             $("#pagerOrders").paginate({
                 total_count: data.totalCount,
@@ -357,7 +357,7 @@
     ObjectJS.getDHOrders = function (customerid, page) {
         var _self = this;
         $("#navDHOrder .tr-header").nextAll().remove();
-        $("#navDHOrder .tr-header").after("<tr><td colspan='12'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#navDHOrder .tr-header").after("<tr><td colspan='12'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetOrdersByCustomerID", {
             customerid: customerid,
             ordertype: 2,
@@ -380,7 +380,7 @@
                     $("#navDHOrder .tr-header").after(innerhtml);
                 });
             } else {
-                $("#navDHOrder .tr-header").after("<tr><td colspan='12'><div class='noDataTxt' >暂无订单!<div></td></tr>");
+                $("#navDHOrder .tr-header").after("<tr><td colspan='12'><div class='nodata-txt' >暂无订单!<div></td></tr>");
             }
             $("#pagerDHOrders").paginate({
                 total_count: data.totalCount,
@@ -409,7 +409,7 @@
     ObjectJS.getOpportunitys = function (customerid, page) {
         var _self = this;
         $("#navOppor .tr-header").nextAll().remove();
-        $("#navOppor .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#navOppor .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetNeedsOrderByCustomerID", {
             customerid: customerid,
             pagesize: 10,
@@ -431,7 +431,7 @@
                     $("#navOppor .tr-header").after(innerhtml);
                 });
             } else {
-                $("#navOppor .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无需求!<div></td></tr>");
+                $("#navOppor .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无需求!<div></td></tr>");
             }
             $("#pagerOppors").paginate({
                 total_count: data.totalCount,

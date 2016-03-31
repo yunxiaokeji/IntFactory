@@ -37,7 +37,7 @@
     ObjectJS.getList = function () {
         var _self = this;
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='8'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='8'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Stock/GetProductStocks", Params, function (data) {
             _self.bindList(data);
@@ -83,7 +83,7 @@
             });
         }
         else {
-            $(".tr-header").after("<tr><td colspan='8'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='8'><div class='nodata-txt' >暂无数据!<div></td></tr>");
         }
 
         $("#pager").paginate({

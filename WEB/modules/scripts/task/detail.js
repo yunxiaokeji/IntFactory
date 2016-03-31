@@ -72,7 +72,7 @@
                     //隐藏制版列操作下拉框
                     if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
 
-                        $(".replyBox").removeClass("autoHeight").css("border", "1px solid #ddd");
+                        $(".replyBox").removeClass("replybox-hover");
                     }
 
 
@@ -140,14 +140,14 @@
         //任务讨论盒子点击
         $(".replyBox").click(function () {
 
-            $(this).addClass("autoHeight").css("border", "1px solid #666");
+            $(this).addClass("replybox-hover");
             $(this).find(".replyContent").focus();
         });
 
         //任务讨论盒子隐藏
         $(document).click(function (e) {
             if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
-                $(".replyBox").removeClass("autoHeight").css("border", "1px solid #ddd");
+                $(".replyBox").removeClass("replybox-hover");
             }
         });
 
@@ -191,14 +191,17 @@
         }
 
         confirm("任务到期时间不可逆，确定设置?", function () {
-            Global.post("/Task/UpdateTaskEndTime", { taskID: ObjectJS.taskid, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
-                if (data.Result == 0) {
+            Global.post("/Task/UpdateTaskEndTime", {
+                id: ObjectJS.taskid,
+                endTime: $("#UpdateTaskEndTime").val()
+            }, function (data) {
+                if (data.result == 0) {
                     alert("操作无效");
                 }
-                else if (data.Result == 2) {
+                else if (data.result == 2) {
                     alert("任务已接受,不能操作");
                 }
-                else if (data.Result == 3) {
+                else if (data.result == 3) {
                     alert("没有权限操作");
                 }
                 else {
@@ -233,23 +236,21 @@
         confirm("标记完成的任务不可逆,确定完成?", function () {
             Global.post("/Task/FinishTask",
                 {
-                    taskID: ObjectJS.taskid,
-                    orderID: ObjectJS.orderid,
-                    orderType: ObjectJS.orderType
-            }, function (data) {
-                if (data.Result == 1) {
+                    id: ObjectJS.taskid
+               }, function (data) {
+                if (data.result == 1) {
                     location.href = location.href;
                 }
-                else if (data.Result == 2) {
+                else if (data.result == 2) {
                     alert("前面阶段任务有未完成,不能标记完成");
                 }
-                else if (data.Result == 3) {
+                else if (data.result == 3) {
                     alert("无权限操作");
                 }
-                else if (data.Result == 4) {
+                else if (data.result == 4) {
                     alert("任务没有接受，不能设置完成");
                 }
-                else if (data.Result == -1) {
+                else if (data.result == -1) {
                     alert("保存失败");
                 }
             });
@@ -349,7 +350,7 @@
     ObjectJS.getTaskReplys = function (page) {
         var _self = this;
         $("#replyList").empty();
-        $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='data-loading'><div></td></tr>");
         Global.post("/Opportunitys/GetReplys", {
             guid: ObjectJS.orderid,
             stageid: ObjectJS.stageid,
@@ -399,7 +400,7 @@
                 });
             }
             else {
-                $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='noDataTxt' >暂无评论!<div></td></tr>");
+                $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
             }
 
             $("#pagerReply").paginate({
@@ -423,7 +424,7 @@
     ObjectJS.getTaskReplysOfPlate = function (page) {
         var _self = this;
         $("#replyListOfPlate").empty();
-        $("#replyListOfPlate").html("<tr><td colspan='2' style='border:none;'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#replyListOfPlate").html("<tr><td colspan='2' style='border:none;'><div class='data-loading'><div></td></tr>");
         Global.post("/Opportunitys/GetReplys", {
             guid: ObjectJS.orderid,
             stageid: ObjectJS.stageid,
@@ -442,7 +443,7 @@
                 });
             }
             else {
-                $("#replyListOfPlate").html("<tr><td colspan='2' style='border:none;'><div class='noDataTxt' >暂无评论!<div></td></tr>");
+                $("#replyListOfPlate").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
             }
 
             $("#pagerReplyOfPlate").paginate({
@@ -466,7 +467,7 @@
     ObjectJS.getTaskReplysOfMaterial = function (page) {
         var _self = this;
         $("#replyListOfMaterial").empty();
-        $("#replyListOfMaterial").html("<tr><td colspan='2' style='border:none;'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#replyListOfMaterial").html("<tr><td colspan='2' style='border:none;'><div class='data-loading'><div></td></tr>");
         Global.post("/Opportunitys/GetReplys", {
             guid: ObjectJS.orderid,
             stageid: ObjectJS.stageid,
@@ -486,7 +487,7 @@
                 });
             }
             else {
-                $("#replyListOfMaterial").html("<tr><td colspan='2' style='border:none;'><div class='noDataTxt' >暂无评论!<div></td></tr>");
+                $("#replyListOfMaterial").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
             }
 
             $("#pagerReplyOfPlate").paginate({
@@ -515,7 +516,7 @@
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
 
-                $("#replyList .noDataTxt").parent().parent().remove();
+                $("#replyList .nodata-txt").parent().parent().remove();
 
                 $("#replyList").prepend(innerhtml);
 
@@ -557,7 +558,7 @@
         $("#taskLogList").empty();
 
         Global.post("/Task/GetOrderTaskLogs", {
-            taskID: _self.taskid,
+            id: _self.taskid,
             pageindex: page
         }, function (data) {
 
@@ -1044,11 +1045,11 @@
 
         Global.post("/Task/UpdateOrderPlateAttr", {
             orderID: ObjectJS.orderid,
-            platehtml: encodeURI($("#platemakingBody").html()),
             taskID: ObjectJS.taskid,
+            platehtml: encodeURI($("#platemakingBody").html()),
             valueIDs: valueIDs
         }, function (data) {
-            if (data.Result == 1) {
+            if (data.result == 1) {
                 alert("保存成功");
                 ObjectJS.isPlate = true;
             }
@@ -1061,7 +1062,7 @@
             orderID: ObjectJS.orderid,
             plateRemark: encodeURI(Editor.getContent())
         }, function (data) {
-            if (data.Result == 1) {
+            if (data.result == 1) {
                 $(".edui-body-container").animate({ height: "100px" }, 500);
             }
         });

@@ -125,8 +125,9 @@ height:100px;
 border-bottom:1px solid #ddd;
 }
 
-.autoHeight {
-height:auto;
+.replybox-hover {
+    height:auto;
+    border: 1px solid #666
 }
 
 .order-remark {

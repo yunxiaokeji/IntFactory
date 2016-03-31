@@ -20,17 +20,20 @@ namespace IntFactory.Service
             InitializeComponent();
         }
 
+        double DownIntervalCount = double.Parse(System.Configuration.ConfigurationManager.AppSettings["YXClientID"] ?? "1");
+        double UpdateIntervalCount = double.Parse(System.Configuration.ConfigurationManager.AppSettings["YXClientID"] ?? "1");
+
         System.Timers.Timer DownAliOrdersTimer = new System.Timers.Timer();
         System.Timers.Timer UpdateAliOrdersTimer = new System.Timers.Timer();
 
         protected override void OnStart(string[] args)
         {
-            DownAliOrdersTimer.Interval =60 * 1000;
+            DownAliOrdersTimer.Interval = DownIntervalCount*60 * 60 * 1000;;
             DownAliOrdersTimer.Elapsed += new System.Timers.ElapsedEventHandler(DownAliOrdersEvent); //到达时间的时候执行事件；   
             DownAliOrdersTimer.AutoReset = true;   //设置是执行一次（false）还是一直执行(true)；   
             DownAliOrdersTimer.Enabled = true;     //是否执行System.Timers.Timer.Elapsed事件；   
 
-            UpdateAliOrdersTimer.Interval = 60 * 1000;
+            UpdateAliOrdersTimer.Interval = UpdateIntervalCount * 60 * 60 * 1000;
             UpdateAliOrdersTimer.Elapsed += new System.Timers.ElapsedEventHandler(UpdateAliOrdersEvent); //到达时间的时候执行事件；   
             UpdateAliOrdersTimer.AutoReset = true;   //设置是执行一次（false）还是一直执行(true)；   
             UpdateAliOrdersTimer.Enabled = true;     //是否执行System.Timers.Timer.Elapsed事件；   

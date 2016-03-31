@@ -1348,7 +1348,7 @@ define(function (require, exports, module) {
     ObjectJS.getPays = function () {
         var _self = this;
         $("#navPays .tr-header").nextAll().remove();
-        $("#navPays .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#navPays .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Finance/GetOrderBillingPays", {
             orderid: _self.orderid
         }, function (data) {
@@ -1361,7 +1361,7 @@ define(function (require, exports, module) {
                     $("#navPays .tr-header").after(innerhtml);
                 });
             } else {
-                $("#navPays .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                $("#navPays .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         }); 
     }
@@ -1407,7 +1407,7 @@ define(function (require, exports, module) {
     ObjectJS.getSendDoc = function () {
         var _self = this;
         $("#navSendDoc .tr-header").nextAll().remove();
-        $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 2
@@ -1421,7 +1421,7 @@ define(function (require, exports, module) {
                     $("#navSendDoc .tr-header").after(innerhtml);
                 });
             } else {
-                $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         });
         
@@ -1431,7 +1431,7 @@ define(function (require, exports, module) {
     ObjectJS.getCutoutDoc = function () {
         var _self = this;
         $("#navCutoutDoc .tr-header").nextAll().remove();
-        $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 1
@@ -1445,7 +1445,7 @@ define(function (require, exports, module) {
                     $("#navCutoutDoc .tr-header").after(innerhtml);
                 });
             } else {
-                $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         });
 
@@ -1455,7 +1455,7 @@ define(function (require, exports, module) {
     ObjectJS.getSewnDoc = function () {
         var _self = this;
         $("#navSewnDoc .tr-header").nextAll().remove();
-        $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 11
@@ -1469,7 +1469,7 @@ define(function (require, exports, module) {
                     $("#navSewnDoc .tr-header").after(innerhtml);
                 });
             } else {
-                $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         });
 
@@ -1479,7 +1479,7 @@ define(function (require, exports, module) {
     ObjectJS.getCosts = function () {
         var _self = this;
         $("#navCosts .tr-header").nextAll().remove();
-        $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='dataLoading' ><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetOrderCosts", {
             orderid: _self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID
         }, function (data) {
@@ -1515,7 +1515,7 @@ define(function (require, exports, module) {
                     }
                 });
             } else {
-                $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         });
     }

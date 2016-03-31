@@ -402,27 +402,23 @@ namespace YXERP.Controllers
                                             result = 1;
                                         }
                                     }
-                                    else
-                                    {
+                                    else{
                                         AliOrderBusiness.BaseBusiness.DeleteAliOrderDownloadPlan(model.ClientID);
                                     }
                                 }
                             }
-                            else
-                            {
+                            else{
                                 result = 4;
                             }
 
                         }
-                        else
-                        {
+                        else{
                             result = 5;
                         }
                     }
                     else
                     {
                         Session["ClientManager"] = model;
-
                         result = 1;
                     }
 
@@ -432,8 +428,9 @@ namespace YXERP.Controllers
                 {
                     if (outResult == 3)
                     {
-                        if (pwdErrorUser == null)
+                        if (pwdErrorUser == null){
                             pwdErrorUser = new Common.PwdErrorUserEntity();
+                        }
                         else
                         {
                             if (pwdErrorUser.ErrorCount > 2)
@@ -466,7 +463,6 @@ namespace YXERP.Controllers
 
            
             resultObj.Add("result",result);
-
             return new JsonResult
             {
                 Data = resultObj,

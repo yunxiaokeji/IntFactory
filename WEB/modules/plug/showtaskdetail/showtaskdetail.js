@@ -59,10 +59,10 @@ define(function (require, exports, module) {
         var drawTaskDetail = function (taskid, orderid, stageid, mark, self) {
 
             doT.exec("plug/showtaskdetail/task-detail.html", function (template) {
-                Global.post("/task/GetTaskDetail", { taskID: taskid }, function (data) {
+                Global.post("/task/GetTaskDetail", { id: taskid }, function (data) {
                     //获取任务详情内容
                     var arr = [];
-                    arr.push(data.Item);
+                    arr.push(data.item);
                     var html = template(arr);
 
                     $("#taskDetailContent").remove();
@@ -95,7 +95,7 @@ define(function (require, exports, module) {
                                                 userid: items[0].id,
                                                 taskid: taskid
                                             }, function (data) {
-                                                if (data.status) {
+                                                if (data.result) {
                                                     $("#taskOwnerID").text(items[0].name);
                                                     $("#changeTaskOwner").data("userid", items[0].id);
                                                 }
@@ -122,11 +122,10 @@ define(function (require, exports, module) {
 
         //更新任务到期日期
         var UpdateTaskEndTime = function (taskID) {
-            Global.post("/Task/UpdateTaskEndTime", { taskID: taskID, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
-                if (data.Result == 1)
+            Global.post("/Task/UpdateTaskEndTime", { id: taskID, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
+                if (data.result == 1)
                 {
                     defaultParas.UpdateTaskEndTimeCallBack($("#UpdateTaskEndTime").val(), taskID);
-                    //alert("保存成功");
                 }
             });
         }
@@ -134,18 +133,21 @@ define(function (require, exports, module) {
         //标记任务完成
         var FinishTask = function (taskID) {
             confirm("标记完成的任务不可逆,确定完成?", function () {
-                Global.post("/Task/FinishTask", { taskID: taskID }, function (data) {
-                    if (data.Result == 1) {
+                Global.post("/Task/FinishTask", { id: taskID }, function (data) {
+                    if (data.result == 1) {
                         alert("标记任务完成");
                         $("#FinishTask").addClass("btnccc").val("已完成").attr("disabled", "disabled");
 
                         defaultParas.FinishTaskCallBack();
                     }
-                    else if (data.Result == 2) {
+                    else if (data.result == 2) {
                         alert("前面阶段任务有未完成,不能标记完成");
                     }
-                    else if (data.Result == 3) {
+                    else if (data.result == 3) {
                         alert("无权限操作");
+                    }
+                    else if (data.result == -1) {
+                        alert("保存失败");
                     }
                 });
             });

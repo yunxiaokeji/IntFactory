@@ -98,7 +98,7 @@
     ObjectJS.getList = function () {
         var _self = this;
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='5'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
         Global.post("/Organization/GetDepartments", {}, function (data) {
             _self.bindList(data.items);
         });
@@ -129,7 +129,7 @@
             });
         }
         else {
-            $(".tr-header").after("<tr><td colspan='5'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='5'><div class='nodata-txt' >暂无数据!<div></td></tr>");
         }
     }
 

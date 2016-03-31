@@ -211,7 +211,7 @@ define(function (require, exports, module) {
     Home.getList = function () {
         Paras.TypeID = 1;
         $("#fentOrders table thead").nextAll().remove();
-        $("#fentOrders table thead").after("<tr><td colspan='3'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#fentOrders table thead").after("<tr><td colspan='3'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Orders/GetOrders", { filter: JSON.stringify(Paras) }, function (data) {
             $("#fentOrders table thead").nextAll().remove();
@@ -234,7 +234,7 @@ define(function (require, exports, module) {
             }
             else
             {
-                $("#fentOrders table thead").after("<tr><td colspan='3'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                $("#fentOrders table thead").after("<tr><td colspan='3'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         });
 
@@ -245,7 +245,7 @@ define(function (require, exports, module) {
     Home.getList2 = function () {
         Paras.TypeID = 2;
         $("#bulkOrderList table thead").nextAll().remove();
-        $("#bulkOrderList table thead").after("<tr><td colspan='3'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $("#bulkOrderList table thead").after("<tr><td colspan='3'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Orders/GetOrders", { filter: JSON.stringify(Paras) }, function (data) {
             $("#bulkOrderList table thead").nextAll().remove();
@@ -266,7 +266,7 @@ define(function (require, exports, module) {
                 $("#bulkOrderList table thead").after(html);
             }
             else {
-                $("#bulkOrderList table thead").after("<tr><td colspan='3'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+                $("#bulkOrderList table thead").after("<tr><td colspan='3'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
 
         });
