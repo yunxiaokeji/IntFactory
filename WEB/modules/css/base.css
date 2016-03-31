@@ -203,6 +203,11 @@ select option{ padding:2px; }
 .ico-help{ background:url(../images/ico-help.png) no-repeat; height:20px; min-width:20px; line-height:20px; 
           display:inline-block; cursor:pointer;}
 
+/*描述*/
+.ico-desc{ background:url(../images/ico-desc.png) no-repeat; height:16px; min-width:16px; line-height:16px; 
+          display:inline-block; cursor:pointer; color:#666; }
+.ico-desc:hover{ background:url(../images/ico-desc-hover.png) no-repeat;}
+
 /*下拉*/
 .ico-dropdown{ background:url(../images/ico-dropdown.png) no-repeat; height:12px; min-width:12px; line-height:12px; 
           display:inline-block; cursor:pointer;}

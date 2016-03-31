@@ -288,7 +288,11 @@
                 }
             }
 
-            _item.append("<label class='check left'><input type='checkbox' class='left'  value='" + cacheMenu[menuCode][i].MenuCode + "' data-id='" + cacheMenu[menuCode][i].MenuCode + "' /><span>" + cacheMenu[menuCode][i].Name + "</span></label>");
+            _item.append("<label  title='" + cacheMenu[menuCode][i].Remark + "' class='check left'><input type='checkbox' class='left'  value='" + cacheMenu[menuCode][i].MenuCode + "' data-id='" + cacheMenu[menuCode][i].MenuCode + "' /><span>" + cacheMenu[menuCode][i].Name + "</span></label>");
+
+            if (cacheMenu[menuCode][i].Remark) {
+                _item.append("<span title='" + cacheMenu[menuCode][i].Remark + "' class='ico-desc mLeft10'></span>")
+            }
 
             _div.append(_item);
 
