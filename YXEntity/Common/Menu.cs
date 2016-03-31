@@ -141,6 +141,8 @@ namespace IntFactoryEntity
 
 		#endregion Model
 
+        public string Remark { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>
