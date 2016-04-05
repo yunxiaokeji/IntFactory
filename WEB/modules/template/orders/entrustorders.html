@@ -15,9 +15,6 @@
     <td class="center">{%=item.OrderType==1? item.Price:item.FinalPrice%}</td>
     <td class="tRight">{%=item.OrderType==1? (item.Price*(1+item.ProfitPrice)).toFixed(2):item.TotalMoney.toFixed(2)%}</td>
     <td class="center">{%=item.CustomerName%}</td>
-    <td class="center">{%=item.MobileTele||"--"%}</td>
     <td class='center'>{%=item.EntrustTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
-    <td class="center dropdown" data-id="{%=item.OrderID%}" data-userid="{%=item.OwnerID%}">
-    </td>
 </tr>
 {% } %}
