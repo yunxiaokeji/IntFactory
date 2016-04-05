@@ -94,7 +94,7 @@ define(function (require, exports, module) {
                             if (opts.tid) {
                                 obj.find(".btnconfirm").attr("href", "/Task/Detail/" + opts.tid).html("返回任务详情");
                             } else {
-                                obj.find(".btnconfirm").attr("href", "/Customer/OrderDetail/" + opts.guid);
+                                obj.find(".btnconfirm").attr("href", "/Orders/OrderDetail/" + opts.guid);
                             }
                         }
                         obj.find(".cart-product-list").append(innerText);

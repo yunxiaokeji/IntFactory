@@ -767,7 +767,7 @@ define(function (require, exports, module) {
                                 originalid: (!isExists ? "" : _self.model.OriginalID)
                             }, function (data) {
                                 if (data.id) {
-                                    alert("大货下单成功!", "/Customer/OrderDetail/" + data.id);
+                                    alert("大货下单成功!", "/Orders/OrderDetail/" + data.id);
                                 } else {
                                     alert("大货下单失败，请刷新页面重试！");
                                 }

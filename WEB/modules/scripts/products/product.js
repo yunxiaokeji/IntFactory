@@ -338,7 +338,7 @@ define(function (require, exports, module) {
             if (data.ID.length > 0) {
                 if (_self.type == "11") {
                     confirm("材料添加成功，是否返回选择材料页面？", function () {
-                        location.href = "/Customer/ChooseMaterial?id=" + _self.guid + "&tid=" + _self.tid;
+                        location.href = "/Orders/ChooseMaterial?id=" + _self.guid + "&tid=" + _self.tid;
                     }, function () {
                         location.href = "/Products/ProductDetail/" + data.ID;
                     });

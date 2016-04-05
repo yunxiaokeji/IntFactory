@@ -82,7 +82,7 @@
         </li> 
         <li>
             <span class="column-title">打样订单：</span>
-            <a href="/Customer/OrderDetail/@(model.OriginalID)" class="">@(model.OriginalCode)</a>
+            <a href="/Orders/OrderDetail/@(model.OriginalID)" class="">@(model.OriginalCode)</a>
             @if (string.IsNullOrEmpty(model.OriginalID) && model.IsSelf)
             {
                 <div class="btn @(ExpandClass.IsLimits(HttpContext.Current, "102019018"))" id="bindOriginalOrder">绑定打样款号</div> 

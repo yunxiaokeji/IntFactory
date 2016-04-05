@@ -103,7 +103,7 @@
             </li>
              <li>
                 <span class="column-title">订单编号:</span>
-                <a href="/Customer/OrderDetail/@(model.OrderID)" >@(model.OrderCode)</a>
+                <a href="/Orders/OrderDetail/@(model.OrderID)" >@(model.OrderCode)</a>
             </li>
             <li>
                 <span class="column-title">订单类型:</span>
@@ -217,7 +217,7 @@
                 @{
                     if ((model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
                     {
-                        <a href="/Customer/ChooseMaterial?id=@(model.OrderID)&tid=@(model.TaskID)" id="btn-addMaterial" class="btn right mTop10">添加材料</a>
+                        <a href="/Orders/ChooseMaterial?id=@(model.OrderID)&tid=@(model.TaskID)" id="btn-addMaterial" class="btn right mTop10">添加材料</a>
                     }
                 }
                 <div class="clear"></div>
