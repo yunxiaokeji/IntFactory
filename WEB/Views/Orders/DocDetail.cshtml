@@ -27,7 +27,7 @@
     </div>
     <ul class="content-info">
         <li><span class="column-title">总金额：</span>@(model.TotalMoney.ToString("f2"))</li>
-        <li><span class="column-title">状态：</span>@(model.StatusStr)</li>
+        <li><span class="column-title">状态：</span>已审核</li>
         <li><span class="column-title">创建人：</span>@(model.CreateUser.Name)</li>
         <li><span class="column-title">创建日期：</span>@(model.CreateTime.ToString("yyyy-MM-dd"))</li>
         <li><span class="column-title">快递公司：</span>@(model.Express!=null?model.Express.Name:"")</li>
@@ -50,14 +50,14 @@
         <tr class="tr-header">
             <td class="tLeft">规格</td>
             <td class="">数量</td>
-            <td class="tRight">剩余数量</td>
+            <td class="tRight">累计数量</td>
         </tr>
         @foreach (var item in model.Details)
         { 
             <tr class="item" >
                 <td>@(item.Remark)</td>
-                <td class="center">@(item.Quantity.ToString("f0"))</td>
-                <td class="tRight">@(item.SurplusQuantity.ToString("f0"))</td>
+                <td class="center">@(item.Quantity)</td>
+                <td class="tRight">@(item.Complete)</td>
             </tr>
         }
     </table>

@@ -447,9 +447,9 @@
     <None Include="Procedures\Sales\P_UpdateOrderProductLoss.sql" />
     <None Include="Procedures\Sales\P_UpdateOrderProductQuantity.sql" />
     <None Include="Procedures\Sales\P_UpdateOrderStatus.sql" />
-    <Build Include="Procedures\Manage\M_DeleteRole.sql" />
-    <Build Include="Procedures\Manage\M_UpdateRolePermission.sql" />
-    <Build Include="Procedures\Manage\M_UpdateUserRole.sql" />
+    <None Include="Procedures\Manage\M_DeleteRole.sql" />
+    <None Include="Procedures\Manage\M_UpdateRolePermission.sql" />
+    <None Include="Procedures\Manage\M_UpdateUserRole.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\System\P_CreateOrderProcess.sql" />
@@ -517,10 +517,10 @@
     <None Include="Procedures\Task\P_CreateTask.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Procedures\Products\P_UpdateAttrValueSort.sql" />
+    <None Include="Procedures\Products\P_UpdateAttrValueSort.sql" />
     <None Include="Procedures\AliOrder\P_AddAliOrderDownloadPlan.sql" />
     <None Include="Procedures\System\P_GetUserByAliMemberID.sql" />
-    <Build Include="Procedures\Manage\M_BindClientAliMember.sql" />
+    <None Include="Procedures\Manage\M_BindClientAliMember.sql" />
     <None Include="Procedures\Sales\p_GetOrderBaseInfoByID.sql" />
     <None Include="Procedures\Sales\P_UpdateOrderOver.sql" />
     <None Include="Procedures\P_GetPagerData.sql" />

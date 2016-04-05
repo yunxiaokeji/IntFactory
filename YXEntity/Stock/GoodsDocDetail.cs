@@ -75,6 +75,8 @@ namespace IntFactoryEntity
 		/// </summary>
         public int Quantity { set; get; }
 
+        public int Complete { set; get; }
+
         public int SurplusQuantity { get; set; }
 		/// <summary>
 		/// 
