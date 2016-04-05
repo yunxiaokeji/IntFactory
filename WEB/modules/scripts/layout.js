@@ -83,11 +83,11 @@ define(function (require, exports, module) {
                         controller.find("li[data-code='103030500']").find(".name").append("<span class='point'></span>");
                     }
                 } else if (item.DocType == 21) { //订单
-                    if ($("#modulesMenu li[data-code='101000000']").find(".point").length == 0) {
-                        $("#modulesMenu li[data-code='101000000']").find(".name").after("<span class='point'></span>");
+                    if ($("#modulesMenu li[data-code='102000000']").find(".point").length == 0) {
+                        $("#modulesMenu li[data-code='102000000']").find(".name").after("<span class='point'></span>");
                     }
 
-                    var controller = $("nav .controller[data-code='101010000']");
+                    var controller = $("nav .controller[data-code='102010000']");
                     if (controller.find(".point").length == 0) {
                         controller.find(".controller-box .name").after("<span class='point'></span>");
                     }

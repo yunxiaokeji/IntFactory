@@ -1,7 +1,7 @@
 ﻿@charset"utf-8";
 /*页头*/
 .pay-body{width:960px;margin:0 auto;}
-.pay-title{height:30px;padding:20px 0;color:#4a98e7;border-bottom:2px solid #4a98e7;}
+.pay-title{height:30px;padding:20px 0;color:#4a98e7;border-bottom:2px solid #ccc;}
 .pay-title-name i{width:40px;height:40px;}
 .pay-title-name span{font-size:1.4em;line-height:30px;vertical-align:middle;}
 /*内容*/
@@ -63,7 +63,7 @@
 @media only screen and (max-width: 1000px) {
 .pay-content-main-ins{display:none;}
 .pay-body{width:90%;}
-.pay-content-main{width:90;}
+.pay-content-main{width:90%;}
 .pay-content-main-form{float:none;width:95%;margin:0 auto;}
 .inputbox2,.textarea{width:auto;}
 }
@@ -72,3 +72,9 @@
 .pay-content-main-form .td{width:auto;}
 .address{margin:0 10px 10px 0;}
 }
+
+/*样图样式*/
+.order-imgs { width:400px; height:60px;}
+.order-imgs li{ width:60px; height:60px; float:left; margin-right:20px; position:relative;}
+.order-imgs li img{ width:60px; height:60px; }
+.order-imgs .ico-delete { position:absolute; top:-8px; right:-8px; background-color:#fff; border-radius:12px;  }

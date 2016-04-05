@@ -1137,7 +1137,7 @@ define(function (require, exports, module) {
         var _self = this;
         Global.post("/Orders/DeleteOrder", { orderid: _self.orderid }, function (data) {
             if (data.status) {
-                location.href = "/Customer/Orders";
+                location.href = "/Orders/Orders";
             } else {
                 alert("需求单删除失败，可能因为单据状态已改变，请刷新页面后重试！");
             }
@@ -1166,7 +1166,7 @@ define(function (require, exports, module) {
             clientcode: code
         }, function (data) {
             if (data.status) {
-                location.href = "/Customer/Orders";
+                location.href = "/Orders/Orders";
             } else {
                 alert("需求单转移失败，可能因为单据状态已改变，请刷新页面后重试！");
             }

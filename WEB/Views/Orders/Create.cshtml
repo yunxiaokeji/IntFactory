@@ -1,6 +1,5 @@
 ﻿@{
     Layout = null;
-    var model = (IntFactoryEntity.Manage.Clients)ViewBag.Model;
 }
 
 <!doctype html>
@@ -14,26 +13,18 @@
     <link href="/modules/css/base.css" rel="stylesheet" />
     <link href="/modules/css/common.css" rel="stylesheet" />
     <link href="/modules/css/orders/create.css" rel="stylesheet" />
+
     <script src="/Scripts/sea.js"></script>
     <script src="/Scripts/sea-config.js"></script>
     <script type="text/javascript">
-        seajs.use(["scripts/home/create"], function (home) {
-            home.init('@(model.ClientID)', '@(model.AgentID)');
+        seajs.use(["scripts/orders/create"], function (ObjectJS) {
+            ObjectJS.init('@ViewBag.CID');
         });
     </script>
 </head>
 
 <body>
-<!--页头-->
-<div class="pay-title pay-body row">
-    <div class="pay-title-name l">
-        <i><img src="@(string.IsNullOrEmpty(model.Logo) ? "/modules/images/selforder/title-logo.png" : model.Logo)" alt=""/></i>
-        <span>@(model.CompanyName)</span>
-    </div>
-</div>
-<!--页头end-->
 
-<!--内容-->
 <div class="pay-content pay-body row">
 	<div class="pay-content-title">
     	<div class="pay-content-title-info">
@@ -142,13 +133,6 @@
         <div class="pay-content-main-ins r"><img src="/modules/images/selforder/liuc_03.png" alt=""/></div>
     </div>
 </div>
-<!--内容end-->
-
-<!--页脚-->
-<div class="pay-bottom pay-body row">
-	<p>©2016-2017 智能工厂 浙ICP16001314</p>
-</div>
-<!--页脚end-->
 </body>
 </html>
 

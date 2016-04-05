@@ -3,10 +3,11 @@
 }
 
 @section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
-        seajs.use(["scripts/orders/opportunitys"], function (ObjectJS) {
-            ObjectJS.init('@ViewBag.Type');
+        seajs.use(["scripts/orders/orders"], function (ObjectJS) {
+            ObjectJS.init('@ViewBag.Type','@(ViewBag.State)');
         });
         $(function () {
             var begin = {
@@ -38,23 +39,37 @@
 }
 <div class="header-box">
     <span class="header-title left">@ViewBag.Title</span>
-    <a href="javascript:void(0)"  id="createOrder" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"102029001"))">新建销售机会</a>
+    
+    <a href="/Orders/Create" target="_blank" id="createOrder" class="btn-add right">新建订单</a>
+    <div class="btn right mRight10 nolimits" id="downAliOrders">同步阿里订单</div>
 </div>
 <div class="search-box">
     <div class="search-header">
         <ul class="search-tab search-status">
-            <li data-id="" class="hover">全部</li>
-            @foreach (var model in (List<IntFactoryEntity.OpportunityStageEntity>)ViewBag.Stages)
-            {
-                <li data-id="@(model.StageID)">@(model.StageName)</li>
-            }
+            <li data-id="-1" class="@(ViewBag.State==-1?"hover":"")">全部订单</li>
+            <li data-id="0" class="@(ViewBag.State==0?"hover":"")">需求单</li>
+            <li data-id="1" class="">打样中</li>
+            <li data-id="2" class="">合价中</li>
+            <li data-id="3" class="">封样封价</li>
+            <li data-id="4" class="">待大货</li>
+            <li data-id="5" class="">生产中</li>
+            <li data-id="6" class="">生产完成</li>
+            <li data-id="7" class="">交易结束</li>
+        </ul>
+        <ul class="search-tab-status search-returnstatus">
+            <li data-id="1" class="hover">正常</li>
+            <li data-id="8">终止</li>
         </ul>
     </div>
 </div>
 <div class="content-body">
     <div class="search-body">
         <div class="left mRight20" id="chooseBranch"></div>
-        <div class="left">
+        <div class="left" id="orderType"></div>
+        @*<div class="left mLeft20" id="payStatus"></div>*@
+        <div class="left mLeft20" id="sourceType"></div>
+        @*<div class="left mLeft20" id="invoiceStatus"></div>*@
+        <div class="left mLeft20">
             <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input width80"  />
             <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width80"  />
             <span class="btn mLeft10" id="btnSearch">搜索</span>
@@ -63,16 +78,22 @@
     </div>
     <table class="table-list mTop10">
         <tr class="tr-header">
+            <td class="width30"><span id="filterMark"></span></td> 
             <td class="width30"></td>
-            <td class="tLeft width150">机会编号</td>
-            <td class="tLeft minwidth70">客户名称</td>
-            <td class="width150">阶段</td>
+            <td class="tLeft width50">样图</td>
+            <td class="tLeft width150">订单编号</td>
+            <td class="width100">订单类型</td>
+            <td class="width80">来源</td>
+            <td class="width80">状态</td>
+            <td class="width80">进度</td>
+            <td class="width100">加工数量</td>
+            <td class="width100">单价</td>
             <td class="width80 tRight">总金额</td>
-            <td class="width100">联系人</td>
-            <td class="width100">联系电话</td> 
-            <td class="width80">备忘数</td>    
-            <td class="width100">拥有者</td>
-            <td class="width100">创建时间</td>
+            <td class="center">客户</td>
+            <td class="width100">联系电话</td>     
+            <td class="width100">负责人</td>
+            @*<td class="width100">发货状态</td>*@
+            <td class="width150">创建时间</td>
             <td class="width50">操作</td>
         </tr>
     </table>
@@ -81,13 +102,12 @@
             <span class="ico-check pLeft5" id="checkAll">批量操作</span>
         </li>
         <li>
-            <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"102029002"))" id="batchChangeOwner">更换拥有者</a>
+            <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" id="batchChangeOwner">更换负责人</a>
         </li>
     </ul>
     <div id="pager" class="mTop20"></div>
 </div>
 <ul class="dropdown-ul hide" style="width:105px;">
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"102029002"))" id="changeOwner">更换拥有者</li>
-    <li class="" id="auditOrReturn">转为订单</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" id="changeOwner">更换负责人</li>
 </ul>
 

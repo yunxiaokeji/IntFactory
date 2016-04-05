@@ -157,28 +157,30 @@ define(function (require, exports, module) {
         var initTalkReply = function (orderid, stageid, mark, isSelf) {
             var _self = this;
 
+            $("#btnSaveTalk").click(function () {
+                var txt = $("#txtContent");
+
+                if (txt.val().trim()) {
+                    var model = {
+                        GUID: orderid,
+                        StageID: stageid,
+                        Mark: mark,
+                        Content: txt.val().trim(),
+                        FromReplyID: "",
+                        FromReplyUserID: "",
+                        FromReplyAgentID: ""
+                    };
+                    saveTaskReply(model);
+
+                    txt.val("");
+                }
+
+            });
+
             if (isSelf == 1) {
-                $("#btnSaveTalk").click(function () {
-                    var txt = $("#txtContent");
-
-                    if (txt.val().trim()) {
-                        var model = {
-                            GUID: orderid,
-                            StageID: stageid,
-                            Mark: mark,
-                            Content: txt.val().trim(),
-                            FromReplyID: "",
-                            FromReplyUserID: "",
-                            FromReplyAgentID: ""
-                        };
-                        saveTaskReply(model);
-
-                        txt.val("");
-                    }
-
-                });
+                
             } else {
-                $(".talk-body .content-main").hide();
+                //$(".talk-body .content-main").hide();
             }
             getTaskReplys(orderid, stageid, mark, 1, isSelf);
 
@@ -202,19 +204,21 @@ define(function (require, exports, module) {
 
                     $("#replyList").append(innerhtml);
 
-                    if (isSelf == 1) {
-                        innerhtml.find(".btn-reply").click(function () {
-                            var _this = $(this), reply = _this.nextAll(".reply-box");
-                            reply.slideDown(500);
-                            reply.find("textarea").focus();
-                            reply.find("textarea").blur(function () {
-                                if (!$(this).val().trim()) {
-                                    reply.slideUp(200);
-                                }
-                            });
+                    innerhtml.find(".btn-reply").click(function () {
+                        var _this = $(this), reply = _this.nextAll(".reply-box");
+                        reply.slideDown(500);
+                        reply.find("textarea").focus();
+                        reply.find("textarea").blur(function () {
+                            if (!$(this).val().trim()) {
+                                reply.slideUp(200);
+                            }
                         });
+                    });
+
+                    if (isSelf == 1) {
+                        
                     } else {
-                        innerhtml.find(".btn-reply").remove();
+                        //innerhtml.find(".btn-reply").remove();
                     }
 
                     innerhtml.find(".save-reply").click(function () {
