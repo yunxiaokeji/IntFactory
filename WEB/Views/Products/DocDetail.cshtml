@@ -5,7 +5,7 @@
 }
 <style>
     /*样图信息*/
-    .order-imgs-div { width:160px; position:absolute; top:100px; right:20px;}
+    .order-imgs-div { width:160px; }
     .order-imgs-div .order-imgs img{ height:160px; width:160px;}
     .order-imgs-list li{ width:60px; height:60px; float:left; border:solid 2px #eee; margin-right:5px; cursor:pointer;}
     .order-imgs-list li.hover{ border-color:red;}
@@ -25,7 +25,7 @@
     <div class="content-title">
         <span class="titlename">单据编号：@(model.DocCode)</span>
     </div>
-    <ul class="content-info">
+    <ul class="content-info left">
         <li><span class="column-title">总金额：</span>@(model.TotalMoney.ToString("f2"))</li>
         <li><span class="column-title">状态：</span>@(model.StatusStr)</li>
         <li><span class="column-title">创建人：</span>@(model.CreateUser.Name)</li>
@@ -33,7 +33,7 @@
         @*<li><span class="column-title">仓库：</span>@(model.WareHouse!=null?model.WareHouse.Name:"")</li>*@
         <li style="width:100%;"><span class="column-title">备注：</span>@(model.Remark)</li>
     </ul>
-    <div class="order-imgs-div">
+    <div class="order-imgs-div right">
         <div class="order-imgs">
             <img id="orderImage" onerror="document.getElementById('orderImage').src='/modules/images/img-noimg.png'" src="@( string.IsNullOrEmpty(model.DocImage) ? "/modules/images/img-noimg.png" : model.DocImage)" />
         </div>

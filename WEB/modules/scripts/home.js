@@ -224,7 +224,7 @@ define(function (require, exports, module) {
                     var item = data.items[i];
 
                     html += '<tr>';
-                    html += '<td><a href="/Customer/OrderDetail/' + item.OrderID + '" >' + item.OrderCode + '</a></td>';
+                    html += '<td><a href="/Orders/OrderDetail/' + item.OrderID + '" >' + item.OrderCode + '</a></td>';
                     html += '   <td>' + item.StatusStr + '</td>';
                     html += '     <td>' + item.CreateTime.toDate("yyyy-MM-dd") + '</td>';
                     html += '</tr>';
@@ -257,7 +257,7 @@ define(function (require, exports, module) {
                     var item = data.items[i];
 
                     html += '<tr>';
-                    html += '<td><a href="/Customer/OrderDetail/' + item.OrderID + '" >' + item.OrderCode + '</a></td>';
+                    html += '<td><a href="/Orders/OrderDetail/' + item.OrderID + '" >' + item.OrderCode + '</a></td>';
                     html += '   <td>' + item.StatusStr + '</td>';
                     html += '     <td>' + item.CreateTime.toDate("yyyy-MM-dd") + '</td>';
                     html += '</tr>';

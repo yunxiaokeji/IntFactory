@@ -24,15 +24,18 @@
         @if (model.IsSelf)
         {
             <div id="updateOrderInfo" class="left ico-edit mLeft50 @(ExpandClass.IsLimits(HttpContext.Current, "102019026"))"></div>
+            
+            if (model.OrderStatus == 0)
+            {
+                 <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
+            }
+            
             if (model.Status == 0)
             {
                  <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >退回委托</div>
                  <div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >订单委托</div>
             }
-            if (model.OrderStatus == 0)
-            {
-                 <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
-            }
+            
             else if (model.OrderStatus == 1)
             {
                  <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019027"))" id="btnOverOrder" >终止订单</div>
@@ -82,7 +85,7 @@
         </li> 
         <li>
             <span class="column-title">打样订单：</span>
-            <a href="/Customer/OrderDetail/@(model.OriginalID)" class="">@(model.OriginalCode)</a>
+            <a href="/Orders/OrderDetail/@(model.OriginalID)" class="">@(model.OriginalCode)</a>
             @if (string.IsNullOrEmpty(model.OriginalID) && model.IsSelf)
             {
                 <div class="btn @(ExpandClass.IsLimits(HttpContext.Current, "102019018"))" id="bindOriginalOrder">绑定打样款号</div> 

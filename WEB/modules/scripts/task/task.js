@@ -272,7 +272,7 @@
                 alert("您没有标记任务的权限！");
                 callback && callback(false);
             } else {
-                callback && callback(data.status);
+                callback && callback(data.result);
             }
         });
     }

@@ -335,7 +335,7 @@
                                     header: "同步进度",
                                     content: html,
                                     yesFn: function () {
-                                        location.href = "/Customer/Orders/Need";
+                                        location.href = "/Orders/Orders/Need";
                                     }
                                 }
 

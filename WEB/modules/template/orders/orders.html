@@ -8,7 +8,7 @@
     <td class="">
         <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />
     </td>
-    <td class=""><a href="/Customer/OrderDetail/{%=item.OrderID%}">{%=item.OrderCode%}</a> </td>
+    <td class=""><a href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.OrderCode%}</a> </td>
     <td class='center'>{%=item.OrderType==1?"打样":"大货" %}</td>
     <td class="center">{%=item.SourceTypeStr%}</td>
     <td class="center {%=item.Status==0?'red':''%}">{%=item.StatusStr%}</td>
@@ -17,7 +17,6 @@
     <td class="center">{%=item.FinalPrice.toFixed(2)%}</td>
     <td class="tRight">{%=item.OrderType==1? item.FinalPrice.toFixed(2):item.TotalMoney.toFixed(2)%}</td>
     <td class="center"><a href="/Customer/Detail/{%=item.CustomerID%}" target="_blank">{%=item.CustomerName%}</a> </td>
-    <td class="center">{%=item.MobileTele||"--"%}</td>
     <td class='center'>{%=(item.Owner ? item.Owner.Name:"--")%}</td>
     <!--<td class='center'>{%=item.SendStatusStr||"--"%}</td>-->
     <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
