@@ -17,6 +17,8 @@
         orderType: -1,
         orderProcessID: "-1",
         orderStageID: "-1",
+        taskOrderColumn: 0,
+        isAsc:0,
         pageSize: 10,
         pageIndex:1
     };
@@ -180,6 +182,37 @@
             ObjectJS.getList();
         });
 
+        //列表排序
+        $(".cloumn-order span").click(function () {
+            var _self = $(this);
+
+            var isasc = _self.attr("data-isasc");
+            var isactive = _self.attr("data-isactive");
+            var ordercloumn = _self.data("ordercloumn");
+            var classname = "list-desc list-desc-active";
+
+            $(".cloumn-order span[data-isactive='1']").removeClass("list-asc-active list-desc-active").attr("data-isactive", 0);
+            if (isactive == 1) {
+                if (isasc == 0) {
+                    classname = "list-asc list-asc-active";
+                }
+                
+                isasc = isasc == 1 ? 0 : 1;
+            }
+            else {
+                if (isasc == 1) {
+                    classname = "list-asc list-asc-active";
+                }
+            }
+
+            _self.attr( {"class":classname,"data-isasc": isasc,"data-isactive":1} );
+
+            Params.isAsc = isasc;
+            Params.taskOrderColumn = ordercloumn;
+            Params.pageIndex = 1;
+            ObjectJS.getList();
+
+        });
     }
 
     ObjectJS.getList = function () {
