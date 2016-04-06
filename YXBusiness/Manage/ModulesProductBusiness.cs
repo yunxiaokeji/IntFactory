@@ -31,7 +31,7 @@ namespace IntFactoryBusiness.Manage
         {
             string sqlWhere = "p.Status<>9 ";
 
-            DataTable dt = CommonBusiness.GetPagerData("ModulesProduct as p", " p.*", sqlWhere, "p.AutoID", " p.UserQuantity asc", pageSize, pageIndex, out totalCount, out pageCount);
+            DataTable dt = CommonBusiness.GetPagerData("ModulesProduct as p", " p.*", sqlWhere, "p.AutoID", " p.UserQuantity asc,p.PeriodQuantity asc", pageSize, pageIndex, out totalCount, out pageCount);
             List<ModulesProduct> list = new List<ModulesProduct>();
             ModulesProduct model;
             foreach (DataRow item in dt.Rows)
