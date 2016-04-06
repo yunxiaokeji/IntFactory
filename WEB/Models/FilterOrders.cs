@@ -47,5 +47,9 @@ namespace YXERP.Models
 
         public int PageIndex { get; set; }
 
+        public bool IsAsc { get; set; }
+
+        public string OrderBy { get; set; }
+
     }
 }

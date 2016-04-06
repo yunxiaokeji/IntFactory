@@ -15,6 +15,7 @@
         Status: -1,
         Mark: -1,
         PayStatus: -1,
+        OrderStatus: 1,
         InvoiceStatus: -1,
         ReturnStatus: 0,
         SourceType: -1,
@@ -25,7 +26,8 @@
         BeginTime: "",
         EndTime: "",
         PageIndex: 1,
-        PageSize: 20
+        PageSize: 10,
+        OrderBy: "o.CreateTime desc"
     };
 
     var ObjectJS = {};
@@ -78,7 +80,7 @@
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
                 Params.PageIndex = 1;
-                Params.ReturnStatus = _this.data("id");
+                Params.OrderStatus = _this.data("id");
                 _self.getList();
             }
         });
@@ -268,6 +270,36 @@
             }
         });
 
+<<<<<<< HEAD
+=======
+        //排序
+        $(".orderby-column").click(function () {
+            var _this = $(this);
+            if (_this.data("orderby") && _this.data("orderby") == 1) {
+                if (_this.data("isasc") == 1) {
+                    _this.data("isasc", "0");
+                    _this.find(".orderby-asc").removeClass("hover");
+                    _this.find(".orderby-desc").addClass("hover");
+                    Params.OrderBy = _this.data("column") + " desc ";
+                } else {
+                    _this.data("isasc", "1");
+                    _this.find(".orderby-desc").removeClass("hover");
+                    _this.find(".orderby-asc").addClass("hover");
+                    Params.OrderBy = _this.data("column") + " asc ";
+                }
+            } else {
+                $(".orderby-column").data("orderby", "0").find(".hover").removeClass("hover");
+                _this.data("orderby", "1").data("isasc", "0");
+                _this.find(".orderby-asc").removeClass("hover");
+                _this.find(".orderby-desc").addClass("hover");
+                Params.OrderBy = _this.data("column") + " desc ";
+            }
+            Params.PageIndex = 1;
+            _self.getList();
+        });
+
+        var successOrderCountObj = null;
+>>>>>>> 8d5229a85ed82b1eb28099002cce859bd0732102
         //手动同步阿里订单
         $("#downAliOrders").click(function () {
 
@@ -284,9 +316,8 @@
 
                 var nowDate = new Date();
                 var maxDate = nowDate.toLocaleDateString();
-                var startDate = ObjectJS.DownBeginTime;
 
-                $("#downStartTime").val(startDate);
+                $("#downStartTime").val(ObjectJS.DownBeginTime);
                 $("#downEndTime").val( nowDate.getFullYear()+"-"+(nowDate.getMonth()+1)+"-"+nowDate.getDate() );
 
                 
@@ -334,7 +365,7 @@
                                     header: "同步进度",
                                     content: html,
                                     yesFn: function () {
-                                        location.href = "/Customer/Orders/Need";
+                                        location.href = "/Orders/Orders/Need";
                                     }
                                 }
 
@@ -401,7 +432,7 @@
         var _self = this;
         $("#checkAll").addClass("ico-check").removeClass("ico-checked");
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='" + ColumnCount + "'><div class='dataLoading'><img src='/modules/images/ico-loading.jpg'/><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='" + ColumnCount + "'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Orders/GetOrders", { filter: JSON.stringify(Params) }, function (data)
         {
@@ -453,7 +484,7 @@
         }
         else
         {
-            $(".tr-header").after("<tr><td colspan='" + ColumnCount + "'><div class='noDataTxt' >暂无数据!<div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='" + ColumnCount + "'><div class='nodata-txt' >暂无数据!<div></td></tr>");
         }
 
         $("#pager").paginate({
@@ -491,8 +522,7 @@
         });
     }
 
-<<<<<<< HEAD
-    //标记客户
+    //标记订单
     ObjectJS.markOrders = function (ids, mark, callback) {
         if (mark < 0) {
             alert("不能标记此选项!");
@@ -511,20 +541,6 @@
         });
     }
 
-    ObjectJS.AddDays=function(date, days) {
-        var nd = new Date(date);
-        nd = nd.valueOf();
-        nd = nd + days * 24 * 60 * 60 * 1000;
-        nd = new Date(nd);
-        //alert(nd.getFullYear() + "年" + (nd.getMonth() + 1) + "月" + nd.getDate() + "日");
-        var y = nd.getFullYear();
-        var m = nd.getMonth() + 1;
-        var d = nd.getDate();
-        if (m <= 9) m = "0" + m;
-        if (d <= 9) d = "0" + d;
-        var cdate = y + "-" + m + "-" + d;
-        return cdate;
-=======
     ObjectJS.getAliInfo = function () {
         Global.post("/Orders/GetAliInfo", null, function (data) {
             if (data.result == 1) {
@@ -533,7 +549,6 @@
                 ObjectJS.DownBeginTime = data.downBeginTime.toDate("yyyy-MM-dd");
             }
         });
->>>>>>> c1bf9a14cfb4b67639115c9cdbdf6cdfff0c7ef3
     }
 
     module.exports = ObjectJS;

@@ -44,10 +44,11 @@ namespace IntFactoryBusiness
 
 
         public List<OrderEntity> GetOrders(EnumSearchType searchtype, string typeid, int status, EnumOrderSourceType sourceType, int orderStatus, int mark, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid,
-                                                string begintime, string endtime, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
+                                                string begintime, string endtime, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataSet ds = OrdersDAL.BaseProvider.GetOrders((int)searchtype, typeid, status, (int)sourceType, orderStatus, mark, paystatus, invoicestatus, returnstatus, searchuserid, searchteamid, searchagentid, begintime, endtime, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
+            DataSet ds = OrdersDAL.BaseProvider.GetOrders((int)searchtype, typeid, status, (int)sourceType, orderStatus, mark, paystatus, invoicestatus, returnstatus, searchuserid, searchteamid, searchagentid, begintime, endtime, keyWords,
+                                                         orderBy, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 OrderEntity model = new OrderEntity();
@@ -64,6 +65,30 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<OrderEntity> GetOrders(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string agentid, string clientid)
+        {
+            List<OrderEntity> list = new List<OrderEntity>();
+            string where = " ClientID='" + clientid + "' and  OrderType=1 and Status= " + (int)EnumOrderStageStatus.FYFJ;
+            if (!string.IsNullOrEmpty(keyWords))
+            {
+                where += "and (OrderCode like '%" + keyWords + "%' or Title like '%" + keyWords + "%' or PersonName like '%" + keyWords + "%')";
+            }
+            DataTable dt = CommonBusiness.GetPagerData("Orders", "*", where, "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderEntity model = new OrderEntity();
+                model.FillData(dr);
+
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+
+                model.SourceTypeStr = CommonBusiness.GetEnumDesc((EnumOrderSourceType)model.SourceType);
+
+                list.Add(model);
+            }
+            return list;
+        }
 
         public List<OrderEntity> GetOrdersByCustomerID(string customerid, int ordertype, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
@@ -289,7 +314,9 @@ namespace IntFactoryBusiness
 
         #region 添加
 
-        public string CreateOrder(string customerid, string goodscode, string title, string name, string mobile, EnumOrderSourceType sourceType, EnumOrderType ordertype, string bigcategoryid, string categoryid, string price, int quantity, string orderimgs, string citycode, string address, string expressCode, string remark, string operateid, string agentid, string clientid, string aliOrderCode = "")
+        public string CreateOrder(string customerid, string goodscode, string title, string name, string mobile, EnumOrderSourceType sourceType, EnumOrderType ordertype,
+                                  string bigcategoryid, string categoryid, string price, int quantity, DateTime planTime, string orderimgs, string citycode, 
+                                  string address, string expressCode, string remark, string operateid, string agentid, string clientid, string aliOrderCode = "")
         {
             string id = Guid.NewGuid().ToString();
             string code = DateTime.Now.ToString("yyyyMMddHHmmssfff");
@@ -339,7 +366,8 @@ namespace IntFactoryBusiness
                 allimgs = allimgs.Substring(0, allimgs.Length - 1);
             }
 
-            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, aliOrderCode, goodscode, title, customerid, name, mobile, (int)sourceType, (int)ordertype, bigcategoryid, categoryid, price, quantity, firstimg, allimgs, citycode, address, expressCode, remark, operateid, agentid, clientid);
+            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, aliOrderCode, goodscode, title, customerid, name, mobile, (int)sourceType, (int)ordertype, bigcategoryid, categoryid, price, quantity, planTime < DateTime.Now ? DateTime.Now.AddDays(7).ToString() : planTime.ToString(),
+                                                        firstimg, allimgs, citycode, address, expressCode, remark, operateid, agentid, clientid);
             if (!bl)
             {
                 return "";
@@ -558,20 +586,23 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderStatus(string orderid, EnumOrderStageStatus status, int quantity, decimal price, string operateid, string ip, string agentid, string clientid, out string errinfo)
+        public bool UpdateOrderStatus(string orderid, EnumOrderStageStatus status, string time, decimal price, string operateid, string ip, string agentid, string clientid, out string errinfo)
         {
-            bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, quantity, price, operateid, agentid, clientid, out errinfo);
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, time, price, operateid, agentid, clientid, out errinfo);
             if (bl)
             {
                 string msg = "订单状态更换为：" + CommonBusiness.GetEnumDesc<EnumOrderStageStatus>(status);
 
                 switch (status)
                 {
+                    case EnumOrderStageStatus.DY:
+                        msg = "需求单开始打样，交货日期为：" + time;
+                        break;
                     case EnumOrderStageStatus.FYFJ:
                         msg = "打样单完成合价，最终报价为：" + price;
                         break;
-                    case EnumOrderStageStatus.DDH:
-                        msg = "打样单大货下单，大货数量为：" + quantity;
+                    case EnumOrderStageStatus.DQR:
+                        msg = "大货单开始生产，交货日期为：" + time;
                         break;
                 }
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);

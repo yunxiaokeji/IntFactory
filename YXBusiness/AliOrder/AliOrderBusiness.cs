@@ -106,7 +106,7 @@ namespace IntFactoryBusiness
 
                     string orderID = OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
                        HttpUtility.UrlDecode(order.buyerName), order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.ProofOrder, string.Empty, string.Empty,
-                        order.fentPrice.ToString(), order.bulkCount, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
+                        order.fentPrice.ToString(), order.bulkCount, order.gmtDeliveryExpect, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
                         string.Empty, order.buyerAddress, string.Empty, string.Empty,
                         userID, agentID, clientID, order.fentGoodsCode);
 
@@ -206,7 +206,7 @@ namespace IntFactoryBusiness
 
                     string orderID = OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
                         HttpUtility.UrlDecode(order.buyerName), order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.LargeOrder, string.Empty, string.Empty,
-                        order.bulkPrice.ToString(), order.bulkCount, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
+                        order.bulkPrice.ToString(), order.bulkCount, order.gmtDeliveryExpect, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
                         string.Empty, order.buyerAddress, string.Empty, string.Empty,
                         userID, agentID, clientID, order.bulkGoodsCode);
 

@@ -17,7 +17,7 @@ namespace IntFactoryEnum
         Normal = 0,
         [DescriptionAttribute("打样中")]
         DY = 1,
-        [DescriptionAttribute("合价中")]
+        [DescriptionAttribute("核价中")]
         HJ = 2,
         [DescriptionAttribute("封样封价")]
         FYFJ = 3,

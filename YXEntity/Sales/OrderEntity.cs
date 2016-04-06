@@ -195,6 +195,8 @@ namespace IntFactoryEntity
 
         public DateTime AuditTime { get; set; }
 
+        public DateTime PlanTime { get; set; }
+
         public DateTime OrderTime { get; set; }
 
         [Property("Lower")] 

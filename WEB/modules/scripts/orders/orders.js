@@ -26,7 +26,8 @@
         BeginTime: "",
         EndTime: "",
         PageIndex: 1,
-        PageSize: 10
+        PageSize: 10,
+        OrderBy: "o.CreateTime desc"
     };
 
     var ObjectJS = {};
@@ -267,6 +268,32 @@
             } else {
                 alert("您尚未选择客户!")
             }
+        });
+
+        //排序
+        $(".orderby-column").click(function () {
+            var _this = $(this);
+            if (_this.data("orderby") && _this.data("orderby") == 1) {
+                if (_this.data("isasc") == 1) {
+                    _this.data("isasc", "0");
+                    _this.find(".orderby-asc").removeClass("hover");
+                    _this.find(".orderby-desc").addClass("hover");
+                    Params.OrderBy = _this.data("column") + " desc ";
+                } else {
+                    _this.data("isasc", "1");
+                    _this.find(".orderby-desc").removeClass("hover");
+                    _this.find(".orderby-asc").addClass("hover");
+                    Params.OrderBy = _this.data("column") + " asc ";
+                }
+            } else {
+                $(".orderby-column").data("orderby", "0").find(".hover").removeClass("hover");
+                _this.data("orderby", "1").data("isasc", "0");
+                _this.find(".orderby-asc").removeClass("hover");
+                _this.find(".orderby-desc").addClass("hover");
+                Params.OrderBy = _this.data("column") + " desc ";
+            }
+            Params.PageIndex = 1;
+            _self.getList();
         });
 
         //手动同步阿里订单
