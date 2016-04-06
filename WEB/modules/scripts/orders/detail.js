@@ -1630,5 +1630,24 @@ define(function (require, exports, module) {
         });
     }
 
+    //标记订单
+    ObjectJS.markOrders = function (ids, mark, callback) {
+        if (mark < 0) {
+            alert("不能标记此选项!");
+            return false;
+        }
+        Global.post("/Orders/UpdateOrderMark", {
+            ids: ids,
+            mark: mark
+        }, function (data) {
+            if (data.result == "10001") {
+                alert("您没有标记订单的权限！");
+                callback && callback(false);
+            } else {
+                callback && callback(data.status);
+            }
+        });
+    }
+
     module.exports = ObjectJS;
 })

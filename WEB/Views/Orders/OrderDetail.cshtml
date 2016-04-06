@@ -233,7 +233,7 @@
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" data-id="navCosts">加工成本</li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019024"))" data-id="navSendDoc">发货记录</li>
             <li data-id="navPays" class="navPays @(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">付款记录</li>
-            <li data-id="navDHOrder">大货记录</li>
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019028"))" data-id="navDHOrder">大货记录</li>
             <li data-id="navLog">日志</li>
         </ul>
         @if (model.IsSelf)
