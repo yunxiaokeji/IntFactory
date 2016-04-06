@@ -284,8 +284,35 @@ define(function (require, exports, module) {
             var _this=$(this);
             //开始打样
             if (_self.model.OrderType == 1 && _self.status == 0) {
-                confirm("转为订单后不可撤销且不能变更流程，确认转为订单吗？", function () {
-                    _self.updateOrderStatus(1);
+                doT.exec("template/orders/sure_plan_time.html", function (template) {
+                    var innerText = template();
+                    Easydialog.open({
+                        container: {
+                            id: "show_sure_plan_time",
+                            header: "确认打样单交货日期",
+                            content: innerText,
+                            yesFn: function () {
+                                var time = $("#iptPlanTime").val().trim();
+                                if (!time) {
+                                    alert("请确认交货日期！");
+                                    return false;
+                                }
+                                _self.updateOrderStatus(1, time, 0);
+                            },
+                            callback: function () {
+
+                            }
+                        }
+                    });
+                    laydate({
+                        elem: '#iptPlanTime',
+                        format: 'YYYY-MM-DD',
+                        min: laydate.now(),
+                        max: "",
+                        istime: false,
+                        istoday: true
+                    });
+                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd"));
                 });
             } //开始大货(无)
             else if (_self.model.OrderType == 2 && _self.status == 0) {
@@ -321,8 +348,35 @@ define(function (require, exports, module) {
                 _self.createDHOrder(false);
             }//开始生产
             else if (_self.status == 4) {
-                confirm("开始订单后不可撤销且不能变更流程，确认开始订单吗？", function () {
-                    _self.updateOrderStatus(5);
+                doT.exec("template/orders/sure_plan_time.html", function (template) {
+                    var innerText = template();
+                    Easydialog.open({
+                        container: {
+                            id: "show_sure_plan_time",
+                            header: "确认大货单交货日期",
+                            content: innerText,
+                            yesFn: function () {
+                                var time = $("#iptPlanTime").val().trim();
+                                if (!time) {
+                                    alert("请确认交货日期！");
+                                    return false;
+                                }
+                                _self.updateOrderStatus(5, time, 0);
+                            },
+                            callback: function () {
+
+                            }
+                        }
+                    });
+                    laydate({
+                        elem: '#iptPlanTime',
+                        format: 'YYYY-MM-DD',
+                        min: laydate.now(),
+                        max: "",
+                        istime: false,
+                        istoday: true
+                    });
+                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd"));
                 });
             }//发货
             else if (_self.status == 5) {
@@ -1264,12 +1318,12 @@ define(function (require, exports, module) {
     }
 
     //更改订单状态
-    ObjectJS.updateOrderStatus = function (status, quantity, price) {
+    ObjectJS.updateOrderStatus = function (status, time, price) {
         var _self = this;
         Global.post("/Orders/UpdateOrderStatus", {
             orderid: _self.orderid,
             status: status,
-            quantity: quantity ? quantity : 0,
+            time: time ? time : "",
             price: price ? price : 0
         }, function (data) {
             if (!data.status) {

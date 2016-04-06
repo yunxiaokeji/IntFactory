@@ -289,7 +289,9 @@ namespace IntFactoryBusiness
 
         #region 添加
 
-        public string CreateOrder(string customerid, string goodscode, string title, string name, string mobile, EnumOrderSourceType sourceType, EnumOrderType ordertype, string bigcategoryid, string categoryid, string price, int quantity, string orderimgs, string citycode, string address, string expressCode, string remark, string operateid, string agentid, string clientid, string aliOrderCode = "")
+        public string CreateOrder(string customerid, string goodscode, string title, string name, string mobile, EnumOrderSourceType sourceType, EnumOrderType ordertype,
+                                  string bigcategoryid, string categoryid, string price, int quantity, DateTime planTime, string orderimgs, string citycode, 
+                                  string address, string expressCode, string remark, string operateid, string agentid, string clientid, string aliOrderCode = "")
         {
             string id = Guid.NewGuid().ToString();
             string code = DateTime.Now.ToString("yyyyMMddHHmmssfff");
@@ -339,7 +341,8 @@ namespace IntFactoryBusiness
                 allimgs = allimgs.Substring(0, allimgs.Length - 1);
             }
 
-            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, aliOrderCode, goodscode, title, customerid, name, mobile, (int)sourceType, (int)ordertype, bigcategoryid, categoryid, price, quantity, firstimg, allimgs, citycode, address, expressCode, remark, operateid, agentid, clientid);
+            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, aliOrderCode, goodscode, title, customerid, name, mobile, (int)sourceType, (int)ordertype, bigcategoryid, categoryid, price, quantity, planTime < DateTime.Now ? DateTime.Now.AddDays(7).ToString() : planTime.ToString(),
+                                                        firstimg, allimgs, citycode, address, expressCode, remark, operateid, agentid, clientid);
             if (!bl)
             {
                 return "";
@@ -558,20 +561,23 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderStatus(string orderid, EnumOrderStageStatus status, int quantity, decimal price, string operateid, string ip, string agentid, string clientid, out string errinfo)
+        public bool UpdateOrderStatus(string orderid, EnumOrderStageStatus status, string time, decimal price, string operateid, string ip, string agentid, string clientid, out string errinfo)
         {
-            bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, quantity, price, operateid, agentid, clientid, out errinfo);
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderStatus(orderid, (int)status, time, price, operateid, agentid, clientid, out errinfo);
             if (bl)
             {
                 string msg = "订单状态更换为：" + CommonBusiness.GetEnumDesc<EnumOrderStageStatus>(status);
 
                 switch (status)
                 {
+                    case EnumOrderStageStatus.DY:
+                        msg = "需求单开始打样，交货日期为：" + time;
+                        break;
                     case EnumOrderStageStatus.FYFJ:
                         msg = "打样单完成合价，最终报价为：" + price;
                         break;
-                    case EnumOrderStageStatus.DDH:
-                        msg = "打样单大货下单，大货数量为：" + quantity;
+                    case EnumOrderStageStatus.DQR:
+                        msg = "大货单开始生产，交货日期为：" + time;
                         break;
                 }
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);

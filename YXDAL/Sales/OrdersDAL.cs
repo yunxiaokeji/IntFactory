@@ -160,8 +160,9 @@ namespace IntFactoryDAL
 
         #region 添加
 
-        public bool CreateOrder(string orderid, string ordercode, string aliOrderCode, string goodscode, string title, string customerid, string name, string mobile, 
-                                int sourcetype, int ordertype, string bigcategoryid, string categoryid, string price, int quantity, string orderimg, string orderimages, string citycode, string address, string expressCode, string remark, string operateid, string agentid, string clientid)
+        public bool CreateOrder(string orderid, string ordercode, string aliOrderCode, string goodscode, string title, string customerid, string name, string mobile,
+                                int sourcetype, int ordertype, string bigcategoryid, string categoryid, string price, int quantity, string planTime,
+                                string orderimg, string orderimages, string citycode, string address, string expressCode, string remark, string operateid, string agentid, string clientid)
         {
             int result = 0;
             SqlParameter[] paras = { 
@@ -180,6 +181,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@CategoryID" , categoryid),
                                      new SqlParameter("@PlanPrice" , price),
                                      new SqlParameter("@PlanQuantity" , quantity),
+                                     new SqlParameter("@PlanTime" , planTime),
                                      new SqlParameter("@OrderImg" , orderimg),
                                      new SqlParameter("@OrderImages" , orderimages),
                                      new SqlParameter("@CityCode" , citycode),
@@ -383,14 +385,14 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderCategoryID", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderStatus(string orderid, int status, int quantity, decimal price, string operateid, string agentid, string clientid, out string errinfo)
+        public bool UpdateOrderStatus(string orderid, int status, string time, decimal price, string operateid, string agentid, string clientid, out string errinfo)
         {
             errinfo = "";
             SqlParameter[] paras = { 
                                      new SqlParameter("@ErrorInfo",SqlDbType.NVarChar,100),
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@Status",status),
-                                     new SqlParameter("@PlanQuantity",quantity),
+                                     new SqlParameter("@PlanTime",time),
                                      new SqlParameter("@FinalPrice",price),
                                      new SqlParameter("@DocCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
                                      new SqlParameter("@OperateID" , operateid),
