@@ -181,32 +181,41 @@
         });
 
         //列表排序
-        $(".cloumn-order span").click(function () {
+        $(".orderby-column").click(function () {
             var _self = $(this);
-
             var isasc = _self.attr("data-isasc");
             var isactive = _self.attr("data-isactive");
-            var ordercloumn = _self.data("ordercloumn");
-            var classname = "list-desc list-desc-active";
+            var orderbycloumn = _self.attr("data-orderbycloumn");
 
-            $(".cloumn-order span[data-isactive='1']").removeClass("list-asc-active list-desc-active").attr("data-isactive", 0);
+            $(".table-list td[data-isactive='1']").attr("data-isactive", 0).children().removeClass("hover");
             if (isactive == 1) {
-                if (isasc == 0) {
-                    classname = "list-asc list-asc-active";
+                if (isasc == 1) {
+                    _self.find(".orderby-asc").removeClass("hover");
+                    _self.find(".orderby-desc").addClass("hover");
+                }
+                else {
+                    _self.find(".orderby-desc").removeClass("hover");
+                    _self.find(".orderby-asc").addClass("hover");
                 }
                 
                 isasc = isasc == 1 ? 0 : 1;
             }
             else {
                 if (isasc == 1) {
-                    classname = "list-asc list-asc-active";
+                    _self.find(".orderby-desc").removeClass("hover");
+                    _self.find(".orderby-asc").addClass("hover");
                 }
+                else {
+                    _self.find(".orderby-asc").removeClass("hover");
+                    _self.find(".orderby-desc").addClass("hover");
+                }
+
             }
 
-            _self.attr( {"class":classname,"data-isasc": isasc,"data-isactive":1} );
+            _self.attr( {"data-isasc": isasc,"data-isactive":1} );
 
             Params.isAsc = isasc;
-            Params.taskOrderColumn = ordercloumn;
+            Params.taskOrderColumn = orderbycloumn;
             Params.pageIndex = 1;
             ObjectJS.getList();
 
