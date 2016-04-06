@@ -13,16 +13,20 @@ namespace YXERP.Controllers
     public class TaskController : BaseController
     {
         // GET: /Task/
-        string token = "bdc2d699-d2ba-47ea-befe-34b794460130";
+        string token = "ca6e7e61-ed46-4f21-9a66-4e520db58743";
         string refreshToken = "be462dcd-1baf-4665-8444-1646d8350c8c";
         List<string> codes = new List<string>();
         public JsonResult pullFentDataList()
         {
-            codes = AlibabaSdk.OrderBusiness.PullFentGoodsCodes(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1), token).goodsCodeList;
+            int successCount = 0;
+            int total = 0;
+            string error;
 
-            var result = AlibabaSdk.OrderBusiness.PullFentDataList(codes, token);
+            AliOrderBusiness.DownFentOrders(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1), token, refreshToken,
+                CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID,
+                ref successCount, ref total, out  error, AlibabaSdk.AliOrderDownType.Hand);
 
-            JsonDictionary.Add("result", result);
+            JsonDictionary.Add("result", successCount);
             return new JsonResult()
             {
                 Data = JsonDictionary,

@@ -36,17 +36,37 @@ namespace AlibabaSdk
         /// <summary>
         /// 期望交货时间
         /// </summary>
-        public DateTime gmtDeliveryExpect { get; set; }
+        public DateTime gmtReleasedExpect { get; set; }
 
         /// <summary>
-        /// 封样时间
+        /// 打样下单时间
         /// </summary>
-        public DateTime gmtSample { get; set; }
+        public DateTime gmtFent { get; set; }
+
+        /// <summary>
+        /// 工厂最终报价时间
+        /// </summary>
+        public DateTime gmtFinalQuote { get; set; }
+
+        /// <summary>
+        /// 买家接受最终报价时间
+        /// </summary>
+        public DateTime gmtFinalAccept { get; set; }
+
+        /// <summary>
+        /// 大货下单时间
+        /// </summary>
+        public DateTime gmtBulk { get; set; }
 
         /// <summary>
         /// 实际交货时间
         /// </summary>
-        public DateTime gmtDelivery { get; set; }
+        public DateTime gmtReleased { get; set; }
+
+        /// <summary>
+        /// 确认收到时间
+        /// </summary>
+        public DateTime gmtReceived { get; set; }
 
         /// <summary>
         /// 产品标题

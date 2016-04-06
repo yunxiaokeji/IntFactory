@@ -677,14 +677,14 @@ namespace YXERP.Controllers
             bool flag = false;
             bool canDown=true;
             
-            if(AliOrderBusiness.DownAliOrderLogs.ContainsKey(CurrentUser.ClientID) )
-            {
-                var limitTime = AliOrderBusiness.DownAliOrderLogs[CurrentUser.ClientID];
-                if (limitTime> DateTime.Now)
-                {
-                    canDown = false;
-                }
-            }
+            //if(AliOrderBusiness.DownAliOrderLogs.ContainsKey(CurrentUser.ClientID) )
+            //{
+            //    var limitTime = AliOrderBusiness.DownAliOrderLogs[CurrentUser.ClientID];
+            //    if (limitTime> DateTime.Now)
+            //    {
+            //        canDown = false;
+            //    }
+            //}
 
             if (canDown)
             {
@@ -727,13 +727,13 @@ namespace YXERP.Controllers
                         JsonDictionary.Add("totalOrderCount", total);
                         JsonDictionary.Add("successOrderCount", successCount);
 
-                        if (flag)
-                        {
-                            if (AliOrderBusiness.DownAliOrderLogs.ContainsKey(CurrentUser.ClientID))
-                                AliOrderBusiness.DownAliOrderLogs[CurrentUser.ClientID] = DateTime.Now.AddHours(12);
-                            else
-                                AliOrderBusiness.DownAliOrderLogs.Add(CurrentUser.ClientID, DateTime.Now.AddHours(12));
-                        }
+                        //if (flag)
+                        //{
+                        //    if (AliOrderBusiness.DownAliOrderLogs.ContainsKey(CurrentUser.ClientID))
+                        //        AliOrderBusiness.DownAliOrderLogs[CurrentUser.ClientID] = DateTime.Now.AddHours(12);
+                        //    else
+                        //        AliOrderBusiness.DownAliOrderLogs.Add(CurrentUser.ClientID, DateTime.Now.AddHours(12));
+                        //}
                     }
                     else
                         result = 2;
