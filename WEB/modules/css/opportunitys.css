@@ -97,5 +97,14 @@
 
 .enlarge-image-box img { text-align:center; }
 
+/*排序*/
+.orderby-column { position:relative; cursor:pointer; }
+.orderby-column .orderby-asc { position:absolute; top:12px; margin-left:2px;  border-bottom:solid 5px #ccc; border-left:solid 5px transparent ;border-right:solid 5px transparent ; display:inline-block;}
+.orderby-column .orderby-desc { position:absolute; top:19px; margin-left:2px;  border-top:solid 5px #ccc; border-left:solid 5px transparent ;border-right:solid 5px transparent ; display:inline-block;}
+
+.orderby-column .orderby-asc.hover {  border-bottom:solid 5px #2F73B8;}
+.orderby-column .orderby-desc.hover { border-top:solid 5px #2F73B8;}
+
+
 
 

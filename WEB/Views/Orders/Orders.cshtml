@@ -2,6 +2,8 @@
     
 }
 
+<link href="/modules/css/opportunitys.css" rel="stylesheet" />
+
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
@@ -49,7 +51,7 @@
             <li data-id="-1" class="@(ViewBag.State==-1?"hover":"")">全部订单</li>
             <li data-id="0" class="@(ViewBag.State==0?"hover":"")">需求单</li>
             <li data-id="1" class="">打样中</li>
-            <li data-id="2" class="">合价中</li>
+            <li data-id="2" class="">核价中</li>
             <li data-id="3" class="">封样封价</li>
             <li data-id="4" class="">待大货</li>
             <li data-id="5" class="">生产中</li>
@@ -92,7 +94,11 @@
             <td class="center">客户</td>   
             <td class="width100">负责人</td>
             @*<td class="width100">发货状态</td>*@
-            <td class="width150">交货日期</td>
+            <td class="width150 orderby-column" data-column="plantime">
+                交货日期
+                <span class="orderby-asc"></span>
+                <span class="orderby-desc"></span>
+            </td>
             <td class="width50">操作</td>
         </tr>
     </table>

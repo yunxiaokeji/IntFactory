@@ -312,7 +312,7 @@ define(function (require, exports, module) {
                         istime: false,
                         istoday: true
                     });
-                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd"));
+                    //$("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd"));
                 });
             } //开始大货(无)
             else if (_self.model.OrderType == 2 && _self.status == 0) {
@@ -376,7 +376,7 @@ define(function (require, exports, module) {
                         istime: false,
                         istoday: true
                     });
-                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd"));
+                    //$("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd"));
                 });
             }//发货
             else if (_self.status == 5) {
