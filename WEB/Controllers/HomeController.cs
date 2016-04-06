@@ -66,8 +66,6 @@ namespace YXERP.Controllers
 
         public ActionResult Login(string ReturnUrl, int Status = 0)
         {
-            //return Redirect(AlibabaSdk.Business.OauthBusiness.GetAuthorizeUrl());
-
             if (Session["ClientManager"] != null)
             {
                 return Redirect("/Home/Index");

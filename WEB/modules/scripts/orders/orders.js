@@ -269,7 +269,6 @@
             }
         });
 
-        var successOrderCountObj = null;
         //手动同步阿里订单
         $("#downAliOrders").click(function () {
 
