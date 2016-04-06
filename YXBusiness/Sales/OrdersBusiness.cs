@@ -108,6 +108,24 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<OrderEntity> GetOrdersByOriginalID(string originalid, int ordertype, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
+        {
+            List<OrderEntity> list = new List<OrderEntity>();
+            DataTable dt = CommonBusiness.GetPagerData("Orders", "*", "OriginalID='" + originalid + "' and OrderType=" + ordertype + " and Status<>9 ", "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderEntity model = new OrderEntity();
+                model.FillData(dr);
+
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+
+                list.Add(model);
+            }
+            return list;
+        }
+
         public List<OrderEntity> GetNeedsOrderByCustomerID(string customerid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();

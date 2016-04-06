@@ -12,6 +12,7 @@ define(function (require, exports, module) {
         ChooseCustomer = require("choosecustomer"),
         Easydialog = require("easydialog");
     require("pager");
+    require("mark");
 
     var ObjectJS = {};
 
@@ -582,6 +583,9 @@ define(function (require, exports, module) {
             } else if (_this.data("id") == "navPays" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getPays();
+            } else if (_this.data("id") == "navDHOrder" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getDHOrders(_self.orderid, 1);
             }
         });
 
@@ -1571,6 +1575,58 @@ define(function (require, exports, module) {
             } else {
                 $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
+        });
+    }
+
+    //获取大货订单
+    ObjectJS.getDHOrders = function (originalid, page) {
+        var _self = this;
+        $("#navDHOrder .tr-header").nextAll().remove();
+        $("#navDHOrder .tr-header").after("<tr><td colspan='12'><div class='data-loading' ><div></td></tr>");
+        Global.post("/Orders/GetOrdersByOriginalID", {
+            originalid: originalid,
+            ordertype: 2,
+            pagesize: 10,
+            pageindex: page
+        }, function (data) {
+            $("#navDHOrder .tr-header").nextAll().remove();
+            if (data.items.length > 0) {
+                doT.exec("template/orders/orders_originalid.html", function (template) {
+                    var innerhtml = template(data.items);
+
+                    innerhtml = $(innerhtml);
+                    innerhtml.find(".mark").markColor({
+                        isAll: false,
+                        onChange: function (obj, callback) {
+                            _self.markOrders(obj.data("id"), obj.data("value"), callback);
+                        }
+                    });
+
+                    $("#navDHOrder .tr-header").after(innerhtml);
+                });
+            } else {
+                $("#navDHOrder .tr-header").after("<tr><td colspan='12'><div class='nodata-txt' >暂无订单!<div></td></tr>");
+            }
+            $("#pagerOrders").paginate({
+                total_count: data.totalCount,
+                count: data.pageCount,
+                start: page,
+                display: 5,
+                border: true,
+                border_color: '#fff',
+                text_color: '#333',
+                background_color: '#fff',
+                border_hover_color: '#ccc',
+                text_hover_color: '#000',
+                background_hover_color: '#efefef',
+                rotate: true,
+                images: false,
+                mouse: 'slide',
+                float: "left",
+                onChange: function (page) {
+                    _self.getDHOrders(originalid, page);
+                }
+            });
         });
     }
 

@@ -119,7 +119,10 @@
             <span class="column-title">付款金额：</span>
             <label id="infoPayMoney">@(model.PayMoney.ToString("f2"))</label>
         </li>
-       
+        <li>
+            <span class="column-title">交货日期：</span>
+            <label>@(model.PlanTime.ToString("yyyy-MM-dd"))</label>
+        </li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "101019008"))">
             <span class="column-title">收货地区：</span>
             <label>@(model.City != null ? (model.City.Province + " " + model.City.City + " " + model.City.Counties) : "")</label>
