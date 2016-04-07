@@ -81,13 +81,11 @@ namespace IntFactoryBusiness
         {
             DataTable dt = AgentsDAL.BaseProvider.GetAgentActionReport(keyword,startDate,endDate);
             List<Report_AgentAction_Day> list = new List<Report_AgentAction_Day>();
-            Report_AgentAction_Day model = new Report_AgentAction_Day();
-
-            if (dt.Rows.Count == 1)
+            
+            foreach (DataRow dr in dt.Rows)
             {
-                DataRow row = dt.Rows[0];
-                model.FillData(row);
-
+                Report_AgentAction_Day model = new Report_AgentAction_Day();
+                model.FillData(dr);
                 list.Add(model);
             }
 

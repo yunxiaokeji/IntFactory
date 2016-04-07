@@ -3,12 +3,11 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td class="center">
-        <a href="/Industry/Detail/{%=item.IndustryID%}" class="ico-edit" title="设置" data-id="{%=item.IndustryID%}"></a>
-    </td>
-    <td class="center">{%=item.Name%}</td>
-    <td class="center">{%=item.Description%}</td>
-    <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
-
+    <td class="tLeft"><a href="/Client/Detail/{%=item.ClientID%}" target="_blank">{%=item.CompanyName%}</a></td>
+    <td class="center {%=item.CustomerCount>0?'blue':''%}">{%=item.CustomerCount%}</td>
+    <td class="center {%=item.OrdersCount>0?'blue':''%}"">{%=item.OrdersCount%}</td>
+    <td class="center {%=item.ProductCount>0?'blue':''%}"">{%=item.ProductCount%}</td>
+    <td class="center {%=item.UsersCount>0?'blue':''%}"">{%=item.UsersCount%}</td>
+    <td class="center {%=item.PurchaseCount>0?'blue':''%}"">{%=item.PurchaseCount%}</td>
 </tr>
 {% } %}
