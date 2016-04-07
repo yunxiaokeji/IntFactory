@@ -645,7 +645,7 @@ namespace IntFactoryBusiness
                 }
 
                 //日志
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.User, EnumLogType.Create, "", operateid, agentid, clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.User, EnumLogType.Create, "", operateid, user.AgentID, user.ClientID);
             }
             return user;
         }

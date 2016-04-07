@@ -11,7 +11,7 @@ namespace IntFactoryEntity
 
         public int CustomerCount { get; set; }
 
-        public int ActivityCount { get; set; }
+        public int OrdersCount { get; set; }
 
         public int ProductCount { get; set; }
 
@@ -28,6 +28,8 @@ namespace IntFactoryEntity
         public string AgentID { get; set; }
 
         public string ClientID { get; set; }
+
+        public string CompanyName { get; set; }
 
         public void FillData(System.Data.DataRow dr)
         {
