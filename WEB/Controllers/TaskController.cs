@@ -13,7 +13,7 @@ namespace YXERP.Controllers
     public class TaskController : BaseController
     {
         // GET: /Task/
-        string token = "ca6e7e61-ed46-4f21-9a66-4e520db58743";
+        string token = "39225616-2149-46a8-a075-edec8fb15dcc";
         string refreshToken = "be462dcd-1baf-4665-8444-1646d8350c8c";
         List<string> codes = new List<string>();
         public JsonResult pullFentDataList()
@@ -34,6 +34,23 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult BatchUpdateFentList()
+        {
+            List<AlibabaSdk.MutableOrder> list=new List<AlibabaSdk.MutableOrder>();
+            AlibabaSdk.MutableOrder item = new AlibabaSdk.MutableOrder();
+            item.fentGoodsCode = "THZ0001AB3B01ZH00321";
+            item.status = "aaaaaaaa";
+            item.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            item.statusDesc = "aaaaaaaaaaaaaaaa";
+            list.Add(item);
+
+            AlibabaSdk.OrderBusiness.BatchUpdateFentList(list, token);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         #region view
         /// <summary>
         /// 任务详情

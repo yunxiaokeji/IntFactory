@@ -13,5 +13,7 @@ namespace YXERP.Areas.Api.Controllers
         /// </summary>
         protected Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
 
+        protected int PageSize = 10;
+
     }
 }

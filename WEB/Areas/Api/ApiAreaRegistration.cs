@@ -17,7 +17,9 @@ namespace YXERP.Areas.Api
             context.MapRoute(
                 "Api_default",
                 "Api/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                
+                new { action = "Index", id = UrlParameter.Optional },
+                new string[] { "YXERP.Areas.Api.Controllers" }
             );
         }
     }

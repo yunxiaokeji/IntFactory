@@ -123,6 +123,7 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\BaseAPIController.cs" />
     <Compile Include="Areas\Api\Controllers\CacheController.cs" />
+    <Compile Include="Areas\Api\Controllers\TaskController.cs" />
     <Compile Include="Common\Alipay\AlipayConfig.cs" />
     <Compile Include="Common\Alipay\AlipayCore.cs" />
     <Compile Include="Common\Alipay\AlipayNotify.cs" />
@@ -334,6 +335,7 @@
     <Compile Include="Models\FilterAgentsOrders.cs" />
     <Compile Include="Models\OrderGoodsModel.cs" />
     <Compile Include="Models\ShoppingCartProduct.cs" />
+    <Compile Include="Models\FilterTasks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\homeico\mingdao-hover.png" />
     <Content Include="Content\homeico\mingdao.png" />
