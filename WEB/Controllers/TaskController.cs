@@ -13,7 +13,7 @@ namespace YXERP.Controllers
     public class TaskController : BaseController
     {
         // GET: /Task/
-        string token = "39225616-2149-46a8-a075-edec8fb15dcc";
+        string token = "8fdaf25c-9115-4f1c-a63b-98ed2f98009e";
         string refreshToken = "be462dcd-1baf-4665-8444-1646d8350c8c";
         List<string> codes = new List<string>();
         public JsonResult pullFentDataList()
@@ -38,7 +38,7 @@ namespace YXERP.Controllers
         {
             List<AlibabaSdk.MutableOrder> list=new List<AlibabaSdk.MutableOrder>();
             AlibabaSdk.MutableOrder item = new AlibabaSdk.MutableOrder();
-            item.fentGoodsCode = "THZ0001AB3B01ZH00321";
+            item.fentGoodsCode = "UUU0080G4G002SS00081";
             item.status = "aaaaaaaa";
             item.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             item.statusDesc = "aaaaaaaaaaaaaaaa";
@@ -51,6 +51,7 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         #region view
         /// <summary>
         /// 任务详情

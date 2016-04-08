@@ -8,14 +8,13 @@
     ObjectJS.Params =
     {
         type: 1,//1:付费购买；2：购买人数;3:续费
-        orderID:''
+        orderID: ''
     };
 
     //初始化
     ObjectJS.init = function (type, ClientOrdersCount, OrderID) {
         //有未完成的订单，请先处理掉
-        if (parseInt(ClientOrdersCount) > 0)
-        {
+        if (parseInt(ClientOrdersCount) > 0) {
             alert("你有未完成的订单，请处理...");
             setTimeout(function () { location.href = "/System/Client/4" }, 1000);
         }
@@ -33,11 +32,9 @@
         _self.bindEvent();
 
         //处理未完成的订单
-        if (OrderID != "")
-        {
+        if (OrderID != "") {
             ObjectJS.Params.orderID = OrderID;
-            if (OrderID == "-1")
-            {
+            if (OrderID == "-1") {
                 alert("您的订单不存在，请核查");
                 setTimeout(function () { location.href = "/System/Client/3" }, 1000);
             }
@@ -45,18 +42,18 @@
                 alert("您的订单已支付，请核查");
                 setTimeout(function () { location.href = "/System/Client/3" }, 1000);
             }
-            else
-            {
+            else {
                 ObjectJS.RealAmount = $("#orderAmount").html();
                 ObjectJS.OrderID = OrderID;
                 $("#btn_backSelectPrpduct").hide();
                 ObjectJS.sureOrder(true);
             }
         }
-        else
-        {
+        else {
             _self.getList();
         }
+
+        ObjectJS.Discount = 1;
     }
 
     //绑定事件
@@ -74,8 +71,7 @@
                 var productCount = $(this).data("productCount");
 
                 var yearCount = $("#UserYear").val();
-                if (year != yearCount)
-                {
+                if (year != yearCount) {
                     $(this).removeClass("tdBG2");
                     var $span = null;
                     if ($(this).find("span").length > 0) {
@@ -115,8 +111,7 @@
         }
 
         //进入支付订单
-        $("#btn_payOrder").click(function ()
-        {
+        $("#btn_payOrder").click(function () {
             $(".productOrder").hide();
             $(".payProductOrder").show();
 
@@ -127,7 +122,7 @@
             $(".payOrder").css("background", "url('/modules/images/auction/bg-pay-order-active.png') center center");
             $(".payOrder").children().eq(0).addClass("stepIcoActive");
             $(".payOrder").children().eq(1).addClass("stepDesActive");
-            
+
             if (ObjectJS.Params.orderID == '') {
                 ObjectJS.addClientOrder();
             }
@@ -192,8 +187,7 @@
                 html5 += '</tr>';
                 $(".productListTB").append(html5).append(html).append(html2).append(html3).append(html4);
 
-                if (ObjectJS.Params.type == 3)
-                {
+                if (ObjectJS.Params.type == 3) {
                     ObjectJS.getBestWay();
                 }
 
@@ -273,14 +267,15 @@
                 $("#UserCount").val(data.TotalQuantity);
                 var RealAmount = 0;
                 if (ObjectJS.Params.type == 1 || ObjectJS.Params.type == 3) {
-                    
+
                     RealAmount = data.TotalMoney;
                 }
-                else{
-                    RealAmount=data.Amount;
+                else {
+                    RealAmount = data.Amount;
                 }
                 RealAmount = parseFloat(RealAmount * data.Discount).toFixed(2);
                 $("#Price").html(RealAmount);
+                ObjectJS.Discount = data.Discount;
 
             });
     }
@@ -299,16 +294,14 @@
             yearCount = parseInt($arr.eq(i).data("year"));
         }
         $("#UserCount").val(userCount);
-        $("#Price").html(totalPrice);
+        $("#Price").html(totalPrice * ObjectJS.Discount);
     }
 
     //进入确认订单页
-    ObjectJS.sureOrder = function (noSet)
-    {
+    ObjectJS.sureOrder = function (noSet) {
         var _self = this;
 
-        if (!noSet)
-        {
+        if (!noSet) {
             if (!VerifyObject.isPass()) {
                 return false;
             };
@@ -362,8 +355,7 @@
         $(".sureOrder").children().eq(0).addClass("stepIcoActive");
         $(".sureOrder").children().eq(1).addClass("stepDesActive");
 
-        if (!noSet)
-        {
+        if (!noSet) {
             $("#orderUserCount").html($("#UserCount").val());
             $("#orderYear").html($("#UserYear").val());
             $("#orderPrice").html($("#Price").html());
@@ -382,12 +374,10 @@
             {
                 quantity: $("#UserCount").val(),
                 years: UserYear,
-                type:_self.Params.type
+                type: _self.Params.type
             },
-            function (data)
-            {
-                if (data.ID)
-                {
+            function (data) {
+                if (data.ID) {
                     $("#orderAmount").html(data.RealAmount);
                     ObjectJS.RealAmount = data.RealAmount;
                     ObjectJS.Params.orderID = data.ID;
