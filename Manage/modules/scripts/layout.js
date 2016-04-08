@@ -32,18 +32,6 @@ define(function (require, exports, module) {
             }
         });
 
-        //折叠收藏
-        $("#choosemodules").click(function () {
-            var _this = $(this);
-            if (!_this.hasClass("hover")) {
-                _this.addClass("hover");
-                $(".bottom-body").css("height", "0");
-            } else {
-                $(".bottom-body").css("height", "40px");
-                _this.removeClass("hover");
-            }
-        });
-
         $(".controller-box").click(function () {
             var _this = $(this);
             if (!_this.hasClass("select")) {

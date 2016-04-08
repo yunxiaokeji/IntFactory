@@ -161,13 +161,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\FilterProduct.cs" />
-    <Content Include="Content\homeico\active.png" />
-    <Content Include="Content\homeico\buy.png" />
-    <Content Include="Content\homeico\custom.png" />
-    <Content Include="Content\homeico\homebg.jpg" />
-    <Content Include="Content\homeico\login.png" />
-    <Content Include="Content\homeico\oppor.png" />
-    <Content Include="Content\homeico\order.png" />
     <Content Include="Content\menuico\saleshover.png" />
     <Content Include="DLL\JsonObject.dll" />
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
@@ -217,6 +210,7 @@
     <Content Include="modules\images\img-noimg.png" />
     <Content Include="modules\images\loginBackground.png" />
     <Content Include="modules\images\loginMainBackground.png" />
+    <Content Include="modules\images\home\ico-ali.png" />
     <Content Include="modules\images\selforder\bg-map.png" />
     <Content Include="modules\images\selforder\bottom-bg.png" />
     <Content Include="modules\images\selforder\img_03.png" />
@@ -337,8 +331,6 @@
     <Compile Include="Models\ShoppingCartProduct.cs" />
     <Compile Include="Models\FilterTasks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Content\homeico\mingdao-hover.png" />
-    <Content Include="Content\homeico\mingdao.png" />
     <Content Include="Content\menuico\account.png" />
     <Content Include="Content\menuico\accounthover.png" />
     <Content Include="Content\menuico\agents.png" />
@@ -356,8 +348,6 @@
     <Content Include="Content\menuico\systemhover.png" />
     <Content Include="Content\menuico\customhover.png" />
     <Content Include="Content\menuico\custom.png" />
-    <Content Include="modules\css\default\detail.css" />
-    <Content Include="modules\css\default\list.css" />
     <Content Include="modules\css\auction\buynow.css" />
     <Content Include="modules\css\customer\activity.css" />
     <Content Include="modules\css\customer\customer.css" />
@@ -387,7 +377,6 @@
     <Content Include="modules\images\ico-dropdown-white.png" />
     <Content Include="modules\images\ico-dropdown.png" />
     <Content Include="modules\images\ico-member.png" />
-    <Content Include="modules\images\ico-menu.png" />
     <Content Include="modules\images\ico-mingdao.png" />
     <Content Include="modules\images\ico-nav.png" />
     <Content Include="modules\images\ico-reply-gray.png" />

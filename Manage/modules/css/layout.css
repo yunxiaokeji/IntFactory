@@ -86,24 +86,6 @@ nav .action-box .select { width:201px; background-color:#f2f4f8; height:40px; li
 .content-body{ padding:20px 10px 80px; overflow:auto; background-color:#fff; border-radius:2px; min-height:400px; }
 .search-body { height:35px; }
 
-/*底部样式*/
-.bottom-body { height:40px; background-color:#666; width:100%; position:fixed; bottom:0px; border-bottom:solid 3px #947443;opacity:0.8; z-index:1001; }
-.bottom-body .bottom-main { margin:0 100px;}
-
-/*主菜单切换*/
-.bottom-body .bottom-main  .modules { width:100px; height:40px; background-color:#333; margin-top:-10px; cursor:pointer; padding-top:10px; }
-.bottom-main  .modules .ico-menu { background:url('/modules/images/ico-menu.png') no-repeat 16px 0; height:18px; width:50px; padding-top:20px; 
-                     line-height:20px; color:#fff; margin:0 auto; text-align:center;}
-.bottom-main  .modules .open-modules { height:40px; line-height:30px; position:relative; color:#fff; width:70px; padding-left:30px; display:none; }
-.bottom-main  .modules .open-modules span{ border-top:solid 6px #fff; border-left:solid 6px transparent ;border-right:solid 6px transparent; 
-                             top:13px; right:20px; position:absolute; }
-
-.modules:hover .ico-menu,.modules.hover .ico-menu { display:none; }
-.modules:hover .open-modules,.modules.hover .open-modules { display:block; }
-
-.modules.hover .open-modules { display:block; color:#333; line-height:40px; }
-.modules.hover .open-modules span{ border-top:solid 6px #333; border-left:solid 6px transparent ;border-right:solid 6px transparent; top:17px;}
-
 /*数据验证错误*/
 .verify-fail-err { height:20px; line-height:20px; padding-left:10px; padding-top:2px;}
 

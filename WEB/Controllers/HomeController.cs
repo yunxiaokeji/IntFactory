@@ -25,12 +25,6 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Home/Login");
             }
-
-            Users CurrentUser = (Users)Session["ClientManager"];
-            ViewBag.UserCount = OrganizationBusiness.GetUsers(CurrentUser.AgentID).Count;
-            var agent = AgentsBusiness.GetAgentDetail(CurrentUser.AgentID);
-            ViewBag.RemainderDays = (agent.EndTime - DateTime.Now).Days;
-            ViewBag.UserQuantity = agent.UserQuantity;
             return View();
         }
 
@@ -670,35 +664,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetAgentInfo()
-        {
-
-            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            int remainderDays = 0;
-            int authorizeType = 0;
-
-            if (Session["ClientManager"] != null)
-            {
-                var CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-                var agent = AgentsBusiness.GetAgentDetail(CurrentUser.AgentID);
-
-                remainderDays = (agent.EndTime - DateTime.Now).Days;
-                authorizeType = agent.AuthorizeType;
-
-            }
-
-            JsonDictionary.Add("remainderDays", remainderDays);
-            JsonDictionary.Add("authorizeType", authorizeType);
-
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-
-        }
-
-        public JsonResult GetAliInfo()
+        public JsonResult GetAuthorizeInfo()
         {
 
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
