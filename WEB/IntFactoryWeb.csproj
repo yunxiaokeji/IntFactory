@@ -164,8 +164,7 @@
     <Content Include="Content\menuico\saleshover.png" />
     <Content Include="DLL\JsonObject.dll" />
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
-    <Content Include="modules\css\common.css" />
-    <Content Include="modules\css\pages\order_create.css" />
+    <Content Include="modules\css\default\order_create.css" />
     <Content Include="modules\css\home\selectlogin.css" />
     <Content Include="modules\css\opportunitys.css" />
     <Content Include="modules\css\stock\stock.css" />
@@ -859,7 +858,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="modules\css\layout.css" />
+    <Content Include="modules\css\default\layout.css" />
     <Content Include="modules\css\home\login.css" />
     <Content Include="modules\css\system\organization.css" />
     <Content Include="modules\css\stock\category.css" />

@@ -233,7 +233,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 }
 .btn:hover { background-color:#2F73B8; }
 
-.btn-add{ background:url(../images/ico-btnadd.png) no-repeat 7px 7px; line-height:18px; padding:5px 10px; border-radius:2px;
+.btn-add{ background:url(/modules/images/ico-btnadd.png) no-repeat 7px 7px; line-height:18px; padding:5px 10px; border-radius:2px;
           display:inline-block; cursor:pointer; padding-left:23px; color:#fff; background-color:#4a98e7;
           -moz-transition:all 0.3s;
           -webkit-transition:all 0.3s;
@@ -248,58 +248,58 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .btn999:hover { background-color:#666; color:#fff; }
 
 /*添加*/
-.ico-add{ background:url(../images/ico-add.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+.ico-add{ background:url(/modules/images/ico-add.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
           display:inline-block; cursor:pointer; padding-left:28px; color:#666; font-size:13px; }
-.ico-add:hover{ background:url(../images/ico-addhover.png) no-repeat; color:#4a98e7; }
+.ico-add:hover{ background:url(/modules/images/ico-addhover.png) no-repeat; color:#4a98e7; }
 
 /*返回*/
-.ico-back{ background:url(../images/ico-back.png) no-repeat 0px -1px; height:24px; min-width:24px; line-height:24px; 
+.ico-back{ background:url(/modules/images/ico-back.png) no-repeat 0px -1px; height:24px; min-width:24px; line-height:24px; 
           display:inline-block; cursor:pointer; color:#4a98e7; padding-left:28px; font-size:13px;  }
 .ico-back:hover{ color:#2F73B8; }
 
 /*替换*/
-.ico-change{ background:url(../images/ico-change.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+.ico-change{ background:url(/modules/images/ico-change.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
           display:inline-block; cursor:pointer; padding-left:28px; color:#666; font-size:13px; }
-.ico-change:hover{ background:url(../images/ico-changehover.png) no-repeat; color:#4a98e7; }
+.ico-change:hover{ background:url(/modules/images/ico-changehover.png) no-repeat; color:#4a98e7; }
 
 /*编辑*/
-.ico-edit{ background:url(../images/ico-edit-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+.ico-edit{ background:url(/modules/images/ico-edit-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
           display:inline-block; cursor:pointer;  color:#666; }
-.ico-edit:hover{ background:url(../images/ico-edit-deep.png) no-repeat;}
+.ico-edit:hover{ background:url(/modules/images/ico-edit-deep.png) no-repeat;}
 
 /*删除-垃圾箱*/
-.ico-del{ background:url(../images/ico-del-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+.ico-del{ background:url(/modules/images/ico-del-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
           display:inline-block; cursor:pointer; color:#666; }
-.ico-del:hover{ background:url(../images/ico-del-deep.png) no-repeat;}
+.ico-del:hover{ background:url(/modules/images/ico-del-deep.png) no-repeat;}
 
 /*关闭*/
-.ico-close{ background:url(../images/ico-close.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+.ico-close{ background:url(/modules/images/ico-close.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
           display:inline-block; cursor:pointer; color:#666; }
-.ico-close:hover{ background:url(../images/ico-close-hover.png) no-repeat;}
+.ico-close:hover{ background:url(/modules/images/ico-close-hover.png) no-repeat;}
 
 /*删除 叉*/
-.ico-delete{ background:url(../images/ico-delete.png) no-repeat; height:20px; min-width:20px; line-height:20px; 
+.ico-delete{ background:url(/modules/images/ico-delete.png) no-repeat; height:20px; min-width:20px; line-height:20px; 
           display:inline-block; cursor:pointer;}
 
 /*帮助*/
-.ico-help{ background:url(../images/ico-help.png) no-repeat; height:20px; min-width:20px; line-height:20px; 
+.ico-help{ background:url(/modules/images/ico-help.png) no-repeat; height:20px; min-width:20px; line-height:20px; 
           display:inline-block; cursor:pointer;}
 
 /*描述*/
-.ico-desc{ background:url(../images/ico-desc.png) no-repeat; height:16px; min-width:16px; line-height:16px; 
+.ico-desc{ background:url(/modules/images/ico-desc.png) no-repeat; height:16px; min-width:16px; line-height:16px; 
           display:inline-block; cursor:pointer; color:#666; }
-.ico-desc:hover{ background:url(../images/ico-desc-hover.png) no-repeat;}
+.ico-desc:hover{ background:url(/modules/images/ico-desc-hover.png) no-repeat;}
 
 /*下拉*/
-.ico-dropdown{ background:url(../images/ico-dropdown.png) no-repeat; height:12px; min-width:12px; line-height:12px; 
+.ico-dropdown{ background:url(/modules/images/ico-dropdown.png) no-repeat; height:12px; min-width:12px; line-height:12px; 
           display:inline-block; cursor:pointer;}
-.ico-dropdown-white{ background:url(../images/ico-dropdown-white.png) no-repeat; height:11px; min-width:11px; line-height:11px; 
+.ico-dropdown-white{ background:url(/modules/images/ico-dropdown-white.png) no-repeat; height:11px; min-width:11px; line-height:11px; 
           display:inline-block; cursor:pointer;}
 
 /*复选框*/
-.ico-check{ background:url(../images/ico-check.png) no-repeat; height:20px; min-width:20px; line-height:20px; text-indent:20px; 
+.ico-check{ background:url(/modules/images/ico-check.png) no-repeat; height:20px; min-width:20px; line-height:20px; text-indent:20px; 
           display:inline-block; cursor:pointer;}
-.ico-checked{ background:url(../images/ico-checked.png) no-repeat; height:20px; min-width:20px; line-height:20px;  text-indent:20px;
+.ico-checked{ background:url(/modules/images/ico-checked.png) no-repeat; height:20px; min-width:20px; line-height:20px;  text-indent:20px;
           display:inline-block; cursor:pointer;}
 
 
