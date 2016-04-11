@@ -54,6 +54,7 @@
     <Compile Include="Custom\CustomerEntity.cs" />
     <Compile Include="Custom\ExtentEntity.cs" />
     <Compile Include="Custom\ReplyEntity.cs" />
+    <Compile Include="Custom\ReplyJson.cs" />
     <Compile Include="Finance\Billing.cs" />
     <Compile Include="Finance\BillingInvoice.cs" />
     <Compile Include="Finance\BillingPay.cs" />

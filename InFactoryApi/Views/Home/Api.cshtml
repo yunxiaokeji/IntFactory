@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "API 厂盟智能";
+}
+
+
+@section css{
+    
+}
+
+@section scripts{
+    
+}
+
+<div class="h-content row">
+	<div class="helptitle row">
+    	<dl>
+        	<dt><a href="../help.html">API</a></dt>
+            <i>></i>
+            <dd>任务API</dd>
+        </dl>
+    </div>
+    
+    <div class="helprow row">
+    	<!--- 侧边栏导航 --->
+        <div class="helplist l" id="accordion">
+            
+            <!---- 客户管理 ---->
+            <div class="panel helplist-guide">
+                <div class="" role="tab" id="heading1">
+                    <h3>
+                    	<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="active" aria-expanded="true" aria-controls="collapse1">任务API</a>
+                    </h3>
+                </div>
+            
+                <div id="collapse1" class="collapse in" role="tabpanel" aria-labelledby="heading1">
+                    <ul>
+                        <li ><a target="_self" href="help-customer-all.html">任务列表</a></li>
+                        <li class="active"><a target="_self" href="api-customer-add.html">任务详情</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!---- 客户管理end ---->
+            
+            
+        </div>
+        
+        <div class="apiwd r">
+        	<h1>api/task/getTasks</h1>
+            <!---- 文档内容 ---->
+            <div class="apimenu">
+                获取任务列表
+            </div>
+
+            <h1>URL</h1>
+            <div class="apimenu">
+                http://www.90cloudsales.com/api/task/getTasks
+            </div>
+
+            <h1>支持格式</h1>
+            <div class="apimenu">
+                JSON
+            </div>
+
+            <h1>HTTP请求方式</h1>
+            <div class="apimenu">
+                GET
+            </div>
+
+            <h1>请求参数</h1>
+            <div class="apimenu">
+                <table class="api_paras" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="20%">参数</td>
+                        <td width="15%">必选</td>
+                        <td width="15%">类型及范围</td>
+                        <td class="td_rightborder">说明</td>
+                    </tr>
+                    <tr>
+                        <td>userID</td>
+                        <td>是</td>
+                        <td>string</td>
+                        <td class="td_rightborder">公司身份</td>
+                    </tr>
+                    <tr>
+                        <td>agentID</td>
+                        <td>是</td>
+                        <td>string</td>
+                        <td class="td_rightborder">公司密钥</td>
+                    </tr>
+                    <tr>
+                        <td class="td_bottomborder">filter</td>
+                        <td class="td_bottomborder">是</td>
+                        <td class="td_bottomborder">json</td>
+                        <td class="td_bottomborder td_rightborder">查询条件</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h1>filter实体</h1>
+                        <div class="apimenu">
+                <pre>
+{
+
+    "keyWords": "关键字",
+    "userID": "负责人ID",
+    "colorMark": 客户类型 0：个人客户；1：企业客户,
+    "status": 任务状态,
+    "finishStatus": 任务进行状态 ,
+    "beginDate": "任务创建起始时间",
+    "endDate": "任务创建的截止时间",
+    "orderType": "订单类型",
+    "orderProcessID": "订单流程ID",
+    "orderStageID": "订单流程阶段ID",
+    "taskOrderColumn": "排序列",
+    "isAsc": "是否升序",
+    "pageSize": "页数",
+    "pageIndex": "页码"
+
+}
+                </pre>
+            </div>
+
+            <h1>返回结果</h1>
+            <div class="apimenu">
+                <pre>
+{
+
+    "taskID": "300d38e0-5ce4-40b4-b3b6-1ddb5ae036d6",
+    "title": "缝制",
+    "mark":任务标记 0：普通； 1：材料 2 制版 3大货材料,
+    "colorMark": 0,
+    "finishStatus": 完成状态 0：为开始；1：进行中，2：已结束,
+    "orderType": 订单类型 1：打样；2：大货,
+    "orderImg": "订单图片",
+    "acceptTime": "接受时间",
+    "endTime": "到期时间",
+    "completeTime": "完成时间",
+    "createTime": "2016-04-06 03:13:28"
+
+}
+                </pre>
+            </div>
+            <!---- 文档内容end ---->
+            <div class="apimenu">
+            关于错误返回值与错误代码，参见 <a href="#" target="_blank">错误代码说明</a>
+            </div>
+
+        </div>
+    </div>
+        
+	<!--- 更多 --->
+@*    <div class="h-contact">
+      <h2 class="h-subtitle"><span>更多方式</span></h2>
+      <div class="h-mode row">
+        <a href="" class="icon-tel">电话咨询 400-100-1688</a>
+        <a href="" class="icon-info">在线提交反馈</a>
+      </div>
+    </div>*@
+  	<!--- 更多end --->
+    
+</div>
+
+

@@ -132,7 +132,9 @@
     <Compile Include="Common\Common.cs" />
     <Compile Include="Common\ExpandClass.cs" />
     <Compile Include="Common\MessageSend.cs" />
+    <Compile Include="Common\Signature.cs" />
     <Compile Include="Common\UserAuthorize.cs" />
+    <Compile Include="Common\ApiAuthorize.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\AgentsController.cs" />
     <Compile Include="Controllers\AuctionController.cs" />

@@ -67,7 +67,7 @@ namespace AlibabaSdk
             paras.Add("gmtBulkEnd", gmtBulkEnd.ToString("yyyyMMddHHmmssfffzzz").Replace(":", ""));
             paras.Add("access_token", token);
 
-            string resultStr= HttpRequest.RequestServer(ApiOption.pullBulkGoodsCodes, paras, RequestType.Get);
+            string resultStr= HttpRequest.RequestServer(ApiOption.pullBulkGoodsCodes, paras, RequestType.Post);
             return JsonConvert.DeserializeObject<GoodsCodesResult>(resultStr);
         }
 
