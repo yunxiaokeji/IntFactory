@@ -94,7 +94,7 @@ define(function (require, exports, module) {
             asyncCallback: function (data, response) {
                 response($.map(data.items, function (item) {
                     return {
-                        text: item.Name + "(联系人：" + item.Contact + ")",
+                        text: item.Name + "(联系人：" + (item.Contact || "--") + ")",
                         name: item.Name,
                         id: item.ProviderID
                     }
@@ -733,7 +733,7 @@ define(function (require, exports, module) {
             asyncCallback: function (data, response) {
                 response($.map(data.items, function (item) {
                     return {
-                        text: item.Name + "(联系人：" + item.Contact + ")",
+                        text: item.Name + "(联系人：" + (item.Contact || "--") + ")",
                         name: item.Name,
                         id: item.ProviderID
                     }

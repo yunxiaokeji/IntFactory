@@ -38,7 +38,7 @@ define(function (require, exports, module) {
             }
             var _input = $('<div class="choosebranch-text">' + opts.prevText + opts.defaultText + '</div>');
             _input.css("width", opts.width - 30);
-            var _ico = $('<div class="choosebranch-ico"><span></span></div>');
+            var _ico = $('<div class="choosebranch-ico"><span class="top"></span><span class="bottom"></span></div>');
             obj.append(_input).append(_ico);
 
             //处理事件

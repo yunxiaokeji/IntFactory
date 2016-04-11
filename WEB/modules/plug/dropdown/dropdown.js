@@ -40,7 +40,7 @@ define(function (require, exports, module) {
 
             var _input = $('<div class="dropdown-text long">' + opts.prevText + opts.defaultText + '</div>');
             _input.css("width", opts.width - 30);
-            var _ico = $('<div class="dropdown-ico"><span></span></div>');
+            var _ico = $('<div class="dropdown-ico"><span class="top"></span><span class="bottom"></span></div>');
             obj.empty();
             obj.append(_input).append(_ico);
 
