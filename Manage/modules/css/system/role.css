@@ -1,12 +1,4 @@
 ﻿
-
-/*创建弹出层*/
-.create-model {  }
-.create-model li{ margin-top:10px; overflow:auto; }
-.create-model li .columnname{ width:60px; }
-.create-model li input{ width:180px; }
-.create-model li textarea{ width:300px; }
-
 /*权限树状结构样式*/
 .menulist { border-bottom:solid 1px #ccc; padding-bottom:20px; }
 .menulist .menuitem { height:40px; }

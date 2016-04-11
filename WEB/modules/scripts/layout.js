@@ -10,10 +10,12 @@ define(function (require, exports, module) {
     var LayoutObject = {};
     //初始化数据
     LayoutObject.init = function () {
-        LayoutObject.getAgentInfo();
+        
         LayoutObject.bindStyle();
         LayoutObject.bindEvent();
+        LayoutObject.getAuthorizeInfo();
         LayoutObject.bindUpcomings();
+        LayoutObject.placeholderSupport();
     }
 
     //待办小红点
@@ -34,54 +36,6 @@ define(function (require, exports, module) {
                     if (controller.find("li[data-code='103020200']").find(".point").length == 0) {
                         controller.find("li[data-code='103020200']").find(".name").append("<span class='point'></span>");
                     }
-                } else if (item.DocType == 3) { //报损
-                    if ($("#modulesMenu li[data-code='103000000']").find(".point").length == 0) {
-                        $("#modulesMenu li[data-code='103000000']").find(".name").after("<span class='point'></span>");
-                    }
-
-                    var controller = $("nav .controller[data-code='103030000']");
-                    if (controller.find(".point").length == 0) {
-                        controller.find(".controller-box .name").after("<span class='point'></span>");
-                    }
-                    if (controller.find("li[data-code='103030300']").find(".point").length == 0) {
-                        controller.find("li[data-code='103030300']").find(".name").append("<span class='point'></span>");
-                    }
-                } else if (item.DocType == 4) { //报溢
-                    if ($("#modulesMenu li[data-code='103000000']").find(".point").length == 0) {
-                        $("#modulesMenu li[data-code='103000000']").find(".name").after("<span class='point'></span>");
-                    }
-
-                    var controller = $("nav .controller[data-code='103030000']");
-                    if (controller.find(".point").length == 0) {
-                        controller.find(".controller-box .name").after("<span class='point'></span>");
-                    }
-                    if (controller.find("li[data-code='103030400']").find(".point").length == 0) {
-                        controller.find("li[data-code='103030400']").find(".name").append("<span class='point'></span>");
-                    }
-                } else if (item.DocType == 6) { //退货
-                    if ($("#modulesMenu li[data-code='103000000']").find(".point").length == 0) {
-                        $("#modulesMenu li[data-code='103000000']").find(".name").after("<span class='point'></span>");
-                    }
-
-                    var controller = $("nav .controller[data-code='103030000']");
-                    if (controller.find(".point").length == 0) {
-                        controller.find(".controller-box .name").after("<span class='point'></span>");
-                    }
-                    if (controller.find("li[data-code='103031000']").find(".point").length == 0) {
-                        controller.find("li[data-code='103031000']").find(".name").append("<span class='point'></span>");
-                    }
-                } else if (item.DocType == 7) { //手工出库
-                    if ($("#modulesMenu li[data-code='103000000']").find(".point").length == 0) {
-                        $("#modulesMenu li[data-code='103000000']").find(".name").after("<span class='point'></span>");
-                    }
-
-                    var controller = $("nav .controller[data-code='103030000']");
-                    if (controller.find(".point").length == 0) {
-                        controller.find(".controller-box .name").after("<span class='point'></span>");
-                    }
-                    if (controller.find("li[data-code='103030500']").find(".point").length == 0) {
-                        controller.find("li[data-code='103030500']").find(".name").append("<span class='point'></span>");
-                    }
                 } else if (item.DocType == 21) { //订单
                     if ($("#modulesMenu li[data-code='102000000']").find(".point").length == 0) {
                         $("#modulesMenu li[data-code='102000000']").find(".name").after("<span class='point'></span>");
@@ -99,19 +53,6 @@ define(function (require, exports, module) {
                     }
                 } else if (item.DocType == 111) { //任务
                     if (item.SendStatus == 1) {
-                        //if ($("#modulesMenu li[data-code='109000000']").find(".point").length == 0) {
-                        //    $("#modulesMenu li[data-code='109000000']").find(".name").after("<span class='point'></span>");
-                        //}
-
-                        //var controller = $("nav .controller[data-code='109010000']");
-                        //if (controller.find(".point").length == 0) {
-                        //    controller.find(".controller-box .name").after("<span class='point'></span>");
-                        //}
-
-                        //if (controller.find("li[data-code='109010100']").find(".point").length == 0) {
-                        //    controller.find("li[data-code='109010100']").find(".name").append("<span class='point'></span>");
-                        //}
-
                         if ($(".ico-contact").find(".point").length == 0) {
                             $(".ico-contact").append("<span class='ico-contact-point'>" + item.ReturnStatus + "</span>");
                         }
@@ -140,18 +81,6 @@ define(function (require, exports, module) {
             }
         });
 
-        //折叠收藏
-        $("#choosemodules").click(function () {
-            var _this = $(this);
-            if (!_this.hasClass("hover")) {
-                _this.addClass("hover");
-                $(".bottom-body").css("height", "0");
-            } else {
-                $(".bottom-body").css("height", "40px");
-                _this.removeClass("hover");
-            }
-        });
-   
         $(".controller-box").click(function () {
             var _this = $(this).parent();
             if (!_this.hasClass("select")) {
@@ -281,8 +210,8 @@ define(function (require, exports, module) {
     }
 
     //获取代理商授权信息
-    LayoutObject.getAgentInfo = function () {
-        Global.post("/Home/GetAgentInfo", null, function (data) {
+    LayoutObject.getAuthorizeInfo = function () {
+        Global.post("/Home/GetAuthorizeInfo", null, function (data) {
             $("#remainderDays").html(data.remainderDays);
 
             if (data.authorizeType == 0) {
@@ -300,8 +229,9 @@ define(function (require, exports, module) {
         });
     }
 
+    // 判断浏览器是否支持 placeholder
     LayoutObject.placeholderSupport = function () {
-        if (! ('placeholder' in document.createElement('input')) ) {   // 判断浏览器是否支持 placeholder
+        if (! ('placeholder' in document.createElement('input')) ) {   
             $('[placeholder]').focus(function () {
                 var input = $(this);
                 if (input.val() == input.attr('placeholder')) {

@@ -5,17 +5,9 @@
 .easydialog-create li span{ display:inline-block; vertical-align:top;}
 .easydialog-create li input[type="text"]{ width:180px; }
 .easydialog-create li textarea{ width:350px; min-height:75px; }
-.easydialog-create li .create-column{ width:80px;}
+.easydialog-create li label{ line-height:20px; height:20px; cursor:pointer; }
+.easydialog-create li label input{ line-height:20px; height:20px; }
 
-/*创建弹出层*/
-.create-model { min-width:300px;  }
-.create-model li{ margin-top:10px; overflow:auto; }
-.create-model li .columnname{ width:60px; }
-.create-model li input[type="text"]{ width:180px; }
-.create-model li textarea{ width:300px; }
-.create-model li label{ line-height:20px; height:20px; cursor:pointer; }
-.create-model li label input{ line-height:20px; height:20px; }
-.create-model span{ display:inline-block; vertical-align:top;}
 
 /*详情页Title*/
 .content-title { height:35px; }

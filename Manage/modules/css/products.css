@@ -1,13 +1,4 @@
-﻿/*创建弹出层*/
-.create-model { min-width:300px;  }
-.create-model li{ margin-top:10px; overflow:auto; }
-.create-model li input[type="text"]{ width:180px; }
-.create-model li textarea{ width:300px; }
-.create-model li label{ line-height:20px; height:20px; cursor:pointer; }
-.create-model li label input{ line-height:20px; height:20px; }
-.create-model span{ display:inline-block; vertical-align:top;}
-
-
+﻿
 .create-attr { width:350px; }
 .create-attr li { margin-top:10px; line-height:30px;}
 .create-attr li span{ color:#333; display:inline-block; line-height:30px; height:30px;}
