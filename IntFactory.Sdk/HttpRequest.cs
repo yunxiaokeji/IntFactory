@@ -8,27 +8,16 @@ using System.Configuration;
 using System.Security.Cryptography;
 using System.ComponentModel;
 using System.Web;
-namespace AlibabaSdk
+using Newtonsoft.Json;
+namespace IntFactory.Sdk
 {
     public class HttpRequest
     {
-        public static string RequestServer(ApiOption apiOption, Dictionary<string, object> paras,RequestType requestType = RequestType.Get)
+        public static T RequestServer<T>(ApiOption apiOption, Dictionary<string, object> paras,RequestType requestType = RequestType.Get)
         {
-            string urlPath = "param2/1/cn.alibaba.open/" + GetEnumDesc<ApiOption>(apiOption) + "/" + AppConfig.AppKey;
-            //string url = AppConfig.AlibabaApiUrl + "/openapi/" + urlPath;
-            string url = AppConfig.AlibabaApiUrl + "/api/" + urlPath;
+            string urlPath = GetEnumDesc<ApiOption>(apiOption)+"/";
+            string url = AppConfig.AlibabaApiUrl+ urlPath;
             string paraStr = string.Empty;
-
-            if (apiOption == ApiOption.getToken)
-            {
-                urlPath = "/openapi/http/1/system.oauth2/getToken/" + AppConfig.AppKey;
-                url = AppConfig.AlibabaApiUrl + urlPath;
-            }
-            else
-            {
-                string signature = sign(urlPath, paras);
-                paraStr = "_aop_signature=" + signature;
-            }
             
             if (paras != null && paras.Count > 0)
                 paraStr += "&" + CreateParameterStr(paras);
@@ -98,7 +87,7 @@ namespace AlibabaSdk
 
 
 
-            return strResult;
+            return JsonConvert.DeserializeObject<T>(strResult);
 
         }
 
@@ -118,71 +107,6 @@ namespace AlibabaSdk
                 paramBuilder.Append("&");
             }
             return paramBuilder.ToString();
-        }
-
-        /// <summary>
-        /// 获取参数签名算法
-        /// </summary>
-        /// <param name="paramDic">请求参数，即queryString + request body 中的所有参数</param>
-        public static string sign(Dictionary<string, string> paramDic)
-        {
-            byte[] signatureKey = Encoding.UTF8.GetBytes(AppConfig.AppSecret);
-            //第一步：拼装key+value
-            List<string> list = new List<string>();
-            foreach (KeyValuePair<string, string> kv in paramDic)
-            {
-                list.Add(kv.Key + kv.Value);
-            }
-            //第二步：排序
-            list.Sort();
-            //第三步：拼装排序后的各个字符串
-            string tmp = "";
-            foreach (string kvstr in list)
-            {
-                tmp = tmp + kvstr;
-            }
-            //第四步：将拼装后的字符串和app密钥一起计算签名
-            //HMAC-SHA1
-            HMACSHA1 hmacsha1 = new HMACSHA1(signatureKey);
-            hmacsha1.ComputeHash(Encoding.UTF8.GetBytes(tmp));
-            byte[] hash = hmacsha1.Hash;
-            //TO HEX
-            return BitConverter.ToString(hash).Replace("-", string.Empty).ToUpper();
-        }
-
-        /// <summary>
-        /// 获取API签名算法
-        /// </summary>
-        /// <param name="urlPath">基础url部分，格式为protocol/apiVersion/namespace/apiName/appKey，如 json/1/system/currentTime/1；如果为客户端授权时此参数置为空串""</param>
-        /// <param name="paramDic">请求参数，即queryString + request body 中的所有参数</param>
-        public static string sign(string urlPath, Dictionary<string, object> paramDic)
-        {
-            byte[] signatureKey = Encoding.UTF8.GetBytes(AppConfig.AppSecret);//此处用自己的签名密钥
-            List<string> list = new List<string>();
-            foreach (KeyValuePair<string, object> kv in paramDic)
-            {
-                list.Add(kv.Key + kv.Value.ToString());
-            }
-            list.Sort();
-            string tmp = urlPath;
-            foreach (string kvstr in list)
-            {
-                tmp = tmp + kvstr;
-            }
-
-            //HMAC-SHA1
-            HMACSHA1 hmacsha1 = new HMACSHA1(signatureKey);
-            hmacsha1.ComputeHash(Encoding.UTF8.GetBytes(tmp));
-            /*
-            hmacsha1.ComputeHash(Encoding.UTF8.GetBytes(urlPath));
-            foreach (string kvstr in list)
-            {
-                hmacsha1.ComputeHash(Encoding.UTF8.GetBytes(kvstr));
-            }
-             */
-            byte[] hash = hmacsha1.Hash;
-            //TO HEX
-            return BitConverter.ToString(hash).Replace("-", string.Empty).ToUpper();
         }
 
         public static string GetEnumDesc<T>(T Enumtype)
