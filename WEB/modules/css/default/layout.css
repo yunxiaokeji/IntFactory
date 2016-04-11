@@ -336,23 +336,20 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .verify-fail-err { height:20px; line-height:20px; padding-left:10px; padding-top:2px;}
 
 /*帮助-意见浮层*/
-.home-help-feedback { width:28px; height:180px; position:fixed; top:40%; left:0px; padding:10px 5px; background-color:#2F73B8; }
-.home-help-feedback li { height:24px; width:24px; cursor:pointer; margin-top:25px; }
-.home-help-feedback li a{ height:24px; width:24px; display:inline-block; }
 
-.help-feedback { width:180px; height:24px; position:fixed; bottom:0px; left:0px; padding:5px 10px; background-color:#2F73B8; }
-.help-feedback li { height:24px; width:24px; cursor:pointer; margin-left:25px; float:left; }
-.help-feedback li a{ height:24px; width:24px; display:inline-block; }
+.help-feedback { width:40px; height:45px; position:fixed; bottom:20px; left:10px; overflow:hidden;}
+.help-feedback li { height:40px; width:40px; cursor:pointer; margin-top:5px; position:absolute;}
+.help-feedback li a{ height:40px; width:40px; display:inline-block; }
 
-.ico-feedback { background:url('/modules/images/ico-feedback.png') no-repeat; background-size:cover;}
-.ico-feedback:hover { background:url('/modules/images/ico-feedback-hover.png') no-repeat; background-size:cover;}
+.help-feedback .ico-feedback { background:url('/modules/images/ico-feedback.png') no-repeat; background-size:cover; bottom:90px;}
+.help-feedback .ico-feedback:hover { background:url('/modules/images/ico-feedback-hover.png') no-repeat; background-size:cover;}
 
-.ico-contact { background:url('/modules/images/ico-task.png') no-repeat; background-size:cover; position:relative;}
-.ico-contact:hover { background:url('/modules/images/ico-task-hover.png') no-repeat; background-size:cover;}
-.ico-contact-point { background-color:red; width:18px; height:18px; color:#fff; border-radius:9px; display:inline-block; 
-                     position:absolute; right:-10px; top:-10px; text-align:center; }
-.ico-help { background:url('/modules/images/ico-help.png') no-repeat; background-size:cover;}
-.ico-help:hover { background:url('/modules/images/ico-help-hover.png') no-repeat; background-size:cover;}
+.help-feedback .ico-help { background:url('/modules/images/ico-help.png') no-repeat; background-size:cover; bottom:45px; }
+.help-feedback .ico-help:hover { background:url('/modules/images/ico-help-hover.png') no-repeat; background-size:cover;}
+
+.help-feedback .ico-open { background:url('/modules/images/ico-operate-open.png') no-repeat; background-size:cover;  bottom:0;  }
+.help-feedback .ico-open:hover { background:url('/modules/images/ico-operate-open-hover.png') no-repeat; background-size:cover;}
+
 
 /*意见反馈*/
 .feedback_dialog li { margin-bottom:20px; }

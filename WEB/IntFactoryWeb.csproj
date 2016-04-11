@@ -199,6 +199,8 @@
     <Content Include="modules\images\ico-mobilecode.png" />
     <Content Include="modules\images\ico-next-image-hover.png" />
     <Content Include="modules\images\ico-next-image.png" />
+    <Content Include="modules\images\ico-operate-open-hover.png" />
+    <Content Include="modules\images\ico-operate-open.png" />
     <Content Include="modules\images\ico-prev-image-hover.png" />
     <Content Include="modules\images\ico-prev-image.png" />
     <Content Include="modules\images\ico-surepwd.png" />

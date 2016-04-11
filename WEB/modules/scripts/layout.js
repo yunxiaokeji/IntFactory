@@ -52,9 +52,18 @@ define(function (require, exports, module) {
                         }
                     }
                 } else if (item.DocType == 111) { //任务
+                    if ($("#modulesMenu li[data-code='109000000']").find(".point").length == 0) {
+                        $("#modulesMenu li[data-code='109000000']").find(".name").after("<span class='point'></span>");
+                    }
+
+                    var controller = $("nav .controller[data-code='109010000']");
+                    if (controller.find(".point").length == 0) {
+                        controller.find(".controller-box .name").after("<span class='point'></span>");
+                    }
+
                     if (item.SendStatus == 1) {
-                        if ($(".ico-contact").find(".point").length == 0) {
-                            $(".ico-contact").append("<span class='ico-contact-point'>" + item.ReturnStatus + "</span>");
+                        if (controller.find("li[data-code='109010100']").find(".point").length == 0) {
+                            controller.find("li[data-code='109010100']").find(".name").append("<span class='point'></span>");
                         }
                     }
                 }
@@ -120,7 +129,7 @@ define(function (require, exports, module) {
         $("#modulesMenu .select img").attr("src", $("#modulesMenu .select img").data("hover"));
 
         //意见反馈
-        $(".feedback").click(function () {
+        $(".ico-feedback").click(function () {
             doT.exec("template/feedback/feedback_add.html", function (template) {
                 var html = template([]);
 
@@ -176,6 +185,21 @@ define(function (require, exports, module) {
 
             });
 
+        });
+
+        $(".help-feedback .ico-open").click(function () {
+            var _this = $(this);
+            if (_this.data("open") && _this.data("open") == "1") {
+                _this.data("open", "0");
+                _self.setRotateL(_this, 45, 0);
+
+                _this.parent().animate({ "height": "45px" }, "fast");
+            } else {
+                _this.data("open", "1");
+                _self.setRotateR(_this, 0, 45);
+
+                _this.parent().animate({ "height": "135px" }, "fast");
+            }
         });
     }
 
