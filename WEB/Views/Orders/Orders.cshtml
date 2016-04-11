@@ -47,37 +47,54 @@
 </div>
 <div class="search-box">
     <div class="search-header">
-        <ul class="search-tab search-status">
+        <ul class="search-tab search-returnstatus">
             <li data-id="-1" class="@(ViewBag.State==-1?"hover":"")">全部订单</li>
             <li data-id="0" class="@(ViewBag.State==0?"hover":"")">需求单</li>
-            <li data-id="1" class="">打样中</li>
-            <li data-id="2" class="">核价中</li>
-            <li data-id="3" class="">封样封价</li>
-            <li data-id="4" class="">待大货</li>
-            <li data-id="5" class="">生产中</li>
-            <li data-id="6" class="">生产完成</li>
-            <li data-id="7" class="">交易结束</li>
+            <li data-id="1" class="">进行中</li>
+            <li data-id="2" class="">已完成</li>
+            <li data-id="8" class="">已终止</li>
         </ul>
-        <ul class="search-tab-status search-returnstatus">
-            <li data-id="1" class="hover">正常</li>
-            <li data-id="8">终止</li>
-        </ul>
+         <div class="right searth-module" data-text="关键字搜索..." data-width="260"> </div>
     </div>
 </div>
 <div class="content-body">
     <div class="search-body">
-        <div class="left mRight20" id="chooseBranch"></div>
-        <div class="left" id="orderType"></div>
-        @*<div class="left mLeft20" id="payStatus"></div>*@
-        <div class="left mLeft20" id="sourceType"></div>
-        @*<div class="left mLeft20" id="invoiceStatus"></div>*@
-        <div class="left mLeft20">
-            <span class="width80">交货日期：</span><input type="text" id="BeginTime"  class="input width80"  />
-            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width80"  />
-            <span class="btn mLeft10" id="btnSearch">搜索</span>
+        <ul class="search-item search-status">
+            <li class="column-name">状态：</li>
+            <li data-id="-1" class="item">全部订单</li>
+            <li data-id="0" class="item">需求单</li>
+            <li data-id="1" class="item">打样中</li>
+            <li data-id="2" class="item">核价中</li>
+            <li data-id="3" class="item">封样封价</li>
+            <li data-id="4" class="item">待大货</li>
+            <li data-id="5" class="item">生产中</li>
+            <li data-id="6" class="item">生产完成</li>
+            <li data-id="7" class="item">交易结束</li>
+        </ul>
+        <div class="search-items mTop10">
+            <div class="left mRight20" id="chooseBranch"></div>
+            <div class="left" id="orderType"></div>
+            <div class="left mLeft20" id="sourceType"></div>
+            <div class="left mLeft20">
+                <span class="width80">交货日期：</span><input type="text" id="BeginTime"  class="input width80"  />
+                <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width80"  />
+                <span class="btn mLeft10" id="btnSearch">搜索</span>
+            </div>
         </div>
-        <div class="right searth-module" data-text="关键字搜索..." data-width="160"> </div>
     </div>
+    <ul class="search-sort">
+        <li>排序</li>
+        <li class="sort-item hover" data-column="CreateTime">
+            下单日期
+            <span class="asc"></span>
+            <span class="desc hover"></span>
+        </li>
+        <li class="sort-item" data-column="PlanTime">
+            交货日期
+            <span class="asc"></span>
+            <span class="desc"></span>
+        </li>
+    </ul>
     <table class="table-list mTop10">
         <tr class="tr-header">
             <td class="width30"><span id="filterMark"></span></td> 

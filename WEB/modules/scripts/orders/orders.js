@@ -62,7 +62,7 @@
         });
 
         //切换订单状态
-        $(".search-status li").click(function () {
+        $(".search-status .item").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -271,25 +271,22 @@
         });
 
         //排序
-        $(".orderby-column").click(function () {
+        $(".sort-item").click(function () {
             var _this = $(this);
-            if (_this.data("orderby") && _this.data("orderby") == 1) {
-                if (_this.data("isasc") == 1) {
-                    _this.data("isasc", "0");
-                    _this.find(".orderby-asc").removeClass("hover");
-                    _this.find(".orderby-desc").addClass("hover");
+            if (_this.hasClass("hover")) {
+                if (_this.find(".asc").hasClass("hover")) {
+                    _this.find(".asc").removeClass("hover");
+                    _this.find(".desc").addClass("hover");
                     Params.OrderBy = _this.data("column") + " desc ";
                 } else {
-                    _this.data("isasc", "1");
-                    _this.find(".orderby-desc").removeClass("hover");
-                    _this.find(".orderby-asc").addClass("hover");
+                    _this.find(".desc").removeClass("hover");
+                    _this.find(".asc").addClass("hover");
                     Params.OrderBy = _this.data("column") + " asc ";
                 }
             } else {
-                $(".orderby-column").data("orderby", "0").find(".hover").removeClass("hover");
-                _this.data("orderby", "1").data("isasc", "0");
-                _this.find(".orderby-asc").removeClass("hover");
-                _this.find(".orderby-desc").addClass("hover");
+                _this.addClass("hover").siblings().removeClass("hover");
+                _this.siblings().find(".hover").removeClass("hover");
+                _this.find(".desc").addClass("hover");
                 Params.OrderBy = _this.data("column") + " desc ";
             }
             Params.PageIndex = 1;

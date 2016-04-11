@@ -676,7 +676,7 @@
     <Content Include="modules\template\common\logs.html" />
     <Content Include="modules\template\customer\contacts.html" />
     <Content Include="modules\template\customer\contact-detail.html" />
-    <Content Include="modules\template\feedback\feedback_add.html" />
+    <Content Include="modules\template\common\feedback_add.html" />
     <Content Include="modules\template\finance\payable-detail.html" />
     <Content Include="modules\template\finance\payablebills.html" />
     <Content Include="modules\template\finance\storagebillingpays.html" />

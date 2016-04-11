@@ -130,7 +130,7 @@ define(function (require, exports, module) {
 
         //意见反馈
         $(".ico-feedback").click(function () {
-            doT.exec("template/feedback/feedback_add.html", function (template) {
+            doT.exec("template/common/feedback_add.html", function (template) {
                 var html = template([]);
 
                 Easydialog.open({
@@ -187,6 +187,7 @@ define(function (require, exports, module) {
 
         });
 
+        //意见反馈浮层
         $(".help-feedback .ico-open").click(function () {
             var _this = $(this);
             if (_this.data("open") && _this.data("open") == "1") {
