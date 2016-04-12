@@ -149,6 +149,28 @@ namespace IntFactoryDAL
             return result == 1;
         }
 
+        public bool AddTaskMembers(string taskID,string memberIDs)
+        {
+            string sqltext = "update  OrderTask set Members=ISNULL(Members,'')+ @MemberIDs  where TaskID=@TaskID";
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@TaskID",taskID),
+                                       new SqlParameter("@MemberIDs",memberIDs)
+                                   };
+
+            return ExecuteNonQuery(sqltext, paras, CommandType.Text)>0;
+        }
+
+        public bool RemoveTaskMember(string taskID,string memberID)
+        {
+            string sqltext = "update OrderTask set Members=replace(Members,@MemberID,'')  where TaskID=@TaskID";
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@TaskID",taskID),
+                                       new SqlParameter("@MemberID",memberID)
+                                   };
+
+            return ExecuteNonQuery(sqltext, paras, CommandType.Text)>0;
+        }
+
         public bool UnFinishTask(string taskID)
         {
             string sqltext = "update OrderTask set FinishStatus=0 where TaskID=@TaskID";

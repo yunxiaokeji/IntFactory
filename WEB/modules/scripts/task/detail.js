@@ -2,6 +2,7 @@
     var doT = require("dot");
     var Global = require("global");
     var Easydialog = null;
+    var ChooseUser =null;
     require("pager");
 
     var ObjectJS = {};
@@ -55,6 +56,7 @@
             ObjectJS.removeTaskPlateOperate();
         }
 
+        
         //统计材料总金额
         ObjectJS.getProductAmount();
 
@@ -180,6 +182,46 @@
 
         //绑定任务样式图
         ObjectJS.bindOrderImages();
+
+        if ($("#addTaskMembers").length == 1)
+        {
+            ChooseUser = require("chooseuser");
+
+            $("#addTaskMembers").click(function () {
+                ChooseUser.create({
+                    title: "添加任务成员",
+                    type: 1,
+                    single: false,
+                    callback: function (items) {
+                        var memberIDs = '';
+                        for (var i = 0; i < items.length; i++) {
+                            var item=items[i];
+                            if ($("#taskMemberIDs" + " div[data-id='" + item.id + "']").html()) {
+                                continue;
+                            }
+
+                            ObjectJS.createTaskMember(item);
+                            memberIDs += item.id + ",";
+                        }
+
+                        if (memberIDs != '') {
+                            ObjectJS.addTaskMembers(memberIDs);
+                        }
+                        
+
+                    }
+                });
+
+            });
+
+            $("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
+                var memberID = $(this).data("id");
+                confirm("确定删除任务成员?", function () {
+                    ObjectJS.removeTaskMember(memberID);
+                });
+            });
+
+        }
     }
 
     //更改任务到期时间
@@ -320,6 +362,52 @@
                 $("#orderImage").attr("src", _img.attr("src"));
             }
         });
+    }
+
+    //添加任务成员
+    ObjectJS.addTaskMembers = function (memberIDs) {
+        Global.post("/Task/AddTaskMembers", {
+            id: ObjectJS.taskid,
+            memberIDs: memberIDs
+        }, function (data) {
+            if (data.result == 0) {
+                alert(memberIDs);
+            }
+            else {
+                $("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
+                    var memberID = $(this).data("id");
+                    confirm("确定删除任务成员?", function () {
+                        ObjectJS.removeTaskMember(memberID);
+                    });
+                });
+            }
+        });
+    }
+
+    //删除任务成员
+    ObjectJS.removeTaskMember = function (memberID) {
+        Global.post("/Task/RemoveTaskMember", {
+            id: ObjectJS.taskid,
+            memberID: memberID
+        }, function (data) {
+            if (data.result == 0) {
+                alert(memberIDs);
+            }
+            else {
+                $("#taskMemberIDs" + " div[data-id='" + memberID + "']").remove();
+            }
+        });
+    }
+
+    ObjectJS.createTaskMember = function (item) {
+        var html = '';
+        html += '<div class="task-member left" data-id="'+item.id+'">';
+        html += '<div class="left pRight5"><span>'+item.name+'</span></div>';
+        html += '<div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="' + item.id + '" >×</a></div>';
+        html+='<div class="clear"></div>';
+        html += '</div>';
+
+        $("#taskMemberIDs").append(html);
     }
 
     ///任务讨论

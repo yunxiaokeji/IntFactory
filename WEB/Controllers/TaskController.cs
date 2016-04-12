@@ -80,6 +80,9 @@ namespace YXERP.Controllers
             var task = TaskBusiness.GetTaskDetail(id);
             ViewBag.Model = task;
 
+            //当前用户是否为任务负责人
+            ViewBag.IsTaskOwner = task.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase) ? true : false;
+
             //任务对应的订单详情
             var order=OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
             if (order.Details == null){
@@ -257,6 +260,30 @@ namespace YXERP.Controllers
             int result = 0;
             TaskBusiness.FinishTask(id, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID,out result);
             JsonDictionary.Add("result", result);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult AddTaskMembers(string id, string memberIDs)
+        {
+            bool flag= TaskBusiness.AddTaskMembers(id,memberIDs, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("result", flag?1:0);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult RemoveTaskMember(string id, string memberID)
+        {
+            bool flag = TaskBusiness.RemoveTaskMember(id, memberID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("result", flag ? 1 : 0);
 
             return new JsonResult
             {
