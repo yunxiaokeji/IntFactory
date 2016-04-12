@@ -40,7 +40,7 @@ namespace YXERP.Areas.Api.Controllers
             ownerID = paras.userID;
             var currentUser = OrganizationBusiness.GetUserByUserID(userID,agentID);
 
-            List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID, paras.status, paras.finishStatus,
+            List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID,0, paras.status, paras.finishStatus,
                 paras.colorMark, paras.taskType, paras.beginDate, paras.endDate,
                 paras.orderType, paras.orderProcessID, paras.orderStageID,
                 (EnumTaskOrderColumn)paras.taskOrderColumn, paras.isAsc, currentUser.ClientID,

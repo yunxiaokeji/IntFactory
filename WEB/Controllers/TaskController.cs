@@ -135,6 +135,15 @@ namespace YXERP.Controllers
 
             return View();
         }
+        /// <summary>
+        /// 参与任务
+        /// </summary>
+        public ActionResult Participate()
+        {
+            ViewBag.IsMy = 2;
+
+            return View("MyTask");
+        }
 
         /// <summary>
         /// 所有任务
@@ -156,20 +165,25 @@ namespace YXERP.Controllers
         #endregion
 
         #region ajax
-        public JsonResult GetTasks(string keyWords, bool isMy, string userID, int taskType, int colorMark,int status, int finishStatus, string beginDate, string endDate,int orderType, string orderProcessID, string orderStageID,int taskOrderColumn,int isAsc, int pageSize, int pageIndex){
+        public JsonResult GetTasks(string keyWords, bool isMy, int isParticipate, string userID, int taskType, int colorMark, int status, int finishStatus, string beginDate, string endDate, int orderType, string orderProcessID, string orderStageID, int taskOrderColumn, int isAsc, int pageSize, int pageIndex)
+        {
             int pageCount = 0;
             int totalCount = 0;
             //所有任务
             string ownerID = string.Empty;
             //我的任务
-            if (isMy){
+            if (isMy || isParticipate==1)
+            {
                 ownerID = CurrentUser.UserID;
             }//指定用户的任务
             else{
-                ownerID = userID;
+                if (!string.IsNullOrEmpty(userID))
+                {
+                    ownerID = userID;
+                }
             }
 
-            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(),ownerID,status,finishStatus, 
+            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, isParticipate,status, finishStatus, 
                 colorMark,taskType,beginDate,endDate,
                 orderType, orderProcessID, orderStageID,
                  (EnumTaskOrderColumn)taskOrderColumn, isAsc, CurrentUser.ClientID, 

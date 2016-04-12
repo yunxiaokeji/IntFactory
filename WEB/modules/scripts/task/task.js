@@ -7,6 +7,7 @@
     var Params = {
         isMy: true,
         userID: "",
+        isParticipate:0,
         taskType: -1,
         colorMark: -1,
         status: 1,
@@ -28,6 +29,9 @@
     ObjectJS.init = function (isMy, nowDate) {
         Params.beginDate = nowDate;
         Params.endDate = nowDate;
+        if (isMy == 2) {
+            Params.isParticipate = 1;
+        }
 
         if (isMy == "0")
         {
