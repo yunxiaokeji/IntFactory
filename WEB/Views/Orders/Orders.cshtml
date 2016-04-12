@@ -2,8 +2,9 @@
     
 }
 
-<link href="/modules/css/opportunitys.css" rel="stylesheet" />
-
+@section css{
+    <link href="/modules/css/default/orders.css" rel="stylesheet" />
+}
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
@@ -54,14 +55,20 @@
             <li data-id="2" class="">已完成</li>
             <li data-id="8" class="">已终止</li>
         </ul>
-         <div class="right searth-module" data-text="关键字搜索..." data-width="260"> </div>
+         
     </div>
 </div>
 <div class="content-body">
     <div class="search-body">
+        <ul class="search-item search-ordertype">
+            <li class="column-name">类型：</li>
+            <li data-id="" class="item hover">全部</li>
+            <li data-id="1" class="item">打样单</li>
+            <li data-id="2" class="item">大货单</li>
+        </ul>
         <ul class="search-item search-status">
             <li class="column-name">状态：</li>
-            <li data-id="-1" class="item">全部订单</li>
+            <li data-id="-1" class="item hover">全部</li>
             <li data-id="0" class="item">需求单</li>
             <li data-id="1" class="item">打样中</li>
             <li data-id="2" class="item">核价中</li>
@@ -71,16 +78,34 @@
             <li data-id="6" class="item">生产完成</li>
             <li data-id="7" class="item">交易结束</li>
         </ul>
-        <div class="search-items mTop10">
-            <div class="left mRight20" id="chooseBranch"></div>
-            <div class="left" id="orderType"></div>
-            <div class="left mLeft20" id="sourceType"></div>
-            <div class="left mLeft20">
-                <span class="width80">交货日期：</span><input type="text" id="BeginTime"  class="input width80"  />
-                <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width80"  />
-                <span class="btn mLeft10" id="btnSearch">搜索</span>
-            </div>
+        <ul class="search-item search-source">
+            <li class="column-name">来源：</li>
+            <li data-id="-1" class="item hover">全部</li>
+            <li data-id="1" class="item">工厂</li>
+            <li data-id="2" class="item">自助</li>
+            <li data-id="3" class="item">阿里</li>
+        </ul>
+        <ul class="search-item-color search-mark">
+            <li class="column-name">标记：</li>
+            <li data-id="-1" class="item mark-all hover"></li>
+            <li data-id="0" class="item mark0"></li>
+            <li data-id="1" class="item mark1"></li>
+            <li data-id="2" class="item mark2"></li>
+            <li data-id="3" class="item mark3"></li>
+            <li data-id="4" class="item mark4"></li>
+            <li data-id="5" class="item mark5"></li>
+        </ul>
+    </div>
+    <div class="search-items mTop10">
+        <div class="left mRight20" id="chooseBranch"></div>
+        @*<div class="left" id="orderType"></div>*@
+        @*<div class="left" id="sourceType"></div>*@
+        <div class="left">
+            <span class="width80">交货日期：</span><input type="text" id="BeginTime"  class="input width80"  />
+            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width80"  />
+            <span class="btn mLeft10" id="btnSearch">搜索</span>
         </div>
+        <div class="right searth-module" data-text="关键字搜索..." data-width="260"> </div>
     </div>
     <ul class="search-sort">
         <li>排序</li>
@@ -95,30 +120,10 @@
             <span class="desc"></span>
         </li>
     </ul>
-    <table class="table-list mTop10">
-        <tr class="tr-header">
-            <td class="width30"><span id="filterMark"></span></td> 
-            <td class="width30"></td>
-            <td class="tLeft width50">样图</td>
-            <td class="tLeft width150">订单编号</td>
-            <td class="width100">订单类型</td>
-            <td class="width80">来源</td>
-            <td class="width80">状态</td>
-            <td class="width80">进度</td>
-            <td class="width100">加工数量</td>
-            <td class="width100">单价</td>
-            <td class="width80 tRight">总金额</td>
-            <td class="center">客户</td>   
-            <td class="width100">负责人</td>
-            @*<td class="width100">发货状态</td>*@
-            <td class="width150 orderby-column" data-column="plantime">
-                交货日期
-                <span class="orderby-asc"></span>
-                <span class="orderby-desc"></span>
-            </td>
-            <td class="width50">操作</td>
-        </tr>
-    </table>
+    <div class="object-items" id="orderItems">
+
+    </div>
+    <div class="clear"></div>
     <ul class="left batch-operate mTop20">
         <li class="width100 mTop5">
             <span class="ico-check pLeft5" id="checkAll">批量操作</span>
@@ -129,7 +134,4 @@
     </ul>
     <div id="pager" class="mTop20"></div>
 </div>
-<ul class="dropdown-ul hide" style="width:105px;">
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" id="changeOwner">更换负责人</li>
-</ul>
 

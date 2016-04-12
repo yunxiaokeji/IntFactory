@@ -1,0 +1,48 @@
+﻿
+/*订单列表*/
+.object-items { color:#999; }
+.object-items .object-item{ width:250px; height:390px; border:solid 1px #eee; float:left; margin-right:20px; margin-top:20px; cursor:pointer; }
+.object-items .object-item span{ color:#999; }
+.object-items .object-item .iconfont{ color:#999; }
+
+/*订单样图*/
+.object-items .object-item .orderimg{ width:250px; height:250px; overflow:hidden; position:relative;  background:url('/modules/images/none-img.png') no-repeat center; background-color:#f0f0f0; }
+/*订单选中*/
+.object-items .object-item .check { width:30px; height:30px;  background-color:#fff; border:solid 1px #4a98e7; text-align:center;
+                                    position:absolute; right:-1px; top:-1px; display:none;box-shadow:0 0 5px #4a98e7 inset;}
+.object-items .check .iconfont{ font-size:24px; color:#fff; }
+
+/*阿里标记*/
+.object-items .object-item  .aliorder { height:30px; line-height:30px; position:absolute; bottom:0px; background-color:#ff7300; opacity:0.6; 
+                                        display:block; width:100%; font-size:14px; color:#fff; text-indent:10px;}
+.object-items  .aliorder .iconfont{ color:#fff; }
+
+.object-items .object-item ul{ padding:10px; }
+.object-items .object-item li{ height:30px; line-height:30px; }
+
+.object-items .object-item .customer { width:180px; }
+.object-items .object-item .owner { max-width:100px; }
+.object-items .object-item .view-detail { font-size:20px; }
+
+/*划过*/
+.object-items .object-item:hover{ border:solid 1px #4a98e7; }
+.object-items .object-item:hover .check{ display:inline-block;}
+
+/*选中*/
+.object-items .object-item.hover{ border:solid 1px #4a98e7; }
+.object-items .object-item.hover .check{ display:inline-block; background-color:#4a98e7; }
+
+/*标记筛选*/
+.search-item-color { clear:both; overflow:auto; margin:2px 0; }
+.search-item-color li{ float:left; margin-right:20px; cursor:pointer;}
+.search-item-color .column-name{ width:60px; padding:2px 5px; color:#999; font-size:14px; }
+.search-item-color .item{ width:18px; height:18px;  border-radius:10px; margin-top:3px;}
+.search-item-color .item.hover{ width:24px; height:24px;border-radius:13px; margin-top:0px;}
+
+.search-item-color .mark-all { background:url('/modules/plug/mark/ico-ball.png') no-repeat; background-size:cover; }
+.search-item-color .mark0 { background-color:#FFF; border:solid 1px #ccc; }
+.search-item-color .mark1 { background-color:#FF7C7C; border:solid 1px #FF7C7C;  }
+.search-item-color .mark2 { background-color:#3BB3FF; border:solid 1px #3BB3FF; }
+.search-item-color .mark3 { background-color:#9F74FF; border:solid 1px #9F74FF;  }
+.search-item-color .mark4 { background-color:#FFC85D; border:solid 1px #FFC85D; }
+.search-item-color .mark5 { background-color:#FFF65F; border:solid 1px #FFF65F; }

@@ -372,7 +372,7 @@ namespace IntFactoryBusiness
                     }
                     if (first)
                     {
-                        CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 100, HttpContext.Current.Server.MapPath(firstimg));
+                        CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 250, HttpContext.Current.Server.MapPath(firstimg));
 
                         first = false;
                     }
@@ -722,7 +722,7 @@ namespace IntFactoryBusiness
                             firstimg = orderimg.Substring(0, orderimg.IndexOf(file.Name)) + "small" + file.Name;
                             if (!new FileInfo(HttpContext.Current.Server.MapPath(firstimg)).Exists)
                             {
-                                CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 100, HttpContext.Current.Server.MapPath(firstimg));
+                                CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 250, HttpContext.Current.Server.MapPath(firstimg));
                             }
                         }
                         first = false;

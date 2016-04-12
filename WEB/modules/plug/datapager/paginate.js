@@ -130,13 +130,13 @@ define(function (require, exports, module) {
             //first and last:
             _first.click(function (e) {
                 if (o.start > 1) {
-                    o.onChange(o.start - 1);
+                    o.onChange(o.start * 1 - 1);
                     //_ulwrapdiv.find('li').eq(o.start - 2).click();
                 }
             });
             _last.click(function (e) {
                 if (o.start < o.count) {
-                    o.onChange(o.start + 1);
+                    o.onChange(o.start * 1 + 1);
                     //_ulwrapdiv.find('li').eq(o.start).click();
                 }
             });
