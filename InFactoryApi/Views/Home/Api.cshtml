@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "API 厂盟智能";
+    var 
 }
 
 
@@ -26,16 +27,31 @@
             
             <!---- 客户管理 ---->
             <div class="panel helplist-guide">
-                <div class="" role="tab" id="heading1">
+                <div class="" role="tab">
                     <h3>
                     	<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="active" aria-expanded="true" aria-controls="collapse1">任务API</a>
                     </h3>
                 </div>
             
-                <div id="collapse1" class="collapse in" role="tabpanel" aria-labelledby="heading1">
+                <div class="collapse in" role="tabpanel" aria-labelledby="heading1">
                     <ul>
-                        <li ><a target="_self" href="help-customer-all.html">任务列表</a></li>
-                        <li class="active"><a target="_self" href="api-customer-add.html">任务详情</a></li>
+                        <li class="active"><a target="_self" href="help-customer-all.html">任务列表</a></li>
+                        <li ><a target="_self" href="api-customer-add.html">任务详情</a></li>
+                    </ul>
+                </div>
+
+                <div class="" role="tab">
+                    <h3>
+                    	<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="active" aria-expanded="true" aria-controls="collapse1">订单API</a>
+                    </h3>
+                </div>
+            
+                <div class="collapse in" role="tabpanel" aria-labelledby="heading1">
+                    <ul>
+                        <li ><a target="_self" href="help-customer-all.html">订单列表</a></li>
+                        <li class="active"><a target="_self" href="api-customer-add.html">订单详情</a></li>
+                        <li ><a target="_self" href="help-customer-all.html">订单流程</a></li>
+                        <li ><a target="_self" href="api-customer-add.html">流程阶段</a></li>
                     </ul>
                 </div>
             </div>

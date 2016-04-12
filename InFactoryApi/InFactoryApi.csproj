@@ -265,6 +265,28 @@
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IntFactory.Service\IntFactory.Service.csproj">
+      <Project>{313e5872-f99a-4b77-9987-a01dff27b758}</Project>
+      <Name>IntFactory.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXBusiness\IntFactoryBusiness.csproj">
+      <Project>{6322cb56-2693-4600-922d-0dec06a8f59c}</Project>
+      <Name>IntFactoryBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXDAL\IntFactoryDAL.csproj">
+      <Project>{03242f3b-5c14-42d6-aaa1-26ce56a3499f}</Project>
+      <Name>IntFactoryDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXEntity\IntFactoryEntity.csproj">
+      <Project>{6e99de28-adb3-4c22-8de9-dea1e44c04bb}</Project>
+      <Name>IntFactoryEntity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXEnum\IntFactoryEnum.csproj">
+      <Project>{b86924c1-ec31-449f-97f3-258dfa43a44f}</Project>
+      <Name>IntFactoryEnum</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

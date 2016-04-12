@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using IntFactoryBusiness;
 namespace InFactoryApi.Controllers
 {
     public class HomeController : Controller
@@ -17,6 +18,7 @@ namespace InFactoryApi.Controllers
 
         public ActionResult Api()
         {
+            
             return View();
         }
 
