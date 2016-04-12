@@ -18,7 +18,9 @@ namespace InFactoryApi.Controllers
 
         public ActionResult Api()
         {
-            
+            var apiModules= ApiModuleBusiness.BaseBusiness.GetApiModules();
+            ViewBag.ApiModules = apiModules;
+
             return View();
         }
 

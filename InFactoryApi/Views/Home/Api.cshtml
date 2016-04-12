@@ -1,15 +1,29 @@
 ﻿@{
     ViewBag.Title = "API 厂盟智能";
-    var 
+    var ApiModules = (List<IntFactoryEntity.ApiModuleEntity>)ViewBag.ApiModules;
 }
 
 
 @section css{
-    
+    <style type="text/css">
+    #apiDetailDoc,#apiDetailDoc table {
+    width:800px !important;
+    }
+</style>
 }
 
 @section scripts{
-    
+    <script src="/Scripts/jquery-1.7.1.js"></script>
+    <script src="/modules/plug/umeditor/umeditor.config.js"></script>
+    <script src="/modules/plug/umeditor/umeditor.min.js"></script>
+
+    <script type="text/javascript">
+    $(function () {
+        var r = "%3Ch1%20style=%22font-size:%2018px;%20margin-top:%2010px;%20border-width:%200px%200px%201px;%20border-bottom-style:%20solid;%20border-bottom-color:%20rgb(204,%20204,%20204);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20font-weight:%20normal;%20line-height:%2040px;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3Eapi/task/getTasks%3C/h1%3E%3Cdiv%20class=%22apimenu%22%20style=%22font-size:%2012px;%20margin-top:%2010px;%20margin-bottom:%2025px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20color:%20rgb(102,%20102,%20102);%20line-height:%20normal;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3E%E8%8E%B7%E5%8F%96%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8%3C/div%3E%3Ch1%20style=%22font-size:%2018px;%20margin-top:%2010px;%20border-width:%200px%200px%201px;%20border-bottom-style:%20solid;%20border-bottom-color:%20rgb(204,%20204,%20204);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20font-weight:%20normal;%20line-height:%2040px;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3EURL%3C/h1%3E%3Cdiv%20class=%22apimenu%22%20style=%22font-size:%2012px;%20margin-top:%2010px;%20margin-bottom:%2025px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20color:%20rgb(102,%20102,%20102);%20line-height:%20normal;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3Ehttp://www.90cloudsales.com/api/task/getTasks%3C/div%3E%3Ch1%20style=%22font-size:%2018px;%20margin-top:%2010px;%20border-width:%200px%200px%201px;%20border-bottom-style:%20solid;%20border-bottom-color:%20rgb(204,%20204,%20204);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20font-weight:%20normal;%20line-height:%2040px;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3E%E6%94%AF%E6%8C%81%E6%A0%BC%E5%BC%8F%3C/h1%3E%3Cdiv%20class=%22apimenu%22%20style=%22font-size:%2012px;%20margin-top:%2010px;%20margin-bottom:%2025px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20color:%20rgb(102,%20102,%20102);%20line-height:%20normal;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3EJSON%3C/div%3E%3Ch1%20style=%22font-size:%2018px;%20margin-top:%2010px;%20border-width:%200px%200px%201px;%20border-bottom-style:%20solid;%20border-bottom-color:%20rgb(204,%20204,%20204);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20font-weight:%20normal;%20line-height:%2040px;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3EHTTP%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F%3C/h1%3E%3Cdiv%20class=%22apimenu%22%20style=%22font-size:%2012px;%20margin-top:%2010px;%20margin-bottom:%2025px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20color:%20rgb(102,%20102,%20102);%20line-height:%20normal;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3EGET%3C/div%3E%3Ch1%20style=%22font-size:%2018px;%20margin-top:%2010px;%20border-width:%200px%200px%201px;%20border-bottom-style:%20solid;%20border-bottom-color:%20rgb(204,%20204,%20204);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20font-weight:%20normal;%20line-height:%2040px;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3E%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%3C/h1%3E%3Cdiv%20class=%22apimenu%22%20style=%22font-size:%2012px;%20margin-top:%2010px;%20margin-bottom:%2025px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20color:%20rgb(102,%20102,%20102);%20line-height:%20normal;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3E%3Ctable%20class=%22api_paras%22%20border=%220%22%20cellpadding=%220%22%20cellspacing=%220%22%20style=%22font-size:%2012px;%20margin-top:%200px;%20margin-bottom:%200px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20border-collapse:%20separate;%20border-spacing:%200px;%20width:%20936px;%22%3E%3Ctbody%20style=%22font-size:%2012px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%22%3E%3Ctr%20style=%22font-size:%2012px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%22%3E%3Ctd%20width=%2220%25%22%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-right-width:%200px;%20border-bottom-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3E%E5%8F%82%E6%95%B0%3C/td%3E%3Ctd%20width=%2215%25%22%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-right-width:%200px;%20border-bottom-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3E%E5%BF%85%E9%80%89%3C/td%3E%3Ctd%20width=%2215%25%22%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-right-width:%200px;%20border-bottom-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3E%E7%B1%BB%E5%9E%8B%E5%8F%8A%E8%8C%83%E5%9B%B4%3C/td%3E%3Ctd%20class=%22td_rightborder%22%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-bottom-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-right-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3E%E8%AF%B4%E6%98%8E%3C/td%3E%3C/tr%3E%3Ctr%20style=%22font-size:%2012px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%22%3E%3Ctd%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-right-width:%200px;%20border-bottom-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3EuserID%3C/td%3E%3Ctd%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-right-width:%200px;%20border-bottom-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3E%E6%98%AF%3C/td%3E%3Ctd%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-right-width:%200px;%20border-bottom-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3Estring%3C/td%3E%3Ctd%20class=%22td_rightborder%22%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-bottom-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-right-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3E%E5%85%AC%E5%8F%B8%E8%BA%AB%E4%BB%BD%3C/td%3E%3C/tr%3E%3Ctr%20style=%22font-size:%2012px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%22%3E%3Ctd%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-right-width:%200px;%20border-bottom-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3EagentID%3C/td%3E%3Ctd%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-right-width:%200px;%20border-bottom-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3E%E6%98%AF%3C/td%3E%3Ctd%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-right-width:%200px;%20border-bottom-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3Estring%3C/td%3E%3Ctd%20class=%22td_rightborder%22%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-bottom-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-right-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3E%E5%85%AC%E5%8F%B8%E5%AF%86%E9%92%A5%3C/td%3E%3C/tr%3E%3Ctr%20style=%22font-size:%2012px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%22%3E%3Ctd%20class=%22td_bottomborder%22%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-right-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-bottom-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3Efilter%3C/td%3E%3Ctd%20class=%22td_bottomborder%22%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-right-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-bottom-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3E%E6%98%AF%3C/td%3E%3Ctd%20class=%22td_bottomborder%22%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-right-width:%200px;%20border-top-color:%20rgb(153,%20153,%20153);%20border-bottom-color:%20rgb(153,%20153,%20153);%20border-left-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3Ejson%3C/td%3E%3Ctd%20class=%22td_bottomborder%20td_rightborder%22%20style=%22font-size:%2012px;%20padding:%208px%200px;%20border-color:%20rgb(153,%20153,%20153);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20text-align:%20center;%22%3E%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6%3C/td%3E%3C/tr%3E%3C/tbody%3E%3C/table%3E%3C/div%3E%3Ch1%20style=%22font-size:%2018px;%20margin-top:%2010px;%20border-width:%200px%200px%201px;%20border-bottom-style:%20solid;%20border-bottom-color:%20rgb(204,%20204,%20204);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20font-weight:%20normal;%20line-height:%2040px;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3Efilter%E5%AE%9E%E4%BD%93%3C/h1%3E%3Cdiv%20class=%22apimenu%22%20style=%22font-size:%2012px;%20margin-top:%2010px;%20margin-bottom:%2025px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20color:%20rgb(102,%20102,%20102);%20line-height:%20normal;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3E%3Cpre%20style=%22font-size:%2012px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%22%3E%7B%0A%0A%20%20%20%20&quot;keyWords&quot;:%20&quot;%E5%85%B3%E9%94%AE%E5%AD%97&quot;,%0A%20%20%20%20&quot;userID&quot;:%20&quot;%E8%B4%9F%E8%B4%A3%E4%BA%BAID&quot;,%0A%20%20%20%20&quot;colorMark&quot;:%20%E5%AE%A2%E6%88%B7%E7%B1%BB%E5%9E%8B%200%EF%BC%9A%E4%B8%AA%E4%BA%BA%E5%AE%A2%E6%88%B7%EF%BC%9B1%EF%BC%9A%E4%BC%81%E4%B8%9A%E5%AE%A2%E6%88%B7,%0A%20%20%20%20&quot;status&quot;:%20%E4%BB%BB%E5%8A%A1%E7%8A%B6%E6%80%81,%0A%20%20%20%20&quot;finishStatus&quot;:%20%E4%BB%BB%E5%8A%A1%E8%BF%9B%E8%A1%8C%E7%8A%B6%E6%80%81%20,%0A%20%20%20%20&quot;beginDate&quot;:%20&quot;%E4%BB%BB%E5%8A%A1%E5%88%9B%E5%BB%BA%E8%B5%B7%E5%A7%8B%E6%97%B6%E9%97%B4&quot;,%0A%20%20%20%20&quot;endDate&quot;:%20&quot;%E4%BB%BB%E5%8A%A1%E5%88%9B%E5%BB%BA%E7%9A%84%E6%88%AA%E6%AD%A2%E6%97%B6%E9%97%B4&quot;,%0A%20%20%20%20&quot;orderType&quot;:%20&quot;%E8%AE%A2%E5%8D%95%E7%B1%BB%E5%9E%8B&quot;,%0A%20%20%20%20&quot;orderProcessID&quot;:%20&quot;%E8%AE%A2%E5%8D%95%E6%B5%81%E7%A8%8BID&quot;,%0A%20%20%20%20&quot;orderStageID&quot;:%20&quot;%E8%AE%A2%E5%8D%95%E6%B5%81%E7%A8%8B%E9%98%B6%E6%AE%B5ID&quot;,%0A%20%20%20%20&quot;taskOrderColumn&quot;:%20&quot;%E6%8E%92%E5%BA%8F%E5%88%97&quot;,%0A%20%20%20%20&quot;isAsc&quot;:%20&quot;%E6%98%AF%E5%90%A6%E5%8D%87%E5%BA%8F&quot;,%0A%20%20%20%20&quot;pageSize&quot;:%20&quot;%E9%A1%B5%E6%95%B0&quot;,%0A%20%20%20%20&quot;pageIndex&quot;:%20&quot;%E9%A1%B5%E7%A0%81&quot;%0A%0A%7D%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/pre%3E%3C/div%3E%3Ch1%20style=%22font-size:%2018px;%20margin-top:%2010px;%20border-width:%200px%200px%201px;%20border-bottom-style:%20solid;%20border-bottom-color:%20rgb(204,%20204,%20204);%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20font-weight:%20normal;%20line-height:%2040px;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3E%E8%BF%94%E5%9B%9E%E7%BB%93%E6%9E%9C%3C/h1%3E%3Cdiv%20class=%22apimenu%22%20style=%22font-size:%2012px;%20margin-top:%2010px;%20margin-bottom:%2025px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%20color:%20rgb(102,%20102,%20102);%20line-height:%20normal;%20white-space:%20normal;%20background-color:%20rgb(248,%20248,%20248);%22%3E%3Cpre%20style=%22font-size:%2012px;%20border:%200px;%20list-style-type:%20none;%20-webkit-tap-highlight-color:%20rgba(0,%200,%200,%200);%22%3E%7B%0A%0A%20%20%20%20&quot;taskID&quot;:%20&quot;300d38e0-5ce4-40b4-b3b6-1ddb5ae036d6&quot;,%0A%20%20%20%20&quot;title&quot;:%20&quot;%E7%BC%9D%E5%88%B6&quot;,%0A%20%20%20%20&quot;mark&quot;:%E4%BB%BB%E5%8A%A1%E6%A0%87%E8%AE%B0%200%EF%BC%9A%E6%99%AE%E9%80%9A%EF%BC%9B%201%EF%BC%9A%E6%9D%90%E6%96%99%202%20%E5%88%B6%E7%89%88%203%E5%A4%A7%E8%B4%A7%E6%9D%90%E6%96%99,%0A%20%20%20%20&quot;colorMark&quot;:%200,%0A%20%20%20%20&quot;finishStatus&quot;:%20%E5%AE%8C%E6%88%90%E7%8A%B6%E6%80%81%200%EF%BC%9A%E4%B8%BA%E5%BC%80%E5%A7%8B%EF%BC%9B1%EF%BC%9A%E8%BF%9B%E8%A1%8C%E4%B8%AD%EF%BC%8C2%EF%BC%9A%E5%B7%B2%E7%BB%93%E6%9D%9F,%0A%20%20%20%20&quot;orderType&quot;:%20%E8%AE%A2%E5%8D%95%E7%B1%BB%E5%9E%8B%201%EF%BC%9A%E6%89%93%E6%A0%B7%EF%BC%9B2%EF%BC%9A%E5%A4%A7%E8%B4%A7,%0A%20%20%20%20&quot;orderImg&quot;:%20&quot;%E8%AE%A2%E5%8D%95%E5%9B%BE%E7%89%87&quot;,%0A%20%20%20%20&quot;acceptTime&quot;:%20&quot;%E6%8E%A5%E5%8F%97%E6%97%B6%E9%97%B4&quot;,%0A%20%20%20%20&quot;endTime&quot;:%20&quot;%E5%88%B0%E6%9C%9F%E6%97%B6%E9%97%B4&quot;,%0A%20%20%20%20&quot;completeTime&quot;:%20&quot;%E5%AE%8C%E6%88%90%E6%97%B6%E9%97%B4&quot;,%0A%20%20%20%20&quot;createTime&quot;:%20&quot;2016-04-06%2003:13:28&quot;%0A%0A%7D%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/pre%3E%3C/div%3E%3Cp%3E%3Cbr/%3E%3C/p%3E";
+
+        $("#apiDetailDoc").html(decodeURI(r));
+    });
+    </script>
 }
 
 <div class="h-content row">
@@ -25,42 +39,37 @@
     	<!--- 侧边栏导航 --->
         <div class="helplist l" id="accordion">
             
-            <!---- 客户管理 ---->
-            <div class="panel helplist-guide">
-                <div class="" role="tab">
-                    <h3>
-                    	<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="active" aria-expanded="true" aria-controls="collapse1">任务API</a>
-                    </h3>
-                </div>
+            @{
+                foreach(var module in ApiModules)
+                {
+                    <div class="panel helplist-guide">
+                        <div class="" role="tab">
+                            <h3>
+                    	        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="active" aria-expanded="true" aria-controls="collapse1">@module.Name</a>
+                            </h3>
+                        </div>
             
-                <div class="collapse in" role="tabpanel" aria-labelledby="heading1">
-                    <ul>
-                        <li class="active"><a target="_self" href="help-customer-all.html">任务列表</a></li>
-                        <li ><a target="_self" href="api-customer-add.html">任务详情</a></li>
-                    </ul>
-                </div>
+                        <div class="collapse in" role="tabpanel" aria-labelledby="heading1">
+                            <ul>
+                                @{
+                                    foreach(var detail in module.Details)
+                                    {
+                                        <li class="active"><a target="_self" href="help-customer-all.html">@detail.Name</a></li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
+            }
+            
 
-                <div class="" role="tab">
-                    <h3>
-                    	<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="active" aria-expanded="true" aria-controls="collapse1">订单API</a>
-                    </h3>
-                </div>
-            
-                <div class="collapse in" role="tabpanel" aria-labelledby="heading1">
-                    <ul>
-                        <li ><a target="_self" href="help-customer-all.html">订单列表</a></li>
-                        <li class="active"><a target="_self" href="api-customer-add.html">订单详情</a></li>
-                        <li ><a target="_self" href="help-customer-all.html">订单流程</a></li>
-                        <li ><a target="_self" href="api-customer-add.html">流程阶段</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!---- 客户管理end ---->
-            
-            
         </div>
         
-        <div class="apiwd r">
+        <div class="l mLeft20" id="apiDetailDoc"></div>
+
+        <div class="clear"></div>
+        @*<div class="apiwd r">
         	<h1>api/task/getTasks</h1>
             <!---- 文档内容 ---->
             <div class="apimenu">
@@ -161,7 +170,7 @@
             关于错误返回值与错误代码，参见 <a href="#" target="_blank">错误代码说明</a>
             </div>
 
-        </div>
+        </div>*@
     </div>
         
 	<!--- 更多 --->

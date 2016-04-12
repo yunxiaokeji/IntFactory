@@ -198,13 +198,13 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetTaskReplys(string orderID, string stageID, string userID, string agentID, int pageSize = 10, int pageIndex = 1, int mark = -1)
+        public JsonResult GetTaskReplys(string orderID, string stageID, string userID, string agentID, int pageSize = 10, int pageIndex = 1)
         {
             if (!string.IsNullOrEmpty(orderID) && !string.IsNullOrEmpty(stageID))
             {
                 int pageCount = 0;
                 int totalCount = 0;
-                var list = OrdersBusiness.GetReplys(orderID, stageID, mark, pageSize, pageIndex, ref totalCount, ref pageCount);
+                var list = OrdersBusiness.GetReplys(orderID, stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
                 List<Dictionary<string, object>> replys = new List<Dictionary<string, object>>();
 
                 foreach (var item in list)

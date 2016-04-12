@@ -7,22 +7,27 @@ namespace IntFactoryEntity
 {
     public class ApiDetailEntity
     {
-        public int AutoID;
+        public int AutoID { get; set; }
 
-        public string ApiID;
+        public string ApiID { get; set; }
 
-        public string ModuleID;
+        public string ModuleID { get; set; }
 
-        public string Name;
+        public string Name { get; set; }
 
-        public string Remark;
+        public string Remark { get; set; }
 
-        public string Detail;
+        public string Detail { get; set; }
 
-        public int Status;
+        public int Status { get; set; }
 
-        public int Sort;
+        public int Sort { get; set; }
 
-        public DateTime CreateTime;
+        public DateTime CreateTime { get; set; }
+
+        public void FillData(System.Data.DataRow dr)
+        {
+            dr.FillData(this);
+        }
     }
 }

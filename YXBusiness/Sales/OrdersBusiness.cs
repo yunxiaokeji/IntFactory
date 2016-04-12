@@ -268,15 +268,73 @@ namespace IntFactoryBusiness
         {
             List<ReplyEntity> list = new List<ReplyEntity>();
             string whereSql = " Status<>9 and GUID='" + guid + "' ";
-            if (mark==0 && !string.IsNullOrEmpty(stageID))
+            if (mark == 0 && !string.IsNullOrEmpty(stageID))
             {
                 whereSql += " and StageID='" + stageID + "' ";
             }
+            else
+            {
+                if (mark != -1)
+                {
+                    whereSql += " and Mark=" + mark + " ";
+                }
+            }
 
+            
+            DataTable dt = CommonBusiness.GetPagerData("OrderReply", "*", whereSql, "AutoID", "CreateTime desc ", pageSize, pageIndex, out totalCount, out pageCount, false);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                ReplyEntity model = new ReplyEntity();
+                model.FillData(dr);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                if (!string.IsNullOrEmpty(model.FromReplyID))
+                {
+                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
+                }
+                list.Add(model);
+            }
+
+            return list;
+
+        }
+
+        public static List<ReplyEntity> GetReplys(string guid, int mark, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            List<ReplyEntity> list = new List<ReplyEntity>();
+            string whereSql = " Status<>9 and GUID='" + guid + "' ";
             if (mark != -1)
             {
                 whereSql += " and Mark=" + mark + " ";
             }
+
+            DataTable dt = CommonBusiness.GetPagerData("OrderReply", "*", whereSql, "AutoID", "CreateTime desc ", pageSize, pageIndex, out totalCount, out pageCount, false);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                ReplyEntity model = new ReplyEntity();
+                model.FillData(dr);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                if (!string.IsNullOrEmpty(model.FromReplyID))
+                {
+                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
+                }
+                list.Add(model);
+            }
+
+            return list;
+
+        }
+
+        public static List<ReplyEntity> GetReplys(string guid, string stageID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            List<ReplyEntity> list = new List<ReplyEntity>();
+            string whereSql = " Status<>9 and GUID='" + guid + "' ";
+            if (!string.IsNullOrEmpty(stageID))
+            {
+                whereSql += " and StageID='" + stageID + "' ";
+            }
+
             DataTable dt = CommonBusiness.GetPagerData("OrderReply", "*", whereSql, "AutoID", "CreateTime desc ", pageSize, pageIndex, out totalCount, out pageCount, false);
 
             foreach (DataRow dr in dt.Rows)

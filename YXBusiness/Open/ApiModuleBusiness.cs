@@ -43,6 +43,7 @@ namespace IntFactoryBusiness
                 ApiModuleEntity item = new ApiModuleEntity();
                 item.FillData(dr);
 
+                item.Details = new List<ApiDetailEntity>();
                 foreach (DataRow d in apiDetailTB.Select("ModuleID='" + dr["ModuleID"] + "'", "sort asc"))
                 {
                     ApiDetailEntity detail = new ApiDetailEntity();
