@@ -13,7 +13,7 @@ namespace YXERP.Controllers
     public class TaskController : BaseController
     {
         // GET: /Task/
-        string token = "4cdedfc0-86fe-4a37-9332-55bc9279555f";
+        string token = "e7f07daa-0660-431e-8f4e-de6edc575756";
         string refreshToken = "be462dcd-1baf-4665-8444-1646d8350c8c";
         List<string> codes = new List<string>();
         public JsonResult pullFentDataList()
@@ -51,9 +51,9 @@ namespace YXERP.Controllers
             List<AlibabaSdk.MutableOrder> list=new List<AlibabaSdk.MutableOrder>();
             AlibabaSdk.MutableOrder item = new AlibabaSdk.MutableOrder();
             item.fentGoodsCode = "UUU0080G4G002SS00081";
-            item.status = "aaaaaaaa";
+            item.status = "b";
             item.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            item.statusDesc = "aaaaaaaaaaaaaaaa";
+            item.statusDesc = "bbbbbbbb";
             list.Add(item);
 
             AlibabaSdk.OrderBusiness.BatchUpdateFentList(list, token);
