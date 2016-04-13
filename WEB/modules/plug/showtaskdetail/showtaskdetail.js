@@ -16,6 +16,7 @@ define(function (require, exports, module) {
         };
 
         var IsClickEventFinish = true;
+        var taskMark = 0;
         $.fn.showtaskdetail = function (options) {
             defaultParas = $.extend([], defaultParas, options);
 
@@ -27,19 +28,19 @@ define(function (require, exports, module) {
                     var taskid = $(this).data("taskid");
                     var orderid = $(this).data("orderid");
                     var stageid = $(this).data("stageid");
-                    var mark = $(this).data("mark");
+                    taskMark = $(this).data("mark");
                     var self = $(this).data("self");
 
                     var $taskDetailContent = $("#taskDetailContent");
 
                     //没有任务详情对象
                     if ($taskDetailContent.length == 0) {
-                        drawTaskDetail(taskid, orderid, stageid, mark, self);
+                        drawTaskDetail(taskid, orderid, stageid, self);
                     }
                     else {
                         //查询新的任务详情
                         if ($taskDetailContent.data("taskid") != taskid) {
-                            drawTaskDetail(taskid, orderid, stageid, mark, self);
+                            drawTaskDetail(taskid, orderid, stageid, self);
                         }
                         else//隐藏显示的任务详情
                         {
@@ -58,7 +59,7 @@ define(function (require, exports, module) {
         };
 
         //获取任务详情
-        var drawTaskDetail = function (taskid, orderid, stageid, mark, self) {
+        var drawTaskDetail = function (taskid, orderid, stageid, self) {
 
             doT.exec("plug/showtaskdetail/task-detail.html", function (template) {
                 Global.post("/task/GetTaskDetail", { id: taskid }, function (data) {
@@ -121,7 +122,7 @@ define(function (require, exports, module) {
                         $(".tast-link-controller").attr("href","javascript:void(0)")
                     }
 
-                    initTalkReply(orderid, stageid, mark, self);
+                    initTalkReply(orderid, stageid, self);
 
                 });
 
@@ -163,7 +164,7 @@ define(function (require, exports, module) {
         }
 
         //初始化任务讨论列表
-        var initTalkReply = function (orderid, stageid, mark, isSelf) {
+        var initTalkReply = function (orderid, stageid, isSelf) {
             var _self = this;
 
             $("#btnSaveTalk").click(function () {
@@ -173,7 +174,7 @@ define(function (require, exports, module) {
                     var model = {
                         GUID: orderid,
                         StageID: stageid,
-                        Mark: mark,
+                        Mark: taskMark,
                         Content: txt.val().trim(),
                         FromReplyID: "",
                         FromReplyUserID: "",
@@ -186,24 +187,19 @@ define(function (require, exports, module) {
 
             });
 
-            if (isSelf == 1) {
-                
-            } else {
-                //$(".talk-body .content-main").hide();
-            }
-            getTaskReplys(orderid, stageid, mark, 1, isSelf);
+            getTaskReplys(orderid, stageid, 1, isSelf);
 
         }
 
         //获取任务讨论列表
-        var getTaskReplys = function (orderid, stageid, mark, page, isSelf) {
+        var getTaskReplys = function (orderid, stageid, page, isSelf) {
             var _self = this;
             $("#replyList").empty();
 
             Global.post("/Opportunitys/GetReplys", {
                 guid: orderid,
                 stageid: stageid,
-                mark: mark,
+                mark: taskMark,
                 pageSize: 10,
                 pageIndex: page
             }, function (data) {
@@ -230,7 +226,7 @@ define(function (require, exports, module) {
                             var entity = {
                                 GUID: _this.data("id"),
                                 StageID: _this.data("stageid"),
-                                Mark: mark,
+                                Mark: taskMark,
                                 Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                                 FromReplyID: _this.data("replyid"),
                                 FromReplyUserID: _this.data("createuserid"),
@@ -274,7 +270,7 @@ define(function (require, exports, module) {
                     mouse: 'slide',
                     float: "left",
                     onChange: function (page) {
-                        getTaskReplys(orderid, stageid, mark, page, isSelf);
+                        getTaskReplys(orderid, stageid, page, isSelf);
                     }
                 });
             });
@@ -308,7 +304,7 @@ define(function (require, exports, module) {
                             var entity = {
                                 GUID: _this.data("id"),
                                 StageID: _this.data("stageid"),
-                                Mark: ObjectJS.mark,
+                                Mark: taskMark,
                                 Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                                 FromReplyID: _this.data("replyid"),
                                 FromReplyUserID: _this.data("createuserid"),
