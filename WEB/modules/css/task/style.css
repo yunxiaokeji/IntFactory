@@ -130,7 +130,24 @@ border-bottom:1px solid #ddd;
 
 .replybox-hover {
     height:auto;
-    border: 1px solid #666
+    border: 1px solid #666;
+}
+
+.reply-box {
+border:1px solid  #ddd;
+padding:10px 10px 10px 10px;
+border-radius:3px;
+}
+
+.reply-box:hover {
+border: 1px solid #666;
+}
+
+.reply-box textarea {
+width:100%;
+border:none;
+height:60px;
+border-bottom:1px solid #ddd;  
 }
 
 .order-remark {
@@ -138,4 +155,17 @@ border-bottom:1px solid #ddd;
     word-break: break-all;
     width: 450px;
 }
+
+.btn-emotion {
+background:url(/modules/images/ico-emotion.png) no-repeat center center;
+width:28px;
+height:28px;
+cursor:pointer;
+}
+
+.btn-emotion:hover {
+  background:url(/modules/images/ico-emotion-hover.png) no-repeat center center;  
+}
+
+
 

@@ -133,6 +133,7 @@ namespace YXERP.Areas.Api.Controllers
             {
                 var item = TaskBusiness.GetTaskDetail(taskID);
                 Dictionary<string, object> task = new Dictionary<string, object>();
+                List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
                 if (item != null)
                 {
                     task.Add("taskID", item.TaskID);
@@ -163,8 +164,8 @@ namespace YXERP.Areas.Api.Controllers
                         order.Add("orderImages", orderDetail.OrderImages);
                         order.Add("platemaking", orderDetail.Platemaking);
                         order.Add("plateRemark", orderDetail.PlateRemark);
-
-                        List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
+                        task.Add("order", order);
+                        
                         foreach (var d in orderDetail.Details)
                         {
                             Dictionary<string, object> detail = new Dictionary<string, object>();
@@ -180,14 +181,11 @@ namespace YXERP.Areas.Api.Controllers
 
                             details.Add(detail);
                         }
-                        order.Add("details", details);
-
-                        task.Add("order", order);
+                        
                     }
 
-
-
                     JsonDictionary.Add("task", task);
+                    JsonDictionary.Add("materialList", details);
                 }
             }
 
@@ -271,6 +269,7 @@ namespace YXERP.Areas.Api.Controllers
                 var currentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
                 var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(orderID, agentID, currentUser.ClientID);
                 Dictionary<string, object> order = new Dictionary<string, object>();
+                List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
 
                 if (orderDetail != null)
                 {
@@ -280,12 +279,12 @@ namespace YXERP.Areas.Api.Controllers
                     order.Add("orderImages", orderDetail.OrderImages);
                     order.Add("platemaking", orderDetail.Platemaking);
                     order.Add("plateRemark", orderDetail.PlateRemark);
+                    JsonDictionary.Add("order", order);
 
-                    List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
                     foreach (var item in orderDetail.Details)
                     {
                         Dictionary<string, object> detail = new Dictionary<string, object>();
-                        detail.Add("code", item.DetailsCode);
+                        detail.Add("code",string.IsNullOrEmpty( item.DetailsCode)?item.ProductCode:item.DetailsCode);
                         detail.Add("productImage", item.ProductImage);
                         detail.Add("productName", item.ProductName);
                         detail.Add("remark", item.Remark);
@@ -297,9 +296,7 @@ namespace YXERP.Areas.Api.Controllers
 
                         details.Add(detail);
                     }
-                    order.Add("details", details);
-
-                    JsonDictionary.Add("order", order);
+                    JsonDictionary.Add("materialList", details);
                 }
             }
 
