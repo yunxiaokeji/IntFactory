@@ -24,5 +24,10 @@ namespace IntFactoryEntity
         public int Sort;
 
         public DateTime CreateTime;
+
+        public void FillData(System.Data.DataRow dr)
+        {
+            dr.FillData(this);
+        }
     }
 }
