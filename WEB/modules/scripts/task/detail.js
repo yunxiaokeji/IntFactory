@@ -467,7 +467,7 @@
 
                     innerhtml.find(".btn-reply").click(function () {
                         var _this = $(this), reply = _this.nextAll(".reply-box");
-                        reply.slideDown(500);
+                        reply.slideDown(300);
                         reply.find("textarea").focus();
                         //reply.find("textarea").blur(function () {
                         //    if (!$(this).val().trim()) {
@@ -493,7 +493,7 @@
                         }
 
                         $("#Msg_" + _this.data("replyid")).val('');
-                        $(this).parent().slideUp(100);
+                        $(this).parent().slideUp(300);
                     });
 
                     innerhtml.find(".reply-content").each(function () {
@@ -651,7 +651,7 @@
 
                 innerhtml.find(".btn-reply").click(function () {
                     var _this = $(this), reply = _this.nextAll(".reply-box");
-                    reply.slideDown(500);
+                    reply.slideDown(300);
                     reply.find("textarea").focus();
                     //reply.find("textarea").blur(function () {
                     //    if (!$(this).val().trim()) {
@@ -665,6 +665,8 @@
                     if ($("#Msg_" + _this.data("replyid")).val().trim()) {
                         var entity = {
                             GUID: _this.data("id"),
+                            StageID: _this.data("stageid"),
+                            Mark: ObjectJS.mark,
                             Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                             FromReplyID: _this.data("replyid"),
                             FromReplyUserID: _this.data("createuserid"),
@@ -674,7 +676,7 @@
 
                     }
                     $("#Msg_" + _this.data("replyid")).val('');
-                    $(this).parent().slideUp(100);
+                    $(this).parent().slideUp(300);
                 });
 
                 innerhtml.find('.btn-emotion').each(function () {

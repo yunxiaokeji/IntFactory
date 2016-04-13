@@ -307,6 +307,8 @@ define(function (require, exports, module) {
                         if ($("#Msg_" + _this.data("replyid")).val().trim()) {
                             var entity = {
                                 GUID: _this.data("id"),
+                                StageID: _this.data("stageid"),
+                                Mark: ObjectJS.mark,
                                 Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                                 FromReplyID: _this.data("replyid"),
                                 FromReplyUserID: _this.data("createuserid"),
