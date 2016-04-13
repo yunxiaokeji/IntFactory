@@ -40,7 +40,7 @@ namespace YXERP.Areas.Api.Controllers
             ownerID = paras.userID;
             var currentUser = OrganizationBusiness.GetUserByUserID(userID,agentID);
 
-            List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID, paras.status, paras.finishStatus,
+            List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID,0, paras.status, paras.finishStatus,
                 paras.colorMark, paras.taskType, paras.beginDate, paras.endDate,
                 paras.orderType, paras.orderProcessID, paras.orderStageID,
                 (EnumTaskOrderColumn)paras.taskOrderColumn, paras.isAsc, currentUser.ClientID,
@@ -133,6 +133,7 @@ namespace YXERP.Areas.Api.Controllers
             {
                 var item = TaskBusiness.GetTaskDetail(taskID);
                 Dictionary<string, object> task = new Dictionary<string, object>();
+                List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
                 if (item != null)
                 {
                     task.Add("taskID", item.TaskID);
@@ -163,8 +164,8 @@ namespace YXERP.Areas.Api.Controllers
                         order.Add("orderImages", orderDetail.OrderImages);
                         order.Add("platemaking", orderDetail.Platemaking);
                         order.Add("plateRemark", orderDetail.PlateRemark);
-
-                        List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
+                        task.Add("order", order);
+                        
                         foreach (var d in orderDetail.Details)
                         {
                             Dictionary<string, object> detail = new Dictionary<string, object>();
@@ -180,14 +181,11 @@ namespace YXERP.Areas.Api.Controllers
 
                             details.Add(detail);
                         }
-                        order.Add("details", details);
-
-                        task.Add("order", order);
+                        
                     }
 
-
-
                     JsonDictionary.Add("task", task);
+                    JsonDictionary.Add("materialList", details);
                 }
             }
 
@@ -198,13 +196,13 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetTaskReplys(string orderID, string stageID, string userID, string agentID, int pageSize = 10, int pageIndex = 1, int mark = -1)
+        public JsonResult GetTaskReplys(string orderID, string stageID, string userID, string agentID, int pageSize = 10, int pageIndex = 1)
         {
             if (!string.IsNullOrEmpty(orderID) && !string.IsNullOrEmpty(stageID))
             {
                 int pageCount = 0;
                 int totalCount = 0;
-                var list = OrdersBusiness.GetReplys(orderID, stageID, mark, pageSize, pageIndex, ref totalCount, ref pageCount);
+                var list = OrdersBusiness.GetReplys(orderID, stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
                 List<Dictionary<string, object>> replys = new List<Dictionary<string, object>>();
 
                 foreach (var item in list)
@@ -271,6 +269,7 @@ namespace YXERP.Areas.Api.Controllers
                 var currentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
                 var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(orderID, agentID, currentUser.ClientID);
                 Dictionary<string, object> order = new Dictionary<string, object>();
+                List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
 
                 if (orderDetail != null)
                 {
@@ -280,12 +279,12 @@ namespace YXERP.Areas.Api.Controllers
                     order.Add("orderImages", orderDetail.OrderImages);
                     order.Add("platemaking", orderDetail.Platemaking);
                     order.Add("plateRemark", orderDetail.PlateRemark);
+                    JsonDictionary.Add("order", order);
 
-                    List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
                     foreach (var item in orderDetail.Details)
                     {
                         Dictionary<string, object> detail = new Dictionary<string, object>();
-                        detail.Add("code", item.DetailsCode);
+                        detail.Add("code",string.IsNullOrEmpty( item.DetailsCode)?item.ProductCode:item.DetailsCode);
                         detail.Add("productImage", item.ProductImage);
                         detail.Add("productName", item.ProductName);
                         detail.Add("remark", item.Remark);
@@ -297,9 +296,7 @@ namespace YXERP.Areas.Api.Controllers
 
                         details.Add(detail);
                     }
-                    order.Add("details", details);
-
-                    JsonDictionary.Add("order", order);
+                    JsonDictionary.Add("materialList", details);
                 }
             }
 

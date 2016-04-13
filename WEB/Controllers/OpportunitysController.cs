@@ -217,6 +217,7 @@ namespace YXERP.Controllers
             List<ReplyEntity> list = new List<ReplyEntity>();
             if (!string.IsNullOrEmpty(replyID))
             {
+
                 model.ReplyID = replyID;
                 model.CreateTime = DateTime.Now;
                 model.CreateUser = CurrentUser;

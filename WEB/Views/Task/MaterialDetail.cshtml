@@ -93,6 +93,34 @@
                 <span class="column-title">负责人:</span>
                 <span>@(model.Owner.Name)</span>
             </li>
+            <li>
+                <span class="column-title left">成员:</span>
+                @{
+                    if (ViewBag.IsTaskOwner){
+                        <div id="taskMemberIDs" class="left">
+                            @{
+                                foreach(var member in model.TaskMembers){
+                                <div class="task-member left" data-id="@member.UserID">
+                                    <div class="left pRight5"><span>@member.Name</span></div>
+                                    <div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="@member.UserID" >×</a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                }
+                            }
+                        </div>
+                        <div class="left"><a id="addTaskMembers" href="javascript:void();" class="ico-add">添加成员</a></div>
+                        <div class="clear"></div>
+                    }
+                    else{
+                            foreach(var member in model.TaskMembers){
+                            <div class="task-member">
+                                <div class="pRight5"><span>@member.Name</span></div>
+                            </div>
+                        }
+
+                    }
+                }
+             </li>
              <li>
                 <span class="column-title">接受时间:</span>
                 <span id="AcceptTime">@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
@@ -139,6 +167,7 @@
             <div class="content-main">
                 <div class="replyBox">
                     <textarea id="txtContent" class="replyContent" placeholder="发表评论"></textarea><br />
+                    <div class="btn-emotion left" id="btn-emotion" data-id="txtContent" title="表情"></div>
                     <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
                     <div class="clear"></div>
                 </div>

@@ -47,14 +47,16 @@
     </div>
     <div class="mTop20 talk-body">
         <div class="content-main">
-            <textarea id="txtContent" class="txt-content" placeholder="发表评论"></textarea><br />
-            <div class="btn right mTop5" id="btnSaveTalk">提交</div>
-            <div class="clear"></div>
+            <div class="taskReplyBox">
+                <textarea id="txtContent" class="taskReplyContent" placeholder="发表评论"></textarea><br />
+                <div class="btn-emotion left" id="btn-emotion" data-id="txtContent" title="表情"></div>
+                <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
+                <div class="clear"></div>
+            </div>
         </div>
-        <div class="talk-title"> 全部讨论 </div>
-         <table class="content-list" id="replyList">
 
-         </table>
+        <div class="talk-title"> 全部讨论 </div>
+         <table class="content-list" id="replyList"></table>
         <div id="pagerReply" class="mTop10"></div>
     </div>
     </div>

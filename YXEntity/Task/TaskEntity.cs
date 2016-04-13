@@ -73,6 +73,10 @@ namespace IntFactoryEntity.Task
         public string AgentID { get; set; }
 
         public string TaskName { get; set; }
+
+        public string Members { get; set; }
+
+        public List<Users> TaskMembers { get; set; }
         /// <summary>
         /// 填充数据
         /// </summary>

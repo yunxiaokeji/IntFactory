@@ -126,6 +126,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="modules\plug\umeditor\net\Uploader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +141,83 @@
     <Content Include="modules\images\sns2.png" />
     <Content Include="modules\images\sns3.png" />
     <Content Include="modules\images\sns4.png" />
+    <Content Include="modules\plug\umeditor\dialogs\emotion\emotion.css" />
+    <Content Include="modules\plug\umeditor\dialogs\emotion\emotion.js" />
+    <Content Include="modules\plug\umeditor\dialogs\emotion\images\0.gif" />
+    <Content Include="modules\plug\umeditor\dialogs\emotion\images\bface.gif" />
+    <Content Include="modules\plug\umeditor\dialogs\emotion\images\cface.gif" />
+    <Content Include="modules\plug\umeditor\dialogs\emotion\images\fface.gif" />
+    <Content Include="modules\plug\umeditor\dialogs\emotion\images\jxface2.gif" />
+    <Content Include="modules\plug\umeditor\dialogs\emotion\images\neweditor-tab-bg.png" />
+    <Content Include="modules\plug\umeditor\dialogs\emotion\images\tface.gif" />
+    <Content Include="modules\plug\umeditor\dialogs\emotion\images\wface.gif" />
+    <Content Include="modules\plug\umeditor\dialogs\emotion\images\yface.gif" />
+    <Content Include="modules\plug\umeditor\dialogs\formula\formula.css" />
+    <Content Include="modules\plug\umeditor\dialogs\formula\formula.html" />
+    <Content Include="modules\plug\umeditor\dialogs\formula\formula.js" />
+    <Content Include="modules\plug\umeditor\dialogs\formula\images\formula.png" />
+    <Content Include="modules\plug\umeditor\dialogs\image\image.css" />
+    <Content Include="modules\plug\umeditor\dialogs\image\image.js" />
+    <Content Include="modules\plug\umeditor\dialogs\image\images\close.png" />
+    <Content Include="modules\plug\umeditor\dialogs\image\images\upload1.png" />
+    <Content Include="modules\plug\umeditor\dialogs\image\images\upload2.png" />
+    <Content Include="modules\plug\umeditor\dialogs\link\link.js" />
+    <Content Include="modules\plug\umeditor\dialogs\map\map.html" />
+    <Content Include="modules\plug\umeditor\dialogs\map\map.js" />
+    <Content Include="modules\plug\umeditor\dialogs\video\images\center_focus.jpg" />
+    <Content Include="modules\plug\umeditor\dialogs\video\images\left_focus.jpg" />
+    <Content Include="modules\plug\umeditor\dialogs\video\images\none_focus.jpg" />
+    <Content Include="modules\plug\umeditor\dialogs\video\images\right_focus.jpg" />
+    <Content Include="modules\plug\umeditor\dialogs\video\video.css" />
+    <Content Include="modules\plug\umeditor\dialogs\video\video.js" />
+    <Content Include="modules\plug\umeditor\index.html" />
+    <Content Include="modules\plug\umeditor\lang\en\en.js" />
+    <Content Include="modules\plug\umeditor\lang\en\images\addimage.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\alldeletebtnhoverskin.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\alldeletebtnupskin.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\background.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\button.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\copy.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\deletedisable.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\deleteenable.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\imglabel.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\listbackground.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\localimage.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\music.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\rotateleftdisable.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\rotateleftenable.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\rotaterightdisable.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\rotaterightenable.png" />
+    <Content Include="modules\plug\umeditor\lang\en\images\upload.png" />
+    <Content Include="modules\plug\umeditor\lang\zh-cn\images\copy.png" />
+    <Content Include="modules\plug\umeditor\lang\zh-cn\images\imglabel.png" />
+    <Content Include="modules\plug\umeditor\lang\zh-cn\images\localimage.png" />
+    <Content Include="modules\plug\umeditor\lang\zh-cn\images\music.png" />
+    <Content Include="modules\plug\umeditor\lang\zh-cn\images\upload.png" />
+    <Content Include="modules\plug\umeditor\lang\zh-cn\zh-cn.js" />
+    <Content Include="modules\plug\umeditor\themes\default\css\umeditor.css" />
+    <Content Include="modules\plug\umeditor\themes\default\css\umeditor.min.css" />
+    <Content Include="modules\plug\umeditor\themes\default\images\caret.png" />
+    <Content Include="modules\plug\umeditor\themes\default\images\close.png" />
+    <Content Include="modules\plug\umeditor\themes\default\images\icons.gif" />
+    <Content Include="modules\plug\umeditor\themes\default\images\icons.png" />
+    <Content Include="modules\plug\umeditor\themes\default\images\ok.gif" />
+    <Content Include="modules\plug\umeditor\themes\default\images\pop-bg.png" />
+    <Content Include="modules\plug\umeditor\themes\default\images\spacer.gif" />
+    <Content Include="modules\plug\umeditor\themes\default\images\videologo.gif" />
+    <Content Include="modules\plug\umeditor\third-party\jquery.min.js" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\STIXFontLicense2010.txt" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneral-webfont.svg" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneralbol-webfont.svg" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneralbolita-webfont.svg" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneralitalic-webfont.svg" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\Symbola.svg" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\mathquill.css" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\mathquill.js" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\mathquill.min.js" />
+    <Content Include="modules\plug\umeditor\umeditor.config.js" />
+    <Content Include="modules\plug\umeditor\umeditor.js" />
+    <Content Include="modules\plug\umeditor\umeditor.min.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -152,6 +230,51 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Api.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="modules\plug\umeditor\net\getContent.ashx" />
+    <Content Include="modules\plug\umeditor\net\imageUp.ashx" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneral-webfont.eot" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneral-webfont.ttf" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneral-webfont.woff" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneralbol-webfont.eot" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneralbol-webfont.ttf" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneralbol-webfont.woff" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneralbolita-webfont.eot" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneralbolita-webfont.ttf" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneralbolita-webfont.woff" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneralitalic-webfont.eot" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneralitalic-webfont.ttf" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\stixgeneral-bundle\stixgeneralitalic-webfont.woff" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\Symbola.eot" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\Symbola.otf" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\Symbola.ttf" />
+    <Content Include="modules\plug\umeditor\third-party\mathquill\font\Symbola.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IntFactory.Service\IntFactory.Service.csproj">
+      <Project>{313e5872-f99a-4b77-9987-a01dff27b758}</Project>
+      <Name>IntFactory.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXBusiness\IntFactoryBusiness.csproj">
+      <Project>{6322cb56-2693-4600-922d-0dec06a8f59c}</Project>
+      <Name>IntFactoryBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXDAL\IntFactoryDAL.csproj">
+      <Project>{03242f3b-5c14-42d6-aaa1-26ce56a3499f}</Project>
+      <Name>IntFactoryDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXEntity\IntFactoryEntity.csproj">
+      <Project>{6e99de28-adb3-4c22-8de9-dea1e44c04bb}</Project>
+      <Name>IntFactoryEntity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXEnum\IntFactoryEnum.csproj">
+      <Project>{b86924c1-ec31-449f-97f3-258dfa43a44f}</Project>
+      <Name>IntFactoryEnum</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

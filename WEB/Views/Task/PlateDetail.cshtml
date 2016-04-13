@@ -24,24 +24,6 @@
             seajs.use(["scripts/task/detail"], function (obj) {
                 obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)', '@order.OrderImages');
             });
-
-            
-          @*  var images = '@order.OrderImages'.split(",");
-            for (var i = 0; i < images.length; i++) {
-                if (images[i]) {
-                    var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
-                    $(".order-imgs-list").append(img);
-                    img.click(function () {
-                        var _this = $(this);
-                        if (!_this.hasClass("hover")) {
-                            _this.siblings().removeClass("hover");
-                            _this.addClass("hover");
-                            $("#orderImage").attr("src", _this.find("img").attr("src"));
-                        }
-                    });
-                }
-            }*@
-
         });
     </script>
 }
@@ -112,6 +94,34 @@
                 <span class="column-title">负责人:</span>
                 <span>@(model.Owner.Name)</span>
             </li>
+            <li>
+                <span class="column-title left">成员:</span>
+                @{
+                    if (ViewBag.IsTaskOwner){
+                        <div id="taskMemberIDs" class="left">
+                            @{
+                                foreach(var member in model.TaskMembers){
+                                <div class="task-member left" data-id="@member.UserID">
+                                    <div class="left pRight5"><span>@member.Name</span></div>
+                                    <div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="@member.UserID" >×</a></div>
+                                    <div class="clear"></div>
+                                </div>
+                                }
+                            }
+                        </div>
+                        <div class="left"><a id="addTaskMembers" href="javascript:void();" class="ico-add">添加成员</a></div>
+                        <div class="clear"></div>
+                    }
+                    else{
+                            foreach(var member in model.TaskMembers){
+                            <div class="task-member">
+                                <div class="pRight5"><span>@member.Name</span></div>
+                            </div>
+                        }
+
+                    }
+                }
+             </li>
              <li>
                 <span class="column-title">接受时间:</span>
                 <span id="AcceptTime">@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
@@ -157,7 +167,8 @@
         <div class="mTop50 hide" id="taskReplys">
             <div class="content-main">
                 <div class="replyBox">
-                    <textarea id="txtContent" class="replyContent"  placeholder="发表评论"></textarea><br />
+                    <textarea id="txtContent" class="replyContent" placeholder="发表评论"></textarea><br />
+                    <div class="btn-emotion left" id="btn-emotion" data-id="txtContent" title="表情"></div>
                     <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
                     <div class="clear"></div>
                 </div>

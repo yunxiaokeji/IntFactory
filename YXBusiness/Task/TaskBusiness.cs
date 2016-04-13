@@ -39,10 +39,10 @@ namespace IntFactoryBusiness
         /// <param name="TotalCount"></param>
         /// <param name="PageCount"></param>
         /// <returns></returns>
-        public static List<TaskEntity> GetTasks(string keyWords, string ownerID, int status, int finishStatus, int colorMark, int taskType, string beginDate, string endDate, int orderType, string orderProcessID, string orderStageID,EnumTaskOrderColumn taskOrderColumn,int isAsc, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
+        public static List<TaskEntity> GetTasks(string keyWords, string ownerID,int isParticipate, int status, int finishStatus, int colorMark, int taskType, string beginDate, string endDate, int orderType, string orderProcessID, string orderStageID,EnumTaskOrderColumn taskOrderColumn,int isAsc, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
         {
             List<TaskEntity> list = new List<TaskEntity>();
-            DataTable dt = TaskDAL.BaseProvider.GetTasks(keyWords, ownerID, status, finishStatus, 
+            DataTable dt = TaskDAL.BaseProvider.GetTasks(keyWords, ownerID,isParticipate, status, finishStatus, 
                 colorMark, taskType, beginDate, endDate, 
                 orderType, orderProcessID, orderStageID,
                 (int)taskOrderColumn, isAsc, clientID, 
@@ -76,6 +76,18 @@ namespace IntFactoryBusiness
                 model = new TaskEntity();
                 model.FillData(dt.Rows[0]);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+
+                model.TaskMembers = new List<IntFactoryEntity.Users>();
+                if (!string.IsNullOrEmpty(model.Members)) {
+                    foreach (var m in model.Members.Trim(',').Split(',')) {
+                        var member = OrganizationBusiness.GetUserByUserID(m, model.AgentID);
+                        if (member != null)
+                        {
+                            model.TaskMembers.Add(member);
+                        }
+                    }
+                }
+
             }
 
             return model;
@@ -187,6 +199,42 @@ namespace IntFactoryBusiness
             return flag;
         }
 
+        public static bool AddTaskMembers(string taskID,string memberIDs, string operateid, string ip, string agentid, string clientid)
+        {
+            memberIDs =memberIDs.Trim(',') + ",";
+            bool flag = TaskDAL.BaseProvider.AddTaskMembers(taskID, memberIDs);
+
+            if (flag)
+            {
+                var userName=string.Empty;
+                foreach(var m in memberIDs.Trim(',').Split(',') )
+                {
+                    var user = OrganizationBusiness.GetUserByUserID(m, agentid);
+                    userName += (user != null ? user.Name : "")+",";
+                }
+                string msg = "添加任务成员" + userName.Trim(',');
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+            }
+
+            return flag;
+        }
+
+        public static bool RemoveTaskMember(string taskID,string memberID, string operateid, string ip, string agentid, string clientid)
+        {
+            bool flag = TaskDAL.BaseProvider.RemoveTaskMember(taskID, memberID.Trim(',')+',');
+
+            if (flag)
+            {
+                var userName = string.Empty;
+                var user = OrganizationBusiness.GetUserByUserID(memberID, agentid);
+                userName += user != null ? user.Name : "";
+
+                string msg = "删除任务成员" + userName.Trim(',');
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+            }
+
+            return flag;
+        }
         /// <summary>
         /// 将任务标记未完成
         /// </summary>
