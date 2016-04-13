@@ -42,17 +42,14 @@
 <div class="header-box">
     <span class="header-title left">@ViewBag.Title</span>
 </div>
-<div class="search-box">
-    <div class="search-header">
-        <ul class="search-tab search-returnstatus">
-            <li data-id="-1" class="@(ViewBag.State==-1?"hover":"")">全部订单</li>
-            <li data-id="0" class="@(ViewBag.State==0?"hover":"")">需求单</li>
-            <li data-id="1" class="">进行中</li>
-            <li data-id="2" class="">已完成</li>
-            <li data-id="8" class="">已终止</li>
-        </ul>
-         
-    </div>
+<div class="search-header">
+    <ul class="search-tab search-returnstatus">
+        <li data-id="-1" class="@(ViewBag.State==-1?"hover":"")">全部订单</li>
+        <li data-id="0" class="@(ViewBag.State==0?"hover":"")">需求单</li>
+        <li data-id="1" class="">进行中</li>
+        <li data-id="2" class="">已完成</li>
+        <li data-id="8" class="">已终止</li>
+    </ul>
 </div>
 <div class="content-body">
     <div class="search-body">

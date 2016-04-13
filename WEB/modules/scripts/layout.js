@@ -47,8 +47,8 @@ define(function (require, exports, module) {
                     }
 
                     if (item.ReturnStatus == 0 && item.SendStatus == 0) {
-                        if (controller.find("li[data-code='102010300']").find(".point").length == 0) {
-                            controller.find("li[data-code='102010300']").find(".name").append("<span class='point'></span>");
+                        if (controller.find("li[data-code='102010100']").find(".point").length == 0) {
+                            controller.find("li[data-code='102010100']").find(".name").append("<span class='point'></span>");
                         }
                     }
                 } else if (item.DocType == 111) { //任务

@@ -2,8 +2,9 @@
     ViewBag.Title = "订单详情页";
     var model = (IntFactoryEntity.OrderEntity)ViewBag.Model;
 }
+
 @section css{
-    <link href="/modules/css/opportunitys.css" rel="stylesheet" />
+    <link href="/modules/css/default/orders.css" rel="stylesheet" />
     <link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
 }
 @section scripts{
@@ -14,17 +15,24 @@
         });
     </script>
 }
+
 <div class="header-box">
-    <span class="header-title left">订单详情页</span>
-    <a class="ico-back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回 </a>
-</div>
-<div class="content-body mTop20">
-    <div class="content-title">
+    <div class="header-title">
+        订单详情页
+        <a class="back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">
+           <i class="iconfont">&#xe62d;</i> 返回 
+        </a>
+    </div>
+    <div class="mTop10">
         <div class="left titlename">订单编号：@(model.OrderCode)</div>
+        @if (model.IsSelf && model.OrderStatus < 2)
+        {
+             <div id="updateOrderInfo" class="left ico-edit iconfont mTop2 mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019026"))">&#xe607;</div>
+        }
+
         @if (model.IsSelf)
-        { 
-            <div id="updateOrderInfo" class="left ico-edit mLeft50 @(ExpandClass.IsLimits(HttpContext.Current, "102019026"))"></div>
-            if (model.Status == 0)
+        {
+            if (model.OrderStatus == 0)
             {
                 <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >退回委托</div>
                 <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
@@ -34,214 +42,212 @@
             {
                  <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019027"))" id="btnOverOrder" >终止订单</div>
             }
-        }
-       
+        } 
+        
+        <ul class="right status-items mRight50">
+            <li data-status="0">
+                <span class="status-bg"></span>
+                <span class="width60">需求单</span>
+            </li>
+            <li data-status="1">
+                <span class="status-line"></span>
+                <span class="status-time-text mRight5">&nbsp;</span>
+            </li>
+            <li data-status="1">
+                <span class="status-bg"></span>
+                <span class="width60">打样中</span>
+            </li>
+            <li data-status="2">
+                <span class="status-line"></span>
+                <span class="status-time-text mRight5">&nbsp;</span>
+            </li>
+            <li data-status="2">
+                <span class="status-bg"></span>
+                <span class="width60">核价中</span>
+            </li>
+            <li data-status="3">
+                <span class="status-line"></span>
+                <span class="status-time-text mRight5">&nbsp;</span>
+            </li>
+            <li data-status="3">
+                <span class="status-bg"></span>
+                <span class="width60">封样封价</span>
+            </li>
+        </ul> 
     </div>
+</div>
+
+<div class="content-title">
+    <div class="left titlename">款式编码：@(model.OrderCode)</div>
+    <ul class="right">
+        <li title="交货日期">
+            <i class="iconfont">&#xe62b;</i>@(model.PlanTime.ToString("yyyy-MM-dd"))
+        </li>
+        <li>
+            <span class="left"> 负责人：</span><label class="left" id="lblOwner">@(model.Owner != null ? model.Owner.Name : "--")</label>
+            @if (model.IsSelf)
+            {
+                <span title="更换负责人" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner">&#xe60b;</span>
+            }
+        </li>
+    </ul>
+</div>
+<div class="content-body">
     <div class="order-imgs-div left">
         <div class="order-imgs">
             <img id="orderImage" src="@(model.OrderImage)" data-self="@(model.IsSelf ? 1 : 0)" />
         </div>
         <ul class="order-imgs-list" >
-
+            
         </ul>
     </div>
+    <div class="order-info">
+        <div class="name">
 
-    <ul class="left order-info">
-        <li>
-            <span class="column-title">负责人：</span> <label class="left" id="lblOwner">@(model.Owner != null ? model.Owner.Name : "--")</label>
-            @if (model.IsSelf)
-            {
-                <span title="更换负责人" class="ico-change left mTop5 mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner"></span>
-            }
-        </li>
-        <li>
-            <span class="column-title">客户名称：</span> 
-            @if (!string.IsNullOrEmpty(model.CustomerID))
-            {
-                <a href="/Customer/Detail/@(model.CustomerID)" class="left">@(model.Customer.Name)</a> 
-            }
-            else if (model.IsSelf)
-            {
-                <div id="createOrderCustomer" class="btn left mTop3 @(ExpandClass.IsLimits(HttpContext.Current, "101019001"))">创建客户</div>
-            }
-
-            @if (model.IsSelf && model.OrderStatus == 0)
-            {
-                <span title="更换客户" class="ico-change left mTop5 mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "101019008"))" data-customerid="@(model.CustomerID)" data-id="@(model.OrderID)" id="changeCustomer"></span>
-            }
-        </li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "101019008"))">
-            <span class="column-title">联系人：</span>
-            <label>@(model.PersonName)</label>
-        </li>
-         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "101019008"))">
-            <span class="column-title">联系方式：</span>
-            <label>@(model.MobileTele)</label>
-        </li>  
-        
-         <li>
-            <span class="column-title">期望价格：</span>
-            <label>@(model.PlanPrice)</label>
-        </li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))">
-            <span class="column-title">材料成本：</span>
-            <label>@(model.Price.ToString("f2"))</label>
-        </li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))">
-            <span class="column-title">加工成本：</span>
-            <label id="lblCostMoney">@(model.CostPrice.ToString("f2"))</label>
-        </li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019021"))">
-            <span class="column-title">利润比例(%)：</span>
-            <label class="left" id="profitPrice">@((model.ProfitPrice * 100).ToString("f2"))</label>
-             @if (model.IsSelf && model.OrderStatus == 1)
-             { 
-                <div id="updateProfitPrice" class="left ico-edit mLeft20 mTop5"></div>
-             }
-        </li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
-            <span class="column-title">最终报价：</span>
-            <label>@(model.FinalPrice.ToString("f2"))</label>
-        </li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">
-            <span class="column-title">付款金额：</span>
-            <label id="infoPayMoney">@(model.PayMoney.ToString("f2"))</label>
-        </li>
-        <li>
-            <span class="column-title">交货日期：</span>
-            <label>@(model.PlanTime.ToString("yyyy-MM-dd"))</label>
-        </li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "101019008"))">
-            <span class="column-title">收货地区：</span>
-            <label>@(model.City != null ? (model.City.Province + " " + model.City.City + " " + model.City.Counties) : "")</label>
-        </li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "101019008"))">
-            <span class="column-title">详细地址：</span>
-            <label>@(model.Address)</label>
-        </li>
-     </ul>
-
-    <ul class="right status-items">
-        <li data-status="0">
-            <span class="status-time mRight5">@(model.CreateTime.ToString("yyyy-MM-dd"))</span>
-            <span class="status-bg"></span>
-            <span class="mLeft5">需求单</span>
-        </li>
-        <li data-status="1"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
-        <li data-status="1">
-            <span class="status-time status-time-text mRight5">&nbsp;</span>
-            <span class="status-bg"></span>
-            <span class="mLeft5">打样中</span>
-        </li>
-        <li data-status="2"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
-        <li data-status="2">
-            <span class="status-time status-time-text mRight5">&nbsp;</span>
-            <span class="status-bg"></span>
-            <span class="mLeft5">合价中</span>
-        </li>
-        <li data-status="3"><span class="status-time mRight5">&nbsp;</span><span class="status-line"></span></li>
-        <li data-status="3">
-            <span class="status-time status-time-text mRight5">&nbsp;</span>
-            <span class="status-bg"></span>
-            <span class="mLeft5">封样封价</span>
-        </li>
-    </ul>
-
-    <div class="clear"></div>
-    <ul style="width:90%;" class="content-info mTop20">
-        <li class="hide">
-            <span class="column-title">加工数量：</span>
-            <label id="planQuantity">@(model.PlanQuantity)</label>
-        </li>
-       
-        <li  class="hide">
-            <span class="column-title">总金额：</span>
-            <label id="totalMoney">@(model.TotalMoney.ToString("f2"))</label>
-        </li>
-        <li style="width:100%;">
-            <span class="column-title">详细需求：</span> 
-            <label>@(model.Remark.Trim())</label>
-        </li>
-    </ul>
-
-    <div class="clear"></div>
-
-    <div class="process-stages mTop30">
-        <div class="process-info">
-            <div class="left info">订单流程：@(model.OrderProcess.ProcessName)</div>
-            @if (model.IsSelf && model.OrderStatus == 0)
-            {
-                <span title="更换流程" class="ico-change left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess"></span>
-            }
-            <div class="left info mLeft20">负责人：@(model.OrderProcess.Owner.Name)</div>
-            @if (model.IsSelf)
-            {
-                if (string.IsNullOrEmpty(model.CategoryID))
-                {
-                     <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019019"))" id="changeOrderCategory">绑定品类</div>
-                }
-                else if (model.OrderStatus <= 2)
-                {
-                     <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="changeOrderStatus"></div>
-                }
-
-                if (model.OrderStatus == 1)
-                {
-                    <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019024"))" id="btnSendDYOrder">订单发货</div>
-                
-                    <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" id="addOtherCost">添加加工成本</div>
-                }
-
-
-            }
         </div>
         <div class="clear"></div>
-        <ul class="stage-items mTop20 @(ExpandClass.IsLimits(HttpContext.Current, "102019022"))">
-            @if (model.Status > 0)
-            {
-                foreach (var stage in model.Tasts)
-                { 
-                    <li data-stageid="@(stage.StageID)" data-self="@(model.IsSelf ? 1 : 0)" data-orderid="@(model.OrderID)" data-taskid="@(stage.TaskID)" data-mark="@(stage.Mark)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
-                        <span class="name">@(stage.Title)</span>
-                        <span class="status-bg right">
-                            <span class="status-color"></span>
-                        </span>
-                        <span class="status right">@(stage.FinishStatus == 0 ? "未开始" : stage.FinishStatus == 1 ? "进行中" : "已完成")</span>
-                    </li>
-                }
-            }
-            else
-            {
-                foreach (var stage in model.OrderProcess.OrderStages)
-                { 
-                    <li data-id="@(stage.StageID)" class="normal">
-                        <span class="name">@(stage.StageName)</span>
-                        <span class="status-bg right">
-                            <span class="status-color"></span>
-                        </span>
-                        <span class="status right">未开始</span>
-                    </li>
-                }
-            }
+        <ul class="moneyinfo left">
+            <li>
+                <span class="column-title">期望价格：</span>
+                <label>@(model.PlanPrice)</label>
+            </li>
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))">
+                <span class="column-title">材料成本：</span>
+                <label>@(model.Price.ToString("f2"))</label>
+            </li>
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))">
+                <span class="column-title">加工成本：</span>
+                <label id="lblCostMoney">@(model.CostPrice.ToString("f2"))</label>
+            </li>
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019021"))">
+                <span class="column-title">利润比例(%)：</span>
+                <label class="left" id="profitPrice">@((model.ProfitPrice * 100).ToString("f2"))</label>
+                 @if (model.IsSelf && model.OrderStatus == 1)
+                 { 
+                    <div id="updateProfitPrice" class="left ico-edit iconfont mLeft20">&#xe607;</div>
+                 }
+            </li>
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
+                <span class="column-title">最终报价：</span>
+                <label>@(model.FinalPrice.ToString("f2"))</label>
+            </li>
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">
+                <span class="column-title">付款金额：</span>
+                <label id="infoPayMoney">@(model.PayMoney.ToString("f2"))</label>
+            </li>
         </ul>
-    </div>
+        <ul class="cutomerinfo left">
+            <li>
+                <span class="column-title">客户名称：</span> 
+                @if (!string.IsNullOrEmpty(model.CustomerID))
+                {
+                    <a href="/Customer/Detail/@(model.CustomerID)" class="left">@(model.Customer.Name)</a> 
+                }
+                else if (model.IsSelf)
+                {
+                    <div id="createOrderCustomer" class="btn left mTop3 @(ExpandClass.IsLimits(HttpContext.Current, "101019001"))">创建客户</div>
+                }
 
-    <div class="tab-nav mTop30">
-        <ul class="tab-nav-ul left">
-            <li data-id="navEngraving" class="hover" data-mark="2">制版详情</li>
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))" data-id="navProducts" data-mark="1">材料成本</li>
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" data-id="navCosts">加工成本</li>
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019024"))" data-id="navSendDoc">发货记录</li>
-            <li data-id="navPays" class="navPays @(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">付款记录</li>
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019028"))" data-id="navDHOrder">大货记录</li>
-            <li data-id="navLog">日志</li>
-        </ul>
+                @if (model.IsSelf && model.OrderStatus == 0)
+                {
+                    <span title="更换客户" class="iconfont change-ico left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "101019008"))" data-customerid="@(model.CustomerID)" data-id="@(model.OrderID)" id="changeCustomer">&#xe60b;</span>
+                }
+            </li>
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "101019008"))">
+                <span class="column-title">联系人：</span>
+                <label>@(model.PersonName)</label>
+            </li>
+             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "101019008"))">
+                <span class="column-title">联系方式：</span>
+                <label>@(model.MobileTele)</label>
+            </li>  
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "101019008"))">
+                <span class="column-title">收货地区：</span>
+                <label>@(model.City != null ? (model.City.Province + " " + model.City.City + " " + model.City.Counties) : "")</label>
+            </li>
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "101019008"))">
+                <span class="column-title">详细地址：</span>
+                <label>@(model.Address)</label>
+            </li>
+         </ul>
+      
+    </div>
+    <div class="clear"></div>
+    <div class="order-remark">
+        <span class="title">详细需求：</span> @(model.Remark.Trim())
+    </div>
+</div>
+
+<div class="process-stages">
+    <div class="process-info">
+        <div class="left info">订单流程：@(model.OrderProcess.ProcessName)</div>
+        @if (model.IsSelf && model.OrderStatus == 0)
+        {
+            <span title="更换流程" class="iconfont change-ico left mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess">&#xe60b;</span>
+        }
+        <div class="left info mLeft20">负责人：@(model.OrderProcess.Owner.Name)</div>
         @if (model.IsSelf)
         {
-            <div id="addPay" class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "104010201"))">收款登记</div>
+            if (string.IsNullOrEmpty(model.CategoryID))
+            {
+                 <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019019"))" id="changeOrderCategory">绑定品类</div>
+            }
+            else if (model.OrderStatus <= 2)
+            {
+                 <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="changeOrderStatus"></div>
+            }
         }
     </div>
+    <div class="clear"></div>
+    <ul class="stage-items mTop20 @(ExpandClass.IsLimits(HttpContext.Current, "102019022"))">
+        @if (model.Status > 0)
+        {
+            foreach (var stage in model.Tasts)
+            { 
+                <li data-stageid="@(stage.StageID)" data-self="@(model.IsSelf ? 1 : 0)" data-orderid="@(model.OrderID)" data-taskid="@(stage.TaskID)" data-mark="@(stage.Mark)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
+                    <span class="long">@(stage.Title)</span>
+                    <span class="long">负责人：@(stage.Owner.Name)</span>
+                    <span class="status">@(stage.FinishStatus == 0 ? "未开始" : stage.FinishStatus == 1 ? "进行中" : "已完成")</span>
+                </li>
+            }
+        }
+        else
+        {
+            foreach (var stage in model.OrderProcess.OrderStages)
+            { 
+                <li data-id="@(stage.StageID)" class="normal">
+                    <span class="long">@(stage.StageName)</span>
+                    <span class="long">负责人：@(stage.Owner.Name)</span>
+                    <span class="status">未开始</span>
+                </li>
+            }
+        }
+    </ul>
+</div>
 
+<div class="search-header">
+    <ul class="search-tab left">
+        <li data-id="navEngraving" class="hover" data-mark="2">制版详情</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))" data-id="navProducts" data-mark="1">材料成本</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" data-btn="addOtherCost" data-id="navCosts">加工成本</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019024"))" data-btn="btnSendDYOrder" data-id="navSendDoc">发货记录</li>
+        <li class="navPays @(ExpandClass.IsLimits(HttpContext.Current, "102019017"))" data-btn="addPay" data-id="navPays" >付款记录</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019028"))" data-id="navDHOrder">大货记录</li>
+        <li data-id="navLog">日志</li>
+    </ul>
+    @if (model.IsSelf)
+    {
+        <div id="addPay" class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "104010201"))">收款登记</div>
+        if (model.OrderStatus == 1)
+        {
+            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019024"))" id="btnSendDYOrder">订单发货</div>
+                
+            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" id="addOtherCost">添加加工成本</div>
+        }
+    }
+</div>
+
+<div class="content-body pBottom50">
     <div id="navProducts" class="nav-partdiv hide">
         <table class="table-list mTop20">
             <tr class="tr-header">
@@ -359,6 +365,8 @@
         </div>
     </div>
 </div>
+
+@*图片放大*@
 <div class="enlarge-image-bgbox hide">
     <div class="ico-close close-enlarge-image"></div> 
 </div>

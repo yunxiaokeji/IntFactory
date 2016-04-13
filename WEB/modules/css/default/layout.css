@@ -103,22 +103,24 @@ nav .action-box a { width:200px; display:inline-block; color:#666; text-align:ce
 nav .action-box a .name{ position:relative;display:inline-block; height:40px; font-size:13px;}
 nav .action-box .action:hover { background-color:#ccc; }
 nav .action-box .action:hover a,nav .action-box .select a{ color:#4a98e7; text-decoration:none; }
-nav .action-box .select { width:200px; background-color:#f2f4f8 !important; height:40px; line-height:40px; }
+nav .action-box .select { width:200px; background-color:#eee !important; height:40px; line-height:40px; }
 nav .action-box .point { width:6px; height:6px; border-radius:3px; background-color:red; display:inline-block; position:absolute; top:12px; right:-10px; }
 
 /*内容页样式*/
-.main-content { margin:0 20px 0 220px; padding-top:50px;}
+.main-content { margin-left:200px; padding-top:50px; padding-bottom:50px;}
 
-/*Title样式*/
-.header-box { border-bottom:solid 1px #e6e6e6; margin-top:15px; height:35px; }
-.header-box .header-title { height:35px; line-height:35px; color:#666; font-size:16px;}
-.header-box .ico-back { margin:6px 0 0 20px; }
+/*title样式*/
+.header-box { background-color:#fff; padding:20px; overflow:auto; margin-bottom:20px; }
+.header-box .header-title { color:#666; font-size:18px;}
+.header-box .back { font-size:14px; }
+.header-box .back .iconfont{ color:#4a98e7; }
+.header-box .titlename { color:#999; font-size:16px;}
 
-/*搜索条件tab筛选*/
-.search-box { margin-top:15px; }
+/*内容页title*/
+.content-title { height:50px; line-height:48px; border-bottom:solid 1px #eee; background-color:#fff; margin:20px 20px 0 20px; padding:0 10px; }
+.content-title .titlename { font-size:14px; color:#666; }
 
-/*search-tab*/
-.search-header { height:35px; overflow:auto;}
+.search-header { margin:20px 20px 0 20px; height:35px; overflow:auto;}
 .search-header .search-tab { height:35px; float:left; }
 .search-header .search-tab li{ padding:0 10px; cursor:pointer; min-width:70px; text-align:center; margin-right:5px;height:30px; line-height:30px; color:#fff;
                                float:left; background-color:#B5C2CA; border-radius:2px; }
@@ -131,7 +133,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .search-header .search-tab-status li.hover{ background-color:#4a98e7; color:#fff;}
 
 
-.content-body{ padding:20px 10px 80px; overflow:auto; background-color:#fff; border-radius:2px; min-height:400px; }
+.content-body{ overflow:auto; background-color:#fff; clear:both; margin:0 20px; padding:10px; }
 
 /*搜索*/
 .search-body { border:dashed 1px #ddd; padding:10px; min-height:35px; }
@@ -212,11 +214,6 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .easydialog-create li label{ line-height:20px; height:20px; cursor:pointer; }
 .easydialog-create li label input{ line-height:20px; height:20px; }
 
-
-/*详情页Title*/
-.content-title { height:35px; }
-.content-title .titlename { font-size:14px; color:#666; }
-
 /*详情页-信息*/
 .content-info { width:80%; min-width:600px; overflow:auto; }
 .content-info li{ width:50%; float:left;  line-height:35px; }
@@ -270,6 +267,11 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .btn999 {  padding:5px 10px; background-color:#999; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; line-height:18px; }
 .btn999:hover { background-color:#666; color:#fff; }
 
+
+/*替换*/
+.change-ico{ display:inline-block; cursor:pointer; color:#4a98e7; font-size:20px !important;}
+.change-ico:hover{ color:#2F73B8; }
+
 /*添加*/
 .ico-add{ background:url(/modules/images/ico-add.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
           display:inline-block; cursor:pointer; padding-left:28px; color:#666; font-size:13px; }
@@ -286,9 +288,8 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .ico-change:hover{ background:url(/modules/images/ico-changehover.png) no-repeat; color:#4a98e7; }
 
 /*编辑*/
-.ico-edit{ background:url(/modules/images/ico-edit-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
-          display:inline-block; cursor:pointer;  color:#666; }
-.ico-edit:hover{ background:url(/modules/images/ico-edit-deep.png) no-repeat;}
+.ico-edit{ display:inline-block; cursor:pointer;  color:#4a98e7; }
+.ico-edit:hover{ color:#2F73B8; }
 
 /*删除-垃圾箱*/
 .ico-del{ background:url(/modules/images/ico-del-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 

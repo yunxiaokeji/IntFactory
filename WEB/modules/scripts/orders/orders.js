@@ -415,8 +415,8 @@
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
 
-                innerhtml.click(function () {
-                    var _this = $(this);
+                innerhtml.find(".orderimg").click(function () {
+                    var _this = $(this).parents(".object-item");
                     if (_this.hasClass("hover")) {
                         _this.removeClass("hover");
                     } else {
@@ -437,8 +437,10 @@
                 innerhtml.find(".orderimg img").each(function () {
                     if ($(this).width() > $(this).height()) {
                         $(this).css("height", 250);
-                    } else {
+                    } else if ($(this).width() < $(this).height()) {
                         $(this).css("width", 250);
+                    } else {
+                        $(this).css("height", 250);
                     }
                 });
             });

@@ -169,7 +169,6 @@
     <Content Include="modules\css\home\selectlogin.css" />
     <Content Include="modules\css\iconfont\iconfont.css" />
     <Content Include="modules\css\iconfont\iconfont.svg" />
-    <Content Include="modules\css\opportunitys.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\bg-loginBackground.png" />

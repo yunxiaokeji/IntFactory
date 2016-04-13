@@ -31,11 +31,9 @@ define(function (require, exports, module) {
     ObjectJS.bindStyle = function (model) {
 
         var _self = this;
-        var stages = $(".stage-items"), width = stages.width();
-
-        stages.find("li .leftbg").first().removeClass("leftbg");
-        stages.find("li .rightbg").last().removeClass("rightbg");
-        stages.find("li,a").width(width / (stages.find("li").length > 5 ? 4 : stages.find("li").length) - 15);
+        
+        //隐藏按钮
+        $(".part-btn").hide();
 
         //回退委托
         if (_self.status == 0 && !!model.EntrustClientID) {
@@ -433,9 +431,9 @@ define(function (require, exports, module) {
                 title: "订单委托-选择工厂",
                 callback: function (items) {
                     if (items.length > 0) {
-                        if (model.ClientID != items[0].id) {
+                        if (_self.model.ClientID != items[0].id) {
                             Global.post("/Orders/UpdateOrderClient", {
-                                orderid: model.OrderID,
+                                orderid:_self.model.OrderID,
                                 clientid: items[0].id,
                                 name: items[0].name
                             }, function (data) {
@@ -553,8 +551,14 @@ define(function (require, exports, module) {
         })
 
         //切换模块
-        $(".tab-nav-ul li").click(function () {
+        $(".search-tab li").click(function () {
             var _this = $(this);
+
+            //操作按钮
+            $(".part-btn").hide();
+            if (_this.data("btn")) {
+                $("#" + _this.data("btn")).show();
+            }
             _this.siblings().removeClass("hover");
             _this.addClass("hover");
             $(".nav-partdiv").hide();
@@ -1212,21 +1216,6 @@ define(function (require, exports, module) {
                 alert("您没有操作权限！");
             } else {
                 alert("需求单删除失败，可能因为单据状态已改变，请刷新页面后重试！");
-            }
-        });
-    }
-
-    //转移工厂
-    ObjectJS.changeOrderClient = function (code) {
-        var _self = this;
-        Global.post("/Orders/UpdateOrderClient", {
-            orderid: _self.orderid,
-            clientcode: code
-        }, function (data) {
-            if (data.status) {
-                location.href = "/Orders/Orders";
-            } else {
-                alert("需求单转移失败，可能因为单据状态已改变，请刷新页面后重试！");
             }
         });
     }

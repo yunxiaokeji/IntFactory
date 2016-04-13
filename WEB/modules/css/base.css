@@ -22,10 +22,10 @@
 .bRed { border-color:red !important; }
 
 /*字体*/
-.font14 {font-size:14px; }
-.font16 {font-size:16px; }
-.font18 {font-size:18px; }
-.font20 {font-size:20px; }
+.font14 {font-size:14px !important; }
+.font16 {font-size:16px !important; }
+.font18 {font-size:18px !important; }
+.font20 {font-size:20px !important; }
 
 .color333 { color:#333 !important; }
 .color666 { color:#666 !important; }
@@ -58,8 +58,8 @@
 .pTop30 {padding-top:30px;}
 .pTop50 {padding-top:50px;}
 
-.pBottom20 {padding-bottom:20px;}
-.pBottom50 {padding-bottom:50px;}
+.pBottom20 {padding-bottom:20px !important;}
+.pBottom50 {padding-bottom:50px !important;}
 
 .pAll10 {padding:10px;}
 .pAll15 {padding:10px;}
