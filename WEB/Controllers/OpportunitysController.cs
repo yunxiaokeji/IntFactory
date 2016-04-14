@@ -114,22 +114,6 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult EditOrder(string entity)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
-
-
-            var bl = OrdersBusiness.BaseBusiness.EditOrder(model.OrderID, model.PersonName, model.MobileTele, model.CityCode, model.Address, model.PostalCode, model.TypeID, model.ExpressType, model.Remark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("status", bl);
-
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
         public JsonResult UpdateOrderPrice(string orderid, string autoid, string name, decimal price)
         {
             var bl = OrdersBusiness.BaseBusiness.UpdateOrderPrice(orderid, autoid, name, price, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);

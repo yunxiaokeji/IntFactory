@@ -82,7 +82,7 @@
     </div>
 </div>
 <div class="content-title">
-    <div class="left titlename">款式编码：@(model.OrderCode)</div>
+    <div class="left titlename">款式编码：@(model.IntGoodsCode)</div>
     <ul class="right">
         <li>
             <i class="iconfont">&#xe612;</i>
@@ -108,14 +108,21 @@
    <div class="order-imgs-div left">
         <div class="order-imgs">
             <img id="orderImage" data-self="@(model.IsSelf ? 1 : 0)" src="@(model.OrderImage)" />
+            @if (model.SourceType == 3)
+            {
+               <span class="aliorder">
+                  阿里款号：@(model.GoodsCode)
+                  <i class="iconfont right">&#xe631;</i>
+               </span>
+            }
         </div>
         <ul class="order-imgs-list" >
 
         </ul>
     </div>
     <div class="order-info">
-        <div class="name">
-
+        <div class="name long">
+            @(model.GoodsName)
         </div>
         <div class="clear"></div>
         <ul class="left moneyinfo">
@@ -242,8 +249,8 @@
     </ul>
 </div>
 
-<div class="search-header">
-    <ul class="search-tab left">
+<div class="module-header">
+    <ul class="module-tab left">
         <li data-id="navEngraving" class="hover" data-mark="2">制版工艺</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016"))" data-id="navGoods">下单明细</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))" data-id="navProducts" data-mark="3">材料成本</li>

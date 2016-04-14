@@ -36,17 +36,17 @@
 .object-items .object-item.hover .check{ display:inline-block; background-color:#4a98e7; }
 
 /*标记筛选*/
-.search-item-color { clear:both; overflow:auto; margin:2px 0; }
+.search-item-color { clear:both; overflow:auto; margin:10px 0; }
 .search-item-color li{ float:left; margin-right:20px; cursor:pointer;}
-.search-item-color .column-name{ width:60px; padding:2px 5px; color:#999; font-size:14px; }
-.search-item-color .item{ width:18px; height:18px;  border-radius:10px; margin-top:3px;}
-.search-item-color .item.hover{ width:24px; height:24px;border-radius:13px; margin-top:0px;}
+.search-item-color .column-name{ width:60px; padding:2px 5px; color:#999; font-size:12px; }
+.search-item-color .item{ width:12px; height:12px;  border-radius:7px; margin-top:5px;}
+.search-item-color .item.hover{ width:20px; height:20px;border-radius:11px; margin-top:2px;}
 
 .search-item-color .mark-all { background:url('/modules/plug/mark/ico-ball.png') no-repeat; background-size:cover; }
 .search-item-color .mark0 { background-color:#FFF; border:solid 1px #ccc; }
-.search-item-color .mark1 { background-color:#FF7C7C; border:solid 1px #FF7C7C;  }
+.search-item-color .mark1 { background-color:#FF7C7C; border:solid 1px #FF7C7C; }
 .search-item-color .mark2 { background-color:#3BB3FF; border:solid 1px #3BB3FF; }
-.search-item-color .mark3 { background-color:#9F74FF; border:solid 1px #9F74FF;  }
+.search-item-color .mark3 { background-color:#9F74FF; border:solid 1px #9F74FF; }
 .search-item-color .mark4 { background-color:#FFC85D; border:solid 1px #FFC85D; }
 .search-item-color .mark5 { background-color:#FFF65F; border:solid 1px #FFF65F; }
 
@@ -64,14 +64,21 @@
 
 /*样图信息*/
 .order-imgs-div { width:400px; }
-.order-imgs-div .order-imgs img{ height:400px; width:400px;}
+.order-imgs-div .order-imgs{ height:400px; width:400px; position:relative; }
+.order-imgs-div .order-imgs img{ height:400px; width:400px; }
 .order-imgs-div .order-imgs img:hover{ cursor:pointer;}
-.order-imgs-list { height:56px; }
+.order-imgs-list { height:56px; margin-top:5px; }
 .order-imgs-list li{ width:56px; height:56px; float:left; border:solid 2px #eee; margin-right:6px; cursor:pointer; position:relative;}
 .order-imgs-list li.hover{ border-color:red;}
 .order-imgs-list img{ width:56px; height:56px;}
 .order-imgs-list .edit-orderimages { font-size:40px; width:56px; height:56px;  color:#999; line-height:45px; text-align:center; }
 .order-imgs-list .ico-delete { position:absolute; top:-8px; right:-8px; background-color:#fff; border-radius:10px; }
+
+
+/*阿里标记*/
+.order-imgs-div  .aliorder { height:30px; line-height:30px; position:absolute; bottom:0px; background-color:#ff7300; opacity:0.6; 
+                                        display:block; width:100%; font-size:14px; color:#fff; text-indent:10px;}
+.order-imgs-div  .aliorder .iconfont{ color:#fff; }
 
 /*切换图片*/
 .enlarge-image-bgbox { width:100%;height:100%; position:fixed; top:0; left:0; background-color:#666; z-index:9999; opacity:0.9; }
@@ -88,7 +95,7 @@
 
 /*订单信息*/
 .order-info { float:left; margin-left:10px; overflow:auto; }
-.order-info .name{ height:40px; line-height:40px; background-color:#f7f7f7; }
+.order-info .name{ height:40px; line-height:40px; width:650px; background-color:#f7f7f7; color:#666;font-size:14px;text-indent:10px; }
 
 .order-info .moneyinfo { width:220px; margin-top:20px; }
 .order-info .moneyinfo li{ line-height:35px; clear:both;padding:5px;  }
@@ -118,7 +125,7 @@
 
 .stage-items { width:100%; }
 .stage-items  li{ float:left; height:120px; width:120px; position:relative; cursor:pointer; 
-                   margin-right:20px; margin-bottom:10px; border-radius:70px; border:solid 10px #ccc; }
+                   margin-right:20px; margin-bottom:10px; border-radius:70px; border:solid 5px #ccc; }
 
 .stage-items  li:hover{ background-color:#eee;}
 

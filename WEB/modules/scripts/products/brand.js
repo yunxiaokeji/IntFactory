@@ -139,7 +139,7 @@ define(function (require, exports, module) {
                             _self.IcoPath = data.Items[0];
                             $("#brandImg").attr("src", data.Items[0] + "?" + Global.guid());
                         } else {
-                            alert("只能上传jpg/png/gif类型的图片，且大小不能超过10M！");
+                            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
                         }
                     }
                 });
@@ -158,7 +158,7 @@ define(function (require, exports, module) {
                             _self.IcoPath = data.Items[0];
                             $("#brandImg").attr("src", data.Items[0]);
                         } else {
-                            alert("只能上传jpg/png/gif类型的图片，且大小不能超过10M！");
+                            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
                         }
                     }
                 });

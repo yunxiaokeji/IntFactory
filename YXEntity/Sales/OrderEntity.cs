@@ -84,18 +84,8 @@ namespace IntFactoryEntity
         /// 
         /// </summary>
         public decimal TotalMoney { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public decimal TaxMoney { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public decimal TaxRate { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
+
         public decimal ReturnMoney { get; set; }
         /// <summary>
         /// 
@@ -157,10 +147,7 @@ namespace IntFactoryEntity
         /// 
         /// </summary>
         public DateTime CreateTime { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public DateTime UpdateTime { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -260,6 +247,10 @@ namespace IntFactoryEntity
         public int Mark { get; set; }
 
         public decimal PayMoney { get; set; }
+
+        public string IntGoodsCode { get; set; }
+
+        public string GoodsName { get; set; }
 
         /// <summary>
         /// 填充数据

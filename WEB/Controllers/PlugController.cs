@@ -96,7 +96,7 @@ namespace YXERP.Controllers
                 {
                     continue;
                 }
-                if (file.ContentLength > 1024 * 1024 * 10)
+                if (file.ContentLength > 1024 * 1024 * 5)
                 {
                     continue;
                 }

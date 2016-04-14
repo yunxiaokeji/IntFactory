@@ -2,6 +2,14 @@
 	var item = $data;
 %}
 <ul class="easydialog-create">
+    <li class="{%=(item.OrderType==1?'':'hide')%}">
+        <span class="width80">款式编码：</span>
+        <span><input type="text" maxlength="50" id="iptGoodsCode"  value="{%=item.IntGoodsCode%}" /></span> 
+    </li>
+    <li class="{%=(item.OrderType==1?'':'hide')%}">
+        <span class="width80">款式名称：</span>
+        <span><input type="text" maxlength="50" id="iptGoodsName" class="width300"  value="{%=item.GoodsName%}" /></span> 
+    </li>
     <li>
         <span class="width80">收货人：</span>
         <span><input type="text" maxlength="50" id="personName"  value="{%=item.PersonName%}" /></span> 
@@ -16,7 +24,7 @@
     </li>
     <li>
         <span class="width80">详细地址：</span> 
-        <span><input type="text" maxlength="200" style="width:300px;" id="address" class="input"  value="{%=item.Address%}" /></span>
+        <span><input type="text" maxlength="200" id="address" class="input width300"  value="{%=item.Address%}" /></span>
     </li>
     <li>
         <span class="width80">详细需求：</span>

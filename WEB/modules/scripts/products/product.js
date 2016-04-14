@@ -46,7 +46,7 @@ define(function (require, exports, module) {
                     _self.ProductImage = data.Items[0];
                     $("#productImg").attr("src", data.Items[0]);
                 } else {
-                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过10M！");
+                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
                 }
             }
         });
@@ -229,7 +229,7 @@ define(function (require, exports, module) {
                                 if (data.Items.length > 0) {
                                     _this.siblings("img").attr("src", data.Items[0]);
                                 } else {
-                                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过10M！");
+                                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
                                 }
                             }
                         });
@@ -698,7 +698,7 @@ define(function (require, exports, module) {
                     _self.ProductImage = data.Items[0];
                     $("#productImg").attr("src", data.Items[0] + "?" + Global.guid());
                 } else {
-                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过10M！");
+                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
                 }
             }
         });
@@ -882,7 +882,7 @@ define(function (require, exports, module) {
                         _self.ImgS = data.Items[0];
                         $("#imgS").attr("src", data.Items[0] + "?" + count++);
                     } else {
-                        alert("只能上传jpg/png/gif类型的图片，且大小不能超过10M！");
+                        alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
                     }
                 }
             });

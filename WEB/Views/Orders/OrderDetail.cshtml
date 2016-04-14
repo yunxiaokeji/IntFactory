@@ -78,7 +78,7 @@
 </div>
 
 <div class="content-title">
-    <div class="left titlename">款式编码：@(model.OrderCode)</div>
+    <div class="left titlename">款式编码：@(model.IntGoodsCode)</div>
     <ul class="right">
         <li title="交货日期">
             <i class="iconfont">&#xe62b;</i>@(model.PlanTime.ToString("yyyy-MM-dd"))
@@ -96,14 +96,21 @@
     <div class="order-imgs-div left">
         <div class="order-imgs">
             <img id="orderImage" src="@(model.OrderImage)" data-self="@(model.IsSelf ? 1 : 0)" />
+            @if (model.SourceType == 3)
+            {
+               <span class="aliorder">
+                  阿里款号：@(model.GoodsCode)
+                  <i class="iconfont right">&#xe631;</i>
+               </span>
+            }
         </div>
         <ul class="order-imgs-list" >
             
         </ul>
     </div>
     <div class="order-info">
-        <div class="name">
-
+        <div class="name long">
+            @(model.GoodsName)
         </div>
         <div class="clear"></div>
         <ul class="moneyinfo left">
@@ -225,8 +232,8 @@
     </ul>
 </div>
 
-<div class="search-header">
-    <ul class="search-tab left">
+<div class="module-header">
+    <ul class="module-tab left">
         <li data-id="navEngraving" class="hover" data-mark="2">制版详情</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))" data-id="navProducts" data-mark="1">材料成本</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" data-btn="addOtherCost" data-id="navCosts">加工成本</li>

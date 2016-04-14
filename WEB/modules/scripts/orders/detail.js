@@ -551,7 +551,7 @@ define(function (require, exports, module) {
         })
 
         //切换模块
-        $(".search-tab li").click(function () {
+        $(".module-tab li").click(function () {
             var _this = $(this);
 
             //操作按钮
@@ -747,7 +747,7 @@ define(function (require, exports, module) {
                                     }
                                 }
                             } else {
-                                alert("只能上传jpg/png/gif类型的图片，且大小不能超过10M！");
+                                alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
                             }
                         }
                     });
@@ -1274,6 +1274,8 @@ define(function (require, exports, module) {
                     yesFn: function () {
                         var entity = {
                             OrderID: _self.orderid,
+                            IntGoodsCode: $("#iptGoodsCode").val().trim(),
+                            GoodsName: $("#iptGoodsName").val().trim(),
                             PersonName: $("#personName").val().trim(),
                             MobileTele: $("#mobileTele").val().trim(),
                             CityCode: CityObj.getCityCode(),
@@ -1286,6 +1288,8 @@ define(function (require, exports, module) {
                         Global.post("/Orders/EditOrder", { entity: JSON.stringify(entity) }, function (data) {
                             if (data.status) {
                                 location.href = location.href;
+                            } else if (data.result == 3) {
+                                alert("订单信息编辑失败，款式编码已存在！");
                             } else {
                                 alert("订单信息编辑失败，请刷新页面重试！");
                             }

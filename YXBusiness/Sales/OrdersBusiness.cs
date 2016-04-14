@@ -753,12 +753,13 @@ namespace IntFactoryBusiness
             return OrdersDAL.BaseProvider.UpdateOrderPlateRemark(orderid, plateRemark);
         }
 
-        public bool EditOrder(string orderid, string personName, string mobileTele, string cityCode, string address, string postalcode, string typeid, int expresstype, string remark, string operateid, string ip, string agentid, string clientid)
+        public bool EditOrder(string orderid, string goodsCode, string goodsName, string personName, string mobileTele, string cityCode, string address, 
+                              string postalcode, string typeid, int expresstype, string remark, string operateid, string ip, string agentid, string clientid, out int result)
         {
-            bool bl = OrdersDAL.BaseProvider.EditOrder(orderid, personName, mobileTele, cityCode, address, postalcode, typeid, expresstype, remark, operateid, agentid, clientid);
+            bool bl = OrdersDAL.BaseProvider.EditOrder(orderid, goodsCode, goodsName, personName, mobileTele, cityCode, address, postalcode, typeid, expresstype, remark, operateid, agentid, clientid, out result);
             if (bl)
             {
-                string msg = "编辑收货信息";
+                string msg = "编辑订单信息";
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, operateid, agentid, clientid);
             }
             return bl;

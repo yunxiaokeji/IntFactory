@@ -538,12 +538,15 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderOver", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool EditOrder(string orderid, string personName, string mobileTele, string cityCode, string address, string postalcode, string typeid, int expresstype, string remark, string operateid, string agentid, string clientid)
+        public bool EditOrder(string orderid, string goodsCode, string goodsName, string personName, string mobileTele, string cityCode, string address,
+                                string postalcode, string typeid, int expresstype, string remark, string operateid, string agentid, string clientid, out int result)
         {
-            int result = 0;
+            result = 0;
             SqlParameter[] paras = { 
                                      new SqlParameter("@Result",result),
                                      new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@IntGoodsCode",goodsCode),
+                                     new SqlParameter("@GoodsName" , goodsName),
                                      new SqlParameter("@PersonName",personName),
                                      new SqlParameter("@MobileTele" , mobileTele),
                                      new SqlParameter("@CityCode" , cityCode),

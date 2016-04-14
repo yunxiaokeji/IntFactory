@@ -139,8 +139,8 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .search-body { border:dashed 1px #ddd; padding:10px; min-height:35px; }
 
 /*搜索项*/
-.search-item { clear:both; overflow:auto; margin-top:5px; }
-.search-item li{ float:left; font-size:14px; color:#666; margin-right:20px; padding:2px 5px; cursor:pointer;}
+.search-item { clear:both; overflow:auto; margin-top:10px; }
+.search-item li{ float:left; font-size:12px; color:#666; margin-right:20px; padding:2px 5px; cursor:pointer;}
 .search-item .column-name{ width:60px; color:#999; }
 .search-item .item:hover{ color:#4A99E8; }
 .search-item .item.hover{ border:solid 1px #4A99E8; color:#4A99E8; padding:1px 4px; }
@@ -160,6 +160,14 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 
 .search-sort .sort-item .asc.hover {  border-bottom:solid 5px #4a98e7;}
 .search-sort .sort-item .desc.hover { border-top:solid 5px #4a98e7;}
+
+/*详情页模块切换样式*/
+.module-header { margin:0 20px; }
+.module-header .module-tab { height:35px; float:left; }
+.module-header .module-tab li{ padding:0 10px; cursor:pointer; min-width:70px; text-align:center; margin-right:5px;height:35px; line-height:35px; color:#999;
+                               float:left; background-color:#e6e6e6; border-radius:2px; }
+.module-header .module-tab li:hover{ background-color:#fff; color:#4a98e7;}
+.module-header .module-tab li.hover{ background-color:#fff; color:#4a98e7; border-bottom-left-radius:0; border-bottom-right-radius:0;}
 
 /*表格样式*/
 .table-list { width: 100%; border-spacing: 0px;}
