@@ -351,7 +351,22 @@ namespace YXERP.Areas.Api.Controllers
 
             if (!string.IsNullOrEmpty(replyID))
             {
-                JsonDictionary.Add("id", replyID);
+                List<Dictionary<string, object>> replys = new List<Dictionary<string, object>>();
+                Dictionary<string, object> replyObj = new Dictionary<string, object>();
+                replyObj.Add("replyID", replyID);
+                replyObj.Add("orderID", model.orderID);
+                replyObj.Add("stageID", model.stageID);
+                replyObj.Add("mark", model.mark);
+                replyObj.Add("content", model.content);
+                replyObj.Add("createUser", GetUserBaseObj(OrganizationBusiness.GetUserByUserID(userID, agentID)));
+                if (!string.IsNullOrEmpty(model.fromReplyUserID) && !string.IsNullOrEmpty(model.fromReplyAgentID))
+                {
+                    replyObj.Add("fromReplyUser", GetUserBaseObj(OrganizationBusiness.GetUserByUserID(model.fromReplyUserID, model.fromReplyAgentID)));
+                }
+                replyObj.Add("createTime", DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
+                replys.Add(replyObj);
+
+                JsonDictionary.Add("taskReplys", replys);
             }
             
             return new JsonResult

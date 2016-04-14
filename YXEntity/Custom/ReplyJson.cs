@@ -7,6 +7,8 @@ namespace IntFactoryEntity
 {
     public class ReplyJson
     {
+        [Property("Lower")]
+        public string replyID { get; set; }
 
         [Property("Lower")]
         public string orderID { get; set; }

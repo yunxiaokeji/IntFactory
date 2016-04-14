@@ -344,7 +344,6 @@
     <Content Include="modules\plug\qqface\index.html" />
     <Content Include="modules\plug\qqface\qqface.js" />
     <Content Include="modules\plug\qqface\js\jquery-browser.js" />
-    <Content Include="modules\plug\qqface\js\jquery.qqFace.js" />
     <Content Include="modules\plug\fullcalendar\agenda-views.html" />
     <Content Include="modules\plug\fullcalendar\fc.js" />
     <Content Include="modules\plug\showtaskdetail\showtaskdetail.js" />

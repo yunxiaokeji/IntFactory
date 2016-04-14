@@ -97,7 +97,7 @@ color:#4a98e7; font-size:18px; cursor:pointer;}
 
 /*讨论*/
 .talk-body {}
-.talk-body .content-main {position:relative; width:800px;}
+.talk-body .content-main {width:800px;}
 .talk-body .content-main .txt-content { height:100px; width:800px;}
 .talk-body .content-main .btn-save { position:absolute; right:0; bottom:0px; }
 

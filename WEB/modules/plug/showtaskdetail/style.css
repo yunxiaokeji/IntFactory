@@ -16,7 +16,7 @@
 
 /*讨论备忘*/
 .taskContent .talk-body { }
-.taskContent .talk-body .content-main {position:relative; width:450px; }
+.taskContent .talk-body .content-main { width:450px; }
 .taskContent .talk-body .content-main .txt-content { height:80px; width:450px; background-color:#f7f7f7; border:solid 1px #eee; }
 .taskContent .talk-body .content-main .txt-content:focus { border:solid 1px #318ae4;}
 .taskContent .talk-body .content-main .btn-save { position:absolute; right:0; bottom:0px; }

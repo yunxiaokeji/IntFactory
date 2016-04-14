@@ -38,10 +38,19 @@ define(function (require, exports, module) {
                     strFace += '</tr></table></div>';
                 }
                 $(this).parent().append(strFace);
-                var offset = $(this).position();
-                var top = offset.top + $(this).outerHeight();
+                var position = $(this).position();
+                var top = position.top + $(this).outerHeight();
+                if ($('.task-layer-box').length > 0)
+                {
+                    var scrollTop = $('.task-layer-box')[0].scrollTop;
+                    if (scrollTop > 0)
+                    {
+                        top += scrollTop;
+                    }
+                }
+              
                 $('#' + id).css('top', top);
-                $('#' + id).css('left', offset.left);
+                $('#' + id).css('left', position.left);
                 $('#' + id).show();
                 e.stopPropagation();
             });
