@@ -164,6 +164,7 @@ namespace YXERP.Areas.Api.Controllers
                         order.Add("orderImages", orderDetail.OrderImages);
                         order.Add("platemaking", orderDetail.Platemaking);
                         order.Add("plateRemark", orderDetail.PlateRemark);
+                        order.Add("remark", orderDetail.Remark);
                         task.Add("order", order);
                         
                         foreach (var d in orderDetail.Details)

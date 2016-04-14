@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using IntFactoryBusiness;
 namespace YXERP.Areas.Api.Controllers
 {
+    [YXERP.Common.ApiAuthorize]
     public class UserController : Controller
     {
         //
@@ -33,7 +34,9 @@ namespace YXERP.Areas.Api.Controllers
                     cook["pwd"] = pwd;
                     cook.Expires = DateTime.Now.AddDays(7);
                     Response.Cookies.Add(cook);
-
+                }
+                else
+                {
                     if (outResult == 3)
                     {
                         if (pwdErrorUser == null)
@@ -43,9 +46,7 @@ namespace YXERP.Areas.Api.Controllers
                         else
                         {
                             if (pwdErrorUser.ErrorCount > 2)
-                            {
                                 pwdErrorUser.ErrorCount = 0;
-                            }
                         }
 
                         pwdErrorUser.ErrorCount += 1;
@@ -61,18 +62,15 @@ namespace YXERP.Areas.Api.Controllers
                         }
 
                         Common.Common.CachePwdErrorUsers[userName] = pwdErrorUser;
-                    }
-
-                }
-                else
-                {
-                    int forbidTime = (int)(pwdErrorUser.ForbidTime - DateTime.Now).TotalMinutes;
-                    resultObj.Add("forbidTime", forbidTime);
-                    result = -1;
+                    } 
                 }
 
-
-                
+            }
+            else
+            {
+                int forbidTime = (int)(pwdErrorUser.ForbidTime - DateTime.Now).TotalMinutes;
+                resultObj.Add("forbidTime", forbidTime);
+                result = -1;
             }
 
             resultObj.Add("result", result);
