@@ -124,6 +124,7 @@
     <Compile Include="Areas\Api\Controllers\BaseAPIController.cs" />
     <Compile Include="Areas\Api\Controllers\CacheController.cs" />
     <Compile Include="Areas\Api\Controllers\TaskController.cs" />
+    <Compile Include="Areas\Api\Controllers\UserController.cs" />
     <Compile Include="Common\Alipay\AlipayConfig.cs" />
     <Compile Include="Common\Alipay\AlipayCore.cs" />
     <Compile Include="Common\Alipay\AlipayNotify.cs" />
