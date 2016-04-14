@@ -74,9 +74,9 @@
 .mTop7 {margin-top:7px;}
 .mTop8 {margin-top:8px;}
 .mTop9 {margin-top:9px;}
-.mTop10 {margin-top:10px;}
-.mTop15 {margin-top:15px;}
-.mTop20 {margin-top:20px;}
+.mTop10 {margin-top:10px !important;}
+.mTop15 {margin-top:15px !important;}
+.mTop20 {margin-top:20px !important;}
 .mTop30 {margin-top:30px;}
 .mTop40 {margin-top:40px;}
 .mTop50 {margin-top:50px;}

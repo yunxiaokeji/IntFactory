@@ -431,7 +431,6 @@
                     }
                 });
 
-
                 $(".object-items").append(innerhtml);
 
                 innerhtml.find(".orderimg img").each(function () {

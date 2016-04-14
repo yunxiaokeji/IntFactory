@@ -1,7 +1,7 @@
 ﻿
 /*订单列表*/
 .object-items { color:#999; }
-.object-items .object-item{ width:250px; height:390px; border:solid 1px #eee; float:left; margin-right:20px; margin-top:20px; cursor:pointer; }
+.object-items .object-item{ width:250px; height:390px; border:solid 1px #ccc; background-color:#fff; float:left; margin-right:15px; margin-top:20px; cursor:pointer; }
 .object-items .object-item span{ color:#999; }
 .object-items .object-item .iconfont{ color:#999; }
 
