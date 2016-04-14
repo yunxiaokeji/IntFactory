@@ -18,8 +18,8 @@ seajs.config({
     },
     map: [
         //可配置版本号
-        ['.css', '.css?v=20160406'],
-        ['.js', '.js?v=20160406']
+        ['.css', '.css?v=201604074'],
+        ['.js', '.js?v=201604064']
     ]
 });
 
@@ -67,7 +67,9 @@ seajs.config({
         //日程列表
         "fullcalendar": "plug/fullcalendar/fc.js",
         //显示任务详情
-        "showtaskdetail": "plug/showtaskdetail/showtaskdetail.js"
+        "showtaskdetail": "plug/showtaskdetail/showtaskdetail.js",
+        //显示讨论表情插件
+        "qqface": "plug/qqface/qqface.js"
     }
 });
 

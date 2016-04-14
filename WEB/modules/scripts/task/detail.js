@@ -1,7 +1,9 @@
 ﻿define(function (require, exports, module) {
     var doT = require("dot");
     var Global = require("global");
+    var Qqface= require("qqface");
     var Easydialog = null;
+    var ChooseUser =null;
     require("pager");
 
     var ObjectJS = {};
@@ -55,6 +57,7 @@
             ObjectJS.removeTaskPlateOperate();
         }
 
+        
         //统计材料总金额
         ObjectJS.getProductAmount();
 
@@ -180,6 +183,54 @@
 
         //绑定任务样式图
         ObjectJS.bindOrderImages();
+
+        //添加任务成员
+        if ($("#addTaskMembers").length == 1)
+        {
+            ChooseUser = require("chooseuser");
+
+            $("#addTaskMembers").click(function () {
+                ChooseUser.create({
+                    title: "添加任务成员",
+                    type: 1,
+                    single: false,
+                    callback: function (items) {
+                        var memberIDs = '';
+                        for (var i = 0; i < items.length; i++) {
+                            var item=items[i];
+                            if ($("#taskMemberIDs" + " div[data-id='" + item.id + "']").html()) {
+                                continue;
+                            }
+
+                            ObjectJS.createTaskMember(item);
+                            memberIDs += item.id + ",";
+                        }
+
+                        if (memberIDs != '') {
+                            ObjectJS.addTaskMembers(memberIDs);
+                        }
+                        
+
+                    }
+                });
+
+            });
+
+            //删除任务成员
+            $("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
+                var memberID = $(this).data("id");
+                confirm("确定删除任务成员?", function () {
+                    ObjectJS.removeTaskMember(memberID);
+                });
+            });
+
+        }
+
+        //绑定讨论表情
+        $('#btn-emotion').qqFace({
+            assign: 'txtContent',
+            path: '/modules/plug/qqface/arclist/'	//表情存放的路径
+        });
     }
 
     //更改任务到期时间
@@ -322,6 +373,52 @@
         });
     }
 
+    //添加任务成员
+    ObjectJS.addTaskMembers = function (memberIDs) {
+        Global.post("/Task/AddTaskMembers", {
+            id: ObjectJS.taskid,
+            memberIDs: memberIDs
+        }, function (data) {
+            if (data.result == 0) {
+                alert(memberIDs);
+            }
+            else {
+                $("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
+                    var memberID = $(this).data("id");
+                    confirm("确定删除任务成员?", function () {
+                        ObjectJS.removeTaskMember(memberID);
+                    });
+                });
+            }
+        });
+    }
+
+    //删除任务成员
+    ObjectJS.removeTaskMember = function (memberID) {
+        Global.post("/Task/RemoveTaskMember", {
+            id: ObjectJS.taskid,
+            memberID: memberID
+        }, function (data) {
+            if (data.result == 0) {
+                alert(memberIDs);
+            }
+            else {
+                $("#taskMemberIDs" + " div[data-id='" + memberID + "']").remove();
+            }
+        });
+    }
+
+    ObjectJS.createTaskMember = function (item) {
+        var html = '';
+        html += '<div class="task-member left" data-id="'+item.id+'">';
+        html += '<div class="left pRight5"><span>'+item.name+'</span></div>';
+        html += '<div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="' + item.id + '" >×</a></div>';
+        html+='<div class="clear"></div>';
+        html += '</div>';
+
+        $("#taskMemberIDs").append(html);
+    }
+
     ///任务讨论
     //初始化任务讨论列表
     ObjectJS.initTalkReply = function () {
@@ -366,15 +463,17 @@
 
                     $("#replyList").html(innerhtml);
 
+                    
+
                     innerhtml.find(".btn-reply").click(function () {
                         var _this = $(this), reply = _this.nextAll(".reply-box");
-                        reply.slideDown(500);
+                        reply.slideDown(300);
                         reply.find("textarea").focus();
-                        reply.find("textarea").blur(function () {
-                            if (!$(this).val().trim()) {
-                                reply.slideUp(200);
-                            }
-                        });
+                        //reply.find("textarea").blur(function () {
+                        //    if (!$(this).val().trim()) {
+                        //        reply.slideUp(200);
+                        //    }
+                        //});
                     });
 
                     innerhtml.find(".save-reply").click(function () {
@@ -394,7 +493,25 @@
                         }
 
                         $("#Msg_" + _this.data("replyid")).val('');
-                        $(this).parent().slideUp(100);
+                        $(this).parent().slideUp(300);
+                    });
+
+                    innerhtml.find(".reply-content").each(function () {
+                        $(this).html(Global.replaceQqface($(this).html()));
+                    });
+
+                    innerhtml.find('.btn-emotion').each(function(){
+                        $(this).qqFace({
+                            assign: $(this).data("id"),
+                            path: '/modules/plug/qqface/arclist/'	//表情存放的路径
+                        });
+                    });
+
+                    $(document).click(function (e) {
+                        if (!$(e.target).parents().hasClass("reply-box") && !$(e.target).hasClass("reply-box") && !$(e.target).parents().hasClass("btn-reply") && !$(e.target).hasClass("btn-reply") && !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace")) {
+                            
+                            $(".reply-box").slideUp(300);
+                        }
                     });
 
                 });
@@ -439,6 +556,10 @@
                     innerhtml = $(innerhtml);
 
                     $("#replyListOfPlate").html(innerhtml);
+
+                    innerhtml.find(".reply-content").each(function () {
+                        $(this).html(Global.replaceQqface($(this).html()));
+                    });
                     innerhtml.find(".btn-reply").remove();
                 });
             }
@@ -483,6 +604,10 @@
 
                     $("#replyListOfMaterial").html(innerhtml);
 
+                    innerhtml.find(".reply-content").each(function () {
+                        $(this).html(Global.replaceQqface($(this).html()));
+                    });
+
                     innerhtml.find(".btn-reply").remove();
                 });
             }
@@ -520,15 +645,19 @@
 
                 $("#replyList").prepend(innerhtml);
 
+                innerhtml.find(".reply-content").each(function () {
+                    $(this).html(Global.replaceQqface($(this).html()));
+                });
+
                 innerhtml.find(".btn-reply").click(function () {
                     var _this = $(this), reply = _this.nextAll(".reply-box");
-                    reply.slideDown(500);
+                    reply.slideDown(300);
                     reply.find("textarea").focus();
-                    reply.find("textarea").blur(function () {
-                        if (!$(this).val().trim()) {
-                            reply.slideUp(200);
-                        }
-                    });
+                    //reply.find("textarea").blur(function () {
+                    //    if (!$(this).val().trim()) {
+                    //        reply.slideUp(200);
+                    //    }
+                    //});
                 });
 
                 innerhtml.find(".save-reply").click(function () {
@@ -536,6 +665,8 @@
                     if ($("#Msg_" + _this.data("replyid")).val().trim()) {
                         var entity = {
                             GUID: _this.data("id"),
+                            StageID: _this.data("stageid"),
+                            Mark: ObjectJS.mark,
                             Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                             FromReplyID: _this.data("replyid"),
                             FromReplyUserID: _this.data("createuserid"),
@@ -545,7 +676,21 @@
 
                     }
                     $("#Msg_" + _this.data("replyid")).val('');
-                    $(this).parent().slideUp(100);
+                    $(this).parent().slideUp(300);
+                });
+
+                innerhtml.find('.btn-emotion').each(function () {
+                    $(this).qqFace({
+                        assign: $(this).data("id"),
+                        path: '/modules/plug/qqface/arclist/'	//表情存放的路径
+                    });
+                });
+
+                $(document).click(function (e) {
+                    if (!$(e.target).parents().hasClass("reply-box") && !$(e.target).hasClass("reply-box") && !$(e.target).parents().hasClass("btn-reply") && !$(e.target).hasClass("btn-reply") && !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace")) {
+
+                        $(".reply-box").slideUp(300);
+                    }
                 });
 
             });

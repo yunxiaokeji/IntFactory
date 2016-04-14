@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace IntFactoryEntity
+{
+    public class ApiDetailEntity
+    {
+        public int AutoID { get; set; }
+
+        public string ApiID { get; set; }
+
+        public string ModuleID { get; set; }
+
+        public string Name { get; set; }
+
+        public string Remark { get; set; }
+
+        public string Detail { get; set; }
+
+        public int Status { get; set; }
+
+        public int Sort { get; set; }
+
+<<<<<<< HEAD
+        public DateTime CreateTime;
+=======
+        public DateTime CreateTime { get; set; }
+>>>>>>> 3eec39fb6b9daafb445c11fd435e619025f1dfdc
+
+        public void FillData(System.Data.DataRow dr)
+        {
+            dr.FillData(this);
+        }
+    }
+}

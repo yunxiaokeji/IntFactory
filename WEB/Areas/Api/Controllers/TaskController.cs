@@ -14,7 +14,7 @@ using IntFactoryEnum;
 using Newtonsoft.Json.Converters;
 namespace YXERP.Areas.Api.Controllers
 {
-    
+    [YXERP.Common.ApiAuthorize]
     public class TaskController : BaseAPIController
     {
         //
@@ -26,7 +26,7 @@ namespace YXERP.Areas.Api.Controllers
 
         #region get
 
-        public JsonResult GetTasks(string filter,string userID = "BC6802E9-285C-471C-8172-3867C87803E2",string agentID="9F8AF979-8A3B-4E23-B19C-AB8702988466")
+        public JsonResult GetTasks(string filter,string userID,string agentID)
         {
             var paras = new FilterTasks();
             if (!string.IsNullOrEmpty(filter)){
@@ -40,7 +40,7 @@ namespace YXERP.Areas.Api.Controllers
             ownerID = paras.userID;
             var currentUser = OrganizationBusiness.GetUserByUserID(userID,agentID);
 
-            List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID, paras.status, paras.finishStatus,
+            List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID,0, paras.status, paras.finishStatus,
                 paras.colorMark, paras.taskType, paras.beginDate, paras.endDate,
                 paras.orderType, paras.orderProcessID, paras.orderStageID,
                 (EnumTaskOrderColumn)paras.taskOrderColumn, paras.isAsc, currentUser.ClientID,
@@ -77,7 +77,7 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetOrderProcess(string userID = "BC6802E9-285C-471C-8172-3867C87803E2", string agentID = "9F8AF979-8A3B-4E23-B19C-AB8702988466")
+        public JsonResult GetOrderProcess(string userID, string agentID)
         {
             var currentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
             var list = SystemBusiness.BaseBusiness.GetOrderProcess(agentID, currentUser.ClientID);
@@ -100,7 +100,7 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetOrderStages(string processID, string userID = "BC6802E9-285C-471C-8172-3867C87803E2", string agentID = "9F8AF979-8A3B-4E23-B19C-AB8702988466")
+        public JsonResult GetOrderStages(string processID, string userID, string agentID)
         {
             if (!string.IsNullOrEmpty(processID))
             {
@@ -127,15 +127,17 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetTaskDetail(string taskID, string userID = "BC6802E9-285C-471C-8172-3867C87803E2", string agentID = "9F8AF979-8A3B-4E23-B19C-AB8702988466")
+        public JsonResult GetTaskDetail(string taskID, string userID, string agentID)
         {
             if (!string.IsNullOrEmpty(taskID))
             {
                 var item = TaskBusiness.GetTaskDetail(taskID);
                 Dictionary<string, object> task = new Dictionary<string, object>();
+                List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
                 if (item != null)
                 {
                     task.Add("taskID", item.TaskID);
+                    task.Add("taskCode", item.TaskCode);
                     task.Add("orderID", item.OrderID);
                     task.Add("processID", item.ProcessID);
                     task.Add("stageID", item.StageID);
@@ -151,7 +153,39 @@ namespace YXERP.Areas.Api.Controllers
                     task.Add("createTime", item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"));
                     task.Add("ownerUser", GetUserBaseObj(item.Owner));
 
+                    var currentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
+                    var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(item.OrderID, agentID, currentUser.ClientID);
+                    Dictionary<string, object> order = new Dictionary<string, object>();
+                    if (orderDetail != null)
+                    {
+                        order.Add("orderID", orderDetail.OrderID);
+                        order.Add("orderCode", orderDetail.OrderCode);
+                        order.Add("orderImage", orderDetail.OrderImage);
+                        order.Add("orderImages", orderDetail.OrderImages);
+                        order.Add("platemaking", orderDetail.Platemaking);
+                        order.Add("plateRemark", orderDetail.PlateRemark);
+                        task.Add("order", order);
+                        
+                        foreach (var d in orderDetail.Details)
+                        {
+                            Dictionary<string, object> detail = new Dictionary<string, object>();
+                            detail.Add("code", d.DetailsCode);
+                            detail.Add("productImage", d.ProductImage);
+                            detail.Add("productName", d.ProductName);
+                            detail.Add("remark", d.Remark);
+                            detail.Add("unitName", d.UnitName);
+                            detail.Add("price", d.Price);
+                            detail.Add("quantity", d.Quantity);
+                            detail.Add("loss", d.Loss);
+                            detail.Add("totalMoney", d.TotalMoney);
+
+                            details.Add(detail);
+                        }
+                        
+                    }
+
                     JsonDictionary.Add("task", task);
+                    JsonDictionary.Add("materialList", details);
                 }
             }
 
@@ -162,13 +196,13 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetTaskReplys(string orderID, string stageID, int pageSize=10, int pageIndex=1, int mark = -1, string userID = "BC6802E9-285C-471C-8172-3867C87803E2", string agentID = "9F8AF979-8A3B-4E23-B19C-AB8702988466")
+        public JsonResult GetTaskReplys(string orderID, string stageID, string userID, string agentID, int pageSize = 10, int pageIndex = 1)
         {
             if (!string.IsNullOrEmpty(orderID) && !string.IsNullOrEmpty(stageID))
             {
                 int pageCount = 0;
                 int totalCount = 0;
-                var list = OrdersBusiness.GetReplys(orderID, stageID, mark, pageSize, pageIndex, ref totalCount, ref pageCount);
+                var list = OrdersBusiness.GetReplys(orderID, stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
                 List<Dictionary<string, object>> replys = new List<Dictionary<string, object>>();
 
                 foreach (var item in list)
@@ -198,7 +232,7 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetTaskLogs(string taskID, int pageindex = 1, string userID = "BC6802E9-285C-471C-8172-3867C87803E2", string agentID = "9F8AF979-8A3B-4E23-B19C-AB8702988466")
+        public JsonResult GetTaskLogs(string taskID, string userID, string agentID, int pageindex = 1)
         {
             if (!string.IsNullOrEmpty(taskID))
             {
@@ -228,25 +262,29 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetOrderInfo(string orderID, string userID = "BC6802E9-285C-471C-8172-3867C87803E2", string agentID = "9F8AF979-8A3B-4E23-B19C-AB8702988466")
+        public JsonResult GetOrderInfo(string orderID, string userID, string agentID)
         {
             if (!string.IsNullOrEmpty(orderID))
             {
                 var currentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
                 var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(orderID, agentID, currentUser.ClientID);
                 Dictionary<string, object> order = new Dictionary<string, object>();
+                List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
 
                 if (orderDetail != null)
                 {
                     order.Add("orderID", orderDetail.OrderID);
+                    order.Add("orderCode", orderDetail.OrderCode);
+                    order.Add("orderImage", orderDetail.OrderImage);
+                    order.Add("orderImages", orderDetail.OrderImages);
                     order.Add("platemaking", orderDetail.Platemaking);
                     order.Add("plateRemark", orderDetail.PlateRemark);
+                    JsonDictionary.Add("order", order);
 
-                    List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
                     foreach (var item in orderDetail.Details)
                     {
                         Dictionary<string, object> detail = new Dictionary<string, object>();
-                        detail.Add("code", item.DetailsCode);
+                        detail.Add("code",string.IsNullOrEmpty( item.DetailsCode)?item.ProductCode:item.DetailsCode);
                         detail.Add("productImage", item.ProductImage);
                         detail.Add("productName", item.ProductName);
                         detail.Add("remark", item.Remark);
@@ -258,9 +296,7 @@ namespace YXERP.Areas.Api.Controllers
 
                         details.Add(detail);
                     }
-                    order.Add("details", details);
-
-                    JsonDictionary.Add("order", order);
+                    JsonDictionary.Add("materialList", details);
                 }
             }
 
@@ -273,7 +309,7 @@ namespace YXERP.Areas.Api.Controllers
         #endregion
 
         #region update
-        public JsonResult UpdateTaskEndTime(string taskID, string endTime, string userID = "BC6802E9-285C-471C-8172-3867C87803E2", string agentID = "9F8AF979-8A3B-4E23-B19C-AB8702988466")
+        public JsonResult UpdateTaskEndTime(string taskID, string endTime, string userID, string agentID)
         {
             int result = 0;
             DateTime? endDate = null;
@@ -290,7 +326,7 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult FinishTask(string taskID, string userID = "BC6802E9-285C-471C-8172-3867C87803E2", string agentID = "9F8AF979-8A3B-4E23-B19C-AB8702988466")
+        public JsonResult FinishTask(string taskID, string userID, string agentID)
         {
             int result = 0;
             CurrentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
@@ -298,6 +334,41 @@ namespace YXERP.Areas.Api.Controllers
             TaskBusiness.FinishTask(taskID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID, out result);
             JsonDictionary.Add("result", result);
 
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SavaTaskReply(string reply, string userID, string agentID)
+        {
+            var model = JsonConvert.DeserializeObject<IntFactoryEntity.ReplyJson>(reply);
+
+            string replyID = OrdersBusiness.CreateReply(model.orderID, model.stageID, model.mark,
+                model.content, userID, agentID, 
+                model.fromReplyID, model.fromReplyUserID, model.fromReplyAgentID);
+
+            if (!string.IsNullOrEmpty(replyID))
+            {
+                List<Dictionary<string, object>> replys = new List<Dictionary<string, object>>();
+                Dictionary<string, object> replyObj = new Dictionary<string, object>();
+                replyObj.Add("replyID", replyID);
+                replyObj.Add("orderID", model.orderID);
+                replyObj.Add("stageID", model.stageID);
+                replyObj.Add("mark", model.mark);
+                replyObj.Add("content", model.content);
+                replyObj.Add("createUser", GetUserBaseObj(OrganizationBusiness.GetUserByUserID(userID, agentID)));
+                if (!string.IsNullOrEmpty(model.fromReplyUserID) && !string.IsNullOrEmpty(model.fromReplyAgentID))
+                {
+                    replyObj.Add("fromReplyUser", GetUserBaseObj(OrganizationBusiness.GetUserByUserID(model.fromReplyUserID, model.fromReplyAgentID)));
+                }
+                replyObj.Add("createTime", DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
+                replys.Add(replyObj);
+
+                JsonDictionary.Add("taskReplys", replys);
+            }
+            
             return new JsonResult
             {
                 Data = JsonDictionary,

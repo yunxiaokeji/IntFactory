@@ -1,9 +1,11 @@
 ﻿
 define(function (require, exports, module) {
     require("plug/showtaskdetail/style.css");
+    require("plug/showtaskdetail/style.css");
     var doT = require("dot");
     var Global = require("global"),
         ChooseUser = require("chooseuser");
+    var Qqface = require("qqface");
 
     (function ($) {
         //默认参数
@@ -14,6 +16,7 @@ define(function (require, exports, module) {
         };
 
         var IsClickEventFinish = true;
+        var taskMark = 0;
         $.fn.showtaskdetail = function (options) {
             defaultParas = $.extend([], defaultParas, options);
 
@@ -25,19 +28,19 @@ define(function (require, exports, module) {
                     var taskid = $(this).data("taskid");
                     var orderid = $(this).data("orderid");
                     var stageid = $(this).data("stageid");
-                    var mark = $(this).data("mark");
+                    taskMark = $(this).data("mark");
                     var self = $(this).data("self");
 
                     var $taskDetailContent = $("#taskDetailContent");
 
                     //没有任务详情对象
                     if ($taskDetailContent.length == 0) {
-                        drawTaskDetail(taskid, orderid, stageid, mark, self);
+                        drawTaskDetail(taskid, orderid, stageid, self);
                     }
                     else {
                         //查询新的任务详情
                         if ($taskDetailContent.data("taskid") != taskid) {
-                            drawTaskDetail(taskid, orderid, stageid, mark, self);
+                            drawTaskDetail(taskid, orderid, stageid, self);
                         }
                         else//隐藏显示的任务详情
                         {
@@ -56,7 +59,7 @@ define(function (require, exports, module) {
         };
 
         //获取任务详情
-        var drawTaskDetail = function (taskid, orderid, stageid, mark, self) {
+        var drawTaskDetail = function (taskid, orderid, stageid, self) {
 
             doT.exec("plug/showtaskdetail/task-detail.html", function (template) {
                 Global.post("/task/GetTaskDetail", { id: taskid }, function (data) {
@@ -75,11 +78,18 @@ define(function (require, exports, module) {
                     $(document).click(function (e) {
                         if (!$(e.target).parents().hasClass("task-layer-box") && !$(e.target).hasClass("task-layer-box")
                             && !$(e.target).parents().hasClass("easyDialog_wrapper") && !$(e.target).hasClass("easyDialog_wrapper") && !$(e.target).parents().hasClass("alert") && !$(e.target).hasClass("alert")
-                            && !$(e.target).parents().hasClass("stage-items") && !$(e.target).hasClass("stage-items")) {
+                            && !$(e.target).parents().hasClass("stage-items") && !$(e.target).hasClass("stage-items")
+                            && !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace")
+                            ) {
                             $("#taskDetailContent").animate({ width: '0px' }, 100);
                         }
                     });
 
+                    //绑定讨论表情
+                    $('#btn-emotion').qqFace({
+                        assign: 'txtContent',
+                        path: '/modules/plug/qqface/arclist/'	//表情存放的路径
+                    });
 
                     if (self == 1) {
                         $("#changeTaskOwner").click(function () {
@@ -112,7 +122,7 @@ define(function (require, exports, module) {
                         $(".tast-link-controller").attr("href","javascript:void(0)")
                     }
 
-                    initTalkReply(orderid, stageid, mark, self);
+                    initTalkReply(orderid, stageid, self);
 
                 });
 
@@ -154,7 +164,7 @@ define(function (require, exports, module) {
         }
 
         //初始化任务讨论列表
-        var initTalkReply = function (orderid, stageid, mark, isSelf) {
+        var initTalkReply = function (orderid, stageid, isSelf) {
             var _self = this;
 
             $("#btnSaveTalk").click(function () {
@@ -164,7 +174,7 @@ define(function (require, exports, module) {
                     var model = {
                         GUID: orderid,
                         StageID: stageid,
-                        Mark: mark,
+                        Mark: taskMark,
                         Content: txt.val().trim(),
                         FromReplyID: "",
                         FromReplyUserID: "",
@@ -177,24 +187,19 @@ define(function (require, exports, module) {
 
             });
 
-            if (isSelf == 1) {
-                
-            } else {
-                //$(".talk-body .content-main").hide();
-            }
-            getTaskReplys(orderid, stageid, mark, 1, isSelf);
+            getTaskReplys(orderid, stageid, 1, isSelf);
 
         }
 
         //获取任务讨论列表
-        var getTaskReplys = function (orderid, stageid, mark, page, isSelf) {
+        var getTaskReplys = function (orderid, stageid, page, isSelf) {
             var _self = this;
             $("#replyList").empty();
 
             Global.post("/Opportunitys/GetReplys", {
                 guid: orderid,
                 stageid: stageid,
-                mark: mark,
+                mark: taskMark,
                 pageSize: 10,
                 pageIndex: page
             }, function (data) {
@@ -208,18 +213,12 @@ define(function (require, exports, module) {
                         var _this = $(this), reply = _this.nextAll(".reply-box");
                         reply.slideDown(500);
                         reply.find("textarea").focus();
-                        reply.find("textarea").blur(function () {
-                            if (!$(this).val().trim()) {
-                                reply.slideUp(200);
-                            }
-                        });
+                        //reply.find("textarea").blur(function () {
+                        //    if (!$(this).val().trim()) {
+                        //        reply.slideUp(200);
+                        //    }
+                        //});
                     });
-
-                    if (isSelf == 1) {
-                        
-                    } else {
-                        //innerhtml.find(".btn-reply").remove();
-                    }
 
                     innerhtml.find(".save-reply").click(function () {
                         var _this = $(this);
@@ -227,7 +226,7 @@ define(function (require, exports, module) {
                             var entity = {
                                 GUID: _this.data("id"),
                                 StageID: _this.data("stageid"),
-                                Mark: mark,
+                                Mark: taskMark,
                                 Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                                 FromReplyID: _this.data("replyid"),
                                 FromReplyUserID: _this.data("createuserid"),
@@ -238,7 +237,25 @@ define(function (require, exports, module) {
                         }
 
                         $("#Msg_" + _this.data("replyid")).val('');
-                        $(this).parent().slideUp(100);
+                        $(this).parent().slideUp(300);
+                    });
+
+                    innerhtml.find(".reply-content").each(function () {
+                        $(this).html(Global.replaceQqface($(this).html()));
+                    });
+
+                    innerhtml.find('.btn-emotion').each(function () {
+                        $(this).qqFace({
+                            assign: $(this).data("id"),
+                            path: '/modules/plug/qqface/arclist/'	//表情存放的路径
+                        });
+                    });
+
+                    $(document).click(function (e) {
+                        if (!$(e.target).parents().hasClass("reply-box") && !$(e.target).hasClass("reply-box") && !$(e.target).parents().hasClass("btn-reply") && !$(e.target).hasClass("btn-reply") && !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace")) {
+
+                            $(".reply-box").slideUp(300);
+                        }
                     });
                 });
 
@@ -253,7 +270,7 @@ define(function (require, exports, module) {
                     mouse: 'slide',
                     float: "left",
                     onChange: function (page) {
-                        getTaskReplys(orderid, stageid, mark, page, isSelf);
+                        getTaskReplys(orderid, stageid, page, isSelf);
                     }
                 });
             });
@@ -274,11 +291,11 @@ define(function (require, exports, module) {
                         var _this = $(this), reply = _this.nextAll(".reply-box");
                         reply.slideDown(500);
                         reply.find("textarea").focus();
-                        reply.find("textarea").blur(function () {
-                            if (!$(this).val().trim()) {
-                                reply.slideUp(200);
-                            }
-                        });
+                        //reply.find("textarea").blur(function () {
+                        //    if (!$(this).val().trim()) {
+                        //        reply.slideUp(200);
+                        //    }
+                        //});
                     });
 
                     innerhtml.find(".save-reply").click(function () {
@@ -286,6 +303,8 @@ define(function (require, exports, module) {
                         if ($("#Msg_" + _this.data("replyid")).val().trim()) {
                             var entity = {
                                 GUID: _this.data("id"),
+                                StageID: _this.data("stageid"),
+                                Mark: taskMark,
                                 Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                                 FromReplyID: _this.data("replyid"),
                                 FromReplyUserID: _this.data("createuserid"),
@@ -295,12 +314,26 @@ define(function (require, exports, module) {
 
                         }
                         $("#Msg_" + _this.data("replyid")).val('');
-                        $(this).parent().slideUp(100);
+                        $(this).parent().slideUp(300);
                     });
 
-                    //require.async("businesscard", function () {
-                    //    innerhtml.find("img").businessCard();
-                    //});
+                    innerhtml.find(".reply-content").each(function () {
+                        $(this).html(Global.replaceQqface($(this).html()));
+                    });
+
+                    innerhtml.find('.btn-emotion').each(function () {
+                        $(this).qqFace({
+                            assign: $(this).data("id"),
+                            path: '/modules/plug/qqface/arclist/'	//表情存放的路径
+                        });
+                    });
+
+                    $(document).click(function (e) {
+                        if (!$(e.target).parents().hasClass("reply-box") && !$(e.target).hasClass("reply-box") && !$(e.target).parents().hasClass("btn-reply") && !$(e.target).hasClass("btn-reply") && !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace")) {
+
+                            $(".reply-box").slideUp(300);
+                        }
+                    });
                 });
             });
         }

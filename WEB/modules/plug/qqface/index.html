@@ -1,0 +1,91 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="author" content="jQuery插件库(www.jq22.com)">
+<meta name="weburl" content="http://www.jq22.com/">
+	<title>基于jQuery开发的全能表单验证插件</title>
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="css/reset.css">	
+<link href="css/face.css" rel="stylesheet" />
+<style>
+
+#show{width:770px; margin:20px auto; background:#fff; padding:5px; border:1px solid #DDD; vertical-align:top;}
+
+.sub_btn {
+	position:absolute; right:0px; top:0;
+	display: inline-block;
+	zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+	*display: inline;
+	vertical-align: baseline;
+	margin: 0 2px;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.6);
+	-webkit-border-radius: 3px; 
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	color: #e8f0de;
+	border: solid 1px #538312;
+	background: #64991e;
+	background: -webkit-gradient(linear, left top, left bottom, from(#7db72f), to(#4e7d0e));
+	background: -moz-linear-gradient(top,  #7db72f,  #4e7d0e);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#7db72f', endColorstr='#4e7d0e');
+}
+
+</style>
+</head>
+<body>
+     <div id="show"></div>
+     <div class="comment">
+        <div class="com_form">
+        	<textarea class="input" id="saytext" name="saytext"></textarea>
+        	<p><input type="button" class="sub_btn" value="提交"><span class="emotion">表情</span></p>
+        </div>
+     </div>    
+
+
+</body>
+
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-browser.js"></script>
+<script type="text/javascript" src="js/qqFace.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	$('.emotion').qqFace({
+		assign:'saytext', 
+		path:'arclist/'	//表情存放的路径
+	});
+
+	$(".sub_btn").click(function(){
+		var str = $("#saytext").val();
+		$("#show").html(replace_em(str));
+	});
+});
+//查看结果
+function replace_em(str){
+	str = str.replace(/\</g,'&lt;');
+	str = str.replace(/\>/g,'&gt;');
+	str = str.replace(/\n/g,'<br/>');
+	str = str.replace(/\[em_([0-9]*)\]/g,'<img src="arclist/$1.gif" border="0" />');
+	return str;
+}
+</script>
+
+
+</html>
+
+
+
+
+  
+  
