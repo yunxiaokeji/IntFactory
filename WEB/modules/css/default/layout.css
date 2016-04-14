@@ -166,7 +166,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 /*详情页模块切换样式*/
 .module-header { margin:0 20px; }
 .module-header .module-tab { height:35px; float:left; }
-.module-header .module-tab li{ padding:0 10px; cursor:pointer; min-width:70px; text-align:center; margin-right:5px;height:35px; line-height:35px; color:#999;
+.module-header .module-tab li{ padding:0 10px; cursor:pointer; min-width:70px; text-align:center; margin-right:5px;height:35px; line-height:35px; color:#666;
                                float:left; background-color:#e6e6e6; border-radius:2px; }
 .module-header .module-tab li:hover{ background-color:#fff; color:#4a98e7;}
 .module-header .module-tab li.hover{ background-color:#fff; color:#4a98e7; border-bottom-left-radius:0; border-bottom-right-radius:0;}
@@ -389,4 +389,17 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 
 /*暂无数据*/
 .nodata-txt { padding: 95px 0px; font-size: 16px; text-align: center; color: #666; }
+
+/*讨论备忘*/
+.talk-body { }
+.talk-body .content-main { height:150px; position:relative; width:700px; }
+.talk-body .content-main .txt-content { height:148px; width:640px; background-color:#f7f7f7; border:solid 1px #eee; }
+.talk-body .content-main .txt-content:focus { border:solid 1px #318ae4;}
+.talk-body .content-main .btn-save { position:absolute; right:0; bottom:0px; }
+
+.talk-body .talk-title { border-bottom: solid 1px #4a98e7; height:40px; line-height:40px; width: 700px; color:#666; }
+.talk-body .content-list { width: 700px; }
+.talk-body .content-list td{ border-bottom:dashed 1px #ccc; }
+.talk-body .content-list .user-avatar { width:35px; padding-top:20px; vertical-align:top; }
+.talk-body .content-list .user-avatar img{ width:24px; height:24px; border-radius:12px;  vertical-align:top; }
 

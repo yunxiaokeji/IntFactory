@@ -43,20 +43,18 @@
     <span class="header-title left">@ViewBag.Title</span>
     <div id="btnCreate" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"103029001"))">新建采购</div>
 </div>
-<div class="search-box">
-    <div class="search-header">
-        <ul class="search-tab search-status">
-            <li data-id="-1" class="hover">全部</li>
-            <li data-id="0" class="">待审核</li>
-            <li data-id="1" class="">部分入库</li>
-            <li data-id="2" class="">已入库</li>
-            <li data-id="4" class="">已作废</li>
-        </ul>
+<div class="search-header">
+    <ul class="search-tab search-status">
+        <li data-id="-1" class="hover">全部</li>
+        <li data-id="0" class="">待审核</li>
+        <li data-id="1" class="">部分入库</li>
+        <li data-id="2" class="">已入库</li>
+        <li data-id="4" class="">已作废</li>
+    </ul>
         
-    </div>
 </div>
 <div class="content-body">
-    <div class="search-body">
+    <div class="search-items mTop10">
         @*<div id="providers" class="left"></div>*@
         <div class="left">
             <span class="width80">采购日期：</span><input type="text" id="BeginTime"  class="input width100"  />

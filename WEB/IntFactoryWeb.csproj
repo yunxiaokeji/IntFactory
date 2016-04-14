@@ -357,7 +357,6 @@
     <Content Include="Content\menuico\custom.png" />
     <Content Include="modules\css\auction\buynow.css" />
     <Content Include="modules\css\customer\activity.css" />
-    <Content Include="modules\css\customer\customer.css" />
     <Content Include="modules\css\home\home.css" />
     <Content Include="modules\css\myaccount\myaccount.css" />
     <Content Include="modules\css\myaccount\cropbox.css" />

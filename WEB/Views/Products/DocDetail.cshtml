@@ -18,13 +18,10 @@
         });
     </script>
 }
-<div class="header-box">
-    <span class="header-title left">@(model.DocType == 1 ? "采购单详情" : "采购单入库明细")</span>
+ <div class="content-title">
+    <span class="titlename">单据编号：@(model.DocCode)</span>
 </div>
-<div class="content-body mTop20">
-    <div class="content-title">
-        <span class="titlename">单据编号：@(model.DocCode)</span>
-    </div>
+<div class="content-body">
     <ul class="content-info left">
         <li><span class="column-title">总金额：</span>@(model.TotalMoney.ToString("f2"))</li>
         <li><span class="column-title">状态：</span>@(model.StatusStr)</li>

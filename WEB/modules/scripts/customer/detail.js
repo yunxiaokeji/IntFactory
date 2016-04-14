@@ -211,7 +211,7 @@
         });
 
         //切换模块
-        $(".tab-nav-ul li").click(function () {
+        $(".module-tab li").click(function () {
             var _this = $(this);
             _this.siblings().removeClass("hover");
             _this.addClass("hover");

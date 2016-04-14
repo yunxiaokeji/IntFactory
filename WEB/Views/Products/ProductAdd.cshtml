@@ -20,12 +20,16 @@
 <div class="header-box">
     <span class="header-title left">添加材料 >> @(model.CategoryName)</span>
     @if (Convert.ToInt32(ViewBag.Type) == 11)
-    {
-         <a class="ico-back right mLeft5" title="返回" href="/Orders/ChooseMaterial?id=@(ViewBag.GUID)&tid=@(ViewBag.TID)">返回</a>
+    { 
+        <a class="back right" href="/Orders/ChooseMaterial?id=@(ViewBag.GUID)&tid=@(ViewBag.TID)">
+           <i class="iconfont">&#xe62d;</i> 返回 
+        </a>
     }
     else
     {
-        <a class="ico-back right mLeft5" title="返回" href="/Products/ProductList">返回</a>
+        <a class="back right" href="/Products/ProductList">
+           <i class="iconfont">&#xe62d;</i> 返回 
+        </a>
     }
     
     <input type="hidden" id="categoryID" value="@(model.CategoryID)" />

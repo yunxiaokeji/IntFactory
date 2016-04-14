@@ -83,7 +83,7 @@
                 alert("客户创建成功!", "/Customer/Detail/" + data.model.CustomerID);
                 
             } else {
-                alert("网络异常,请稍后重试!");
+                alert("客户创建失败,联系电话已存在!");
             }
         });
     }
