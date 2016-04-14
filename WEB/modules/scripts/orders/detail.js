@@ -207,7 +207,7 @@ define(function (require, exports, module) {
 
         //任务详情
         require.async("showtaskdetail", function () {
-            $(".task-item").showtaskdetail();
+            $(".task-item[data-limit='']").showtaskdetail();
         });
 
         //更换客户
