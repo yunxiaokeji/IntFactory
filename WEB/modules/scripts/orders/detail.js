@@ -35,6 +35,8 @@ define(function (require, exports, module) {
         //隐藏按钮
         $(".part-btn").hide();
 
+        $(".order-info").css("width", $(".content-title").width() - 430);
+
         //回退委托
         if (_self.status == 0 && !!model.EntrustClientID) {
             $("#btnreturn").show();

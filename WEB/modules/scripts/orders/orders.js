@@ -415,13 +415,14 @@
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
 
-                innerhtml.find(".orderimg").click(function () {
+                innerhtml.find(".check").click(function () {
                     var _this = $(this).parents(".object-item");
                     if (_this.hasClass("hover")) {
                         _this.removeClass("hover");
                     } else {
                         _this.addClass("hover");
                     }
+                    return false;
                 });
 
                 innerhtml.find(".mark").markColor({

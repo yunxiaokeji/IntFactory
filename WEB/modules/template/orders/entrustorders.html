@@ -3,7 +3,7 @@
 	var item = $data[i];
 %}
 <div class="object-item">
-    <div class="orderimg">
+    <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="orderimg">
         {% if(item.OrderImage){ %}
               <img src="{%=item.OrderImage%}" />
         {% } %}
@@ -13,7 +13,7 @@
                   <i class="iconfont right">&#xe631;</i>
               </span>
         {% } %}
-    </div>
+    </a>
     <ul>
         <li>
             <i class="iconfont left">&#xe624;</i>

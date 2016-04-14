@@ -1,12 +1,12 @@
 ﻿
 /*订单列表*/
 .object-items { color:#999; }
-.object-items .object-item{ width:250px; height:390px; border:solid 1px #ccc; background-color:#fff; float:left; margin-right:15px; margin-top:20px; cursor:pointer; }
+.object-items .object-item{ width:250px; height:390px; border:solid 1px #ddd; background-color:#fff; float:left; margin-right:15px; margin-top:20px; cursor:pointer; }
 .object-items .object-item span{ color:#999; }
 .object-items .object-item .iconfont{ color:#999; }
 
 /*订单样图*/
-.object-items .object-item .orderimg{ width:250px; height:250px; overflow:hidden; position:relative;  background:url('/modules/images/none-img.png') no-repeat center; background-color:#f0f0f0; }
+.object-items .object-item .orderimg{ width:250px; height:250px; display:block; overflow:hidden; position:relative;  background:url('/modules/images/none-img.png') no-repeat center; background-color:#f0f0f0; }
 
 .object-items  .orderimg img{ min-width: 250px; min-height: 250px;}
 
@@ -53,10 +53,11 @@
 
 /*订单状态记录*/
 .status-items {  }
-.status-items li{ float:left; overflow:auto; }
+.status-items li{ float:left;  position:relative; height:40px; margin-left:-24px; }
 .status-items span { line-height:16px; display:block; color:#999; text-align:center; }
-.status-items .status-bg { width:12px;height:12px; border-radius:6px; background-color:#ccc; margin-left:24px; }
-.status-items .status-line { width:80px;height:2px; background-color:#eee; margin-top:4px; }
+.status-items .status-bg { width:12px; height:12px; border-radius:6px; background-color:#ccc; position:absolute; margin-left:24px; }
+.status-items .status-line { width:120px;height:2px; background-color:#eee; margin-top:5px; position:absolute;  }
+.status-items .status-time-text { width:110px; font-size:11px; }
 
 /*title*/
 .content-title ul li { float:left; height:50px; border-left:solid 1px #eee; font-size:14px; color:#666; padding:0 20px; }
@@ -95,14 +96,14 @@
 
 /*订单信息*/
 .order-info { float:left; margin-left:10px; overflow:auto; }
-.order-info .name{ height:40px; line-height:40px; width:650px; background-color:#f7f7f7; color:#666;font-size:14px;text-indent:10px; }
+.order-info .name{ height:40px; line-height:40px; width:100%; background-color:#f7f7f7; color:#666;font-size:14px;text-indent:10px; }
 
-.order-info .moneyinfo { width:220px; margin-top:20px; }
-.order-info .moneyinfo li{ line-height:35px; clear:both;padding:5px;  }
+.order-info .moneyinfo { width:220px; margin-top:20px; margin-right:20px; }
+.order-info .moneyinfo li{ line-height:35px; clear:both;padding:5px; border-bottom:solid 1px #eee; overflow:auto; }
 .order-info .moneyinfo li .column-title{ width:80px; float:left; color:#999; }
 
 .order-info .cutomerinfo { margin-top:20px; width:420px; }
-.order-info .cutomerinfo li{ line-height:35px; clear:both; padding:5px; overflow:auto; border-bottom:solid 1px #eee;}
+.order-info .cutomerinfo li{ line-height:35px; clear:both; padding:5px;  }
 .order-info .cutomerinfo li .column-title{ width:80px; float:left; color:#999; }
 
 .order-remark { margin-top:20px; padding:10px; border:solid 1px #eee; line-height:25px; }
@@ -123,17 +124,22 @@
 .process-info .info{ font-size:16px; height:25px; line-height:25px;}
 
 
-.stage-items { width:100%; }
-.stage-items  li{ float:left; height:120px; width:120px; position:relative; cursor:pointer; 
-                   margin-right:20px; margin-bottom:10px; border-radius:70px; border:solid 5px #ccc; }
+
+.status-desc li{ float:left; cursor:pointer; padding:4px 6px; margin-right:20px; margin-bottom:10px; border:solid 1px #ccc; border-left-width:10px; }
+.status-desc  li.ing{ border-color: #45BF67;}
+.status-desc  li.over{ border-color: #3A7DE5;}
+
+.stage-items { }
+.stage-items  li{ float:left; width:120px; cursor:pointer; padding:5px 10px;
+                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc; border-left-width:10px; }
 
 .stage-items  li:hover{ background-color:#eee;}
 
 .stage-items  li.ing{ border-color: #45BF67;}
 .stage-items  li.over{ border-color: #3A7DE5;}
 
-.stage-items  li span{ display:block; font-size:14px; margin-top:15px; height:20px; line-height:20px; width:120px; text-align:center; color:#333;}
-.stage-items li .status { color:#999; }
+.stage-items  li span{ display:block; font-size:12px; height:25px; line-height:25px; width:120px; color:#333;}
+.stage-items  li .status { color:#999; }
 .stage-items  li.ing .status { color: #45BF67;}
 .stage-items  li.over .status { color: #3A7DE5;}
 

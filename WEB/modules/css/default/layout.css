@@ -87,7 +87,7 @@ header .currentuser:hover .dropdown-top{ border-top:solid 6px #fff;}
 nav { width:180px; position:fixed; left:0; top:50px; height:100%; background-color:#fff; opacity:0.9; box-shadow:0 0 5px #ccc;}
 
 nav .controller { border-top:solid 1px #eee; padding:5px 0; }
-nav .controller-box {  height:40px; cursor:pointer; }
+nav .controller-box {  height:42px; cursor:pointer; }
 nav .controller-name { height:40px; cursor:pointer; text-align:center; }
 nav .controller .open { border-left:solid 6px #999; border-top:solid 6px transparent ;border-bottom:solid 6px transparent; 
                              width:0px; height:0px; margin:14px 0 0 45px; transform:rotate(0deg);}
@@ -103,7 +103,7 @@ nav .action-box a { width:100%; display:inline-block; color:#666; text-align:cen
 nav .action-box a .name{ position:relative;display:inline-block; height:40px; font-size:13px;}
 nav .action-box .action:hover { background-color:#ccc; }
 nav .action-box .action:hover a,nav .action-box .select a{ color:#4a98e7; text-decoration:none; }
-nav .action-box .select { background-color:#eee !important; height:40px; line-height:40px; }
+nav .action-box .select { background-color:#f2f4f8 !important; height:40px; line-height:40px; }
 nav .action-box .point { width:6px; height:6px; border-radius:3px; background-color:red; display:inline-block; position:absolute; top:12px; right:-10px; }
 
 /*内容页样式*/
