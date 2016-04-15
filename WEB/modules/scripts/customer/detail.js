@@ -715,9 +715,6 @@
                     $(this).parent().slideUp(100);
                 });
 
-                require.async("businesscard", function () {
-                    innerhtml.find("img").businessCard();
-                });
             });
 
             $("#pagerReply").paginate({

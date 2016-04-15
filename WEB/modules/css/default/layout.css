@@ -30,7 +30,7 @@ input[type="submit"]::-moz-focus-inner,
 input[type="file"] > input[type="button"]::-moz-focus-inner{padding:0;border:none;}
 
 /*header样式*/
-header { height:50px; width:100%; background-color:#2F73B8; position:fixed; top:0; z-index:1999; opacity:0.9;}
+header { height:50px; width:100%; background-color:#2F73B8; position:fixed; top:0; z-index:1999; opacity:0.9; box-shadow:0 0 5px #2F73B8;}
 
 header .logo {margin-top:13px; margin-left:10px; }
 header .logo img{ height:26px; }
@@ -48,15 +48,15 @@ header .companyname:hover { color: #fff; }
 .dropdown-companyinfo .btn-buy { padding: 15px 0px; width: 160px; font-size: 18px; }
 
 /*一级菜单*/
-header .menu { height:50px; margin-left:30px;  }
-header .menu a{  height:50px; line-height:50px;text-align:center; width:90px; display:inline-block; position:relative; }
+header .menu { height:50px; margin-left:0px;  }
+header .menu a{  height:50px; line-height:50px;text-align:center; width:70px; display:inline-block; position:relative; margin-right:20px; }
 header .menu .ico{ width:16px; height:16px; margin-top:18px; margin-left:10px; float:left; }
 header .menu .name{ margin-left:5px; color:#BFD2F2; font-size:14px; float:left;}
 header .menu .point { width:6px; height:6px; border-radius:3px; background-color:#f8aa9b; float:left; display:inline-block; margin-top:18px; margin-left:3px; }
-header .menu .cursor { border-bottom:solid 9px #f2f4f8; border-left:solid 10px transparent ;border-right:solid 10px transparent; 
-                                   width:0; height:0; position:absolute; left:35px; bottom:0px; display:none;  }
+header .menu .cursor { border-bottom:solid 5px #fff; width:100%; position:absolute; bottom:0px; display:none;  }
 header .menu a:hover .name,header .menu .select .name{ color:#fff;}
-header .menu .select .cursor{ display:inline-block;}
+
+header .menu .select .cursor{ display:block; }
 
 /*登录会员信息*/
 header .currentuser { margin-right:30px; cursor:pointer;}
