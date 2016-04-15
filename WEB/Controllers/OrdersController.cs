@@ -123,6 +123,22 @@ namespace YXERP.Controllers
             }
         }
 
+        public ActionResult OrderLayer(string id)
+        {
+            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
+
+            if (model == null || string.IsNullOrEmpty(model.OrderID))
+            {
+                return Redirect("/Orders/Orders");
+            }
+            if (model.Status == 0)
+            {
+                ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.AgentID, CurrentUser.ClientID);
+            }
+
+            return PartialView(model);
+        }
+
         public ActionResult ChooseProducts(string id, string tid)
         {
             ViewBag.Type = (int)EnumDocType.Order;

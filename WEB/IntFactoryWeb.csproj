@@ -167,6 +167,7 @@
     <Content Include="Content\menuico\saleshover.png" />
     <Content Include="DLL\JsonObject.dll" />
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
+    <Content Include="modules\css\default\customer.css" />
     <Content Include="modules\css\default\orders.css" />
     <Content Include="modules\css\default\order_create.css" />
     <Content Include="modules\css\home\selectlogin.css" />
@@ -942,6 +943,7 @@
     <Content Include="Views\Task\PlatePrint.cshtml" />
     <Content Include="Views\Orders\Orders.cshtml" />
     <Content Include="Views\Orders\OrderSuccess.cshtml" />
+    <Content Include="Views\Orders\OrderLayer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
