@@ -514,7 +514,7 @@
                     FromReplyUserID: "",
                     FromReplyAgentID: ""
                 };
-                ObjectJS.saveTaskReply(model);
+                ObjectJS.saveTaskReply(model,$(this));
 
                 txt.val("");
             }
@@ -568,7 +568,7 @@
                                 FromReplyAgentID: _this.data("agentid")
                             };
 
-                            ObjectJS.saveTaskReply(entity);
+                            ObjectJS.saveTaskReply(entity,_this);
                         }
 
                         $("#Msg_" + _this.data("replyid")).val('');
@@ -617,10 +617,19 @@
     }
 
     //保存任务讨论
-    ObjectJS.saveTaskReply = function (model) {
+    ObjectJS.saveTaskReply = function (model, btnObject) {
         var _self = this;
+        var btnname = "";
+        if (btnObject) {
+            btnname = btnObject.html();
+            btnObject.html("保存中...").attr("disabled", "disabled");
+        }
 
         Global.post("/Opportunitys/SavaReply", { entity: JSON.stringify(model) }, function (data) {
+            if (btnObject) {
+                btnObject.html(btnname).removeAttr("disabled");
+            }
+
             doT.exec("template/customer/replys.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
@@ -628,7 +637,7 @@
                 $("#replyList .nodata-txt").parent().parent().remove();
 
                 $("#replyList").prepend(innerhtml);
-                innerhtml.fadeIn(1000);
+                innerhtml.fadeIn(500);
 
                 innerhtml.find(".reply-content").each(function () {
                     $(this).html(Global.replaceQqface($(this).html()));
@@ -657,7 +666,7 @@
                             FromReplyUserID: _this.data("createuserid"),
                             FromReplyAgentID: _this.data("agentid")
                         };
-                        ObjectJS.saveTaskReply(entity);
+                        ObjectJS.saveTaskReply(entity,_this);
 
                     }
                     $("#Msg_" + _this.data("replyid")).val('');

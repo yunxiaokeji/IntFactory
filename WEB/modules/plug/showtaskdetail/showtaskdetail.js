@@ -154,7 +154,7 @@ define(function (require, exports, module) {
                         FromReplyUserID: "",
                         FromReplyAgentID: ""
                     };
-                    saveTaskReply(model);
+                    saveTaskReply(model,$(this));
 
                     txt.val("");
                 }
@@ -202,7 +202,7 @@ define(function (require, exports, module) {
                                 FromReplyAgentID: _this.data("agentid")
                             };
 
-                            saveTaskReply(entity);
+                            saveTaskReply(entity,_this);
                         }
 
                         $("#Msg_" + _this.data("replyid")).val('');
@@ -246,16 +246,25 @@ define(function (require, exports, module) {
         }
 
         //保存任务讨论
-        var saveTaskReply = function (model) {
+        var saveTaskReply = function (model, btnObject) {
             var _self = this;
+            var btnname = "";
+            if (btnObject) {
+                btnname = btnObject.html();
+                btnObject.html("保存中...").attr("disabled", "disabled");
+            }
 
             Global.post("/Opportunitys/SavaReply", { entity: JSON.stringify(model) }, function (data) {
+                if (btnObject) {
+                    btnObject.html(btnname).removeAttr("disabled");
+                }
+
                 doT.exec("template/customer/replys.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
                     innerhtml.hide();
                     $("#replyList").prepend(innerhtml);
-                    innerhtml.fadeIn(1000);
+                    innerhtml.fadeIn(500);
 
                     innerhtml.find(".btn-reply").click(function () {
                         var _this = $(this), reply = _this.nextAll(".reply-box");
@@ -275,7 +284,7 @@ define(function (require, exports, module) {
                                 FromReplyUserID: _this.data("createuserid"),
                                 FromReplyAgentID: _this.data("agentid")
                             };
-                            saveTaskReply(entity);
+                            saveTaskReply(entity,_this);
 
                         }
                         $("#Msg_" + _this.data("replyid")).val('');
