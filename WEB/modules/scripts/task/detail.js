@@ -19,8 +19,9 @@
     ///orderType:订单类型
     ///um:富文本编辑器
     ///plateRemark:制版工艺描述
-    ObjectJS.init = function (taskid, orderid, stageid, mark, finishStatus, attrValues, orderType, um, plateRemark, orderimages) {
+    ObjectJS.init = function (taskid, orderid, stageid, mark, finishStatus, attrValues, orderType, um, plateRemark, orderimages, ownerid) {
         ObjectJS.orderid = orderid;
+        ObjectJS.ownerid = ownerid;
         ObjectJS.stageid = stageid;
         ObjectJS.taskid = taskid;
         ObjectJS.orderType = orderType;
@@ -197,7 +198,11 @@
                     callback: function (items) {
                         var memberIDs = '';
                         for (var i = 0; i < items.length; i++) {
-                            var item=items[i];
+                            var item = items[i];
+                            if (ObjectJS.ownerid == item.id) {
+                                continue;
+                            }
+
                             if ($("#taskMemberIDs" + " div[data-id='" + item.id + "']").html()) {
                                 continue;
                             }
@@ -380,7 +385,7 @@
             memberIDs: memberIDs
         }, function (data) {
             if (data.result == 0) {
-                alert(memberIDs);
+                alert("添加失败");
             }
             else {
                 $("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
@@ -408,6 +413,7 @@
         });
     }
 
+    //
     ObjectJS.createTaskMember = function (item) {
         var html = '';
         html += '<div class="task-member left" data-id="'+item.id+'">';
