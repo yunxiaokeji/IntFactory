@@ -55,24 +55,24 @@
 .status-items {  }
 .status-items li{ float:left;  position:relative; height:40px; margin-left:-24px; }
 .status-items span { line-height:16px; display:block; color:#999; text-align:center; }
-.status-items .status-bg { width:12px; height:12px; border-radius:6px; background-color:#ccc; position:absolute; margin-left:24px; }
-.status-items .status-line { width:120px;height:2px; background-color:#eee; margin-top:5px; position:absolute;  }
-.status-items .status-time-text { width:110px; font-size:11px; }
+.status-items .status-bg { width:12px; height:12px; border-radius:6px; background-color:#ccc; margin-left:24px; }
+.status-items .status-line { width:110px;height:2px; background-color:#eee; margin-top:5px;  }
+.status-items .status-time-text { width:100px; font-size:11px; position:absolute; top:-12px; }
 
 /*title*/
 .content-title ul li { float:left; height:50px; border-left:solid 1px #eee; font-size:14px; color:#666; padding:0 20px; }
 .content-title ul .iconfont { font-size:20px; }
 
 /*样图信息*/
-.order-imgs-div { width:400px; }
-.order-imgs-div .order-imgs{ height:400px; width:400px; position:relative; }
-.order-imgs-div .order-imgs img{ height:400px; width:400px; }
+.order-imgs-div { width:350px; }
+.order-imgs-div .order-imgs{ height:350px; width:350px; position:relative; }
+.order-imgs-div .order-imgs img{ height:350px; width:350px; }
 .order-imgs-div .order-imgs img:hover{ cursor:pointer;}
-.order-imgs-list { height:56px; margin-top:5px; }
-.order-imgs-list li{ width:56px; height:56px; float:left; border:solid 2px #eee; margin-right:6px; cursor:pointer; position:relative;}
+.order-imgs-list { height:48px; margin-top:5px; }
+.order-imgs-list li{ width:48px; height:48px; float:left; border:solid 2px #eee; margin-right:6px; cursor:pointer; position:relative;}
 .order-imgs-list li.hover{ border-color:red;}
-.order-imgs-list img{ width:56px; height:56px;}
-.order-imgs-list .edit-orderimages { font-size:40px; width:56px; height:56px;  color:#999; line-height:45px; text-align:center; }
+.order-imgs-list img{ width:48px; height:48px;}
+.order-imgs-list .edit-orderimages { font-size:40px; width:48px; height:48px;  color:#999; line-height:40px; text-align:center; }
 .order-imgs-list .ico-delete { position:absolute; top:-8px; right:-8px; background-color:#fff; border-radius:10px; }
 
 
@@ -95,7 +95,7 @@
 .enlarge-image-box img { text-align:center; }
 
 /*订单信息*/
-.order-info { float:left; margin-left:10px; overflow:auto; }
+.order-info { float:left; margin-left:20px; overflow:auto; }
 .order-info .name{ height:40px; line-height:40px; width:100%; background-color:#f7f7f7; color:#666;font-size:14px;text-indent:10px; }
 
 .order-info .moneyinfo { width:220px; margin-top:20px; margin-right:20px; }
@@ -123,7 +123,7 @@
 
 .process-info .info{ font-size:16px; height:25px; line-height:25px;}
 
-.status-desc li{ float:left; cursor:pointer; padding:4px 6px; margin-right:20px; margin-bottom:10px; border:solid 1px #ccc; border-left-width:10px; }
+.status-desc li{ float:left; padding:0 6px; margin:5px 20px 10px 0; border-left:solid 1px #ccc; border-left-width:10px; }
 .status-desc  li.ing{ border-color: #45BF67;}
 .status-desc  li.over{ border-color: #3A7DE5;}
 
