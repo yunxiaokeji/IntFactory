@@ -19,7 +19,7 @@
             var um = null;
 
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)', '@order.OrderImages');
+                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)', '@order.OrderImages', '@(model.Owner.UserID)');
             });
 
         });
@@ -112,14 +112,21 @@
                         <div class="clear"></div>
                     }
                     else{
-                            foreach(var member in model.TaskMembers){
-                            <div class="task-member">
+                        if (model.TaskMembers.Count>0){    
+                        foreach(var member in model.TaskMembers){
+                            <div class="task-member left">
                                 <div class="pRight5"><span>@member.Name</span></div>
                             </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="left">暂无成员</div>
                         }
 
                     }
                 }
+                <div class="clear"></div>
              </li>
              <li>
                 <span class="column-title">接受时间:</span>
