@@ -1,5 +1,5 @@
 ﻿
-.task-layer-box { position: fixed; top: 50px; right:0px; bottom:0;  background-color: #fff; border-left: solid 1px #eee; box-shadow:0 0 5px #ccc; opacity: 1;}
+.task-layer-box { position: fixed; top: 50px; right:0px; bottom:0;  background-color: #fff; border-left: solid 1px #eee; opacity: 1;}
 
 
 .taskOperate { position:fixed; width:470px; height:30px; padding:10px 15px; border-bottom: 1px solid #eee;box-shadow:0 0 1px #ccc inset; }

@@ -68,8 +68,16 @@ define(function (require, exports, module) {
                     var html = template(arr);
 
                     $("#taskDetailContent").remove();
+
                     $("body").append(html);
 
+                    if (data.item.FinishStatus == 0) {
+                        $("#taskDetailContent").css("box-shadow", "0 0 5px #ccc");
+                    } else if (data.item.FinishStatus == 1) {
+                        $("#taskDetailContent").css("box-shadow", "0 0 5px #45BF67");
+                    } else if (data.item.FinishStatus == 2) {
+                        $("#taskDetailContent").css("box-shadow", "0 0 5px #3A7DE5");
+                    }
 
                     $("#taskDetailContent").animate({ width: '500px' }, 200);
 
@@ -127,39 +135,6 @@ define(function (require, exports, module) {
 
             });
             
-        }
-
-        //更新任务到期日期
-        var UpdateTaskEndTime = function (taskID) {
-            Global.post("/Task/UpdateTaskEndTime", { id: taskID, endTime: $("#UpdateTaskEndTime").val() }, function (data) {
-                if (data.result == 1)
-                {
-                    defaultParas.UpdateTaskEndTimeCallBack($("#UpdateTaskEndTime").val(), taskID);
-                }
-            });
-        }
-
-        //标记任务完成
-        var FinishTask = function (taskID) {
-            confirm("标记完成的任务不可逆,确定完成?", function () {
-                Global.post("/Task/FinishTask", { id: taskID }, function (data) {
-                    if (data.result == 1) {
-                        alert("标记任务完成");
-                        $("#FinishTask").addClass("btnccc").val("已完成").attr("disabled", "disabled");
-
-                        defaultParas.FinishTaskCallBack();
-                    }
-                    else if (data.result == 2) {
-                        alert("前面阶段任务有未完成,不能标记完成");
-                    }
-                    else if (data.result == 3) {
-                        alert("无权限操作");
-                    }
-                    else if (data.result == -1) {
-                        alert("保存失败");
-                    }
-                });
-            });
         }
 
         //初始化任务讨论列表
