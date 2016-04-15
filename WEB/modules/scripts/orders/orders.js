@@ -59,6 +59,10 @@
             if (!$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown")) {
                 $(".dropdown-ul").hide();
             }
+
+            if (!$(e.target).parents().hasClass("order-layer") && !$(e.target).hasClass("order-layer")) {
+                $(".order-layer").animate({ right: "-505px" }, 200);
+            }
         });
 
         $("#btnSearch").click(function () {
@@ -386,6 +390,11 @@
             });
 
         });
+
+        //关闭浮层
+        $("#closeLayer").click(function () {
+            $(".order-layer").animate({ right: "-505px" }, 200);
+        });
     }
 
     //获取列表
@@ -432,6 +441,11 @@
                     }
                 });
 
+                innerhtml.find(".view-detail").click(function () {
+                    _self.getDetail($(this).data("id"));
+                    return false;
+                });
+
                 $(".object-items").append(innerhtml);
 
                 innerhtml.find(".orderimg img").each(function () {
@@ -470,6 +484,25 @@
                 _self.getList();
             }
         });
+    }
+
+    ObjectJS.getDetail = function (id) {
+
+        $(".order-layer-item").hide();
+        if ($(".order-layer").css("right") == "-505px" || $(".order-layer").css("right") == "-505") {
+            $(".order-layer").animate({ right: "0px" }, 200);
+        }
+        $(".order-layer").append("<div class='data-loading'><div>");
+       
+        if ($("#" + id).length > 0) {
+            $(".order-layer").find(".data-loading").remove();
+            $("#" + id).show();
+        } else {
+            $.get("/Orders/OrderLayer", { id: id }, function (html) {
+                $(".order-layer").find(".data-loading").remove();
+                $(".order-layer").append(html);
+            });
+        }
     }
 
     //转移客户

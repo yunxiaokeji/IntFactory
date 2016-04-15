@@ -2,27 +2,24 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-<div class="task-layer-box">
-<div class="taskContent" id="taskDetailContent" data-taskid="{%=item.TaskID%}">
-    <div class="pAll15">
-    <div class="taskOperate">
-        <div class="left">
-            <div class="left"><img title="到期日期" style="width:30px;" src="/modules/images/ico-endtime.png" /></div>
-            <div class="left mLeft10 mTop5">{%=item.EndTime.toDate('yyyy-MM-dd hh:mm')>'3000-01-01'?'未指定日期':item.EndTime.toDate('yyyy-MM-dd hh:mm')%}</div>
-            <div class="clear"></div>
+<div class="task-layer-box" id="taskDetailContent" data-taskid="{%=item.TaskID%}">
+<div class="taskOperate">
+    <div class="left">
+        <div class="left"><img title="到期日期" style="width:30px;" src="/modules/images/ico-endtime.png" /></div>
+        <div class="left mLeft10 mTop5">{%=item.EndTime.toDate('yyyy-MM-dd hh:mm')>'3000-01-01'?'未指定日期':item.EndTime.toDate('yyyy-MM-dd hh:mm')%}</div>
+        <div class="clear"></div>
             
-        </div>
-        <div class="right">
-            <span class="column-title mTop3 left width60">负责人：</span>
-            <span class="left mTop3" id="taskOwnerID">{%=item.Owner.Name%}</span>
-            <span title="更换负责人" class="iconfont change-ico left mLeft10" data-userid="{%=item.Owner.UserID%}" data-id="{%=item.TaskID%}" id="changeTaskOwner">&#xe60b;</span>
-            <div class="clear"></div>
-        </div>
+    </div>
+    <div class="right">
+        <span class="column-title mTop3 left width60">负责人：</span>
+        <span class="left mTop3" id="taskOwnerID">{%=item.Owner.Name%}</span>
+        <span title="更换负责人" class="iconfont change-ico left mLeft10" data-userid="{%=item.Owner.UserID%}" data-id="{%=item.TaskID%}" id="changeTaskOwner">&#xe60b;</span>
         <div class="clear"></div>
     </div>
-    
+    <div class="clear"></div>
+</div>
+<div class="taskContent">
     <div class="taskDetail">
-        
         <ul class="left">
             <li>
                 <span class="column-title">任务编号:</span>

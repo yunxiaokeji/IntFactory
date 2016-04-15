@@ -24,7 +24,7 @@
         </li>
         <li>
             <span>{%= item.PlanTime.toDate("yyyy-MM-dd") %}</span>
-            <i class="iconfont view-detail right">&#xe627;</i>
+            <i class="iconfont view-detail right" data-id="{%=item.OrderID%}">&#xe627;</i>
         </li>
         <li>
             <span><i class="iconfont">{%=item.OrderType==1?"&#xe612;":"&#xe60f;" %}</i> {%=item.OrderType==1?"打样":"大货" %}</span>
