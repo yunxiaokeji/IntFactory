@@ -3,6 +3,10 @@
     var NowDate = ViewBag.NowDate;
 }
 
+@section css{
+    <link href="/modules/css/task/style.css" rel="stylesheet" />
+}
+
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
@@ -52,17 +56,40 @@
             <li data-id="1">进行中</li>
             <li data-id="2">已完成</li>
         </ul>
-         <ul class="search-tab-status search-returnstatus">
+     @*    <ul class="search-tab-status search-returnstatus">
             <li data-id="1" class="hover">正常</li>
             <li data-id="8">终止</li>
-        </ul>
+        </ul>*@
     </div>
 </div>
 
 <div class="content-body">
+    <div class="search-body">
+        <ul class="search-item search-ordertype">
+            <li class="column-name">类型：</li>
+            <li data-id="-1" class="item hover">全部</li>
+            <li data-id="1" class="item">打样单</li>
+            <li data-id="2" class="item">大货单</li>
+        </ul>
+        <ul class="search-item search-status">
+            <li class="column-name">状态：</li>
+            <li data-id="-1" class="item hover">全部</li>
+            <li data-id="1" class="item">正常</li>
+            <li data-id="8" class="item">关闭</li>
+        </ul>
+        <ul class="search-item-color search-mark">
+            <li class="column-name">标记：</li>
+            <li data-id="-1" class="item mark-all hover"></li>
+            <li data-id="0" class="item mark0"></li>
+            <li data-id="1" class="item mark1"></li>
+            <li data-id="2" class="item mark2"></li>
+            <li data-id="3" class="item mark3"></li>
+            <li data-id="4" class="item mark4"></li>
+            <li data-id="5" class="item mark5"></li>
+        </ul>
+    </div>
     <div class="search-items mTop10">
-        <div id="chooseBranch" class="left mRight20"></div>
-        <div id="orderType" class="left mRight20"></div>
+        <div class="left mRight20" id="chooseBranch"></div>
         <div id="orderProcess" class="left mRight20"></div>
         <div id="orderStage" class="left mRight20"></div>
         <div class="left">
@@ -70,8 +97,25 @@
             <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime" value="@NowDate" class="input width80"  />
             <span class="btn mLeft10" id="btnSearch">搜索</span>
         </div>
-        <div class="right searth-module" data-text="关键字搜索..." data-width="160"> </div>
+        <div class="right searth-module" data-text="关键字搜索..." data-width="260"> </div>
     </div>
+    <ul class="search-sort">
+        <li>排序</li>
+        <li class="sort-item hover"  data-isasc="0" data-isactive="1" data-orderbycloumn="0">
+            创建时间
+            <span class="asc"></span>
+            <span class="desc hover"></span>
+        </li>
+        <li class="sort-item" data-isasc="1" data-isactive="0" data-orderbycloumn="1">
+            到期时间
+            <span class="asc"></span>
+            <span class="desc"></span>
+        </li>
+    </ul>
+</div>
+
+
+<div class="content-body">
 
     <table class="table-list tb-task-list">
         <tr class="tr-header">
@@ -83,15 +127,11 @@
             <td class="width150">订单类型</td>
             <td class="width100">任务进度</td>
             <td class="width150">负责人</td>
-            <td class="width150 orderby-column" data-isasc="1" data-isactive="0" data-orderbycloumn="1">
+            <td class="width150" >
                 到期时间
-                <span class="orderby-asc"></span>
-                <span class="orderby-desc"></span>
             </td>
-            <td class="width150 orderby-column" data-isasc="0" data-isactive="1" data-orderbycloumn="0">
+            <td class="width150" >
                 创建时间
-                <span class="orderby-asc"></span>
-                <span class="orderby-desc hover"></span>
             </td>
         </tr>
     </table>

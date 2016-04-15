@@ -18,7 +18,7 @@
     <script src="/Scripts/sea-config.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/home"], function (home) {
-            home.initLogin('@(ViewBag.Status)');
+            home.initLogin('@(ViewBag.Status)', 0,'@ViewBag.ReturnUrl');
         });
     </script>
 </head>

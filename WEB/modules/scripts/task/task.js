@@ -10,7 +10,7 @@
         isParticipate:0,
         taskType: -1,
         colorMark: -1,
-        status: 1,
+        status: -1,
         finishStatus:0,
         keyWords:"",
         beginDate: "",
@@ -71,13 +71,15 @@
             });
         });
 
-        //过滤颜色标记
-        $("#filterMark").markColor({
-            isAll: true,
-            onChange: function (obj, callback) {
-                callback && callback(true);
+        //切换颜色标记
+        $(".search-item-color li").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+
                 Params.pageIndex = 1;
-                Params.colorMark = obj.data("value");
+                Params.colorMark = _this.data("id");
                 ObjectJS.getList();
             }
         });
@@ -96,7 +98,7 @@
         });
 
         //切换任务状态
-        $(".search-returnstatus li").click(function () {
+        $(".search-status .item").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -108,32 +110,21 @@
             }
         });
 
-        //订单流程阶段、任务类型搜索
+        //切换订单类型
+        $(".search-ordertype .item").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+
+                Params.pageIndex = 1;
+                Params.orderType = _this.data("id");
+                ObjectJS.getList();
+            }
+        });
+
+        //订单流程阶段搜索
         require.async("dropdown", function () {
-            var Types = [
-                {
-                    ID: "1",
-                    Name: "打样"
-                },
-                {
-                    ID: "2",
-                    Name: "大货"
-                }
-            ];
-            $("#orderType").dropdown({
-                prevText: "订单类型-",
-                defaultText: "全部",
-                defaultValue: "-1",
-                data: Types,
-                dataValue: "ID",
-                dataText: "Name",
-                width: "120",
-                onChange: function (data) {
-                    Params.pageIndex = 1;
-                    Params.orderType = data.value;
-                    ObjectJS.getList();
-                }
-            });
 
             Global.post("/Task/GetOrderProcess", null, function (data) {
                 $("#orderProcess").dropdown({
@@ -185,33 +176,33 @@
         });
 
         //列表排序
-        $(".orderby-column").click(function () {
+        $(".sort-item").click(function () {
             var _self = $(this);
             var isasc = _self.attr("data-isasc");
             var isactive = _self.attr("data-isactive");
             var orderbycloumn = _self.attr("data-orderbycloumn");
 
-            $(".table-list td[data-isactive='1']").attr("data-isactive", 0).children().removeClass("hover");
+            $(".search-sort li[data-isactive='1']").attr("data-isactive", 0).children().removeClass("hover");
             if (isactive == 1) {
                 if (isasc == 1) {
-                    _self.find(".orderby-asc").removeClass("hover");
-                    _self.find(".orderby-desc").addClass("hover");
+                    _self.find(".asc").removeClass("hover");
+                    _self.find(".desc").addClass("hover");
                 }
                 else {
-                    _self.find(".orderby-desc").removeClass("hover");
-                    _self.find(".orderby-asc").addClass("hover");
+                    _self.find(".desc").removeClass("hover");
+                    _self.find(".asc").addClass("hover");
                 }
                 
                 isasc = isasc == 1 ? 0 : 1;
             }
             else {
                 if (isasc == 1) {
-                    _self.find(".orderby-desc").removeClass("hover");
-                    _self.find(".orderby-asc").addClass("hover");
+                    _self.find(".desc").removeClass("hover");
+                    _self.find(".asc").addClass("hover");
                 }
                 else {
-                    _self.find(".orderby-asc").removeClass("hover");
-                    _self.find(".orderby-desc").addClass("hover");
+                    _self.find(".asc").removeClass("hover");
+                    _self.find(".desc").addClass("hover");
                 }
 
             }

@@ -164,5 +164,20 @@ cursor:pointer;
   background:url(/modules/images/ico-emotion-hover.png) no-repeat center center;  
 }
 
+/*标记筛选*/
+.search-item-color { clear:both; overflow:auto; margin:10px 0; }
+.search-item-color li{ float:left; margin-right:20px; cursor:pointer;}
+.search-item-color .column-name{ width:60px; padding:2px 5px; color:#999; font-size:12px; }
+.search-item-color .item{ width:12px; height:12px;  border-radius:7px; margin-top:5px;}
+.search-item-color .item.hover{ width:20px; height:20px;border-radius:11px; margin-top:2px;}
+
+.search-item-color .mark-all { background:url('/modules/plug/mark/ico-ball.png') no-repeat; background-size:cover; }
+.search-item-color .mark0 { background-color:#FFF; border:solid 1px #ccc; }
+.search-item-color .mark1 { background-color:#FF7C7C; border:solid 1px #FF7C7C; }
+.search-item-color .mark2 { background-color:#3BB3FF; border:solid 1px #3BB3FF; }
+.search-item-color .mark3 { background-color:#9F74FF; border:solid 1px #9F74FF; }
+.search-item-color .mark4 { background-color:#FFC85D; border:solid 1px #FFC85D; }
+.search-item-color .mark5 { background-color:#FFF65F; border:solid 1px #FFF65F; }
+
 
 

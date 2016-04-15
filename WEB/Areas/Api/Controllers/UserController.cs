@@ -23,18 +23,12 @@ namespace YXERP.Areas.Api.Controllers
             if (pwdErrorUser == null || (pwdErrorUser.ErrorCount < 3 && pwdErrorUser.ForbidTime < DateTime.Now))
             {
                 string operateip = Common.Common.GetRequestIP();
-                int outResult;
-                IntFactoryEntity.Users model = IntFactoryBusiness.OrganizationBusiness.GetUserByUserName(userName, pwd, out outResult, operateip);
+
+                IntFactoryEntity.Users model = IntFactoryBusiness.OrganizationBusiness.GetUserByUserName(userName, pwd, out result, operateip);
+
                 if (model != null)
                 {
-                    //保持登录状态
-                    HttpCookie cook = new HttpCookie("cloudsales");
-                    cook["username"] = userName;
-                    cook["pwd"] = pwd;
-                    cook.Expires = DateTime.Now.AddDays(7);
-                    Response.Cookies.Add(cook);
-
-                    if (outResult == 3)
+                    if (result == 3)
                     {
                         if (pwdErrorUser == null)
                         {
@@ -61,6 +55,15 @@ namespace YXERP.Areas.Api.Controllers
                         }
 
                         Common.Common.CachePwdErrorUsers[userName] = pwdErrorUser;
+                    }
+                    else if (result == 1)
+                    {
+                        Dictionary<string, object> userObj = new Dictionary<string, object>();
+                        userObj.Add("userID",model.UserID);
+                        userObj.Add("agentID", model.AgentID);
+                        userObj.Add("name", model.Name);
+                        userObj.Add("avatar", model.Avatar);
+                        resultObj.Add("user", userObj);
                     }
 
                 }

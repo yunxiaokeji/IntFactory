@@ -18,11 +18,14 @@ define(function (require, exports, module) {
 
     var Home = {};
     //登陆初始化
-    Home.initLogin = function (status, fromBindAccount) {
+    Home.initLogin = function (status, fromBindAccount, returnUrl) {
         Home.fromBindAccount = 0;
-        if (fromBindAccount)
-            Home.fromBindAccount = 1;
-
+        if (fromBindAccount) {
+            if (fromBindAccount == 1) {
+                Home.fromBindAccount = 1;
+            }
+        }
+        Home.returnUrl = returnUrl;
         Home.placeholderSupport();
         if (status == 2) {
             alert("您的账号已在其它地点登录，如不是本人操作，请及时通知管理员对账号冻结！");
@@ -69,7 +72,12 @@ define(function (require, exports, module) {
 
                 if (data.result == 1)
                 {
-                    location.href = "/Home/Index";
+                    if (Home.returnUrl != '') {
+                        location.href = Home.returnUrl;
+                    }
+                    else {
+                        location.href = "/Home/Index";
+                    }
                 }
                 else if (data.result == 0)
                 {
