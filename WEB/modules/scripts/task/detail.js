@@ -19,9 +19,10 @@
     ///orderType:订单类型
     ///um:富文本编辑器
     ///plateRemark:制版工艺描述
-    ObjectJS.init = function (taskid, orderid, stageid, mark, finishStatus, attrValues, orderType, um, plateRemark, orderimages, ownerid) {
+    ObjectJS.init = function (taskid, orderid, stageid, mark, finishStatus, attrValues, orderType, um, plateRemark, orderimages, ownerid, endTime) {
         ObjectJS.orderid = orderid;
         ObjectJS.ownerid = ownerid;
+        ObjectJS.endTime = endTime;
         ObjectJS.stageid = stageid;
         ObjectJS.taskid = taskid;
         ObjectJS.orderType = orderType;
@@ -111,13 +112,14 @@
     ObjectJS.bindEvent = function () {
 
         //切换模块
-        $(".tab-nav-ul li").click(function () {
+        $(".module-tab li").click(function () {
             var _this = $(this);
             if (_this.hasClass("hover")) return;
 
             _this.siblings().removeClass("hover");
             _this.addClass("hover");
-            $(".tab-nav").nextAll().hide();
+
+            $("#navTask").children().hide();
             $("#" + _this.data("id")).show();
 
             ObjectJS.mark = _this.data("mark");
@@ -130,14 +132,14 @@
                 //任务讨论列表
                 ObjectJS.getTaskReplys(1);
             }
-            else if (ObjectJS.orderType == 1 && _this.data("id") == "platemakingContent") {
-                //任务讨论列表
-                ObjectJS.getTaskReplysOfPlate(1);
-            }
-            else if (_this.data("id") == "navProducts") {
-                //任务讨论列表
-                ObjectJS.getTaskReplysOfMaterial(1);
-            }
+            //else if (ObjectJS.orderType == 1 && _this.data("id") == "platemakingContent") {
+            //    //任务讨论列表
+            //    ObjectJS.getTaskReplysOfPlate(1);
+            //}
+            //else if (_this.data("id") == "navProducts") {
+            //    //任务讨论列表
+            //    ObjectJS.getTaskReplysOfMaterial(1);
+            //}
 
         });
 
@@ -236,6 +238,8 @@
             assign: 'txtContent',
             path: '/modules/plug/qqface/arclist/'	//表情存放的路径
         });
+
+        ObjectJS.showTime();
     }
 
     //更改任务到期时间
@@ -423,6 +427,53 @@
         html += '</div>';
 
         $("#taskMemberIDs").append(html);
+    }
+
+    //
+    ObjectJS.showTime = function () {
+        var time_end = new Date(ObjectJS.endTime).getTime();
+        if (time_end == "未设置") {
+            return;
+        }
+        
+
+        var time_start = new Date().getTime(); //设定当前时间
+        // 计算时间差 
+        var time_distance = time_end - time_start;
+        if (time_distance < 0) return;
+
+        // 天
+        var int_day = Math.floor(time_distance / 86400000)
+        time_distance -= int_day * 86400000;
+        // 时
+        var int_hour = Math.floor(time_distance / 3600000)
+        time_distance -= int_hour * 3600000;
+        // 分
+        var int_minute = Math.floor(time_distance / 60000)
+        time_distance -= int_minute * 60000;
+        // 秒 
+        var int_second = Math.floor(time_distance / 1000)
+        // 时分秒为单数时、前面加零 
+        if (int_day < 10) {
+            int_day = "0" + int_day;
+        }
+        if (int_hour < 10) {
+            int_hour = "0" + int_hour;
+        }
+        if (int_minute < 10) {
+            int_minute = "0" + int_minute;
+        }
+        if (int_second < 10) {
+            int_second = "0" + int_second;
+        }
+        // 显示时间 
+        $("#time-d").html(int_day);
+        $("#time-h").html(int_hour);
+        $("#time-m").html(int_minute);
+        $("#time-s").html(int_second);
+
+        // 设置定时器
+        setTimeout(function () { ObjectJS.showTime()}, 1000);
     }
 
     ///任务讨论
@@ -721,7 +772,7 @@
                 });
             }
             else {
-                $("#taskLogList").html("<div class='noDataTxt'>暂无数据!</div>");
+                $("#taskLogList").html("<div class='nodata-txt'>暂无数据!</div>");
             }
 
             $("#pagerLogs").paginate({

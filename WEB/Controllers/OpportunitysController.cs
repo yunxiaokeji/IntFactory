@@ -179,7 +179,7 @@ namespace YXERP.Controllers
             int pageCount = 0;
             int totalCount = 0;
 
-            var list = OrdersBusiness.GetReplys(guid,stageID,mark, pageSize, pageIndex, ref totalCount, ref pageCount);
+            var list = OrdersBusiness.GetReplys(guid,stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);

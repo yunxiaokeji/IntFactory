@@ -22,53 +22,34 @@
             var um = UM.getEditor('txtPlateRemark');
 
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)', '@order.OrderImages', '@(model.Owner.UserID)');
+                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)', '@order.OrderImages', '@(model.Owner.UserID)', '@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))');
             });
         });
     </script>
 }
 
 <div class="header-box">
-    <span class="header-title left">任务详情</span>
-    <a class="back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">
-        <i class="iconfont">&#xe62d;</i> 返回 
-    </a>
-</div>
+    <div class="header-title">
+        任务详情
+        <a class="back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">
+           <i class="iconfont">&#xe62d;</i> 返回 
+        </a>
+    </div>
 
-<div class="taskContent mTop20" id="taskDetailContent" data-taskid="@(model.TaskID)">
-    <div class="taskOperate">
-        <div class="left">
-            
-             <div class="setTaskEndtime @(model.FinishStatus==0?"hide":"")">
-                <div class="left pTop5 width70">
-                    到期时间:
-                </div>
-                 @{
-                     if (model.FinishStatus != 0)
-                    {
-                        <div class="left mLeft10 pTop5">
-                            <span class="">@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未指定到期时间" : model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="left mLeft10">
-                        <input type="text" class="taskEndTime"  id="UpdateTaskEndTime" value="" placeholder="设置到期时间"/>
-                        </div>
-                    }   
-                }
-                <div class="clear"></div>
+    <div class="mTop10">
+        <div class="left titlename">订单编号：<a href="/Orders/OrderDetail/@(model.OrderID)" >@(model.OrderCode)</a></div>
+        
+        <div class="right">
+            <div class="setTaskEndtime hide">
+                <input type="text" class="taskEndTime "  id="UpdateTaskEndTime" value="" placeholder="设置到期时间"/> 
             </div>
 
-            @{if(model.FinishStatus==0){
-                <input type="button" class="btn" onclick="$(this).hide().prev().show()" id="AcceptTask" value="接受任务"/>
-            }}
-
-            
-        </div>
-        <div class="right mRight10">
             @{
-                if (model.FinishStatus == 1)
+                if(model.FinishStatus==0)
+                {
+                    <input type="button" class="btn" onclick="$(this).hide().prev().show()" id="AcceptTask" value="接受任务"/>
+                }
+                else if (model.FinishStatus == 1)
                 {
                     <input type="button" class="btn" id="FinishTask" value="标记完成"/>
                 }
@@ -76,47 +57,89 @@
                 {
                     <span class="taskFinishStatus">已完成</span>
                 }
-             }
+            
+            }
         </div>
-        <div class="clear"></div>
     </div>
-    
-    <div class="taskDetail">
-        
-        <ul class="left taskBaseInfo">
-             <li>
-                <span class="column-title">任务编码:</span>
-                <span>@(model.TaskCode)</span>
+</div>
+
+<div class="content-title">
+    <div class="left titlename">任务编码：@(model.TaskCode)</div>
+    <ul class="right">
+        <li title="订单类型">
+            <span class="left"> 订单类型：</span><label class="left" >@(model.OrderType==1?"打样":"大货")</label>
+        </li>
+        <li>
+            <span class="left"> 负责人：</span><label class="left">@(model.Owner != null ? model.Owner.Name : "--")</label>
+        </li>
+    </ul>
+</div>
+
+<div class="taskContent mTop20" id="taskDetailContent" data-taskid="@(model.TaskID)">
+   <div class="taskDetail">
+        <div class="order-imgs-div left">
+            <div class="order-imgs">
+                <img id="orderImage" onerror="document.getElementById('orderImage').src='/modules/images/img-noimg.png'" src="@( string.IsNullOrEmpty(model.OrderImg) ? "/modules/images/img-noimg.png" : model.OrderImg)" />
+            </div>
+            <ul class="order-imgs-list"></ul>
+        </div>
+
+        <ul class="left taskBaseInfo mLeft20">
+             <li><span class="column-title">剩余时间</span>
+                <span class="task-time" id="time-d">0</span>
+                <span class="mRight10 color666">天</span>
+
+                <span class="task-time" id="time-h">0</span>
+                <span class="mRight10 color666">时</span>
+
+                <span class="task-time" id="time-m">0</span>
+                 <span class="mRight10 color666">分</span>
+
+                <span class="task-time" id="time-s">0</span>
+                 <span class="color666">秒</span>
             </li>
             <li>
-                <span class="column-title">任务标题:</span>
+                <span class="column-title">任务标题</span>
                 <span>@(model.Title)</span>
             </li>
             <li>
-                <span class="column-title">负责人:</span>
-                <span>@(model.Owner.Name)</span>
+                <span class="column-title">接受时间</span>
+                <span id="AcceptTime">@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
             </li>
             <li>
-                <span class="column-title left">成员:</span>
+                <span class="column-title">到期时间</span>
+                <span>@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+            </li>
+            <li>
+                <span class="column-title">完成时间</span>
+                <span id="CompleteTime">@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.CompleteTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+            </li>
+            <li>
+                <span class="column-title left">成员</span>
                 @{
-                    if (ViewBag.IsTaskOwner){
+                    if (ViewBag.IsTaskOwner)
+                    {
                         <div id="taskMemberIDs" class="left">
                             @{
-                                foreach(var member in model.TaskMembers){
+                        foreach (var member in model.TaskMembers)
+                        {
                                 <div class="task-member left" data-id="@member.UserID">
                                     <div class="left pRight5"><span>@member.Name</span></div>
                                     <div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="@member.UserID" >×</a></div>
                                     <div class="clear"></div>
                                 </div>
-                                }
+                        }
                             }
                         </div>
                         <div class="left"><a id="addTaskMembers" href="javascript:void();" class="ico-add">添加成员</a></div>
                         <div class="clear"></div>
                     }
-                    else{
-                        if (model.TaskMembers.Count>0){    
-                        foreach(var member in model.TaskMembers){
+                    else
+                    {
+                        if (model.TaskMembers.Count > 0)
+                        {
+                            foreach (var member in model.TaskMembers)
+                            {
                             <div class="task-member left">
                                 <div class="pRight5"><span>@member.Name</span></div>
                             </div>
@@ -131,49 +154,30 @@
                 }
                 <div class="clear"></div>
              </li>
-             <li>
-                <span class="column-title">接受时间:</span>
-                <span id="AcceptTime">@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
-            </li>
+
             <li>
-                <span class="column-title">完成时间:</span>
-                <span id="CompleteTime">@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.CompleteTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
-            </li>
-             <li>
-                <span class="column-title">订单编号:</span>
-                <a href="/Orders/OrderDetail/@(model.OrderID)">@(model.OrderCode)</a>
-            </li>
-            <li>
-                <span class="column-title">订单类型:</span>
-                <span>@(model.OrderType == 1 ? "打样" : "大货")</span>
-            </li>
-            <li>
-                <span class="column-title">订单需求:</span>
-                <span class="order-remark">@(order.Remark)</span>
+                <span class="order-remark">订单需求 @(order.Remark)</span>
             </li>
         </ul>
 
-        <div class="order-imgs-div right">
-            <div class="order-imgs">
-                <img id="orderImage" onerror="document.getElementById('orderImage').src='/modules/images/img-noimg.png'" src="@( string.IsNullOrEmpty(model.OrderImg) ? "/modules/images/img-noimg.png" : model.OrderImg)" />
-            </div>
-            <ul class="order-imgs-list"></ul>
-        </div>
         <div class="clear"></div>
+    </div>
 
     </div>
 
-    <div id="navTask" class="talk-body nav-partdiv">
-        <div class="tab-nav mTop10">
-            <ul class="tab-nav-ul left">
-                <li data-id="taskReplys" data-mark="2">讨论</li>
-                <li  data-id="navProducts" data-mark="1">材料</li>
-                <li class="hover" data-id="platemakingContent" data-mark="-1">制版</li>
-                <li data-id="orderTaskLogs">日志</li>
-            </ul>
-        </div>
+<div class="module-header mTop20">
+    <ul class="module-tab">
+        <li  data-id="taskReplys" data-mark="1">讨论</li>
+        <li  data-id="navProducts" data-mark="-1">材料</li>
+        <li class="hover" data-id="platemakingContent" data-mark="2">制版</li>
+        <li data-id="orderTaskLogs">日志</li>
+    </ul>
+    <div class="clear"></div>
+</div>
 
-        <div class="mTop50 hide" id="taskReplys">
+<div class="taskContent">
+    <div id="navTask" class="talk-body nav-partdiv">
+        <div class="mTop20 hide" id="taskReplys">
             <div class="content-main">
                 <div class="replyBox">
                     <textarea id="txtContent" class="replyContent" placeholder="发表评论"></textarea><br />
@@ -312,6 +316,8 @@
 
     </div>
 </div>
+
+
 
 <ul class="dropdown-ul hide"  style="width:90px;">
     <li id="btn-addColumn">添加新列</li>
