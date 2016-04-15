@@ -1,7 +1,6 @@
 ﻿
 define(function (require, exports, module) {
     require("plug/showtaskdetail/style.css");
-    require("plug/showtaskdetail/style.css");
     var doT = require("dot");
     var Global = require("global"),
         ChooseUser = require("chooseuser");
@@ -44,11 +43,11 @@ define(function (require, exports, module) {
                         }
                         else//隐藏显示的任务详情
                         {
-                            if ($taskDetailContent.css("width") == "480px") {
+                            if ($taskDetailContent.css("width") == "500px") {
                                 $taskDetailContent.animate({ width: '0px' }, 200);
                             }
                             else
-                                $taskDetailContent.show().animate({ width: '480px' }, 200);
+                                $taskDetailContent.show().animate({ width: '500px' }, 200);
                         }
                     }
                     IsClickEventFinish = true;
@@ -72,7 +71,7 @@ define(function (require, exports, module) {
                     $("body").append(html);
 
 
-                    $("#taskDetailContent").animate({ width: '480px' }, 200);
+                    $("#taskDetailContent").animate({ width: '500px' }, 200);
 
                     //隐藏下拉
                     $(document).click(function (e) {

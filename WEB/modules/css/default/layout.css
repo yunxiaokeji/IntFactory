@@ -110,7 +110,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .main-content { margin-left:180px; padding-top:50px; padding-bottom:50px;}
 
 /*title样式*/
-.header-box { background-color:#fff; padding:10px 20px; overflow:auto; margin-bottom:20px; }
+.header-box { background-color:#fff; padding:10px 20px; min-height:28px; overflow:auto; margin-bottom:20px; }
 .header-box .header-title { color:#666; font-size:18px;}
 .header-box .back { font-size:14px; }
 .header-box .back .iconfont{ color:#4a98e7; }

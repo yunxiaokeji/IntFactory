@@ -1,14 +1,16 @@
 ﻿
-.task-layer-box { position: fixed;  right:0px; bottom:0; top: 50px; background-color: #fff; border-left: solid 1px #eee; opacity: 1; overflow-y:auto; overflow-x:hidden; }
+.task-layer-box { position: fixed; top: 50px; right:0px; bottom:0;  background-color: #fff; border-left: solid 1px #eee; box-shadow:0 0 5px #ccc; opacity: 1;}
 
-.taskContent { overflow-x:hidden;}
+
+.taskOperate { position:fixed; width:470px; height:30px; padding:10px 15px; border-bottom: 1px solid #eee;box-shadow:0 0 1px #ccc inset; }
+
+
+.taskContent { position:absolute; width:470px; padding:0 15px 50px 15px; top:50px; bottom:0px; overflow-x:hidden; overflow-y:auto;}
+
 
 .taskContent .taskDetail { padding-top: 15px; }
 
 .taskContent .taskDetail li { padding-bottom: 25px; }
-
-.taskOperate { margin-top: 9px; padding-bottom: 14px; border-bottom: 1px solid #eee; }
-
 
 .taskDetail .column-title { width: 70px; display: inline-block; }
 
@@ -29,47 +31,18 @@
 .taskContent .talk-body .reply-username { vertical-align:top; }
 .taskContent .talk-body .reply-content { display:inline-block; max-width:300px; white-space: pre-wrap;word-wrap: break-word;  }
 
-.taskReplyBox {
-border:1px solid  #ddd;
-padding:10px 10px 0px 10px;
-border-radius:3px;
-}
+.taskReplyBox { border: 1px solid #ddd; padding: 10px 10px 0px 10px; border-radius: 3px; }
 
-.taskReplyBox .taskReplyContent {
-border:none;
-width:100%;
-height:60px;
-border-bottom:1px solid #ddd;
-}
+.taskReplyBox .taskReplyContent { border: none; width: 100%; height: 60px; border-bottom: 1px solid #ddd; }
 
-.taskReplyBox:hover {
-    border: 1px solid #666;
-}
+.taskReplyBox:hover { border: 1px solid #666; }
 
-.reply-box {
-border:1px solid  #ddd;
-padding:10px 10px 10px 10px;
-border-radius:3px;
-}
+.reply-box { border: 1px solid #ddd; padding: 10px 10px 10px 10px; border-radius: 3px; }
 
-.reply-box:hover {
-border: 1px solid #666;
-}
+.reply-box:hover { border: 1px solid #666; }
 
-.reply-box textarea {
-width:100%;
-border:none;
-height:40px;
-border-bottom:1px solid #ddd;  
-}
+.reply-box textarea { width: 100%; border: none; height: 40px; border-bottom: 1px solid #ddd; }
 
-.btn-emotion {
-background:url(/modules/images/ico-emotion.png) no-repeat center center;
-width:28px;
-height:28px;
-cursor:pointer;
-}
+.btn-emotion { background: url(/modules/images/ico-emotion.png) no-repeat center center; width: 28px; height: 28px; cursor: pointer; }
 
-.btn-emotion:hover {
-  background:url(/modules/images/ico-emotion-hover.png) no-repeat center center;  
-}
+.btn-emotion:hover { background: url(/modules/images/ico-emotion-hover.png) no-repeat center center; }
