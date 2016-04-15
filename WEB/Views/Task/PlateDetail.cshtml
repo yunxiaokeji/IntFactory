@@ -40,14 +40,10 @@
         <div class="left titlename">订单编号：<a href="/Orders/OrderDetail/@(model.OrderID)" >@(model.OrderCode)</a></div>
         
         <div class="right">
-            <div class="setTaskEndtime hide">
-                <input type="text" class="taskEndTime "  id="UpdateTaskEndTime" value="" placeholder="设置到期时间"/> 
-            </div>
-
             @{
                 if(model.FinishStatus==0)
                 {
-                    <input type="button" class="btn" onclick="$(this).hide().prev().show()" id="AcceptTask" value="接受任务"/>
+                    <input type="button" class="btn"  id="AcceptTask" value="接受任务"/>
                 }
                 else if (model.FinishStatus == 1)
                 {
@@ -85,7 +81,7 @@
         </div>
 
         <ul class="left taskBaseInfo mLeft20">
-             <li><span class="column-title">剩余时间</span>
+             <li class="li-plustime"><span class="column-title" id="overplusTime">剩余时间</span>
                 <span class="task-time" id="time-d">0</span>
                 <span class="mRight10 color666">天</span>
 
@@ -117,7 +113,7 @@
             <li>
                 <span class="column-title left">成员</span>
                 @{
-                    if (ViewBag.IsTaskOwner)
+                    if (ViewBag.IsTaskOwner && model.FinishStatus == 1)
                     {
                         <div id="taskMemberIDs" class="left">
                             @{
@@ -312,11 +308,8 @@
             <div id="pagerLogs" class="mTop10"></div>
         </div>
 
-        
-
     </div>
 </div>
-
 
 
 <ul class="dropdown-ul hide"  style="width:90px;">

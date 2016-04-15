@@ -23,6 +23,7 @@
         ObjectJS.orderid = orderid;
         ObjectJS.ownerid = ownerid;
         ObjectJS.endTime = endTime;
+        ObjectJS.finishStatus = finishStatus;
         ObjectJS.stageid = stageid;
         ObjectJS.taskid = taskid;
         ObjectJS.orderType = orderType;
@@ -52,7 +53,9 @@
         }
        //制版任务
         else if ($("#btn-updateTaskRemark").length == 1) {
-            Easydialog = require("easydialog");
+            if (Easydialog == null) {
+                Easydialog = require("easydialog");
+            }
             ObjectJS.bindPlatemakingEvent();
         }
         else{
@@ -122,8 +125,6 @@
             $("#navTask").children().hide();
             $("#" + _this.data("id")).show();
 
-            ObjectJS.mark = _this.data("mark");
-            if (ObjectJS.mark === -1) return;
             if (_this.data("id") == "orderTaskLogs") {
                 //任务日志列表
                 ObjectJS.getLogs(1);
@@ -132,14 +133,6 @@
                 //任务讨论列表
                 ObjectJS.getTaskReplys(1);
             }
-            //else if (ObjectJS.orderType == 1 && _this.data("id") == "platemakingContent") {
-            //    //任务讨论列表
-            //    ObjectJS.getTaskReplysOfPlate(1);
-            //}
-            //else if (_this.data("id") == "navProducts") {
-            //    //任务讨论列表
-            //    ObjectJS.getTaskReplysOfMaterial(1);
-            //}
 
         });
 
@@ -157,29 +150,13 @@
             }
         });
 
-        //绑定任务到期日期
-        setTimeout(function () {
-            if ($("#UpdateTaskEndTime").length == 1) {
-                //更新任务到期日期
-                var taskEndTime = {
-                    elem: '#UpdateTaskEndTime',
-                    format: 'YYYY-MM-DD hh:mm:ss',
-                    min: laydate.now(),
-                    max: '2099-06-16',
-                    istime: true,
-                    istoday: false,
-                    choose: function () {
-                        ObjectJS.updateTaskEndTime();
-                    }
-                };
-                laydate(taskEndTime);
-            }
-        }, 300);
 
         //标记任务完成
-        $("#FinishTask").click(function () {
-            ObjectJS.finishTask();
-        });
+        if ($("#FinishTask").length == 1) {
+            $("#FinishTask").click(function () {
+                ObjectJS.finishTask();
+            });
+        }
 
         //初始化任务讨论列表
         ObjectJS.initTalkReply();
@@ -239,36 +216,69 @@
             path: '/modules/plug/qqface/arclist/'	//表情存放的路径
         });
 
+        //
         ObjectJS.showTime();
+
+        //接受任务
+        if ($("#AcceptTask").length == 1) {
+            $("#AcceptTask").click(function () {
+                ObjectJS.updateTaskEndTime();
+            });
+        }
     }
 
     //更改任务到期时间
     ObjectJS.updateTaskEndTime = function () {
-        if ($("#UpdateTaskEndTime").val() == "")
-        {
-            alert("任务到期时间不能为空");
-            return;
-        }
+        Easydialog = require("easydialog");
+        var innerHtml = '<div class="pTop10 pBottom5"><span class="width80" style="display:inline-block;">到期时间:</span><input style="width:180px;" type="text" class="taskEndTime" id="UpdateTaskEndTime" placeholder="设置到期时间"/></div>';
+        Easydialog.open({
+            container: {
+                id: "show-model-setRole",
+                header: "设置任务到期时间",
+                content: innerHtml,
+                yesFn: function () {
+                    if ($("#UpdateTaskEndTime").val() == "") {
+                        alert("任务到期时间不能为空");
+                        return;
+                    }
 
-        confirm("任务到期时间不可逆，确定设置?", function () {
-            Global.post("/Task/UpdateTaskEndTime", {
-                id: ObjectJS.taskid,
-                endTime: $("#UpdateTaskEndTime").val()
-            }, function (data) {
-                if (data.result == 0) {
-                    alert("操作无效");
+                    confirm("任务到期时间不可逆，确定设置?", function () {
+                        Global.post("/Task/UpdateTaskEndTime", {
+                            id: ObjectJS.taskid,
+                            endTime: $("#UpdateTaskEndTime").val()
+                        }, function (data) {
+                            if (data.result == 0) {
+                                alert("操作无效");
+                            }
+                            else if (data.result == 2) {
+                                alert("任务已接受,不能操作");
+                            }
+                            else if (data.result == 3) {
+                                alert("没有权限操作");
+                            }
+                            else {
+                                location.href = location.href;
+                            }
+                        });
+                    });
+
                 }
-                else if (data.result == 2) {
-                    alert("任务已接受,不能操作");
-                }
-                else if (data.result == 3) {
-                    alert("没有权限操作");
-                }
-                else {
-                    location.href = location.href;
-                }
-            });
+            }
         });
+
+        //更新任务到期日期
+        var taskEndTime = {
+            elem: '#UpdateTaskEndTime',
+            format: 'YYYY-MM-DD hh:mm:ss',
+            min: laydate.now(),
+            max: '2099-06-16',
+            istime: true,
+            istoday: false
+        };
+        laydate(taskEndTime);
+
+
+        
     }
 
     //标记任务完成
@@ -417,7 +427,7 @@
         });
     }
 
-    //
+    //拼接任务成员html
     ObjectJS.createTaskMember = function (item) {
         var html = '';
         html += '<div class="task-member left" data-id="'+item.id+'">';
@@ -429,18 +439,30 @@
         $("#taskMemberIDs").append(html);
     }
 
-    //
+    //任务到期时间倒计时
     ObjectJS.showTime = function () {
         if (ObjectJS.endTime == "未设置") {
             return;
-
         }
+
+        if (ObjectJS.finishStatus==2) {
+            return;
+        }
+
         var time_end = new Date(ObjectJS.endTime).getTime();
         
         var time_start = new Date().getTime(); //设定当前时间
         // 计算时间差 
         var time_distance = time_end - time_start;
-        if (time_distance < 0) return;
+        var overplusTime = false;
+        if (time_distance < 0) {
+            if (!overplusTime) {
+                $("#overplusTime").html("超期时间");
+                $(".taskBaseInfo .li-plustime .task-time").css("background-color", "red");
+            }
+            overplusTime = true;
+            time_distance = time_start - time_end;
+        }
 
         // 天
         var int_day = Math.floor(time_distance / 86400000)
@@ -473,7 +495,7 @@
         $("#time-s").html(int_second);
 
         // 设置定时器
-        setTimeout(function () { ObjectJS.showTime()}, 1000);
+        setTimeout(function () { ObjectJS.showTime() }, 1000);
     }
 
     ///任务讨论
@@ -594,101 +616,6 @@
         });
     }
 
-    //获取制版任务讨论列表
-    ObjectJS.getTaskReplysOfPlate = function (page) {
-        var _self = this;
-        $("#replyListOfPlate").empty();
-        $("#replyListOfPlate").html("<tr><td colspan='2' style='border:none;'><div class='data-loading'><div></td></tr>");
-        Global.post("/Opportunitys/GetReplys", {
-            guid: ObjectJS.orderid,
-            stageid: ObjectJS.stageid,
-            mark: ObjectJS.mark,
-            pageSize: 10,
-            pageIndex: page
-        }, function (data) {
-            $("#replyList").empty();
-            if (data.items.length > 0) {
-                doT.exec("template/customer/replys.html", function (template) {
-                    var innerhtml = template(data.items);
-                    innerhtml = $(innerhtml);
-
-                    $("#replyListOfPlate").html(innerhtml);
-
-                    innerhtml.find(".reply-content").each(function () {
-                        $(this).html(Global.replaceQqface($(this).html()));
-                    });
-                    innerhtml.find(".btn-reply").remove();
-                });
-            }
-            else {
-                $("#replyListOfPlate").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
-            }
-
-            $("#pagerReplyOfPlate").paginate({
-                total_count: data.totalCount,
-                count: data.pageCount,
-                start: page,
-                display: 5,
-                border: true,
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                float: "left",
-                onChange: function (page) {
-                    ObjectJS.getTaskReplysOfPlate(page);
-                }
-            });
-        });
-    }
-
-    //获取物料任务讨论列表
-    ObjectJS.getTaskReplysOfMaterial = function (page) {
-        var _self = this;
-        $("#replyListOfMaterial").empty();
-        $("#replyListOfMaterial").html("<tr><td colspan='2' style='border:none;'><div class='data-loading'><div></td></tr>");
-        Global.post("/Opportunitys/GetReplys", {
-            guid: ObjectJS.orderid,
-            stageid: ObjectJS.stageid,
-            mark: ObjectJS.mark,
-            pageSize: 10,
-            pageIndex: page
-        }, function (data) {
-            $("#replyList").empty();
-            if (data.items.length > 0) {
-                doT.exec("template/customer/replys.html", function (template) {
-                    var innerhtml = template(data.items);
-                    innerhtml = $(innerhtml);
-
-                    $("#replyListOfMaterial").html(innerhtml);
-
-                    innerhtml.find(".reply-content").each(function () {
-                        $(this).html(Global.replaceQqface($(this).html()));
-                    });
-
-                    innerhtml.find(".btn-reply").remove();
-                });
-            }
-            else {
-                $("#replyListOfMaterial").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
-            }
-
-            $("#pagerReplyOfPlate").paginate({
-                total_count: data.totalCount,
-                count: data.pageCount,
-                start: page,
-                display: 5,
-                border: true,
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                float: "left",
-                onChange: function (page) {
-                    ObjectJS.getTaskReplysOfMaterial(page);
-                }
-            });
-        });
-    }
-
     //保存任务讨论
     ObjectJS.saveTaskReply = function (model) {
         var _self = this;
@@ -697,10 +624,11 @@
             doT.exec("template/customer/replys.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
-
+                innerhtml.hide();
                 $("#replyList .nodata-txt").parent().parent().remove();
 
                 $("#replyList").prepend(innerhtml);
+                innerhtml.fadeIn(1000);
 
                 innerhtml.find(".reply-content").each(function () {
                     $(this).html(Global.replaceQqface($(this).html()));

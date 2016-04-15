@@ -185,13 +185,8 @@ define(function (require, exports, module) {
 
                     innerhtml.find(".btn-reply").click(function () {
                         var _this = $(this), reply = _this.nextAll(".reply-box");
-                        reply.slideDown(500);
+                        reply.slideDown(300);
                         reply.find("textarea").focus();
-                        //reply.find("textarea").blur(function () {
-                        //    if (!$(this).val().trim()) {
-                        //        reply.slideUp(200);
-                        //    }
-                        //});
                     });
 
                     innerhtml.find(".save-reply").click(function () {
@@ -258,18 +253,14 @@ define(function (require, exports, module) {
                 doT.exec("template/customer/replys.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
-
+                    innerhtml.hide();
                     $("#replyList").prepend(innerhtml);
+                    innerhtml.fadeIn(1000);
 
                     innerhtml.find(".btn-reply").click(function () {
                         var _this = $(this), reply = _this.nextAll(".reply-box");
-                        reply.slideDown(500);
+                        reply.slideDown(300);
                         reply.find("textarea").focus();
-                        //reply.find("textarea").blur(function () {
-                        //    if (!$(this).val().trim()) {
-                        //        reply.slideUp(200);
-                        //    }
-                        //});
                     });
 
                     innerhtml.find(".save-reply").click(function () {

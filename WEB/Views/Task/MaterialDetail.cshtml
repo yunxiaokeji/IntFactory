@@ -38,14 +38,11 @@
         <div class="left titlename">订单编号：<a href="/Orders/OrderDetail/@(model.OrderID)" >@(model.OrderCode)</a></div>
         
         <div class="right">
-            <div class="setTaskEndtime hide">
-                <input type="text" class="taskEndTime"  id="UpdateTaskEndTime" value="" placeholder="设置到期时间"/> 
-            </div>
 
             @{
                 if(model.FinishStatus==0)
                 {
-                    <input type="button" class="btn" onclick="$(this).hide().prev().show()" id="AcceptTask" value="接受任务"/>
+                    <input type="button" class="btn" id="AcceptTask" value="接受任务"/>
                 }
                 else if (model.FinishStatus == 1)
                 {
@@ -84,7 +81,7 @@
         </div>
 
         <ul class="left taskBaseInfo mLeft20">
-            <li><span class="column-title">剩余时间</span>
+            <li class="li-plustime"><span class="column-title" id="overplusTime">剩余时间</span>
                 <span class="task-time" id="time-d">0</span>
                 <span class="mRight10 color666">天</span>
 
@@ -116,7 +113,7 @@
             <li>
                 <span class="column-title left">成员</span>
                 @{
-                    if (ViewBag.IsTaskOwner)
+                    if (ViewBag.IsTaskOwner && model.FinishStatus == 1)
                     {
                         <div id="taskMemberIDs" class="left">
                             @{
@@ -224,16 +221,16 @@
 
                             if ((model.FinishStatus > 0 && order.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
                             { 
-                                        <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
-                                        <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
-                                        <td class="center">
-                                                <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
-                                        </td> 
+                                <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f2"))" /></td>
+                                <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
+                                <td class="center">
+                                        <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
+                                </td> 
                             }
                             else
                             {
-                                        <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
-                                        <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>    
+                                <td class="center tr-quantity">@(detail.Quantity.ToString("f2"))</td>
+                                <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>    
                             }
                            }
                             </tr>
@@ -292,12 +289,6 @@
                     </div>
                 </div>
             </div>
-
-           @* <div class="talk-title mTop20" style="width:800px;">制版讨论</div>
-
-            <table class="content-list" id="replyListOfPlate"></table>
-
-            <div id="pagerReplyOfPlate" class="mTop10"></div>*@
         </div>
             
         <div id="orderTaskLogs" class="mTop30 hide">
