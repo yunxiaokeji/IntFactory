@@ -302,27 +302,30 @@
                 return;
             }
         }
-
+        
         confirm("标记完成的任务不可逆,确定完成?", function () {
+            $("#FinishTask").val("完成中...").attr("disabled", "disabled");
+            
             Global.post("/Task/FinishTask",
-                {
-                    id: ObjectJS.taskid
-               }, function (data) {
-                if (data.result == 1) {
-                    location.href = location.href;
-                }
-                else if (data.result == 2) {
-                    alert("前面阶段任务有未完成,不能标记完成");
-                }
-                else if (data.result == 3) {
-                    alert("无权限操作");
-                }
-                else if (data.result == 4) {
-                    alert("任务没有接受，不能设置完成");
-                }
-                else if (data.result == -1) {
-                    alert("保存失败");
-                }
+               {
+                 id: ObjectJS.taskid
+               }, function (data){
+                   $("#FinishTask").val("标记完成").removeAttr("disabled");
+                    if (data.result == 1) {
+                        location.href = location.href;
+                    }
+                    else if (data.result == 2) {
+                        alert("前面阶段任务有未完成,不能标记完成");
+                    }
+                    else if (data.result == 3) {
+                        alert("无权限操作");
+                    }
+                    else if (data.result == 4) {
+                        alert("任务没有接受，不能设置完成");
+                    }
+                    else if (data.result == -1) {
+                        alert("保存失败");
+                    }
             });
         });
     }
@@ -1104,7 +1107,7 @@
 
                         var tableHtml = '<table class="table-list">';
                         var newColumnHeadr = '<tr class="tr-header">';
-                        newColumnHeadr += '<td class="width100"></td>';
+                        newColumnHeadr += '<td class="width100 tLeft">部位/尺码</td>';
 
                         var newColumn = '<tr class="tr-content">';
                         newColumn += '<td class="tLeft width100">';

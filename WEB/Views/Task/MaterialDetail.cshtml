@@ -38,19 +38,34 @@
         <div class="left titlename">订单编号：<a href="/Orders/OrderDetail/@(model.OrderID)" >@(model.OrderCode)</a></div>
         
         <div class="right">
-
             @{
-                if(model.FinishStatus==0)
-                {
-                    <input type="button" class="btn" id="AcceptTask" value="接受任务"/>
+                if (ViewBag.IsTaskOwner){
+                    if(model.FinishStatus==0)
+                    {
+                        <input type="button" class="btn" id="AcceptTask" value="接受任务"/>
+                    }
+                    else if (model.FinishStatus == 1)
+                    {
+                        <input type="button" class="btn" id="FinishTask" value="标记完成"/>
+                    }
+                    else if (model.FinishStatus == 2)
+                    {
+                        <span class="taskFinishStatus">已完成</span>
+                    }
                 }
-                else if (model.FinishStatus == 1)
-                {
-                    <input type="button" class="btn" id="FinishTask" value="标记完成"/>
-                }
-                else if (model.FinishStatus == 2)
-                {
-                    <span class="taskFinishStatus">已完成</span>
+                else{
+                    if(model.FinishStatus==0)
+                    {
+                        <span class="taskFinishStatus">未接受</span>
+                    }
+                    else if (model.FinishStatus == 1)
+                    {
+                        <span class="taskFinishStatus">进行中</span>
+                    }
+                    else if (model.FinishStatus == 2)
+                    {
+                        <span class="taskFinishStatus">已完成</span>
+                    }
                 }
             
             }

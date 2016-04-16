@@ -39,17 +39,33 @@
         
         <div class="right">
             @{
-                if(model.FinishStatus==0)
-                {
-                    <input type="button" class="btn" id="AcceptTask" value="接受任务"/>
+                if (ViewBag.IsTaskOwner){
+                    if(model.FinishStatus==0)
+                    {
+                        <input type="button" class="btn" id="AcceptTask" value="接受任务"/>
+                    }
+                    else if (model.FinishStatus == 1)
+                    {
+                        <input type="button" class="btn" id="FinishTask" value="标记完成"/>
+                    }
+                    else if (model.FinishStatus == 2)
+                    {
+                        <span class="taskFinishStatus">已完成</span>
+                    }
                 }
-                else if (model.FinishStatus == 1)
-                {
-                    <input type="button" class="btn" id="FinishTask" value="标记完成"/>
-                }
-                else if (model.FinishStatus == 2)
-                {
-                    <span class="taskFinishStatus">已完成</span>
+                else{
+                    if(model.FinishStatus==0)
+                    {
+                        <span class="taskFinishStatus">未接受</span>
+                    }
+                    else if (model.FinishStatus == 1)
+                    {
+                        <span class="taskFinishStatus">进行中</span>
+                    }
+                    else if (model.FinishStatus == 2)
+                    {
+                        <span class="taskFinishStatus">已完成</span>
+                    }
                 }
             
             }
@@ -61,7 +77,7 @@
     <div class="left titlename">任务编码：@(model.TaskCode)</div>
     <ul class="right">
         <li title="订单类型">
-            <span class="left"> 订单类型：</span><label class="left" >@(model.OrderType==1?"打样":"大货")</label>
+            <span class="left"> 订单类型：</span><label class="left" >@(model.OrderType == 1 ? "打样" : "大货")</label>
         </li>
         <li>
             <span class="left"> 负责人：</span><label class="left">@(model.Owner != null ? model.Owner.Name : "--")</label>
@@ -111,7 +127,7 @@
             <li>
                 <span class="column-title left">成员</span>
                 @{
-                    if (ViewBag.IsTaskOwner && model.FinishStatus==1)
+                    if (ViewBag.IsTaskOwner && model.FinishStatus == 1)
                     {
                         <div id="taskMemberIDs" class="left">
                             @{

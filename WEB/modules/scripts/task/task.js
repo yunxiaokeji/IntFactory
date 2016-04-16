@@ -178,11 +178,14 @@
         //列表排序
         $(".sort-item").click(function () {
             var _self = $(this);
-            var isasc = _self.attr("data-isasc");
-            var isactive = _self.attr("data-isactive");
-            var orderbycloumn = _self.attr("data-orderbycloumn");
+            if (!_self.hasClass("hover")) {
+                _self.addClass("hover").siblings().removeClass("hover");
+            }
+            var isasc = _self.data("isasc");
+            var isactive = _self.data("isactive");
+            var orderbycloumn = _self.data("orderbycloumn");
 
-            $(".search-sort li[data-isactive='1']").attr("data-isactive", 0).children().removeClass("hover");
+            $(".search-sort li[data-isactive='1']").data("isactive", 0).children().removeClass("hover");
             if (isactive == 1) {
                 if (isasc == 1) {
                     _self.find(".asc").removeClass("hover");
@@ -206,9 +209,7 @@
                 }
 
             }
-
-            _self.attr( {"data-isasc": isasc,"data-isactive":1} );
-
+            _self.data({ "isasc": isasc, "isactive": 1 });
             Params.isAsc = isasc;
             Params.taskOrderColumn = orderbycloumn;
             Params.pageIndex = 1;
