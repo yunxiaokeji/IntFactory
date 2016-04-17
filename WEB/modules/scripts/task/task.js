@@ -55,6 +55,10 @@
                 });
             });
         }
+        else if (isMy == "2") {
+            document.title = "参与任务";
+            $(".header-title").html("参与任务");
+        }
 
         ObjectJS.bindEvent();
 

@@ -452,7 +452,7 @@
             return;
         }
 
-        var time_end = new Date(ObjectJS.endTime).getTime();
+        var time_end = (new Date(ObjectJS.endTime)).getTime();
         
         var time_start = new Date().getTime(); //设定当前时间
         // 计算时间差 
