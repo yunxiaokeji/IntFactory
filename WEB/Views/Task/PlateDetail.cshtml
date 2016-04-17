@@ -22,7 +22,7 @@
             var um = UM.getEditor('txtPlateRemark');
 
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)', '@order.OrderImages', '@(model.Owner.UserID)', '@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))');
+                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)', '@order.OrderImages', '@(model.Owner.UserID)', '@( model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.EndTime.ToString("MM/dd/yyyy HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture) )');
             });
         });
     </script>
@@ -87,7 +87,7 @@
     </ul>
 </div>
 
-<div class="taskContent mTop20" id="taskDetailContent" data-taskid="@(model.TaskID)">
+<div class="taskContent" id="taskDetailContent" data-taskid="@(model.TaskID)">
    <div class="taskDetail">
         <div class="order-imgs-div left">
             <div class="order-imgs">
@@ -96,86 +96,87 @@
             <ul class="order-imgs-list"></ul>
         </div>
 
-        <ul class="left taskBaseInfo mLeft20">
-             <li class="li-plustime"><span class="column-title" id="overplusTime">剩余时间</span>
-                <span class="task-time" id="time-d">0</span>
-                <span class="mRight10 color666">天</span>
+       <div class="mLeft20 left">
+            <ul class=" taskBaseInfo ">
+                 <li class="li-plustime"><span class="column-title" id="overplusTime">剩余时间</span>
+                    <span class="task-time" id="time-d">0</span>
+                    <span class="mRight10 color666">天</span>
 
-                <span class="task-time" id="time-h">0</span>
-                <span class="mRight10 color666">时</span>
+                    <span class="task-time" id="time-h">0</span>
+                    <span class="mRight10 color666">时</span>
 
-                <span class="task-time" id="time-m">0</span>
-                 <span class="mRight10 color666">分</span>
+                    <span class="task-time" id="time-m">0</span>
+                     <span class="mRight10 color666">分</span>
 
-                <span class="task-time" id="time-s">0</span>
-                 <span class="color666">秒</span>
-            </li>
-            <li>
-                <span class="column-title">任务标题</span>
-                <span>@(model.Title)</span>
-            </li>
-            <li>
-                <span class="column-title">接受时间</span>
-                <span id="AcceptTime">@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
-            </li>
-            <li>
-                <span class="column-title">到期时间</span>
-                <span>@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
-            </li>
-            <li>
-                <span class="column-title">完成时间</span>
-                <span id="CompleteTime">@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.CompleteTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
-            </li>
-            <li>
-                <span class="column-title left">成员</span>
-                @{
-                    if (ViewBag.IsTaskOwner && model.FinishStatus == 1)
-                    {
-                        <div id="taskMemberIDs" class="left">
-                            @{
-                        foreach (var member in model.TaskMembers)
+                    <span class="task-time" id="time-s">0</span>
+                     <span class="color666">秒</span>
+                </li>
+                <li>
+                    <span class="column-title">任务标题</span>
+                    <span>@(model.Title)</span>
+                </li>
+                <li>
+                    <span class="column-title">接受时间</span>
+                    <span id="AcceptTime">@(model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : model.AcceptTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                </li>
+                <li>
+                    <span class="column-title">到期时间</span>
+                    <span>@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                </li>
+                <li>
+                    <span class="column-title">完成时间</span>
+                    <span id="CompleteTime">@(model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : model.CompleteTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                </li>
+                <li>
+                    <span class="column-title left">成员</span>
+                    @{
+                        if (ViewBag.IsTaskOwner && model.FinishStatus == 1)
                         {
-                                <div class="task-member left" data-id="@member.UserID">
-                                    <div class="left pRight5"><span>@member.Name</span></div>
-                                    <div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="@member.UserID" >×</a></div>
-                                    <div class="clear"></div>
-                                </div>
-                        }
-                            }
-                        </div>
-                        <div class="left"><a id="addTaskMembers" href="javascript:void();" class="ico-add">添加成员</a></div>
-                        <div class="clear"></div>
-                    }
-                    else
-                    {
-                        if (model.TaskMembers.Count > 0)
-                        {
+                            <div id="taskMemberIDs" class="left">
+                                @{
                             foreach (var member in model.TaskMembers)
                             {
-                            <div class="task-member left">
-                                <div class="pRight5"><span>@member.Name</span></div>
-                            </div>
+                                    <div class="task-member left" data-id="@member.UserID">
+                                        <div class="left pRight5"><span>@member.Name</span></div>
+                                        <div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="@member.UserID" >×</a></div>
+                                        <div class="clear"></div>
+                                    </div>
                             }
+                                }
+                            </div>
+                            <div class="left"><a id="addTaskMembers" href="javascript:void();" class="ico-add">添加成员</a></div>
+                            <div class="clear"></div>
                         }
                         else
                         {
-                            <div class="left">暂无成员</div>
+                            if (model.TaskMembers.Count > 0)
+                            {
+                                foreach (var member in model.TaskMembers)
+                                {
+                                <div class="task-member left">
+                                    <div class="pRight5"><span>@member.Name</span></div>
+                                </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="left">暂无成员</div>
+                            }
+
                         }
-
                     }
-                }
-                <div class="clear"></div>
-             </li>
+                    <div class="clear"></div>
+                 </li>
+            </ul>
+        </div>
 
-            <li>
-                <span class="order-remark">订单需求 @(order.Remark)</span>
-            </li>
-        </ul>
-
-        <div class="clear"></div>
-    </div>
+       <div class="clear"></div>
+       
+        <div class="order-remark">订单需求: @(order.Remark)</div>
 
     </div>
+
+  </div>
 
 <div class="module-header mTop20">
     <ul class="module-tab">

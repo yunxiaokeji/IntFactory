@@ -1,9 +1,9 @@
 ﻿
-.taskContent { background-color: #fff; margin: 0 20px; padding: 10px 15px 60px 15px; }
+.taskContent { background-color: #fff; margin: 0 20px; padding: 10px; }
 
 
 .taskContent .taskBaseInfo li {
-line-height:50px;
+line-height:55px;
 }
 
 .taskOperate {
@@ -15,11 +15,15 @@ border-bottom:1px solid #eee;
 .taskOperate .taskEndTime {
     width:120px;
 }
+.taskDetail {
+padding-right:10px;
+}
 
 .taskDetail .column-title {
 width:70px;
 display:inline-block;
 color:#999;
+
 }
 
 .taskFinishStatus{  padding:5px 10px; background-color:#ccc; color:#333; border:none; display:inline-block; border-radius:2px; line-height:18px; }
@@ -29,7 +33,7 @@ padding-top:2px;
 }
 /*任务样图信息*/
 .order-imgs-div {cursor:pointer;}
-.order-imgs-div .order-imgs img{ width:400px;height:400px;}
+.order-imgs-div .order-imgs img{ width:350px;height:400px;}
 .order-imgs-list li{ width:40px; height:40px; float:left; border:solid 2px #eee; margin-right:5px; cursor:pointer;}
 .order-imgs-list li.hover{ border-color:red;}
 .order-imgs-list img{ width:40px; height:40px;}
@@ -146,9 +150,8 @@ border-bottom:1px solid #ddd;
 }
 
 .order-remark {
-    width:600px;
-    margin-top:45px;
-    display:inline-block;
+    width:100%;
+    margin-top:20px;
     word-break: break-all;
     line-height:40px;
     padding:0px 5px;
