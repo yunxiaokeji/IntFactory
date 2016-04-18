@@ -9,7 +9,7 @@
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
-    <script src="/modules/scripts/e-smart-zoom-jquery.min.js"></script>
+    <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/orders/detail"], function (obj) {
             obj.init('@(model.OrderID)','@(model.Status)','@Html.ToJSONString(model)');

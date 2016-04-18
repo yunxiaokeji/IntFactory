@@ -15,6 +15,7 @@
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
+    <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
         $(function () {
             var um = null;
@@ -295,10 +296,14 @@
 </ul>
 
 <div class="enlarge-image-bgbox hide">
-    <div class="ico-close close-enlarge-image"></div> 
+    <div class="close-enlarge-image iconfont">&#xe606;</div> 
+    <span id="zoomInButton" class="zoom-botton iconfont mRight50">&#xe642;</span>
+    <span id="zoomOutButton" class="zoom-botton iconfont">&#xe641;</span>
 </div>
-<div class="enlarge-image-box hide">
-    <div class="left-enlarge-image">向左</div>
-    <div class="right-enlarge-image">向右</div>
-    <img id="enlargeImage" src="" />
+<div id="pageContent" class="enlarge-image-box hide">
+    <div class="left-enlarge-image"></div>
+    <div class="right-enlarge-image"></div>
+    <div class="enlarge-image-item">
+         
+    </div>
 </div>

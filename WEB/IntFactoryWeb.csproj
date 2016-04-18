@@ -369,7 +369,7 @@
     <Content Include="modules\plug\chooseorder\style.css" />
     <Content Include="modules\plug\autocomplete\autocomplete.js" />
     <Content Include="modules\plug\autocomplete\style.css" />
-    <Content Include="modules\scripts\e-smart-zoom-jquery.min.js" />
+    <Content Include="modules\plug\e-smart-zoom-jquery.min.js" />
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />

@@ -767,7 +767,6 @@ define(function (require, exports, module) {
             if ($(this).attr("src")) {
                 
                 $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
-                //$("#enlargeImage").attr("src", $(this).attr("src")).css({ "height": height - 80, "max-width": width - 200 });
                 $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
 
                 $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).attr("src") + '"/>');
@@ -789,6 +788,7 @@ define(function (require, exports, module) {
             $('#enlargeImage').smartZoom('zoom', scaleToAdd);
             return false;
         });
+
         $(".left-enlarge-image").click(function () {
             var ele = $(".order-imgs-list .hover").prev();
             if (ele && ele.find("img").attr("src")) {
