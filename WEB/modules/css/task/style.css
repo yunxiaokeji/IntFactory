@@ -1,12 +1,9 @@
 ﻿
-.taskContent { background-color: #fff; margin: 0 20px; padding: 15px 15px 100px 15px; }
+.taskContent { background-color: #fff; margin: 0 20px; padding: 10px; }
 
-.taskContent .taskDetail {
-padding-top:15px;
-}
 
 .taskContent .taskBaseInfo li {
-padding-bottom:25px;
+line-height:55px;
 }
 
 .taskOperate {
@@ -18,10 +15,15 @@ border-bottom:1px solid #eee;
 .taskOperate .taskEndTime {
     width:120px;
 }
+.taskDetail {
+padding-right:10px;
+}
 
 .taskDetail .column-title {
 width:70px;
 display:inline-block;
+color:#999;
+
 }
 
 .taskFinishStatus{  padding:5px 10px; background-color:#ccc; color:#333; border:none; display:inline-block; border-radius:2px; line-height:18px; }
@@ -30,8 +32,8 @@ display:inline-block;
 padding-top:2px;
 }
 /*任务样图信息*/
-.order-imgs-div { width:300px; padding:10px 10px 0 0;cursor:pointer;}
-.order-imgs-div .order-imgs img{ height:260px; width:300px;}
+.order-imgs-div {cursor:pointer;}
+.order-imgs-div .order-imgs img{ width:350px;height:400px;}
 .order-imgs-list li{ width:40px; height:40px; float:left; border:solid 2px #eee; margin-right:5px; cursor:pointer;}
 .order-imgs-list li.hover{ border-color:red;}
 .order-imgs-list img{ width:40px; height:40px;}
@@ -148,9 +150,12 @@ border-bottom:1px solid #ddd;
 }
 
 .order-remark {
-    display:inline-block;
+    width:100%;
+    margin-top:20px;
     word-break: break-all;
-    width: 450px;
+    line-height:40px;
+    padding:0px 5px;
+    border:1px solid #eee;
 }
 
 .btn-emotion {
@@ -178,6 +183,18 @@ cursor:pointer;
 .search-item-color .mark3 { background-color:#9F74FF; border:solid 1px #9F74FF; }
 .search-item-color .mark4 { background-color:#FFC85D; border:solid 1px #FFC85D; }
 .search-item-color .mark5 { background-color:#FFF65F; border:solid 1px #FFF65F; }
+
+
+/*title*/
+.content-title ul li { float:left; height:50px; border-left:solid 1px #eee; font-size:14px; color:#666; padding:0 20px; }
+.content-title ul .iconfont { font-size:20px; }
+
+.task-time {
+padding:5px 6px;
+border-radius:5px;
+background-color:#4a98e7;
+color:#fff;
+}
 
 
 

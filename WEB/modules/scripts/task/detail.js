@@ -19,9 +19,11 @@
     ///orderType:订单类型
     ///um:富文本编辑器
     ///plateRemark:制版工艺描述
-    ObjectJS.init = function (taskid, orderid, stageid, mark, finishStatus, attrValues, orderType, um, plateRemark, orderimages, ownerid) {
+    ObjectJS.init = function (taskid, orderid, stageid, mark, finishStatus, attrValues, orderType, um, plateRemark, orderimages, ownerid, endTime) {
         ObjectJS.orderid = orderid;
         ObjectJS.ownerid = ownerid;
+        ObjectJS.endTime = endTime;
+        ObjectJS.finishStatus = finishStatus;
         ObjectJS.stageid = stageid;
         ObjectJS.taskid = taskid;
         ObjectJS.orderType = orderType;
@@ -51,7 +53,9 @@
         }
        //制版任务
         else if ($("#btn-updateTaskRemark").length == 1) {
-            Easydialog = require("easydialog");
+            if (Easydialog == null) {
+                Easydialog = require("easydialog");
+            }
             ObjectJS.bindPlatemakingEvent();
         }
         else{
@@ -111,17 +115,16 @@
     ObjectJS.bindEvent = function () {
 
         //切换模块
-        $(".tab-nav-ul li").click(function () {
+        $(".module-tab li").click(function () {
             var _this = $(this);
             if (_this.hasClass("hover")) return;
 
             _this.siblings().removeClass("hover");
             _this.addClass("hover");
-            $(".tab-nav").nextAll().hide();
+
+            $("#navTask").children().hide();
             $("#" + _this.data("id")).show();
 
-            ObjectJS.mark = _this.data("mark");
-            if (ObjectJS.mark === -1) return;
             if (_this.data("id") == "orderTaskLogs") {
                 //任务日志列表
                 ObjectJS.getLogs(1);
@@ -129,14 +132,6 @@
             else if (_this.data("id") == "taskReplys") {
                 //任务讨论列表
                 ObjectJS.getTaskReplys(1);
-            }
-            else if (ObjectJS.orderType == 1 && _this.data("id") == "platemakingContent") {
-                //任务讨论列表
-                ObjectJS.getTaskReplysOfPlate(1);
-            }
-            else if (_this.data("id") == "navProducts") {
-                //任务讨论列表
-                ObjectJS.getTaskReplysOfMaterial(1);
             }
 
         });
@@ -155,29 +150,13 @@
             }
         });
 
-        //绑定任务到期日期
-        setTimeout(function () {
-            if ($("#UpdateTaskEndTime").length == 1) {
-                //更新任务到期日期
-                var taskEndTime = {
-                    elem: '#UpdateTaskEndTime',
-                    format: 'YYYY-MM-DD hh:mm:ss',
-                    min: laydate.now(),
-                    max: '2099-06-16',
-                    istime: true,
-                    istoday: false,
-                    choose: function () {
-                        ObjectJS.updateTaskEndTime();
-                    }
-                };
-                laydate(taskEndTime);
-            }
-        }, 300);
 
         //标记任务完成
-        $("#FinishTask").click(function () {
-            ObjectJS.finishTask();
-        });
+        if ($("#FinishTask").length == 1) {
+            $("#FinishTask").click(function () {
+                ObjectJS.finishTask();
+            });
+        }
 
         //初始化任务讨论列表
         ObjectJS.initTalkReply();
@@ -236,35 +215,70 @@
             assign: 'txtContent',
             path: '/modules/plug/qqface/arclist/'	//表情存放的路径
         });
+
+        //
+        ObjectJS.showTime();
+
+        //接受任务
+        if ($("#AcceptTask").length == 1) {
+            $("#AcceptTask").click(function () {
+                ObjectJS.updateTaskEndTime();
+            });
+        }
     }
 
     //更改任务到期时间
     ObjectJS.updateTaskEndTime = function () {
-        if ($("#UpdateTaskEndTime").val() == "")
-        {
-            alert("任务到期时间不能为空");
-            return;
-        }
+        Easydialog = require("easydialog");
+        var innerHtml = '<div class="pTop10 pBottom5"><span class="width80" style="display:inline-block;">到期时间:</span><input style="width:180px;" type="text" class="taskEndTime" id="UpdateTaskEndTime" placeholder="设置到期时间"/></div>';
+        Easydialog.open({
+            container: {
+                id: "show-model-setRole",
+                header: "设置任务到期时间",
+                content: innerHtml,
+                yesFn: function () {
+                    if ($("#UpdateTaskEndTime").val() == "") {
+                        alert("任务到期时间不能为空");
+                        return;
+                    }
 
-        confirm("任务到期时间不可逆，确定设置?", function () {
-            Global.post("/Task/UpdateTaskEndTime", {
-                id: ObjectJS.taskid,
-                endTime: $("#UpdateTaskEndTime").val()
-            }, function (data) {
-                if (data.result == 0) {
-                    alert("操作无效");
+                    confirm("任务到期时间不可逆，确定设置?", function () {
+                        Global.post("/Task/UpdateTaskEndTime", {
+                            id: ObjectJS.taskid,
+                            endTime: $("#UpdateTaskEndTime").val()
+                        }, function (data) {
+                            if (data.result == 0) {
+                                alert("操作无效");
+                            }
+                            else if (data.result == 2) {
+                                alert("任务已接受,不能操作");
+                            }
+                            else if (data.result == 3) {
+                                alert("没有权限操作");
+                            }
+                            else {
+                                location.href = location.href;
+                            }
+                        });
+                    });
+
                 }
-                else if (data.result == 2) {
-                    alert("任务已接受,不能操作");
-                }
-                else if (data.result == 3) {
-                    alert("没有权限操作");
-                }
-                else {
-                    location.href = location.href;
-                }
-            });
+            }
         });
+
+        //更新任务到期日期
+        var taskEndTime = {
+            elem: '#UpdateTaskEndTime',
+            format: 'YYYY-MM-DD hh:mm:ss',
+            min: laydate.now(),
+            max: '2099-06-16',
+            istime: true,
+            istoday: false
+        };
+        laydate(taskEndTime);
+
+
+        
     }
 
     //标记任务完成
@@ -288,27 +302,30 @@
                 return;
             }
         }
-
+        
         confirm("标记完成的任务不可逆,确定完成?", function () {
+            $("#FinishTask").val("完成中...").attr("disabled", "disabled");
+            
             Global.post("/Task/FinishTask",
-                {
-                    id: ObjectJS.taskid
-               }, function (data) {
-                if (data.result == 1) {
-                    location.href = location.href;
-                }
-                else if (data.result == 2) {
-                    alert("前面阶段任务有未完成,不能标记完成");
-                }
-                else if (data.result == 3) {
-                    alert("无权限操作");
-                }
-                else if (data.result == 4) {
-                    alert("任务没有接受，不能设置完成");
-                }
-                else if (data.result == -1) {
-                    alert("保存失败");
-                }
+               {
+                 id: ObjectJS.taskid
+               }, function (data){
+                   $("#FinishTask").val("标记完成").removeAttr("disabled");
+                    if (data.result == 1) {
+                        location.href = location.href;
+                    }
+                    else if (data.result == 2) {
+                        alert("前面阶段任务有未完成,不能标记完成");
+                    }
+                    else if (data.result == 3) {
+                        alert("无权限操作");
+                    }
+                    else if (data.result == 4) {
+                        alert("任务没有接受，不能设置完成");
+                    }
+                    else if (data.result == -1) {
+                        alert("保存失败");
+                    }
             });
         });
     }
@@ -413,7 +430,7 @@
         });
     }
 
-    //
+    //拼接任务成员html
     ObjectJS.createTaskMember = function (item) {
         var html = '';
         html += '<div class="task-member left" data-id="'+item.id+'">';
@@ -423,6 +440,65 @@
         html += '</div>';
 
         $("#taskMemberIDs").append(html);
+    }
+
+    //任务到期时间倒计时
+    ObjectJS.showTime = function () {
+        if (ObjectJS.endTime == "未设置") {
+            return;
+        }
+
+        if (ObjectJS.finishStatus==2) {
+            return;
+        }
+
+        var time_end = (new Date(ObjectJS.endTime)).getTime();
+        
+        var time_start = new Date().getTime(); //设定当前时间
+        // 计算时间差 
+        var time_distance = time_end - time_start;
+        var overplusTime = false;
+        if (time_distance < 0) {
+            if (!overplusTime) {
+                $("#overplusTime").html("超期时间");
+                $(".taskBaseInfo .li-plustime .task-time").css("background-color", "red");
+            }
+            overplusTime = true;
+            time_distance = time_start - time_end;
+        }
+
+        // 天
+        var int_day = Math.floor(time_distance / 86400000)
+        time_distance -= int_day * 86400000;
+        // 时
+        var int_hour = Math.floor(time_distance / 3600000)
+        time_distance -= int_hour * 3600000;
+        // 分
+        var int_minute = Math.floor(time_distance / 60000)
+        time_distance -= int_minute * 60000;
+        // 秒 
+        var int_second = Math.floor(time_distance / 1000)
+        // 时分秒为单数时、前面加零 
+        if (int_day < 10) {
+            int_day = "0" + int_day;
+        }
+        if (int_hour < 10) {
+            int_hour = "0" + int_hour;
+        }
+        if (int_minute < 10) {
+            int_minute = "0" + int_minute;
+        }
+        if (int_second < 10) {
+            int_second = "0" + int_second;
+        }
+        // 显示时间 
+        $("#time-d").html(int_day);
+        $("#time-h").html(int_hour);
+        $("#time-m").html(int_minute);
+        $("#time-s").html(int_second);
+
+        // 设置定时器
+        setTimeout(function () { ObjectJS.showTime() }, 1000);
     }
 
     ///任务讨论
@@ -441,7 +517,7 @@
                     FromReplyUserID: "",
                     FromReplyAgentID: ""
                 };
-                ObjectJS.saveTaskReply(model);
+                ObjectJS.saveTaskReply(model,$(this));
 
                 txt.val("");
             }
@@ -495,7 +571,7 @@
                                 FromReplyAgentID: _this.data("agentid")
                             };
 
-                            ObjectJS.saveTaskReply(entity);
+                            ObjectJS.saveTaskReply(entity,_this);
                         }
 
                         $("#Msg_" + _this.data("replyid")).val('');
@@ -543,113 +619,28 @@
         });
     }
 
-    //获取制版任务讨论列表
-    ObjectJS.getTaskReplysOfPlate = function (page) {
-        var _self = this;
-        $("#replyListOfPlate").empty();
-        $("#replyListOfPlate").html("<tr><td colspan='2' style='border:none;'><div class='data-loading'><div></td></tr>");
-        Global.post("/Opportunitys/GetReplys", {
-            guid: ObjectJS.orderid,
-            stageid: ObjectJS.stageid,
-            mark: ObjectJS.mark,
-            pageSize: 10,
-            pageIndex: page
-        }, function (data) {
-            $("#replyList").empty();
-            if (data.items.length > 0) {
-                doT.exec("template/customer/replys.html", function (template) {
-                    var innerhtml = template(data.items);
-                    innerhtml = $(innerhtml);
-
-                    $("#replyListOfPlate").html(innerhtml);
-
-                    innerhtml.find(".reply-content").each(function () {
-                        $(this).html(Global.replaceQqface($(this).html()));
-                    });
-                    innerhtml.find(".btn-reply").remove();
-                });
-            }
-            else {
-                $("#replyListOfPlate").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
-            }
-
-            $("#pagerReplyOfPlate").paginate({
-                total_count: data.totalCount,
-                count: data.pageCount,
-                start: page,
-                display: 5,
-                border: true,
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                float: "left",
-                onChange: function (page) {
-                    ObjectJS.getTaskReplysOfPlate(page);
-                }
-            });
-        });
-    }
-
-    //获取物料任务讨论列表
-    ObjectJS.getTaskReplysOfMaterial = function (page) {
-        var _self = this;
-        $("#replyListOfMaterial").empty();
-        $("#replyListOfMaterial").html("<tr><td colspan='2' style='border:none;'><div class='data-loading'><div></td></tr>");
-        Global.post("/Opportunitys/GetReplys", {
-            guid: ObjectJS.orderid,
-            stageid: ObjectJS.stageid,
-            mark: ObjectJS.mark,
-            pageSize: 10,
-            pageIndex: page
-        }, function (data) {
-            $("#replyList").empty();
-            if (data.items.length > 0) {
-                doT.exec("template/customer/replys.html", function (template) {
-                    var innerhtml = template(data.items);
-                    innerhtml = $(innerhtml);
-
-                    $("#replyListOfMaterial").html(innerhtml);
-
-                    innerhtml.find(".reply-content").each(function () {
-                        $(this).html(Global.replaceQqface($(this).html()));
-                    });
-
-                    innerhtml.find(".btn-reply").remove();
-                });
-            }
-            else {
-                $("#replyListOfMaterial").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
-            }
-
-            $("#pagerReplyOfPlate").paginate({
-                total_count: data.totalCount,
-                count: data.pageCount,
-                start: page,
-                display: 5,
-                border: true,
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                float: "left",
-                onChange: function (page) {
-                    ObjectJS.getTaskReplysOfMaterial(page);
-                }
-            });
-        });
-    }
-
     //保存任务讨论
-    ObjectJS.saveTaskReply = function (model) {
+    ObjectJS.saveTaskReply = function (model, btnObject) {
         var _self = this;
+        var btnname = "";
+        if (btnObject) {
+            btnname = btnObject.html();
+            btnObject.html("保存中...").attr("disabled", "disabled");
+        }
 
         Global.post("/Opportunitys/SavaReply", { entity: JSON.stringify(model) }, function (data) {
+            if (btnObject) {
+                btnObject.html(btnname).removeAttr("disabled");
+            }
+
             doT.exec("template/customer/replys.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
-
+                innerhtml.hide();
                 $("#replyList .nodata-txt").parent().parent().remove();
 
                 $("#replyList").prepend(innerhtml);
+                innerhtml.fadeIn(500);
 
                 innerhtml.find(".reply-content").each(function () {
                     $(this).html(Global.replaceQqface($(this).html()));
@@ -678,7 +669,7 @@
                             FromReplyUserID: _this.data("createuserid"),
                             FromReplyAgentID: _this.data("agentid")
                         };
-                        ObjectJS.saveTaskReply(entity);
+                        ObjectJS.saveTaskReply(entity,_this);
 
                     }
                     $("#Msg_" + _this.data("replyid")).val('');
@@ -721,7 +712,7 @@
                 });
             }
             else {
-                $("#taskLogList").html("<div class='noDataTxt'>暂无数据!</div>");
+                $("#taskLogList").html("<div class='nodata-txt'>暂无数据!</div>");
             }
 
             $("#pagerLogs").paginate({
@@ -1116,7 +1107,7 @@
 
                         var tableHtml = '<table class="table-list">';
                         var newColumnHeadr = '<tr class="tr-header">';
-                        newColumnHeadr += '<td class="width100"></td>';
+                        newColumnHeadr += '<td class="width100 tLeft">部位/尺码</td>';
 
                         var newColumn = '<tr class="tr-content">';
                         newColumn += '<td class="tLeft width100">';
