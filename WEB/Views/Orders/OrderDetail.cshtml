@@ -8,11 +8,14 @@
     <link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
 }
 @section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
+    <script src="/modules/scripts/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/orders/detail"], function (obj) {
             obj.init('@(model.OrderID)','@(model.Status)','@Html.ToJSONString(model)');
         });
+
     </script>
 }
 
@@ -92,6 +95,7 @@
         </li>
     </ul>
 </div>
+
 <div class="content-body">
     <div class="order-imgs-div left">
         <div class="order-imgs">
@@ -381,10 +385,14 @@
 
 @*图片放大*@
 <div class="enlarge-image-bgbox hide">
-    <div class="ico-close close-enlarge-image"></div> 
+    <div class="close-enlarge-image iconfont">&#xe606;</div> 
+    <span id="zoomInButton" class="zoom-botton iconfont mRight50">&#xe642;</span>
+    <span id="zoomOutButton" class="zoom-botton iconfont">&#xe641;</span>
 </div>
-<div class="enlarge-image-box hide">
+<div id="pageContent" class="enlarge-image-box hide">
     <div class="left-enlarge-image"></div>
     <div class="right-enlarge-image"></div>
-    <img id="enlargeImage" src="" />
+    <div class="enlarge-image-item">
+         
+    </div>
 </div>
