@@ -6,6 +6,7 @@ using System.Data;
 
 using IntFactoryEntity.Manage;
 using IntFactoryDAL.Manage;
+using IntFactoryEntity;
 
 
 namespace IntFactoryBusiness
@@ -33,6 +34,25 @@ namespace IntFactoryBusiness
 
                 if(!string.IsNullOrEmpty(model.RoleID))
                     model.Role = ManageSystemBusiness.GetRoleByIDCache(model.RoleID);
+
+                //权限
+                if (model.Role != null && model.IsAdmin != 1)
+                {
+                    model.Menus = CommonBusiness.ManageMenus;
+                }
+                else
+                {
+                  
+                    model.Menus = CommonBusiness.ManageMenus;
+                    //  model.Menus = new List<Menu>();
+                    //DataTable ds = new M_UsersDAL().GetM_UserByUserName(loginname, pwd);
+                    //foreach (DataRow dr in ds.Tables["Permission"].Rows)
+                    //{
+                    //    Menu menu = new Menu();
+                    //    menu.FillData(dr);
+                    //    model.Menus.Add(menu);
+                    //}
+                }
             }
 
             //记录登录日志

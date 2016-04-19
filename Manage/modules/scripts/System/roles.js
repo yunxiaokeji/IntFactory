@@ -162,7 +162,6 @@
         var _self = this;
         permissions = JSON.parse(permissions.replace(/&quot;/g, '"'));
         menus = JSON.parse(menus.replace(/&quot;/g, '"'));
-
         _self.bindMenu(permissions, menus);
 
         _self.bindPermissionEvent(roleid);

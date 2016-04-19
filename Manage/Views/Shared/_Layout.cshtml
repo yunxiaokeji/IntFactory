@@ -1,4 +1,11 @@
 ﻿<!DOCTYPE html>
+   @{
+        IntFactoryEntity.Manage.M_Users CurrentUser = (IntFactoryEntity.Manage.M_Users)Session["Manager"];
+        string controller =  Url.RequestContext.RouteData.Values["controller"].ToString().ToLower();
+        string action = Url.RequestContext.RouteData.Values["action"].ToString().ToLower();
+        IntFactoryEntity.Menu controllerMenu = ExpandClass.GetController(HttpContext.Current, controller);
+        var logo = "/modules/images/logo.png";
+    }
 
 <html>
 <head>
@@ -11,13 +18,7 @@
 </head>
 
 <body>
-    @{
-        IntFactoryEntity.Manage.M_Users CurrentUser = (IntFactoryEntity.Manage.M_Users)Session["Manager"];
-        string controller =  Url.RequestContext.RouteData.Values["controller"].ToString().ToLower();
-        string action = Url.RequestContext.RouteData.Values["action"].ToString().ToLower();
-        var logo = "/modules/images/logo.png";
-    }
-
+ 
     <header>
         <div class="logo left">
             <a href="/Home/Index"><img src="@logo" /></a>
@@ -26,36 +27,23 @@
             智能工厂管理后台
         </div>
         <ul id="modulesMenu" class="menu left">
-             <li class="left" BindController="home">
+             <li class="left">
                     <a href="/home/index" >
                         <span class="name">首页</span>
                         <span class="cursor"></span>
                     </a> 
                 </li>
-                <li class="left" BindController="client">
-                    <a href="/Client/index" >
-                        <span class="name">客户端</span>
+            @*class="@(model.MenuCode.ToUpper()==controllerMenu.PCode.ToUpper() ? "select left" : "left")"*@
+              @foreach (IntFactoryEntity.Menu model in ExpandClass.GetChildMenuByCode(HttpContext.Current, ExpandClass.CLIENT_TOP_CODE))
+            {                   
+                <li class="@(model.MenuCode.ToUpper()==(controllerMenu!=null?controllerMenu.PCode.ToUpper():"") ? "select left" : "left")"  BindController="@(model.Controller)"  data-code="@(model.MenuCode)">            
+                    <a  href="/@(model.Controller)/@(model.View)">
+                        <span class="name">@(model.Name)</span>
                         <span class="cursor"></span>
                     </a> 
                 </li>
-                <li class="left" BindController="products">
-                    <a href="/Products/index" >
-                        <span class="name">材料</span>
-                        <span class="cursor"></span>
-                    </a> 
-                </li>
-                <li class="left" BindController="report">
-                    <a href="/Report/AgentActionReport" >
-                        <span class="name">统计</span>
-                        <span class="cursor"></span>
-                    </a> 
-                </li>
-                <li class="left" BindController="system">
-                    <a href="/System/Admin" >
-                        <span class="name">系统</span>
-                        <span class="cursor"></span>
-                    </a> 
-            </li>
+                  
+            }
         </ul>
         <div id="currentUser" class="currentuser right">
             <span>
@@ -73,82 +61,30 @@
 
     <div class="main-body">
         <nav> 
-            <div class="controller" BindController="client">
-                <div class="controller-box">
-                    <div class="controller-name">
-                        <span class="open left"></span>
-                        <span class="name left">客户端管理</span>
+           
+            @if(controllerMenu!=null)
+            {
+                foreach (IntFactoryEntity.Menu model in ExpandClass.GetChildMenuByCode(HttpContext.Current, controllerMenu.PCode))
+                { 
+                    <div class="controller @(model.Controller.ToLower()==controller ? "select" : "")" data-code="@(model.MenuCode)">
+                        <div class="controller-box">
+                            <div class="controller-name">
+                                <span class="open left @(model.Controller.ToLower()==controller ? "rotate" : "")"></span>
+                                <span class="name left">@(model.Name)</span>
+                            </div>
+                        </div>
+                        <ul class="action-box @(model.Controller.ToLower()==controller ? "" : "hide")">
+                            @foreach (IntFactoryEntity.Menu view in ExpandClass.GetChildMenuByCode(HttpContext.Current, model.MenuCode))
+                            {
+                                <li class="action @(view.View.ToLower()==action ? "select" : "")" data-code="@(view.MenuCode)">
+                                    <a href="/@(view.Controller + "/" + view.View)" ><span class="name">@(view.Name)</span></a>
+                                </li>
+                            }
+                         </ul>
                     </div>
-                </div>
-
-                <ul class="action-box">
-                    <li class="action"  BindAction="index"><a href="/Client/index" >客户列表</a></li>
-                    <li class="action " BindAction="orders"><a href="/Order/Orders" >客户订单</a></li>
-                </ul>
-            </div>
-            <div class="controller" BindController="products">
-                <div class="controller-box">
-                    <div class="controller-name">
-                        <span class="open left"></span>
-                        <span class="name left">材料管理</span>
-                    </div>
-                </div>
-
-                <ul class="action-box">
-                    <li class="action " BindAction="unit"><a href="/Products/Unit" >单位管理</a></li>
-                    <li class="action " BindAction="attr"><a href="/Products/Attr" >属性/规格</a></li>
-                    <li class="action " BindAction="category"><a href="/Products/Category" >材料类别</a></li>
-                    <li class="action " BindAction="products"><a href="/Products/Products" >材料审核</a></li>
-                    <li class="action " BindAction="ordercategory"><a href="/Products/OrderCategory" >订单品类</a></li>
-                </ul>
-            </div>
-
-
-            <div class="controller" BindController="report">
-                <div class="controller-box">
-                    <div class="controller-name">
-                        <span class="open left"></span>
-                        <span class="name left">统计</span>
-                    </div>
-                </div>
-
-                <ul class="action-box">
-                     <li class="action " BindAction="agentactionreport"><a href="/Report/AgentActionReport" >客户行为统计</a></li>
-                </ul>
-            </div>
-
-            <div class="controller select" BindController="system">
-                 <div class="controller-box">
-                    <div class="controller-name">
-                        <span class="open left"></span>
-                        <span class="name left">系统管理</span>
-
-                    </div>
-                </div>
-
-                <ul class="action-box">
-                    <li class="action " BindAction="index"><a href="/ModulesProduct/index" >收费设置</a></li>
-                    <li class="action " BindAction="industrys"><a href="/Industry/Industrys" >行业设置</a></li>
-                    <li class="action " BindAction="expresscompanys"><a href="/ExpressCompany/ExpressCompanys" >快递公司</a></li>
-                    <li class="action " BindAction="feedbacks"><a href="/FeedBack/FeedBacks" >意见反馈</a></li>
-                    <li class="action " BindAction="menu"><a href="/System/Menu" >菜单设置</a></li>
-                    <li class="action " BindAction="roles"><a href="/System/Roles" >角色设置</a></li>
-                    <li class="action " BindAction="clearcache"><a href="/System/ClearCache" >清理缓存</a></li>
-                </ul>
-
-                <div class="controller-box">
-                    <div class="controller-name">
-                        <span class="open left"></span>
-                        <span class="name left">用户管理</span>
-                    </div>
-                </div>
-
-                <ul class="action-box">
-                     <li class="action " BindAction="admin"><a href="/System/Admin" >管理员设置</a></li>
-                </ul>
-            </div>
-
-
+                }
+            }
+          
         </nav>
 
         <div class="main-content">
@@ -173,24 +109,6 @@
         seajs.use(["scripts/layout"], function (layout)
         {
             layout.init();
-        });
-
-        $(function ()
-        {
-            var controller = $("#page-controller").val();
-            if (controller == "expresscompany" || controller == "industry" || controller == "feedback" || controller == "modulesproduct") {
-                controller = "system";
-            } else if (controller == "order") {
-                controller = "client";
-            }
-
-            $("#modulesMenu li[BindController='" + controller + "']").addClass("select");
-            $(".controller[BindController='" + controller + "']").show();
-            $(".controller[BindController='" + controller + "'] .action-box li[BindAction='@action']").addClass("select");
-
-            if (controller == 'home')
-                $(".controller").show();
-
         });
     </script>
 

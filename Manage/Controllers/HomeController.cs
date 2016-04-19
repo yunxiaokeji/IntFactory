@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntFactoryEntity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -51,6 +52,8 @@ namespace YXManage.Controllers
             if (model != null)
             {
                 CurrentUser = model;
+                Session["Manager"] = model;
+                
                 bl = true;
             }
             JsonDictionary.Add("result", bl);
