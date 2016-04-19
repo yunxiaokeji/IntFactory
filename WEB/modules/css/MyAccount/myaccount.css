@@ -1,19 +1,19 @@
 ﻿
-.accountMenu { position: fixed; left: 0px; width: 200px; height: 100%; background-color: #fff; border-right: solid 1px #ccc; }
+.accountMenu { position: fixed; left: 0px; width: 180px; height: 100%; background-color: #fff; border-right: solid 1px #eee; box-shadow:0 0 2px #ccc; }
 
-.accountTitle { margin-top: 20px; padding-bottom:20px; border-bottom: solid 1px #ccc; background:url('/modules/images/ico-member.png') no-repeat 45px 0px; }
+.accountTitle { margin-top: 20px; padding-bottom:20px; border-bottom: solid 1px #eee; background:url('/modules/images/ico-member.png') no-repeat 35px 0px; }
 
-.accountTitle .title { font-size: 16px; margin-left:70px; }
-.accountUl { margin-top: 15px; }
+.accountTitle .title { font-size: 16px; margin-left:60px; }
+.accountUl {  margin-top: 15px; }
 
 .accountUl li { line-height: 40px; }
-.accountUl li a{ line-height: 40px; font-size: 13px; width:200px; text-align:center; display:inline-block; color:#333; }
+.accountUl li a{ line-height: 40px; font-size: 13px; width:180px; text-align:center; display:inline-block; color:#333; }
 
 .accountUl .active { background-color: #eee; }
 
 .accountContent { margin: 0px 0px 0px 0px; }
 
-.accountHeader { line-height: 62px; border-bottom: solid 1px #ccc; font-size: 16px; color: #666; }
+.accountHeader { line-height: 61px; font-size: 16px; color: #666; background-color:#fff; padding-left:20px; }
 
 .error-body { display: none; }
 
