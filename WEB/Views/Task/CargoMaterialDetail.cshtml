@@ -19,7 +19,7 @@
             var um = null;
 
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)', '@order.OrderImages', '@(model.Owner.UserID)', '@( model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.EndTime.ToString("MM/dd/yyyy HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture) )');
+                obj.init('@attrValues', um, '@(order.PlateRemark)', '@order.OrderImages', '@( model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.EndTime.ToString("MM/dd/yyyy HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture) )', '@Html.ToJSONString(model)');
             });
 
         });

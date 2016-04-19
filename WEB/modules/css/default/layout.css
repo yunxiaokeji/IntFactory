@@ -35,11 +35,16 @@ header { height:50px; width:100%; background-color:#2F73B8; position:fixed; top:
 header .logo {margin-top:13px; margin-left:10px; }
 header .logo img{ height:26px; }
 
-header .companyname { width: 168px; font-size:14px; padding:16px 0 0 5px; color: #BFD2F2; cursor: pointer;  }
+header .companyname { width: 150px; font-size:14px; padding:16px 0 0 5px; color: #BFD2F2; cursor: pointer; 
+text-overflow:ellipsis;
+white-space:nowrap;
+overflow:hidden;
+ }
+
 header .companyname:hover { color: #fff; }
 
 /*公司名称下拉列表*/
-.dropdown-companyinfo { position:fixed; background-color:#fff; width:210px; z-index:1000; border-radius:2px; border:solid 1px #eee;
+.dropdown-companyinfo { position:fixed; background-color:#fff; width:200px; z-index:1000; border-radius:2px; border:solid 1px #eee;
                         box-shadow:0 0 5px #ccc; top:50px; left:0px; z-index:2000;}
 .dropdown-companyinfo .top-lump { border-bottom:solid 10px #fff; border-left:solid 12px transparent ;border-right:solid 12px transparent; 
                                    width:0; height:0; position:absolute; left:90px; top:-9px; }

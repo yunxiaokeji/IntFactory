@@ -22,7 +22,7 @@
             var um = UM.getEditor('txtPlateRemark');
 
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@(model.TaskID)', '@(model.OrderID)', '@(model.StageID)', '@(model.Mark)', '@(model.FinishStatus)', '@attrValues', '@(model.OrderType)', um, '@(order.PlateRemark)', '@order.OrderImages', '@(model.Owner.UserID)', '@( model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.EndTime.ToString("MM/dd/yyyy HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture) )');
+                obj.init('@attrValues', um, '@(order.PlateRemark)', '@order.OrderImages', '@( model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.EndTime.ToString("MM/dd/yyyy HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture) )','@Html.ToJSONString(model)');
             });
         });
     </script>
@@ -91,7 +91,7 @@
    <div class="taskDetail">
         <div class="order-imgs-div left">
             <div class="order-imgs">
-                <img id="orderImage" onerror="document.getElementById('orderImage').src='/modules/images/img-noimg.png'" src="@( string.IsNullOrEmpty(model.OrderImg) ? "/modules/images/img-noimg.png" : model.OrderImg)" />
+                <img id="orderImage" onerror="document.getElementById('orderImage').src='/modules/images/none-img.png'" src="@( string.IsNullOrEmpty(model.OrderImg) ? "/modules/images/none-img.png" : model.OrderImg)" />
             </div>
             <ul class="order-imgs-list"></ul>
         </div>
