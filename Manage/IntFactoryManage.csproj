@@ -108,7 +108,6 @@
     <Compile Include="Controllers\ExpressCompanyController.cs" />
     <Compile Include="Controllers\FeedBackController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PlugController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -235,14 +234,14 @@
     <Content Include="modules\scripts\global.js" />
     <Content Include="modules\scripts\home.js" />
     <Content Include="modules\scripts\layout.js" />
-    <Content Include="modules\scripts\clients.js" />
+    <Content Include="modules\scripts\client\clients.js" />
     <Content Include="modules\scripts\System\modulesproduct.js" />
     <Content Include="modules\scripts\System\expresscompany.js" />
     <Content Include="modules\scripts\System\industry.js" />
     <Content Include="modules\scripts\admin.js" />
     <Content Include="modules\scripts\feedback.js" />
     <Content Include="modules\scripts\agentactionreport.js" />
-    <Content Include="modules\scripts\order.js" />
+    <Content Include="modules\scripts\client\order.js" />
     <Content Include="modules\scripts\products\attr.js" />
     <Content Include="modules\scripts\products\attrplug.js" />
     <Content Include="modules\scripts\products\category.js" />
@@ -254,15 +253,15 @@
     <Content Include="modules\scripts\System\menu.js" />
     <Content Include="modules\scripts\System\roles.js" />
     <Content Include="modules\scripts\System\users.js" />
-    <Content Include="modules\template\client-orders.html" />
-    <Content Include="modules\template\client-list.html" />
-    <Content Include="modules\template\clientauthorizelog-list.html" />
+    <Content Include="modules\template\client\client-orders.html" />
+    <Content Include="modules\template\client\client-list.html" />
+    <Content Include="modules\template\client\clientauthorizelog-list.html" />
     <Content Include="modules\template\system\modulesproduct-list.html" />
     <Content Include="modules\template\system\expresscompany-list.html" />
     <Content Include="modules\template\system\industry-list.html" />
     <Content Include="modules\template\feedback-list.html" />
     <Content Include="modules\template\agentactionreport-list.html" />
-    <Content Include="modules\template\agent-orders.html" />
+    <Content Include="modules\template\client\agent-orders.html" />
     <Content Include="modules\template\products\attrs.html" />
     <Content Include="modules\template\products\brand-detail.html" />
     <Content Include="modules\template\products\category-attrs.html" />
@@ -292,7 +291,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ExpressCompany\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -364,7 +362,7 @@
     <Content Include="Views\Report\AgentActionReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Client\Orders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config" />

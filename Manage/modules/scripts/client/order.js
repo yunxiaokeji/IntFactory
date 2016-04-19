@@ -15,7 +15,9 @@ define(function (require, exports, module) {
         type: -1,
         beginDate: '',
         endDate: '',
-        keyWords: ''
+        keyWords: '',
+        agentID: '',
+        clientID: ''
     };
 
 
@@ -120,8 +122,8 @@ define(function (require, exports, module) {
     Order.bindData = function () {
         $(".tr-header").nextAll().remove();
 
-        Global.post("/Order/GetClientOrders", Order.Params, function (data) {
-            doT.exec("template/agent-orders.html?3", function (templateFun) {
+        Global.post("/Client/GetClientOrders", Order.Params, function (data) {
+            doT.exec("template/client/agent-orders.html?3", function (templateFun) {
                 var innerText = templateFun(data.Items);
                 innerText = $(innerText);
                 $(".tr-header").after(innerText);
