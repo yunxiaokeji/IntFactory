@@ -54,9 +54,9 @@ define(function (require, exports, module) {
                 Website: $("#Website").val()
             };
 
-            Global.post("/ExpressCompany/SaveExpressCompany", { expressCompany: JSON.stringify(expressCompany) }, function (data) {
+            Global.post("/System/SaveExpressCompany", { expressCompany: JSON.stringify(expressCompany) }, function (data) {
                 if (data.result == "1") {
-                    location.href = "/ExpressCompany/ExpressCompanys";
+                    location.href = "/System/ExpressCompanys";
                 }
             });
         });
@@ -64,7 +64,7 @@ define(function (require, exports, module) {
 
     //详情
     ExpressCompany.getDetail = function () {
-        Global.post("/ExpressCompany/GetExpressCompanyDetail", { id: Params.id }, function (data) {
+        Global.post("/System/GetExpressCompanyDetail", { id: Params.id }, function (data) {
             if (data.item) {
                 var item = data.item;
                 $("#Name").val(item.Name);
@@ -96,9 +96,9 @@ define(function (require, exports, module) {
         $(".tr-header").nextAll().remove();
         $(".tr-header").after("<tr><td colspan='4'><div class='data-loading'><div></td></tr>");
 
-        Global.post("/ExpressCompany/GetExpressCompanys", Params, function (data) {
+        Global.post("/System/GetExpressCompanys", Params, function (data) {
             $(".tr-header").nextAll().remove();
-            doT.exec("template/expresscompany-list.html?3", function (templateFun) {
+            doT.exec("template/system/expresscompany-list.html?3", function (templateFun) {
                 var innerText = templateFun(data.items);
                 innerText = $(innerText);
                 $(".tr-header").after(innerText);
@@ -106,9 +106,9 @@ define(function (require, exports, module) {
                 $(".table-list a.ico-del").bind("click", function () {
                     if (confirm("确定删除?"))
                     {
-                        Global.post("/ExpressCompany/DeleteExpressCompany", { id: $(this).data("id") }, function (data) {
+                        Global.post("/System/DeleteExpressCompany", { id: $(this).data("id") }, function (data) {
                             if (data.result == 1) {
-                                location.href = "/ExpressCompany/ExpressCompanys";
+                                location.href = "/System/ExpressCompanys";
                             }
                             else{
                                 alert("删除失败");

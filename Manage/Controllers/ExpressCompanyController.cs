@@ -12,7 +12,7 @@ namespace YXManage.Controllers
     [YXManage.Common.UserAuthorize]
     public class ExpressCompanyController:BaseController
     {
-        #region view
+        #region 快递公司 view
         public ActionResult ExpressCompanys()
         {
             return View();
@@ -26,7 +26,7 @@ namespace YXManage.Controllers
         }
         #endregion
 
-        #region ajax
+        #region 快递公司 ajax
         /// <summary>
         /// 快递公司列表
         /// </summary>
