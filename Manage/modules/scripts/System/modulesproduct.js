@@ -57,9 +57,9 @@ define(function (require, exports, module) {
                 Type: 1
             };
 
-            Global.post("/ModulesProduct/SaveModulesProduct", { modulesProduct: JSON.stringify(modulesProduct) }, function (data) {
+            Global.post("/System/SaveModulesProduct", { modulesProduct: JSON.stringify(modulesProduct) }, function (data) {
                 if (data.result == "1") {
-                    location.href = "/ModulesProduct/Index";
+                    location.href = "/System/Index";
                 }
             });
 
@@ -68,7 +68,7 @@ define(function (require, exports, module) {
 
     //详情
     ModulesProduct.getDetail = function () {
-        Global.post("/ModulesProduct/GetModulesProductDetail", { id: Params.id }, function (data) {
+        Global.post("/System/GetModulesProductDetail", { id: Params.id }, function (data) {
             if (data.item) {
                 var item = data.item;
                 $("#Period").val(item.Period);
@@ -98,10 +98,10 @@ define(function (require, exports, module) {
         $(".tr-header").nextAll().remove();
         $(".tr-header").after("<tr><td colspan='7'><div class='data-loading'><div></td></tr>");
 
-        Global.post("/ModulesProduct/GetModulesProducts", Params, function (data) {
+        Global.post("/System/GetModulesProducts", Params, function (data) {
             $(".tr-header").nextAll().remove();
             
-            doT.exec("template/modulesproduct-list.html?3", function (templateFun) {
+            doT.exec("template/system/modulesproduct-list.html?3", function (templateFun) {
                 var innerText = templateFun(data.items);
                 innerText = $(innerText);
                 $(".tr-header").after(innerText);
@@ -109,9 +109,9 @@ define(function (require, exports, module) {
                 $(".table-list a.ico-del").bind("click", function () {
                     if (confirm("确定删除?"))
                     {
-                        Global.post("/ModulesProduct/DeleteModulesProduct", { id: $(this).attr("data-id") }, function (data) {
+                        Global.post("/System/DeleteModulesProduct", { id: $(this).attr("data-id") }, function (data) {
                             if (data.result == 1) {
-                                location.href = "/ModulesProduct/Index";
+                                location.href = "/System/Index";
                             }
                             else {
                                 alert("删除失败");
