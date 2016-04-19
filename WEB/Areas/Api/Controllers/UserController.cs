@@ -7,7 +7,6 @@ using System.Web.Mvc;
 using IntFactoryBusiness;
 namespace YXERP.Areas.Api.Controllers
 {
-    [YXERP.Common.ApiAuthorize]
     public class UserController : Controller
     {
         //
@@ -30,9 +29,6 @@ namespace YXERP.Areas.Api.Controllers
                 if (model != null)
                 {
                     if (result == 3)
-                }
-                else
-                {
                     {
                         if (pwdErrorUser == null)
                         {
@@ -41,7 +37,9 @@ namespace YXERP.Areas.Api.Controllers
                         else
                         {
                             if (pwdErrorUser.ErrorCount > 2)
+                            {
                                 pwdErrorUser.ErrorCount = 0;
+                            }
                         }
 
                         pwdErrorUser.ErrorCount += 1;
@@ -61,20 +59,23 @@ namespace YXERP.Areas.Api.Controllers
                     else if (result == 1)
                     {
                         Dictionary<string, object> userObj = new Dictionary<string, object>();
-                        userObj.Add("userID",model.UserID);
+                        userObj.Add("userID", model.UserID);
                         userObj.Add("agentID", model.AgentID);
                         userObj.Add("name", model.Name);
                         userObj.Add("avatar", model.Avatar);
                         resultObj.Add("user", userObj);
-                    } 
+                    }
+
+                }
+                else
+                {
+                    int forbidTime = (int)(pwdErrorUser.ForbidTime - DateTime.Now).TotalMinutes;
+                    resultObj.Add("forbidTime", forbidTime);
+                    result = -1;
                 }
 
-            }
-            else
-            {
-                int forbidTime = (int)(pwdErrorUser.ForbidTime - DateTime.Now).TotalMinutes;
-                resultObj.Add("forbidTime", forbidTime);
-                result = -1;
+
+
             }
 
             resultObj.Add("result", result);
