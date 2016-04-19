@@ -673,6 +673,7 @@ define(function (require, exports, module) {
             if (images[i]) {
                 if (i == 0) {
                     $("#orderImage").attr("src", images[i]);
+                    $("#enlargeImage").attr("src", images[i]);
                 }
                 var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
                 $(".order-imgs-list").append(img);
@@ -764,35 +765,55 @@ define(function (require, exports, module) {
         var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
         $("#orderImage").click(function () {
             if ($(this).attr("src")) {
+                
                 $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
-                $("#enlargeImage").attr("src", $(this).attr("src")).css({ "height": height - 80, "max-width": width - 200 });
                 $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
+
+                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).attr("src") + '"/>');
+                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
             }
         });
         $(".close-enlarge-image").click(function () {
             $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+            $(".enlarge-image-item").empty();
         });
         $(".enlarge-image-bgbox").click(function () {
             $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
-        })
+            $(".enlarge-image-item").empty();
+        });
+        $(".zoom-botton").click(function (e) {
+            var scaleToAdd = 0.8;
+            if (e.target.id == 'zoomOutButton')
+                scaleToAdd = -scaleToAdd;
+            $('#enlargeImage').smartZoom('zoom', scaleToAdd);
+            return false;
+        });
+
         $(".left-enlarge-image").click(function () {
             var ele = $(".order-imgs-list .hover").prev();
             if (ele && ele.find("img").attr("src")) {
                 var _img = ele.find("img");
                 $(".order-imgs-list .hover").removeClass("hover");
                 ele.addClass("hover");
-                $("#enlargeImage").attr("src", _img.attr("src"));
+                //$("#enlargeImage").attr("src", _img.attr("src"));
                 $("#orderImage").attr("src", _img.attr("src"));
+                $(".enlarge-image-item").empty();
+                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
+                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
             }
         });
+
         $(".right-enlarge-image").click(function () {
             var ele = $(".order-imgs-list .hover").next();
             if (ele && ele.find("img").attr("src")) {
                 var _img = ele.find("img");
                 $(".order-imgs-list .hover").removeClass("hover");
                 ele.addClass("hover");
-                $("#enlargeImage").attr("src", _img.attr("src"));
+                //$("#enlargeImage").attr("src", _img.attr("src"));
                 $("#orderImage").attr("src", _img.attr("src"));
+                $(".enlarge-image-item").empty();
+                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
+                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
             }
         });
         

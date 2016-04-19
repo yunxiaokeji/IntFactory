@@ -103,7 +103,7 @@
 .mRight15 {margin-right:15px;}
 .mRight20 {margin-right:20px;}
 .mRight30 {margin-right:30px;}
-.mRight50 {margin-right:50px;}
+.mRight50 {margin-right:50px !important;}
 
 .mBottom1 {margin-bottom:1px;}
 .mBottom2 {margin-bottom:2px;}

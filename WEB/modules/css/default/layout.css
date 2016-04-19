@@ -58,7 +58,7 @@ header .menu a{  height:50px; line-height:50px;text-align:center; width:70px; di
 header .menu .ico{ width:16px; height:16px; margin-top:18px; margin-left:10px; float:left; }
 header .menu .name{ margin-left:5px; color:#BFD2F2; font-size:14px; float:left;}
 header .menu .point { width:6px; height:6px; border-radius:3px; background-color:#f8aa9b; float:left; display:inline-block; margin-top:18px; margin-left:3px; }
-header .menu .cursor { border-bottom:solid 5px #fff; width:100%; position:absolute; bottom:0px; display:none;  }
+header .menu .cursor { border-bottom:solid 3px #fff; width:100%; position:absolute; bottom:0px; display:none;  }
 header .menu a:hover .name,header .menu .select .name{ color:#fff;}
 
 header .menu .select .cursor{ display:block; }
