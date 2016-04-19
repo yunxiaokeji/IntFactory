@@ -33,7 +33,7 @@ padding-top:2px;
 }
 /*任务样图信息*/
 .order-imgs-div {cursor:pointer;}
-.order-imgs-div .order-imgs img{ width:350px;height:400px;}
+.order-imgs-div .order-imgs img{ width:350px;height:350px; background:url('/modules/images/none-img.png') no-repeat center; background-color:#f0f0f0;}
 .order-imgs-list li{ width:40px; height:40px; float:left; border:solid 2px #eee; margin-right:5px; cursor:pointer;}
 .order-imgs-list li.hover{ border-color:red;}
 .order-imgs-list img{ width:40px; height:40px;}

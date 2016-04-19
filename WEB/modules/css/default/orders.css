@@ -65,7 +65,7 @@
 
 /*样图信息*/
 .order-imgs-div { width:350px; }
-.order-imgs-div .order-imgs{ height:350px; width:350px; position:relative; }
+.order-imgs-div .order-imgs{ height:350px; width:350px; position:relative; background:url('/modules/images/none-img.png') no-repeat center; background-color:#f0f0f0; }
 .order-imgs-div .order-imgs img{ height:350px; width:350px; }
 .order-imgs-div .order-imgs img:hover{ cursor:pointer;}
 .order-imgs-list { height:48px; margin-top:5px; }

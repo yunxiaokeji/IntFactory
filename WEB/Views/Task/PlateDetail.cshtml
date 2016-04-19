@@ -92,7 +92,7 @@
    <div class="taskDetail">
         <div class="order-imgs-div left">
             <div class="order-imgs">
-                <img id="orderImage" onerror="document.getElementById('orderImage').src='/modules/images/img-noimg.png'" src="@( string.IsNullOrEmpty(model.OrderImg) ? "/modules/images/img-noimg.png" : model.OrderImg)" />
+                <img id="orderImage" src="@(model.OrderImg)" />
             </div>
             <ul class="order-imgs-list"></ul>
         </div>

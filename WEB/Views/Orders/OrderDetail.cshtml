@@ -99,7 +99,7 @@
 <div class="content-body">
     <div class="order-imgs-div left">
         <div class="order-imgs">
-            <img id="orderImage" src="@(model.OrderImage)" data-self="@(model.IsSelf ? 1 : 0)" />
+            <img id="orderImage" src="@(string.IsNullOrEmpty(model.OrderImage)?"":model.OrderImage)" data-self="@(model.IsSelf ? 1 : 0)" />
             @if (model.SourceType == 3)
             {
                <span class="aliorder">
