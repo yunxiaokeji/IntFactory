@@ -92,17 +92,9 @@ namespace IntFactoryBusiness
                         model.FillData(dr);
                         _manageMenus.Add(model);
                     }
-                    foreach (var menu in _manageMenus.Where(m => m.Layer == 3))
+                    foreach (var menu in _clientMenus)
                     {
-                        menu.ChildMenus = _manageMenus.Where(m => m.PCode == menu.MenuCode).ToList();
-                    }
-                    foreach (var menu in _manageMenus.Where(m => m.Layer == 2))
-                    {
-                        menu.ChildMenus = _manageMenus.Where(m => m.PCode == menu.MenuCode).ToList();
-                    }
-                    foreach (var menu in _manageMenus.Where(m => m.Layer == 1))
-                    {
-                        menu.ChildMenus = _manageMenus.Where(m => m.PCode == menu.MenuCode).ToList();
+                        menu.ChildMenus = _clientMenus.Where(m => m.PCode == menu.MenuCode).ToList();
                     }
 
                 }
