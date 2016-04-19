@@ -238,9 +238,9 @@
     <Content Include="modules\scripts\System\modulesproduct.js" />
     <Content Include="modules\scripts\System\expresscompany.js" />
     <Content Include="modules\scripts\System\industry.js" />
-    <Content Include="modules\scripts\admin.js" />
-    <Content Include="modules\scripts\feedback.js" />
-    <Content Include="modules\scripts\agentactionreport.js" />
+    <Content Include="modules\scripts\System\admin.js" />
+    <Content Include="modules\scripts\feedback\feedback.js" />
+    <Content Include="modules\scripts\report\agentactionreport.js" />
     <Content Include="modules\scripts\client\order.js" />
     <Content Include="modules\scripts\products\attr.js" />
     <Content Include="modules\scripts\products\attrplug.js" />
@@ -259,8 +259,8 @@
     <Content Include="modules\template\system\modulesproduct-list.html" />
     <Content Include="modules\template\system\expresscompany-list.html" />
     <Content Include="modules\template\system\industry-list.html" />
-    <Content Include="modules\template\feedback-list.html" />
-    <Content Include="modules\template\agentactionreport-list.html" />
+    <Content Include="modules\template\feedback\feedback-list.html" />
+    <Content Include="modules\template\report\agentactionreport-list.html" />
     <Content Include="modules\template\client\agent-orders.html" />
     <Content Include="modules\template\products\attrs.html" />
     <Content Include="modules\template\products\brand-detail.html" />

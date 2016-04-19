@@ -46,7 +46,7 @@ define(function (require, exports, module) {
         $(".tr-header").nextAll().remove();
 
         Global.post("/Report/GetAgentActionReports", AgentActionReport.Params, function (data) {
-            doT.exec("template/agentactionreport-list.html?3", function (templateFun) {
+            doT.exec("template/report/agentactionreport-list.html?3", function (templateFun) {
                 var innerText = templateFun(data.Items);
                 innerText = $(innerText);
                 $(".tr-header").after(innerText);

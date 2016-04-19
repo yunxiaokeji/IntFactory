@@ -124,7 +124,7 @@ define(function (require, exports, module) {
         Global.post("/FeedBack/GetFeedBacks", Params, function (data) {
             $(".tr-header").nextAll().remove();
 
-            doT.exec("template/FeedBack-list.html?3", function (templateFun) {
+            doT.exec("template/feedback/FeedBack-list.html?3", function (templateFun) {
                 var innerText = templateFun(data.items);
                 innerText = $(innerText);
                 $(".tr-header").after(innerText);
