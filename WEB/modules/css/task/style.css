@@ -134,6 +134,7 @@ border-bottom:1px solid #ddd;
 .replybox-hover {
     height:auto;
     border: 1px solid #666;
+    overflow:visible;
 }
 
 .reply-box {

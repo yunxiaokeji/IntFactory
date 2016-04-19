@@ -19,25 +19,28 @@
     ///orderType:订单类型
     ///um:富文本编辑器
     ///plateRemark:制版工艺描述
-    ObjectJS.init = function (taskid, orderid, stageid, mark, finishStatus, attrValues, orderType, um, plateRemark, orderimages, ownerid, endTime) {
-        ObjectJS.orderid = orderid;
-        ObjectJS.ownerid = ownerid;
+    ObjectJS.init = function ( attrValues, um, plateRemark, orderimages, endTime, task) {
+        var task = JSON.parse(task.replace(/&quot;/g, '"'));
+
+        ObjectJS.orderid = task.OrderID;
+        ObjectJS.ownerid = task.OwnerID;
         ObjectJS.endTime = endTime;
-        ObjectJS.finishStatus = finishStatus;
-        ObjectJS.stageid = stageid;
-        ObjectJS.taskid = taskid;
-        ObjectJS.orderType = orderType;
+        ObjectJS.finishStatus = task.FinishStatus;
+        ObjectJS.stageid = task.StageID;
+        ObjectJS.taskid = task.TaskID;
+        ObjectJS.orderType = task.OrderType;
         ObjectJS.isPlate = true;//任务是否制版
         if(attrValues!="")
             CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
         Editor = um;
         ObjectJS.mark = 0;//任务讨论标记 用于获取讨论列表
-        ObjectJS.taskMark = mark;//任务标记 用于做标记任务完成的限制条件
+        ObjectJS.taskMark = task.Mark;//任务标记 用于做标记任务完成的限制条件
         ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
         ObjectJS.orderimages = orderimages;
 
         ObjectJS.bindEvent();
-        if (mark == 0)
+
+        if (task.Mark == 0)
             ObjectJS.getTaskReplys(1);
 
         //材料任务
@@ -109,6 +112,8 @@
         }
 
     };
+
+
 
     ///任务基本信息操作事件
     //绑定事件
@@ -216,7 +221,7 @@
             path: '/modules/plug/qqface/arclist/'	//表情存放的路径
         });
 
-        //
+        //显示剩余时间
         ObjectJS.showTime();
 
         //接受任务
@@ -266,11 +271,14 @@
             }
         });
 
+        var myDate = new Date();
+        var minDate = myDate.toLocaleDateString();
+        minDate = minDate + " 23:59:59"
         //更新任务到期日期
         var taskEndTime = {
             elem: '#UpdateTaskEndTime',
             format: 'YYYY-MM-DD hh:mm:ss',
-            min: laydate.now(),
+            min: minDate,
             max: '2099-06-16',
             istime: true,
             istoday: false
