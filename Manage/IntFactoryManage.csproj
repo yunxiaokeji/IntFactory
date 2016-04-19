@@ -108,7 +108,6 @@
     <Compile Include="Controllers\ExpressCompanyController.cs" />
     <Compile Include="Controllers\FeedBackController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\IndustryController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PlugController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
@@ -239,7 +238,7 @@
     <Content Include="modules\scripts\clients.js" />
     <Content Include="modules\scripts\System\modulesproduct.js" />
     <Content Include="modules\scripts\expresscompany.js" />
-    <Content Include="modules\scripts\industry.js" />
+    <Content Include="modules\scripts\System\industry.js" />
     <Content Include="modules\scripts\admin.js" />
     <Content Include="modules\scripts\feedback.js" />
     <Content Include="modules\scripts\agentactionreport.js" />
@@ -260,7 +259,7 @@
     <Content Include="modules\template\clientauthorizelog-list.html" />
     <Content Include="modules\template\system\modulesproduct-list.html" />
     <Content Include="modules\template\expresscompany-list.html" />
-    <Content Include="modules\template\industry-list.html" />
+    <Content Include="modules\template\system\industry-list.html" />
     <Content Include="modules\template\feedback-list.html" />
     <Content Include="modules\template\agentactionreport-list.html" />
     <Content Include="modules\template\agent-orders.html" />
@@ -343,10 +342,10 @@
     <Content Include="Views\ExpressCompany\ExpressCompanys.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Industry\IndustryDetail.cshtml" />
+    <Content Include="Views\System\IndustryDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Industry\Industrys.cshtml" />
+    <Content Include="Views\System\Industrys.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Layout.cshtml" />
