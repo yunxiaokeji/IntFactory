@@ -1,5 +1,5 @@
 ﻿
-.taskContent { background-color: #fff; margin: 0 20px; padding: 10px; }
+.taskContent { background-color: #fff; margin: 0 20px; padding: 10px;clear:both;overflow:auto; }
 
 
 .taskContent .taskBaseInfo li {
