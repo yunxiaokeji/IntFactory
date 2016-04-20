@@ -2,13 +2,12 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-<tr class="list-item">
-    <td class="center">
-        <a href="/System/IndustryDetail/{%=item.IndustryID%}" class="ico-edit" title="设置" data-id="{%=item.IndustryID%}"></a>
-    </td>
+<tr class="list-item">  
     <td class="center">{%=item.Name%}</td>
     <td class="center">{%=item.Description%}</td>
     <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
-
+    <td class="center">
+        <a href="/System/IndustryDetail/{%=item.IndustryID%}" class="ico-edit" title="设置" data-id="{%=item.IndustryID%}"></a>
+    </td>
 </tr>
 {% } %}

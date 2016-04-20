@@ -34,17 +34,15 @@
         });
         //删除
         $("#deleteObject").click(function () {
-            var _self = $(this);
             if(confirm("角色删除后不可恢复,确认删除吗？"))
             {
-                alert(111);
-                //_self.deleteModel(_this.data("id"), function (status) {
-                //    if (status == 1) {
-                //        _self.getList();
-                //    } else if (status == 10002) {
-                //        alert("此角色存在员工，请移除员工后重新操作！");
-                //    }
-                //});
+                _self.deleteModel($(this).data("id"), function (status) {
+                    if (status == 1) {
+                        _self.getList();
+                    } else if (status == 10002) {
+                        alert("此角色存在员工，请移除员工后重新操作！");
+                    }
+                });
             }
         });
         //编辑
@@ -146,7 +144,6 @@
         Global.post("/System/SaveRole", { entity: JSON.stringify(model) }, function (data) {
             if (data.model.RoleID.length > 0) {
                 _self.getList();
-                //_self.bindList([data.model]);
             }
         })
     }
@@ -154,7 +151,7 @@
     ObjectJS.deleteModel = function (id, callback) {
         Global.post("/System/DeleteRole", { roleid: id }, function (data) {
             !!callback && callback(data.status);
-        })
+        });
     }
 
     //绑定权限页样式

@@ -22,7 +22,21 @@ public static class ExpandClass
     {
         return action.ToLower() == param.ToLower() ? style : "";
     }
-
+    /// <summary>
+    /// 是否有权限
+    /// </summary>
+    public static string IsLimits(HttpContext httpContext, string menucode)
+    {
+        if (httpContext.Session["Manager"] != null)
+        {
+            IntFactoryEntity.Users model = (IntFactoryEntity.Users)httpContext.Session["Manager"];
+            if (model.Menus.Where(m => m.MenuCode == menucode).Count() > 0)
+            {
+                return "";
+            }
+        }
+        return "nolimits";
+    }
     /// <summary>
     /// 将对象转换成JSON对象
     /// </summary>

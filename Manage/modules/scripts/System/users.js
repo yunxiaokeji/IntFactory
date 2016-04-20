@@ -77,7 +77,7 @@
             });
         });
     }
-    ObjectJS.count = 1;
+    //绑定权限
     ObjectJS.initRoleSelect = function (roleid) {
         $("#modelRoles option").remove();
         $.each(Rolelist, function (i, roleobj) {           
@@ -85,6 +85,7 @@
         });
         if (roleid != "") { $('#modelRoles').val(roleid); }
     }
+    //登陆名称 密码失焦验证
     ObjectJS.initBindblur = function () {
         $("#modelLoginName").change(function () {
             $("#LoginameInfo").html('');
@@ -146,13 +147,13 @@
             });
             _self.initRoleSelect(Model.RoleID);
             if (Model.UserID != "") {
-                $(".tLeft").hide();
+                $(".userlihide").hide();
                 $("#modelLoginName").val(Model.LoginName);
                 $("#modelLoginPWD").val(Model.LoginPWD);
                 $("#modelNewConfirmPwd").val(Model.LoginPWD);                
             } else {
                 _self.initBindblur();
-                $(".tLeft").show();
+                $(".userlihide").show();
             }
             $("#modelName").focus();
             $("#modelName").val(Model.Name);            
@@ -178,7 +179,6 @@
     ObjectJS.bindList = function (items) {
         var _self = this;
         $(".tr-header").nextAll().remove();
-
         if (items.length > 0) {
             doT.exec("template/System/users.html", function (template) {
                 var innerhtml = template(items);
@@ -220,12 +220,6 @@
             } else { alert(data.errmeg); }
         })
     }
-    //删除
-    ObjectJS.deleteModel = function (id, callback) {
-        Global.post("/System/DeleteMUser", { id: id }, function (data) {
-            !!callback && callback(data.status);
-        })
-    }
-     
+         
     module.exports = ObjectJS;
 });
