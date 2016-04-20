@@ -1,11 +1,12 @@
 ﻿@{
     ViewBag.Title = "用户管理";
+    var roelslist = (List<IntFactoryEntity.Manage.M_Role>)ViewBag.Roles;
 }
 
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/system/users"], function (obj) {
-            obj.init();
+            obj.init('@Html.ToJSONString(roelslist)');
         });
     </script>
 }
@@ -27,6 +28,5 @@
 </div>
 <ul class="dropdown-ul hide" style="width:65px;">
     <li class="" id="updateObject">编辑</li>
-     <li class="" id="updateRoleObject">角色设置</li>
     <li class="" id="deleteObject">删除</li>
 </ul>

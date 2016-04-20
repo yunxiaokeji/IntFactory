@@ -27,6 +27,7 @@ namespace YXManage.Controllers
 
          public ActionResult Users()
          {
+             ViewBag.Roles = ManageSystemBusiness.GetRoles();
              return View();
          }
 
@@ -273,7 +274,7 @@ namespace YXManage.Controllers
         public JsonResult SaveRole(string entity)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            Role model = serializer.Deserialize<Role>(entity);
+            M_Role model = serializer.Deserialize<M_Role>(entity);
 
             if (string.IsNullOrEmpty(model.RoleID))
             {
@@ -359,6 +360,60 @@ namespace YXManage.Controllers
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+         /// <summary>
+         /// 新增或修改用户
+         /// </summary>
+        public JsonResult ValidateLoginName(string loginName)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            JsonDictionary.Add("Info", M_UsersBusiness.GetM_UserCountByLoginName(loginName) > 0 ? "登录名已存在" : "");                
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SaveUser(string entity)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            M_Users model = serializer.Deserialize<M_Users>(entity);
+            JsonDictionary.Add("errmeg", "执行成功");
+            if (string.IsNullOrEmpty(model.UserID))
+            {
+                if (M_UsersBusiness.GetM_UserCountByLoginName(model.LoginName) == 0)
+                {
+                    model.CreateUserID = CurrentUser.UserID;
+                    model.UserID = new M_UsersBusiness().CreateM_User(model);
+                }
+                else { JsonDictionary["errmeg"] = "登录名已存在,操作失败"; }
+            }
+            else
+            {
+                bool bl = new M_UsersBusiness().UpdateM_User(model.UserID, model.Name, model.RoleID, model.Email, model.MobilePhone, model.OfficePhone, model.Jobs, model.Avatar, model.Description);
+                if (!bl)
+                {
+                    model.UserID = "";                    
+                }
+            }
+            if (string.IsNullOrEmpty(model.UserID)) { JsonDictionary["errmeg"] = "操作失败"; }
+            JsonDictionary.Add("model", model);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult DeleteMUser(string id) 
+        {
+
+            bool bl = (new M_UsersBusiness()).DeleteM_User(id, 9);
+            JsonDictionary.Add("status", (bl ? 1 : 0));
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            }; 
         }
 
         /// <summary>
