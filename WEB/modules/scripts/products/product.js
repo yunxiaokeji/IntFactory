@@ -343,6 +343,13 @@ define(function (require, exports, module) {
                         location.href = "/Products/ProductDetail/" + data.ID;
                     });
                     
+                } else if (_self.type == "1") {
+                    confirm("材料添加成功，是否返回选择材料页面？", function () {
+                        location.href = "/Products/ChooseProducts?id=" + _self.guid;
+                    }, function () {
+                        location.href = "/Products/ProductDetail/" + data.ID;
+                    });
+
                 } else {
                     location.href = "/Products/ProductDetail/" + data.ID;
                 }
