@@ -56,13 +56,25 @@
     </div>
     <div class="filter-orderby">
         <div class="left" id="prodiver"></div>
-        <ul class="orderby right">
-            <li class="orderby-new hover">日期<span class="shang"></span><span class="xia"></span></li>
-            <li class="orderby-price">价格<span class="shang"></span><span class="xia"></span></li>
-        </ul>
     </div>
+    <ul class="search-sort">
+        <li>排序</li>
+        <li class="sort-item hover" data-column="p.CreateTime">
+            日期
+            <span class="asc"></span>
+            <span class="desc hover"></span>
+        </li>
+        <li class="sort-item" data-column="p.Price">
+            价格
+            <span class="asc"></span>
+            <span class="desc"></span>
+        </li>
+    </ul>
     <div class="clear"></div>
-    <table class="table-list mTop20">
+    
+</div>
+<div class="content-body mTop20">
+    <table class="table-list">
         <tr class="tr-header" id="product-items">
             <td class="tLeft"></td>
             <td class="tLeft">材料名称</td>
