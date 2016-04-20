@@ -895,17 +895,17 @@
             }
             else if (ObjectJS.materialMark == 1)
             {
-                _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
+                _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(3));
                 amount += _this.html() * 1;
             }
             else if(ObjectJS.materialMark == 2)
             {
-                _this.html(((_this.prevAll(".tr-quantity").html() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find(".price").val() ).toFixed(2));
+                _this.html(((_this.prevAll(".tr-quantity").html() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find(".price").val() ).toFixed(3));
                 amount += _this.html() * 1;
             }
         });
 
-        $("#amount").text(amount.toFixed(2));
+        $("#amount").text(amount.toFixed(3));
     }
 
     //生成采购单

@@ -40,9 +40,10 @@ define(function (require, exports, module) {
                 $(this).parent().append(strFace);
                 var position = $(this).position();
                 var top = position.top + $(this).outerHeight();
-                if ($('.task-layer-box').length > 0)
+   
+                if ($('.task-layer-box .taskContent ').length > 0)
                 {
-                    var scrollTop = $('.task-layer-box')[0].scrollTop;
+                    var scrollTop = $('.task-layer-box .taskContent')[0].scrollTop;
                     if (scrollTop > 0)
                     {
                         top += scrollTop;

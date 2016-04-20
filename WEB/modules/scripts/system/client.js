@@ -31,15 +31,16 @@
 
         ObjectJS.getDetail();
 
-        if (option == 3) {
-            $(".search-stages li").eq(2).click();
-        }
-        else if (option == 2) {
-            $(".search-stages li").eq(1).click();
-        }
-        else if (option == 4) {
-            $(".search-stages li").eq(3).click();
-        }
+        $(".search-stages li[data-id='"+option+"']").click();
+        //if (option == 3) {
+        //    $(".search-stages li").eq(2).click();
+        //}
+        //else if (option == 2) {
+        //    $(".search-stages li").eq(1).click();
+        //}
+        //else if (option == 4) {
+        //    $(".search-stages li").eq(3).click();
+        //}
     }
 
     //绑定事件
@@ -83,7 +84,7 @@
 
                 $(".content-body div[name='clientInfo']").hide().eq(parseInt(_this.data("id"))).show();
 
-                if (_this.data("id") == 3)
+                if (_this.data("id") == 2)
                 {
                     ObjectJS.getClientOrders();
                 }
