@@ -38,6 +38,9 @@ namespace YXERP.Areas.Api.Controllers
             string ownerID = string.Empty;
             //我的任务
             ownerID = paras.userID;
+            if (paras.isMy) {
+                ownerID = userID;
+            }
             var currentUser = OrganizationBusiness.GetUserByUserID(userID,agentID);
 
             List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID,0, paras.status, paras.finishStatus,
