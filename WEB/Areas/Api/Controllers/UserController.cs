@@ -59,10 +59,11 @@ namespace YXERP.Areas.Api.Controllers
                     else if (result == 1)
                     {
                         Dictionary<string, object> userObj = new Dictionary<string, object>();
+                        string domainUrl = Request.Url.Scheme + "://" + Request.Url.Host;
                         userObj.Add("userID", model.UserID);
                         userObj.Add("agentID", model.AgentID);
                         userObj.Add("name", model.Name);
-                        userObj.Add("avatar", model.Avatar);
+                        userObj.Add("avatar",domainUrl+ model.Avatar);
                         resultObj.Add("user", userObj);
                     }
 

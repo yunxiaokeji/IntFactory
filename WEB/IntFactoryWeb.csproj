@@ -370,6 +370,7 @@
     <Content Include="modules\plug\autocomplete\autocomplete.js" />
     <Content Include="modules\plug\autocomplete\style.css" />
     <Content Include="modules\plug\e-smart-zoom-jquery.min.js" />
+    <Content Include="modules\scripts\auction\buynow2.js" />
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
@@ -385,6 +386,7 @@
     <Content Include="modules\scripts\system\ordercategory.js" />
     <Content Include="modules\scripts\task\detail.js" />
     <Content Include="modules\scripts\task\task.js" />
+    <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />
     <Content Include="modules\template\orders\orders_child_list.html" />
     <Content Include="modules\template\orders\surequantity.html" />

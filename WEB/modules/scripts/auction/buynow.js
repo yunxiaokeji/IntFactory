@@ -237,7 +237,6 @@
             }
         }
 
-
         Global.post("/Auction/GetBestWay",
             {
                 quantity: quantity,
