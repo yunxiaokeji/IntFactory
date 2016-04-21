@@ -112,7 +112,40 @@ namespace IntFactoryBusiness.Manage
             }
             return list;
         }
-
+        /// <summary>
+        /// 获取工厂登陆报表
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="begintime"></param>
+        /// <param name="endtime"></param>
+        /// <returns></returns>
+        public static List<ClientsLoginEntity> GetClientsLoginReport(int type, string begintime, string endtime)
+        {
+            List<ClientsLoginEntity> list = new List<ClientsLoginEntity>();
+            DataSet ds = ClientDAL.BaseProvider.GetClientsLoginReport(type, begintime, endtime);
+            int k = 0;
+            foreach (DataTable dt in ds.Tables)
+            {
+                List<ClientsLoginItem> item = new List<ClientsLoginItem>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    ClientsLoginItem model = new ClientsLoginItem();
+                    model.Name = dr["ReportDate"].ToString();
+                    model.Value = int.Parse(dr["Num"].ToString());
+                    item.Add(model);
+                }                
+                if (item.Any()) {
+                    ClientsLoginEntity clientloginEntity = new ClientsLoginEntity
+                    {
+                        Name = (k == 0 ? "登录次数" : (k == 1 ? "登陆人数" : "登陆工厂数")),
+                        Items = item
+                    };
+                    list.Add(clientloginEntity);
+                }
+                k++;
+            }
+            return list;
+        }
         /// <summary>
         /// 获取客户端授权日志
         /// </summary>

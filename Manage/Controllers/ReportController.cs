@@ -23,6 +23,10 @@ namespace YXManage.Controllers
         {
             return View();
         }
+        public ActionResult ClientsLoginReport()
+        {
+            return View();
+        }
         public JsonResult GetAgentActionReports(string keyword,string startDate,string endDate)
         {
             var list = AgentsBusiness.GetAgentActionReport(keyword, startDate, endDate);
@@ -37,6 +41,17 @@ namespace YXManage.Controllers
         public JsonResult GetClientsGrow(int dateType, string beginTime, string endTime)
         {
             var list = ClientBusiness.GetClientsGrow(dateType, beginTime, endTime);
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult GetClientsLoginReport(int dateType, string beginTime, string endTime)
+        {
+            var list = ClientBusiness.GetClientsLoginReport(dateType, beginTime, endTime);
             JsonDictionary.Add("items", list);
 
             return new JsonResult()

@@ -30,6 +30,16 @@ namespace IntFactoryDAL.Manage
                                    };
             return GetDataTable("R_GetClientsGrowDate", paras, CommandType.StoredProcedure);
         }
+
+        public DataSet GetClientsLoginReport(int type, string begintime, string endtime)
+        {
+            SqlParameter[] paras = { 
+                                    new SqlParameter("@DateType",type), 
+                                    new SqlParameter("@BeginTime",begintime),
+                                    new SqlParameter("@EndTime",endtime)
+                                   };
+            return GetDataSet("R_GetClientsAgentLogin_Day", paras, CommandType.StoredProcedure);
+        }
         #endregion
 
         #region 添加

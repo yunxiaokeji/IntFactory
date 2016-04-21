@@ -5,7 +5,7 @@
     require("echarts/chart/line");
     require("echarts/chart/bar");
     var Params = {
-        searchType: "clientsGrowRPT",
+        searchType: "clientsLoginRPT",
         dateType: 1,
         beginTime: "",
         endTime: ""
@@ -15,7 +15,7 @@
     //初始化
     ObjectJS.init = function () {
         var _self = this;
-        _self.clientsChart = ec.init(document.getElementById('clientsGrowRPT'));
+        _self.clientsChart = ec.init(document.getElementById('clientsLoginRPT'));
         _self.bindEvent();
     }
     ObjectJS.bindEvent = function () {
@@ -38,7 +38,7 @@
                 $("#" + _this.data("id")).show();
 
                 if (!_self.clientsChart) {
-                    _self.clientsChart = ec.init(document.getElementById('clientsGrowRPT'));
+                    _self.clientsChart = ec.init(document.getElementById('clientsLoginRPT'));
                 }
                 if (_this.data("begintime")) {
                     $("#beginTime").val(_this.data("begintime"));
@@ -61,10 +61,10 @@
             }
 
         });
-        
+
         $("#btnSearch").click(function () {
             Params.beginTime = $("#beginTime").val().trim();
-            Params.endTime = $("#endTime").val().trim(); 
+            Params.endTime = $("#endTime").val().trim();
             if (!Params.beginTime || !Params.endTime) {
                 alert("开始日期与结束日期不能为空！");
                 return;
@@ -73,11 +73,11 @@
                 alert("开始日期不能大于结束日期！");
                 return;
             }
-            _self.sourceDate() 
+            _self.sourceDate()
             $(".search-type .hover").data("begintime", Params.beginTime).data("endtime", Params.endTime);
         });
         $("#btnSearch").click();
-    } 
+    }
     //按时间周期
     ObjectJS.sourceDate = function () {
         var _self = this;
@@ -91,25 +91,31 @@
             },
             effect: "spin"
         });
-        Global.post("/Report/GetClientsGrow", Params, function (data) {
-            var items = [], datanames=[],_items = [];
+        Global.post("/Report/GetClientsLoginReport", Params, function (data) {
+            var title=[],items = [], datanames = [];
             _self.clientsChart.clear();
-            for (var i = 0, j = data.items.length; i < j; i++) {                
-                _items.push(data.items[i].Value);
-                datanames.push(data.items[i].Name)
+            for (var i = 0, j = data.items.length; i < j; i++) {
+                title.push(data.items[i].Name);
+                var _items = [];
+                for (var ii = 0, jj = data.items[i].Items.length; ii < jj; ii++) {
+                    if (i == 0) {
+                        datanames.push(data.items[i].Items[ii].Name);
+                    }
+                    _items.push(data.items[i].Items[ii].Value);
+                }
+                items.push({
+                    name: data.items[i].Name,
+                    type: 'line',
+                    stack: '总量',
+                    data: _items
+                });
             }
-            items.push({
-                name: data.items[0].Name,
-                type: 'line',
-                stack: '总量',
-                data: _items
-            });
             option = {
                 tooltip: {
                     trigger: 'axis'
                 },
                 legend: {
-                    data: []
+                    data: title
                 },
                 toolbox: {
                     show: true,
@@ -120,10 +126,19 @@
                             optionToContent: function (opt) {
                                 var axisData = opt.xAxis[0].data;
                                 var series = opt.series;
-                                var table = '<table class="table-list"><tr class="tr-header"><td>时间</td> <td>数量</td></tr>';
+                                var table = '<table class="table-list"><tr class="tr-header">'
+                                             + '<td>时间</td>';
+                                for (var i = 0, l = series.length; i < l; i++) {
+                                    table += '<td>' + series[i].name + '</td>'
+                                }
+                                table += '</tr>';
                                 for (var i = 0, l = axisData.length; i < l; i++) {
-                                    table += '<tr><td class="center">' + axisData[i] + '</td>'
-                                          + '<td class="center">' + series[0].data[i] + '</td>';                                    
+                                    table += '<tr>'
+                                    + '<td class="center">' + axisData[i] + '</td>'
+                                    for (var ii = 0, ll = series.length; ii < ll; ii++) {
+                                        table += '<td class="center">' + series[ii].data[i] + '</td>';
+                                    }
+
                                     table += '</tr>';
                                 }
                                 table += '</table>';

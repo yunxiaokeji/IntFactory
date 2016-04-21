@@ -416,6 +416,7 @@
     <Content Include="modules\scripts\layout.js" />
     <Content Include="modules\scripts\client\clients.js" />
     <Content Include="modules\scripts\report\clientsgrowreport.js" />
+    <Content Include="modules\scripts\report\clientsloginreport.js" />
     <Content Include="modules\scripts\System\modulesproduct.js" />
     <Content Include="modules\scripts\System\expresscompany.js" />
     <Content Include="modules\scripts\System\industry.js" />
@@ -601,6 +602,7 @@
     <None Include="Properties\PublishProfiles\intfactoryManage.pubxml" />
     <Content Include="Views\Products\AttrDetail.cshtml" />
     <Content Include="Views\Report\ClientsGrowReport.cshtml" />
+    <Content Include="Views\Report\ClientsLoginReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
