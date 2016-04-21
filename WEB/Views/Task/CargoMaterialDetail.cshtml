@@ -267,7 +267,7 @@
                         }
                         if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
                         {
-                        <a href="javascript:void(0);"  id="btn-addMaterial" class="hide">生成采购单</a>
+                        <a href="/Orders/ChooseMaterial?id=@(model.OrderID)&tid=@(model.TaskID)"  id="btn-addMaterial" class="btn right mTop10 mRight10">添加材料</a>
                         }
 
 
