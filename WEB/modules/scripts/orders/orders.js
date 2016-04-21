@@ -34,7 +34,7 @@
         var _self = this;
         Params.SearchType = type;
         if (status) {
-            Params.Status = status;
+            Params.OrderStatus = status;
         }
        
         Params.PageSize = ($(".object-items").width() / 300).toFixed(0) * 3;

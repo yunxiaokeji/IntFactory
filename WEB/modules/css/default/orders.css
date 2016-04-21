@@ -165,7 +165,7 @@
 .order-layer-item .stage-items  li:hover{ background-color:#eee;}
 
 .order-layer-item .stage-items  li.ing{ border-color: #45BF67;}
-.porder-layer-item .stage-items  li.over{ border-color: #3A7DE5;}
+.order-layer-item .stage-items  li.over{ border-color: #3A7DE5;}
 
 .order-layer-item .stage-items  li span{ display:block; font-size:12px; height:25px; line-height:25px; width:120px; color:#333;}
 .order-layer-item .stage-items  li .status { color:#999; }
