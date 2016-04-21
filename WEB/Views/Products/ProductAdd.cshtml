@@ -25,6 +25,12 @@
            <i class="iconfont">&#xe62d;</i> 返回 
         </a>
     }
+    else if (Convert.ToInt32(ViewBag.Type) == 1)
+    { 
+        <a class="back right" href="/Products/ChooseProducts?id=@(ViewBag.GUID)">
+           <i class="iconfont">&#xe62d;</i> 返回 
+        </a>
+    }
     else
     {
         <a class="back right" href="/Products/ProductList">

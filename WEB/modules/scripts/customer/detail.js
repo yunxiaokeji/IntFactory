@@ -483,6 +483,7 @@
 
     ObjectJS.addContact = function (model) {
         var _self = this;
+        $("#show-model-detail").empty();
         doT.exec("template/customer/contact-detail.html", function (template) {
             var innerText = template();
             Easydialog.open({
@@ -551,6 +552,7 @@
     //编辑信息
     ObjectJS.editCustomer = function (model) {
         var _self = this;
+        $("#show-contact-detail").empty();
         doT.exec("template/customer/customer-detail.html", function (template) {
             var innerText = template(model);
             Easydialog.open({
@@ -597,23 +599,8 @@
 
             //$("#industry").val(model.IndustryID);
 
-            if (model.Type == 0) {
-                
-            }
+
             $(".edit-company").hide();
-            //切换类型
-            $(".customtype").click(function () {
-                var _this = $(this);
-                if (!_this.hasClass("ico-checked")) {
-                    $(".customtype").removeClass("ico-checked").addClass("ico-check");
-                    _this.addClass("ico-checked").removeClass("ico-check");
-                    //if (_this.data("type") == 1) {
-                    //    $(".edit-company").show();
-                    //} else {
-                    //    $(".edit-company").hide();
-                    //}
-                }
-            });
         });
     }
     //保存实体

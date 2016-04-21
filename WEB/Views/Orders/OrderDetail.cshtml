@@ -37,9 +37,15 @@
         {
             if (model.OrderStatus == 0)
             {
-                <div class="btn right @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >退回委托</div>
-                <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
-                <div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >订单委托</div>
+                if (string.IsNullOrEmpty(model.EntrustClientID)) 
+                {
+                    <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
+                    <div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >订单委托</div>
+                }
+                else
+                {
+                    <div class="btn right mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >退回委托</div>
+                }  
             }
             else if (model.OrderStatus == 1)
             {
@@ -291,9 +297,9 @@
                     <td>@(detail.Remark)</td>
                     <td class="center">@(detail.UnitName)</td>
                     <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
-                    <td class="center tr-quantity"><label class="quantity">@(detail.Quantity.ToString("f2"))</label></td>
-                    <td class="center tr-loss"><label class="loss">@(detail.Loss.ToString("f2"))</label></td>
-                    <td class="tRight amount">@((detail.TotalMoney).ToString("f2"))</td>
+                    <td class="center tr-quantity"><label class="quantity">@(detail.Quantity.ToString("f3"))</label></td>
+                    <td class="center tr-loss"><label class="loss">@(detail.Loss.ToString("f3"))</label></td>
+                    <td class="tRight amount">@((detail.TotalMoney).ToString("f3"))</td>
                 </tr>
             }
             <tr class="amount-item">

@@ -18,6 +18,11 @@
         <a class="btn right mLeft20" href="/Task/Detail/@(ViewBag.TID)">返回任务详情</a>
         <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)&tid=@(ViewBag.TID)">添加材料</a>
     }
+    else if (Convert.ToInt32(ViewBag.Type) == 1)
+    {
+        <a class="btn right mLeft20" href="/Products/ConfirmPurchase/@(ViewBag.GUID)">返回采购单</a>
+        <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
+    }
     else
     {
         <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
@@ -72,13 +77,22 @@
             </li>
         </ul>
     </div>
-    <div class="filter-orderby">
-        <ul class="orderby">
-            <li class="orderby-new hover">新品<span class="shang"></span><span class="xia"></span></li>
-            <li class="orderby-price">价格<span class="shang"></span><span class="xia"></span></li>
-        </ul>
-    </div>
+    <ul class="search-sort">
+        <li>排序</li>
+        <li class="sort-item hover" data-column="pd.CreateTime">
+            日期
+            <span class="asc"></span>
+            <span class="desc hover"></span>
+        </li>
+        <li class="sort-item" data-column="pd.Price">
+            价格
+            <span class="asc"></span>
+            <span class="desc"></span>
+        </li>
+    </ul>
     @*<div id="toppager" class="mTop20"></div>*@
+</div>
+<div class="content-body mTop20">
     <div class="clear">
         <ul class="productlist" id="productlist">
 
@@ -86,5 +100,4 @@
     </div>
 
     <div id="pager"></div>
-    
 </div>

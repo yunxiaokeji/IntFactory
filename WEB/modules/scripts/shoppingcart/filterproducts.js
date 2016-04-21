@@ -199,53 +199,25 @@
             _self.getProducts();
         });
 
-        //按时间排序
-        $(".orderby-new").click(function () {
+        $(".sort-item").click(function () {
             var _this = $(this);
-            if (!_this.hasClass("hover")) {
-                _this.addClass("hover");
-                _this.siblings().removeClass("hover");
-                Params.OrderBy = "pd.CreateTime desc";
-                Params.IsAsc = false;
-                Params.PageIndex = 1;
-                _self.getProducts();
-            }
-        });
-
-        //按销量排序
-        $(".orderby-sales").click(function () {
-            var _this = $(this);
-            if (!_this.hasClass("hover")) {
-                _this.addClass("hover");
-                _this.siblings().removeClass("hover");
-                Params.OrderBy = "pd.SaleCount desc";
-                Params.IsAsc = false;
-                Params.PageIndex = 1;
-                _self.getProducts();
-            }
-        });
-
-        //按价格排序
-        $(".orderby-price").click(function () {
-            var _this = $(this);
-            
-            if (!_this.hasClass("hover")) {
-                _this.addClass("hover");
-                _this.siblings().removeClass("hover");
-                Params.IsAsc = true;
-                Params.PageIndex = 1;
+            if (_this.hasClass("hover")) {
+                if (_this.find(".asc").hasClass("hover")) {
+                    _this.find(".asc").removeClass("hover");
+                    _this.find(".desc").addClass("hover");
+                    Params.OrderBy = _this.data("column") + " desc ";
+                } else {
+                    _this.find(".desc").removeClass("hover");
+                    _this.find(".asc").addClass("hover");
+                    Params.OrderBy = _this.data("column") + " asc ";
+                }
             } else {
-                Params.IsAsc = !Params.IsAsc;
+                _this.addClass("hover").siblings().removeClass("hover");
+                _this.siblings().find(".hover").removeClass("hover");
+                _this.find(".desc").addClass("hover");
+                Params.OrderBy = _this.data("column") + " desc ";
             }
-            if (Params.IsAsc) {
-                _this.find(".shang").addClass("shang-hover");
-                _this.find(".xia").removeClass("xia-hover");
-                Params.OrderBy = "pd.Price";
-            } else {
-                _this.find(".shang").removeClass("shang-hover");
-                _this.find(".xia").addClass("xia-hover");
-                Params.OrderBy = "pd.Price desc";
-            }
+            Params.PageIndex = 1;
             _self.getProducts();
         });
 

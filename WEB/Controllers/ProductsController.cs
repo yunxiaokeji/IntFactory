@@ -105,6 +105,15 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult ChooseProducts(string id)
+        {
+            ViewBag.Type = (int)EnumDocType.RK;
+            ViewBag.GUID = id;
+            ViewBag.TID = "";
+            ViewBag.Title = "选择材料";
+            return View("FilterProducts");
+        }
+
         /// <summary>
         /// 加入购物车详情页
         /// </summary>

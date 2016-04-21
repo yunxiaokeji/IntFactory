@@ -89,7 +89,7 @@ define(function (require, exports, module) {
 
                         //入库单
                         if (opts.ordertype == 1) {
-                            obj.find(".btnconfirm").attr("href", "/Purchase/ConfirmPurchase");
+                            obj.find(".btnconfirm").attr("href", "/Products/ConfirmPurchase/" + opts.guid).html("返回采购单");;
                         } else if (opts.ordertype == 11) { //订单
                             if (opts.tid) {
                                 obj.find(".btnconfirm").attr("href", "/Task/Detail/" + opts.tid).html("返回任务详情");

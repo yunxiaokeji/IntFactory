@@ -37,26 +37,6 @@ define(function (require, exports, module) {
 
         $(".order-info").css("width", $(".content-title").width() - 400);
 
-        //回退委托
-        if (_self.status == 0 && !!model.EntrustClientID) {
-            $("#btnreturn").show();
-            $("#btnreturn").click(function () {
-                confirm("委托退回后不能撤销，确认退回委托吗？", function () {
-                    Global.post("/Orders/ApplyReturnOrder", {
-                        orderid: model.OrderID,
-                    }, function (data) {
-                        if (data.status) {
-                            alert("委托退回成功!", location.href);
-                        } else {
-                            alert("委托退回失败，请稍后重试")
-                        }
-                    });
-                });
-            });
-        } else {
-            $("#btnreturn").hide();
-        }
-
         if (_self.status == 0 && _self.model.OrderType == 1) {
             $("#changeOrderStatus").html("转为订单");
         } else if (_self.status == 0 && _self.model.OrderType == 2) {
@@ -451,6 +431,21 @@ define(function (require, exports, module) {
             });
         });
 
+        //退回委托
+        $("#btnreturn").click(function () {
+            confirm("委托退回后不能撤销，确认退回委托吗？", function () {
+                Global.post("/Orders/ApplyReturnOrder", {
+                    orderid: model.OrderID,
+                }, function (data) {
+                    if (data.status) {
+                        alert("委托退回成功!", location.href);
+                    } else {
+                        alert("委托退回失败，请稍后重试")
+                    }
+                });
+            });
+        });
+
         //删除需求单
         $("#btndelete").click(function () {
             confirm("需求单删除后不可恢复，确认删除吗？", function () {
@@ -673,7 +668,6 @@ define(function (require, exports, module) {
             if (images[i]) {
                 if (i == 0) {
                     $("#orderImage").attr("src", images[i]);
-                    $("#enlargeImage").attr("src", images[i]);
                 }
                 var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
                 $(".order-imgs-list").append(img);
@@ -684,7 +678,13 @@ define(function (require, exports, module) {
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
+
                 $("#orderImage").attr("src", _this.find("img").attr("src"));
+                if ($("#orderImage").width() > $("#orderImage").height()) {
+                    $("#orderImage").css("height", 350);
+                } else {
+                    $("#orderImage").css("width", 350);
+                }
             }
         });
         if ($("#orderImage").data("self") == 1) {
@@ -817,6 +817,11 @@ define(function (require, exports, module) {
             }
         });
         
+        if ($("#orderImage").width() > $("#orderImage").height()) {
+            $("#orderImage").css("height", 350);
+        } else {
+            $("#orderImage").css("width", 350);
+        }
     }
 
     //大货下单
