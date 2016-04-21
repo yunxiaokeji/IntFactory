@@ -24,11 +24,11 @@ namespace IntFactoryDAL.Manage
         public DataTable GetClientsGrow(int type, string begintime, string endtime)
         {
             SqlParameter[] paras = { 
-                                    new SqlParameter("@@DateType",type), 
-                                    new SqlParameter("@@BeginTime",begintime),
-                                    new SqlParameter("@@EndTime",endtime)
+                                    new SqlParameter("@DateType",type), 
+                                    new SqlParameter("@BeginTime",begintime),
+                                    new SqlParameter("@EndTime",endtime)
                                    };
-            return GetDataTable("R_GetCustomerDate", paras, CommandType.StoredProcedure);
+            return GetDataTable("R_GetClientsGrowDate", paras, CommandType.StoredProcedure);
         }
         #endregion
 

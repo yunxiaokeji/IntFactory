@@ -2,13 +2,19 @@
 /*基础配置*/
 seajs.config({
     base: "/modules/",
+    paths: {
+        "echarts": 'plug/echarts/',
+        "zrender": 'plug/echarts/zrender/'
+    },
     alias: {
         "jquery": "/Scripts/jquery-1.11.1.js",
         "global": "scripts/global.js",
         //HTML模板引擎
         "dot": "plug/doT.js",
         //分页控件
-        "pager": "plug/datapager/paginate.js"
+        "pager": "plug/datapager/paginate.js",
+        //报表底层
+        'zrender': 'plug/echarts/zrender/zrender.js'
     }
 });
 

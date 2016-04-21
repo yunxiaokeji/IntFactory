@@ -37,7 +37,7 @@ namespace YXManage.Controllers
         public JsonResult GetClientsGrow(int dateType, string beginTime, string endTime)
         {
             var list = ClientBusiness.GetClientsGrow(dateType, beginTime, endTime);
-            JsonDictionary.Add("Items", list);
+            JsonDictionary.Add("items", list);
 
             return new JsonResult()
             {

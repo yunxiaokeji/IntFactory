@@ -9,7 +9,7 @@ using IntFactoryDAL.Manage;
 using CloudSalesTool;
 using System.IO;
 using System.Web;
-using IntFactoryEntity;
+using IntFactoryEntity.Manage.Report;
 
 
 namespace IntFactoryBusiness.Manage
@@ -98,16 +98,17 @@ namespace IntFactoryBusiness.Manage
             return Clients[clientID];
         }
 
-        public static List<DateJson> GetClientsGrow(int type, string begintime, string endtime)
+        public static List<ClientsDateEntity> GetClientsGrow(int type, string begintime, string endtime)
         {
-            List<DateJson> list = new List<DateJson>();
+            List<ClientsDateEntity> list = new List<ClientsDateEntity>();
 
             DataTable dt = ClientDAL.BaseProvider.GetClientsGrow(type, begintime, endtime);
             foreach (DataRow dr in dt.Rows)
             {
-                DateJson model = new DateJson();
-                model.name = dr["CreateTime"].ToString();
-                model.value = int.Parse(dr["TotalNum"].ToString());                list.Add(model);
+                ClientsDateEntity model = new ClientsDateEntity();
+                model.Name = dr["CreateTime"].ToString();
+                model.Value = int.Parse(dr["TotalNum"].ToString());               
+                list.Add(model);
             }
             return list;
         }

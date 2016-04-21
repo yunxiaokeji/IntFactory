@@ -15,8 +15,7 @@
     //初始化
     ObjectJS.init = function () {
         var _self = this;
-        console.log(ec);
-        _self.scaleChart = ec.init(document.getElementById('clientsGrowRPT'));
+        _self.clientsChart = ec.init(document.getElementById('clientsGrowRPT'));
         _self.bindEvent();
     }
     ObjectJS.bindEvent = function () {
@@ -38,8 +37,8 @@
                 $(".source-box").hide();
                 $("#" + _this.data("id")).show();
 
-                if (!_self.dateChart) {
-                    _self.dateChart = ec.init(document.getElementById('clientsGrowRPT'));
+                if (!_self.clientsChart) {
+                    _self.clientsChart = ec.init(document.getElementById('clientsGrowRPT'));
                 }
                 if (_this.data("begintime")) {
                     $("#beginTime").val(_this.data("begintime"));
@@ -77,14 +76,12 @@
             _self.sourceDate() 
             $(".search-type .hover").data("begintime", Params.beginTime).data("endtime", Params.endTime);
         });
-
         $("#btnSearch").click();
-
     } 
     //按时间周期
     ObjectJS.sourceDate = function () {
         var _self = this;
-        _self.dateChart.showLoading({
+        _self.clientsChart.showLoading({
             text: "数据正在努力加载...",
             x: "center",
             y: "center",
@@ -95,32 +92,24 @@
             effect: "spin"
         });
         Global.post("/Report/GetClientsGrow", Params, function (data) {
-
-            var title = [], items = [], datanames = [];
-            _self.dateChart.clear();
-            for (var i = 0, j = data.items.length; i < j; i++) {
-                title.push(data.items[i].Name);
-                var _items = [];
-                for (var ii = 0, jj = data.items[i].Items.length; ii < jj; ii++) {
-                    if (i == 0) {
-                        datanames.push(data.items[i].Items[ii].Name);
-                    }
-                    _items.push(data.items[i].Items[ii].Value);
-                }
-                items.push({
-                    name: data.items[i].Name,
-                    type: 'line',
-                    stack: '总量',
-                    data: _items
-                })
+            var items = [], datanames=[],_items = [];
+            _self.clientsChart.clear();
+            for (var i = 0, j = data.items.length; i < j; i++) {                
+                _items.push(data.items[i].Value);
+                datanames.push(data.items[i].Name)
             }
-
+            items.push({
+                name: data.items[0].Name,
+                type: 'line',
+                stack: '总量',
+                data: _items
+            });
             option = {
                 tooltip: {
                     trigger: 'axis'
                 },
                 legend: {
-                    data: title
+                    data: []
                 },
                 toolbox: {
                     show: true,
@@ -131,18 +120,11 @@
                             optionToContent: function (opt) {
                                 var axisData = opt.xAxis[0].data;
                                 var series = opt.series;
-                                var table = '<table class="table-list"><tr class="tr-header">'
-                                             + '<td>时间</td>';
-                                for (var i = 0, l = series.length; i < l; i++) {
-                                    table += '<td>' + series[i].name + '</td>'
-                                }
-                                table += '</tr>';
+                                console.log(opt);
+                                var table = '<table class="table-list"><tr class="tr-header"><td>时间</td> <td>数量</td></tr>';
                                 for (var i = 0, l = axisData.length; i < l; i++) {
-                                    table += '<tr>'
-                                    + '<td class="center">' + axisData[i] + '</td>'
-                                    for (var ii = 0, ll = series.length; ii < ll; ii++) {
-                                        table += '<td class="center">' + series[ii].data[i] + '</td>';
-                                    }
+                                    table += '<tr><td class="center">' + axisData[i] + '</td>'
+                                          + '<td class="center">' + series[0].data[i] + '</td>';                                    
                                     table += '</tr>';
                                 }
                                 table += '</table>';
@@ -168,10 +150,10 @@
                 ],
                 series: items
             };
-            _self.dateChart.hideLoading();
-            _self.dateChart.setOption(option);
+            console.log(datanames);
+            _self.clientsChart.hideLoading();
+            _self.clientsChart.setOption(option);
         });
     }
-
     module.exports = ObjectJS;
 });
