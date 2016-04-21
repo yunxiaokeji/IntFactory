@@ -235,6 +235,7 @@
     <Content Include="modules\scripts\home.js" />
     <Content Include="modules\scripts\layout.js" />
     <Content Include="modules\scripts\client\clients.js" />
+    <Content Include="modules\scripts\report\clientsgrowreport.js" />
     <Content Include="modules\scripts\System\modulesproduct.js" />
     <Content Include="modules\scripts\System\expresscompany.js" />
     <Content Include="modules\scripts\System\industry.js" />
@@ -382,6 +383,7 @@
     <Content Include="Views\System\ClearCache.cshtml" />
     <None Include="Properties\PublishProfiles\intfactoryManage.pubxml" />
     <Content Include="Views\Products\AttrDetail.cshtml" />
+    <Content Include="Views\Report\ClientsGrowReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -20,6 +20,16 @@ namespace IntFactoryDAL.Manage
                                    };
             return GetDataTable("select * from Clients where ClientID=@ClientID", paras, CommandType.Text);
         }
+
+        public DataTable GetClientsGrow(int type, string begintime, string endtime)
+        {
+            SqlParameter[] paras = { 
+                                    new SqlParameter("@@DateType",type), 
+                                    new SqlParameter("@@BeginTime",begintime),
+                                    new SqlParameter("@@EndTime",endtime)
+                                   };
+            return GetDataTable("R_GetCustomerDate", paras, CommandType.StoredProcedure);
+        }
         #endregion
 
         #region 添加
