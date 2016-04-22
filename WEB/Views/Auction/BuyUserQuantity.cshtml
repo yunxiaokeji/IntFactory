@@ -84,6 +84,14 @@
     </div>
 
     <div class="buy-box-content @(IsOrder?"hide":"")">
+        @{
+            if( (float)ViewBag.Discount<10){
+                <div class="product-discount">
+                @ViewBag.Discount 折
+                </div>
+            }
+        }
+
         <div class="buy-product-list">
             <table class="product-list" width="790px">
                 <thead class="tb-thead">
@@ -102,19 +110,8 @@
                 授权信息：
                 <span>上限人数 :</span><span class="mLeft5">@ViewBag.CurrentAgent.UserQuantity 人</span>
                 <span class="mLeft20">上限日期 :</span><span class="mLeft5">@ViewBag.CurrentAgent.EndTime.ToString("yyyy-MM-dd")</span>
-                <span class="mLeft20 font18 blue">剩余使用还有 :</span>
-                <span class="mLeft5 blue font18">@ViewBag.remainderMonths 个月</span>
-            </div>
-
-            <div class="mTop20">
-                <span class="select-title">购买新增人数</span>
-                @{
-                        if( (float)ViewBag.Discount<10){
-                            <span class="font14">
-                            (特惠<span class="mLeft5 mRight5">@ViewBag.Discount</span>折)
-                            </span>
-                        }
-                    }
+                <span class="mLeft20 font16 blue">剩余还能使用 :</span>
+                <span class="mLeft5 blue font16">@ViewBag.remainderMonths 个月</span>
             </div>
 
             <div class="select-info">
