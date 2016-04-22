@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "客户订单列表";
+}
+
+<script src="/modules/plug/laydate/laydate.js"></script>
+@section scripts{
+    
+    <script type="text/javascript">
+        seajs.use(["scripts/client/order"], function (order) {
+            order.init();
+        });
+
+        $(function () {
+            var begin = {
+                elem: '#orderBeginTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                    end.start = datas //将结束日的初始值设定为开始日
+                }
+            };
+
+            var end = {
+                elem: '#orderEndTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    begin.max = datas; //结束日选好后，重置开始日的最大日期
+                }
+            };
+            laydate(begin);
+            laydate(end);
+        });
+    </script>
+}
+
+<div class="header-box">
+    <span class="header-title">客户订单列表</span>
+</div>
+
+<div class="content-body mTop20">
+    <div id="OrderTypes" class="left"></div>
+        <div id="OrderStatus" class="left mLeft20"></div>
+
+        <div class="left mLeft20">
+            <span class="width80">订单时间：</span><input type="text" id="orderBeginTime"  class="input"  />
+            <span style="padding:0px 5px 0px 3px;">至</span><input type="text" id="orderEndTime"  class="input"  />
+            <span class="btn mLeft10" id="SearchClientOrders">搜索</span>
+
+        </div>
+        <div class="clear"></div>
+
+    <table class="table-list mTop20">
+        <tr class="tr-header" id="clientOrders">
+            <td class="tLeft minwidth70">订单时间</td>
+            <td class="width200">购买人数</td>
+            <td class="width150">购买年数</td>
+            <td class="width150">金额</td>
+            <td class="width200">订单类型</td>     
+            <td class="width200">订单状态</td>     
+            <td class="width150">创建人</td>
+        </tr>
+    </table>
+</div>

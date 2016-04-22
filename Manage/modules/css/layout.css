@@ -57,7 +57,7 @@ header .currentuser:hover .dropdown-top{ border-top:solid 6px #fff;}
 /*左侧菜单栏*/
 nav { width:200px; position:fixed; left:0; top:50px; height:100%; background-color:#fff; border-right:solid 1px #eee; opacity:0.9;}
 
-nav .controller { border-top:solid 1px #eee; padding:5px 0; display:none;}
+nav .controller { border-top:solid 1px #eee; padding:5px 0;}
 nav .controller-box {  height:40px; cursor:pointer; }
 nav .controller-name { height:40px; cursor:pointer; text-align:center; }
 nav .controller .open { border-left:solid 6px #999; border-top:solid 6px transparent ;border-bottom:solid 6px transparent; 

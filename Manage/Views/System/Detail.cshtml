@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "产品收费";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/system/modulesproduct"], function (ModulesProduct) {
+            ModulesProduct.detailInit('@ViewBag.ID');
+        });
+    </script>
+}
+<link href="/modules/css/clients.css" rel="stylesheet" />
+
+<div class="header-box">
+    <span class="header-title">添加产品收费</span>
+    <a class="btn right" href="javascript:history.go(-1);">返回</a>
+</div>
+
+<div class="content-body mTop20">
+    <ul class="contentnew">
+        <li>
+            <span class="columnname">用户类型：</span>
+            <span>
+                <select id="UserType">
+                    <option value="1">公司用户</option>
+                    <option value="2">代理商用户</option>
+                </select>
+            </span>
+        </li>
+        <li>
+            <span class="columnname">周期：</span>
+            <span>
+                <select id="Period">
+                    <option value="1">月</option>
+                    <option value="2">年</option>
+                </select>
+            </span>
+        </li>
+        <li>
+            <span class="columnname">周期量：</span>
+            <span>
+                <select id="PeriodQuantity">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </span>
+        </li>
+        <li>
+            <span class="columnname">人数：</span>
+            <span>
+                <select id="UserQuantity">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </span>
+        </li>
+        <li>
+            <span class="columnname">价格：</span>
+            <span><input type="text" id="Price" class="verify"  data-text="格式不对" data-type="number" maxlength="11"  data-empty="价格不能为空!" /></span>
+        </li>
+
+        <li>
+            <span class="columnname">描述：</span>
+            <span><textarea id="Description"></textarea></span>
+        </li>
+    </ul>
+
+    <div class="mTop20">
+        <input type="button" id="saveModulesProduct" class="btn" value="添加" />
+    </div>
+</div>

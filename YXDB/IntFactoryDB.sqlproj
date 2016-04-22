@@ -74,6 +74,7 @@
     <Folder Include="Procedures\Task" />
     <Folder Include="Table" />
     <Folder Include="Procedures\AliOrder" />
+    <Folder Include="Procedures\Manage\Report" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\InitDatabase.sql" />

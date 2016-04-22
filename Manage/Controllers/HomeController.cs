@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntFactoryEntity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -46,11 +47,12 @@ namespace YXManage.Controllers
             bool bl = false;
 
             string operateip = string.IsNullOrEmpty(Request.Headers.Get("X-Real-IP")) ? Request.UserHostAddress : Request.Headers["X-Real-IP"];
-
-            IntFactoryEntity.Manage.M_Users model = IntFactoryBusiness.M_UsersBusiness.GetM_UserByUserName(userName, pwd, operateip);
+            int result = 0;
+            IntFactoryEntity.Manage.M_Users model = IntFactoryBusiness.M_UsersBusiness.GetM_UserByProUserName(userName, pwd, operateip, out result);
             if (model != null)
             {
                 CurrentUser = model;
+                Session["Manager"] = model;                
                 bl = true;
             }
             JsonDictionary.Add("result", bl);

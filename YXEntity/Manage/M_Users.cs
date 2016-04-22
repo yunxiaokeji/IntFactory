@@ -15,6 +15,7 @@
 *└──────────────────────────────────┘
 */
 using System;
+using System.Collections.Generic;
 namespace IntFactoryEntity.Manage
 {
 	/// <summary>
@@ -41,6 +42,8 @@ namespace IntFactoryEntity.Manage
 		private string _description="";
 		private DateTime? _createtime= DateTime.Now;
         private string _createuserid;
+
+        public List<Menu> Menus { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
