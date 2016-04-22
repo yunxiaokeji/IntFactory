@@ -136,7 +136,7 @@
                                     table += '<tr>'
                                     + '<td class="center">' + axisData[i] + '</td>'
                                     for (var ii = 0, ll = series.length; ii < ll; ii++) {
-                                        table += '<td class="center">' + series[ii].data[i] + '</td>';
+                                        table += '<td class="center">' +( series[ii].data[i]|| 0) + '</td>';
                                     }
 
                                     table += '</tr>';
