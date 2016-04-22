@@ -18,7 +18,7 @@ namespace YXManage.Controllers
     {
         //
         // GET: /Client/
-
+        #region Client view
         public ActionResult Index()
         {
             return View();
@@ -35,8 +35,13 @@ namespace YXManage.Controllers
             ViewBag.ID = id;
             ViewBag.Industry = IndustryBusiness.GetIndustrys();
             return View();
-        }
+        } 
 
+        public ActionResult Orders()
+        {
+            return View("Orders");
+        }
+        #endregion
         #region Ajax
 
         /// <summary>
@@ -281,7 +286,9 @@ namespace YXManage.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-
+        /// <summary>
+        /// 根据订单clientID获取订单
+        /// </summary> 
         public JsonResult GetClientOrders(string agentID, string clientID, int status, int type, string beginDate, string endDate, int pageSize, int pageIndex)
         {
             int pageCount = 0;
@@ -298,7 +305,6 @@ namespace YXManage.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-
         /// <summary>
         /// 关闭客户订单
         /// </summary>

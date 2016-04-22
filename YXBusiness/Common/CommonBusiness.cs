@@ -280,8 +280,8 @@ namespace IntFactoryBusiness
                 }
                 else
                 {
-                    xWidth = width;
                     yHeight = width * yHeight / xWidth;
+                    xWidth = width;
                 }
                 Bitmap newImage = new Bitmap((int)xWidth, (int)yHeight);  
                 Graphics g = Graphics.FromImage(newImage);
