@@ -19,7 +19,7 @@
     ///orderType:订单类型
     ///um:富文本编辑器
     ///plateRemark:制版工艺描述
-    ObjectJS.init = function ( attrValues, um, plateRemark, orderimages, endTime, task) {
+    ObjectJS.init = function (attrValues, um, plateRemark, orderimages, endTime, task, isWarn) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
 
         ObjectJS.orderid = task.OrderID;
@@ -29,6 +29,7 @@
         ObjectJS.stageid = task.StageID;
         ObjectJS.taskid = task.TaskID;
         ObjectJS.orderType = task.OrderType;
+        ObjectJS.isWarn = isWarn;
         ObjectJS.isPlate = true;//任务是否制版
         if(attrValues!="")
             CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
@@ -491,6 +492,14 @@
             overplusTime = true;
             time_distance = time_start - time_end;
         }
+        else {
+            if (ObjectJS.isWarn == 1) {
+                if (!overplusTime) {
+                    $(".taskBaseInfo .li-plustime .task-time").css({ "background-color": "orange", "color": "#000" });
+                }
+                overplusTime = true;
+            }
+        }
 
         // 天
         var int_day = Math.floor(time_distance / 86400000)
@@ -570,56 +579,7 @@
 
                     $("#replyList").html(innerhtml);
 
-                    
-
-                    innerhtml.find(".btn-reply").click(function () {
-                        var _this = $(this), reply = _this.nextAll(".reply-box");
-                        reply.slideDown(300);
-                        reply.find("textarea").focus();
-                        //reply.find("textarea").blur(function () {
-                        //    if (!$(this).val().trim()) {
-                        //        reply.slideUp(200);
-                        //    }
-                        //});
-                    });
-
-                    innerhtml.find(".save-reply").click(function () {
-                        var _this = $(this);
-                        if ($("#Msg_" + _this.data("replyid")).val().trim()) {
-                            var entity = {
-                                GUID: _this.data("id"),
-                                StageID: _this.data("stageid"),
-                                Mark: ObjectJS.mark,
-                                Content: $("#Msg_" + _this.data("replyid")).val().trim(),
-                                FromReplyID: _this.data("replyid"),
-                                FromReplyUserID: _this.data("createuserid"),
-                                FromReplyAgentID: _this.data("agentid")
-                            };
-
-                            ObjectJS.saveTaskReply(entity,_this);
-                        }
-
-                        $("#Msg_" + _this.data("replyid")).val('');
-                        $(this).parent().slideUp(300);
-                    });
-
-                    innerhtml.find(".reply-content").each(function () {
-                        $(this).html(Global.replaceQqface($(this).html()));
-                    });
-
-                    innerhtml.find('.btn-emotion').each(function(){
-                        $(this).qqFace({
-                            assign: $(this).data("id"),
-                            path: '/modules/plug/qqface/arclist/'	//表情存放的路径
-                        });
-                    });
-
-                    $(document).click(function (e) {
-                        if (!$(e.target).parents().hasClass("reply-box") && !$(e.target).hasClass("reply-box") && !$(e.target).parents().hasClass("btn-reply") && !$(e.target).hasClass("btn-reply") && !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace")) {
-                            
-                            $(".reply-box").slideUp(300);
-                        }
-                    });
+                    ObjectJS.bindReplyOperate(innerhtml);
 
                 });
             }
@@ -663,60 +623,72 @@
                 innerhtml = $(innerhtml);
                 innerhtml.hide();
                 $("#replyList .nodata-txt").parent().parent().remove();
-
                 $("#replyList").prepend(innerhtml);
                 innerhtml.fadeIn(500);
 
-                innerhtml.find(".reply-content").each(function () {
-                    $(this).html(Global.replaceQqface($(this).html()));
-                });
+                ObjectJS.bindReplyOperate(innerhtml);
 
-                innerhtml.find(".btn-reply").click(function () {
-                    var _this = $(this), reply = _this.nextAll(".reply-box");
-                    reply.slideDown(300);
-                    reply.find("textarea").focus();
-                    //reply.find("textarea").blur(function () {
-                    //    if (!$(this).val().trim()) {
-                    //        reply.slideUp(200);
-                    //    }
-                    //});
-                });
+                //$(document).click(function (e) {
+                //    if (!$(e.target).parents().hasClass("reply-box") && !$(e.target).hasClass("reply-box") && !$(e.target).parents().hasClass("btn-reply") && !$(e.target).hasClass("btn-reply") && !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace")) {
 
-                innerhtml.find(".save-reply").click(function () {
-                    var _this = $(this);
-                    if ($("#Msg_" + _this.data("replyid")).val().trim()) {
-                        var entity = {
-                            GUID: _this.data("id"),
-                            StageID: _this.data("stageid"),
-                            Mark: ObjectJS.mark,
-                            Content: $("#Msg_" + _this.data("replyid")).val().trim(),
-                            FromReplyID: _this.data("replyid"),
-                            FromReplyUserID: _this.data("createuserid"),
-                            FromReplyAgentID: _this.data("agentid")
-                        };
-                        ObjectJS.saveTaskReply(entity,_this);
-
-                    }
-                    $("#Msg_" + _this.data("replyid")).val('');
-                    $(this).parent().slideUp(300);
-                });
-
-                innerhtml.find('.btn-emotion').each(function () {
-                    $(this).qqFace({
-                        assign: $(this).data("id"),
-                        path: '/modules/plug/qqface/arclist/'	//表情存放的路径
-                    });
-                });
-
-                $(document).click(function (e) {
-                    if (!$(e.target).parents().hasClass("reply-box") && !$(e.target).hasClass("reply-box") && !$(e.target).parents().hasClass("btn-reply") && !$(e.target).hasClass("btn-reply") && !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace")) {
-
-                        $(".reply-box").slideUp(300);
-                    }
-                });
+                //        $(".reply-box").slideUp(300);
+                //    }
+                //});
 
             });
         });
+    }
+
+    ObjectJS.bindReplyOperate=function(replys){
+        replys.find(".reply-content").each(function () {
+            $(this).html(Global.replaceQqface($(this).html()));
+        });
+
+        replys.find(".btn-reply").click(function () {
+            var _this = $(this), reply = _this.nextAll(".reply-box");
+            $("#replyList .reply-box").each(function () {
+                if ($(this) != reply) {
+                    $(this).hide();
+                }
+            });
+
+            if (reply.is(":visible")) {
+                reply.slideUp(300);
+            }
+            else {
+                reply.slideDown(600);
+            }
+
+            reply.find("textarea").focus();
+
+        });
+
+        replys.find(".save-reply").click(function () {
+            var _this = $(this);
+            if ($("#Msg_" + _this.data("replyid")).val().trim()) {
+                var entity = {
+                    GUID: _this.data("id"),
+                    StageID: _this.data("stageid"),
+                    Mark: ObjectJS.mark,
+                    Content: $("#Msg_" + _this.data("replyid")).val().trim(),
+                    FromReplyID: _this.data("replyid"),
+                    FromReplyUserID: _this.data("createuserid"),
+                    FromReplyAgentID: _this.data("agentid")
+                };
+                ObjectJS.saveTaskReply(entity, _this);
+
+            }
+            $("#Msg_" + _this.data("replyid")).val('');
+            $(this).parent().slideUp(300);
+        });
+
+        replys.find('.btn-emotion').each(function () {
+            $(this).qqFace({
+                assign: $(this).data("id"),
+                path: '/modules/plug/qqface/arclist/'	//表情存放的路径
+            });
+        });
+
     }
 
     //获取任务日志

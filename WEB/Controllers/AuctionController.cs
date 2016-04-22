@@ -74,6 +74,13 @@ namespace YXERP.Controllers
                     ViewBag.Discount = 5;
 
                 GetClientOrderInfo(id);
+
+                if (string.IsNullOrEmpty(id)) {
+                    if ( ((int)ViewBag.ClientOrdersCount)>0 ) {
+                        Response.Write("<script>alert('你有未完成的订单，请处理...');location.href = '/System/Client/2';</script>");
+                        Response.End();
+                    }
+                }
             }
 
             return View();
@@ -114,6 +121,15 @@ namespace YXERP.Controllers
                 ViewBag.CurrentAgent = CurrentAgent;
 
                 GetClientOrderInfo(id);
+
+                if (string.IsNullOrEmpty(id))
+                {
+                    if (((int)ViewBag.ClientOrdersCount) > 0)
+                    {
+                        Response.Write("<script>alert('你有未完成的订单，请处理...');location.href = '/System/Client/2';</script>");
+                        Response.End();
+                    }
+                }
             }
 
             return View();
@@ -151,7 +167,14 @@ namespace YXERP.Controllers
                 ViewBag.UserQuantity = CurrentAgent.UserQuantity;
 
                 GetClientOrderInfo(id);
-
+                if (string.IsNullOrEmpty(id))
+                {
+                    if (((int)ViewBag.ClientOrdersCount) > 0)
+                    {
+                        Response.Write("<script>alert('你有未完成的订单，请处理...');location.href = '/System/Client/2';</script>");
+                        Response.End();
+                    }
+                }
             }
 
             return View();

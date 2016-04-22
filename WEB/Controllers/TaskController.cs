@@ -81,6 +81,22 @@ namespace YXERP.Controllers
             var task = TaskBusiness.GetTaskDetail(id);
             ViewBag.Model = task;
 
+            //任务剩余时间警告
+            var IsWarn = 0;
+            if (task.FinishStatus == 1) {
+                if (task.EndTime > DateTime.Now) {
+                    var totalHour = (task.EndTime - task.AcceptTime).Hours;
+                    var residueHour = (task.EndTime - DateTime.Now).Hours;
+
+                    var residue = residueHour / totalHour;
+                    if (residue < 0.333)
+                    {
+                        IsWarn = 1;
+                    }
+                }
+            }
+            ViewBag.IsWarn = IsWarn;
+
             //当前用户是否为任务负责人
             ViewBag.IsTaskOwner = task.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase) ? true : false;
 

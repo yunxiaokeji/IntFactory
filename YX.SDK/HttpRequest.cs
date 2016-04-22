@@ -15,8 +15,8 @@ namespace AlibabaSdk
         public static string RequestServer(ApiOption apiOption, Dictionary<string, object> paras,RequestType requestType = RequestType.Get)
         {
             string urlPath = "param2/1/cn.alibaba.open/" + GetEnumDesc<ApiOption>(apiOption) + "/" + AppConfig.AppKey;
-            //string url = AppConfig.AlibabaApiUrl + "/openapi/" + urlPath;
-            string url = AppConfig.AlibabaApiUrl + "/api/" + urlPath;
+            string url = AppConfig.AlibabaApiUrl + "/openapi/" + urlPath;
+            //string url = AppConfig.AlibabaApiUrl + "/api/" + urlPath;
             string paraStr = string.Empty;
 
             if (apiOption == ApiOption.getToken)

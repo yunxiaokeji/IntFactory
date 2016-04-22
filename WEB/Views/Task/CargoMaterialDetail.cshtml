@@ -20,7 +20,7 @@
             var um = null;
 
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@attrValues', um, '@(order.PlateRemark)', '@order.OrderImages', '@( model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.EndTime.ToString("MM/dd/yyyy HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture) )', '@Html.ToJSONString(model)');
+                obj.init('@attrValues', um, '@(order.PlateRemark)', '@order.OrderImages', '@( model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.EndTime.ToString("MM/dd/yyyy HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture) )', '@Html.ToJSONString(model)', '@ViewBag.IsWarn');
             });
 
         });
@@ -267,7 +267,7 @@
                         }
                         if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
                         {
-                        <a href="javascript:void(0);"  id="btn-addMaterial" class="hide">生成采购单</a>
+                        <a href="/Orders/ChooseMaterial?id=@(model.OrderID)&tid=@(model.TaskID)"  id="btn-addMaterial" class="btn right mTop10 mRight10">添加材料</a>
                         }
 
 
