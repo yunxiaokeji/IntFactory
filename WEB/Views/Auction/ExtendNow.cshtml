@@ -1,15 +1,11 @@
 ﻿@{
     ViewBag.Title = "系统续费";
     Layout = "/Views/Shared/_LayoutNoLeft.cshtml";
-    IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+    var IsOrder = string.IsNullOrEmpty(ViewBag.OrderID) ? false : true;
 }
 
 @section css{
 <style type="text/css">
-body{
-background-color:#fff;    
-}
-
 .main-content {
   margin-left:0px;  
 }
@@ -18,160 +14,250 @@ background-color:#fff;
 <link href="/modules/css/auction/buynow.css" rel="stylesheet" />
 }
 
-<div class="content-body">
-
-    <div class="step">
-        <div class="mBottom0">
-            <div class="left selectProduct">
-                <div class="stepIco stepIcoActive left">1</div>
-                <div class="left stepDes stepDesActive">选择续费人数</div>
-                <div class="clear"></div>
-            </div>
-            <div class="left mLeft15 sureOrder">
-                <div class="stepIco left" style="margin-left:46px;">2</div>
-                <div class="left stepDes">确认订单</div>
-                <div class="clear"></div>
-            </div>
-            <div class="left mLeft15 payOrder">
-                <div class="stepIco left" style="margin-left:46px;">3</div>
-                <div class="left stepDes">支付订单</div>
-                <div class="clear"></div>
-            </div>
-            <div class="clear "></div>
-        </div>
-    </div>
-
-
-    <div class="productList">
-        
-        <div class="orderInfo">
-            <div class="orderInfoTitle">授权信息</div>
-            <div class="orderInfoDetail" style="padding-bottom:15px;">
-                <span>当前人数上限 :</span><span class="mLeft5">@CurrentUser.Client.UserQuantity</span><span>人</span>
-                <span class="mLeft20">上限日期 :</span><span class="mLeft5">@CurrentUser.Client.EndTime.ToString("yyyy-MM-dd")</span>
-                <span class="mLeft20" style="color:#4a98e7;font-size:18px;">剩余使用还有 :</span>
-                <span class="mLeft5" style="color:#4a98e7;font-size:18px;">@ViewBag.Days    天</span>
-            </div>
-        </div>
-
-        <table class="productListTB mTop15 mBottom10" border="0"  cellpadding="0" cellspacing="0">
-            <tr class="trBG">
-                <td style="border:none;">
-                    <div style="padding:8px 45px;">
-                        <div class="left" style="position:relative;width:16px;">
-                            <div class="diagonalDiv">
-                                <div class="diagonalLine"></div>
-                            </div>
-                            <div class="diagonalDiv2">
-                                <div class="diagonalLine2"></div>
-                            </div>      
-                       </div>
-                        <div class="left" style="color:#999;">时间</div>
-                        <div class="clear"></div>
-
-               
-                        <div style="position:relative;width:16px;margin-left:16px;">
-                            <div class="diagonalDiv">
-                                <div class="diagonalLine"></div>
-                            </div>
-                            <div class="diagonalDiv2">
-                                <div class="diagonalLine2"></div>
-                            </div>
-                            <div style="position:absolute;width:24px;left:-23px;top:-3px;color:#999;">人数</div>
-                       </div>
-                    </div>
-                </td> 
-                <td>1年价格(元)</td> 
-                <td>2年价格(元)</td> 
-                <td>3年价格(元)</td>  
-            </tr>
-        </table> 
-
-
-        <div class="buyDes">选择购买人数<span class="buyGoodPrice">(特惠<span class="red font20 mLeft5 mRight5">@ViewBag.Discount</span>折)</span></div>
-
-        <div class="selectPrpduct">
-            <ul>
-                <li>
-                    <span>人数</span>
-                    <span class="mLeft10">
-                        <input type="text" style="width:65px;" id="UserCount" value="@ViewBag.UserQuantity" data-empty="* 必填" class="input verify" data-type="int" data-text="格式不正确!"/>
-                    </span>
-                </li>
-                <li>
-                    <span>时间</span>
-                    <span class="mLeft10">
-                        <select id="UserYear">
-                            <option value="1" selected="selected">1年</option>
-                            <option value="2">2年</option>
-                            <option value="3">3年</option>
-                        </select>
-                    </span>
-                </li>
-            </ul>
-        </div>
-
-        <div class="mTop10">
-            <div class="totalPrice">
-                <span>金额</span>
-                <span class="mLeft10" id="Price">0,000</span><span>￥</span>
-            </div>
-            <div class="mTop20"><input type="button" id="btn_sureOrder" value="下一步" class="btn" /></div>
-        </div>
-
-    </div>
-
-    <div class="productOrder hide">
-        <div class="orderInfo">
-            <div class="orderInfoTitle">产品信息</div>
-            <div class="orderInfoDetail">
-                <span>人数 :</span><span class="mLeft5" id="orderUserCount">@ViewBag.UserQuantity</span><span>人</span>
-                <span class="mLeft20">时间 :</span><span class="mLeft5" id="orderYear">@ViewBag.Years</span><span>年</span>
-                <span class="mLeft20" style="color:#4a98e7;font-size:18px;">金额 :</span>
-                <span class="mLeft5" style="color:#4a98e7;font-size:18px;" id="orderPrice">@ViewBag.RealAmount</span>
-                <span class="mLeft5" style="color:#4a98e7;font-size:18px;">￥</span>
-            </div>
-        </div>
-
-         <div class="mTop50">
-             <input type="button" id="btn_backSelectPrpduct" style="background-color:#aaa;" value="上一步" class="btn" />
-             <input type="button"  id="btn_payOrder" value="下一步" class="btn mLeft20" />
-
-         </div>
-    </div>
-
-    <div class="payProductOrder hide">
-          <div class="orderInfoTitle">订单信息</div>
-            <div class="orderInfoDetail">
-                <span class="mLeft20" style="color:#4a98e7;font-size:18px;">金额 :</span>
-                <span class="mLeft5" style="color:#4a98e7;font-size:18px;" id="orderAmount">@ViewBag.RealAmount</span>
-                <span class="mLeft5" style="color:#4a98e7;font-size:18px;">￥</span>
-            </div>
-
-          <div class="orderInfo mTop15">
-            <div class="orderInfoTitle">支付方式 <span>(现仅支持支付宝)</span></div>
-            <div style="border:solid 1px #eee;padding:10px;width:125px;margin-top:20px;">
-                <img style="width:125px;height:38px;" src="/modules/images/ico-alipay.png"/>
-            </div>
-        </div>
-
-        <div class="mTop50">
-             <input type="button"  id="btn_toPayOrder" value="下一步" class="btn" />
-
-         </div>
-    </div>
-
-</div>
-<input type="hidden" id="txt-UserCount" value="@ViewBag.UserQuantity" />
 @section scripts{
-<script src="/modules/scripts/auction/buynow.js"></script>
-
 <script type="text/javascript">
     seajs.use(["scripts/auction/buynow"], function (ObjectJS) {
         ObjectJS.init(3, '@ViewBag.OrderID');
     });
 </script>
 }
+<div class="buy-box">
+    <div class="buy-box-header">
+        <ul class="header-nav">
+            @{
+                if (!IsOrder)
+                {
+                    <li>
+                        <div class="nav nav-hover">1</div>
+                        <div class="nav-des nav-des-hover">选择产品</div>
+                    </li>
+                    <li class="nav-line nav-line-finish"></li>
+
+                    <li>
+                        <div class="nav">2</div>
+                        <div class="nav-des">确认购买信息</div>
+
+                    </li>
+                    <li class="nav-line"></li>
+
+                    <li>
+                         <div class="nav">3</div>
+                        <div class="nav-des">支付订单</div>
+                    </li>
+
+                    <li class="nav-line"></li>
+                    <li>
+                         <div class="nav">4</div>
+                        <div class="nav-des">完成</div>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <div class="nav nav-finish">1</div>
+                        <div class="nav-des nav-des-hover">选择产品</div>
+                    </li>
+                    <li class="nav-line nav-line-finish"></li>
+
+                    <li>
+                        <div class="nav nav-finish">2</div>
+                        <div class="nav-des nav-des-hover">确认购买信息</div>
+
+                    </li>
+                    <li class="nav-line nav-line-finish"></li>
+
+                    <li>
+                         <div class="nav nav-hover">3</div>
+                        <div class="nav-des nav-des-hover">支付订单</div>
+                    </li>
+
+                    <li class="nav-line"></li>
+                    <li>
+                         <div class="nav">4</div>
+                        <div class="nav-des">完成</div>
+                    </li>
+                }
+            }
+        </ul>
+        <div class="clear"></div>
+    </div>
+
+    <div class="buy-box-content @(IsOrder?"hide":"")">
+        <div class="buy-product-list">
+            <table class="product-list" width="790px">
+                <thead class="tb-thead">
+                    <tr>
+                        <td width="100px"></td>
+                        <td width="230px">1年价格(元)</td>
+                        <td width="230px">2年价格(元)</td>
+                        <td width="230px">3年价格(元)</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div class="buy-product-select">
+            <div class="select-notice">
+                授权信息：
+                <span>上限人数 :</span><span class="mLeft5">@ViewBag.CurrentAgent.UserQuantity 人</span>
+                <span class="mLeft20">上限日期 :</span><span class="mLeft5">@ViewBag.CurrentAgent.EndTime.ToString("yyyy-MM-dd")</span>
+                <span class="mLeft20 font18 blue">剩余使用还有 :</span>
+                <span class="mLeft5 blue font18">@ViewBag.Days 天</span>
+            </div>
+
+            <div class="mTop20">
+                <span class="select-title">选择续费人数</span>
+                    @{
+                        if( (float)ViewBag.Discount<10){
+                            <span class="font14">
+                            (特惠<span class="mLeft5 mRight5">@ViewBag.Discount</span>折)
+                            </span>
+                        }
+                    }
+               
+            </div>
+
+            <div class="select-info">
+                <ul>
+                    <li>
+                        <span class="iconfont">&#xe601;</span>
+                        <span>人数</span>
+                        <span>
+                            <input id="UserCount" type="text" style="width:46px;" value="@ViewBag.UserQuantity"/>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="iconfont">&#xe639;</span>
+                        <span>时间</span>
+                        <span>
+                            <select id="UserYear">
+                                <option value="1">1年</option>
+                                <option value="2">2年</option>
+                                <option value="3">3年</option>
+                            </select>
+                        </span>
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="select-total">
+                <span class="iconfont">&#xe644;</span>
+                <span>总计</span>
+                <span>￥</span>
+                <span id="TotalMoney">0.00</span>
+            </div>
+
+            <div class="btn-next" id="btn-sureOrder">下一步</div>
+
+        </div>
+
+    </div>
+
+    <div class="buy-box-content hide">
+        <div class="order-title">产品信息</div>
+
+        <ul class="order-info">
+            <li>
+                <span class="iconfont">&#xe601;</span>
+                <span>人数</span>
+                <span class="mLeft15" id="order-usercount">0</span>
+            </li>
+            <li>
+                <span class="iconfont">&#xe639;</span>
+                <span>时间</span>
+                <span class="mLeft15" id="order-useryear">0</span>
+            </li>
+            <li>
+                <span class="iconfont">&#xe646;</span>
+                <span>原价</span>
+                <span class="mLeft15" id="order-trueamount">￥0</span>
+            </li>
+            <li>
+                <span class="iconfont">&#xe645;</span>
+                <span>优惠</span>
+               <span class="mLeft15" id="order-freeamount">￥0</span>
+            </li>
+        </ul>
+
+        <div class="select-total">
+            <span class="iconfont">&#xe644;</span>
+            <span>总计</span>
+            <span class="mLeft5">￥</span>
+            <span id="order-amount">0</span>
+        </div>
+
+        <div class="btn-pre left" id="btn-selectPrpduct">上一步</div>
+        <div class="btn-next left mLeft20" id="btn-sureBuyOrder">确认购买</div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="buy-box-content @(IsOrder?"":"hide")">
+        <div class="order-title">订单信息</div>
+
+        <div class="pay-total">
+            <span class="iconfont">&#xe644;</span>
+            <span>总计</span>
+            <span class="mLeft5">￥</span>
+            <span id="pay-amount">@ViewBag.RealAmount</span>
+        </div>
+
+        <div class="mTop15">
+            <span class="select-title">支付方式</span><span class="font14">(现仅支持支付宝)</span>
+            <div class="pay-method" style="">
+                <img src="/modules/images/ico-alipay.png"/>
+            </div>
+        </div>
+
+        <div class="btn-next mTop30" id="btn-payorder">支付</div>
+    </div>
+
+    <div class="buy-box-content hide">
+        <div class="result-success hide">
+            <div class="pay-result"><span class="iconfont">&#xe648;</span>支付成功!</div>
+            <div class="mTop20">
+                <table class="pay-tb-info">
+                    <tr>
+                        <td></td>
+                        <td>购买前</td>
+                        <td>购买后</td>
+                    </tr>
+                    <tr>
+                        <td>人数</td>
+                        <td class="color666" id="preUserCount">1人</td>
+                        <td class="blue" id="nowUserCount">1人</td>
+                    </tr>
+                    <tr>
+                        <td>时间</td>
+                        <td class="color666" id="preEndTime">2016-1-1</td>
+                        <td class="blue" id="nowEndTime">2016-1-1</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="btn-next mTop50" onclick="location.href='/Home/Index'" style="margin-left:auto;margin-right:auto;">返回首页</div>
+        </div>
+
+        <div class="result-error hide">
+            <div class="pay-result"><span class="iconfont">&#xe649;</span>抱歉支付失败!</div>
+            <div class="error-list">
+                <p>可能由于以下原因:</p>
+                <ul >
+                    <li>·  支付宝金额不足，无法购买所需商品，导致付费失败。</li>
+                    <li>·  在进行支付宝付款操作界面停留时间过长，可能会导致支付失败。</li>
+                    <li>·  浏览器本身的问题，建议使用常用的浏览器。</li>
+                    <li>·  能和网络有关，建议稍微等一会在进行支付尝试。</li>
+                </ul>
+                <div class="mTop10"><span style="color:#666">您可能需要联系:</span><a href="http://yunxiaokeji.com/about.html" target="_blank">管理员处理</a></div>
+            </div>
+            <div class="btn-pre mTop50" onclick="location.href='/Home/Index'" style="margin-left:auto;margin-right:auto;">返回首页</div>
+
+        </div>
+     </div>
+
+</div>
+<input type="hidden" id="txt-userCount" value="@ViewBag.UserQuantity" />
+
+
 
 
 

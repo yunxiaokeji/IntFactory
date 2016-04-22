@@ -49,6 +49,22 @@ namespace YXERP.Controllers
             }
         }
 
+        Clients CurrentClient
+        {
+            get
+            {
+                if (CurrentUser == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return ClientBusiness.GetClientDetail(CurrentUser.ClientID);
+                }
+
+
+            }
+        }
         #region view
         /// <summary>
         /// 购买系统
@@ -68,18 +84,26 @@ namespace YXERP.Controllers
                     return Redirect("/Auction/BuyUserQuantity");
                 }
 
-                ViewBag.UserQuantity = string.Empty;
                 ViewBag.Discount = 6.6;
-                if (!string.IsNullOrEmpty(CurrentUser.MDUserID))
+                if (!string.IsNullOrEmpty(CurrentClient.AliMemberID))
                     ViewBag.Discount = 5;
 
-                GetClientOrderInfo(id);
+                id = id ?? string.Empty;
+                int result= GetClientOrderInfo(ref id);
 
-                if (string.IsNullOrEmpty(id)) {
-                    if ( ((int)ViewBag.ClientOrdersCount)>0 ) {
-                        Response.Write("<script>alert('你有未完成的订单，请处理...');location.href = '/System/Client/2';</script>");
-                        Response.End();
-                    }
+                if (result == 2)
+                {
+                    return Redirect("/Auction/BuyNow/" + id);
+                }
+                else if (result == -2)
+                {
+                    Response.Write("<script>alert('订单已支付');location.href='/Home/Index';</script>");
+                    Response.End();
+                }
+                else if (result == -1)
+                {
+                    Response.Write("<script>alert('订单不存在');location.href='/Home/Index';</script>");
+                    Response.End();
                 }
             }
 
@@ -109,10 +133,6 @@ namespace YXERP.Controllers
                     return Redirect("/Auction/ExtendNow");
                 }
 
-                ViewBag.Discount = 6.6;
-                if (!string.IsNullOrEmpty(CurrentUser.MDUserID))
-                    ViewBag.Discount = 5;
-
                 int remainderMonths = (CurrentAgent.EndTime.Year - DateTime.Now.Year) * 12 + (CurrentAgent.EndTime.Month - DateTime.Now.Month) - 1;
                 if (CurrentAgent.EndTime.Day >= DateTime.Now.Day)
                     remainderMonths += 1;
@@ -120,16 +140,28 @@ namespace YXERP.Controllers
 
                 ViewBag.CurrentAgent = CurrentAgent;
 
-                GetClientOrderInfo(id);
+                ViewBag.Discount = 6.6;
+                if (!string.IsNullOrEmpty(CurrentClient.AliMemberID))
+                    ViewBag.Discount = 5;
 
-                if (string.IsNullOrEmpty(id))
+                id = id ?? string.Empty;
+                int result = GetClientOrderInfo(ref id);
+
+                if (result == 2)
                 {
-                    if (((int)ViewBag.ClientOrdersCount) > 0)
-                    {
-                        Response.Write("<script>alert('你有未完成的订单，请处理...');location.href = '/System/Client/2';</script>");
-                        Response.End();
-                    }
+                    return Redirect("/Auction/BuyUserQuantity/" + id);
                 }
+                else if (result == -2)
+                {
+                    Response.Write("<script>alert('订单已支付');location.href='/Home/Index';</script>");
+                    Response.End();
+                }
+                else if (result == -1)
+                {
+                    Response.Write("<script>alert('订单不存在');location.href='/Home/Index';</script>");
+                    Response.End();
+                }
+
             }
 
             return View();
@@ -158,22 +190,31 @@ namespace YXERP.Controllers
                     return Redirect("/Auction/BuyUserQuantity");
                 }
 
-                ViewBag.Discount = 10;
-                if (!string.IsNullOrEmpty(CurrentUser.MDUserID))
-                    ViewBag.Discount = 8.8;
-
                 int Days = (CurrentAgent.EndTime - DateTime.Now).Days;
                 ViewBag.Days = Days;
                 ViewBag.UserQuantity = CurrentAgent.UserQuantity;
+                ViewBag.CurrentAgent = CurrentAgent;
 
-                GetClientOrderInfo(id);
-                if (string.IsNullOrEmpty(id))
+                ViewBag.Discount = 10;
+                if (!string.IsNullOrEmpty(CurrentClient.AliMemberID))
+                    ViewBag.Discount = 8.8;
+
+                id = id ?? string.Empty;
+                int result = GetClientOrderInfo(ref id);
+
+                if (result == 2)
                 {
-                    if (((int)ViewBag.ClientOrdersCount) > 0)
-                    {
-                        Response.Write("<script>alert('你有未完成的订单，请处理...');location.href = '/System/Client/2';</script>");
-                        Response.End();
-                    }
+                    return Redirect("/Auction/ExtendNow/" + id);
+                }
+                else if (result == -2)
+                {
+                    Response.Write("<script>alert('订单已支付');location.href='/Home/Index';</script>");
+                    Response.End();
+                }
+                else if (result == -1)
+                {
+                    Response.Write("<script>alert('订单不存在');location.href='/Home/Index';</script>");
+                    Response.End();
                 }
             }
 
@@ -214,11 +255,8 @@ namespace YXERP.Controllers
         /// 获取客户订单信息
         /// </summary>
         /// <param name="id"></param>
-        public void GetClientOrderInfo(string id)
+        public int GetClientOrderInfo(ref string id)
         {
-            ViewBag.Years = 1;
-            ViewBag.RealAmount = "0,00";
-            ViewBag.ClientOrdersCount = 0;//客户订单数
             ViewBag.OrderID = id ?? string.Empty;
 
             if (!string.IsNullOrEmpty(id))
@@ -229,19 +267,17 @@ namespace YXERP.Controllers
                     //订单已支付
                     if (order.Status == 1)
                     {
-                        ViewBag.OrderID = "-2";
+                        return -2;
                     }
                     else
                     {
-                        ViewBag.Years = order.Years;
-                        ViewBag.UserQuantity = order.UserQuantity;
                         ViewBag.RealAmount = decimal.Round(order.RealAmount, 2);
                     }
                 }
                 //订单不存在
                 else
                 {
-                    ViewBag.OrderID = "-1";
+                    return -1;
                 }
             }
             else
@@ -250,8 +286,13 @@ namespace YXERP.Controllers
                 int totalCount = 0;
                 List<ClientOrder> list = ClientOrderBusiness.GetClientOrders(0, -1, string.Empty, string.Empty, CurrentUser.AgentID, CurrentUser.ClientID, int.MaxValue, 1, ref totalCount, ref pageCount);
 
-                ViewBag.ClientOrdersCount = list.Count;
+                if (list.Count > 0) {
+                    id = list[0].OrderID;
+                    return 2;
+                }
             }
+
+            return 1;
 
         }
 
@@ -684,7 +725,58 @@ namespace YXERP.Controllers
 
 
 
+        public JsonResult GetOrderInfo(string id)
+        {
+            int result = 0;
+            if (!string.IsNullOrEmpty(id))
+            {
+                ClientOrder order = ClientOrderBusiness.GetClientOrderInfo(id);
+                if (order != null && !string.IsNullOrEmpty(order.OrderID))
+                {
+                    //订单已支付
+                    if (order.Status == 0)
+                    {
+                        result = -2;
+                    }
+                    else
+                    {
+                        result = 1;
+                        JsonDictionary.Add("type", order.Type);
+                        JsonDictionary.Add("nowUserCount", CurrentAgent.UserQuantity);
+                        JsonDictionary.Add("nowEndTime", CurrentAgent.EndTime.ToString("yyyy-MM-dd"));
 
+                        if (order.Type == 1 || order.Type == 3)
+                        {
+                            JsonDictionary.Add("preUserCount", 0);
+                            JsonDictionary.Add("preEndTime", CurrentAgent.EndTime.AddYears(-order.Years).ToString("yyyy-MM-dd"));
+                        }
+                        else if (order.Type == 2) {
+                            JsonDictionary.Add("preUserCount", CurrentAgent.UserQuantity-order.UserQuantity);
+                            JsonDictionary.Add("preEndTime", CurrentAgent.EndTime.ToString("yyyy-MM-dd"));
+                        }
+                    
+
+                    }
+                }
+                //订单不存在
+                else
+                {
+                    result = -1;
+                }
+            }
+            else
+            {
+                result = 2;
+            }
+
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+        }
 
         #endregion
 

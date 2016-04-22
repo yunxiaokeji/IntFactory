@@ -1,193 +1,4 @@
-﻿/*.step {
-width:900px;
-margin:10px auto 20px auto;
-}
-
-.selectProduct {
-background:url('/modules/images/auction/bg-select-product-active.png') center center;
-width:290px;
-height:60px;
-background-color:#fff;
-}
-
-.sureOrder {
-background:url('/modules/images/auction/bg-sure-order.png') center center;
-width:290px;
-height:60px;
-background-color:#fff;
-}
-
-.payOrder {
-background:url('/modules/images/auction/bg-pay-order.png') center center;
-width:290px;
-height:60px;
-background-color:#fff;
-}
-
-.stepIco {
-width:22px;
-height:22px;
-border-radius:11px;
-color:#fff;
-background-color:#666;
-line-height:22px;
-text-align:center;
-margin-top:20px;
-margin-left:20px;
-}
-
-.stepIcoActive {
-color:#4a98e7;
-background-color:#fff;
-}
-
-.stepIcoFinish {
-color:#fff;
-background-color:#4a98e7;
-}
-
-.stepDes {
-margin-top:21px;
-margin-left:20px;
-font-size:16px;
-color:#666;
-}
-
-.stepDesActive {
-color:#fff;
-}
-
-.stepDesFinish {
-color:#4a98e7;
-}
-
-.productList {
-width:858px;
-margin:0px auto;
-padding:20px;
-border:solid 1px #eee;
-border-radius:2px;
-}*/
-
-/*table td 
-{
-width:175px;
-color:#999;
-font-size:12px;
-padding:12px 0px;
-text-align:center;
-border-bottom:solid 1px #eee;
-}*/
-
-
-/*.trBG {
-background-color:#eee;
-}
-
-.trBG td{
-padding:0px;
-border-bottom:solid 2px #cee;
-}
-
-.tdBG {
-background-color:#eee;
-}
-
-.tdBG1 {
-background-color:#4a98e7;
-color:#fff;
-}
-
-.tdBG2 {
-background-color:#2F73B8;
-color:#fff;
-}
-
-.tdBG3 {
-background-color:rgb(134, 186, 236);
-color:#fff;
-}
-
-.trLast td{
-border-bottom:solid 2px #cee;
-}
-
-
-
-.selectPrpduct ul {
-list-style:none;
-}
-
-.selectPrpduct ul li{
-line-height:48px;
-}
-
-.diagonalDiv {
-width:16px;height:16px;
-}
-
-.diagonalDiv2 {
-width:16px;height:16px;position:absolute;left:0px;top:1px;
-}
-
-.diagonalLine {
-border:8px transparent solid;border-left-color: #999;border-bottom-color: #999;
-}
-
-.diagonalLine2 {
-border:8px transparent solid;border-left-color: #eee;border-bottom-color: #eee;
-}
-
-
-.productOrder {
-width:858px;
-margin:0px auto;
-padding:20px;
-border:solid 1px #eee;
-border-radius:2px;
-}
-
-.payProductOrder {
-width:858px;
-margin:0px auto;
-padding:20px;
-border:solid 1px #eee;
-border-radius:2px;
-}
-
-.totalPrice {
-border-top:solid 1px #4a98e7;width:160px;padding-top:15px;
-}
-
-.totalPrice span {
-color:#4a98e7;font-size:18px;
-}
-
-.orderInfo span {
-color:#333;
-font-size:12px;
-}
-
-.orderInfoTitle {
-color:#666;font-size:18px;
-}
-
-.orderInfoDetail {
-border-bottom:dashed 1px #eee;padding:10px 0px;
-}
-
-.orderInfoPrice {
-color:#4a98e7;font-size:18px;
-}
-
-.buyDes {
-color:#666;font-size:18px;padding:10px 0px;
-}
-
-.buyGoodPrice {
-color:#666;font-size:14px;margin-left:10px;
-}*/
-
+﻿
 body { background-color:#f2f4f8;}
 
 .buy-box {
@@ -287,6 +98,7 @@ border-bottom:1px solid #ddd;
 border-right:1px solid #ddd;
 text-align:center;
 color:#333;
+position:relative;
 }
 
 .product-list tr td:first-child {
@@ -307,22 +119,19 @@ line-height:24px;
 text-align:center;
 }
 
-.product-select {
-margin-left:10px;
-display:inline-block;
+.product-list .iconfont {
 width:16px;
-line-height:16px;
-text-align:center;
-border-radius:8px;
-background-color:#1eb452;
-color:#fff;
+color:#1eb452;
+position:absolute;
+right:15px;
 }
 
-.product-count {
+.product-list .product-count {
+padding-top:1px;
 font-size:14px;
 color:#333;
-display:inline-block;
-margin-left:10px;
+position:absolute;
+right:42px;
 }
 /*购买产品列表*/
 
@@ -341,9 +150,21 @@ color:#666;
 .select-info {
 margin:15px 0;
 }
+
 .select-info li {
 line-height:50px;
 }
+
+.select-info li span{
+color:#999;
+margin-right:5px;
+}
+
+.select-info .iconfont{
+font-size:14px;
+color:#999;
+}
+
 
 .select-total {
     
@@ -354,6 +175,12 @@ padding:20px 0 30px 0;
 .select-total span {
 color: #5994ea;
 font-size:18px;
+margin-right:5px;
+}
+
+.select-total iconfont {
+    font-size:18px;
+    color:#5994ea;
 }
 
 .pay-total {
@@ -375,11 +202,30 @@ border:solid 1px #eee;padding:10px;width:125px;margin-top:20px;
 width:125px;height:38px;
 }
 
-.pay-result {
+.result-error .pay-result {
 margin-top:15px;
 text-align:center;
 font-size:22px;
 color:#999;
+}
+
+.result-error .pay-result .iconfont {
+    font-size:26px;
+color:#999;
+margin-right:5px;
+}
+
+.result-success .pay-result {
+margin-top:15px;
+text-align:center;
+font-size:22px;
+color:#4a98e7;
+}
+
+.result-success .pay-result .iconfont {
+    font-size:26px;
+color:#4a98e7;
+margin-right:5px;
 }
 
 .btn-next {
@@ -421,6 +267,10 @@ color:#999;
 display:inline-block;
 }
 
+.order-info .iconfont {
+ margin-right:5px;   
+}
+
 .order-info span:last-child {
 color:#666;
 }
@@ -429,10 +279,27 @@ color:#666;
     margin:20px auto;width:400px;
 }
 
-    .error-list p {
-    color:#999;
-    font-size:16px;
-    }
+.error-list p {
+color:#999;
+font-size:16px;
+}
+
 .error-list li{
     line-height:30px;
 }
+
+.pay-tb-info {
+width:260px;
+margin:0 auto;
+border-collapse:collapse;
+}
+
+.pay-tb-info tr {
+line-height:35px;
+}
+
+    .pay-tb-info tr td {
+    border-bottom:1px solid #ccc;
+    color:#999;
+    padding-left:8px;
+    }

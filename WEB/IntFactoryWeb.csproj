@@ -171,6 +171,7 @@
     <Content Include="modules\css\default\orders.css" />
     <Content Include="modules\css\default\order_create.css" />
     <Content Include="modules\css\home\selectlogin.css" />
+    <Content Include="modules\css\iconfont\demo.css" />
     <Content Include="modules\css\iconfont\iconfont.css" />
     <Content Include="modules\css\iconfont\iconfont.svg" />
     <Content Include="modules\css\stock\stock.css" />
@@ -370,7 +371,7 @@
     <Content Include="modules\plug\autocomplete\autocomplete.js" />
     <Content Include="modules\plug\autocomplete\style.css" />
     <Content Include="modules\plug\e-smart-zoom-jquery.min.js" />
-    <Content Include="modules\scripts\auction\buynow2.js" />
+    <Content Include="modules\scripts\auction\buynow.js" />
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
@@ -708,7 +709,6 @@
     <Content Include="modules\plug\chooseproduct\productout.html" />
     <Content Include="modules\plug\chooseproduct\style.css" />
     <Content Include="modules\scripts\activity\activity.js" />
-    <Content Include="modules\scripts\auction\buynow.js" />
     <Content Include="modules\scripts\customerrpt\customermaprpt.js" />
     <Content Include="modules\scripts\customerrpt\stagerpt.js" />
     <Content Include="modules\scripts\customerrpt\userrpt.js" />
