@@ -40,6 +40,16 @@ namespace IntFactoryDAL.Manage
                                    };
             return GetDataSet("R_GetClientsAgentLogin_Day", paras, CommandType.StoredProcedure);
         }
+        public DataSet GetClientsAgentActionReport(int type, string begintime, string endtime, string clientId)
+        {
+            SqlParameter[] paras = { 
+                                    new SqlParameter("@DateType",type), 
+                                    new SqlParameter("@BeginTime",begintime),
+                                    new SqlParameter("@EndTime",endtime),
+                                    new SqlParameter("@clientID",clientId)
+                                   };
+            return GetDataSet("R_GetClientsAgentAction", paras, CommandType.StoredProcedure);
+        }
         #endregion
 
         #region 添加

@@ -97,7 +97,9 @@ namespace IntFactoryBusiness.Manage
 
             return Clients[clientID];
         }
-
+        /// <summary>
+        /// 获取工厂注册报表
+        /// </summary>
         public static List<ClientsDateEntity> GetClientsGrow(int type, string begintime, string endtime)
         {
             List<ClientsDateEntity> list = new List<ClientsDateEntity>();
@@ -115,27 +117,23 @@ namespace IntFactoryBusiness.Manage
         /// <summary>
         /// 获取工厂登陆报表
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="begintime"></param>
-        /// <param name="endtime"></param>
-        /// <returns></returns>
-        public static List<ClientsLoginEntity> GetClientsLoginReport(int type, string begintime, string endtime)
+        public static List<ClientsBaseEntity> GetClientsLoginReport(int type, string begintime, string endtime)
         {
-            List<ClientsLoginEntity> list = new List<ClientsLoginEntity>();
+            List<ClientsBaseEntity> list = new List<ClientsBaseEntity>();
             DataSet ds = ClientDAL.BaseProvider.GetClientsLoginReport(type, begintime, endtime);
             int k = 0;
             foreach (DataTable dt in ds.Tables)
             {
-                List<ClientsLoginItem> item = new List<ClientsLoginItem>();
+                List<ClientsItem> item = new List<ClientsItem>();
                 foreach (DataRow dr in dt.Rows)
                 {
-                    ClientsLoginItem model = new ClientsLoginItem();
+                    ClientsItem model = new ClientsItem();
                     model.Name = dr["ReportDate"].ToString();
                     model.Value = int.Parse(dr["Num"].ToString());
                     item.Add(model);
                 }                
                 if (item.Any()) {
-                    ClientsLoginEntity clientloginEntity = new ClientsLoginEntity
+                    ClientsBaseEntity clientloginEntity = new ClientsBaseEntity
                     {
                         Name = (k == 0 ? "登录次数" : (k == 1 ? "登陆人数" : "登陆工厂数")),
                         Items = item
@@ -146,6 +144,38 @@ namespace IntFactoryBusiness.Manage
             }
             return list;
         }
+        /// <summary>
+        /// 获取工厂行为报表
+        /// </summary>
+        public static List<ClientsBaseEntity> GetClientsAgentActionReport(int type, string begintime, string endtime, string clientId)
+        {
+            List<ClientsBaseEntity> list = new List<ClientsBaseEntity>();
+            DataSet ds = ClientDAL.BaseProvider.GetClientsAgentActionReport(type, begintime, endtime,clientId);
+            int k = 0;
+            foreach (DataTable dt in ds.Tables)
+            {
+                List<ClientsItem> item = new List<ClientsItem>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    ClientsItem model = new ClientsItem();
+                    model.Name = dr["ReportDate"].ToString();
+                    model.Value = int.Parse(dr["ReportValue"].ToString());
+                    item.Add(model);
+                }
+                if (item.Any())
+                {
+                    ClientsBaseEntity clientloginEntity = new ClientsBaseEntity
+                    {
+                        Name = (k == 0 ? "客户" : (k == 1 ? "订单" : (k == 2 ? "材料" : (k == 3 ? "员工" : "采购")))),
+                        Items = item
+                    };
+                    list.Add(clientloginEntity);
+                }
+                k++;
+            }
+            return list;
+        }
+
         /// <summary>
         /// 获取客户端授权日志
         /// </summary>

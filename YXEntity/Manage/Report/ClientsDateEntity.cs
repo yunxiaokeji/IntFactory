@@ -11,13 +11,13 @@ namespace IntFactoryEntity.Manage.Report
 
         public int Value { get; set; }
     }
-    public class ClientsLoginEntity
+    public class ClientsBaseEntity
     {
         public string Name { get; set; }
 
-        public List<ClientsLoginItem> Items{ get; set; }
+        public List<ClientsItem> Items{ get; set; }
     }
-    public class ClientsLoginItem 
+    public class ClientsItem 
     { 
         public string Name { get; set; }
 
