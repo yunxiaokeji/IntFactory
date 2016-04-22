@@ -21,7 +21,7 @@
 
 <div class="header-box">
     <div class="header-title">
-        订单详情页
+        订单详情页&nbsp;—&nbsp;@(!model.IsSelf&&!string.IsNullOrEmpty(model.EntrustClientID)?"委托订单":model.IsSelf&&!string.IsNullOrEmpty( model.EntrustClientID)?"协助订单":"本厂订单")
         <a class="back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">
            <i class="iconfont">&#xe62d;</i> 返回 
         </a>
