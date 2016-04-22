@@ -526,4 +526,9 @@
     <None Include="Procedures\Sales\P_UpdateOrderOver.sql" />
     <None Include="Procedures\P_GetPagerData.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Manage\Report\R_GetClientsAgentAction.sql" />
+    <None Include="Procedures\Manage\Report\R_GetClientsAgentLogin_Day.sql" />
+    <None Include="Procedures\Manage\Report\R_GetClientsGrowDate.sql" />
+  </ItemGroup>
 </Project>
