@@ -26,6 +26,7 @@
         ObjectJS.ownerid = task.OwnerID;
         ObjectJS.endTime = endTime;
         ObjectJS.finishStatus = task.FinishStatus;
+        ObjectJS.status = task.Status;
         ObjectJS.stageid = task.StageID;
         ObjectJS.taskid = task.TaskID;
         ObjectJS.orderType = task.OrderType;
@@ -113,8 +114,6 @@
         }
 
     };
-
-
 
     ///任务基本信息操作事件
     //绑定事件
@@ -470,6 +469,10 @@
 
     //任务到期时间倒计时
     ObjectJS.showTime = function () {
+        if (ObjectJS.status == 8) {
+            return;
+        }
+
         if (ObjectJS.endTime == "未设置") {
             return;
         }
