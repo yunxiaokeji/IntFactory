@@ -54,7 +54,7 @@
 
         //进入确认购买信息
         $("#btn-sureOrder").click(function () {
-            if (!ObjectJS.validate()) { return; };
+            if (!ObjectJS.validate(1)) { return; };
 
             $(this).parent().parent().hide().next().fadeIn(500);
 
@@ -73,7 +73,7 @@
             var totalmoney =parseFloat( $("#TotalMoney").html() );
             var trueamount = parseFloat(totalmoney / ObjectJS.discount);
             var freeamount = parseFloat(trueamount * (1 - ObjectJS.discount));
-            $("#order-amount").html(totalmoney);
+            $("#order-amount").html(totalmoney.toFixed(2));
             $("#order-trueamount").html("￥" + trueamount.toFixed(2));
             $("#order-freeamount").html("￥" + freeamount.toFixed(2));
         });
@@ -160,7 +160,7 @@
 
     //获取最佳产品组合
     ObjectJS.getBestWay = function () {
-        if (!ObjectJS.validate()) { return; }
+        if (!ObjectJS.validate(0)) { return; }
 
         var _self = this;
         var userCount =  $("#UserCount").val();
@@ -217,11 +217,14 @@
     }
 
     //验证数据
-    ObjectJS.validate = function () {
+    ObjectJS.validate = function (option) {
         var _self = this;
         var userCount = $("#UserCount").val();
+        
         if (userCount == '') {
-            alert("人数不能为空");
+            if (option == 1) {
+                alert("人数不能为空");
+            }
             return false;
         }
 
