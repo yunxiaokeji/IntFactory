@@ -42,8 +42,9 @@
 
         ObjectJS.bindEvent();
 
-        if (task.Mark == 0)
+        if (task.Mark == 0 || ObjectJS.status==8) {
             ObjectJS.getTaskReplys(1);
+        }
 
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
