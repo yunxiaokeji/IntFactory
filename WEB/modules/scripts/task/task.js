@@ -31,6 +31,7 @@
         Params.endDate = nowDate;
         if (isMy == 2) {
             Params.isParticipate = 1;
+
         }
 
         if (isMy == "0")
@@ -63,6 +64,10 @@
         ObjectJS.bindEvent();
 
         ObjectJS.getList();
+
+        if (Params.isParticipate == 1) {
+            $(".search-stages li").eq(2).click();
+        }
     }
 
     ObjectJS.bindEvent = function () {

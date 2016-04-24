@@ -85,8 +85,8 @@ namespace YXERP.Controllers
             var IsWarn = 0;
             if (task.FinishStatus == 1) {
                 if (task.EndTime > DateTime.Now) {
-                    var totalHour = (task.EndTime - task.AcceptTime).Hours;
-                    var residueHour = (task.EndTime - DateTime.Now).Hours;
+                    var totalHour = (task.EndTime - task.AcceptTime).TotalHours;
+                    var residueHour = (task.EndTime - DateTime.Now).TotalHours;
 
                     var residue = residueHour / totalHour;
                     if (residue < 0.333)

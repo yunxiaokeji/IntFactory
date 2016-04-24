@@ -130,13 +130,21 @@
             $("#navTask").children().hide();
             $("#" + _this.data("id")).show();
 
-            if (_this.data("id") == "orderTaskLogs") {
-                //任务日志列表
-                ObjectJS.getLogs(1);
+            
+           if (_this.data("id") == "taskReplys") {
+                if (!_this.data("isget")) {
+                    //任务讨论列表
+                    ObjectJS.getTaskReplys(1);
+                    _this.data("isget", "1");
+                }
             }
-            else if (_this.data("id") == "taskReplys") {
-                //任务讨论列表
-                ObjectJS.getTaskReplys(1);
+            else if (_this.data("id") == "orderTaskLogs") {
+                if (!_this.data("isget")) {
+                    //任务日志列表
+                    ObjectJS.getLogs(1);
+                    _this.data("isget","1");
+                }
+
             }
 
         });
@@ -498,7 +506,7 @@
         else {
             if (ObjectJS.isWarn == 1) {
                 if (!overplusTime) {
-                    $(".taskBaseInfo .li-plustime .task-time").css({ "background-color": "orange", "color": "#000" });
+                    $(".taskBaseInfo .li-plustime .task-time").css({ "background-color": "orange", "color": "#fff" });
                 }
                 overplusTime = true;
             }
