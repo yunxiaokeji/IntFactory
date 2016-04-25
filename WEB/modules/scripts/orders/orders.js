@@ -23,6 +23,7 @@
         Keywords: "",
         BeginTime: "",
         EndTime: "",
+        EntrustClientID: "",
         PageIndex: 1,
         PageSize: 10,
         OrderBy: "o.CreateTime desc"
@@ -120,8 +121,8 @@
             }
         });
 
-        //切换退货状态
-        $(".search-returnstatus li").click(function () {
+        //切换订单状态
+        $(".search-orderstatus li").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -131,6 +132,19 @@
                 _self.getList();
             }
         });
+
+        //切换订单来源类型
+        $(".search-entrustclientid li").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+                Params.PageIndex = 1;
+                Params.EntrustClientID = _this.data("id");
+                _self.getList();
+            }
+        });
+
         //关键字搜索
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {

@@ -51,5 +51,7 @@ namespace YXERP.Models
 
         public string OrderBy { get; set; }
 
+        public string EntrustClientID { get; set; }
+
     }
 }
