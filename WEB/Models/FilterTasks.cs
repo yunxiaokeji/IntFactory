@@ -15,6 +15,8 @@ namespace YXERP.Models
 
         public bool isMy = true;
 
+        public bool isParticipate = false;
+
         public string userID { get; set; }
 
         public int taskType = -1;
