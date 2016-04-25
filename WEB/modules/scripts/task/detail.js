@@ -26,6 +26,7 @@
         ObjectJS.ownerid = task.OwnerID;
         ObjectJS.endTime = endTime;
         ObjectJS.finishStatus = task.FinishStatus;
+        ObjectJS.status = task.Status;
         ObjectJS.stageid = task.StageID;
         ObjectJS.taskid = task.TaskID;
         ObjectJS.orderType = task.OrderType;
@@ -41,8 +42,9 @@
 
         ObjectJS.bindEvent();
 
-        if (task.Mark == 0)
+        if (task.Mark == 0 || ObjectJS.status==8) {
             ObjectJS.getTaskReplys(1);
+        }
 
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
@@ -114,8 +116,6 @@
 
     };
 
-
-
     ///任务基本信息操作事件
     //绑定事件
     ObjectJS.bindEvent = function () {
@@ -131,13 +131,21 @@
             $("#navTask").children().hide();
             $("#" + _this.data("id")).show();
 
-            if (_this.data("id") == "orderTaskLogs") {
-                //任务日志列表
-                ObjectJS.getLogs(1);
+            
+           if (_this.data("id") == "taskReplys") {
+                if (!_this.data("isget")) {
+                    //任务讨论列表
+                    ObjectJS.getTaskReplys(1);
+                    _this.data("isget", "1");
+                }
             }
-            else if (_this.data("id") == "taskReplys") {
-                //任务讨论列表
-                ObjectJS.getTaskReplys(1);
+            else if (_this.data("id") == "orderTaskLogs") {
+                if (!_this.data("isget")) {
+                    //任务日志列表
+                    ObjectJS.getLogs(1);
+                    _this.data("isget","1");
+                }
+
             }
 
         });
@@ -470,6 +478,10 @@
 
     //任务到期时间倒计时
     ObjectJS.showTime = function () {
+        if (ObjectJS.status == 8) {
+            return;
+        }
+
         if (ObjectJS.endTime == "未设置") {
             return;
         }
@@ -495,7 +507,7 @@
         else {
             if (ObjectJS.isWarn == 1) {
                 if (!overplusTime) {
-                    $(".taskBaseInfo .li-plustime .task-time").css({ "background-color": "orange", "color": "#000" });
+                    $(".taskBaseInfo .li-plustime .task-time").css({ "background-color": "orange", "color": "#fff" });
                 }
                 overplusTime = true;
             }
