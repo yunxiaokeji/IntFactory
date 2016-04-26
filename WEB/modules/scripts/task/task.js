@@ -10,7 +10,7 @@
         isParticipate:0,
         taskType: -1,
         colorMark: -1,
-        status: -1,
+        status: 1,
         finishStatus:0,
         keyWords:"",
         beginDate: "",
@@ -107,17 +107,17 @@
         });
 
         //切换任务状态
-        $(".search-status .item").click(function () {
-            var _this = $(this);
-            if (!_this.hasClass("hover")) {
-                _this.siblings().removeClass("hover");
-                _this.addClass("hover");
+        //$(".search-status .item").click(function () {
+        //    var _this = $(this);
+        //    if (!_this.hasClass("hover")) {
+        //        _this.siblings().removeClass("hover");
+        //        _this.addClass("hover");
 
-                Params.pageIndex = 1;
-                Params.status = _this.data("id");
-                ObjectJS.getList();
-            }
-        });
+        //        Params.pageIndex = 1;
+        //        Params.status = _this.data("id");
+        //        ObjectJS.getList();
+        //    }
+        //});
 
         //切换订单类型
         $(".search-ordertype .item").click(function () {

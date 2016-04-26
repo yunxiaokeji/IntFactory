@@ -682,6 +682,7 @@ namespace YXERP.Controllers
 
             //付款金额
             string total_fee = amount;
+            //string total_fee = "0.01";
             //必填
 
             //订单描述
