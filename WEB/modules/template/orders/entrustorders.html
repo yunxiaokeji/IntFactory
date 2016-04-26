@@ -30,7 +30,7 @@
             <span><i class="iconfont">{%=item.OrderType==1?"&#xe612;":"&#xe60f;" %}</i> {%=item.OrderType==1?"打样":"大货" %}</span>
             <span class="{%=item.Status==0?'red':''%}">{%=item.StatusStr%}</span>
             <span>{%=(item.TaskCount>0?item.TaskOver/item.TaskCount*100:0).toFixed(2)+"%"%}</span>
-            <span class="right">负责人：{%=(item.Owner ? item.Owner.Name:"--")%}</span>
+            <span class="right owner long" title="{%=(item.Owner ? item.Owner.Name:"--")%}">负责人：{%=(item.Owner ? item.Owner.Name:"--")%}</span>
         </li>
     </ul>
     
