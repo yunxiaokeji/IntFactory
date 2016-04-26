@@ -24,7 +24,7 @@
 .object-items .object-item li{ height:30px; line-height:30px; }
 
 .object-items .object-item .customer { width:180px; }
-.object-items .object-item .owner { max-width:100px; }
+.object-items .object-item .owner { max-width:90px; }
 .object-items .object-item .view-detail { font-size:20px; }
 
 /*划过*/
