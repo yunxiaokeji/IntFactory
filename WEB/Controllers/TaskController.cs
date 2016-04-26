@@ -23,7 +23,7 @@ namespace YXERP.Controllers
             int total = 0;
             string error;
 
-            AliOrderBusiness.DownFentOrders(DateTime.Now.AddMonths(-3), DateTime.Now.AddDays(1), token, refreshToken,
+            AliOrderBusiness.DownFentOrders(DateTime.Now.AddMonths(-1), DateTime.Now.AddDays(1), token, refreshToken,
                 CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID,
                 ref successCount, ref total, out  error, AlibabaSdk.AliOrderDownType.Hand);
 
