@@ -11,13 +11,15 @@ namespace YXERP.Controllers
         //
         // GET: /Error/
 
-        public ActionResult NotFound()
+        public ActionResult NotAccess(string aspxerrorpath)
         {
+            ViewBag.aspxerrorpath = aspxerrorpath;
             return View();
         }
 
-        public ActionResult NoRoot()
+        public ActionResult NoRoot(string aspxerrorpath)
         {
+            ViewBag.aspxerrorpath = aspxerrorpath;
             return View();
         }
 

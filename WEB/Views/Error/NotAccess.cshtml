@@ -1,0 +1,43 @@
+﻿@{
+    Layout = null;
+}
+
+<head>
+<title>访问出错-厂盟科技</title>
+<link href="/modules/css/base.css" rel="stylesheet" />
+<link href="/modules/css/default/layout.css" rel="stylesheet" />
+<link href="/modules/css/iconfont/iconfont.css" rel="stylesheet" />
+<link href="/modules/css/error/error.css" rel="stylesheet" />
+</head>
+
+<div class="error-header">厂盟科技</div>
+
+<div class="error-box">
+    <div class="left">
+        <img src="/modules/images/img-noaccess.png" />
+    </div>
+
+    <div class="error-content right">
+        <div class="title">可能由于以下原因造成：</div>
+        <ul>
+            <li>·  在地址中可能存在键入错误。</li>
+            <li>·  当您点击某个链接时，它可能已经过期。</li>
+            <li>·  支付宝金额不足，无法购买所需商品，导致付费失败。</li>
+        </ul>
+
+        <div class="title mTop50">您可以尝试以下操作：</div>
+        <ul>
+            <li><span class="iconfont">&#xe64a;</span><a href="@ViewBag.aspxerrorpath">重新打开</a>  页面</li>
+            <li><span class="iconfont">&#xe64a;</span>将问题 <a>反馈</a> 给我们</li>
+            <li><span class="iconfont">&#xe64a;</span>拨打客服热线  <a>51602866-702</a> 联系我们处理</li>
+        </ul>
+
+        <div class="mTop20">
+            <div class="left btn-home" onclick="location.href='/Home/Index'">返回首页</div>
+            <div class="left btn-prev mLeft20" onclick="location.href='@ViewBag.aspxerrorpath'">返回上一页</div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+</div>
