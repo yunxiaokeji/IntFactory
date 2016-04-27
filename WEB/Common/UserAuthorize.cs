@@ -60,6 +60,7 @@ namespace YXERP.Common
                 IntFactoryEntity.Users user = (IntFactoryEntity.Users)filterContext.HttpContext.Session["ClientManager"];
                 if (user.Menus.Where(m => m.MenuCode == menu.MenuCode).Count() <= 0)
                 {
+                    
                     if (filterContext.RequestContext.HttpContext.Request.IsAjaxRequest())
                     {
                         Dictionary<string, string> result = new Dictionary<string, string>();
@@ -72,9 +73,9 @@ namespace YXERP.Common
                     }
                     else
                     {
-
-                        filterContext.RequestContext.HttpContext.Response.Write("<script>alert('您没有权限访问此页面');history.back();</script>");
-                        filterContext.RequestContext.HttpContext.Response.End();
+                        throw new HttpException(403, "");
+                        //filterContext.RequestContext.HttpContext.Response.Write("<script>alert('您没有权限访问此页面');history.back();</script>");
+                        //filterContext.RequestContext.HttpContext.Response.End();
                     }
                 }
             }

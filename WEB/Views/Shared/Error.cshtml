@@ -9,8 +9,11 @@
     <title>错误</title>
 </head>
 <body>
-    <h2>
-        抱歉，处理您的请求时出错。
-    </h2>
+    
+        @{
+             <h2>抱歉，页面出现了一点点问题。@(new HttpException().GetHttpCode())</h2>
+            }
+        
+    
 </body>
 </html>

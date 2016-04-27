@@ -349,8 +349,8 @@
                 if (data.result == 1) {
                     $(".result-success").show();
 
-                    $("#preUserCount").html(data.preUserCount);
-                    $("#nowUserCount").html(data.nowUserCount);
+                    $("#preUserCount").html(data.preUserCount+"人");
+                    $("#nowUserCount").html(data.nowUserCount + "人");
                     $("#preEndTime").html(data.preEndTime);
                     $("#nowEndTime").html(data.nowEndTime);
 

@@ -72,6 +72,7 @@ namespace YXERP.Controllers
         /// <param name="id"></param>
         public ActionResult Detail(string id)
         {
+            
             if (string.IsNullOrEmpty(id))
             {
                 return Redirect("/Task/MyTask");
