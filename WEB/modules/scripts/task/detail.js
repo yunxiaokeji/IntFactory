@@ -359,6 +359,7 @@
                 $(".order-imgs-list").append(img);
             }
         }
+        //$(".order-imgs-list").append("<div class='clear'></div>");
         $(".order-imgs-list img").parent().click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {

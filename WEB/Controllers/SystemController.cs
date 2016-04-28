@@ -881,7 +881,10 @@ namespace YXERP.Controllers
             bool flag = ClientBusiness.UpdateClient(model, CurrentUser.UserID);
             JsonDictionary.Add("Result", flag ? 1 : 0);
 
-
+            if (flag) {
+                CurrentUser.Client = model;
+                Session["ClientManager"] = CurrentUser;
+            }
             return new JsonResult()
             {
                 Data = JsonDictionary,
