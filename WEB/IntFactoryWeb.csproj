@@ -171,8 +171,10 @@
     <Content Include="modules\css\default\customer.css" />
     <Content Include="modules\css\default\orders.css" />
     <Content Include="modules\css\default\order_create.css" />
+    <Content Include="modules\css\error\error.css" />
     <Content Include="modules\css\home\selectlogin.css" />
     <Content Include="modules\css\iconfont\demo.css" />
+    <Content Include="modules\css\iconfont\demo.html" />
     <Content Include="modules\css\iconfont\iconfont.css" />
     <Content Include="modules\css\iconfont\iconfont.svg" />
     <Content Include="modules\css\stock\stock.css" />
@@ -217,8 +219,10 @@
     <Content Include="modules\images\ico-task-hover.png" />
     <Content Include="modules\images\ico-task.png" />
     <Content Include="modules\images\ico-username.png" />
+    <Content Include="modules\images\img-noaccess.png" />
     <Content Include="modules\images\img-noimg.jpg" />
     <Content Include="modules\images\img-noimg.png" />
+    <Content Include="modules\images\img-noroot.png" />
     <Content Include="modules\images\loginBackground.png" />
     <Content Include="modules\images\loginMainBackground.png" />
     <Content Include="modules\images\home\ico-ali.png" />
@@ -948,7 +952,7 @@
     <Content Include="Views\Orders\Orders.cshtml" />
     <Content Include="Views\Orders\OrderSuccess.cshtml" />
     <Content Include="Views\Orders\OrderLayer.cshtml" />
-    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\NotAccess.cshtml" />
     <Content Include="Views\Error\NoRoot.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1113,7 +1117,6 @@
     <Content Include="Scripts\sea-config.js" />
     <Content Include="Scripts\sea.js" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>

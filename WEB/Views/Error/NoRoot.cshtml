@@ -1,6 +1,34 @@
 ﻿@{
-    ViewBag.Title = "403";
     Layout = null;
 }
+<head>
+<title>无权限-厂盟科技</title>
+<link href="/modules/css/base.css" rel="stylesheet" />
+<link href="/modules/css/default/layout.css" rel="stylesheet" />
+<link href="/modules/css/iconfont/iconfont.css" rel="stylesheet" />
+<link href="/modules/css/error/error.css" rel="stylesheet" />
+</head>
 
-<h2>NoRoot</h2>
+<div class="error-header">厂盟科技</div>
+
+<div class="error-box">
+    <div class="left">
+        <img src="/modules/images/img-noroot.png" />
+    </div>
+
+    <div class="error-content right">
+        <div class="title mTop40">您可以尝试以下操作：</div>
+        <ul>
+            <li><span class="iconfont">&#xe64a;</span>联系管理开通访问权限</li>
+            <li><span class="iconfont">&#xe64a;</span>更换有权限的账号进行登录</li>
+        </ul>
+
+        <div style="margin-top:80px;">
+            <div class="left btn-home" onclick="location.href='/Home/Index'">返回首页</div>
+            <div class="left btn-prev mLeft20" onclick="location.href='@ViewBag.aspxerrorpath'">返回上一页</div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+</div>
