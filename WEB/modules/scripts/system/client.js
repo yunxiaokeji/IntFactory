@@ -20,6 +20,7 @@
     //初始化
     ObjectJS.init = function (option) {
         var _self = this;
+
         _self.bindEvent();
 
         VerifyObject = Verify.createVerify({
@@ -29,18 +30,11 @@
             regText: "data-text"
         });
 
-        ObjectJS.getDetail();
+        _self.getDetail();
 
-        $(".search-stages li[data-id='"+option+"']").click();
-        //if (option == 3) {
-        //    $(".search-stages li").eq(2).click();
-        //}
-        //else if (option == 2) {
-        //    $(".search-stages li").eq(1).click();
-        //}
-        //else if (option == 4) {
-        //    $(".search-stages li").eq(3).click();
-        //}
+        if (option !== 0) {
+            $(".search-stages li[data-id='" + option + "']").click();
+        }
     }
 
     //绑定事件

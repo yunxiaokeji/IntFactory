@@ -72,7 +72,6 @@ namespace YXERP.Controllers
         /// <param name="id"></param>
         public ActionResult Detail(string id)
         {
-            
             if (string.IsNullOrEmpty(id))
             {
                 return Redirect("/Task/MyTask");
@@ -98,9 +97,6 @@ namespace YXERP.Controllers
             }
             ViewBag.IsWarn = IsWarn;
 
-            //当前用户是否为任务负责人
-            ViewBag.IsTaskOwner = task.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase) ? true : false;
-
             //任务对应的订单详情
             var order=OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
             if (order.Details == null){
@@ -108,31 +104,21 @@ namespace YXERP.Controllers
             }
             ViewBag.Order = order;
 
+            ViewBag.FinishStatus = task.FinishStatus;
+            ViewBag.TaskID = task.TaskID;
+            ViewBag.Mark = task.Mark;
+            ViewBag.Status = task.Status;
+            //当前用户是否为任务负责人
+            ViewBag.IsTaskOwner = task.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase) ? true : false;
+
             //订单的品类属性
             ViewBag.ProductAttr = new IntFactoryEntity.ProductAttr();
-
-            //任务状态为关闭
-            if (task.Status == 8) {
-                return View();
-            }
-
-            //打样材料
-            if (task.Mark == 1){
-                return View("MaterialDetail");
-            }
-            else if (task.Mark == 2)//打样制版
+            if (task.Mark == 2)//打样制版
             {
-                //任务对应订单的品类属性
                 ViewBag.ProductAttr = new ProductsBusiness().GetTaskPlateAttrByCategoryID(order.CategoryID);
-                return View("PlateDetail");
-            }//大货材料
-            else if (task.Mark == 3){
-                return View("CargoMaterialDetail");
             }
-            else{
-                return View();
-            }
-            
+
+            return View();
         }
 
         /// <summary>

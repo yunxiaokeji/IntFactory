@@ -954,6 +954,7 @@
     <Content Include="Views\Orders\OrderLayer.cshtml" />
     <Content Include="Views\Error\NotAccess.cshtml" />
     <Content Include="Views\Error\NoRoot.cshtml" />
+    <Content Include="Views\Task\DetailBase.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

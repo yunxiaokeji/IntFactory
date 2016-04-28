@@ -98,7 +98,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Industry =IntFactoryBusiness.Manage.IndustryBusiness.GetIndustrys();
             if (string.IsNullOrEmpty(id))
-                ViewBag.Option = 1;
+                ViewBag.Option = 0;
             else
                 ViewBag.Option = id;
 
