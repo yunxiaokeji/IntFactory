@@ -359,7 +359,7 @@
                 $(".order-imgs-list").append(img);
             }
         }
-        //$(".order-imgs-list").append("<div class='clear'></div>");
+
         $(".order-imgs-list img").parent().click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
@@ -656,8 +656,9 @@
 
         replys.find(".btn-reply").click(function () {
             var _this = $(this), reply = _this.nextAll(".reply-box");
+
             $("#replyList .reply-box").each(function () {
-                if ($(this) != reply) {
+                if ($(this).data("replyid") != reply.data("replyid")) {
                     $(this).hide();
                 }
             });
@@ -666,7 +667,7 @@
                 reply.slideUp(300);
             }
             else {
-                reply.slideDown(600);
+                reply.slideDown(300);
             }
 
             reply.find("textarea").focus();
@@ -902,8 +903,6 @@
         });
     }
 
-
-    
     ///任务制版相关事件
     //绑定
     ObjectJS.bindPlatemakingEvent = function () {
@@ -1218,12 +1217,8 @@
     }
 
     ObjectJS.platePrint = function () {
-        //var bdhtml = window.document.body.innerHTML;;
-        //var docStr = $("#platemakingBody").html();
-        //window.document.body.innerHTML=docStr;
-        //window.print();
-        //window.document.body.innerHTML = bdhtml;
         $("span.ico-dropdown").hide();
+
         $("#platemakingContent table tr").each(function () {
             $(this).find("td:last").hide();
         });
@@ -1251,5 +1246,6 @@
 
         
     }
+
     module.exports = ObjectJS;
 });
