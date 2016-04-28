@@ -979,6 +979,10 @@
     <Content Include="Views\MyAccount\SetAvatar.cshtml" />
     <Content Include="Views\MyAccount\SetPassWord.cshtml" />
     <Content Include="Views\MyAccount\Account.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config" />
     <Content Include="Views\System\OrderStages.cshtml" />
     <Content Include="Views\Task\MyTask.cshtml" />
     <Content Include="Views\Orders\Create.cshtml" />
@@ -1002,7 +1006,7 @@
     <Content Include="Views\Orders\OrderLayer.cshtml" />
     <Content Include="Views\Error\NotAccess.cshtml" />
     <Content Include="Views\Error\NoRoot.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Views\Task\DetailBase.cshtml" />
     <Content Include="Views\Web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

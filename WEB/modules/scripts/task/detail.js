@@ -35,16 +35,13 @@
         if(attrValues!="")
             CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
         Editor = um;
-        ObjectJS.mark = 0;//任务讨论标记 用于获取讨论列表
+        ObjectJS.mark = task.Mark;//任务讨论标记 用于添加任务讨论
         ObjectJS.taskMark = task.Mark;//任务标记 用于做标记任务完成的限制条件
         ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
         ObjectJS.orderimages = orderimages;
 
         ObjectJS.bindEvent();
-
-        if (task.Mark == 0 || ObjectJS.status==8) {
-            ObjectJS.getTaskReplys(1);
-        }
+        ObjectJS.getTaskReplys(1);
 
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
@@ -362,6 +359,7 @@
                 $(".order-imgs-list").append(img);
             }
         }
+        //$(".order-imgs-list").append("<div class='clear'></div>");
         $(".order-imgs-list img").parent().click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
@@ -1154,7 +1152,7 @@
                         tableHtml += newColumnHeadr + newColumn;
                         tableHtml += '</table>';
 
-                        $("#platemakingBody").html(tableHtml).css({ "border-top": "1px solid #eee", "border-left": "1px solid #eee" });
+                        $("#platemakingBody").html(tableHtml).css({ "border-top": "1px solid #eee", "border-left": "1px solid #eee" }).show();
 
                         ObjectJS.binddropdown();
                         ObjectJS.bindContentClick();

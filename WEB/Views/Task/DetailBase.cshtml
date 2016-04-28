@@ -1,0 +1,168 @@
+﻿
+<div class="header-box">
+    <div class="header-title">
+        任务详情
+        <a class="back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">
+           <i class="iconfont">&#xe62d;</i> 返回
+        </a>
+    </div>
+
+    <div class="mTop10">
+        <div class="left titlename">订单编号：<a href="/Orders/OrderDetail/@(Model.OrderID)" >@(Model.OrderCode)</a></div>
+        
+        <div class="right">
+            @{
+                if (ViewBag.IsTaskOwner){
+                    if(Model.FinishStatus==0)
+                    {
+                        <input type="button" class="btn" id="AcceptTask" value="接受任务"/>
+                    }
+                    else if (Model.FinishStatus == 1)
+                    {
+                        <input type="button" class="btn" id="FinishTask" value="标记完成"/>
+                    }
+                    else if (Model.FinishStatus == 2)
+                    {
+                        <span class="taskFinishStatus">已完成</span>
+                    }
+                }
+                else{
+                    if(Model.FinishStatus==0)
+                    {
+                        <span class="taskFinishStatus">未接受</span>
+                    }
+                    else if (Model.FinishStatus == 1)
+                    {
+                        <span class="taskFinishStatus">进行中</span>
+                    }
+                    else if (Model.FinishStatus == 2)
+                    {
+                        <span class="taskFinishStatus">已完成</span>
+                    }
+                }
+            
+            }
+        </div>
+    </div>
+</div>
+
+<div class="content-title">
+    <div class="left titlename">任务编码：@(Model.TaskCode)</div>
+    <ul class="right">
+        <li title="订单类型">
+            <span class="left"> 订单类型：</span><label class="left" >@(Model.OrderType==1?"打样":"大货")</label>
+        </li>
+        <li>
+            <span class="left"> 负责人：</span><label class="left">@(Model.Owner != null ? Model.Owner.Name : "--")</label>
+        </li>
+    </ul>
+</div>
+
+<div class="taskContent">
+   <div class="taskDetail">
+        <div class="order-imgs-div left">
+            <div class="order-imgs">
+                <img id="orderImage" src="@(Model.OrderImg)" />
+            </div>
+            <ul class="order-imgs-list mTop5"></ul>
+            
+        </div>
+
+       <div class="mLeft20 left">
+            <ul class=" taskBaseInfo ">
+                 <li class="li-plustime"><span class="column-title" id="overplusTime">剩余时间</span>
+                    <span class="task-time" id="time-d">0</span>
+                    <span class="mRight10 color666">天</span>
+
+                    <span class="task-time" id="time-h">0</span>
+                    <span class="mRight10 color666">时</span>
+
+                    <span class="task-time" id="time-m">0</span>
+                     <span class="mRight10 color666">分</span>
+
+                    <span class="task-time" id="time-s">0</span>
+                     <span class="color666">秒</span>
+                </li>
+                <li>
+                    <span class="column-title">任务标题</span>
+                    <span>@(Model.Title)</span>
+                </li>
+                <li>
+                    <span class="column-title">接受时间</span>
+                    <span id="AcceptTime">@(Model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : Model.AcceptTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                </li>
+                <li>
+                    <span class="column-title">到期时间</span>
+                    <span>@(Model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : Model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                </li>
+                <li>
+                    <span class="column-title">完成时间</span>
+                    <span id="CompleteTime">@(Model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : Model.CompleteTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                </li>
+                <li>
+                    <span class="column-title left">成员</span>
+                    @{
+                        if (ViewBag.IsTaskOwner && Model.FinishStatus == 1)
+                        {
+                            <div id="taskMemberIDs" class="left">
+                                @{
+                            foreach (var member in Model.TaskMembers)
+                            {
+                                    <div class="task-member left" data-id="@member.UserID">
+                                        <div class="left pRight5"><span>@member.Name</span></div>
+                                        <div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="@member.UserID" >×</a></div>
+                                        <div class="clear"></div>
+                                    </div>
+                            }
+                                }
+                            </div>
+                            <div class="left"><a id="addTaskMembers" href="javascript:void();" class="ico-add">添加成员</a></div>
+                            <div class="clear"></div>
+                        }
+                        else
+                        {
+                            if (Model.TaskMembers.Count > 0)
+                            {
+                                foreach (var member in Model.TaskMembers)
+                                {
+                                <div class="task-member left">
+                                    <div class="pRight5"><span>@member.Name</span></div>
+                                </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="left">暂无成员</div>
+                            }
+
+                        }
+                    }
+                    <div class="clear"></div>
+                 </li>
+            </ul>
+        </div>
+
+       <div class="clear"></div>
+       
+        <div class="order-remark">订单需求: </div>
+
+    </div>
+
+  </div>
+
+<div class="module-header mTop20">
+    <ul class="module-tab">
+        <li  class="hover" data-id="taskReplys">讨论</li>
+        @{
+            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010106"))){
+            <li  data-id="navProducts">材料</li>
+        }}
+
+        @{
+            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010107"))){
+            <li  data-id="platemakingContent">制版</li>
+        }}
+        <li data-id="orderTaskLogs">日志</li>
+    </ul>
+    <div class="clear"></div>
+</div>

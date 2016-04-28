@@ -98,7 +98,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Industry =IntFactoryBusiness.Manage.IndustryBusiness.GetIndustrys();
             if (string.IsNullOrEmpty(id))
-                ViewBag.Option = 1;
+                ViewBag.Option = 0;
             else
                 ViewBag.Option = id;
 
@@ -881,7 +881,10 @@ namespace YXERP.Controllers
             bool flag = ClientBusiness.UpdateClient(model, CurrentUser.UserID);
             JsonDictionary.Add("Result", flag ? 1 : 0);
 
-
+            if (flag) {
+                CurrentUser.Client = model;
+                Session["ClientManager"] = CurrentUser;
+            }
             return new JsonResult()
             {
                 Data = JsonDictionary,

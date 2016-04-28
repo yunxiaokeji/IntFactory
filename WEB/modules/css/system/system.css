@@ -59,7 +59,7 @@
 
 
 /*图片预览*/
-.absolute-img { position:absolute; top:170px; right:20px; height:220px; width:220px; }
+.absolute-img { position:absolute; top:170px; right:40px; height:100px; width:100px; }
 
 
 .ordercategory-item { clear:both; background-color:#f9f9f9; overflow:auto; margin-bottom:20px; padding:20px; }
