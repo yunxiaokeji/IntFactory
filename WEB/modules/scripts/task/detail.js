@@ -83,7 +83,7 @@
                     //隐藏制版列操作下拉框
                     if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
 
-                        $(".replyBox").removeClass("replybox-hover");
+                        $(".taskreply-box").removeClass("taskreply-box-hover");
                     }
 
 
@@ -148,16 +148,14 @@
         });
 
         //任务讨论盒子点击
-        $(".replyBox").click(function () {
-
-            $(this).addClass("replybox-hover");
-            $(this).find(".replyContent").focus();
+        $(".taskreply-box").click(function () {
+            $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
         });
 
         //任务讨论盒子隐藏
         $(document).click(function (e) {
-            if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
-                $(".replyBox").removeClass("replybox-hover");
+            if (!$(e.target).parents().hasClass("taskreply-box") && !$(e.target).hasClass("taskreply-box")) {
+                $(".taskreply-box").removeClass("taskreply-box-hover");
             }
         });
 
