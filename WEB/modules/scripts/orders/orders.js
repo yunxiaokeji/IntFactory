@@ -38,7 +38,7 @@
             Params.OrderStatus = status;
         }
        
-        Params.PageSize = ($(".object-items").width() / 300).toFixed(0) * 3;
+        Params.PageSize = ($(".object-items").width() / 280).toFixed(0) * 3;
 
         _self.getList();
         _self.bindStyle();
