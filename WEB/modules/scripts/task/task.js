@@ -63,10 +63,11 @@
 
         ObjectJS.bindEvent();
 
-        ObjectJS.getList();
-
         if (Params.isParticipate == 1) {
             $(".search-stages li").eq(2).click();
+        }
+        else {
+            ObjectJS.getList();
         }
     }
 
@@ -105,19 +106,6 @@
                 ObjectJS.getList();
             }
         });
-
-        //切换任务状态
-        //$(".search-status .item").click(function () {
-        //    var _this = $(this);
-        //    if (!_this.hasClass("hover")) {
-        //        _this.siblings().removeClass("hover");
-        //        _this.addClass("hover");
-
-        //        Params.pageIndex = 1;
-        //        Params.status = _this.data("id");
-        //        ObjectJS.getList();
-        //    }
-        //});
 
         //切换订单类型
         $(".search-ordertype .item").click(function () {

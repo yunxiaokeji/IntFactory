@@ -40,10 +40,27 @@
     //绑定事件
     ObjectJS.bindEvent = function () {
 
+        //document点击 隐藏悬浮
         $(document).click(function (e) {
             //隐藏下拉
             if (!$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown")) {
                 $(".dropdown-ul").hide();
+            }
+        });
+
+        //tab切换
+        $(".search-stages li").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.addClass("hover").siblings().removeClass("hover");
+                $(".content-body div[name='clientInfo']").hide().eq(parseInt(_this.data("id"))).show();
+
+                if (_this.data("id") == 2) {
+                    if (_this.data("isget") !== 1) {
+                        ObjectJS.getClientOrders();
+                        _this.data("isget",1)
+                    }
+                }
             }
         });
 
@@ -69,22 +86,6 @@
             elementID: "citySpan"
         });
 
-        //切换
-        $(".search-stages li").click(function () {
-            var _this = $(this);
-            if (!_this.hasClass("hover")) {
-                _this.siblings().removeClass("hover");
-                _this.addClass("hover");
-
-                $(".content-body div[name='clientInfo']").hide().eq(parseInt(_this.data("id"))).show();
-
-                if (_this.data("id") == 2)
-                {
-                    ObjectJS.getClientOrders();
-                }
-            }
-        });
-
         //保存公司基本信息
         $("#btnSaveClient").click(function () {
             if (!VerifyObject.isPass()) {
@@ -94,7 +95,7 @@
             ObjectJS.saveModel();
         });
 
-        //搜索
+        //订单状态、订单类型搜索
         require.async("dropdown", function () {
             var OrderStatus = [
                 {
@@ -160,13 +161,13 @@
 
         });
 
+        //时间段查询
         $("#SearchClientOrders").click(function () {
-            if ($("#orderBeginTime").val() != '' || $("#orderEndTime").val() != '') {
-                ObjectJS.Params.PageIndex = 1;
-                ObjectJS.Params.beginDate = $("#orderBeginTime").val();
-                ObjectJS.Params.endDate = $("#orderEndTime").val();
-                ObjectJS.getClientOrders();
-            }
+            ObjectJS.Params.PageIndex = 1;
+            ObjectJS.Params.BeginDate = $("#orderBeginTime").val();
+            ObjectJS.Params.EndDate = $("#orderEndTime").val();
+
+            ObjectJS.getClientOrders();
         });
 
         //继续支付客户端订单
@@ -175,12 +176,14 @@
             var type = $(this).data("type");
 
             var url = "/Auction/BuyNow";
-            if(type==2)
+            if (type == 2) {
                 url = "/Auction/BuyUserQuantity";
-            else if(type==3)
+            }
+            else if (type == 3) {
                 url = "/Auction/ExtendNow";
-            url += "/" + id;
+            }
 
+            url += "/" + id;
             location.href = url;
         });
 
@@ -208,10 +211,11 @@
                 $("#MobilePhone").val(item.MobilePhone);
                 $("#OfficePhone").val(item.OfficePhone);
                 $("#Industry").val(item.Industry);
+
                 if (item.City)
                     CityObject.setValue(item.City.CityCode);
-                if (item.Logo)
-                {
+
+                if (item.Logo) {
                     $("#PosterDisImg").show().attr("src", item.Logo);
                     $("#CompanyLogo").val(item.Logo);
                 }
@@ -226,13 +230,11 @@
                 $("#UserQuantity").html(agent.UserQuantity);
                 $("#EndTime").html(agent.EndTime.toDate("yyyy-MM-dd"));
                 $("#agentRemainderDays").html(data.Days);
-                if (agent.AuthorizeType == 0)
-                {
+                if (agent.AuthorizeType == 0) {
                     $(".btn-buy").html("立即购买");
                 }
                 else {
-                    if (parseInt(data.Days) < 31)
-                    {
+                    if (parseInt(data.Days) < 31) {
                         $("#agentRemainderDays").addClass("red");
                         $(".btn-buy").html("续费").attr("href", "/Auction/ExtendNow");
                     }
@@ -240,14 +242,13 @@
                         $(".btn-buy").html("购买人数").attr("href", "/Auction/BuyUserQuantity");
                     }
                 }
-            
+
             }
-        })
+        });
     }
 
     //保存实体
     ObjectJS.saveModel = function () {
-        var _self = this;
         var model = {
             CompanyName: $("#CompanyName").val(),
             Logo:$("#CompanyLogo").val(),

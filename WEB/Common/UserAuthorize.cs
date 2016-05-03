@@ -54,13 +54,14 @@ namespace YXERP.Common
             var action = filterContext.ActionDescriptor.ActionName.ToLower();
             var menu = CommonBusiness.ClientMenus.Where(m => m.Controller.ToLower() == controller && m.View.ToLower() == action).FirstOrDefault();
 
+            
             //需要判断权限
             if (menu != null && menu.IsLimit == 1)
             {
                 IntFactoryEntity.Users user = (IntFactoryEntity.Users)filterContext.HttpContext.Session["ClientManager"];
                 if (user.Menus.Where(m => m.MenuCode == menu.MenuCode).Count() <= 0)
                 {
-                    
+
                     if (filterContext.RequestContext.HttpContext.Request.IsAjaxRequest())
                     {
                         Dictionary<string, string> result = new Dictionary<string, string>();
@@ -73,7 +74,7 @@ namespace YXERP.Common
                     }
                     else
                     {
-                        throw new HttpException(403, "");
+                        throw new HttpException(403, filterContext.RequestContext.HttpContext.Request.UrlReferrer.AbsoluteUri);
                         //filterContext.RequestContext.HttpContext.Response.Write("<script>alert('您没有权限访问此页面');history.back();</script>");
                         //filterContext.RequestContext.HttpContext.Response.End();
                     }

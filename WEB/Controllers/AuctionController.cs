@@ -84,9 +84,7 @@ namespace YXERP.Controllers
                     return Redirect("/Auction/BuyUserQuantity");
                 }
 
-                ViewBag.Discount = 6.6;
-                if (!string.IsNullOrEmpty(CurrentClient.AliMemberID))
-                    ViewBag.Discount = 5;
+                ViewBag.Discount = GetBuyDiscount();
 
                 id = id ?? string.Empty;
                 int result= GetClientOrderInfo(ref id);
@@ -140,9 +138,7 @@ namespace YXERP.Controllers
 
                 ViewBag.CurrentAgent = CurrentAgent;
 
-                ViewBag.Discount = 6.6;
-                if (!string.IsNullOrEmpty(CurrentClient.AliMemberID))
-                    ViewBag.Discount = 5;
+                ViewBag.Discount = GetBuyDiscount();
 
                 id = id ?? string.Empty;
                 int result = GetClientOrderInfo(ref id);
@@ -495,7 +491,7 @@ namespace YXERP.Controllers
             {
                 if (type == 1 || type == 2)
                 {
-                    discount = 0.66F;
+                    discount = 0.5F;
                 }
             }
             JsonDictionary.Add("Discount", discount);
@@ -826,6 +822,16 @@ namespace YXERP.Controllers
             }
 
             return sArray;
+        }
+
+        public float GetBuyDiscount() {
+            float discount = 5;
+            if (!string.IsNullOrEmpty(CurrentClient.AliMemberID))
+            {
+                discount = 5;
+            }
+
+            return discount;
         }
         #endregion
 

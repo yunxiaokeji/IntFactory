@@ -42,5 +42,48 @@ namespace YXERP
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
         }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Response.Clear();
+            Exception exception = Server.GetLastError();
+            HttpException httpException = exception as HttpException;
+            RouteData routeData = new RouteData();
+            routeData.Values.Add("controller", "Error");
+            if (exception == null)
+            {
+                routeData.Values.Add("action", "Index");
+            }
+            else if (httpException == null)
+            {
+                routeData.Values.Add("action", "Index");
+            }
+            else
+            {
+                switch (httpException.GetHttpCode())
+                {
+                    case 404:
+                        routeData.Values.Add("action", "NotAccess");
+                        break;
+                    case 500:
+                        routeData.Values.Add("action", "NotAccess");
+                        break;
+                    case 403:
+                        routeData.Values.Add("action", "NoRoot");
+                        break;
+                    default:
+                        routeData.Values.Add("action", "Index");
+                        break;
+                }
+            }
+            // Pass exception details to the target error View.  
+            routeData.Values.Add("urlReferrer", Request.UrlReferrer!=null?Request.UrlReferrer.AbsoluteUri:Request.Url.AbsoluteUri);
+            // Clear the error on server.  
+            Server.ClearError();
+            // Call target Controller and pass the routeData.  
+            IController errorController = new YXERP.Controllers.ErrorController();
+            errorController.Execute(new RequestContext(new HttpContextWrapper(Context), routeData));
+        }
+
     }
 }

@@ -390,7 +390,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .help-feedback .ico-open:hover { background:url('/modules/images/ico-operate-open-hover.png') no-repeat; background-size:cover;}
 
 /*图片loading*/
-.data-loading { padding: 85px 0px; font-size: 16px; text-align: center; color: #666; background:url(/modules/images/ico-loading.jpg) no-repeat center center;}
+.data-loading { padding: 80px 0px; font-size: 16px;text-align: center; color: #666; background:url(/modules/images/ico-loading.gif) no-repeat center center;background-size:45px 45px; }
 
 /*暂无数据*/
 .nodata-txt { padding: 95px 0px; font-size: 16px; text-align: center; color: #666; }
