@@ -395,7 +395,7 @@ namespace YXERP.Controllers
                                 if (flag)
                                 {
                                     AgentsBusiness.UpdatetAgentCache(order.AgentID);
-
+                                    Response.Write("success");  //请不要修改或删除
                                 }
                             }
                         }
@@ -665,7 +665,8 @@ namespace YXERP.Controllers
             //需http://格式的完整路径，不能加?id=123这类自定义参数
 
             //页面跳转同步通知页面路径
-            string return_url = Common.Common.AlipaySuccessPage;
+            //string return_url = Common.Common.AlipaySuccessPage;
+            string return_url = string.Empty;
             //需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
 
             //商户订单号
@@ -719,8 +720,6 @@ namespace YXERP.Controllers
             //建立请求
             return Submit.BuildRequest(sParaTemp, "get", "确认");
         }
-
-
 
         public JsonResult GetOrderInfo(string id)
         {

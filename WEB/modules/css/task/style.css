@@ -49,6 +49,11 @@
     border:1px solid #eee;
 }
 
+.task-member .removeTaskMember {
+    font-size:16px;
+    font-weight:bold;
+}
+
 /*任务样图信息*/
 .order-imgs-div {
     cursor:pointer;
@@ -186,6 +191,15 @@
     margin:0px auto;
     width:60px;
 }
+
+.platemakingContent .content-main {
+    width:800px;
+}
+
+.platemakingContent .txt-content {
+    width:800px;
+}
+
 .create-first { 
     height:70px; 
     line-height:60px; 
