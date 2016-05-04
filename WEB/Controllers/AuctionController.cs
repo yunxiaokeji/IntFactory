@@ -551,7 +551,7 @@ namespace YXERP.Controllers
             {
                 if (type == 1 || type == 2)
                 {
-                    discount = 0.66M;
+                    discount = 0.5M;
                 }
             }
 
