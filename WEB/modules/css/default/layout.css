@@ -393,6 +393,6 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .data-loading { padding: 80px 0px; font-size: 16px;text-align: center; color: #666; background:url(/modules/images/ico-loading.gif) no-repeat center center;background-size:45px 45px; }
 
 /*暂无数据*/
-.nodata-txt { padding: 95px 0px; font-size: 16px; text-align: center; color: #666; }
+.nodata-txt { padding: 60px 0px; font-size: 16px; text-align: center; color: #666; }
 
 
