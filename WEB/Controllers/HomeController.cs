@@ -345,9 +345,7 @@ namespace YXERP.Controllers
             Dictionary<string, object> resultObj = new Dictionary<string, object>();
             YXERP.Common.PwdErrorUserEntity pwdErrorUser = null;
 
-            if (Common.Common.CachePwdErrorUsers.ContainsKey(userName)) { 
-                pwdErrorUser = Common.Common.CachePwdErrorUsers[userName]; 
-            }
+            if (Common.Common.CachePwdErrorUsers.ContainsKey(userName)) pwdErrorUser = Common.Common.CachePwdErrorUsers[userName];
 
             if (pwdErrorUser == null || (pwdErrorUser.ErrorCount < 3 && pwdErrorUser.ForbidTime<DateTime.Now) )
             {

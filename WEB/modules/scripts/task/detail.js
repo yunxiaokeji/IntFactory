@@ -1,7 +1,7 @@
 ﻿define(function (require, exports, module) {
     var doT = require("dot");
     var Global = require("global");
-    var TalkReply = require("scripts/task/reply");
+    var Qqface= require("qqface");
     var Easydialog = null;
     var ChooseUser =null;
     require("pager");
@@ -41,7 +41,8 @@
         ObjectJS.orderimages = orderimages;
 
         ObjectJS.bindEvent();
-        
+        ObjectJS.getTaskReplys(1);
+
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
             ObjectJS.materialMark = 1;
@@ -72,6 +73,26 @@
             //制版工艺描述 富文本
             Editor.ready(function () {
                 Editor.setContent(decodeURI(plateRemark));
+
+                $(".edui-container").click(function () {
+                    $(".edui-body-container").animate({ height: "600px" }, 500);
+                });
+
+
+                $(document).click(function (e) {
+                    //隐藏制版列操作下拉框
+                    if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
+
+                        $(".replyBox").removeClass("replybox-hover");
+                    }
+
+
+                    //隐藏制版列操作下拉框
+                    if (!$(e.target).parents().hasClass("edui-container") && !$(e.target).hasClass("edui-container")) {
+                        $(".edui-body-container").animate({ height: "100px" }, 500);
+                    }
+                });
+
             });
         }
 
@@ -107,7 +128,15 @@
             $("#navTask").children().hide();
             $("#" + _this.data("id")).show();
 
-            if (_this.data("id") == "orderTaskLogs") {
+            
+           if (_this.data("id") == "taskReplys") {
+                if (!_this.data("isget")) {
+                    //任务讨论列表
+                    ObjectJS.getTaskReplys(1);
+                    _this.data("isget", "1");
+                }
+            }
+            else if (_this.data("id") == "orderTaskLogs") {
                 if (!_this.data("isget")) {
                     //任务日志列表
                     ObjectJS.getLogs(1);
@@ -119,9 +148,19 @@
         });
 
         //任务讨论盒子点击
-        $(".taskreply-box").click(function () {
-            $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
+        $(".replyBox").click(function () {
+
+            $(this).addClass("replybox-hover");
+            $(this).find(".replyContent").focus();
         });
+
+        //任务讨论盒子隐藏
+        $(document).click(function (e) {
+            if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
+                $(".replyBox").removeClass("replybox-hover");
+            }
+        });
+
 
         //标记任务完成
         if ($("#FinishTask").length == 1) {
@@ -131,7 +170,7 @@
         }
 
         //初始化任务讨论列表
-        TalkReply.initTalkReply(ObjectJS);
+        ObjectJS.initTalkReply();
 
         //绑定任务样式图
         ObjectJS.bindOrderImages();
@@ -182,6 +221,12 @@
 
         }
 
+        //绑定讨论表情
+        $('#btn-emotion').qqFace({
+            assign: 'txtContent',
+            path: '/modules/plug/qqface/arclist/'	//表情存放的路径
+        });
+
         //显示剩余时间
         ObjectJS.showTime();
 
@@ -191,13 +236,6 @@
                 ObjectJS.updateTaskEndTime();
             });
         }
-
-        //任务讨论盒子隐藏
-        $(document).click(function (e) {
-            if (!$(e.target).parents().hasClass("taskreply-box") && !$(e.target).hasClass("taskreply-box")) {
-                $(".taskreply-box").removeClass("taskreply-box-hover");
-            }
-        });
     }
 
     //更改任务到期时间
@@ -321,7 +359,7 @@
                 $(".order-imgs-list").append(img);
             }
         }
-
+        //$(".order-imgs-list").append("<div class='clear'></div>");
         $(".order-imgs-list img").parent().click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
@@ -507,6 +545,161 @@
         setTimeout(function () { ObjectJS.showTime() }, 1000);
     }
 
+    ///任务讨论
+    //初始化任务讨论列表
+    ObjectJS.initTalkReply = function () {
+        $("#btnSaveTalk").click(function () {
+            var txt = $("#txtContent");
+
+            if (txt.val().trim()) {
+                var model = {
+                    GUID: ObjectJS.orderid,
+                    StageID: ObjectJS.stageid,
+                    mark:ObjectJS.mark,
+                    Content: txt.val().trim(),
+                    FromReplyID: "",
+                    FromReplyUserID: "",
+                    FromReplyAgentID: ""
+                };
+                ObjectJS.saveTaskReply(model,$(this));
+
+                txt.val("");
+            }
+
+        });
+    }
+
+    //获取任务讨论列表
+    ObjectJS.getTaskReplys = function (page) {
+        var _self = this;
+        $("#replyList").empty();
+        $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='data-loading'><div></td></tr>");
+        Global.post("/Opportunitys/GetReplys", {
+            guid: ObjectJS.orderid,
+            stageid: ObjectJS.stageid,
+            mark:ObjectJS.mark,
+            pageSize: 10,
+            pageIndex: page
+        }, function (data) {
+            $("#replyList").empty();
+            if (data.items.length > 0) {
+                doT.exec("template/customer/replys.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
+
+                    $("#replyList").html(innerhtml);
+
+                    ObjectJS.bindReplyOperate(innerhtml);
+
+                });
+            }
+            else {
+                $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
+            }
+
+            $("#pagerReply").paginate({
+                total_count: data.totalCount,
+                count: data.pageCount,
+                start: page,
+                display: 5,
+                border: true,
+                rotate: true,
+                images: false,
+                mouse: 'slide',
+                float: "left",
+                onChange: function (page) {
+                    ObjectJS.getTaskReplys(page);
+                }
+            });
+        });
+    }
+
+    //保存任务讨论
+    ObjectJS.saveTaskReply = function (model, btnObject) {
+        var _self = this;
+        var btnname = "";
+        if (btnObject) {
+            btnname = btnObject.html();
+            btnObject.html("保存中...").attr("disabled", "disabled");
+        }
+
+        Global.post("/Opportunitys/SavaReply", { entity: JSON.stringify(model) }, function (data) {
+            if (btnObject) {
+                btnObject.html(btnname).removeAttr("disabled");
+            }
+
+            doT.exec("template/customer/replys.html", function (template) {
+                var innerhtml = template(data.items);
+                innerhtml = $(innerhtml);
+                innerhtml.hide();
+                $("#replyList .nodata-txt").parent().parent().remove();
+                $("#replyList").prepend(innerhtml);
+                innerhtml.fadeIn(500);
+
+                ObjectJS.bindReplyOperate(innerhtml);
+
+                //$(document).click(function (e) {
+                //    if (!$(e.target).parents().hasClass("reply-box") && !$(e.target).hasClass("reply-box") && !$(e.target).parents().hasClass("btn-reply") && !$(e.target).hasClass("btn-reply") && !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace")) {
+
+                //        $(".reply-box").slideUp(300);
+                //    }
+                //});
+
+            });
+        });
+    }
+
+    ObjectJS.bindReplyOperate=function(replys){
+        replys.find(".reply-content").each(function () {
+            $(this).html(Global.replaceQqface($(this).html()));
+        });
+
+        replys.find(".btn-reply").click(function () {
+            var _this = $(this), reply = _this.nextAll(".reply-box");
+            $("#replyList .reply-box").each(function () {
+                if ($(this) != reply) {
+                    $(this).hide();
+                }
+            });
+
+            if (reply.is(":visible")) {
+                reply.slideUp(300);
+            }
+            else {
+                reply.slideDown(600);
+            }
+
+            reply.find("textarea").focus();
+
+        });
+
+        replys.find(".save-reply").click(function () {
+            var _this = $(this);
+            if ($("#Msg_" + _this.data("replyid")).val().trim()) {
+                var entity = {
+                    GUID: _this.data("id"),
+                    StageID: _this.data("stageid"),
+                    Mark: ObjectJS.mark,
+                    Content: $("#Msg_" + _this.data("replyid")).val().trim(),
+                    FromReplyID: _this.data("replyid"),
+                    FromReplyUserID: _this.data("createuserid"),
+                    FromReplyAgentID: _this.data("agentid")
+                };
+                ObjectJS.saveTaskReply(entity, _this);
+
+            }
+            $("#Msg_" + _this.data("replyid")).val('');
+            $(this).parent().slideUp(300);
+        });
+
+        replys.find('.btn-emotion').each(function () {
+            $(this).qqFace({
+                assign: $(this).data("id"),
+                path: '/modules/plug/qqface/arclist/'	//表情存放的路径
+            });
+        });
+
+    }
 
     //获取任务日志
     ObjectJS.getLogs = function (page) {
@@ -709,6 +902,8 @@
         });
     }
 
+
+    
     ///任务制版相关事件
     //绑定
     ObjectJS.bindPlatemakingEvent = function () {
@@ -723,6 +918,10 @@
         ObjectJS.bindAddRow();
         ObjectJS.bindRemoveRow();
 
+        //$("#btn-platePrint").click(function () {
+        //    ObjectJS.platePrint();
+        //});
+
         $("#btn-updateTaskRemark").click(function () {
             ObjectJS.updateOrderPlatemaking();
         });
@@ -736,7 +935,7 @@
 
     //文档点击的隐藏事件
     ObjectJS.bindDocumentClick = function () {
-        $(document).bind("click", function (e) {
+        $(document).unbind().bind("click", function (e) {
             //隐藏制版列操作下拉框
             if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
                 $(".dropdown-ul").hide();
@@ -984,8 +1183,6 @@
     ObjectJS.updateOrderPlatemaking = function () {
         if ($("#platemakingBody").html() == "") return;
 
-        if ($(".tbContentIpt:visible").length == 0) return;
-
         $(".tbContentIpt:visible").each(function () {
             $(this).attr("value", $(this).val() ).hide().prev().html($(this).val()).show();
         });
@@ -1015,14 +1212,18 @@
             plateRemark: encodeURI(Editor.getContent())
         }, function (data) {
             if (data.result == 1) {
-                alert("保存成功");
+                $(".edui-body-container").animate({ height: "100px" }, 500);
             }
         });
     }
 
     ObjectJS.platePrint = function () {
+        //var bdhtml = window.document.body.innerHTML;;
+        //var docStr = $("#platemakingBody").html();
+        //window.document.body.innerHTML=docStr;
+        //window.print();
+        //window.document.body.innerHTML = bdhtml;
         $("span.ico-dropdown").hide();
-
         $("#platemakingContent table tr").each(function () {
             $(this).find("td:last").hide();
         });
@@ -1050,6 +1251,5 @@
 
         
     }
-
     module.exports = ObjectJS;
 });

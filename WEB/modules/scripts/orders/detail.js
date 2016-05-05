@@ -44,7 +44,7 @@ define(function (require, exports, module) {
         } else if (_self.status == 1) {
             $("#changeOrderStatus").html("完成打样");
         } else if (_self.status == 2) {
-            $("#changeOrderStatus").html("完成核价");
+            $("#changeOrderStatus").html("完成合价");
         } else if (_self.status == 3) {
             $("#changeOrderStatus").html("大货下单");
         } else if (_self.status == 4) {

@@ -84,7 +84,9 @@ namespace YXERP.Controllers
                     return Redirect("/Auction/BuyUserQuantity");
                 }
 
-                ViewBag.Discount = GetBuyDiscount();
+                ViewBag.Discount = 6.6;
+                if (!string.IsNullOrEmpty(CurrentClient.AliMemberID))
+                    ViewBag.Discount = 5;
 
                 id = id ?? string.Empty;
                 int result= GetClientOrderInfo(ref id);
@@ -138,7 +140,9 @@ namespace YXERP.Controllers
 
                 ViewBag.CurrentAgent = CurrentAgent;
 
-                ViewBag.Discount = GetBuyDiscount();
+                ViewBag.Discount = 6.6;
+                if (!string.IsNullOrEmpty(CurrentClient.AliMemberID))
+                    ViewBag.Discount = 5;
 
                 id = id ?? string.Empty;
                 int result = GetClientOrderInfo(ref id);
@@ -395,7 +399,7 @@ namespace YXERP.Controllers
                                 if (flag)
                                 {
                                     AgentsBusiness.UpdatetAgentCache(order.AgentID);
-                                    Response.Write("success");  //请不要修改或删除
+
                                 }
                             }
                         }
@@ -491,7 +495,7 @@ namespace YXERP.Controllers
             {
                 if (type == 1 || type == 2)
                 {
-                    discount = 0.5F;
+                    discount = 0.66F;
                 }
             }
             JsonDictionary.Add("Discount", discount);
@@ -551,7 +555,7 @@ namespace YXERP.Controllers
             {
                 if (type == 1 || type == 2)
                 {
-                    discount = 0.5M;
+                    discount = 0.66M;
                 }
             }
 
@@ -637,7 +641,7 @@ namespace YXERP.Controllers
                 string name = "年";
                 if (type == 2)
                     name = "月";
-                string orderTitle = "您购买了二当家 人数:" + userQuantity + "人   时间:" + years + name + "   " + "金额:" + realAmount;
+                string orderTitle = "您购买了“智能工厂” 人数:" + userQuantity + "人   时间:" + years + name + "   " + "金额:" + realAmount;
                 string orderDes = "";
                 decimal realAmount2 = decimal.Parse(realAmount);
                 string amount = decimal.Round(realAmount2, 2).ToString();
@@ -665,8 +669,7 @@ namespace YXERP.Controllers
             //需http://格式的完整路径，不能加?id=123这类自定义参数
 
             //页面跳转同步通知页面路径
-            //string return_url = Common.Common.AlipaySuccessPage;
-            string return_url = string.Empty;
+            string return_url = Common.Common.AlipaySuccessPage;
             //需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
 
             //商户订单号
@@ -720,6 +723,8 @@ namespace YXERP.Controllers
             //建立请求
             return Submit.BuildRequest(sParaTemp, "get", "确认");
         }
+
+
 
         public JsonResult GetOrderInfo(string id)
         {
@@ -821,16 +826,6 @@ namespace YXERP.Controllers
             }
 
             return sArray;
-        }
-
-        public float GetBuyDiscount() {
-            float discount = 5;
-            if (!string.IsNullOrEmpty(CurrentClient.AliMemberID))
-            {
-                discount = 5;
-            }
-
-            return discount;
         }
         #endregion
 
