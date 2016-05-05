@@ -3,12 +3,13 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class="tLeft">{%=item.CompanyName%}</td>
     <td class="center">{%=item.UserQuantity%}</td>
     <td class='center'>{%= item.Years%}</td>
     <td class='center'>{%= item.RealAmount%}</td>
     <td class="center">{%= item.Type==1?"购买系统": item.Type==2?"购买人数":item.Type==3?"续费":"试用"%}</td>
     <td class='center'>{%=item.Status==0?"未支付":item.Status==1?"已支付":"已关闭"%}</td>
+    <td>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     <td class='center'>{%=item.CreateUser==null?"--":item.CreateUser.Name%}</td>
 </tr>
 {% } %}

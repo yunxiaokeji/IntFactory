@@ -3,6 +3,7 @@
 define(function (require, exports, module) {
 
     require("jquery");
+    require("pager");
     var Global = require("global"),
         doT = require("dot");
 
@@ -65,7 +66,8 @@ define(function (require, exports, module) {
             width: "120",
             onChange: function (data) {
                 $("#clientOrders").nextAll().remove();
-
+                Order.Params.beginDate = $("#orderBeginTime").val();
+                Order.Params.endDate = $("#orderEndTime").val();
                 Order.Params.pageIndex = 1;
                 Order.Params.status = parseInt(data.value);
                 Order.bindData();
@@ -100,7 +102,8 @@ define(function (require, exports, module) {
             width: "120",
             onChange: function (data) {
                 $("#clientOrders").nextAll().remove();
-
+                Order.Params.beginDate = $("#orderBeginTime").val();
+                Order.Params.endDate = $("#orderEndTime").val();
                 Order.Params.pageIndex = 1;
                 Order.Params.type = parseInt(data.value);
                 Order.bindData();
@@ -108,12 +111,10 @@ define(function (require, exports, module) {
         });
 
         $("#SearchClientOrders").click(function () {
-            if ($("#orderBeginTime").val() != '' || $("#orderEndTime").val() != '') {
-                Order.Params.pageIndex = 1;
-                Order.Params.beginDate = $("#orderBeginTime").val();
-                Order.Params.endDate = $("#orderEndTime").val();
-                Order.bindData();
-            }
+            Order.Params.pageIndex = 1;
+            Order.Params.beginDate = $("#orderBeginTime").val();
+            Order.Params.endDate = $("#orderEndTime").val();
+            Order.bindData();
         });
 
     });
@@ -129,6 +130,20 @@ define(function (require, exports, module) {
                 $(".tr-header").after(innerText);
             });
 
+            $("#pager").paginate({
+                total_count: data.TotalCount,
+                count: data.PageCount,
+                start: Order.Params.pageIndex,
+                display: 5,
+                border: true,
+                rotate: true,
+                images: false,
+                mouse: 'slide',
+                onChange: function (page) {
+                    Order.Params.pageIndex = page;
+                    Order.bindData();
+                }
+            });
         });
     }
 

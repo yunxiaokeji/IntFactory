@@ -35,11 +35,13 @@ namespace YXManage.Controllers
         /// <summary>
         /// 客户行为统计
         /// </summary>
-        public JsonResult GetAgentActionReports(string keyword,string startDate,string endDate)
+        public JsonResult GetAgentActionReports(string keyword, string beginDate, string endDate, int pageIndex)
         {
-            var list = AgentsBusiness.GetAgentActionReport(keyword, startDate, endDate);
+            int totalCount = 0, pageCount = 0;
+            var list = AgentsBusiness.GetAgentActionReport(keyword, beginDate, endDate, PageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
-
+            JsonDictionary.Add("TotalCount", totalCount);
+            JsonDictionary.Add("PageCount", pageCount);
             return new JsonResult()
             {
                 Data = JsonDictionary,

@@ -3,12 +3,15 @@
 define(function (require, exports, module) {
 
     require("jquery");
+    require("pager");
     var Global = require("global"),
         doT = require("dot");
 
     var AgentActionReport = {};
    
     AgentActionReport.Params = {
+        pageIndex: 1,
+        pageSize: 5,
         keyword: "",
         startDate: "",
         endDate:""
@@ -33,13 +36,12 @@ define(function (require, exports, module) {
         });
     };
 
-    $("#SearchList").click(function () {
-        if ($("#BeginTime").val() != '' || $("#EndTime").val() != '') {
-            AgentActionReport.Params.pageIndex = 1;
-            AgentActionReport.Params.beginDate = $("#BeginTime").val();
-            AgentActionReport.Params.endDate = $("#EndTime").val();
-            AgentActionReport.bindData();
-        }
+    $("#SearchList").click(function () {       
+        AgentActionReport.Params.pageIndex = 1;
+        AgentActionReport.Params.startDate = $("#BeginTime").val();
+        AgentActionReport.Params.endDate = $("#EndTime").val();
+        AgentActionReport.bindData();
+       
     });
     //绑定数据
     AgentActionReport.bindData = function () {
@@ -51,7 +53,20 @@ define(function (require, exports, module) {
                 innerText = $(innerText);
                 $(".tr-header").after(innerText);
             });
-
+            $("#pager").paginate({
+                total_count: data.TotalCount,
+                count: data.PageCount,
+                start: AgentActionReport.Params.pageIndex,
+                display: 5,
+                border: true,
+                rotate: true,
+                images: false,
+                mouse: 'slide',
+                onChange: function (page) {
+                    AgentActionReport.Params.pageIndex = page;
+                    AgentActionReport.bindData();
+                }
+            });
         });
     }
 

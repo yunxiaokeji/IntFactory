@@ -13,8 +13,43 @@ define(function (require, exports, module) {
     var Params = {
         id: '',
         keyWords: '',
-        pageIndex: 1
+        pageIndex: 1,
+        pageSize: 5,
+        periodType:-1
     };
+
+    require.async("dropdown", function () {
+        var PeriodQTY = [
+           {
+               ID: "1",
+               Name: "1"
+           },
+           {
+               ID: "2",
+               Name: "2"
+           },
+           {
+               ID: "3",
+               Name: "3"
+           }
+        ];
+        $("#PeriodQTY").dropdown({
+            prevText: "周期量-",
+            defaultText: "所有",
+            defaultValue: "-1",
+            data: PeriodQTY,
+            dataValue: "ID",
+            dataText: "Name",
+            width: "120",
+            onChange: function (data) {
+                console.log(Params.pageIndex);
+                Params.pageIndex = 1;
+                Params.periodType = parseInt(data.value);
+                ModulesProduct.getList();
+            }
+        });
+    });
+
 
     //模块产品详情初始化
     ModulesProduct.detailInit = function (id) {
@@ -96,7 +131,7 @@ define(function (require, exports, module) {
     //绑定数据
     ModulesProduct.getList = function () {
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='7'><div class='data-loading'><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='6'><div class='data-loading'><div></td></tr>");
 
         Global.post("/System/GetModulesProducts", Params, function (data) {
             $(".tr-header").nextAll().remove();
@@ -123,7 +158,7 @@ define(function (require, exports, module) {
             });
 
             if (data.items.length == 0) {
-                $(".tr-header").after("<tr><td colspan='7'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                $(".tr-header").after("<tr><td colspan='6'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
 
             $("#pager").paginate({
@@ -137,7 +172,7 @@ define(function (require, exports, module) {
                 mouse: 'slide',
                 onChange: function (page) {
                     Params.pageIndex = page;
-                    ModulesProduct.bindData();
+                    ModulesProduct.getList();
                 }
             });
 

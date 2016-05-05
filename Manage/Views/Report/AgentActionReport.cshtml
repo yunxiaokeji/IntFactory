@@ -2,9 +2,8 @@
     ViewBag.Title = "客户行为统计";
 }
 
-
-@section scripts{
-    <script src="/modules/plug/laydate/laydate.js"></script>
+ <script src="/modules/plug/laydate/laydate.js"></script>
+@section scripts{   
         <script type="text/javascript">
             seajs.use(["scripts/report/agentactionreport"], function (agentactionreport) {
                 agentactionreport.init();
@@ -58,7 +57,7 @@
         <div class="clear"></div>
     </div>
 
-    <table class="table-list">
+    <table class="table-list mTop20">
         <tr class="tr-header">
             <td class="tLeft">工厂名称</td>
             <td>客户数</td>
@@ -72,4 +71,5 @@
             @*<td>出库数</td>*@
         </tr>
     </table>
+    <div id="pager"  class="mTop20"></div>
 </div>

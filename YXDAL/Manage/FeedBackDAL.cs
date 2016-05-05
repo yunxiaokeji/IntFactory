@@ -41,13 +41,14 @@ namespace IntFactoryDAL.Manage
             return GetDataTable("select * from FeedBack where AutoID=@AutoID", paras, CommandType.Text);
         }
 
-        public bool UpdateFeedBackStatus(string id, int status)
+        public bool UpdateFeedBackStatus(string id, int status, string content)
         {
             SqlParameter[] paras = { 
                                     new SqlParameter("@AutoID",id),
                                     new SqlParameter("@Status",status),
+                                    new SqlParameter("@Content",content),
                                    };
-            return ExecuteNonQuery("update  FeedBack set Status=@Status where AutoID=@AutoID", paras, CommandType.Text) > 0;
-        }
+            return ExecuteNonQuery("update  FeedBack set Status=@Status,Content=isnull(Content,'')+@Content where AutoID=@AutoID", paras, CommandType.Text) > 0;
+        }    
     }
 }

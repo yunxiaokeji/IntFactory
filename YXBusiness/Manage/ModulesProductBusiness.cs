@@ -43,6 +43,24 @@ namespace IntFactoryBusiness.Manage
 
             return list;
         }
+        public static List<ModulesProduct> GetModulesProducts(string keyWords, int pageSize, int pageIndex, int periodQuantity, ref int totalCount, ref int pageCount)
+        {
+            string sqlWhere = "p.Status<>9 ";
+            if (periodQuantity > 0) {
+                sqlWhere += " and periodQuantity=" + periodQuantity.ToString();
+            }
+            DataTable dt = CommonBusiness.GetPagerData("ModulesProduct as p", " p.*", sqlWhere, "p.AutoID", " p.UserQuantity asc,p.PeriodQuantity asc", pageSize, pageIndex, out totalCount, out pageCount);
+            List<ModulesProduct> list = new List<ModulesProduct>();
+            ModulesProduct model;
+            foreach (DataRow item in dt.Rows)
+            {
+                model = new ModulesProduct();
+                model.FillData(item);
+                list.Add(model);
+            }
+
+            return list;
+        }
 
         public static ModulesProduct GetModulesProductDetail(int id)
         {

@@ -31,6 +31,8 @@ namespace IntFactoryEntity.Manage
 
         public string ClientID { get; set; }
 
+        public string CompanyName { get; set; }
+
         public DateTime CreateTime { get; set; }
 
         public string CreateUserID { get; set; }

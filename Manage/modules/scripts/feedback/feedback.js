@@ -65,6 +65,8 @@ define(function (require, exports, module) {
                 onChange: function (data) {
                     Params.pageIndex = 1;
                     Params.type = parseInt(data.value);
+                    Params.beginDate = $("#BeginTime").val();
+                    Params.endDate = $("#EndTime").val();
                     FeedBack.getList();
                 }
             });
@@ -98,6 +100,8 @@ define(function (require, exports, module) {
                 onChange: function (data) {
                     Params.pageIndex = 1;
                     Params.status = parseInt(data.value);
+                    Params.beginDate = $("#BeginTime").val();
+                    Params.endDate = $("#EndTime").val();
                     FeedBack.getList();
                 }
             });
@@ -201,6 +205,7 @@ define(function (require, exports, module) {
                 $("#ContactName").html(item.ContactName);
                 $("#MobilePhone").html(item.MobilePhone);
                 $("#Remark").html(item.Remark);
+                $("#Content").html(item.Content);
                 $("#CreateTime").html(item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss"));
             } 
         });
@@ -208,7 +213,7 @@ define(function (require, exports, module) {
 
     //更改状态
     FeedBack.updateFeedBackStatus = function (status) {
-        Global.post("/FeedBack/UpdateFeedBackStatus", { id: Params.id, status: status }, function (data) {
+        Global.post("/FeedBack/UpdateFeedBackStatus", { id: Params.id, status: status,content:$('#Content').val() }, function (data) {
             if (data.result == 1) {
                 alert("保存成功");
                 FeedBack.getFeedBackDetail();
