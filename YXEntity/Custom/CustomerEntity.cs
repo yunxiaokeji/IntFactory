@@ -95,8 +95,8 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string ClientID { get; set; }
 
-        //public string FirstName
-        //{
+        public string FirstName
+        {
             get;
             set;
             //get
