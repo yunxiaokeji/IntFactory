@@ -151,7 +151,7 @@
             </li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))">
                 <span class="column-title">加工成本：</span>
-                <label id="lblCostMoney">@(model.CostPrice.ToString("f2"))</label>
+                <label id="lblCostMoney">@((model.CostPrice*model.PlanQuantity).ToString("f2"))</label>
             </li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
                 <span class="column-title">单价：</span>

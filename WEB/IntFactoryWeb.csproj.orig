@@ -219,6 +219,7 @@
     <Content Include="Content\UploadFiles\bc6802e9-285c-471c-8172-3867c87803e2.png" />
     <Content Include="DLL\JsonObject.dll" />
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
+    <Content Include="modules\css\customer\customer.css" />
     <Content Include="modules\css\default\customer.css" />
     <Content Include="modules\css\default\orders.css" />
     <Content Include="modules\css\default\order_create.css" />
@@ -442,8 +443,10 @@
     <Content Include="modules\scripts\system\orderstages.js" />
     <Content Include="modules\scripts\system\ordercategory.js" />
     <Content Include="modules\scripts\task\detail.js" />
+    <Content Include="modules\scripts\task\reply.js" />
     <Content Include="modules\scripts\task\task.js" />
     <Content Include="modules\template\auction\product-list.html" />
+    <Content Include="modules\template\customer\customers.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />
     <Content Include="modules\template\orders\orders_child_list.html" />
     <Content Include="modules\template\orders\surequantity.html" />
@@ -823,7 +826,7 @@
     <Content Include="modules\template\activity\activity_customers.html" />
     <Content Include="modules\template\common\choosemodules.html" />
     <Content Include="modules\template\customer\replys.html" />
-    <Content Include="modules\template\customer\customers.html" />
+    <Content Include="modules\template\customer\customers-card.html" />
     <Content Include="modules\template\customer\customer-detail.html" />
     <Content Include="modules\template\common\logs.html" />
     <Content Include="modules\template\customer\contacts.html" />
@@ -979,6 +982,10 @@
     <Content Include="Views\MyAccount\SetAvatar.cshtml" />
     <Content Include="Views\MyAccount\SetPassWord.cshtml" />
     <Content Include="Views\MyAccount\Account.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config" />
     <Content Include="Views\System\OrderStages.cshtml" />
     <Content Include="Views\Task\MyTask.cshtml" />
     <Content Include="Views\Orders\Create.cshtml" />
@@ -1002,12 +1009,13 @@
     <Content Include="Views\Orders\OrderLayer.cshtml" />
     <Content Include="Views\Error\NotAccess.cshtml" />
     <Content Include="Views\Error\NoRoot.cshtml" />
-<<<<<<< HEAD
-    <Content Include="Web.config" />
-    <Content Include="Views\Web.config" />
-=======
     <Content Include="Views\Task\DetailBase.cshtml" />
->>>>>>> eaf2ff1a332a0701f1ef491b0e9acc8b1dfb60dd
+<<<<<<< HEAD
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Customer\Customers-list.cshtml" />
+=======
+    <Content Include="Views\Task\TaskReply.cshtml" />
+>>>>>>> 980830656ecaa8b340340baf0f683512a28a3d8d
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
