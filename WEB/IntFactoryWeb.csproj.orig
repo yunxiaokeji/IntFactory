@@ -443,7 +443,6 @@
     <Content Include="modules\scripts\system\orderstages.js" />
     <Content Include="modules\scripts\system\ordercategory.js" />
     <Content Include="modules\scripts\task\detail.js" />
-    <Content Include="modules\scripts\task\reply.js" />
     <Content Include="modules\scripts\task\task.js" />
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />
@@ -1014,8 +1013,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Customer\Customers-list.cshtml" />
 =======
-    <Content Include="Views\Task\TaskReply.cshtml" />
->>>>>>> 980830656ecaa8b340340baf0f683512a28a3d8d
+>>>>>>> 040c78b65be60863b8aaa30d96b7230cf60bda6f
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

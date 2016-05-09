@@ -117,7 +117,13 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomers(model.SearchType, model.Type, model.SourceType, model.SourceID, model.StageID, model.Status, model.Mark, model.ActivityID, model.UserID, model.TeamID, model.AgentID, model.BeginTime, model.EndTime, model.Keywords, model.PageSize, model.PageIndex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomers(model.SearchType, model.Type, model.SourceType, 
+                model.SourceID, model.StageID, model.Status, 
+                model.Mark, model.ActivityID, model.UserID, 
+                model.TeamID, model.AgentID, model.BeginTime, model.EndTime, 
+                model.FirstName,model.Keywords, model.PageSize, model.PageIndex, 
+                ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);

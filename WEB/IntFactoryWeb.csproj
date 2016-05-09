@@ -443,7 +443,6 @@
     <Content Include="modules\scripts\system\orderstages.js" />
     <Content Include="modules\scripts\system\ordercategory.js" />
     <Content Include="modules\scripts\task\detail.js" />
-    <Content Include="modules\scripts\task\reply.js" />
     <Content Include="modules\scripts\task\task.js" />
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />

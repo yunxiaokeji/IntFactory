@@ -83,7 +83,7 @@
                     //隐藏制版列操作下拉框
                     if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
 
-                        $(".taskreply-box").removeClass("taskreply-box-hover");
+                        $(".replyBox").removeClass("replybox-hover");
                     }
 
 
@@ -148,14 +148,16 @@
         });
 
         //任务讨论盒子点击
-        $(".taskreply-box").click(function () {
-            $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
+        $(".replyBox").click(function () {
+
+            $(this).addClass("replybox-hover");
+            $(this).find(".replyContent").focus();
         });
 
         //任务讨论盒子隐藏
         $(document).click(function (e) {
-            if (!$(e.target).parents().hasClass("taskreply-box") && !$(e.target).hasClass("taskreply-box")) {
-                $(".taskreply-box").removeClass("taskreply-box-hover");
+            if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
+                $(".replyBox").removeClass("replybox-hover");
             }
         });
 
@@ -357,7 +359,7 @@
                 $(".order-imgs-list").append(img);
             }
         }
-
+        //$(".order-imgs-list").append("<div class='clear'></div>");
         $(".order-imgs-list img").parent().click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
@@ -654,9 +656,8 @@
 
         replys.find(".btn-reply").click(function () {
             var _this = $(this), reply = _this.nextAll(".reply-box");
-
             $("#replyList .reply-box").each(function () {
-                if ($(this).data("replyid") != reply.data("replyid")) {
+                if ($(this) != reply) {
                     $(this).hide();
                 }
             });
@@ -665,7 +666,7 @@
                 reply.slideUp(300);
             }
             else {
-                reply.slideDown(300);
+                reply.slideDown(600);
             }
 
             reply.find("textarea").focus();
@@ -901,6 +902,8 @@
         });
     }
 
+
+    
     ///任务制版相关事件
     //绑定
     ObjectJS.bindPlatemakingEvent = function () {
@@ -1215,8 +1218,12 @@
     }
 
     ObjectJS.platePrint = function () {
+        //var bdhtml = window.document.body.innerHTML;;
+        //var docStr = $("#platemakingBody").html();
+        //window.document.body.innerHTML=docStr;
+        //window.print();
+        //window.document.body.innerHTML = bdhtml;
         $("span.ico-dropdown").hide();
-
         $("#platemakingContent table tr").each(function () {
             $(this).find("td:last").hide();
         });
@@ -1244,6 +1251,5 @@
 
         
     }
-
     module.exports = ObjectJS;
 });

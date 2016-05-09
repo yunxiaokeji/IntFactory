@@ -213,7 +213,7 @@ define(function (require, exports, module) {
         })
     }
 
-    //发货
+    //审核入库
     ObjectJS.auditStorageIn = function () {
         var _self = this;
         doT.exec("template/purchase/audit_storagein.html", function (template) {
@@ -233,7 +233,7 @@ define(function (require, exports, module) {
                                 details += _this.data("id") + "-" + quantity + ",";
                             }
                         });
-                        if (details.length > 0) {
+                        if (details.length > 0 || $("#showAuditStorageIn .check").hasClass("ico-checked")) {
 
                             Global.post("/Purchase/AuditPurchase", {
                                 docid: _self.docid,
