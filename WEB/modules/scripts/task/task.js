@@ -29,6 +29,9 @@
     ObjectJS.init = function (isMy, nowDate) {
         Params.beginDate = nowDate;
         Params.endDate = nowDate;
+        Params.pageSize = ($(".content-body").width() / 280).toFixed(0) * 3;
+
+        ObjectJS.showType = "list";
         if (isMy == 2) {
             Params.isParticipate = 1;
 
@@ -106,18 +109,6 @@
             }
         });
 
-        //切换任务状态
-        //$(".search-status .item").click(function () {
-        //    var _this = $(this);
-        //    if (!_this.hasClass("hover")) {
-        //        _this.siblings().removeClass("hover");
-        //        _this.addClass("hover");
-
-        //        Params.pageIndex = 1;
-        //        Params.status = _this.data("id");
-        //        ObjectJS.getList();
-        //    }
-        //});
 
         //切换订单类型
         $(".search-ordertype .item").click(function () {
@@ -176,6 +167,14 @@
 
         });
 
+        //切换任务显示方式(列表或者卡片式)
+        $(".search-header .task-tabtype span").click(function () {
+            var _this = $(this);
+            ObjectJS.showType = _this.data('type');
+            _this.addClass('checked').siblings().removeClass('checked');
+            ObjectJS.getList();
+        });
+
         //时间段查询
         $("#btnSearch").click(function () {
             Params.pageIndex = 1;
@@ -228,29 +227,70 @@
     }
 
     ObjectJS.getList = function () {
+        var showtype = ObjectJS.showType;
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='10'><div class='data-loading'><div></td></tr>");
-
+        if (showtype == "list") {
+            $(".task-items").hide();
+            $(".table-list").show();
+            $(".tr-header").after("<tr><td colspan='10'><div class='data-loading'><div></td></tr>");
+        }
+        else {
+            $(".table-list").hide();
+            $(".task-items").show();
+            $(".task-items").html("<div class='data-loading'><div>");
+        }
+    
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".tr-header").nextAll().remove();
-
+            $(".content-body").find('.nodata-txt').remove();
             if (data.items.length > 0) {
-                doT.exec("template/task/task-list.html", function (template) {
+                doT.exec("template/task/task-"+showtype+".html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
-
+                    
                     innerhtml.find(".mark").markColor({
                         isAll: false,
                         onChange: function (obj, callback) {
                             ObjectJS.markTasks(obj.data("id"), obj.data("value"), callback);
                         }
+
                     });
 
-                    $(".tr-header").after(innerhtml);
+                    innerhtml.find(".picbox img").each(function () {
+                        if ($(this).width() > $(this).height()) {
+                            $(this).css("width", 248);
+                        } else if ($(this).width() < $(this).height()) {
+                            $(this).css("height", 248);
+                        } else {
+                            $(this).css("height", 248);
+                        }
+                    });
+
+                    if (showtype == "list") {
+                        $(".table-list").append(innerhtml);
+                    }
+                    else {
+                        $(".task-items").html(innerhtml);
+                        if (Params.finishStatus == 1 || Params.finishStatus == -1) {
+
+                            for (var i = 0; i < data.items.length; i++) {
+                                var item
+                                if (data.items[i].FinishStatus == 1) {
+                                    ObjectJS.showTime(data.items[i], data.isWarns[i].IsWarn);
+                                }
+                            }
+                        }
+                    }   
                 });
+               
             }
             else {
-                $(".tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                if (showtype == "list") {
+                    $(".table-list").after("<div class='nodata-txt' >暂无数据!<div>");
+                }
+                else {
+                    $(".task-items").html("<div class='nodata-txt' >暂无数据!<div>");
+                }
             }
 
             $("#pager").paginate({
@@ -268,6 +308,78 @@
             });
 
         });
+    }
+
+    //任务到期时间倒计时
+    ObjectJS.showTime = function (item, isWarn) {
+        var endTime = item.EndTime.toDate("yyyy-MM-dd hh:mm:ss");
+        console.log(endTime);
+        var num = item.TaskID;
+        if (ObjectJS.status == 8) {
+            return;
+        }
+
+        if (endTime == "未设置") {
+            return;
+        }
+
+        if (ObjectJS.finishStatus == 2) {
+            return;
+        }
+        
+        var time_end = (new Date(endTime)).getTime();
+
+        var time_start = new Date().getTime(); //设定当前时间
+
+        // 计算时间差 
+        var time_distance = time_end - time_start;
+        var overplusTime = false;
+        if (time_distance < 0) {
+            if (!overplusTime) {
+                $(".overplusTime-" + num + "").html("超期时间：");
+
+            }
+            overplusTime = true;
+            time_distance = time_start - time_end;
+        }
+        else {
+            if (isWarn == 1) {
+                if (!overplusTime) {
+
+                }
+                overplusTime = true;
+            }
+        }
+
+        // 天
+        var int_day = Math.floor(time_distance / 86400000)
+        time_distance -= int_day * 86400000;
+        // 时
+        var int_hour = Math.floor(time_distance / 3600000)
+        time_distance -= int_hour * 3600000;
+        // 分
+        var int_minute = Math.floor(time_distance / 60000)
+        time_distance -= int_minute * 60000;
+        // 秒 
+        var int_second = Math.floor(time_distance / 1000)
+        // 时分秒为单数时、前面加零 
+        if (int_day < 10) {
+            int_day = "0" + int_day;
+        }
+        if (int_hour < 10) {
+            int_hour = "0" + int_hour;
+        }
+        if (int_minute < 10) {
+            int_minute = "0" + int_minute;
+        }
+        if (int_second < 10) {
+            int_second = "0" + int_second;
+        }
+        // 显示时间 
+        $(".time-d-" + num + "").html(int_day);
+        $(".time-h-" + num + "").html(int_hour);
+        $(".time-m-" + num + "").html(int_minute);
+        $(".time-s-" + num + "").html(int_second);
     }
 
     //任务颜色标记

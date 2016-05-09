@@ -50,6 +50,7 @@ define(function (require, exports, module) {
             obj.unbind().click(function () {
 
                 var _this = $(this);
+                
                 if (_this.hasClass("hover")) {
                     $("#" + obj.data("itemid")).hide();
                     _this.removeClass("hover");

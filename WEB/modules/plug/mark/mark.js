@@ -40,7 +40,8 @@ define(function (require, exports, module) {
             obj.click(function () {
                 $(".mark-color-list").hide();
                 var _this = $(this);
-                var position = _this.position();
+                //var position = _this.position();
+                var position = _this.offset();
                 if ($("#" + _this.data("itemid")).length == 0) {
                     var _colorBody = $("<ul id='" + _this.data("itemid") + "' class='mark-color-list'></ul>");
 
