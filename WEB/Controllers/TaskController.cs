@@ -190,12 +190,36 @@ namespace YXERP.Controllers
             List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, isParticipate,status, finishStatus, 
                 colorMark,taskType,beginDate,endDate,
                 orderType, orderProcessID, orderStageID,
-                 (EnumTaskOrderColumn)taskOrderColumn, isAsc, CurrentUser.ClientID, 
+                 (EnumTaskOrderColumn)taskOrderColumn, isAsc, CurrentUser.ClientID,
                 pageSize, pageIndex, ref totalCount, ref pageCount);
 
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
+            //Dictionary<string, object> IsWarnItems = new Dictionary<string, object>();
+            List<int> IsWarnItems = new List<int>();
+            for (int i = 0; i < list.Count; i++)
+            {
+                int IsWarn = 0;
+                if (list[i].FinishStatus == 1)
+                {
+                    if (list[i].EndTime > DateTime.Now)
+                    {
+                        var totalHour = (list[i].EndTime - list[i].AcceptTime).TotalHours;
+                        var residueHour = (list[i].EndTime - DateTime.Now).TotalHours;
+
+                        var residue = residueHour / totalHour;
+                        if (residue < 0.333)
+                        {
+                            IsWarn = 1;
+                        }
+                    }
+
+                    //IsWarnItems.Add("IsWarn", IsWarn);
+                    IsWarnItems.Add(IsWarn);
+                }
+            }
+            JsonDictionary.Add("isWarns", IsWarnItems);
 
             return new JsonResult
             {

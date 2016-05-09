@@ -1,0 +1,52 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<div class="task-item" data-taskid="{%=item.TaskID%}" data-orderid="{%=item.OrderID%}" data-stageid="{%=item.StageID%}">
+    <div class="task-top">
+        <div class="picbox">
+            <a href="/Task/Detail/{%=item.TaskID%}" class="image-box"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="{%=item.OrderImg==''?'/modules/images/img-noimg.png':'http://dev.90cloudsales.com'+item.OrderImg%}" /></a>
+            <div class="task-layer">
+                <ul class="task-imgtitlemark">
+                    <li class="left mLeft10"><a href="/Task/Detail/{%=item.TaskID%}" class="font16" style="color:#efefef;">{%=item.Title%}</a></li>
+                    <li class="right mTop2"><span class="hand mark" data-id="{%= item.TaskID %}" data-value="{%= item.ColorMark %}"></span></li>
+                </ul>
+                <div class="clear"></div>
+                <div class="remain-time mLeft10 mTop5">
+                    <span class="overplusTime-{%=item.TaskID%}">剩余时间：</span>
+                    {%
+                    if(item.FinishStatus==1)
+                    {
+                    %}
+                    <span class="time-d-{%=item.TaskID%}">10</span>天
+                    <span class="time-h-{%=item.TaskID%}">10</span>时
+                    <span class="time-m-{%=item.TaskID%}">10</span>分
+                    <span class="time-s-{%=item.TaskID%}">10</span>秒
+                    {%}
+                    else
+                    {
+                    %}
+                    <span>00天00时00分00秒</span>                    
+                    {%}%}
+               </div>
+            </div>
+        </div>
+    </div>
+        
+        <!--<div class="create-time mTop10 mBottom10">创建时间：<span>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span></div>
+        <div class="end-time mTop10 mBottom10">到期时间：<span>{%=item.EndTime.toDate("yyyy-MM-dd")=="3939-01-01"?"未指定时间":item.EndTime.toDate("yyyy-MM-dd")%}</span></div>-->
+   
+    <div class="task-footer">
+        <div class="task-type">
+            <span class="iconfont mRight4">&#xe612;</span>{%=item.OrderType==1?"打样":"大货"%}
+        </div>
+        <div class="task-status {%=item.FinishStatus==0?'task-noaccept':item.FinishStatus==2?'task-finish':'task-underway'%}">
+            {%=item.FinishStatus==0?'未接受':item.FinishStatus==2?'已完成':'进行中'%}
+        </div>
+        <div class="task-owner">
+            <span><img src='{%=item.Owner.Avatar==""?" ../../modules/images/defaultavatar.png":"http://dev.90cloudsales.com"+item.Owner.Avatar%}' /></span>
+            <span class="aaa{%=i%}">{%=item.Owner.Name%}</span>
+        </div>
+    </div>
+</div>
+{% } %}

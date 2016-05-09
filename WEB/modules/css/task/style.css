@@ -204,5 +204,44 @@ background-color:#4a98e7;
 color:#fff;
 }
 
+/*任务列表卡片式样式*/
+/*切换任务列表(列表、卡片式)显示图标*/
+/*.search-header div .iconfont{font-size:18px;cursor:pointer; color:#bbb;}
+.search-header div .checked {color:rgb(74, 152, 231);}*/
+.search-sort li:last-child .iconfont{font-size:18px;cursor:pointer; color:#bbb;}
+.search-sort li:last-child .checked {color:rgb(74, 152, 231);}
+
+.task-item { width:250px;border:1px solid #efefef;cursor:pointer;float:left;margin-top:20px;margin-right:15px;box-sizing:border-box;background-color:#f9f9f9;}
+.task-item:hover { border-color:#3F9BE8;}
+.task-item .task-imgtitlemark img {width:50px;height:50px;}
+.task-top .picbox {position:relative;height:248px; width:248px;}
+.image-box {text-align:center;display:block;}
+.task-top .picbox img{ max-width:248px;max-height:248px;}
+
+.task-layer {position:absolute;left:0;bottom:0;width: 248px;background: rgba(119,119,119,0.6);padding:5px 0;}
+.task-imgtitlemark li:first-child {width:210px;}
+.task-imgtitlemark li:last-child span{display:inline-block; width:14px;height:14px;margin-right:10px;}
+.task-item div {font-size:14px;color:#999;}
+.task-item div span {font-size:14px;color:#999;}
+.task-item .remain-time, .task-item .remain-time span { color:#fff;}
+
+.task-item .task-footer { overflow:hidden;height:39px;border-top: 1px solid #eee;padding:5px 10px;background: #F9F9F9;}
+.task-item .task-footer div { float:left;line-height:20px;height:20px;margin-top:10px;}
+.task-item .task-footer div:last-child {text-align:right;min-width:80px;}
+.task-footer div:last-child span {display:inline-block;vertical-align:top;height:20px;}
+.task-item .task-footer .task-status {border-left:5px solid;padding-left:10px;margin-left:30px;}
+.task-item .task-footer .task-type { margin-top:5px;}
+.task-footer .task-type .iconfont { font-size:26px;}
+.task-item .task-owner img { width:20px;height:20px;border-radius:50%;}
+.task-item .task-owner{white-space:nowrap;text-overflow:ellipsis;}
+.task-item .task-owner span:last-child{text-decoration: underline;}
+
+.task-item .task-footer .task-noaccept {border-color:red;color:red; }
+.task-item .task-footer .task-underway { border-color:#1CC362;color:#1CC362;}
+.task-item .task-footer .task-finish { border-color:#3F9BE8;color:#3F9BE8;}
+
+/*任务列表卡片式样式2*/
+/*.task-item { width:250px;margin-top:20px;margin-right:15px;background:#f00;}
+.task-item li:first-child img { width:100%;}*/
 
 
