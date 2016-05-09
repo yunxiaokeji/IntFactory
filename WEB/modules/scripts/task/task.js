@@ -168,7 +168,8 @@
         });
 
         //切换任务显示方式(列表或者卡片式)
-        $(".search-header .task-tabtype span").click(function () {
+        //.search-sort   .search-header .task-tabtype span
+        $(".search-sort .task-tabtype i").click(function () {
             var _this = $(this);
             ObjectJS.showType = _this.data('type');
             _this.addClass('checked').siblings().removeClass('checked');
@@ -276,7 +277,7 @@
                             for (var i = 0; i < data.items.length; i++) {
                                 var item
                                 if (data.items[i].FinishStatus == 1) {
-                                    ObjectJS.showTime(data.items[i], data.isWarns[i].IsWarn);
+                                    ObjectJS.showTime(data.items[i], data.isWarns[i]);
                                 }
                             }
                         }

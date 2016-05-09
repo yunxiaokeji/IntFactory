@@ -196,8 +196,8 @@ namespace YXERP.Controllers
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
-            Dictionary<string, object> dateTimeItems = new Dictionary<string, object>();
-            Dictionary<string, object> IsWarnItems = new Dictionary<string, object>();
+            //Dictionary<string, object> IsWarnItems = new Dictionary<string, object>();
+            List<int> IsWarnItems = new List<int>();
             for (int i = 0; i < list.Count; i++)
             {
                 int IsWarn = 0;
@@ -214,10 +214,13 @@ namespace YXERP.Controllers
                             IsWarn = 1;
                         }
                     }
+
+                    //IsWarnItems.Add("IsWarn", IsWarn);
+                    IsWarnItems.Add(IsWarn);
                 }
-                IsWarnItems.Add("IsWarn", IsWarn);
             }
             JsonDictionary.Add("isWarns", IsWarnItems);
+
             return new JsonResult
             {
                 Data = JsonDictionary,

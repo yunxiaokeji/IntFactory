@@ -206,9 +206,10 @@ color:#fff;
 
 /*任务列表卡片式样式*/
 /*切换任务列表(列表、卡片式)显示图标*/
-.search-header div .iconfont{font-size:18px;cursor:pointer; color:#bbb;}
-.search-header div .checked {color:rgb(74, 152, 231);}
-
+/*.search-header div .iconfont{font-size:18px;cursor:pointer; color:#bbb;}
+.search-header div .checked {color:rgb(74, 152, 231);}*/
+.search-sort li:last-child .iconfont{font-size:18px;cursor:pointer; color:#bbb;}
+.search-sort li:last-child .checked {color:rgb(74, 152, 231);}
 
 .task-item { width:250px;border:1px solid #efefef;cursor:pointer;float:left;margin-top:20px;margin-right:15px;box-sizing:border-box;background-color:#f9f9f9;}
 .task-item:hover { border-color:#3F9BE8;}
