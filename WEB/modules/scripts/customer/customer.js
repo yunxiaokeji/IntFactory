@@ -35,13 +35,6 @@
     }
     //绑定事件
     ObjectJS.bindEvent = function (type) {
-
-        ////获取26个英文字母
-        //var numletter = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-        //for (var i = 0; i < numletter.length; i++) {
-        //    $(".search-letter").append("<li data-letter='" + numletter[i] + "'>" + numletter[i] + "</li>");
-        //}
-
         var _self = this;
         $(document).click(function (e) {
             //隐藏下拉
@@ -73,7 +66,7 @@
             var _this = $(this);            
             $(".data-loading").remove();
 
-            _this.css("color", "#007aff").siblings().css("color", "#5F6D6C");
+            _this.css({ "color": "#007aff","font-size":"16px" }).siblings().css({"color":"#5F6D6C","font-size":"14px"});
    
             Params.FirstName = _this.data("letter");
             _self.getList();
