@@ -1,12 +1,10 @@
-﻿@{
-    var firstNames =(char[])ViewBag.FirstNames;   
- }
+﻿
 @section css{
      <link href="/modules/css/customer/customer.css" rel="stylesheet" />
-}
+}  
+
 
 @section scripts{
-   
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
@@ -38,7 +36,6 @@
             };
             laydate(begin);
             laydate(end);
-           
         });
     </script>
 }
@@ -65,16 +62,35 @@
             <li data-id="4" class="item mark4"></li>
             <li data-id="5" class="item mark5"></li>
         </ul>
-        <ul class="search-letter">
+        <ul>
             <li class="color999 pLeft5">首字母：</li>
-            <li class="all-letter" data-letter="">全部</li>
-            @{                
-                for (int i = 0; i < @firstNames.Length; i++)
-                {
-                    <li data-letter="@firstNames[i]">@firstNames[i]</li>
-                }
-             
-             }
+            <li class="all-letter">全部</li>
+            <li>A</li>
+            <li>B</li>
+            <li>C</li>
+            <li>D</li>
+            <li>E</li>
+            <li>F</li>
+            <li>G</li>
+            <li>H</li>
+            <li>I</li>
+            <li>J</li>
+            <li>K</li>
+            <li>L</li>
+            <li>M</li>
+            <li>N</li>
+            <li>O</li>
+            <li>P</li>
+            <li>Q</li>
+            <li>R</li>
+            <li>S</li>
+            <li>T</li>
+            <li>U</li>
+            <li>V</li>
+            <li>W</li>
+            <li>X</li>
+            <li>Y</li>
+            <li>Z</li>
         </ul>
     </div>
     <div class="search-items mTop10">
@@ -87,12 +103,20 @@
         </div>
         <div class="right searth-module" data-text="输入客户名称/电话..." data-width="160"> </div>
     </div>
-    <hr />
-    @* 卡片式显示 *@
-    <div class="list-customer">
-        
-    </div>
-    <div class="clear"></div>
+    <table class="table-list mTop10">
+        <tr class="tr-header">
+            <td class="width30"><span id="filterMark"></span></td>  
+            <td class="width30"></td>
+            <td class="tLeft width200">客户名称</td>
+            <td class="width100">联系电话</td>
+            <td class="width200">地区</td>  
+            <td class="width150">来源</td>
+            <td class="width80">备忘数</td>     
+            <td class="width100">负责人</td>
+            <td class="width100">创建时间</td>
+            <td class="width50">操作</td>
+        </tr>
+    </table>
     <ul class="left batch-operate mTop20">
         <li class="width30 center">
             <span data-value="-1" class="mTop5" id="batchMark"></span>
@@ -101,13 +125,13 @@
             <span class="ico-check pLeft5 mTop5" id="checkAll">批量操作</span>
         </li>
         <li>
-            <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"101019002"))" id="batchChangeOwner">更换负责人</a>
+            <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current, "101019002"))" id="batchChangeOwner">更换负责人</a>
         </li>
          
     </ul>
     <div id="pager" class="mTop20"></div>
 </div>
-@*<ul class="dropdown-ul hide" style="width:110px;">
+<ul class="dropdown-ul hide" style="width:110px;">
     <li id="changeOwner" class="@(ExpandClass.IsLimits(HttpContext.Current,"101019002"))">更换负责人</li>
-</ul>*@
+</ul>
 
