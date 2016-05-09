@@ -38,7 +38,7 @@
             Params.OrderStatus = status;
         }
        
-        Params.PageSize = ($(".object-items").width() / 280).toFixed(0) * 3;
+        Params.PageSize = ($(".object-items").width() / 300).toFixed(0) * 3;
 
         _self.getList();
         _self.bindStyle();
@@ -238,9 +238,10 @@
                             var ids = "", userid = items[0].id;
                             checks.each(function () {
                                 var _this = $(this);
-                                console.log(_this.data("userid"));
+                               
                                 if (_this.data("userid") != userid) {
                                     ids += _this.data("id") + ",";
+                                    
                                 }
                             });
                             if (ids.length > 0) {

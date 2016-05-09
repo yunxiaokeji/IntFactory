@@ -10,7 +10,10 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string CustomerID { get; set; }
 
-
+<<<<<<< HEAD
+        public string FirstName { get; set; }
+=======
+>>>>>>> 040c78b65be60863b8aaa30d96b7230cf60bda6f
 
         public string Name { get; set; }
 
@@ -95,6 +98,18 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string ClientID { get; set; }
 
+<<<<<<< HEAD
+        //public string FirstName
+        //{
+        //    get
+        //    {
+        //        if (!string.IsNullOrEmpty(this.Name))
+        //            return Net.Sourceforge.Pinyin4j.PinyinHelper.ToHanyuPinyinString(this.Name, new Net.Sourceforge.Pinyin4j.Format.HanyuPinyinOutputFormat(), " ").ToCharArray()[0].ToString().ToUpper();
+        //        else
+        //            return string.Empty;
+        //    }
+        //}
+=======
         public string FirstName
         {
             get;
@@ -107,6 +122,7 @@ namespace IntFactoryEntity
             //        return string.Empty;
             //}
         }
+>>>>>>> 040c78b65be60863b8aaa30d96b7230cf60bda6f
 
         /// <summary>
         /// 编辑加载列表用

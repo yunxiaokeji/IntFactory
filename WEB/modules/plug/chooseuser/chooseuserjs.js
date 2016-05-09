@@ -118,7 +118,7 @@ define(function (require, exports, module) {
         $(".useradd").click(function () {
             
             if (_self.setting.single && $("#userlistChoose li").length > 0) {
-                return;
+                return;                
             }
 
             var id = $(this).data("id");
