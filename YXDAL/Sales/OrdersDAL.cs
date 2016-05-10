@@ -230,7 +230,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
-
+    
             bool bl = ExecuteNonQuery("P_CreateOrderGoodsDoc", paras, CommandType.StoredProcedure) > 0;
 
             return bl;

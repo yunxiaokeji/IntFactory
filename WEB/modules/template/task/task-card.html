@@ -5,7 +5,15 @@
 <div class="task-item" data-taskid="{%=item.TaskID%}" data-orderid="{%=item.OrderID%}" data-stageid="{%=item.StageID%}">
     <div class="task-top">
         <div class="picbox">
-            <a href="/Task/Detail/{%=item.TaskID%}" class="image-box"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="{%=item.OrderImg==''?'/modules/images/img-noimg.png':'http://dev.90cloudsales.com'+item.OrderImg%}" /></a>
+            <a href="/Task/Detail/{%=item.TaskID%}" class="image-box">
+                {%
+                    if(item.OrderImg!='')
+                    {%}
+                        <img src="http://dev.90cloudsales.com{%=item.OrderImg%}" />  
+               {%}%}
+
+                
+            </a>
             <div class="task-layer">
                 <ul class="task-imgtitlemark">
                     <li class="left mLeft10"><a href="/Task/Detail/{%=item.TaskID%}" class="font16 colorfff">{%=item.Title%}</a></li>
