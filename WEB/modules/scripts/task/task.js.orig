@@ -108,6 +108,10 @@
             }
         });
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 04abb829184ada3780f7f3f16b5680962fafa192
         //切换订单类型
         $(".search-ordertype .item").click(function () {
             var _this = $(this);

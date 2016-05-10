@@ -349,7 +349,11 @@
             return;
         }
 
+<<<<<<< HEAD
         if (ObjectJS.finishStatus!=1) {
+=======
+        if (ObjectJS.finishStatus == 2) {
+>>>>>>> 04abb829184ada3780f7f3f16b5680962fafa192
             return;
         }
 

@@ -461,6 +461,7 @@
     <Content Include="modules\scripts\system\orderstages.js" />
     <Content Include="modules\scripts\system\ordercategory.js" />
     <Content Include="modules\scripts\task\detail.js" />
+    <Content Include="modules\scripts\task\reply.js" />
     <Content Include="modules\scripts\task\task.js" />
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />
@@ -1026,6 +1027,7 @@
     <Content Include="Views\Error\NoRoot.cshtml" />
     <Content Include="Views\Task\DetailBase.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Task\TaskReply.cshtml" />
     <Content Include="Views\Customer\Customers-list.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Views\Inquire\InquireOrder.cshtml">
@@ -1201,6 +1203,7 @@
     <Folder Include="Areas\Api\Models\" />
     <Folder Include="Areas\Api\Views\Shared\" />
     <Folder Include="Content\tempfile\" />
+    <Folder Include="Content\UploadFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

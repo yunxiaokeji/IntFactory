@@ -69,18 +69,18 @@
             elementID: "citySpan"
         });
 
-        //切换
+        //tab切换
         $(".search-stages li").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
-                _this.siblings().removeClass("hover");
-                _this.addClass("hover");
-
+                _this.addClass("hover").siblings().removeClass("hover");
                 $(".content-body div[name='clientInfo']").hide().eq(parseInt(_this.data("id"))).show();
 
-                if (_this.data("id") == 2)
-                {
-                    ObjectJS.getClientOrders();
+                if (_this.data("id") == 2) {
+                    if (_this.data("isget") !== 1) {
+                        ObjectJS.getClientOrders();
+                        _this.data("isget", 1)
+                    }
                 }
             }
         });
@@ -161,12 +161,11 @@
         });
 
         $("#SearchClientOrders").click(function () {
-            if ($("#orderBeginTime").val() != '' || $("#orderEndTime").val() != '') {
-                ObjectJS.Params.PageIndex = 1;
-                ObjectJS.Params.beginDate = $("#orderBeginTime").val();
-                ObjectJS.Params.endDate = $("#orderEndTime").val();
-                ObjectJS.getClientOrders();
-            }
+
+            ObjectJS.Params.PageIndex = 1;
+            ObjectJS.Params.BeginDate = $("#orderBeginTime").val();
+            ObjectJS.Params.EndDate = $("#orderEndTime").val();
+            ObjectJS.getClientOrders();
         });
 
         //继续支付客户端订单
