@@ -146,6 +146,7 @@
     <Compile Include="Controllers\FeedBackController.cs" />
     <Compile Include="Controllers\FinanceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InquireController.cs" />
     <Compile Include="Controllers\MingDaoController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
@@ -1010,6 +1011,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Customer\Customers-list.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Views\Inquire\InquireOrder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
