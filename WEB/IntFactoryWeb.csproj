@@ -230,6 +230,8 @@
     <Content Include="modules\css\iconfont\demo.html" />
     <Content Include="modules\css\iconfont\iconfont.css" />
     <Content Include="modules\css\iconfont\iconfont.svg" />
+    <Content Include="modules\css\inquireorder\common.css" />
+    <Content Include="modules\css\inquireorder\online-pay.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
@@ -276,6 +278,20 @@
     <Content Include="modules\images\img-noimg.jpg" />
     <Content Include="modules\images\img-noimg.png" />
     <Content Include="modules\images\img-noroot.png" />
+    <Content Include="modules\images\Inquire\bg-map.png" />
+    <Content Include="modules\images\Inquire\bottom-bg.png" />
+    <Content Include="modules\images\Inquire\img_03.png" />
+    <Content Include="modules\images\Inquire\info-logo.png" />
+    <Content Include="modules\images\Inquire\liuc_03.png" />
+    <Content Include="modules\images\Inquire\order_03.png" />
+    <Content Include="modules\images\Inquire\query-dingdan.png" />
+    <Content Include="modules\images\Inquire\query-sj.png" />
+    <Content Include="modules\images\Inquire\query-yzm.png" />
+    <Content Include="modules\images\Inquire\shot_03.png" />
+    <Content Include="modules\images\Inquire\shot_05.png" />
+    <Content Include="modules\images\Inquire\success.png" />
+    <Content Include="modules\images\Inquire\title-img.png" />
+    <Content Include="modules\images\Inquire\title-logo.png" />
     <Content Include="modules\images\loginBackground.png" />
     <Content Include="modules\images\loginMainBackground.png" />
     <Content Include="modules\images\home\ico-ali.png" />
@@ -431,6 +447,7 @@
     <Content Include="modules\plug\e-smart-zoom-jquery.min.js" />
     <Content Include="modules\scripts\auction\buynow.js" />
     <Content Include="modules\scripts\home\create.js" />
+    <Content Include="modules\scripts\inquireorder\inquireorder.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.print.css" />
@@ -1011,7 +1028,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Customer\Customers-list.cshtml" />
     <Content Include="Web.config" />
-    <Content Include="Views\Inquire\InquireOrder.cshtml" />
+    <Content Include="Views\Inquire\InquireOrder.cshtml">
+      <BrowseToURL>~/Inquire/InquireOrder</BrowseToURL>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
