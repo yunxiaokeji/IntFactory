@@ -275,9 +275,9 @@
                         if (Params.finishStatus == 1 || Params.finishStatus == -1) {
 
                             for (var i = 0; i < data.items.length; i++) {
-                                var item
                                 if (data.items[i].FinishStatus == 1) {
-                                    ObjectJS.showTime(data.items[i], data.isWarns[i]);
+                                    
+                                    ObjectJS.showTime(data.items[i], data.isWarns[i],data.endTimes[i]);
                                 }
                             }
                         }
@@ -312,9 +312,9 @@
     }
 
     //任务到期时间倒计时
-    ObjectJS.showTime = function (item, isWarn) {
-        var endTime = item.EndTime.toDate("yyyy-MM-dd hh:mm:ss");
-        console.log(endTime);
+    ObjectJS.showTime = function (item, isWarn,endTime) {
+
+        var endtime = item.EndTime.toDate("yyyy/MM/dd hh:mm:ss");
         var num = item.TaskID;
         if (ObjectJS.status == 8) {
             return;
@@ -327,8 +327,8 @@
         if (ObjectJS.finishStatus == 2) {
             return;
         }
-        
-        var time_end = (new Date(endTime)).getTime();
+        debugger;
+        var time_end = (new Date(endtime)).getTime();
 
         var time_start = new Date().getTime(); //设定当前时间
 

@@ -476,6 +476,7 @@
 
     //任务到期时间倒计时
     ObjectJS.showTime = function () {
+
         if (ObjectJS.status == 8) {
             return;
         }

@@ -218,6 +218,7 @@ color:#fff;
 .image-box {text-align:center;display:block;}
 .task-top .picbox img{ max-width:248px;max-height:248px;}
 
+/*.task-layer {position:absolute;left:0;bottom:0;width: 248px;background:-webkit-linear-gradient(top,rgba(255,255,255,0.3) 0,rgba(0,0,0,0.3) 100%);background:-moz-linear-gradient(top,rgba(255,255,255,0.3) 0,rgba(0,0,0,0.3) 100%);background:-ms-linear-gradient(top,rgba(255,255,255,0.3) 0,rgba(0,0,0,0.3) 100%);padding:200px 0 5px 0;}*/
 .task-layer {position:absolute;left:0;bottom:0;width: 248px;background: rgba(119,119,119,0.6);padding:5px 0;}
 .task-imgtitlemark li:first-child {width:210px;}
 .task-imgtitlemark li:last-child span{display:inline-block; width:14px;height:14px;margin-right:10px;}
