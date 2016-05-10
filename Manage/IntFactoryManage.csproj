@@ -123,6 +123,10 @@
     <Content Include="modules\css\category.css" />
     <Content Include="modules\css\clients.css" />
     <Content Include="modules\css\default\detail.css" />
+    <Content Include="modules\css\iconfont\demo.css" />
+    <Content Include="modules\css\iconfont\demo.html" />
+    <Content Include="modules\css\iconfont\iconfont.css" />
+    <Content Include="modules\css\iconfont\iconfont.svg" />
     <Content Include="modules\css\products\filterdetails.css" />
     <Content Include="modules\css\default\list.css" />
     <Content Include="modules\css\home.css" />
@@ -436,6 +440,8 @@
     <Content Include="modules\scripts\System\menu.js" />
     <Content Include="modules\scripts\System\roles.js" />
     <Content Include="modules\scripts\System\users.js" />
+    <Content Include="modules\template\client\client-authorize.html" />
+    <Content Include="modules\template\client\client-edit.html" />
     <Content Include="modules\template\client\client-orders.html" />
     <Content Include="modules\template\client\client-list.html" />
     <Content Include="modules\template\client\clientauthorizelog-list.html" />
@@ -600,6 +606,9 @@
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\xi_zang_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\yun_nan_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\zhe_jiang_geo.json" />
+    <Content Include="modules\css\iconfont\iconfont.eot" />
+    <Content Include="modules\css\iconfont\iconfont.ttf" />
+    <Content Include="modules\css\iconfont\iconfont.woff" />
     <None Include="Properties\PublishProfiles\intfactoryManage.pubxml" />
     <Content Include="Views\Products\AttrDetail.cshtml" />
     <Content Include="Views\Report\ClientsGrowReport.cshtml" />

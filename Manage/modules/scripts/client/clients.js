@@ -25,7 +25,13 @@ define(function (require, exports, module) {
         agentID:'',
         keyWords: ''
     };
-
+    Clients.ActionParams = {
+        pageIndex: 1,
+        keyword: "",
+        startDate: "",
+        endDate: "",
+        clientID:"?"
+    };
     //新建客户初始化
     Clients.createInit = function (id) {
         Clients.createEvent();
@@ -42,10 +48,6 @@ define(function (require, exports, module) {
             verifyType: "data-type",
             regText: "data-text"
         });
-        //城市插件
-        CityObject = City.createCity({
-            elementID: "citySpan"
-        });
 
         $("#authorizeType").change(function () {
             if ($("#authorizeType").val() == "1") {
@@ -54,44 +56,9 @@ define(function (require, exports, module) {
             else {
                 $(".contentnew li[name='authorizeType']").fadeOut();
             }
-        });
+        });       
 
-        
-        //更换行业
-        $("#industry").change(function () {
-            $("#industryName").val("");
-            if ($(this).val() == "") {
-                $("#otherIndustry").show();
-                $("#saveIndustry").hide();
-            } else {
-                $("#otherIndustry").hide();
-            }
-        });
-
-        $("#industryName").blur(function () {
-            if ($(this).val() == "") {
-                $("#saveIndustry").hide();
-            } else {
-                var ele = $("#industry option[data-name='" + $(this).val() + "']");
-                if (ele.length > 0) {
-                    ele.prop("selected", "selected");
-                    $("#otherIndustry").hide();
-                } else {
-                    $("#saveIndustry").show();
-                }
-            }
-        });
-        //保存行业
-        $("#saveIndustry").click(function () {
-            var name = $("#industryName").val();
-            Global.post("/Client/CreateIndustry", { name: name }, function (data) {
-                if (data.ID) {
-                    var option = "<option value=\"" + data.ID + "\" selected=\"selected\" data-name=\"" + name + "\">" + name + "</option>";
-                    $("#industry").prepend(option);
-                    $("#otherIndustry").hide();
-                }
-            });
-        });
+       
         //判断账号是否存在
         $("#loginName").blur(function () {
             var value = $(this).val();
@@ -104,137 +71,34 @@ define(function (require, exports, module) {
                     alert("登录账号已存在!");
                 }
             });
-        });
-        //保存客户端
-        $("#saveClient").click(function () {
-            if (!VerifyObject.isPass()) {
-                return false;
-            };
-            if ($("#industry").val() == "") {
-                $("#industryName").css("borderColor", "red");
-                return false;
-            }
-            var modules = [];
-            $(".modules-item").each(function () {
-                var _this = $(this);
-                if (_this.hasClass("active")) {
-                    modules.push({
-                        ModulesID: _this.data("value")
-                    });
-                }
-            });
-
-            var client = {
-                CompanyName: $("#name").val(),
-                ContactName: $("#contact").val(),
-                MobilePhone: $("#mobile").val(),
-                Industry: $("#industry").val(),
-                CityCode: CityObject.getCityCode(),
-                Address: $("#address").val(),
-                Description: $("#description").val(),
-                Modules: modules
-            };
-
-            Global.post("/Client/SaveClient", { client: JSON.stringify(client), loginName: $("#loginName").val() }, function (data) {
-                if (data.Result == "1") {
-                    location.href = "/Client/Index";
-                } else if (data.Result == "2") {
-                    alert("登陆账号已存在!");
-                    $("#loginName").val("");
-                }
-            })
-        });
+        });        
     };
-   
     //客户详情初始化
     Clients.detailInit = function (id) {
         Clients.Params.clientID = id;
-
         Clients.detailEvent();
-
         //行业为空
         if ($("#industry option").length == 1) $("#industry").change();
-
-        if (id)
-        {
+        if (id) {
             Clients.getClientDetail(id);
-            
         }
-
-        
     }
-
     //绑定事件
     Clients.detailEvent = function () {
         //客户设置菜单
         $(".search-tab li").click(function () {
             $(this).addClass("hover").siblings().removeClass("hover");
-
             var index = $(this).data("index");
             $(".content-body div[name='navContent']").hide().eq(parseInt(index)).show();
-
-            if (index == 3)
-            {
+            if (index == 1) {
                 Clients.getClientAuthorizeData();
             }
-            else if (index == 2)
-            {
+            else if (index == 0) {
                 Clients.getClientOrders();
-            }
-            
-        });
-
-        $("#span_giveSystem").click(function () {
-            $(this).parent().next().show().next().hide();
-        });
-
-        $("#span_buySystem").click(function () {
-            $(this).parent().next().hide().next().show();
-        });
-
-        $("#giveType").change(function () {
-            if ($("#giveType").val() == "1") {
-                $(this).parent().next().show().next().hide();
-            }
-            else {
-                $(this).parent().next().hide().next().show();
+            }else if(index == 2){
+                Clients.bindActionReport();
             }
         });
-
-        $("#buyType").change(function () {
-            if ($("#buyType").val() == "2") {
-                $(this).parent().next().show().next().hide();
-            }
-            else {
-                $(this).parent().nextAll().show();
-            }
-        });
-
-        //更换行业
-        $("#industry").change(function () {
-            $("#industryName").val("");
-            if ($(this).val() == "") {
-                $("#otherIndustry").show();
-                $("#saveIndustry").hide();
-            } else {
-                $("#otherIndustry").hide();
-            }
-        });
-
-        $("#industryName").blur(function () {
-            if ($(this).val() == "") {
-                $("#saveIndustry").hide();
-            } else {
-                var ele = $("#industry option[data-name='" + $(this).val() + "']");
-                if (ele.length > 0) {
-                    ele.prop("selected", "selected");
-                    $("#otherIndustry").hide();
-                } else {
-                    $("#saveIndustry").show();
-                }
-            }
-        });
-
         $("#SearchClientOrders").click(function () {
             if ($("#orderBeginTime").val() != '' || $("#orderEndTime").val() != '') {
                 Clients.Params.pageIndex = 1;
@@ -300,15 +164,12 @@ define(function (require, exports, module) {
                 width: "120",
                 onChange: function (data) {
                     $("#clientOrders").nextAll().remove();
-
                     Clients.Params.pageIndex = 1;
                     Clients.Params.type = parseInt(data.value);
                     Clients.getClientOrders();
                 }
             });
-
         });
-
         //验证插件
         VerifyObject = Verify.createVerify({
             element: ".verify",
@@ -316,12 +177,96 @@ define(function (require, exports, module) {
             verifyType: "data-type",
             regText: "data-text"
         });
+        
+        $("#SearchList").click(function () {
+            Clients.ActionParams.pageIndex = 1;
+            Clients.ActionParams.startDate = $("#actionBeginTime").val();
+            Clients.ActionParams.endDate = $("#actionEndTime").val();
+            Clients.bindActionReport();
 
-        //城市插件
-        CityObject = City.createCity({
-            elementID: "citySpan"
         });
- 
+        ////城市插件
+        //CityObject = City.createCity({
+        //    elementID: "citySpan"
+        //});
+       
+    };
+    //编辑信息
+    Clients.editClient = function (model) {
+        var _self = this;
+        $("#show-contact-detail").empty();
+        doT.exec("template/client/client-edit.html", function (template) {
+            var innerText = template(model);
+            Easydialog.open({
+                container: {
+                    id: "show-model-detail",
+                    header: "编辑客户信息",
+                    content: innerText,
+                    yesFn: function () {
+                        if (!VerifyObject.isPass()) {
+                            return false;
+                        }
+                        var modules = [];
+                        var entity = {
+                            ClientID:model.ClientID,
+                            CompanyName: $("#name").val(),
+                            ContactName: $("#contact").val(),
+                            MobilePhone: $("#mobile").val(),
+                            Industry: $("#industry").val(),
+                            CityCode: CityObject.getCityCode(),
+                            OfficePhone:$('#officePhone').val(),
+                            Address: $("#address").val(),
+                            Description: $("#description").val(),
+                            Modules: modules
+                        };
+                        Clients.saveModel(entity);
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+            Clients.Setindustry(model);
+            CityObject = City.createCity({
+                cityCode: model.CityCode,
+                elementID: "citySpan"
+            });           
+            VerifyObject = Verify.createVerify({
+                element: ".verify",
+                emptyAttr: "data-empty",
+                verifyType: "data-type",
+                regText: "data-text"
+            });
+            $(".edit-company").hide();
+        });
+    }
+    Clients.Setindustry = function (model) {
+        $('#industry').html($('#industrytemp').html());
+        $('#industry').val(model.Industry || '');
+        if ($('#industry').val() != '') { $("#otherIndustry").hide(); }
+        //更换行业
+        $("#industry").change(function () {
+            $("#industryName").val("");
+            if ($(this).val() == "") {
+                $("#otherIndustry").show();
+                $("#saveIndustry").hide();
+            } else {
+                $("#otherIndustry").hide();
+            }
+        });
+        $("#industryName").blur(function () {
+            if ($(this).val() == "") {
+                $("#saveIndustry").hide();
+            } else {
+                var ele = $("#industry option[data-name='" + $(this).val() + "']");
+                if (ele.length > 0) {
+                    ele.prop("selected", "selected");
+                    $("#otherIndustry").hide();
+                } else {
+                    $("#saveIndustry").show();
+                }
+            }
+        });
         //保存行业
         $("#saveIndustry").click(function () {
             var name = $("#industryName").val();
@@ -333,89 +278,135 @@ define(function (require, exports, module) {
                 }
             });
         });
+       
+    }
+    Clients.saveModel = function (model) {
+        var _self = this;
 
-        //保存客户详情
-        $("#saveClient").click(function () {
-
-            if (!VerifyObject.isPass()) {
-                return false;
-            };
-            if ($("#industry").val() == "") {
-                $("#industryName").css("borderColor", "red");
-                return false;
+        Global.post("/Client/SaveClient", { client: JSON.stringify(model), loginName: $("#loginName").val() }, function (data) {
+            if (data.Result == "1") {
+                location.href = "/Client/Index";
+            } else if (data.Result == "2") {
+                alert("登陆账号已存在!");
+                $("#loginName").val("");
             }
-            var client = {
-                ClientID: $("#clientID").val(),
-                CompanyName: $("#name").val(),
-                ContactName: $("#contact").val(),
-                MobilePhone: $("#mobile").val(),
-                Industry: $("#industry").val(),
-                CityCode: CityObject.getCityCode(),
-                Address: $("#address").val(),
-                Description: $("#description").val()
-            };
+        });
+    }
+    Clients.editAuthorize = function (model) {
+        var _self = this;
+        $("#show-contact-detail").empty();
+        doT.exec("template/client/client-authorize.html", function (template) {
+            var innerText = template(model);
+            Easydialog.open({
+                container: {
+                    id: "show-model-detail",
+                    header: "授权",
+                    content: innerText,
+                    yesFn: function () {
+                        if (!VerifyObject.isPass()) {
+                            return false;
+                        }                       
+                        Clients.saveAuthorize();
+                    },
+                    callback: function () {
 
-            Global.post("/Client/SaveClient", { client: JSON.stringify(client), loginName: $("#loginName").val(), }, function (data) {
-                if (data.Result == "1") {
-                    location.href = "/Client/Index";
-                } else if (data.Result == "2") {
-                    alert("登陆账号已存在!");
-                    $("#loginName").val("");
+                    }
                 }
             });
+            Clients.SetAuthorize();
+            VerifyObject = Verify.createVerify({
+                element: ".verify",
+                emptyAttr: "data-empty",
+                verifyType: "data-type",
+                regText: "data-text"
+            });
+            $(".edit-company").hide();
         });
-
+        
+    }
+    Clients.SetAuthorize = function () {
+        var endTime = {
+            elem: '#endTime',
+            format: 'YYYY-MM-DD',
+            min: laydate.now(),
+            max: '2099-06-16',
+            istime: false,
+            istoday: false
+        };
+        laydate(endTime);
+        $("#span_giveSystem").click(function () {
+            $(this).parent().next().show().next().hide();
+        });
+        $("#span_buySystem").click(function () {
+            $(this).parent().next().hide().next().show();
+        });
+        $("#giveType").change(function () {
+            if ($("#giveType").val() == "1") {
+                $(this).parent().next().show().next().hide();
+            }
+            else {
+                $(this).parent().next().hide().next().show();
+            }
+        });
+        $("#buyType").change(function () {
+            if ($("#buyType").val() == "2") {
+                $(this).parent().next().show().next().hide();
+            }
+            else {
+                $(this).parent().nextAll().show();
+            }
+        });
+    }
+    Clients.saveAuthorize = function () {
         //客户授权
-        $("#saveClientAuthorize").bind("click", function () {
-
-            var paras =
-            {
-                clientID: Clients.Params.clientID,
-                serviceType: $("#giveSystem").is(":checked") ? 1 : 2,
-                giveType: $("#giveType").val(),
-                userQuantity: $("#userQuantity").val(),
-                endTime: $("#endTime").val(),
-                buyType: $("#buyType").val(),
-                buyUserQuantity: $("#buyUserQuantity").val(),
-                buyUserYears: $("#buyUserYears").val()
-            };
-
-            Global.post("/Client/SaveClientAuthorize", paras, function (data) {
-                if (data.Result == "1") {
-                    alert("保存成功");
-                } else {
-                    alert("保存失败");
-                }
-            });
-
+        var paras =
+        {
+            clientID: Clients.Params.clientID,
+            serviceType: $("#giveSystem").is(":checked") ? 1 : 2,
+            giveType: $("#giveType").val(),
+            userQuantity: $("#userQuantity").val(),
+            endTime: $("#endTime").val(),
+            buyType: $("#buyType").val(),
+            buyUserQuantity: $("#buyUserQuantity").val(),
+            buyUserYears: $("#buyUserYears").val()
+        };
+        Global.post("/Client/SaveClientAuthorize", paras, function (data) {
+            if (data.Result == "1") {
+                alert("保存成功");
+            } else {
+                alert("保存失败");
+            }
         });
-    };
-
-
+    }
     //客户详情
     Clients.getClientDetail = function (id) {
         Global.post("/Client/GetClientDetail", { id: id }, function (data) {
             if (data.Result == "1") {
                 var item = data.Item;
-                $("#name").val(item.CompanyName);
-                $("#contact").val(item.ContactName);
-                $("#mobile").val(item.MobilePhone);
-                $("#industry").val(item.Industry);
-                $("#address").val(item.Address);
-                $("#description").val(item.Description);
-
-                if (item.City)
-                    CityObject.setValue(item.City.CityCode);
-
-                $("#userQuantity").val(item.UserQuantity);
-                $("#buyUserQuantity").val(item.UserQuantity);
-                $("#endTime").val(item.EndTime.toDate("yyyy-MM-dd"));
+                $("#customerName").html(item.CompanyName);
+                $("#lblName").text(item.CompanyName);
+                $("#lblContact").text(item.ContactName || '--');
+                $("#lblMobile").text(item.MobilePhone || '--');               
+                $("#lblAddress").text(item.Address || '--');
+                $("#lblDescription").text(item.Description);
+                $("#lblCity").text(item.City ? item.City.Province + " " + item.City.City + " " + item.City.Counties : "--");                
+                $("#lblOfficePhone").text(item.OfficePhone);
+                $('#industrytemp').val(item.Industry);
+                $("#lblindustryName").text(item.Industry ? $("#industrytemp").find("option:selected").text() : "--");
 
                 Clients.Params.clientID = item.ClientID;
                 Clients.Params.agentID = item.AgentID;
-                
-
-
+                Clients.ActionParams.clientID = item.ClientID;
+                //绑定编辑客户信息
+                $("#updateClient").click(function () {
+                    Clients.editClient(item);
+                });
+                //绑定授权信息
+                $('#addAuthorize').click(function () {
+                    Clients.editAuthorize(item);
+                });
+               
+                Clients.getClientOrders();
             } else if (data.Result == "2")
             {
                 alert("登陆账号已存在!");
@@ -467,8 +458,8 @@ define(function (require, exports, module) {
     //获取客户订单列表
     Clients.getClientOrders = function () {
         var _self = this;
+        if ($("#clientOrders").nextAll().length>0) { return; }
         $("#clientOrders").nextAll().remove();
-
         Global.post("/Client/GetClientOrders", Clients.Params, function (data) {
             doT.exec("template/client/client-orders.html?3", function (templateFun) {
                 var innerText = templateFun(data.Items);
@@ -510,11 +501,9 @@ define(function (require, exports, module) {
                                 });
                             },
                             callback: function () {
-
                             }
                         }
                     });
-
                 });
 
                 $("#tb-clientOrders a.examineOrder").bind("click", function () {
@@ -529,9 +518,6 @@ define(function (require, exports, module) {
                         });
                     }
                 });
-
-
-
             });
 
             $("#pager2").paginate({
@@ -551,7 +537,17 @@ define(function (require, exports, module) {
         });
     };
 
-
+    //绑定数据
+    Clients.bindActionReport = function () {
+        $(".tr-header").nextAll().remove();
+        Global.post("/Report/GetAgentActionReportsByClientID", Clients.ActionParams, function (data) {
+            doT.exec("template/report/agentactionreport-list.html?3", function (templateFun) {
+                var innerText = templateFun(data.Items);
+                innerText = $(innerText);
+                $(".tr-header").after(innerText);
+            });
+        });
+    }
     //客户列表初始化
     Clients.init = function () {
         Clients.bindEvent();

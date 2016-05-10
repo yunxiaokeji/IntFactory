@@ -80,6 +80,7 @@
     <None Include="Procedures\InitDatabase.sql" />
     <None Include="Procedures\P_GetPagerDataColumn.sql" />
     <None Include="update.sql" />
+    <None Include="Procedures\Manage\Report\M_Get_Report_AgentActionDayPageList.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Manage\M_InsertClient.sql" />
@@ -434,9 +435,6 @@
     <None Include="Procedures\Sales\P_CreateOrderReply.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Manage\M_Get_Report_AgentAction_Day.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Procedures\Task\P_FinishTask.sql" />
     <None Include="Procedures\Task\P_GetTasks.sql" />
     <None Include="Procedures\Task\P_UpdateTaskEndTime.sql" />
@@ -530,5 +528,8 @@
     <None Include="Procedures\Manage\Report\R_GetClientsAgentAction.sql" />
     <None Include="Procedures\Manage\Report\R_GetClientsAgentLogin_Day.sql" />
     <None Include="Procedures\Manage\Report\R_GetClientsGrowDate.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Manage\Report\M_Get_Report_AgentAction_Day.sql" />
   </ItemGroup>
 </Project>

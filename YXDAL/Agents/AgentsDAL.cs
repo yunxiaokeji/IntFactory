@@ -21,12 +21,13 @@ namespace IntFactoryDAL.Agents
             return GetDataTable("select * from Agents where AgentID=@AgentID", paras, CommandType.Text);
         }
 
-        public DataTable GetAgentActionReport(string keyword, string beginDate, string endDate)
+        public DataTable GetAgentActionReport(string keyword, string beginDate, string endDate,string clientID)
         {
             SqlParameter[] paras = { 
                                     new SqlParameter("@Keyword",keyword),
                                     new SqlParameter("@BeginDate",beginDate),
-                                    new SqlParameter("@EndDate",endDate)
+                                    new SqlParameter("@EndDate",endDate),
+                                    new SqlParameter("@ClientID",clientID)
                                    };
             return GetDataTable("M_Get_Report_AgentAction_Day", paras, CommandType.StoredProcedure);
         }

@@ -11,7 +11,7 @@ define(function (require, exports, module) {
    
     AgentActionReport.Params = {
         pageIndex: 1,
-        pageSize: 5,
+        pageSize: 15,
         keyword: "",
         startDate: "",
         endDate:""

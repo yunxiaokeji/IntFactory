@@ -6,7 +6,7 @@
     require("echarts/chart/bar");
     var Params = {
         searchType: "clientsActionRPT",
-        dateType: 1,
+        dateType: 3,
         beginTime: "",
         endTime: ""
     };

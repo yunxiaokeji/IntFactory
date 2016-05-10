@@ -6,7 +6,7 @@
     require("echarts/chart/bar");
     var Params = {
         searchType: "clientsGrowRPT",
-        dateType: 1,
+        dateType: 3,
         beginTime: "",
         endTime: ""
     };

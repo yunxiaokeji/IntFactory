@@ -77,9 +77,9 @@ namespace IntFactoryBusiness
             
         }
 
-        public static List<Report_AgentAction_Day> GetAgentActionReport(string keyword,string startDate,string endDate) 
+        public static List<Report_AgentAction_Day> GetAgentActionReport(string keyword,string startDate,string endDate ,string clientID) 
         {
-            DataTable dt = AgentsDAL.BaseProvider.GetAgentActionReport(keyword,startDate,endDate);
+            DataTable dt = AgentsDAL.BaseProvider.GetAgentActionReport(keyword,startDate,endDate,clientID);
             List<Report_AgentAction_Day> list = new List<Report_AgentAction_Day>();
             
             foreach (DataRow dr in dt.Rows)

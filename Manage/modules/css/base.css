@@ -157,6 +157,11 @@ select option{ padding:2px; }
 .btn999 {  padding:5px 10px; background-color:#999; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; line-height:18px; }
 .btn999:hover { background-color:#666; color:#fff; }
 
+
+/*替换*/
+.change-ico{ display:inline-block; cursor:pointer; color:#4a98e7; font-size:20px !important;}
+.change-ico:hover{ color:#2F73B8; }
+
 /*添加*/
 .ico-add{ background:url(../images/ico-add.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
           display:inline-block; cursor:pointer; padding-left:28px; color:#666; font-size:13px; }
@@ -175,7 +180,8 @@ select option{ padding:2px; }
 /*编辑*/
 .ico-edit{ background:url(../images/ico-edit-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
           display:inline-block; cursor:pointer;  color:#666; }
-.ico-edit:hover{ background:url(../images/ico-edit-deep.png) no-repeat;}
+.ico-edit:hover{ color:#000;}
+/*.ico-edit:hover{ background:url(../images/ico-edit-deep.png) no-repeat;}*/
 
 /*删除-垃圾箱*/
 .ico-del{ background:url(../images/ico-del-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
@@ -230,3 +236,12 @@ select option{ padding:2px; }
 /*上传按钮样式*/
 .ico-upload {  padding:5px 10px; background-color:#4a98e7; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; }
 .ico-upload:hover { background-color:#2F73B8; }
+
+/*数据验证错误*/
+.verify-fail-err { height:20px; line-height:20px; padding-left:10px; padding-top:2px;}
+
+/*图片loading*/
+.data-loading { padding: 80px 0px; font-size: 16px;text-align: center; color: #666; background:url(/modules/images/ico-loading.gif) no-repeat center center;background-size:45px 45px; }
+
+/*暂无数据*/
+.nodata-txt { padding: 95px 0px; font-size: 16px; text-align: center; color: #666; }
