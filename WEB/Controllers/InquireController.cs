@@ -17,24 +17,6 @@ namespace YXERP.Controllers
         }
 
         /// <summary>
-        /// 判断手机号是否存在
-        /// </summary>
-        /// <param name="loginName">手机号码</param>
-        /// <returns></returns>
-        public JsonResult IsExistLoginName(string loginPhone)
-        {
-            bool bl = IntFactoryBusiness.OrganizationBusiness.IsExistLoginName(loginPhone);
-            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            JsonDictionary.Add("Result", bl ? 1 : 0);
-
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
         /// 发送手机验证码
         /// </summary>
         /// <param name="mobilePhone">手机号码</param>
@@ -80,6 +62,16 @@ namespace YXERP.Controllers
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        /// <summary>
+        /// 获取客户订单状态
+        /// </summary>
+        /// <param name="mobilePhone"></param>
+        /// <returns></returns>
+        public JsonResult InquireOrder(string mobilePhone)
+        {
+            return new JsonResult();
         }
     }
 }
