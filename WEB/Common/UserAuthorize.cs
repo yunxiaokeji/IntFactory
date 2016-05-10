@@ -73,7 +73,7 @@ namespace YXERP.Common
                     }
                     else
                     {
-                        throw new HttpException(403, "");
+                        throw new HttpException(403, filterContext.RequestContext.HttpContext.Request.UrlReferrer.AbsoluteUri);
                         //filterContext.RequestContext.HttpContext.Response.Write("<script>alert('您没有权限访问此页面');history.back();</script>");
                         //filterContext.RequestContext.HttpContext.Response.End();
                     }

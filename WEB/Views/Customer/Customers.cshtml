@@ -56,7 +56,7 @@
 <div class="content-body">
     <div class="search-body">
         <ul class="search-item-color search-mark">
-            <li class="column-name">标&nbsp;&nbsp;&nbsp;记：</li>
+            <li class="column-name" data-id="-2">标&nbsp;&nbsp;&nbsp;记：</li>
             <li data-id="-1" class="item mark-all hover"></li>
             <li data-id="0" class="item mark0"></li>
             <li data-id="1" class="item mark1"></li>
@@ -66,8 +66,8 @@
             <li data-id="5" class="item mark5"></li>
         </ul>
         <ul class="search-letter">
-            <li class="color999 pLeft5">首字母：</li>
-            <li class="all-letter" data-letter="">全部</li>
+            <li class="color999 pLeft5" data-letter="1">首字母：</li>
+            <li class="all-letter hover" data-letter="">全部</li>
             @{                
                 for (int i = 0; i < @firstNames.Length; i++)
                 {
@@ -85,7 +85,7 @@
             <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width100"  />
             <span class="btn mLeft10" id="btnSearch">搜索</span>
         </div>
-        <div class="right searth-module" data-text="输入客户名称/电话..." data-width="160"> </div>
+        <div class="right searth-module" data-text="输入客户名称/电话..." data-width="200"> </div>
     </div>
     <hr />
     @* 卡片式显示 *@
@@ -94,10 +94,8 @@
     </div>
     <div class="clear"></div>
     <ul class="left batch-operate mTop20">
-        <li class="width30 center">
-            <span data-value="-1" class="mTop5" id="batchMark"></span>
-        </li>
-        <li class="width100 mLeft10">
+       
+        <li class="width100">
             <span class="ico-check pLeft5 mTop5" id="checkAll">批量操作</span>
         </li>
         <li>

@@ -57,7 +57,13 @@
                 _this.addClass("hover");
 
                 Params.pageIndex = 1;
-                Params.Mark = _this.data("id");
+                var dataid = _this.data("id");
+                if (dataid!="-2") {
+                    Params.Mark = dataid;
+                } else {
+                    $(".search-item-color li:eq(1)").addClass("hover");
+                    Params.Mark = "-1";
+                }
                 ObjectJS.getList();
             }
         });
@@ -65,12 +71,20 @@
         $(".search-letter li").click(function () {
             var _this = $(this);            
             $(".data-loading").remove();
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
 
-            _this.css({ "color": "#007aff","font-size":"16px" }).siblings().css({"color":"#5F6D6C","font-size":"14px"});
-   
-            Params.FirstName = _this.data("letter");
-            _self.getList();
-
+                var datanum = _this.data("letter");
+                if (datanum != "1") {
+                    Params.FirstName = datanum;
+                } else {
+                    _this.css("font-size","14px");
+                    $(".search-letter li:eq(1)").addClass("hover");
+                    Params.FirstName = "";
+                }
+                _self.getList();
+            };
         });
         //切换阶段
         $(".search-stages li").click(function () {
@@ -233,27 +247,7 @@
                 _self.getList();
             }
         });
-        //批量标记
-        $("#batchMark").markColor({
-            isAll: true,
-            onChange: function (obj, callback) {
-                var checks = $(".list-customer .icon-check");
-                if (checks.length > 0) {
-                    var ids = "";
-                    checks.each(function () {
-                        var _this = $(this);
-                        ids += _this.data("id") + ",";
-                    });
-                    _self.markCustomer(ids, obj.data("value"), function (status) {
-                        _self.getList();
-                        callback && callback(status);
-                    });
-                    
-                } else {
-                    alert("您尚未选择客户!")
-                }
-            }
-        });
+
         
     }
     //获取列表

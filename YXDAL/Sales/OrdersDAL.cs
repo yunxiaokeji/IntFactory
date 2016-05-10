@@ -96,6 +96,16 @@ namespace IntFactoryDAL
             return dt;
         }
 
+        public DataTable GetOrdersByMobilePhone(string mobilePhone)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@MobilePhone",mobilePhone)
+                                   };
+
+            DataTable dt = GetDataTable("Select * from Orders where MobilePhone=@MobilePhone order by createtime desc", paras, CommandType.Text);
+            return dt;
+        }
+
         public DataSet GetOrderByID(string orderid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
