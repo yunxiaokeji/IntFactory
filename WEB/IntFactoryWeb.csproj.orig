@@ -146,6 +146,7 @@
     <Compile Include="Controllers\FeedBackController.cs" />
     <Compile Include="Controllers\FinanceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InquireController.cs" />
     <Compile Include="Controllers\MingDaoController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
@@ -443,6 +444,7 @@
     <Content Include="modules\scripts\system\orderstages.js" />
     <Content Include="modules\scripts\system\ordercategory.js" />
     <Content Include="modules\scripts\task\detail.js" />
+    <Content Include="modules\scripts\task\reply.js" />
     <Content Include="modules\scripts\task\task.js" />
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />
@@ -1008,11 +1010,13 @@
     <Content Include="Views\Error\NoRoot.cshtml" />
     <Content Include="Views\Task\DetailBase.cshtml" />
 <<<<<<< HEAD
-    <Content Include="Web.config" />
-=======
     <Content Include="Views\Web.config" />
     <Content Include="Views\Customer\Customers-list.cshtml" />
->>>>>>> dcec2a5b97c7c33cd14da9760a36d12d703b5e66
+    <Content Include="Web.config" />
+    <Content Include="Views\Inquire\InquireOrder.cshtml" />
+=======
+    <Content Include="Views\Task\TaskReply.cshtml" />
+>>>>>>> 04abb829184ada3780f7f3f16b5680962fafa192
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1175,7 +1179,6 @@
     <Content Include="Scripts\jquery-1.11.1.js" />
     <Content Include="Scripts\sea-config.js" />
     <Content Include="Scripts\sea.js" />
-    <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
