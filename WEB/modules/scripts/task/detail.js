@@ -19,12 +19,12 @@
     ///orderType:订单类型
     ///um:富文本编辑器
     ///plateRemark:制版工艺描述
-    ObjectJS.init = function (attrValues, um, plateRemark, orderimages, endTime, task, isWarn) {
+    ObjectJS.init = function (attrValues, um, plateRemark, orderimages, task, isWarn) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
 
         ObjectJS.orderid = task.OrderID;
         ObjectJS.ownerid = task.OwnerID;
-        ObjectJS.endTime = endTime;
+        ObjectJS.endTime = task.EndTime.toDate("yyyy/MM/dd hh:mm:ss");
         ObjectJS.finishStatus = task.FinishStatus;
         ObjectJS.status = task.Status;
         ObjectJS.stageid = task.StageID;
@@ -480,11 +480,7 @@
             return;
         }
 
-        if (ObjectJS.endTime == "未设置") {
-            return;
-        }
-
-        if (ObjectJS.finishStatus==2) {
+        if (ObjectJS.finishStatus!=1) {
             return;
         }
 
