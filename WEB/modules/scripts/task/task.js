@@ -327,7 +327,7 @@
         if (ObjectJS.finishStatus == 2) {
             return;
         }
-        debugger;
+
         var time_end = (new Date(endtime)).getTime();
 
         var time_start = new Date().getTime(); //设定当前时间
