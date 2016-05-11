@@ -458,10 +458,9 @@ define(function (require, exports, module) {
     //获取客户订单列表
     Clients.getClientOrders = function () {
         var _self = this;
-        if ($("#clientOrders").nextAll().length>0) { return; }
         $("#clientOrders").nextAll().remove();
         Global.post("/Client/GetClientOrders", Clients.Params, function (data) {
-            doT.exec("template/client/client-orders.html?3", function (templateFun) {
+            doT.exec("template/client/client-orders.html?3", function (templateFun) {              
                 var innerText = templateFun(data.Items);
                 innerText = $(innerText);
                 $("#clientOrders").after(innerText);
@@ -572,6 +571,13 @@ define(function (require, exports, module) {
 
         Global.post("/Client/GetClients", Clients.Params, function (data) {
             doT.exec("template/client/client-list.html?3", function (templateFun) {
+                //for (var index in data.Items) {
+                //    if (data.Items[index].IndustryEntity == null) {
+                //        var item = {};
+                //        item.Name ="交通运输、仓储业";
+                //        data.Items[index].IndustryEntity = item;
+                //    }
+                //}
                 var innerText = templateFun(data.Items);
                 innerText = $(innerText);
                 $("#client-header").after(innerText);

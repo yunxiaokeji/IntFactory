@@ -71,45 +71,51 @@ define(function (require, exports, module) {
                 }
             });
 
-            var Status = [
-                {
-                    ID: "1",
-                    Name: "待解决"
-                },
-                {
-                    ID: "2",
-                    Name: "已解决"
-                },
-                {
-                    ID: "3",
-                    Name: "驳回"
-                },
-                {
-                    ID: "4",
-                    Name: "删除"
-                }
-            ];
-            $("#FeedStatus").dropdown({
-                prevText: "意见状态-",
-                defaultText: "所有",
-                defaultValue: "-1",
-                data: Status,
-                dataValue: "ID",
-                dataText: "Name",
-                width: "120",
-                onChange: function (data) {
-                    Params.pageIndex = 1;
-                    Params.status = parseInt(data.value);
-                    Params.beginDate = $("#BeginTime").val();
-                    Params.endDate = $("#EndTime").val();
-                    FeedBack.getList();
-                }
-            });
-
-
-
+            //var Status = [
+            //    {
+            //        ID: "1",
+            //        Name: "待解决"
+            //    },
+            //    {
+            //        ID: "2",
+            //        Name: "已解决"
+            //    },
+            //    {
+            //        ID: "3",
+            //        Name: "驳回"
+            //    },
+            //    {
+            //        ID: "4",
+            //        Name: "删除"
+            //    }
+            //];
+            //$("#FeedStatus").dropdown({
+            //    prevText: "意见状态-",
+            //    defaultText: "所有",
+            //    defaultValue: "-1",
+            //    data: Status,
+            //    dataValue: "ID",
+            //    dataText: "Name",
+            //    width: "120",
+            //    onChange: function (data) {
+            //        Params.pageIndex = 1;
+            //        Params.status = parseInt(data.value);
+            //        Params.beginDate = $("#BeginTime").val();
+            //        Params.endDate = $("#EndTime").val();
+            //        FeedBack.getList();
+            //    }
+            //});
         });
-
+        $(".search-tab li").click(function () {
+            $(this).addClass("hover").siblings().removeClass("hover");
+            var index = $(this).data("index");
+            $(".content-body div[name='navContent']").hide().eq(parseInt(index)).show();
+            Params.pageIndex = 1;
+            Params.status = index==0?-1:index;
+            Params.beginDate = $("#BeginTime").val();
+            Params.endDate = $("#EndTime").val();
+            FeedBack.getList();
+        });
         //时间段查询
         $("#SearchFeedBacks").click(function () {
             Params.pageIndex = 1;
@@ -183,7 +189,6 @@ define(function (require, exports, module) {
         Global.post("/FeedBack/GetFeedBackDetail", { id: Params.id }, function (data) {
             if (data.item) {
                 var item = data.item;
-
                 $("#Title").html(item.Title);
                 var typeName = "问题";
                 if (item.Type == 2)
@@ -195,6 +200,9 @@ define(function (require, exports, module) {
                 var statusName = "待解决";
                 if (item.Status == 2) {
                     statusName = "已解决";
+                    $('#btn-finish').hide();
+                    $('#btn-cancel').hide();
+                    $('#btn-delete').hide();
                 }
                 else if (item.Status == 3)
                     statusName = "驳回";

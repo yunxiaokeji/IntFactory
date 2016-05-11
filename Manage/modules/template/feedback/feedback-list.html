@@ -10,7 +10,9 @@
     <td class="center">{%=item.MobilePhone%}</td>
     <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     <td class="center">
+        {%if(item.Status==1){%}
         <a class="ico-edit" title="编辑" href="/feedback/feedbackdetail/{%=item.AutoID%}"></a>
+        {%}%}
     </td>
 </tr>
 {% } %}
