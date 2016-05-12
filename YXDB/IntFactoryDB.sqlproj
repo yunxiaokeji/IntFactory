@@ -531,4 +531,7 @@
     <None Include="Procedures\Manage\Report\R_GetClientsAgentLogin_Day.sql" />
     <None Include="Procedures\Manage\Report\R_GetClientsGrowDate.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Sales\P_GetOrdersByMobilePhone.sql" />
+  </ItemGroup>
 </Project>
