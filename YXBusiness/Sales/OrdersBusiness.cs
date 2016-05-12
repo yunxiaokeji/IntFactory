@@ -106,6 +106,8 @@ namespace IntFactoryBusiness
 
                 model.SourceTypeStr = CommonBusiness.GetEnumDesc((EnumOrderSourceType)model.SourceType);
 
+                model.Client = IntFactoryBusiness.Manage.ClientBusiness.GetClientDetail(model.ClientID);
+
                 list.Add(model);
             }
             return list;

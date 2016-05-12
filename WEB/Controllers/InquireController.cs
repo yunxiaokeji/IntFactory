@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using IntFactoryEntity;
+using YXERP.Models;
+using IntFactoryBusiness;
+using IntFactoryEnum;
 
 namespace YXERP.Controllers
 {
-    public class InquireController : Controller
+    public class InquireController : BaseController
     {
         //
         // GET: /Inquire/
@@ -69,9 +74,15 @@ namespace YXERP.Controllers
         /// </summary>
         /// <param name="mobilePhone"></param>
         /// <returns></returns>
-        public JsonResult InquireOrder(string mobilePhone)
+        public JsonResult InquireOrderByPhone(string mobilePhone)
         {
-            return new JsonResult();
+            var list = OrdersBusiness.BaseBusiness.GetOrdersByMobilePhone(mobilePhone);
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
     }
 }

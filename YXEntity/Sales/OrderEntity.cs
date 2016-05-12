@@ -156,6 +156,7 @@ namespace IntFactoryEntity
         [Property("Lower")] 
         public string ClientID { get; set; }
 
+        public IntFactoryEntity.Manage.Clients Client { get; set; }
         #endregion Model
 
         /// <summary>
