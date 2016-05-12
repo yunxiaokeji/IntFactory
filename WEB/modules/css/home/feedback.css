@@ -1,0 +1,36 @@
+﻿body { background-color:#F7F7F7;}
+
+/*头部*/
+.header {padding:15px 20px 15px 60px;margin-right:10px;background:url(/modules/images/logo_login.png) no-repeat 20px 14px ;line-height:32px;background-color:rgba(255,255,255,0.8);position:fixed;width:100%;box-sizing:border-box;left:0;top:0;}
+.header span { font-size:16px;color:#666;display:block;}
+.header span:nth-child(2){margin-top:-2px;}
+.header span:nth-child(2) a{ background-color:#4a98e7;padding: 5px 10px;color:#fff; font-size:14px;border-radius:3px;border: #4a98e7 solid 1px;transition:background-color 0.2s;}
+.header span:nth-child(2) a:hover { background-color:rgba(74,152,231,0.6);}
+
+
+.content-body { max-width:1200px;margin:0 auto;background:url(/modules/images/feedback-bg.png) no-repeat 0 0;margin-top:62px;}
+    
+.feed-top {float: right;width: 300px;margin: 50px 0 100px;}
+.feed-top h1 { font-size:36px;font-weight:normal;color: #777;margin-bottom:10px;}
+.feed-top p { font-size:14px;line-height:24px;}
+.feed-top p span { font-size:16px;color:#4a98e7;}
+
+.descript-text { width:100%;margin:20px 0;}
+.descript-text div:first-child { float: left; text-align: right; width:30%;font-size:18px;color:#444;line-height:40px; }
+.descript-text div:last-child {float:left;width:48%; }
+.feed-title .txt-title,.feed-type .dropdown-list,.feed-name .txt-name,.feed-phone .txt-phone,.feed-description .txt-description {height:40px;line-height:40px; width:100%;box-sizing:border-box;border-radius:0px;font-size:14px;box-shadow: inset 0px 1px 4px #ececec;-moz-box-shadow: inset 0px 1px 4px #ececec;-webkit-box-shadow: inset 0px 1px 4px #ececec;}
+.feed-type .dropdown-list option{font-size:14px;}
+.feed-annex .file-annex { line-height:40px;height:40px;width:150px;opacity:0;position:absolute;left:0;top:0;cursor:pointer;}
+
+.feed-annex ul { overflow:hidden;padding:6px;}
+.feed-annex ul img { width:60px;height:60px;}
+.feed-annex ul li { width:60px;height:60px;position:relative;margin-right:20px;float:left;}
+.feed-annex ul li .iconfont { color:#4a98e7;font-size:18px;position:absolute;top:-8px;right:-8px;background-color:#fff;border-radius:50%;cursor:pointer;}
+
+.feed-annex a {cursor:pointer;height:40px;line-height:40px;display:inline-block;position:relative;color:#666;font-size:18px;text-align:center;border-radius:2px;transition:background-color 0.3s;}
+.feed-description div:first-child{ line-height:normal;}
+.feed-description .txt-description { line-height:normal;height:170px;}
+.feed-submit div:first-child { height:30px;}
+#btn-feedback {border: 1px solid #4a98e7; width:60px;line-height:30px;height:30px;background-color:#4a98e7;color:#fff;text-align:center;cursor:pointer;float:right;font-size:14px;transition:background-color 0.2s;}
+#btn-feedback:hover { background-color:#2F73B8;}
+
