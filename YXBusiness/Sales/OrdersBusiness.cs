@@ -93,8 +93,9 @@ namespace IntFactoryBusiness
         public List<OrderEntity> GetOrdersByMobilePhone(string mobilePhone)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataTable dt = OrdersDAL.BaseProvider.GetOrdersByMobilePhone(mobilePhone);
+            DataSet ds = OrdersDAL.BaseProvider.GetOrdersByMobilePhone(mobilePhone);
 
+            DataTable dt = ds.Tables["Orders"];
             foreach (DataRow dr in dt.Rows)
             {
                 OrderEntity model = new OrderEntity();
@@ -108,6 +109,17 @@ namespace IntFactoryBusiness
 
                 model.Client = IntFactoryBusiness.Manage.ClientBusiness.GetClientDetail(model.ClientID);
 
+                model.StatusItems = new List<OrderStatusEntity>();
+                DataTable orderStatus = ds.Tables["Status"];
+                if (model.Status > 0 && orderStatus.Rows.Count > 0)
+                {
+                    foreach (DataRow statu in orderStatus.Select("OrderID='" + model.OrderID + "'"))
+                    {
+                        OrderStatusEntity status = new IntFactoryEntity.OrderStatusEntity();
+                        status.FillData(statu);
+                        model.StatusItems.Add(status);
+                    }
+                }
                 list.Add(model);
             }
             return list;

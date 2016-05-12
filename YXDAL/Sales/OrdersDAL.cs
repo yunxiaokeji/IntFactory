@@ -96,14 +96,14 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public DataTable GetOrdersByMobilePhone(string mobilePhone)
+        public DataSet GetOrdersByMobilePhone(string mobilePhone)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@MobilePhone",mobilePhone)
                                    };
 
-            DataTable dt = GetDataTable("Select * from Orders where MobileTele=@MobilePhone and ( OrderStatus=0 or  OrderStatus=1) order by createtime desc", paras, CommandType.Text);
-            return dt;
+            DataSet ds = GetDataSet("P_GetOrdersByMobilePhone", paras, CommandType.StoredProcedure, "Orders|Status");
+            return ds;
         }
 
         public DataSet GetOrderByID(string orderid, string agentid, string clientid)
