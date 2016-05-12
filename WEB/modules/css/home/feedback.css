@@ -10,13 +10,13 @@
 
 .content-body { max-width:1200px;margin:0 auto;background:url(/modules/images/feedback-bg.png) no-repeat 0 0;margin-top:62px;}
     
-.feed-top {float: right;width: 300px;margin: 50px 0 100px;}
+.feed-top {float: right;width: 300px;margin: 50px 0 50px;}
 .feed-top h1 { font-size:36px;font-weight:normal;color: #777;margin-bottom:10px;}
 .feed-top p { font-size:14px;line-height:24px;}
 .feed-top p span { font-size:16px;color:#4a98e7;}
 
 .descript-text { width:100%;margin:20px 0;}
-.descript-text div:first-child { float: left; text-align: right; width:30%;font-size:18px;color:#444;line-height:40px; }
+.descript-text div:first-child { float: left; text-align: right; width:30%;font-size:14px;color:#444;line-height:40px; }
 .descript-text div:last-child {float:left;width:48%; }
 .feed-title .txt-title,.feed-type .dropdown-list,.feed-name .txt-name,.feed-phone .txt-phone,.feed-description .txt-description {height:40px;line-height:40px; width:100%;box-sizing:border-box;border-radius:0px;font-size:14px;box-shadow: inset 0px 1px 4px #ececec;-moz-box-shadow: inset 0px 1px 4px #ececec;-webkit-box-shadow: inset 0px 1px 4px #ececec;}
 .feed-type .dropdown-list option{font-size:14px;}
