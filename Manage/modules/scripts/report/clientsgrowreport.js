@@ -94,6 +94,20 @@
         Global.post("/Report/GetClientsGrow", Params, function (data) {
             var items = [], datanames=[],_items = [];
             _self.clientsChart.clear();
+            if (data.items.length == 0) {
+                _self.clientsChart.hideLoading();
+                _self.clientsChart.showLoading({
+                    text: "暂无数据",
+                    x: "center",
+                    y: "center",
+                    textStyle: {
+                        color: "red",
+                        fontSize: 14
+                    },
+                    effect: "bubble"
+                });
+                return;
+            }
             for (var i = 0, j = data.items.length; i < j; i++) {                
                 _items.push(data.items[i].Value);
                 datanames.push(data.items[i].Name)
@@ -110,7 +124,7 @@
                 },
                 legend: {
                     data: []
-                },
+                },               
                 toolbox: {
                     show: true,
                     feature: {
@@ -149,9 +163,9 @@
                 ],
                 series: items
             };
-            console.log(datanames);
             _self.clientsChart.hideLoading();
             _self.clientsChart.setOption(option);
+           
         });
     }
     module.exports = ObjectJS;
