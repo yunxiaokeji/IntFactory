@@ -465,6 +465,7 @@
     <Content Include="modules\scripts\task\task.js" />
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />
+    <Content Include="modules\template\inquireorder\inquireorder.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />
     <Content Include="modules\template\orders\orders_child_list.html" />
     <Content Include="modules\template\orders\surequantity.html" />
@@ -1203,7 +1204,6 @@
     <Folder Include="Areas\Api\Models\" />
     <Folder Include="Areas\Api\Views\Shared\" />
     <Folder Include="Content\tempfile\" />
-    <Folder Include="modules\template\inquireorder\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

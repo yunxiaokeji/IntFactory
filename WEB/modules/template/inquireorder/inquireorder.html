@@ -1,0 +1,156 @@
+﻿{%
+	for(var i=0;i<$data.length;i++){
+    var item=$data[i];
+%}
+<div class="info">
+    <div class="infobox row">
+        <div class="orderimg">             
+             <img src='{%=item.OrderImage==""?"/modules/images/img-noimg.png":item.OrderImage%}' />
+        </div>
+        <div class="info-order l">
+            
+            <ul class="status">
+                <li class="row">
+                    <i>订单号：</i>
+                    <span>{%=item.OrderCode%}</span>
+                </li>
+                <li class="row">
+                    <i>下单时间：</i>
+                    <span>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
+                </li>
+                <li class="row">
+                    <i>接单时间：</i>
+                    <span>{%=item.OrderTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
+                </li>
+                <li class="row">
+                    <i>工厂信息：</i>
+                    <span>{%=item.Client.CompanyName%}</span>
+                </li>
+            </ul>
+            {% if(item.Status=="0"){ %}
+            <ul class="stage" style="margin-right:-59%">
+                <li data-status="0">
+                    <div class="abc" style="border:2px solid #007aff;margin-left:-6px;background-color:#fff;"><div class="round completebg"></div></div>
+                    <span class="complete">需求单</span>                    
+                </li>
+                <li data-status="1">
+                    <div class="connect"></div>
+                </li>
+                <li data-status="1">
+                    <div class="abc"><div class="round"></div></div>
+                    <span>打&nbsp;&nbsp;&nbsp;样</span>                        
+                </li>
+                <li data-status="2">
+                    <div class="connect"></div>
+                </li>
+                <li  data-status="2">
+                    <div class="abc"><div class="round"></div></div>
+                    <span>合&nbsp;&nbsp;&nbsp;价</span>                        
+                </li>
+                <li data-status="3">
+                    <div class="connect"></div>
+                </li>
+                <li data-status="3">
+                    <div class="abc"><div class="round"></div></div>
+                    <span>封样封价</span>
+                </li>
+            </ul>
+            {% }else if(item.Status=="1"){ %}
+            <ul class="stage">
+                <li data-status="0">
+                    <div class="abc"><div class="round completebg"></div></div>
+                    <span class="complete">需求单</span>
+                    <span class="complete">2016-6-5 12:44:33</span>
+                </li>
+                <li data-status="1">
+                    <div class="connect completecon"></div>
+                </li>
+                <li data-status="1">
+                    <div class="abc" style="border:2px solid #007aff;margin-left:-6px;background-color:#fff;"><div class="round completebg"></div></div>
+                    <span class="complete">打&nbsp;&nbsp;&nbsp;样</span>                        
+                </li>
+                <li data-status="2">
+                    <div class="connect"></div>
+                </li>
+                <li  data-status="2">
+                    <div class="abc"><div class="round"></div></div>
+                    <span>合&nbsp;&nbsp;&nbsp;价</span>                        
+                </li>
+                <li data-status="3">
+                    <div class="connect"></div>
+                </li>
+                <li data-status="3">
+                    <div class="abc"><div class="round"></div></div>
+                    <span>封样封价</span>
+                </li>
+            </ul>
+            {% }else if(item.Status=="2"){ %}
+            <ul class="stage">
+                <li data-status="0">
+                    <div class="abc"><div class="round completebg"></div></div>
+                    <span class="complete">需求单</span>
+                    <span class="complete">2016-6-5 12:44:33</span>
+                </li>
+                <li data-status="1">
+                    <div class="connect completecon"></div>
+                </li>
+                <li data-status="1">
+                    <div class="abc"><div class="round completebg"></div></div>
+                    <span class="complete">打&nbsp;&nbsp;&nbsp;样</span>   
+                    <span class="complete">2016-6-5 12:44:33</span>                     
+                </li>
+                <li data-status="2">
+                    <div class="connect completecon"></div>
+                </li>
+                <li  data-status="2">
+                    <div class="abc" style="border:2px solid #007aff;margin-left:-6px;background-color:#fff;"><div class="round completebg"></div></div>
+                    <span>合&nbsp;&nbsp;&nbsp;价</span>                        
+                </li>
+                <li data-status="3">
+                    <div class="connect"></div>
+                </li>
+                <li data-status="3">
+                    <div class="abc"><div class="round"></div></div>
+                    <span>封样封价</span>
+                </li>
+            </ul>
+            {% }else { %}
+            <ul class="stage">
+                <li data-status="0">
+                    <div class="abc"><div class="round completebg"></div></div>
+                    <span class="complete">需求单</span>
+                    <span class="complete">2016-6-5 12:44:33</span>
+                </li>
+                <li data-status="1">
+                    <div class="connect completecon"></div>
+                </li>
+                <li data-status="1">
+                    <div class="abc"><div class="round completebg"></div></div>
+                    <span class="complete">打&nbsp;&nbsp;&nbsp;样</span>    
+                    <span class="complete">2016-6-5 12:44:33</span>                    
+                </li>
+                <li data-status="2">
+                    <div class="connect completecon"></div>
+                </li>
+                <li  data-status="2">
+                    <div class="abc"><div class="round completebg"></div></div>
+                    <span  class="complete">合&nbsp;&nbsp;&nbsp;价</span>     
+                    <span class="complete">2016-6-5 12:44:33</span>                   
+                </li>
+                <li data-status="3">
+                    <div class="connect completecon"></div>
+                </li>
+                <li data-status="3">
+                    <div class="abc" style="border:2px solid #007aff;margin-left:-6px;background-color:#fff;"><div class="round completebg"></div></div>
+                    <span  class="complete">封样封价</span>
+                </li>
+            </ul>
+            {% } %}
+                    
+        </div>
+            
+        <div class="info-type r"></div>
+    </div>
+</div>
+
+{% } %}

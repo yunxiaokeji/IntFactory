@@ -102,7 +102,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@MobilePhone",mobilePhone)
                                    };
 
-            DataTable dt = GetDataTable("Select * from Orders where MobilePhone=@MobilePhone order by createtime desc", paras, CommandType.Text);
+            DataTable dt = GetDataTable("Select * from Orders where MobileTele=@MobilePhone and ( OrderStatus=0 or  OrderStatus=1) order by createtime desc", paras, CommandType.Text);
             return dt;
         }
 
