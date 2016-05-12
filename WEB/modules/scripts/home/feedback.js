@@ -32,13 +32,18 @@
             }
         });
 
-      $("#btn-feedback").click(function () {
+        $("#btn-feedback").click(function () {
 
             if ($(".txt-title").val() == "") {
                 alert("标题不能为空");
                 return false;
             }
-
+            if ($(".txt-description").val().length >= 1000)
+            {
+                alert("问题描述请在1000个字符以内");
+                return false;
+            }
+            $(this).html("提交中...");
             var entity = {
                 Title: $(".txt-title").val(),
                 ContactName: $(".txt-name").val(),
@@ -48,29 +53,16 @@
                 Remark: $(".txt-description").val()
             };
             Global.post("/FeedBack/InsertFeedBack", { entity: JSON.stringify(entity) }, function (data) {
+                $("#btn-feedback").html("提交");
                 if (data.Result == 1) {
-
                     alert("谢谢反馈");
-                    
-                    $('.confirm').click(function () {
-                        history.back(-1);
-                    })
-
-                    setInterval(function () { history.back(-1); }, 5000)
-
+                    setTimeout(function () { history.back(-1); }, 3000);
                 }
                 else {
                     alert("服务器繁忙");
                 }
             });
       })
-
-
-
-      //$(".feed-annex li .iconfont").click(function () {
-      //    var _this = $(this);
-      //    _this.parent().remove();
-      //})
 
     }
 
