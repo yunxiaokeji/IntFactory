@@ -14,7 +14,8 @@ define(function (require, exports, module) {
         pageSize: 15,
         keyword: "",
         startDate: "",
-        endDate:""
+        endDate: "",
+        orderBy: "SUM(a.CustomerCount) desc"
     };
 
 
@@ -43,6 +44,33 @@ define(function (require, exports, module) {
         AgentActionReport.bindData();
        
     });
+    //排序
+    $(".td-span").click(function () {
+        var _this = $(this);
+        if (_this.hasClass("hover")) {
+            if (_this.find(".asc").hasClass("hover")) {
+                $(".td-span").find(".asc").removeClass("hover");
+                $(".td-span").find(".desc").removeClass("hover");
+                _this.find(".desc").addClass("hover");
+                AgentActionReport.Params.orderBy = _this.data("column") + " desc ";
+            } else {
+                $(".td-span").find(".desc").removeClass("hover");
+                $(".td-span").find(".asc").removeClass("hover");
+                _this.find(".asc").addClass("hover");
+                AgentActionReport.Params.orderBy = _this.data("column") + " asc ";
+            }
+        } else {
+            $(".td-span").removeClass("hover");
+            $(".td-span").find(".desc").removeClass("hover");
+            $(".td-span").find(".asc").removeClass("hover");
+            _this.addClass("hover");            
+            _this.find(".desc").addClass("hover");
+            AgentActionReport.Params.orderBy = _this.data("column") + " desc ";
+        }
+        AgentActionReport.Params.PageIndex = 1;
+        AgentActionReport.bindData();
+    });
+
     //绑定数据
     AgentActionReport.bindData = function () {
         $(".tr-header").nextAll().remove();
