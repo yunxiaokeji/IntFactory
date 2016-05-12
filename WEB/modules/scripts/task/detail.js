@@ -98,7 +98,6 @@
     //#region任务基本信息操作
     //绑定事件
     ObjectJS.bindEvent = function () {
-
         //切换模块
         $(".module-tab li").click(function () {
             var _this = $(this);
@@ -116,7 +115,6 @@
                     ObjectJS.getLogs(1);
                     _this.data("isget", "1");
                 }
-
             }
 
         });

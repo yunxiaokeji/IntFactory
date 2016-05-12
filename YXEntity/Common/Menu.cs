@@ -38,7 +38,7 @@ namespace IntFactoryEntity
 		private int? _type=1;
 		private int? _ishide=0;
 		private string _pcode="";
-		private int? _sort=0;
+		private int? _sort=null;
 		/// <summary>
 		/// 
 		/// </summary>

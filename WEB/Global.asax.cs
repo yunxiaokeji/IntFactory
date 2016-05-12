@@ -52,11 +52,11 @@ namespace YXERP
             routeData.Values.Add("controller", "Error");
             if (exception == null)
             {
-                routeData.Values.Add("action", "Index");
+                routeData.Values.Add("action", "NotAccess");
             }
             else if (httpException == null)
             {
-                routeData.Values.Add("action", "Index");
+                routeData.Values.Add("action", "NotAccess");
             }
             else
             {
@@ -72,7 +72,7 @@ namespace YXERP
                         routeData.Values.Add("action", "NoRoot");
                         break;
                     default:
-                        routeData.Values.Add("action", "Index");
+                        routeData.Values.Add("action", "NotAccess");
                         break;
                 }
             }
