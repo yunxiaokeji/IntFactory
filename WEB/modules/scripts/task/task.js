@@ -174,6 +174,14 @@
             ObjectJS.getList();
         });
 
+        ////切换任务显示方式2(列表或者卡片式)
+        //$(".search-sort .show-type i").click(function () {
+        //    var _this = $(this);
+        //    _this.data("type") == "list" ? _this.data("type", "card").html("&#xe64b;") : _this.data("type", "list").html("&#xe64c;");
+        //    ObjectJS.showType = _this.data('type');
+        //    ObjectJS.getList();
+        //})
+
         //时间段查询
         $("#btnSearch").click(function () {
             Params.pageIndex = 1;
