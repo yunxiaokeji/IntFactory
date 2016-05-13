@@ -497,7 +497,6 @@
     <Content Include="modules\template\task\task-card.html" />
     <Content Include="modules\template\task\task-list.html" />
     <Content Include="modules\plug\showtaskdetail\task-detail.html" />
-    <Content Include="modules\template\task\task-newcard.html" />
     <Content Include="Views\System\OrderProcess.cshtml" />
     <Content Include="Areas\Api\Views\Web.config" />
     <Content Include="modules\css\iconfont\iconfont.eot" />
