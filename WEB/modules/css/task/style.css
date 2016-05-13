@@ -427,7 +427,6 @@
 .task-footer .task-type .iconfont { font-size:26px;}
 .task-item .task-owner img { width:20px;height:20px;border-radius:50%;}
 .task-item .task-owner{white-space:nowrap;text-overflow:ellipsis;}
-.task-item .task-owner span:last-child{text-decoration: underline;}
 
 .task-item .task-footer .task-noaccept {border-color:red;color:red; }
 .task-item .task-footer .task-underway { border-color:#1CC362;color:#1CC362;}
