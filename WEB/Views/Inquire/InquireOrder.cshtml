@@ -13,16 +13,16 @@
 	<title>查询订单进度</title>
     <link href="/modules/css/default/layout.css" rel="stylesheet" />
     <link href="/modules/css/base.css" rel="stylesheet" />
-    <link href="/modules/css/inquireorder/common.css" rel="stylesheet" />    
-    <link href="/modules/css/inquireorder/online-pay.css" rel="stylesheet" type="text/css" />
+    <link href="/modules/css/inquire/common.css" rel="stylesheet" />    
+    <link href="/modules/css/inquire/online-pay.css" rel="stylesheet" type="text/css" />
 
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/Scripts/sea.js"></script>
     <script src="/Scripts/sea-config.js"></script>
         
     <script type="text/javascript">        
-        seajs.use("/modules/scripts/inquireorder/inquireorder", function (e) {
-            e.init();
+        seajs.use("/modules/scripts/inquire/inquireorder", function (InquireOrder) {
+            InquireOrder.init();
         });       
     </script>
 </head>
