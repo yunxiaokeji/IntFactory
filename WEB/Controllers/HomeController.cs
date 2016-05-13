@@ -721,5 +721,19 @@ namespace YXERP.Controllers
             };
         }
 
+        public ActionResult FeedBack()
+        {
+            if (Session["ClientManager"] != null)
+            {
+                var userInfo = Session["ClientManager"];
+                ViewBag.userInfo = userInfo;
+            }
+            else
+            {
+              return  Redirect("/home/login");
+            }
+            return View();
+        }
+
     }
 }

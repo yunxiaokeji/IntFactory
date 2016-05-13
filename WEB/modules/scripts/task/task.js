@@ -247,10 +247,9 @@
             $(".task-items").show();
             $(".task-items").html("<div class='data-loading'><div>");
         }
-    
+        $(".content-body").find('.nodata-txt').remove();
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".tr-header").nextAll().remove();
-            $(".content-body").find('.nodata-txt').remove();
             if (data.items.length > 0) {
                 doT.exec("template/task/task-"+showtype+".html", function (template) {
                     var innerhtml = template(data.items);

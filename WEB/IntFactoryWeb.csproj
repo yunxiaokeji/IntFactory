@@ -225,6 +225,7 @@
     <Content Include="modules\css\default\orders.css" />
     <Content Include="modules\css\default\order_create.css" />
     <Content Include="modules\css\error\error.css" />
+    <Content Include="modules\css\home\feedback.css" />
     <Content Include="modules\css\home\selectlogin.css" />
     <Content Include="modules\css\iconfont\demo.css" />
     <Content Include="modules\css\iconfont\demo.html" />
@@ -237,6 +238,7 @@
     <Content Include="modules\images\bg-loginBackground.png" />
     <Content Include="modules\images\btn-add.png" />
     <Content Include="modules\images\btn-remove.png" />
+    <Content Include="modules\images\feedback-bg.png" />
     <Content Include="modules\images\home\ico-allamount.png" />
     <Content Include="modules\images\home\ico-allcustomer.png" />
     <Content Include="modules\images\home\ico-allorder.png" />
@@ -278,6 +280,7 @@
     <Content Include="modules\images\img-noimg.jpg" />
     <Content Include="modules\images\img-noimg.png" />
     <Content Include="modules\images\img-noroot.png" />
+    <Content Include="modules\images\img-nouse.png" />
     <Content Include="modules\images\Inquire\bg-map.png" />
     <Content Include="modules\images\Inquire\bottom-bg.png" />
     <Content Include="modules\images\Inquire\img_03.png" />
@@ -446,6 +449,7 @@
     <Content Include="modules\plug\autocomplete\style.css" />
     <Content Include="modules\plug\e-smart-zoom-jquery.min.js" />
     <Content Include="modules\scripts\auction\buynow.js" />
+    <Content Include="modules\scripts\home\feedback.js" />
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\inquireorder\inquireorder.js" />
     <Content Include="modules\scripts\orders\create.js" />
@@ -493,7 +497,6 @@
     <Content Include="modules\template\task\task-card.html" />
     <Content Include="modules\template\task\task-list.html" />
     <Content Include="modules\plug\showtaskdetail\task-detail.html" />
-    <Content Include="modules\template\task\task-newcard.html" />
     <Content Include="Views\System\OrderProcess.cshtml" />
     <Content Include="Areas\Api\Views\Web.config" />
     <Content Include="modules\css\iconfont\iconfont.eot" />
@@ -1034,6 +1037,8 @@
     <Content Include="Views\Inquire\InquireOrder.cshtml">
       <BrowseToURL>~/Inquire/InquireOrder</BrowseToURL>
     </Content>
+    <Content Include="Views\Error\NoUse.cshtml" />
+    <Content Include="Views\Home\FeedBack.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
