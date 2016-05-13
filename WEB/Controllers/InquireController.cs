@@ -17,7 +17,8 @@ namespace YXERP.Controllers
         // GET: /Inquire/
 
         public ActionResult InquireOrder()
-        {
+        {            
+            
             return View();
         }
 
