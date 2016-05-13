@@ -73,7 +73,7 @@
 .info-order .stage .complete{color:#2474FF;}
 .info-order .stage .completebg{background-color:#2474FF;}
 .info-order .stage .completecon{background-color:#D5E7FD;}
-.info-order .stage .abc{padding:2px; border-radius:50%;float:left;margin-left:-5px;}
+.info-order .stage .outerround{padding:2px; border-radius:50%;float:left;margin-left:-5px;}
 /*加载状态*/
 .img-loading { text-align:center;}
 @media only screen and (max-width: 1000px) {
