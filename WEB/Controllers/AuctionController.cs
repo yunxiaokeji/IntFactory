@@ -188,7 +188,7 @@ namespace YXERP.Controllers
 
                 int Days = (CurrentAgent.EndTime - DateTime.Now).Days;
                 ViewBag.Days = Days;
-                ViewBag.UserQuantity = CurrentAgent.UserQuantity;
+                ViewBag.UserQuantity = OrganizationBusiness.GetUsers(CurrentAgent.AgentID).Count;
                 ViewBag.CurrentAgent = CurrentAgent;
 
                 ViewBag.Discount = 10;

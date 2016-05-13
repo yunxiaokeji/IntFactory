@@ -11,11 +11,11 @@ using IntFactoryEnum;
 
 namespace YXERP.Controllers
 {
-    public class InquireController : BaseController
+    public class InquireController :Controller
     {
         //
         // GET: /Inquire/
-
+        Dictionary<String, object> JsonDictionary = new Dictionary<string, object>();
         public ActionResult InquireOrder()
         {            
             

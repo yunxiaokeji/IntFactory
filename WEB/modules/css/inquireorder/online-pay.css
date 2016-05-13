@@ -3,7 +3,8 @@
 .pay-body{width:960px;margin:0 auto;}
 .pay-title{height:30px;padding:20px 0;color:#4a98e7;border-bottom:1px solid #4a98e7;}
 .pay-title-name i{width:40px;height:40px;}
-.pay-title-name span{font-size:16px;line-height:30px;vertical-align:middle;color:#666;}
+.pay-title-name i img{width:26px;}
+.pay-title-name span{font-size:16px;line-height:30px;vertical-align:middle;color:#4a98e7;}
 /*内容*/
 .pay-content{padding-bottom:20px;background:url(/modules/images/Inquire/bottom-bg.png) no-repeat bottom right;}
 .pay-content-title{height:80px;padding:15px 0;background:url(/modules/images/Inquire/title-img.png) no-repeat 0 center;}
@@ -73,7 +74,7 @@
 .info-order .stage .complete{color:#2474FF;}
 .info-order .stage .completebg{background-color:#2474FF;}
 .info-order .stage .completecon{background-color:#D5E7FD;}
-.info-order .stage .abc{padding:2px; border-radius:50%;float:left;margin-left:-5px;}
+.info-order .stage .outerround{padding:2px; border-radius:50%;float:left;margin-left:-5px;}
 /*加载状态*/
 .img-loading { text-align:center;}
 @media only screen and (max-width: 1000px) {
