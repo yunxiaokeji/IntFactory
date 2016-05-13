@@ -3,7 +3,8 @@
 .pay-body{width:960px;margin:0 auto;}
 .pay-title{height:30px;padding:20px 0;color:#4a98e7;border-bottom:1px solid #4a98e7;}
 .pay-title-name i{width:40px;height:40px;}
-.pay-title-name span{font-size:16px;line-height:30px;vertical-align:middle;color:#666;}
+.pay-title-name i img{width:26px;}
+.pay-title-name span{font-size:16px;line-height:30px;vertical-align:middle;color:#4a98e7;}
 /*内容*/
 .pay-content{padding-bottom:20px;background:url(/modules/images/Inquire/bottom-bg.png) no-repeat bottom right;}
 .pay-content-title{height:80px;padding:15px 0;background:url(/modules/images/Inquire/title-img.png) no-repeat 0 center;}
