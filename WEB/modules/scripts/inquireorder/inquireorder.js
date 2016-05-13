@@ -4,13 +4,12 @@
     var InquireOrder = {};
 
     InquireOrder.init = function () {
-        InquireOrder.bindEvent();
+        InquireOrder.bindEvent();        
     };
 
     InquireOrder.isloading = true;
 
     InquireOrder.bindEvent = function () {
-        
         
         //发送验证码
         $(".inquire-form-btn").click(function () {
@@ -40,77 +39,53 @@
             }
         });
 
-        //发送手机验证码
-        var timeCount = 60;
-        var interval = null;
-        InquireOrder.SendMobileMessage = function (id, mobilePhone) {
-            var $btnSendCode = $("." + id);
-            $btnSendCode.attr("disabled", "disabled");
-
-            $("." + id).css("background-color", "#aaa");
-            interval = setInterval(function () {
-                var $btnSendCode = $("." + id);
-                timeCount--;
-                $btnSendCode.val(timeCount + "秒后重发");
-               
-                if (timeCount == 0) {
-                    clearInterval(interval);
-                    timeCount = 60;
-                    $btnSendCode.val("获取验证码").css("background-color", "#4a98e7");
-                    $btnSendCode.removeAttr("disabled");
-                    $btnSendCode.text("获取验证码");                   
-                    
-                }
-
-            }, 1000);
-
-           
-        }
-
-        //验证手机验证码
+        //查寻进度
         $(".inquire-form-button").click(function () {
             var phoneLogin = $(".inquire-form-phone").val();
             var phonevalidation = $(".inquire-form-numb").val();
-            if (phoneLogin != "" || phonevalidation != "") {
+            if (phoneLogin != "" || phonevalidation != null) {
                 Global.post("/Inquire/ValidateMobilePhoneCode", { mobilePhone: phoneLogin, code: phonevalidation }, function (code) {
                     if (code.Result == 0) {
-                        alert("验证码有误");
-                        $(".inquire-form-button").attr("disabled", "disabled").css("background", "#d5d5d5");
+                        alert("验证码有误");                       
                     } else {
                         $(".img-loading").remove();
                         $(".info").remove();
                         InquireOrder.getOrderByPhone();
                     }
-                });
-
-                $(".inquire-form-button").click(function () {
-                    $(".img-loading").remove();
-                    $(".info").remove();
-                    InquireOrder.getOrderByPhone();
-
-                });
-
-                //通过键盘触发事件
-                //$(document).bind('keydown', function (e) {
-                //    if (e.which == 13) {
-                //        $(".img-loading").remove();
-                //        $(".info").remove();
-                //        InquireOrder.getOrderByPhone();
-                //    }
-                //});
+                });   
 
             } else {
-                alert("手机号或验证码不能为空");
-                $(".inquire-form-button").attr("disabled", "disabled").css("background", "#d5d5d5");
+                alert("手机号或验证码不能为空");               
             }
-            
-            
         });
-
-
-
-
         
+    }
+    
+    //发送手机验证码
+    var timeCount = 60;
+    var interval = null;
+    InquireOrder.SendMobileMessage = function (id, mobilePhone) {
+        var $btnSendCode = $("." + id);
+        $btnSendCode.attr("disabled", "disabled");
+
+        $("." + id).css("background-color", "#aaa");
+        interval = setInterval(function () {
+            var $btnSendCode = $("." + id);
+            timeCount--;
+            $btnSendCode.val(timeCount + "秒后重发");
+
+            if (timeCount == 0) {
+                clearInterval(interval);
+                timeCount = 60;
+                $btnSendCode.val("获取验证码").css("background-color", "#4a98e7");
+                $btnSendCode.removeAttr("disabled");
+                $btnSendCode.text("获取验证码");
+
+            }
+
+        }, 1000);
+
+
     }
 
     InquireOrder.getOrderByPhone = function () {
