@@ -60,20 +60,8 @@
         
     }
     
-                        //$(".inquire-form-button").attr("disabled", "disabled").css("background", "#d5d5d5");
-                //$(".inquire-form-button").click(function () {
-                //    $(".img-loading").remove();
-                //    $(".info").remove();
-                //    InquireOrder.getOrderByPhone();
 
-                //$(".inquire-form-button").attr("disabled", "disabled").css("background", "#d5d5d5");
-             
-        //$(document).keydown(function (e) {
-        //    if (e.keyCode === 13) {
-        //        $(".inquire-form-button").click();
-        //    }
-        //});
-    }
+    
     //发送手机验证码
     var timeCount = 60;
     var interval = null;
