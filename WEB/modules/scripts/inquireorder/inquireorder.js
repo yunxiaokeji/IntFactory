@@ -11,6 +11,7 @@
 
     InquireOrder.bindEvent = function () {
         
+        
         //发送验证码
         //$(".inquire-form-btn").click(function () {
         //    var mobilePhone = $(".inquire-form-phone").val();
@@ -89,6 +90,7 @@
             $(".img-loading").remove();
             $(".info").remove();
             InquireOrder.getOrderByPhone();
+
         });
 
         //通过键盘触发事件
@@ -100,6 +102,7 @@
             }
         });
 
+        
     }
 
     InquireOrder.getOrderByPhone = function () {
@@ -108,15 +111,36 @@
             $(".inquire").after('<div class="img-loading"><img style="width:20px;" src="/modules/images/ico-loading.gif" /></div>');
             var mobilePhone = $(".inquire-form-phone").val();
             Global.post("/Inquire/InquireOrderByPhone", { mobilePhone: mobilePhone }, function (data) {
-                if (data.items.length > 0) {
+                if (data.items.length > 0) { 
                     doT.exec("/template/inquireorder/inquireorder.html", function (template) {
                         var innerhtml = template(data.items);
                         innerhtml = $(innerhtml);
                         $(".inquire").after(innerhtml);
+
+
+                        for (var i = 0; i < data.items.length; i++) {
+                            var item = data.items[i];
+                            var $activeLi = $("#ul-" + item.OrderID).find("li[data-status='" + item.Status + "']");
+                            $activeLi.find(".abc").css({ "border": "2px solid #007aff", "margin-left": "-6px", "background-color": "#fff" });
+                            $activeLi.find("span").addClass("complete");
+                            $activeLi.find(".round").addClass("completebg");
+                            $activeLi.prevAll().find(".connect").addClass("completecon");
+                            $activeLi.prevAll().find(".abc .round").addClass("completebg ");
+                            $activeLi.prevAll().find("span").addClass("complete");
+                            $activeLi.siblings().find("span").css("padding-left","4px");
+                            for (var j = 0; j < item.StatusItems.length; j++) {
+                                var statu = item.StatusItems[j];
+                                var $statuLi = $("#ul-" + item.OrderID).find("li[data-status='" + statu.Status + "']");
+                                $statuLi.find("span").css("float", "left");
+                                $statuLi.find(".create-time").text(statu.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")).css({ "float": "left", "margin-left": "15px" });
+                                $statuLi.find(".create-time").after('<div class="clear"></div>');
+                            }
+                        }
                     });
                     InquireOrder.isloading = true;
                 } else {
                     $(".inquire").after('<div class="info"><div class="infobox row"><div class="info-none"></div></div></div>');
+                    InquireOrder.isloading = true;
                 }
                 $(".img-loading").remove();
             });

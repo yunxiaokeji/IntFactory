@@ -22,7 +22,7 @@
     ObjectJS.init = function (attrValues, um, plateRemark, orderimages, task, isWarn) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
 
-        ObjectJS.orderid = task.OrderID;
+        ObjectJS.guid = task.OrderID;
         ObjectJS.ownerid = task.OwnerID;
         ObjectJS.endTime = task.EndTime.toDate("yyyy/MM/dd hh:mm:ss");
         ObjectJS.finishStatus = task.FinishStatus;
@@ -186,7 +186,7 @@
 
         //初始化任务讨论列表
         TalkReply.initTalkReply(ObjectJS);
-
+        
     }
 
     //更改任务到期时间
@@ -573,7 +573,7 @@
             var _this = $(this);
             confirm("确认从清单中移除此材料吗？", function () {
                 Global.post("/Orders/DeleteProduct", {
-                    orderid: ObjectJS.orderid,
+                    orderid: ObjectJS.guid,
                     autoid: _this.data("id"),
                     name: _this.data("name")
                 }, function (data) {
@@ -656,7 +656,7 @@
     //生成采购单
     ObjectJS.effectiveOrderProduct = function () {
         Global.post("/Orders/EffectiveOrderProduct", {
-            orderID: ObjectJS.orderid
+            orderID: ObjectJS.guid
         }, function (data) {
             if (data.result == 1) {
                 location.href = location.href;
@@ -969,7 +969,7 @@
         });
 
         Global.post("/Task/UpdateOrderPlateAttr", {
-            orderID: ObjectJS.orderid,
+            orderID: ObjectJS.guid,
             taskID: ObjectJS.taskid,
             platehtml: encodeURI($("#platemakingBody").html()),
             valueIDs: valueIDs
@@ -984,7 +984,7 @@
     //保存制版工艺说明
     ObjectJS.updateOrderPlateRemark = function () {
         Global.post("/Task/UpdateOrderPlateRemark", {
-            orderID: ObjectJS.orderid,
+            orderID: ObjectJS.guid,
             plateRemark: encodeURI(Editor.getContent())
         }, function (data) {
             if (data.result == 1) {

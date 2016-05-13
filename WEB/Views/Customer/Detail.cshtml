@@ -3,6 +3,7 @@
 }
 @section css{
     <link href="/modules/css/default/customer.css" rel="stylesheet" />
+    <link href="/modules/css/task/style.css" rel="stylesheet" />
 }
 
 @section scripts{
@@ -45,7 +46,7 @@
 </div>
 <div class="module-header mTop20">
     <ul class="module-tab left">
-        <li class="hover" data-id="navRemark">备忘</li>
+        <li class="hover" data-id="taskReplys">备忘</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019009"))" data-id="navOppor">需求列表</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019010"))" data-id="navOrder">打样订单</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019011"))" data-id="navDHOrder">大货订单</li>
@@ -66,16 +67,19 @@
             <td class="width50">操作</td>
         </tr>
     </table>
-    <div id="navRemark" class="mTop20 talk-body nav-partdiv">
-        <div class="content-main">
-            <textarea id="txtContent" class="txt-content left"></textarea>
-            <span class="btn btn-save" id="btnSaveTalk">提交</span>
+    <div class="mTop20 task-replys" id="taskReplys">
+        <div class="taskreply-box">
+            <textarea id="txtContent" class="reply-content" placeholder="发表评论"></textarea><br />
+            <div class="btn-emotion left" id="btn-emotion" data-id="txtContent" title="表情"></div>
+            <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
+            <div class="clear"></div>
         </div>
-        <div class="talk-title"> 全部备忘 </div>
-         <table class="content-list" id="replyList">
 
-         </table>
-        <div id="pagerReply" class="mTop10"></div>
+        <div class="talk-title"> 全部讨论</div>
+
+        <table class="content-list" id="replyList"></table>
+
+        <div class="mTop10" id="pagerReply"></div>
     </div>
     @*日志*@
     <div class="nav-partdiv hide" id="navLog">

@@ -19,134 +19,87 @@
                     <span>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
                 </li>
                 <li class="row">
-                    <i>接单时间：</i>
-                    <span>{%=item.OrderTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
+                    <i>订单类型：</i>
+                    <span>{%=item.OrderType==1?"打样":"大货"%}</span>
                 </li>
                 <li class="row">
-                    <i>工厂信息：</i>
+                    <i>工厂名字：</i>
                     <span>{%=item.Client.CompanyName%}</span>
                 </li>
             </ul>
-            {% if(item.Status=="0"){ %}
-            <ul class="stage" style="margin-right:-59%">
-                <li data-status="0">
-                    <div class="abc" style="border:2px solid #007aff;margin-left:-6px;background-color:#fff;"><div class="round completebg"></div></div>
-                    <span class="complete">需求单</span>                    
-                </li>
-                <li data-status="1">
-                    <div class="connect"></div>
-                </li>
-                <li data-status="1">
-                    <div class="abc"><div class="round"></div></div>
-                    <span>打&nbsp;&nbsp;&nbsp;样</span>                        
-                </li>
-                <li data-status="2">
-                    <div class="connect"></div>
-                </li>
-                <li  data-status="2">
-                    <div class="abc"><div class="round"></div></div>
-                    <span>合&nbsp;&nbsp;&nbsp;价</span>                        
-                </li>
-                <li data-status="3">
-                    <div class="connect"></div>
-                </li>
-                <li data-status="3">
-                    <div class="abc"><div class="round"></div></div>
-                    <span>封样封价</span>
-                </li>
-            </ul>
-            {% }else if(item.Status=="1"){ %}
-            <ul class="stage">
-                <li data-status="0">
-                    <div class="abc"><div class="round completebg"></div></div>
-                    <span class="complete">需求单</span>
-                    <span class="complete">2016-6-5 12:44:33</span>
-                </li>
-                <li data-status="1">
-                    <div class="connect completecon"></div>
-                </li>
-                <li data-status="1">
-                    <div class="abc" style="border:2px solid #007aff;margin-left:-6px;background-color:#fff;"><div class="round completebg"></div></div>
-                    <span class="complete">打&nbsp;&nbsp;&nbsp;样</span>                        
-                </li>
-                <li data-status="2">
-                    <div class="connect"></div>
-                </li>
-                <li  data-status="2">
-                    <div class="abc"><div class="round"></div></div>
-                    <span>合&nbsp;&nbsp;&nbsp;价</span>                        
-                </li>
-                <li data-status="3">
-                    <div class="connect"></div>
-                </li>
-                <li data-status="3">
-                    <div class="abc"><div class="round"></div></div>
-                    <span>封样封价</span>
-                </li>
-            </ul>
-            {% }else if(item.Status=="2"){ %}
-            <ul class="stage">
-                <li data-status="0">
-                    <div class="abc"><div class="round completebg"></div></div>
-                    <span class="complete">需求单</span>
-                    <span class="complete">2016-6-5 12:44:33</span>
-                </li>
-                <li data-status="1">
-                    <div class="connect completecon"></div>
-                </li>
-                <li data-status="1">
-                    <div class="abc"><div class="round completebg"></div></div>
-                    <span class="complete">打&nbsp;&nbsp;&nbsp;样</span>   
-                    <span class="complete">2016-6-5 12:44:33</span>                     
-                </li>
-                <li data-status="2">
-                    <div class="connect completecon"></div>
-                </li>
-                <li  data-status="2">
-                    <div class="abc" style="border:2px solid #007aff;margin-left:-6px;background-color:#fff;"><div class="round completebg"></div></div>
-                    <span>合&nbsp;&nbsp;&nbsp;价</span>                        
-                </li>
-                <li data-status="3">
-                    <div class="connect"></div>
-                </li>
-                <li data-status="3">
-                    <div class="abc"><div class="round"></div></div>
-                    <span>封样封价</span>
-                </li>
-            </ul>
-            {% }else { %}
-            <ul class="stage">
-                <li data-status="0">
-                    <div class="abc"><div class="round completebg"></div></div>
-                    <span class="complete">需求单</span>
-                    <span class="complete">2016-6-5 12:44:33</span>
-                </li>
-                <li data-status="1">
-                    <div class="connect completecon"></div>
-                </li>
-                <li data-status="1">
-                    <div class="abc"><div class="round completebg"></div></div>
-                    <span class="complete">打&nbsp;&nbsp;&nbsp;样</span>    
-                    <span class="complete">2016-6-5 12:44:33</span>                    
-                </li>
-                <li data-status="2">
-                    <div class="connect completecon"></div>
-                </li>
-                <li  data-status="2">
-                    <div class="abc"><div class="round completebg"></div></div>
-                    <span  class="complete">合&nbsp;&nbsp;&nbsp;价</span>     
-                    <span class="complete">2016-6-5 12:44:33</span>                   
-                </li>
-                <li data-status="3">
-                    <div class="connect completecon"></div>
-                </li>
-                <li data-status="3">
-                    <div class="abc" style="border:2px solid #007aff;margin-left:-6px;background-color:#fff;"><div class="round completebg"></div></div>
-                    <span  class="complete">封样封价</span>
-                </li>
-            </ul>
+            <ul class="stage" id="ul-{%=item.OrderID%}">
+            {% if(item.OrderType=="1") { %}                
+                
+                    <li data-status="0">
+                        <div class="abc"><div class="round completebg"></div></div>
+                        <span class="complete">&nbsp;需&nbsp;求&nbsp;单</span>
+                        <div class="complete create-time"></div>
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li data-status="1">
+                        <div class="abc"><div class="round"></div></div>
+                        <span>&nbsp;打&nbsp;样&nbsp;中</span>    
+                        <div class="complete create-time"></div>                    
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li  data-status="2">
+                        <div class="abc"><div class="round"></div></div>
+                        <span>&nbsp;合&nbsp;价&nbsp;中</span>     
+                        <div class="complete create-time"></div>                   
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li data-status="3">
+                        <div class="abc"><div class="round "></div></div>
+                        <span>封样封价</span>
+                    </li>
+                            
+            {% }else{ %}      
+
+                    <li data-status="0">
+                        <div class="abc"><div class="round completebg"></div></div>
+                        <span class="complete">&nbsp;需&nbsp;求&nbsp;单</span> 
+                        <div class="complete create-time"></div>                   
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li data-status="4">
+                        <div class="abc"><div class="round"></div></div>
+                        <span>&nbsp;待&nbsp;大&nbsp;货</span>      
+                        <div class="complete create-time"></div>                  
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li  data-status="5">
+                        <div class="abc"><div class="round"></div></div>
+                        <span>&nbsp;生&nbsp;产&nbsp;中</span>      
+                        <div class="complete create-time"></div>                  
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li data-status="6">
+                        <div class="abc"><div class="round"></div></div>
+                        <span>生产完成</span>
+                        <div class="complete create-time"></div>
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li data-status="7">
+                        <div class="abc"><div class="round"></div></div>
+                        <span>交易结束</span>
+                    </li>               
             {% } %}
-                    
+
+            </ul>
         </div>
             
         <div class="info-type r"></div>
