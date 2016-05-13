@@ -8,7 +8,7 @@ body { background-color: #fff; }
 
 .header-logo { cursor: pointer; }
 
-.login-body .headerTitle {margin-left:5px; color:#4a98e7; text-align:center; font-size:16px;font-weight:bold; line-height:24px;}
+.login-body .headerTitle {margin-left:5px; color:#4a98e7; text-align:center; font-size:16px;line-height:24px;}
 .login-body .main .login{margin-top:25px;}
 .login-body .main .login .loginbar{ width:100%;height:40px; margin:10px 0px; background-color:#fff;position:relative;}
 .login-body .main .loginTitle {color:#4a98e7; text-align:center; font-size:22px;}
