@@ -13,100 +13,108 @@
         
         
         //发送验证码
-        //$(".inquire-form-btn").click(function () {
-        //    var mobilePhone = $(".inquire-form-phone").val();
-        //    if (mobilePhone == '') {
-        //        alert("手机号不能为空");
-        //        return;
-        //    }
-        //    else {
-        //        if (Global.validateMobilephone(mobilePhone)) {
-        //            $(".inquire-form-btn").val("发送中...");
-        //            Global.post("/Inquire/SendMobileMessage", { mobilePhone: mobilePhone }, function (data) {
-        //                $(".inquire-form-btn").val("获取验证码");
-        //                if (data.Result == 0) {
-        //                    alert("验证码发送失败");
-        //                }
-        //                else {
-        //                    $(".inquire-form-button").css({ "background-color": "#007aff", "color": "#fff", "font-size": "22px" }).removeAttr("disabled");
-        //                    InquireOrder.SendMobileMessage("inquire-form-btn", mobilePhone);
-        //                }
-        //            });
+        $(".inquire-form-btn").click(function () {
+            var mobilePhone = $(".inquire-form-phone").val();
+            if (mobilePhone == '') {
+                alert("手机号不能为空");
+                return;
+            }
+            else {
+                if (Global.validateMobilephone(mobilePhone)) {
+                    $(".inquire-form-btn").val("发送中...");
+                    Global.post("/Inquire/SendMobileMessage", { mobilePhone: mobilePhone }, function (data) {
+                        $(".inquire-form-btn").val("获取验证码");
+                        if (data.Result == 0) {
+                            alert("验证码发送失败");
+                        }
+                        else {
+                            $(".inquire-form-button").css({ "background-color": "#007aff", "color": "#fff", "font-size": "22px" }).removeAttr("disabled");
+                            InquireOrder.SendMobileMessage("inquire-form-btn", mobilePhone);
+                        }
+                    });
                     
-        //        }
-        //        else {
-        //            alert("手机号格式有误");
-        //        }
-        //    }
-        //});
-
-        ////发送手机验证码
-        //var timeCount = 60;
-        //var interval = null;
-        //InquireOrder.SendMobileMessage = function (id, mobilePhone) {
-        //    var $btnSendCode = $("." + id);
-        //    $btnSendCode.attr("disabled", "disabled");
-
-        //    $("." + id).css("background-color", "#aaa");
-        //    interval = setInterval(function () {
-        //        var $btnSendCode = $("." + id);
-        //        timeCount--;
-        //        $btnSendCode.val(timeCount + "秒后重发");
-               
-        //        if (timeCount == 0) {
-        //            clearInterval(interval);
-        //            timeCount = 60;
-        //            $btnSendCode.val("获取验证码").css("background-color", "#4a98e7");
-        //            $btnSendCode.removeAttr("disabled");
-        //            $btnSendCode.text("获取验证码");                   
-                    
-        //        }
-
-        //    }, 1000);
-
-           
-        //}
-
-        ////验证手机验证码
-        //$(".inquire-form-button").click(function () {
-        //    var phoneLogin = $(".inquire-form-phone").val();
-        //    var phonevalidation = $(".inquire-form-numb").val();
-        //    if (phoneLogin==""||phonevalidation=="") {
-        //        alert("手机号或验证码不能为空");
-        //    } else {
-        //        Global.post("/Inquire/ValidateMobilePhoneCode", { mobilePhone: phoneLogin, code: phonevalidation }, function (code) {
-        //            if (code.Result == 0) {
-        //                alert("验证码有误");
-        //            } else {
-                            //$(".img-loading").remove();
-                            //$(".info").remove();
-                            //InquireOrder.getOrderByPhone();
-        //            }
-        //        });
-        //    }
-        //});
-
-        $(".inquire-form-button").click(function () {
-            $(".img-loading").remove();
-            $(".info").remove();
-            InquireOrder.getOrderByPhone();
-
-        });
-
-        //通过键盘触发事件
-        $(document).bind('keydown', function (e) {
-            if (e.which == 13) {
-                $(".img-loading").remove();
-                $(".info").remove();
-                InquireOrder.getOrderByPhone();
+                }
+                else {
+                    alert("手机号格式有误");
+                }
             }
         });
+
+        //发送手机验证码
+        var timeCount = 60;
+        var interval = null;
+        InquireOrder.SendMobileMessage = function (id, mobilePhone) {
+            var $btnSendCode = $("." + id);
+            $btnSendCode.attr("disabled", "disabled");
+
+            $("." + id).css("background-color", "#aaa");
+            interval = setInterval(function () {
+                var $btnSendCode = $("." + id);
+                timeCount--;
+                $btnSendCode.val(timeCount + "秒后重发");
+               
+                if (timeCount == 0) {
+                    clearInterval(interval);
+                    timeCount = 60;
+                    $btnSendCode.val("获取验证码").css("background-color", "#4a98e7");
+                    $btnSendCode.removeAttr("disabled");
+                    $btnSendCode.text("获取验证码");                   
+                    
+                }
+
+            }, 1000);
+
+           
+        }
+
+        //验证手机验证码
+        $(".inquire-form-button").click(function () {
+            var phoneLogin = $(".inquire-form-phone").val();
+            var phonevalidation = $(".inquire-form-numb").val();
+            if (phoneLogin != "" || phonevalidation != "") {
+                Global.post("/Inquire/ValidateMobilePhoneCode", { mobilePhone: phoneLogin, code: phonevalidation }, function (code) {
+                    if (code.Result == 0) {
+                        alert("验证码有误");
+                        $(".inquire-form-button").attr("disabled", "disabled").css("background", "#d5d5d5");
+                    } else {
+                        $(".img-loading").remove();
+                        $(".info").remove();
+                        InquireOrder.getOrderByPhone();
+                    }
+                });
+
+                $(".inquire-form-button").click(function () {
+                    $(".img-loading").remove();
+                    $(".info").remove();
+                    InquireOrder.getOrderByPhone();
+
+                });
+
+                //通过键盘触发事件
+                //$(document).bind('keydown', function (e) {
+                //    if (e.which == 13) {
+                //        $(".img-loading").remove();
+                //        $(".info").remove();
+                //        InquireOrder.getOrderByPhone();
+                //    }
+                //});
+
+            } else {
+                alert("手机号或验证码不能为空");
+                $(".inquire-form-button").attr("disabled", "disabled").css("background", "#d5d5d5");
+            }
+            
+            
+        });
+
+
+
 
         
     }
 
     InquireOrder.getOrderByPhone = function () {
-        if (InquireOrder.isloading) {
+        if (InquireOrder.isloading==true) {
             InquireOrder.isloading = false;
             $(".inquire").after('<div class="img-loading"><img style="width:20px;" src="/modules/images/ico-loading.gif" /></div>');
             var mobilePhone = $(".inquire-form-phone").val();
@@ -121,11 +129,11 @@
                         for (var i = 0; i < data.items.length; i++) {
                             var item = data.items[i];
                             var $activeLi = $("#ul-" + item.OrderID).find("li[data-status='" + item.Status + "']");
-                            $activeLi.find(".abc").css({ "border": "2px solid #007aff", "margin-left": "-6px", "background-color": "#fff" });
+                            $activeLi.find(".outerround").css({ "border": "2px solid #007aff", "margin-left": "-6px", "background-color": "#fff" });
                             $activeLi.find("span").addClass("complete");
                             $activeLi.find(".round").addClass("completebg");
                             $activeLi.prevAll().find(".connect").addClass("completecon");
-                            $activeLi.prevAll().find(".abc .round").addClass("completebg ");
+                            $activeLi.prevAll().find(".outerround .round").addClass("completebg ");
                             $activeLi.prevAll().find("span").addClass("complete");
                             $activeLi.siblings().find("span").css("padding-left","4px");
                             for (var j = 0; j < item.StatusItems.length; j++) {
