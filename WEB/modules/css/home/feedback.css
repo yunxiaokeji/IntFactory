@@ -10,7 +10,7 @@
 
 .content-body { max-width:1200px;margin:0 auto;background:url(/modules/images/feedback-bg.png) no-repeat 0 0;margin-top:62px;}
     
-.feed-top {float: right;width: 300px;margin: 50px 0 50px;}
+.feed-top {float: right;width: 300px;margin: 50px 0 30px;}
 .feed-top h1 { font-size:36px;font-weight:normal;color: #777;margin-bottom:10px;}
 .feed-top p { font-size:14px;line-height:24px;}
 .feed-top p span { font-size:16px;color:#4a98e7;}
