@@ -610,7 +610,7 @@ namespace YXERP.Controllers
                 string name = "年";
                 if (type == 2)
                     name = "月";
-                string orderTitle = "您购买了二当家 人数:" + userQuantity + "人   时间:" + years + name + "   " + "金额:" + realAmount;
+                string orderTitle = "您购买了智能工厂 人数:" + userQuantity + "人   时间:" + years + name + "   " + "金额:" + realAmount;
                 string orderDes = "";
                 decimal realAmount2 = decimal.Parse(realAmount);
                 string amount = decimal.Round(realAmount2, 2).ToString();
@@ -638,7 +638,7 @@ namespace YXERP.Controllers
                 string name = "年";
                 if (type == 2)
                     name = "月";
-                string orderTitle = "您购买了二当家 人数:" + userQuantity + "人   时间:" + years + name + "   " + "金额:" + realAmount;
+                string orderTitle = "您购买了智能工厂 人数:" + userQuantity + "人   时间:" + years + name + "   " + "金额:" + realAmount;
                 string orderDes = "";
                 decimal realAmount2 = decimal.Parse(realAmount);
                 string amount = decimal.Round(realAmount2, 2).ToString();

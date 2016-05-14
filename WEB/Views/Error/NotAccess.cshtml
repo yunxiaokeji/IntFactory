@@ -2,7 +2,8 @@
     Layout = null;
 }
 
-<head>
+<head >
+ <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>访问出错-厂盟科技</title>
 <link href="/modules/css/base.css" rel="stylesheet" />
 <link href="/modules/css/default/layout.css" rel="stylesheet" />
@@ -27,14 +28,14 @@
 
         <div class="title mTop50">您可以尝试以下操作：</div>
         <ul>
-            <li><span class="iconfont">&#xe64a;</span><a href="@ViewBag.aspxerrorpath">重新打开</a>  页面</li>
+            <li><span class="iconfont">&#xe64a;</span><a href="@ViewBag.urlReferrer">重新打开</a>  页面</li>
             <li><span class="iconfont">&#xe64a;</span>将问题 <a>反馈</a> 给我们</li>
             <li><span class="iconfont">&#xe64a;</span>拨打客服热线  <a>51602866-702</a> 联系我们处理</li>
         </ul>
 
         <div class="mTop20">
             <div class="left btn-home" onclick="location.href='/Home/Index'">返回首页</div>
-            <div class="left btn-prev mLeft20" onclick="location.href='@ViewBag.aspxerrorpath'">返回上一页</div>
+            <div class="left btn-prev mLeft20" onclick="location.href='@ViewBag.urlReferrer'">返回上一页</div>
             <div class="clear"></div>
         </div>
     </div>
