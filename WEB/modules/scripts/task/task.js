@@ -5,9 +5,9 @@
     require("mark");
 
     var Params = {
-        isMy: true,
+        isMy: true,//是否获取我的任务
         userID: "",
-        isParticipate:0,
+        isParticipate:0,//是否获取我参与任务
         taskType: -1,
         colorMark: -1,
         status: 1,
@@ -18,7 +18,7 @@
         orderType: -1,
         orderProcessID: "-1",
         orderStageID: "-1",
-        taskOrderColumn: 0,
+        taskOrderColumn: 0,//0:创建时间；2：到期时间
         isAsc:0,
         pageSize: 10,
         pageIndex:1
@@ -31,15 +31,15 @@
         Params.endDate = nowDate;
         if (isMy == 2) {
             Params.isParticipate = 1;
-
+            document.title = "参与任务";
+            $(".header-title").html("参与任务");
         }
-
-        if (isMy == "0")
+        else if (isMy == 0)
         {
             Params.isMy = false;
             document.title = "所有任务";
             $(".header-title").html("所有任务");
-
+            //人员筛选
             require.async("choosebranch", function () {
                 $("#chooseBranch").chooseBranch({
                     prevText: "人员-",
@@ -55,14 +55,12 @@
                     }
                 });
             });
-        }
-        else if (isMy == "2") {
-            document.title = "参与任务";
-            $(".header-title").html("参与任务");
+
         }
 
         ObjectJS.bindEvent();
 
+        //获取任务列表
         if (Params.isParticipate == 1) {
             $(".search-stages li").eq(2).click();
         }
@@ -72,7 +70,7 @@
     }
 
     ObjectJS.bindEvent = function () {
-        //关键字查询
+        //关键字查询 任务编码、订单编码、任务标题
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
                 Params.pageIndex = 1;
@@ -207,6 +205,7 @@
 
             }
             _self.data({ "isasc": isasc, "isactive": 1 });
+
             Params.isAsc = isasc;
             Params.taskOrderColumn = orderbycloumn;
             Params.pageIndex = 1;
@@ -264,6 +263,7 @@
             alert("不能标记此选项!");
             return false;
         }
+
         Global.post("/Task/UpdateTaskColorMark", {
             ids: ids,
             mark: mark

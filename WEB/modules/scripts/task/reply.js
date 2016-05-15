@@ -1,28 +1,27 @@
 ﻿define(function (require, exports, module) {
+    var Global = require("global");
+    var doT = require("dot");
+    var Qqface = require("qqface");
     var ObjectJS = {};
+    var Reply = {};
 
     ///任务讨论
     //初始化任务讨论列表
-    ObjectJS.init = function (orderid, stageid, mark) {
-        debugger;
-        ObjectJS.orderid = orderid;
-        ObjectJS.stageid = stageid;
-        ObjectJS.mark = mark;
-        alert(1111);
-        ObjectJS.bindEvent();
+    ObjectJS.initTalkReply = function (reply) {
+        Reply = reply;
+        //任务讨论盒子点击
+        $(".taskreply-box").click(function () {
+            $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
+        });
 
-        ObjectJS.getTaskReplys(1);
-    }
-
-    ObjectJS.bindEvent = function () {
         $("#btnSaveTalk").click(function () {
             var txt = $("#txtContent");
 
             if (txt.val().trim()) {
                 var model = {
-                    GUID: ObjectJS.orderid,
-                    StageID: ObjectJS.stageid,
-                    mark: ObjectJS.mark,
+                    GUID: Reply.orderid,
+                    StageID: Reply.stageid,
+                    mark: Reply.mark,
                     Content: txt.val().trim(),
                     FromReplyID: "",
                     FromReplyUserID: "",
@@ -34,6 +33,24 @@
             }
 
         });
+        
+        $(".btn-emotion").each(function () {
+            $(this).qqFace({
+                assign: $(this).data("id"),
+                path: '/modules/plug/qqface/arclist/'	//表情存放的路径
+            });
+        });
+  
+        ObjectJS.getTaskReplys(1);
+
+        //任务讨论盒子隐藏
+        $(document).click(function (e) {
+            if (!$(e.target).parents().hasClass("taskreply-box") && !$(e.target).hasClass("taskreply-box")&&
+                !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace"))
+            {
+                $(".taskreply-box").removeClass("taskreply-box-hover");
+            }
+        });
     }
 
     //获取任务讨论列表
@@ -41,13 +58,16 @@
         var _self = this;
         $("#replyList").empty();
         $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='data-loading'><div></td></tr>");
-
         Global.post("/Opportunitys/GetReplys", {
-            guid: ObjectJS.orderid,
-            stageid: ObjectJS.stageid,
+            guid: Reply.orderid,
+            stageid: Reply.stageid,
+            mark: Reply.mark,
             pageSize: 10,
             pageIndex: page
         }, function (data) {
+            $("#replyList").empty();
+            
+
             if (data.items.length > 0) {
                 doT.exec("template/customer/replys.html", function (template) {
                     var innerhtml = template(data.items);
@@ -108,7 +128,7 @@
         });
     }
 
-    //绑定讨论相关操作
+    //绑定任务讨论操作
     ObjectJS.bindReplyOperate = function (replys) {
         replys.find(".reply-content").each(function () {
             $(this).html(Global.replaceQqface($(this).html()));
@@ -140,7 +160,7 @@
                 var entity = {
                     GUID: _this.data("id"),
                     StageID: _this.data("stageid"),
-                    Mark:ObjectJS.mark,
+                    Mark: Reply.mark,
                     Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                     FromReplyID: _this.data("replyid"),
                     FromReplyUserID: _this.data("createuserid"),

@@ -1,7 +1,4 @@
-﻿@{
-
-}
-
+﻿
 <div class="mTop20 task-replys" id="taskReplys">
     <div class="taskreply-box">
         <textarea id="txtContent" class="reply-content" placeholder="发表评论"></textarea><br />
@@ -16,13 +13,4 @@
 
     <div class="mTop10" id="pagerReply"></div>
 </div>
-
-
-    <script type="text/javascript">
-        $(function () {
-            seajs.use(["scripts/task/reply"], function (obj) {
-                obj.init('@Model.OrderID','@Model.StageID','@Model.Mark');
-            });
-        });
-    </script>
 

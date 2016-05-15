@@ -2,6 +2,7 @@
     Layout = null;
 }
 <head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>无权限访问-厂盟科技</title>
 <link href="/modules/css/base.css" rel="stylesheet" />
 <link href="/modules/css/default/layout.css" rel="stylesheet" />
@@ -17,8 +18,7 @@
     </div>
 
     <div class="error-content right">
-
-        <div class="title mTop40">您可以尝试以下操作：/div>
+        <div class="title mTop40">您可以尝试以下操作：</div>
         <ul>
             <li><span class="iconfont">&#xe64a;</span>联系管理开通访问权限</li>
             <li><span class="iconfont">&#xe64a;</span>更换有权限的账号进行登录</li>
@@ -26,7 +26,7 @@
 
         <div style="margin-top:80px;">
             <div class="left btn-home" onclick="location.href='/Home/Index'">返回首页</div>
-            <div class="left btn-prev mLeft20" onclick="location.href='@ViewBag.aspxerrorpath'">返回上一页</div>
+            <div class="left btn-prev mLeft20" onclick="location.href='@ViewBag.urlReferrer'">返回上一页</div>
             <div class="clear"></div>
         </div>
     </div>

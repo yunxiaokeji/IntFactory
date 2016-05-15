@@ -18,7 +18,10 @@ namespace YXERP.Areas.Api.Controllers
             Dictionary<string, object> resultObj = new Dictionary<string, object>();
             YXERP.Common.PwdErrorUserEntity pwdErrorUser = null;
 
-            if (Common.Common.CachePwdErrorUsers.ContainsKey(userName)) pwdErrorUser = Common.Common.CachePwdErrorUsers[userName];
+            if (Common.Common.CachePwdErrorUsers.ContainsKey(userName))
+            {
+                pwdErrorUser = Common.Common.CachePwdErrorUsers[userName];
+            }
 
             if (pwdErrorUser == null || (pwdErrorUser.ErrorCount < 3 && pwdErrorUser.ForbidTime < DateTime.Now))
             {
@@ -27,6 +30,19 @@ namespace YXERP.Areas.Api.Controllers
                 IntFactoryEntity.Users model = IntFactoryBusiness.OrganizationBusiness.GetUserByUserName(userName, pwd, out result, operateip);
 
                 if (model != null)
+                {
+                    if (result == 1)
+                    {
+                        Dictionary<string, object> userObj = new Dictionary<string, object>();
+                        string domainUrl = Request.Url.Scheme + "://" + Request.Url.Host;
+                        userObj.Add("userID", model.UserID);
+                        userObj.Add("agentID", model.AgentID);
+                        userObj.Add("name", model.Name);
+                        userObj.Add("avatar", domainUrl + model.Avatar);
+                        resultObj.Add("user", userObj);
+                    }
+                }
+                else
                 {
                     if (result == 3)
                     {
@@ -56,27 +72,13 @@ namespace YXERP.Areas.Api.Controllers
 
                         Common.Common.CachePwdErrorUsers[userName] = pwdErrorUser;
                     }
-                    else if (result == 1)
-                    {
-                        Dictionary<string, object> userObj = new Dictionary<string, object>();
-                        string domainUrl = Request.Url.Scheme + "://" + Request.Url.Host;
-                        userObj.Add("userID", model.UserID);
-                        userObj.Add("agentID", model.AgentID);
-                        userObj.Add("name", model.Name);
-                        userObj.Add("avatar",domainUrl+ model.Avatar);
-                        resultObj.Add("user", userObj);
-                    }
-
                 }
-                else
-                {
-                    int forbidTime = (int)(pwdErrorUser.ForbidTime - DateTime.Now).TotalMinutes;
-                    resultObj.Add("forbidTime", forbidTime);
-                    result = -1;
-                }
-
-
-
+            }
+            else
+            {
+                int forbidTime = (int)(pwdErrorUser.ForbidTime - DateTime.Now).TotalMinutes;
+                resultObj.Add("forbidTime", forbidTime);
+                result = -1;
             }
 
             resultObj.Add("result", result);

@@ -1,9 +1,9 @@
 ﻿define(function (require, exports, module) {
     var doT = require("dot");
     var Global = require("global");
-    var Qqface= require("qqface");
+    var TalkReply = require("scripts/task/reply");
     var Easydialog = null;
-    var ChooseUser =null;
+    var ChooseUser = null;
     require("pager");
 
     var ObjectJS = {};
@@ -32,16 +32,16 @@
         ObjectJS.orderType = task.OrderType;
         ObjectJS.isWarn = isWarn;
         ObjectJS.isPlate = true;//任务是否制版
-        if(attrValues!="")
-            CacheAttrValues=JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
+        if (attrValues != "")
+            CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
         Editor = um;
         ObjectJS.mark = task.Mark;//任务讨论标记 用于添加任务讨论
         ObjectJS.taskMark = task.Mark;//任务标记 用于做标记任务完成的限制条件
         ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
         ObjectJS.orderimages = orderimages;
 
+        //事件绑定
         ObjectJS.bindEvent();
-        ObjectJS.getTaskReplys(1);
 
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
@@ -54,48 +54,29 @@
 
             ObjectJS.removeTaskPlateOperate();
         }
-       //制版任务
+            //制版任务
         else if ($("#btn-updateTaskRemark").length == 1) {
             if (Easydialog == null) {
                 Easydialog = require("easydialog");
             }
             ObjectJS.bindPlatemakingEvent();
         }
-        else{
+        else {
             ObjectJS.removeTaskPlateOperate();
         }
 
-        
+
         //统计材料总金额
         ObjectJS.getProductAmount();
 
+        //制版工艺描述
         if (Editor) {
-            //制版工艺描述 富文本
             Editor.ready(function () {
                 Editor.setContent(decodeURI(plateRemark));
-
-                $(".edui-container").click(function () {
-                    $(".edui-body-container").animate({ height: "600px" }, 500);
-                });
-
-
-                $(document).click(function (e) {
-                    //隐藏制版列操作下拉框
-                    if (!$(e.target).parents().hasClass("replyBox") && !$(e.target).hasClass("replyBox")) {
-
-                        $(".taskreply-box").removeClass("taskreply-box-hover");
-                    }
-
-
-                    //隐藏制版列操作下拉框
-                    if (!$(e.target).parents().hasClass("edui-container") && !$(e.target).hasClass("edui-container")) {
-                        $(".edui-body-container").animate({ height: "100px" }, 500);
-                    }
-                });
-
             });
         }
 
+        //制版工艺说明
         if ($("#PlateRemark").length == 1) {
             if (plateRemark != "") {
                 $("#PlateRemark").html(decodeURI(plateRemark));
@@ -105,6 +86,7 @@
             }
         }
 
+        //判断制版任务是否执行了
         if (ObjectJS.taskMark == 2) {
             if ($("#platemakingBody .table-list").length == 0) {
                 ObjectJS.isPlate = false;
@@ -113,7 +95,7 @@
 
     };
 
-    ///任务基本信息操作事件
+    //#region任务基本信息操作
     //绑定事件
     ObjectJS.bindEvent = function () {
 
@@ -128,37 +110,16 @@
             $("#navTask").children().hide();
             $("#" + _this.data("id")).show();
 
-            
-           if (_this.data("id") == "taskReplys") {
-                if (!_this.data("isget")) {
-                    //任务讨论列表
-                    ObjectJS.getTaskReplys(1);
-                    _this.data("isget", "1");
-                }
-            }
-            else if (_this.data("id") == "orderTaskLogs") {
+            if (_this.data("id") == "orderTaskLogs") {
                 if (!_this.data("isget")) {
                     //任务日志列表
                     ObjectJS.getLogs(1);
-                    _this.data("isget","1");
+                    _this.data("isget", "1");
                 }
 
             }
 
         });
-
-        //任务讨论盒子点击
-        $(".taskreply-box").click(function () {
-            $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
-        });
-
-        //任务讨论盒子隐藏
-        $(document).click(function (e) {
-            if (!$(e.target).parents().hasClass("taskreply-box") && !$(e.target).hasClass("taskreply-box")) {
-                $(".taskreply-box").removeClass("taskreply-box-hover");
-            }
-        });
-
 
         //标记任务完成
         if ($("#FinishTask").length == 1) {
@@ -167,15 +128,15 @@
             });
         }
 
-        //初始化任务讨论列表
-        ObjectJS.initTalkReply();
-
-        //绑定任务样式图
-        ObjectJS.bindOrderImages();
+        //接受任务
+        if ($("#AcceptTask").length == 1) {
+            $("#AcceptTask").click(function () {
+                ObjectJS.updateTaskEndTime();
+            });
+        }
 
         //添加任务成员
-        if ($("#addTaskMembers").length == 1)
-        {
+        if ($("#addTaskMembers").length == 1) {
             ChooseUser = require("chooseuser");
 
             $("#addTaskMembers").click(function () {
@@ -202,7 +163,7 @@
                         if (memberIDs != '') {
                             ObjectJS.addTaskMembers(memberIDs);
                         }
-                        
+
 
                     }
                 });
@@ -219,21 +180,15 @@
 
         }
 
-        //绑定讨论表情
-        $('#btn-emotion').qqFace({
-            assign: 'txtContent',
-            path: '/modules/plug/qqface/arclist/'	//表情存放的路径
-        });
-
         //显示剩余时间
         ObjectJS.showTime();
 
-        //接受任务
-        if ($("#AcceptTask").length == 1) {
-            $("#AcceptTask").click(function () {
-                ObjectJS.updateTaskEndTime();
-            });
-        }
+        //绑定任务样式图
+        ObjectJS.bindOrderImages();
+
+        //初始化任务讨论列表
+        TalkReply.initTalkReply(ObjectJS);
+
     }
 
     //更改任务到期时间
@@ -290,21 +245,19 @@
         laydate(taskEndTime);
 
 
-        
+
     }
 
     //标记任务完成
     ObjectJS.finishTask = function () {
-        if (ObjectJS.taskMark == 1)
-        {
+        if (ObjectJS.taskMark == 1) {
             if ($("#navProducts .table-list tr").length == 2) {
                 alert("材料没有添加,不能标记任务完成");
                 return;
             }
-            
+
         }
-        else if (ObjectJS.taskMark == 2)
-        {
+        else if (ObjectJS.taskMark == 2) {
             if ($("#platemakingBody .table-list").length == 0) {
                 alert("制版没有设置,不能标记任务完成");
                 return;
@@ -314,32 +267,150 @@
                 return;
             }
         }
-        
+
         confirm("标记完成的任务不可逆,确定完成?", function () {
             $("#FinishTask").val("完成中...").attr("disabled", "disabled");
-            
+
             Global.post("/Task/FinishTask",
                {
-                 id: ObjectJS.taskid
-               }, function (data){
+                   id: ObjectJS.taskid
+               }, function (data) {
                    $("#FinishTask").val("标记完成").removeAttr("disabled");
-                    if (data.result == 1) {
-                        location.href = location.href;
-                    }
-                    else if (data.result == 2) {
-                        alert("前面阶段任务有未完成,不能标记完成");
-                    }
-                    else if (data.result == 3) {
-                        alert("无权限操作");
-                    }
-                    else if (data.result == 4) {
-                        alert("任务没有接受，不能设置完成");
-                    }
-                    else if (data.result == -1) {
-                        alert("保存失败");
-                    }
-            });
+                   if (data.result == 1) {
+                       location.href = location.href;
+                   }
+                   else if (data.result == 2) {
+                       alert("前面阶段任务有未完成,不能标记完成");
+                   }
+                   else if (data.result == 3) {
+                       alert("无权限操作");
+                   }
+                   else if (data.result == 4) {
+                       alert("任务没有接受，不能设置完成");
+                   }
+                   else if (data.result == -1) {
+                       alert("保存失败");
+                   }
+               });
         });
+    }
+
+    //添加任务成员
+    ObjectJS.addTaskMembers = function (memberIDs) {
+        Global.post("/Task/AddTaskMembers", {
+            id: ObjectJS.taskid,
+            memberIDs: memberIDs
+        }, function (data) {
+            if (data.result == 0) {
+                alert("添加失败");
+            }
+            else {
+                $("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
+                    var memberID = $(this).data("id");
+                    confirm("确定删除任务成员?", function () {
+                        ObjectJS.removeTaskMember(memberID);
+                    });
+                });
+            }
+        });
+    }
+
+    //删除任务成员
+    ObjectJS.removeTaskMember = function (memberID) {
+        Global.post("/Task/RemoveTaskMember", {
+            id: ObjectJS.taskid,
+            memberID: memberID
+        }, function (data) {
+            if (data.result == 0) {
+                alert(memberIDs);
+            }
+            else {
+                $("#taskMemberIDs" + " div[data-id='" + memberID + "']").remove();
+            }
+        });
+    }
+
+    //拼接任务成员html
+    ObjectJS.createTaskMember = function (item) {
+        var html = '';
+        html += '<div class="task-member left" data-id="' + item.id + '">';
+        html += '<div class="left pRight5"><span>' + item.name + '</span></div>';
+        html += '<div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="' + item.id + '" >×</a></div>';
+        html += '<div class="clear"></div>';
+        html += '</div>';
+
+        $("#taskMemberIDs").append(html);
+    }
+
+    //任务到期时间倒计时
+    ObjectJS.showTime = function () {
+        if (ObjectJS.status == 8) {
+            return;
+        }
+
+        if (ObjectJS.endTime == "未设置") {
+            return;
+        }
+
+        if (ObjectJS.finishStatus == 2) {
+            return;
+        }
+
+        var time_end = (new Date(ObjectJS.endTime)).getTime();
+
+        var time_start = new Date().getTime(); //设定当前时间
+        // 计算时间差 
+        var time_distance = time_end - time_start;
+        var overplusTime = false;
+        if (time_distance < 0) {
+            if (!overplusTime) {
+                $("#overplusTime").html("超期时间");
+                $(".taskBaseInfo .li-plustime .task-time").css("background-color", "red");
+            }
+            overplusTime = true;
+            time_distance = time_start - time_end;
+        }
+        else {
+            if (ObjectJS.isWarn == 1) {
+                if (!overplusTime) {
+                    $(".taskBaseInfo .li-plustime .task-time").css({ "background-color": "orange", "color": "#fff" });
+                }
+                overplusTime = true;
+            }
+        }
+
+        // 天
+        var int_day = Math.floor(time_distance / 86400000)
+        time_distance -= int_day * 86400000;
+        // 时
+        var int_hour = Math.floor(time_distance / 3600000)
+        time_distance -= int_hour * 3600000;
+        // 分
+        var int_minute = Math.floor(time_distance / 60000)
+        time_distance -= int_minute * 60000;
+        // 秒 
+        var int_second = Math.floor(time_distance / 1000)
+        // 时分秒为单数时、前面加零 
+        if (int_day < 10) {
+            int_day = "0" + int_day;
+        }
+        if (int_hour < 10) {
+            int_hour = "0" + int_hour;
+        }
+        if (int_minute < 10) {
+            int_minute = "0" + int_minute;
+        }
+        if (int_second < 10) {
+            int_second = "0" + int_second;
+        }
+        // 显示时间 
+        $("#time-d").html(int_day);
+        $("#time-h").html(int_hour);
+        $("#time-m").html(int_minute);
+        $("#time-s").html(int_second);
+
+        // 设置定时器
+        setTimeout(function () { ObjectJS.showTime() }, 1000);
     }
 
     //绑定任务样式图
@@ -402,7 +473,6 @@
                 var _img = ele.find("img");
                 $(".order-imgs-list .hover").removeClass("hover");
                 ele.addClass("hover");
-                //$("#enlargeImage").attr("src", _img.attr("src"));
                 $("#orderImage").attr("src", _img.attr("src"));
                 $(".enlarge-image-item").empty();
                 $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
@@ -416,288 +486,12 @@
                 var _img = ele.find("img");
                 $(".order-imgs-list .hover").removeClass("hover");
                 ele.addClass("hover");
-                //$("#enlargeImage").attr("src", _img.attr("src"));
                 $("#orderImage").attr("src", _img.attr("src"));
                 $(".enlarge-image-item").empty();
                 $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
                 $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
             }
         });
-    }
-
-    //添加任务成员
-    ObjectJS.addTaskMembers = function (memberIDs) {
-        Global.post("/Task/AddTaskMembers", {
-            id: ObjectJS.taskid,
-            memberIDs: memberIDs
-        }, function (data) {
-            if (data.result == 0) {
-                alert("添加失败");
-            }
-            else {
-                $("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
-                    var memberID = $(this).data("id");
-                    confirm("确定删除任务成员?", function () {
-                        ObjectJS.removeTaskMember(memberID);
-                    });
-                });
-            }
-        });
-    }
-
-    //删除任务成员
-    ObjectJS.removeTaskMember = function (memberID) {
-        Global.post("/Task/RemoveTaskMember", {
-            id: ObjectJS.taskid,
-            memberID: memberID
-        }, function (data) {
-            if (data.result == 0) {
-                alert(memberIDs);
-            }
-            else {
-                $("#taskMemberIDs" + " div[data-id='" + memberID + "']").remove();
-            }
-        });
-    }
-
-    //拼接任务成员html
-    ObjectJS.createTaskMember = function (item) {
-        var html = '';
-        html += '<div class="task-member left" data-id="'+item.id+'">';
-        html += '<div class="left pRight5"><span>'+item.name+'</span></div>';
-        html += '<div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="' + item.id + '" >×</a></div>';
-        html+='<div class="clear"></div>';
-        html += '</div>';
-
-        $("#taskMemberIDs").append(html);
-    }
-
-    //任务到期时间倒计时
-    ObjectJS.showTime = function () {
-        if (ObjectJS.status == 8) {
-            return;
-        }
-
-        if (ObjectJS.endTime == "未设置") {
-            return;
-        }
-
-        if (ObjectJS.finishStatus==2) {
-            return;
-        }
-
-        var time_end = (new Date(ObjectJS.endTime)).getTime();
-        
-        var time_start = new Date().getTime(); //设定当前时间
-        // 计算时间差 
-        var time_distance = time_end - time_start;
-        var overplusTime = false;
-        if (time_distance < 0) {
-            if (!overplusTime) {
-                $("#overplusTime").html("超期时间");
-                $(".taskBaseInfo .li-plustime .task-time").css("background-color", "red");
-            }
-            overplusTime = true;
-            time_distance = time_start - time_end;
-        }
-        else {
-            if (ObjectJS.isWarn == 1) {
-                if (!overplusTime) {
-                    $(".taskBaseInfo .li-plustime .task-time").css({ "background-color": "orange", "color": "#fff" });
-                }
-                overplusTime = true;
-            }
-        }
-
-        // 天
-        var int_day = Math.floor(time_distance / 86400000)
-        time_distance -= int_day * 86400000;
-        // 时
-        var int_hour = Math.floor(time_distance / 3600000)
-        time_distance -= int_hour * 3600000;
-        // 分
-        var int_minute = Math.floor(time_distance / 60000)
-        time_distance -= int_minute * 60000;
-        // 秒 
-        var int_second = Math.floor(time_distance / 1000)
-        // 时分秒为单数时、前面加零 
-        if (int_day < 10) {
-            int_day = "0" + int_day;
-        }
-        if (int_hour < 10) {
-            int_hour = "0" + int_hour;
-        }
-        if (int_minute < 10) {
-            int_minute = "0" + int_minute;
-        }
-        if (int_second < 10) {
-            int_second = "0" + int_second;
-        }
-        // 显示时间 
-        $("#time-d").html(int_day);
-        $("#time-h").html(int_hour);
-        $("#time-m").html(int_minute);
-        $("#time-s").html(int_second);
-
-        // 设置定时器
-        setTimeout(function () { ObjectJS.showTime() }, 1000);
-    }
-
-    ///任务讨论
-    //初始化任务讨论列表
-    ObjectJS.initTalkReply = function () {
-        $("#btnSaveTalk").click(function () {
-            var txt = $("#txtContent");
-
-            if (txt.val().trim()) {
-                var model = {
-                    GUID: ObjectJS.orderid,
-                    StageID: ObjectJS.stageid,
-                    mark:ObjectJS.mark,
-                    Content: txt.val().trim(),
-                    FromReplyID: "",
-                    FromReplyUserID: "",
-                    FromReplyAgentID: ""
-                };
-                ObjectJS.saveTaskReply(model,$(this));
-
-                txt.val("");
-            }
-
-        });
-    }
-
-    //获取任务讨论列表
-    ObjectJS.getTaskReplys = function (page) {
-        var _self = this;
-        $("#replyList").empty();
-        $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='data-loading'><div></td></tr>");
-        Global.post("/Opportunitys/GetReplys", {
-            guid: ObjectJS.orderid,
-            stageid: ObjectJS.stageid,
-            mark:ObjectJS.mark,
-            pageSize: 10,
-            pageIndex: page
-        }, function (data) {
-            $("#replyList").empty();
-            if (data.items.length > 0) {
-                doT.exec("template/customer/replys.html", function (template) {
-                    var innerhtml = template(data.items);
-                    innerhtml = $(innerhtml);
-
-                    $("#replyList").html(innerhtml);
-
-                    ObjectJS.bindReplyOperate(innerhtml);
-
-                });
-            }
-            else {
-                $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
-            }
-
-            $("#pagerReply").paginate({
-                total_count: data.totalCount,
-                count: data.pageCount,
-                start: page,
-                display: 5,
-                border: true,
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                float: "left",
-                onChange: function (page) {
-                    ObjectJS.getTaskReplys(page);
-                }
-            });
-        });
-    }
-
-    //保存任务讨论
-    ObjectJS.saveTaskReply = function (model, btnObject) {
-        var _self = this;
-        var btnname = "";
-        if (btnObject) {
-            btnname = btnObject.html();
-            btnObject.html("保存中...").attr("disabled", "disabled");
-        }
-
-        Global.post("/Opportunitys/SavaReply", { entity: JSON.stringify(model) }, function (data) {
-            if (btnObject) {
-                btnObject.html(btnname).removeAttr("disabled");
-            }
-
-            doT.exec("template/customer/replys.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
-                innerhtml.hide();
-                $("#replyList .nodata-txt").parent().parent().remove();
-                $("#replyList").prepend(innerhtml);
-                innerhtml.fadeIn(500);
-
-                ObjectJS.bindReplyOperate(innerhtml);
-
-                //$(document).click(function (e) {
-                //    if (!$(e.target).parents().hasClass("reply-box") && !$(e.target).hasClass("reply-box") && !$(e.target).parents().hasClass("btn-reply") && !$(e.target).hasClass("btn-reply") && !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace")) {
-
-                //        $(".reply-box").slideUp(300);
-                //    }
-                //});
-
-            });
-        });
-    }
-
-    ObjectJS.bindReplyOperate=function(replys){
-        replys.find(".reply-content").each(function () {
-            $(this).html(Global.replaceQqface($(this).html()));
-        });
-
-        replys.find(".btn-reply").click(function () {
-            var _this = $(this), reply = _this.nextAll(".reply-box");
-
-            $("#replyList .reply-box").each(function () {
-                if ($(this).data("replyid") != reply.data("replyid")) {
-                    $(this).hide();
-                }
-            });
-
-            if (reply.is(":visible")) {
-                reply.slideUp(300);
-            }
-            else {
-                reply.slideDown(300);
-            }
-
-            reply.find("textarea").focus();
-
-        });
-
-        replys.find(".save-reply").click(function () {
-            var _this = $(this);
-            if ($("#Msg_" + _this.data("replyid")).val().trim()) {
-                var entity = {
-                    GUID: _this.data("id"),
-                    StageID: _this.data("stageid"),
-                    Mark: ObjectJS.mark,
-                    Content: $("#Msg_" + _this.data("replyid")).val().trim(),
-                    FromReplyID: _this.data("replyid"),
-                    FromReplyUserID: _this.data("createuserid"),
-                    FromReplyAgentID: _this.data("agentid")
-                };
-                ObjectJS.saveTaskReply(entity, _this);
-
-            }
-            $("#Msg_" + _this.data("replyid")).val('');
-            $(this).parent().slideUp(300);
-        });
-
-        replys.find('.btn-emotion').each(function () {
-            $(this).qqFace({
-                assign: $(this).data("id"),
-                path: '/modules/plug/qqface/arclist/'	//表情存放的路径
-            });
-        });
-
     }
 
     //获取任务日志
@@ -738,20 +532,11 @@
             });
         });
     }
+    //#endregion
 
-
-    ///任务材料基本操作
+    // #region任务材料基本操作
     //绑定事件
     ObjectJS.bindProduct = function () {
-        //编辑数量
-        $(".quantity").change(function () {
-            if ($(this).val().isDouble() && $(this).val() > 0) {
-                ObjectJS.editQuantity($(this));
-            } else {
-                $(this).val($(this).data("value"));
-            }
-        });
-
         //编辑价位
         $(".price").change(function () {
             if ($(this).val().isDouble() && $(this).val() >= 0) {
@@ -761,13 +546,21 @@
             }
         });
 
+        //编辑数量
+        $(".quantity").change(function () {
+            if ($(this).val().isDouble() && $(this).val() > 0) {
+                ObjectJS.editQuantity($(this));
+            } else {
+                $(this).val($(this).data("value"));
+            }
+        });
+
         //编辑损耗
         $(".loss").change(function () {
             var loss = parseFloat($(this).val());
             if (!isNaN(loss)) {
-                if (loss < 0)
-                {
-                    if (-loss>= parseFloat($(this).parent().prev().html()) ){
+                if (loss < 0) {
+                    if (-loss >= parseFloat($(this).parent().prev().html())) {
                         $(this).val($(this).data("value"));
                         return;
                     }
@@ -798,8 +591,8 @@
             });
         });
 
-        if ($("#btnEffectiveOrderProduct").length== 1)
-        {
+        //生成采购单
+        if ($("#btnEffectiveOrderProduct").length == 1) {
             $("#btnEffectiveOrderProduct").click(function () {
                 ObjectJS.effectiveOrderProduct();
             });
@@ -864,44 +657,41 @@
         });
     }
 
+    //生成采购单
+    ObjectJS.effectiveOrderProduct = function () {
+        Global.post("/Orders/EffectiveOrderProduct", {
+            orderID: ObjectJS.orderid
+        }, function (data) {
+            if (data.result == 1) {
+                location.href = location.href;
+            }
+        });
+    }
+
     //计算总金额
     ObjectJS.getProductAmount = function () {
         var amount = 0;
         $(".amount").each(function () {
             var _this = $(this);
-            
-            if (ObjectJS.materialMark == 0)
-            {
+
+            if (ObjectJS.materialMark == 0) {
                 amount += _this.html() * 1;
             }
-            else if (ObjectJS.materialMark == 1)
-            {
+            else if (ObjectJS.materialMark == 1) {
                 _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(3));
                 amount += _this.html() * 1;
             }
-            else if(ObjectJS.materialMark == 2)
-            {
-                _this.html(((_this.prevAll(".tr-quantity").html() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find(".price").val() ).toFixed(3));
+            else if (ObjectJS.materialMark == 2) {
+                _this.html(((_this.prevAll(".tr-quantity").html() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find(".price").val()).toFixed(3));
                 amount += _this.html() * 1;
             }
         });
 
         $("#amount").text(amount.toFixed(3));
     }
+    //#endregion
 
-    //生成采购单
-    ObjectJS.effectiveOrderProduct = function () {
-        Global.post("/Orders/EffectiveOrderProduct", {
-            orderID: ObjectJS.orderid
-        }, function (data) {
-            if (data.result == 1)
-            {
-                location.href = location.href;
-            }
-        });
-    }
-
-    ///任务制版相关事件
+    //#region任务制版相关事件
     //绑定
     ObjectJS.bindPlatemakingEvent = function () {
         ObjectJS.bindDocumentClick();
@@ -914,10 +704,6 @@
 
         ObjectJS.bindAddRow();
         ObjectJS.bindRemoveRow();
-
-        //$("#btn-platePrint").click(function () {
-        //    ObjectJS.platePrint();
-        //});
 
         $("#btn-updateTaskRemark").click(function () {
             ObjectJS.updateOrderPlatemaking();
@@ -932,14 +718,12 @@
 
     //文档点击的隐藏事件
     ObjectJS.bindDocumentClick = function () {
-        $(document).unbind().bind("click", function (e) {
+        $(document).bind("click", function (e) {
             //隐藏制版列操作下拉框
             if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
                 $(".dropdown-ul").hide();
             }
         });
-
-
     }
 
     //显示制版列操作下拉框
@@ -951,6 +735,7 @@
             $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 70 }).show().mouseleave(function () {
                 $(this).hide();
             });
+
             return false;
         });
 
@@ -970,8 +755,7 @@
             ObjectJS.columnnameid = $(this).data("columnname");
             var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
             var noHaveLi = true;
-            for (var i = 0;len = CacheAttrValues.length,i < len; i++)
-            {
+            for (var i = 0; len = CacheAttrValues.length, i < len; i++) {
                 var item = CacheAttrValues[i];
                 if ($(".table-list td[data-columnname='columnname_" + item.ValueID + "']").length == 0) {
                     innerHtml += '<li class="role-item" data-id="' + item.ValueID + '">' + item.ValueName + '</li>';
@@ -1009,7 +793,7 @@
                             newColumn += '<input class="tbContentIpt" value="" type="text"/>';
                             newColumn += '</td>';
                         });
-                        
+
 
                         $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']").eq(0).after(newColumnHeadr);
                         $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']:gt(0)").after(newColumn).find("tbContentIpt").show();
@@ -1029,7 +813,6 @@
                 else
                     $(this).removeClass("hover");
             });
-
 
         });
     }
@@ -1051,7 +834,7 @@
     ObjectJS.bindAddRow = function () {
         $("div.btn-addRow").unbind().bind('click', function () {
             var $newTR = $("<tr class='tr-content'>" + $(this).parent().parent().parent().html() + "</tr>");
-            $newTR.find(".tbContentIpt").empty().attr("value","").show();
+            $newTR.find(".tbContentIpt").empty().attr("value", "").show();
             $newTR.find(".tbContent").empty();
             $(this).parent().parent().parent().after($newTR);
 
@@ -1094,7 +877,7 @@
             }
             innerHtml += '</ul>';
 
-            if (CacheAttrValues.length==0) {
+            if (CacheAttrValues.length == 0) {
                 noHaveLi = true;
                 innerHtml = '<div style="width:300px;">制版属性没有配置,请联系后台管理员配置</div>';
             }
@@ -1171,17 +954,17 @@
                 else
                     $(this).removeClass("hover");
             });
-
-
         });
     }
 
     //保存制版信息
     ObjectJS.updateOrderPlatemaking = function () {
-        if ($("#platemakingBody").html() == "") return;
+        if ($("#platemakingBody").html() == "") { return; }
+
+        if ($(".tbContentIpt:visible").length == 0) { return; }
 
         $(".tbContentIpt:visible").each(function () {
-            $(this).attr("value", $(this).val() ).hide().prev().html($(this).val()).show();
+            $(this).attr("value", $(this).val()).hide().prev().html($(this).val()).show();
         });
 
         var valueIDs = '';
@@ -1209,10 +992,11 @@
             plateRemark: encodeURI(Editor.getContent())
         }, function (data) {
             if (data.result == 1) {
-                $(".edui-body-container").animate({ height: "100px" }, 500);
+                alert("保存成功");
             }
         });
     }
+    //#endregion
 
     ObjectJS.platePrint = function () {
         $("span.ico-dropdown").hide();
@@ -1242,7 +1026,7 @@
         //关闭newWindow页面
         newWindow.close();
 
-        
+
     }
 
     module.exports = ObjectJS;

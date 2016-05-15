@@ -77,7 +77,7 @@ namespace YXERP
                 }
             }
             // Pass exception details to the target error View.  
-            routeData.Values.Add("urlReferrer", Request.UrlReferrer!=null?Request.UrlReferrer.AbsoluteUri:Request.Url.AbsoluteUri);
+            routeData.Values.Add("urlReferrer", Request.UrlReferrer != null ? Request.UrlReferrer.AbsoluteUri : Request.Url.AbsoluteUri);
             // Clear the error on server.  
             Server.ClearError();
             // Call target Controller and pass the routeData.  

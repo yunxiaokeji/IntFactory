@@ -37,13 +37,13 @@ namespace YXERP.Common.Alipay
             //↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
             //合作身份者ID，以2088开头由16位纯数字组成的字符串
-            partner = "2088121258767623";
+            partner = "2088221773616920";
 			
             //收款支付宝账号，一般情况下收款账号就是签约账号
-            seller_email = "aaron@yunxiaokeji.com";
+            seller_email = "761069859@qq.com";
 
             //交易安全检验码，由数字和字母组成的32位字符串
-            key = "4xuzikbxlcmapv0ewfx7sl8qgko6s86e";
+            key = "f1nwlmvaahsj7qe4ahwnjt53c7fql9xr";
 
             //↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 

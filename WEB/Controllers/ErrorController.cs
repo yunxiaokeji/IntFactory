@@ -13,13 +13,13 @@ namespace YXERP.Controllers
 
         public ActionResult NotAccess(string urlReferrer)
         {
-            ViewBag.aspxerrorpath = urlReferrer;
+            ViewBag.urlReferrer = urlReferrer;
             return View();
         }
 
         public ActionResult NoRoot(string urlReferrer)
         {
-            ViewBag.aspxerrorpath = urlReferrer;
+            ViewBag.urlReferrer = urlReferrer;
             return View();
         }
 
