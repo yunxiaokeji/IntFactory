@@ -11,12 +11,12 @@
             <div class="message-name long"><a href="/Customer/Detail/{%=item.CustomerID%}">{%=item.Name%}</a></div>
         </div>
     </li>
-    <li class="color999 mTop5">{%=item.MobilePhone?item.MobilePhone:"--"%}</li>
-    <li class="color999">{%=item.City?item.City.Description:"--"%}</li>
-    <li class="color999">{%=item.CreateTime.toDate("yyyy-MM-dd")%}</li>
+    <li class="color666 mTop5">{%=item.MobilePhone?item.MobilePhone:"--"%}</li>
+    <li class="color666">{%=item.City?item.City.Description:"--"%}</li>
+    <li class="color666">{%=item.CreateTime.toDate("yyyy-MM-dd")%}</li>
     <li>
-        <div class="mRight30 color999 left">{%=item.SourceType==1?"阿里客户":item.SourceType==2?"自助下单":"手工创建"%}</div>
-        <div class="mRight5 color666 right">负责人:{%=(item.Owner ? item.Owner.Name:"--")%} </div>
+        <div class="mRight30 color666 left">{%=item.SourceType==1?"阿里客户":item.SourceType==2?"自助下单":"手工创建"%}</div>
+        <div class="mRight5 right">负责人:{%=(item.Owner ? item.Owner.Name:"--")%} </div>
     </li>
 </ul>
 

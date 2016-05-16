@@ -63,6 +63,7 @@
                 ObjectJS.getList();
             }
         });
+
         //切换颜色标记
         $(".search-item-color li").click(function () {
             var _this = $(this);
@@ -81,6 +82,7 @@
                 ObjectJS.getList();
             }
         });
+
         //选择字母
         $(".search-letter li").click(function () {
             var _this = $(this);
@@ -101,6 +103,7 @@
                 _self.getList();
             };
         });
+
         //切换阶段
         $(".search-stages li").click(function () {
             var _this = $(this);
@@ -112,6 +115,7 @@
                 _self.getList();
             }
         });
+
         //切换状态
         $(".search-status li").click(function () {
             var _this = $(this);
@@ -123,6 +127,7 @@
                 _self.getList();
             }
         });
+
         //关键字搜索
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
