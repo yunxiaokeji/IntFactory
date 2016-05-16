@@ -97,7 +97,7 @@ define(function (require, exports, module) {
                     setTimeout(function () { location.href = "/home/login"; }, 500);
                 }
                 else if (data.result == 9) {
-                    $(".registerErr").html("您的账户已注销,请切换其他账户登录");
+                    $(".registerErr").html("您的账户已注销,请切换其他账户登录").show();
                 }
                 else if (data.result == -1)
                 {
