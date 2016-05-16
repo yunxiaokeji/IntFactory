@@ -1,0 +1,105 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="/modules/css/base.css" rel="stylesheet" />
+    <link href="/modules/css/default/layout.css" rel="stylesheet" />
+    <link href="/modules/css/home/feedback.css" rel="stylesheet" />
+    <link href="/modules/css/iconfont/iconfont.css" rel="stylesheet" />
+    <title>意见反馈-厂盟科技</title>
+    <script src="/Scripts/jquery-1.11.1.js"></script>
+    <script src="/Scripts/sea.js"></script>
+    <script src="/Scripts/sea-config.js"></script>
+    <script>
+        $(function () {
+            seajs.use(["scripts/home/feedback"], function (feedback) {
+                feedback.init();
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="header">
+        <span class="left">厂盟科技</span>
+        <span class="right"><a href="/Home/Index">首页</a></span>
+        <div class="clear"></div>
+    </div>
+    <div class="content-body">
+        <div class="feed-top">
+            <h1>在线反馈</h1>
+            <p><span>智能工厂</span>客服随时准备为您服务，请提交详细的问题和想法给我们</p>
+        </div>
+        <div class="clear"></div>
+        <div class="feed-title descript-text">
+            <div>标题：</div>
+            <div><input type="text" class="txt-title" /></div>
+        </div>
+        <div class="clear"></div>
+        <div class="feed-type descript-text">
+            <div>反馈类型：</div>
+            <div>
+                <select class="dropdown-list">
+                    <option value="1">问题</option>
+                    <option value="2">意见</option>
+                    <option value="3">需求</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="feed-name descript-text">
+            <div>联系人：</div>
+            <div>
+                <input type="text" class="txt-name" value="@(ViewBag.userInfo.Name)" />
+            </div>
+
+        </div>
+        <div class="clear"></div>
+
+        <div class="feed-phone descript-text">
+            <div>手机号：</div>
+            <div>
+                <input type="text" class="txt-phone" value="@(ViewBag.userInfo.MobilePhone)" />
+            </div>
+
+        </div>
+        <div class="clear"></div>
+
+        <div class="feed-annex descript-text">
+            <div>附件：</div>
+            <div>
+                <a class="mRight20" id="upload">
+                   
+                </a>
+                <span class="font14 color999">请把有问题的截图发给我们，方便分析、及时解决问题</span>
+                <ul class="mTop10" id="feed-images">
+
+                </ul>
+            </div>
+            
+        </div>
+        <div class="clear"></div>
+
+        <div class="feed-description descript-text">
+            <div>描述：</div>
+            <div>
+                <textarea class="txt-description"></textarea>
+            </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="feed-submit descript-text">
+            <div></div>
+            <div>
+                <input type="button" id="btn-feedback" value="提交" />
+            </div>
+        </div>
+        
+
+    </div>
+</body>
+</html>

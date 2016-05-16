@@ -1,0 +1,40 @@
+﻿@{
+    Layout = null;
+}
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>使用到期-厂盟科技</title>
+<link href="/modules/css/base.css" rel="stylesheet" />
+<link href="/modules/css/default/layout.css" rel="stylesheet" />
+<link href="/modules/css/iconfont/iconfont.css" rel="stylesheet" />
+<link href="/modules/css/error/error.css" rel="stylesheet" />
+    <style type="text/css">
+        .error-box {
+        width:820px;
+        }
+    </style>
+</head>
+
+<div class="error-header" onclick="location.href='/home/index'">厂盟科技</div>
+
+<div class="error-box">
+    <div class="left">
+        <img src="/modules/images/img-nouse.png" />
+    </div>
+
+    <div class="error-content right">
+        <div class="title mTop20 font18">您的授权上限时间是:<span style="color:red;font-size:20px;">@ViewBag.EndTime</span>，现已使用超期</div>
+        <ul>
+            <li><span class="iconfont">&#xe64a;</span>非常抱歉，续费之前您将无法进行任何系统操作</li>
+            <li><span class="iconfont">&#xe64a;</span>请续费立即恢复使用</li>
+        </ul>
+
+        <div style="margin-top:80px;">
+            <div class="left btn-home" onclick="location.href='/Home/FeedBack'">联系我们</div>
+            <div class="left btn-prev mLeft20"  onclick="location.href='/Auction/ExtendNow'">立即续费</div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+</div>

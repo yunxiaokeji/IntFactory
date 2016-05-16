@@ -107,22 +107,6 @@
         </div>
 
         <div class="buy-product-select">
-           @* <div class="select-notice">
-                * 首次购买人数不能少于10人,若您公司人数超过500人，请
-                <a href="http://yunxiaokeji.com/about.html" target="_blank">联系我们</a>，为您专业定制
-            </div>*@
-
-           @* <div class="mTop20">
-                <span class="select-title">选择购买人数</span>
-                @{
-                        if( (float)ViewBag.Discount<10){
-                            <span class="font14">
-                            (首次购买,特惠<span class="mLeft5 mRight5">@ViewBag.Discount</span>折)
-                            </span>
-                        }
-                    }
-            </div>*@
-
             <div class="select-info">
                 <ul>
                     <li>
@@ -130,10 +114,6 @@
                         <span>人数</span>
                         <span>
                             <input id="UserCount" type="text" style="width:46px;"/>
-                        </span>
-                        <span>
-                            * 若您公司人数超过500人，请
-                             <a href="http://yunxiaokeji.com/about.html" target="_blank">联系我们</a>，为您专业定制
                         </span>
                     </li>
                     <li>

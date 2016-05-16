@@ -1,0 +1,109 @@
+﻿{%
+	for(var i=0;i<$data.length;i++){
+    var item=$data[i];
+%}
+<div class="info">
+    <div class="infobox row">
+        <div class="orderimg">             
+             <img src='{%=item.OrderImage==""?"/modules/images/img-noimg.png":item.OrderImage%}' />
+        </div>
+        <div class="info-order l">
+            
+            <ul class="status">
+                <li class="row">
+                    <i>订单号：</i>
+                    <span>{%=item.OrderCode%}</span>
+                </li>
+                <li class="row">
+                    <i>下单时间：</i>
+                    <span>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
+                </li>
+                <li class="row">
+                    <i>订单类型：</i>
+                    <span>{%=item.OrderType==1?"打样":"大货"%}</span>
+                </li>
+                <li class="row">
+                    <i>工厂名称：</i>
+                    <span>{%=item.Client.CompanyName%}</span>
+                </li>
+            </ul>
+            <ul class="stage" id="ul-{%=item.OrderID%}">
+            {% if(item.OrderType=="1") { %}                
+                
+                    <li data-status="0">
+                        <div class="outerround"><div class="round completebg"></div></div>
+                        <span class="complete">&nbsp;需&nbsp;求&nbsp;单</span>
+                        <div class="complete create-time"></div>
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li data-status="1">
+                        <div class="outerround"><div class="round"></div></div>
+                        <span>&nbsp;打&nbsp;样&nbsp;中</span>    
+                        <div class="complete create-time"></div>                    
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li  data-status="2">
+                        <div class="outerround"><div class="round"></div></div>
+                        <span>&nbsp;合&nbsp;价&nbsp;中</span>     
+                        <div class="complete create-time"></div>                   
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li data-status="3">
+                        <div class="outerround"><div class="round "></div></div>
+                        <span>封样封价</span>
+                    </li>
+                            
+            {% }else{ %}      
+
+                    <li data-status="0">
+                        <div class="outerround"><div class="round completebg"></div></div>
+                        <span class="complete">&nbsp;需&nbsp;求&nbsp;单</span> 
+                        <div class="complete create-time"></div>                   
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li data-status="4">
+                        <div class="outerround"><div class="round"></div></div>
+                        <span>&nbsp;待&nbsp;大&nbsp;货</span>      
+                        <div class="complete create-time"></div>                  
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li  data-status="5">
+                        <div class="outerround"><div class="round"></div></div>
+                        <span>&nbsp;生&nbsp;产&nbsp;中</span>      
+                        <div class="complete create-time"></div>                  
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li data-status="6">
+                        <div class="outerround"><div class="round"></div></div>
+                        <span>生产完成</span>
+                        <div class="complete create-time"></div>
+                    </li>
+                    <li>
+                        <div class="connect"></div>
+                    </li>
+                    <li data-status="7">
+                        <div class="outerround"><div class="round"></div></div>
+                        <span>交易结束</span>
+                    </li>               
+            {% } %}
+
+            </ul>
+        </div>
+            
+        <div class="info-type r"></div>
+    </div>
+</div>
+
+{% } %}

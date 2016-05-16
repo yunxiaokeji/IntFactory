@@ -146,6 +146,7 @@
     <Compile Include="Controllers\FeedBackController.cs" />
     <Compile Include="Controllers\FinanceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InquireController.cs" />
     <Compile Include="Controllers\MingDaoController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
@@ -165,23 +166,79 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\FilterProduct.cs" />
+    <Content Include="bin\AlibabaSdk.dll" />
+    <Content Include="bin\AlibabaSdk.pdb" />
+    <Content Include="bin\CloudSalesTool.dll" />
+    <Content Include="bin\CloudSalesTool.pdb" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\IntFactory.Service.exe" />
+    <Content Include="bin\IntFactory.Service.pdb" />
+    <Content Include="bin\IntFactoryBusiness.dll" />
+    <Content Include="bin\IntFactoryBusiness.pdb" />
+    <Content Include="bin\IntFactoryDAL.dll" />
+    <Content Include="bin\IntFactoryDAL.pdb" />
+    <Content Include="bin\IntFactoryEntity.dll" />
+    <Content Include="bin\IntFactoryEntity.pdb" />
+    <Content Include="bin\IntFactoryEnum.dll" />
+    <Content Include="bin\IntFactoryEnum.pdb" />
+    <Content Include="bin\JsonObject.dll" />
+    <Content Include="bin\Microsoft.QualityTools.Testing.Fakes.dll" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Net.Sourceforge.Pinyin4j.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.xml" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.xml" />
+    <Content Include="bin\System.Web.Http.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Providers.dll" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\YXERP.dll" />
+    <Content Include="bin\YXERP.pdb" />
+    <Content Include="bin\zh-Hans\EntityFramework.resources.dll" />
+    <Content Include="bin\zh-Hans\Microsoft.QualityTools.Testing.Fakes.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Net.Http.Formatting.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.Http.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.Http.WebHost.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.Providers.resources.dll" />
     <Content Include="Content\menuico\saleshover.png" />
+    <Content Include="Content\UploadFiles\Logo\201604\20160428163827382779320.png" />
+    <Content Include="Content\UploadFiles\bc6802e9-285c-471c-8172-3867c87803e2.png" />
     <Content Include="DLL\JsonObject.dll" />
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
+    <Content Include="modules\css\customer\customer.css" />
     <Content Include="modules\css\default\customer.css" />
     <Content Include="modules\css\default\orders.css" />
     <Content Include="modules\css\default\order_create.css" />
     <Content Include="modules\css\error\error.css" />
+    <Content Include="modules\css\home\feedback.css" />
     <Content Include="modules\css\home\selectlogin.css" />
     <Content Include="modules\css\iconfont\demo.css" />
     <Content Include="modules\css\iconfont\demo.html" />
     <Content Include="modules\css\iconfont\iconfont.css" />
     <Content Include="modules\css\iconfont\iconfont.svg" />
+    <Content Include="modules\css\inquire\common.css" />
+    <Content Include="modules\css\inquire\online-pay.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
     <Content Include="modules\images\btn-add.png" />
     <Content Include="modules\images\btn-remove.png" />
+    <Content Include="modules\images\feedback-bg.png" />
     <Content Include="modules\images\home\ico-allamount.png" />
     <Content Include="modules\images\home\ico-allcustomer.png" />
     <Content Include="modules\images\home\ico-allorder.png" />
@@ -223,6 +280,21 @@
     <Content Include="modules\images\img-noimg.jpg" />
     <Content Include="modules\images\img-noimg.png" />
     <Content Include="modules\images\img-noroot.png" />
+    <Content Include="modules\images\img-nouse.png" />
+    <Content Include="modules\images\Inquire\bg-map.png" />
+    <Content Include="modules\images\Inquire\bottom-bg.png" />
+    <Content Include="modules\images\Inquire\img_03.png" />
+    <Content Include="modules\images\Inquire\info-logo.png" />
+    <Content Include="modules\images\Inquire\liuc_03.png" />
+    <Content Include="modules\images\Inquire\order_03.png" />
+    <Content Include="modules\images\Inquire\query-dingdan.png" />
+    <Content Include="modules\images\Inquire\query-sj.png" />
+    <Content Include="modules\images\Inquire\query-yzm.png" />
+    <Content Include="modules\images\Inquire\shot_03.png" />
+    <Content Include="modules\images\Inquire\shot_05.png" />
+    <Content Include="modules\images\Inquire\success.png" />
+    <Content Include="modules\images\Inquire\title-img.png" />
+    <Content Include="modules\images\Inquire\title-logo.png" />
     <Content Include="modules\images\loginBackground.png" />
     <Content Include="modules\images\loginMainBackground.png" />
     <Content Include="modules\images\home\ico-ali.png" />
@@ -377,7 +449,9 @@
     <Content Include="modules\plug\autocomplete\style.css" />
     <Content Include="modules\plug\e-smart-zoom-jquery.min.js" />
     <Content Include="modules\scripts\auction\buynow.js" />
+    <Content Include="modules\scripts\home\feedback.js" />
     <Content Include="modules\scripts\home\create.js" />
+    <Content Include="modules\scripts\inquire\inquireorder.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.print.css" />
@@ -394,6 +468,8 @@
     <Content Include="modules\scripts\task\reply.js" />
     <Content Include="modules\scripts\task\task.js" />
     <Content Include="modules\template\auction\product-list.html" />
+    <Content Include="modules\template\customer\customers.html" />
+    <Content Include="modules\template\inquire\inquireorder.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />
     <Content Include="modules\template\orders\orders_child_list.html" />
     <Content Include="modules\template\orders\surequantity.html" />
@@ -418,6 +494,7 @@
     <Content Include="modules\template\purchase\audit_details.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
+    <Content Include="modules\template\task\task-card.html" />
     <Content Include="modules\template\task\task-list.html" />
     <Content Include="modules\plug\showtaskdetail\task-detail.html" />
     <Content Include="Views\System\OrderProcess.cshtml" />
@@ -425,6 +502,7 @@
     <Content Include="modules\css\iconfont\iconfont.eot" />
     <Content Include="modules\css\iconfont\iconfont.ttf" />
     <Content Include="modules\css\iconfont\iconfont.woff" />
+    <Content Include="IntFactoryWeb.csproj.orig" />
     <None Include="modules\plug\umeditor\net\Uploader.cs" />
     <Compile Include="Models\FilterUser.cs" />
     <Compile Include="Models\FilterCustomer.cs" />
@@ -772,7 +850,7 @@
     <Content Include="modules\template\activity\activity_customers.html" />
     <Content Include="modules\template\common\choosemodules.html" />
     <Content Include="modules\template\customer\replys.html" />
-    <Content Include="modules\template\customer\customers.html" />
+    <Content Include="modules\template\customer\customers-card.html" />
     <Content Include="modules\template\customer\customer-detail.html" />
     <Content Include="modules\template\common\logs.html" />
     <Content Include="modules\template\customer\contacts.html" />
@@ -928,10 +1006,6 @@
     <Content Include="Views\MyAccount\SetAvatar.cshtml" />
     <Content Include="Views\MyAccount\SetPassWord.cshtml" />
     <Content Include="Views\MyAccount\Account.cshtml" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\Web.config" />
     <Content Include="Views\System\OrderStages.cshtml" />
     <Content Include="Views\Task\MyTask.cshtml" />
     <Content Include="Views\Orders\Create.cshtml" />
@@ -956,7 +1030,15 @@
     <Content Include="Views\Error\NotAccess.cshtml" />
     <Content Include="Views\Error\NoRoot.cshtml" />
     <Content Include="Views\Task\DetailBase.cshtml" />
+    <Content Include="Views\Web.config" />
     <Content Include="Views\Task\TaskReply.cshtml" />
+    <Content Include="Views\Customer\Customers-list.cshtml" />
+    <Content Include="Web.config" />
+    <Content Include="Views\Inquire\InquireOrder.cshtml">
+      <BrowseToURL>~/Inquire/InquireOrder</BrowseToURL>
+    </Content>
+    <Content Include="Views\Home\UseExpired.cshtml" />
+    <Content Include="Views\Home\FeedBack.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1127,10 +1209,11 @@
     <Folder Include="Areas\Api\Models\" />
     <Folder Include="Areas\Api\Views\Shared\" />
     <Folder Include="Content\tempfile\" />
-    <Folder Include="Content\UploadFiles\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />

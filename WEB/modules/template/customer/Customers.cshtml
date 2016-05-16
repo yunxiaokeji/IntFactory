@@ -1,0 +1,93 @@
+﻿@{
+    
+}
+
+@section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
+    <script src="/modules/plug/laydate/laydate.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/customer/customer"], function (ObjectJS) {
+            ObjectJS.init('@ViewBag.Type');
+        });
+        $(function () {
+            var begin = {
+                elem: '#BeginTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                    end.start = datas //将结束日的初始值设定为开始日
+                }
+            };
+
+            var end = {
+                elem: '#EndTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    begin.max = datas; //结束日选好后，重置开始日的最大日期
+                }
+            };
+            laydate(begin);
+            laydate(end);
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">@ViewBag.Title</span>
+    <a href="Create"  id="createCustomer" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"101019001"))">新建客户</a>
+</div>
+<div class="search-box">
+    @*<div class="search-header">
+        <ul class="search-tab search-stages">
+            <li data-id="" class="hover">客户列表</li>
+        </ul>
+    </div>*@
+</div>
+<div class="content-body">
+    <div class="search-items mTop20">
+        <div class="left mRight20" id="chooseBranch"></div>
+        <div class="left" id="sourceType"></div>
+        <div class="left mLeft20">
+            <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input width100"  />
+            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width100"  />
+            <span class="btn mLeft10" id="btnSearch">搜索</span>
+        </div>
+        <div class="right searth-module" data-text="输入客户名称/电话..." data-width="160"> </div>
+    </div>
+    <table class="table-list mTop10">
+        <tr class="tr-header">
+            <td class="width30"><span id="filterMark"></span></td>  
+            <td class="width30"></td>
+            <td class="tLeft width200">客户名称</td>
+            <td class="width100">联系电话</td>
+            <td class="width200">地区</td>  
+            <td class="width150">来源</td>
+            <td class="width80">备忘数</td>     
+            <td class="width100">负责人</td>
+            <td class="width100">创建时间</td>
+            <td class="width50">操作</td>
+        </tr>
+    </table>
+    <ul class="left batch-operate mTop20">
+        <li class="width30 center">
+            <span data-value="-1" class="mTop5" id="batchMark"></span>
+        </li>
+        <li class="width100 mLeft10">
+            <span class="ico-check pLeft5 mTop5" id="checkAll">批量操作</span>
+        </li>
+        <li>
+            <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"101019002"))" id="batchChangeOwner">更换负责人</a>
+        </li>
+         
+    </ul>
+    <div id="pager" class="mTop20"></div>
+</div>
+<ul class="dropdown-ul hide" style="width:110px;">
+    <li id="changeOwner" class="@(ExpandClass.IsLimits(HttpContext.Current,"101019002"))">更换负责人</li>
+</ul>
+

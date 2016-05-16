@@ -12,6 +12,7 @@
         SourceID: "",
         StageID: "",
         Status: 1,
+        FirstName:"",
         Mark: -1,
         UserID: "",
         AgentID: "",
@@ -20,7 +21,7 @@
         BeginTime: "",
         EndTime: "",
         PageIndex: 1,
-        PageSize: 10
+        PageSize: 15
     };
 
     var ObjectJS = {};
@@ -28,6 +29,7 @@
     ObjectJS.init = function (type) {
         var _self = this;
         Params.SearchType = type;
+        Params.PageSize = ($(".list-customer").width() / 300).toFixed(0) * 3;
         _self.getList();
         _self.bindEvent(type);
     }
@@ -47,6 +49,61 @@
             _self.getList();
         });
 
+        
+        //选择客户来源类型
+        $(".customer-source li").click(function () {
+            var _this = $(this);            
+            if (!_this.hasClass("source-hover")) {
+                _this.siblings().removeClass("source-hover");
+                _this.addClass("source-hover");
+
+                Params.SourceType = -1;
+                var dataid = _this.data("idsource");
+                Params.SourceType = dataid;
+                ObjectJS.getList();
+            }
+        });
+
+        //切换颜色标记
+        $(".search-item-color li").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+
+                Params.pageIndex = 1;
+                var dataid = _this.data("id");
+                if (dataid!="-2") {
+                    Params.Mark = dataid;
+                } else {
+                    $(".search-item-color li:eq(1)").addClass("hover");
+                    Params.Mark = "-1";
+                }
+                ObjectJS.getList();
+            }
+        });
+
+        //选择字母
+        $(".search-letter li").click(function () {
+            var _this = $(this);
+            
+            $(".data-loading").remove();
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+
+                var datanum = _this.data("letter");
+                if (datanum != "1") {
+                    Params.FirstName = datanum;
+                } else {
+                    _this.css("font-size","14px");
+                    $(".search-letter li:eq(1)").addClass("hover");
+                    Params.FirstName = "";
+                }
+                _self.getList();
+            };
+        });
+
         //切换阶段
         $(".search-stages li").click(function () {
             var _this = $(this);
@@ -58,6 +115,7 @@
                 _self.getList();
             }
         });
+
         //切换状态
         $(".search-status li").click(function () {
             var _this = $(this);
@@ -69,6 +127,7 @@
                 _self.getList();
             }
         });
+
         //关键字搜索
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
@@ -77,25 +136,7 @@
                 _self.getList();
             });
         });
-        //客户来源
-        //Global.post("/Customer/GetCustomerSources", { }, function (data) {
-        //    require.async("dropdown", function () {
-        //        $("#customerSource").dropdown({
-        //            prevText: "来源-",
-        //            defaultText: "全部",
-        //            defaultValue: "",
-        //            data: data.items,
-        //            dataValue: "SourceID",
-        //            dataText: "SourceName",
-        //            width: "140",
-        //            onChange: function (data) {
-        //                Params.PageIndex = 1;
-        //                Params.SourceID = data.value;
-        //                _self.getList();
-        //            }
-        //        });
-        //    });
-        //});
+
         //客户类型
         require.async("dropdown", function () {
             var items = [{ ID: 1, Name: "阿里客户" }, { ID: 2, Name: "自助下单" }, { ID: 3, Name: "手工创建" }];
@@ -154,11 +195,15 @@
         $("#checkAll").click(function () {
             var _this = $(this);
             if (!_this.hasClass("ico-checked")) {
+                $(".list-card").addClass("hover");
                 _this.addClass("ico-checked").removeClass("ico-check");
-                $(".table-list .check").addClass("ico-checked").removeClass("ico-check");
+                //$(".check").addClass("ico-checked").removeClass("ico-check");
+                $(".check").addClass("icon-check");
             } else {
+                $(".list-card").removeClass("hover");
                 _this.addClass("ico-check").removeClass("ico-checked");
-                $(".table-list .check").addClass("ico-check").removeClass("ico-checked");
+                //$(".check").addClass("ico-check").removeClass("ico-checked");
+                $(".check").removeClass("icon-check");
             }
         });
         //转移拥有者
@@ -181,7 +226,8 @@
         });
         //批量转移
         $("#batchChangeOwner").click(function () {
-            var checks = $(".table-list .ico-checked");
+            var checks = $(".list-customer .icon-check");
+            
             if (checks.length > 0) {
                 ChooseUser.create({
                     title: "批量更换负责人",
@@ -192,8 +238,10 @@
                             var ids = "", userid = items[0].id;
                             checks.each(function () {
                                 var _this = $(this);
+                                console.log(_this.attr('class'));
                                 if (_this.data("userid") != userid) {
                                     ids += _this.data("id") + ",";
+                                    
                                 }
                             });
                             if (ids.length > 0) {
@@ -219,42 +267,24 @@
                 _self.getList();
             }
         });
-        //批量标记
-        $("#batchMark").markColor({
-            isAll: true,
-            onChange: function (obj, callback) {
-                var checks = $(".table-list .ico-checked");
-                if (checks.length > 0) {
-                    var ids = "";
-                    checks.each(function () {
-                        var _this = $(this);
-                        ids += _this.data("id") + ",";
-                    });
-                    _self.markCustomer(ids, obj.data("value"), function (status) {
-                        _self.getList();
-                        callback && callback(status);
-                    });
-                    
-                } else {
-                    alert("您尚未选择客户!")
-                }
-            }
-        });
+
         
     }
     //获取列表
     ObjectJS.getList = function () {
         var _self = this;
-        $("#checkAll").addClass("ico-check").removeClass("ico-checked");
-        $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
-
+        $("#checkAll").removeClass("ico-checked").addClass("ico-check");
+        $(".list-card").remove();
+        $(".nodata-txt").remove();
+        $(".list-customer").append("<div class='data-loading' ><div>");
+        
         Global.post("/Customer/GetCustomers", { filter: JSON.stringify(Params) }, function (data) {
-            _self.bindList(data);
+            _self.bindCardList(data);
+            _self.bindCustomerList(data);
         });
     }
     //加载列表
-    ObjectJS.bindList = function (data) {
+    ObjectJS.bindCustomerList = function (data) {
         var _self = this;
         $(".tr-header").nextAll().remove();
 
@@ -303,8 +333,7 @@
 
             });
         }
-        else
-        {
+        else {
             $(".tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
         }
 
@@ -329,6 +358,70 @@
             }
         });
     }
+
+    //加载卡片式列表
+    ObjectJS.bindCardList = function (data) {
+        var _self = this;
+        //$(".list-card").remove();
+
+        if (data.items.length > 0) {
+            doT.exec("template/customer/customers-card.html", function (template) {
+                var innerhtml = template(data.items);
+                innerhtml = $(innerhtml);
+                
+                innerhtml.find(".check").click(function () {
+                    var _this = $(this);
+                    if (!_this.hasClass("icon-check")) {
+                        _this.parent().addClass("hover");
+                        _this.addClass("icon-check");
+                    } else {
+                        _this.parent().removeClass("hover");
+                        _this.removeClass("icon-check");
+                    }
+                    return false;
+                });
+
+                innerhtml.find(".mark").markColor({
+                    isAll: false,
+                    onChange: function (obj, callback) {
+                        _self.markCustomer(obj.data("id"), obj.data("value"), callback);
+                    }
+                });
+                $(".data-loading").remove();
+                $(".nodata-txt").remove();
+                $(".list-customer").append(innerhtml);
+
+            });
+        }
+        else {
+            $(".nodata-txt").remove();
+            $(".data-loading").remove();
+            $(".list-customer").append("<div class='nodata-txt' >暂无数据!<div>");
+            
+        }
+
+        $("#pager").paginate({
+            total_count: data.totalCount,
+            count: data.pageCount,
+            start: Params.PageIndex,
+            display: 5,
+            border: true,
+            border_color: '#fff',
+            text_color: '#333',
+            background_color: '#fff',
+            border_hover_color: '#ccc',
+            text_hover_color: '#000',
+            background_hover_color: '#efefef',
+            rotate: true,
+            images: false,
+            mouse: 'slide',
+            onChange: function (page) {
+                Params.PageIndex = page;
+                _self.getList();
+            }
+        });
+    }
+
     //标记客户
     ObjectJS.markCustomer = function (ids, mark, callback) {
         if (mark < 0) {

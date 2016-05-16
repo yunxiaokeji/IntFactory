@@ -23,6 +23,5 @@ namespace YXERP.Controllers
             return View();
         }
 
-
     }
 }

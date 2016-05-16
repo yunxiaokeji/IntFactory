@@ -2,13 +2,19 @@
     var Global = require("global");
     var doT = require("dot");
     var Qqface = require("qqface");
+
     var ObjectJS = {};
     var Reply = {};
+    var Controller = "Opportunitys";
 
     ///任务讨论
     //初始化任务讨论列表
-    ObjectJS.initTalkReply = function (reply) {
+    ObjectJS.initTalkReply = function (reply,moduleType) {
         Reply = reply;
+        if (moduleType === "customer") {
+            Controller = moduleType;
+        }
+
         //任务讨论盒子点击
         $(".taskreply-box").click(function () {
             $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
@@ -19,7 +25,7 @@
 
             if (txt.val().trim()) {
                 var model = {
-                    GUID: Reply.orderid,
+                    GUID: Reply.guid,
                     StageID: Reply.stageid,
                     mark: Reply.mark,
                     Content: txt.val().trim(),
@@ -58,8 +64,8 @@
         var _self = this;
         $("#replyList").empty();
         $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='data-loading'><div></td></tr>");
-        Global.post("/Opportunitys/GetReplys", {
-            guid: Reply.orderid,
+        Global.post("/" + Controller + "/GetReplys", {
+            guid: Reply.guid,
             stageid: Reply.stageid,
             mark: Reply.mark,
             pageSize: 10,
@@ -109,7 +115,7 @@
             btnObject.html("保存中...").attr("disabled", "disabled");
         }
 
-        Global.post("/Opportunitys/SavaReply", { entity: JSON.stringify(model) }, function (data) {
+        Global.post("/" + Controller + "/SavaReply", { entity: JSON.stringify(model) }, function (data) {
             if (btnObject) {
                 btnObject.html(btnname).removeAttr("disabled");
             }
@@ -134,6 +140,7 @@
             $(this).html(Global.replaceQqface($(this).html()));
         });
 
+        //回复点击
         replys.find(".btn-reply").click(function () {
             var _this = $(this), reply = _this.nextAll(".reply-box");
 
@@ -154,6 +161,7 @@
 
         });
 
+        //回复
         replys.find(".save-reply").click(function () {
             var _this = $(this);
             if ($("#Msg_" + _this.data("replyid")).val().trim()) {
