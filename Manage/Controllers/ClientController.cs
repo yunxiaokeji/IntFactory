@@ -42,6 +42,7 @@ namespace YXManage.Controllers
             return View("Orders");
         }
         #endregion
+
         #region Ajax
 
         /// <summary>
@@ -200,6 +201,8 @@ namespace YXManage.Controllers
                     log.UserQuantity = agent.UserQuantity;
                     log.Type = 3;
                 }
+
+                ClientBusiness.InsertClientAuthorizeLog(log);
             }
             else//购买生成订单
             {
@@ -274,11 +277,10 @@ namespace YXManage.Controllers
                 string orderID = ClientOrderBusiness.AddClientOrder(model);
                 log.OrderID = orderID;
 
-                flag=string.IsNullOrEmpty(orderID)?false:true;
+                flag = string.IsNullOrEmpty(orderID) ? false : true;
             }
 
-            JsonDictionary.Add("Result", flag?1:0);
-            if (flag) ClientBusiness.InsertClientAuthorizeLog(log);
+            JsonDictionary.Add("Result", flag ? 1 : 0);
 
             return new JsonResult()
             {
