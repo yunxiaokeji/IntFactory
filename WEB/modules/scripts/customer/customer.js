@@ -69,7 +69,8 @@
         });
         //选择字母
         $(".search-letter li").click(function () {
-            var _this = $(this);            
+            var _this = $(this);
+            
             $(".data-loading").remove();
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");

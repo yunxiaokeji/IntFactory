@@ -231,8 +231,8 @@
     <Content Include="modules\css\iconfont\demo.html" />
     <Content Include="modules\css\iconfont\iconfont.css" />
     <Content Include="modules\css\iconfont\iconfont.svg" />
-    <Content Include="modules\css\inquireorder\common.css" />
-    <Content Include="modules\css\inquireorder\online-pay.css" />
+    <Content Include="modules\css\inquire\common.css" />
+    <Content Include="modules\css\inquire\online-pay.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
@@ -451,7 +451,7 @@
     <Content Include="modules\scripts\auction\buynow.js" />
     <Content Include="modules\scripts\home\feedback.js" />
     <Content Include="modules\scripts\home\create.js" />
-    <Content Include="modules\scripts\inquireorder\inquireorder.js" />
+    <Content Include="modules\scripts\inquire\inquireorder.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.print.css" />

@@ -4,7 +4,7 @@
     var InquireOrder = {};
 
     InquireOrder.init = function () {
-        InquireOrder.bindEvent();
+        InquireOrder.bindEvent();        
     };
 
     InquireOrder.isloading = true;
@@ -42,40 +42,24 @@
         $(".inquire-form-button").click(function () {
             var phoneLogin = $(".inquire-form-phone").val();
             var phonevalidation = $(".inquire-form-numb").val();
-            if (phoneLogin != "" || phonevalidation != "") {
+            if (phoneLogin != "" || phonevalidation != null) {
                 Global.post("/Inquire/ValidateMobilePhoneCode", { mobilePhone: phoneLogin, code: phonevalidation }, function (code) {
                     if (code.Result == 0) {
-                        alert("验证码有误");
-                        //$(".inquire-form-button").attr("disabled", "disabled").css("background", "#d5d5d5");
+                        alert("验证码有误");                       
                     } else {
                         $(".img-loading").remove();
                         $(".info").remove();
                         InquireOrder.getOrderByPhone();
                     }
-                });
-
-                //$(".inquire-form-button").click(function () {
-                //    $(".img-loading").remove();
-                //    $(".info").remove();
-                //    InquireOrder.getOrderByPhone();
-
-                //});
+                });   
 
             } else {
-                alert("手机号或验证码不能为空");
-                //$(".inquire-form-button").attr("disabled", "disabled").css("background", "#d5d5d5");
+                alert("手机号或验证码不能为空");               
             }
-             
         });
-
-
-        //$(document).keydown(function (e) {
-        //    if (e.keyCode === 13) {
-        //        $(".inquire-form-button").click();
-        //    }
-        //});
+        
     }
-
+   
     //发送手机验证码
     var timeCount = 60;
     var interval = null;
@@ -99,7 +83,6 @@
             }
 
         }, 1000);
-
 
     }
 

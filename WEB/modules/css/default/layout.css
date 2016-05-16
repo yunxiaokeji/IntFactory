@@ -336,9 +336,9 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
           display:inline-block; cursor:pointer;}
 
 /*复选框*/
-.batch-operate .ico-check{ background:url(/modules/images/ico-check.png) no-repeat; height:20px; min-width:20px; line-height:20px; text-indent:20px; 
+.ico-check{ background:url(/modules/images/ico-check.png) no-repeat; height:20px; min-width:20px; line-height:20px; text-indent:20px; 
           display:inline-block; cursor:pointer;}
-.batch-operate .ico-checked{ background:url(/modules/images/ico-checked.png) no-repeat; height:20px; min-width:20px; line-height:20px;  text-indent:20px;
+.ico-checked{ background:url(/modules/images/ico-checked.png) no-repeat; height:20px; min-width:20px; line-height:20px;  text-indent:20px;
           display:inline-block; cursor:pointer;}
 
 
