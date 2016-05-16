@@ -114,13 +114,11 @@ namespace YXERP.Controllers
 
         public ActionResult UseExpired()
         {
-            int lastDay = 0;
             if (Session["ClientManager"] != null)
             {
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var agent = IntFactoryBusiness.AgentsBusiness.GetAgentDetail(currentUser.AgentID);
-                lastDay = (agent.EndTime - DateTime.Now).Days;
-                ViewBag.lastDay = lastDay;
+                ViewBag.EndTime = agent.EndTime.ToString("yyyy-MM-dd");
             }
 
             return View();
@@ -518,8 +516,8 @@ namespace YXERP.Controllers
                     var member = memberResult.result.toReturn[0];
 
                     Clients clientModel = new Clients();
-                    clientModel.CompanyName = member.companyName;
-                    clientModel.ContactName = member.sellerName;
+                    clientModel.CompanyName = member.companyName??string.Empty;
+                    clientModel.ContactName = member.sellerName??string.Empty;
                     clientModel.MobilePhone = string.Empty;
 
                     var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result,

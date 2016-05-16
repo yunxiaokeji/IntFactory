@@ -29,7 +29,7 @@
 
 .feed-annex a {cursor:pointer;height:40px;line-height:40px;display:inline-block;position:relative;color:#666;font-size:18px;text-align:center;border-radius:2px;transition:background-color 0.3s;}
 .feed-description div:first-child{ line-height:normal;}
-.feed-description .txt-description { line-height:normal;height:170px;}
+.feed-description .txt-description { line-height:normal;height:170px;padding:4px 0;}
 .feed-submit div:first-child { height:30px;}
 #btn-feedback {border: 1px solid #4a98e7; width:60px;line-height:30px;height:30px;background-color:#4a98e7;color:#fff;text-align:center;cursor:pointer;float:right;font-size:14px;transition:background-color 0.2s;}
 #btn-feedback:hover { background-color:#2F73B8;}

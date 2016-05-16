@@ -63,6 +63,8 @@
 
         ObjectJS.bindEvent();
 
+        ObjectJS.getProcess();
+
         //获取任务列表
         if (Params.isParticipate == 1) {
             $(".search-stages li").eq(2).click();
@@ -101,7 +103,6 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-
                 Params.pageIndex = 1;
                 Params.finishStatus = _this.data("id");
                 ObjectJS.getList();
@@ -114,60 +115,76 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-
+                Params.orderProcessID = '-1';
+                Params.orderStageID = '-1';
                 Params.pageIndex = 1;
                 Params.orderType = _this.data("id");
+                if (Params.orderType != -1) {
+                    $(".search-process li").each(function () {
+                        if ($(this).data('type') != null) {
+                            if ($(this).data('type') == Params.orderType) {
+                                $(this).show();
+                            }
+                            else {
+                                $(this).hide();
+                            }
+                        }
+                    })
+                }
+                else {
+                    $(".search-process li").show();
+                }
+                $(".search-process .item").removeClass('hover').eq(0).addClass('hover');
+                $(".search-stage .item").removeClass('hover').eq(0).addClass('hover').nextAll().remove();
                 ObjectJS.getList();
             }
         });
 
-        //订单流程阶段搜索
-        require.async("dropdown", function () {
+        ////订单流程阶段搜索
+        //require.async("dropdown", function () {
 
-            Global.post("/Task/GetOrderProcess", null, function (data) {
-                
-                $("#orderProcess").dropdown({
-                    prevText: "订单流程-",
-                    defaultText: "全部",
-                    defaultValue: "-1",
-                    data: data.items,
-                    dataValue: "ProcessID",
-                    dataText: "ProcessName",
-                    width: "140",
-                    onChange: function (data) {
-                        Params.orderProcessID = data.value;
-                        Params.orderStageID = "-1";
-                        Params.pageIndex = 1;
-                        ObjectJS.getList();
+        //    Global.post("/Task/GetOrderProcess", null, function (data) {
+        //        $("#orderProcess").dropdown({
+        //            prevText: "订单流程-",
+        //            defaultText: "全部",
+        //            defaultValue: "-1",
+        //            data: data.items,
+        //            dataValue: "ProcessID",
+        //            dataText: "ProcessName",
+        //            width: "140",
+        //            onChange: function (data) {
+        //                Params.orderProcessID = data.value;
+        //                Params.orderStageID = "-1";
+        //                Params.pageIndex = 1;
+        //                ObjectJS.getList();
 
-                        Global.post("/Task/GetOrderStages", { id: data.value }, function (data) {
+        //                Global.post("/Task/GetOrderStages", { id: data.value }, function (data) {
 
-                            $("#orderStage").dropdown({
-                                prevText: "流程阶段-",
-                                defaultText: "全部",
-                                defaultValue: "-1",
-                                data: data.items,
-                                dataValue: "StageID",
-                                dataText: "StageName",
-                                width: "140",
-                                onChange: function (data) {
-                                    Params.orderStageID = data.value;
-                                    Params.pageIndex = 1;
-                                    ObjectJS.getList();
-                                }
-                            });
+        //                    $("#orderStage").dropdown({
+        //                        prevText: "流程阶段-",
+        //                        defaultText: "全部",
+        //                        defaultValue: "-1",
+        //                        data: data.items,
+        //                        dataValue: "StageID",
+        //                        dataText: "StageName",
+        //                        width: "140",
+        //                        onChange: function (data) {
+        //                            Params.orderStageID = data.value;
+        //                            Params.pageIndex = 1;
+        //                            ObjectJS.getList();
+        //                        }
+        //                    });
 
-                        });
+        //                });
 
-                    }
-                });
+        //            }
+        //        });
 
-            });
+        //    });
 
-        });
+        //});
 
         //切换任务显示方式(列表或者卡片式)
-        //.search-sort   .search-header .task-tabtype span
         $(".search-sort .task-tabtype i").click(function () {
             var _this = $(this);
             ObjectJS.showType = _this.data('type');
@@ -175,13 +192,6 @@
             ObjectJS.getList();
         });
 
-        ////切换任务显示方式2(列表或者卡片式)
-        //$(".search-sort .show-type i").click(function () {
-        //    var _this = $(this);
-        //    _this.data("type") == "list" ? _this.data("type", "card").html("&#xe64b;") : _this.data("type", "list").html("&#xe64c;");
-        //    ObjectJS.showType = _this.data('type');
-        //    ObjectJS.getList();
-        //})
 
         //时间段查询
         $("#btnSearch").click(function () {
@@ -232,6 +242,56 @@
             Params.pageIndex = 1;
             ObjectJS.getList();
 
+        });
+    }
+
+    //获取流程信息
+    ObjectJS.getProcess = function () {
+        Global.post("/Task/GetOrderProcess", null, function (data) {
+            var items = data.items;
+            var content = "<li class='item hover' data-id='-1'>全部</li>";
+            for (var i = 0; i < items.length; i++) {
+                content += "<li data-type=" + items[i].ProcessType + " data-id=" + items[i].ProcessID + " class='item'>" + items[i].ProcessName + "</li>";
+            }
+            content = $(content);
+            $(".search-process").append(content);
+            content.click(function () {
+                var _this = $(this);
+                if (!_this.hasClass("hover")) {
+                    _this.siblings().removeClass("hover");
+                    _this.addClass("hover");
+                    Params.orderProcessID = _this.data('id');
+                    Params.orderStageID = "-1";
+                    Params.pageIndex = 1;
+                    ObjectJS.getStage();
+                    ObjectJS.getList();
+                }
+            })
+        });
+    }
+
+    //获取阶段信息
+    ObjectJS.getStage = function () {
+       
+        Global.post("/Task/GetOrderStages", { id: Params.orderProcessID }, function (data) {
+            var items = data.items;
+            var content = "<li class='item hover' data-id='-1'>全部</li>";
+            for (var i = 0; i < items.length; i++) {
+                content += "<li data-id=" + items[i].StageID + " class='item'>" + items[i].StageName + "</li>";
+            }
+            content = $(content);
+            $(".search-stage .column-name").nextAll().remove();
+            $(".search-stage").append(content);
+            content.click(function () {
+                var _this = $(this);
+                if (!_this.hasClass("hover")) {
+                    _this.siblings().removeClass("hover");
+                    _this.addClass("hover");
+                    Params.orderStageID = _this.data('id');
+                    Params.pageIndex = 1;
+                    ObjectJS.getList();
+                }
+            })
         });
     }
 
@@ -339,13 +399,18 @@
 
         var time_start = new Date().getTime(); //设定当前时间
 
+        var append_content="";
         // 计算时间差 
         var time_distance = time_end - time_start;
+
+
         var overplusTime = false;
         if (time_distance < 0) {
             if (!overplusTime) {
                 $(".overplusTime-" + num + "").html("超期时间：");
-
+                $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show().css({ "border-top-color": "rgba(237,0,0,0.7)", "border-left-color": "rgba(237,0,0,0.7)" });
+                $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('已超期').show();
+                
             }
             overplusTime = true;
             time_distance = time_start - time_end;
@@ -353,12 +418,12 @@
         else {
             if (isWarn == 1) {
                 if (!overplusTime) {
-
+                    $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show().css({ "border-top-color": "rgba(255,165,0,0.7)", "border-left-color": "rgba(255,165,0,0.7)" });
+                    $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('快到期').show();
                 }
                 overplusTime = true;
             }
         }
-
         // 天
         var int_day = Math.floor(time_distance / 86400000)
         time_distance -= int_day * 86400000;
