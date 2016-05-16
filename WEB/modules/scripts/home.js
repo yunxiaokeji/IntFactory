@@ -90,14 +90,14 @@ define(function (require, exports, module) {
                     $(".registerErr").html("账号或密码有误,您还有" + (3 - parseInt( data.errorCount) ) + "错误机会").slideDown();
                 }
                 else if (data.result == 4) {
-                    $(".registerErr").html("该系统已绑定过阿里账户,不能再绑定");
+                    $(".registerErr").html("该系统已绑定过阿里账户,不能再绑定").slideDown();
                 }
                 else if (data.result == 5) {
                     alert("请重新阿里授权");
                     setTimeout(function () { location.href = "/home/login"; }, 500);
                 }
                 else if (data.result == 9) {
-                    $(".registerErr").html("您的账户已注销,请切换其他账户登录");
+                    $(".registerErr").html("您的账户已注销,请切换其他账户登录").slideDown();
                 }
                 else if (data.result == -1)
                 {

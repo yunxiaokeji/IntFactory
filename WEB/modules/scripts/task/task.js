@@ -29,7 +29,7 @@
     ObjectJS.init = function (isMy, nowDate) {
         Params.beginDate = nowDate;
         Params.endDate = nowDate;
-        Params.pageSize = ($(".content-body").width() / 280).toFixed(0) * 3;
+        Params.pageSize = ($(".content-body").width() / 300).toFixed(0) * 3;
 
         ObjectJS.showType = "list";
         if (isMy == 2) {
