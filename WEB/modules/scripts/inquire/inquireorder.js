@@ -60,22 +60,7 @@
         
     }
     
-                        //$(".inquire-form-button").attr("disabled", "disabled").css("background", "#d5d5d5");
-                //$(".inquire-form-button").click(function () {
-                //    $(".img-loading").remove();
-                //    $(".info").remove();
-                //    InquireOrder.getOrderByPhone();
 
-                //$(".inquire-form-button").attr("disabled", "disabled").css("background", "#d5d5d5");
-    
-
-             
-        //$(document).keydown(function (e) {
-        //    if (e.keyCode === 13) {
-        //        $(".inquire-form-button").click();
-        //    }
-        //});
-    }
     //发送手机验证码
     var timeCount = 60;
     var interval = null;
@@ -83,7 +68,7 @@
         var $btnSendCode = $("." + id);
         $btnSendCode.attr("disabled", "disabled");
 
-        $("." + id).css("background-color", "#aaa");
+        $("." + id).css("background-color", "#aaa").css("border","0");
         interval = setInterval(function () {
             var $btnSendCode = $("." + id);
             timeCount--;
@@ -94,7 +79,7 @@
                 timeCount = 60;
                 $btnSendCode.val("获取验证码").css("background-color", "#4a98e7");
                 $btnSendCode.removeAttr("disabled");
-                $btnSendCode.text("获取验证码");
+                
 
             }
 

@@ -1,4 +1,9 @@
-﻿/*客户列表卡片样式*/
+﻿/*客户来源筛选*/
+.customer-source { width:100%;padding:2px 5px;height:20px;}
+.customer-source div{float:left;color:#999;font-size:12px;margin-right:35px;}
+.customer-source li { float:left;margin-right:15px;padding:2px 5px;color:#666;}
+.customer-source .source-hover{padding:1px 4px;border:1px solid #4A99E8;color:#4A99E8;}
+/*客户列表卡片样式*/
 .content-body hr {height:20px;background-color:#F2F4F8;border:0;margin-left:-10px;margin-right:-10px; }
 .list-customer .hover{border:1px solid #007aff;}
 .list-customer .hover .check {display:inline-block;}
@@ -13,7 +18,7 @@
 .list-card li .message{height:20px;line-height:25px;}
 .list-card li .message-name{width:100px;}
 .list-card .message-name a{font-size:15px;}
-.list-card li .list-mark{float:right;padding-left:10px;line-height:15px;}
+.list-card li .list-mark{line-height:20px;}
 
 
 /*筛选项-标记筛选*/

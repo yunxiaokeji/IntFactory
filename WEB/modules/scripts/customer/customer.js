@@ -49,6 +49,20 @@
             _self.getList();
         });
 
+        
+        //选择客户来源类型
+        $(".customer-source li").click(function () {
+            var _this = $(this);            
+            if (!_this.hasClass("source-hover")) {
+                _this.siblings().removeClass("source-hover");
+                _this.addClass("source-hover");
+
+                Params.SourceType = -1;
+                var dataid = _this.data("idsource");
+                Params.SourceType = dataid;
+                ObjectJS.getList();
+            }
+        });
         //切换颜色标记
         $(".search-item-color li").click(function () {
             var _this = $(this);
