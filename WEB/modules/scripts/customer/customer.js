@@ -368,17 +368,7 @@
             doT.exec("template/customer/customers-card.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
-
-                //下拉事件
-                innerhtml.find(".dropdown").click(function () {
-                    var _this = $(this);
-                    var position = _this.find(".ico-dropdown").position();
-                    $(".dropdown-ul li").data("id", _this.data("id")).data("userid", _this.data("userid"));
-                    $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 80 }).show().mouseleave(function () {
-                        $(this).hide();
-                    });
-                    return false;
-                });
+                
                 innerhtml.find(".check").click(function () {
                     var _this = $(this);
                     if (!_this.hasClass("icon-check")) {
