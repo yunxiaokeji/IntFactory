@@ -33,7 +33,7 @@
         });
 
         $("#btn-feedback").click(function () {
-
+            var _this = $(this);
             if ($(".txt-title").val() == "") {
                 alert("标题不能为空");
                 return false;
@@ -43,7 +43,8 @@
                 alert("问题描述请在1000个字符以内");
                 return false;
             }
-            $(this).html("提交中...");
+            _this.val("提交中...");
+            _this.attr("disabled", true);
             var entity = {
                 Title: $(".txt-title").val(),
                 ContactName: $(".txt-name").val(),
@@ -53,7 +54,8 @@
                 Remark: $(".txt-description").val()
             };
             Global.post("/FeedBack/InsertFeedBack", { entity: JSON.stringify(entity) }, function (data) {
-                $("#btn-feedback").html("提交");
+                _this.val("提交");
+                _this.attr("disabled", false);
                 if (data.Result == 1) {
                     alert("谢谢反馈");
                     setTimeout(function () { history.back(-1); }, 3000);
