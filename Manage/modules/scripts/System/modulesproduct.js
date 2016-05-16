@@ -60,7 +60,7 @@ define(function (require, exports, module) {
         if (id != '0') {
             $("#pageTitle").html("设置产品收费");
             $("#saveModulesProduct").val("保存");
-
+            $('#delModulesProduct').show();
             ModulesProduct.getDetail();
         }
     }
@@ -80,7 +80,6 @@ define(function (require, exports, module) {
             if (!VerifyObject.isPass()) {
                 return false;
             };
-
             var modulesProduct = {
                 AutoID: Params.id,
                 Period: $("#Period").val(),
@@ -91,13 +90,24 @@ define(function (require, exports, module) {
                 UserType: $("#UserType").val(),
                 Type: 1
             };
-
             Global.post("/System/SaveModulesProduct", { modulesProduct: JSON.stringify(modulesProduct) }, function (data) {
                 if (data.result == "1") {
                     location.href = "/System/Index";
                 }
             });
 
+        });
+        $('#delModulesProduct').click(function () {
+            if (confirm("确定删除?")) {
+                Global.post("/System/DeleteModulesProduct", { id: Params.id }, function (data) {
+                    if (data.result == 1) {
+                        location.href = "/System/Index";
+                    }
+                    else {
+                        alert("删除失败");
+                    }
+                });
+            }
         });
     };
 
@@ -115,12 +125,9 @@ define(function (require, exports, module) {
         });
     };
 
-
-
     //列表初始化
     ModulesProduct.init = function () {
         ModulesProduct.bindEvent();
-
         ModulesProduct.getList();
     };
 
@@ -132,7 +139,6 @@ define(function (require, exports, module) {
     ModulesProduct.getList = function () {
         $(".tr-header").nextAll().remove();
         $(".tr-header").after("<tr><td colspan='6'><div class='data-loading'><div></td></tr>");
-
         Global.post("/System/GetModulesProducts", Params, function (data) {
             $(".tr-header").nextAll().remove();
             
@@ -140,21 +146,6 @@ define(function (require, exports, module) {
                 var innerText = templateFun(data.items);
                 innerText = $(innerText);
                 $(".tr-header").after(innerText);
-
-                $(".table-list a.ico-del").bind("click", function () {
-                    if (confirm("确定删除?"))
-                    {
-                        Global.post("/System/DeleteModulesProduct", { id: $(this).attr("data-id") }, function (data) {
-                            if (data.result == 1) {
-                                location.href = "/System/Index";
-                            }
-                            else {
-                                alert("删除失败");
-                            }
-                        });
-                    }
-
-                });
             });
 
             if (data.items.length == 0) {

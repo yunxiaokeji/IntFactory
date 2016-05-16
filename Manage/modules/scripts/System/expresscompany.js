@@ -27,6 +27,7 @@ define(function (require, exports, module) {
         {
             $("#pageTitle").html("设置产品");
             $("#saveExpressCompany").val("保存");
+            $('#delExpressCompany').show();
             ExpressCompany.getDetail();
         }
     }
@@ -40,10 +41,20 @@ define(function (require, exports, module) {
             verifyType: "data-type",
             regText: "data-text"
         });
-
+        $('#delExpressCompany').click(function () {
+            if (confirm("确定删除?")) {
+                Global.post("/System/DeleteExpressCompany", { id: Params.id }, function (data) {
+                    if (data.result == 1) {
+                        location.href = "/System/ExpressCompanys";
+                    }
+                    else {
+                        alert("删除失败");
+                    }
+                });
+            }
+        });
         //保存
         $("#saveExpressCompany").click(function () {
-
             if (!VerifyObject.isPass()) {
                 return false;
             };
@@ -102,21 +113,6 @@ define(function (require, exports, module) {
                 var innerText = templateFun(data.items);
                 innerText = $(innerText);
                 $(".tr-header").after(innerText);
-
-                $(".table-list a.ico-del").bind("click", function () {
-                    if (confirm("确定删除?"))
-                    {
-                        Global.post("/System/DeleteExpressCompany", { id: $(this).data("id") }, function (data) {
-                            if (data.result == 1) {
-                                location.href = "/System/ExpressCompanys";
-                            }
-                            else{
-                                alert("删除失败");
-                            }
-                        });
-                    }
-                });
-
             });
 
             if (data.items.length == 0) {

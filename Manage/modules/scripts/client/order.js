@@ -5,6 +5,7 @@ define(function (require, exports, module) {
     require("jquery");
     require("pager");
     var Global = require("global"),
+        Easydialog = require("easydialog"),
         doT = require("dot");
 
     var Order = {};
@@ -128,6 +129,54 @@ define(function (require, exports, module) {
                 var innerText = templateFun(data.Items);
                 innerText = $(innerText);
                 $(".tr-header").after(innerText);
+                innerText.find(".deleteOrder").click(function () {
+                    if (confirm("确定删除?")) {
+                        Global.post("/Client/CloseClientOrder", { id: $(this).data("id") }, function (data) {
+                            if (data.Result == 1) {
+                                Order.bindData();
+                            }else {
+                                alert("关闭失败");
+                            }
+                        });
+                    }
+                });
+                innerText.find(".editOrder").click(function () {
+                    var id = $(this).data("id");
+                    var amount = $(this).data("amount");
+                    var html = "<input type='text' value='" + amount + "' id='txt-orderAmount' />";
+                    Easydialog.open({
+                        container: {
+                            id: "show-model-feedback",
+                            header: "修改订单支付金额",
+                            content: html,
+                            yesFn: function () {
+                                if (confirm("确定修改价格吗?")) {
+                                    Global.post("/Client/UpdateOrderAmount", { id: id, amount: $("#txt-orderAmount").val() }, function (data) {
+                                        if (data.Result == 1) {
+                                            Order.bindData();
+                                        }else {
+                                            alert("修改失败");
+                                        }
+                                    });
+                                }
+                            },
+                            callback: function () {
+                            }
+                        }
+                    });
+                });
+                innerText.find(".examineOrder").click(function () {
+                    if (confirm("确定审核通过吗?")) {
+                        alert($(this).data("agentid"));
+                        Global.post("/Client/PayOrderAndAuthorizeClient", { id: $(this).data("id"), agentID: $(this).data("agentid") }, function (data) {
+                            if (data.Result == 1) {
+                                Order.bindData();
+                            }else {
+                                alert("审核失败");
+                            }
+                        });
+                    }
+                });
             });
 
             $("#pager").paginate({

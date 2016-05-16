@@ -190,10 +190,13 @@ select option{ padding:2px; }
 .ico-change:hover{ background:url(../images/ico-changehover.png) no-repeat; color:#4a98e7; }
 
 /*编辑*/
-.ico-edit{ background:url(../images/ico-edit-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+/*.ico-edit{ background:url(../images/ico-edit-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
           display:inline-block; cursor:pointer;  color:#666; }
+.ico-edit:hover{ background:url(../images/ico-edit-deep.png) no-repeat;}*/
+.ico-edit{ height:24px; min-width:24px; line-height:24px; 
+          display:inline-block; cursor:pointer;  color:#999; }
 .ico-edit:hover{ color:#000;}
-/*.ico-edit:hover{ background:url(../images/ico-edit-deep.png) no-repeat;}*/
+
 
 /*删除-垃圾箱*/
 .ico-del{ background:url(../images/ico-del-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 

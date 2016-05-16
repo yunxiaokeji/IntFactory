@@ -172,15 +172,21 @@ define(function (require, exports, module) {
 
     FeedBack.detailBindEvent = function () {
         $("#btn-finish").click(function () {
-            FeedBack.updateFeedBackStatus(2);
+            if (confirm("确定解决吗?")) {
+                FeedBack.updateFeedBackStatus(2);
+            }
         });
 
         $("#btn-cancel").click(function () {
-            FeedBack.updateFeedBackStatus(3);
+            if (confirm("确定驳回吗?")) {
+                FeedBack.updateFeedBackStatus(3);
+            }
         });
 
         $("#btn-delete").click(function () {
-            FeedBack.updateFeedBackStatus(9);
+            if (confirm("确定删除吗?")) {
+                FeedBack.updateFeedBackStatus(9);
+            }
         });
     }
 
@@ -204,8 +210,12 @@ define(function (require, exports, module) {
                     $('#btn-cancel').hide();
                     $('#btn-delete').hide();
                 }
-                else if (item.Status == 3)
+                else if (item.Status == 3) {
                     statusName = "驳回";
+                    $('#btn-finish').hide();
+                    $('#btn-cancel').hide();
+                    $('#btn-delete').hide();
+                }
                 else if (item.Status == 9)
                     statusName = "删除";
                 $("#Status").html(statusName);

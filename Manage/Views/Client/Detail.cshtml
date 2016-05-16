@@ -68,16 +68,19 @@
     </a> 
 </div>
 
-<div class="content-title mTop10">
-    <div id="customerName" class="left titlename"></div>
-    <div id="updateClient" class="left ico-edit iconfont mLeft20">&#xe607;</div>
-</div>
+
 <div class="content-body">
+    <div class="content-title">
+        <div id="customerName" class="left titlename bolder"></div>
+        <div id="updateClient" class="left ico-edit iconfont mLeft20">&#xe607;</div>
+    </div>
      <ul class="content-info">
         <li><span class="column-title">公司名称：</span><label id="lblName"></label></li>
         <li><span class="column-title">联系人：</span><label id="lblContact"></label></li>
         <li><span class="column-title">联系电话：</span><label id="lblMobile"></label> </li>
         <li><span class="column-title">办公电话：</span><label id="lblOfficePhone"></label> </li>
+        <li><span class="column-title">授权人数：</span><label id="lblUserQuantity"></label> </li>
+        <li><span class="column-title">到期时间：</span><label id="lblEndTime"></label> </li>
         <li><span class="column-title">行业：</span><label id="lblindustryName"></label></li>
         <li><span class="column-title">地址：</span><label id="lblCity"></label></li>
         <li><span class="column-title">详细地址：</span><label id="lblAddress"></label></li>
@@ -91,6 +94,8 @@
                 </select>
              </li>
     </ul>  
+    <div class="btn delClient right">删除</div>
+    <div class="clear"></div>
 </div>
 <div class="search-header mTop20">
     <ul class="search-tab search-status">
@@ -146,7 +151,7 @@
     </div>
     <div name="navContent" class="hide">
 
-        <div class="left mLeft20">
+        <div class="left mLeft5">
             <span class="width80">订单时间：</span><input type="text" id="actionBeginTime"  class="input"  />
             <span style="padding:0px 5px 0px 3px;">至</span><input type="text" id="actionEndTime"  class="input"  />
             <span class="btn mLeft10" id="SearchList">搜索</span>
