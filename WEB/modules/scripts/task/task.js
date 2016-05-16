@@ -125,6 +125,7 @@
         require.async("dropdown", function () {
 
             Global.post("/Task/GetOrderProcess", null, function (data) {
+                
                 $("#orderProcess").dropdown({
                     prevText: "订单流程-",
                     defaultText: "全部",

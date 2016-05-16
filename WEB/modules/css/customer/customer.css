@@ -1,6 +1,6 @@
 ﻿/*客户来源筛选*/
 .customer-source { width:100%;padding:2px 5px;height:20px;}
-.customer-source div{float:left;color:#999;font-size:12px;margin-right:33px;}
+.customer-source div{float:left;color:#999;font-size:12px;margin-right:25px;}
 .customer-source li { float:left;margin-right:15px;padding:2px 5px;color:#666;cursor:pointer;}
 .customer-source li:hover{color:#4A99E8;}
 .customer-source .source-hover{padding:1px 4px;border:1px solid #4A99E8;color:#4A99E8;}
