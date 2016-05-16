@@ -1037,7 +1037,7 @@
     <Content Include="Views\Inquire\InquireOrder.cshtml">
       <BrowseToURL>~/Inquire/InquireOrder</BrowseToURL>
     </Content>
-    <Content Include="Views\Error\NoUse.cshtml" />
+    <Content Include="Views\Home\UseExpired.cshtml" />
     <Content Include="Views\Home\FeedBack.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
