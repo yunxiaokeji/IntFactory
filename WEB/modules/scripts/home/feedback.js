@@ -11,7 +11,7 @@
 
         ProductIco = Upload.createUpload({
             element: "#upload",
-            buttonText: "选择图片",
+            buttonText: "选择附件",
             className: "",
             multiple: true,
             data: { folder: '', action: 'add', oldPath: "" },
