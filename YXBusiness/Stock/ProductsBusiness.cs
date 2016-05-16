@@ -1002,7 +1002,7 @@ namespace IntFactoryBusiness
                 if (!string.IsNullOrEmpty(pid))
                 {
                     //日志
-                    //LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Product, EnumLogType.Create, "", operateid, agentid, clientid);
+                    LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Product, EnumLogType.Create, "", operateid, agentid, clientid);
 
                     foreach (var model in details) 
                     {

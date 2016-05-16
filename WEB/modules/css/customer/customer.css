@@ -18,8 +18,8 @@
 .list-card li .photo{width:24px;height:24px;border-radius:50%;background-color:#ccc;color:#fff;float:left;text-align:center;line-height:24px;font-size:14px;}
 .list-card li .message{height:20px;line-height:25px;}
 .list-card li .message-name{width:100px;}
-.list-card .message-name a{font-size:15px;}
-.list-card li .list-mark{line-height:20px;}
+.list-card .message-name a{font-size:15px;line-height:26px;}
+.list-card li .list-mark{line-height:23px;}
 
 
 /*筛选项-标记筛选*/
