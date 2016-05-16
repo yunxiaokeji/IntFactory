@@ -59,7 +59,8 @@
         });
         
     }
-   
+    
+
     //发送手机验证码
     var timeCount = 60;
     var interval = null;
@@ -67,7 +68,7 @@
         var $btnSendCode = $("." + id);
         $btnSendCode.attr("disabled", "disabled");
 
-        $("." + id).css("background-color", "#aaa");
+        $("." + id).css("background-color", "#aaa").css("border","0");
         interval = setInterval(function () {
             var $btnSendCode = $("." + id);
             timeCount--;
@@ -78,7 +79,7 @@
                 timeCount = 60;
                 $btnSendCode.val("获取验证码").css("background-color", "#4a98e7");
                 $btnSendCode.removeAttr("disabled");
-                $btnSendCode.text("获取验证码");
+                
 
             }
 

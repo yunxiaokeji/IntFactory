@@ -117,7 +117,7 @@ namespace YXERP.Controllers
             FilterCustomer model = serializer.Deserialize<FilterCustomer>(filter);
             int totalCount = 0;
             int pageCount = 0;
-
+            
             List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomers(model.SearchType, model.Type, model.SourceType, 
                 model.SourceID, model.StageID, model.Status, 
                 model.Mark, model.ActivityID, model.UserID, 

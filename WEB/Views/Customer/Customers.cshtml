@@ -55,6 +55,13 @@
 </div>
 <div class="content-body">
     <div class="search-body">
+        <ul class="customer-source">
+            <div>来&nbsp;&nbsp;&nbsp;源：</div>
+            <li data-idsource="-1"class="source-hover">全部</li>
+            <li data-idsource="1">阿里客户</li>
+            <li data-idsource="2">自助下单</li>
+            <li data-idsource="3">手工创建</li>
+        </ul>
         <ul class="search-item-color search-mark">
             <li class="column-name" data-id="-2">标&nbsp;&nbsp;&nbsp;记：</li>
             <li data-id="-1" class="item mark-all hover"></li>
@@ -65,7 +72,7 @@
             <li data-id="4" class="item mark4"></li>
             <li data-id="5" class="item mark5"></li>
         </ul>
-        <ul class="search-letter">
+        <ul class="search-letter hide">
             <div class="color999 pLeft5 left mRight20" data-letter="1">首字母：</div>
             <li class="all-letter hover" data-letter="">全部</li>
             @{                
@@ -79,8 +86,8 @@
     </div>
     <div class="search-items mTop10">
         <div class="left mRight20" id="chooseBranch"></div>
-        <div class="left" id="sourceType"></div>
-        <div class="left mLeft20">
+        @*<div class="left" id="sourceType"></div>*@
+        <div class="left">
             <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input width100"  />
             <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width100"  />
             <span class="btn mLeft10" id="btnSearch">搜索</span>

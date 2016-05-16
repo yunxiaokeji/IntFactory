@@ -469,7 +469,7 @@
     <Content Include="modules\scripts\task\task.js" />
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />
-    <Content Include="modules\template\inquireorder\inquireorder.html" />
+    <Content Include="modules\template\inquire\inquireorder.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />
     <Content Include="modules\template\orders\orders_child_list.html" />
     <Content Include="modules\template\orders\surequantity.html" />
@@ -1037,7 +1037,7 @@
     <Content Include="Views\Inquire\InquireOrder.cshtml">
       <BrowseToURL>~/Inquire/InquireOrder</BrowseToURL>
     </Content>
-    <Content Include="Views\Error\NoUse.cshtml" />
+    <Content Include="Views\Home\UseExpired.cshtml" />
     <Content Include="Views\Home\FeedBack.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
