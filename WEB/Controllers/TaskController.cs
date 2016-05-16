@@ -230,7 +230,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetOrderProcess() {
             var list = SystemBusiness.BaseBusiness.GetOrderProcess(CurrentUser.AgentID, CurrentUser.ClientID);
-
+            
             JsonDictionary.Add("items", list);
             return new JsonResult
             {
