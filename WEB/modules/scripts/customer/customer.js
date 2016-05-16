@@ -49,6 +49,21 @@
             _self.getList();
         });
 
+        
+        //选择客户来源类型
+        $(".customer-source li").click(function () {
+            var _this = $(this);            
+            if (!_this.hasClass("source-hover")) {
+                _this.siblings().removeClass("source-hover");
+                _this.addClass("source-hover");
+
+                Params.SourceType = -1;
+                var dataid = _this.data("idsource");
+                Params.SourceType = dataid;
+                ObjectJS.getList();
+            }
+        });
+
         //切换颜色标记
         $(".search-item-color li").click(function () {
             var _this = $(this);
@@ -67,6 +82,7 @@
                 ObjectJS.getList();
             }
         });
+
         //选择字母
         $(".search-letter li").click(function () {
             var _this = $(this);
@@ -87,6 +103,7 @@
                 _self.getList();
             };
         });
+
         //切换阶段
         $(".search-stages li").click(function () {
             var _this = $(this);
@@ -98,6 +115,7 @@
                 _self.getList();
             }
         });
+
         //切换状态
         $(".search-status li").click(function () {
             var _this = $(this);
@@ -109,6 +127,7 @@
                 _self.getList();
             }
         });
+
         //关键字搜索
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
@@ -349,17 +368,7 @@
             doT.exec("template/customer/customers-card.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
-
-                //下拉事件
-                innerhtml.find(".dropdown").click(function () {
-                    var _this = $(this);
-                    var position = _this.find(".ico-dropdown").position();
-                    $(".dropdown-ul li").data("id", _this.data("id")).data("userid", _this.data("userid"));
-                    $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 80 }).show().mouseleave(function () {
-                        $(this).hide();
-                    });
-                    return false;
-                });
+                
                 innerhtml.find(".check").click(function () {
                     var _this = $(this);
                     if (!_this.hasClass("icon-check")) {
