@@ -5,15 +5,18 @@
         doT = require("dot"),
         ChooseUser = require("chooseuser"),
         Easydialog = require("easydialog");
+    var CustomerReply = require("scripts/task/reply");       
     require("pager");
     require("mark");
-
+    
     var ObjectJS = {}, CacheIems = [];
+    
     //初始化
     ObjectJS.init = function (customerid, MDToken) {
         var _self = this;
-        _self.customerid = customerid;
-        _self.bindStyle();
+        _self.guid = customerid;
+
+        CustomerReply.initTalkReply(_self, "customer");
 
         Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
             if (data.model.CustomerID) {
@@ -21,18 +24,12 @@
                 _self.bindEvent(data.model);
             }
         });
-
-        _self.initTalk(customerid);
-
+        
         $("#addContact").hide();
-        //$(window).resize(function () {
-        //    _self.bindStyle();
-        //});
-    }
-    //样式
-    ObjectJS.bindStyle = function () {
 
     }
+
+
     //基本信息
     ObjectJS.bindCustomerInfo = function (model) {
 
@@ -74,6 +71,7 @@
         //}
 
     }
+
     //阶段行为项
     ObjectJS.bindStageItems = function (items) {
         $("#stageItems").empty();
@@ -81,16 +79,18 @@
             $("#stageItems").append("<li>" + items[i].ItemName + "</li>");
         }
     };
+
     //绑定事件
     ObjectJS.bindEvent = function (model) {
         var _self = this;
+     
 
         $(document).click(function (e) {
             //隐藏下拉
             if (!$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown")) {
                 $(".dropdown-ul").hide();
             }
-        })
+        });
 
         //编辑客户信息
         $("#updateCustomer").click(function () {
@@ -216,6 +216,7 @@
             _this.siblings().removeClass("hover");
             _this.addClass("hover");
             $(".nav-partdiv").hide();
+            $(".task-replys").hide();
             $("#" + _this.data("id")).show();
 
             $("#addContact").hide();
@@ -263,6 +264,7 @@
             });
         });
     }
+
     //获取日志
     ObjectJS.getLogs = function (customerid, page) {
         var _self = this;
@@ -616,29 +618,6 @@
             }
         });
     }
-    //讨论备忘
-    ObjectJS.initTalk = function (customerid) {
-        var _self = this;
-
-        $("#btnSaveTalk").click(function () {
-            var txt = $("#txtContent");
-            if (txt.val().trim()) {
-                var model = {
-                    GUID: customerid,
-                    Content: txt.val().trim(),
-                    FromReplyID: "",
-                    FromReplyUserID: "",
-                    FromReplyAgentID: ""
-                };
-                _self.saveReply(model);
-
-                txt.val("");
-            }
-            
-        });
-        _self.getReplys(customerid, 1);
-
-    }
 
     //标记订单
     ObjectJS.markOrders = function (ids, mark, callback) {
@@ -659,114 +638,6 @@
         });
     }
 
-    //获取备忘
-    ObjectJS.getReplys = function (customerid, page) {
-        var _self = this;
-        $("#replyList").empty();
-        Global.post("/Customer/GetReplys", {
-            guid: customerid,
-            pageSize: 10,
-            pageIndex: page
-        }, function (data) {
-            doT.exec("template/customer/replys.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
 
-                $("#replyList").append(innerhtml);
-
-                innerhtml.find(".btn-reply").click(function () {
-                    var _this = $(this), reply = _this.nextAll(".reply-box");
-                    reply.slideDown(500);
-                    reply.find("textarea").focus();
-                    reply.find("textarea").blur(function () {
-                        if (!$(this).val().trim()) {
-                            reply.slideUp(200);
-                        }
-                    });
-                });
-                innerhtml.find(".save-reply").click(function () {
-                    var _this = $(this);
-                    if ($("#Msg_" + _this.data("replyid")).val().trim()) {
-                        var entity = {
-                            GUID: _this.data("id"),
-                            Content: $("#Msg_" + _this.data("replyid")).val().trim(),
-                            FromReplyID: _this.data("replyid"),
-                            FromReplyUserID: _this.data("createuserid"),
-                            FromReplyAgentID: _this.data("agentid")
-                        };
-
-                        _self.saveReply(entity);
-                    }
-
-                    $("#Msg_" + _this.data("replyid")).val('');
-                    $(this).parent().slideUp(100);
-                });
-
-            });
-
-            $("#pagerReply").paginate({
-                total_count: data.totalCount,
-                count: data.pageCount,
-                start: page,
-                display: 5,
-                border: true,
-                border_color: '#fff',
-                text_color: '#333',
-                background_color: '#fff',
-                border_hover_color: '#ccc',
-                text_hover_color: '#000',
-                background_hover_color: '#efefef',
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                float: "left",
-                onChange: function (page) {
-                    _self.getReplys(customerid, page);
-                }
-            });
-        });
-    }
-    ObjectJS.saveReply = function (model) {
-        var _self = this;
-
-        Global.post("/Customer/SavaReply", { entity: JSON.stringify(model) }, function (data) {
-            doT.exec("template/customer/replys.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
-
-                $("#replyList").prepend(innerhtml);
-
-                innerhtml.find(".btn-reply").click(function () {
-                    var _this = $(this), reply = _this.nextAll(".reply-box");
-                    reply.slideDown(500);
-                    reply.find("textarea").focus();
-                    reply.find("textarea").blur(function () {
-                        if (!$(this).val().trim()) {
-                            reply.slideUp(200);
-                        }
-                    });
-                });
-                innerhtml.find(".save-reply").click(function () {
-                    var _this = $(this);
-                    if ($("#Msg_" + _this.data("replyid")).val().trim()) {
-                        var entity = {
-                            GUID: _this.data("id"),
-                            Content: $("#Msg_" + _this.data("replyid")).val().trim(),
-                            FromReplyID: _this.data("replyid"),
-                            FromReplyUserID: _this.data("createuserid"),
-                            FromReplyAgentID: _this.data("agentid")
-                        };
-                        _self.saveReply(entity);
-                    }
-                    $("#Msg_" + _this.data("replyid")).val('');
-                    $(this).parent().slideUp(100);
-                });
-
-                require.async("businesscard", function () {
-                    innerhtml.find("img").businessCard();
-                });
-            });
-        });
-    }
     module.exports = ObjectJS;
 });

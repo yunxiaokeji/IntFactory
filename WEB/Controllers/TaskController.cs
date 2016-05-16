@@ -190,12 +190,35 @@ namespace YXERP.Controllers
             List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, isParticipate,status, finishStatus, 
                 colorMark,taskType,beginDate,endDate,
                 orderType, orderProcessID, orderStageID,
-                 (EnumTaskOrderColumn)taskOrderColumn, isAsc, CurrentUser.ClientID, 
+                 (EnumTaskOrderColumn)taskOrderColumn, isAsc, CurrentUser.ClientID,
                 pageSize, pageIndex, ref totalCount, ref pageCount);
 
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
+            List<int> isWarnItems = new List<int>();
+            List<string> endTime = new List<string>();
+            for (int i = 0; i < list.Count; i++)
+            {
+                int IsWarn = 0;
+                if (list[i].FinishStatus == 1)
+                {
+                    if (list[i].EndTime > DateTime.Now)
+                    {
+                        var totalHour = (list[i].EndTime - list[i].AcceptTime).TotalHours;
+                        var residueHour = (list[i].EndTime - DateTime.Now).TotalHours;
+
+                        var residue = residueHour / totalHour;
+                        if (residue < 0.333)
+                        {
+                            IsWarn = 1;
+                        }
+                    }
+                    isWarnItems.Add(IsWarn);
+                }
+            }
+            JsonDictionary.Add("endTimes",endTime);
+            JsonDictionary.Add("isWarns", isWarnItems);
 
             return new JsonResult
             {
@@ -207,7 +230,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetOrderProcess() {
             var list = SystemBusiness.BaseBusiness.GetOrderProcess(CurrentUser.AgentID, CurrentUser.ClientID);
-
+            
             JsonDictionary.Add("items", list);
             return new JsonResult
             {

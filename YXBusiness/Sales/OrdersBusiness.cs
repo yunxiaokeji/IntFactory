@@ -90,6 +90,41 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<OrderEntity> GetOrdersByMobilePhone(string mobilePhone)
+        {
+            List<OrderEntity> list = new List<OrderEntity>();
+            DataSet ds = OrdersDAL.BaseProvider.GetOrdersByMobilePhone(mobilePhone);
+
+            DataTable dt = ds.Tables["Orders"];
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderEntity model = new OrderEntity();
+                model.FillData(dr);
+
+                //model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+
+                model.SourceTypeStr = CommonBusiness.GetEnumDesc((EnumOrderSourceType)model.SourceType);
+
+                model.Client = IntFactoryBusiness.Manage.ClientBusiness.GetClientDetail(model.ClientID);
+
+                model.StatusItems = new List<OrderStatusEntity>();
+                DataTable orderStatus = ds.Tables["Status"];
+                if (model.Status > 0 && orderStatus.Rows.Count > 0)
+                {
+                    foreach (DataRow statu in orderStatus.Select("OrderID='" + model.OrderID + "'"))
+                    {
+                        OrderStatusEntity status = new IntFactoryEntity.OrderStatusEntity();
+                        status.FillData(statu);
+                        model.StatusItems.Add(status);
+                    }
+                }
+                list.Add(model);
+            }
+            return list;
+        }
+
         public List<OrderEntity> GetOrdersByCustomerID(string customerid, int ordertype, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();

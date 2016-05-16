@@ -96,6 +96,16 @@ namespace IntFactoryDAL
             return dt;
         }
 
+        public DataSet GetOrdersByMobilePhone(string mobilePhone)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@MobilePhone",mobilePhone)
+                                   };
+
+            DataSet ds = GetDataSet("P_GetOrdersByMobilePhone", paras, CommandType.StoredProcedure, "Orders|Status");
+            return ds;
+        }
+
         public DataSet GetOrderByID(string orderid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
@@ -249,7 +259,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
-
+    
             bool bl = ExecuteNonQuery("P_CreateOrderGoodsDoc", paras, CommandType.StoredProcedure) > 0;
 
             return bl;

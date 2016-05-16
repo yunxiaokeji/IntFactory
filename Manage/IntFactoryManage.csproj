@@ -554,7 +554,6 @@
     <Content Include="Views\Client\Orders.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Products\Unit.cshtml" />
@@ -614,12 +613,6 @@
     <Content Include="Views\Report\ClientsGrowReport.cshtml" />
     <Content Include="Views\Report\ClientsLoginReport.cshtml" />
     <Content Include="Views\Report\ClientsAgentActionReport.cshtml" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

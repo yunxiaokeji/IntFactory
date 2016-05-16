@@ -112,6 +112,18 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult UseExpired()
+        {
+            if (Session["ClientManager"] != null)
+            {
+                var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+                var agent = IntFactoryBusiness.AgentsBusiness.GetAgentDetail(currentUser.AgentID);
+                ViewBag.EndTime = agent.EndTime.ToString("yyyy-MM-dd");
+            }
+
+            return View();
+        }
+
         public ActionResult SelfOrder(string id)
         {
             if (string.IsNullOrEmpty(id)) 
@@ -310,7 +322,7 @@ namespace YXERP.Controllers
                 if (model != null)
                 {
                     //未注销
-                    if (model.Status.Value != 9)
+                    if (model.Status.Value ==1)
                     {
                         model.AliToken = userToken.access_token;
                         Session["ClientManager"] = model;
@@ -320,6 +332,17 @@ namespace YXERP.Controllers
                             return Redirect("/Home/Index");
                         else
                             return Redirect(state);
+                    }
+                    else {
+                        if (model.Status.Value == 9)
+                        {
+                            Response.Write("<script>alert('您的账户已注销,请切换其他账户登录');location.href='/Home/login';</script>");
+                            Response.End();
+                        }
+                        else {
+                            return Redirect("/Home/Login");
+                        }
+
                     }
                 }
                 else
@@ -354,67 +377,80 @@ namespace YXERP.Controllers
                 IntFactoryEntity.Users model = IntFactoryBusiness.OrganizationBusiness.GetUserByUserName(userName, pwd, out outResult, operateip);
                 if (model != null)
                 {
-                    //保持登录状态
-                    HttpCookie cook = new HttpCookie("cloudsales");
-                    cook["username"] = userName;
-                    cook["pwd"] = pwd;
-                    cook["status"] = remember;
-                    cook.Expires = DateTime.Now.AddDays(7);
-                    Response.Cookies.Add(cook);
-
-                    //将阿里账户绑定到现有账户
-                    if (fromBindAccount == 1)
+                    if (model.Status.Value ==1)
                     {
-                        if (Session["AliTokenInfo"] != null)
+                        //保持登录状态
+                        HttpCookie cook = new HttpCookie("cloudsales");
+                        cook["username"] = userName;
+                        cook["pwd"] = pwd;
+                        cook["status"] = remember;
+                        cook.Expires = DateTime.Now.AddDays(7);
+                        Response.Cookies.Add(cook);
+
+                        //将阿里账户绑定到现有账户
+                        if (fromBindAccount == 1)
                         {
-                            var client = ClientBusiness.GetClientDetail(model.ClientID);
-                            if (string.IsNullOrEmpty(client.AliMemberID))
+                            if (Session["AliTokenInfo"] != null)
                             {
-
-                                string tokenInfo = Session["AliTokenInfo"].ToString();
-                                string[] tokenArr = tokenInfo.Split('|');
-                                if (tokenArr.Length == 3)
+                                var client = ClientBusiness.GetClientDetail(model.ClientID);
+                                if (string.IsNullOrEmpty(client.AliMemberID))
                                 {
-                                    string access_token = tokenArr[0];
-                                    string refresh_token = tokenArr[1];
-                                    string memberId = tokenArr[2];
 
-                                    bool flag = AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(model.UserID, memberId, access_token, refresh_token, model.AgentID, model.ClientID);
-                                    if (flag)
+                                    string tokenInfo = Session["AliTokenInfo"].ToString();
+                                    string[] tokenArr = tokenInfo.Split('|');
+                                    if (tokenArr.Length == 3)
                                     {
-                                        flag = ClientBusiness.BindClientAliMember(model.ClientID, model.UserID, memberId);
+                                        string access_token = tokenArr[0];
+                                        string refresh_token = tokenArr[1];
+                                        string memberId = tokenArr[2];
+
+                                        bool flag = AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(model.UserID, memberId, access_token, refresh_token, model.AgentID, model.ClientID);
                                         if (flag)
                                         {
-                                            model.AliToken = access_token;
-                                            model.AliMemberID = memberId;
-                                            Session.Remove("AliTokenInfo");
+                                            flag = ClientBusiness.BindClientAliMember(model.ClientID, model.UserID, memberId);
+                                            if (flag)
+                                            {
+                                                model.AliToken = access_token;
+                                                model.AliMemberID = memberId;
+                                                Session.Remove("AliTokenInfo");
 
-                                            Session["ClientManager"] = model;
+                                                Session["ClientManager"] = model;
 
-                                            result = 1;
+                                                result = 1;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            AliOrderBusiness.BaseBusiness.DeleteAliOrderDownloadPlan(model.ClientID);
                                         }
                                     }
-                                    else{
-                                        AliOrderBusiness.BaseBusiness.DeleteAliOrderDownloadPlan(model.ClientID);
-                                    }
                                 }
-                            }
-                            else{
-                                result = 4;
-                            }
+                                else
+                                {
+                                    result = 4;
+                                }
 
+                            }
+                            else
+                            {
+                                result = 5;
+                            }
                         }
-                        else{
-                            result = 5;
+                        else
+                        {
+                            Session["ClientManager"] = model;
+                            result = 1;
                         }
+
+                        Common.Common.CachePwdErrorUsers.Remove(userName);
                     }
                     else
                     {
-                        Session["ClientManager"] = model;
-                        result = 1;
+                        if (model.Status.Value == 9)
+                        {
+                            result = 9;
+                        }
                     }
-
-                    Common.Common.CachePwdErrorUsers.Remove(userName);
                 }
                 else
                 {
@@ -480,8 +516,8 @@ namespace YXERP.Controllers
                     var member = memberResult.result.toReturn[0];
 
                     Clients clientModel = new Clients();
-                    clientModel.CompanyName = member.companyName;
-                    clientModel.ContactName = member.sellerName;
+                    clientModel.CompanyName = member.companyName??string.Empty;
+                    clientModel.ContactName = member.sellerName??string.Empty;
                     clientModel.MobilePhone = string.Empty;
 
                     var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result,
@@ -719,6 +755,20 @@ namespace YXERP.Controllers
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public ActionResult FeedBack()
+        {
+            if (Session["ClientManager"] != null)
+            {
+                var userInfo = Session["ClientManager"];
+                ViewBag.userInfo = userInfo;
+            }
+            else
+            {
+              return  Redirect("/home/login");
+            }
+            return View();
         }
 
     }

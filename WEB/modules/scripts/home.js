@@ -96,6 +96,9 @@ define(function (require, exports, module) {
                     alert("请重新阿里授权");
                     setTimeout(function () { location.href = "/home/login"; }, 500);
                 }
+                else if (data.result == 9) {
+                    $(".registerErr").html("您的账户已注销,请切换其他账户登录");
+                }
                 else if (data.result == -1)
                 {
                     $(".registerErr").html("账号已冻结，请" + data.forbidTime + "分钟后再试").slideDown();

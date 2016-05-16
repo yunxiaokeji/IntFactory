@@ -45,11 +45,28 @@ namespace YXERP.Common
                 }
                 return;
             }
-            //else if (filterContext.HttpContext.Response.StatusCode == 402)
-            //{
-            //    filterContext.Result = new RedirectResult("/Home/Logout?Status=" + (int)EnumLoginStatus.OtherLogin);
-            //}
 
+            var currentUser = (IntFactoryEntity.Users)filterContext.HttpContext.Session["ClientManager"];
+            var agent = AgentsBusiness.GetAgentDetail(currentUser.AgentID);
+            if (agent.EndTime < DateTime.Now) {
+                if (filterContext.RequestContext.HttpContext.Request.IsAjaxRequest())
+                {
+                    Dictionary<string, string> result = new Dictionary<string, string>();
+                    result.Add("result", "10001");
+                    filterContext.Result = new JsonResult()
+                    {
+                        Data = result,
+                        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                    };
+                }
+                else
+                {
+                    filterContext.Result = new RedirectResult("/Error/NoUse");
+                }
+
+                return;
+            }
+ 
             var controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower();
             var action = filterContext.ActionDescriptor.ActionName.ToLower();
             var menu = CommonBusiness.ClientMenus.Where(m => m.Controller.ToLower() == controller && m.View.ToLower() == action).FirstOrDefault();

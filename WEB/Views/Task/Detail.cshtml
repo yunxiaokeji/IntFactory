@@ -34,7 +34,7 @@
             }
 
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@attrValues', um, '@(order.PlateRemark)', '@order.OrderImages', '@(model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.EndTime.ToString("MM/dd/yyyy HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture) )', '@Html.ToJSONString(model)', '@ViewBag.IsWarn');
+                obj.init('@attrValues', um, '@(order.PlateRemark)', '@order.OrderImages', '@Html.ToJSONString(model)', '@ViewBag.IsWarn');
             });
 
         });

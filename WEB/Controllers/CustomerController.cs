@@ -26,6 +26,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Title = "我的客户";
             ViewBag.Type = (int)EnumSearchType.Myself;
+            ViewBag.FirstNames=new char[]{'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};            
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
         }
@@ -42,6 +43,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Title = "客户列表";
             ViewBag.Type = (int)EnumSearchType.All;
+            ViewBag.FirstNames = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };     
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
         }
@@ -115,7 +117,7 @@ namespace YXERP.Controllers
             FilterCustomer model = serializer.Deserialize<FilterCustomer>(filter);
             int totalCount = 0;
             int pageCount = 0;
-
+            
             List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomers(model.SearchType, model.Type, model.SourceType, 
                 model.SourceID, model.StageID, model.Status, 
                 model.Mark, model.ActivityID, model.UserID, 

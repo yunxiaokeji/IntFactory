@@ -23,7 +23,7 @@ a{outline:none;}
 a:link,a:visited{text-decoration:none;outline:none;}
 a:hover,a:active{outline:none;}
 iframe{vertical-align:top;}embed{display:none;}
-*html{zoom:expression(function(ele){ele.style.zoom = "1";document.execCommand("BackgroundImageCache",false,true)}(this))}
+* html{zoom:expression(function(ele){ele.style.zoom = "1";document.execCommand("BackgroundImageCache",false,true)}(this))}
 .row{*zoom:1}
 .row:after{content:'\20';display:block;clear:both;height:0;overflow:hidden;}
 .hide{display:none;}

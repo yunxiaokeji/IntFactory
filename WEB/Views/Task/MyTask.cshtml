@@ -56,6 +56,10 @@
             <li data-id="1">进行中</li>
             <li data-id="2">已完成</li>
         </ul>
+    @* <div class="right mRight20 task-tabtype">
+            <span class="iconfont checked mRight20" data-type="list">&#xe60d;</span>
+            <span class="iconfont" data-type="card">&#xe646;</span>
+        </div>*@
     </div>
 </div>
 
@@ -83,6 +87,13 @@
             <li data-id="4" class="item mark4"></li>
             <li data-id="5" class="item mark5"></li>
         </ul>
+        <ul class="search-item search-process">
+            <li class="column-name">流程：</li>
+        </ul>
+        <ul class="search-item search-stage">
+            <li class="column-name">阶段：</li>
+            <li class="item hover">全部</li>
+        </ul>
     </div>
     <div class="search-items mTop10">
         <div class="left mRight20" id="chooseBranch"></div>
@@ -107,7 +118,15 @@
             <span class="asc"></span>
             <span class="desc"></span>
         </li>
+       @* <li class="right show-type ">
+            <i class="iconfont hand" data-type="list">&#xe64c;</i>
+        </li>*@
+        <li class="right task-tabtype">
+            <i class="iconfont checked mRight5" data-type="list">&#xe64c;</i>
+            <i class="iconfont" data-type="card">&#xe64b;</i>
+        </li>
     </ul>
+    <div class="clear"></div>
 </div>
 
 
@@ -131,6 +150,12 @@
             </td>
         </tr>
     </table>
+
+    <div class="task-items">
+
+    </div>
+
+    <div class="clear"></div>
 
     <div id="pager" class="mTop20"></div>
 </div>
