@@ -103,11 +103,11 @@
 
 .order-info .moneyinfo { width:220px; margin-top:20px; margin-right:20px; }
 .order-info .moneyinfo li{ line-height:35px; clear:both;padding:5px; border-bottom:solid 1px #eee; overflow:auto; }
-.order-info .moneyinfo li .column-title{ width:80px; float:left; color:#999; }
+.order-info .moneyinfo li .column-title{ width:80px; float:left; color:#666; }
 
 .order-info .cutomerinfo { margin-top:20px; width:420px; }
 .order-info .cutomerinfo li{ line-height:35px; clear:both; padding:5px;  }
-.order-info .cutomerinfo li .column-title{ width:80px; float:left; color:#999; }
+.order-info .cutomerinfo li .column-title{ width:80px; float:left; color:#666; }
 
 .order-remark { margin-top:20px; padding:10px; border:solid 1px #eee; line-height:25px; }
 .order-remark .title{ color:#999; }

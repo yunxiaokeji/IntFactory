@@ -467,10 +467,18 @@ namespace IntFactoryBusiness
             return id;
         }
 
-        public string CreateDHOrder(string orderid, string originalid, List<ProductDetail> details, string operateid, string agentid, string clientid)
+        public string CreateDHOrder(string orderid, int ordertype, decimal discount, List<ProductDetail> details, string operateid, string agentid, string clientid)
         {
             var dal = new OrdersDAL();
             string id = Guid.NewGuid().ToString().ToLower();
+
+            if (ordertype == 2)
+            {
+                if (!UpdateOrderDiscount(orderid, discount, operateid, "", agentid, clientid))
+                {
+                    return "";
+                }
+            }
 
             SqlConnection conn = new SqlConnection(BaseDAL.ConnectionString);
             if (conn.State != ConnectionState.Open)
@@ -480,15 +488,16 @@ namespace IntFactoryBusiness
             SqlTransaction tran = conn.BeginTransaction();
             try
             {
-                if (string.IsNullOrEmpty(originalid))
+                //打样单
+                if (ordertype == (int)EnumOrderType.ProofOrder)
                 {
-                    bool bl = dal.CreateDHOrder(id, orderid, operateid, clientid, tran);
+                    bool bl = dal.CreateDHOrder(id, orderid, discount, operateid, clientid, tran);
                     //产品添加成功添加子产品
                     if (bl)
                     {
                         foreach (var model in details)
                         {
-                            if (!dal.AddOrderGoods(id, orderid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.Description, operateid, clientid, tran))
+                            if (!dal.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.Description, operateid, clientid, tran))
                             {
                                 tran.Rollback();
                                 conn.Dispose();
@@ -507,7 +516,7 @@ namespace IntFactoryBusiness
                 {
                     foreach (var model in details)
                     {
-                        if (!dal.AddOrderGoods(orderid, originalid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.Description, operateid, clientid, tran))
+                        if (!dal.AddOrderGoods(orderid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.Description, operateid, clientid, tran))
                         {
                             tran.Rollback();
                             conn.Dispose();
