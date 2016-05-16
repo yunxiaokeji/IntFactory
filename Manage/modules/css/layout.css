@@ -70,9 +70,9 @@ nav .controller .rotate { transform:rotate(90deg); }
 nav .action-box {}
 nav .action-box .action { width:200px; height:40px; line-height:40px;border-left:solid 4px #fff;}
 nav .action-box a { width:196px; display:inline-block; color:#666; text-align:center;}
-nav .action-box .action:hover { border-left:solid 4px #303030;}
+/*nav .action-box .action:hover { border-left:solid 4px #303030;}*/
 nav .action-box .action:hover a,nav .action-box .select a{ color:#4a98e7; text-decoration:none; }
-nav .action-box .select { width:201px; background-color:#f2f4f8; height:40px; line-height:40px; border-left:solid 4px #303030;}
+nav .action-box .select { width:201px; background-color:#f2f4f8; height:40px; line-height:40px;} /*border-left:solid 4px #303030;*/
 
 
 .main-content { margin:0 20px 0 220px; padding-top:50px;}

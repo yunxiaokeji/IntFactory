@@ -122,14 +122,12 @@ namespace IntFactoryBusiness
                 {
                     DataRow row = dt.Rows[0];
                     model.FillData(row);
-
                     Agents[agentID] = model;
+                    return true;
                 }
-                else
-                    return false;
             }
-
-            return true;
+            return false;
+          
         }
 
         // <summary>

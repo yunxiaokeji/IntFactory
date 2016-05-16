@@ -46,7 +46,7 @@ namespace IntFactoryDAL.Manage
             SqlParameter[] paras = { 
                                     new SqlParameter("@AutoID",id),
                                     new SqlParameter("@Status",status),
-                                    new SqlParameter("@Content",content),
+                                    new SqlParameter("@Content",content)
                                    };
             return ExecuteNonQuery("update  FeedBack set Status=@Status,Content=isnull(Content,'')+@Content where AutoID=@AutoID", paras, CommandType.Text) > 0;
         }    

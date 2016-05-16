@@ -5,10 +5,12 @@
 <tr class="list-item"> 
     <td class="tLeft"> {%=item.Name%}</td>
     <td class="tLeft">{%=item.Website%}</td>
-    <td class="tLeft">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
-    <td class="">
-        <a href="/System/ExpressCompanyDetail/{%=item.ExpressID%}" class="ico-edit" title="设置" data-id="{%=item.ExpressID%}"></a>
-        <a  class="ico-del mLeft10" href="javascript:void(0);"  title="删除" data-id="{%=item.ExpressID%}"></a>
+    <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class="center">
+        <a href="/System/ExpressCompanyDetail/{%=item.ExpressID%}"  title="编辑" data-id="{%=item.ExpressID%}">
+            <div class="ico-edit iconfont">&#xe607;</div>
+        </a>
+        <!--<a  class="ico-del mLeft10" href="javascript:void(0);"  title="删除" data-id="{%=item.ExpressID%}"></a>-->
     </td>
 
 </tr>

@@ -1,7 +1,6 @@
 ﻿
 
 define(function (require, exports, module) {
-
     require("jquery");
     require("pager");
     var Verify = require("verify"),
@@ -9,8 +8,7 @@ define(function (require, exports, module) {
         doT = require("dot"),
         Easydialog = require("easydialog"),
         City = require("city");
-    var VerifyObject, CityObject;
-    
+    var VerifyObject, CityObject;    
 
     var Clients = {};
 
@@ -57,8 +55,6 @@ define(function (require, exports, module) {
                 $(".contentnew li[name='authorizeType']").fadeOut();
             }
         });       
-
-       
         //判断账号是否存在
         $("#loginName").blur(function () {
             var value = $(this).val();
@@ -71,7 +67,10 @@ define(function (require, exports, module) {
                     alert("登录账号已存在!");
                 }
             });
-        });        
+        });
+        CityObject = City.createCity({
+            elementID: "citySpan"
+        });
     };
     //客户详情初始化
     Clients.detailInit = function (id) {
@@ -185,11 +184,18 @@ define(function (require, exports, module) {
             Clients.bindActionReport();
 
         });
-        ////城市插件
-        //CityObject = City.createCity({
-        //    elementID: "citySpan"
-        //});
-       
+        $('#delClient').click(function () {
+            if (confirm("确定删除?")) {
+                Global.post("/Client/DeleteClient", { id: Clients.Params.clientID }, function (data) {
+                    if (data.Result == 1) {
+                        location.href = "/Client/Index";
+                    }
+                    else {
+                        alert("删除失败");
+                    }
+                });
+            }
+        });       
     };
     //编辑信息
     Clients.editClient = function (model) {
@@ -197,6 +203,7 @@ define(function (require, exports, module) {
         $("#show-contact-detail").empty();
         doT.exec("template/client/client-edit.html", function (template) {
             var innerText = template(model);
+
             Easydialog.open({
                 container: {
                     id: "show-model-detail",
@@ -226,7 +233,7 @@ define(function (require, exports, module) {
                     }
                 }
             });
-            Clients.Setindustry(model);
+            Clients.setIndustry(model);
             CityObject = City.createCity({
                 cityCode: model.CityCode,
                 elementID: "citySpan"
@@ -240,7 +247,7 @@ define(function (require, exports, module) {
             $(".edit-company").hide();
         });
     }
-    Clients.Setindustry = function (model) {
+    Clients.setIndustry = function (model) {
         $('#industry').html($('#industrytemp').html());
         $('#industry').val(model.Industry || '');
         if ($('#industry').val() != '') { $("#otherIndustry").hide(); }
@@ -313,7 +320,7 @@ define(function (require, exports, module) {
                     }
                 }
             });
-            Clients.SetAuthorize();
+            Clients.setAuthorize();
             VerifyObject = Verify.createVerify({
                 element: ".verify",
                 emptyAttr: "data-empty",
@@ -324,7 +331,7 @@ define(function (require, exports, module) {
         });
         
     }
-    Clients.SetAuthorize = function () {
+    Clients.setAuthorize = function () {
         var endTime = {
             elem: '#endTime',
             format: 'YYYY-MM-DD',
@@ -391,6 +398,8 @@ define(function (require, exports, module) {
                 $("#lblDescription").text(item.Description);
                 $("#lblCity").text(item.City ? item.City.Province + " " + item.City.City + " " + item.City.Counties : "--");                
                 $("#lblOfficePhone").text(item.OfficePhone);
+                $("#lblUserQuantity").text(item.UserQuantity);
+                $("#lblEndTime").text(item.EndTime.toDate("yyyy-MM-dd"));
                 $('#industrytemp').val(item.Industry);
                 $("#lblindustryName").text(item.Industry ? $("#industrytemp").find("option:selected").text() : "--");
 
@@ -488,16 +497,17 @@ define(function (require, exports, module) {
                             header: "修改订单支付金额",
                             content: html,
                             yesFn: function () {
-   
-                                Global.post("/Client/UpdateOrderAmount", { id: id, amount: $("#txt-orderAmount").val() }, function (data) {
-                                    if (data.Result == 1) {
-                                        Clients.getClientOrders();
-                                    }
-                                    else {
-                                        alert("修改失败");
-                                    }
+                                if (confirm("确定修改价格吗?")) {
+                                    Global.post("/Client/UpdateOrderAmount", { id: id, amount: $("#txt-orderAmount").val() }, function (data) {
+                                        if (data.Result == 1) {
+                                            Clients.getClientOrders();
+                                        }
+                                        else {
+                                            alert("修改失败");
+                                        }
 
-                                });
+                                    });
+                                }
                             },
                             callback: function () {
                             }
@@ -506,7 +516,7 @@ define(function (require, exports, module) {
                 });
 
                 $("#tb-clientOrders a.examineOrder").bind("click", function () {
-                    if (confirm("审核通过?")) {
+                    if (confirm("确定审核通过吗?")) {
                         Global.post("/Client/PayOrderAndAuthorizeClient", { id: $(this).data("id"), agentID: Clients.Params.agentID }, function (data) {
                             if (data.Result == 1) {
                                 Clients.getClientOrders();
@@ -571,30 +581,9 @@ define(function (require, exports, module) {
 
         Global.post("/Client/GetClients", Clients.Params, function (data) {
             doT.exec("template/client/client-list.html?3", function (templateFun) {
-                //for (var index in data.Items) {
-                //    if (data.Items[index].IndustryEntity == null) {
-                //        var item = {};
-                //        item.Name ="交通运输、仓储业";
-                //        data.Items[index].IndustryEntity = item;
-                //    }
-                //}
                 var innerText = templateFun(data.Items);
                 innerText = $(innerText);
                 $("#client-header").after(innerText);
-
-                $(".table-list a.ico-del").bind("click", function () {
-                    if (confirm("确定删除?"))
-                    {
-                        Global.post("/Client/DeleteClient", { id: $(this).data("id") }, function (data) {
-                            if (data.Result == 1) {
-                                location.href = "/Client/Index";
-                            }
-                            else {
-                                alert("删除失败");
-                            }
-                        });
-                    }
-                });
             });
 
             $("#pager").paginate({
