@@ -50,7 +50,7 @@ namespace IntFactoryBusiness
         /// 加入购物车
         /// </summary>
         /// <returns></returns>
-        public static bool AddShoppingCart(string productid, string detailsid, int quantity, string unitid, int isBigUnit, EnumDocType ordertype, string remark, string guid, string userid, string operateip)
+        public static bool AddShoppingCart(string productid, string detailsid, decimal quantity, string unitid, int isBigUnit, EnumDocType ordertype, string remark, string guid, string userid, string operateip)
         {
             if (string.IsNullOrEmpty(guid))
             {
@@ -59,7 +59,7 @@ namespace IntFactoryBusiness
             return ShoppingCartDAL.AddShoppingCart(productid, detailsid, quantity, unitid, isBigUnit, (int)ordertype, remark, guid, userid, operateip);
         }
 
-        public static bool AddShoppingCartBatchOut(string productid, string detailsid, int quantity, string batchcode, string depotid, EnumDocType ordertype, string remark, string guid, string userid, string operateip)
+        public static bool AddShoppingCartBatchOut(string productid, string detailsid, decimal quantity, string batchcode, string depotid, EnumDocType ordertype, string remark, string guid, string userid, string operateip)
         {
             if (string.IsNullOrEmpty(guid))
             {
@@ -68,7 +68,7 @@ namespace IntFactoryBusiness
             return ShoppingCartDAL.AddShoppingCartBatchOut(productid, detailsid, quantity, (int)ordertype, batchcode, depotid, remark, guid, userid, operateip);
         }
 
-        public static bool AddShoppingCartBatchIn(string productid, string detailsid, int quantity, EnumDocType ordertype, string remark, string guid, string userid, string operateip)
+        public static bool AddShoppingCartBatchIn(string productid, string detailsid, decimal quantity, EnumDocType ordertype, string remark, string guid, string userid, string operateip)
         {
             if (string.IsNullOrEmpty(guid))
             {

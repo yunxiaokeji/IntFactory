@@ -74,9 +74,9 @@ define(function (require, exports, module) {
 
         //产品数量
         $("#quantity").blur(function () {
-            if (!$(this).val().isInt()) {
+            if (!$(this).val().isDouble()) {
                 $(this).val("1");
-            } else if ($(this).val() < 1) {
+            } else if ($(this).val() < 0) {
                 $(this).val("1");
             }
         });
