@@ -411,6 +411,10 @@
 .task-top .picbox .hint-msg { position:absolute;top:10px;color:#fff;transform: rotate(-45deg);-webkit-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-o-transform:rotate(-45deg);}
 .task-top .picbox img{ max-width:248px;max-height:248px;}
 
+.list-pic-box {position:relative;}
+.list-pic-box .hint-layer { position:absolute;left:0;top:0;height:0px;width:0px;border-top:26px solid transparent;border-left:26px solid transparent;border-bottom:26px solid transparent;border-right:26px solid transparent;color:#fff;}
+.list-pic-box .hint-msg { position:absolute;top:2px;color:#fff;transform: rotate(-45deg);-webkit-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-o-transform:rotate(-45deg);}
+
 /*.task-layer {position:absolute;left:0;bottom:0;width: 248px;background:-webkit-linear-gradient(top,rgba(255,255,255,0.3) 0,rgba(0,0,0,0.3) 100%);background:-moz-linear-gradient(top,rgba(255,255,255,0.3) 0,rgba(0,0,0,0.3) 100%);background:-ms-linear-gradient(top,rgba(255,255,255,0.3) 0,rgba(0,0,0,0.3) 100%);padding:200px 0 5px 0;}*/
 .task-layer {position:absolute;left:0;bottom:0;width: 248px;background: rgba(119,119,119,0.6);padding:5px 0;}
 .task-imgtitlemark li:first-child {width:210px;}
