@@ -29,7 +29,7 @@
     ObjectJS.init = function (isMy, nowDate) {
         Params.beginDate = nowDate;
         Params.endDate = nowDate;
-        Params.pageSize = ($(".content-body").width() / 280).toFixed(0) * 3;
+        Params.pageSize = ($(".content-body").width() / 300).toFixed(0) * 3;
 
         ObjectJS.showType = "list";
         if (isMy == 2) {
@@ -187,9 +187,12 @@
         //切换任务显示方式(列表或者卡片式)
         $(".search-sort .task-tabtype i").click(function () {
             var _this = $(this);
-            ObjectJS.showType = _this.data('type');
-            _this.addClass('checked').siblings().removeClass('checked');
-            ObjectJS.getList();
+            if (!_this.hasClass('checked')) {
+                console.log(_this.hasClass('checked'));
+                ObjectJS.showType = _this.data('type');
+                _this.addClass('checked').siblings().removeClass('checked');
+                ObjectJS.getList();
+            }
         });
 
 
@@ -335,7 +338,21 @@
                     });
 
                     if (showtype == "list") {
+                        
                         $(".table-list").append(innerhtml);
+
+                        if (Params.finishStatus == 1 || Params.finishStatus == -1) {
+                            for (var i = 0; i < data.items.length; i++) {
+                                var item = data.items[i];
+                                if (data.items[i].FinishStatus == 1) {
+                                    if (data.items[i].FinishStatus == 1) {
+                                        ObjectJS.showTime(data.items[i], data.isWarns[i], data.endTimes[i], showtype);
+                                    }
+                                }
+                               
+                            }
+                        }
+
                     }
                     else {
                         $(".task-items").html(innerhtml);
@@ -343,8 +360,7 @@
 
                             for (var i = 0; i < data.items.length; i++) {
                                 if (data.items[i].FinishStatus == 1) {
-                                    
-                                    ObjectJS.showTime(data.items[i], data.isWarns[i],data.endTimes[i]);
+                                    ObjectJS.showTime(data.items[i], data.isWarns[i], data.endTimes[i], showtype);
                                 }
                             }
                         }
@@ -379,7 +395,7 @@
     }
 
     //任务到期时间倒计时
-    ObjectJS.showTime = function (item, isWarn,endTime) {
+    ObjectJS.showTime = function (item, isWarn,endTime,showType) {
 
         var endtime = item.EndTime.toDate("yyyy/MM/dd hh:mm:ss");
         var num = item.TaskID;
@@ -407,10 +423,19 @@
         var overplusTime = false;
         if (time_distance < 0) {
             if (!overplusTime) {
-                $(".overplusTime-" + num + "").html("超期时间：");
-                $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show().css({ "border-top-color": "rgba(237,0,0,0.7)", "border-left-color": "rgba(237,0,0,0.7)" });
-                $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('已超期').show();
-                
+                if (showType == "card") {
+                    $(".overplusTime-" + num + "").html("超期时间：");
+                    $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show().css({ "border-top-color": "rgba(237,0,0,0.7)", "border-left-color": "rgba(237,0,0,0.7)" });
+                    $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('已超期').show();
+                }
+                else {
+                    $(".table-list .list-item").each(function () {
+                        var _this = $(this);
+                        if (_this.data("taskid") == item.TaskID) {
+                            _this.find('.list-hint-info').html("已超期").show();
+                        }
+                    });
+                }
             }
             overplusTime = true;
             time_distance = time_start - time_end;
@@ -418,8 +443,19 @@
         else {
             if (isWarn == 1) {
                 if (!overplusTime) {
-                    $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show().css({ "border-top-color": "rgba(255,165,0,0.7)", "border-left-color": "rgba(255,165,0,0.7)" });
-                    $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('快到期').show();
+                    if (showType == "card") {
+                        $(".overplusTime-" + num + "").html("剩余时间：");
+                        $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show().css({ "border-top-color": "rgba(255,165,0,0.7)", "border-left-color": "rgba(255,165,0,0.7)" });
+                        $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('快到期').show();
+                    }
+                    else {
+                        $(".table-list .list-item").each(function () {
+                            var _this = $(this);
+                            if (_this.data("taskid") == item.TaskID) {
+                                _this.find('.list-hint-info').css({"background-color":"orange"}).html("快到期").show();
+                            }
+                        });
+                    }
                 }
                 overplusTime = true;
             }

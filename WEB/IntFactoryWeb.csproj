@@ -1039,6 +1039,9 @@
     </Content>
     <Content Include="Views\Home\UseExpired.cshtml" />
     <Content Include="Views\Home\FeedBack.cshtml" />
+    <Content Include="Views\Task\SendDoc.cshtml" />
+    <Content Include="Views\Task\CutoutDoc.cshtml" />
+    <Content Include="Views\Task\SewnDoc.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
