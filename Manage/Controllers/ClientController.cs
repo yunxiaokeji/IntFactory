@@ -291,12 +291,12 @@ namespace YXManage.Controllers
         /// <summary>
         /// 根据订单clientID获取订单
         /// </summary> 
-        public JsonResult GetClientOrders(string agentID, string clientID, int status, int type, string beginDate, string endDate, int pageSize, int pageIndex)
+        public JsonResult GetClientOrders(string agentID, string clientID, int status, int type, string beginDate, string endDate, int pageSize, int pageIndex, int userType=0)
         {
             int pageCount = 0;
             int totalCount = 0;
 
-            List<ClientOrder> list = ClientOrderBusiness.GetClientOrders(status, type, beginDate, endDate, agentID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            List<ClientOrder> list = ClientOrderBusiness.GetBase(status, type, beginDate, endDate, agentID, clientID, userType, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
@@ -314,10 +314,16 @@ namespace YXManage.Controllers
         /// <returns></returns>
         public JsonResult CloseClientOrder(string id)
         {
-            bool flag = ClientOrderBusiness.UpdateClientOrderStatus(id, IntFactoryEnum.EnumClientOrderStatus.Delete);
-            JsonDictionary.Add("Result", flag ? 1 : 0);
-
-
+             ClientOrder order=ClientOrderBusiness.GetClientOrderInfo(id);
+            if (order.Status == 0)
+            {
+                bool flag = ClientOrderBusiness.UpdateClientOrderStatus(id, IntFactoryEnum.EnumClientOrderStatus.Delete);
+                JsonDictionary.Add("Result", flag ? 1 : 0);
+            }
+            else
+            {
+                JsonDictionary.Add("Result", order.Status == 1 ? 1001 : 1002);
+            }
             return new JsonResult()
             {
                 Data = JsonDictionary,
@@ -333,10 +339,16 @@ namespace YXManage.Controllers
         /// <returns></returns>
         public JsonResult UpdateOrderAmount(string id,string amount)
         {
-            bool flag = ClientOrderBusiness.UpdateOrderAmount(id, decimal.Parse(amount));
-            JsonDictionary.Add("Result", flag ? 1 : 0);
-
-
+            ClientOrder order=ClientOrderBusiness.GetClientOrderInfo(id);
+            if (order.Status == 0)
+            {
+                bool flag = ClientOrderBusiness.UpdateOrderAmount(id, decimal.Parse(amount));
+                JsonDictionary.Add("Result", flag ? 1 : 0);
+            }
+            else
+            {
+                JsonDictionary.Add("Result", order.Status == 1 ? 1001 : 1002);
+            }
             return new JsonResult()
             {
                 Data = JsonDictionary,
@@ -353,13 +365,20 @@ namespace YXManage.Controllers
         public JsonResult PayOrderAndAuthorizeClient(string id, string agentID)
         {
             //订单支付及后台客户授权
-            bool flag = ClientOrderBusiness.PayOrderAndAuthorizeClient(id);
-            JsonDictionary.Add("Result", flag ? 1 : 0);
+            ClientOrder order=ClientOrderBusiness.GetClientOrderInfo(id);
+            if (order.Status == 0)
+            {
+                bool flag = ClientOrderBusiness.PayOrderAndAuthorizeClient(id);
+                JsonDictionary.Add("Result", flag ? 1 : 0);
 
-            if (flag) {
-                AgentsBusiness.UpdatetAgentCache(agentID);
+                if (flag)
+                {
+                    ClientBusiness.UpdatetClientCache(order.ClientID);
+                    AgentsBusiness.UpdatetAgentCache(agentID);
+                }
+            }else {
+                JsonDictionary.Add("Result", order .Status== 1 ? 1001 : 1002);
             }
-
             return new JsonResult()
             {
                 Data = JsonDictionary,
