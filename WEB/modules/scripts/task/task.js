@@ -137,11 +137,11 @@
         //切换任务显示方式(列表或者卡片式)
         $(".search-sort .task-tabtype i").click(function () {
             var _this = $(this);
-            if (!_thishasClass('checked')) {
+            if (!_this.hasClass('checked')) {
                
                 _this.addClass('checked').siblings().removeClass('checked');
 
-            ObjectJS.showType = _this.data('type');
+                ObjectJS.showType = _this.data('type');
                 ObjectJS.getList();
             }
         });
