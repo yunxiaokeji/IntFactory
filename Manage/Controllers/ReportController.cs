@@ -10,6 +10,7 @@ using IntFactoryEntity;
 using IntFactoryBusiness.Manage;
 namespace YXManage.Controllers
 {
+    [YXManage.Common.UserAuthorize]
     public class ReportController :BaseController
     {
         //
