@@ -71,6 +71,8 @@
         //统计材料总金额
         ObjectJS.getProductAmount();
 
+        ObjectJS.bingCache();
+
         //制版工艺描述
         if (Editor) {
             Editor.ready(function () {
@@ -96,6 +98,15 @@
         }
 
     };
+
+
+    //加载缓存
+    ObjectJS.bingCache = function () {
+
+        Global.post("/Plug/GetExpress", {}, function (data) {
+            ObjectJS.express = data.items;
+        });
+    }
 
     //#region任务基本信息操作
     //绑定事件
