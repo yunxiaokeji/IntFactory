@@ -214,6 +214,7 @@
     <Content Include="modules\css\iconfont\iconfont.svg" />
     <Content Include="modules\css\inquire\common.css" />
     <Content Include="modules\css\inquire\online-pay.css" />
+    <Content Include="modules\css\myaccount\feedbacklist.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
@@ -433,6 +434,7 @@
     <Content Include="modules\scripts\home\feedback.js" />
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\inquire\inquireorder.js" />
+    <Content Include="modules\scripts\myaccount\feedbacklist.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.print.css" />
@@ -451,6 +453,7 @@
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />
     <Content Include="modules\template\inquire\inquireorder.html" />
+    <Content Include="modules\template\myaccount\feedbacklist.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />
     <Content Include="modules\template\orders\orders_child_list.html" />
     <Content Include="modules\template\orders\surequantity.html" />
@@ -1023,6 +1026,7 @@
     <Content Include="Views\Task\SendDoc.cshtml" />
     <Content Include="Views\Task\CutoutDoc.cshtml" />
     <Content Include="Views\Task\SewnDoc.cshtml" />
+    <Content Include="Views\MyAccount\FeedBackList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -162,7 +162,7 @@
             if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010107"))){
             <li  data-id="platemakingContent">制版</li>
         }}
-                @{
+        @{
             if(string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current,"102019010")))
             {
                  <li class="" data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁片记录</li>
@@ -179,30 +179,35 @@
 
         <li data-id="orderTaskLogs">日志</li>
     </ul>
-     @{
+
+     @{      
          if (Model.FinishStatus == 1 && Model.OrderType == 2)
          {
-            if(string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current,"102019010")))
-            {
-                
-                 <div class="btn part-btn right mLeft20" id="btnCutoutOrder">裁片录入</div>                
-         
-            }
+              //if (Model.Status == 5 && Model.OrderStatus == 1)
+              //{ 
+                    if(string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current,"102019010")))
+                    {
+                        //if (Model.CutStatus != 2)
+                        //{
+                            <div class="btn part-btn right mLeft20" id="btnCutoutOrder">裁片录入</div>                
+                        //}
+                    }
             
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "102019011")))   
-            {
+                    if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "102019011")))   
+                    {
               
-                   <div class="btn part-btn right mLeft20" id="btnSewnOrder">缝制录入</div>
+                           <div class="btn part-btn right mLeft20" id="btnSewnOrder">缝制录入</div>
               
-            }
+                    }
          
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "102019012")))
-            {
-               
-                    <div class="btn part-btn right mLeft20" id="btnSendOrder">订单发货</div>
-               
-            }
-         }
+                    if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "102019012")))
+                    {
+                 
+                         <div class="btn part-btn right mLeft20" id="btnSendOrder">订单发货</div>
+                 
+                    }
+             //}
+          }
      }
     <div class="clear"></div>
 </div>
