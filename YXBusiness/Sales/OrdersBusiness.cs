@@ -60,6 +60,18 @@ namespace IntFactoryBusiness
 
                 model.SourceTypeStr = CommonBusiness.GetEnumDesc((EnumOrderSourceType)model.SourceType);
 
+                if (model.OrderStatus == 1)
+                {
+                    if (model.PlanTime <= DateTime.Now)
+                    {
+                        model.WarningStatus = 2;
+                    }
+                    else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
+                    {
+                        model.WarningStatus = 1;
+                    }
+                }
+
                 list.Add(model);
             }
             return list;

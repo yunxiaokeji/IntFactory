@@ -35,6 +35,14 @@
 .object-items .object-item.hover{ border:solid 1px #4a98e7; }
 .object-items .object-item.hover .check{ display:inline-block; background-color:#4a98e7; }
 
+/*预警样式*/
+.object-items .warning-layer { position: absolute; left: 0; top: 0; height: 0px; width: 0px;  color: #fff;
+                                   border-top: 26px solid transparent; border-left: 26px solid transparent; border-bottom: 26px solid transparent; border-right: 26px solid transparent; }
+.object-items .warning-layer.pass { border-top-color:rgba(237,0,0,0.7);border-left-color:rgba(237,0,0,0.7); }
+.object-items .warning-layer.warning { border-top-color:rgba(255,165,0,0.7);border-left-color:rgba(255,165,0,0.7);  }
+
+.object-items .warning-msg { position:absolute;top:10px;color:#fff;transform: rotate(-45deg);-webkit-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-o-transform:rotate(-45deg);}
+
 /*标记筛选*/
 .search-item-color { clear:both; overflow:auto; margin:10px 0; }
 .search-item-color li{ float:left; margin-right:20px; cursor:pointer;}
