@@ -154,18 +154,20 @@
     <ul class="module-tab">
         <li  class="hover" data-id="taskReplys">讨论</li>
         @{
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010106"))){
+            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010106")))
+            {
             <li  data-id="navProducts">材料</li>
-        }}
-
-        @{
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010107"))){
+            }
+            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010107")))
+            {
             <li  data-id="platemakingContent">制版</li>
-        }}
-                @{
+            }
+            @*
+         
+            
             if(string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current,"102019010")))
             {
-                 <li class="" data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁片记录</li>
+                <li class="" data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁片记录</li>
             }
             if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "102019011")))   
             {
@@ -175,11 +177,11 @@
             {
                 <li class="" data-btn="btnSendOrder" data-id="navSendDoc">发货记录</li>                
             }
+            *@
         }
-
         <li data-id="orderTaskLogs">日志</li>
     </ul>
-     @{
+   @*  @{
          if (Model.FinishStatus == 1 && Model.OrderType == 2)
          {
             if(string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current,"102019010")))
@@ -203,6 +205,6 @@
                
             }
          }
-     }
+     }*@
     <div class="clear"></div>
 </div>

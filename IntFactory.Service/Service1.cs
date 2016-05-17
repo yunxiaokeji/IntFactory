@@ -20,20 +20,21 @@ namespace IntFactory.Service
             InitializeComponent();
         }
 
-        double DownIntervalCount = double.Parse(System.Configuration.ConfigurationManager.AppSettings["YXClientID"] ?? "1");
-        double UpdateIntervalCount = double.Parse(System.Configuration.ConfigurationManager.AppSettings["YXClientID"] ?? "1");
+        double DownIntervalTime = double.Parse(System.Configuration.ConfigurationManager.AppSettings["DownIntervalTime"] ?? "60");
+        double UpdateIntervalTime = double.Parse(System.Configuration.ConfigurationManager.AppSettings["UpdateIntervalTime"] ?? "60");
 
         System.Timers.Timer DownAliOrdersTimer = new System.Timers.Timer();
         System.Timers.Timer UpdateAliOrdersTimer = new System.Timers.Timer();
 
         protected override void OnStart(string[] args)
         {
-            DownAliOrdersTimer.Interval = DownIntervalCount*60 * 60 * 1000;;
+            DownAliOrdersTimer.Interval = DownIntervalTime * 60 * 1000; ;
             DownAliOrdersTimer.Elapsed += new System.Timers.ElapsedEventHandler(DownAliOrdersEvent); //到达时间的时候执行事件；   
             DownAliOrdersTimer.AutoReset = true;   //设置是执行一次（false）还是一直执行(true)；   
             DownAliOrdersTimer.Enabled = true;     //是否执行System.Timers.Timer.Elapsed事件；   
 
-            UpdateAliOrdersTimer.Interval = UpdateIntervalCount * 60 * 60 * 1000;
+
+            UpdateAliOrdersTimer.Interval = UpdateIntervalTime* 60 * 1000;
             UpdateAliOrdersTimer.Elapsed += new System.Timers.ElapsedEventHandler(UpdateAliOrdersEvent); //到达时间的时候执行事件；   
             UpdateAliOrdersTimer.AutoReset = true;   //设置是执行一次（false）还是一直执行(true)；   
             UpdateAliOrdersTimer.Enabled = true;     //是否执行System.Timers.Timer.Elapsed事件；   
@@ -41,10 +42,12 @@ namespace IntFactory.Service
             // TODO: 在此处添加代码以启动服务。
             string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + " 下载阿里订单服务启动";
             WriteLog(state);
+            ExecuteDownAliOrdersPlan();
             DownAliOrdersTimer.Start();
 
             state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    更新阿里订单服务启动";
             WriteLog(state, 2);
+            ExecuteUpdateAliOrders();
             UpdateAliOrdersTimer.Start();
         }
 
@@ -60,8 +63,12 @@ namespace IntFactory.Service
             UpdateAliOrdersTimer.Stop();
         }
 
-
         public void DownAliOrdersEvent(object source, System.Timers.ElapsedEventArgs e)
+        {
+            DownAliOrdersEventFun();
+        }
+
+        public void DownAliOrdersEventFun()
         {
             string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "     DownAliOrdersEvent开启";
             WriteLog(state);
@@ -72,12 +79,19 @@ namespace IntFactory.Service
             WriteLog(state);
         }
 
+
+
         public void UpdateAliOrdersEvent(object source, System.Timers.ElapsedEventArgs e)
         {
-            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "     UpdateAliOrdersEvent开启";
-            WriteLog(state,2);
+            UpdateAliOrdersEventFun();
+        }
 
-            bool flag=ExecuteUpdateAliOrders();
+        public void UpdateAliOrdersEventFun()
+        {
+            string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "     UpdateAliOrdersEvent开启";
+            WriteLog(state, 2);
+
+            bool flag = ExecuteUpdateAliOrders();
 
             state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    UpdateAliOrdersEvent结果:" + (flag ? "成功" : "失败") + "\n";
             WriteLog(state, 2);
