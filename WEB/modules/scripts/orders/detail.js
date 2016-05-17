@@ -923,7 +923,7 @@ define(function (require, exports, module) {
                             model.ids = _attr.data("id") + ":" + _value.val();
                             model.saleAttr = _attr.data("id");
                             model.attrValue = _value.val();
-                            model.names = _attr.data("text") + ":" + _value.data("text");
+                            model.names = "[" + _attr.data("text") + "：" + _value.data("text") + "]";
                             model.layer = 1;
                             model.guid = Global.guid();
                             details.push(model);
@@ -934,7 +934,7 @@ define(function (require, exports, module) {
                                     model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
                                     model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
                                     model.attrValue = attrdetail[i].attrValue + "," + _value.val();
-                                    model.names = attrdetail[i].names + "," + _attr.data("text") + ":" + _value.data("text");
+                                    model.names = attrdetail[i].names + " [" + _attr.data("text") + "：" + _value.data("text") + "]";
                                     model.layer = attrdetail[i].layer + 1;
                                     model.guid = Global.guid();
                                     details.push(model);
@@ -1040,10 +1040,14 @@ define(function (require, exports, module) {
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
-            $("#showCutoutGoods").find(".quantity").change(function () {
+            $("#showCutoutGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
+                } else if (_this.val() > _this.data("max")) {
+                    confirm("输入数量大于下单数，是否继续？", function () { }, function () {
+                        _this.val(_this.data("max"));
+                    });
                 }
             });
         });
@@ -1105,12 +1109,13 @@ define(function (require, exports, module) {
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
-            $("#showSewnGoods").find(".quantity").change(function () {
+            $("#showSewnGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 } else if (_this.val() > _this.data("max")) {
                     _this.val(_this.data("max"));
+                    alert("输入车缝数量过大");
                 }
             });
         });
@@ -1194,12 +1199,13 @@ define(function (require, exports, module) {
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
-            $("#showSendOrderGoods").find(".quantity").change(function () {
+            $("#showSendOrderGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 } else if (_this.val() > _this.data("max")) {
                     _this.val(_this.data("max"));
+                    alert("输入发货数量过大");
                 }
             });
         });
@@ -1320,7 +1326,7 @@ define(function (require, exports, module) {
         });
     }
 
-    //计算总金额
+    //汇总
     ObjectJS.getAmount = function () {
         var amount = 0;
         $(".amount").each(function () {
@@ -1329,6 +1335,17 @@ define(function (require, exports, module) {
             amount += _this.html() * 1;
         });
         $("#amount").text(amount.toFixed(2));
+
+        //订单明细汇总
+        $(".total-item td").each(function () {
+            var _this = $(this), _total = 0;
+            if (_this.data("class")) {
+                $("." + _this.data("class")).each(function () {
+                    _total += $(this).html() * 1;
+                });
+                _this.html(_total);
+            }
+        });
     }
 
     //编辑信息
