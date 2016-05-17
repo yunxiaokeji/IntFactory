@@ -33,7 +33,6 @@
     //初始化
     ObjectJS.init = function (type, status) {
         var _self = this;
-        _self.isLoading = true;
         Params.SearchType = type;
         if (status) {
             Params.OrderStatus = status;
@@ -102,6 +101,19 @@
             }
 
             if (!_this.hasClass("hover")) {
+
+                //隐藏状态
+                $(".search-status .item").show();
+                if (_this.data("hide")) {
+                    $(".search-status .item[data-hide='" + _this.data("hide") + "']").hide();
+
+                    if ($(".search-status .item.hover").data("hide") == _this.data("hide")) {
+                        $(".search-status .item").removeClass("hover");
+                        $(".search-status .item").first().addClass("hover")
+                        Params.Status = -1;
+                    }
+                } 
+
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
                 Params.PageIndex = 1;
@@ -465,8 +477,7 @@
         $(".object-items").empty();
         $(".object-items").append("<div class='data-loading'><div>");
 
-        Global.post("/Orders/GetOrders", { filter: JSON.stringify(Params) }, function (data)
-        {
+        Global.post("/Orders/GetOrders", { filter: JSON.stringify(Params) }, function (data) {
             _self.bindList(data);
         });
     }
