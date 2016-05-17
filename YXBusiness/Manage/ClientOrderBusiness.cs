@@ -91,22 +91,51 @@ namespace IntFactoryBusiness.Manage
         {
             DataTable dt = ClientOrderDAL.BaseProvider.GetClientOrders(status,type, beginDate, endDate, agentID, clientID, pageSize,pageIndex,ref totalCount,ref pageCount);
 
+            List<ClientOrder> list = GetBase(status, type, beginDate, endDate, agentID, clientID,0, pageSize, pageIndex, ref totalCount, ref pageCount);
+            return list;
+        }
+        public static List<ClientOrder> GetBase(int status, int type, string beginDate, string endDate, string agentID, string clientID,int userType, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            DataTable dt = ClientOrderDAL.BaseProvider.GetClientOrders(status, type, beginDate, endDate, agentID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
             List<ClientOrder> list = new List<ClientOrder>();
             if (dt.Rows.Count > 0)
             {
-                foreach (DataRow row in dt.Rows) 
+                foreach (DataRow row in dt.Rows)
                 {
                     ClientOrder model = new ClientOrder();
+                    model.FillData(row);
+                    if (userType == 0)
+                    {
+                        model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                        model.CreateUser.Name=string.IsNullOrEmpty(model.CreateUser.Name)?"系统新建":model.CreateUser.Name;
+                        list.Add(model);
+                    }
+                    else {
+                        M_Users mUser = M_UsersBusiness.GetUserDetail(model.CreateUserID);
+                        model.CreateUser = new IntFactoryEntity.Users() { Name = mUser != null ? mUser.Name : "客户下单", UserID = model.CreateUserID }; 
+                        list.Add(model);
+                    }
+                }
+            }
+            return list;
+        }
+        public static List<ClientOrder> GetClientOrdersForManage(int status, int type, string beginDate, string endDate, string agentID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            DataTable dt = ClientOrderDAL.BaseProvider.GetClientOrders(status, type, beginDate, endDate, agentID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
 
+            List<ClientOrder> list = new List<ClientOrder>();
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    ClientOrder model = new ClientOrder();
                     model.FillData(row);
                     model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
                     list.Add(model);
                 }
             }
-
             return list;
         }
-
         #endregion
 
         #region 改
