@@ -7,12 +7,10 @@
         <div class="picbox">
             <a href="/Task/Detail/{%=item.TaskID%}" class="image-box">
                 {%
-                    if(item.OrderImg!='')
-                    {%}
-                        <img src="{%=item.OrderImg%}" />  
+                if(item.OrderImg!='')
+                {%}
+                    <img src="{%=item.OrderImg%}" />  
                {%}%}
-
-                
             </a>
             <div class="task-layer">
                 <ul class="task-imgtitlemark">
@@ -45,9 +43,6 @@
         </div>
     </div>
         
-        <!--<div class="create-time mTop10 mBottom10">创建时间：<span>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span></div>
-        <div class="end-time mTop10 mBottom10">到期时间：<span>{%=item.EndTime.toDate("yyyy-MM-dd")=="3939-01-01"?"未指定时间":item.EndTime.toDate("yyyy-MM-dd")%}</span></div>-->
-   
     <div class="task-footer">
         <div class="task-type">
             <span class="iconfont mRight4">&#xe612;</span>{%=item.OrderType==1?"打样":"大货"%}

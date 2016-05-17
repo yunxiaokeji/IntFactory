@@ -206,7 +206,8 @@
             var items = data.items;
             var content = "<li class='item hover' data-id='-1' data-type='-1'>全部</li>";
             for (var i = 0; i < items.length; i++) {
-                content += "<li data-type=" + items[i].ProcessType + " data-id=" + items[i].ProcessID + " class='item'>" + items[i].ProcessName + "</li>";
+                var item=items[i];
+                content += "<li data-type=" + item.ProcessType + " data-id=" + item.ProcessID + " class='item'>" + item.ProcessName + "</li>";
             }
             content = $(content);
             $(".search-process").append(content);
@@ -230,7 +231,7 @@
         });
     }
 
-    //获取阶段信息
+    //获取订单阶段
     ObjectJS.getStage = function () {
         $(".search-stage").show();
         Global.post("/Task/GetOrderStages", { id: Params.orderProcessID }, function (data) {
@@ -258,6 +259,7 @@
     ObjectJS.getList = function () {
         var showtype = ObjectJS.showType;
         $(".tr-header").nextAll().remove();
+
         if (showtype == "list") {
             $(".task-items").hide();
             $(".table-list").show();
@@ -269,8 +271,10 @@
             $(".task-items").html("<div class='data-loading'><div>");
         }
         $(".content-body").find('.nodata-txt').remove();
+
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".tr-header").nextAll().remove();
+
             if (data.items.length > 0) {
                 doT.exec("template/task/task-"+showtype+".html", function (template) {
                     var innerhtml = template(data.items);
@@ -295,33 +299,20 @@
                     });
 
                     if (showtype == "list") {
-                        
                         $(".table-list").append(innerhtml);
-
-                        if (Params.finishStatus == 1 || Params.finishStatus == -1) {
-                            for (var i = 0; i < data.items.length; i++) {
-                                var item = data.items[i];
-                                if (data.items[i].FinishStatus == 1) {
-                                    if (data.items[i].FinishStatus == 1) {
-                                        ObjectJS.showTime(data.items[i], data.isWarns[i], data.endTimes[i], showtype);
-                                    }
-                                }
-                               
-                            }
-                        }
-
                     }
                     else {
                         $(".task-items").html(innerhtml);
-                        if (Params.finishStatus == 1 || Params.finishStatus == -1) {
-
-                            for (var i = 0; i < data.items.length; i++) {
-                                if (data.items[i].FinishStatus == 1) {
-                                    ObjectJS.showTime(data.items[i], data.isWarns[i], data.endTimes[i], showtype);
-                                }
+                    }
+                    if (Params.finishStatus == 1 || Params.finishStatus == -1) {
+                        for (var i = 0; i < data.items.length; i++) {
+                            var item = data.items[i];
+                            if (item.FinishStatus == 1) {
+                                ObjectJS.showTime(item, data.isWarns[i], data.endTimes[i], showtype);
                             }
                         }
-                    }   
+                    }
+
                 });
                
             }
@@ -353,31 +344,21 @@
 
     //任务到期时间倒计时
     ObjectJS.showTime = function (item, isWarn,endTime,showType) {
-
         var endtime = item.EndTime.toDate("yyyy/MM/dd hh:mm:ss");
         var num = item.TaskID;
         if (ObjectJS.status == 8) {
             return;
         }
-
-        if (endTime == "未设置") {
-            return;
-        }
-
-        if (ObjectJS.finishStatus == 2) {
+        if (item.FinishStatus != 1) {
             return;
         }
 
         var time_end = (new Date(endtime)).getTime();
-
         var time_start = new Date().getTime(); //设定当前时间
-
-        var append_content="";
         // 计算时间差 
         var time_distance = time_end - time_start;
-
-
         var overplusTime = false;
+
         if (time_distance < 0) {
             if (!overplusTime) {
                 if (showType == "card") {
@@ -386,14 +367,12 @@
                     $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('已超期').show();
                 }
                 else {
-                    $(".table-list .list-item").each(function () {
-                        var _this = $(this);
-                        if (_this.data("taskid") == item.TaskID) {
-                            _this.find('.list-hint-info').html("已超期").show();
-                        }
-                    });
+                    var $list_picbox=$(".table-list .list-item[data-taskid='" + item.TaskID + "']");
+                    $list_picbox.find(".hint-layer").css({ "border-top-color": "rgba(237,0,0,0.7)", "border-left-color": "rgba(237,0,0,0.7)" }).show();
+                    $list_picbox.find(".hint-msg").html("已超期").show();
                 }
             }
+
             overplusTime = true;
             time_distance = time_start - time_end;
         }
@@ -406,17 +385,15 @@
                         $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('快到期').show();
                     }
                     else {
-                        $(".table-list .list-item").each(function () {
-                            var _this = $(this);
-                            if (_this.data("taskid") == item.TaskID) {
-                                _this.find('.list-hint-info').css({"background-color":"orange"}).html("快到期").show();
-                            }
-                        });
+                        var $list_picbox = $(".table-list .list-item[data-taskid='" + item.TaskID + "']");
+                        $list_picbox.find(".hint-layer").css({ "border-top-color": "rgba(255,165,0,0.7)", "border-left-color": "rgba(255,165,0,0.7)" }).show();
+                        $list_picbox.find(".hint-msg").html("快到期").show();
                     }
                 }
                 overplusTime = true;
             }
         }
+
         // 天
         var int_day = Math.floor(time_distance / 86400000)
         time_distance -= int_day * 86400000;

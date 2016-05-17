@@ -61,7 +61,7 @@ namespace YXERP.Common
                 }
                 else
                 {
-                    filterContext.Result = new RedirectResult("/Error/NoUse");
+                    filterContext.Result = new RedirectResult("/Home/UseExpired");
                 }
 
                 return;
