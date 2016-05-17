@@ -655,10 +655,11 @@ define(function (require, exports, module) {
 
                 // 绑定确定按钮的回调函数
                 if (dialogYesBtn) {
-                    event.bind(dialogYesBtn, 'click', function (event) {
+                    event.bind(dialogYesBtn, 'click', function (event) {                        
                         if (options.container.yesFn.call(self, event) !== false) {
                             self.close(options.guid);
                         }
+
                     });
                 }
                 
