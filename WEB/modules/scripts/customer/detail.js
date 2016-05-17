@@ -256,7 +256,7 @@
             confirm("确认删除此联系人吗？", function () {
                 Global.post("/Customer/DeleteContact", { id: _this.data("id") }, function (data) {
                     if (data.status) {
-                        _self.getContacts(_self.customerid);
+                        _self.getContacts(_self.guid);
                     } else {
                         alert("网络异常,请稍后重试!");
                     }
@@ -461,25 +461,33 @@
     ObjectJS.getContacts = function (customerid) {
         var _self = this;
         $("#navContact .tr-header").nextAll().remove();
+        $("#navContact .tr-header").after("<tr><td colspan='10'><div class='data-loading' ></div></td></tr>");
         Global.post("/Customer/GetContacts", {
             customerid: customerid
         }, function (data) {
-            doT.exec("template/customer/contacts.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
+            if (data.items.length > 0) {
+                doT.exec("template/customer/contacts.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
 
-                innerhtml.find(".dropdown").click(function () {
-                    var _this = $(this);
-                    var position = _this.find(".ico-dropdown").position();
-                    $(".dropdown-ul li").data("id", _this.data("id"));
-                    $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 40 }).show().mouseleave(function () {
-                        $(this).hide();
+                    innerhtml.find(".dropdown").click(function () {
+                        var _this = $(this);
+                        var position = _this.find(".ico-dropdown").position();
+                        $(".dropdown-ul li").data("id", _this.data("id"));
+                        $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 40 }).show().mouseleave(function () {
+                            $(this).hide();
+                        });
+                        return false;
                     });
-                    return false;
+                    $("#navContact .tr-header").after(innerhtml);
                 });
+                $(".data-loading").parent().parent().remove();
+            } else {
+                $(".data-loading").parent().parent().hide();
+                $("#navContact .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无联系人!<div></td></tr>");
+            }
 
-                $("#navContact .tr-header").after(innerhtml);
-            });
+            
         });
     }
 
@@ -499,7 +507,7 @@
                         }
                         var entity = {
                             ContactID: model ? model.ContactID : "",
-                            CustomerID: _self.customerid,
+                            CustomerID: _self.guid,                            
                             Name: $("#name").val().trim(),
                             CityCode: CityContact.getCityCode(),
                             Address: $("#address").val().trim(),
@@ -542,7 +550,7 @@
 
     ObjectJS.saveContact = function (model) {
         var _self = this;
-
+        
         Global.post("/Customer/SaveContact", { entity: JSON.stringify(model) }, function (data) {
             if (data.model.ContactID) {
                 _self.getContacts(model.CustomerID);

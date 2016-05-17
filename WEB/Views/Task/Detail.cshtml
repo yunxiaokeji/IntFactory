@@ -34,7 +34,7 @@
             }
 
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@attrValues', um, '@(order.PlateRemark)', '@order.OrderImages', '@Html.ToJSONString(model)', '@ViewBag.IsWarn');
+                obj.init('@attrValues', um, '@(order.PlateRemark)', '@order.OrderImages', '@Html.ToJSONString(model)', '@ViewBag.IsWarn','@Html.ToJSONString(order)');
             });
 
         });
@@ -62,6 +62,12 @@
             <div class="log-body" id="taskLogList"></div>
             <div id="pagerLogs" class="mTop10"></div>
         </div>
+
+        @{Html.RenderPartial("SendDoc");}
+
+        @{Html.RenderPartial("CutoutDoc");}
+       
+        @{Html.RenderPartial("SewnDoc");}
 
     </div>
 </div>

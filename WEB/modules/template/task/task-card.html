@@ -21,7 +21,9 @@
                 </ul>
                 <div class="clear"></div>
                 <div class="remain-time mLeft10 mTop5">
-                    <span class="overplusTime-{%=item.TaskID%}">剩余时间：</span>
+
+                    <span class="overplusTime-{%=item.TaskID%}">{%=item.FinishStatus==2?"完成时间：":item.FinishStatus==1?"剩余时间":"创建时间："%}</span>
+
                     {%
                     if(item.FinishStatus==1)
                     {
@@ -34,11 +36,8 @@
                     else
                     {
                     %}
-                    <span>00天00时00分00秒</span>                    
+                    <span>{%=item.FinishStatus==2?item.CompleteTime.toDate('yyyy-MM-dd hh:mm:ss'):item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}</span>                    
                     {%}%}
-                    <span class="right">
-
-                    </span>
                </div>
             </div>
             <div class='hint-layer hide'></div>
