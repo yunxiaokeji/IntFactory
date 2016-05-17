@@ -332,6 +332,12 @@ a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,
 
         }
 
+        public static void UpdatetClientCache(string clientID){
+            if (Clients.ContainsKey(clientID))
+            {
+                Clients[clientID] = GetClientDetailBase(clientID);
+            }                    
+        }
         #endregion
 
     }

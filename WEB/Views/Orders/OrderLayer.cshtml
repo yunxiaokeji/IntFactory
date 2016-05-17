@@ -59,27 +59,57 @@
          </ul>
          <h1>成本信息</h1>
          <ul class="@(ExpandClass.IsLimits(HttpContext.Current, "102010502"))">
-            <li>
-                <span class="column-title">期望价格：</span>
-                <label>@(model.PlanPrice)</label>
-            </li>
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))">
-                <span class="column-title">材料成本：</span>
-                <label>@(model.Price.ToString("f2"))</label>
-            </li>
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))">
-                <span class="column-title">加工成本：</span>
-                <label id="lblCostMoney">@(model.CostPrice.ToString("f2"))</label>
-            </li>
-
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
-                <span class="column-title">最终报价：</span>
-                <label>@(model.FinalPrice.ToString("f2"))</label>
-            </li>
-             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016"))">
-                <span class="column-title">加工数量：</span>
-                <label id="planQuantity">@(model.PlanQuantity)</label>
-            </li>
+             @if(model.OrderType==1)
+             {
+                <li>
+                    <span class="column-title">期望价格：</span>
+                    <label>@(model.PlanPrice)</label>
+                </li>
+                <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))">
+                    <span class="column-title">材料成本：</span>
+                    <label>@(model.Price.ToString("f2"))</label>
+                </li>
+                <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))">
+                    <span class="column-title">加工成本：</span>
+                    <label>@(model.CostPrice.ToString("f2"))</label>
+                </li>
+                 <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019021"))">
+                    <span class="column-title">利润比例：</span>
+                    <label id="">@(model.ProfitPrice.ToString("f2"))</label>
+                </li>
+                <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
+                    <span class="column-title">最终报价：</span>
+                    <label>@(model.FinalPrice.ToString("f2"))</label>
+                </li>
+                 
+            }
+            else
+            {
+                <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
+                    <span class="column-title">单价报价：</span>
+                    <label>@(model.FinalPrice.ToString("f2"))</label>
+                </li>
+                 <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016"))">
+                    <span class="column-title">加工数量：</span>
+                    <label id="planQuantity">@(model.PlanQuantity)</label>
+                </li>
+                 <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))">
+                    <span class="column-title">材料成本：</span>
+                    <label>@((model.Price*model.PlanQuantity).ToString("f2"))</label>
+                </li>
+                <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))">
+                    <span class="column-title">加工成本：</span>
+                    <label >@((model.CostPrice*model.PlanQuantity).ToString("f2"))</label>
+                </li>
+                 <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
+                    <span class="column-title">折扣：</span>
+                    <label>@(model.Discount.ToString("f2"))</label>
+                </li>
+                 <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016")) @(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
+                    <span class="column-title">总金额：</span>
+                    <label >@(model.TotalMoney.ToString("f2"))</label>
+                </li>
+             }
         </ul>
     </div>
 </body>
