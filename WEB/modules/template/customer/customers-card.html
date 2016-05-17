@@ -8,7 +8,7 @@
         <div class="message">
             <div class="list-mark left mRight10"><span class="mark" data-id="{%= item.CustomerID %}" data-value="{%= item.Mark %}"></span></div>
             <!--<a class="photo mRight10" href="/Customer/Detail/{%=item.CustomerID%}">{%=item.Name.substring(0,1)%}</a>-->
-            <div class="message-name long"><a href="/Customer/Detail/{%=item.CustomerID%}">{%=item.Name%}</a></div>
+            <div class="message-name long"><a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%}</a></div>
         </div>
     </li>
     <li class="color666 mTop5">{%=item.MobilePhone?item.MobilePhone:"--"%}</li>
