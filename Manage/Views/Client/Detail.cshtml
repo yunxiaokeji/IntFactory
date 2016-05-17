@@ -6,7 +6,7 @@
 <script src="/modules/plug/laydate/laydate.js"></script>
 @section scripts{
     <script type="text/javascript">
-        seajs.use(["scripts/client/clients"], function (client) {
+        seajs.use(["scripts/client/clientdetail"], function (client) {
             client.detailInit('@ViewBag.ID');
         });
 
@@ -73,7 +73,7 @@
     <div class="content-title">
         <div id="customerName" class="left titlename bolder"></div>
         <div id="updateClient" class="left ico-edit iconfont mLeft20">&#xe607;</div>
-        <div class="btn delClient right">删除</div>
+        <div id="delClient" class="btn delClient right">删除</div>
          <div class="clear"></div>
     </div>
      <ul class="content-info">
@@ -88,13 +88,13 @@
         <li><span class="column-title">详细地址：</span><label id="lblAddress"></label></li>
         <li style="width:100%;"><span class="column-title">备注：</span> <label id="lblDescription"></label></li>
         <li class="hide"> <select id="industrytemp">
-                    @foreach (IntFactoryEntity.Industry model in (List<IntFactoryEntity.Industry>)ViewBag.Industry)
-                    {
-                        <option value="@(model.IndustryID)" data-name="@(model.Name)">@(model.Name)</option>
-                    }
-                    <option value="">其他行业</option>
-                </select>
-             </li>
+            @foreach (IntFactoryEntity.Industry model in (List<IntFactoryEntity.Industry>)ViewBag.Industry)
+            {
+                <option value="@(model.IndustryID)" data-name="@(model.Name)">@(model.Name)</option>
+            }
+            <option value="">其他行业</option>
+        </select>
+        </li>
     </ul>   
    
 </div>
@@ -104,6 +104,11 @@
         <li data-index="1">授权记录</li>            
         <li  data-index="2">统计</li>
     </ul>  
+     <div class="tRight">
+        <input type="button" id="addNewOrder" class="btn " value="新建订单" />&nbsp;
+        <input type="button" id="addAuthorize" class="btn " value="赠送授权" />&nbsp;
+    </div>
+    <div class="clear"></div>
 </div>
 <div class="content-body pBottom50">
        <div name="navContent">
@@ -134,10 +139,7 @@
         <div id="pager2" class="mTop20"></div>
     </div>
     <div class="contentnew hide" name="navContent" style="border-bottom:none;">
-         <div class="mTop10 tRight">
-            <input type="button" id="addAuthorize" class="btn " value="授权" />&nbsp;
-        </div>
-        <div class="clear"></div>
+        
         <table class="table-list" id="tb-clientLog">
             <tr class="tr-header" id="client-header">
                 <td class="">授权类型</td>
