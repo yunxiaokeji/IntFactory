@@ -643,7 +643,7 @@
     ObjectJS.editPrice = function (ele) {
         var _self = this;
         Global.post("/Orders/UpdateOrderPrice", {
-            orderid: _self.orderid,
+            orderid: _self.guid,
             autoid: ele.data("id"),
             name: ele.data("name"),
             price: ele.val()
@@ -662,7 +662,7 @@
     ObjectJS.editQuantity = function (ele) {
         var _self = this;
         Global.post("/Orders/UpdateProductQuantity", {
-            orderid: _self.orderid,
+            orderid: _self.guid,
             autoid: ele.data("id"),
             name: ele.data("name"),
             quantity: ele.val()
@@ -681,7 +681,7 @@
     ObjectJS.editLoss = function (ele) {
         var _self = this;
         Global.post("/Orders/UpdateProductLoss", {
-            orderid: _self.orderid,
+            orderid: _self.guid,
             autoid: ele.data("id"),
             name: ele.data("name"),
             quantity: ele.val()

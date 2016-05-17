@@ -454,10 +454,10 @@ namespace YXManage.Controllers
         /// <summary>
          /// 收费信息列表获取
          /// </summary>
-        public JsonResult GetModulesProducts(int pageIndex, string keyWords)
+        public JsonResult GetModulesProducts(int pageIndex, int periodType, string keyWords)
         {
             int totalCount = 0, pageCount = 0;
-            var list = ModulesProductBusiness.GetModulesProducts(keyWords, PageSize, pageIndex, ref totalCount, ref pageCount);
+            var list = ModulesProductBusiness.GetModulesProducts(keyWords, PageSize, pageIndex, periodType, ref totalCount, ref pageCount);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);

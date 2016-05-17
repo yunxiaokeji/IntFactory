@@ -2,9 +2,8 @@
     ViewBag.Title = "客户行为统计";
 }
 
-
-@section scripts{
-    <script src="/modules/plug/laydate/laydate.js"></script>
+ <script src="/modules/plug/laydate/laydate.js"></script>
+@section scripts{   
         <script type="text/javascript">
             seajs.use(["scripts/report/agentactionreport"], function (agentactionreport) {
                 agentactionreport.init();
@@ -58,18 +57,44 @@
         <div class="clear"></div>
     </div>
 
-    <table class="table-list">
+    <table class="table-list mTop20">
         <tr class="tr-header">
             <td class="tLeft">工厂名称</td>
-            <td>客户数</td>
-            <td>订单数</td>
+            <td>
+                <span class="td-span hover" data-column="SUM(a.CustomerCount)"> 客户数 
+                    <span class="asc"></span>
+                    <span class="desc hover"></span>
+               </span>
+            </td>
+            <td >
+               <span class="td-span" data-column="SUM(a.OrdersCount)"> 订单数 
+                    <span class="asc"></span>
+                    <span class="desc"></span>
+               </span>
+            </td>
 @*            <td>活动数</td>*@
-            <td>材料数</td>
-            <td>员工数</td>
+            <td>                
+                <span class="td-span" data-column="SUM(a.ProductCount)"> 材料数 
+                    <span class="asc"></span>
+                    <span class="desc"></span>
+               </span>
+            </td>
+            <td> 
+                <span class="td-span" data-column="SUM(a.UsersCount)"> 员工数 
+                    <span class="asc"></span>
+                    <span class="desc"></span>
+               </span>
+            </td>
            @* <td>代理商数</td>
             <td>机会数</td>*@
-            <td>采购数</td>
+            <td>
+                <span class="td-span" data-column="PurchaseCount"> 采购数 
+                    <span class="asc"></span>
+                    <span class="desc"></span>
+               </span>
+            </td>
             @*<td>出库数</td>*@
         </tr>
     </table>
+    <div id="pager"  class="mTop20"></div>
 </div>

@@ -45,25 +45,28 @@
 
 <div class="content-body mTop20">
     <div id="OrderTypes" class="left"></div>
-        <div id="OrderStatus" class="left mLeft20"></div>
+    <div id="OrderStatus" class="left mLeft20"></div>
 
-        <div class="left mLeft20">
-            <span class="width80">订单时间：</span><input type="text" id="orderBeginTime"  class="input"  />
-            <span style="padding:0px 5px 0px 3px;">至</span><input type="text" id="orderEndTime"  class="input"  />
-            <span class="btn mLeft10" id="SearchClientOrders">搜索</span>
+    <div class="left mLeft20">
+        <span class="width80">订单时间：</span><input type="text" id="orderBeginTime"  class="input"  />
+        <span style="padding:0px 5px 0px 3px;">至</span><input type="text" id="orderEndTime"  class="input"  />
+        <span class="btn mLeft10" id="SearchClientOrders">搜索</span>
 
-        </div>
-        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
 
     <table class="table-list mTop20">
         <tr class="tr-header" id="clientOrders">
-            <td class="tLeft minwidth70">订单时间</td>
+            <td class="tLeft width200">公司名称</td>
             <td class="width200">购买人数</td>
             <td class="width150">购买年数</td>
             <td class="width150">金额</td>
             <td class="width200">订单类型</td>     
-            <td class="width200">订单状态</td>     
+            <td class="width200">订单状态</td>  
+            <td class="tLeft minwidth70">订单时间</td>   
             <td class="width150">创建人</td>
+            <td class="width150">操作</td>
         </tr>
     </table>
+     <div id="pager" class="mTop20"></div>
 </div>

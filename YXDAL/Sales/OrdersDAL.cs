@@ -210,17 +210,36 @@ namespace IntFactoryDAL
             return result > 0;
         }
 
-        public bool CreateDHOrder(string orderid, string originalid, string operateid, string clientid, SqlTransaction tran)
+        public bool CreateDHOrder(string orderid, string originalid, decimal discount, string operateid, string clientid, SqlTransaction tran)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
-                                     new SqlParameter("@OldOrderID",originalid),
+                                     new SqlParameter("@OriginalID",originalid),
+                                     new SqlParameter("@Discount",discount),
                                      new SqlParameter("@OrderCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             bool bl = ExecuteNonQuery(tran, "P_CreateDHOrder", paras, CommandType.StoredProcedure) > 0;
+
+            return bl;
+        }
+
+        public bool AddOrderGoods(string orderid, string saleattr, string attrvalues, string saleattrvalue, decimal quantity, string remark, string operateid, string clientid, SqlTransaction tran)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@AttrList",saleattr),
+                                     new SqlParameter("@ValueList",attrvalues),
+                                     new SqlParameter("@AttrValueList",saleattrvalue),
+                                     new SqlParameter("@Quantity",quantity),
+                                     new SqlParameter("@Description",remark),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            bool bl = ExecuteNonQuery(tran, "P_AddOrderGoods", paras, CommandType.StoredProcedure) > 0;
 
             return bl;
         }
@@ -246,24 +265,7 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool AddOrderGoods(string orderid, string originalid, string saleattr, string attrvalues, string saleattrvalue, decimal quantity, string remark, string operateid, string clientid, SqlTransaction tran)
-        {
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@OrderID",orderid),
-                                     new SqlParameter("@OriginalID",originalid),
-                                     new SqlParameter("@AttrList",saleattr),
-                                     new SqlParameter("@ValueList",attrvalues),
-                                     new SqlParameter("@AttrValueList",saleattrvalue),
-                                     new SqlParameter("@Quantity",quantity),
-                                     new SqlParameter("@Description",remark),
-                                     new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-
-            bool bl = ExecuteNonQuery(tran, "P_AddOrderGoods", paras, CommandType.StoredProcedure) > 0;
-
-            return bl;
-        }
+        
 
         public string CreateReply(string guid,string stageID,int mark, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
         {

@@ -10,6 +10,7 @@ using IntFactoryEntity;
 using IntFactoryBusiness.Manage;
 namespace YXManage.Controllers
 {
+    [YXManage.Common.UserAuthorize]
     public class ReportController :BaseController
     {
         //
@@ -35,11 +36,23 @@ namespace YXManage.Controllers
         /// <summary>
         /// 客户行为统计
         /// </summary>
-        public JsonResult GetAgentActionReports(string keyword,string startDate,string endDate)
+        public JsonResult GetAgentActionReports(string keyword, string startDate, string endDate, int pageIndex, string orderBy = "SUM(a.CustomerCount) desc")
         {
-            var list = AgentsBusiness.GetAgentActionReport(keyword, startDate, endDate);
+            int totalCount = 0, pageCount = 0;
+            var list = AgentsBusiness.GetAgentActionReport(keyword, startDate, endDate,orderBy, PageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
-
+            JsonDictionary.Add("TotalCount", totalCount);
+            JsonDictionary.Add("PageCount", pageCount);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult GetAgentActionReportsByClientID(string keyword, string startDate, string endDate, int pageIndex, string clientID = "")
+        {
+            var list = AgentsBusiness.GetAgentActionReport(keyword, startDate, endDate,clientID);
+            JsonDictionary.Add("Items", list);
             return new JsonResult()
             {
                 Data = JsonDictionary,

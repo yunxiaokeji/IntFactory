@@ -33,6 +33,18 @@
 
 .table-list td img{ height:80px; width:80px; vertical-align:middle;}
 
+/*排序*/
+.table-list .tr-header .td-span{  position:relative; cursor:pointer;line-height:35px; }
+
+.table-list .tr-header .td-span:hover { color:#4a98e7; }
+.table-list .tr-header .td-span.hover { color:#4a98e7; }
+
+.table-list .tr-header .td-span .asc { position:absolute;  top:2px; border-bottom:solid 5px #ccc; border-left:solid 5px transparent ;border-right:solid 5px transparent ; display:inline-block;}
+.table-list .tr-header .td-span .desc { position:absolute; top:9px; border-top:solid 5px #ccc; border-left:solid 5px transparent ;border-right:solid 5px transparent ; display:inline-block;}
+
+.table-list .tr-header .td-span .asc.hover {  border-bottom:solid 5px #4a98e7;}
+.table-list .tr-header .td-span .desc.hover { border-top:solid 5px #4a98e7;}
+
 .table-list .ico-check { vertical-align:middle; }
 .table-list .ico-checked { vertical-align:middle; }
 

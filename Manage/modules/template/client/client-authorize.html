@@ -1,0 +1,61 @@
+﻿{%
+	var item = $data;
+%}
+<div class="pBottom10">
+    <span id="span_giveSystem">
+        <input type="radio" id="giveSystem" checked="checked"  name="serviceType"/>
+        <label for="giveSystem"  class="font16">赠送</label>
+    </span>
+
+    <span class="mLeft30" id="span_buySystem">
+        <input  type="radio" id="buySystem" name="serviceType"/>
+        <label for="buySystem"  class="font16">购买</label>
+    </span>
+            
+</div>
+
+<ul class="contentnew" id="div_give">
+    <li>
+        <span class="columnname">赠送类型：</span> 
+        <select id="giveType" >
+            <option value="1">人数</option>
+            <option value="2">时间</option>
+        </select>
+    </li>
+
+    <li  id="li_userQuantity">
+        <span class="columnname">人数：</span>
+        <span><input type="text" id="userQuantity" class="verify" data-empty="人数不能为空!" value="{%=item.UserQuantity%}" /></span>
+    </li>
+
+    <li class="hide" id="li_endTime">
+        <span class="columnname">到期时间：</span>
+        <span><input type="text" id="endTime" class="verify" data-empty="到期时间不能为空!"   value="{%=item.EndTime.toDate('yyyy-MM-dd')%}"  maxlength="11"   /></span>
+    </li>
+            
+</ul>
+
+<ul class="contentnew hide" id="div_buy">
+    <li>
+        <span class="columnname">购买类型：</span> 
+        <select id="buyType" >
+            <option value="1">付费</option>
+            <option value="2">购买人数</option>
+            <option value="3">续费</option>
+        </select>
+    </li>
+
+    <li id="li_buyUserQuantity">
+        <span class="columnname">人数：</span>
+        <span><input type="text" class="verify" data-empty="人数不能为空!"  id="buyUserQuantity" value="{%=item.UserQuantity%}"/></span>
+    </li>
+
+    <li id="li_buyUserYears">
+        <span class="columnname">年数：</span> 
+        <select id="buyUserYears" >
+            <option value="1">1年</option>
+            <option value="2">2年</option>
+            <option value="3">3年</option>
+        </select>
+    </li>            
+</ul>

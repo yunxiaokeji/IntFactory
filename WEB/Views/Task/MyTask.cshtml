@@ -71,17 +71,11 @@
             <li data-id="1" class="item">打样单</li>
             <li data-id="2" class="item">大货单</li>
         </ul>
-     @*   <ul class="search-item search-status">
-            <li class="column-name">状态：</li>
-            <li data-id="-1" class="item hover">全部</li>
-            <li data-id="1" class="item">正常</li>
-            <li data-id="8" class="item">关闭</li>
-        </ul>*@
 
         <ul class="search-item search-process">
             <li class="column-name">流程：</li>
         </ul>
-        <ul class="search-item search-stage">
+        <ul class="search-item search-stage hide">
             <li class="column-name">阶段：</li>
             <li class="item hover">全部</li>
         </ul>
@@ -98,8 +92,8 @@
     </div>
     <div class="search-items mTop10">
         <div class="left mRight20" id="chooseBranch"></div>
-        <div id="orderProcess" class="left mRight20"></div>
-        <div id="orderStage" class="left mRight20"></div>
+@*        <div id="orderProcess" class="left mRight20"></div>
+        <div id="orderStage" class="left mRight20"></div>*@
         <div class="left">
             <span class="width80">创建时间：</span><input type="text" value="@NowDate" id="BeginTime"  class="input width80"  />
             <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime" value="@NowDate" class="input width80"  />

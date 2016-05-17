@@ -65,47 +65,57 @@ define(function (require, exports, module) {
                 onChange: function (data) {
                     Params.pageIndex = 1;
                     Params.type = parseInt(data.value);
+                    Params.beginDate = $("#BeginTime").val();
+                    Params.endDate = $("#EndTime").val();
                     FeedBack.getList();
                 }
             });
 
-            var Status = [
-                {
-                    ID: "1",
-                    Name: "待解决"
-                },
-                {
-                    ID: "2",
-                    Name: "已解决"
-                },
-                {
-                    ID: "3",
-                    Name: "驳回"
-                },
-                {
-                    ID: "4",
-                    Name: "删除"
-                }
-            ];
-            $("#FeedStatus").dropdown({
-                prevText: "意见状态-",
-                defaultText: "所有",
-                defaultValue: "-1",
-                data: Status,
-                dataValue: "ID",
-                dataText: "Name",
-                width: "120",
-                onChange: function (data) {
-                    Params.pageIndex = 1;
-                    Params.status = parseInt(data.value);
-                    FeedBack.getList();
-                }
-            });
-
-
-
+            //var Status = [
+            //    {
+            //        ID: "1",
+            //        Name: "待解决"
+            //    },
+            //    {
+            //        ID: "2",
+            //        Name: "已解决"
+            //    },
+            //    {
+            //        ID: "3",
+            //        Name: "驳回"
+            //    },
+            //    {
+            //        ID: "4",
+            //        Name: "删除"
+            //    }
+            //];
+            //$("#FeedStatus").dropdown({
+            //    prevText: "意见状态-",
+            //    defaultText: "所有",
+            //    defaultValue: "-1",
+            //    data: Status,
+            //    dataValue: "ID",
+            //    dataText: "Name",
+            //    width: "120",
+            //    onChange: function (data) {
+            //        Params.pageIndex = 1;
+            //        Params.status = parseInt(data.value);
+            //        Params.beginDate = $("#BeginTime").val();
+            //        Params.endDate = $("#EndTime").val();
+            //        FeedBack.getList();
+            //    }
+            //});
         });
-
+        $(".search-tab li").click(function () {
+            $(this).addClass("hover").siblings().removeClass("hover");
+            var index = $(this).data("index");
+            $(".content-body div[name='navContent']").hide().eq(parseInt(index)).show();
+            Params.pageIndex = 1;
+            Params.status = index==0?-1:index;
+            Params.beginDate = $("#BeginTime").val();
+            Params.endDate = $("#EndTime").val();
+            FeedBack.getList();
+        });
         //时间段查询
         $("#SearchFeedBacks").click(function () {
             Params.pageIndex = 1;
@@ -162,15 +172,21 @@ define(function (require, exports, module) {
 
     FeedBack.detailBindEvent = function () {
         $("#btn-finish").click(function () {
-            FeedBack.updateFeedBackStatus(2);
+            if (confirm("确定解决吗?")) {
+                FeedBack.updateFeedBackStatus(2);
+            }
         });
 
         $("#btn-cancel").click(function () {
-            FeedBack.updateFeedBackStatus(3);
+            if (confirm("确定驳回吗?")) {
+                FeedBack.updateFeedBackStatus(3);
+            }
         });
 
         $("#btn-delete").click(function () {
-            FeedBack.updateFeedBackStatus(9);
+            if (confirm("确定删除吗?")) {
+                FeedBack.updateFeedBackStatus(9);
+            }
         });
     }
 
@@ -179,7 +195,6 @@ define(function (require, exports, module) {
         Global.post("/FeedBack/GetFeedBackDetail", { id: Params.id }, function (data) {
             if (data.item) {
                 var item = data.item;
-
                 $("#Title").html(item.Title);
                 var typeName = "问题";
                 if (item.Type == 2)
@@ -191,9 +206,16 @@ define(function (require, exports, module) {
                 var statusName = "待解决";
                 if (item.Status == 2) {
                     statusName = "已解决";
+                    $('#btn-finish').hide();
+                    $('#btn-cancel').hide();
+                    $('#btn-delete').hide();
                 }
-                else if (item.Status == 3)
+                else if (item.Status == 3) {
                     statusName = "驳回";
+                    $('#btn-finish').hide();
+                    $('#btn-cancel').hide();
+                    $('#btn-delete').hide();
+                }
                 else if (item.Status == 9)
                     statusName = "删除";
                 $("#Status").html(statusName);
@@ -201,6 +223,7 @@ define(function (require, exports, module) {
                 $("#ContactName").html(item.ContactName);
                 $("#MobilePhone").html(item.MobilePhone);
                 $("#Remark").html(item.Remark);
+                $("#Content").html(item.Content);
                 $("#CreateTime").html(item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss"));
             } 
         });
@@ -208,7 +231,7 @@ define(function (require, exports, module) {
 
     //更改状态
     FeedBack.updateFeedBackStatus = function (status) {
-        Global.post("/FeedBack/UpdateFeedBackStatus", { id: Params.id, status: status }, function (data) {
+        Global.post("/FeedBack/UpdateFeedBackStatus", { id: Params.id, status: status,content:$('#Content').val() }, function (data) {
             if (data.result == 1) {
                 alert("保存成功");
                 FeedBack.getFeedBackDetail();

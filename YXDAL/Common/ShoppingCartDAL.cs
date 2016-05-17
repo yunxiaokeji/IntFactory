@@ -20,7 +20,7 @@ namespace IntFactoryDAL
             return GetDataTable("P_GetShoppingCart", paras, CommandType.StoredProcedure);
         }
 
-        public static bool AddShoppingCart(string productid, string detailsid, int quantity, string unitid, int isBigUnit, int ordertype, string remark, string guid, string userid, string operateip)
+        public static bool AddShoppingCart(string productid, string detailsid, decimal quantity, string unitid, int isBigUnit, int ordertype, string remark, string guid, string userid, string operateip)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderType",ordertype),
@@ -37,7 +37,7 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_AddShoppingCart", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public static bool AddShoppingCartBatchOut(string productid, string detailsid, int quantity, int ordertype, string batch, string depotid, string remark, string guid, string userid, string operateip)
+        public static bool AddShoppingCartBatchOut(string productid, string detailsid, decimal quantity, int ordertype, string batch, string depotid, string remark, string guid, string userid, string operateip)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderType",ordertype),
@@ -54,7 +54,7 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_AddShoppingCartBatchOut", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public static bool AddShoppingCartBatchIn(string productid, string detailsid, int quantity, int ordertype, string remark, string guid, string userid, string operateip)
+        public static bool AddShoppingCartBatchIn(string productid, string detailsid, decimal quantity, int ordertype, string remark, string guid, string userid, string operateip)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderType",ordertype),

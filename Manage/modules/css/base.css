@@ -118,10 +118,22 @@
 .width310 { width:310px !important; }
 .width500 { width:500px !important; }
 
-
-* { padding: 0; margin: 0; font-size:9pt; color:#333; font-family:'Microsoft YaHei' !important; }/*033d91*/
+*{font-family:"Microsoft YaHei";font-size:9pt;color:#333; padding:0;margin:0;border:0;list-style-type:none;-webkit-tap-highlight-color:rgba(0,0,0,0);}
+/** { padding: 0; margin: 0; font-size:9pt; color:#333; font-family:'Microsoft YaHei' !important; }*//*033d91*/
 li{ list-style-type:none;}
 a { color: #4a98e7; text-decoration: none;}
+
+
+button,submit,input,select,textarea{outline:none;}
+button,submit,input,select{vertical-align:middle;}
+button,submit,input[type="button"],input[type="submit"]{cursor:pointer;-webkit-appearance:none;}
+textarea{resize:none;outline:none;}
+button::-moz-focus-inner,
+submit::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner{padding:0;border:none;}
 
 input[type="text"] { border:solid 1px #ccc; border-radius:2px;height:25px; line-height:25px; padding:0 5px; }
 input[type="text"]:focus { border:solid 1px #318ae4; }
@@ -157,6 +169,11 @@ select option{ padding:2px; }
 .btn999 {  padding:5px 10px; background-color:#999; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; line-height:18px; }
 .btn999:hover { background-color:#666; color:#fff; }
 
+
+/*替换*/
+.change-ico{ display:inline-block; cursor:pointer; color:#4a98e7; font-size:20px !important;}
+.change-ico:hover{ color:#2F73B8; }
+
 /*添加*/
 .ico-add{ background:url(../images/ico-add.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
           display:inline-block; cursor:pointer; padding-left:28px; color:#666; font-size:13px; }
@@ -173,9 +190,13 @@ select option{ padding:2px; }
 .ico-change:hover{ background:url(../images/ico-changehover.png) no-repeat; color:#4a98e7; }
 
 /*编辑*/
-.ico-edit{ background:url(../images/ico-edit-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
+/*.ico-edit{ background:url(../images/ico-edit-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
           display:inline-block; cursor:pointer;  color:#666; }
-.ico-edit:hover{ background:url(../images/ico-edit-deep.png) no-repeat;}
+.ico-edit:hover{ background:url(../images/ico-edit-deep.png) no-repeat;}*/
+.ico-edit{ height:24px; min-width:24px; line-height:24px; 
+          display:inline-block; cursor:pointer;  color:#999; }
+.ico-edit:hover{ color:#000;}
+
 
 /*删除-垃圾箱*/
 .ico-del{ background:url(../images/ico-del-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
@@ -230,3 +251,12 @@ select option{ padding:2px; }
 /*上传按钮样式*/
 .ico-upload {  padding:5px 10px; background-color:#4a98e7; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; }
 .ico-upload:hover { background-color:#2F73B8; }
+
+/*数据验证错误*/
+.verify-fail-err { height:20px; line-height:20px; padding-left:10px; padding-top:2px;}
+
+/*图片loading*/
+.data-loading { padding: 80px 0px; font-size: 16px;text-align: center; color: #666; background:url(/modules/images/ico-loading.gif) no-repeat center center;background-size:45px 45px; }
+
+/*暂无数据*/
+.nodata-txt { padding: 95px 0px; font-size: 16px; text-align: center; color: #666; }

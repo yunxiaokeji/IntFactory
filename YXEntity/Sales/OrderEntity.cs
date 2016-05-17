@@ -254,6 +254,11 @@ namespace IntFactoryEntity
         public string GoodsName { get; set; }
 
         /// <summary>
+        /// 预警状态 0：正常 1：快到期 2：已超期
+        /// </summary>
+        public int WarningStatus { get; set; }
+
+        /// <summary>
         /// 填充数据
         /// </summary>
         /// <param name="dr"></param>

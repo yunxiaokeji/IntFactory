@@ -137,8 +137,8 @@
                 <label id="lblCostMoney">@(model.CostPrice.ToString("f2"))</label>
             </li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019021"))">
-                <span class="column-title">利润比例(%)：</span>
-                <label class="left" id="profitPrice">@((model.ProfitPrice * 100).ToString("f2"))</label>
+                <span class="column-title">利润比例：</span>
+                <label class="left" id="profitPrice">@((model.ProfitPrice).ToString("f2"))</label>
                  @if (model.IsSelf && model.OrderStatus == 1)
                  { 
                     <div id="updateProfitPrice" class="left ico-edit iconfont mLeft20">&#xe607;</div>

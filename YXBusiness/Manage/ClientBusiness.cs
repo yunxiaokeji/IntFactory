@@ -52,11 +52,15 @@ namespace IntFactoryBusiness.Manage
         /// </summary>
         public static List<Clients> GetClients(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
-            string sqlWhere = "Status<>9";
+            string sqlWhere = "a.Status<>9";
             if (!string.IsNullOrEmpty(keyWords))
-                sqlWhere += " and ( CompanyName like '%" + keyWords + "%'  or  MobilePhone like '%" + keyWords + "%' or  ClientCode like '%" + keyWords + "%')";
+                sqlWhere += " and ( a.CompanyName like '%" + keyWords + "%'  or  a.MobilePhone like '%" + keyWords + "%' or  a.ClientCode like '%" + keyWords + "%')";
 
-            DataTable dt = CommonBusiness.GetPagerData("Clients", "*", sqlWhere, "AutoID", pageSize, pageIndex, out totalCount, out pageCount);
+            string sqlColumn = @" a.AutoID,a.ClientID,a.ClientCode,a.CompanyName,a.Logo,a.Industry,
+a.CityCode,a.Address,a.PostalCode,a.ContactName,a.MobilePhone,a.OfficePhone,
+a.Status,b.EndTime,b.UserQuantity,a.TotalIn,a.TotalOut,a.FreezeMoney,
+a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,a.AliMemberID ";
+            DataTable dt = CommonBusiness.GetPagerData("Clients a  join Agents b on a.ClientID=b.ClientID", sqlColumn, sqlWhere, "a.AutoID", pageSize, pageIndex, out totalCount, out pageCount);
             List<Clients> list = new List<Clients>();
             Clients model; 
             foreach (DataRow item in dt.Rows)
@@ -79,16 +83,8 @@ namespace IntFactoryBusiness.Manage
         {
             if (!Clients.ContainsKey(clientID))
             {
-                DataTable dt = ClientDAL.BaseProvider.GetClientDetail(clientID);
-                Clients model = new Clients();
-                if (dt.Rows.Count == 1)
-                {
-                    DataRow row = dt.Rows[0];
-                    model.FillData(row);
-
-                    model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
-                    model.IndustryEntity = Manage.IndustryBusiness.GetIndustrys().Where(i => i.IndustryID.ToLower() == model.Industry.ToLower()).FirstOrDefault();
-
+                Clients model = GetClientDetailBase(clientID);
+                if (model != null) { 
                     Clients.Add(model.ClientID, model);
                 }
                 else
@@ -96,6 +92,24 @@ namespace IntFactoryBusiness.Manage
             }
 
             return Clients[clientID];
+        }
+
+        public static Clients GetClientDetailBase(string clientID)
+        {            
+            DataTable dt = ClientDAL.BaseProvider.GetClientDetail(clientID);
+            Clients model = new Clients();
+            if (dt.Rows.Count == 1)
+            {
+                DataRow row = dt.Rows[0];
+                model.FillData(row);
+
+                model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
+                model.IndustryEntity = Manage.IndustryBusiness.GetIndustrys().Where(i => i.IndustryID.ToLower() == model.Industry.ToLower()).FirstOrDefault();
+
+                return model;
+            }
+            else
+                return null;           
         }
         /// <summary>
         /// 获取工厂注册报表
@@ -304,13 +318,14 @@ namespace IntFactoryBusiness.Manage
 
             bool flag= ClientDAL.BaseProvider.UpdateClient(model.ClientID, model.CompanyName
                 , model.ContactName, model.MobilePhone, model.Industry
-                , model.CityCode, model.Address, model.Description,model.Logo,model.OfficePhone
+                , model.CityCode, model.Address, model.Description,model.Logo==null?"":model.Logo,model.OfficePhone
                 , userid);
 
             if (flag)
             {
-                 if(Clients.ContainsKey(model.ClientID))
-                     Clients[model.ClientID]=model;
+                if (Clients.ContainsKey(model.ClientID))
+                    Clients[model.ClientID] = GetClientDetailBase(model.ClientID);
+                     //Clients[model.ClientID]=model;
             }
 
             return flag;

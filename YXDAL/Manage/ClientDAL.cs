@@ -18,7 +18,12 @@ namespace IntFactoryDAL.Manage
             SqlParameter[] paras = { 
                                     new SqlParameter("@ClientID",clientID),
                                    };
-            return GetDataTable("select * from Clients where ClientID=@ClientID", paras, CommandType.Text);
+            string sql=@"select a.AutoID,a.ClientID,a.ClientCode,a.CompanyName,a.Logo,a.Industry,a.CityCode,a.Address,
+            a.PostalCode,a.ContactName,a.MobilePhone,a.OfficePhone,a.Status,b.EndTime,b.UserQuantity,a.TotalIn,a.TotalOut,a.FreezeMoney,a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,a.AliMemberID 
+            from Clients a  left join Agents b  on a.AgentID=b.AgentID and a.ClientID=b.ClientID where a.ClientID=@ClientID ";
+
+            return GetDataTable(sql, paras, CommandType.Text);
+            //return GetDataTable("select * from Clients where ClientID=@ClientID", paras, CommandType.Text);
         }
 
         public DataTable GetClientsGrow(int type, string begintime, string endtime)

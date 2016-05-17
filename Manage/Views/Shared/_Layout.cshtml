@@ -13,6 +13,7 @@
     <link href="/modules/css/base.css" rel="stylesheet" />
     <link href="/modules/css/layout.css" rel="stylesheet" />
     <link href="/modules/css/default/detail.css" rel="stylesheet" />
+     <link href="/modules/css/iconfont/iconfont.css" rel="stylesheet" />
     <link href="/modules/css/default/list.css" rel="stylesheet" />
     @RenderSection("css", false)
 </head>
@@ -77,7 +78,7 @@
                             @foreach (IntFactoryEntity.Menu view in ExpandClass.GetChildMenuByCode(HttpContext.Current, model.MenuCode))
                             {
                                 <li class="action @(view.View.ToLower()==action ? "select" : "")" data-code="@(view.MenuCode)">
-                                    <a href="/@(view.Controller + "/" + view.View)" ><span class="name">@(view.Name)</span></a>
+                                    <a href="/@(view.Controller + "/" + view.View)" ><span class="name" style="font-size:12px;">@(view.Name)</span></a>
                                 </li>
                             }
                          </ul>

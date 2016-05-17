@@ -27,6 +27,8 @@ namespace IntFactoryEntity.Manage
 
         public string CreateUserID { get; set; }
 
+        public string Content { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

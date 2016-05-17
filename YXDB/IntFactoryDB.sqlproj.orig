@@ -74,10 +74,13 @@
     <Folder Include="Procedures\Task" />
     <Folder Include="Table" />
     <Folder Include="Procedures\AliOrder" />
+    <Folder Include="Procedures\Manage\Report" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\InitDatabase.sql" />
-    <None Include="Procedures\P_GetPagerData.sql" />
+    <None Include="Procedures\P_GetPagerDataColumn.sql" />
+    <None Include="update.sql" />
+    <None Include="Procedures\Manage\Report\M_Get_Report_AgentActionDayPageList.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\Manage\M_InsertClient.sql" />
@@ -432,9 +435,6 @@
     <None Include="Procedures\Sales\P_CreateOrderReply.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Procedures\Manage\M_Get_Report_AgentAction_Day.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Procedures\Task\P_FinishTask.sql" />
     <None Include="Procedures\Task\P_GetTasks.sql" />
     <None Include="Procedures\Task\P_UpdateTaskEndTime.sql" />
@@ -446,9 +446,9 @@
     <None Include="Procedures\Sales\P_UpdateOrderProductLoss.sql" />
     <None Include="Procedures\Sales\P_UpdateOrderProductQuantity.sql" />
     <None Include="Procedures\Sales\P_UpdateOrderStatus.sql" />
-    <Build Include="Procedures\Manage\M_DeleteRole.sql" />
-    <Build Include="Procedures\Manage\M_UpdateRolePermission.sql" />
-    <Build Include="Procedures\Manage\M_UpdateUserRole.sql" />
+    <None Include="Procedures\Manage\M_DeleteRole.sql" />
+    <None Include="Procedures\Manage\M_UpdateRolePermission.sql" />
+    <None Include="Procedures\Manage\M_UpdateUserRole.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Procedures\System\P_CreateOrderProcess.sql" />
@@ -513,10 +513,27 @@
     <None Include="Procedures\Alter.sql" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <Build Include="Procedures\Products\P_UpdateAttrValueSort.sql" />
-=======
     <None Include="Procedures\Task\P_CreateTask.sql" />
->>>>>>> 2a46c54981d06965c53df1828c9dbd78a84a959d
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Products\P_UpdateAttrValueSort.sql" />
+    <None Include="Procedures\AliOrder\P_AddAliOrderDownloadPlan.sql" />
+    <None Include="Procedures\System\P_GetUserByAliMemberID.sql" />
+    <None Include="Procedures\Manage\M_BindClientAliMember.sql" />
+    <None Include="Procedures\Sales\p_GetOrderBaseInfoByID.sql" />
+    <None Include="Procedures\Sales\P_UpdateOrderOver.sql" />
+    <None Include="Procedures\P_GetPagerData.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Procedures\Manage\Report\R_GetClientsAgentAction.sql" />
+    <None Include="Procedures\Manage\Report\R_GetClientsAgentLogin_Day.sql" />
+    <None Include="Procedures\Manage\Report\R_GetClientsGrowDate.sql" />
+  </ItemGroup>
+  <ItemGroup>
+<<<<<<< HEAD
+    <None Include="Procedures\Manage\Report\M_Get_Report_AgentAction_Day.sql" />
+=======
+    <None Include="Procedures\Sales\P_GetOrdersByMobilePhone.sql" />
+>>>>>>> 937fb6a06c4c3f9640be542ce74fed41bfaa72e1
   </ItemGroup>
 </Project>

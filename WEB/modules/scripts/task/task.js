@@ -126,10 +126,10 @@
                 else {
                     $(".search-process li").show();
                 }
-                
+
                 Params.orderProcessID = '-1';
                 Params.orderStageID = '-1';
-                Params.pageIndex = 1;
+                $(".search-stage").hide();
                 ObjectJS.getList();
             }
         });
@@ -162,10 +162,11 @@
                 _self.addClass("hover").siblings().removeClass("hover");
             }
             var isasc = _self.data("isasc");
-            var isactive = _self.data("isactive");
+            var isactive = _self.attr("data-isactive");
             var orderbycloumn = _self.data("orderbycloumn");
 
-            $(".search-sort li[data-isactive='1']").data("isactive", 0).children().removeClass("hover");
+            $(".search-sort li[data-isactive='1']").data("isactive", 0).find("span").removeClass("hover");
+
             if (isactive == 1) {
                 if (isasc == 1) {
                     _self.find(".asc").removeClass("hover");
@@ -189,7 +190,7 @@
                 }
 
             }
-            _self.data({ "isasc": isasc, "isactive": 1 });
+            _self.data("isasc",isasc).attr("data-isactive",1);
 
             Params.isAsc = isasc;
             Params.taskOrderColumn = orderbycloumn;
@@ -219,6 +220,7 @@
                     Params.orderProcessID = _this.data('id');
                     Params.orderStageID = "-1";
                     Params.pageIndex = 1;
+                    $(".search-stage").hide();
                     ObjectJS.getList();
 
                     ObjectJS.getStage();
@@ -230,7 +232,7 @@
 
     //获取阶段信息
     ObjectJS.getStage = function () {
-       
+        $(".search-stage").show();
         Global.post("/Task/GetOrderStages", { id: Params.orderProcessID }, function (data) {
             var items = data.items;
             var content = "<li class='item hover' data-id='-1'>全部</li>";

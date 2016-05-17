@@ -43,11 +43,19 @@
     <span class="header-title">意见反馈</span>
 </div>
 
-
-<div class="content-body mTop20">
+<div class="search-header mTop20">
+    <ul class="search-tab search-status">
+        <li class="hover"  data-index="-1">所有</li>
+        <li data-index="1">待解决</li>            
+        <li data-index="2">已解决</li>
+        <li data-index="3">驳回</li>
+        <li data-index="4">删除</li>
+    </ul>  
+</div>
+<div class="content-body">
     <div class="search-body">
         <div id="FeedTypes" class="left"></div>
-        <div id="FeedStatus" class="left mLeft20"></div>
+        @*<div id="FeedStatus" class="left mLeft20"></div>*@
 
         <div class="left mLeft20">
             <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input"  />

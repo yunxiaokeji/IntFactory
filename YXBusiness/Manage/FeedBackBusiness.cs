@@ -69,12 +69,12 @@ namespace IntFactoryBusiness.Manage
 
             if (!string.IsNullOrEmpty(beginDate))
             {
-                sqlWhere += " and createtime>=" + beginDate;
+                sqlWhere += " and createtime>='" + beginDate+ "'";
             }
 
             if (!string.IsNullOrEmpty(endDate))
             {
-                sqlWhere += " and createtime<=" +DateTime.Parse(endDate).AddDays(1);
+                sqlWhere += " and createtime<='" +DateTime.Parse(endDate).AddDays(1).ToString("yyyy-MM-dd")+"'";
             }
 
             DataTable dt = CommonBusiness.GetPagerData("FeedBack", "*", sqlWhere, "AutoID", pageSize, pageIndex, out totalCount, out pageCount);
@@ -103,10 +103,11 @@ namespace IntFactoryBusiness.Manage
         #endregion
 
         #region 改
-        public static bool UpdateFeedBackStatus(string id, int status)
+        public static bool UpdateFeedBackStatus(string id, int status, string content)
         {
-           return FeedBackDAL.BaseProvider.UpdateFeedBackStatus(id, status);
+            return FeedBackDAL.BaseProvider.UpdateFeedBackStatus(id, status, content);
         }
+
         #endregion
     }
 }

@@ -6,7 +6,7 @@
     require("echarts/chart/bar");
     var Params = {
         searchType: "clientsActionRPT",
-        dateType: 1,
+        dateType: 3,
         beginTime: "",
         endTime: ""
     };
@@ -94,6 +94,20 @@
         Global.post("/Report/GetClientsAgentActionReport", Params, function (data) {
             var title = [], items = [], datanames = [];
             _self.clientsChart.clear();
+            if (data.items.length == 0) {
+                _self.clientsChart.hideLoading();
+                _self.clientsChart.showLoading({
+                    text: "暂无数据",
+                    x: "center",
+                    y: "center",
+                    textStyle: {
+                        color: "red",
+                        fontSize: 14
+                    },
+                    effect: "bubble"
+                });
+                return;
+            }
             for (var i = 0, j = data.items.length; i < j; i++) {
                 title.push(data.items[i].Name);
                 var _items = [];
@@ -164,7 +178,6 @@
                 ],
                 series: items
             };
-            console.log(datanames);
             _self.clientsChart.hideLoading();
             _self.clientsChart.setOption(option);
         });

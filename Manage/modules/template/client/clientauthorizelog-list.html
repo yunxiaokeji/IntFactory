@@ -6,8 +6,8 @@
     <td>{%=item.Type==1?"购买系统":item.Type==2?"购买人数":"续费"%}</td>
      <td class="center">{%=item.OrderID==""?"赠送":"付费"%}</td>
     <td class="center">{%=item.UserQuantity%}</td>
-    <td class="center">{%=item.BeginTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
-     <td class="center">{%=item.EndTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class="center">{%=item.BeginTime.toDate("yyyy-MM-dd")%}</td>
+     <td class="center">{%=item.EndTime.toDate("yyyy-MM-dd")%}</td>
      <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
 </tr>
 {% } %}

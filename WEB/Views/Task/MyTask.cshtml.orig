@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.Title = "我的任务";
+    var NowDate = ViewBag.NowDate;
+}
+
+@section css{
+    <link href="/modules/css/task/style.css" rel="stylesheet" />
+}
+
+@section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
+    <script src="/modules/plug/laydate/laydate.js"></script>
+    <script type="text/javascript">
+       seajs.use(["scripts/task/task"], function (obj) {
+            obj.init('@ViewBag.IsMy', '@NowDate');
+       });
+
+        $(function () {
+            var begin = {
+                elem: '#BeginTime',
+                format: 'YYYY-MM-DD',
+
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                    end.start = datas //将结束日的初始值设定为开始日
+                }
+            };
+
+            var end = {
+                elem: '#EndTime',
+                format: 'YYYY-MM-DD',
+                max: '2099-06-16',
+                istime: false,
+                istoday: false,
+                choose: function (datas) {
+                    begin.max = datas; //结束日选好后，重置开始日的最大日期
+                }
+            };
+            laydate(begin);
+            laydate(end);
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left" >我的任务</span>
+</div>
+
+<div class="search-box">
+    <div class="search-header">
+        <ul class="search-tab search-stages">
+            <li data-id="-1">全部</li>
+            <li data-id="0"  class="hover">未接受</li>
+            <li data-id="1">进行中</li>
+            <li data-id="2">已完成</li>
+        </ul>
+    @* <div class="right mRight20 task-tabtype">
+            <span class="iconfont checked mRight20" data-type="list">&#xe60d;</span>
+            <span class="iconfont" data-type="card">&#xe646;</span>
+        </div>*@
+    </div>
+</div>
+
+<div class="content-body">
+    <div class="search-body">
+        <ul class="search-item search-ordertype">
+            <li class="column-name">类型：</li>
+            <li data-id="-1" class="item hover">全部</li>
+            <li data-id="1" class="item">打样单</li>
+            <li data-id="2" class="item">大货单</li>
+        </ul>
+<<<<<<< HEAD
+     @*   <ul class="search-item search-status">
+            <li class="column-name">状态：</li>
+            <li data-id="-1" class="item hover">全部</li>
+            <li data-id="1" class="item">正常</li>
+            <li data-id="8" class="item">关闭</li>
+        </ul>*@
+=======
+>>>>>>> fab3226515be0a138ee8719dde7a7cbed8ca2f3c
+
+        <ul class="search-item search-process">
+            <li class="column-name">流程：</li>
+        </ul>
+<<<<<<< HEAD
+        <ul class="search-item search-stage">
+=======
+        <ul class="search-item search-stage hide">
+>>>>>>> fab3226515be0a138ee8719dde7a7cbed8ca2f3c
+            <li class="column-name">阶段：</li>
+            <li class="item hover">全部</li>
+        </ul>
+        <ul class="search-item-color search-mark">
+            <li class="column-name">标记：</li>
+            <li data-id="-1" class="item mark-all hover"></li>
+            <li data-id="0" class="item mark0"></li>
+            <li data-id="1" class="item mark1"></li>
+            <li data-id="2" class="item mark2"></li>
+            <li data-id="3" class="item mark3"></li>
+            <li data-id="4" class="item mark4"></li>
+            <li data-id="5" class="item mark5"></li>
+        </ul>
+    </div>
+    <div class="search-items mTop10">
+        <div class="left mRight20" id="chooseBranch"></div>
+@*        <div id="orderProcess" class="left mRight20"></div>
+        <div id="orderStage" class="left mRight20"></div>*@
+        <div class="left">
+            <span class="width80">创建时间：</span><input type="text" value="@NowDate" id="BeginTime"  class="input width80"  />
+            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime" value="@NowDate" class="input width80"  />
+            <span class="btn mLeft10" id="btnSearch">搜索</span>
+        </div>
+        <div class="right searth-module" data-text="关键字搜索..." data-width="260"> </div>
+    </div>
+    <ul class="search-sort">
+        <li>排序</li>
+        <li class="sort-item hover"  data-isasc="0" data-isactive="1" data-orderbycloumn="0">
+            创建时间
+            <span class="asc"></span>
+            <span class="desc hover"></span>
+        </li>
+        <li class="sort-item" data-isasc="1" data-isactive="0" data-orderbycloumn="1">
+            到期时间
+            <span class="asc"></span>
+            <span class="desc"></span>
+        </li>
+       @* <li class="right show-type ">
+            <i class="iconfont hand" data-type="list">&#xe64c;</i>
+        </li>*@
+        <li class="right task-tabtype">
+            <i class="iconfont checked mRight5" data-type="list">&#xe64c;</i>
+            <i class="iconfont" data-type="card">&#xe64b;</i>
+        </li>
+    </ul>
+    <div class="clear"></div>
+</div>
+
+
+<div class="content-body">
+
+    <table class="table-list tb-task-list">
+        <tr class="tr-header">
+            <td class="width30"><span id="filterMark"></span></td> 
+            <td class="width50 tLeft">订单样图</td>
+            <td class="width100"></td>
+            <td class="width200">任务标题</td>
+            <td class="width150">任务编号</td>
+            <td class="width150">订单编号</td>
+            <td class="width150">订单类型</td>
+            <td class="width100">任务进度</td>
+            <td class="width150">负责人</td>
+            <td class="width150" >
+                到期时间
+            </td>
+            <td class="width150" >
+                创建时间
+            </td>
+        </tr>
+    </table>
+
+    <div class="task-items">
+
+    </div>
+
+    <div class="clear"></div>
+
+    <div id="pager" class="mTop20"></div>
+</div>
+

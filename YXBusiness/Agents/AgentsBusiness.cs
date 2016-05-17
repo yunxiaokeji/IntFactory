@@ -77,11 +77,24 @@ namespace IntFactoryBusiness
             
         }
 
-        public static List<Report_AgentAction_Day> GetAgentActionReport(string keyword,string startDate,string endDate) 
+        public static List<Report_AgentAction_Day> GetAgentActionReport(string keyword,string startDate,string endDate ,string clientID) 
         {
-            DataTable dt = AgentsDAL.BaseProvider.GetAgentActionReport(keyword,startDate,endDate);
+            DataTable dt = AgentsDAL.BaseProvider.GetAgentActionReport(keyword,startDate,endDate,clientID);
             List<Report_AgentAction_Day> list = new List<Report_AgentAction_Day>();
             
+            foreach (DataRow dr in dt.Rows)
+            {
+                Report_AgentAction_Day model = new Report_AgentAction_Day();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
+        public static List<Report_AgentAction_Day> GetAgentActionReport(string keyword, string startDate, string endDate,string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            DataTable dt = AgentsDAL.BaseProvider.GetAgentActionReportPageList(keyword, startDate, endDate, orderBy,pageSize, pageIndex, ref totalCount, ref pageCount);
+            List<Report_AgentAction_Day> list = new List<Report_AgentAction_Day>();
+
             foreach (DataRow dr in dt.Rows)
             {
                 Report_AgentAction_Day model = new Report_AgentAction_Day();
@@ -109,14 +122,12 @@ namespace IntFactoryBusiness
                 {
                     DataRow row = dt.Rows[0];
                     model.FillData(row);
-
                     Agents[agentID] = model;
+                    return true;
                 }
-                else
-                    return false;
             }
-
-            return true;
+            return false;
+          
         }
 
         // <summary>

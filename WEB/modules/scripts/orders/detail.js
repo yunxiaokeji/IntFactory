@@ -130,8 +130,16 @@ define(function (require, exports, module) {
                             if (!price.isDouble() || price < 0) {
                                 alert("利润比例必须为不小于0的数字！");
                                 return false;
+                            } else if (price > 1) {
+                                confirm("利润比例设置大于100%，确认继续吗？", function () {
+                                    _self.updateProfitPrice(price);
+                                }, function () {
+                                    return false;
+                                });
+                            } else {
+                                _self.updateProfitPrice(price);
                             }
-                            _self.updateProfitPrice(price);
+                           
                         },
                         callback: function () {
 
@@ -167,16 +175,23 @@ define(function (require, exports, module) {
                     }
                 });
                 $("#iptDiscount").focus();
-                $("#iptDiscount").val((_self.model.Discount*100).toFixed(2));
+                $("#iptDiscount").val((_self.model.Discount).toFixed(3)).data("value", (_self.model.Discount).toFixed(3));
                 $("#iptOriginalPrice").text(_self.model.OriginalPrice.toFixed(2));
                 $("#newPrice").text(_self.model.FinalPrice.toFixed(2));
                 $("#iptDiscount").change(function () {
-                    var _discount = $(this).val()
-                    if (!_discount.isDouble() || _discount <= 0 || _discount > 100) {
-                        $("#iptDiscount").val("100");
-                        $("#newPrice").text(_self.model.OriginalPrice.toFixed(2));
+                    var _this = $(this), _discount = $(this).val()
+                    if (!_discount.isDouble() || _discount < 0) {
+                        _this.val(_this.data("value"));
+                    } else if (_discount > 1) {
+                        confirm("折扣大于1会导致价格大于样衣报价，确认继续吗？", function () {
+                            $("#newPrice").text((_self.model.OriginalPrice * _discount).toFixed(2));
+                            _this.data("value", _this.val());
+                        }, function () {
+                            _this.val(_this.data("value"));
+                        });
                     } else {
-                        $("#newPrice").text((_self.model.OriginalPrice * _discount / 100).toFixed(2));
+                        $("#newPrice").text((_self.model.OriginalPrice * _discount).toFixed(2));
+                        _this.data("value", _discount);
                     }
                 });
             });
@@ -322,7 +337,7 @@ define(function (require, exports, module) {
                     });
 
                     $("#iptFinalPrice").focus();
-                    $("#iptFinalPrice").val((($("#amount").text() * 1 + $("#lblCostMoney").text() * 1) * (1 + $("#profitPrice").text() / 100)).toFixed(2))
+                    $("#iptFinalPrice").val((($("#amount").text() * 1 + $("#lblCostMoney").text() * 1) * (1 + $("#profitPrice").text() * 1)).toFixed(2))
                 });
             } //大货下单
             else if (_self.status == 3) {
@@ -832,7 +847,7 @@ define(function (require, exports, module) {
             Easydialog.open({
                 container: {
                     id: "show-surequantity",
-                    header: "确认大货明细",
+                    header: !isExists ? "大货下单" : "确认大货明细",
                     content: innerText,
                     yesFn: function () {
 
@@ -854,7 +869,8 @@ define(function (require, exports, module) {
                             orderModel.OrderGoods = details;
                             Global.post("/Orders/CreateDHOrder", {
                                 entity: JSON.stringify(orderModel),
-                                originalid: (!isExists ? "" : _self.model.OriginalID)
+                                ordertype: _self.model.OrderType,
+                                discount: $("#iptOrderDiscount").val().trim()
                             }, function (data) {
                                 if (data.id) {
                                     alert("大货下单成功!", "/Orders/OrderDetail/" + data.id);
@@ -870,6 +886,27 @@ define(function (require, exports, module) {
                 }
             });
             
+            $("#lblOrderFinalPrice,#lblOrderNewPrice").text(_self.model.FinalPrice);
+            //折扣
+            $("#iptOrderDiscount").change(function () {
+                var _this = $(this);
+                if (!_this.val().isDouble() || _this.val() < 0) {
+                    alert("下单折扣必须为不小于0的数字");
+                    _this.val(_this.data("value"));
+                } else if (_this.val() > 1) {
+                    confirm("下单折扣大于1会导致大货价格大于样衣报价，确认继续吗？", function () {
+                        $("#lblOrderNewPrice").text((_self.model.FinalPrice * _this.val()).toFixed(2));
+                        _this.data("value", _this.val());
+                    }, function () {
+                        _this.val(_this.data("value"));
+                    });
+                } else {
+                    $("#lblOrderNewPrice").text((_self.model.FinalPrice * _this.val()).toFixed(2));
+                    _this.data("value", _this.val());
+                }
+
+            });
+
             //组合下单规格
             $(".productsalesattr .attritem").click(function () {
                 var bl = false, details = [], isFirst = true;
@@ -925,7 +962,7 @@ define(function (require, exports, module) {
 
                         Easydialog.toPosition();
 
-                        //价格必须大于0的数字
+                        //数量必须大于0的数字
                         innerText.find(".quantity").change(function () {
                             var _this = $(this);
                             if (!_this.val().isInt() || _this.val() <= 0) {

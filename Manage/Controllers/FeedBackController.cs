@@ -55,9 +55,9 @@ namespace YXManage.Controllers
             };
         }
 
-        public JsonResult UpdateFeedBackStatus(string id,int status)
+        public JsonResult UpdateFeedBackStatus(string id,int status,string content)
         {
-            bool flag = FeedBackBusiness.UpdateFeedBackStatus(id,status);
+            bool flag = FeedBackBusiness.UpdateFeedBackStatus(id, status, content);
             JsonDictionary.Add("result", flag?1:0);
 
             return new JsonResult()
