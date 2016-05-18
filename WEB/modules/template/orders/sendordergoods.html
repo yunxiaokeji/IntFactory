@@ -4,7 +4,7 @@
 <tr class="tr-header">
     <td class="tLeft">规格</td>
     <td class="">下单量</td>
-    <td class="">已裁剪</td>
+    <td class="">已车缝</td>
     <td class="">已发货</td>
     <td class="">发货数量</td>
 </tr>
@@ -15,9 +15,9 @@
 <tr data-id="{%=item.AutoID%}" class="list-item">
     <td class="">{%=item.Remark%}</td>
     <td class="center">{%=item.Quantity.toFixed(0)%}</td>
-    <td class="center">{%=item.CutQuantity.toFixed(0)%}</td>
+    <td class="center">{%=item.Complete.toFixed(0)%}</td>
     <td class="center">{%=item.SendQuantity.toFixed(0)%}</td>
-    <td class="center"><input class="width60 quantity" type="text" data-max="{%=item.CutQuantity-item.SendQuantity%}" value="{%=item.CutQuantity-item.SendQuantity%}" /></td>
+    <td class="center"><input class="width60 quantity" type="text" data-max="{%=item.Complete-item.SendQuantity%}" value="{%=item.Complete-item.SendQuantity%}" /></td>
 </tr>
 {% } %}
 

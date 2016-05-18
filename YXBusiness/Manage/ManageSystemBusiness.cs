@@ -204,8 +204,9 @@ namespace IntFactoryEntity.Manage
             bool bl = SystemDAL.BaseProvider.DeleteRole(roleid, out result);
             if (bl)
             {
-                var model = GetRoles().Where(d => d.RoleID == roleid).FirstOrDefault();
-                model.Status = 9;
+               // var model = GetRoles().Where(d => d.RoleID == roleid).FirstOrDefault();
+                Roles.RemoveAll(x => x.RoleID == roleid);
+                //model.Status = 9;
             }
             return bl;
         }

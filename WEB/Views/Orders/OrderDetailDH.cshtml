@@ -273,7 +273,7 @@
 <div class="module-header">
     <ul class="module-tab left">
         <li data-id="navEngraving" class="hover" data-mark="2">制版工艺</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016"))" data-id="navGoods">下单明细</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016"))" data-id="navGoods">订单明细</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))" data-id="navProducts" data-mark="3">材料成本</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" data-id="navCosts">加工成本</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁片记录</li>
@@ -313,9 +313,10 @@
             <tr class="tr-header">
                 <td class="tLeft width200">规格</td>
                 <td class="width200">下单数量</td>
-                <td class="width200">裁剪数量</td>
+                <td class="width200">裁片数量</td>
                 <td class="width200">车缝数量</td>
                 <td class="width200">发货数量</td>
+                <td class="width200">剩余未发</td>
                 <td class="">单价</td>
                 <td class="tRight">小计</td>
             </tr>
@@ -323,14 +324,25 @@
             { 
                 <tr class="item cart-item" >
                     <td>@(detail.Remark)</td>
-                    <td class="center">@(detail.Quantity)</td>
-                    <td class="center">@(detail.CutQuantity)</td>
-                    <td class="center">@(detail.Complete)</td>
-                    <td class="center">@(detail.SendQuantity)</td>
+                    <td class="center good1">@(detail.Quantity)</td>
+                    <td class="center good2">@(detail.CutQuantity)</td>
+                    <td class="center good3">@(detail.Complete)</td>
+                    <td class="center good4">@(detail.SendQuantity)</td>
+                    <td class="center good5">@(detail.Complete-detail.SendQuantity)</td>
                     <td class="center">@(model.FinalPrice.ToString("f2"))</td>
-                    <td class="tRight">@((detail.TotalMoney).ToString("f2"))</td>
+                    <td class="tRight good6">@((detail.TotalMoney).ToString("f2"))</td>
                 </tr>
             }
+            <tr class="total-item bold" >
+                <td class="">合计：</td>
+                <td class="center" data-class="good1"></td>
+                <td class="center" data-class="good2"></td>
+                <td class="center" data-class="good3"></td>
+                <td class="center" data-class="good4"></td>
+                <td class="center" data-class="good5"></td>
+                <td class="center"></td>
+                <td class="tRight" data-class="good6"></td>
+            </tr>
         </table>
     </div>
 
@@ -362,10 +374,10 @@
                     <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                     <td class="center tr-quantity"><label class="quantity">@((detail.Quantity * model.PlanQuantity).ToString("f3"))</label></td>
                     <td class="center tr-loss"><label class="loss">@((detail.Loss * model.PlanQuantity).ToString("f3"))</label></td>
-                    <td class="tRight amount">@((detail.TotalMoney * model.PlanQuantity).ToString("f3"))</td>
+                    <td class="tRight moneytotal">@((detail.TotalMoney * model.PlanQuantity).ToString("f3"))</td>
                 </tr>
             }
-            <tr class="amount-item">
+            <tr class="total-item bold">
                 <td></td>
                 <td></td>
                 <td></td>
@@ -374,7 +386,7 @@
                 <td></td>
                 <td></td>
                 <td class="tRight">成本合计：</td>
-                <td class="tRight"><label id="amount"></label></td>
+                <td class="tRight" data-class="moneytotal"></td>
             </tr>
         </table>
     </div>
@@ -406,29 +418,32 @@
     <table id="navSendDoc" class="nav-partdiv table-list mTop20 hide">
         <tr class="tr-header">
             <td class="tLeft">单号</td>
-            <td class="">总金额</td>
+            <td class="width200">数量</td>
             <td class="width200">快递单号</td>
             <td class="width200">快递公司</td>
-            <td class="width150">发货人</td>
+            <td class="width200">发货人</td>
             <td class="width200">发货时间</td>
+            <td class="width50"></td>
         </tr>
     </table>
 
     <table id="navCutoutDoc" class="nav-partdiv table-list mTop20 hide">
         <tr class="tr-header">
             <td class="tLeft">单号</td>
-            <td class="">总金额</td>
-            <td class="width150">登记人</td>
+            <td class="width200">数量</td>
+            <td class="width200">登记人</td>
             <td class="width200">登记时间</td>
+            <td class="width50"></td>
         </tr>
     </table>
 
     <table id="navSewnDoc" class="nav-partdiv table-list mTop20 hide">
         <tr class="tr-header">
             <td class="tLeft">单号</td>
-            <td class="">总金额</td>
-            <td class="width150">登记人</td>
+            <td class="width200">数量</td>
+            <td class="width200">登记人</td>
             <td class="width200">登记时间</td>
+            <td class="width50"></td>
         </tr>
     </table>
 

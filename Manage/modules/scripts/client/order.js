@@ -15,6 +15,7 @@ define(function (require, exports, module) {
         pageSize: 20,
         status: -1,
         type: -1,
+        userType:0,
         beginDate: '',
         endDate: '',
         keyWords: '',
@@ -123,7 +124,6 @@ define(function (require, exports, module) {
     //绑定数据
     Order.bindData = function () {
         $(".tr-header").nextAll().remove();
-
         Global.post("/Client/GetClientOrders", Order.Params, function (data) {
             doT.exec("template/client/agent-orders.html?3", function (templateFun) {
                 var innerText = templateFun(data.Items);
@@ -134,7 +134,11 @@ define(function (require, exports, module) {
                         Global.post("/Client/CloseClientOrder", { id: $(this).data("id") }, function (data) {
                             if (data.Result == 1) {
                                 Order.bindData();
-                            }else {
+                            } else if (data.Result == 1001) {
+                                alert("订单已被审核,操作失败,请刷新页面查看.");
+                            } else if (data.Result == 1002) {
+                                alert("订单已被删除,操作失败,请刷新页面查看.");
+                            } else {
                                 alert("关闭失败");
                             }
                         });
@@ -154,7 +158,11 @@ define(function (require, exports, module) {
                                     Global.post("/Client/UpdateOrderAmount", { id: id, amount: $("#txt-orderAmount").val() }, function (data) {
                                         if (data.Result == 1) {
                                             Order.bindData();
-                                        }else {
+                                        } else if (data.Result == 1001) {
+                                            alert("订单已被审核,操作失败,请刷新页面查看.");
+                                        } else if (data.Result == 1002) {
+                                            alert("订单已被删除,操作失败,请刷新页面查看.");
+                                        } else {
                                             alert("修改失败");
                                         }
                                     });
@@ -167,11 +175,14 @@ define(function (require, exports, module) {
                 });
                 innerText.find(".examineOrder").click(function () {
                     if (confirm("确定审核通过吗?")) {
-                        alert($(this).data("agentid"));
                         Global.post("/Client/PayOrderAndAuthorizeClient", { id: $(this).data("id"), agentID: $(this).data("agentid") }, function (data) {
                             if (data.Result == 1) {
                                 Order.bindData();
-                            }else {
+                            } else if (data.Result == 1001) {
+                                alert("订单已被审核,操作失败,请刷新页面查看.");
+                            } else if (data.Result == 1002) {
+                                alert("订单已被删除,操作失败,请刷新页面查看.");
+                            } else {
                                 alert("审核失败");
                             }
                         });

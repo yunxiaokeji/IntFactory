@@ -17,6 +17,7 @@ define(function (require, exports, module) {
         pageSize: 20,
         status: -1,
         type: -1,
+        userType:1,
         beginDate: '',
         endDate: '',
         clientID: '',
@@ -49,32 +50,29 @@ define(function (require, exports, module) {
             $(".content-body div[name='navContent']").hide().eq(parseInt(index)).show();
             if (index == 1) {
                 Clients.getClientAuthorizeData();
-            }
-            else if (index == 0) {
+                $('#addNewOrder').hide();
+                $('#addAuthorize').show();
+            }else if (index == 0) {
                 Clients.getClientOrders();
+                $('#addNewOrder').show();
+                $('#addAuthorize').hide();
             } else if (index == 2) {
                 Clients.bindActionReport();
+                $('#addNewOrder').hide();
+                $('#addAuthorize').hide();
             }
         });
         $("#SearchClientOrders").click(function () {
-            if ($("#orderBeginTime").val() != '' || $("#orderEndTime").val() != '') {
-                Clients.Params.pageIndex = 1;
-                Clients.Params.beginDate = $("#orderBeginTime").val();
-                Clients.Params.endDate = $("#orderEndTime").val();
-                Clients.getClientOrders();
-            }
+            Clients.Params.pageIndex = 1;
+            Clients.Params.beginDate = $("#orderBeginTime").val();
+            Clients.Params.endDate = $("#orderEndTime").val();
+            Clients.getClientOrders();
         });
         //搜索
         require.async("dropdown", function () {
             var OrderStatus = [
-                {
-                    ID: "0",
-                    Name: "未支付"
-                },
-                {
-                    ID: "1",
-                    Name: "已支付"
-                }
+                { ID: "0", Name: "未支付" },
+                { ID: "1", Name: "已支付" }
             ];
             $("#OrderStatus").dropdown({
                 prevText: "订单状态-",
@@ -244,7 +242,7 @@ define(function (require, exports, module) {
             }
         });
     }
-    Clients.editAuthorize = function (model) {
+    Clients.editAuthorize = function (model,type) {
         var _self = this;
         $("#show-contact-detail").empty();
         doT.exec("template/client/client-authorize.html", function (template) {
@@ -252,20 +250,20 @@ define(function (require, exports, module) {
             Easydialog.open({
                 container: {
                     id: "show-model-detail",
-                    header: "授权",
+                    header: type==2?'新建订单':'赠送授权',
                     content: innerText,
                     yesFn: function () {
                         if (!VerifyObject.isPass()) {
                             return false;
                         }
-                        Clients.saveAuthorize();
+                        Clients.saveAuthorize(type);
                     },
                     callback: function () {
 
                     }
                 }
-            });
-            Clients.setAuthorize();
+            });            
+            Clients.setAuthorize(type);
             VerifyObject = Verify.createVerify({
                 element: ".verify",
                 emptyAttr: "data-empty",
@@ -273,9 +271,10 @@ define(function (require, exports, module) {
                 regText: "data-text"
             });
             $(".edit-company").hide();
+            
         });
     }
-    Clients.setAuthorize = function () {
+    Clients.setAuthorize = function (type) {
         var endTime = {
             elem: '#endTime',
             format: 'YYYY-MM-DD',
@@ -285,35 +284,28 @@ define(function (require, exports, module) {
             istoday: false
         };
         laydate(endTime);
-        $("#span_giveSystem").click(function () {
-            $(this).parent().next().show().next().hide();
-        });
-        $("#span_buySystem").click(function () {
-            $(this).parent().next().hide().next().show();
-        });
+        if (type == 1) { $('#div_buy').hide(); $('#div_give').show(); }
         $("#giveType").change(function () {
             if ($("#giveType").val() == "1") {
                 $(this).parent().next().show().next().hide();
-            }
-            else {
+            } else {
                 $(this).parent().next().hide().next().show();
             }
         });
         $("#buyType").change(function () {
             if ($("#buyType").val() == "2") {
                 $(this).parent().next().show().next().hide();
-            }
-            else {
+            } else {
                 $(this).parent().nextAll().show();
             }
         });
     }
-    Clients.saveAuthorize = function () {
+    Clients.saveAuthorize = function (type) {
         //客户授权
         var paras =
         {
             clientID: Clients.Params.clientID,
-            serviceType: $("#giveSystem").is(":checked") ? 1 : 2,
+            serviceType: type,
             giveType: $("#giveType").val(),
             userQuantity: $("#userQuantity").val(),
             endTime: $("#endTime").val(),
@@ -324,6 +316,11 @@ define(function (require, exports, module) {
         Global.post("/Client/SaveClientAuthorize", paras, function (data) {
             if (data.Result == "1") {
                 alert("保存成功");
+                if (type == 2) {
+                    Clients.getClientOrders();
+                } else {
+                    Clients.getClientAuthorizeData();
+                }
             } else {
                 alert("保存失败");
             }
@@ -355,10 +352,12 @@ define(function (require, exports, module) {
                     Clients.editClient(item);
                 });
                 //绑定授权信息
-                $('#addAuthorize').click(function () {
-                    Clients.editAuthorize(item);
+                $('#addNewOrder').click(function () {
+                    Clients.editAuthorize(item, 2);
                 });
-
+                $('#addAuthorize').click(function () {
+                    Clients.editAuthorize(item,1);
+                });                
                 Clients.getClientOrders();
             } else if (data.Result == "2") {
                 alert("登陆账号已存在!");
@@ -409,8 +408,11 @@ define(function (require, exports, module) {
                         Global.post("/Client/CloseClientOrder", { id: $(this).data("id") }, function (data) {
                             if (data.Result == 1) {
                                 Clients.getClientOrders();
-                            }
-                            else {
+                            } else if (data.Result == 1001) {
+                                alert("订单已被审核,操作失败,请刷新页面查看.");
+                            } else if (data.Result == 1002) {
+                                alert("订单已被删除,操作失败,请刷新页面查看.");
+                            } else {
                                 alert("关闭失败");
                             }
                         });
@@ -431,8 +433,11 @@ define(function (require, exports, module) {
                                     Global.post("/Client/UpdateOrderAmount", { id: id, amount: $("#txt-orderAmount").val() }, function (data) {
                                         if (data.Result == 1) {
                                             Clients.getClientOrders();
-                                        }
-                                        else {
+                                        } else if (data.Result == 1001) {
+                                            alert("订单已被审核,操作失败,请刷新页面查看.");
+                                        } else if (data.Result == 1002) {
+                                            alert("订单已被删除,操作失败,请刷新页面查看.");
+                                        } else {
                                             alert("修改失败");
                                         }
 
@@ -450,8 +455,11 @@ define(function (require, exports, module) {
                         Global.post("/Client/PayOrderAndAuthorizeClient", { id: $(this).data("id"), agentID: Clients.Params.agentID }, function (data) {
                             if (data.Result == 1) {
                                 Clients.getClientOrders();
-                            }
-                            else {
+                            } else if (data.Result == 1001) {
+                                alert("订单已被审核,操作失败,请刷新页面查看.");
+                            } else if (data.Result == 1002) {
+                                alert("订单已被删除,操作失败,请刷新页面查看.");
+                            } else {
                                 alert("审核失败");
                             }
                         });

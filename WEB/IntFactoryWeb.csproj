@@ -473,6 +473,8 @@
     <Content Include="modules\template\orders\send_orders.html" />
     <Content Include="modules\template\orders\sure_plan_time.html" />
     <Content Include="modules\template\orders\orders_originalid.html" />
+    <Content Include="modules\template\orders\cutout-details.html" />
+    <Content Include="modules\template\orders\send-details.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />
     <Content Include="modules\template\purchase\audit_details.html" />

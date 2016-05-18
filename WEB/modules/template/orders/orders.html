@@ -28,10 +28,13 @@
             <span class="mark right mTop7" data-id="{%=item.OrderID%}" data-value="{%= item.Mark %}"></span>
         </li>
         <li>
-            <a class="font14" href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.OrderCode%}</a>
+            <a class="font14 goodsname long" href="/Orders/OrderDetail/{%=item.OrderID%}">{%=(item.GoodsName + item.IntGoodsCode) || item.OrderCode%}</a>
         </li>
         <li>
-            <span>{%= item.PlanTime.toDate("yyyy-MM-dd") %}</span>
+           <!-- <span>{%= item.PlanTime.toDate("yyyy-MM-dd") %}</span>-->
+            <span title='{%= item.OrderStatus==2? item.EndTime.toDate("yyyy-MM-dd") : item.PlanTime.toDate("yyyy-MM-dd") %}' class='{%=item.WarningStatus==1?"orange":item.WarningStatus==2?"red":""%}'>
+                {%= item.WarningTime || (item.OrderStatus==2? item.EndTime.toDate("yyyy-MM-dd") : item.PlanTime.toDate("yyyy-MM-dd")) %}
+            </span>
             <i class="iconfont view-detail right" data-id="{%=item.OrderID%}">&#xe627;</i>
         </li>
         <li>

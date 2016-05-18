@@ -42,12 +42,12 @@ namespace IntFactory.Service
             // TODO: 在此处添加代码以启动服务。
             string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + " 下载阿里订单服务启动";
             WriteLog(state);
-            ExecuteDownAliOrdersPlan();
+            DownAliOrdersEventFun();
             DownAliOrdersTimer.Start();
 
             state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    更新阿里订单服务启动";
             WriteLog(state, 2);
-            ExecuteUpdateAliOrders();
+            UpdateAliOrdersEventFun();
             UpdateAliOrdersTimer.Start();
         }
 

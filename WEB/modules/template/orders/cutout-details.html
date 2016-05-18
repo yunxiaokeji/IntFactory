@@ -1,0 +1,13 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item" data-pid="{%=item.DocID%}">
+    <td class="">{%=item.Remark%}</td>
+    <td class="center">{%=item.Quantity%}</td>
+    <td class='center'></td>
+    <td class='center'></td>
+    <td></td>
+</tr>
+{% } %}
+
