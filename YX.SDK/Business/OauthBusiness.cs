@@ -12,12 +12,15 @@ namespace AlibabaSdk
         /// <summary>
         /// 获取用户授权url
         /// </summary>
-        public static string GetAuthorizeUrl()
+        public static string GetAuthorizeUrl(string state="")
         {
             Dictionary<string, string> paras = new Dictionary<string, string>();
             paras.Add("client_id", AppConfig.AppKey);
             paras.Add("site", "china");
             paras.Add("redirect_uri", AppConfig.CallBackUrl);
+            if (!string.IsNullOrEmpty(state)) {
+                paras.Add("state", state);
+            }
 
             string sign = HttpRequest.sign(paras);
 

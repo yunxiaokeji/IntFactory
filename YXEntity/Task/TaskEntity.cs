@@ -76,7 +76,7 @@ namespace IntFactoryEntity.Task
 
         public string Members { get; set; }
 
-        public List<Users> TaskMembers { get; set; }
+        public List<TaskMember> TaskMembers { get; set; }
         /// <summary>
         /// 填充数据
         /// </summary>

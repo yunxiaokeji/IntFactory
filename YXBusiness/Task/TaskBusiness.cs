@@ -69,25 +69,27 @@ namespace IntFactoryBusiness
         public static TaskEntity GetTaskDetail(string taskID)
         {
             TaskEntity model = null;
-            DataTable dt = TaskDAL.BaseProvider.GetTaskDetail(taskID);
+            DataSet ds = TaskDAL.BaseProvider.GetTaskDetail(taskID);
 
-            if(dt.Rows.Count==1)
+            DataTable taskTB= ds.Tables["OrderTask"];
+            if (taskTB.Rows.Count == 1)
             {
                 model = new TaskEntity();
-                model.FillData(dt.Rows[0]);
+                model.FillData(taskTB.Rows[0]);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
-                model.TaskMembers = new List<IntFactoryEntity.Users>();
-                if (!string.IsNullOrEmpty(model.Members)) {
-                    foreach (var m in model.Members.Trim(',').Split(',')) {
-                        var member = OrganizationBusiness.GetUserByUserID(m, model.AgentID);
-                        if (member != null)
-                        {
-                            model.TaskMembers.Add(member);
-                        }
+                DataTable memberTB = ds.Tables["TaskMember"];
+                model.TaskMembers = new List<IntFactoryEntity.Task.TaskMember>();
+                if (memberTB.Rows.Count > 0)
+                {
+                    foreach (DataRow m in memberTB.Rows)
+                    {
+                        TaskMember member = new TaskMember();
+                        member.FillData(m);
+                        member.Member = OrganizationBusiness.GetUserByUserID(member.MemberID, member.AgentID);
+                        model.TaskMembers.Add(member);
                     }
                 }
-
             }
 
             return model;
@@ -199,15 +201,25 @@ namespace IntFactoryBusiness
             return flag;
         }
 
+        /// <summary>
+        /// 批量添加任务成员
+        /// </summary>
+        /// <param name="taskID"></param>
+        /// <param name="memberIDs"></param>
+        /// <param name="operateid"></param>
+        /// <param name="ip"></param>
+        /// <param name="agentid"></param>
+        /// <param name="clientid"></param>
+        /// <returns></returns>
         public static bool AddTaskMembers(string taskID,string memberIDs, string operateid, string ip, string agentid, string clientid)
         {
-            memberIDs =memberIDs.Trim(',') + ",";
-            bool flag = TaskDAL.BaseProvider.AddTaskMembers(taskID, memberIDs);
+            memberIDs =memberIDs.Trim(',');
+            bool flag = TaskDAL.BaseProvider.AddTaskMembers(taskID, memberIDs,operateid,agentid);
 
             if (flag)
             {
                 var userName=string.Empty;
-                foreach(var m in memberIDs.Trim(',').Split(',') )
+                foreach(var m in memberIDs.Split(',') )
                 {
                     var user = OrganizationBusiness.GetUserByUserID(m, agentid);
                     userName += (user != null ? user.Name : "")+",";
@@ -219,9 +231,19 @@ namespace IntFactoryBusiness
             return flag;
         }
 
+        /// <summary>
+        /// 移除任务成员
+        /// </summary>
+        /// <param name="taskID"></param>
+        /// <param name="memberID"></param>
+        /// <param name="operateid"></param>
+        /// <param name="ip"></param>
+        /// <param name="agentid"></param>
+        /// <param name="clientid"></param>
+        /// <returns></returns>
         public static bool RemoveTaskMember(string taskID,string memberID, string operateid, string ip, string agentid, string clientid)
         {
-            bool flag = TaskDAL.BaseProvider.RemoveTaskMember(taskID, memberID.Trim(',')+',');
+            bool flag = TaskDAL.BaseProvider.RemoveTaskMember(taskID, memberID);
 
             if (flag)
             {
@@ -235,6 +257,35 @@ namespace IntFactoryBusiness
 
             return flag;
         }
+
+        /// <summary>
+        /// 更新任务成员权限
+        /// </summary>
+        /// <param name="taskID"></param>
+        /// <param name="memberID"></param>
+        /// <param name="taskMemberPermissionType"></param>
+        /// <param name="operateid"></param>
+        /// <param name="ip"></param>
+        /// <param name="agentid"></param>
+        /// <param name="clientid"></param>
+        /// <returns></returns>
+        public static bool UpdateMemberPermission(string taskID, string memberID, TaskMemberPermissionType taskMemberPermissionType, string operateid, string ip, string agentid, string clientid)
+        {
+            bool flag = TaskDAL.BaseProvider.UpdateMemberPermission(taskID, memberID, (int)taskMemberPermissionType);
+
+            if (flag)
+            {
+                var userName = string.Empty;
+                var user = OrganizationBusiness.GetUserByUserID(memberID, agentid);
+                userName += user != null ? user.Name : "";
+
+                string msg = "将任务成员" + userName.Trim(',') + "的权限更新为:" + (taskMemberPermissionType == TaskMemberPermissionType.See?"查看":"编辑");
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+            }
+
+            return flag;
+        }
+
         /// <summary>
         /// 将任务标记未完成
         /// </summary>

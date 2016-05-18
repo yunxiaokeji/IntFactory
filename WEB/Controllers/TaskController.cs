@@ -49,15 +49,20 @@ namespace YXERP.Controllers
 
         public JsonResult BatchUpdateFentList()
         {
-            List<AlibabaSdk.MutableOrder> list=new List<AlibabaSdk.MutableOrder>();
-            AlibabaSdk.MutableOrder item = new AlibabaSdk.MutableOrder();
-            item.fentGoodsCode = "UUU0080G4G002SS00081";
-            item.status = "b";
-            item.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            item.statusDesc = "bbbbbbbb";
-            list.Add(item);
+            //List<AlibabaSdk.MutableOrder> list=new List<AlibabaSdk.MutableOrder>();
+            //AlibabaSdk.MutableOrder item = new AlibabaSdk.MutableOrder();
+            //item.fentGoodsCode = "UUU0080G4G002SS00081";
+            //item.status = "b";
+            //item.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            //item.statusDesc = "bbbbbbbb";
+            //list.Add(item);
+            //AlibabaSdk.OrderBusiness.BatchUpdateFentList(list, token);
 
-            AlibabaSdk.OrderBusiness.BatchUpdateFentList(list, token);
+
+            List<string> fails = new List<string>();
+            AliOrderBusiness.UpdateAliFentOrders("2fb14a22-c6a0-4de6-830c-b95624dfdee4", "dd80ba5e-4aa8-4b0f-90f1-f78b95d4ab9f", "be462dcd-1baf-4665-8444-1646d8350c8c", out fails);
+
+            
             return new JsonResult()
             {
                 Data = JsonDictionary,

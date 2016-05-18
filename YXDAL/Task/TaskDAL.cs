@@ -71,14 +71,13 @@ namespace IntFactoryDAL
 
         }
 
-        public DataTable GetTaskDetail(string taskID)
+        public DataSet GetTaskDetail(string taskID)
         {
-            string sqltext = "select * from  OrderTask where TaskID=@TaskID";
             SqlParameter[] paras = { 
                                        new SqlParameter("@TaskID",taskID)
                                    };
 
-            return GetDataTable(sqltext, paras, CommandType.Text);
+            return GetDataSet("P_GetTaskDetail", paras, CommandType.StoredProcedure, "OrderTask|TaskMember");
 
         }
 
@@ -150,26 +149,39 @@ namespace IntFactoryDAL
             return result == 1;
         }
 
-        public bool AddTaskMembers(string taskID,string memberIDs)
+        public bool AddTaskMembers(string taskID, string memberIDs,string operateID, string agentID)
         {
-            string sqltext = "update  OrderTask set Members=ISNULL(Members,'')+ @MemberIDs  where TaskID=@TaskID";
             SqlParameter[] paras = { 
                                        new SqlParameter("@TaskID",taskID),
+                                       new SqlParameter("@AgentID",agentID),
+                                       new SqlParameter("@UserID",operateID),
                                        new SqlParameter("@MemberIDs",memberIDs)
                                    };
 
-            return ExecuteNonQuery(sqltext, paras, CommandType.Text)>0;
+            return ExecuteNonQuery("P_AddTaskMembers", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool RemoveTaskMember(string taskID,string memberID)
         {
-            string sqltext = "update OrderTask set Members=replace(Members,@MemberID,'')  where TaskID=@TaskID";
+            string sqltext = "update TaskMember set status=9  where TaskID=@TaskID and MemberID=@MemberID";
             SqlParameter[] paras = { 
                                        new SqlParameter("@TaskID",taskID),
                                        new SqlParameter("@MemberID",memberID)
                                    };
 
             return ExecuteNonQuery(sqltext, paras, CommandType.Text)>0;
+        }
+
+        public bool UpdateMemberPermission(string taskID, string memberID, int taskMemberPermissionType)
+        {
+            string sqltext = "update TaskMember set PermissionType=@PermissionType  where TaskID=@TaskID and MemberID=@MemberID";
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@TaskID",taskID),
+                                       new SqlParameter("@MemberID",memberID),
+                                       new SqlParameter("@PermissionType",taskMemberPermissionType)
+                                   };
+
+            return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
         }
 
         public bool UnFinishTask(string taskID)
