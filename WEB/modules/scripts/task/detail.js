@@ -189,15 +189,17 @@
                         var memberIDs = '';
                         for (var i = 0; i < items.length; i++) {
                             var item = items[i];
+                            console.log(item.id);
                             if (ObjectJS.ownerid == item.id) {
                                 continue;
                             }
 
-                            if ($("#taskMemberIDs" + " div[data-id='" + item.id + "']").html()) {
+                            if ($(".memberlist" + " li[data-id='" + item.id + "']").html()) {
                                 continue;
                             }
 
                             ObjectJS.createTaskMember(item);
+                            console.log(item);
                             memberIDs += item.id + ",";
                         }
 
@@ -211,41 +213,24 @@
 
             });
 
-            $(".addtaskmember").click(function () {
-                ChooseUser.create({
-                    title: "添加任务成员",
-                    type: 1,
-                    single: false,
-                    callback: function (items) {
-                        var memberIDs = '';
-                        for (var i = 0; i < items.length; i++) {
-                            var item = items[i];
-                            if (ObjectJS.ownerid == item.id) {
-                                continue;
-                            }
-
-                            if ($("#taskMemberIDs" + " div[data-id='" + item.id + "']").html()) {
-                                continue;
-                            }
-
-                            ObjectJS.createTaskMember(item);
-                            memberIDs += item.id + ",";
-                        }
-
-                        if (memberIDs != '') {
-                            ObjectJS.addTaskMembers(memberIDs);
-                        }
-                    }
-                });
-            })
-
             //任务负责人更改成员权限
             $('.check-lump').click(function () {
                 var _this = $(this);
 
                 if (!_this.hasClass('checked')) {
-                    _this.parents('li').find('.check-lump').removeClass('checked');
-                    _this.addClass('checked');
+                    Global.post("/Task/UpdateMemberPermission", {
+                        taskID: _this.data('taskid'),
+                        memberID: _this.data('memberid'),
+                        type: _this.data('type')
+                    },function (data) {
+                        if (data.result == 1) {
+                            _this.parents('li').find('.check-lump').removeClass('checked');
+                            _this.addClass('checked');
+                        } else {
+                            alert('授权失败');
+                        }
+
+                    })
                 }
             })
 
@@ -257,13 +242,13 @@
                 });
             });
 
-            //删除任务成员
-            $("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
-                var memberID = $(this).data("id");
-                confirm("确定删除任务成员?", function () {
-                    ObjectJS.removeTaskMember(memberID);
-                });
-            });
+            ////删除任务成员
+            //$("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
+            //    var memberID = $(this).data("id");
+            //    confirm("确定删除任务成员?", function () {
+            //        ObjectJS.removeTaskMember(memberID);
+            //    });
+            //});
 
         }
 
@@ -393,13 +378,12 @@
                 alert("添加失败");
             }
             else {
-
-                $("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
-                    var memberID = $(this).data("id");
-                    confirm("确定删除任务成员?", function () {
-                        ObjectJS.removeTaskMember(memberID);
-                    });
-                });
+                //$("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
+                //    var memberID = $(this).data("id");
+                //    confirm("确定删除任务成员?", function () {
+                //        ObjectJS.removeTaskMember(memberID);
+                //    });
+                //});
 
                 //列表删除任务成员
                 $(".memberlist span.removeTaskMember").unbind().click(function () {
@@ -409,14 +393,27 @@
                     });
                 });
 
+                //任务负责人更改成员权限
                 $('.check-lump').unbind().click(function () {
                     var _this = $(this);
 
                     if (!_this.hasClass('checked')) {
-                        _this.parents('li').find('.check-lump').removeClass('checked');
-                        _this.addClass('checked');
+                        Global.post("/Task/UpdateMemberPermission", {
+                            taskID: _this.data('taskid'),
+                            memberID: _this.data('memberid'),
+                            type: _this.data('type')
+                        }, function (data) {
+                            if (data.result == 1) {
+                                _this.parents('li').find('.check-lump').removeClass('checked');
+                                _this.addClass('checked');
+                            } else {
+                                alert('授权失败');
+                            }
+
+                        })
                     }
                 })
+
 
             }
         });
@@ -451,13 +448,13 @@
         var memberListHtml = '';
         memberListHtml += '<li data-id="' + item.id + '">';
         memberListHtml += '<span class="tLeft"><i class="mRight2"><img onerror="$(this).attr("src","/modules/images/defaultavatar.png"); src="' + (item.Avatar == null ? "/modules/images/defaultavatar.png" : item.Avatar) + '" /></i><i class="membername">' + item.name + '</i></span>';
-        memberListHtml += '<span><i class="iconfont check-lump checked">&#xe626;</i></span>';
-        memberListHtml += '<span><i class="iconfont check-lump">&#xe626;</i></span>';
-        memberListHtml += '<span class="removeTaskMember" data-id="' + item.id + '">移除</span></li>';
+        memberListHtml += '<span><i class="iconfont check-lump checked" data-taskid="' + ObjectJS.taskid + '" data-memberid="'+item.id+'" data-type=1 >&#xe626;</i></span>';
+        memberListHtml += '<span><i class="iconfont check-lump" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=2 >&#xe626;</i></span>';
+        memberListHtml += '<span class="removeTaskMember iconfont" data-id="' + item.id + '">&#xe616;</span></li>';
 
         $('.memberlist ul').append(memberListHtml);
 
-        $("#taskMemberIDs").append(html);
+        //$("#taskMemberIDs").append(html);
     }
 
     //任务到期时间倒计时

@@ -211,10 +211,10 @@ namespace IntFactoryBusiness
         /// <param name="agentid"></param>
         /// <param name="clientid"></param>
         /// <returns></returns>
-        public static bool AddTaskMembers(string taskID,string memberIDs, string operateid, string ip, string agentid, string clientid)
+        public static bool AddTaskMembers(string taskID, string memberIDs, string operateid, string ip, string agentid, string clientid,out int result)
         {
             memberIDs =memberIDs.Trim(',');
-            bool flag = TaskDAL.BaseProvider.AddTaskMembers(taskID, memberIDs,operateid,agentid);
+            bool flag = TaskDAL.BaseProvider.AddTaskMembers(taskID, memberIDs, operateid, agentid,out result);
 
             if (flag)
             {
