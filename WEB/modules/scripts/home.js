@@ -37,9 +37,10 @@ define(function (require, exports, module) {
     //绑定事件
     Home.bindLoginEvent = function () {
 
-        $(document).on("keypress", function (e) {
+        $("#iptPwd").on("keypress", function (e) {
             if (e.keyCode == 13) {
                 $("#btnLogin").click();
+                $("#iptPwd").blur();
             }
         });
 
