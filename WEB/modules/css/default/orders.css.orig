@@ -37,6 +37,12 @@
 .object-items .object-item.hover .check{ display:inline-block; background-color:#4a98e7; }
 
 /*预警样式*/
+<<<<<<< HEAD
+=======
+.object-items .warning-layer { position: absolute; left: -25px; top: 0; height: 22px; width: 100px; color: #fff;transform: rotate(-45deg);-webkit-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-o-transform:rotate(-45deg);}
+.object-items .warning-layer.pass { background-color:rgba(237,0,0,0.7); }
+.object-items .warning-layer.warning { background-color:rgba(255,165,0,0.7);}
+>>>>>>> 6dd595492c9fd63efaea33a0e3456fba49593c7b
 
 .object-items .warning-layer { position:absolute;left:0;top:0;width:50px;height:50px;display:block;overflow:hidden;}
 .object-items .warning-msg.pass { background-color:rgba(237,0,0,0.7);}

@@ -1328,14 +1328,6 @@ define(function (require, exports, module) {
 
     //汇总
     ObjectJS.getAmount = function () {
-        var amount = 0;
-        $(".amount").each(function () {
-            var _this = $(this);
-            _this.html(((_this.prevAll(".tr-quantity").find("label").text() * 1 + _this.prevAll(".tr-loss").find("label").text() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(2));
-            amount += _this.html() * 1;
-        });
-        $("#amount").text(amount.toFixed(2));
-
         //订单明细汇总
         $(".total-item td").each(function () {
             var _this = $(this), _total = 0;
@@ -1343,7 +1335,11 @@ define(function (require, exports, module) {
                 $("." + _this.data("class")).each(function () {
                     _total += $(this).html() * 1;
                 });
-                _this.html(_total);
+                if (_this.data("class") == "moneytotal") {
+                    _this.html(_total.toFixed(2));
+                } else {
+                    _this.html(_total);
+                }
             }
         });
     }
@@ -1556,7 +1552,21 @@ define(function (require, exports, module) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
+                    innerhtml.click(function () {
+                        _self.getGoodsDocDetail(this, 2);
+                    });
+
                     $("#navSendDoc .tr-header").after(innerhtml);
+
+                    $("#navSendDoc .total-item td").each(function () {
+                        var _this = $(this), _total = 0;
+                        if (_this.data("class")) {
+                            $("#navSendDoc ." + _this.data("class")).each(function () {
+                                _total += $(this).html() * 1;
+                            });
+                            _this.html(_total);
+                        }
+                    });
                 });
             } else {
                 $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
@@ -1580,7 +1590,22 @@ define(function (require, exports, module) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
+                    innerhtml.click(function () {
+                        _self.getGoodsDocDetail(this, 1);
+                    });
+
                     $("#navCutoutDoc .tr-header").after(innerhtml);
+
+                    $("#navCutoutDoc .total-item td").each(function () {
+                        var _this = $(this), _total = 0;
+                        if (_this.data("class")) {
+                            $("#navCutoutDoc ." + _this.data("class")).each(function () {
+                                _total += $(this).html() * 1;
+                            });
+                            _this.html(_total);
+                        }
+                    });
+
                 });
             } else {
                 $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
@@ -1604,7 +1629,21 @@ define(function (require, exports, module) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
+                    innerhtml.click(function () {
+                        _self.getGoodsDocDetail(this, 1);
+                    });
+
                     $("#navSewnDoc .tr-header").after(innerhtml);
+
+                    $("#navSewnDoc .total-item td").each(function () {
+                        var _this = $(this), _total = 0;
+                        if (_this.data("class")) {
+                            $("#navSewnDoc ." + _this.data("class")).each(function () {
+                                _total += $(this).html() * 1;
+                            });
+                            _this.html(_total);
+                        }
+                    });
                 });
             } else {
                 $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
@@ -1657,6 +1696,37 @@ define(function (require, exports, module) {
             }
         });
     }
+
+    //展开单据明细
+    ObjectJS.getGoodsDocDetail = function (item, type) {
+        var _this = $(item), url = "";
+        if (type == 1) {
+            url = "template/orders/cutout-details.html";
+        } else if (type == 2) {
+            url = "template/orders/send-details.html";
+        }
+        if (!_this.data("first") || _this.data("first") == 0) {
+            _this.data("first", 1).data("status", "open");
+            
+            Global.post("/Orders/GetGoodsDocDetail", {
+                docid: _this.data("id")
+            }, function (data) {
+                doT.exec(url, function (template) {
+                    var innerhtml = template(data.model.Details);
+                    innerhtml = $(innerhtml);
+                    _this.after(innerhtml);
+                });
+            });
+        } else {
+            if (_this.data("status") == "open") {
+                _this.data("status", "close");
+                _this.nextAll("tr[data-pid='" + _this.data("id") + "']").hide();
+            } else {
+                _this.data("status", "open");
+                _this.nextAll("tr[data-pid='" + _this.data("id") + "']").show();
+            }
+        }
+    };
 
     //获取大货订单
     ObjectJS.getDHOrders = function (originalid, page) {

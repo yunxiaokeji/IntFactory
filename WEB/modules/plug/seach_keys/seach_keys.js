@@ -30,12 +30,12 @@ define(function (require, exports, module) {
             //处理事件
             _ico.click(function () {
                 var _this = $(this);
-                !!callback && callback(_this.prev().val());
+                !!callback && callback(_this.prev().val().trim());
             })
             _input.keydown(function (e) {
                 var _this = $(this);
                 if (e.keyCode == 13) {
-                    !!callback && callback(_this.val());
+                    !!callback && callback(_this.val().trim());
                     _this.blur();
                 }
             });

@@ -65,10 +65,16 @@ namespace IntFactoryBusiness
                     if (model.PlanTime <= DateTime.Now)
                     {
                         model.WarningStatus = 2;
+                        model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
                     }
                     else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
                     {
                         model.WarningStatus = 1;
+                        model.WarningTime = "剩余：" + (model.PlanTime - model.OrderTime).Days.ToString("D2") + "天 " + (model.PlanTime - model.OrderTime).Hours.ToString("D2") + "时 " + (model.PlanTime - model.OrderTime).Minutes.ToString("D2") + "分";
+                    }
+                    else
+                    {
+                        model.WarningTime = "剩余：" + (model.PlanTime - model.OrderTime).Days.ToString("D2") + "天 " + (model.PlanTime - model.OrderTime).Hours.ToString("D2") + "时 " + (model.PlanTime - model.OrderTime).Minutes.ToString("D2") + "分";
                     }
                 }
 

@@ -333,7 +333,7 @@
                     <td class="tRight good6">@((detail.TotalMoney).ToString("f2"))</td>
                 </tr>
             }
-            <tr class="total-item" >
+            <tr class="total-item bold" >
                 <td class="">合计：</td>
                 <td class="center" data-class="good1"></td>
                 <td class="center" data-class="good2"></td>
@@ -374,10 +374,10 @@
                     <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                     <td class="center tr-quantity"><label class="quantity">@((detail.Quantity * model.PlanQuantity).ToString("f3"))</label></td>
                     <td class="center tr-loss"><label class="loss">@((detail.Loss * model.PlanQuantity).ToString("f3"))</label></td>
-                    <td class="tRight amount">@((detail.TotalMoney * model.PlanQuantity).ToString("f3"))</td>
+                    <td class="tRight moneytotal">@((detail.TotalMoney * model.PlanQuantity).ToString("f3"))</td>
                 </tr>
             }
-            <tr class="amount-item">
+            <tr class="total-item bold">
                 <td></td>
                 <td></td>
                 <td></td>
@@ -386,7 +386,7 @@
                 <td></td>
                 <td></td>
                 <td class="tRight">成本合计：</td>
-                <td class="tRight"><label id="amount"></label></td>
+                <td class="tRight" data-class="moneytotal"></td>
             </tr>
         </table>
     </div>
@@ -418,29 +418,32 @@
     <table id="navSendDoc" class="nav-partdiv table-list mTop20 hide">
         <tr class="tr-header">
             <td class="tLeft">单号</td>
-            <td class="">总金额</td>
+            <td class="width200">数量</td>
             <td class="width200">快递单号</td>
             <td class="width200">快递公司</td>
-            <td class="width150">发货人</td>
+            <td class="width200">发货人</td>
             <td class="width200">发货时间</td>
+            <td class="width50"></td>
         </tr>
     </table>
 
     <table id="navCutoutDoc" class="nav-partdiv table-list mTop20 hide">
         <tr class="tr-header">
             <td class="tLeft">单号</td>
-            <td class="">总金额</td>
-            <td class="width150">登记人</td>
+            <td class="width200">数量</td>
+            <td class="width200">登记人</td>
             <td class="width200">登记时间</td>
+            <td class="width50"></td>
         </tr>
     </table>
 
     <table id="navSewnDoc" class="nav-partdiv table-list mTop20 hide">
         <tr class="tr-header">
             <td class="tLeft">单号</td>
-            <td class="">总金额</td>
-            <td class="width150">登记人</td>
+            <td class="width200">数量</td>
+            <td class="width200">登记人</td>
             <td class="width200">登记时间</td>
+            <td class="width50"></td>
         </tr>
     </table>
 
