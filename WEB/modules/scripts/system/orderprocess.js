@@ -121,7 +121,8 @@
                         var entity = {};
                         entity.ProcessID = model ? model.ProcessID : "";
                         entity.ProcessName = $("#processName").val().trim();
-                        entity.ProcessType = $("#processType").val();
+                        entity.ProcessType = $("#processType").find(".hover").val();
+                        entity.CategoryType = $("#categoryType").find(".hover").val();
                         entity.PlanDays = 0;//$("#planDays").val().trim();
                         entity.IsDefault = 0;
                         _self.saveModel(entity);
@@ -139,8 +140,17 @@
             });
 
             if (model && model.ProcessID) {
-                $("#processType").val(model.ProcessType);
-                $("#processType").attr("disabled", "disabled")
+                $(".ico-radiobox").removeClass("hover");
+                $("#processType").find(".ico-radiobox[data-value='" + model.ProcessType + "']").addClass("hover");
+                $("#categoryType").find(".ico-radiobox[data-value='" + model.CategoryType + "']").addClass("hover");
+            } else {
+                $(".radiobox").click(function () {
+                    var _this = $(this);
+                    if (_this.find("hover").length == 0) {
+                        _this.find(".ico-radiobox").addClass("hover");
+                        _this.siblings().find(".ico-radiobox").removeClass("hover");
+                    }
+                });
             }
 
             $("#processName").focus();
@@ -210,7 +220,7 @@
             if (data.model && data.model.ProcessID) {
                 _self.getList();
             } else {
-                alert("系统异常，请稍后重试!");
+                alert("网络异常，请稍后重试!");
             }
         })
     }
