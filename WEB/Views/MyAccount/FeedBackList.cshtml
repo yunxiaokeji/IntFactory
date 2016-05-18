@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "个人中心";
+    Layout = "/Views/Shared/_LayoutUserCenter.cshtml";
+}
+
+@section css{
+    <link href="/modules/css/myaccount/myaccount.css" rel="stylesheet" />
+    <link href="/modules/css/myaccount/feedbacklist.css" rel="stylesheet" />
+}
+
+@section scripts{
+<script src="/Scripts/jquery-1.11.1.js"></script>
+<script src="/modules/plug/laydate/laydate.js"></script>
+<script type="text/javascript">
+    $(function () {
+        seajs.use(["scripts/myaccount/feedbacklist"], function (ObjectJS) {
+            ObjectJS.init();
+        });
+
+        var begin = {
+            elem: '#BeginTime',
+            format: 'YYYY-MM-DD',
+
+            max: '2099-06-16',
+            istime: false,
+            istoday: false,
+            choose: function (datas) {
+                end.min = datas; //开始日选好后，重置结束日的最小日期
+                end.start = datas //将结束日的初始值设定为开始日
+            }
+        };
+
+        var end = {
+            elem: '#EndTime',
+            format: 'YYYY-MM-DD',
+            max: '2099-06-16',
+            istime: false,
+            istoday: false,
+            choose: function (datas) {
+                begin.max = datas; //结束日选好后，重置开始日的最大日期
+            }
+        };
+        laydate(begin);
+        laydate(end);
+      
+    });
+</script>
+}
+<div class="accountContent">
+    <div class="accountHeader">反馈信息</div>
+
+    <div class="content-body mTop20">
+        <div class="search-body">
+            <ul class="search-item search-feedbacktype">
+                <li class="column-name">类型：</li>
+                <li data-type="-1" class="item hover">全部</li>
+                <li data-type="1" class="item">问题</li>
+                <li data-type="2" class="item">意见</li>
+                <li data-type="3" class="item">需求</li>
+            </ul>
+        </div>
+
+        <div class="search-items mTop20">
+            <div class="left mRight20" id="chooseBranch"></div>
+                <div class="left">
+                    <span class="width80">创建时间：</span><input type="text" value="" id="BeginTime" class="input width80">
+                    <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime" value="" class="input width80">
+                    <span class="btn mLeft10" id="btnSearch">搜索</span>
+                </div>
+            <div class="right searth-module" data-text="关键字搜索..." data-width="260"> 
+            </div>
+        </div>
+
+        <ul class="search-sort">
+            <li>排序</li>
+            <li class="sort-item hover" data-isasc="0" data-isactive="1" data-orderbycloumn="0">
+                创建时间
+                <span class="asc"></span>
+                <span class="desc hover"></span>
+            </li>
+        </ul>
+
+        <table class="table-list mTop20">
+            <tr class="tr-header"><td>创建时间</td><td>类型</td><td>标题</td><td>回答</td><td>状态</td></tr>
+        </table>
+
+        <div id="pager" class="mTop20"></div>
+    </div>
+</div>
+
+

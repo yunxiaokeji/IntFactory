@@ -26,7 +26,7 @@ define(function (require, exports, module) {
                     $(this).addClass("taskDetailContent");
 
                     defaultParas.taskid = $(this).data("taskid");
-                    defaultParas.orderid = $(this).data("orderid");
+                    defaultParas.guid = $(this).data("orderid");
                     defaultParas.stageid = $(this).data("stageid");
                     defaultParas.mark = $(this).data("mark");
                     defaultParas.self = $(this).data("self");
