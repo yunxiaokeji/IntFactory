@@ -22,10 +22,13 @@
             <a href="/Customer/Detail/{%=item.CustomerID%}" class="customer left long mLeft5" target="_blank">{%=item.CustomerName%}</a> 
         </li>
         <li>
-            <a class="font14" href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.OrderCode%}</a>
+            <a class="font14" href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.IntGoodsCode || item.OrderCode%}</a>
         </li>
         <li>
-            <span>{%= item.PlanTime.toDate("yyyy-MM-dd") %}</span>
+            <!--<span>{%= item.PlanTime.toDate("yyyy-MM-dd") %}</span>-->
+            <span title='{%= item.OrderStatus==2? item.EndTime.toDate("yyyy-MM-dd") : item.PlanTime.toDate("yyyy-MM-dd") %}' class='{%=item.WarningStatus==1?"orange":item.WarningStatus==2?"red":""%}'>
+                {%= item.WarningTime || (item.OrderStatus==2? item.EndTime.toDate("yyyy-MM-dd") : item.PlanTime.toDate("yyyy-MM-dd")) %}
+            </span>
             <i class="iconfont view-detail right" data-id="{%=item.OrderID%}">&#xe627;</i>
         </li>
         <li>
