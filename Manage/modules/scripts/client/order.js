@@ -40,6 +40,73 @@ define(function (require, exports, module) {
                 Order.bindData();
             });
         });
+       
+        $(document).click(function (e) {
+            //隐藏下拉
+            if (!$(e.target).parents().hasClass("dropdown-ul") && !$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown")) {
+                $(".dropdown-ul").hide();
+            }
+        });
+        $('#editOrder').click(function () {
+            var id = $(this).data("id");
+            var amount = $(this).data("amount");
+            var html = "<input type='text' value='" + amount + "' id='txt-orderAmount' />";
+            Easydialog.open({
+                container: {
+                    id: "show-model-updateorderaccount",
+                    header: "修改订单支付金额",
+                    content: html,
+                    yesFn: function () {
+                        if (confirm("确定修改价格吗?")) {
+                            Global.post("/Client/UpdateOrderAmount", { id: id, amount: $("#txt-orderAmount").val() }, function (data) {
+                                if (data.Result == 1) {
+                                    Order.bindData();
+                                } else if (data.Result == 1001) {
+                                    alert("订单已被审核,操作失败,请刷新页面查看.");
+                                } else if (data.Result == 1002) {
+                                    alert("订单已被删除,操作失败,请刷新页面查看.");
+                                } else {
+                                    alert("修改失败");
+                                }
+                            });
+                        }
+                    },
+                    callback: function () {
+                    }
+                }
+            });
+        });
+        $('#examineOrder').click(function () {
+            if (confirm("确定审核通过吗?")) {
+                Global.post("/Client/PayOrderAndAuthorizeClient", { id: $(this).data("id"), agentID: $(this).data("agentid") }, function (data) {
+                    if (data.Result == 1) {
+                        Order.bindData();
+                    } else if (data.Result == 1001) {
+                        alert("订单已被审核,操作失败,请刷新页面查看.");
+                    } else if (data.Result == 1002) {
+                        alert("订单已被删除,操作失败,请刷新页面查看.");
+                    } else {
+                        alert("审核失败");
+                    }
+                });
+            }
+        });
+        $('#deleteOrder').click(function () {
+            if (confirm("确定删除?")) {
+                Global.post("/Client/CloseClientOrder", { id: $(this).data("id") }, function (data) {
+                    if (data.Result == 1) {
+                        Order.bindData();
+                    } else if (data.Result == 1001) {
+                        alert("订单已被审核,操作失败,请刷新页面查看.");
+                    } else if (data.Result == 1002) {
+                        alert("订单已被删除,操作失败,请刷新页面查看.");
+                    } else {
+                        alert("关闭失败");
+                    }
+                });
+            }
+        });
+
     };
 
     //搜索
@@ -129,65 +196,78 @@ define(function (require, exports, module) {
                 var innerText = templateFun(data.Items);
                 innerText = $(innerText);
                 $(".tr-header").after(innerText);
-                innerText.find(".deleteOrder").click(function () {
-                    if (confirm("确定删除?")) {
-                        Global.post("/Client/CloseClientOrder", { id: $(this).data("id") }, function (data) {
-                            if (data.Result == 1) {
-                                Order.bindData();
-                            } else if (data.Result == 1001) {
-                                alert("订单已被审核,操作失败,请刷新页面查看.");
-                            } else if (data.Result == 1002) {
-                                alert("订单已被删除,操作失败,请刷新页面查看.");
-                            } else {
-                                alert("关闭失败");
-                            }
+                //操作
+                innerText.find(".dropdown").click(function () {
+                    var _this = $(this);
+                    if (_this.data("type") != 1) {
+                        var position = _this.find(".ico-dropdown").position();
+                        $(".dropdown-ul li").data("id", _this.data("id"));
+                        $(".dropdown-ul li").data("amount", _this.data("amount"));
+                        $(".dropdown-ul li").data("agentid", _this.data("agentid"));
+                        $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 55 }).show().mouseleave(function () {
+                            $(this).hide();
                         });
                     }
                 });
-                innerText.find(".editOrder").click(function () {
-                    var id = $(this).data("id");
-                    var amount = $(this).data("amount");
-                    var html = "<input type='text' value='" + amount + "' id='txt-orderAmount' />";
-                    Easydialog.open({
-                        container: {
-                            id: "show-model-feedback",
-                            header: "修改订单支付金额",
-                            content: html,
-                            yesFn: function () {
-                                if (confirm("确定修改价格吗?")) {
-                                    Global.post("/Client/UpdateOrderAmount", { id: id, amount: $("#txt-orderAmount").val() }, function (data) {
-                                        if (data.Result == 1) {
-                                            Order.bindData();
-                                        } else if (data.Result == 1001) {
-                                            alert("订单已被审核,操作失败,请刷新页面查看.");
-                                        } else if (data.Result == 1002) {
-                                            alert("订单已被删除,操作失败,请刷新页面查看.");
-                                        } else {
-                                            alert("修改失败");
-                                        }
-                                    });
-                                }
-                            },
-                            callback: function () {
-                            }
-                        }
-                    });
-                });
-                innerText.find(".examineOrder").click(function () {
-                    if (confirm("确定审核通过吗?")) {
-                        Global.post("/Client/PayOrderAndAuthorizeClient", { id: $(this).data("id"), agentID: $(this).data("agentid") }, function (data) {
-                            if (data.Result == 1) {
-                                Order.bindData();
-                            } else if (data.Result == 1001) {
-                                alert("订单已被审核,操作失败,请刷新页面查看.");
-                            } else if (data.Result == 1002) {
-                                alert("订单已被删除,操作失败,请刷新页面查看.");
-                            } else {
-                                alert("审核失败");
-                            }
-                        });
-                    }
-                });
+                //innerText.find(".deleteOrder").click(function () {
+                //    if (confirm("确定删除?")) {
+                //        Global.post("/Client/CloseClientOrder", { id: $(this).data("id") }, function (data) {
+                //            if (data.Result == 1) {
+                //                Order.bindData();
+                //            } else if (data.Result == 1001) {
+                //                alert("订单已被审核,操作失败,请刷新页面查看.");
+                //            } else if (data.Result == 1002) {
+                //                alert("订单已被删除,操作失败,请刷新页面查看.");
+                //            } else {
+                //                alert("关闭失败");
+                //            }
+                //        });
+                //    }
+                //});
+                //innerText.find(".editOrder").click(function () {
+                //    var id = $(this).data("id");
+                //    var amount = $(this).data("amount");
+                //    var html = "<input type='text' value='" + amount + "' id='txt-orderAmount' />";
+                //    Easydialog.open({
+                //        container: {
+                //            id: "show-model-feedback",
+                //            header: "修改订单支付金额",
+                //            content: html,
+                //            yesFn: function () {
+                //                if (confirm("确定修改价格吗?")) {
+                //                    Global.post("/Client/UpdateOrderAmount", { id: id, amount: $("#txt-orderAmount").val() }, function (data) {
+                //                        if (data.Result == 1) {
+                //                            Order.bindData();
+                //                        } else if (data.Result == 1001) {
+                //                            alert("订单已被审核,操作失败,请刷新页面查看.");
+                //                        } else if (data.Result == 1002) {
+                //                            alert("订单已被删除,操作失败,请刷新页面查看.");
+                //                        } else {
+                //                            alert("修改失败");
+                //                        }
+                //                    });
+                //                }
+                //            },
+                //            callback: function () {
+                //            }
+                //        }
+                //    });
+                //});
+                //innerText.find(".examineOrder").click(function () {
+                //    if (confirm("确定审核通过吗?")) {
+                //        Global.post("/Client/PayOrderAndAuthorizeClient", { id: $(this).data("id"), agentID: $(this).data("agentid") }, function (data) {
+                //            if (data.Result == 1) {
+                //                Order.bindData();
+                //            } else if (data.Result == 1001) {
+                //                alert("订单已被审核,操作失败,请刷新页面查看.");
+                //            } else if (data.Result == 1002) {
+                //                alert("订单已被删除,操作失败,请刷新页面查看.");
+                //            } else {
+                //                alert("审核失败");
+                //            }
+                //        });
+                //    }
+                //});
             });
 
             $("#pager").paginate({
