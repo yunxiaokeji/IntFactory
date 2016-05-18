@@ -4,11 +4,12 @@
 %}
 <tr class="list-item" data-taskid="{%=item.TaskID%}" data-orderid="{%=item.OrderID%}" data-stageid="{%=item.StageID%}">
     <td class='tLeft'><span class="mark" data-id="{%= item.TaskID %}" data-value="{%= item.ColorMark %}"></span> </td>
-    <td class="center">
+    <td class="tLeft">
         <div class="list-pic-box">
             <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="{%=item.OrderImg==''?'/modules/images/img-noimg.png':item.OrderImg%}"/>
-            <div class='hint-layer hide'></div>
-            <div class='hint-msg hide'>已超期</div>
+            <div class='hint-layer hide'>
+                <div class='hint-msg hide'>已超期</div>
+            </div>
         </div>
     </td>
     <td class="center"><a href="/Task/Detail/{%=item.TaskID%}">{%=item.Title%}</a></td>

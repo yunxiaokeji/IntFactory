@@ -1,3 +1,6 @@
 ﻿.searth-module { position:relative;}
 .searth-module .search-ico {background: url("/modules/images/ico_search.png") no-repeat 0 5px;height: 28px;position: absolute;width: 28px;right: 0;top:0; }
 .searth-module .search-ico:hover { background: url("/modules/images/ico_searchhover.png") no-repeat 0 5px; }
+.table-list tr .unsolved {color:red !important; }
+.table-list tr .solved {color:#4A99E8 !important; }
+
