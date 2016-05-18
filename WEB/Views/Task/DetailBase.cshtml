@@ -141,7 +141,50 @@
                  </li>
             </ul>
         </div>
-
+       
+               @{
+                   if (ViewBag.IsTaskOwner)
+                   {
+                    <div class="right memberlist">
+                    <h1>
+                        <span class="left mLeft10">成员列表</span>
+                        <span class="right ico-add addtaskmember">添加成员</span>
+                    </h1>
+                    <div class="clear"></div>
+                    <ul>
+                        @{
+                       <li>
+                           <span>成员姓名</span>
+                           <span>查看权限</span>
+                           <span>编辑权限</span>
+                           <span>操作</span>
+                       </li>
+                       if (Model.TaskMembers.Count > 0)
+                       {
+                           foreach (var member in Model.TaskMembers)
+                           {
+                                <li data-id="@member.UserID">
+                                    <span class="tLeft">
+                                        <i class="mRight2"><img onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="@(string.IsNullOrEmpty(member.Avatar) ? "/modules/images/defaultavatar.png" : member.Avatar)" /></i>
+                                        <i class="membername">@member.Name</i>
+                                    </span>
+                                    <span>
+                                        <i class="iconfont check-lump checked" data-type="1">&#xe626;</i>
+                                    </span>
+                                    <span>
+                                        <i class="iconfont check-lump" data-type="2">&#xe626;</i>
+                                    </span>
+                                    <span class="removeTaskMember iconfont" data-id="@member.UserID">&#xe616;</span>
+                                </li>
+                           }
+                       }
+                        }
+                    </ul>
+                    </div>
+                    }
+               }
+              
+         
        <div class="clear"></div>
        
         <div class="order-remark">订单需求: </div>

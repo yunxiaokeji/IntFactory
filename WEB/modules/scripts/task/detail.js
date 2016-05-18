@@ -211,6 +211,52 @@
 
             });
 
+            $(".addtaskmember").click(function () {
+                ChooseUser.create({
+                    title: "添加任务成员",
+                    type: 1,
+                    single: false,
+                    callback: function (items) {
+                        var memberIDs = '';
+                        for (var i = 0; i < items.length; i++) {
+                            var item = items[i];
+                            if (ObjectJS.ownerid == item.id) {
+                                continue;
+                            }
+
+                            if ($("#taskMemberIDs" + " div[data-id='" + item.id + "']").html()) {
+                                continue;
+                            }
+
+                            ObjectJS.createTaskMember(item);
+                            memberIDs += item.id + ",";
+                        }
+
+                        if (memberIDs != '') {
+                            ObjectJS.addTaskMembers(memberIDs);
+                        }
+                    }
+                });
+            })
+
+            //任务负责人更改成员权限
+            $('.check-lump').click(function () {
+                var _this = $(this);
+
+                if (!_this.hasClass('checked')) {
+                    _this.parents('li').find('.check-lump').removeClass('checked');
+                    _this.addClass('checked');
+                }
+            })
+
+            //列表删除任务成员2
+            $(".memberlist span.removeTaskMember").unbind().click(function () {
+                var memberID = $(this).data("id");
+                confirm("确定删除任务成员?", function () {
+                    ObjectJS.removeTaskMember(memberID);
+                });
+            });
+
             //删除任务成员
             $("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
                 var memberID = $(this).data("id");
@@ -221,6 +267,7 @@
 
         }
 
+        
         //显示剩余时间
         ObjectJS.showTime();
 
@@ -346,12 +393,31 @@
                 alert("添加失败");
             }
             else {
+
                 $("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
                     var memberID = $(this).data("id");
                     confirm("确定删除任务成员?", function () {
                         ObjectJS.removeTaskMember(memberID);
                     });
                 });
+
+                //列表删除任务成员
+                $(".memberlist span.removeTaskMember").unbind().click(function () {
+                    var memberID = $(this).data("id");
+                    confirm("确定删除任务成员?", function () {
+                        ObjectJS.removeTaskMember(memberID);
+                    });
+                });
+
+                $('.check-lump').unbind().click(function () {
+                    var _this = $(this);
+
+                    if (!_this.hasClass('checked')) {
+                        _this.parents('li').find('.check-lump').removeClass('checked');
+                        _this.addClass('checked');
+                    }
+                })
+
             }
         });
     }
@@ -367,18 +433,29 @@
             }
             else {
                 $("#taskMemberIDs" + " div[data-id='" + memberID + "']").remove();
+                $(".memberlist li[data-id='" + memberID + "']").remove();
             }
         });
     }
 
     //拼接任务成员html
     ObjectJS.createTaskMember = function (item) {
+
         var html = '';
         html += '<div class="task-member left" data-id="' + item.id + '">';
         html += '<div class="left pRight5"><span>' + item.name + '</span></div>';
         html += '<div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="' + item.id + '" >×</a></div>';
         html += '<div class="clear"></div>';
         html += '</div>';
+
+        var memberListHtml = '';
+        memberListHtml += '<li data-id="' + item.id + '">';
+        memberListHtml += '<span class="tLeft"><i class="mRight2"><img onerror="$(this).attr("src","/modules/images/defaultavatar.png"); src="' + (item.Avatar == null ? "/modules/images/defaultavatar.png" : item.Avatar) + '" /></i><i class="membername">' + item.name + '</i></span>';
+        memberListHtml += '<span><i class="iconfont check-lump checked">&#xe626;</i></span>';
+        memberListHtml += '<span><i class="iconfont check-lump">&#xe626;</i></span>';
+        memberListHtml += '<span class="removeTaskMember" data-id="' + item.id + '">移除</span></li>';
+
+        $('.memberlist ul').append(memberListHtml);
 
         $("#taskMemberIDs").append(html);
     }
