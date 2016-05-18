@@ -37,7 +37,6 @@
 .object-items .object-item.hover .check{ display:inline-block; background-color:#4a98e7; }
 
 /*预警样式*/
-
 .object-items .warning-layer { position:absolute;left:0;top:0;width:50px;height:50px;display:block;overflow:hidden;}
 .object-items .warning-msg.pass { background-color:rgba(237,0,0,0.7);}
 .object-items .warning-msg.warning { background-color:rgba(255,165,0,0.7);}
