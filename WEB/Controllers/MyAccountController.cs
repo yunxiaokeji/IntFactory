@@ -40,6 +40,10 @@ namespace YXERP.Controllers
         {
             return View();
         }
+        public ActionResult FeedBackList()
+        {
+            return View();
+        }
         #endregion
 
         #region ajax

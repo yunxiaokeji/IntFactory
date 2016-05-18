@@ -677,6 +677,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetGoodsDocDetail(string docid)
+        {
+            var model = StockBusiness.GetGoodsDocDetail(docid, CurrentUser.ClientID);
+            JsonDictionary.Add("model", model);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult CreateOrderCustomer(string orderid)
         {
             var bl = OrdersBusiness.BaseBusiness.CreateOrderCustomer(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);

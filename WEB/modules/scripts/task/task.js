@@ -363,13 +363,12 @@
             if (!overplusTime) {
                 if (showType == "card") {
                     $(".overplusTime-" + num + "").html("超期时间：");
-                    $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show().css({ "border-top-color": "rgba(237,0,0,0.7)", "border-left-color": "rgba(237,0,0,0.7)" });
-                    $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('已超期').show();
+                    $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show();
+                    $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('已超期').css({ "background-color": "rgba(237,0,0,0.7)", "background-color": "rgba(237,0,0,0.7)" }).show();
                 }
                 else {
                     var $list_picbox=$(".table-list .list-item[data-taskid='" + item.TaskID + "']");
-                    $list_picbox.find(".hint-layer").css({ "border-top-color": "rgba(237,0,0,0.7)", "border-left-color": "rgba(237,0,0,0.7)" }).show();
-                    $list_picbox.find(".hint-msg").html("已超期").show();
+                    $list_picbox.find(".hint-msg").html("已超期").css({ "background-color": "rgba(237,0,0,0.7)", "background-color": "rgba(237,0,0,0.7)" }).show();
                 }
             }
 
@@ -381,13 +380,12 @@
                 if (!overplusTime) {
                     if (showType == "card") {
                         $(".overplusTime-" + num + "").html("剩余时间：");
-                        $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show().css({ "border-top-color": "rgba(255,165,0,0.7)", "border-left-color": "rgba(255,165,0,0.7)" });
-                        $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('快到期').show();
+                        $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show();
+                        $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('快到期').show().css({ "background-color": "rgba(255,165,0,0.7)", "background-color": "rgba(255,165,0,0.7)" });
                     }
                     else {
                         var $list_picbox = $(".table-list .list-item[data-taskid='" + item.TaskID + "']");
-                        $list_picbox.find(".hint-layer").css({ "border-top-color": "rgba(255,165,0,0.7)", "border-left-color": "rgba(255,165,0,0.7)" }).show();
-                        $list_picbox.find(".hint-msg").html("快到期").show();
+                        $list_picbox.find(".hint-msg").html("快到期").css({ "background-color": "rgba(255,165,0,0.7)", "background-color": "rgba(255,165,0,0.7)" }).show();
                     }
                 }
                 overplusTime = true;

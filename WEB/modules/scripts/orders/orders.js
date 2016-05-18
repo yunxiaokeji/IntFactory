@@ -76,6 +76,12 @@
         //切换订单状态
         $(".search-status .item").click(function () {
             var _this = $(this);
+
+            //快速点击屏蔽
+            if (_self.isLoading) {
+                return false;
+            }
+
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
@@ -88,7 +94,26 @@
         //切换订单类型
         $(".search-ordertype .item").click(function () {
             var _this = $(this);
+
+            //快速点击屏蔽
+            if (_self.isLoading) {
+                return false;
+            }
+
             if (!_this.hasClass("hover")) {
+
+                //隐藏状态
+                $(".search-status .item").show();
+                if (_this.data("hide")) {
+                    $(".search-status .item[data-hide='" + _this.data("hide") + "']").hide();
+
+                    if ($(".search-status .item.hover").data("hide") == _this.data("hide")) {
+                        $(".search-status .item").removeClass("hover");
+                        $(".search-status .item").first().addClass("hover")
+                        Params.Status = -1;
+                    }
+                } 
+
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
                 Params.PageIndex = 1;
@@ -100,6 +125,12 @@
         //来源类型
         $(".search-source .item").click(function () {
             var _this = $(this);
+
+            //快速点击屏蔽
+            if (_self.isLoading) {
+                return false;
+            }
+
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
@@ -112,6 +143,12 @@
         //来源类型
         $(".search-mark .item").click(function () {
             var _this = $(this);
+
+            //快速点击屏蔽
+            if (_self.isLoading) {
+                return false;
+            }
+
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
@@ -124,6 +161,12 @@
         //切换订单状态
         $(".search-orderstatus li").click(function () {
             var _this = $(this);
+
+            //快速点击屏蔽
+            if (_self.isLoading) {
+                return false;
+            }
+
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
@@ -136,6 +179,12 @@
         //切换订单来源类型
         $(".search-entrustclientid li").click(function () {
             var _this = $(this);
+
+            //快速点击屏蔽
+            if (_self.isLoading) {
+                return false;
+            }
+
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
@@ -260,6 +309,12 @@
         //排序
         $(".sort-item").click(function () {
             var _this = $(this);
+
+            //快速点击屏蔽
+            if (_self.isLoading) {
+                return false;
+            }
+
             if (_this.hasClass("hover")) {
                 if (_this.find(".asc").hasClass("hover")) {
                     _this.find(".asc").removeClass("hover");
@@ -415,12 +470,14 @@
     //获取列表
     ObjectJS.getList = function () {
         var _self = this;
+        //加载中
+        _self.isLoading = true;
+
         $("#checkAll").addClass("ico-check").removeClass("ico-checked");
         $(".object-items").empty();
         $(".object-items").append("<div class='data-loading'><div>");
 
-        Global.post("/Orders/GetOrders", { filter: JSON.stringify(Params) }, function (data)
-        {
+        Global.post("/Orders/GetOrders", { filter: JSON.stringify(Params) }, function (data) {
             _self.bindList(data);
         });
     }
@@ -478,6 +535,9 @@
         {
             $(".object-items").append("<div class='nodata-txt' >暂无数据!<div>");
         }
+
+        //加载完成
+        _self.isLoading = false;
 
         $("#pager").paginate({
             total_count: data.totalCount,

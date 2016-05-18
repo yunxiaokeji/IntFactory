@@ -314,6 +314,8 @@ namespace IntFactoryEntity
 
         public Manage.ExpressCompany Express { get; set; }
 
+        public int Quantity { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>
