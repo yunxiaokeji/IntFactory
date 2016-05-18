@@ -22,7 +22,7 @@
             <a href="/Customer/Detail/{%=item.CustomerID%}" class="customer left long mLeft5" target="_blank">{%=item.CustomerName%}</a> 
         </li>
         <li>
-            <a class="font14" href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.IntGoodsCode || item.OrderCode%}</a>
+            <a class="font14 goodsname long" href="/Orders/OrderDetail/{%=item.OrderID%}">{%=(item.GoodsName + item.IntGoodsCode) || item.OrderCode%}</a>
         </li>
         <li>
             <!--<span>{%= item.PlanTime.toDate("yyyy-MM-dd") %}</span>-->
