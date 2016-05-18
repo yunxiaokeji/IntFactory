@@ -303,10 +303,14 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public ActionResult MDLogin(string ReturnUrl)
         {
-            if(string.IsNullOrEmpty(ReturnUrl))
-            return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl());
+            if (string.IsNullOrEmpty(ReturnUrl))
+            {
+                return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl() );
+            }
             else
-                return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl() + "&state=" + ReturnUrl);
+            {
+                return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl(ReturnUrl) );
+            }
         }
 
         //明道登录回掉
@@ -390,51 +394,7 @@ namespace YXERP.Controllers
                         //将阿里账户绑定到现有账户
                         if (fromBindAccount == 1)
                         {
-                            if (Session["AliTokenInfo"] != null)
-                            {
-                                var client = ClientBusiness.GetClientDetail(model.ClientID);
-                                if (string.IsNullOrEmpty(client.AliMemberID))
-                                {
-
-                                    string tokenInfo = Session["AliTokenInfo"].ToString();
-                                    string[] tokenArr = tokenInfo.Split('|');
-                                    if (tokenArr.Length == 3)
-                                    {
-                                        string access_token = tokenArr[0];
-                                        string refresh_token = tokenArr[1];
-                                        string memberId = tokenArr[2];
-
-                                        bool flag = AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(model.UserID, memberId, access_token, refresh_token, model.AgentID, model.ClientID);
-                                        if (flag)
-                                        {
-                                            flag = ClientBusiness.BindClientAliMember(model.ClientID, model.UserID, memberId);
-                                            if (flag)
-                                            {
-                                                model.AliToken = access_token;
-                                                model.AliMemberID = memberId;
-                                                Session.Remove("AliTokenInfo");
-
-                                                Session["ClientManager"] = model;
-
-                                                result = 1;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            AliOrderBusiness.BaseBusiness.DeleteAliOrderDownloadPlan(model.ClientID);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    result = 4;
-                                }
-
-                            }
-                            else
-                            {
-                                result = 5;
-                            }
+                            result=BindAliMember(model);
                         }
                         else
                         {
@@ -454,7 +414,8 @@ namespace YXERP.Controllers
                 }
                 else
                 {
-                    if (outResult == 3)
+                    //密码错误
+                    if (outResult==3)
                     {
                         if (pwdErrorUser == null){
                             pwdErrorUser = new Common.PwdErrorUserEntity();
@@ -462,10 +423,12 @@ namespace YXERP.Controllers
                         else
                         {
                             if (pwdErrorUser.ErrorCount > 2)
+                            {
                                 pwdErrorUser.ErrorCount = 0;
+                            }
                         }
 
-                        pwdErrorUser.ErrorCount += 1;
+                        pwdErrorUser.ErrorCount++;
                         if (pwdErrorUser.ErrorCount > 2)
                         {
                             pwdErrorUser.ForbidTime = DateTime.Now.AddHours(2);
@@ -473,13 +436,12 @@ namespace YXERP.Controllers
                         }
                         else
                         {
-                            result = 3;
                             resultObj.Add("errorCount", pwdErrorUser.ErrorCount);
+                            result = 3;
                         }
 
                         Common.Common.CachePwdErrorUsers[userName] = pwdErrorUser;
                     }
-
                 }
             }
             else
@@ -489,14 +451,65 @@ namespace YXERP.Controllers
                 result = -1;
             }
 
-           
             resultObj.Add("result",result);
             return new JsonResult
             {
                 Data = resultObj,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+
         }
+
+        public int BindAliMember(Users model)
+        {
+            int result = 0;
+            if (Session["AliTokenInfo"] != null)
+            {
+                var client = ClientBusiness.GetClientDetail(model.ClientID);
+                if (string.IsNullOrEmpty(client.AliMemberID))
+                {
+
+                    string tokenInfo = Session["AliTokenInfo"].ToString();
+                    string[] tokenArr = tokenInfo.Split('|');
+                    if (tokenArr.Length == 3)
+                    {
+                        string access_token = tokenArr[0];
+                        string refresh_token = tokenArr[1];
+                        string memberId = tokenArr[2];
+
+                        bool flag = AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(model.UserID, memberId, access_token, refresh_token, model.AgentID, model.ClientID);
+                        if (flag)
+                        {
+                            flag = ClientBusiness.BindClientAliMember(model.ClientID, model.UserID, memberId);
+                            if (flag)
+                            {
+                                model.AliToken = access_token;
+                                model.AliMemberID = memberId;
+                                Session["ClientManager"] = model;
+                                Session.Remove("AliTokenInfo");
+                                result = 1;
+                            }
+                        }
+                        else
+                        {
+                            AliOrderBusiness.BaseBusiness.DeleteAliOrderDownloadPlan(model.ClientID);
+                        }
+                    }
+                }
+                else
+                {
+                    result = 4;
+                }
+
+            }
+            else
+            {
+                result = 5;
+            }
+
+            return result;
+        }
+
 
         public ActionResult AliRegisterMember() {
 
@@ -682,8 +695,10 @@ namespace YXERP.Controllers
                     bl = OrganizationBusiness.UpdateUserAccountPwd(loginName, loginPwd);
                     result = bl ? 1 : 0;
 
-                    if(bl)
+                    if (bl)
+                    {
                         Common.Common.ClearMobilePhoneCode(loginName);
+                    }
                 }
                 
             }

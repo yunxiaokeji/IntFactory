@@ -318,13 +318,13 @@ namespace IntFactoryBusiness
 
                     }
                     AliOrderBusiness.BaseBusiness.UpdateAllAliOrderUpdateLogStatus(string.Join(",", failGodesCodeList), AlibabaSdk.AliOrderUpdateStatus.Fail);
-                    failGodesCodes = failGodesCodeList;
+                    failGodesCodes.AddRange(failGodesCodeList);
                 }
 
             }
 
-            
-            return true;
+
+            return failGodesCodes.Count==0;
         }
 
         /// <summary>
@@ -409,13 +409,13 @@ namespace IntFactoryBusiness
 
                     }
                     AliOrderBusiness.BaseBusiness.UpdateAllAliOrderUpdateLogStatus(string.Join(",", failGodesCodeList), AlibabaSdk.AliOrderUpdateStatus.Fail);
-                    failGodesCodes = failGodesCodeList;
+                    failGodesCodes.AddRange(failGodesCodeList);
                 }
 
 
             }
 
-            return true;
+            return failGodesCodes.Count==0;
         }
 
 
