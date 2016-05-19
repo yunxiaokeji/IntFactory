@@ -322,14 +322,17 @@ namespace IntFactoryBusiness
             {
                 OrderStageEntity model = new OrderStageEntity();
                 model.FillData(dr);
+
+                model.MarkStr = CommonBusiness.GetEnumDesc<EnumOrderStageMark>((EnumOrderStageMark)model.Mark);
+
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, agentid);
-                model.StageItem = new List<StageItemEntity>();
-                foreach (DataRow itemdr in ds.Tables["Items"].Select("StageID='" + model.StageID + "'"))
-                {
-                    StageItemEntity item = new StageItemEntity();
-                    item.FillData(itemdr);
-                    model.StageItem.Add(item);
-                }
+                //model.StageItem = new List<StageItemEntity>();
+                //foreach (DataRow itemdr in ds.Tables["Items"].Select("StageID='" + model.StageID + "'"))
+                //{
+                //    StageItemEntity item = new StageItemEntity();
+                //    item.FillData(itemdr);
+                //    model.StageItem.Add(item);
+                //}
                 list.Add(model);
             }
             OrderStages.Add(processid, list);
@@ -677,10 +680,10 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        public string CreateOrderProcess(string name, int type, int days, int isdefault, string ownerid, string userid, string agentid, string clientid)
+        public string CreateOrderProcess(string name, int type, int categoryType, int days, int isdefault, string ownerid, string userid, string agentid, string clientid)
         {
             string id = Guid.NewGuid().ToString().ToLower();
-            bool bl = SystemDAL.BaseProvider.CreateOrderProcess(id, name, type, days, isdefault, ownerid, userid, clientid);
+            bool bl = SystemDAL.BaseProvider.CreateOrderProcess(id, name, type, categoryType, days, isdefault, ownerid, userid, clientid);
             if (bl)
             {
                 if(!OrderProcess.ContainsKey(clientid))
@@ -693,6 +696,7 @@ namespace IntFactoryBusiness
                         ProcessID = id,
                         ProcessName = name,
                         ProcessType = type,
+                        CategoryType = categoryType,
                         PlanDays = days,
                         CreateTime = DateTime.Now,
                         OwnerID = ownerid,
@@ -707,11 +711,11 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        public string CreateOrderStage(string name, int sort, string pid, string processid, string userid, string agentid, string clientid, out int result)
+        public string CreateOrderStage(string name, int sort, int mark, string pid, string processid, string userid, string agentid, string clientid, out int result)
         {
             string stageid = Guid.NewGuid().ToString();
 
-            bool bl = SystemDAL.BaseProvider.CreateOrderStage(stageid, name, sort, pid, processid, userid, clientid, out result);
+            bool bl = SystemDAL.BaseProvider.CreateOrderStage(stageid, name, sort, mark, pid, processid, userid, clientid, out result);
             if (bl)
             {
                 if (!OrderStages.ContainsKey(processid))
@@ -731,7 +735,8 @@ namespace IntFactoryBusiness
                     StageName = name,
                     Sort = sort,
                     PID = pid,
-                    Mark = 0,
+                    Mark = mark,
+                    MarkStr = CommonBusiness.GetEnumDesc<EnumOrderStageMark>((EnumOrderStageMark)mark),
                     Status = 1,
                     CreateTime = DateTime.Now,
                     ProcessID=processid,
@@ -1009,14 +1014,16 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderStage(string stageid, string stagename, string processid,  string userid, string ip, string agentid, string clientid)
+        public bool UpdateOrderStage(string stageid, string stagename, int mark, string processid, string userid, string ip, string agentid, string clientid)
         {
             var model = GetOrderStageByID(stageid, processid, agentid, clientid);
 
-            bool bl = SystemDAL.BaseProvider.UpdateOrderStage(stageid, stagename, clientid);
+            bool bl = SystemDAL.BaseProvider.UpdateOrderStage(stageid, stagename, mark, clientid);
             if (bl)
             {
                 model.StageName = stagename;
+                model.Mark = mark;
+                model.MarkStr = CommonBusiness.GetEnumDesc<EnumOrderStageMark>((EnumOrderStageMark)model.Mark);
             }
             return bl;
         }
@@ -1025,10 +1032,10 @@ namespace IntFactoryBusiness
         {
             var model = GetOrderStageByID(stageid, processid, agentid, clientid);
             //新订单和内置不能删除
-            if (model.Mark != 0)
-            {
-                return false;
-            }
+            //if (model.Mark != 0)
+            //{
+            //    return false;
+            //}
             bool bl = SystemDAL.BaseProvider.DeleteOrderStage(stageid, processid, userid, clientid);
             if (bl)
             {

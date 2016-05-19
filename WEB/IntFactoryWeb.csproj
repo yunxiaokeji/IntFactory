@@ -488,7 +488,6 @@
     <Content Include="modules\css\iconfont\iconfont.eot" />
     <Content Include="modules\css\iconfont\iconfont.ttf" />
     <Content Include="modules\css\iconfont\iconfont.woff" />
-    <Content Include="IntFactoryWeb.csproj.orig" />
     <None Include="modules\plug\umeditor\net\Uploader.cs" />
     <Compile Include="Models\FilterUser.cs" />
     <Compile Include="Models\FilterCustomer.cs" />
@@ -906,7 +905,7 @@
     <Content Include="modules\template\system\ordertypes.html" />
     <Content Include="modules\template\system\team-detail.html" />
     <Content Include="modules\template\system\opportunitystages.html" />
-    <Content Include="modules\template\system\opportunitystage-detail.html" />
+    <Content Include="modules\template\system\orderstage-detail.html" />
     <Content Include="Views\Products\ConfirmPurchase.cshtml" />
     <Content Include="Views\Products\Purchases.cshtml" />
     <Content Include="Views\CustomerRPT\Index.cshtml" />

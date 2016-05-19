@@ -2,8 +2,8 @@
 
 
 /*客户阶段*/
-.stages-box { width:100%; overflow-y:auto; white-space:nowrap; padding-bottom:30px; }
-.stages-box .stages-item { width:240px; border:solid 1px #ccc; margin-right:10px; border-radius:2px; vertical-align:top;
+.stages-box { width:100%; overflow-y:auto;  padding-bottom:30px; }/*white-space:nowrap;*/
+.stages-box .stages-item { width:240px; border:solid 1px #ccc; margin-right:10px; margin-top:5px; border-radius:2px; vertical-align:top;
                            background-color:#f6f6f6; padding:10px; position:relative; display:inline-block;  }
 .stages-box .stages-item .name{ height:30px; line-height:30px;  text-indent:5px; }
 .stages-item .name span{ font-size:14px; color:#333; display:inline-block; height:30px; line-height:30px; width:200px; }
@@ -21,6 +21,10 @@
 
 .stages-box .create-child { height:30px; line-height:30px; color:#999; cursor:pointer; text-indent:5px; margin-top:5px; }
 .stages-box .create-child:hover { background-color:#fff; color:#333; }
+
+.easydialog-create .stage-item{ width:100px; height:35px; float:left; line-height:35px; border:solid 1px #ccc; margin:10px 5px; text-align:center; cursor:pointer; }
+.easydialog-create .stage-item:hover{ border-color:#2F73B8; color:#2F73B8;}
+.easydialog-create .stage-item.hover{ border-color:#2F73B8; color:#fff; background-color:#2F73B8;}
 
 
 /*团队成员*/

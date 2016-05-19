@@ -121,8 +121,8 @@
                         var entity = {};
                         entity.ProcessID = model ? model.ProcessID : "";
                         entity.ProcessName = $("#processName").val().trim();
-                        entity.ProcessType = $("#processType").find(".hover").val();
-                        entity.CategoryType = $("#categoryType").find(".hover").val();
+                        entity.ProcessType = $("#processType").find(".hover").data("value");
+                        entity.CategoryType = $("#categoryType").find(".hover").data("value");
                         entity.PlanDays = 0;//$("#planDays").val().trim();
                         entity.IsDefault = 0;
                         _self.saveModel(entity);
@@ -143,6 +143,8 @@
                 $(".ico-radiobox").removeClass("hover");
                 $("#processType").find(".ico-radiobox[data-value='" + model.ProcessType + "']").addClass("hover");
                 $("#categoryType").find(".ico-radiobox[data-value='" + model.CategoryType + "']").addClass("hover");
+                $("#processName").val(model.ProcessName);
+                $("#planDays").val(model.PlanDays);
             } else {
                 $(".radiobox").click(function () {
                     var _this = $(this);
@@ -154,8 +156,7 @@
             }
 
             $("#processName").focus();
-            $("#processName").val(model.ProcessName);
-            $("#planDays").val(model.PlanDays);
+            
 
         }); 
     }
