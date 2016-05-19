@@ -1,6 +1,4 @@
 ﻿
-<<<<<<< HEAD
-
 * { padding: 0; margin: 0; font-size:9pt; color:#333; font-family:"Microsoft yahei","微软雅黑"; }/*033d91*/
 li{ list-style-type:none;}
 a { text-decoration: none; color: #4a98e7; }
@@ -66,10 +64,6 @@ select option{ padding:2px; }
 
 .ico-orderby-down-hover{ background:url(../images/ico-orderby-down-hover.png) no-repeat; height:12px; min-width:12px; line-height:12px; 
           display:inline-block; cursor:pointer;}
-
-
-=======
->>>>>>> e120ce69d736fa0d20b0121079caf69b81276bb1
 /*header样式*/
 header { height:50px; width:100%; background-color:#2F73B8; position:fixed; top:0; z-index:999; opacity:0.9;}
 
