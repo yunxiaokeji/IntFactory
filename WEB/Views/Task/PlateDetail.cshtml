@@ -1,5 +1,5 @@
 ﻿@{
-    var isRoot = (@ViewBag.Status != 8 && @ViewBag.Mark == 2 && @ViewBag.FinishStatus > 0 && Model.Status < 3) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
+    var isRoot = (@ViewBag.Status != 8 && @ViewBag.Mark == 12 && @ViewBag.FinishStatus > 0 && Model.Status < 3) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
  }
 
 @{if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010107"))){
