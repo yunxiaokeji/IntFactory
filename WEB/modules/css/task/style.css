@@ -443,10 +443,23 @@
 
 /*成员列表样式*/
 /*暂无成员*/
-.memberlist h1 {line-height:30px;height:30px;width:395px;border-bottom:1px solid #efefef;margin-bottom:5px;}
-.memberlist h1 span {  font-size:16px;color:#888;}
+.memberlist .member-title {line-height:30px;height:30px;width:395px;border-bottom:1px solid #efefef;margin-bottom:5px;}
+.memberlist .member-title span {  font-size:14px;color:#888;}
 
-.memberlist ul {width:395px;max-height:320px;border:1px solid #ddd;overflow-y:auto;border-radius:2px; padding-bottom:10px;}
+.memberlist .member-items {width:395px;max-height:320px;border:1px solid #ddd;overflow-y:auto;}
+.memberlist .member-items tr { text-align:center;width:25%;line-height:30px;}
+.memberlist .member-items th { text-align:inherit;font-size:14px;height:40px;background-color:#efefef;color:#666;}
+.member-items td i { font-style:normal;vertical-align:middle;}
+.member-items i img { width:22px;height:22px;border-radius:50%;vertical-align:middle;}
+.memberlist .membername { width:46px;display:inline-block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+
+.member-items td .check-lump{text-indent:-9999px;text-indent:0;border:1px solid #4a98e7;display:inline-block;line-height:18px;height:18px;width:18px;border-radius:50%;font-size:18px;}
+.member-items i.checked { color:#4a98e7;}
+.removeTaskMember { color:#999;}
+.removeTaskMember:hover {color:#4a98e7; }
+
+
+/*.memberlist ul {width:395px;max-height:320px;border:1px solid #ddd;overflow-y:auto;border-radius:2px; padding-bottom:10px;}
 .memberlist li { text-align:center;display:table;width:100%;padding:0 10px;box-sizing:border-box;}
 .memberlist li span {display:table-cell;width:17%;color:#777;}
 .memberlist span i { font-style:normal;vertical-align:middle;}
@@ -457,5 +470,4 @@
 .memberlist li:first-child span{font-size:14px;line-height:40px;}
 .memberlist li:not(:first-child) span {height:36px;line-height:36px;}
 .memberlist li .check-lump {vertical-align:middle;cursor:pointer; display:inline-block;width:20px;height:20px;border:1px solid #ccc;text-align:center;line-height:20px;background-color:#fff;box-shadow: 0 0 1px #888 inset;text-indent:-999px; color:transparent;transition:background-color 0.2s;}
-.memberlist li .checked {background-color:#4a98e7;border-color:#4a98e7;color:#fff;font-size:20px;text-indent:0;}
-.memberlist .membername { width:46px;display:inline-block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.memberlist li .checked {background-color:#4a98e7;border-color:#4a98e7;color:#fff;font-size:20px;text-indent:0;}*/

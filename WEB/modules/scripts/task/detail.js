@@ -194,7 +194,7 @@
                                 continue;
                             }
 
-                            if ($(".memberlist" + " li[data-id='" + item.id + "']").html()) {
+                            if ($(".memberlist" + " tr[data-id='" + item.id + "']").html()) {
                                 continue;
                             }
 
@@ -226,7 +226,7 @@
                             type: _this.data('type')
                         }, function (data) {
                             if (data.result == 1) {
-                                _this.parents('li').find('.check-lump').removeClass('checked');
+                                _this.parents('tr').find('.check-lump').removeClass('checked');
                                 _this.addClass('checked');
                             } else {
                                 alert('授权失败');
@@ -237,9 +237,9 @@
             })
 
             //列表删除任务成员
-            $(".memberlist span.removeTaskMember").unbind().click(function () {
+            $(".memberlist td.removeTaskMember").unbind().click(function () {
                 var memberID = $(this).data("id");
-                var confirmMsg = "确定删除成员<span style='color:red;font-size:14px;'>" + $(this).parents('li').find('.membername').text() + "</span>?";
+                var confirmMsg = "确定删除成员<span style='color:red;font-size:14px;'>" + $(this).parents('tr').find('.membername').text() + "</span>?";
 
                 confirm(confirmMsg, function () {
                     ObjectJS.removeTaskMember(memberID);
@@ -389,20 +389,10 @@
                 //    });
                 //});
 
-                //列表删除任务成员
-                $(".memberlist span.removeTaskMember").unbind().click(function () {
-                    var memberID = $(this).data("id");
-                    var confirmMsg = "确定删除<span style='color:red;font-size:14px;'>" + $(this).parents('li').find('.membername').text() + "</span>?";
-                    
-                    confirm(confirmMsg, function () {
-                        ObjectJS.removeTaskMember(memberID);
-                    });
-                });
-
                 //任务负责人更改成员权限
-                $('.check-lump').unbind().click(function () {
+                $('.check-lump').click(function () {
                     var _this = $(this);
-                    var confirmMsg = "确定将<span style='color:red;font-size:14px;'>" + _this.parents('li').find('.membername').text() + "</span>的权限更改为" + (_this.data('type') == 1 ? "查看" : "编辑") + "?";
+                    var confirmMsg = "确定将" + _this.parents('li').find('.membername').text() + "的权限设置为<span style='font-size:14px;color:red;'>" + (_this.data('type') == 1 ? "查看" : "编辑") + "</span>?";
 
                     if (!_this.hasClass('checked')) {
                         confirm(confirmMsg, function () {
@@ -412,7 +402,7 @@
                                 type: _this.data('type')
                             }, function (data) {
                                 if (data.result == 1) {
-                                    _this.parents('li').find('.check-lump').removeClass('checked');
+                                    _this.parents('tr').find('.check-lump').removeClass('checked');
                                     _this.addClass('checked');
                                 } else {
                                     alert('授权失败');
@@ -421,6 +411,16 @@
                         })
                     }
                 })
+
+                //列表删除任务成员
+                $(".memberlist td.removeTaskMember").unbind().click(function () {
+                    var memberID = $(this).data("id");
+                    var confirmMsg = "确定删除成员<span style='color:red;font-size:14px;'>" + $(this).parents('tr').find('.membername').text() + "</span>?";
+
+                    confirm(confirmMsg, function () {
+                        ObjectJS.removeTaskMember(memberID);
+                    });
+                });
 
 
             }
@@ -437,8 +437,8 @@
                 alert(memberIDs);
             }
             else {
-                $("#taskMemberIDs" + " div[data-id='" + memberID + "']").remove();
-                $(".memberlist li[data-id='" + memberID + "']").remove();
+                //$("#taskMemberIDs" + " div[data-id='" + memberID + "']").remove();
+                $(".memberlist tr[data-id='" + memberID + "']").remove();
             }
         });
     }
@@ -454,13 +454,13 @@
         html += '</div>';
 
         var memberListHtml = '';
-        memberListHtml += '<li data-id="' + item.id + '">';
-        memberListHtml += '<span class="tLeft"><i class="mRight2"><img onerror="$(this).attr("src","/modules/images/defaultavatar.png"); src="' + (item.Avatar == null ? "/modules/images/defaultavatar.png" : item.Avatar) + '" /></i><i class="membername">' + item.name + '</i></span>';
-        memberListHtml += '<span><i class="iconfont check-lump checked" data-taskid="' + ObjectJS.taskid + '" data-memberid="'+item.id+'" data-type=1 >&#xe626;</i></span>';
-        memberListHtml += '<span><i class="iconfont check-lump" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=2 >&#xe626;</i></span>';
-        memberListHtml += '<span class="removeTaskMember iconfont" data-id="' + item.id + '">&#xe616;</span></li>';
+        memberListHtml += '<tr data-id="' + item.id + '">';
+        memberListHtml += '<td class="tLeft"><i class="mLeft10"><img onerror="$(this).attr("src","/modules/images/defaultavatar.png"); src="' + (item.Avatar == null ? "/modules/images/defaultavatar.png" : item.Avatar) + '" /></i><i class="membername">' + item.name + '</i></td>';
+        memberListHtml += '<td><i class="hand iconfont check-lump checked" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=1 >&#xe652;</i></td>';
+        memberListHtml += '<td><i class="hand iconfont check-lump" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=2 >&#xe652;</i></td>';
+        memberListHtml += '<td class="removeTaskMember iconfont hand" data-id="' + item.id + '">&#xe651;</td>';
 
-        $('.memberlist ul').append(memberListHtml);
+        $('.memberlist .member-items tbody').append(memberListHtml);
 
         //$("#taskMemberIDs").append(html);
     }
