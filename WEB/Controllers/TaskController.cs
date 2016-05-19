@@ -86,10 +86,24 @@ namespace YXERP.Controllers
             var task = TaskBusiness.GetTaskDetail(id);
             ViewBag.Model = task;
 
+            //任务对应的订单详情
+            var order = OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
+            if (order.Details == null){
+                order.Details = new List<IntFactoryEntity.OrderDetail>();
+            }
+            ViewBag.Order = order;
+
+            if(!IsSeeRoot(task,order)){
+                Response.Write("<script>alert('您无查看任务权限');location.href='/Task/MyTask';</script>");
+                Response.End();
+            }
+
             //任务剩余时间警告
             var IsWarn = 0;
-            if (task.FinishStatus == 1) {
-                if (task.EndTime > DateTime.Now) {
+            if (task.FinishStatus == 1)
+            {
+                if (task.EndTime > DateTime.Now)
+                {
                     var totalHour = (task.EndTime - task.AcceptTime).TotalHours;
                     var residueHour = (task.EndTime - DateTime.Now).TotalHours;
 
@@ -101,13 +115,6 @@ namespace YXERP.Controllers
                 }
             }
             ViewBag.IsWarn = IsWarn;
-
-            //任务对应的订单详情
-            var order = OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
-            if (order.Details == null){
-                order.Details = new List<IntFactoryEntity.OrderDetail>();
-            }
-            ViewBag.Order = order;
 
             ViewBag.FinishStatus = task.FinishStatus;
             ViewBag.TaskID = task.TaskID;
@@ -136,6 +143,7 @@ namespace YXERP.Controllers
 
             return View();
         }
+
 
         /// <summary>
         /// 我的任务 
@@ -428,6 +436,25 @@ namespace YXERP.Controllers
         }
 
         #endregion
+
+        public bool IsSeeRoot(TaskEntity task, IntFactoryEntity.OrderEntity order) {
+            if (task.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase)) {
+                return true;
+            }
+            else if(task.TaskMembers.Find(m=>m.MemberID.ToLower()==CurrentUser.UserID.ToLower())!=null)
+            {
+                return true;
+            }
+            else if (order.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase)) {
+                return true;
+            }
+            else if (string.IsNullOrEmpty(ExpandClass.IsLimits("109010200")))
+            {
+                return true;
+            }
+
+            return false;
+        }
 
 
     }

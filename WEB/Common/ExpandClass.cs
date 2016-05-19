@@ -71,6 +71,19 @@ public static class ExpandClass
     /// <summary>
     /// 是否有权限
     /// </summary>
+    public static string IsLimits(string menucode)
+    {
+        if (HttpContext.Current.Session["ClientManager"] != null)
+        {
+            IntFactoryEntity.Users model = (IntFactoryEntity.Users)HttpContext.Current.Session["ClientManager"];
+            if (model.Menus.Where(m => m.MenuCode == menucode).Count() > 0)
+            {
+                return "";
+            }
+        }
+        return "nolimits";
+    }
+
     public static string IsLimits(HttpContext httpContext, string menucode)
     {
         if (httpContext.Session["ClientManager"] != null)
