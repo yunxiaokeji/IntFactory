@@ -446,7 +446,7 @@
 .memberlist h1 {line-height:30px;height:30px;width:395px;border-bottom:1px solid #efefef;margin-bottom:5px;}
 .memberlist h1 span {  font-size:16px;color:#888;}
 
-.memberlist ul {width:395px;max-height:320px;border:1px solid #ddd;margin-right:30px;overflow-y:auto;border-radius:2px; }
+.memberlist ul {width:395px;max-height:320px;border:1px solid #ddd;overflow-y:auto;border-radius:2px; padding-bottom:10px;}
 .memberlist li { text-align:center;display:table;width:100%;padding:0 10px;box-sizing:border-box;}
 .memberlist li span {display:table-cell;width:17%;color:#777;}
 .memberlist span i { font-style:normal;vertical-align:middle;}
