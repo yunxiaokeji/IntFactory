@@ -895,6 +895,7 @@
                     header: "新增制版属性列",
                     content: innerHtml,
                     yesFn: function () {
+                        debugger;
                         var $hovers = $("#setTaskPlateAttrBox li.hover");
                         if ($hovers.length == 0) return;
 
@@ -990,6 +991,7 @@
         if ($("#btn-addTaskPlate").length == 0) return;
 
         $("#btn-addTaskPlate").unbind().bind("click", function () {
+            debugger;
             var noHaveLi = false;
             var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
             for (var i = 0; len = CacheAttrValues.length, i < len; i++) {
@@ -1010,6 +1012,7 @@
                     header: "新增制版属性列",
                     content: innerHtml,
                     yesFn: function () {
+                        debugger;
                         var $hovers = $("#setTaskPlateAttrBox li.hover");
                         if ($hovers.length == 0) return;
 
@@ -1080,6 +1083,7 @@
 
     //保存制版信息
     ObjectJS.updateOrderPlatemaking = function () {
+        debugger;
         if ($("#platemakingBody").html() == "") { return; }
 
         if ($(".tbContentIpt:visible").length == 0) { return; }
@@ -1102,6 +1106,9 @@
             if (data.result == 1) {
                 alert("保存成功");
                 ObjectJS.isPlate = true;
+            }
+            else {
+                alert("aa");
             }
         });
     }

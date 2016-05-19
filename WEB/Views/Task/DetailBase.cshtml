@@ -223,14 +223,11 @@
     <ul class="module-tab">
         <li  class="hover" data-id="taskReplys">讨论</li>
         @{
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010106")))
-            {
+
             <li  data-id="navProducts">材料</li>
-            }
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010107")))
-            {
+
             <li  data-id="platemakingContent">制版</li>
-            }
+           
             @*
          
             
