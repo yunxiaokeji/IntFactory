@@ -33,6 +33,9 @@
         _self.getList();
         _self.bindEvent(type);
     }
+
+    ObjectJS.isLoading = true;
+
     //绑定事件
     ObjectJS.bindEvent = function (type) {
         var _self = this;
@@ -43,6 +46,9 @@
             }
         });
         $("#btnSearch").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             Params.PageIndex = 1;
             Params.BeginTime = $("#BeginTime").val().trim();
             Params.EndTime = $("#EndTime").val().trim();
@@ -52,6 +58,9 @@
         
         //选择客户来源类型
         $(".customer-source li").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);            
             if (!_this.hasClass("source-hover")) {
                 _this.siblings().removeClass("source-hover");
@@ -66,6 +75,9 @@
 
         //切换颜色标记
         $(".search-item-color li").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -85,6 +97,9 @@
 
         //选择字母
         $(".search-letter li").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             
             $(".data-loading").remove();
@@ -106,6 +121,9 @@
 
         //切换阶段
         $(".search-stages li").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -118,6 +136,9 @@
 
         //切换状态
         $(".search-status li").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -130,6 +151,9 @@
 
         //关键字搜索
         require.async("search", function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             $(".searth-module").searchKeys(function (keyWords) {
                 Params.PageIndex = 1;
                 Params.Keywords = keyWords;
@@ -193,6 +217,9 @@
         }
         //全部选中
         $("#checkAll").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             if (!_this.hasClass("ico-checked")) {
                 $(".list-card").addClass("hover");
@@ -208,6 +235,9 @@
         });
         //转移拥有者
         $("#changeOwner").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             ChooseUser.create({
                 title: "更换负责人",
@@ -226,6 +256,9 @@
         });
         //批量转移
         $("#batchChangeOwner").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var checks = $(".list-customer .icon-check");
             
             if (checks.length > 0) {
@@ -277,10 +310,11 @@
         $(".list-card").remove();
         $(".nodata-txt").remove();
         $(".list-customer").append("<div class='data-loading' ><div>");
-        
+        ObjectJS.isLoading = false;
         Global.post("/Customer/GetCustomers", { filter: JSON.stringify(Params) }, function (data) {
             _self.bindCardList(data);
             _self.bindCustomerList(data);
+            ObjectJS.isLoading = true;
         });
     }
     //加载列表
@@ -428,16 +462,19 @@
             alert("不能标记此选项!");
             return false;
         }
+        ObjectJS.isLoading = false;
         Global.post("/Customer/UpdateCustomMark", {
             ids: ids,
             mark: mark
         }, function (data) {
             callback && callback(data.status);
+            ObjectJS.isLoading = true;
         });
     }
     //转移客户
     ObjectJS.ChangeOwner = function (ids, userid) {
         var _self = this;
+        ObjectJS.isLoading = false;
         Global.post("/Customer/UpdateCustomOwner", {
             userid: userid,
             ids: ids
@@ -445,6 +482,7 @@
             if (data.status) {
                 _self.getList();
             }
+            ObjectJS.isLoading = true;
         });
     }
 
