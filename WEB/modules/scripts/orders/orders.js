@@ -519,16 +519,6 @@
                 });
 
                 $(".object-items").append(innerhtml);
-
-                innerhtml.find(".orderimg img").each(function () {
-                    if ($(this).width() > $(this).height()) {
-                        $(this).css("width", 250);
-                    } else if ($(this).width() < $(this).height()) {
-                        $(this).css("height", 250);
-                    } else {
-                        $(this).css("height", 250);
-                    }
-                });
             });
         }
         else
