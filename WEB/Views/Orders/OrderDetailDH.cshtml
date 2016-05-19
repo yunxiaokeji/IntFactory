@@ -222,7 +222,7 @@
         {
             <span title="更换流程" class="change-ico iconfont left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess">&#xe60b;</span>
         }
-        <div class="left info mLeft20">负责人：@(model.OrderProcess.Owner.Name)</div>
+        <div class="left info mLeft20">负责人：@(model.OrderProcess!=null&&model.OrderProcess.Owner!=null?model.OrderProcess.Owner.Name:"")</div>
 
         @if (model.IsSelf)
         {

@@ -45,8 +45,6 @@ namespace YXERP
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            return;
-            Response.Clear();
             Exception exception = Server.GetLastError();
             HttpException httpException = exception as HttpException;
             RouteData routeData = new RouteData();

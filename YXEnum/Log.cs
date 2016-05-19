@@ -28,7 +28,9 @@ namespace IntFactoryEnum
         Opportunity = 7,
         StockIn = 8,
         StockOut = 9,
-        OrderTask=10
+        OrderTask = 10,
+        PullOrder = 11,
+        OrderDoc = 12,
     }
 
     /// <summary>

@@ -13,15 +13,7 @@ namespace IntFactoryBusiness
     public class TaskBusiness
     {
         #region 增
-        /// <summary>
-        /// 创建任务
-        /// </summary>
-        /// <param name="orderID"></param>
-        /// <returns></returns>
-        public static bool CreateTask(string orderID) 
-        {
-            return TaskDAL.BaseProvider.CreateTask(orderID);
-        }
+
         #endregion
 
         #region 查
@@ -166,6 +158,7 @@ namespace IntFactoryBusiness
             {
                 string msg = "将任务截至日期设为：" + (endTime == null ? "未指定日期" : endTime.Value.Date.ToString("yyyy-MM-dd"));
                 LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, agentid, clientid);
             }
 
             return flag;
@@ -196,6 +189,7 @@ namespace IntFactoryBusiness
             {
                 string msg = "将任务标记为完成";
                 LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, agentid, clientid);
             }
 
             return flag;

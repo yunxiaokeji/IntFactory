@@ -8,6 +8,7 @@ using IntFactoryBusiness;
 using IntFactoryEntity.Task;
 using IntFactoryEnum;
 using System.Globalization;
+using System.IO;
 namespace YXERP.Controllers
 {
     public class TaskController : BaseController
@@ -45,6 +46,82 @@ namespace YXERP.Controllers
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public JsonResult ExecuteDownAliOrdersPlan()
+        {
+            int successCount = 0, total = 0;
+            //获取阿里订单下载计划列表
+            var list = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlans();
+
+            foreach (var item in list)
+            {
+                string error;
+
+                //下载阿里打样订单
+                var gmtFentEnd = DateTime.Now;
+                bool flag = AliOrderBusiness.DownFentOrders(item.FentSuccessEndTime, gmtFentEnd, item.Token, item.RefreshToken,
+                    item.UserID, item.AgentID, item.ClientID, ref successCount, ref total, out error);
+
+                //新增阿里打样订单下载日志
+                AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.FentSuccessEndTime, gmtFentEnd,
+                    successCount, total, item.AgentID, item.ClientID, error);
+
+                //添加服务日志
+                string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 下载打样订单结果:" + (flag ? "成功" : "失败");
+                if (!flag)
+                    state += "  原因：" + error;
+                WriteLog(state);
+
+
+                //下载阿里大货订单列表
+                var gmtBulkEnd = DateTime.Now;
+                flag = AliOrderBusiness.DownBulkOrders(item.BulkSuccessEndTime, gmtBulkEnd, item.Token, item.RefreshToken,
+                    item.UserID, item.AgentID, item.ClientID, ref successCount, ref total, out error);
+
+                //新增阿里大货订单下载日志
+                AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.BulkSuccessEndTime, gmtBulkEnd,
+                    successCount, total, item.AgentID, item.ClientID, error);
+
+                //添加服务日志
+                state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 下载大货订单结果:" + (flag ? "成功" : "失败");
+                if (!flag)
+                    state += "  原因：" + error;
+                WriteLog(state);
+            }
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 添加服务日志
+        /// </summary>
+        public void WriteLog(string str, int logType = 1)
+        {
+            string fileName = DateTime.Now.ToString("yyyy-MM-dd");
+            string fileExtention = ".txt";
+            string directoryName = "downaliorders";
+            FileStream fs = null;
+            if (logType == 2)
+                directoryName = "updatealiorders";
+
+            if (!Directory.Exists(@"c:\log\" + directoryName))
+            {
+                Directory.CreateDirectory(@"c:\log\" + directoryName);
+            }
+
+            fs = new FileStream(@"c:\log\" + directoryName + "\\" + fileName + fileExtention, FileMode.OpenOrCreate, FileAccess.Write);
+
+            StreamWriter sw = new StreamWriter(fs);
+            sw.BaseStream.Seek(0, SeekOrigin.End);
+            sw.WriteLine("WindowsService: Service Started" + str + "\n");
+
+            sw.Flush();
+            sw.Close();
+            fs.Close();
         }
 
         public JsonResult BatchUpdateFentList()
@@ -86,10 +163,24 @@ namespace YXERP.Controllers
             var task = TaskBusiness.GetTaskDetail(id);
             ViewBag.Model = task;
 
+            //任务对应的订单详情
+            var order = OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
+            if (order.Details == null){
+                order.Details = new List<IntFactoryEntity.OrderDetail>();
+            }
+            ViewBag.Order = order;
+
+            if(!IsSeeRoot(task,order)){
+                Response.Write("<script>alert('您无查看任务权限');location.href='/Task/MyTask';</script>");
+                Response.End();
+            }
+
             //任务剩余时间警告
             var IsWarn = 0;
-            if (task.FinishStatus == 1) {
-                if (task.EndTime > DateTime.Now) {
+            if (task.FinishStatus == 1)
+            {
+                if (task.EndTime > DateTime.Now)
+                {
                     var totalHour = (task.EndTime - task.AcceptTime).TotalHours;
                     var residueHour = (task.EndTime - DateTime.Now).TotalHours;
 
@@ -101,13 +192,6 @@ namespace YXERP.Controllers
                 }
             }
             ViewBag.IsWarn = IsWarn;
-
-            //任务对应的订单详情
-            var order = OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
-            if (order.Details == null){
-                order.Details = new List<IntFactoryEntity.OrderDetail>();
-            }
-            ViewBag.Order = order;
 
             ViewBag.FinishStatus = task.FinishStatus;
             ViewBag.TaskID = task.TaskID;
@@ -136,6 +220,7 @@ namespace YXERP.Controllers
 
             return View();
         }
+
 
         /// <summary>
         /// 我的任务 
@@ -428,6 +513,25 @@ namespace YXERP.Controllers
         }
 
         #endregion
+
+        public bool IsSeeRoot(TaskEntity task, IntFactoryEntity.OrderEntity order) {
+            if (task.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase)) {
+                return true;
+            }
+            else if(task.TaskMembers.Find(m=>m.MemberID.ToLower()==CurrentUser.UserID.ToLower())!=null)
+            {
+                return true;
+            }
+            else if (order.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase)) {
+                return true;
+            }
+            else if (string.IsNullOrEmpty(ExpandClass.IsLimits("109010200")))
+            {
+                return true;
+            }
+
+            return false;
+        }
 
 
     }

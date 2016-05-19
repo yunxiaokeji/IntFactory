@@ -51,6 +51,7 @@
     <Compile Include="Custom\ActivityDAL.cs" />
     <Compile Include="Custom\CustomDAL.cs" />
     <Compile Include="Finance\FinanceDAL.cs" />
+    <Compile Include="Manage\ClientOrderAccountDAL.cs" />
     <Compile Include="Manage\ClientOrderDAL.cs" />
     <Compile Include="Manage\FeedBackDAL.cs" />
     <Compile Include="Manage\ModulesProductDAL.cs" />

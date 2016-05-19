@@ -303,6 +303,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public ActionResult MDLogin(string ReturnUrl)
         {
+<<<<<<< HEAD
             if (string.IsNullOrEmpty(ReturnUrl))
             {
                 return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl() );
@@ -311,6 +312,9 @@ namespace YXERP.Controllers
             {
                 return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl(ReturnUrl) );
             }
+=======
+            return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl(ReturnUrl));
+>>>>>>> 892851ca93cd15395c984248500aa4790fc9e0e8
         }
 
         //明道登录回掉
@@ -697,7 +701,10 @@ namespace YXERP.Controllers
 
                     if (bl)
                     {
+<<<<<<< HEAD
+=======
                         Common.Common.CachePwdErrorUsers.Remove(loginName);
+>>>>>>> 892851ca93cd15395c984248500aa4790fc9e0e8
                         Common.Common.ClearMobilePhoneCode(loginName);
                     }
                 }
