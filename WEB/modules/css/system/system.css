@@ -63,12 +63,17 @@
 
 
 /*图片预览*/
-.absolute-img { position:absolute; top:170px; right:40px; height:100px; width:100px; }
-
+.absolute-img { position:absolute; right:40px; height:100px; width:100px; }
+.absolute-img-save { position:absolute; z-index:10002;height:100px;width:100px;top:80px;right:20px;}
 
 .ordercategory-item { clear:both; background-color:#f9f9f9; overflow:auto; margin-bottom:20px; padding:20px; }
 .ordercategory-item .items-header { height:25px; line-height:25px; border-bottom:solid 1px #ccc; font-size:14px; }
 .child-items-div { clear:both; margin-top:10px; }
 .child-items-div li{ float:left; margin-right:20px; cursor:pointer; }
 
-
+/*公司信息*/
+.update-content-body { position:fixed;z-index:10001;background-color:#fff;top:8%;left:30%;padding:20px;border-radius:5px;display:none;}
+.update-content-body .update-title{border-bottom:1px solid #eee;padding-bottom:7px;font-size:14px;}
+.update-content-body .update-title span{font-size:11pt;}
+.update-content-body .update-title .close_btn{background:#fff url(/modules/plug/easydialog/ico-close.png) no-repeat;height:16px;width:16px;float:right;}
+.update-content-body .update-title .close_btn:hover{background:#fff url(/modules/plug/easydialog/ico-close-hover.png) no-repeat;}

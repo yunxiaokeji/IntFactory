@@ -99,7 +99,31 @@
                     <span class="column-title">完成时间</span>
                     <span id="CompleteTime">@(Model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : Model.CompleteTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
                 </li>
-                <li>
+                 <li>
+                    
+                    @{
+                        if (!ViewBag.IsTaskOwner || Model.FinishStatus != 1)
+                        {
+                            <span class="column-title left">成员</span>                            
+                            if (Model.TaskMembers.Count > 0)
+                            {
+                                foreach (var member in Model.TaskMembers)
+                                {
+                                <div class="task-member left">
+                                    <div class="pRight5"><span>@member.Member.Name</span></div>
+                                </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="left">暂无成员</div>
+                            }
+                        }
+                    }
+                    <div class="clear"></div>
+                 </li>
+
+ @*   显示成员横版模式            <li>
                     <span class="column-title left">成员</span>
                     @{
                         if (ViewBag.IsTaskOwner && Model.FinishStatus == 1)
@@ -108,9 +132,9 @@
                                 @{
                             foreach (var member in Model.TaskMembers)
                             {
-                                    <div class="task-member left" data-id="@member.UserID">
-                                        <div class="left pRight5"><span>@member.Name</span></div>
-                                        <div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="@member.UserID" >×</a></div>
+                                    <div class="task-member left" data-id="@member.Member.UserID">
+                                        <div class="left pRight5"><span>@member.Member.Name</span></div>
+                                        <div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="@member.Member.UserID" >×</a></div>
                                         <div class="clear"></div>
                                     </div>
                             }
@@ -126,7 +150,7 @@
                                 foreach (var member in Model.TaskMembers)
                                 {
                                 <div class="task-member left">
-                                    <div class="pRight5"><span>@member.Name</span></div>
+                                    <div class="pRight5"><span>@member.Member.Name</span></div>
                                 </div>
                                 }
                             }
@@ -138,10 +162,55 @@
                         }
                     }
                     <div class="clear"></div>
-                 </li>
+                 </li>*@
             </ul>
         </div>
-
+       
+               @{
+                   if (ViewBag.IsTaskOwner && Model.FinishStatus == 1)
+                   {
+                    <div class="right memberlist mTop10">
+                    <h1>
+                        <span class="left mLeft10">成员列表</span>
+                        <span class="right ico-add" id="addTaskMembers">添加成员</span>
+                    </h1>
+                    <div class="clear"></div>
+                    <ul>
+                        @{
+                       <li>
+                           <span>成员姓名</span>
+                           <span>查看权限</span>
+                           <span>编辑权限</span>
+                           <span>操作</span>
+                       </li>
+                       if (Model.TaskMembers.Count > 0)
+                       {
+                           foreach (var member in Model.TaskMembers)
+                           {
+                               
+                                <li data-id="@member.Member.UserID">
+                                    <span class="tLeft">
+                                        <i class="mRight2"><img onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="@(string.IsNullOrEmpty(member.Member.Avatar) ? "/modules/images/defaultavatar.png" : member.Member.Avatar)" /></i>
+                                        <i class="membername">@member.Member.Name</i>
+                                    </span>
+                                    <span>
+                                        <i class="iconfont check-lump @(member.PermissionType==1?"checked":"")" data-type="1" data-taskid="@member.TaskID" data-memberid="@member.MemberID">&#xe626;</i>
+                                    </span>
+                                    <span>
+                                        <i class="iconfont check-lump @(member.PermissionType==2?"checked":"")" data-type="2" data-taskid="@member.TaskID" data-memberid="@member.MemberID">&#xe626;</i>
+                                    </span>
+                                    <span class="removeTaskMember iconfont" data-id="@member.Member.UserID">&#xe616;</span>
+                                </li>
+                           }
+                       }
+                       
+                        }
+                    </ul>
+                    </div>
+                    }
+               }
+              
+         
        <div class="clear"></div>
        
         <div class="order-remark">订单需求: </div>
@@ -154,11 +223,12 @@
     <ul class="module-tab">
         <li  class="hover" data-id="taskReplys">讨论</li>
         @{
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010106")))
+
+            if(Model.Mark==11)
             {
             <li  data-id="navProducts">材料</li>
             }
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010107")))
+            if(Model.Mark==12)
             {
             <li  data-id="platemakingContent">制版</li>
             }

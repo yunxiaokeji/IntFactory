@@ -86,6 +86,18 @@ namespace YXERP.Controllers
             var task = TaskBusiness.GetTaskDetail(id);
             ViewBag.Model = task;
 
+            var IsEditTask = false;
+            TaskMember member = task.TaskMembers.Find(a => a.MemberID.ToLower() == CurrentUser.UserID.ToLower());
+            
+            if(member!=null){
+                if(member.PermissionType==2)
+                {
+                    IsEditTask=true;
+                }
+            }
+
+            ViewBag.IsEditTask = IsEditTask;
+
             //任务剩余时间警告
             var IsWarn = 0;
             if (task.FinishStatus == 1) {
@@ -115,6 +127,10 @@ namespace YXERP.Controllers
             ViewBag.Status = task.Status;
             //当前用户是否为任务负责人
             ViewBag.IsTaskOwner = task.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase) ? true : false;
+
+            //ViewBag.IsTaskMember
+
+            
 
             //订单的品类属性
             ViewBag.ProductAttr = new IntFactoryEntity.ProductAttr();
@@ -316,7 +332,8 @@ namespace YXERP.Controllers
 
         public JsonResult AddTaskMembers(string id, string memberIDs)
         {
-            bool flag= TaskBusiness.AddTaskMembers(id,memberIDs, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID);
+            int result = 0;
+            bool flag= TaskBusiness.AddTaskMembers(id,memberIDs, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID,out result);
             JsonDictionary.Add("result", flag?1:0);
 
             return new JsonResult
@@ -398,6 +415,21 @@ namespace YXERP.Controllers
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public JsonResult UpdateMemberPermission(string taskID, string memberID, int type)
+        {
+
+            bool flag = IntFactoryBusiness.TaskBusiness.UpdateMemberPermission(taskID, memberID, (TaskMemberPermissionType)type,
+                                                                               CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+
+            JsonDictionary.Add("result", flag ? 1 : 0);
+
+            return new JsonResult { 
+                Data=JsonDictionary,
+                JsonRequestBehavior=JsonRequestBehavior.AllowGet
+            };
+
         }
 
         #endregion

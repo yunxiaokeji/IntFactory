@@ -1,5 +1,5 @@
 ﻿@{
-    var isRoot = (@ViewBag.Status != 8 && @ViewBag.Mark == 2 && @ViewBag.FinishStatus > 0 && Model.Status < 3);
+    var isRoot = (@ViewBag.Status != 8 && @ViewBag.Mark == 12 && @ViewBag.FinishStatus > 0 && Model.Status < 3) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
  }
 
 @{if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010107"))){
@@ -31,7 +31,7 @@
     </div>
             
     @{
-      if (isRoot && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010102")))
+      if (isRoot)
         {
             var hasPlate = !string.IsNullOrEmpty(Model.Platemaking);
             if (!hasPlate)
@@ -47,7 +47,7 @@
     <div class="clear"></div>
 
     @{
-        if (isRoot && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010103")))
+        if (isRoot)
         { 
             <div class="content-main mTop20">
                 <div class="talk-title mBottom10" >工艺说明</div>

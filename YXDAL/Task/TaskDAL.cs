@@ -149,16 +149,23 @@ namespace IntFactoryDAL
             return result == 1;
         }
 
-        public bool AddTaskMembers(string taskID, string memberIDs,string operateID, string agentID)
+        public bool AddTaskMembers(string taskID, string memberIDs,string operateID, string agentID,out int result)
         {
+            result=0;
             SqlParameter[] paras = { 
+                                       new SqlParameter("@Result",SqlDbType.Int),
                                        new SqlParameter("@TaskID",taskID),
                                        new SqlParameter("@AgentID",agentID),
                                        new SqlParameter("@UserID",operateID),
                                        new SqlParameter("@MemberIDs",memberIDs)
                                    };
 
-            return ExecuteNonQuery("P_AddTaskMembers", paras, CommandType.StoredProcedure) > 0;
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
+            ExecuteNonQuery("P_AddTaskMembers", paras, CommandType.StoredProcedure);
+            result = Convert.ToInt32(paras[0].Value);
+
+            return  result==1;
         }
 
         public bool RemoveTaskMember(string taskID,string memberID)

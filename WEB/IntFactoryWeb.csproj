@@ -1229,13 +1229,13 @@
       <Project>{b86924c1-ec31-449f-97f3-258dfa43a44f}</Project>
       <Name>IntFactoryEnum</Name>
     </ProjectReference>
-    <ProjectReference Include="..\YXTool\CloudSalesTool.csproj">
-      <Project>{c9aca144-ea91-4fa5-a799-39d458af1fcb}</Project>
-      <Name>CloudSalesTool</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YX.SDK\AlibabaSdk.csproj">
       <Project>{c6cd2682-4dca-4ee8-a5e5-a0e117073390}</Project>
       <Name>AlibabaSdk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXTool\CloudSalesTool.csproj">
+      <Project>{c9aca144-ea91-4fa5-a799-39d458af1fcb}</Project>
+      <Name>CloudSalesTool</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
