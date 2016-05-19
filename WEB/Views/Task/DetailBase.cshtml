@@ -170,12 +170,12 @@
                    if (ViewBag.IsTaskOwner && Model.FinishStatus == 1)
                    {
                     <div class="right memberlist mTop10">
-                    <h1>
+                    <div class="member-title">
                         <span class="left mLeft10">成员列表</span>
                         <span class="right ico-add" id="addTaskMembers">添加成员</span>
-                    </h1>
+                    </div>
                     <div class="clear"></div>
-                    <ul>
+                    @*<ul>
                         @{
                        <li>
                            <span>成员姓名</span>
@@ -187,6 +187,7 @@
                        {
                            foreach (var member in Model.TaskMembers)
                            {
+                               
                                
                                 <li data-id="@member.Member.UserID">
                                     <span class="tLeft">
@@ -205,7 +206,42 @@
                        }
                        
                         }
-                    </ul>
+                    </ul>*@
+                     <table class="member-items">
+                        @{
+                       <tr>
+                           <th class="tLeft pLeft10">成员姓名</th>
+                           <th>查看权限</th>
+                           <th>编辑权限</th>
+                           <th>操作</th>
+                       </tr>
+                       if (Model.TaskMembers.Count > 0)
+                       {
+                           foreach (var member in Model.TaskMembers)
+                           {
+                                <tr data-id="@member.Member.UserID">
+                                    <td class="tLeft pLeft10">
+                                        <i><img onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="@(string.IsNullOrEmpty(member.Member.Avatar) ? "/modules/images/defaultavatar.png" : member.Member.Avatar)" /></i>
+                                        <i class="membername">@member.Member.Name</i>
+                                    </td>
+                                    <td>
+                                        <i class="hand ico-radiobox check-lump @(member.PermissionType==1?"hover":"")" data-type="1" data-taskid="@member.TaskID" data-memberid="@member.MemberID">
+                                               <span></span>
+                                        </i>
+                                    </td>
+                                    <td>
+                                        <i class="hand ico-radiobox check-lump @(member.PermissionType==2?"hover":"")" data-type="2" data-taskid="@member.TaskID" data-memberid="@member.MemberID">
+                                            <span></span>
+                                        </i>
+                                    </td>
+                                    <td class="hand removeTaskMember iconfont" data-id="@member.Member.UserID">&#xe651;</td>
+                                </tr>
+                           }
+                       }
+                       
+                        }
+                    </table>
+
                     </div>
                     }
                }

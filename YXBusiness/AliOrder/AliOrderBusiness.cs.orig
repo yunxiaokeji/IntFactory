@@ -331,6 +331,10 @@ namespace IntFactoryBusiness
 
             }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 892851ca93cd15395c984248500aa4790fc9e0e8
             return failGodesCodes.Count==0;
         }
 

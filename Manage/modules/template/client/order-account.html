@@ -3,17 +3,15 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td class="tLeft">{%=item.ClientCode%}</td>
-    <td class="tLeft"><a href="/Client/Detail/{%=item.ClientID%}">{%=item.CompanyName%}</a></td>
-    <td class="center">{%=item.UserQuantity%}</td>
-    <td class='center'>{%= item.Years%}</td>
+    <td class="center">{%=item.AlipayNo%}</td>
+    <td class='center'>{%=item.PayType==0?"未支付":item.PayType==1?"已支付":item.PayType==2?部分支付:"已关闭"%}</td>
+    <td class="center">{%= item.Type==1?"收款": "退款"%}</td>
     <td class='center'>{%= item.RealAmount%}</td>
-    <td class="center">{%= item.Type==1?"购买系统": item.Type==2?"购买人数":item.Type==3?"续费":"试用"%}</td>
-    <td class='center'>{%=item.Status==0?"未审核":item.Status==1?"已审核":"已关闭"%}</td>
-    <td class='center'>{%=item.Status==0?"未支付":item.Status==1?"已支付":item.Status==2?部分支付:"已关闭"%}</td>
+    <td class='center'>{%= item.Status==0?"未支付":item.Status==1?"已支付":item.Status==2?部分支付:"已关闭"%}</td>   
     <td>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     <td class='center'>{%=item.CreateUser==null?"--":item.CreateUser.Name%}</td>
-    <td class='center'>{%=item.SourceType==0?"客户下单":"系统下单"%}</td>        
+    <td class='center'>{%=item.CheckUser==null?"--":item.CheckUser.Name%}</td>
+    <td class='center'>{%=item.CheckTime.toDate("yyyy")!='3939'?item.CheckTime.toDate("yyyy-MM-dd"):'--'%}</td>     
         {% if(item.Status==1){ %}
             <td class="center"  data-id="{%=item.OrderID%}">
             <a href="/Client/OrderDetail/{%=item.OrderID%}" >查看明细</a>
