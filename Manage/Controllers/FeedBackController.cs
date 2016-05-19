@@ -31,7 +31,7 @@ namespace YXManage.Controllers
         {
 
             int totalCount = 0, pageCount = 0;
-            var list = FeedBackBusiness.GetFeedBacks(keyWords, beginDate, endDate, type, status, PageSize, pageIndex, out totalCount, out pageCount);
+            var list = FeedBackBusiness.GetFeedBacks(keyWords,string.Empty, beginDate, endDate, type, status, PageSize, pageIndex, out totalCount, out pageCount);
 
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
