@@ -235,7 +235,7 @@
                 var _this = $(this);
                 var confirmMsg = "确定将" + _this.parents('li').find('.membername').text() + "的权限设置为<span style='font-size:14px;color:red;'>" + (_this.data('type') == 1 ? "查看" : "编辑") + "</span>?";
                
-                if (!_this.hasClass('checked')) {
+                if (!_this.hasClass('hover')) {
                     confirm(confirmMsg, function () {
                         Global.post("/Task/UpdateMemberPermission", {
                             taskID: _this.data('taskid'),
@@ -243,8 +243,8 @@
                             type: _this.data('type')
                         }, function (data) {
                             if (data.result == 1) {
-                                _this.parents('tr').find('.check-lump').removeClass('checked');
-                                _this.addClass('checked');
+                                _this.parents('tr').find('.check-lump').removeClass('hover');
+                                _this.addClass('hover');
                             } else {
                                 alert('授权失败');
                             }
@@ -414,11 +414,17 @@
                 //});
 
                 //任务负责人更改成员权限
-                $('.check-lump').click(function () {
+                $('.check-lump').unbind().click(function () {
                     var _this = $(this);
                     var confirmMsg = "确定将" + _this.parents('li').find('.membername').text() + "的权限设置为<span style='font-size:14px;color:red;'>" + (_this.data('type') == 1 ? "查看" : "编辑") + "</span>?";
 
-                    if (!_this.hasClass('checked')) {
+                    if (!ObjectJS.isLoading) {
+                        return;
+                    }
+                    var _this = $(this);
+                    var confirmMsg = "确定将" + _this.parents('li').find('.membername').text() + "的权限设置为<span style='font-size:14px;color:red;'>" + (_this.data('type') == 1 ? "查看" : "编辑") + "</span>?";
+
+                    if (!_this.hasClass('hover')) {
                         confirm(confirmMsg, function () {
                             Global.post("/Task/UpdateMemberPermission", {
                                 taskID: _this.data('taskid'),
@@ -426,8 +432,8 @@
                                 type: _this.data('type')
                             }, function (data) {
                                 if (data.result == 1) {
-                                    _this.parents('tr').find('.check-lump').removeClass('checked');
-                                    _this.addClass('checked');
+                                    _this.parents('tr').find('.check-lump').removeClass('hover');
+                                    _this.addClass('hover');
                                 } else {
                                     alert('授权失败');
                                 }
@@ -481,9 +487,9 @@
 
         var memberListHtml = '';
         memberListHtml += '<tr data-id="' + item.id + '">';
-        memberListHtml += '<td class="tLeft"><i class="mLeft10"><img onerror="$(this).attr("src","/modules/images/defaultavatar.png"); src="' + (item.Avatar == null ? "/modules/images/defaultavatar.png" : item.Avatar) + '" /></i><i class="membername">' + item.name + '</i></td>';
-        memberListHtml += '<td><i class="hand iconfont check-lump checked" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=1 >&#xe652;</i></td>';
-        memberListHtml += '<td><i class="hand iconfont check-lump" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=2 >&#xe652;</i></td>';
+        memberListHtml += '<td class="tLeft pLeft10"><i><img onerror="$(this).attr("src","/modules/images/defaultavatar.png"); src="' + (item.Avatar == null ? "/modules/images/defaultavatar.png" : item.Avatar) + '" /></i><i class="membername">' + item.name + '</i></td>';
+        memberListHtml += '<td><i class="hand ico-radiobox check-lump hover" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=1 ><span></span></i></td>';
+        memberListHtml += '<td><i class="hand ico-radiobox check-lump" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=2 ><span></span></i></td>';
         memberListHtml += '<td class="removeTaskMember iconfont hand" data-id="' + item.id + '">&#xe651;</td>';
 
         $('.memberlist .member-items tbody').append(memberListHtml);

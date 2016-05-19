@@ -447,14 +447,13 @@
 .memberlist .member-title span {  font-size:14px;color:#888;}
 
 .memberlist .member-items {width:395px;max-height:320px;border:1px solid #ddd;overflow-y:auto;}
-.memberlist .member-items tr { text-align:center;width:25%;line-height:30px;}
+.memberlist .member-items tr { text-align:center;width:25%;line-height:34px;}
+.memberlist .member-items tr:last-child td { padding-bottom:5px;}
 .memberlist .member-items th { text-align:inherit;font-size:14px;height:40px;background-color:#efefef;color:#666;}
 .member-items td i { font-style:normal;vertical-align:middle;}
 .member-items i img { width:22px;height:22px;border-radius:50%;vertical-align:middle;}
-.memberlist .membername { width:46px;display:inline-block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.memberlist .membername { width:100px;display:inline-block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 
-.member-items td .check-lump{text-indent:-9999px;text-indent:0;border:1px solid #4a98e7;display:inline-block;line-height:18px;height:18px;width:18px;border-radius:50%;font-size:18px;}
-.member-items i.checked { color:#4a98e7;}
 .removeTaskMember { color:#999;}
 .removeTaskMember:hover {color:#4a98e7; }
 

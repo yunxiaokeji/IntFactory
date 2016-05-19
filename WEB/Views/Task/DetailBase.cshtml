@@ -230,7 +230,9 @@
                                         </i>
                                     </td>
                                     <td>
-                                        <span class="hand ico-radiobox check-lump @(member.PermissionType==2?"checked":"")" data-type="2" data-taskid="@member.TaskID" data-memberid="@member.MemberID"></span>
+                                        <i class="hand ico-radiobox check-lump @(member.PermissionType==2?"hover":"")" data-type="2" data-taskid="@member.TaskID" data-memberid="@member.MemberID">
+                                            <span></span>
+                                        </i>
                                     </td>
                                     <td class="hand removeTaskMember iconfont" data-id="@member.Member.UserID">&#xe651;</td>
                                 </tr>
