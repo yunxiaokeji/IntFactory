@@ -1,14 +1,12 @@
 ﻿@{
-    var isRoot = (@ViewBag.Status != 8 && @ViewBag.Mark == 12 && @ViewBag.FinishStatus > 0 && Model.Status < 3) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
+    var isRoot = (@ViewBag.Status != 8  && @ViewBag.FinishStatus > 0 && Model.Status < 3) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
  }
-
-@{if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010107"))){
 
 <div class="platemakingContent hide" id="platemakingContent">
     @{
-        if (!string.IsNullOrEmpty(Model.Platemaking) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010102")) )
+        if (!string.IsNullOrEmpty(Model.Platemaking) && isRoot)
         {
-        <a class="btn right mTop5" href="/Task/PlatePrint/@Model.OrderID" target="_blank" id="btn-platePrint">打印制版</a>
+            <a class="btn right mTop5" href="/Task/PlatePrint/@Model.OrderID" target="_blank" id="btn-platePrint">打印制版</a>
         }
     }
     <div class="clear"></div>
@@ -67,9 +65,6 @@
                 </div>
             </div>
         }
-            
     }
-
-</div>
-}}         
+</div>        
 

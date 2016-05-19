@@ -97,10 +97,21 @@
         if (ObjectJS.mark === 15 || ObjectJS.mark === 25) {
             ObjectJS.getExpress();
         }
-
-        ObjectJS.isLoading = true;
     };
 
+<<<<<<< HEAD
+=======
+    ObjectJS.isLoading = true;
+
+    //加载缓存
+    ObjectJS.bingCache = function () {
+
+        Global.post("/Plug/GetExpress", {}, function (data) {
+            ObjectJS.express = data.items;
+        });
+    }
+
+>>>>>>> c481dba8ca7543138a148c68aa3ff38c45e564b1
     //#region任务基本信息操作
     //绑定事件
     ObjectJS.bindEvent = function () {
