@@ -225,10 +225,12 @@
                                         <i class="membername">@member.Member.Name</i>
                                     </td>
                                     <td>
-                                        <i class="hand iconfont check-lump @(member.PermissionType==1?"checked":"")" data-type="1" data-taskid="@member.TaskID" data-memberid="@member.MemberID">&#xe655;</i>
+                                        <i class="hand ico-radiobox check-lump @(member.PermissionType==1?"hover":"")" data-type="1" data-taskid="@member.TaskID" data-memberid="@member.MemberID">
+                                               <span></span>
+                                        </i>
                                     </td>
                                     <td>
-                                        <i class="hand iconfont check-lump @(member.PermissionType==2?"checked":"")" data-type="2" data-taskid="@member.TaskID" data-memberid="@member.MemberID">&#xe655;</i>
+                                        <span class="hand ico-radiobox check-lump @(member.PermissionType==2?"checked":"")" data-type="2" data-taskid="@member.TaskID" data-memberid="@member.MemberID"></span>
                                     </td>
                                     <td class="hand removeTaskMember iconfont" data-id="@member.Member.UserID">&#xe651;</td>
                                 </tr>
