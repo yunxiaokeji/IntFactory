@@ -59,6 +59,8 @@ namespace IntFactoryEntity
 			get{return _name;}
 		}
 
+        public int CategoryType { get; set; }
+
         public int ProcessType { get; set; }
 
         public int PlanDays { get; set; }

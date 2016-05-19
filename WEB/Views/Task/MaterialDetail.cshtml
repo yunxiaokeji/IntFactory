@@ -1,9 +1,6 @@
-﻿
-@{
-    var isRoot = (@ViewBag.Status != 8 && @ViewBag.Mark == 11 && @ViewBag.FinishStatus > 0 && Model.Status < 3) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
+﻿@{
+    var isRoot = (@ViewBag.Status != 8  && @ViewBag.FinishStatus > 0 && Model.Status < 3) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
 }
-
-@{if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010106"))){
 <div id="navProducts" class="nav-partdiv hide">
     <table class="table-list mTop20">
         <tr class="tr-header">
@@ -14,7 +11,6 @@
             <td class="tLeft">单价</td>
             <td class="">消耗量</td>
             <td class="tRight">小计</td>
-
             @{
                 if (isRoot)
                 {
@@ -23,7 +19,6 @@
             }
 
         </tr>
-
         @{
             foreach (var detail in Model.Details)
             { 
@@ -34,13 +29,13 @@
                     <td class="center">@(detail.UnitName)</td>
                     <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                 @{
-                if (isRoot)
-                {
-                    <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" /></td>
-                    <td class="tRight amount">@((detail.TotalMoney).ToString("f3"))</td>
-                    <td class="center">
+                    if (isRoot)
+                    {
+                        <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" /></td>
+                        <td class="tRight amount">@((detail.TotalMoney).ToString("f3"))</td>
+                        <td class="center">
                             <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
-                    </td>
+                        </td>
                     }
                     else
                     {
@@ -62,10 +57,8 @@
             <td class="tRight"><label id="amount"></label></td>
             @{
                 if (isRoot)
-                {
-                    
+                {  
                 <td></td>
-                
                 }
             }
         </tr>
@@ -79,4 +72,3 @@
     }
     <div class="clear"></div>
 </div>
-}}

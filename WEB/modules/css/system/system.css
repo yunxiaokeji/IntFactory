@@ -2,8 +2,8 @@
 
 
 /*客户阶段*/
-.stages-box { width:100%; overflow-y:auto; white-space:nowrap; padding-bottom:30px; }
-.stages-box .stages-item { width:240px; border:solid 1px #ccc; margin-right:10px; border-radius:2px; vertical-align:top;
+.stages-box { width:100%; overflow-y:auto;  padding-bottom:30px; }/*white-space:nowrap;*/
+.stages-box .stages-item { width:240px; border:solid 1px #ccc; margin-right:10px; margin-top:5px; border-radius:2px; vertical-align:top;
                            background-color:#f6f6f6; padding:10px; position:relative; display:inline-block;  }
 .stages-box .stages-item .name{ height:30px; line-height:30px;  text-indent:5px; }
 .stages-item .name span{ font-size:14px; color:#333; display:inline-block; height:30px; line-height:30px; width:200px; }
@@ -21,6 +21,10 @@
 
 .stages-box .create-child { height:30px; line-height:30px; color:#999; cursor:pointer; text-indent:5px; margin-top:5px; }
 .stages-box .create-child:hover { background-color:#fff; color:#333; }
+
+.easydialog-create .stage-item{ width:100px; height:35px; float:left; line-height:35px; border:solid 1px #ccc; margin:10px 5px; text-align:center; cursor:pointer; }
+.easydialog-create .stage-item:hover{ border-color:#2F73B8; color:#2F73B8;}
+.easydialog-create .stage-item.hover{ border-color:#2F73B8; color:#fff; background-color:#2F73B8;}
 
 
 /*团队成员*/
@@ -59,12 +63,17 @@
 
 
 /*图片预览*/
-.absolute-img { position:absolute; top:170px; right:40px; height:100px; width:100px; }
-
+.absolute-img { position:absolute; right:40px; height:100px; width:100px; }
+.absolute-img-save { position:absolute; z-index:10002;height:100px;width:100px;top:80px;right:20px;}
 
 .ordercategory-item { clear:both; background-color:#f9f9f9; overflow:auto; margin-bottom:20px; padding:20px; }
 .ordercategory-item .items-header { height:25px; line-height:25px; border-bottom:solid 1px #ccc; font-size:14px; }
 .child-items-div { clear:both; margin-top:10px; }
 .child-items-div li{ float:left; margin-right:20px; cursor:pointer; }
 
-
+/*公司信息*/
+.update-content-body { position:fixed;z-index:10001;background-color:#fff;top:8%;left:30%;padding:20px;border-radius:5px;display:none;}
+.update-content-body .update-title{border-bottom:1px solid #eee;padding-bottom:7px;font-size:14px;}
+.update-content-body .update-title span{font-size:11pt;}
+.update-content-body .update-title .close_btn{background:#fff url(/modules/plug/easydialog/ico-close.png) no-repeat;height:16px;width:16px;float:right;}
+.update-content-body .update-title .close_btn:hover{background:#fff url(/modules/plug/easydialog/ico-close-hover.png) no-repeat;}

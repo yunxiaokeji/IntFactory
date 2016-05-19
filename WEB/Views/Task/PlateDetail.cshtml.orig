@@ -2,6 +2,10 @@
     var isRoot = (@ViewBag.Status != 8  && @ViewBag.FinishStatus > 0 && Model.Status < 3) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
  }
 
+<<<<<<< HEAD
+@{if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010107"))){
+=======
+>>>>>>> 405749fcdcae1738fd67c92807ef27fba2636453
 <div class="platemakingContent hide" id="platemakingContent">
     @{
         if (!string.IsNullOrEmpty(Model.Platemaking) && isRoot)

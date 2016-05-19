@@ -19,6 +19,8 @@ namespace IntFactoryEntity
 
         public int Mark { get; set; }
 
+        public string MarkStr { get; set; }
+
         public int Status { get; set; }
 
         [Property("Lower")]

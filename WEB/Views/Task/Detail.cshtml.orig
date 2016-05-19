@@ -50,12 +50,16 @@
         @{Html.RenderPartial("TaskReply", task);}
 
         @{
+<<<<<<< HEAD
+            if(model.Mark==21){
+=======
             if (task.Mark == 11)
             {
                Html.RenderPartial("MaterialDetail",order);
             }
             else if (task.Mark == 21)
             {
+>>>>>>> 405749fcdcae1738fd67c92807ef27fba2636453
                 Html.RenderPartial("CargoMaterialDetail", order);
             }
             else if (task.Mark == 12)

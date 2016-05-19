@@ -7,10 +7,12 @@
 
     var ObjectJS = {};
     //初始化
-    ObjectJS.init = function (processid) {
+    ObjectJS.init = function (processid, processType, categoryType) {
         var _self = this;
         _self.bindEvent();
         _self.processid = processid;
+        _self.processType = processType;
+        _self.categoryType = categoryType;
         _self.bindElement($(".stages-item"));
         _self.bingStyle();
     }
@@ -35,26 +37,13 @@
         });
         //添加新阶段
         $("#addObject").click(function () {
-
-            var _this = $(this), input = $("#" + _this.data("id")), parent = input.parents(".stages-item").first();
-            //复制并处理新对象
-            var element = parent.clone();
-
-            element.find(".name span").html("").hide();
-            var _input = element.find(".name input");
-            _input.attr("id", "").data("sort", _input.data("sort") + 1).show();
-            
-            element.find(".ico-dropdown").data("type", "0").data("id", "").hide();
-            element.find(".child-items").empty();
-            _self.bindElement(element);
-            parent.after(element);
-            _input.focus();
+            _self.showLayer("", "", "", $(this).data("sort") * 1 + 1);
         });
 
         //删除阶段
         $("#deleteObject").click(function () {
             var _this = $(this);
-            confirm("阶段状态删除后不可恢复,此阶段状态的订单自动回归到上个阶段状态,确认删除吗？", function () {
+            confirm("阶段状态删除后不可恢复,确认删除吗？", function () {
                 _self.deleteModel(_this.data("id"), function (status) {
                     if (status) {
                         location.href = location.href;
@@ -63,18 +52,10 @@
             });
         });
 
-        //编辑阶段名称
+        //编辑阶段
         $("#editObject").click(function () {
-
-            var _this = $(this), input = $("#" + _this.data("id")), span = input.siblings("span");
-            var input = $("#" + _this.data("id"));
-            
-            input.siblings().hide();
-            input.parent().siblings(".ico-dropdown").hide();
-            input.show();
-            input.focus();
-
-            input.val(span.html());
+            var _this = $(this);
+            _self.showLayer(_this.data("id"), $("#" + _this.data("id")).html(), _this.data("mark"), _this.data("sort"));
         });
 
         //转移拥有者
@@ -133,19 +114,66 @@
         });
 
     }
+
+    //添加、编辑浮层
+    ObjectJS.showLayer = function (id, name, mark, sort) {
+        var _self = this;
+        doT.exec("template/system/orderstage-detail.html", function (template) {
+            var innerText = template({ CategoryType: _self.categoryType, ProcessType: _self.processType });
+            Easydialog.open({
+                container: {
+                    id: "addOrderStage",
+                    header: id ? "编辑阶段" : "添加阶段",
+                    content: innerText,
+                    yesFn: function () {
+                        if (!$("#iptStageName").val().trim()) {
+                            alert("阶段名称不能为空");
+                            return false;
+                        }
+                        var model = {
+                            StageID: id,
+                            StageName:$("#iptStageName").val().trim(),
+                            Sort: sort,
+                            Mark: $("#addOrderStage .stage-item.hover").data("id") || 0
+                        };
+                        _self.saveModel(model);
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+
+            if (id) {
+                $("#iptStageName").val(name);
+                $("#addOrderStage .stage-item[data-id='" + mark + "']").addClass("hover");
+            }
+
+            $("#addOrderStage .stage-item").click(function () {
+                var _this=$(this);
+                if (_this.hasClass("hover")) {
+                    _this.removeClass("hover");
+                } else {
+                    _this.siblings().removeClass("hover");
+                    _this.addClass("hover");
+                }
+            });
+        });
+    }
+
     //元素绑定事件
     ObjectJS.bindElement = function (items) {
         var _self = this;
         //下拉事件
         items.find(".operatestage").click(function () {
             var _this = $(this);
-            if (_this.data("type") != 0) {
-                $("#deleteObject").hide();
-            } else {
-                $("#deleteObject").show();
-            }
+            //if (_this.data("type") != 0) {
+            //    $("#deleteObject").hide();
+            //} else {
+            //    $("#deleteObject").show();
+            //}
             var offset = _this.offset();
-            $("#ddlStage li").data("id", _this.data("id")).data("sort", _this.data("sort"));
+            $("#ddlStage li").data("id", _this.data("id")).data("sort", _this.data("sort")).data("mark", _this.data("type"));
             var left = offset.left;
             if (left > document.documentElement.clientWidth - 150) {
                 left = left - 150;
@@ -242,16 +270,9 @@
         model.ProcessID = _self.processid;
         Global.post("/System/SaveOrderStage", { entity: JSON.stringify(model) }, function (data) {
             if (data.status == 1) {
-                if (model.StageID) {
-                    var _this = $("#" + model.StageID), span = _this.siblings("span");
-                    span.html(_this.val()).show();
-                    _this.val("").hide();
-                    _this.parent().siblings(".operatestage").show();
-                } else {
-                    location.href = location.href;
-                }
+                location.href = location.href;
             } else {
-                alert("系统异常!");
+                alert("网络异常，请稍后重试");
             }
         });
     }

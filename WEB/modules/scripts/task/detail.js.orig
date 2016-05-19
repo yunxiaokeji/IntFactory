@@ -254,10 +254,14 @@
             })
 
             //列表删除任务成员
+<<<<<<< HEAD
             $(".memberlist td.removeTaskMember").unbind().click(function () {
+=======
+            $(".memberlist span.removeTaskMember").unbind().click(function () {
                 if (!ObjectJS.isLoading) {
                     return;
                 }
+>>>>>>> 405749fcdcae1738fd67c92807ef27fba2636453
                 var memberID = $(this).data("id");
                 var confirmMsg = "确定删除成员<span style='color:red;font-size:14px;'>" + $(this).parents('tr').find('.membername').text() + "</span>?";
 
@@ -486,7 +490,13 @@
         memberListHtml += '<td><i class="hand iconfont check-lump" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=2 >&#xe652;</i></td>';
         memberListHtml += '<td class="removeTaskMember iconfont hand" data-id="' + item.id + '">&#xe651;</td>';
 
+<<<<<<< HEAD
         $('.memberlist .member-items tbody').append(memberListHtml);
+
+        //$("#taskMemberIDs").append(html);
+=======
+        $('.memberlist ul').append(memberListHtml);
+>>>>>>> 405749fcdcae1738fd67c92807ef27fba2636453
     }
 
     //任务到期时间倒计时

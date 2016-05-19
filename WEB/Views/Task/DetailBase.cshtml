@@ -244,8 +244,7 @@
               
          
        <div class="clear"></div>
-       
-        <div class="order-remark">订单需求: </div>
+       <div class="order-remark">订单需求: </div>
 
     </div>
 
@@ -255,61 +254,59 @@
     <ul class="module-tab">
         <li  class="hover" data-id="taskReplys">讨论</li>
         @{
-
             if(Model.Mark==11)
             {
-            <li  data-id="navProducts">材料</li>
+                <li  data-id="navProducts">材料</li>
             }
-            if(Model.Mark==12)
+            else if(Model.Mark==21)
             {
-            <li  data-id="platemakingContent">制版</li>
+                <li  data-id="navProducts">大货材料</li>
             }
-            @*
-         
-            
-            if(string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current,"102019010")))
+            else if(Model.Mark==12)
             {
-                <li class="" data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁片记录</li>
+                <li  data-id="platemakingContent">制版</li>
             }
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "102019011")))   
+            else if(Model.Mark==22)
             {
-                <li class="" data-btn="btnSewnOrder" data-id="navSewnDoc">缝制记录</li>
+                <li  data-id="platemakingContent">制版</li>
             }
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "102019012")))
+            else if(Model.Mark==15)
             {
-                <li class="" data-btn="btnSendOrder" data-id="navSendDoc">发货记录</li>                
+                <li  data-id="navSendDoc">发货记录</li>
             }
-            *@
+            else if(Model.Mark==25)
+            {
+                <li data-btn="btnSendOrder" data-id="navSendDoc">发货记录</li>
+            }
+            else if(Model.Mark==23)
+            {
+                <li data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁片记录</li>
+            }
+            else if(Model.Mark==24)
+            {
+                <li data-btn="btnSewnOrder"  data-id="navSewnDoc">缝制记录</li>
+            }
         }
         <li data-id="orderTaskLogs">日志</li>
     </ul>
-   @*  @{
-         if (Model.FinishStatus == 1 && Model.OrderType == 2)
-         {
 
-            if(string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current,"102019010")))
+     @{
+         var isRoot = (ViewBag.Status != 8 && ViewBag.FinishStatus > 0) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
+
+         if(isRoot){
+            if (Model.Mark==23)
             {
-                
                  <div class="btn part-btn right mLeft20" id="btnCutoutOrder">裁片录入</div>                
-         
             }
-            
-                   
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "102019011")))   
+            else if (Model.Mark == 24)
             {
-     
-                   <div class="btn part-btn right mLeft20" id="btnSewnOrder">缝制录入</div>
-              
+                <div class="btn part-btn right mLeft20" id="btnSewnOrder">缝制录入</div>
             }
-         
-
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "102019012")))
+                else if (Model.Mark == 25)
             {
-               
-                    <div class="btn part-btn right mLeft20" id="btnSendOrder">订单发货</div>
-               
+                <div class="btn part-btn right mLeft20" id="btnSendOrder">订单发货</div>
             }
-         }
-     }*@
+        }
+     }
     <div class="clear"></div>
 </div>
