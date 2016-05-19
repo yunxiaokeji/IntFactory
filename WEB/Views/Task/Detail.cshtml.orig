@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewBag.Title = "任务详情";
+    var task = (IntFactoryEntity.Task.TaskEntity)ViewBag.Model;
+    var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
+    var productAttr = (IntFactoryEntity.ProductAttr)ViewBag.ProductAttr;
+    var attrValues = productAttr.AttrValues == null ? "" : Html.ToJSONString(productAttr.AttrValues);
+}
+
+@section css{
+@{
+    if (@task.Mark == 12)
+    {
+    <link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
+    }
+}
+<link href="/modules/css/task/style.css" rel="stylesheet" />
+}
+
+@section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
+    <script src="/modules/plug/laydate/laydate.js"></script>
+    @{
+        if (@task.Mark == 12)
+        {
+        <script src="/modules/plug/umeditor/umeditor.min.js"></script>
+        <script src="/modules/plug/umeditor/umeditor.config.js"></script>
+        }
+    }
+    <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var um = null;
+            if ($("#txtPlateRemark").length == 1) {
+                um = UM.getEditor('txtPlateRemark');
+            }
+
+            seajs.use(["scripts/task/detail"], function (obj) {
+                obj.init('@attrValues', um, '@(order.PlateRemark)', '@order.OrderImages', '@Html.ToJSONString(task)', '@ViewBag.IsWarn','@Html.ToJSONString(order)');
+            });
+
+        });
+    </script>
+}
+
+@{Html.RenderPartial("DetailBase", task);}
+
+<div class="taskContent">
+    <div id="navTask" class="talk-body nav-partdiv">
+        @{Html.RenderPartial("TaskReply", task);}
+
+        @{
+<<<<<<< HEAD
+            if(model.Mark==21){
+=======
+            if (task.Mark == 11)
+            {
+               Html.RenderPartial("MaterialDetail",order);
+            }
+            else if (task.Mark == 21)
+            {
+>>>>>>> 405749fcdcae1738fd67c92807ef27fba2636453
+                Html.RenderPartial("CargoMaterialDetail", order);
+            }
+            else if (task.Mark == 12)
+            {
+                Html.RenderPartial("PlateDetail", order);
+            }
+            else if (task.Mark == 22)
+            {
+               Html.RenderPartial("PlateDetail", order);
+            }
+            else if (task.Mark == 15)
+            {
+                Html.RenderPartial("SendDoc");
+            }
+            else if (task.Mark == 25)
+            {
+                Html.RenderPartial("SendDoc");
+            }
+            else if (task.Mark == 23)
+            {
+                Html.RenderPartial("CutoutDoc");
+            }
+            else if (task.Mark == 24)
+            {
+                Html.RenderPartial("SewnDoc");
+            }
+        }
+
+        <div id="orderTaskLogs" class="mTop30 hide">
+            <div class="log-body" id="taskLogList"></div>
+            <div id="pagerLogs" class="mTop10"></div>
+        </div>
+
+    </div>
+</div>
+
+<ul class="dropdown-ul hide"  style="width:90px;">
+    <li id="btn-addColumn">添加新列</li>
+    <li id="btn-removeColumn">删除此列</li>
+</ul>
+
+<div class="enlarge-image-bgbox hide">
+    <div class="close-enlarge-image iconfont">&#xe606;</div> 
+    <span id="zoomInButton" class="zoom-botton iconfont mRight50">&#xe642;</span>
+    <span id="zoomOutButton" class="zoom-botton iconfont">&#xe641;</span>
+</div>
+
+<div id="pageContent" class="enlarge-image-box hide">
+    <div class="left-enlarge-image"></div>
+    <div class="right-enlarge-image"></div>
+    <div class="enlarge-image-item">
+         
+    </div>
+</div>
