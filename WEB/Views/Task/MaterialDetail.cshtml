@@ -1,6 +1,6 @@
 ﻿
 @{
-    var isRoot = (@ViewBag.Status != 8 && @ViewBag.Mark == 1 && @ViewBag.FinishStatus > 0 && Model.Status < 3) && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101"));
+    var isRoot = (@ViewBag.Status != 8 && @ViewBag.Mark == 1 && @ViewBag.FinishStatus > 0 && Model.Status < 3) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
 }
 
 @{if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010106"))){
@@ -16,7 +16,8 @@
             <td class="tRight">小计</td>
 
             @{
-                if(isRoot){
+                if (isRoot)
+                {
                 <td>删除</td>
                 }
             }
@@ -33,12 +34,13 @@
                     <td class="center">@(detail.UnitName)</td>
                     <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                 @{
-                    if (isRoot){ 
+                if (isRoot)
+                {
                     <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" /></td>
                     <td class="tRight amount">@((detail.TotalMoney).ToString("f3"))</td>
                     <td class="center">
                             <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
-                    </td> 
+                    </td>
                     }
                     else
                     {
@@ -59,15 +61,19 @@
             <td class="tRight">成本合计：</td>
             <td class="tRight"><label id="amount"></label></td>
             @{
-                if(isRoot){
+                if (isRoot)
+                {
+                    
                 <td></td>
+                
                 }
             }
         </tr>
     </table>
 
     @{
-        if (isRoot){
+        if (isRoot)
+        {
             <a href="/Orders/ChooseMaterial?id=@(Model.OrderID)&tid=@(ViewBag.TaskID)" id="btn-addMaterial" class="btn right mTop10">添加材料</a>
         }
     }

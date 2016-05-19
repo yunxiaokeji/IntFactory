@@ -39,7 +39,7 @@ namespace YXERP.Common
                 {
                     filterContext.Result = new RedirectResult("/Home/MDLogin?ReturnUrl=" + HttpContext.Current.Request.Url);
                 }
-                else 
+                else
                 {
                     filterContext.Result = new RedirectResult("/Home/Login?ReturnUrl=" + HttpContext.Current.Request.Url);
                 }
@@ -48,7 +48,8 @@ namespace YXERP.Common
 
             var currentUser = (IntFactoryEntity.Users)filterContext.HttpContext.Session["ClientManager"];
             var agent = AgentsBusiness.GetAgentDetail(currentUser.AgentID);
-            if (agent.EndTime < DateTime.Now) {
+            if (agent.EndTime < DateTime.Now)
+            {
                 if (filterContext.RequestContext.HttpContext.Request.IsAjaxRequest())
                 {
                     Dictionary<string, string> result = new Dictionary<string, string>();
@@ -66,7 +67,7 @@ namespace YXERP.Common
 
                 return;
             }
- 
+
             var controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower();
             var action = filterContext.ActionDescriptor.ActionName.ToLower();
             var menu = CommonBusiness.ClientMenus.Where(m => m.Controller.ToLower() == controller && m.View.ToLower() == action).FirstOrDefault();
@@ -77,7 +78,7 @@ namespace YXERP.Common
                 IntFactoryEntity.Users user = (IntFactoryEntity.Users)filterContext.HttpContext.Session["ClientManager"];
                 if (user.Menus.Where(m => m.MenuCode == menu.MenuCode).Count() <= 0)
                 {
-                    
+
                     if (filterContext.RequestContext.HttpContext.Request.IsAjaxRequest())
                     {
                         Dictionary<string, string> result = new Dictionary<string, string>();
@@ -88,10 +89,10 @@ namespace YXERP.Common
                             JsonRequestBehavior = JsonRequestBehavior.AllowGet
                         };
                     }
-                    
+
                     {
                         var urlRequest = filterContext.RequestContext.HttpContext.Request;
-                        throw new HttpException(403, urlRequest.UrlReferrer!=null?urlRequest.UrlReferrer.AbsoluteUri:urlRequest.Url.AbsoluteUri);
+                        throw new HttpException(403, urlRequest.UrlReferrer != null ? urlRequest.UrlReferrer.AbsoluteUri : urlRequest.Url.AbsoluteUri);
                         //filterContext.RequestContext.HttpContext.Response.Write("<script>alert('您没有权限访问此页面');history.back();</script>");
                         //filterContext.RequestContext.HttpContext.Response.End();
                     }
