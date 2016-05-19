@@ -704,15 +704,6 @@ namespace YXERP.Controllers
             int result = 0;
             bool flag = false;
             bool canDown=true;
-            
-            //if(AliOrderBusiness.DownAliOrderLogs.ContainsKey(CurrentUser.ClientID) )
-            //{
-            //    var limitTime = AliOrderBusiness.DownAliOrderLogs[CurrentUser.ClientID];
-            //    if (limitTime> DateTime.Now)
-            //    {
-            //        canDown = false;
-            //    }
-            //}
 
             if (canDown)
             {
@@ -720,7 +711,7 @@ namespace YXERP.Controllers
                 DateTime downEndTime = DateTime.Parse(endTime);
                 downEndTime = downEndTime.AddDays(1);
 
-                if ((downEndTime - downStartTime).Days < 61)
+                if ((downEndTime - downStartTime).TotalDays < 61)
                 {
                     var plan = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlanDetail(CurrentUser.ClientID);
 
@@ -753,6 +744,12 @@ namespace YXERP.Controllers
                         }
 
                         result = flag ? 1 : 0;
+
+                        //拉取订单记录日期
+                        if (flag)
+                        {
+                            LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.PullOrder, EnumLogType.Create, "", OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                        }
                         JsonDictionary.Add("totalOrderCount", total);
                         JsonDictionary.Add("successOrderCount", successCount);
 

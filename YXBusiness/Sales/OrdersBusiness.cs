@@ -512,7 +512,7 @@ namespace IntFactoryBusiness
             {
                 return "";
             }
-            else
+            else if (sourceType == EnumOrderSourceType.FactoryOrder)
             {
                 //日志
                 LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Orders, EnumLogType.Create, "", operateid, agentid, clientid);
@@ -599,6 +599,7 @@ namespace IntFactoryBusiness
             bool bl = dal.CreateOrderGoodsDoc(id, orderid, (int)type, isover, expressid, expresscode, details, remark, operateid, clientid);
             if (bl)
             {
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderDoc, EnumLogType.Create, "", operateid, agentid, clientid);
                 return id;
             }
             return "";
@@ -755,6 +756,7 @@ namespace IntFactoryBusiness
                         break;
                 }
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Orders, EnumLogType.Update, "", operateid, agentid, clientid);
             }
             return bl;
         }
