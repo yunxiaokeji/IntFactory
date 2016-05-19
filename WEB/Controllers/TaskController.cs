@@ -86,18 +86,6 @@ namespace YXERP.Controllers
             var task = TaskBusiness.GetTaskDetail(id);
             ViewBag.Model = task;
 
-            var IsEditTask = false;
-            TaskMember member = task.TaskMembers.Find(a => a.MemberID.ToLower() == CurrentUser.UserID.ToLower());
-            
-            if(member!=null){
-                if(member.PermissionType==2)
-                {
-                    IsEditTask=true;
-                }
-            }
-
-            ViewBag.IsEditTask = IsEditTask;
-
             //任务剩余时间警告
             var IsWarn = 0;
             if (task.FinishStatus == 1) {
@@ -123,14 +111,21 @@ namespace YXERP.Controllers
 
             ViewBag.FinishStatus = task.FinishStatus;
             ViewBag.TaskID = task.TaskID;
-            ViewBag.Mark = task.Mark;
             ViewBag.Status = task.Status;
             //当前用户是否为任务负责人
             ViewBag.IsTaskOwner = task.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase) ? true : false;
 
-            //ViewBag.IsTaskMember
-
-            
+            //当前用户是否有编辑权限
+            var IsEditTask = false;
+            TaskMember member = task.TaskMembers.Find(a => a.MemberID.ToLower() == CurrentUser.UserID.ToLower());
+            if (member != null)
+            {
+                if (member.PermissionType == 2)
+                {
+                    IsEditTask = true;
+                }
+            }
+            ViewBag.IsEditTask = IsEditTask;
 
             //订单的品类属性
             ViewBag.ProductAttr = new IntFactoryEntity.ProductAttr();
