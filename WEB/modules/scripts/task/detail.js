@@ -216,28 +216,32 @@
             //任务负责人更改成员权限
             $('.check-lump').click(function () {
                 var _this = $(this);
-
+                var confirmMsg = "确定将" + _this.parents('li').find('.membername').text() + "的权限设置为<span style='font-size:14px;color:red;'>" + (_this.data('type') == 1 ? "查看" : "编辑") + "</span>?";
+               
                 if (!_this.hasClass('checked')) {
-                    Global.post("/Task/UpdateMemberPermission", {
-                        taskID: _this.data('taskid'),
-                        memberID: _this.data('memberid'),
-                        type: _this.data('type')
-                    },function (data) {
-                        if (data.result == 1) {
-                            _this.parents('li').find('.check-lump').removeClass('checked');
-                            _this.addClass('checked');
-                        } else {
-                            alert('授权失败');
-                        }
-
+                    confirm(confirmMsg, function () {
+                        Global.post("/Task/UpdateMemberPermission", {
+                            taskID: _this.data('taskid'),
+                            memberID: _this.data('memberid'),
+                            type: _this.data('type')
+                        }, function (data) {
+                            if (data.result == 1) {
+                                _this.parents('li').find('.check-lump').removeClass('checked');
+                                _this.addClass('checked');
+                            } else {
+                                alert('授权失败');
+                            }
+                        })
                     })
                 }
             })
 
-            //列表删除任务成员2
+            //列表删除任务成员
             $(".memberlist span.removeTaskMember").unbind().click(function () {
                 var memberID = $(this).data("id");
-                confirm("确定删除任务成员?", function () {
+                var confirmMsg = "确定删除成员<span style='color:red;font-size:14px;'>" + $(this).parents('li').find('.membername').text() + "</span>?";
+
+                confirm(confirmMsg, function () {
                     ObjectJS.removeTaskMember(memberID);
                 });
             });
@@ -388,7 +392,9 @@
                 //列表删除任务成员
                 $(".memberlist span.removeTaskMember").unbind().click(function () {
                     var memberID = $(this).data("id");
-                    confirm("确定删除任务成员?", function () {
+                    var confirmMsg = "确定删除<span style='color:red;font-size:14px;'>" + $(this).parents('li').find('.membername').text() + "</span>?";
+                    
+                    confirm(confirmMsg, function () {
                         ObjectJS.removeTaskMember(memberID);
                     });
                 });
@@ -396,20 +402,22 @@
                 //任务负责人更改成员权限
                 $('.check-lump').unbind().click(function () {
                     var _this = $(this);
+                    var confirmMsg = "确定将<span style='color:red;font-size:14px;'>" + _this.parents('li').find('.membername').text() + "</span>的权限更改为" + (_this.data('type') == 1 ? "查看" : "编辑") + "?";
 
                     if (!_this.hasClass('checked')) {
-                        Global.post("/Task/UpdateMemberPermission", {
-                            taskID: _this.data('taskid'),
-                            memberID: _this.data('memberid'),
-                            type: _this.data('type')
-                        }, function (data) {
-                            if (data.result == 1) {
-                                _this.parents('li').find('.check-lump').removeClass('checked');
-                                _this.addClass('checked');
-                            } else {
-                                alert('授权失败');
-                            }
-
+                        confirm(confirmMsg, function () {
+                            Global.post("/Task/UpdateMemberPermission", {
+                                taskID: _this.data('taskid'),
+                                memberID: _this.data('memberid'),
+                                type: _this.data('type')
+                            }, function (data) {
+                                if (data.result == 1) {
+                                    _this.parents('li').find('.check-lump').removeClass('checked');
+                                    _this.addClass('checked');
+                                } else {
+                                    alert('授权失败');
+                                }
+                            })
                         })
                     }
                 })
