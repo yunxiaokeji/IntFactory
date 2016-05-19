@@ -99,6 +99,7 @@
 
     };
 
+    ObjectJS.isLoading = true;
 
     //加载缓存
     ObjectJS.bingCache = function () {
@@ -114,21 +115,33 @@
 
         //裁剪录入
         $("#btnCutoutOrder").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             ObjectJS.cutOutGoods();
         });
 
         //车缝录入
         $("#btnSewnOrder").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             ObjectJS.sewnGoods();
         });
 
         //发货录入
         $("#btnSendOrder").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             ObjectJS.sendGoods();
         });
 
         //切换模块
         $(".module-tab li").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             if (_this.hasClass("hover")) return;
             $(".part-btn").hide();
@@ -165,6 +178,9 @@
         //标记任务完成
         if ($("#FinishTask").length == 1) {
             $("#FinishTask").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 ObjectJS.finishTask();
             });
         }
@@ -172,6 +188,9 @@
         //接受任务
         if ($("#AcceptTask").length == 1) {
             $("#AcceptTask").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 ObjectJS.updateTaskEndTime();
             });
         }
@@ -181,6 +200,9 @@
             ChooseUser = require("chooseuser");
 
             $("#addTaskMembers").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 ChooseUser.create({
                     title: "添加任务成员",
                     type: 1,
@@ -215,6 +237,9 @@
 
             //任务负责人更改成员权限
             $('.check-lump').click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 var _this = $(this);
                 var confirmMsg = "确定将" + _this.parents('li').find('.membername').text() + "的权限设置为<span style='font-size:14px;color:red;'>" + (_this.data('type') == 1 ? "查看" : "编辑") + "</span>?";
                
@@ -238,6 +263,9 @@
 
             //列表删除任务成员
             $(".memberlist span.removeTaskMember").unbind().click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 var memberID = $(this).data("id");
                 var confirmMsg = "确定删除成员<span style='color:red;font-size:14px;'>" + $(this).parents('li').find('.membername').text() + "</span>?";
 
@@ -284,6 +312,7 @@
                     }
 
                     confirm("任务到期时间不可逆，确定设置?", function () {
+                        ObjectJS.isLoading = false;
                         Global.post("/Task/UpdateTaskEndTime", {
                             id: ObjectJS.taskid,
                             endTime: $("#UpdateTaskEndTime").val()
@@ -300,6 +329,7 @@
                             else {
                                 location.href = location.href;
                             }
+                            ObjectJS.isLoading = true;
                         });
                     });
 
@@ -347,7 +377,7 @@
 
         confirm("标记完成的任务不可逆,确定完成?", function () {
             $("#FinishTask").val("完成中...").attr("disabled", "disabled");
-
+            ObjectJS.isLoading = false;
             Global.post("/Task/FinishTask",
                {
                    id: ObjectJS.taskid
@@ -368,12 +398,14 @@
                    else if (data.result == -1) {
                        alert("保存失败");
                    }
+                   ObjectJS.isLoading = true;
                });
         });
     }
 
     //添加任务成员
     ObjectJS.addTaskMembers = function (memberIDs) {
+        ObjectJS.isLoading = false;
         Global.post("/Task/AddTaskMembers", {
             id: ObjectJS.taskid,
             memberIDs: memberIDs
@@ -424,11 +456,13 @@
 
 
             }
+            ObjectJS.isLoading = true;
         });
     }
 
     //删除任务成员
     ObjectJS.removeTaskMember = function (memberID) {
+        ObjectJS.isLoading = false;
         Global.post("/Task/RemoveTaskMember", {
             id: ObjectJS.taskid,
             memberID: memberID
@@ -440,6 +474,7 @@
                 $("#taskMemberIDs" + " div[data-id='" + memberID + "']").remove();
                 $(".memberlist li[data-id='" + memberID + "']").remove();
             }
+            ObjectJS.isLoading = true;
         });
     }
 
@@ -563,6 +598,9 @@
         //图片放大功能
         var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
         $("#orderImage").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             if ($(this).attr("src")) {
 
                 $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
@@ -573,14 +611,23 @@
             }
         });
         $(".close-enlarge-image").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
             $(".enlarge-image-item").empty();
         });
         $(".enlarge-image-bgbox").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
             $(".enlarge-image-item").empty();
         });
         $(".zoom-botton").click(function (e) {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var scaleToAdd = 0.8;
             if (e.target.id == 'zoomOutButton')
                 scaleToAdd = -scaleToAdd;
@@ -589,6 +636,9 @@
         });
 
         $(".left-enlarge-image").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var ele = $(".order-imgs-list .hover").prev();
             if (ele && ele.find("img").attr("src")) {
                 var _img = ele.find("img");
@@ -602,6 +652,9 @@
         });
 
         $(".right-enlarge-image").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var ele = $(".order-imgs-list .hover").next();
             if (ele && ele.find("img").attr("src")) {
                 var _img = ele.find("img");
@@ -619,7 +672,7 @@
     ObjectJS.getLogs = function (page) {
         var _self = this;
         $("#taskLogList").empty();
-
+        ObjectJS.isLoading=false
         Global.post("/Task/GetOrderTaskLogs", {
             id: _self.taskid,
             pageindex: page
@@ -651,6 +704,7 @@
                 }
 
             });
+            ObjectJS.isLoading = true;
         });
     }
     //#endregion
@@ -660,6 +714,9 @@
     ObjectJS.bindProduct = function () {
         //编辑价位
         $(".price").change(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             if ($(this).val().isDouble() && $(this).val() >= 0) {
                 ObjectJS.editPrice($(this));
             } else {
@@ -669,6 +726,9 @@
 
         //编辑数量
         $(".quantity").change(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             if ($(this).val().isDouble() && $(this).val() > 0) {
                 ObjectJS.editQuantity($(this));
             } else {
@@ -678,6 +738,9 @@
 
         //编辑损耗
         $(".loss").change(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var loss = parseFloat($(this).val());
             if (!isNaN(loss)) {
                 if (loss < 0) {
@@ -695,6 +758,9 @@
 
         //删除产品
         $(".ico-del").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             confirm("确认从清单中移除此材料吗？", function () {
                 Global.post("/Orders/DeleteProduct", {
@@ -715,6 +781,9 @@
         //生成采购单
         if ($("#btnEffectiveOrderProduct").length == 1) {
             $("#btnEffectiveOrderProduct").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 ObjectJS.effectiveOrderProduct();
             });
         }
@@ -724,6 +793,7 @@
     //更改材料单价
     ObjectJS.editPrice = function (ele) {
         var _self = this;
+        ObjectJS.isLoading = false;
         Global.post("/Orders/UpdateOrderPrice", {
             orderid: _self.guid,
             autoid: ele.data("id"),
@@ -737,12 +807,14 @@
                 ele.data("value", ele.val());
                 _self.getProductAmount();
             }
+            ObjectJS.isLoading = true;
         });
     }
 
     //更改消耗量
     ObjectJS.editQuantity = function (ele) {
         var _self = this;
+        ObjectJS.isLoading = false;
         Global.post("/Orders/UpdateProductQuantity", {
             orderid: _self.guid,
             autoid: ele.data("id"),
@@ -756,12 +828,14 @@
                 ele.data("value", ele.val());
                 _self.getProductAmount();
             }
+            ObjectJS.isLoading = true;
         });
     }
 
     //更改损耗量
     ObjectJS.editLoss = function (ele) {
         var _self = this;
+        ObjectJS.isLoading = false;
         Global.post("/Orders/UpdateProductLoss", {
             orderid: _self.guid,
             autoid: ele.data("id"),
@@ -775,17 +849,20 @@
                 ele.data("value", ele.val());
                 _self.getProductAmount();
             }
+            ObjectJS.isLoading = true;
         });
     }
 
     //生成采购单
     ObjectJS.effectiveOrderProduct = function () {
+        ObjectJS.isLoading = false;
         Global.post("/Orders/EffectiveOrderProduct", {
             orderID: ObjectJS.guid
         }, function (data) {
             if (data.result == 1) {
                 location.href = location.href;
             }
+            ObjectJS.isLoading = true;
         });
     }
 
@@ -1096,7 +1173,7 @@
         $("#platemakingBody .tr-header td.columnHeadr").each(function () {
             valueIDs += $(this).data("id") + '|';
         });
-
+        ObjectJS.isLoading = false;
         Global.post("/Task/UpdateOrderPlateAttr", {
             orderID: ObjectJS.guid,
             taskID: ObjectJS.taskid,
@@ -1110,11 +1187,13 @@
             else {
                 alert("aa");
             }
+            ObjectJS.isLoading = true;
         });
     }
 
     //保存制版工艺说明
     ObjectJS.updateOrderPlateRemark = function () {
+        ObjectJS.isLoading = false;
         Global.post("/Task/UpdateOrderPlateRemark", {
             orderID: ObjectJS.guid,
             plateRemark: encodeURI(Editor.getContent())
@@ -1122,6 +1201,7 @@
             if (data.result == 1) {
                 alert("保存成功");
             }
+            ObjectJS.isLoading = true;
         });
     }
     //#endregion
@@ -1162,6 +1242,7 @@
         var _self = this;
         $("#navSendDoc .tr-header").nextAll().remove();
         $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
+        ObjectJS.isLoading = false;
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 2
@@ -1177,6 +1258,7 @@
             } else {
                 $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
+            ObjectJS.isLoading = true;
         });
 
     }
@@ -1186,6 +1268,7 @@
         var _self = this;
         $("#navCutoutDoc .tr-header").nextAll().remove();
         $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
+        ObjectJS.isLoading = false;
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 1
@@ -1201,6 +1284,7 @@
             } else {
                 $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
+            ObjectJS.isLoading = true;
         });
 
     }
@@ -1210,6 +1294,7 @@
         var _self = this;
         $("#navSewnDoc .tr-header").nextAll().remove();
         $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
+        ObjectJS.isLoading = false;
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 11
@@ -1225,6 +1310,7 @@
             } else {
                 $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
+            ObjectJS.isLoading = true;
         });
 
     }
@@ -1251,6 +1337,7 @@
                             }
                         });
                         if (details.length > 0 || $("#showCutoutGoods .check").hasClass("ico-checked")) {
+                            ObjectJS.isLoading = false;
                             Global.post("/Orders/CreateOrderCutOutDoc", {
                                 orderid: _self.orderid,
                                 doctype: 1,
@@ -1267,6 +1354,7 @@
                                 } else {
                                     alert("裁片登记失败！");
                                 }
+                                ObjectJS.isLoading = true;
                             });
                         } else {
                             alert("请输入裁剪数量");
@@ -1279,6 +1367,9 @@
                 }
             });
             $("#showCutoutGoods .check").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 var _this = $(this);
                 if (!_this.hasClass("ico-checked")) {
                     _this.addClass("ico-checked").removeClass("ico-check");
@@ -1316,6 +1407,7 @@
                             }
                         });
                         if (details.length > 0) {
+                            ObjectJS.isLoading = false;
                             Global.post("/Orders/CreateOrderSewnDoc", {
                                 orderid: _self.orderid,
                                 doctype: 11,
@@ -1331,7 +1423,8 @@
                                     alert("您没有操作权限!")
                                 } else {
                                     alert("缝制登记失败！");
-                                }
+                                };
+                                ObjectJS.isLoading = true;
                             });
                         } else {
                             alert("请输入车缝数量");
@@ -1344,6 +1437,9 @@
                 }
             });
             $("#showSewnGoods .check").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 var _this = $(this);
                 if (!_this.hasClass("ico-checked")) {
                     _this.addClass("ico-checked").removeClass("ico-check");
@@ -1392,6 +1488,7 @@
                             alert("请输入发货数量");
                             return false;
                         }
+                        ObjectJS.isLoading = false;
                         Global.post("/Orders/CreateOrderSendDoc", {
                             orderid: _self.orderid,
                             doctype: 2,
@@ -1407,7 +1504,8 @@
                                 alert("您没有操作权限!")
                             } else {
                                 alert("发货失败！");
-                            }
+                            };
+                            ObjectJS.isLoading = true;
                         });
 
                     },
@@ -1433,6 +1531,9 @@
                 });
             });
             $("#showSendOrderGoods .check").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 var _this = $(this);
                 if (!_this.hasClass("ico-checked")) {
                     _this.addClass("ico-checked").removeClass("ico-check");

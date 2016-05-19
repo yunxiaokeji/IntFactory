@@ -29,6 +29,7 @@
 
     }
 
+    ObjectJS.isLoading = true;
 
     //基本信息
     ObjectJS.bindCustomerInfo = function (model) {
@@ -94,6 +95,9 @@
 
         //编辑客户信息
         $("#updateCustomer").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             _self.editCustomer(model);
         });
 
@@ -104,30 +108,44 @@
 
             //丢失客户
             $("#loseCustomer").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 confirm("确认更换客户状态为丢失吗?", function () {
+                    ObjectJS.isLoading = false;
                     Global.post("/Customer/LoseCustomer", { ids: model.CustomerID }, function (data) {
                         if (data.status) {
                             location.href = location.href;
                         }
+                        ObjectJS.isLoading = true;
                     });
                 });
             });
 
             //关闭客户
             $("#closeCustomer").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 confirm("确认关闭此客户吗?", function () {
+                    ObjectJS.isLoading = false;
                     Global.post("/Customer/CloseCustomer", { ids: model.CustomerID }, function (data) {
                         if (data.status) {
                             location.href = location.href;
                         }
+                        ObjectJS.isLoading = true;
                     });
                 });
             });
 
             //切换阶段
             $(".stage-items li").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 var _this = $(this);
                 !_this.hasClass("hover") && confirm("确认客户切换到此阶段吗?", function () {
+                    ObjectJS.isLoading = false;
                     Global.post("/Customer/UpdateCustomStage", {
                         ids: model.CustomerID,
                         stageid: _this.data("id")
@@ -151,6 +169,7 @@
                                 });
                             }
                         }
+                        ObjectJS.isLoading = true;
                     });
                 });
             });
@@ -162,11 +181,16 @@
             $("#closeCustomer").hide();
             //恢复客户
             $("#recoveryCustomer").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 confirm("确认恢复此客户吗?", function () {
+                    ObjectJS.isLoading = false;     
                     Global.post("/Customer/RecoveryCustomer", { ids: model.CustomerID }, function (data) {
                         if (data.status) {
                             location.href = location.href;
                         }
+                        ObjectJS.isLoading = true;
                     });
                 });
             });
@@ -180,6 +204,9 @@
         }
         //更换拥有者
         $("#changeOwner").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             ChooseUser.create({
                 title: "更换负责人",
@@ -188,6 +215,7 @@
                 callback: function (items) {
                     if (items.length > 0) {
                         if (_this.data("userid") != items[0].id) {
+                            ObjectJS.isLoading = false;
                             Global.post("/Customer/UpdateCustomOwner", {
                                 userid: items[0].id,
                                 ids: model.CustomerID
@@ -196,6 +224,7 @@
                                     _this.data("userid", items[0].id);
                                     $("#lblOwner").text(items[0].name);
                                 }
+                                ObjectJS.isLoading = true;
                             });
                         } else {
                             alert("请选择不同人员进行更换!");
@@ -207,11 +236,17 @@
 
         //企业客户
         $("#addContact").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             _self.addContact();
         });
 
         //切换模块
         $(".module-tab li").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             _this.siblings().removeClass("hover");
             _this.addClass("hover");
@@ -244,15 +279,24 @@
 
 
         $("#editContact").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
+            ObjectJS.isLoading = false;
             Global.post("/Customer/GetContactByID", { id: _this.data("id") }, function (data) {
                 _self.addContact(data.model);
+                ObjectJS.isLoading = true;
             });
         });
 
         //删除联系人
         $("#deleteContact").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
+            ObjectJS.isLoading = false;
             confirm("确认删除此联系人吗？", function () {
                 Global.post("/Customer/DeleteContact", { id: _this.data("id") }, function (data) {
                     if (data.status) {
@@ -260,6 +304,7 @@
                     } else {
                         alert("网络异常,请稍后重试!");
                     }
+                    ObjectJS.isLoading = true;
                 });
             });
         });
@@ -269,6 +314,7 @@
     ObjectJS.getLogs = function (customerid, page) {
         var _self = this;
         $("#customerLog").empty();
+        ObjectJS.isLoading = false;
         Global.post("/Customer/GetCustomerLogs", {
             customerid: customerid,
             pageindex: page
@@ -299,6 +345,7 @@
                     _self.getLogs(customerid, page);
                 }
             });
+            ObjectJS.isLoading = true;
         });
     }
 
@@ -307,6 +354,7 @@
         var _self = this;
         $("#navOrder .tr-header").nextAll().remove();
         $("#navOrder .tr-header").after("<tr><td colspan='12'><div class='data-loading' ><div></td></tr>");
+        ObjectJS.isLoading = false;
         Global.post("/Orders/GetOrdersByCustomerID", {
             customerid: customerid,
             ordertype: 1,
@@ -352,6 +400,7 @@
                     _self.getOrders(customerid, page);
                 }
             });
+            ObjectJS.isLoading = true;
         });
     }
 
@@ -360,6 +409,7 @@
         var _self = this;
         $("#navDHOrder .tr-header").nextAll().remove();
         $("#navDHOrder .tr-header").after("<tr><td colspan='12'><div class='data-loading' ><div></td></tr>");
+        ObjectJS.isLoading = false;
         Global.post("/Orders/GetOrdersByCustomerID", {
             customerid: customerid,
             ordertype: 2,
@@ -404,6 +454,7 @@
                     _self.getDHOrders(customerid, page);
                 }
             });
+            ObjectJS.isLoading = true;
         });
     }
 
@@ -412,6 +463,7 @@
         var _self = this;
         $("#navOppor .tr-header").nextAll().remove();
         $("#navOppor .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
+        ObjectJS.isLoading = false;
         Global.post("/Orders/GetNeedsOrderByCustomerID", {
             customerid: customerid,
             pagesize: 10,
@@ -455,6 +507,7 @@
                     _self.getOpportunitys(customerid, page);
                 }
             });
+            ObjectJS.isLoading = true;
         });
     }
 
@@ -462,6 +515,7 @@
         var _self = this;
         $("#navContact .tr-header").nextAll().remove();
         $("#navContact .tr-header").after("<tr><td colspan='10'><div class='data-loading' ></div></td></tr>");
+        ObjectJS.isLoading = false;
         Global.post("/Customer/GetContacts", {
             customerid: customerid
         }, function (data) {
@@ -486,8 +540,7 @@
                 $(".data-loading").parent().parent().hide();
                 $("#navContact .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无联系人!<div></td></tr>");
             }
-
-            
+            ObjectJS.isLoading = true;            
         });
     }
 
@@ -550,13 +603,14 @@
 
     ObjectJS.saveContact = function (model) {
         var _self = this;
-        
+        ObjectJS.isLoading = false;
         Global.post("/Customer/SaveContact", { entity: JSON.stringify(model) }, function (data) {
             if (data.model.ContactID) {
                 _self.getContacts(model.CustomerID);
             } else {
                 alert("网络异常,请稍后重试!");
             }
+            ObjectJS.isLoading = true;
         });
     }
     //编辑信息
@@ -616,7 +670,7 @@
     //保存实体
     ObjectJS.saveModel = function (model) {
         var _self = this;
-
+        ObjectJS.isLoading = false;
         Global.post("/Customer/SaveCustomer", { entity: JSON.stringify(model) }, function (data) {
             if (data.model.CustomerID) {
                 location.href = location.href;
@@ -624,6 +678,7 @@
             } else {
                 alert("网络异常,请稍后重试!");
             }
+            ObjectJS.isLoading = true;
         });
     }
 
@@ -633,6 +688,7 @@
             alert("不能标记此选项!");
             return false;
         }
+        ObjectJS.isLoading = false;
         Global.post("/Orders/UpdateOrderMark", {
             ids: ids,
             mark: mark
@@ -643,6 +699,7 @@
             } else {
                 callback && callback(data.status);
             }
+            ObjectJS.isLoading = true;
         });
     }
 
