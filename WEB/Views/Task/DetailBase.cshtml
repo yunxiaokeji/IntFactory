@@ -191,7 +191,7 @@
                                 <li data-id="@member.Member.UserID">
                                     <span class="tLeft">
                                         <i class="mRight2"><img onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="@(string.IsNullOrEmpty(member.Member.Avatar) ? "/modules/images/defaultavatar.png" : member.Member.Avatar)" /></i>
-                                        <i class="membername">@member.Member.Name</i>
+                                        <i class="membername" title="@member.Member.Name">@member.Member.Name</i>
                                     </span>
                                     <span>
                                         <i class="iconfont check-lump @(member.PermissionType==1?"checked":"")" data-type="1" data-taskid="@member.TaskID" data-memberid="@member.MemberID">&#xe626;</i>
