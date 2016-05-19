@@ -19,8 +19,12 @@ namespace AlibabaSdk
             paras.Add("client_id", AppConfig.AppKey);
             paras.Add("site", "china");
             paras.Add("redirect_uri", AppConfig.CallBackUrl);
+<<<<<<< HEAD
+            if (!string.IsNullOrEmpty(state)) {
+=======
             if (!string.IsNullOrEmpty(state))
             {
+>>>>>>> 892851ca93cd15395c984248500aa4790fc9e0e8
                 paras.Add("state", state);
             }
 

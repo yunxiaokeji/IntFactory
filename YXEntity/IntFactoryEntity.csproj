@@ -66,6 +66,7 @@
     <Compile Include="Log\AgentLogEntity.cs" />
     <Compile Include="Log\UpcomingsEntity.cs" />
     <Compile Include="Manage\ClientOrder.cs" />
+    <Compile Include="Manage\ClientOrderAccount.cs" />
     <Compile Include="Manage\FeedBack.cs" />
     <Compile Include="Manage\M_Role.cs" />
     <Compile Include="Manage\M_RolePermission.cs" />

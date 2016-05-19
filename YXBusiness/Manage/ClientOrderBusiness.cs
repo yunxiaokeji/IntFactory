@@ -19,7 +19,6 @@ namespace IntFactoryBusiness.Manage
         /// </summary>
         public static string AddClientOrder(ClientOrder model)
         {
-
             string orderID = Guid.NewGuid().ToString();
             SqlConnection conn = new SqlConnection(ClientOrderDAL.ConnectionString);
             conn.Open();
@@ -27,7 +26,7 @@ namespace IntFactoryBusiness.Manage
 
             try
             {
-                bool bl = ClientOrderDAL.BaseProvider.AddClientOrder(orderID, model.UserQuantity, model.Years, model.Amount, model.RealAmount,model.Type, model.AgentID, model.ClientID, model.CreateUserID,model.PayType,model.SystemType, tran);
+                bool bl = ClientOrderDAL.BaseProvider.AddClientOrder(orderID, model.UserQuantity, model.Years, model.Amount, model.RealAmount,model.Type, model.AgentID, model.ClientID, model.CreateUserID,model.PayType,model.SystemType, model.SourceType,tran);
                 if (bl)
                 {
                     //单据明细
@@ -61,12 +60,16 @@ namespace IntFactoryBusiness.Manage
             return orderID;
         }
 
-        /// <summary>
-        /// 付款订单且授权客户
-        /// </summary>
-        public static bool PayOrderAndAuthorizeClient(string orderID)
+       /// <summary>
+        ///  付款订单且授权客户
+       /// </summary>
+       /// <param name="orderID"></param>
+       /// <param name="checkUserID"></param>
+       /// <param name="payStatus">-1:不修改状态 0未付款 1全额付款 2部分付款</param>
+       /// <returns></returns>      
+        public static bool PayOrderAndAuthorizeClient(string orderID,string checkUserID,int payStatus)
         {
-            return ClientOrderDAL.BaseProvider.PayOrderAndAuthorizeClient(orderID);
+            return ClientOrderDAL.BaseProvider.PayOrderAndAuthorizeClient(orderID, checkUserID, payStatus);
         }
         #endregion
 
@@ -82,6 +85,27 @@ namespace IntFactoryBusiness.Manage
             {
                 DataRow row = dt.Rows[0];
                 model.FillData(row);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                if (string.IsNullOrEmpty(model.CreateUser.Name))
+                {
+                    M_Users mUser = M_UsersBusiness.GetUserDetail(model.CreateUserID);
+                    if (mUser != null && !string.IsNullOrEmpty(mUser.Name))
+                    {
+                        model.CreateUser.Name = mUser.Name;
+                    }
+                }
+                if (!string.IsNullOrEmpty(model.CheckUserID))
+                {
+                    model.CheckUser = OrganizationBusiness.GetUserByUserID(model.CheckUserID, model.AgentID);
+                    if (string.IsNullOrEmpty(model.CheckUser.Name))
+                    {
+                        M_Users mUser = M_UsersBusiness.GetUserDetail(model.CheckUserID);
+                        if (mUser != null && !string.IsNullOrEmpty(mUser.Name))
+                        {
+                            model.CheckUser.Name = mUser.Name;
+                        }
+                    }
+                }
             }
 
             return model;
@@ -89,14 +113,14 @@ namespace IntFactoryBusiness.Manage
 
         public static List<ClientOrder> GetClientOrders(int status, int type, string beginDate, string endDate, string agentID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
-            DataTable dt = ClientOrderDAL.BaseProvider.GetClientOrders(status,type, beginDate, endDate, agentID, clientID, pageSize,pageIndex,ref totalCount,ref pageCount);
+            //DataTable dt = ClientOrderDAL.BaseProvider.GetClientOrders(status,type, beginDate, endDate, agentID, clientID, pageSize,pageIndex,ref totalCount,ref pageCount);
 
-            List<ClientOrder> list = GetBase(status, type, beginDate, endDate, agentID, clientID,0, pageSize, pageIndex, ref totalCount, ref pageCount);
+            List<ClientOrder> list = GetBase("",status, type, beginDate, endDate, agentID, clientID,0, pageSize, pageIndex, ref totalCount, ref pageCount);
             return list;
         }
-        public static List<ClientOrder> GetBase(int status, int type, string beginDate, string endDate, string agentID, string clientID,int userType, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public static List<ClientOrder> GetBase(string keyWords, int status, int type, string beginDate, string endDate, string agentID, string clientID, int userType, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
-            DataTable dt = ClientOrderDAL.BaseProvider.GetClientOrders(status, type, beginDate, endDate, agentID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            DataTable dt = ClientOrderDAL.BaseProvider.GetClientOrders(keyWords,status, type, beginDate, endDate, agentID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
             List<ClientOrder> list = new List<ClientOrder>();
             if (dt.Rows.Count > 0)
             {
@@ -104,38 +128,31 @@ namespace IntFactoryBusiness.Manage
                 {
                     ClientOrder model = new ClientOrder();
                     model.FillData(row);
-                    if (userType == 0)
+                    if (!string.IsNullOrEmpty(model.CheckUserID))
                     {
-                        model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
-                        model.CreateUser.Name=string.IsNullOrEmpty(model.CreateUser.Name)?"系统新建":model.CreateUser.Name;
-                        list.Add(model);
+                        model.CheckUser = OrganizationBusiness.GetUserByUserID(model.CheckUserID, model.AgentID);
+                        if (string.IsNullOrEmpty(model.CheckUser.Name))
+                        {
+                            M_Users mUser = M_UsersBusiness.GetUserDetail(model.CheckUserID);
+                            if(mUser!=null && !string.IsNullOrEmpty(mUser.Name)){
+                                model.CheckUser.Name = mUser.Name;
+                            }
+                        }                        
                     }
-                    else {
-                        M_Users mUser = M_UsersBusiness.GetUserDetail(model.CreateUserID);
-                        model.CreateUser = new IntFactoryEntity.Users() { Name = mUser != null ? mUser.Name : "客户下单", UserID = model.CreateUserID }; 
-                        list.Add(model);
-                    }
-                }
-            }
-            return list;
-        }
-        public static List<ClientOrder> GetClientOrdersForManage(int status, int type, string beginDate, string endDate, string agentID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
-        {
-            DataTable dt = ClientOrderDAL.BaseProvider.GetClientOrders(status, type, beginDate, endDate, agentID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
-
-            List<ClientOrder> list = new List<ClientOrder>();
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    ClientOrder model = new ClientOrder();
-                    model.FillData(row);
                     model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                    if (string.IsNullOrEmpty(model.CreateUser.Name))
+                    {
+                        M_Users mUser = M_UsersBusiness.GetUserDetail(model.CreateUserID);
+                        if (mUser != null && !string.IsNullOrEmpty(mUser.Name))
+                        {
+                            model.CreateUser.Name = mUser.Name;
+                        }
+                    }
                     list.Add(model);
                 }
             }
             return list;
-        }
+        } 
         #endregion
 
         #region 改

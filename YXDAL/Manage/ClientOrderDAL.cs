@@ -15,7 +15,7 @@ namespace IntFactoryDAL.Manage
 
         #region 添加
 
-        public  bool AddClientOrder(string orderID, int userQuantity, int years, decimal amount, decimal realAmount,int type, string agentID, string clientiD, string createUserID,int payType,int systemType, SqlTransaction tran)
+        public  bool AddClientOrder(string orderID, int userQuantity, int years, decimal amount, decimal realAmount,int type, string agentID, string clientiD, string createUserID,int payType,int systemType,int sourceType, SqlTransaction tran)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderID),
@@ -28,6 +28,7 @@ namespace IntFactoryDAL.Manage
                                      new SqlParameter("@ClientiD" , clientiD),
                                      new SqlParameter("@CreateUserID" , createUserID),
                                      new SqlParameter("@PayType" , payType),
+                                     new SqlParameter("@SourceType" , sourceType),
                                      new SqlParameter("@SystemType" , systemType)
                                    };
             return ExecuteNonQuery(tran, "M_AddClientOrder", paras, CommandType.StoredProcedure) > 0;
@@ -48,10 +49,12 @@ namespace IntFactoryDAL.Manage
 
         }
 
-        public bool PayOrderAndAuthorizeClient(string orderID)
+        public bool PayOrderAndAuthorizeClient(string orderID,string checkUserID,int payStatus)
         {
             SqlParameter[] paras = { 
-                                     new SqlParameter("@M_OrderID",orderID)
+                                     new SqlParameter("@M_OrderID",orderID),
+                                     new SqlParameter("@M_CheckUserID",checkUserID),
+                                    new SqlParameter("@M_PayStatus",payStatus)
                                    };
 
 
@@ -66,23 +69,22 @@ namespace IntFactoryDAL.Manage
                                      new SqlParameter("@OrderID",orderID)
                                    };
 
-            string cmdText = "select * from ClientOrder where orderID=@orderID and status<>9";
+            string cmdText = "select a.*,b.ClientCode,b.CompanyName from ClientOrder a left join Clients b on a.ClientID=b.ClientID where orderID=@orderID and a.status<>9";
 
             return GetDataTable(cmdText, paras, CommandType.Text);
         }
-
-        public DataTable GetClientOrders(int status,int type, string beginDate, string endDate, string agentID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public DataTable GetClientOrders(string keyWords, int status, int type, string beginDate, string endDate, string agentID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
                                     new SqlParameter("@totalCount",SqlDbType.Int),
                                     new SqlParameter("@pageCount",SqlDbType.Int),
+                                    new SqlParameter("@KeyWords",keyWords),
                                      new SqlParameter("@Status",status),
                                      new SqlParameter("@Type",type),
                                      new SqlParameter("@BeginDate",beginDate),
                                      new SqlParameter("@EndDate",endDate),
                                      new SqlParameter("@AgentID",agentID),
-                                     new SqlParameter("@ClientID",clientID),
-                                   
+                                     new SqlParameter("@ClientID",clientID),                                   
                                     new SqlParameter("@pageSize",pageSize),
                                     new SqlParameter("@pageIndex",pageIndex)
                                    };

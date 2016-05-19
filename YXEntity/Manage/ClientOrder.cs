@@ -31,13 +31,26 @@ namespace IntFactoryEntity.Manage
 
         public string ClientID { get; set; }
 
+        public string ClientCode { get; set; }
+
         public string CompanyName { get; set; }
 
+        public decimal PayFee { get; set; }
+
+        public int PayStatus { get; set; }
+
+        public int SourceType { get; set; }
         public DateTime CreateTime { get; set; }
 
         public string CreateUserID { get; set; }
 
         public Users CreateUser { get; set; }
+
+        public string CheckUserID { get; set; }
+
+        public DateTime CheckTime { get; set; }
+   
+        public Users CheckUser { get; set; }       
 
         public List<ClientOrderDetail> Details { get; set; }
         /// <summary>

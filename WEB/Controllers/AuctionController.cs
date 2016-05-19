@@ -391,7 +391,7 @@ namespace YXERP.Controllers
                             if (order.RealAmount == total_fee)
                             {
                                 //订单支付及后台客户授权
-                                bool flag = ClientOrderBusiness.PayOrderAndAuthorizeClient(order.OrderID);
+                                bool flag = ClientOrderBusiness.PayOrderAndAuthorizeClient(order.OrderID, CurrentUser.UserID,1);
 
                                 if (flag)
                                 {
@@ -569,7 +569,7 @@ namespace YXERP.Controllers
             model.AgentID = CurrentUser.AgentID;
             model.ClientID = CurrentUser.ClientID;
             model.CreateUserID = CurrentUser.UserID;
-
+            model.SourceType = 0;
             model.Details = new List<ClientOrderDetail>();
             foreach (var p in way.Products)
             {

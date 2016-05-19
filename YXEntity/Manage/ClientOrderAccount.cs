@@ -5,24 +5,37 @@ using System.Text;
 
 namespace IntFactoryEntity.Manage
 {
-    public class ClientOrderDetail
+    public class ClientOrderAccount
     {
         public int AutoID { get; set; }
 
         public string OrderID { get; set; }
 
-        public string ProductID { get; set; }
+        public string ClientID { get; set; } 
 
-        public decimal Price { get; set; }
+        public decimal RealRealAmount { get; set; }
 
-        public int Qunatity { get; set; }
+        public int PayType { get; set; }
+
+        public int Type { get; set; }
 
         public int Status { get; set; }
 
         public DateTime CreateTime { get; set; }
 
         public string CreateUserID { get; set; }
-        public string Name { get; set; }
+
+        public DateTime CheckTime { get; set; }
+
+        public string CheckUserID { get; set; }
+
+        public string AlipayNo { get; set; }
+
+        public string Remark { get; set; }
+
+
+        public M_Users CheckerUser { get; set; }
+        public Users CreateUser { get; set; }
         /// <summary>
         /// 填充数据
         /// </summary>

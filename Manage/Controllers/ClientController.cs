@@ -35,8 +35,12 @@ namespace YXManage.Controllers
             ViewBag.ID = id;
             ViewBag.Industry = IndustryBusiness.GetIndustrys();
             return View();
+        }
+        public ActionResult OrderDetail(string id)
+        {
+            ViewBag.ID = id; 
+            return View();
         } 
-
         public ActionResult Orders()
         {
             return View("Orders");
@@ -245,7 +249,7 @@ namespace YXManage.Controllers
                 model.Years = years;
                 model.Amount = way.TotalMoney;
                 model.RealAmount = way.TotalMoney;
-
+                model.SourceType = 1;
                 //购买人数
                 float remainderYears = 1;
                 if (buyType == 2)
@@ -291,12 +295,12 @@ namespace YXManage.Controllers
         /// <summary>
         /// 根据订单clientID获取订单
         /// </summary> 
-        public JsonResult GetClientOrders(string agentID, string clientID, int status, int type, string beginDate, string endDate, int pageSize, int pageIndex, int userType=0)
+        public JsonResult GetClientOrders(string keyWords,string agentID, string clientID, int status, int type, string beginDate, string endDate, int pageSize, int pageIndex, int userType=0)
         {
             int pageCount = 0;
             int totalCount = 0;
 
-            List<ClientOrder> list = ClientOrderBusiness.GetBase(status, type, beginDate, endDate, agentID, clientID, userType, pageSize, pageIndex, ref totalCount, ref pageCount);
+            List<ClientOrder> list = ClientOrderBusiness.GetBase(keyWords,status, type, beginDate, endDate, agentID, clientID, userType, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
@@ -368,7 +372,7 @@ namespace YXManage.Controllers
             ClientOrder order=ClientOrderBusiness.GetClientOrderInfo(id);
             if (order.Status == 0)
             {
-                bool flag = ClientOrderBusiness.PayOrderAndAuthorizeClient(id);
+                bool flag = ClientOrderBusiness.PayOrderAndAuthorizeClient(id, CurrentUser.UserID,-1);
                 JsonDictionary.Add("Result", flag ? 1 : 0);
 
                 if (flag)
@@ -379,6 +383,32 @@ namespace YXManage.Controllers
             }else {
                 JsonDictionary.Add("Result", order .Status== 1 ? 1001 : 1002);
             }
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+
+        public JsonResult GetClientOrderDetail(string orderid) 
+        {
+            var item = ClientOrderBusiness.GetClientOrderInfo(orderid);
+            JsonDictionary.Add("Item", item);
+            JsonDictionary.Add("Result", 1);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult GetClientOrderAccount(string keyWords, string orderID, string clientID, int payType,int status, int type, int pageSize, int pageIndex)
+        {
+            int totalCount = 0, pageCount = 0;
+            var list = ClientOrderAccountBusiness.GetClientOrderAccounts(keyWords, orderID, clientID,payType,status,type, PageSize, pageIndex, ref totalCount, ref pageCount);
+            JsonDictionary.Add("Items", list);
+            JsonDictionary.Add("TotalCount", totalCount);
+            JsonDictionary.Add("PageCount", pageCount);
             return new JsonResult()
             {
                 Data = JsonDictionary,
