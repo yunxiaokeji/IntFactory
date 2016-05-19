@@ -387,9 +387,26 @@ namespace YXManage.Controllers
             {
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
+
             };
         }
-
+        public JsonResult PayClientOrder(string id)
+        {
+            ClientOrder order = ClientOrderBusiness.GetClientOrderInfo(id);
+            if (order.PayStatus == 0 || order.PayStatus == 2)
+            {
+                bool flag = ClientOrderBusiness.PayClientOrder(id, (int)IntFactoryEnum.EnumClientOrderPay.Pay);
+                JsonDictionary.Add("Result", flag ? 1 : 0);
+            }
+            else {
+                JsonDictionary.Add("Result", 1001);
+            }
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
         public JsonResult GetClientOrderDetail(string orderid) 
         {
@@ -409,6 +426,40 @@ namespace YXManage.Controllers
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult CheckOrderAccount(string id) 
+        { 
+            int flag = ClientOrderAccountBusiness.UpdateClientOrderAccountStatus(id, (int)IntFactoryEnum.EnumClientOrderStatus.Pay);
+            JsonDictionary.Add("Result", flag  );
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult CloseOrderAccount(string id)
+        {
+            int flag = ClientOrderAccountBusiness.UpdateClientOrderAccountStatus(id, (int)IntFactoryEnum.EnumClientOrderStatus.Delete);
+            JsonDictionary.Add("Result", flag);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult AddOrderAccount(string orderAccount)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            ClientOrderAccount model = serializer.Deserialize<ClientOrderAccount>(orderAccount);
+            int result=0;
+            model.CreateUserID = CurrentUser.UserID;
+            result = ClientOrderAccountBusiness.AddClientOrderAccount(model);
+            JsonDictionary.Add("Result", result);
             return new JsonResult()
             {
                 Data = JsonDictionary,

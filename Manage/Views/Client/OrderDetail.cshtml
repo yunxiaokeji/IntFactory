@@ -26,13 +26,14 @@
         <li><span class="column-title">授权人数：</span><label id="lblUserQuantity"></label> </li>
         <li><span class="column-title">购买年数：</span><label id="lblYears"></label> </li>
         <li><span class="column-title">订单状态：</span><label id="lblStatus"></label> </li>
-        <li><span class="column-title">支付状态：</span><label id="iblPayStatus"></label> </li>        
+        <li><span class="column-title">支付状态：</span><label id="lblPayStatus"></label> </li>        
         <li><span class="column-title">金额：</span><label id="lblAmount"></label></li>
         <li><span class="column-title">支付金额：</span><label id="lblPayFee"></label></li> 
         <li><span class="column-title">创建时间：</span><label id="lblCreateTime"></label></li>
         <li><span class="column-title">创建人：</span><label id="lblCreateUser"></label></li>
         <li><span class="column-title">审核时间：</span><label id="lblCheckTime"></label></li>
         <li><span class="column-title">审核人：</span><label id="lblCheckUser"></label></li>
+        <li class="hide"><span class="column-title"> 退款金额：</span><label id="lblReFundFee"></label></li>
     </ul>   
    
 </div>
@@ -41,13 +42,13 @@
         <li class="hover"  data-index="0">账目信息</li>   
     </ul>  
      <div class="tRight"> 
-        <input type="button" class="btn " id="addAuthorize" value="新增账目" />
+        <input type="button" class="btn " id="addAccount" value="新增账目" />
     </div>
     <div class="clear"></div>
 </div>
 <div class="content-body pBottom50">
     <div class="contentnew" name="navContent" style="border-bottom:none;">        
-        <table class="table-list" id="tb-clientLog">
+        <table class="table-list" id="tb-clientOrderAccount">
             <tr class="tr-header" id="clientorderaccount-header">
                 <td class="">交易号</td>
                 <td class="">付款类型</td>
