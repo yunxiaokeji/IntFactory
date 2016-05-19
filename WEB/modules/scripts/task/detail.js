@@ -96,8 +96,9 @@
 
         if (ObjectJS.mark === 15 || ObjectJS.mark === 25) {
             ObjectJS.getExpress();
-    ObjectJS.isLoading = true;
         }
+
+        ObjectJS.isLoading = true;
     };
 
     //#region任务基本信息操作
