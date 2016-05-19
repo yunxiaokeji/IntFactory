@@ -8,16 +8,19 @@
     <td class='center'>{%= item.Years%}</td>
     <td class='center'>{%= item.RealAmount%}</td>
     <td class="center">{%= item.Type==1?"购买系统": item.Type==2?"购买人数":item.Type==3?"续费":"试用"%}</td>
-    <td class='center'>{%=item.Status==0?"未支付":item.Status==1?"已支付":"已关闭"%}</td>
+    <td class='center'>{%=item.Status==0?"未审核":item.Status==1?"已审核":"已关闭"%}</td>
+    <td class='center'>{%=item.PayStatus==0?"未支付":item.PayStatus==1?"已支付":item.PayStatus==2?部分支付:"已关闭"%}</td>
     <td class='center'>{%=item.CreateUser==null?"--":item.CreateUser.Name%}</td>
+    <td class='center'>{%=item.CheckUser==null?"--":item.CheckUser.Name%}</td>
+    <td class='center'>{%=item.CheckTime.toDate("yyyy")!='3939'?item.CheckTime.toDate("yyyy-MM-dd"):'--'%}</td>
     <td class="center">
-    {% 
-        if(item.Status==0){ 
-    %}
+    {% if(item.Status==0){  %}
         <a href="javascript:void(0);" class="pLeft25 examineOrder"   title="审核" data-id="{%=item.OrderID%}">审核</a>
         <a href="javascript:void(0);" class="pLeft10 editOrder"  title="改价" data-id="{%=item.OrderID%}" data-amount="{%=item.RealAmount%}">改价</a>
         <a href="javascript:void(0);" class="mLeft10 deleteOrder" title="删除" data-id="{%=item.OrderID%}">删除</a>
-    {% }%}        
+    {% } else{%}    
+        <a href="/Client/OrderDetail/{%=item.OrderID%}" title="查看明细" ">查看明细</a>
+    {% } %}      
     </td>
 </tr>
 {% } %}

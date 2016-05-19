@@ -130,15 +130,15 @@
             </li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))">
                 <span class="column-title">材料成本：</span>
-                <label>@(model.Price.ToString("f2"))</label>
+                <label id="productMoney">@(model.Price.ToString("f2"))</label>
             </li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))">
                 <span class="column-title">加工成本：</span>
                 <label id="lblCostMoney">@(model.CostPrice.ToString("f2"))</label>
             </li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019021"))">
-                <span class="column-title">利润比例：</span>
-                <label class="left" id="profitPrice">@((model.ProfitPrice).ToString("f2"))</label>
+                <span class="column-title">利润比例(%)：</span>
+                <label class="left" id="profitPrice">@((model.ProfitPrice*100).ToString("f2"))</label>
                  @if (model.IsSelf && model.OrderStatus == 1)
                  { 
                     <div id="updateProfitPrice" class="left ico-edit iconfont mLeft20">&#xe607;</div>
@@ -202,7 +202,7 @@
         {
             <span title="更换流程" class="iconfont change-ico left mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess">&#xe60b;</span>
         }
-        <div class="left info mLeft20">负责人：@(model.OrderProcess.Owner.Name)</div>
+        <div class="left info mLeft20">负责人：@(model.OrderProcess!=null&&model.OrderProcess.Owner!=null?model.OrderProcess.Owner.Name:"")</div>
         @if (model.IsSelf)
         {
             if (string.IsNullOrEmpty(model.CategoryID))

@@ -130,7 +130,7 @@ define(function (require, exports, module) {
                             if (!price.isDouble() || price < 0) {
                                 alert("利润比例必须为不小于0的数字！");
                                 return false;
-                            } else if (price > 1) {
+                            } else if (price > 100) {
                                 confirm("利润比例设置大于100%，确认继续吗？", function () {
                                     _self.updateProfitPrice(price);
                                 }, function () {
@@ -335,9 +335,8 @@ define(function (require, exports, module) {
                             }
                         }
                     });
-
                     $("#iptFinalPrice").focus();
-                    $("#iptFinalPrice").val((($("#amount").text() * 1 + $("#lblCostMoney").text() * 1) * (1 + $("#profitPrice").text() * 1)).toFixed(2))
+                    $("#iptFinalPrice").val((($("#productMoney").text() * 1 + $("#lblCostMoney").text() * 1) * (1 + $("#profitPrice").text() / 100)).toFixed(2))
                 });
             } //大货下单
             else if (_self.status == 3) {
@@ -1301,7 +1300,7 @@ define(function (require, exports, module) {
         var _self = this;
         Global.post("/Orders/UpdateProfitPrice", {
             orderid: _self.orderid,
-            profit: profit
+            profit: profit / 100
         }, function (data) {
             if (data.status) {
                 location.href = location.href;

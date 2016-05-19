@@ -8,6 +8,7 @@ using IntFactoryBusiness;
 using IntFactoryEntity.Task;
 using IntFactoryEnum;
 using System.Globalization;
+using System.IO;
 namespace YXERP.Controllers
 {
     public class TaskController : BaseController
@@ -45,6 +46,82 @@ namespace YXERP.Controllers
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public JsonResult ExecuteDownAliOrdersPlan()
+        {
+            int successCount = 0, total = 0;
+            //获取阿里订单下载计划列表
+            var list = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlans();
+
+            foreach (var item in list)
+            {
+                string error;
+
+                //下载阿里打样订单
+                var gmtFentEnd = DateTime.Now;
+                bool flag = AliOrderBusiness.DownFentOrders(item.FentSuccessEndTime, gmtFentEnd, item.Token, item.RefreshToken,
+                    item.UserID, item.AgentID, item.ClientID, ref successCount, ref total, out error);
+
+                //新增阿里打样订单下载日志
+                AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.FentSuccessEndTime, gmtFentEnd,
+                    successCount, total, item.AgentID, item.ClientID, error);
+
+                //添加服务日志
+                string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 下载打样订单结果:" + (flag ? "成功" : "失败");
+                if (!flag)
+                    state += "  原因：" + error;
+                WriteLog(state);
+
+
+                //下载阿里大货订单列表
+                var gmtBulkEnd = DateTime.Now;
+                flag = AliOrderBusiness.DownBulkOrders(item.BulkSuccessEndTime, gmtBulkEnd, item.Token, item.RefreshToken,
+                    item.UserID, item.AgentID, item.ClientID, ref successCount, ref total, out error);
+
+                //新增阿里大货订单下载日志
+                AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.BulkSuccessEndTime, gmtBulkEnd,
+                    successCount, total, item.AgentID, item.ClientID, error);
+
+                //添加服务日志
+                state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 下载大货订单结果:" + (flag ? "成功" : "失败");
+                if (!flag)
+                    state += "  原因：" + error;
+                WriteLog(state);
+            }
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 添加服务日志
+        /// </summary>
+        public void WriteLog(string str, int logType = 1)
+        {
+            string fileName = DateTime.Now.ToString("yyyy-MM-dd");
+            string fileExtention = ".txt";
+            string directoryName = "downaliorders";
+            FileStream fs = null;
+            if (logType == 2)
+                directoryName = "updatealiorders";
+
+            if (!Directory.Exists(@"c:\log\" + directoryName))
+            {
+                Directory.CreateDirectory(@"c:\log\" + directoryName);
+            }
+
+            fs = new FileStream(@"c:\log\" + directoryName + "\\" + fileName + fileExtention, FileMode.OpenOrCreate, FileAccess.Write);
+
+            StreamWriter sw = new StreamWriter(fs);
+            sw.BaseStream.Seek(0, SeekOrigin.End);
+            sw.WriteLine("WindowsService: Service Started" + str + "\n");
+
+            sw.Flush();
+            sw.Close();
+            fs.Close();
         }
 
         public JsonResult BatchUpdateFentList()

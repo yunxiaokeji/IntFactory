@@ -28,9 +28,9 @@ define(function (require, exports, module) {
                     defaultParas.taskid = $(this).data("taskid");
                     defaultParas.guid = $(this).data("orderid");
 <<<<<<< HEAD
-                    defaultParas.orderid = $(this).data("orderid");
 =======
->>>>>>> 1870b97b808cd18f10885a0e341b7c79a1aeba39
+                    defaultParas.orderid = $(this).data("orderid");
+>>>>>>> 892851ca93cd15395c984248500aa4790fc9e0e8
                     defaultParas.stageid = $(this).data("stageid");
                     defaultParas.mark = $(this).data("mark");
                     defaultParas.self = $(this).data("self");
