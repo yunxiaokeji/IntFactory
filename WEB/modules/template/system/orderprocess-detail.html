@@ -8,11 +8,28 @@
         <input type="text" id="planDays" maxlength="3" class="input verify width80" data-type="int" data-text="请输入整数" value="7" data-empty="必填" />
 
     </li>-->
-    <li>
+    <li id="processType">
         <span class="left width80">订单阶段：</span>
-        <select id="processType">
-            <option value="1">打样</option>
-            <option value="2">大货</option>
-        </select>
+        <div class="left radiobox hand">
+            <span class="iconfont ico-radiobox hover" data-value="1"></span>
+            打样
+        </div>
+        <div class="left radiobox hand mLeft10">
+            <span class="iconfont ico-radiobox" data-value="2"></span>
+            大货
+        </div>
+        <div class="clear"></div>
+    </li>
+    <li id="categoryType">
+        <span class="left width80">类型：</span>
+       <div class="left radiobox hand">
+            <span class="iconfont ico-radiobox hover" data-value="1"></span>
+            梭织
+        </div>
+        <div class="left radiobox hand mLeft10">
+            <span class="iconfont ico-radiobox" data-value="2"></span>
+            毛织
+        </div>
+        <div class="clear"></div>
     </li>
 </ul>
