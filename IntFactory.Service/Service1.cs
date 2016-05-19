@@ -42,11 +42,13 @@ namespace IntFactory.Service
             // TODO: 在此处添加代码以启动服务。
             string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + " 下载阿里订单服务启动";
             WriteLog(state);
+
             ExecuteDownAliOrdersPlan();
             DownAliOrdersTimer.Start();
 
             state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    更新阿里订单服务启动";
             WriteLog(state, 2);
+
             ExecuteUpdateAliOrders();
             UpdateAliOrdersTimer.Start();
         }
@@ -79,8 +81,6 @@ namespace IntFactory.Service
             WriteLog(state);
         }
 
-
-
         public void UpdateAliOrdersEvent(object source, System.Timers.ElapsedEventArgs e)
         {
             UpdateAliOrdersEventFun();
@@ -112,7 +112,7 @@ namespace IntFactory.Service
                 string error;
 
                 //下载阿里打样订单
-                var gmtFentEnd = DateTime.Now;
+                var gmtFentEnd = DateTime.Now.AddDays(1);
                 bool flag =AliOrderBusiness.DownFentOrders(item.FentSuccessEndTime, gmtFentEnd, item.Token, item.RefreshToken,
                     item.UserID, item.AgentID, item.ClientID, ref successCount, ref total, out error);
 
@@ -128,7 +128,7 @@ namespace IntFactory.Service
 
 
                 //下载阿里大货订单列表
-                var gmtBulkEnd = DateTime.Now;
+                var gmtBulkEnd = DateTime.Now.AddDays(1);
                 flag = AliOrderBusiness.DownBulkOrders(item.BulkSuccessEndTime, gmtBulkEnd, item.Token, item.RefreshToken,
                     item.UserID, item.AgentID, item.ClientID, ref successCount, ref total, out error);
 

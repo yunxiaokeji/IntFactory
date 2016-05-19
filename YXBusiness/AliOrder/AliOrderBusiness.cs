@@ -78,12 +78,13 @@ namespace IntFactoryBusiness
             #endregion
 
             if (goodsCodesResult.goodsCodeList.Count == 0) {
-                if(aliOrderDownType==AlibabaSdk.AliOrderDownType.Auto)
-                //更新订单下载成功时间
-                    AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanSuccessTime(clientID, EnumOrderType.ProofOrder, gmtFentEnd);
+                if (aliOrderDownType == AlibabaSdk.AliOrderDownType.Auto)
+                {
+                    //更新订单下载成功时间
+                    AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanSuccessTime(clientID, EnumOrderType.ProofOrder, gmtFentEnd.Date);
+                }
 
                 return true; 
-            
             }
 
             //订单编码分页
@@ -121,8 +122,10 @@ namespace IntFactoryBusiness
                         successCount++;
                         orderCreateTime=order.gmtCreate;
                         if (aliOrderDownType == AlibabaSdk.AliOrderDownType.Auto)
+                        {
                             //更新订单下载成功时间
                             AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanSuccessTime(clientID, EnumOrderType.ProofOrder, order.gmtCreate);
+                        }
                     }
                 }
 
@@ -181,8 +184,10 @@ namespace IntFactoryBusiness
             #endregion
 
             if (goodsCodesResult.goodsCodeList.Count == 0) {
-                if(aliOrderDownType==AlibabaSdk.AliOrderDownType.Auto)
-                    AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanSuccessTime(clientID, EnumOrderType.LargeOrder, gmtBulkEnd);
+                if (aliOrderDownType == AlibabaSdk.AliOrderDownType.Auto)
+                {
+                    AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanSuccessTime(clientID, EnumOrderType.LargeOrder, gmtBulkEnd.Date);
+                }
                 return true; 
             }
 
@@ -221,8 +226,10 @@ namespace IntFactoryBusiness
                         successCount++;
                         orderCreateTime = order.gmtCreate;
                         if (aliOrderDownType == AlibabaSdk.AliOrderDownType.Auto)
+                        {
                             //更新订单下载成功时间
                             AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanSuccessTime(clientID, EnumOrderType.LargeOrder, order.gmtCreate);
+                        }
                     }
                 }
             }
@@ -317,14 +324,14 @@ namespace IntFactoryBusiness
                         }
 
                     }
+
                     AliOrderBusiness.BaseBusiness.UpdateAllAliOrderUpdateLogStatus(string.Join(",", failGodesCodeList), AlibabaSdk.AliOrderUpdateStatus.Fail);
-                    failGodesCodes = failGodesCodeList;
+                    failGodesCodes.AddRange(failGodesCodeList);
                 }
 
             }
 
-            
-            return true;
+            return failGodesCodes.Count==0;
         }
 
         /// <summary>
@@ -409,13 +416,11 @@ namespace IntFactoryBusiness
 
                     }
                     AliOrderBusiness.BaseBusiness.UpdateAllAliOrderUpdateLogStatus(string.Join(",", failGodesCodeList), AlibabaSdk.AliOrderUpdateStatus.Fail);
-                    failGodesCodes = failGodesCodeList;
+                    failGodesCodes.AddRange(failGodesCodeList);
                 }
-
-
             }
 
-            return true;
+            return failGodesCodes.Count==0;
         }
 
 

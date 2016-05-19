@@ -718,8 +718,9 @@ namespace YXERP.Controllers
             {
                 DateTime downStartTime = DateTime.Parse(startTime);
                 DateTime downEndTime = DateTime.Parse(endTime);
+                downEndTime = downEndTime.AddDays(1);
 
-                if ((downEndTime - downStartTime).Days < 16)
+                if ((downEndTime - downStartTime).Days < 61)
                 {
                     var plan = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlanDetail(CurrentUser.ClientID);
 
