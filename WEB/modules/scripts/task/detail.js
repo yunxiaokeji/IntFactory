@@ -148,8 +148,7 @@
             if (_this.data("btn")) {
                 $("#" + _this.data("btn")).show();
             }
-            _this.siblings().removeClass("hover");
-            _this.addClass("hover");
+            _this.addClass("hover").siblings().removeClass("hover");           
 
             $("#navTask").children().hide();
             $("#" + _this.data("id")).show();
@@ -211,7 +210,7 @@
                         var memberIDs = '';
                         for (var i = 0; i < items.length; i++) {
                             var item = items[i];
-                            console.log(item.id);
+                            //console.log(item.id);
                             if (ObjectJS.ownerid == item.id) {
                                 continue;
                             }
@@ -221,7 +220,7 @@
                             }
 
                             ObjectJS.createTaskMember(item);
-                            console.log(item);
+                            //console.log(item);
                             memberIDs += item.id + ",";
                         }
 
