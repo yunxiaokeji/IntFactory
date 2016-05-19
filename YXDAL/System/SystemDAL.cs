@@ -276,13 +276,14 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
         }
 
-        public bool CreateOrderProcess(string id, string name, int type, int days, int isdefault, string ownerid, string userid, string clientid)
+        public bool CreateOrderProcess(string id, string name, int type, int categoryType, int days, int isdefault, string ownerid, string userid, string clientid)
         {
             string sqlText = "P_CreateOrderProcess";
             SqlParameter[] paras = { 
                                      new SqlParameter("@ProcessID" , id),
                                      new SqlParameter("@ProcessName" , name),
                                      new SqlParameter("@ProcessType" , type),
+                                     new SqlParameter("@CategoryType" , categoryType),
                                      new SqlParameter("@PlanDays" , days),
                                      new SqlParameter("@IsDefault" , isdefault),
                                      new SqlParameter("@OwnerID" , ownerid),
@@ -292,7 +293,7 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqlText, paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool CreateOrderStage(string stageid, string name, int sort, string pid, string processid, string userid, string clientid, out int result)
+        public bool CreateOrderStage(string stageid, string name, int sort, int mark, string pid, string processid, string userid, string clientid, out int result)
         {
             result = 0;
             SqlParameter[] paras = { 
@@ -300,6 +301,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@StageID",stageid),
                                      new SqlParameter("@StageName",name),
                                      new SqlParameter("@Sort",sort),
+                                     new SqlParameter("@Mark",mark),
                                      new SqlParameter("@PID",pid),
                                      new SqlParameter("@ProcessID",processid),
                                      new SqlParameter("@CreateUserID" , userid),
@@ -467,13 +469,14 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool UpdateOrderStage(string stageid, string stagename, string clientid)
+        public bool UpdateOrderStage(string stageid, string stagename, int mark, string clientid)
         {
-            string sqltext = "update OrderStage set StageName=@StageName where StageID=@StageID and ClientID=@ClientID";
+            string sqltext = "update OrderStage set StageName=@StageName,Mark=@Mark where StageID=@StageID and ClientID=@ClientID";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@StageID",stageid),
                                      new SqlParameter("@StageName",stagename),
+                                     new SqlParameter("@Mark",mark),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;

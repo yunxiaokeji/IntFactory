@@ -43,8 +43,7 @@ namespace YXERP.Controllers
             {
                 return Redirect("/System/OrderProcess");
             }
-            ViewBag.ID = model.ProcessID;
-            ViewBag.Name = model.ProcessName;
+            ViewBag.Model = model;
             ViewBag.Items = new SystemBusiness().GetOrderStages(id, CurrentUser.AgentID, CurrentUser.ClientID);
             return View();
         }
@@ -309,7 +308,7 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.ProcessID))
             {
-                model.ProcessID = new SystemBusiness().CreateOrderProcess(model.ProcessName, model.ProcessType, model.PlanDays, model.IsDefault, CurrentUser.UserID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                model.ProcessID = new SystemBusiness().CreateOrderProcess(model.ProcessName, model.ProcessType, model.CategoryType, model.PlanDays, model.IsDefault, CurrentUser.UserID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             }
             else
             {
@@ -371,13 +370,13 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.StageID))
             {
-                model.StageID = new SystemBusiness().CreateOrderStage(model.StageName, model.Sort, "", model.ProcessID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+                model.StageID = new SystemBusiness().CreateOrderStage(model.StageName, model.Sort, model.Mark, "", model.ProcessID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, out result);
 
                 model.Owner = OrganizationBusiness.GetUserByUserID(CurrentUser.UserID, CurrentUser.AgentID);
             }
             else
             {
-                bool bl = new SystemBusiness().UpdateOrderStage(model.StageID, model.StageName, model.ProcessID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                bool bl = new SystemBusiness().UpdateOrderStage(model.StageID, model.StageName, model.Mark, model.ProcessID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
                 if (bl)
                 {
                     result = 1;

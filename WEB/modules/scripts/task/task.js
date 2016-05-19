@@ -74,10 +74,15 @@
         }
     }
 
+    ObjectJS.isLoading = true;
+
     ObjectJS.bindEvent = function () {
         //关键字查询 任务编码、订单编码、任务标题
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 Params.pageIndex = 1;
                 Params.keyWords = keyWords;
                 ObjectJS.getList();
@@ -86,6 +91,9 @@
         
         //切换颜色标记
         $(".search-item-color li").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -99,6 +107,9 @@
 
         //切换阶段
         $(".search-stages li").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -111,6 +122,9 @@
 
         //切换订单类型
         $(".search-ordertype .item").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -136,6 +150,9 @@
 
         //切换任务显示方式(列表或者卡片式)
         $(".search-sort .task-tabtype i").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             if (!_this.hasClass('checked')) {
                
@@ -149,6 +166,9 @@
 
         //时间段查询
         $("#btnSearch").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             Params.pageIndex = 1;
             Params.beginDate = $("#BeginTime").val();
             Params.endDate = $("#EndTime").val();
@@ -157,6 +177,9 @@
 
         //列表排序
         $(".sort-item").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _self = $(this);
             if (!_self.hasClass("hover")) {
                 _self.addClass("hover").siblings().removeClass("hover");
@@ -202,6 +225,7 @@
 
     //获取订单流程
     ObjectJS.getProcess = function () {
+        ObjectJS.isLoading = false;
         Global.post("/Task/GetOrderProcess", null, function (data) {
             var items = data.items;
             var content = "<li class='item hover' data-id='-1' data-type='-1'>全部</li>";
@@ -227,13 +251,14 @@
                     ObjectJS.getStage();
                 }
             });
-
+            ObjectJS.isLoading = true;
         });
     }
 
     //获取订单阶段
     ObjectJS.getStage = function () {
         $(".search-stage").show();
+        ObjectJS.isLoading = false;
         Global.post("/Task/GetOrderStages", { id: Params.orderProcessID }, function (data) {
             var items = data.items;
             var content = "<li class='item hover' data-id='-1'>全部</li>";
@@ -252,7 +277,8 @@
                     Params.pageIndex = 1;
                     ObjectJS.getList();
                 }
-            })
+            });
+            ObjectJS.isLoading = true;
         });
     }
 
@@ -271,7 +297,7 @@
             $(".task-items").html("<div class='data-loading'><div>");
         }
         $(".content-body").find('.nodata-txt').remove();
-
+        ObjectJS.isLoading = false;
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".tr-header").nextAll().remove();
 
@@ -338,7 +364,7 @@
                    ObjectJS.getList();
                 }
             });
-
+            ObjectJS.isLoading = true;
         });
     }
 
@@ -429,7 +455,7 @@
             alert("不能标记此选项!");
             return false;
         }
-
+        ObjectJS.isLoading = false;
         Global.post("/Task/UpdateTaskColorMark", {
             ids: ids,
             mark: mark
@@ -440,6 +466,7 @@
             } else {
                 callback && callback(data.result);
             }
+            ObjectJS.isLoading = true;
         });
     }
 

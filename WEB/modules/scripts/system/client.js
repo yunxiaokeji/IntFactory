@@ -17,8 +17,11 @@
         EndDate:''
     };
 
+    ObjectJS.isLoading = true;
+
     //初始化
     ObjectJS.init = function (option) {
+
         var _self = this;
 
         _self.bindEvent();
@@ -39,12 +42,33 @@
 
     //绑定事件
     ObjectJS.bindEvent = function () {
-
+        var _self = this;
         $(document).click(function (e) {
             //隐藏下拉
             if (!$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown")) {
                 $(".dropdown-ul").hide();
+            }            
+        });
+
+        //编辑公司信息
+        $("#updateCustomer").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
             }
+            $("#bfe_overlay").show();
+            $(".update-content-body").show();                           
+            _self.getDetail();
+        });
+
+        //取消编辑公司信息
+        $(".close_btn").click(function () {
+            $("#bfe_overlay").hide();
+            $(".update-content-body").hide();
+        });
+
+        $("#bfe_overlay").click(function () {
+            $("#bfe_overlay").hide();
+            $(".update-content-body").hide();
         });
 
         //选择海报图片
@@ -57,7 +81,8 @@
                 if (data.Items.length > 0) {
                     $("#PosterDisImg").show();
                     $("#PosterDisImg").attr("src", data.Items[0]);
-                    $("#CompanyLogo").val(data.Items[0]);
+                    $("#PosterDisImgone").attr("src", data.Items[0]);
+                    //$("#CompanyLogo").val(data.Items[0]);
                 } else {
                     alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
                 }
@@ -71,6 +96,9 @@
 
         //tab切换
         $(".search-stages li").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.addClass("hover").siblings().removeClass("hover");
@@ -85,13 +113,33 @@
             }
         });
 
+        $(".module-tab li").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.addClass("hover").siblings().removeClass("hover");
+                
+
+                if (_this.data("id") == 2) {                    
+                    ObjectJS.getClientOrders();
+                    $(".content-SQXI").hide();
+                    $(".content-order").show();
+                } else {
+                    $(".content-order").hide();
+                    $(".content-SQXI").show();
+                }
+            }
+        });
+
         //保存公司基本信息
         $("#btnSaveClient").click(function () {
             if (!VerifyObject.isPass()) {
                 return false;
             };
-
             ObjectJS.saveModel();
+            ObjectJS.getDetail();
         });
 
         //搜索
@@ -161,7 +209,9 @@
         });
 
         $("#SearchClientOrders").click(function () {
-
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             ObjectJS.Params.PageIndex = 1;
             ObjectJS.Params.BeginDate = $("#orderBeginTime").val();
             ObjectJS.Params.EndDate = $("#orderEndTime").val();
@@ -170,6 +220,9 @@
 
         //继续支付客户端订单
         $("#PayClientOrder").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
             var id = $(this).data("id");
             var type = $(this).data("type");
 
@@ -185,43 +238,63 @@
 
         //关闭客户端订单
         $("#CloseClientOrder").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+            ObjectJS.isLoading = false;
             Global.post("/System/CloseClientOrder",{id:$(this).data("id")},function(data){
                 if (data.Result == 1) {
                     ObjectJS.getClientOrders();
                 }
                 else {
                     alert("关闭失败");
-                }
+                };
+                ObjectJS.isLoading = true;
             });
         });
     }
 
     //获取详情
     ObjectJS.getDetail = function () {
+        ObjectJS.isLoading = false;
         Global.post("/System/GetClientDetail", null, function (data) {
             if (data.Client) {
                 var item = data.Client;
                 //基本信息
-                $("#CompanyName").val(item.CompanyName);
-                $("#ContactName").val(item.ContactName);
-                $("#MobilePhone").val(item.MobilePhone);
-                $("#OfficePhone").val(item.OfficePhone);
-                $("#Industry").val(item.Industry);
+                $("#ckey").html(item.ClientCode);
+                $("#spCustomerName").html(item.CompanyName == "" ? "--" : item.CompanyName);
+                $("#ContactName").html(item.ContactName == "" ? "--" :item.ContactName);
+                $("#MobilePhone").html(item.MobilePhone == "" ? "--" :item.MobilePhone);
+                $("#OfficePhone").html(item.OfficePhone == "" ? "--" : item.OfficePhone);
+                $("#Industry").html(item.IndustryEntity.Name == "" ? "--" : item.IndustryEntity.Name);
+                $("#lblReamrk").html(item.Description);
+                $("#address").html(item.City ? item.City.Province + " " + item.City.City + " " + item.City.Counties : "--");
+                $("#cid").attr("href", 'http://90cloudsales.com/Home/SelfOrder/' + item.ClientID).html('http://90cloudsales.com/Home/SelfOrder/' + item.ClientID);
                 if (item.City)
                     CityObject.setValue(item.City.CityCode);
                 if (item.Logo)
                 {
                     $("#PosterDisImg").show().attr("src", item.Logo);
-                    $("#CompanyLogo").val(item.Logo);
+                    //$("#CompanyLogo").val(item.Logo);
                 }
-                $("#Address").val(item.Address);
-                $("#Description").val(item.Description);
+
+                //弹出框编辑信息
+                $("#CompanyName").val(item.CompanyName);
+                $("#ckeyone").html(item.ClientCode);
+                $("#ContactNameone").val(item.ContactName);
+                $("#MobilePhoneone").val(item.MobilePhone);
+                $("#OfficePhoneone").val(item.OfficePhone);
+                $("#Industryone").val(item.Industry);
+                $("#Description").html(item.Description);                
+                if (item.City)
+                    CityObject.setValue(item.City.CityCode);
+                if (item.Logo) {
+                    $("#PosterDisImgone").attr("src", item.Logo);
+                    //$("#CompanyLogo").val(item.Logo);
+                }
 
                 //授权信息
                 var agent = data.Agent;
-                $("#cid").attr("href", '/Home/SelfOrder/' + item.ClientID).html('/Home/SelfOrder/' + item.ClientID);
-                $("#ckey").html(item.ClientCode);
-
                 $("#UserQuantity").html(agent.UserQuantity);
                 $("#EndTime").html(agent.EndTime.toDate("yyyy-MM-dd"));
                 $("#agentRemainderDays").html(data.Days);
@@ -241,6 +314,7 @@
                 }
             
             }
+            ObjectJS.isLoading = true;
         })
     }
 
@@ -248,21 +322,22 @@
     ObjectJS.saveModel = function () {
         var _self = this;
         var model = {
-            CompanyName: $("#CompanyName").val(),
-            Logo:$("#CompanyLogo").val(),
-            ContactName: $("#ContactName").val(),
-            MobilePhone: $("#MobilePhone").val(),
-            OfficePhone: $("#OfficePhone").val(),
+            CompanyName: $("#CompanyName").val(),            
+            ContactName: $("#ContactNameone").val(),
+            MobilePhone: $("#MobilePhoneone").val(),
+            OfficePhone: $("#OfficePhoneone").val(),
             CityCode: CityObject.getCityCode(),
-            Industry: $("#Industry").val(),
+            Industry: $("#Industryone").val(),
             Address: $("#Address").val(),
             Description:$("#Description").val()
         };
-
+        ObjectJS.isLoading = false;
         Global.post("/System/SaveClient", { entity: JSON.stringify(model) }, function (data) {
             if (data.Result == 1) {
-                alert("保存成功");
-            }
+                $("#bfe_overlay").hide();
+                $(".update-content-body").hide();
+            };
+            ObjectJS.isLoading = true;
         })
     }
 
@@ -271,7 +346,7 @@
         var _self = this;
         $(".tr-header").nextAll().remove();
         $(".tr-header").after("<tr><td colspan='8'><div class='data-loading'><div></td></tr>");
-
+        ObjectJS.isLoading = false;
         Global.post("/System/GetClientOrders",
             {
                 pageSize: ObjectJS.Params.PageSize,
@@ -320,7 +395,7 @@
                         _self.getClientOrders();
                     }
                 });
-
+                ObjectJS.isLoading = true;
             }
         );
     }
