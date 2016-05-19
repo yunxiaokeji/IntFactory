@@ -37,8 +37,7 @@
         if (attrValues != "")
             CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
         Editor = um;
-        ObjectJS.mark = task.Mark;//任务讨论标记 用于添加任务讨论
-        ObjectJS.taskMark = task.Mark;//任务标记 用于做标记任务完成的限制条件
+        ObjectJS.mark = task.Mark;//任务标记 用于做标记任务完成的限制条件
         ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
         ObjectJS.orderimages = orderimages;
         $(".part-btn").hide();
@@ -48,7 +47,7 @@
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
             ObjectJS.materialMark = 1;
-            if (ObjectJS.taskMark == 3) {
+            if (ObjectJS.mark == 21) {
                 ObjectJS.materialMark = 2;
             }
 
@@ -71,8 +70,6 @@
         //统计材料总金额
         ObjectJS.getProductAmount();
 
-        ObjectJS.bingCache();
-
         //制版工艺描述
         if (Editor) {
             Editor.ready(function () {
@@ -91,22 +88,16 @@
         }
 
         //判断制版任务是否执行了
-        if (ObjectJS.taskMark == 2) {
+        if (ObjectJS.mark == 12) {
             if ($("#platemakingBody .table-list").length == 0) {
                 ObjectJS.isPlate = false;
             }
         }
 
+        if (ObjectJS.mark === 15 || ObjectJS.mark === 25) {
+            ObjectJS.getExpress();
+        }
     };
-
-
-    //加载缓存
-    ObjectJS.bingCache = function () {
-
-        Global.post("/Plug/GetExpress", {}, function (data) {
-            ObjectJS.express = data.items;
-        });
-    }
 
     //#region任务基本信息操作
     //绑定事件
@@ -327,14 +318,14 @@
 
     //标记任务完成
     ObjectJS.finishTask = function () {
-        if (ObjectJS.taskMark == 1) {
+        if (ObjectJS.mark == 11) {
             if ($("#navProducts .table-list tr").length == 2) {
                 alert("材料没有添加,不能标记任务完成");
                 return;
             }
 
         }
-        else if (ObjectJS.taskMark == 2) {
+        else if (ObjectJS.mark == 12) {
             if ($("#platemakingBody .table-list").length == 0) {
                 alert("制版没有设置,不能标记任务完成");
                 return;
@@ -445,7 +436,6 @@
 
     //拼接任务成员html
     ObjectJS.createTaskMember = function (item) {
-
         var html = '';
         html += '<div class="task-member left" data-id="' + item.id + '">';
         html += '<div class="left pRight5"><span>' + item.name + '</span></div>';
@@ -461,23 +451,18 @@
         memberListHtml += '<span class="removeTaskMember iconfont" data-id="' + item.id + '">&#xe616;</span></li>';
 
         $('.memberlist ul').append(memberListHtml);
-
-        //$("#taskMemberIDs").append(html);
     }
 
     //任务到期时间倒计时
     ObjectJS.showTime = function () {
-
         if (ObjectJS.status == 8) {
             return;
         }
-
         if (ObjectJS.finishStatus!=1) {
             return;
         }
 
         var time_end = (new Date(ObjectJS.endTime)).getTime();
-
         var time_start = new Date().getTime(); //设定当前时间
         
         // 计算时间差 
@@ -895,7 +880,6 @@
                     header: "新增制版属性列",
                     content: innerHtml,
                     yesFn: function () {
-                        debugger;
                         var $hovers = $("#setTaskPlateAttrBox li.hover");
                         if ($hovers.length == 0) return;
 
@@ -991,7 +975,7 @@
         if ($("#btn-addTaskPlate").length == 0) return;
 
         $("#btn-addTaskPlate").unbind().bind("click", function () {
-            debugger;
+
             var noHaveLi = false;
             var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
             for (var i = 0; len = CacheAttrValues.length, i < len; i++) {
@@ -1012,7 +996,7 @@
                     header: "新增制版属性列",
                     content: innerHtml,
                     yesFn: function () {
-                        debugger;
+
                         var $hovers = $("#setTaskPlateAttrBox li.hover");
                         if ($hovers.length == 0) return;
 
@@ -1083,7 +1067,6 @@
 
     //保存制版信息
     ObjectJS.updateOrderPlatemaking = function () {
-        debugger;
         if ($("#platemakingBody").html() == "") { return; }
 
         if ($(".tbContentIpt:visible").length == 0) { return; }
@@ -1451,5 +1434,13 @@
         });
     };
 
+
+
+    //加载快递公司列表
+    ObjectJS.getExpress = function () {
+        Global.post("/Plug/GetExpress", {}, function (data) {
+            ObjectJS.express = data.items;
+        });
+    }
     module.exports = ObjectJS;
 });

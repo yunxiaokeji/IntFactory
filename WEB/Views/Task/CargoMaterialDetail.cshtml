@@ -1,8 +1,6 @@
 ﻿@{
-    var isRoot = (@ViewBag.Status!=8 && @ViewBag.Mark == 3 && @ViewBag.FinishStatus > 0 && Model.Status < 6 && Model.PurchaseStatus == 0);
+    var isRoot = (ViewBag.Status != 8  && ViewBag.FinishStatus > 0 && Model.Status < 6 && Model.PurchaseStatus == 0) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
  }
-
-@{if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010106"))){
 <div id="navProducts" class="nav-partdiv hide">
     <table class="table-list mTop20">
         <tr class="tr-header">
@@ -26,7 +24,7 @@
                     <td class="center">@(detail.UnitName)</td>
                                 
              @{                  
-                if (isRoot && string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")) )
+                if (isRoot)
                 {
                     <td class="center tr-price"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Price.ToString("f2"))" class="price width50" value="@(detail.Price.ToString("f2"))" /></td>
                     <td class="center tr-quantity">@(detail.Quantity.ToString("f3"))</td>
@@ -56,18 +54,10 @@
     @{
       if (isRoot)
         {
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010104")))
-            {
             <a href="javascript:void(0);"  id="btnEffectiveOrderProduct" class="btn right mTop10 ">生成采购单</a>
-            }
-            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "109010101")))
-            {
             <a href="/Orders/ChooseMaterial?id=@(Model.OrderID)&tid=@(ViewBag.TaskID)"  id="btn-addMaterial" class="btn right mTop10 mRight10">添加材料</a>
-            }
-
-
         }
     }
     <div class="clear"></div>
 </div>
-}}
+
