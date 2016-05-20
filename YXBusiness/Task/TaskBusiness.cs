@@ -290,5 +290,91 @@ namespace IntFactoryBusiness
             return TaskDAL.BaseProvider.UnFinishTask(taskID);
         }
         #endregion
+
+        #region 制版工艺
+        /// <summary>
+        /// 获取制版工艺信息
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <returns></returns>
+        public List<PlateMaking> GetPlateMakings(string orderID) {
+            List<PlateMaking> list = new List<PlateMaking>();
+            DataTable dt = TaskDAL.BaseProvider.GetPlateMakings(orderID);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                PlateMaking item = new PlateMaking();
+                item.FillData(dr);
+                list.Add(item);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 获取制版工艺信息
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <param name="taskID"></param>
+        /// <returns></returns>
+        public List<PlateMaking> GetPlateMakings(string orderID,string taskID)
+        {
+            List<PlateMaking> list = new List<PlateMaking>();
+            DataTable dt = TaskDAL.BaseProvider.GetPlateMakings(orderID, taskID);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                PlateMaking item = new PlateMaking();
+                item.FillData(dr);
+                list.Add(item);
+            } 
+            return list;
+        }
+
+        /// <summary>
+        /// 获取制版工艺详情
+        /// </summary>
+        /// <param name="plateID"></param>
+        /// <returns></returns>
+        public PlateMaking GetPlateMakingDetail(string plateID) { 
+            PlateMaking item=new PlateMaking();
+            DataTable dt = TaskDAL.BaseProvider.GetPlateMakingDetail(plateID);
+
+            if (dt.Rows.Count == 1) {
+                item.FillData(dt.Rows[0]);
+            }
+            return item;
+        }
+
+        /// <summary>
+        /// 添加制版工艺
+        /// </summary>
+        /// <param name="plate"></param>
+        /// <returns></returns>
+        public bool AddPlateMaking(PlateMaking plate)
+        {
+            return TaskDAL.BaseProvider.AddPlateMaking(plate.Title, plate.Remark, plate.Icon,
+                plate.TaskID,plate.OrderID,plate.CreateUserID,plate.AgentID);
+        }
+
+        /// <summary>
+        /// 修改制版工艺
+        /// </summary>
+        /// <param name="plate"></param>
+        /// <returns></returns>
+        public bool UpdatePlateMaking(PlateMaking plate)
+        {
+            return TaskDAL.BaseProvider.UpdatePlateMaking(plate.PlateID,plate.Title,plate.Remark,plate.Icon);
+        }
+
+        /// <summary>
+        /// 删除制版工艺
+        /// </summary>
+        /// <param name="plateID"></param>
+        /// <returns></returns>
+        public bool DeletePlateMaking(string plateID)
+        {
+            return TaskDAL.BaseProvider.DeletePlateMaking(plateID);
+        }
+        #endregion
     }
 }
