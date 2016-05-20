@@ -485,7 +485,6 @@
     <Content Include="modules\css\iconfont\iconfont.eot" />
     <Content Include="modules\css\iconfont\iconfont.ttf" />
     <Content Include="modules\css\iconfont\iconfont.woff" />
-    <Content Include="IntFactoryWeb.csproj.orig" />
     <None Include="modules\plug\umeditor\net\Uploader.cs" />
     <Compile Include="Models\FilterUser.cs" />
     <Compile Include="Models\FilterCustomer.cs" />
