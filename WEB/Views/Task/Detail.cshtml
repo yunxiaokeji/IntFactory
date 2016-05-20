@@ -5,6 +5,18 @@
     var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
     var productAttr = (IntFactoryEntity.ProductAttr)ViewBag.ProductAttr;
     var attrValues = productAttr.AttrValues == null ? "" : Html.ToJSONString(productAttr.AttrValues);
+
+    if (order.Status != 8 && task.FinishStatus == 1)
+    {
+        if (task.Mark == 23 && (ViewBag.IsTaskOwner || ViewBag.IsEditTask))
+        {
+            ViewBag.CutStatus = order.CutStatus;
+        }
+        if (task.Mark == 25 && (ViewBag.IsTaskOwner || ViewBag.IsEditTask))
+        {
+            ViewBag.SendStatus = order.SendStatus;
+        }
+    }
 }
 
 @section css{
