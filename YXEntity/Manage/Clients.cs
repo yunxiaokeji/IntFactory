@@ -190,9 +190,9 @@ namespace IntFactoryEntity.Manage
         public string AliMemberID { get; set; }
 		#endregion Model
 
-
-
         public string ClientCode { get; set; }
+
+        public int GuideStep { get; set; }
 
         /// <summary>
         /// 填充数据

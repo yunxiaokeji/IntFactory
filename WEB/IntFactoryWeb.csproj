@@ -142,6 +142,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\CustomerRPTController.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FeedBackController.cs" />
     <Compile Include="Controllers\FinanceController.cs" />
@@ -203,6 +204,7 @@
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
     <Content Include="modules\css\customer\customer.css" />
     <Content Include="modules\css\default\customer.css" />
+    <Content Include="modules\css\default\guidestep.css" />
     <Content Include="modules\css\default\orders.css" />
     <Content Include="modules\css\default\order_create.css" />
     <Content Include="modules\css\error\error.css" />
@@ -220,6 +222,11 @@
     <Content Include="modules\images\btn-add.png" />
     <Content Include="modules\images\btn-remove.png" />
     <Content Include="modules\images\feedback-bg.png" />
+    <Content Include="modules\images\guide-step\step2_01.png" />
+    <Content Include="modules\images\guide-step\step3_01.png" />
+    <Content Include="modules\images\guide-step\step3_02.png" />
+    <Content Include="modules\images\guide-step\step3_03.png" />
+    <Content Include="modules\images\guide-step\step_over.png" />
     <Content Include="modules\images\home\ico-allamount.png" />
     <Content Include="modules\images\home\ico-allcustomer.png" />
     <Content Include="modules\images\home\ico-allorder.png" />
@@ -432,6 +439,7 @@
     <Content Include="modules\scripts\auction\buynow.js" />
     <Content Include="modules\scripts\home\feedback.js" />
     <Content Include="modules\scripts\home\create.js" />
+    <Content Include="modules\scripts\home\guidestep.js" />
     <Content Include="modules\scripts\inquire\inquireorder.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
@@ -1026,6 +1034,8 @@
     <Content Include="Views\Task\SendDoc.cshtml" />
     <Content Include="Views\Task\CutoutDoc.cshtml" />
     <Content Include="Views\Task\SewnDoc.cshtml" />
+    <Content Include="Views\Default\SetProcess.cshtml" />
+    <Content Include="Views\Default\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

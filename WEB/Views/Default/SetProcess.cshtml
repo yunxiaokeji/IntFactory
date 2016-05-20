@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "初始化流程阶段";
+    Layout = "~/Views/Shared/_LayoutNoLeft.cshtml";
+}
+@section css{
+    <style type="text/css">
+        .main-content { margin-left:0px;}
+    </style>
+
+    <link href="/modules/css/default/guidestep.css" rel="stylesheet" />
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/home/guidestep"], function (ObjectJS) {
+            ObjectJS.initProcess();
+        });
+    </script>
+}
+<div class="step-body">
+    <ul class="step-header">
+        <li class="step hover">1</li>
+        <li class="mLeft5 hover">初始化流程</li>
+        <li class="iconfont step-ico hover">&#xe656</li>
+        <li class="step">2</li>
+        <li class="mLeft5">初始化品类</li>
+        <li class="iconfont step-ico">&#xe656</li>
+        <li class="step">3</li>
+        <li class="mLeft5">完善信息</li>
+        <li class="iconfont step-ico">&#xe656</li>
+        <li class="step">4</li>
+        <li class="mLeft5">配置提示</li>
+    </ul>
+    <div class="step-content">
+        <div class="step-desc">
+
+        </div>
+        <div class="process-type">
+            <span class="radiobox left hand">
+                <span class="ico-radiobox left hover" data-value="1" data-name="梭织"><span></span></span>
+                &nbsp;&nbsp;梭织
+            </span>
+            <span class="radiobox left mLeft10 hand">
+                <span class="ico-radiobox left" data-value="2" data-name="毛织"><span></span></span>
+                &nbsp;&nbsp;毛织
+            </span>
+        </div>
+        <div class="process-items" data-id="1">
+            <h1>打样流程：</h1>
+            <ul>
+                <li>面料/辅料</li>
+                <li>制版/工艺</li>
+                <li>做样衣</li>
+                <li>审版</li>
+                <li>核价</li>
+                <li>发货</li>
+            </ul>
+            <div class="clear"></div>
+            <h1>大货流程：</h1>
+            <ul>
+                <li>推码/工艺单</li>
+                <li>面料/辅料</li>
+                <li>裁剪</li>
+                <li>车缝</li>
+                <li>后整</li>
+                <li>品控</li>
+                <li>发货</li>
+            </ul>
+        </div>
+        <div class="process-items hide" data-id="2">
+            <h1>打样流程：</h1>
+            <ul>
+                <li>纱线/辅料</li>
+                <li>制版/工艺</li>
+                <li>织片</li>
+                <li>套口/缝盘</li>
+                <li>审版</li>
+                <li>核价</li>
+                <li>发货</li>
+            </ul>
+            <div class="clear"></div>
+            <h1>大货流程：</h1>
+            <ul>
+                <li>推码/工艺单</li>
+                <li>纱线/辅料</li>
+                <li>织片</li>
+                <li>套口/缝盘</li>
+                <li>品控</li>
+                <li>发货</li>
+            </ul>
+        </div>
+
+        <h1 class="step-note">
+            <span>提示：</span>初始化流程后，您可在系统中根据下图引导重新配置流程
+        </h1>
+        <div>
+            <img src="../../modules/images/guide-step/step2_01.png" /> 
+        </div>
+        <div class="step-bottom">
+            <div class="btn right" id="btnSubmit">下一步</div>
+        </div>
+    </div>
+</div>

@@ -57,9 +57,9 @@ namespace IntFactoryBusiness.Manage
                 sqlWhere += " and ( a.CompanyName like '%" + keyWords + "%'  or  a.MobilePhone like '%" + keyWords + "%' or  a.ClientCode like '%" + keyWords + "%')";
 
             string sqlColumn = @" a.AutoID,a.ClientID,a.ClientCode,a.CompanyName,a.Logo,a.Industry,
-a.CityCode,a.Address,a.PostalCode,a.ContactName,a.MobilePhone,a.OfficePhone,
-a.Status,b.EndTime,b.UserQuantity,a.TotalIn,a.TotalOut,a.FreezeMoney,
-a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,a.AliMemberID ";
+                                a.CityCode,a.Address,a.PostalCode,a.ContactName,a.MobilePhone,a.OfficePhone,
+                                a.Status,b.EndTime,b.UserQuantity,a.TotalIn,a.TotalOut,a.FreezeMoney,
+                                a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,a.AliMemberID ";
             DataTable dt = CommonBusiness.GetPagerData("Clients a  join Agents b on a.ClientID=b.ClientID", sqlColumn, sqlWhere, "a.AutoID", pageSize, pageIndex, out totalCount, out pageCount);
             List<Clients> list = new List<Clients>();
             Clients model; 
@@ -84,11 +84,14 @@ a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,
             if (!Clients.ContainsKey(clientID))
             {
                 Clients model = GetClientDetailBase(clientID);
-                if (model != null) { 
+                if (model != null)
+                {
                     Clients.Add(model.ClientID, model);
                 }
                 else
+                {
                     return null;
+                }
             }
 
             return Clients[clientID];
@@ -104,12 +107,14 @@ a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,
                 model.FillData(row);
 
                 model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
-                model.IndustryEntity = Manage.IndustryBusiness.GetIndustrys().Where(i => i.IndustryID.ToLower() == model.Industry.ToLower()).FirstOrDefault();
+                //model.IndustryEntity = Manage.IndustryBusiness.GetIndustrys().Where(i => i.IndustryID.ToLower() == model.Industry.ToLower()).FirstOrDefault();
 
                 return model;
             }
             else
-                return null;           
+            {
+                return null;
+            }
         }
         /// <summary>
         /// 获取工厂注册报表
@@ -332,12 +337,29 @@ a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,
 
         }
 
-        public static void UpdatetClientCache(string clientID){
+        public static void UpdatetClientCache(string clientID)
+        {
             if (Clients.ContainsKey(clientID))
             {
                 Clients[clientID] = GetClientDetailBase(clientID);
-            }                    
+            }
         }
+
+        public static int SetClientProcess(int type, string userid, string clientid)
+        {
+            var model = GetClientDetail(clientid);
+            if (model.GuideStep != 1)
+            {
+                return model.GuideStep;
+            }
+            bool bl = ClientDAL.BaseProvider.SetClientProcess(type, userid, clientid);
+
+            Clients[model.ClientID] = GetClientDetailBase(model.ClientID);
+
+            return Clients[model.ClientID].GuideStep;
+
+        }
+
         #endregion
 
     }
