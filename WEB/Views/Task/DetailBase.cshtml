@@ -167,7 +167,7 @@
         </div>
        
                @{
-                   if (ViewBag.IsTaskOwner && Model.FinishStatus == 1)
+                   if (ViewBag.IsTaskOwner && Model.FinishStatus>0)
                    {
                     <div class="right memberlist mTop10">
                     <div class="member-title">
@@ -207,6 +207,7 @@
                        
                         }
                     </ul>*@
+                     <div class="member-boxs">
                      <table class="member-items">
                         @{
                        <tr>
@@ -241,7 +242,7 @@
                        
                         }
                     </table>
-
+                    </div>
                     </div>
                     }
                }

@@ -78,7 +78,7 @@ namespace YXERP.Controllers
             List<string> list = new List<string>();
             for (int i = 0; i < Request.Files.Count; i++)
             {
-                if (i == 5) {
+                if (i == 10) {
                     break;
                 }
                 HttpPostedFileBase file = Request.Files[i];

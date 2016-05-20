@@ -703,6 +703,7 @@
     // #region任务材料基本操作
     //绑定事件
     ObjectJS.bindProduct = function () {
+
         //编辑价位
         $(".price").change(function () {
             if (!ObjectJS.isLoading) {
@@ -727,24 +728,38 @@
             }
         });
 
-        //编辑损耗
-        $(".loss").change(function () {
+        //编辑损耗率
+        $(".loss-rate").change(function () {
             if (!ObjectJS.isLoading) {
                 return;
             }
-            var loss = parseFloat($(this).val());
-            if (!isNaN(loss)) {
-                if (loss < 0) {
-                    if (-loss >= parseFloat($(this).parent().prev().html())) {
-                        $(this).val($(this).data("value"));
-                        return;
-                    }
-                }
+            var lossRate = $(this).val();
 
-                ObjectJS.editLoss($(this));
+            if (lossRate > -1) {
+                ObjectJS.editLossRate($(this));
             } else {
                 $(this).val($(this).data("value"));
             }
+        });
+
+        //编辑损耗量
+        $(".loss").change(function () {
+            //if (!ObjectJS.isLoading) {
+            //    return;
+            //}
+            //var loss = parseFloat($(this).val());
+            //if (!isNaN(loss)) {
+            //    if (loss < 0) {
+            //        if (-loss >= parseFloat($(this).parent().prev().html())) {
+            //            $(this).val($(this).data("value"));
+            //            return;
+            //        }
+            //    }
+
+            //    ObjectJS.editLoss($(this));
+            //} else {
+            //    $(this).val($(this).data("value"));
+            //}
         });
 
         //删除产品
@@ -825,8 +840,36 @@
 
     //更改损耗量
     ObjectJS.editLoss = function (ele) {
+        //var _self = this;
+        //ObjectJS.isLoading = false;
+        //Global.post("/Orders/UpdateProductLoss", {
+        //    orderid: _self.guid,
+        //    autoid: ele.data("id"),
+        //    name: ele.data("name"),
+        //    quantity: ele.val()
+        //}, function (data) {
+        //    if (!data.status) {
+        //        ele.val(ele.data("value"));
+        //        alert("当前订单状态,不能进行修改");
+        //    } else {
+        //        ele.data("value", ele.val());
+        //        _self.getProductAmount();
+        //    }
+        //    ObjectJS.isLoading = true;
+        //});
+    }
+
+    //更改损耗率
+    ObjectJS.editLossRate = function (ele) {
         var _self = this;
         ObjectJS.isLoading = false;
+
+        ele.data('value', ele.val());
+
+        var loss = ((ele.val() * 1) * (ele.parents('tr').find('.tr-quantity').html() * 1)).toFixed(3);
+
+        ele.parents('tr').find('.tr-loss').html(loss);
+
         Global.post("/Orders/UpdateProductLoss", {
             orderid: _self.guid,
             autoid: ele.data("id"),
@@ -842,8 +885,12 @@
             }
             ObjectJS.isLoading = true;
         });
-    }
 
+      
+
+
+    }
+    
     //生成采购单
     ObjectJS.effectiveOrderProduct = function () {
         ObjectJS.isLoading = false;
@@ -871,7 +918,7 @@
                 amount += _this.html() * 1;
             }
             else if (ObjectJS.materialMark == 2) {
-                _this.html(((_this.prevAll(".tr-quantity").html() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find(".price").val()).toFixed(3));
+                _this.html(((_this.prevAll(".tr-quantity").html() * 1 + _this.prevAll(".tr-loss").html() * 1) * _this.prevAll(".tr-price").find(".price").val()).toFixed(3));
                 amount += _this.html() * 1;
             }
         });
