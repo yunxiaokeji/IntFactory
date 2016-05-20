@@ -20,8 +20,7 @@
     }
     ObjectJS.bindEvent = function () {
         var _self = this;
-
-        $("#beginTime").val(new Date().setMonth(new Date().getMonth() - 1).toString().toDate("yyyy-MM-dd"));
+        $("#beginTime").val(new Date().setFullYear(new Date().getFullYear() - 1).toString().toDate("yyyy-MM-dd"));
         $("#endTime").val(Date.now().toString().toDate("yyyy-MM-dd"));
 
         $(".search-type li").click(function () {

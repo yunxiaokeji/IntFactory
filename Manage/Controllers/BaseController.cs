@@ -41,5 +41,20 @@ namespace YXManage.Controllers
             }
             set { Session["Manager"] = value; }
         }
+        /// <summary>
+        /// 是否有权限
+        /// </summary>
+        public  bool IsLimits(string menucode)
+        {
+            if (Session["Manager"] != null)
+            {
+                IntFactoryEntity.Manage.M_Users model = (IntFactoryEntity.Manage.M_Users)Session["Manager"];
+                if (model.Menus.Where(m => m.MenuCode == menucode).Count() > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

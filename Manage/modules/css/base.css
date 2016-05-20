@@ -8,6 +8,7 @@
 .tLeft { text-align:left !important;}
 .center { text-align:center; }
 .tRight { text-align:right !important;}
+.nolimits { display: none !important; }
 .hide { display:none; }
 .block { display:block; }
 
