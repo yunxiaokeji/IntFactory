@@ -105,30 +105,54 @@
     //绑定事件
     ObjectJS.bindEvent = function () {
 
-        //裁剪录入
-        $("#btnCutoutOrder").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
+        //裁片录入
+        if ($("#btnCutoutOrder").length == 1) {
+            if (Easydialog == null) {
+                Easydialog = require("easydialog");
             }
-            ObjectJS.cutOutGoods();
-        });
+            $("#btnCutoutOrder").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
+                ObjectJS.cutOutGoods();
+            });
+        }
+
+        //打样发货录入
+        if ($("#btnSendDYOrder").length == 1) {
+            if (Easydialog == null) {
+                Easydialog = require("easydialog");
+            }
+            $("#btnSendDYOrder").click(function () {
+                ObjectJS.sendOrders();
+            });
+        }
 
         //车缝录入
-        $("#btnSewnOrder").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
+        if ($("#btnSewnOrder").length == 1) {
+            if (Easydialog == null) {
+                Easydialog = require("easydialog");
             }
-            ObjectJS.sewnGoods();
-        });
-
-        //发货录入
-        $("#btnSendOrder").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
+            $("#btnSewnOrder").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
+                ObjectJS.sewnGoods();
+            });
+        }
+        //大货发货录入
+        if ($("#btnSendOrder").length == 1) {
+            if (Easydialog == null) {
+                Easydialog = require("easydialog");
             }
-            ObjectJS.sendGoods();
-        });
-
+            $("#btnSendOrder").click(function () {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
+                ObjectJS.sendGoods();
+            });
+        }
+       
         //切换模块
         $(".module-tab li").click(function () {
             if (!ObjectJS.isLoading) {
@@ -1279,7 +1303,6 @@
         var _self = this;
         $("#navSendDoc .tr-header").nextAll().remove();
         $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
-        ObjectJS.isLoading = false;
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 2
@@ -1290,12 +1313,25 @@
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
+                    innerhtml.click(function () {
+                        _self.getGoodsDocDetail(this, 2);
+                    });
+
                     $("#navSendDoc .tr-header").after(innerhtml);
+
+                    $("#navSendDoc .total-item td").each(function () {
+                        var _this = $(this), _total = 0;
+                        if (_this.data("class")) {
+                            $("#navSendDoc ." + _this.data("class")).each(function () {
+                                _total += $(this).html() * 1;
+                            });
+                            _this.html(_total);
+                        }
+                    });
                 });
             } else {
                 $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
-            ObjectJS.isLoading = true;
         });
 
     }
@@ -1305,7 +1341,6 @@
         var _self = this;
         $("#navCutoutDoc .tr-header").nextAll().remove();
         $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
-        ObjectJS.isLoading = false;
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 1
@@ -1315,13 +1350,27 @@
                 doT.exec("template/orders/cutoutdoc.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
-                    console.log(innerhtml);
+
+                    innerhtml.click(function () {
+                        _self.getGoodsDocDetail(this, 1);
+                    });
+
                     $("#navCutoutDoc .tr-header").after(innerhtml);
+
+                    $("#navCutoutDoc .total-item td").each(function () {
+                        var _this = $(this), _total = 0;
+                        if (_this.data("class")) {
+                            $("#navCutoutDoc ." + _this.data("class")).each(function () {
+                                _total += $(this).html() * 1;
+                            });
+                            _this.html(_total);
+                        }
+                    });
+
                 });
             } else {
                 $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
-            ObjectJS.isLoading = true;
         });
 
     }
@@ -1331,7 +1380,6 @@
         var _self = this;
         $("#navSewnDoc .tr-header").nextAll().remove();
         $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
-        ObjectJS.isLoading = false;
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             type: 11
@@ -1342,23 +1390,35 @@
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
+                    innerhtml.click(function () {
+                        _self.getGoodsDocDetail(this, 1);
+                    });
+
                     $("#navSewnDoc .tr-header").after(innerhtml);
+
+                    $("#navSewnDoc .total-item td").each(function () {
+                        var _this = $(this), _total = 0;
+                        if (_this.data("class")) {
+                            $("#navSewnDoc ." + _this.data("class")).each(function () {
+                                _total += $(this).html() * 1;
+                            });
+                            _this.html(_total);
+                        }
+                    });
                 });
             } else {
                 $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
-            ObjectJS.isLoading = true;
         });
 
     }
 
-    //裁剪录入
+    //裁片录入
     ObjectJS.cutOutGoods = function () {
         var _self = this;
+        
         doT.exec("template/orders/cutoutgoods.html", function (template) {
-            console.log(_self.model.OrderGoods);
             var innerText = template(_self.model.OrderGoods);
-            Easydialog = require("easydialog");
             Easydialog.open({
                 container: {
                     id: "showCutoutGoods",
@@ -1374,7 +1434,6 @@
                             }
                         });
                         if (details.length > 0 || $("#showCutoutGoods .check").hasClass("ico-checked")) {
-                            ObjectJS.isLoading = false;
                             Global.post("/Orders/CreateOrderCutOutDoc", {
                                 orderid: _self.orderid,
                                 doctype: 1,
@@ -1391,7 +1450,6 @@
                                 } else {
                                     alert("裁片登记失败！");
                                 }
-                                ObjectJS.isLoading = true;
                             });
                         } else {
                             alert("请输入裁剪数量");
@@ -1404,9 +1462,6 @@
                 }
             });
             $("#showCutoutGoods .check").click(function () {
-                if (!ObjectJS.isLoading) {
-                    return;
-                }
                 var _this = $(this);
                 if (!_this.hasClass("ico-checked")) {
                     _this.addClass("ico-checked").removeClass("ico-check");
@@ -1414,10 +1469,14 @@
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
-            $("#showCutoutGoods").find(".quantity").change(function () {
+            $("#showCutoutGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
+                } else if (_this.val() > _this.data("max")) {
+                    confirm("输入数量大于下单数，是否继续？", function () { }, function () {
+                        _this.val(_this.data("max"));
+                    });
                 }
             });
         });
@@ -1428,7 +1487,7 @@
         var _self = this;
         doT.exec("template/orders/sewn-goods.html", function (template) {
             var innerText = template(_self.model.OrderGoods);
-            Easydialog = require("easydialog");
+
             Easydialog.open({
                 container: {
                     id: "showSewnGoods",
@@ -1444,7 +1503,6 @@
                             }
                         });
                         if (details.length > 0) {
-                            ObjectJS.isLoading = false;
                             Global.post("/Orders/CreateOrderSewnDoc", {
                                 orderid: _self.orderid,
                                 doctype: 11,
@@ -1460,8 +1518,7 @@
                                     alert("您没有操作权限!")
                                 } else {
                                     alert("缝制登记失败！");
-                                };
-                                ObjectJS.isLoading = true;
+                                }
                             });
                         } else {
                             alert("请输入车缝数量");
@@ -1474,9 +1531,6 @@
                 }
             });
             $("#showSewnGoods .check").click(function () {
-                if (!ObjectJS.isLoading) {
-                    return;
-                }
                 var _this = $(this);
                 if (!_this.hasClass("ico-checked")) {
                     _this.addClass("ico-checked").removeClass("ico-check");
@@ -1484,23 +1538,24 @@
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
-            $("#showSewnGoods").find(".quantity").change(function () {
+            $("#showSewnGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 } else if (_this.val() > _this.data("max")) {
                     _this.val(_this.data("max"));
+                    alert("输入车缝数量过大");
                 }
             });
         });
     };
 
-    //发货
+    //大货单发货
     ObjectJS.sendGoods = function () {
         var _self = this;
         doT.exec("template/orders/sendordergoods.html", function (template) {
             var innerText = template(_self.model.OrderGoods);
-            Easydialog = require("easydialog");
+
             Easydialog.open({
                 container: {
                     id: "showSendOrderGoods",
@@ -1525,7 +1580,6 @@
                             alert("请输入发货数量");
                             return false;
                         }
-                        ObjectJS.isLoading = false;
                         Global.post("/Orders/CreateOrderSendDoc", {
                             orderid: _self.orderid,
                             doctype: 2,
@@ -1541,8 +1595,7 @@
                                 alert("您没有操作权限!")
                             } else {
                                 alert("发货失败！");
-                            };
-                            ObjectJS.isLoading = true;
+                            }
                         });
 
                     },
@@ -1568,9 +1621,6 @@
                 });
             });
             $("#showSendOrderGoods .check").click(function () {
-                if (!ObjectJS.isLoading) {
-                    return;
-                }
                 var _this = $(this);
                 if (!_this.hasClass("ico-checked")) {
                     _this.addClass("ico-checked").removeClass("ico-check");
@@ -1578,18 +1628,107 @@
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
-            $("#showSendOrderGoods").find(".quantity").change(function () {
+            $("#showSendOrderGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 } else if (_this.val() > _this.data("max")) {
                     _this.val(_this.data("max"));
+                    alert("输入发货数量过大");
                 }
             });
         });
     };
 
+    //打样单发货
+    ObjectJS.sendOrders = function () {
+        var _self = this;
+        doT.exec("template/orders/send_orders.html", function (template) {
+            var innerText = template(_self.model.OrderGoods);
 
+            Easydialog.open({
+                container: {
+                    id: "showSendOrderGoods",
+                    header: "打样单发货",
+                    content: innerText,
+                    yesFn: function () {
+                        if (!$("#expressid").data("id") || !$("#expressCode").val()) {
+                            alert("请完善快递信息!");
+                            return false;
+                        }
+
+                        Global.post("/Orders/CreateOrderSendDoc", {
+                            orderid: _self.orderid,
+                            doctype: 2,
+                            isover: 0,
+                            expressid: $("#expressid").data("id"),
+                            expresscode: $("#expressCode").val(),
+                            details: "",
+                            remark: $("#expressRemark").val().trim()
+                        }, function (data) {
+                            if (data.id) {
+                                alert("发货成功!", location.href);
+                            } else if (data.result == "10001") {
+                                alert("您没有操作权限!")
+                            } else {
+                                alert("发货失败！");
+                            }
+                        });
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+            //快递公司
+            require.async("dropdown", function () {
+                var dropdown = $("#expressid").dropdown({
+                    prevText: "",
+                    defaultText: "请选择",
+                    defaultValue: "",
+                    data: _self.express,
+                    dataValue: "ExpressID",
+                    dataText: "Name",
+                    width: "180",
+                    isposition: true,
+                    onChange: function (data) {
+
+                    }
+                });
+            });
+        });
+    };
+
+    //展开单据明细
+    ObjectJS.getGoodsDocDetail = function (item, type) {
+        var _this = $(item), url = "";
+        if (type == 1) {
+            url = "template/orders/cutout-details.html";
+        } else if (type == 2) {
+            url = "template/orders/send-details.html";
+        }
+        if (!_this.data("first") || _this.data("first") == 0) {
+            _this.data("first", 1).data("status", "open");
+
+            Global.post("/Orders/GetGoodsDocDetail", {
+                docid: _this.data("id")
+            }, function (data) {
+                doT.exec(url, function (template) {
+                    var innerhtml = template(data.model.Details);
+                    innerhtml = $(innerhtml);
+                    _this.after(innerhtml);
+                });
+            });
+        } else {
+            if (_this.data("status") == "open") {
+                _this.data("status", "close");
+                _this.nextAll("tr[data-pid='" + _this.data("id") + "']").hide();
+            } else {
+                _this.data("status", "open");
+                _this.nextAll("tr[data-pid='" + _this.data("id") + "']").show();
+            }
+        }
+    };
 
     //加载快递公司列表
     ObjectJS.getExpress = function () {
