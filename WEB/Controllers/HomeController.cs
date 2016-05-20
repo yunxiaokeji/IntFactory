@@ -25,7 +25,7 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Home/Login");
             }
-            return View();
+            return Redirect("/Default/Index");
         }
 
         //public ActionResult Register()
@@ -153,7 +153,6 @@ namespace YXERP.Controllers
             ViewBag.Order = order;
             return View();
         }
-
 
         public JsonResult GetAgentActionData()
         {
@@ -359,7 +358,6 @@ namespace YXERP.Controllers
             return Redirect("/Home/Login");
         }
 
-
         /// <summary>
         /// 员工登录
         /// </summary>
@@ -509,7 +507,6 @@ namespace YXERP.Controllers
 
             return result;
         }
-
 
         public ActionResult AliRegisterMember() {
 

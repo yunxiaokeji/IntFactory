@@ -41,7 +41,8 @@
                     <td class="center tr-lossrate">@(detail.LossRate.ToString("f3"))</td>
                                          
                 }
-                        <td class="tRight amount">@((detail.TotalMoney).ToString("f3"))</td>   
+                    /*小计=(单价*消耗量)+(单价*损耗量)*/
+                    <td class="tRight amount">@(((detail.Price*detail.Quantity*Model.PlanQuantity)+(detail.LossRate*(detail.Quantity*Model.PlanQuantity)*detail.Price)).ToString("f3"))</td>   
                 }
               </tr>
             }

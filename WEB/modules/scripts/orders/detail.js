@@ -755,7 +755,7 @@ define(function (require, exports, module) {
                         success: function (data, status) {
                             if (data.Items.length > 0) {
                                 for (var i = 0; i < data.Items.length; i++) {
-                                    if ($("#show-order-images li").length < 6) {
+                                    if ($("#show-order-images li").length < 11) {
                                         var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
                                         $("#addOrderImages").parent().before(img);
                                         img.find(".ico-delete").click(function () {
