@@ -241,7 +241,7 @@ namespace YXERP.Controllers
         public JsonResult UpdateUserPwd(string userID,string loginPwd) 
         {
             bool bl = OrganizationBusiness.UpdateUserPass(userID, loginPwd, CurrentUser.AgentID);
-            JsonDictionary.Add("bool",bl);
+            JsonDictionary.Add("status",bl);
             return new JsonResult()
             {
                 Data = JsonDictionary,

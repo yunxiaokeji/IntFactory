@@ -184,7 +184,7 @@
                     userID:userid,
                     loginPwd: ObjectJS.loginName
                 }, function (data) {
-                    if (data.bool) {
+                    if (data.status) {
                         alert("密码重置成功");
                     } else {
                         alert("重置操作未完成！请稍后再试");
