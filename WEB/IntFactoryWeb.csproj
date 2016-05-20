@@ -214,7 +214,6 @@
     <Content Include="modules\css\iconfont\iconfont.svg" />
     <Content Include="modules\css\inquire\common.css" />
     <Content Include="modules\css\inquire\online-pay.css" />
-    <Content Include="modules\css\myaccount\feedbacklist.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
@@ -434,7 +433,6 @@
     <Content Include="modules\scripts\home\feedback.js" />
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\inquire\inquireorder.js" />
-    <Content Include="modules\scripts\myaccount\feedbacklist.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.print.css" />
@@ -453,7 +451,6 @@
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />
     <Content Include="modules\template\inquire\inquireorder.html" />
-    <Content Include="modules\template\myaccount\feedbacklist.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />
     <Content Include="modules\template\orders\orders_child_list.html" />
     <Content Include="modules\template\orders\surequantity.html" />
@@ -480,6 +477,7 @@
     <Content Include="modules\template\purchase\audit_details.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
+    <Content Include="modules\template\system\orderstage-detail.html" />
     <Content Include="modules\template\task\task-card.html" />
     <Content Include="modules\template\task\task-list.html" />
     <Content Include="modules\plug\showtaskdetail\task-detail.html" />
@@ -905,7 +903,6 @@
     <Content Include="modules\template\system\ordertypes.html" />
     <Content Include="modules\template\system\team-detail.html" />
     <Content Include="modules\template\system\opportunitystages.html" />
-    <Content Include="modules\template\system\orderstage-detail.html" />
     <Content Include="Views\Products\ConfirmPurchase.cshtml" />
     <Content Include="Views\Products\Purchases.cshtml" />
     <Content Include="Views\CustomerRPT\Index.cshtml" />
@@ -1018,7 +1015,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Task\TaskReply.cshtml" />
     <Content Include="Views\Customer\Customers-list.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Inquire\InquireOrder.cshtml">
       <BrowseToURL>~/Inquire/InquireOrder</BrowseToURL>
     </Content>
@@ -1027,7 +1026,6 @@
     <Content Include="Views\Task\SendDoc.cshtml" />
     <Content Include="Views\Task\CutoutDoc.cshtml" />
     <Content Include="Views\Task\SewnDoc.cshtml" />
-    <Content Include="Views\MyAccount\FeedBackList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1229,13 +1227,13 @@
       <Project>{b86924c1-ec31-449f-97f3-258dfa43a44f}</Project>
       <Name>IntFactoryEnum</Name>
     </ProjectReference>
-    <ProjectReference Include="..\YX.SDK\AlibabaSdk.csproj">
-      <Project>{c6cd2682-4dca-4ee8-a5e5-a0e117073390}</Project>
-      <Name>AlibabaSdk</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YXTool\CloudSalesTool.csproj">
       <Project>{c9aca144-ea91-4fa5-a799-39d458af1fcb}</Project>
       <Name>CloudSalesTool</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YX.SDK\AlibabaSdk.csproj">
+      <Project>{c6cd2682-4dca-4ee8-a5e5-a0e117073390}</Project>
+      <Name>AlibabaSdk</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
