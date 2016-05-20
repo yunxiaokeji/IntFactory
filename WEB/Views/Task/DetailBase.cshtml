@@ -192,7 +192,7 @@
                                 <li data-id="@member.Member.UserID">
                                     <span class="tLeft">
                                         <i class="mRight2"><img onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="@(string.IsNullOrEmpty(member.Member.Avatar) ? "/modules/images/defaultavatar.png" : member.Member.Avatar)" /></i>
-                                        <i class="membername">@member.Member.Name</i>
+                                        <i class="membername" title="@member.Member.Name">@member.Member.Name</i>
                                     </span>
                                     <span>
                                         <i class="iconfont check-lump @(member.PermissionType==1?"checked":"")" data-type="1" data-taskid="@member.TaskID" data-memberid="@member.MemberID">&#xe626;</i>
@@ -277,7 +277,7 @@
             }
             else if(Model.Mark==15)
             {
-                <li  data-id="navSendDoc">发货记录</li>
+                <li  data-id="navSendDoc" data-btn="btnSendDYOrder">发货记录</li>
             }
             else if(Model.Mark==25)
             {
@@ -296,10 +296,12 @@
     </ul>
 
      @{
-         var isRoot = (ViewBag.Status != 8 && ViewBag.FinishStatus > 0) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
-
+           
+         
+         var isRoot = (ViewBag.Status != 8 && ViewBag.FinishStatus ==1) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
+          
          if(isRoot){
-            if (Model.Mark==23)
+            if (Model.Mark == 23&&ViewBag.CutStatus!=2)
             {
                  <div class="btn part-btn right mLeft20" id="btnCutoutOrder">裁片录入</div>                
             }
@@ -307,7 +309,11 @@
             {
                 <div class="btn part-btn right mLeft20" id="btnSewnOrder">缝制录入</div>
             }
-                else if (Model.Mark == 25)
+            else if (Model.Mark == 15)
+            {
+                <div class="btn part-btn right mLeft20 " id="btnSendDYOrder">订单发货</div>
+            }
+            else if (Model.Mark == 25&&ViewBag.SendStatus!=2)
             {
                 <div class="btn part-btn right mLeft20" id="btnSendOrder">订单发货</div>
             }

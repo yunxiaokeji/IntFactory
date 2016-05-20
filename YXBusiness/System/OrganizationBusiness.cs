@@ -15,7 +15,7 @@ namespace IntFactoryBusiness
     public class OrganizationBusiness
     {
 
-        #region Cache
+    #region Cache
 
         private static Dictionary<string, List<Users>> _cacheUsers;
         private static Dictionary<string, List<Department>> _cacheDeparts;
