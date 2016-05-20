@@ -1,138 +1,86 @@
 ﻿@{
-    Layout = null;
+    ViewBag.Title = "新建订单";
 }
 
-<!doctype html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta http-equiv="content-language" content="zh-CN" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>智能工厂-在线下单</title>
-    <link href="/modules/css/base.css" rel="stylesheet" />
-    <link href="/modules/css/default/layout.css" rel="stylesheet" />
-    <link href="/modules/css/default/order_create.css" rel="stylesheet" />
+<style>
+    .order-imgs { width:400px; height:65px; margin-left:85px; }
+    .order-imgs li{ width:60px; height:60px; float:left; margin-left:20px; position:relative;}
+    .order-imgs li img{ width:60px; height:60px; }
+    .order-imgs .ico-delete { position:absolute; top:-8px; right:-8px;  }
+</style>
 
-    <script src="/Scripts/sea.js"></script>
-    <script src="/Scripts/sea-config.js"></script>
+@section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/orders/create"], function (ObjectJS) {
             ObjectJS.init('@ViewBag.CID');
         });
     </script>
-</head>
-
-<body>
-
-<div class="pay-content pay-body row">
-	<div class="pay-content-title">
-    	<div class="pay-content-title-info">
-            <h1>在线下单</h1>
-            <p>请填写完整订单信息，我们将根据订单生产制作</p>
-        </div>
-    </div>
-    <div class="pay-content-main row">
-    	<!----表单项---->
-        <div class="pay-content-main-form">
-        	<ul>
-                <li class="form-row row">
-                	<div class="th pdall">订单类别：</div>
-                    <div class="td">
-                    	<span class="ico-checked mTop2 customtype" id="companyCustom" data-type="1">打样</span>
-                        <span class="ico-check mTop2 customtype" data-type="2">大货</span>
-                    </div>
-                </li>
-                
-                <li class="form-row row">
-                	<div class="th pdall">订单品类：</div>
-                    <div class="td">
-                        <span>
-                    	    <select id="bigcategory">
-                            @foreach (IntFactoryEntity.Category item in (List<IntFactoryEntity.Category>)ViewBag.Items)
-                            {
-                                <option value="@(item.CategoryID)">@(item.CategoryName)</option> 
-                            }
-                            </select>
-                            <select id="ordercategory">
-                            </select>
-                        </span>
-                    </div>
-                </li>
-                
-                <li class="form-row row">
-                	<div class="th pdall">数量：</div>
-                    <div class="td">
-                    	<input type="text" maxlength="5" id="planQuantity"  data-empty="必填" data-type="int" class="inputbox verify"/>
-                    </div>
-                </li>
-                
-                <li class="form-row row">
-                	<div class="th pdall">期望价格：</div>
-                    <div class="td">
-                    	<input type="text" maxlength="10" id="planPrice"  data-empty="必填" data-type="double"  class="inputbox verify"/>
-                    </div>
-                </li>
-                <li class="form-row row">
-                	<div class="th pdall">快递单号：</div>
-                    <div class="td">
-                    	<input type="text" maxlength="50" id="expressCode" class="inputbox1"/>
-                    </div>
-                </li>
-                <li class="row">
-                	<div class="th pdall">附件：</div>
-                    <div class="td">
-                    	<span id="productIco" ></span>
-                        <ul id="orderImages" class="order-imgs addimg"></ul>
-                    </div>
-                    
-                </li>
-                
-                <li class="row">
-                	<div class="th pdall">详细需求：</div>
-                    <div class="td">
-                    	<textarea id="remark" placeholder="如有详细需求请注明具体内容，以免制作时产品遗漏" class="textarea"></textarea>
-                    </div>
-                </li>
-                
-                <li class="form-row row">
-                	<div class="th pdall">姓名：</div>
-                    <div class="td">
-                    	<input type="text" maxlength="50" id="name" data-empty="必填" class="inputbox verify"/>
-                    </div>
-                </li>
-                
-                <li class="form-row row">
-                	<div class="th pdall">电话：</div>
-                    <div class="td">
-                    	<input type="text" maxlength="11" id="contactMobile" data-empty="必填" data-type="mobile"  class="inputbox1 verify"/>
-                    </div>
-                </li>
-                
-                <li class="form-row1 row">
-                	<div class="th pdall">地址：</div>
-                    <div class="td">
-                    	<span id="city"></span>
-                    </div>
-                </li>
-                
-                <li class="form-row row">
-                	<div class="th pdall">详细地址：</div>
-                    <div class="td">
-                    	<input type="text" placeholder="" id="address"  class="inputbox2"/>
-                    </div>
-                </li>
-                
-                <li class="row">
-                    <button type="button" id="btnSave" class="btn-con">确认下单</button>
-                </li>
-            </ul>
-            
-        </div>
-        <!----表单项end---->
-        <div class="pay-content-main-ins r"><img src="/modules/images/selforder/liuc_03.png" alt=""/></div>
+}
+<div class="header-box">
+    <span class="header-title left">新建订单</span>
+    
+</div>
+<div class="content-body mTop20">
+    <ul class="table-add">
+        <li>
+            <span class="column-title">订单类别：</span> 
+            <span class="ico-checked mTop2 customtype" id="companyCustom" data-type="1">打样</span>
+            <span class="ico-check mTop2 customtype" data-type="2">大货</span>
+        </li>
+        <li>
+            <span class="column-title">订单品类：</span>
+            <select id="bigcategory">
+            @foreach (IntFactoryEntity.Category model in (List<IntFactoryEntity.Category>)ViewBag.Items)
+            {
+                <option value="@(model.CategoryID)">@(model.CategoryName)</option> 
+            }
+            </select>
+            <select id="ordercategory">
+            </select>
+        </li>
+        <li>
+            <span class="column-title">数量：</span>
+            <span><input type="text" maxlength="5" id="planQuantity"  data-empty="必填" data-type="int" class="input width80 verify" /></span>
+        </li>
+        <li>
+            <span class="column-title">期望价格：</span>
+            <span><input type="text" maxlength="10" id="planPrice"  data-empty="必填" data-type="double" class="input width80 verify" /></span>
+        </li>
+        <li>
+            <span class="column-title">快递单号：</span> 
+            <span><input type="text" maxlength="50" id="expressCode" class="input" /></span>
+        </li>
+        <li>
+            <span class="column-title">附件：</span>
+            <span id="productIco"></span>
+        </li>
+        <li>
+            <ul id="orderImages" class="order-imgs addimg"></ul>
+        </li>
+        <li>
+            <span class="column-title">详细需求：</span>
+            <textarea id="remark"></textarea>
+        </li>
+        
+        <li  class="company">
+            <span class="column-title">姓名：</span> 
+            <span><input type="text" maxlength="50" id="name" data-empty="必填" class="input verify" /></span>
+        </li>
+        <li>
+            <span class="column-title">联系电话：</span> 
+            <span><input type="text" maxlength="11" id="contactMobile" data-empty="必填" data-type="mobile" class="input verify" /></span>
+        </li>
+        <li>
+            <span class="column-title">邮寄地址：</span> 
+            <span id="city"></span>
+        </li>
+        <li>
+            <span class="column-title">详细地址：</span> 
+            <span><input type="text" maxlength="200" style="width:300px;" id="address" class="input" /></span>
+        </li>
+    </ul>
+    <div class="mTop20">
+        <div class="btn" id="btnSave">保存</div>
     </div>
 </div>
-</body>
-</html>
 
