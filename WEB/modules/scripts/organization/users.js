@@ -18,6 +18,8 @@
         KeyWords: ""
     };
 
+    ObjectJS.loginName = "";
+
     //初始化
     ObjectJS.init = function (roles, departs, mdtoken) {
         var _self = this;
@@ -28,7 +30,7 @@
         if (!mdtoken) {
             $("#addMDUser").hide();
         }
-
+        
         _self.bindEvent(roles, departs);
         _self.getList();
     }
@@ -116,6 +118,7 @@
         //注销员工
         $("#deleteObject").click(function () {
             var _this = $(this);
+            
             confirm("员工注销后不能再使用系统且不可恢复，确认注销吗?", function () {
                 Global.post("/Organization/DeleteUserByID", {
                     userid: _this.data("id")
@@ -172,6 +175,24 @@
                 });
             });
         });
+        //重置密码
+        $("#resetPassword").click(function () {
+            var _this = $(this);
+            var userid = _this.data("id");            
+            confirm("确认重置吗?", function () {
+                Global.post("/Organization/UpdateUserPwd", {
+                    userID:userid,
+                    loginPwd: ObjectJS.loginName
+                }, function (data) {
+                    if (data.bool) {
+                        alert("密码重置成功");
+                    } else {
+                        alert("重置操作未完成！请稍后再试");
+                    }
+                });
+                
+            });
+        });
     }
 
     //获取列表
@@ -218,6 +239,7 @@
                 //操作
                 innerhtml.find(".dropdown").click(function () {
                     var _this = $(this);
+                    ObjectJS.loginName = _this.data("name");
                     var position = _this.find(".ico-dropdown").position();
                     $(".dropdown-ul li").data("id", _this.data("id")).data("roleid", _this.data("roleid"));
 

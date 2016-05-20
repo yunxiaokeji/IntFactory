@@ -42,6 +42,9 @@ namespace YXERP.Controllers
             ViewBag.MDToken = CurrentUser.MDToken;
             ViewBag.Roles = OrganizationBusiness.GetRoles(CurrentUser.AgentID);
             ViewBag.Departments = OrganizationBusiness.GetDepartments(CurrentUser.AgentID);
+
+            ViewBag.IsSysAdmin = CurrentUser.Role.IsDefault == 1 ? true : false;
+            
             return View();
         }
 
@@ -223,6 +226,23 @@ namespace YXERP.Controllers
             bool bl = new OrganizationBusiness().DeleteRole(roleid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, out result);
             JsonDictionary.Add("status", result);
             return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 重置密码
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="loginPwd"></param>
+        /// <returns></returns>
+        public JsonResult UpdateUserPwd(string userID,string loginPwd) 
+        {
+            bool bl = OrganizationBusiness.UpdateUserPass(userID, loginPwd, CurrentUser.AgentID);
+            JsonDictionary.Add("bool",bl);
+            return new JsonResult()
             {
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
@@ -484,7 +504,7 @@ namespace YXERP.Controllers
         {
             int result = 0;
             bool bl = new OrganizationBusiness().DeleteUserByID(userid, CurrentUser.AgentID, CurrentUser.UserID, OperateIP, out result);
-
+            
             JsonDictionary.Add("status", bl);
             return new JsonResult()
             {
