@@ -372,9 +372,9 @@
                     var dateTo = new Date($("#downEndTime").val());
                     var diff = dateTo.valueOf() - dateFrom.valueOf();
                     var diff_day = parseInt(diff / (1000 * 60 * 60 * 24));
-                    if (diff_day > 15)
+                    if (diff_day > 60)
                     {
-                        alert("最大下载15天内");
+                        alert("最大下载60天内");
                         return;
                     }
 
