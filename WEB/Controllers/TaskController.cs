@@ -9,6 +9,7 @@ using IntFactoryEntity.Task;
 using IntFactoryEnum;
 using System.Globalization;
 using System.IO;
+using System.Web.Script.Serialization;
 namespace YXERP.Controllers
 {
     public class TaskController : BaseController
@@ -512,6 +513,76 @@ namespace YXERP.Controllers
 
         }
 
+        public JsonResult GetPlateMakings(string orderID, string taskID)
+        {
+            var list = TaskBusiness.GetPlateMakings(orderID, taskID);
+
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SavePlateMaking(string plate)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            PlateMaking model = serializer.Deserialize<PlateMaking>(plate);
+            bool flag = false;
+
+            string FilePath=CloudSalesTool.AppSettings.Settings["UploadFilePath"];
+            string temFilePath = model.Icon;
+            string fileUrl = string.Empty;
+            if (!string.IsNullOrEmpty(temFilePath))
+            {
+                if (temFilePath.IndexOf("?") > 0)
+                {
+                    temFilePath = temFilePath.Substring(0, temFilePath.IndexOf("?"));
+                }
+                FileInfo file = new FileInfo(Server.MapPath(temFilePath));
+
+
+                fileUrl = FilePath + file.Name;
+                if (file.Exists)
+                {
+                    file.MoveTo(Server.MapPath(fileUrl));
+                }
+            }
+            model.Icon = fileUrl;
+
+            if (string.IsNullOrEmpty(model.PlateID))
+            {
+                model.AgentID = CurrentUser.AgentID;
+                model.CreateUserID = CurrentUser.UserID;
+                flag= IntFactoryBusiness.TaskBusiness.AddPlateMaking(model);
+            }
+            else
+            {
+                flag=IntFactoryBusiness.TaskBusiness.UpdatePlateMaking(model);
+            }
+
+            JsonDictionary.Add("result", flag ? 1 : 0);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+        }
+
+        public JsonResult DeletePlateMaking(string plateID)
+        {
+            bool flag = IntFactoryBusiness.TaskBusiness.DeletePlateMaking(plateID);
+
+            JsonDictionary.Add("result", flag ? 1 : 0);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+        }
         #endregion
 
         public bool IsSeeRoot(TaskEntity task, IntFactoryEntity.OrderEntity order) {

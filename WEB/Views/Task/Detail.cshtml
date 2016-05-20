@@ -45,7 +45,7 @@
 
 @{Html.RenderPartial("DetailBase", task);}
 
-<div class="taskContent">
+<div class="taskContent" style="padding-bottom:60px;">
     <div id="navTask" class="talk-body nav-partdiv">
         @{Html.RenderPartial("TaskReply", task);}
 
@@ -92,10 +92,13 @@
     </div>
 </div>
 
-<ul class="dropdown-ul hide"  style="width:90px;">
+<ul class="dropdown-ul hide" id="setPlateInfo"  style="width:90px;">
     <li id="btn-addColumn">添加新列</li>
     <li id="btn-removeColumn">删除此列</li>
 </ul>
+
+
+
 
 <div class="enlarge-image-bgbox hide">
     <div class="close-enlarge-image iconfont">&#xe606;</div> 

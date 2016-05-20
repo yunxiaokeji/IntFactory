@@ -122,47 +122,6 @@
                     }
                     <div class="clear"></div>
                  </li>
-
- @*   显示成员横版模式            <li>
-                    <span class="column-title left">成员</span>
-                    @{
-                        if (ViewBag.IsTaskOwner && Model.FinishStatus == 1)
-                        {
-                            <div id="taskMemberIDs" class="left">
-                                @{
-                            foreach (var member in Model.TaskMembers)
-                            {
-                                    <div class="task-member left" data-id="@member.Member.UserID">
-                                        <div class="left pRight5"><span>@member.Member.Name</span></div>
-                                        <div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="@member.Member.UserID" >×</a></div>
-                                        <div class="clear"></div>
-                                    </div>
-                            }
-                                }
-                            </div>
-                            <div class="left"><a id="addTaskMembers" href="javascript:void();" class="ico-add">添加成员</a></div>
-                            <div class="clear"></div>
-                        }
-                        else
-                        {
-                            if (Model.TaskMembers.Count > 0)
-                            {
-                                foreach (var member in Model.TaskMembers)
-                                {
-                                <div class="task-member left">
-                                    <div class="pRight5"><span>@member.Member.Name</span></div>
-                                </div>
-                                }
-                            }
-                            else
-                            {
-                                <div class="left">暂无成员</div>
-                            }
-
-                        }
-                    }
-                    <div class="clear"></div>
-                 </li>*@
             </ul>
         </div>
        
@@ -171,47 +130,14 @@
                    {
                     <div class="right memberlist mTop10">
                     <div class="member-title">
-                        <span class="left mLeft10">成员列表</span>
-                        <span class="right ico-add" id="addTaskMembers">添加成员</span>
+                        <span class="right btn-add" id="addTaskMembers">添加成员</span>
                     </div>
                     <div class="clear"></div>
-                    @*<ul>
-                        @{
-                       <li>
-                           <span>成员姓名</span>
-                           <span>查看权限</span>
-                           <span>编辑权限</span>
-                           <span>操作</span>
-                       </li>
-                       if (Model.TaskMembers.Count > 0)
-                       {
-                           foreach (var member in Model.TaskMembers)
-                           {
-                               
-                               
-                                <li data-id="@member.Member.UserID">
-                                    <span class="tLeft">
-                                        <i class="mRight2"><img onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="@(string.IsNullOrEmpty(member.Member.Avatar) ? "/modules/images/defaultavatar.png" : member.Member.Avatar)" /></i>
-                                        <i class="membername">@member.Member.Name</i>
-                                    </span>
-                                    <span>
-                                        <i class="iconfont check-lump @(member.PermissionType==1?"checked":"")" data-type="1" data-taskid="@member.TaskID" data-memberid="@member.MemberID">&#xe626;</i>
-                                    </span>
-                                    <span>
-                                        <i class="iconfont check-lump @(member.PermissionType==2?"checked":"")" data-type="2" data-taskid="@member.TaskID" data-memberid="@member.MemberID">&#xe626;</i>
-                                    </span>
-                                    <span class="removeTaskMember iconfont" data-id="@member.Member.UserID">&#xe616;</span>
-                                </li>
-                           }
-                       }
-                       
-                        }
-                    </ul>*@
-                     <div class="member-boxs">
+                    <div class="member-boxs">
                      <table class="member-items">
                         @{
                        <tr>
-                           <th class="tLeft pLeft10">成员姓名</th>
+                           <th class="tLeft pLeft10 task-members"><span class="iconfont">&#xe624;</span>成员列表</th>
                            <th>查看权限</th>
                            <th>编辑权限</th>
                            <th>操作</th>

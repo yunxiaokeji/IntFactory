@@ -206,7 +206,7 @@ namespace IntFactoryDAL
         #region PlateMaking
         public DataTable GetPlateMakings(string orderID)
         {
-            string sqltext = "select * from PlateMaking where OrderID=@OrderID and status<>9 ";
+            string sqltext = "select * from PlateMaking where OrderID=@OrderID and status<>9 order by createtime desc";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderID)
@@ -217,7 +217,7 @@ namespace IntFactoryDAL
 
         public DataTable GetPlateMakings(string orderID, string taskID)
         {
-            string sqltext = "select * from PlateMaking where OrderID=@OrderID and TaskID=@TaskID and status<>9 ";
+            string sqltext = "select * from PlateMaking where OrderID=@OrderID and TaskID=@TaskID and status<>9  order by createtime desc";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderID),
@@ -240,12 +240,13 @@ namespace IntFactoryDAL
 
         public bool AddPlateMaking(string title,string remark,string icon,string taskID,string orderID,string userID,string agentID)
         {
-            string sqltext = "insert into  PlateMaking(PlateID,Title,Remark,Icon,OrderID,CreateUserID,AgentID,CreateTime) values(NEWID(),@Title,@Remark,@Icon,@OrderID,@UserID,@AgentID,getdate())";
+            string sqltext = "insert into  PlateMaking(PlateID,Title,Remark,Icon,TaskID,OrderID,CreateUserID,AgentID,CreateTime) values(NEWID(),@Title,@Remark,@Icon,@TaskID,@OrderID,@UserID,@AgentID,getdate())";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@Title",title),
                                      new SqlParameter("@Remark",remark),
                                      new SqlParameter("@Icon",icon),
+                                     new SqlParameter("@TaskID",taskID),
                                      new SqlParameter("@OrderID",orderID),
                                      new SqlParameter("@UserID",userID),
                                      new SqlParameter("@AgentID",agentID)

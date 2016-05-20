@@ -297,7 +297,7 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="orderID"></param>
         /// <returns></returns>
-        public List<PlateMaking> GetPlateMakings(string orderID) {
+        public static List<PlateMaking> GetPlateMakings(string orderID) {
             List<PlateMaking> list = new List<PlateMaking>();
             DataTable dt = TaskDAL.BaseProvider.GetPlateMakings(orderID);
 
@@ -316,7 +316,7 @@ namespace IntFactoryBusiness
         /// <param name="orderID"></param>
         /// <param name="taskID"></param>
         /// <returns></returns>
-        public List<PlateMaking> GetPlateMakings(string orderID,string taskID)
+        public static List<PlateMaking> GetPlateMakings(string orderID, string taskID)
         {
             List<PlateMaking> list = new List<PlateMaking>();
             DataTable dt = TaskDAL.BaseProvider.GetPlateMakings(orderID, taskID);
@@ -335,7 +335,8 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="plateID"></param>
         /// <returns></returns>
-        public PlateMaking GetPlateMakingDetail(string plateID) { 
+        public static PlateMaking GetPlateMakingDetail(string plateID)
+        { 
             PlateMaking item=new PlateMaking();
             DataTable dt = TaskDAL.BaseProvider.GetPlateMakingDetail(plateID);
 
@@ -350,7 +351,7 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="plate"></param>
         /// <returns></returns>
-        public bool AddPlateMaking(PlateMaking plate)
+        public static bool AddPlateMaking(PlateMaking plate)
         {
             return TaskDAL.BaseProvider.AddPlateMaking(plate.Title, plate.Remark, plate.Icon,
                 plate.TaskID,plate.OrderID,plate.CreateUserID,plate.AgentID);
@@ -361,7 +362,7 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="plate"></param>
         /// <returns></returns>
-        public bool UpdatePlateMaking(PlateMaking plate)
+        public static bool UpdatePlateMaking(PlateMaking plate)
         {
             return TaskDAL.BaseProvider.UpdatePlateMaking(plate.PlateID,plate.Title,plate.Remark,plate.Icon);
         }
@@ -371,7 +372,7 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="plateID"></param>
         /// <returns></returns>
-        public bool DeletePlateMaking(string plateID)
+        public static bool DeletePlateMaking(string plateID)
         {
             return TaskDAL.BaseProvider.DeletePlateMaking(plateID);
         }

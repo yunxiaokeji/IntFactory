@@ -478,9 +478,11 @@
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\system\orderstage-detail.html" />
+    <Content Include="modules\template\task\platemarting-add.html" />
     <Content Include="modules\template\task\task-card.html" />
     <Content Include="modules\template\task\task-list.html" />
     <Content Include="modules\plug\showtaskdetail\task-detail.html" />
+    <Content Include="modules\template\task\platemarting-list.html" />
     <Content Include="Views\System\OrderProcess.cshtml" />
     <Content Include="Areas\Api\Views\Web.config" />
     <Content Include="modules\css\iconfont\iconfont.eot" />
