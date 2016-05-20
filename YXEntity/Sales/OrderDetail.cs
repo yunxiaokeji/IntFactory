@@ -32,6 +32,7 @@ namespace IntFactoryEntity
 		private decimal _totalmoney=0M;
 		private decimal _taxmoney=0M;
 		private decimal _taxrate=1M;
+        private decimal _lossrate = 0M;
 		private decimal _returnprice=0M;
 		private decimal _returnmoney=0M;
 		private string _batchcode="";
@@ -64,6 +65,12 @@ namespace IntFactoryEntity
         public string UnitID { get; set; }
 
         public int IsBigUnit { get; set; }
+
+        public decimal LossRate 
+        {
+            set { _lossrate = value; }
+            get { return _lossrate; }
+        }
 
 		/// <summary>
 		/// 
