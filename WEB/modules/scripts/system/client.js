@@ -268,7 +268,9 @@
                 $("#OfficePhone").html(item.OfficePhone == "" ? "--" : item.OfficePhone);                
                 $("#lblReamrk").html(item.Description);
                 $("#address").html(item.City ? item.City.Province + " " + item.City.City + " " + item.City.Counties : "--");
-                $("#cid").attr("href", data.HttpOrder + "Home/SelfOrder/" + item.ClientID).html(data.HttpOrder + "Home/SelfOrder/" + item.ClientID);
+                var s = window.location.href.toString();
+                var http = s.substr(0, s.length - 13);
+                $("#cid").attr("href", http + "Home/SelfOrder/" + item.ClientID).html(http + "Home/SelfOrder/" + item.ClientID);
                 if (item.City)
                     CityObject.setValue(item.City.CityCode);
                 if (item.Logo)
