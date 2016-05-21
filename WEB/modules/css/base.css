@@ -27,6 +27,7 @@
 .font16 {font-size:16px !important; }
 .font18 {font-size:18px !important; }
 .font20 {font-size:20px !important; }
+.font22 {font-size:22px !important; }
 
 .color333 { color:#333 !important; }
 .color555 { color:#555 !important; }
@@ -83,6 +84,7 @@
 .mTop10 {margin-top:10px !important;}
 .mTop15 {margin-top:15px !important;}
 .mTop20 {margin-top:20px !important;}
+.-mTop20 {margin-top:-20px !important;}
 .mTop30 {margin-top:30px;}
 .mTop40 {margin-top:40px;}
 .mTop50 {margin-top:50px;}
@@ -129,6 +131,7 @@
 .width80 { width:80px !important; }
 .width100 { width:100px !important; }
 .width120 { width:120px !important; }
+.width125 { width:125px !important; }
 .width150 { width:150px !important; }
 .width200 { width:200px !important; }
 .width300 { width:300px !important; }

@@ -207,6 +207,7 @@
     <Content Include="modules\css\default\guidestep.css" />
     <Content Include="modules\css\default\orders.css" />
     <Content Include="modules\css\default\order_create.css" />
+    <Content Include="modules\css\default\FentOrderReport.css" />
     <Content Include="modules\css\error\error.css" />
     <Content Include="modules\css\home\feedback.css" />
     <Content Include="modules\css\home\selectlogin.css" />
