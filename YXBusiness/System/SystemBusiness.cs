@@ -1202,6 +1202,11 @@ namespace IntFactoryBusiness
             return SystemDAL.BaseProvider.DeleteDepotSeat(depotid, clientid);
         }
 
+        public bool UpdateDepotSeatSort(string depotid, string wareid, int type)
+        {
+            return SystemDAL.BaseProvider.UpdateDepotSeatSort(depotid, wareid, type);
+        }
+
         #endregion
 
     }

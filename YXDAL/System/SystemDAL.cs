@@ -604,6 +604,16 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_DeleteDepotSeat", paras, CommandType.StoredProcedure) > 0;
         }
 
+        public bool UpdateDepotSeatSort(string depotid, string wareid, int type)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@DepotID" , depotid),
+                                     new SqlParameter("@WareID" , wareid),
+                                     new SqlParameter("@Type" , type)
+                                   };
+            return ExecuteNonQuery("P_UpdateDepotSeatSort", paras, CommandType.StoredProcedure) > 0;
+        }
+
         #endregion
     }
 }

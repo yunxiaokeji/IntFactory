@@ -5,8 +5,8 @@
 <tr class="list-item">
     <td>{%=item.DepotCode%}</td>
     <td>{%=item.Name%}</td>
-    <td class='center'><span class="sort-up" data-id="{%=item.DepotID%}"></span></td>
-    <td class='center'><span class="sort-down" data-id="{%=item.DepotID%}"></span></td>
+    <td class='center'><span class="sort-up" data-type="0" data-id="{%=item.DepotID%}"></span></td>
+    <td class='center'><span class="sort-down" data-type="1" data-id="{%=item.DepotID%}"></span></td>
     <td class='center'><div class="status" data-id="{%=item.DepotID%}" data-value="{%=item.Status==1%}"></div></td>
     <td title="{%=item.Description%}" class="width300">{%=item.Description%}</td>
     <td class="center dropdown" data-id="{%=item.DepotID%}">

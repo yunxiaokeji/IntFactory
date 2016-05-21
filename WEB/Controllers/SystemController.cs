@@ -820,6 +820,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UpdateDepotSeatSort(string depotid, string wareid, int type)
+        {
+            bool bl = new SystemBusiness().UpdateDepotSeatSort(depotid, wareid, type);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         #endregion
 
         #region 公司信息
