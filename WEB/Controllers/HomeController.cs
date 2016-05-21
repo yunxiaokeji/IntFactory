@@ -126,7 +126,8 @@ namespace YXERP.Controllers
 
         public ActionResult SelfOrder(string id)
         {
-            if (string.IsNullOrEmpty(id)) 
+
+            if (string.IsNullOrEmpty(id))
             {
                 return Redirect("/Home/Login");
             }
