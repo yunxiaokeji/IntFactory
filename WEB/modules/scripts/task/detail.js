@@ -9,6 +9,7 @@
     var ObjectJS = {};
     var CacheAttrValues = [];//订单品类属性缓存
     var Editor;
+    var Plate = {};
 
     ///taskid：任务id
     ///orderid:订单id
@@ -44,6 +45,7 @@
         //事件绑定
         ObjectJS.bindEvent();
 
+        Easydialog = require("easydialog");
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
             ObjectJS.materialMark = 1;
@@ -99,6 +101,8 @@
         }
 
         ObjectJS.isLoading = true;
+
+        ObjectJS.initPlateMaking();
     };
 
     //#region任务基本信息操作
@@ -158,8 +162,11 @@
             if (!ObjectJS.isLoading) {
                 return;
             }
+
             var _this = $(this);
-            if (_this.hasClass("hover")) return;
+            if (_this.hasClass("hover")) {
+                return;
+            }
             $(".part-btn").hide();
             if (_this.data("btn")) {
                 $("#" + _this.data("btn")).show();
@@ -169,12 +176,17 @@
             $("#navTask").children().hide();
             $("#" + _this.data("id")).show();
 
-
-
             if (_this.data("id") == "orderTaskLogs") {
                 if (!_this.data("isget")) {
                     //任务日志列表
                     ObjectJS.getLogs(1);
+                    _this.data("isget", "1");
+                }
+            }
+            else if (_this.data("id") == "platemakingContent") {
+                if (!_this.data("isget")) {
+                    //任务日志列表
+                    ObjectJS.getPlateMakings(1);
                     _this.data("isget", "1");
                 }
             }
@@ -289,17 +301,8 @@
                 });
             });
 
-            ////删除任务成员
-            //$("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
-            //    var memberID = $(this).data("id");
-            //    confirm("确定删除任务成员?", function () {
-            //        ObjectJS.removeTaskMember(memberID);
-            //    });
-            //});
-
         }
 
-        
         //显示剩余时间
         ObjectJS.showTime();
 
@@ -308,7 +311,6 @@
 
         //初始化任务讨论列表
         TalkReply.initTalkReply(ObjectJS);
-        
     }
 
     //更改任务到期时间
@@ -981,7 +983,7 @@
         $(document).bind("click", function (e) {
             //隐藏制版列操作下拉框
             if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
-                $(".dropdown-ul").hide();
+                $("#setPlateInfo").hide();
             }
         });
     }
@@ -991,8 +993,8 @@
         $(".ico-dropdown").unbind().bind("click", function () {
             var _this = $(this);
             var position = _this.position();
-            $(".dropdown-ul li").data("columnname", _this.data("columnname"));
-            $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 70 }).show().mouseleave(function () {
+            $("#setPlateInfo li").data("columnname", _this.data("columnname"));
+            $("#setPlateInfo").css({ "top": position.top + 20, "left": position.left - 70 }).show().mouseleave(function () {
                 $(this).hide();
             });
 
@@ -1119,7 +1121,7 @@
     //删除行操作按钮
     ObjectJS.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
-        $("#platemakingContent table tr").each(function () {
+        $("#platemakingBody table tr").each(function () {
             $(this).find("td:last").remove();
         });
     }
@@ -1262,6 +1264,156 @@
                 alert("保存成功");
             }
             ObjectJS.isLoading = true;
+        });
+    }
+
+    var PlateMakings = [];
+    var Upload = null;
+    ObjectJS.initPlateMaking = function () {
+        $("#btnAddPalte").click(function () {
+            ObjectJS.addPlateMaking();
+        });
+
+        $("#setObjectPlate").click(function () {
+            var index = $(this).data("index");
+            var item = PlateMakings[index];
+            Plate = {
+                PlateID: item.PlateID,
+                Title: $("#plateTitle").val(),
+                Remark: $("#plateRemark").val(),
+                Icon: $("#plateIcon").val(),
+                OrderID: ObjectJS.orderid,
+                TaskID: ObjectJS.taskid
+            }
+            ObjectJS.savePlateMaking(item);
+        });
+
+        $("#deleteObject").click(function () {
+            var plateID = $(this).data("plateid");
+            ObjectJS.deletePlateMaking(plateID);
+        });
+    }
+
+    
+    //获取制版工艺说明
+    ObjectJS.getPlateMakings = function () {
+        $(".tb-plates .tr-header").nextAll().remove();
+        $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
+
+        Global.post("/Task/GetPlateMakings", {
+            orderID: ObjectJS.orderid,
+            taskID: ObjectJS.taskid
+        }, function (data) {
+            $(".tb-plates .tr-header").nextAll().remove();
+
+            if (data.items.length > 0) {
+                doT.exec("template/task/platemarting-list.html", function (template) {
+                    PlateMakings = data.items;
+                    var html = template(data.items);
+                    html = $(html);
+                    $(".tb-plates .tr-header").after(html);
+
+                    if ("#setPlateMaking".length == 1) {
+                        html.find(".dropdown").click(function () {
+                            var _this = $(this);
+                            var position = _this.find(".ico-dropdown").position();
+                            $("#setPlateMaking li").data("id", _this.data("id")).data("index", _this.data("index"));
+
+                            $("#setPlateMaking").css({ "top": position.top + 20, "left": position.left - 80 }).show().mouseleave(function () {
+                                $(this).hide();
+                            });
+                        });
+                    }
+
+                });
+            }
+            else {
+                $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='nodata-txt'>暂无数据!<div></td></tr>");
+            }
+        });
+    }
+
+    //新增工艺说明
+    ObjectJS.addPlateMaking = function () {
+        var item = {
+            PlateID:"",
+            Title: "",
+            Remark: "",
+            Icon: ""
+        }
+
+        ObjectJS.savePlateMaking(item);
+    }
+
+    //保存工艺说明
+    ObjectJS.savePlateMaking = function (item) {
+        doT.exec("template/task/platemarting-add.html", function (template) {
+            var html = template([item]);
+
+            Easydialog.open({
+                container: {
+                    id: "show-model-setPlate",
+                    header: "工艺说明录入",
+                    content: html,
+                    yesFn: function () {
+                        if ($("#plateTitle").val() == '') {
+                            alert("工艺不能为空");
+                            return;
+                        }
+
+                        Plate = {
+                            PlateID: item.PlateID,
+                            Title: $("#plateTitle").val(),
+                            Remark: $("#plateRemark").val(),
+                            Icon: $("#plateIcon").val(),
+                            OrderID: ObjectJS.orderid,
+                            TaskID: ObjectJS.taskid
+                        }
+
+                        Global.post("/Task/SavePlateMaking", { plate: JSON.stringify(Plate) }, function (data) {
+                            if (data.result == 0) {
+                                alert("保存失败");
+                            }
+                            else {
+                                ObjectJS.getPlateMakings();
+                            }
+                        });
+
+                    }
+                }
+            });
+
+            if (Upload == null) {
+                Upload = require("upload");
+            }
+            //选择意见反馈附件
+            Upload.createUpload({
+                element: "#selectPlateIcon",
+                buttonText: "选择图标",
+                data: { folder: '/Content/tempfile/', action: 'add', oldPath: "" },
+                success: function (data, status) {
+                    if (data.Items.length > 0) {
+                        var icoUrl=data.Items[0];
+                        $(".plate-show-ico").show().find("img").attr("src",icoUrl) ;
+                        $("#plateIcon").val(icoUrl);
+                    }
+                }
+            });
+
+        });
+    }
+
+    //删除工艺说明
+    ObjectJS.deletePlateMaking = function (plateID) {
+        confirm("确认删除工艺说明？", function () {
+            Global.post("/Task/DeletePlateMaking", { plateID: plateID }, function (data) {
+                if (data.result == 0) {
+                    alert("删除失败");
+                }
+                else {
+                    $("#tr-plate-" + plateID).fadeOut(500);
+                }
+            });
         });
     }
     //#endregion

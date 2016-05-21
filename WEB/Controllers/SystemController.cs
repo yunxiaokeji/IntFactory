@@ -834,6 +834,7 @@ namespace YXERP.Controllers
             JsonDictionary.Add("Client", client);
             JsonDictionary.Add("Agent", agent);
             JsonDictionary.Add("Days", (agent.EndTime - DateTime.Now).Days);
+            
             return new JsonResult()
             {
                 Data = JsonDictionary,

@@ -155,7 +155,7 @@
 
 /*制版属性*/
 .platemakingContent {
-    margin:20px 0px;
+    margin:10px 0px;
 }
 .platemakingBody {
     border-top:1px solid #eee;
@@ -254,7 +254,7 @@
     right:0; 
     bottom:0px; 
 }
-.task-replys .talk-title { 
+ .talk-title { 
     border-bottom: solid 1px #ccc; 
     height:40px; 
     line-height:40px; 
@@ -443,17 +443,29 @@
 
 /*成员列表样式*/
 /*暂无成员*/
-.memberlist .member-title {line-height:30px;height:30px;width:395px;border-bottom:1px solid #efefef;margin-bottom:5px;}
-.memberlist .member-title span {  font-size:14px;color:#888;}
+.memberlist .member-title {line-height:30px;height:30px;width:360px;border-bottom:1px solid #efefef;margin-bottom:5px;padding-bottom:5px;}
 
-.memberlist .member-boxs { max-height:320px;overflow-y:auto;width:395px;}
+.memberlist .member-boxs { max-height:320px;overflow-y:auto;width:360px;}
 .memberlist .member-items {width:100%;border:1px solid #ddd;}
 .memberlist .member-items tr { text-align:center;width:25%;line-height:34px;}
 .memberlist .member-items tr:last-child td { padding-bottom:5px;}
-.memberlist .member-items tr td:last-child { font-size:18px;padding-top:4px;}
+.memberlist .member-items tr td:last-child { font-size:20px;padding-top:4px;}
 .memberlist .member-items th { text-align:inherit;font-size:14px;height:40px;background-color:#efefef;color:#666;}
 .member-items td i { font-style:normal;vertical-align:middle;}
 .member-items i img { width:22px;height:22px;border-radius:50%;vertical-align:middle;}
 .memberlist .membername { width:100px;display:inline-block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .removeTaskMember { color:#999;}
 .removeTaskMember:hover {color:#4a98e7; }
+.task-members .iconfont{
+    font-size:24px;
+    color:#888;
+    margin-right:5px;
+}
+
+.plate-show-ico {
+    margin:10px 0 0 82px;
+}
+
+.plate-show-ico img {
+    max-width:60px;
+}

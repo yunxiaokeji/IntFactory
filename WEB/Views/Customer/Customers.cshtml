@@ -46,13 +46,7 @@
     <span class="header-title left">@ViewBag.Title</span>
     <a href="Create"  id="createCustomer" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current, "101019001"))">新建客户</a>
 </div>
-<div class="search-box">
-    @*<div class="search-header">
-        <ul class="search-tab search-stages">
-            <li data-id="" class="hover">客户列表</li>
-        </ul>
-    </div>*@
-</div>
+
 <div class="content-body">
     <div class="search-body">
         <ul class="customer-source">
@@ -86,7 +80,6 @@
     </div>
     <div class="search-items mTop10">
         <div class="left mRight20" id="chooseBranch"></div>
-        @*<div class="left" id="sourceType"></div>*@
         <div class="left">
             <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input width100"  />
             <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width100"  />
@@ -112,7 +105,5 @@
     </ul>
     <div id="pager" class="mTop20"></div>
 </div>
-@*<ul class="dropdown-ul hide" style="width:110px;">
-    <li id="changeOwner" class="@(ExpandClass.IsLimits(HttpContext.Current,"101019002"))">更换负责人</li>
-</ul>*@
+
 

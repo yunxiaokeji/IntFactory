@@ -42,14 +42,12 @@ namespace IntFactory.Service
             // TODO: 在此处添加代码以启动服务。
             string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + " 下载阿里订单服务启动";
             WriteLog(state);
-
-            ExecuteDownAliOrdersPlan();
+            DownAliOrdersEventFun();
             DownAliOrdersTimer.Start();
 
             state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    更新阿里订单服务启动";
             WriteLog(state, 2);
-
-            ExecuteUpdateAliOrders();
+            UpdateAliOrdersEventFun();
             UpdateAliOrdersTimer.Start();
         }
 
@@ -76,9 +74,6 @@ namespace IntFactory.Service
             WriteLog(state);
 
             bool flag= ExecuteDownAliOrdersPlan();
-
-            state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    DownAliOrdersEvent结果:" + (flag ? "成功" : "失败")+"\n";
-            WriteLog(state);
         }
 
         public void UpdateAliOrdersEvent(object source, System.Timers.ElapsedEventArgs e)
@@ -92,9 +87,6 @@ namespace IntFactory.Service
             WriteLog(state, 2);
 
             bool flag = ExecuteUpdateAliOrders();
-
-            state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    UpdateAliOrdersEvent结果:" + (flag ? "成功" : "失败") + "\n";
-            WriteLog(state, 2);
         }
 
         /// <summary>
@@ -121,10 +113,12 @@ namespace IntFactory.Service
                     successCount, total, item.AgentID, item.ClientID, error);
 
                 //添加服务日志
-                string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:"+item.ClientID+" 下载打样订单结果:" + (flag ? "成功" : "失败");
+                string log = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:"+item.ClientID+" 下载打样订单结果:" + (flag ? "成功" : "失败")+" 成功订单数:"+successCount;
                 if (!flag)
-                    state += "  原因："+error;
-                WriteLog(state); 
+                {
+                    log += "  失败原因：" + error;
+                }
+                WriteLog(log); 
 
 
                 //下载阿里大货订单列表
@@ -137,10 +131,12 @@ namespace IntFactory.Service
                     successCount, total, item.AgentID, item.ClientID, error);
 
                 //添加服务日志
-                state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 下载大货订单结果:" + (flag ? "成功" : "失败");
+                log = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 下载大货订单结果:" + (flag ? "成功" : "失败") + "  成功订单数:"+successCount;
                 if (!flag)
-                    state += "  原因：" + error;
-                WriteLog(state); 
+                {
+                    log += "  失败原因：" + error;
+                }
+                WriteLog(log); 
             }
 
             return true;
@@ -163,19 +159,23 @@ namespace IntFactory.Service
                 flag=AliOrderBusiness.UpdateAliFentOrders(item.ClientID, item.Token, item.RefreshToken, out failGodesCodes);
 
                 //添加服务日志
-                string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 更新打样订单结果:" + (flag ? "成功" : "失败");
+                string log = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 更新打样订单结果:" + (flag ? "成功" : "失败");
                 if (!flag)
-                    state += "  不成功订单编码：" + string.Join(",", failGodesCodes.ToArray());
-                WriteLog(state,2); 
+                {
+                    log += "  不成功订单编码：" + string.Join(",", failGodesCodes.ToArray());
+                }
+                WriteLog(log, 2); 
 
                 //批量更新大货订单
                 flag=AliOrderBusiness.UpdateAliBulkOrders(item.ClientID, item.Token, item.RefreshToken, out failGodesCodes);
 
                 //添加服务日志
-                state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 更新大货订单结果:" + (flag ? "成功" : "失败");
+                log = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 更新大货订单结果:" + (flag ? "成功" : "失败");
                 if (!flag)
-                    state += "  不成功订单编码：" + string.Join(",", failGodesCodes.ToArray());
-                WriteLog(state,2); 
+                {
+                    log += "  不成功订单编码：" + string.Join(",", failGodesCodes.ToArray());
+                }
+                WriteLog(log, 2); 
             }
 
             return true;
@@ -191,14 +191,16 @@ namespace IntFactory.Service
             string directoryName="downaliorders";
             FileStream fs = null;
             if (logType == 2)
-                directoryName = "updatealiorders";
-
-            if (!Directory.Exists(@"c:\log\" + directoryName))
             {
-                Directory.CreateDirectory(@"c:\log\" + directoryName);
+                directoryName = "updatealiorders";
             }
 
-            fs = new FileStream(@"c:\log\"+directoryName+"\\" + fileName + fileExtention, FileMode.OpenOrCreate, FileAccess.Write);
+            if (!Directory.Exists(@"d:\log\" + directoryName))
+            {
+                Directory.CreateDirectory(@"d:\log\" + directoryName);
+            }
+
+            fs = new FileStream(@"d:\log\"+directoryName+"\\" + fileName + fileExtention, FileMode.OpenOrCreate, FileAccess.Write);
 
             StreamWriter sw = new StreamWriter(fs);
             sw.BaseStream.Seek(0, SeekOrigin.End);

@@ -131,6 +131,7 @@
     <Compile Include="System\TeamEntity.cs" />
     <Compile Include="System\OrderStageEntity.cs" />
     <Compile Include="System\OrderProcessEntity.cs" />
+    <Compile Include="Task\PlateMaking.cs" />
     <Compile Include="Task\TaskEntity.cs" />
     <Compile Include="Task\TaskMember.cs" />
   </ItemGroup>

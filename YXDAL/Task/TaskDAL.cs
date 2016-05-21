@@ -202,5 +202,82 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
         }
 
+
+        #region PlateMaking
+        public DataTable GetPlateMakings(string orderID)
+        {
+            string sqltext = "select * from PlateMaking where OrderID=@OrderID and status<>9 order by createtime desc";
+
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderID)
+                                   };
+
+            return GetDataTable(sqltext, paras, CommandType.Text);
+        }
+
+        public DataTable GetPlateMakings(string orderID, string taskID)
+        {
+            string sqltext = "select * from PlateMaking where OrderID=@OrderID and TaskID=@TaskID and status<>9  order by createtime desc";
+
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderID),
+                                     new SqlParameter("@TaskID",taskID)
+                                   };
+
+            return GetDataTable(sqltext, paras, CommandType.Text);
+        }
+
+        public DataTable GetPlateMakingDetail(string plateID)
+        {
+            string sqltext = "select * from PlateMaking where  PlateID=@PlateID and status<>9 ";
+
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@PlateID",plateID)
+                                   };
+
+            return GetDataTable(sqltext, paras, CommandType.Text);
+        }
+
+        public bool AddPlateMaking(string title,string remark,string icon,string taskID,string orderID,string userID,string agentID)
+        {
+            string sqltext = "insert into  PlateMaking(PlateID,Title,Remark,Icon,TaskID,OrderID,CreateUserID,AgentID,CreateTime) values(NEWID(),@Title,@Remark,@Icon,@TaskID,@OrderID,@UserID,@AgentID,getdate())";
+
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@Title",title),
+                                     new SqlParameter("@Remark",remark),
+                                     new SqlParameter("@Icon",icon),
+                                     new SqlParameter("@TaskID",taskID),
+                                     new SqlParameter("@OrderID",orderID),
+                                     new SqlParameter("@UserID",userID),
+                                     new SqlParameter("@AgentID",agentID)
+                                   };
+            return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+        }
+
+        public bool UpdatePlateMaking(string plateID, string title, string remark, string icon)
+        {
+            string sqltext = "update PlateMaking set Title=@Title,Remark=@Remark,Icon=@Icon where PlateID=@PlateID ";
+
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@PlateID",plateID),
+                                     new SqlParameter("@Title",title),
+                                     new SqlParameter("@Remark",remark),
+                                     new SqlParameter("@Icon",icon)
+                                   };
+
+            return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+        }
+
+        public bool DeletePlateMaking(string plateID)
+        {
+            string sqltext = "update PlateMaking set status=9 where PlateID=@PlateID ";
+
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@PlateID",plateID)
+                                   };
+           return ExecuteNonQuery(sqltext, paras, CommandType.Text)>0;
+        }
+        #endregion
+
     }
 }
