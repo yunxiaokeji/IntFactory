@@ -1015,7 +1015,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Task\TaskReply.cshtml" />
     <Content Include="Views\Customer\Customers-list.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Inquire\InquireOrder.cshtml">
       <BrowseToURL>~/Inquire/InquireOrder</BrowseToURL>
     </Content>
