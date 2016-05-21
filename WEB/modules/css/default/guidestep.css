@@ -6,11 +6,15 @@
 .step-header .step { width:24px; border:solid 1px #666; border-radius:13px;  text-align:center;  }
 .step-header .step-ico { width:60px; text-align:center; margin-top:2px; }
 .step-header .hover { border-color:#4a98e7; color:#4a98e7; }
+.step-header .over { border-color:#ccc; color:#ccc; }
 
 .step-content { width:918px; border:solid 1px #ccc; background-color:#fff; }
 .step-content h1{ color:#666; font-weight:500; font-size:14px; }
+.step-content a { font-size:14px;text-decoration:underline; margin-left:5px; }
 
-.step-desc { }
+.step-desc { padding:10px 20px; background-color:#f3f3f3; overflow:auto;  border-bottom:solid 1px #ccc;}
+.step-desc h1{ color:#ff9907; }
+.step-desc p{ font-size:14px; margin-top:5px; color:#666; }
 
 /*流程*/
 .process-type { padding:15px 20px; line-height:22px; height:22px; border-bottom:dashed 1px #ccc; }
@@ -24,4 +28,12 @@
 .step-note { margin:20px 0 0 20px; }
 .step-note span{ font-size:14px;  color:red; }
 
+
+/*订单品类*/
+.ordercategory-item { clear:both; overflow:auto;  margin:10px 20px; padding-bottom:10px;  border-bottom:solid 1px #ddd; }
+.ordercategory-item .items-header { height:25px; line-height:25px; font-size:14px; font-weight:bold; }
+.child-items-div { clear:both; margin-top:5px; }
+.child-items-div li{ float:left; margin-right:20px; cursor:pointer; line-height:20px; }
+
+/*底部*/
 .step-bottom { padding:15px 20px; height:25px; border-top:dashed 1px #ccc;}

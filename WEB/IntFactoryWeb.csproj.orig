@@ -207,7 +207,6 @@
     <Content Include="modules\css\default\guidestep.css" />
     <Content Include="modules\css\default\orders.css" />
     <Content Include="modules\css\default\order_create.css" />
-    <Content Include="modules\css\default\FentOrderReport.css" />
     <Content Include="modules\css\error\error.css" />
     <Content Include="modules\css\home\feedback.css" />
     <Content Include="modules\css\home\selectlogin.css" />
@@ -1039,9 +1038,12 @@
     <Content Include="Views\Task\SewnDoc.cshtml" />
     <Content Include="Views\Default\SetProcess.cshtml" />
     <Content Include="Views\Default\Index.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Default\SetCategory.cshtml" />
-    <Content Include="Views\Orders\FentOrderReport.cshtml" />
     <Content Include="Views\Default\SettingHelp.cshtml" />
+=======
+    <Content Include="Views\Orders\FentOrderReport.cshtml" />
+>>>>>>> c80b26d16bf742ac88f4cb6aad0984cd0bb5f242
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1219,6 +1221,9 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Login.cshtml" />

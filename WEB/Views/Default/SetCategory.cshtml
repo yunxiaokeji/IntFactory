@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "初始化订单品类";
+    Layout = "~/Views/Shared/_LayoutNoLeft.cshtml";
+}
+@section css{
+    <style type="text/css">
+        .main-content { margin-left:0px;}
+    </style>
+
+    <link href="/modules/css/default/guidestep.css" rel="stylesheet" />
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/home/guidestep"], function (ObjectJS) {
+            ObjectJS.initCategory();
+        });
+    </script>
+}
+<div class="step-body">
+    <ul class="step-header">
+        <li class="step over">1</li>
+        <li class="mLeft5 over">初始化流程</li>
+        <li class="iconfont step-ico over">&#xe656</li>
+        <li class="step hover">2</li>
+        <li class="mLeft5 hover">初始化品类</li>
+        <li class="iconfont step-ico hover">&#xe656</li>
+        <li class="step">3</li>
+        <li class="mLeft5">配置提示</li>
+    </ul>
+    <div class="step-content">
+        <div class="step-desc">
+            <h1>使用须知</h1>
+            <p>
+                配置本厂加工的服装品类，方便客户下单，订单开始执行时，需根据订单品类设置制版信息，因此不配置此选项则不能完成订单。为了保证使用体验，请认真填选此项
+            </p>
+        </div>
+
+        @foreach (var model in (List<IntFactoryEntity.Category>)ViewBag.Items)
+        {
+            if (model.Status == 1)
+            {
+                 <div class="ordercategory-item">
+                     <div class="items-header">
+                         <span class="iconfont ico-checkbox" data-id="@(model.CategoryID)"></span>
+                         @(model.CategoryName)：
+                     </div>
+                     <ul class="child-items-div" id="@(model.CategoryID)">
+                         @foreach (var item in model.ChildCategory)
+                         {
+                             if (item.Status == 1)
+                             {
+                               <li class="child-item" >
+                                  <span class="iconfont ico-checkbox" data-pid="@(item.PID)" data-id="@(item.CategoryID)"></span>
+                                   @(item.CategoryName)
+                               </li>
+                             }
+                         }
+                     </ul>
+                 </div>
+                 <div class="clear"></div>
+             }
+        }
+        <div class="step-bottom mTop20">
+            <div class="btn right" id="btnSubmit">下一步</div>
+        </div>
+    </div>
+</div>

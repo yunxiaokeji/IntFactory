@@ -339,9 +339,9 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 
 /*复选框*/
 .ico-checkbox:before { content:"\e626"}
-.ico-checkbox { width:16px; height:16px; display:inline-block; background-color:#fff; color:#fff; border:solid 1px #4a98e7; text-align:center; 
-                cursor:pointer; box-shadow:0 0 1px #4a98e7 inset; font-size:14px !important; line-height:16px !important; }
-.ico-checkbox.hover { background-color:#4a98e7; }
+.ico-checkbox { width:16px; height:16px; display:inline-block; background-color:#fff; color:#fff; border:solid 1px #ccc; text-align:center; border-radius:2px; 
+                cursor:pointer; box-shadow:0 0 1px #ccc inset; font-size:14px !important; line-height:16px !important; }
+.ico-checkbox.hover {border:solid 1px #4a98e7; background-color:#4a98e7; }
 
 /*单选框*/
 .ico-radiobox { width:20px; height:20px; display:inline-block; background-color:#fff; border:solid 1px #4a98e7; text-align:center; border-radius:11px;
