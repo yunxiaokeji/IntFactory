@@ -364,6 +364,7 @@
                    ObjectJS.getList();
                 }
             });
+
             ObjectJS.isLoading = true;
         });
     }
