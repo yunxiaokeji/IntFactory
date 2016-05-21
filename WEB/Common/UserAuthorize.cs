@@ -46,7 +46,20 @@ namespace YXERP.Common
                 return;
             }
 
+            var controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower();
+            var action = filterContext.ActionDescriptor.ActionName.ToLower();
+
             var currentUser = (IntFactoryEntity.Users)filterContext.HttpContext.Session["ClientManager"];
+
+            if (currentUser.Client.GuideStep != 0)
+            {
+                if (controller != "default")
+                {
+                    filterContext.Result = new RedirectResult("/Default/Index");
+                }
+                return;
+            }
+
             var agent = AgentsBusiness.GetAgentDetail(currentUser.AgentID);
             if (agent.EndTime < DateTime.Now)
             {
@@ -68,8 +81,7 @@ namespace YXERP.Common
                 return;
             }
 
-            var controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName.ToLower();
-            var action = filterContext.ActionDescriptor.ActionName.ToLower();
+            
             var menu = CommonBusiness.ClientMenus.Where(m => m.Controller.ToLower() == controller && m.View.ToLower() == action).FirstOrDefault();
 
             //需要判断权限

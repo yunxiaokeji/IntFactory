@@ -360,6 +360,21 @@ namespace IntFactoryBusiness.Manage
 
         }
 
+        public static int SetClientCategory(string ids, string userid, string clientid)
+        {
+            var model = GetClientDetail(clientid);
+            if (model.GuideStep != 2)
+            {
+                return model.GuideStep;
+            }
+            bool bl = ClientDAL.BaseProvider.SetClientCategory(ids, userid, clientid);
+
+            Clients[model.ClientID] = GetClientDetailBase(model.ClientID);
+
+            return Clients[model.ClientID].GuideStep;
+
+        }
+
         #endregion
 
     }

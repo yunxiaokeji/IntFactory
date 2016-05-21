@@ -217,7 +217,7 @@ namespace IntFactoryDAL
         public DataTable GetDepotSeatsByWareID(string wareid)
         {
             SqlParameter[] paras = { new SqlParameter("@WareID", wareid) };
-            DataTable dt = GetDataTable("select * from DepotSeat where WareID=@WareID and Status<>9 ", paras, CommandType.Text);
+            DataTable dt = GetDataTable("select * from DepotSeat where WareID=@WareID and Status<>9 order by Sort ", paras, CommandType.Text);
             return dt;
         }
 
@@ -361,8 +361,6 @@ namespace IntFactoryDAL
 
         public bool AddDepotSeat(string id, string depotcode, string wareid, string name, int status, string description, string operateid, string clientid)
         {
-            string sqlText = "insert into DepotSeat(DepotID,DepotCode,WareID,Name,Status,Description,CreateUserID,ClientID) " +
-                                            " values(@DepotID,@DepotCode,@WareID,@Name,@Status,@Description,@CreateUserID,@ClientID) ";
             SqlParameter[] paras = { 
                                     
                                      new SqlParameter("@DepotID" , id),
@@ -374,7 +372,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@CreateUserID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
-            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
+            return ExecuteNonQuery("P_CreateDepotSeat", paras, CommandType.StoredProcedure) > 0;
         }
 
         #endregion
@@ -595,6 +593,25 @@ namespace IntFactoryDAL
                                      new SqlParameter("@Description" , description)
                                    };
             return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
+        }
+
+        public bool DeleteDepotSeat(string depotid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@DepotID" , depotid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+            return ExecuteNonQuery("P_DeleteDepotSeat", paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool UpdateDepotSeatSort(string depotid, string wareid, int type)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@DepotID" , depotid),
+                                     new SqlParameter("@WareID" , wareid),
+                                     new SqlParameter("@Type" , type)
+                                   };
+            return ExecuteNonQuery("P_UpdateDepotSeatSort", paras, CommandType.StoredProcedure) > 0;
         }
 
         #endregion

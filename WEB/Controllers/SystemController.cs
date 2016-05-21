@@ -794,7 +794,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult DeleteDepotSeat(string id)
         {
-            bool bl = new SystemBusiness().UpdateDepotSeatStatus(id, IntFactoryEnum.EnumStatus.Delete, CurrentUser.UserID, CurrentUser.ClientID);
+            bool bl = new SystemBusiness().DeleteDepotSeat(id, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("Status", bl);
             return new JsonResult
             {
@@ -813,6 +813,17 @@ namespace YXERP.Controllers
         {
             bool bl = new SystemBusiness().UpdateDepotSeatStatus(id, (IntFactoryEnum.EnumStatus)status, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("Status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateDepotSeatSort(string depotid, string wareid, int type)
+        {
+            bool bl = new SystemBusiness().UpdateDepotSeatSort(depotid, wareid, type);
+            JsonDictionary.Add("status", bl);
             return new JsonResult
             {
                 Data = JsonDictionary,
