@@ -1,6 +1,7 @@
 ﻿@{
     Layout = null;
     var model = (IntFactoryEntity.Manage.Clients)ViewBag.Model;
+    var categoryItems = (List<IntFactoryEntity.Category>)ViewBag.Items;
 }
 
 <!doctype html>
@@ -9,17 +10,17 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="content-language" content="zh-CN" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 	<title>智能工厂-在线下单</title>
     <link href="/modules/css/base.css" rel="stylesheet" />
     <link href="/modules/css/default/layout.css" rel="stylesheet" />
     <link href="/modules/css/default/order_create.css" rel="stylesheet" />
-
+    <link href="../../modules/css/iconfont/iconfont.css" rel="stylesheet" />
     <script src="/Scripts/sea.js"></script>
     <script src="/Scripts/sea-config.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/home/create"], function (home) {
-            home.init('@(model.ClientID)', '@(model.AgentID)');
+            home.init('@(model.ClientID)', '@(model.AgentID)', "", '@Html.ToJSONString(categoryItems)');
         });
     </script>
 </head>
@@ -36,120 +37,142 @@
 
 <!--内容-->
 <div class="pay-content pay-body row">
-	<div class="pay-content-title">
+
+	 <div class="pay-content-title">
     	<div class="pay-content-title-info">
             <h1>在线下单</h1>
             <p>请填写完整订单信息，我们将根据订单生产制作</p>
         </div>
     </div>
-    <div class="pay-content-main row">
+     <div class="pay-content-main row">
     	<!----表单项---->
         <div class="pay-content-main-form">
         	<ul>
-                <li class="form-row row">
-                	<div class="th pdall">订单类别：</div>
-                    <div class="td">
-                    	<span class="ico-checked mTop2 customtype" id="companyCustom" data-type="1">打样</span>
-                        <span class="ico-check mTop2 customtype" data-type="2">大货</span>
+                <li class="form-row row mTop10">
+
+                	<div class="th pdall info-box">
+                        <div class="left">
+                            <span class="iconfont">&#xe62c;</span>
+                            <span>订单信息</span>
+                        </div>
+                        <div class="right lump order-lump">
+                        </div>
+                        <div class="clear"></div>
+                	</div>
+                    
+                    <div class="td mTop10 radio-info">
+                        <span class="ico-radiobox hover" data-type="1">
+                            <span></span>
+                        </span>
+                        &nbsp;打样
+                        <span class="ico-radiobox mLeft10" data-type="2">
+                            <span></span>
+                        </span>
+                        &nbsp;大货
                     </div>
+
                 </li>
                 
                 <li class="form-row row">
-                	<div class="th pdall">订单品类：</div>
                     <div class="td">
-                        <span>
-                    	    <select id="bigcategory">
+                        <div class="bigcategory">
+
+                        </div>
+                        <div class="ordercategory">
+
+                        </div>
+                        <div class="clear"></div>
+                        <span class="categoryselect-box">
+                    	    <select id="bigcategory" class="categoryselect">
                             @foreach (IntFactoryEntity.Category item in (List<IntFactoryEntity.Category>)ViewBag.Items)
                             {
                                 <option value="@(item.CategoryID)">@(item.CategoryName)</option> 
                             }
                             </select>
-                            <select id="ordercategory">
+                            <select id="ordercategory" class="categoryselect">
                             </select>
                         </span>
                     </div>
                 </li>
                 
                 <li class="form-row row">
-                	<div class="th pdall">数量：</div>
                     <div class="td">
-                    	<input type="text" maxlength="5" id="planQuantity"  data-empty="必填" data-type="int" class="inputbox verify"/>
+                    	<input type="text" maxlength="5" id="planQuantity" placeholder="请输入数量"  data-empty="必填" data-type="int" class="inputbox verify"/>
                     </div>
                 </li>
                 
                 <li class="form-row row">
-                	<div class="th pdall">期望价格：</div>
                     <div class="td">
-                    	<input type="text" maxlength="10" id="planPrice"  data-empty="必填" data-type="double"  class="inputbox verify"/>
+                    	<input type="text" maxlength="10" id="planPrice" placeholder="请输入期望价格" data-empty="必填" data-type="double"  class="inputbox verify"/>
                     </div>
                 </li>
                 <li class="form-row row">
-                	<div class="th pdall">快递单号：</div>
                     <div class="td">
-                    	<input type="text" maxlength="50" id="expressCode" class="inputbox1"/>
+                    	<input type="text" id="remark" placeholder="如有详细需求请注明具体内容，以免制作时产品遗漏" class="textarea" />
                     </div>
                 </li>
                 <li class="row">
-                	<div class="th pdall">附件：</div>
                     <div class="td">
-                    	<span id="productIco" ></span>
-                        <ul id="orderImages" class="order-imgs addimg"></ul>
+                       <div class="img-box">
+                                <ul  id="orderImages">
+                                    <li data-isone="1" id="productIco" class="left" ></li>
+                                </ul>
+                       </div>
                     </div>
-                    
+                </li>
+                <li class="customer-box">
+                    <div class="th pdall info-box">
+                        <div class="left">
+                            <span class="iconfont">&#xe624;</span>
+                            <span>客户信息</span>
+                        </div>
+                        <div class="right lump order-lump">
+                        </div>
+                        <div class="clear"></div>
+                    </div>
                 </li>
                 
-                <li class="row">
-                	<div class="th pdall">详细需求：</div>
+
+                <li class="form-row row mTop10">
                     <div class="td">
-                    	<textarea id="remark" placeholder="如有详细需求请注明具体内容，以免制作时产品遗漏" class="textarea"></textarea>
+                    	<input type="text" placeholder="请输入姓名" maxlength="50" id="name" data-empty="必填" class="inputbox verify"/>
                     </div>
                 </li>
                 
                 <li class="form-row row">
-                	<div class="th pdall">姓名：</div>
                     <div class="td">
-                    	<input type="text" maxlength="50" id="name" data-empty="必填" class="inputbox verify"/>
-                    </div>
-                </li>
-                
-                <li class="form-row row">
-                	<div class="th pdall">电话：</div>
-                    <div class="td">
-                    	<input type="text" maxlength="11" id="contactMobile" data-empty="必填" data-type="mobile"  class="inputbox1 verify"/>
+                    	<input type="text" placeholder="请输入手机" maxlength="11" id="contactMobile" data-empty="必填" data-type="mobile"  class="inputbox1 verify"/>
                     </div>
                 </li>
                 
                 <li class="form-row1 row">
-                	<div class="th pdall">地址：</div>
                     <div class="td">
                     	<span id="city"></span>
                     </div>
                 </li>
                 
                 <li class="form-row row">
-                	<div class="th pdall">详细地址：</div>
                     <div class="td">
-                    	<input type="text" placeholder="" id="address"  class="inputbox2"/>
+                    	<input type="text" placeholder="详细地址" id="address"  class="inputbox2"/>
                     </div>
                 </li>
                 
-                <li class="row">
+                <li class="row btn-box">
                     <button type="button" id="btnSave" class="btn-con">确认下单</button>
                 </li>
             </ul>
             
         </div>
-        <!----表单项end---->
-        <div class="pay-content-main-ins r"><img src="/modules/images/selforder/liuc_03.png" alt=""/></div>
     </div>
+
 </div>
 <!--内容end-->
 
-<!--页脚-->
+@*<!--页脚-->
 <div class="pay-bottom pay-body row">
 	<p>©2016-2017 智能工厂 浙ICP16001314</p>
 </div>
-<!--页脚end-->
+<!--页脚end-->*@
 </body>
 </html>
 
