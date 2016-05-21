@@ -18,7 +18,7 @@ namespace IntFactoryDAL.Manage
             SqlParameter[] paras = { 
                                     new SqlParameter("@ClientID",clientID),
                                    };
-            string sql=@"select a.AutoID,a.ClientID,a.ClientCode,a.CompanyName,a.Logo,a.Industry,a.CityCode,a.Address,
+            string sql = @"select a.AutoID,a.ClientID,a.ClientCode,a.CompanyName,a.Logo,a.Industry,a.CityCode,a.Address,a.GuideStep,
             a.PostalCode,a.ContactName,a.MobilePhone,a.OfficePhone,a.Status,b.EndTime,b.UserQuantity,a.TotalIn,a.TotalOut,a.FreezeMoney,a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,a.AliMemberID 
             from Clients a  left join Agents b  on a.AgentID=b.AgentID and a.ClientID=b.ClientID where a.ClientID=@ClientID ";
 
@@ -176,6 +176,22 @@ namespace IntFactoryDAL.Manage
 
             return ExecuteNonQuery(cmdText, parms, CommandType.Text) > 0;
         }
-            #endregion
+
+        public bool SetClientProcess(int type, string userid, string clientid)
+        {
+            int result = 0;
+            SqlParameter[] parms = { 
+                                       new SqlParameter("@Result",result),
+                                       new SqlParameter("@ClientID",clientid),
+                                       new SqlParameter("@Type",type),
+                                       new SqlParameter("@UserID",userid)
+                                   };
+
+            parms[0].Direction = ParameterDirection.Output;
+            ExecuteNonQuery("M_SetClientProcess", parms, CommandType.StoredProcedure);
+            return Convert.ToInt32(parms[0]) == 1;
+        }
+
+        #endregion
     }
 }

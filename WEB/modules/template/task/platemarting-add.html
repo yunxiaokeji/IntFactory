@@ -1,0 +1,23 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<ul class="easydialog-create">
+    <li>
+        <span class="width80">工艺：</span>
+        <span>
+            <input type="text" value="{%=item.Title%}" id="plateTitle" />
+        </span>
+    </li>
+    <li>
+        <span class="width80">图标：</span>
+        <span id="selectPlateIcon"></span>
+        <div class="plate-show-ico hide"><img /></div>
+            <input type="hidden" id="plateIcon" />
+    </li>
+    <li>
+        <span class="width80">描述：</span>
+        <textarea id="plateRemark">{%=item.Remark%}</textarea>
+    </li>
+</ul>
+{% } %}

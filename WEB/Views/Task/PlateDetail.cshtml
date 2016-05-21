@@ -6,7 +6,7 @@
     @{
         if (!string.IsNullOrEmpty(Model.Platemaking) && isRoot)
         {
-            <a class="btn right mTop5" href="/Task/PlatePrint/@Model.OrderID" target="_blank" id="btn-platePrint">打印制版</a>
+            <a class="btn right" href="/Task/PlatePrint/@Model.OrderID" target="_blank" id="btn-platePrint">打印制版</a>
         }
     }
     <div class="clear"></div>
@@ -45,26 +45,31 @@
     <div class="clear"></div>
 
     @{
-        if (isRoot)
-        { 
-            <div class="content-main mTop20">
-                <div class="talk-title mBottom10" >工艺说明</div>
-                <textarea id="txtPlateRemark" class="txt-content"  placeholder="工艺说明"></textarea><br />
-                <div class="btn right mTop5 " id="btn-updatePlateRemark">保存工艺说明</div>
-                <div class="clear"></div>
+        <div class="mTop30">
+            <div class="talk-title" >工艺说明
+                @{if (isRoot){
+                <div class="btn-add right" id="btnAddPalte">工艺说明录入</div>
+                <div class="clear"></div>}
+                }
             </div>
-        } 
-        else
-        {
-            <div class="mTop20" style="width:800px;">
-                <div class="talk-title" >工艺说明</div>
-                <div class="edui-container mTop15">
-                    <div class="edui-editor-body">
-                        <div class="description  edui-body-container" id="PlateRemark"></div>
-                    </div>
-                </div>
-            </div>
-        }
+
+            <table class="table-list mTop10 tb-plates">
+                <tr class="tr-header">
+                    <td class="width50">工艺图标</td>
+                    <td class="width200">标题</td>
+                    <td class="width150">描述</td>
+                    <td>创建时间</td>
+                    <td class="center">操作</td>
+                </tr>
+            </table>
+        </div>
     }
-</div>        
+</div>
+
+@{if (isRoot){
+<ul class="dropdown-ul hide" id="setPlateMaking" style="width:90px;">
+    <li id="setObjectPlate">编辑</li>
+    <li id="deleteObject">删除</li>
+</ul> 
+}}   
 
