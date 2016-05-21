@@ -122,7 +122,7 @@ define(function (require, exports, module) {
                     if (data.Status) {
                         _self.getList();
                     } else {
-                        alert("删除失败！");
+                        alert("货位已存在产品，不能删除！");
                     }
                 });
             });
@@ -166,7 +166,34 @@ define(function (require, exports, module) {
                         _self.editStatus(data, data.data("id"), data.data("value"), callback);
                     }
                 });
+                innerText.find(".sort-up,.sort-down").click(function () {
+                    var _this = $(this);
+                    Global.post("/System/UpdateDepotSeatSort", {
+                        depotid: _this.data("id"),
+                        wareid: Params.wareid,
+                        type: _this.data("type")
+                    }, function (data) {
+                        if (data.status) {
+                            var parent = _this.parents(".list-item");
+                            if (_this.data("type") == 0) {
+                                parent.insertBefore(parent.prev());
+                            } else {
+                                parent.insertAfter(parent.next());
+                            }
+                            _self.hideUpDown();
+                        } else {
+                            alert("优先级调整失败", function () {
+                                location.href = location.href;
+                            });
+                        }
+                    })
+                });
+
+                _self.hideUpDown();
             });
+
+            
+
             $("#pager").paginate({
                 total_count: data.TotalCount,
                 count: data.PageCount,
@@ -189,6 +216,16 @@ define(function (require, exports, module) {
             });
         });
     }
+
+    //隐藏排序按钮
+    ObjectJS.hideUpDown = function () {
+
+        $(".table-list .list-item").find(".sort-up,.sort-down").show();
+
+        $(".table-list .list-item").first().find(".sort-up").hide();
+        $(".table-list .list-item").last().find(".sort-down").hide();
+    }
+
     //更改状态
     ObjectJS.editStatus = function (obj, id, status, callback) {
         var _self = this;

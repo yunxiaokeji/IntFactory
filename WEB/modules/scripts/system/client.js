@@ -36,8 +36,18 @@
         _self.getDetail();
 
         if (option !== 0) {
-            $(".search-stages li[data-id='" + option + "']").click();
+            var _this=$(".module-tab li[data-id='" + option + "']");
+            _this.addClass("hover").siblings().removeClass("hover");
+            if (_this.data("id") == 2) {
+                ObjectJS.getClientOrders();
+                $(".content-SQXI").hide();
+                $(".content-order").show();
+            } else {
+                $(".content-order").hide();
+                $(".content-SQXI").show();
+            }
         }
+
     }
 
     //绑定事件
@@ -96,6 +106,7 @@
 
         //tab切换
         $(".search-stages li").click(function () {
+            alert(111);
             if (!ObjectJS.isLoading) {
                 return;
             }
@@ -121,7 +132,6 @@
             if (!_this.hasClass("hover")) {
                 _this.addClass("hover").siblings().removeClass("hover");
                 
-
                 if (_this.data("id") == 2) {                    
                     ObjectJS.getClientOrders();
                     $(".content-SQXI").hide();
@@ -260,7 +270,7 @@
         Global.post("/System/GetClientDetail", null, function (data) {
             if (data.Client) {
                 var item = data.Client;
-                //基本信息
+                //基本信息                
                 $("#ckey").html(item.ClientCode);
                 $("#spCustomerName").html(item.CompanyName == "" ? "--" : item.CompanyName);
                 $("#ContactName").html(item.ContactName == "" ? "--" :item.ContactName);
@@ -268,7 +278,9 @@
                 $("#OfficePhone").html(item.OfficePhone == "" ? "--" : item.OfficePhone);                
                 $("#lblReamrk").html(item.Description);
                 $("#address").html(item.City ? item.City.Province + " " + item.City.City + " " + item.City.Counties : "--");
-                $("#cid").attr("href", 'http://90cloudsales.com/Home/SelfOrder/' + item.ClientID).html('http://90cloudsales.com/Home/SelfOrder/' + item.ClientID);
+                var s = window.location.href.toString();
+                var http = s.substr(0, s.length - 13);
+                $("#cid").attr("href", http + "Home/SelfOrder/" + item.ClientID).html(http + "Home/SelfOrder/" + item.ClientID);
                 if (item.City)
                     CityObject.setValue(item.City.CityCode);
                 if (item.Logo)

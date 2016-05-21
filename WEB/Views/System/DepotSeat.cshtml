@@ -1,6 +1,6 @@
 ﻿@{
     var model = (IntFactoryEntity.WareHouse)ViewBag.Ware;
-    ViewBag.Title = "货位设置";
+    ViewBag.Title = model.Name+"—货位设置";
     
 }
 
@@ -13,20 +13,23 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">@(model.Name)-货位设置</span>
-    <a href="javascript:void(0);" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"108020604"))">新建货位</a>
-    <a href="/System/Warehouse" class="ico-back left">返回仓库设置</a> 
+    @*<span class="header-title left">@(model.Name)-货位设置</span>*@
+    <a href="javascript:void(0);" class="btn-add right">新建货位</a>@*@(ExpandClass.IsLimits(HttpContext.Current,"108020604"))*@
+    <a class="back left" href="javascript:if(history.length>1){ history.go(-1);} else{}">
+        <i class="iconfont">&#xe62d;</i> 返回 
+    </a>
 </div>
 
 <div class="content-body mTop20">
-    <div class="search-body">
+   @* <div class="search-body">
          <div class="right searth-module"> </div> 
-    </div>
+    </div>*@
     <table class="table-list">
         <tr class="tr-header" id="warehouse-items">
             <td class="width150 tLeft">货位编码</td>
             <td class="tLeft">货位名称</td>
-            <td class="tLeft">仓库名称</td>
+            <td class="width100">优先（高）</td>
+            <td class="width100">优先（低）</td>
             <td class="width100">启用/禁用</td>
             <td class="width300 tLeft">描述</td>
             <td class="width100">操作</td>
@@ -35,6 +38,6 @@
     <div id="pager" class="mTop20"></div>
 </div>
 <ul class="dropdown-ul hide"  style="width:65px;">
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020604"))" id="updateObject">编辑</li>
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020606"))" id="deleteObject">删除</li>
+    <li class="" id="updateObject">编辑</li>@*@(ExpandClass.IsLimits(HttpContext.Current,"108020604"))*@
+    <li class="" id="deleteObject">删除</li>@*@(ExpandClass.IsLimits(HttpContext.Current,"108020606"))*@
 </ul>

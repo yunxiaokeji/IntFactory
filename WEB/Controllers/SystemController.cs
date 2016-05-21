@@ -794,7 +794,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult DeleteDepotSeat(string id)
         {
-            bool bl = new SystemBusiness().UpdateDepotSeatStatus(id, IntFactoryEnum.EnumStatus.Delete, CurrentUser.UserID, CurrentUser.ClientID);
+            bool bl = new SystemBusiness().DeleteDepotSeat(id, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("Status", bl);
             return new JsonResult
             {
@@ -820,6 +820,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UpdateDepotSeatSort(string depotid, string wareid, int type)
+        {
+            bool bl = new SystemBusiness().UpdateDepotSeatSort(depotid, wareid, type);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         #endregion
 
         #region 公司信息
@@ -834,6 +845,7 @@ namespace YXERP.Controllers
             JsonDictionary.Add("Client", client);
             JsonDictionary.Add("Agent", agent);
             JsonDictionary.Add("Days", (agent.EndTime - DateTime.Now).Days);
+            
             return new JsonResult()
             {
                 Data = JsonDictionary,
