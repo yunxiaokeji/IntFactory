@@ -260,7 +260,7 @@
         Global.post("/System/GetClientDetail", null, function (data) {
             if (data.Client) {
                 var item = data.Client;
-                //基本信息
+                //基本信息                
                 $("#ckey").html(item.ClientCode);
                 $("#spCustomerName").html(item.CompanyName == "" ? "--" : item.CompanyName);
                 $("#ContactName").html(item.ContactName == "" ? "--" :item.ContactName);
@@ -268,7 +268,7 @@
                 $("#OfficePhone").html(item.OfficePhone == "" ? "--" : item.OfficePhone);                
                 $("#lblReamrk").html(item.Description);
                 $("#address").html(item.City ? item.City.Province + " " + item.City.City + " " + item.City.Counties : "--");
-                $("#cid").attr("href", 'http://90cloudsales.com/Home/SelfOrder/' + item.ClientID).html('http://90cloudsales.com/Home/SelfOrder/' + item.ClientID);
+                $("#cid").attr("href", data.HttpOrder + "Home/SelfOrder/" + item.ClientID).html(data.HttpOrder + "Home/SelfOrder/" + item.ClientID);
                 if (item.City)
                     CityObject.setValue(item.City.CityCode);
                 if (item.Logo)
