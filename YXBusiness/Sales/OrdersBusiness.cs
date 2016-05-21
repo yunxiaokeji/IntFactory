@@ -438,7 +438,19 @@ namespace IntFactoryBusiness
             }
             return list;
         }
-        
+
+        public List<OrderGoodsEntity> GetOrderGoods(string orderid) {
+            List<OrderGoodsEntity> list = new List<OrderGoodsEntity>();
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderGoods(orderid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderGoodsEntity model = new OrderGoodsEntity();
+                model.FillData(dr);
+
+                list.Add(model);
+            }
+            return list;
+        }
         #endregion
 
         #region 添加
@@ -591,12 +603,12 @@ namespace IntFactoryBusiness
             }
         }
 
-        public string CreateOrderGoodsDoc(string orderid, EnumGoodsDocType type, int isover, string expressid, string expresscode, string details, string remark, string operateid, string agentid, string clientid)
+        public string CreateOrderGoodsDoc(string orderid, string taskid, EnumGoodsDocType type, int isover, string expressid, string expresscode, string details, string remark, string operateid, string agentid, string clientid)
         {
             var dal = new OrdersDAL();
             string id = Guid.NewGuid().ToString().ToLower();
 
-            bool bl = dal.CreateOrderGoodsDoc(id, orderid, (int)type, isover, expressid, expresscode, details, remark, operateid, clientid);
+            bool bl = dal.CreateOrderGoodsDoc(id, orderid,taskid, (int)type, isover, expressid, expresscode, details, remark, operateid, clientid);
             if (bl)
             {
                 LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderDoc, EnumLogType.Create, "", operateid, agentid, clientid);

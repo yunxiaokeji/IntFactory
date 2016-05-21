@@ -332,9 +332,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult CreateOrderCutOutDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        public JsonResult CreateOrderCutOutDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark, string taskid="")
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid,taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {
@@ -343,9 +343,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult CreateOrderSewnDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        public JsonResult CreateOrderSewnDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid,taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {
@@ -354,9 +354,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult CreateOrderSendDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        public JsonResult CreateOrderSendDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid,taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {
@@ -365,9 +365,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult CreateOrderSend(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        public JsonResult CreateOrderSend(string orderid,string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid,taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {
@@ -670,10 +670,10 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetGoodsDocByOrderID(string orderid, int type)
+        public JsonResult GetGoodsDocByOrderID(string orderid, int type, string taskid="")
         {
             
-            var list = StockBusiness.GetGoodsDocByOrderID(orderid, (EnumDocType)type, CurrentUser.ClientID);
+            var list = StockBusiness.GetGoodsDocByOrderID(orderid,taskid, (EnumDocType)type, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult
             {

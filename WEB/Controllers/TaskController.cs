@@ -365,6 +365,18 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetOrderGoods(string id)
+        {
+            var list = OrdersBusiness.BaseBusiness.GetOrderGoods(id);
+            JsonDictionary.Add("list", list);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult GetOrderTaskLogs(string id, int pageindex)
         {
             int totalCount = 0;

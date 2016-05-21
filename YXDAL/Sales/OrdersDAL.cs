@@ -167,7 +167,16 @@ namespace IntFactoryDAL
             DataTable dt = GetDataTable("Select * from OrderCosts where OrderID=@OrderID and Status=1 ", paras, CommandType.Text);
             return dt;
         }
-        
+
+        public DataTable GetOrderGoods(string orderid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@OrderID",orderid)
+                                   };
+
+            DataTable dt = GetDataTable("Select * from OrderGoods where OrderID=@OrderID ", paras, CommandType.Text);
+            return dt;
+        }
         #endregion
 
         #region 添加
@@ -244,11 +253,12 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool CreateOrderGoodsDoc(string docid, string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark, string operateid, string clientid)
+        public bool CreateOrderGoodsDoc(string docid, string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@DocID",docid),
                                      new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@TaskID",taskid),
                                      new SqlParameter("@DocType",doctype),
                                      new SqlParameter("@IsOver",isover),
                                      new SqlParameter("@ExpressID",expressid),

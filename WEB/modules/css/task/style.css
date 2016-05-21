@@ -68,6 +68,12 @@
     background:url('/modules/images/none-img.png') no-repeat center;
     background-color:#f0f0f0;
 }
+.order-imgs-list {
+    max-width:350px;
+    word-wrap:break-word; 
+    word-break:break-all;
+
+}
 .order-imgs-list li{
     width:40px;
     height:40px;
@@ -446,11 +452,11 @@
 .memberlist .member-title {line-height:30px;height:30px;width:360px;border-bottom:1px solid #efefef;margin-bottom:5px;padding-bottom:5px;}
 
 .memberlist .member-boxs { max-height:320px;overflow-y:auto;width:360px;}
-.memberlist .member-items {width:100%;border:1px solid #ddd;}
+.memberlist .member-items {width:100%;border:1px solid #ededed;border-collapse:collapse;}
 .memberlist .member-items tr { text-align:center;width:25%;line-height:34px;}
 .memberlist .member-items tr:last-child td { padding-bottom:5px;}
-.memberlist .member-items tr td:last-child { font-size:20px;padding-top:4px;}
-.memberlist .member-items th { text-align:inherit;font-size:14px;height:40px;background-color:#efefef;color:#666;}
+.memberlist .member-items tbody tr td:last-child { font-size:20px;padding-top:4px;}
+.memberlist .member-items thead td { text-align:inherit;font-size:12px;height:40px;background-color:#efefef;color:#999;}
 .member-items td i { font-style:normal;vertical-align:middle;}
 .member-items i img { width:22px;height:22px;border-radius:50%;vertical-align:middle;}
 .memberlist .membername { width:100px;display:inline-block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}

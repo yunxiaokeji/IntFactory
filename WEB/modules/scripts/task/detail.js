@@ -20,7 +20,7 @@
     ///orderType:订单类型
     ///um:富文本编辑器
     ///plateRemark:制版工艺描述
-    ObjectJS.init = function (attrValues, um, plateRemark, orderimages, task, isWarn,order) {
+    ObjectJS.init = function (attrValues,orderimages, task, isWarn) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
 
         ObjectJS.orderid = task.OrderID;
@@ -34,10 +34,8 @@
         ObjectJS.orderType = task.OrderType;
         ObjectJS.isWarn = isWarn;
         ObjectJS.isPlate = true;//任务是否制版
-        ObjectJS.model = JSON.parse(order.replace(/&quot;/g, '"'));
         if (attrValues != "")
             CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
-        Editor = um;
         ObjectJS.mark = task.Mark;//任务标记 用于做标记任务完成的限制条件
         ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
         ObjectJS.orderimages = orderimages;
@@ -72,22 +70,6 @@
         //统计材料总金额
         ObjectJS.getProductAmount();
 
-        //制版工艺描述
-        if (Editor) {
-            Editor.ready(function () {
-                Editor.setContent(decodeURI(plateRemark));
-            });
-        }
-
-        //制版工艺说明
-        if ($("#PlateRemark").length == 1) {
-            if (plateRemark != "") {
-                $("#PlateRemark").html(decodeURI(plateRemark));
-            }
-            else {
-                $("#PlateRemark").html(decodeURI("<div class='pAll10'>暂无工艺说明</div>"));
-            }
-        }
 
         //判断制版任务是否执行了
         if (ObjectJS.mark == 12) {
@@ -103,6 +85,8 @@
         ObjectJS.isLoading = true;
 
         ObjectJS.initPlateMaking();
+
+        ObjectJS.getOrderGoods();
     };
 
     //#region任务基本信息操作
@@ -118,6 +102,7 @@
                 if (!ObjectJS.isLoading) {
                     return;
                 }
+
                 ObjectJS.cutOutGoods();
             });
         }
@@ -230,6 +215,7 @@
                 if (!ObjectJS.isLoading) {
                     return;
                 }
+
                 ChooseUser.create({
                     title: "添加任务成员",
                     type: 1,
@@ -238,7 +224,6 @@
                         var memberIDs = '';
                         for (var i = 0; i < items.length; i++) {
                             var item = items[i];
-                            //console.log(item.id);
                             if (ObjectJS.ownerid == item.id) {
                                 continue;
                             }
@@ -248,61 +233,23 @@
                             }
 
                             ObjectJS.createTaskMember(item);
-                            //console.log(item);
                             memberIDs += item.id + ",";
                         }
 
                         if (memberIDs != '') {
                             ObjectJS.addTaskMembers(memberIDs);
                         }
-
-
                     }
                 });
 
             });
 
             //任务负责人更改成员权限
-            $('.check-lump').click(function () {
-                if (!ObjectJS.isLoading) {
-                    return;
-                }
-                var _this = $(this);
-                var confirmMsg = "确定将" + _this.parents('li').find('.membername').text() + "的权限设置为<span style='font-size:14px;color:red;'>" + (_this.data('type') == 1 ? "查看" : "编辑") + "</span>?";
-               
-                if (!_this.hasClass('hover')) {
-                    confirm(confirmMsg, function () {
-                        Global.post("/Task/UpdateMemberPermission", {
-                            taskID: _this.data('taskid'),
-                            memberID: _this.data('memberid'),
-                            type: _this.data('type')
-                        }, function (data) {
-                            if (data.result == 1) {
-                                _this.parents('tr').find('.check-lump').removeClass('hover');
-                                _this.addClass('hover');
-                            } else {
-                                alert('授权失败');
-                            }
-                        })
-                    })
-                }
-            })
+            ObjectJS.bindUpdateMemberPermission();
 
             //列表删除任务成员
-            $(".memberlist td.removeTaskMember").unbind().click(function () {
-                if (!ObjectJS.isLoading) {
-                    return;
-                }
-                var memberID = $(this).data("id");
-                var confirmMsg = "确定删除成员<span style='color:red;font-size:14px;'>" + $(this).parents('tr').find('.membername').text() + "</span>?";
-
-                confirm(confirmMsg, function () {
-                    ObjectJS.removeTaskMember(memberID);
-                });
-            });
-
+            ObjectJS.bindRemoveTaskMember();
         }
-
         //显示剩余时间
         ObjectJS.showTime();
 
@@ -366,6 +313,7 @@
             istime: true,
             istoday: false
         };
+
         laydate(taskEndTime);
 
 
@@ -431,54 +379,13 @@
                 alert("添加失败");
             }
             else {
-                //$("#taskMemberIDs a.removeTaskMember").unbind().click(function () {
-                //    var memberID = $(this).data("id");
-                //    confirm("确定删除任务成员?", function () {
-                //        ObjectJS.removeTaskMember(memberID);
-                //    });
-                //});
-
                 //任务负责人更改成员权限
-                $('.check-lump').unbind().click(function () {
-                    var _this = $(this);
-                    var confirmMsg = "确定将" + _this.parents('li').find('.membername').text() + "的权限设置为<span style='font-size:14px;color:red;'>" + (_this.data('type') == 1 ? "查看" : "编辑") + "</span>?";
-
-                    if (!ObjectJS.isLoading) {
-                        return;
-                    }
-                    var _this = $(this);
-                    var confirmMsg = "确定将" + _this.parents('li').find('.membername').text() + "的权限设置为<span style='font-size:14px;color:red;'>" + (_this.data('type') == 1 ? "查看" : "编辑") + "</span>?";
-
-                    if (!_this.hasClass('hover')) {
-                        confirm(confirmMsg, function () {
-                            Global.post("/Task/UpdateMemberPermission", {
-                                taskID: _this.data('taskid'),
-                                memberID: _this.data('memberid'),
-                                type: _this.data('type')
-                            }, function (data) {
-                                if (data.result == 1) {
-                                    _this.parents('tr').find('.check-lump').removeClass('hover');
-                                    _this.addClass('hover');
-                                } else {
-                                    alert('授权失败');
-                                }
-                            })
-                        })
-                    }
-                })
+                ObjectJS.bindUpdateMemberPermission();
 
                 //列表删除任务成员
-                $(".memberlist td.removeTaskMember").unbind().click(function () {
-                    var memberID = $(this).data("id");
-                    var confirmMsg = "确定删除成员<span style='color:red;font-size:14px;'>" + $(this).parents('tr').find('.membername').text() + "</span>?";
-
-                    confirm(confirmMsg, function () {
-                        ObjectJS.removeTaskMember(memberID);
-                    });
-                });
-
-
+                ObjectJS.bindRemoveTaskMember();
             }
+
             ObjectJS.isLoading = true;
         });
     }
@@ -486,6 +393,7 @@
     //删除任务成员
     ObjectJS.removeTaskMember = function (memberID) {
         ObjectJS.isLoading = false;
+
         Global.post("/Task/RemoveTaskMember", {
             id: ObjectJS.taskid,
             memberID: memberID
@@ -494,30 +402,67 @@
                 alert(memberIDs);
             }
             else {
-                //$("#taskMemberIDs" + " div[data-id='" + memberID + "']").remove();
                 $(".memberlist tr[data-id='" + memberID + "']").remove();
             }
+
             ObjectJS.isLoading = true;
+        });
+    }
+
+    ObjectJS.bindUpdateMemberPermission=function(){
+        $('.check-lump').unbind().click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+            var _this = $(this);
+            var confirmMsg = "确定将" + _this.parents('tr').find('.membername').text() + "的权限设置为<span style='font-size:14px;color:red;'>" + (_this.data('type') == 1 ? "查看" : "编辑") + "</span>?";
+
+            if (!_this.hasClass('hover')) {
+                confirm(confirmMsg, function () {
+                    Global.post("/Task/UpdateMemberPermission", {
+                        taskID: _this.data('taskid'),
+                        memberID: _this.data('memberid'),
+                        type: _this.data('type')
+                    }, function (data) {
+                        if (data.result == 1) {
+                            _this.parents('tr').find('.check-lump').removeClass('hover');
+                            _this.addClass('hover');
+                        } else {
+                            alert('授权失败');
+                        }
+                    })
+                });
+            }
+        });
+    }
+
+    ObjectJS.bindRemoveTaskMember=function(){
+        $(".memberlist td.removeTaskMember").unbind().click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+            var memberID = $(this).data("id");
+            var confirmMsg = "确定删除成员<span style='color:red;font-size:14px;'>" + $(this).parents('tr').find('.membername').text() + "</span>?";
+
+            confirm(confirmMsg, function () {
+                ObjectJS.removeTaskMember(memberID);
+            });
         });
     }
 
     //拼接任务成员html
     ObjectJS.createTaskMember = function (item) {
-        var html = '';
-        html += '<div class="task-member left" data-id="' + item.id + '">';
-        html += '<div class="left pRight5"><span>' + item.name + '</span></div>';
-        html += '<div class="left mRight10 pLeft5"><a class="removeTaskMember" href="javascript:void(0);" data-id="' + item.id + '" >×</a></div>';
-        html += '<div class="clear"></div>';
-        html += '</div>';
-
         var memberListHtml = '';
-        memberListHtml += '<tr data-id="' + item.id + '">';
+        memberListHtml += '<tr data-id="' + item.id + '" class="hide">';
         memberListHtml += '<td class="tLeft pLeft10"><i><img onerror="$(this).attr("src","/modules/images/defaultavatar.png"); src="' + (item.Avatar == null ? "/modules/images/defaultavatar.png" : item.Avatar) + '" /></i><i class="membername">' + item.name + '</i></td>';
         memberListHtml += '<td><i class="hand ico-radiobox check-lump hover" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=1 ><span></span></i></td>';
         memberListHtml += '<td><i class="hand ico-radiobox check-lump" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=2 ><span></span></i></td>';
         memberListHtml += '<td class="removeTaskMember iconfont hand" data-id="' + item.id + '">&#xe651;</td>';
 
-        $('.memberlist .member-items tbody').append(memberListHtml);
+        $('.memberlist .member-items tr.member-nodata-txt').remove();
+        memberListHtml = $(memberListHtml);
+        $('.memberlist .member-items tbody').prepend(memberListHtml);
+        memberListHtml.fadeIn(300);
     }
 
     //任务到期时间倒计时
@@ -1294,7 +1239,6 @@
         });
     }
 
-    
     //获取制版工艺说明
     ObjectJS.getPlateMakings = function () {
         $(".tb-plates .tr-header").nextAll().remove();
@@ -1418,162 +1362,77 @@
     }
     //#endregion
 
-    ObjectJS.platePrint = function () {
-        $("span.ico-dropdown").hide();
+    //裁剪记录
+    ObjectJS.getCutoutDoc = function () {
+        ObjectJS.getGetGoodsDoc("navCutoutDoc",1);
+    }
 
-        $("#platemakingContent table tr").each(function () {
-            $(this).find("td:last").hide();
-        });
-
-        var obj = $("#platemakingBody");
-        //打开一个新窗口newWindow
-        var newWindow = window.open("打印窗口", "_blank");
-        //要打印的div的内容
-        var docStr = "<style type='text/css'>.platemakingBody td {border-bottom:1px solid #eee;border-right:1px solid #eee;width:100px;}</style>";
-        docStr += obj.html();
-
-        $("span.ico-dropdown").show();
-        $("#platemakingContent table tr").each(function () {
-            $(this).find("td:last").show();
-        });
-
-        //打印内容写入newWindow文档
-        newWindow.document.write(docStr);
-        //关闭文档
-        newWindow.document.close();
-        //调用打印机
-        newWindow.print();
-        //关闭newWindow页面
-        newWindow.close();
-
-
+    //车缝记录
+    ObjectJS.getSewnDoc = function () {
+        ObjectJS.getGetGoodsDoc("navSewnDoc", 11);
     }
 
     //发货记录
     ObjectJS.getSendDoc = function () {
+        ObjectJS.getGetGoodsDoc("navSendDoc", 2);
+    }
+
+    //获取订单大货明细
+    ObjectJS.getGetGoodsDoc = function (id, type) {
         var _self = this;
-        $("#navSendDoc .tr-header").nextAll().remove();
-        $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
+        var $tr_header = $("#" + id + " .tr-header");
+        $tr_header.nextAll().remove();
+        $tr_header.after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
+
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
-            type: 2
+            taskid: _self.taskid,
+            type: type
         }, function (data) {
-            $("#navSendDoc .tr-header").nextAll().remove();
+            $tr_header.nextAll().remove();
+
             if (data.items.length > 0) {
-                doT.exec("template/orders/senddocs.html", function (template) {
+                var templateHtml = "template/orders/cutoutdoc.html";
+                if (type == 2) {
+                    templateHtml = "template/orders/senddocs.html";
+                }
+                doT.exec(templateHtml, function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
                     innerhtml.click(function () {
-                        _self.getGoodsDocDetail(this, 2);
+                        _self.getGoodsDocDetail(this, type==2?2:1);
                     });
 
-                    $("#navSendDoc .tr-header").after(innerhtml);
+                    $tr_header.after(innerhtml);
 
-                    $("#navSendDoc .total-item td").each(function () {
+                    $("#" + id + " .total-item td").each(function () {
                         var _this = $(this), _total = 0;
                         if (_this.data("class")) {
-                            $("#navSendDoc ." + _this.data("class")).each(function () {
+                            $("#" + id + " ." + _this.data("class")).each(function () {
                                 _total += $(this).html() * 1;
                             });
                             _this.html(_total);
                         }
                     });
                 });
-            } else {
-                $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+            }
+            else {
+                $tr_header.after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         });
-
     }
 
-    //裁剪记录
-    ObjectJS.getCutoutDoc = function () {
-        var _self = this;
-        $("#navCutoutDoc .tr-header").nextAll().remove();
-        $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
-        Global.post("/Orders/GetGoodsDocByOrderID", {
-            orderid: _self.orderid,
-            type: 1
-        }, function (data) {
-            $("#navCutoutDoc .tr-header").nextAll().remove();
-            if (data.items.length > 0) {
-                doT.exec("template/orders/cutoutdoc.html", function (template) {
-                    var innerhtml = template(data.items);
-                    innerhtml = $(innerhtml);
-
-                    innerhtml.click(function () {
-                        _self.getGoodsDocDetail(this, 1);
-                    });
-
-                    $("#navCutoutDoc .tr-header").after(innerhtml);
-
-                    $("#navCutoutDoc .total-item td").each(function () {
-                        var _this = $(this), _total = 0;
-                        if (_this.data("class")) {
-                            $("#navCutoutDoc ." + _this.data("class")).each(function () {
-                                _total += $(this).html() * 1;
-                            });
-                            _this.html(_total);
-                        }
-                    });
-
-                });
-            } else {
-                $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
-            }
-        });
-
-    }
-
-    //缝制记录
-    ObjectJS.getSewnDoc = function () {
-        var _self = this;
-        $("#navSewnDoc .tr-header").nextAll().remove();
-        $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
-        Global.post("/Orders/GetGoodsDocByOrderID", {
-            orderid: _self.orderid,
-            type: 11
-        }, function (data) {
-            $("#navSewnDoc .tr-header").nextAll().remove();
-            if (data.items.length > 0) {
-                doT.exec("template/orders/cutoutdoc.html", function (template) {
-                    var innerhtml = template(data.items);
-                    innerhtml = $(innerhtml);
-
-                    innerhtml.click(function () {
-                        _self.getGoodsDocDetail(this, 1);
-                    });
-
-                    $("#navSewnDoc .tr-header").after(innerhtml);
-
-                    $("#navSewnDoc .total-item td").each(function () {
-                        var _this = $(this), _total = 0;
-                        if (_this.data("class")) {
-                            $("#navSewnDoc ." + _this.data("class")).each(function () {
-                                _total += $(this).html() * 1;
-                            });
-                            _this.html(_total);
-                        }
-                    });
-                });
-            } else {
-                $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
-            }
-        });
-
-    }
-
-    //裁片录入
+    //裁剪录入
     ObjectJS.cutOutGoods = function () {
         var _self = this;
         
         doT.exec("template/orders/cutoutgoods.html", function (template) {
-            var innerText = template(_self.model.OrderGoods);
+            var innerText = template(_self.OrderGoods);
             Easydialog.open({
                 container: {
                     id: "showCutoutGoods",
-                    header: "大货单裁片登记",
+                    header: "大货单裁剪登记",
                     content: innerText,
                     yesFn: function () {
                         var details = ""
@@ -1584,25 +1443,37 @@
                                 details += _this.data("id") + "-" + quantity + ",";
                             }
                         });
-                        if (details.length > 0 || $("#showCutoutGoods .check").hasClass("ico-checked")) {
+
+                        if (details.length > 0 || $("#showCutoutGoods .check").hasClass("ico-checked"))
+                        {
                             Global.post("/Orders/CreateOrderCutOutDoc", {
                                 orderid: _self.orderid,
+                                taskid:_self.taskid,
                                 doctype: 1,
                                 isover: $("#showCutoutGoods .check").hasClass("ico-checked") ? 1 : 0,
                                 expressid: "",
                                 expresscode: "",
                                 details: details,
                                 remark: $("#expressRemark").val().trim()
-                            }, function (data) {
+                            },
+                            function (data) {
                                 if (data.id) {
-                                    alert("裁片登记成功!", location.href);
-                                } else if (data.result == "10001") {
+                                    alert("裁剪登记成功!");
+                                    ObjectJS.getGetGoodsDoc("navCutoutDoc", 1);
+                                    if ($("#showCutoutGoods .check").hasClass("ico-checked")) {
+                                        $("#btnCutoutOrder").remove();
+                                    }
+                                    ObjectJS.getOrderGoods();
+                                }
+                                else if (data.result == "10001") {
                                     alert("您没有操作权限!")
-                                } else {
-                                    alert("裁片登记失败！");
+                                }
+                                else {
+                                    alert("裁剪登记失败！");
                                 }
                             });
-                        } else {
+                        }
+                        else {
                             alert("请输入裁剪数量");
                             return false;
                         }
@@ -1612,24 +1483,29 @@
                     }
                 }
             });
+
             $("#showCutoutGoods .check").click(function () {
                 var _this = $(this);
                 if (!_this.hasClass("ico-checked")) {
                     _this.addClass("ico-checked").removeClass("ico-check");
-                } else {
+                }
+                else {
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
+
             $("#showCutoutGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
-                } else if (_this.val() > _this.data("max")) {
+                }
+                else if (_this.val() > _this.data("max")) {
                     confirm("输入数量大于下单数，是否继续？", function () { }, function () {
                         _this.val(_this.data("max"));
                     });
                 }
             });
+
         });
     };
 
@@ -1637,12 +1513,12 @@
     ObjectJS.sewnGoods = function () {
         var _self = this;
         doT.exec("template/orders/sewn-goods.html", function (template) {
-            var innerText = template(_self.model.OrderGoods);
+            var innerText = template(_self.OrderGoods);
 
             Easydialog.open({
                 container: {
                     id: "showSewnGoods",
-                    header: "大货单缝制登记",
+                    header: "大货单车缝登记",
                     content: innerText,
                     yesFn: function () {
                         var details = ""
@@ -1653,9 +1529,11 @@
                                 details += _this.data("id") + "-" + quantity + ",";
                             }
                         });
+
                         if (details.length > 0) {
                             Global.post("/Orders/CreateOrderSewnDoc", {
                                 orderid: _self.orderid,
+                                taskid: _self.taskid,
                                 doctype: 11,
                                 isover: $("#showSewnGoods .check").hasClass("ico-checked") ? 1 : 0,
                                 expressid: "",
@@ -1664,14 +1542,22 @@
                                 remark: $("#expressRemark").val().trim()
                             }, function (data) {
                                 if (data.id) {
-                                    alert("缝制登记成功!", location.href);
-                                } else if (data.result == "10001") {
+                                    alert("车缝登记成功!");
+                                    ObjectJS.getGetGoodsDoc("navSewnDoc", 11);
+                                    if ($("#showSewnGoods .check").hasClass("ico-checked")) {
+                                        $("#btnSewnOrder").remove();
+                                    }
+                                    ObjectJS.getOrderGoods();
+                                }
+                                else if (data.result == "10001") {
                                     alert("您没有操作权限!")
-                                } else {
-                                    alert("缝制登记失败！");
+                                }
+                                else {
+                                    alert("车缝登记失败！");
                                 }
                             });
-                        } else {
+                        }
+                        else {
                             alert("请输入车缝数量");
                             return false;
                         }
@@ -1681,23 +1567,28 @@
                     }
                 }
             });
+
             $("#showSewnGoods .check").click(function () {
                 var _this = $(this);
                 if (!_this.hasClass("ico-checked")) {
                     _this.addClass("ico-checked").removeClass("ico-check");
-                } else {
+                }
+                else {
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
+
             $("#showSewnGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
-                } else if (_this.val() > _this.data("max")) {
+                }
+                else if (_this.val() > _this.data("max")) {
                     _this.val(_this.data("max"));
                     alert("输入车缝数量过大");
                 }
             });
+
         });
     };
 
@@ -1705,7 +1596,7 @@
     ObjectJS.sendGoods = function () {
         var _self = this;
         doT.exec("template/orders/sendordergoods.html", function (template) {
-            var innerText = template(_self.model.OrderGoods);
+            var innerText = template(_self.OrderGoods);
 
             Easydialog.open({
                 container: {
@@ -1713,7 +1604,6 @@
                     header: "大货单发货",
                     content: innerText,
                     yesFn: function () {
-
                         var details = ""
                         $("#showSendOrderGoods .list-item").each(function () {
                             var _this = $(this);
@@ -1722,17 +1612,21 @@
                                 details += _this.data("id") + "-" + quantity + ",";
                             }
                         });
+
                         if (details.length > 0) {
                             if (!$("#expressid").data("id") || !$("#expressCode").val()) {
                                 alert("请完善快递信息!");
                                 return false;
                             }
-                        } else if (!$("#showSendOrderGoods .check").hasClass("ico-checked")) {
+                        }
+                        else if (!$("#showSendOrderGoods .check").hasClass("ico-checked")) {
                             alert("请输入发货数量");
                             return false;
                         }
+
                         Global.post("/Orders/CreateOrderSendDoc", {
                             orderid: _self.orderid,
+                            taskid: _self.taskid,
                             doctype: 2,
                             isover: $("#showSendOrderGoods .check").hasClass("ico-checked") ? 1 : 0,
                             expressid: $("#expressid").data("id"),
@@ -1741,10 +1635,17 @@
                             remark: $("#expressRemark").val().trim()
                         }, function (data) {
                             if (data.id) {
-                                alert("发货成功!", location.href);
-                            } else if (data.result == "10001") {
+                                alert("发货成功!");
+                                ObjectJS.getGetGoodsDoc("navSendDoc", 2);
+                                if ($("#showSendOrderGoods .check").hasClass("ico-checked")) {
+                                    $("#btnSendOrder").remove();
+                                }
+                                ObjectJS.getOrderGoods();
+                            }
+                            else if (data.result == "10001") {
                                 alert("您没有操作权限!")
-                            } else {
+                            }
+                            else {
                                 alert("发货失败！");
                             }
                         });
@@ -1771,19 +1672,23 @@
                     }
                 });
             });
+
             $("#showSendOrderGoods .check").click(function () {
                 var _this = $(this);
                 if (!_this.hasClass("ico-checked")) {
                     _this.addClass("ico-checked").removeClass("ico-check");
-                } else {
+                }
+                else {
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
+
             $("#showSendOrderGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
-                } else if (_this.val() > _this.data("max")) {
+                }
+                else if (_this.val() > _this.data("max")) {
                     _this.val(_this.data("max"));
                     alert("输入发货数量过大");
                 }
@@ -1810,18 +1715,22 @@
 
                         Global.post("/Orders/CreateOrderSendDoc", {
                             orderid: _self.orderid,
-                            doctype: 2,
+                            taskid: _self.taskid,
                             isover: 0,
                             expressid: $("#expressid").data("id"),
                             expresscode: $("#expressCode").val(),
                             details: "",
                             remark: $("#expressRemark").val().trim()
-                        }, function (data) {
+                        }, function (data)
+                        {
                             if (data.id) {
-                                alert("发货成功!", location.href);
-                            } else if (data.result == "10001") {
+                                alert("发货成功!");
+                                ObjectJS.getGetGoodsDoc("navSendDoc", 2);
+                            }
+                            else if (data.result == "10001") {
                                 alert("您没有操作权限!")
-                            } else {
+                            }
+                            else {
                                 alert("发货失败！");
                             }
                         });
@@ -1831,6 +1740,7 @@
                     }
                 }
             });
+
             //快递公司
             require.async("dropdown", function () {
                 var dropdown = $("#expressid").dropdown({
@@ -1847,17 +1757,20 @@
                     }
                 });
             });
+
         });
     };
 
-    //展开单据明细
+    //获取单据明细
     ObjectJS.getGoodsDocDetail = function (item, type) {
         var _this = $(item), url = "";
         if (type == 1) {
             url = "template/orders/cutout-details.html";
-        } else if (type == 2) {
+        }
+        else if (type == 2) {
             url = "template/orders/send-details.html";
         }
+
         if (!_this.data("first") || _this.data("first") == 0) {
             _this.data("first", 1).data("status", "open");
 
@@ -1870,7 +1783,8 @@
                     _this.after(innerhtml);
                 });
             });
-        } else {
+        }
+        else {
             if (_this.data("status") == "open") {
                 _this.data("status", "close");
                 _this.nextAll("tr[data-pid='" + _this.data("id") + "']").hide();
@@ -1879,7 +1793,16 @@
                 _this.nextAll("tr[data-pid='" + _this.data("id") + "']").show();
             }
         }
+
+
     };
+
+    //获取订单明细
+    ObjectJS.getOrderGoods = function () {
+        Global.post("/Task/GetOrderGoods", { id: ObjectJS.guid }, function (data) {
+            ObjectJS.OrderGoods = data.list;
+        });
+    }
 
     //加载快递公司列表
     ObjectJS.getExpress = function () {
@@ -1887,5 +1810,6 @@
             ObjectJS.express = data.items;
         });
     }
+
     module.exports = ObjectJS;
 });

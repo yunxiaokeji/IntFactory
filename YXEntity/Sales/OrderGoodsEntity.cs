@@ -48,6 +48,9 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string OrderID { get; set; }
 
+         [Property("Lower")]
+        public string TaskID { get; set; }
+
         [Property("Lower")]
         public string ProductDetailID { set; get; }
 		/// <summary>

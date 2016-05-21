@@ -63,9 +63,9 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public static List<GoodsDoc> GetGoodsDocByOrderID(string orderid, EnumDocType type, string clientid)
+        public static List<GoodsDoc> GetGoodsDocByOrderID(string orderid,string taskid, EnumDocType type, string clientid)
         {
-            DataSet ds = StockDAL.BaseProvider.GetGoodsDocByOrderID(orderid, (int)type, clientid);
+            DataSet ds = StockDAL.BaseProvider.GetGoodsDocByOrderID(orderid,taskid, (int)type, clientid);
 
             List<GoodsDoc> list = new List<GoodsDoc>();
             foreach (DataRow dr in ds.Tables[0].Rows)
