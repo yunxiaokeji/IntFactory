@@ -6,8 +6,8 @@
     <td>{%=item.Name%}</td>
     <td>{%=item.WareCode%}</td>
     <td class="center">{%=item.ShortName%}</td>
-    <td class="center">{%=(!!item.City?(item.City.Province+" "+item.City.City+" "+item.City.Counties):"")%}</td>
-    <td class='center'><div class="status" data-id="{%=item.WareID%}" data-value="{%=item.Status==1%}"></div></td>
+    <td class="center">{%=(!!item.City?item.City.Description:"")%}</td>
+<!--    <td class='center'><div class="status" data-id="{%=item.WareID%}" data-value="{%=item.Status==1%}"></div></td>-->
     <td class="center"><a title="设置货位" href="/System/DepotSeat/{%=item.WareID%}">设置货位</a></td>
     <td title="{%=item.Description%}" class="width300">{%=item.Description%}</td>
     <td class="center dropdown" data-id="{%=item.WareID%}">

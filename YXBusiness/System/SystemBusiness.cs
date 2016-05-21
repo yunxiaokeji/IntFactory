@@ -1197,6 +1197,11 @@ namespace IntFactoryBusiness
             return CommonBusiness.Update("DepotSeat", "Status", (int)status, " DepotID='" + id + "'");
         }
 
+        public bool DeleteDepotSeat(string depotid, string operateid, string clientid)
+        {
+            return SystemDAL.BaseProvider.DeleteDepotSeat(depotid, clientid);
+        }
+
         #endregion
 
     }

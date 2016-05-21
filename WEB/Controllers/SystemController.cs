@@ -794,7 +794,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult DeleteDepotSeat(string id)
         {
-            bool bl = new SystemBusiness().UpdateDepotSeatStatus(id, IntFactoryEnum.EnumStatus.Delete, CurrentUser.UserID, CurrentUser.ClientID);
+            bool bl = new SystemBusiness().DeleteDepotSeat(id, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("Status", bl);
             return new JsonResult
             {

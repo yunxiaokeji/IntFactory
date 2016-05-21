@@ -75,3 +75,8 @@
 .update-content-body .update-title span{font-size:11pt;}
 .update-content-body .update-title .close_btn{background:#fff url(/modules/plug/easydialog/ico-close.png) no-repeat;height:16px;width:16px;float:right;}
 .update-content-body .update-title .close_btn:hover{background:#fff url(/modules/plug/easydialog/ico-close-hover.png) no-repeat;}
+
+
+/*货位*/
+.sort-up { border-bottom:solid 10px #2F74B9; border-left:solid 10px transparent ; border-right:solid 10px transparent; display:inline-block; }
+.sort-down { border-top:solid 10px #2F74B9; border-left:solid 10px transparent ; border-right:solid 10px transparent; display:inline-block;}

@@ -122,7 +122,7 @@ define(function (require, exports, module) {
                     if (data.Status) {
                         _self.getList();
                     } else {
-                        alert("删除失败！");
+                        alert("货位已存在产品，不能删除！");
                     }
                 });
             });
@@ -166,7 +166,12 @@ define(function (require, exports, module) {
                         _self.editStatus(data, data.data("id"), data.data("value"), callback);
                     }
                 });
+
+                _self.hideUpDown();
             });
+
+            
+
             $("#pager").paginate({
                 total_count: data.TotalCount,
                 count: data.PageCount,
@@ -189,6 +194,13 @@ define(function (require, exports, module) {
             });
         });
     }
+
+    //隐藏排序按钮
+    ObjectJS.hideUpDown = function () {
+        $(".table-list .list-item").first().find(".sort-up").hide();
+        $(".table-list .list-item").last().find(".sort-down").hide();
+    }
+
     //更改状态
     ObjectJS.editStatus = function (obj, id, status, callback) {
         var _self = this;
