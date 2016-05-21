@@ -23,8 +23,8 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Default/SetCategory");
             }
-            ViewBag.ID = CurrentUser.Client.GuideStep;
-            return View();//"/Home/Index"
+
+            return View();//
         }
 
         public ActionResult SetProcess()
