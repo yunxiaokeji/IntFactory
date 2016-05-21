@@ -189,7 +189,22 @@ namespace IntFactoryDAL.Manage
 
             parms[0].Direction = ParameterDirection.Output;
             ExecuteNonQuery("M_SetClientProcess", parms, CommandType.StoredProcedure);
-            return Convert.ToInt32(parms[0]) == 1;
+            return Convert.ToInt32(parms[0].Value) == 1;
+        }
+
+        public bool SetClientCategory(string ids, string userid, string clientid)
+        {
+            int result = 0;
+            SqlParameter[] parms = { 
+                                       new SqlParameter("@Result",result),
+                                       new SqlParameter("@ClientID",clientid),
+                                       new SqlParameter("@IDS",ids),
+                                       new SqlParameter("@UserID",userid)
+                                   };
+
+            parms[0].Direction = ParameterDirection.Output;
+            ExecuteNonQuery("M_SetClientCategory", parms, CommandType.StoredProcedure);
+            return Convert.ToInt32(parms[0].Value) == 1;
         }
 
         #endregion

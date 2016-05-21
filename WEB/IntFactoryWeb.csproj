@@ -1036,6 +1036,8 @@
     <Content Include="Views\Task\SewnDoc.cshtml" />
     <Content Include="Views\Default\SetProcess.cshtml" />
     <Content Include="Views\Default\Index.cshtml" />
+    <Content Include="Views\Default\SetCategory.cshtml" />
+    <Content Include="Views\Default\SettingHelp.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

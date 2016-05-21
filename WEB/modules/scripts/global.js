@@ -2,7 +2,7 @@
     var Global = {},
         jQuery = require("jquery");
 
-    Global.againSubmitText = "数据加载中，请勿重复操作";
+    Global.againSubmitText = "数据处理中，请勿重复操作";
 
     Global.post = function (url, params, callback, anync) {
         jQuery.ajax({
