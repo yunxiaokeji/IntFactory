@@ -137,25 +137,6 @@
             });
         });
 
-        //客户类型
-        require.async("dropdown", function () {
-            var items = [{ ID: 1, Name: "阿里客户" }, { ID: 2, Name: "自助下单" }, { ID: 3, Name: "手工创建" }];
-            $("#sourceType").dropdown({
-                prevText: "客户来源-",
-                defaultText: "全部",
-                defaultValue: "-1",
-                data: items,
-                dataValue: "ID",
-                dataText: "Name",
-                width: "120",
-                onChange: function (data) {
-                    Params.PageIndex = 1;
-                    Params.SourceType = data.value;
-                    _self.getList();
-                }
-            });
-        });
-
         if (type == 2) {
             require.async("choosebranch", function () {
                 $("#chooseBranch").chooseBranch({
@@ -173,7 +154,8 @@
                     }
                 });
             });
-        } else if (type == 3) {
+        }
+        else if (type == 3) {
             require.async("choosebranch", function () {
                 $("#chooseBranch").chooseBranch({
                     prevText: "人员-",
@@ -191,21 +173,21 @@
                 });
             });
         }
+
         //全部选中
         $("#checkAll").click(function () {
             var _this = $(this);
             if (!_this.hasClass("ico-checked")) {
                 $(".list-card").addClass("hover");
                 _this.addClass("ico-checked").removeClass("ico-check");
-                //$(".check").addClass("ico-checked").removeClass("ico-check");
                 $(".check").addClass("icon-check");
             } else {
                 $(".list-card").removeClass("hover");
                 _this.addClass("ico-check").removeClass("ico-checked");
-                //$(".check").addClass("ico-check").removeClass("ico-checked");
                 $(".check").removeClass("icon-check");
             }
         });
+
         //转移拥有者
         $("#changeOwner").click(function () {
             var _this = $(this);
