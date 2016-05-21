@@ -265,8 +265,7 @@
                 $("#spCustomerName").html(item.CompanyName == "" ? "--" : item.CompanyName);
                 $("#ContactName").html(item.ContactName == "" ? "--" :item.ContactName);
                 $("#MobilePhone").html(item.MobilePhone == "" ? "--" :item.MobilePhone);
-                $("#OfficePhone").html(item.OfficePhone == "" ? "--" : item.OfficePhone);
-                $("#Industry").html(item.IndustryEntity.Name == "" ? "--" : item.IndustryEntity.Name);
+                $("#OfficePhone").html(item.OfficePhone == "" ? "--" : item.OfficePhone);                
                 $("#lblReamrk").html(item.Description);
                 $("#address").html(item.City ? item.City.Province + " " + item.City.City + " " + item.City.Counties : "--");
                 $("#cid").attr("href", 'http://90cloudsales.com/Home/SelfOrder/' + item.ClientID).html('http://90cloudsales.com/Home/SelfOrder/' + item.ClientID);
