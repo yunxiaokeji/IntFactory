@@ -173,6 +173,11 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult FentOrderReport()
+        {
+            return View();
+        }
+
         public ActionResult ApplyReturn(string id)
         {
             var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.AgentID, CurrentUser.ClientID);

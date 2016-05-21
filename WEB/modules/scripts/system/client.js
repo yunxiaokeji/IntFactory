@@ -36,8 +36,18 @@
         _self.getDetail();
 
         if (option !== 0) {
-            $(".search-stages li[data-id='" + option + "']").click();
+            var _this=$(".module-tab li[data-id='" + option + "']");
+            _this.addClass("hover").siblings().removeClass("hover");
+            if (_this.data("id") == 2) {
+                ObjectJS.getClientOrders();
+                $(".content-SQXI").hide();
+                $(".content-order").show();
+            } else {
+                $(".content-order").hide();
+                $(".content-SQXI").show();
+            }
         }
+
     }
 
     //绑定事件
@@ -96,6 +106,7 @@
 
         //tab切换
         $(".search-stages li").click(function () {
+            alert(111);
             if (!ObjectJS.isLoading) {
                 return;
             }
@@ -121,7 +132,6 @@
             if (!_this.hasClass("hover")) {
                 _this.addClass("hover").siblings().removeClass("hover");
                 
-
                 if (_this.data("id") == 2) {                    
                     ObjectJS.getClientOrders();
                     $(".content-SQXI").hide();
