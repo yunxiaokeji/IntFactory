@@ -51,14 +51,20 @@ namespace IntFactoryDAL
             return GetDataTable("select * from StorageDoc where OriginalID=@DocID and DocType=101 ", paras, CommandType.Text);
         }
 
-        public DataSet GetGoodsDocByOrderID(string orderid, int doctype, string clientid)
+        public DataSet GetGoodsDocByOrderID(string orderid,string taskid, int doctype, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@OriginalID", orderid) ,
+                                       new SqlParameter("@TaskID", taskid) ,
                                        new SqlParameter("@DocType", doctype) ,
                                        new SqlParameter("@ClientID", clientid) 
                                    };
-            DataSet ds = GetDataSet("select * from GoodsDoc where OriginalID=@OriginalID and ClientID=@ClientID and DocType=@DocType order by AutoID desc", paras, CommandType.Text);
+            string sqlTxt = "select * from GoodsDoc where OriginalID=@OriginalID and ClientID=@ClientID and DocType=@DocType";
+            if(!string.IsNullOrEmpty(taskid)){
+                sqlTxt += " and TaskID=@TaskID";
+            }
+            sqlTxt += " order by AutoID desc";
+            DataSet ds = GetDataSet(sqlTxt, paras, CommandType.Text);
             return ds;
         }
 

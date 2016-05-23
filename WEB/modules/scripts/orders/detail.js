@@ -1543,6 +1543,7 @@ define(function (require, exports, module) {
         $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
+            taskid:'',
             type: 2
         }, function (data) {
             $("#navSendDoc .tr-header").nextAll().remove();
@@ -1581,6 +1582,7 @@ define(function (require, exports, module) {
         $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
+            taskid: '',
             type: 1
         }, function (data) {
             $("#navCutoutDoc .tr-header").nextAll().remove();
@@ -1620,6 +1622,7 @@ define(function (require, exports, module) {
         $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
+            taskid: '',
             type: 11
         }, function (data) {
             $("#navSewnDoc .tr-header").nextAll().remove();

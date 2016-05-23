@@ -102,7 +102,7 @@
                  <li>
                     
                     @{
-                        if (!ViewBag.IsTaskOwner || Model.FinishStatus != 1)
+                        if (!ViewBag.IsTaskOwner)
                         {
                             <span class="column-title left">成员</span>                            
                             if (Model.TaskMembers.Count > 0)
@@ -126,22 +126,32 @@
         </div>
        
                @{
-                   if (ViewBag.IsTaskOwner && Model.FinishStatus>0)
+                   if (ViewBag.IsTaskOwner)
                    {
-                    <div class="right memberlist mTop10">
-                    <div class="member-title">
-                        <span class="right btn-add" id="addTaskMembers">添加成员</span>
-                    </div>
+                    <div class="right memberlist mTop5">
+                    
+                    @{
+                        if(Model.FinishStatus>0){
+                            <div class="member-title">
+                                <span class="right btn-add" id="addTaskMembers">添加成员</span>
+                            </div>
+                        }
+                    }
                     <div class="clear"></div>
+
                     <div class="member-boxs">
                      <table class="member-items">
                         @{
-                       <tr>
-                           <th class="tLeft pLeft10 task-members"><span class="iconfont">&#xe624;</span>成员列表</th>
-                           <th>查看权限</th>
-                           <th>编辑权限</th>
-                           <th>操作</th>
-                       </tr>
+                            <thead>
+                                <tr>
+                                   <td class="tLeft pLeft10 task-members"><span class="iconfont">&#xe624;</span>成员列表</td>
+                                   <td>查看权限</td>
+                                   <td>编辑权限</td>
+                                   <td width="60">操作</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    @{
                        if (Model.TaskMembers.Count > 0)
                        {
                            foreach (var member in Model.TaskMembers)
@@ -165,7 +175,13 @@
                                 </tr>
                            }
                        }
+                       else
+                       {
+                           <tr class="member-nodata-txt"><td colspan="4" class="font14 color666">暂无成员</td></tr>
+                       }
                        
+                        }
+                        </tbody>
                         }
                     </table>
                     </div>
@@ -211,11 +227,11 @@
             }
             else if(Model.Mark==23)
             {
-                <li data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁片记录</li>
+                <li data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁剪记录</li>
             }
             else if(Model.Mark==24)
             {
-                <li data-btn="btnSewnOrder"  data-id="navSewnDoc">缝制记录</li>
+                <li data-btn="btnSewnOrder"  data-id="navSewnDoc">车缝记录</li>
             }
         }
         <li data-id="orderTaskLogs">日志</li>
@@ -227,21 +243,21 @@
          var isRoot = (ViewBag.Status != 8 && ViewBag.FinishStatus ==1) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
           
          if(isRoot){
-            if (Model.Mark == 23&&ViewBag.CutStatus!=2)
+            if (Model.Mark == 23 && ViewBag.CutStatus!=2)
             {
-                 <div class="btn part-btn right mLeft20" id="btnCutoutOrder">裁片录入</div>                
+                 <div class="btn part-btn right" id="btnCutoutOrder">裁剪录入</div>                
             }
             else if (Model.Mark == 24)
             {
-                <div class="btn part-btn right mLeft20" id="btnSewnOrder">缝制录入</div>
+                <div class="btn part-btn right" style="display:none;" id="btnSewnOrder">车缝录入</div>
             }
             else if (Model.Mark == 15)
             {
-                <div class="btn part-btn right mLeft20 " id="btnSendDYOrder">订单发货</div>
+                <div class="btn part-btn right" id="btnSendDYOrder">订单发货</div>
             }
-            else if (Model.Mark == 25&&ViewBag.SendStatus!=2)
+            else if (Model.Mark == 25 &&ViewBag.SendStatus!=2)
             {
-                <div class="btn part-btn right mLeft20" id="btnSendOrder">订单发货</div>
+                <div class="btn part-btn right hide" id="btnSendOrder">订单发货</div>
             }
         }
      }
