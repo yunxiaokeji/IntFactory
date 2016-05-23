@@ -942,7 +942,7 @@
                         $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']").eq(0).after(newColumnHeadr);
                         $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']:gt(0)").after(newColumn).find("tbContentIpt").show();
 
-                        ObjectJS.binddropdown();
+                        ObjectJS.bindDropDown();
                         ObjectJS.bindContentClick();
                         ObjectJS.bindAddRow();
                         ObjectJS.bindRemoveRow();
@@ -1076,7 +1076,7 @@
 
                         $("#platemakingBody").html(tableHtml).css({ "border-top": "1px solid #eee", "border-left": "1px solid #eee" }).show();
 
-                        ObjectJS.binddropdown();
+                        ObjectJS.bindDropDown();
                         ObjectJS.bindContentClick();
                         ObjectJS.bindAddRow();
                         ObjectJS.bindRemoveRow();

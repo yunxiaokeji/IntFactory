@@ -1,14 +1,14 @@
 ﻿
 <div class="header-box">
     <div class="header-title">
-        任务详情
+        任务详情-@(Model.Title)
         <a class="back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">
            <i class="iconfont">&#xe62d;</i> 返回
         </a>
     </div>
 
     <div class="mTop10">
-        <div class="left titlename">订单编号：<a href="/Orders/OrderDetail/@(Model.OrderID)" >@(Model.OrderCode)</a></div>
+        <div class="left titlename">订单编号：<a class="font16" href="/Orders/OrderDetail/@(Model.OrderID)" >@(Model.OrderCode)</a></div>
         
         <div class="right">
             @{
