@@ -71,6 +71,10 @@ namespace IntFactoryBusiness.Manage
         {
             return ClientOrderDAL.BaseProvider.PayOrderAndAuthorizeClient(orderID, checkUserID, payStatus);
         }
+        public static bool PayClientOrder (string orderID ,int payStatus)
+        {
+            return ClientOrderDAL.BaseProvider.UpdateClientOrderPayStatus(orderID, payStatus);
+        }
         #endregion
 
         #region 查

@@ -5,7 +5,7 @@
     require("echarts/chart/line");
     require("echarts/chart/bar");
     var Params = {
-        searchType: "clientsActionRPT",
+        searchType: "clientsVitalityRPT",
         dateType: 3,
         beginTime: "",
         endTime: ""
@@ -15,7 +15,7 @@
     //初始化
     ObjectJS.init = function () {
         var _self = this;
-        _self.clientsChart = ec.init(document.getElementById('clientsActionRPT'));
+        _self.clientsChart = ec.init(document.getElementById('clientsVitalityRPT'));
         _self.bindEvent();
     }
     ObjectJS.bindEvent = function () {
@@ -37,7 +37,7 @@
                 $("#" + _this.data("id")).show();
 
                 if (!_self.clientsChart) {
-                    _self.clientsChart = ec.init(document.getElementById('clientsActionRPT'));
+                    _self.clientsChart = ec.init(document.getElementById('clientsVitalityRPT'));
                 }
                 if (_this.data("begintime")) {
                     $("#beginTime").val(_this.data("begintime"));
@@ -90,7 +90,7 @@
             },
             effect: "spin"
         });
-        Global.post("/Report/GetClientsAgentActionReport", Params, function (data) {
+        Global.post("/Report/GetClientVitalityReport", Params, function (data) {
             var title = [], items = [], datanames = [];
             _self.clientsChart.clear();
             if (data.items.length == 0) {
@@ -149,7 +149,7 @@
                                     table += '<tr>'
                                     + '<td class="center">' + axisData[i] + '</td>'
                                     for (var ii = 0, ll = series.length; ii < ll; ii++) {
-                                        table += '<td class="center">' +( series[ii].data[i]|| 0) + '</td>';
+                                        table += '<td class="center">' + series[ii].data[i] + '</td>';
                                     }
 
                                     table += '</tr>';

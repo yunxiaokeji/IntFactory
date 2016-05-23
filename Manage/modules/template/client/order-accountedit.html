@@ -1,0 +1,38 @@
+﻿ 
+<ul class="easydialog-create">
+    <li>
+        <span class="width80">交易号：</span>
+        <span><input type="text" id="alipayNo" /></span>
+    </li>
+    <li>
+        <span class="width80">支付类型：</span>
+        <span>  
+            <select id="payType">
+                <option value="1">现金</option>
+                <option value="2">在线支付</option>
+                <option value="3">支付宝</option>
+                <option value="4">微信</option>
+                <option value="5">线下汇款</option>
+            </select>
+
+        </span>
+    </li>
+    <li>
+        <span class="width80">收支类型：</span>
+        <span>
+            <select id="type">
+                <option value="1">收款</option>
+                <option value="2">退款</option>
+            </select>
+        </span>
+    </li>
+    <li>
+        <span class="width80">金额：</span>
+        <span><input type="text" id="realAmount" class="verify" data-empty="金额不能为空!" /></span>
+    </li>
+    
+    <li>
+        <span class="width80">备注：</span>
+        <textarea id="remark"></textarea>
+    </li> 
+</ul>

@@ -89,7 +89,6 @@
     ObjectJS.initBindblur = function () {
         $("#modelLoginName").change(function () {
             $("#LoginameInfo").html('');
-            console.log($("#modelLoginName").val());
             if ($("#modelLoginName").val() != '') {
                 Global.post("/System/ValidateLoginName", { loginName: $("#modelLoginName").val() }, function (data) {
                     $("#LoginameInfo").html(data.Info);
