@@ -22,17 +22,16 @@
                 </ul>
                 <div class="clear"></div>
                 <div class="remain-time mLeft10 mTop5">
-
-                    <span class="overplusTime-{%=item.TaskID%}">{%=item.FinishStatus==2?"完成：":item.FinishStatus==1?"剩余时间":"创建："%}</span>
+                    <span class="overplusTime-{%=item.TaskID%}">{%=item.FinishStatus==2?"完成时间：":item.FinishStatus==1?"剩余：":"创建时间："%}</span>
 
                     {%
                     if(item.FinishStatus==1)
                     {
                     %}
-                    <span class="time-d-{%=item.TaskID%}">10</span>天
-                    <span class="time-h-{%=item.TaskID%}">10</span>时
-                    <span class="time-m-{%=item.TaskID%}">10</span>分
-                    <span class="time-s-{%=item.TaskID%}">10</span>秒
+                    <span class="time-d-{%=item.TaskID%}">0</span>天
+                    <span class="time-h-{%=item.TaskID%}">0</span>时
+                    <span class="time-m-{%=item.TaskID%}">0</span>分
+                  <!--  <span class="time-s-{%=item.TaskID%}">10</span>秒-->
                     {%}
                     else
                     {
