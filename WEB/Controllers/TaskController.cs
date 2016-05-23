@@ -215,7 +215,7 @@ namespace YXERP.Controllers
 
             //订单的品类属性
             ViewBag.ProductAttr = new IntFactoryEntity.ProductAttr();
-            if (task.Mark == 2)//打样制版
+            if (task.Mark == 12)//打样制版
             {
                 ViewBag.ProductAttr = new ProductsBusiness().GetTaskPlateAttrByCategoryID(order.CategoryID);
             }

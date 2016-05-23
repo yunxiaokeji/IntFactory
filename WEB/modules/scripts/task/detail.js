@@ -426,11 +426,10 @@
     ObjectJS.createTaskMember = function (item) {
         var memberListHtml = '';
         memberListHtml += '<tr data-id="' + item.id + '" class="hide">';
-        memberListHtml += '<td class="tLeft pLeft10"><i><img onerror="$(this).attr("src","/modules/images/defaultavatar.png"); src="' + (item.Avatar == null ? "/modules/images/defaultavatar.png" : item.Avatar) + '" /></i><i class="membername">' + item.name + '</i></td>';
+        memberListHtml += '<td class="tLeft pLeft10"><i><img onerror="$(this).attr("src","/modules/images/defaultavatar.png"); src="' + (item.avatar == null ? "/modules/images/defaultavatar.png" : item.avatar) + '" /></i><i class="membername">' + item.name + '</i></td>';
         memberListHtml += '<td><i class="hand ico-radiobox check-lump hover" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=1 ><span></span></i></td>';
         memberListHtml += '<td><i class="hand ico-radiobox check-lump" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=2 ><span></span></i></td>';
         memberListHtml += '<td class="removeTaskMember iconfont hand" data-id="' + item.id + '">&#xe651;</td>';
-
         $('.memberlist .member-items tr.member-nodata-txt').remove();
         memberListHtml = $(memberListHtml);
         $('.memberlist .member-items tbody').prepend(memberListHtml);
