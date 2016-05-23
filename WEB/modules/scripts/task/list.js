@@ -67,15 +67,33 @@
         ObjectJS.getProcess();
 
         //获取任务列表
-        if (Params.isParticipate == 1) {
-            $(".search-stages li").eq(2).click();
-        }
-        else {
+        if (Params.isParticipate != 0) {
             ObjectJS.getList();
         }
+
     }
 
     ObjectJS.bindEvent = function () {
+        //切换任务阶段
+        $(".search-stages li").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+
+                Params.pageIndex = 1;
+                Params.finishStatus = _this.data("id");
+                ObjectJS.getList();
+            }
+        });
+
+        if (Params.isParticipate == 1) {
+            $(".search-stages li").eq(2).click();
+        }
+
         //关键字查询 任务编码、订单编码、任务标题
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
@@ -100,22 +118,6 @@
 
                 Params.pageIndex = 1;
                 Params.colorMark = _this.data("id");
-                ObjectJS.getList();
-            }
-        });
-
-        //切换任务阶段
-        $(".search-stages li").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
-            }
-            var _this = $(this);
-            if (!_this.hasClass("hover")) {
-                _this.siblings().removeClass("hover");
-                _this.addClass("hover");
-
-                Params.pageIndex = 1;
-                Params.finishStatus = _this.data("id");
                 ObjectJS.getList();
             }
         });
