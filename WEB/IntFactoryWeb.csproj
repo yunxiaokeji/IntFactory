@@ -449,6 +449,7 @@
     <Content Include="modules\plug\fullcalendar\fullcalendar.min.js" />
     <Content Include="modules\plug\fullcalendar\lib\jquery.min.js" />
     <Content Include="modules\plug\fullcalendar\lib\moment.min.js" />
+    <Content Include="modules\scripts\orders\fentorderreport.js" />
     <Content Include="modules\scripts\orders\orderplans.js" />
     <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />

@@ -11,6 +11,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web;
+using IntFactoryBusiness.Manage;
 
 namespace IntFactoryBusiness
 {
@@ -229,8 +230,7 @@ namespace IntFactoryBusiness
                 }
 
                 model.OrderProcess = SystemBusiness.BaseBusiness.GetOrderProcessByID(model.ProcessID, model.AgentID, model.ClientID);
-
-                
+                                
                 model.OrderProcess.OrderStages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, model.AgentID, model.ClientID);
 
                 model.Tasts = new List<IntFactoryEntity.Task.TaskEntity>();

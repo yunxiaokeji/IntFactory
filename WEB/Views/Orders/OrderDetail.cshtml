@@ -99,6 +99,14 @@
                 <span title="更换负责人" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner">&#xe60b;</span>
             }
         </li>
+        @if (model.Status>0)
+        {
+            <li>
+                <i class="iconfont sample-report">&#xe629;</i>
+            </li>
+        }
+            
+        
     </ul>
 </div>
 
