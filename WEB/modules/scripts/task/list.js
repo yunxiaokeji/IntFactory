@@ -67,7 +67,7 @@
         ObjectJS.getProcess();
 
         //获取任务列表
-        if (Params.isParticipate != 0) {
+        if (Params.isParticipate != 1) {
             ObjectJS.getList();
         }
 

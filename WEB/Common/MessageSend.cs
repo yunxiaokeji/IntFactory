@@ -15,7 +15,7 @@ namespace YXERP.Common
 
         public static bool SendMessage(string mobilePhone, int code) 
         {
-            string appkey = "6fe820f6e00446f82e88e7fdd25057ca"; //配置您申请的appkey
+            string appkey = "e6b1f87127673ae037f476f49c8e9663"; //配置您申请的appkey
 
 
             //1.屏蔽词检查测
@@ -40,7 +40,7 @@ namespace YXERP.Common
                 var parameters2 = new Dictionary<string, string>();
 
                 parameters2.Add("mobile", mobilePhone); //接收短信的手机号码
-                parameters2.Add("tpl_id", "8706"); //短信模板ID，请参考个人中心短信模板设置
+                parameters2.Add("tpl_id", "14580"); //短信模板ID，请参考个人中心短信模板设置
                 parameters2.Add("tpl_value", "#code#=" + code.ToString());
                 //parameters2.Add("tpl_value", HttpContext.Current.Server.UrlEncode("#code#=" + code.ToString())); //变量名和变量值对。如果你的变量名或者变量值中带有#&amp;=中的任意一个特殊符号，请先分别进行urlencode编码后再传递，&lt;a href=&quot;http://www.juhe.cn/news/index/id/50&quot; target=&quot;_blank&quot;&gt;详细说明&gt;&lt;/a&gt;
                 parameters2.Add("key", appkey);//你申请的key

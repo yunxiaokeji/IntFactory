@@ -130,68 +130,6 @@ define(function (require, exports, module) {
 
         $("#modulesMenu .select img").attr("src", $("#modulesMenu .select img").data("hover"));
 
-        //意见反馈
-        $(".ico-feedback").click(function () {
-
-            location.href = "/Home/FeedBack";
-
-            //doT.exec("template/common/feedback_add.html", function (template) {
-            //    var html = template([]);
-
-            //    Easydialog.open({
-            //        container: {
-            //            id: "show-model-feedback",
-            //            header: "意见反馈",
-            //            content: html,
-            //            yesFn: function () {
-            //                if ($("#feedback-title").val() == "")
-            //                {
-            //                    alert("标题不能为空");
-            //                    return false;
-            //                }
-            //                var entity = {
-            //                    Title: $("#feedback-title").val(),
-            //                    ContactName: $("#feedback-contactname").val(),
-            //                    MobilePhone: $("#feedback-mobilephone").val(),
-            //                    Type: $("#feedback-type").val(),
-            //                    FilePath: $("#feedback-filepath").val(),
-            //                    Remark: $("#feedback-remark").val()
-            //                };
-            //                Global.post("/FeedBack/InsertFeedBack", { entity: JSON.stringify(entity) }, function (data) {
-            //                    if (data.Result == 1) {
-            //                        alert("谢谢反馈");
-            //                    }
-            //                });
-            //            },
-            //            callback: function () {
-
-            //            }
-            //        }
-            //    });
-
-            //    $("#feedback-contactname").val($("#txt_username").val());
-            //    $("#feedback-mobilephone").val($("#txt_usermobilephone").val());
-
-            //    var Upload = require("upload");
-            //    //选择意见反馈附件
-            //    Upload.createUpload({
-            //        element: "#feedback-file",
-            //        buttonText: "选择附件",
-            //        className: "",
-            //        data: { folder: '/Content/tempfile/', action: 'add', oldPath: "" },
-            //        success: function (data, status) {
-            //            if (data.Items.length > 0) {
-            //                $("#feedback-filepath").val(data.Items[0]);
-            //                var arr=data.Items[0].split("/");
-            //                $("#feedback-filename").html(arr[arr.length-1]);
-            //            }
-            //        }
-            //    });
-
-            //});
-
-        });
-
         //意见反馈浮层
         $(".help-feedback .ico-open").click(function () {
             var _this = $(this);
