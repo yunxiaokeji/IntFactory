@@ -39,7 +39,7 @@
         ObjectJS.isLoading = true;
 
         //事件绑定
-        ObjectJS.bindEvent();
+        ObjectJS.bindBaseEvent();
         
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
@@ -83,7 +83,7 @@
 
     //#region任务基本信息操作
     //绑定事件
-    ObjectJS.bindEvent = function () {
+    ObjectJS.bindBaseEvent = function () {
         //显示预警时间
         ObjectJS.showWarnTime();
 
