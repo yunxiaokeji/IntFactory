@@ -1,17 +1,19 @@
 ﻿
 
 define(function (require, exports, module) {
+
+    var Verify = require("verify"),
+    Global = require("global"),
+    doT = require("dot"),
+    Easydialog = require("easydialog"),
+    City = require("city"),
+    ec = require("echarts/echarts");
+
     require("jquery");
     require("pager");
-    var Verify = require("verify"),
-        Global = require("global"),
-        doT = require("dot"),
-        Easydialog = require("easydialog"),
-        City = require("city"),
-        ec = require("echarts/echarts");
     require("echarts/chart/pie");
     require("echarts/chart/line");
-    require("echarts/chart/bar");
+    require("echarts/chart/bar");   
     var VerifyObject, CityObject;
 
     var Clients = {};
