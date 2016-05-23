@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "工厂活跃度统计";
+}
+
+
+<style type="text/css">
+    .source-box { height:400px; }
+</style>
+
+@section scripts{
+    <script src="/modules/plug/laydate/laydate.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            laydate({
+                elem: '#beginTime',
+                format: 'YYYY-MM-DD',
+                min: '2000-01-01',
+                max: laydate.now(),
+                istime: false,
+                istoday: false
+            });
+            laydate({
+                elem: '#endTime',
+                format: 'YYYY-MM-DD',
+                min: '2000-01-01',
+                max: laydate.now(),
+                istime: false,
+                istoday: true
+            });
+        })
+        seajs.use(["scripts/report/clientsvitalityreport"], function (obj) {
+            obj.init();
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">工厂登陆统计</span>
+</div>
+<div class="search-box">
+    <div class="search-header">
+        <ul class="search-tab search-type">
+            <li data-id="clientsLoginRPT" data-type="3" class="hover">按月统计</li>
+            <li data-id="clientsLoginRPT" data-type="2">按周统计</li>
+            <li data-id="clientsLoginRPT" data-type="1">按日统计</li>
+        </ul>
+    </div>
+</div>
+<div class="content-body">
+    <div class="search-body mBottom10">
+        <div class="left lineHeight25 mLeft20">日期：</div>
+        <input type="text" class="left" id="beginTime"/>
+        <div class="left lineHeight25">&nbsp;-&nbsp;</div>
+        <input  type="text" class="left" id="endTime"/>
+        <div class="left btn mLeft20" id="btnSearch">查询</div>
+    </div>
+
+    <div id="clientsVitalityRPT" class="source-box">
+
+    </div>
+</div>

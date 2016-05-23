@@ -39,7 +39,7 @@
         ObjectJS.isLoading = true;
 
         //事件绑定
-        ObjectJS.bindEvent();
+        ObjectJS.bindBaseEvent();
         
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
@@ -83,7 +83,7 @@
 
     //#region任务基本信息操作
     //绑定事件
-    ObjectJS.bindEvent = function () {
+    ObjectJS.bindBaseEvent = function () {
         //显示预警时间
         ObjectJS.showWarnTime();
 
@@ -1373,7 +1373,7 @@
 
                         if (details.length > 0 || $("#showCutoutGoods .check").hasClass("ico-checked"))
                         {
-                            Global.post("/Orders/CreateOrderCutOutDoc", {
+                            Global.post("/Task/CreateOrderCutOutDoc", {
                                 orderid: _self.orderid,
                                 taskid:_self.taskid,
                                 doctype: 1,
@@ -1458,7 +1458,7 @@
                         });
 
                         if (details.length > 0) {
-                            Global.post("/Orders/CreateOrderSewnDoc", {
+                            Global.post("/Task/CreateOrderSewnDoc", {
                                 orderid: _self.orderid,
                                 taskid: _self.taskid,
                                 doctype: 11,
@@ -1551,7 +1551,7 @@
                             return false;
                         }
 
-                        Global.post("/Orders/CreateOrderSendDoc", {
+                        Global.post("/Task/CreateOrderSendDoc", {
                             orderid: _self.orderid,
                             taskid: _self.taskid,
                             doctype: 2,
@@ -1576,9 +1576,6 @@
                                 alert("发货失败！");
                             }
                         });
-
-                    },
-                    callback: function () {
 
                     }
                 }
@@ -1662,9 +1659,6 @@
                                 alert("发货失败！");
                             }
                         });
-                    },
-                    callback: function () {
-
                     }
                 }
             });

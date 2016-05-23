@@ -12,7 +12,7 @@
 }
 <div class="header-box">
     <span class="header-title left">用户管理</span>
-    <div class="btn-add right" id="createModel">新建用户</div>
+    <div class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"204020301"))" id="createModel">新建用户</div>
 </div>
 <div class="content-body mTop20">
     <table class="table-list">
@@ -27,6 +27,6 @@
     </table>
 </div>
 <ul class="dropdown-ul hide" style="width:65px;">
-    <li class="" id="updateObject">编辑</li>
-    <li class="" id="deleteObject">删除</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"204020301"))" id="updateObject">编辑</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"204020302"))" id="deleteObject">删除</li>
 </ul>
