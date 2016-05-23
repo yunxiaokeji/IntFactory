@@ -48,14 +48,18 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public JsonResult GetFeedBacks(string keyWords, string beginDate, string endDate, int type, int status, int pageSize, int pageIndex, out int totalCount, out int pageCount)
+        public JsonResult GetFeedBacks(string keyWords, string beginDate, string endDate, int type, int status, int pageSize, int pageIndex)
         {
-            List<FeedBack> feedBacks = FeedBackBusiness.GetFeedBacks(keyWords, CurrentUser.UserID, beginDate, endDate, type, status, pageSize, pageIndex,out totalCount,out pageCount);
+            int totalCount = 0;
+            int pageCount = 0;
+            List<FeedBack> feedBacks = FeedBackBusiness.GetFeedBacks(keyWords, CurrentUser.UserID, beginDate, endDate, type, status, pageSize, pageIndex, out totalCount, out pageCount);
             JsonDictionary.Add("items", feedBacks);
-            
-            return new JsonResult { 
-                Data = JsonDictionary, 
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet 
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
 

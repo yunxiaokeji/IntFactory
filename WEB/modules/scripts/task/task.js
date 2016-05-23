@@ -75,7 +75,7 @@
     }
 
     ObjectJS.isLoading = true;
-
+    
     ObjectJS.bindEvent = function () {
         //关键字查询 任务编码、订单编码、任务标题
         require.async("search", function () {
@@ -389,7 +389,7 @@
         if (time_distance < 0) {
             if (!overplusTime) {
                 if (showType == "card") {
-                    $(".overplusTime-" + num + "").html("超期时间：");
+                    $(".overplusTime-" + num + "").html("超期：");
                     $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show();
                     $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('已超期').css({ "background-color": "rgba(237,0,0,0.7)", "background-color": "rgba(237,0,0,0.7)" }).show();
                 }
@@ -406,7 +406,7 @@
             if (isWarn == 1) {
                 if (!overplusTime) {
                     if (showType == "card") {
-                        $(".overplusTime-" + num + "").html("剩余时间：");
+                        $(".overplusTime-" + num + "").html("剩余：");
                         $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show();
                         $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('快到期').show().css({ "background-color": "rgba(255,165,0,0.7)", "background-color": "rgba(255,165,0,0.7)" });
                     }

@@ -35,8 +35,9 @@ iframe{vertical-align:top;}embed{display:none;}
 .pay-body{}
 .pay-title{height:30px;padding:10px 0;color:#4a98e7;background-color:#4a98e7;width:100%;}
 .pay-title-name { margin-left:10px;}
-.pay-title-name i{width:40px;height:40px;}
-.pay-title-name span{font-size:1.4em;line-height:30px;vertical-align:middle;color:#fff;}
+.pay-title-name i{width:30px;height:30px;}
+.pay-title-name img { width:30px;height:30px;}
+.pay-title-name span{font-size:1.1em;line-height:30px;vertical-align:middle;color:#fff;}
 
 /*内容*/
 .pay-content-main-form ul li { margin-top:20px;}
@@ -60,7 +61,7 @@ input[type="text"] { border:1px solid #ccc;border-radius:2px;line-height:20px;pa
 
 /*提交按钮*/
 .pay-content-main-form ul .btn-box {margin:20px auto;width:200px;}
-#btnSave {width:100%;line-height:40px;color:#fff;background-color:#4a98e7;font-size:14px;border-radius:2px;transition:background-color 0.3s;background-color:#4a98e7;}
+#btnSave {width:100%;line-height:40px;color:#fff;font-size:14px;border-radius:2px;transition:background-color 0.3s;background-color:#4a98e7;}
 #btnSave:hover { background-color:#6eadec;}
 
 

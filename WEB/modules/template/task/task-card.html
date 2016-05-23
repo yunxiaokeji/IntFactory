@@ -23,7 +23,7 @@
                 <div class="clear"></div>
                 <div class="remain-time mLeft10 mTop5">
 
-                    <span class="overplusTime-{%=item.TaskID%}">{%=item.FinishStatus==2?"完成时间：":item.FinishStatus==1?"剩余时间":"创建时间："%}</span>
+                    <span class="overplusTime-{%=item.TaskID%}">{%=item.FinishStatus==2?"完成：":item.FinishStatus==1?"剩余时间":"创建："%}</span>
 
                     {%
                     if(item.FinishStatus==1)
