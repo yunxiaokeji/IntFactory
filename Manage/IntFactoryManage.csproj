@@ -447,7 +447,6 @@
     <Content Include="modules\template\client\client-list.html" />
     <Content Include="modules\template\client\clientauthorizelog-list.html" />
     <Content Include="modules\template\client\order-account.html" />
-    <Content Include="modules\template\client\order-detail.html" />
     <Content Include="modules\template\client\order-accountedit.html" />
     <Content Include="modules\template\system\modulesproduct-list.html" />
     <Content Include="modules\template\system\expresscompany-list.html" />
