@@ -207,7 +207,7 @@
             }
             else if(Model.Mark==21)
             {
-                <li  data-id="navProducts">大货材料</li>
+                <li  data-id="navProducts">材料</li>
             }
             else if(Model.Mark==12)
             {
@@ -245,19 +245,19 @@
          if(isRoot){
             if (Model.Mark == 23 && ViewBag.CutStatus!=2)
             {
-                 <div class="btn part-btn right" id="btnCutoutOrder">裁剪录入</div>                
+                 <div class="btn part-btn right" id="btnCutoutOrder" style="display:none;">裁剪录入</div>                
             }
             else if (Model.Mark == 24)
             {
-                <div class="btn part-btn right" style="display:none;" id="btnSewnOrder">车缝录入</div>
+                <div class="btn part-btn right"  id="btnSewnOrder" style="display:none;">车缝录入</div>
             }
             else if (Model.Mark == 15)
             {
-                <div class="btn part-btn right" id="btnSendDYOrder">订单发货</div>
+                <div class="btn part-btn right" id="btnSendDYOrder" style="display:none;">订单发货</div>
             }
             else if (Model.Mark == 25 &&ViewBag.SendStatus!=2)
             {
-                <div class="btn part-btn right hide" id="btnSendOrder">订单发货</div>
+                <div class="btn part-btn right hide" id="btnSendOrder" style="display:none;">订单发货</div>
             }
         }
      }
