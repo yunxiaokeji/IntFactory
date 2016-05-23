@@ -1,7 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "任务详情";
     var task = (IntFactoryEntity.Task.TaskEntity)ViewBag.Model;
+    ViewBag.Title = "任务详情"+"-"+task.Title;
     var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
     var productAttr = (IntFactoryEntity.ProductAttr)ViewBag.ProductAttr;
     var attrValues = productAttr.AttrValues == null ? "" : Html.ToJSONString(productAttr.AttrValues);
@@ -17,11 +17,11 @@
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
-    @*<script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>*@
+    <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@attrValues', '@order.OrderImages', '@Html.ToJSONString(task)', '@ViewBag.IsWarn','@Html.ToJSONString(order)');
+                obj.init('@attrValues', '@order.OrderImages', '@ViewBag.IsWarn', '@Html.ToJSONString(task)');
             });
 
         });
@@ -53,7 +53,7 @@
             }
             else if (task.Mark == 15)
             {
-                Html.RenderPartial("SendDoc");
+                Html.RenderPartial("SendDYDoc");
             }
             else if (task.Mark == 25)
             {

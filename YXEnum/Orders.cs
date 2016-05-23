@@ -99,14 +99,31 @@ namespace IntFactoryEnum
     {
         [DescriptionAttribute("全部")]
         All = -1,
-        [DescriptionAttribute("未支付")]
+        [DescriptionAttribute("未审核")]
         NoPay = 0,
-        [DescriptionAttribute("已支付")]
+        [DescriptionAttribute("已审核")]
         Pay = 1,
         [DescriptionAttribute("删除")]
         Delete = 9
     }
-
+    /// <summary>
+    /// 后台订单支付状态
+    /// </summary>
+    public enum EnumClientOrderPay
+    {
+        [DescriptionAttribute("全部")]
+        All = -1,
+        [DescriptionAttribute("未支付")]
+        NoPay = 0,
+        [DescriptionAttribute("已支付")]
+        Pay = 1,
+        [DescriptionAttribute("部分付款")]
+        PartPay = 2,
+        [DescriptionAttribute("部分退款")]
+        PartReturn = 3,
+        [DescriptionAttribute("全额退款")]
+        Return = 4
+    }
     public enum EnumReturnStatus
     {
         [DescriptionAttribute("全部")]

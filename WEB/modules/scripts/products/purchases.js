@@ -199,13 +199,10 @@ define(function (require, exports, module) {
         var _self = this;
         _self.docid = docid;
         _self.model = JSON.parse(model.replace(/&quot;/g, '"'));
-        //Global.post("/System/GetDepotSeatsByWareID", { wareid: wareid }, function (data) {
-        //    CacheDepot[wareid] = data.Items;
-        //    $(".item").each(function () {
-        //        var _this = $(this), depotbox = _this.find(".depot-li");
-        //        _self.bindDepot(depotbox, data.Items, wareid, _this.data("id"));
-        //    })
-        //});        
+
+        Global.post("/System/GetDepotSeatsByWareID", { wareid: _self.model.WareID }, function (data) {
+            CacheDepot = data.Items;
+        });        
 
         //审核入库
         $("#btnconfirm").click(function () {
@@ -216,6 +213,7 @@ define(function (require, exports, module) {
     //审核入库
     ObjectJS.auditStorageIn = function () {
         var _self = this;
+       
         doT.exec("template/purchase/audit_storagein.html", function (template) {
             var innerText = template(_self.model.Details);
 
@@ -230,9 +228,10 @@ define(function (require, exports, module) {
                             var _this = $(this);
                             var quantity = _this.find(".quantity").val();
                             if (quantity > 0) {
-                                details += _this.data("id") + "-" + quantity + ",";
+                                details += _this.data("id") + "-" + quantity + ":" + _this.find("select").val() + ",";
                             }
                         });
+
                         if (details.length > 0 || $("#showAuditStorageIn .check").hasClass("ico-checked")) {
 
                             Global.post("/Purchase/AuditPurchase", {
@@ -274,37 +273,23 @@ define(function (require, exports, module) {
                     _this.val("0");
                 }
             });
+
+            $("#showAuditStorageIn").find("select").each(function () {
+                var _this = $(this);
+                _self.bindDepot(_this);
+            });
         });
     };
 
     //绑定货位
-    ObjectJS.bindDepot = function (depotbox, depots, wareid, autoid) {
+    ObjectJS.bindDepot = function (depotbox) {
         var _self = this;
-        depotbox.empty();
-        var depot = $("<select data-id='" + autoid + "' data-wareid='" + wareid + "'></select>");
-        for (var i = 0, j = depots.length; i < j; i++) {
-            depot.append($("<option value='" + depots[i].DepotID + "' >" + depots[i].DepotCode + "</option>"))
+
+        for (var i = 0, j = CacheDepot.length; i < j; i++) {
+            depotbox.append($("<option value='" + CacheDepot[i].DepotID + "' >" + CacheDepot[i].DepotCode + "</option>"))
         }
 
-        depot.val(depotbox.data("id"));
-
-        //选择仓库
-        depot.change(function () {
-            Global.post("/Purchase/UpdateStorageDetailWare", {
-                docid: _self.docid,
-                autoid: autoid,
-                wareid: wareid,
-                depotid: depot.val()
-            }, function (data) {
-                if (!data.Status) {
-                    alert("操作失败,请刷新页面重新操作！");
-                };
-            });
-        });
-
-        depot.prop("disabled", depotbox.data("status") == 1);
-
-        depotbox.append(depot);
+        depotbox.val(depotbox.data("id"));
     }
 
     module.exports = ObjectJS;

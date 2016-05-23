@@ -37,6 +37,8 @@ namespace IntFactoryEntity.Manage
 
         public decimal PayFee { get; set; }
 
+        public decimal RefundFee { get; set; }
+
         public int PayStatus { get; set; }
 
         public int SourceType { get; set; }

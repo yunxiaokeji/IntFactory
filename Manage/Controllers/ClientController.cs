@@ -28,14 +28,13 @@ namespace YXManage.Controllers
         {
             ViewBag.Industry = IndustryBusiness.GetIndustrys();
             return View();
-        }
-
+        } 
         public ActionResult Detail(string id)
         {
             ViewBag.ID = id;
             ViewBag.Industry = IndustryBusiness.GetIndustrys();
             return View();
-        }
+        } 
         public ActionResult OrderDetail(string id)
         {
             ViewBag.ID = id; 
@@ -58,7 +57,7 @@ namespace YXManage.Controllers
         public JsonResult GetClients(int pageIndex, string keyWords)
         {
             int totalCount = 0, pageCount = 0;
-            var list = ClientBusiness.GetClients(keyWords, PageSize, pageIndex, ref totalCount, ref pageCount);
+            var list = ClientBusiness.GetClients(keyWords.Trim(), PageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
@@ -84,7 +83,7 @@ namespace YXManage.Controllers
         public JsonResult GetClientAuthorizeLogs(string clientID,int pageIndex, string keyWords)
         {
             int totalCount = 0, pageCount = 0;
-            var list = ClientBusiness.GetClientAuthorizeLogs(clientID,keyWords, PageSize, pageIndex, ref totalCount, ref pageCount);
+            var list = ClientBusiness.GetClientAuthorizeLogs(clientID,keyWords.Trim(), PageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
@@ -114,7 +113,7 @@ namespace YXManage.Controllers
         /// 添加客户端
         /// </summary>
         /// <param name="client"></param>
-        /// <returns></returns>
+        /// <returns></returns> 
         public JsonResult SaveClient(string client, string loginName)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -139,7 +138,7 @@ namespace YXManage.Controllers
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-        }
+        } 
 
         public JsonResult DeleteClient(string id)
         {
@@ -172,7 +171,7 @@ namespace YXManage.Controllers
         /// <summary>
         /// 升级客户服务
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="client"></param> 
         public JsonResult SaveClientAuthorize(string clientID, int serviceType, int giveType, int userQuantity, string endTime, int buyType, int buyUserQuantity, int buyUserYears)
         {
             bool flag = false;
@@ -300,7 +299,7 @@ namespace YXManage.Controllers
             int pageCount = 0;
             int totalCount = 0;
 
-            List<ClientOrder> list = ClientOrderBusiness.GetBase(keyWords,status, type, beginDate, endDate, agentID, clientID, userType, pageSize, pageIndex, ref totalCount, ref pageCount);
+            List<ClientOrder> list = ClientOrderBusiness.GetBase(keyWords.Trim(),status, type, beginDate, endDate, agentID, clientID, userType, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
@@ -315,7 +314,7 @@ namespace YXManage.Controllers
         /// 关闭客户订单
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns></returns> 
         public JsonResult CloseClientOrder(string id)
         {
              ClientOrder order=ClientOrderBusiness.GetClientOrderInfo(id);
@@ -340,7 +339,7 @@ namespace YXManage.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="amount"></param>
-        /// <returns></returns>
+        /// <returns></returns> 
         public JsonResult UpdateOrderAmount(string id,string amount)
         {
             ClientOrder order=ClientOrderBusiness.GetClientOrderInfo(id);
@@ -365,7 +364,7 @@ namespace YXManage.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="agentID"></param>
-        /// <returns></returns>
+        /// <returns></returns> 
         public JsonResult PayOrderAndAuthorizeClient(string id, string agentID)
         {
             //订单支付及后台客户授权
@@ -387,9 +386,27 @@ namespace YXManage.Controllers
             {
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
+
+            };
+        } 
+        public JsonResult PayClientOrder(string id)
+        {
+            
+            ClientOrder order = ClientOrderBusiness.GetClientOrderInfo(id);
+            if (order.PayStatus == 0 || order.PayStatus == 2)
+            {
+                bool flag = ClientOrderBusiness.PayClientOrder(id, (int)IntFactoryEnum.EnumClientOrderPay.Pay);
+                JsonDictionary.Add("Result", flag ? 1 : 0);
+            }
+            else {
+                JsonDictionary.Add("Result", 1001);
+            }
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-
 
         public JsonResult GetClientOrderDetail(string orderid) 
         {
@@ -405,10 +422,44 @@ namespace YXManage.Controllers
         public JsonResult GetClientOrderAccount(string keyWords, string orderID, string clientID, int payType,int status, int type, int pageSize, int pageIndex)
         {
             int totalCount = 0, pageCount = 0;
-            var list = ClientOrderAccountBusiness.GetClientOrderAccounts(keyWords, orderID, clientID,payType,status,type, PageSize, pageIndex, ref totalCount, ref pageCount);
+            var list = ClientOrderAccountBusiness.GetClientOrderAccounts(keyWords.Trim(), orderID, clientID,payType,status,type, PageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult CheckOrderAccount(string id) 
+        { 
+            int flag = ClientOrderAccountBusiness.UpdateClientOrderAccountStatus(id, (int)IntFactoryEnum.EnumClientOrderStatus.Pay);
+            JsonDictionary.Add("Result", flag  );
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult CloseOrderAccount(string id)
+        {
+            int flag = ClientOrderAccountBusiness.UpdateClientOrderAccountStatus(id, (int)IntFactoryEnum.EnumClientOrderStatus.Delete);
+            JsonDictionary.Add("Result", flag);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        } 
+        public JsonResult AddOrderAccount(string orderAccount)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            ClientOrderAccount model = serializer.Deserialize<ClientOrderAccount>(orderAccount);
+            int result=0;
+            model.CreateUserID = CurrentUser.UserID;
+            result = ClientOrderAccountBusiness.AddClientOrderAccount(model);
+            JsonDictionary.Add("Result", result);
             return new JsonResult()
             {
                 Data = JsonDictionary,

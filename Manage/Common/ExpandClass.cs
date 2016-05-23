@@ -29,7 +29,7 @@ public static class ExpandClass
     {
         if (httpContext.Session["Manager"] != null)
         {
-            IntFactoryEntity.Users model = (IntFactoryEntity.Users)httpContext.Session["Manager"];
+            IntFactoryEntity.Manage.M_Users model = (IntFactoryEntity.Manage.M_Users)httpContext.Session["Manager"];
             if (model.Menus.Where(m => m.MenuCode == menucode).Count() > 0)
             {
                 return "";
@@ -37,6 +37,7 @@ public static class ExpandClass
         }
         return "nolimits";
     }
+ 
     /// <summary>
     /// 将对象转换成JSON对象
     /// </summary>

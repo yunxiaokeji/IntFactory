@@ -21,7 +21,7 @@ define(function (require, exports, module) {
         _self.orderid = orderid;
         _self.status = status;        
         _self.model = JSON.parse(model.replace(/&quot;/g, '"'));
-       
+
         _self.bindStyle(_self.model);
         _self.bindEvent();
         _self.getAmount();

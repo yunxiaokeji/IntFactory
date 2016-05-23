@@ -72,8 +72,8 @@
 <div class="content-body mTop20">
     <div class="content-title">
         <div id="customerName" class="left titlename bolder"></div>
-        <div id="updateClient" class="left ico-edit iconfont mLeft20">&#xe607;</div>
-        <div id="delClient" class="btn delClient right">删除</div>
+        <div id="updateClient" class="left ico-edit iconfont mLeft20  @(ExpandClass.IsLimits(HttpContext.Current,"201010101"))">&#xe607;</div>
+        <div id="delClient" class="btn delClient right  @(ExpandClass.IsLimits(HttpContext.Current,"201010102"))">删除</div>
          <div class="clear"></div>
     </div>
      <ul class="content-info">
@@ -104,7 +104,7 @@
         <li data-index="1">授权记录</li>            
         <li  data-index="2">统计</li>
     </ul>  
-     <div class="tRight">
+     <div class="tRight @(ExpandClass.IsLimits(HttpContext.Current,"201010301"))">
         <input type="button" id="addNewOrder" class="btn " value="新建订单" />
         <input type="button" id="addAuthorize" class="btn" style="display:none;" value="赠送授权" />
     </div>

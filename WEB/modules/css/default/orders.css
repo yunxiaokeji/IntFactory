@@ -6,7 +6,8 @@
 .object-items .object-item .iconfont{ color:#999; }
 
 /*订单样图*/
-.object-items .object-item .orderimg{ width:250px; height:250px; vertical-align:middle; text-align:center; display:table-cell; overflow:hidden; position:relative;   background-color:#f9f9f9; }/*background:url('/modules/images/none-img.png') no-repeat center;*/
+.object-items .object-item .orderimg{ width:250px; height:250px; vertical-align:middle; text-align:center; display:table-cell; overflow:hidden; position:relative; 
+                                      background:url('/modules/images/none-img.png') no-repeat center; background-color:#f9f9f9; }/**/
 
 .object-items  .orderimg img{ max-width: 250px; max-height: 250px; display:inline-block;}
 

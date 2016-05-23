@@ -57,7 +57,7 @@
     ObjectJS.getList = function () {
         var _self = this;
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='6'><div class='data-loading'><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='11'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Stock/GetDetailStocks", Params, function (data) {
             _self.bindList(data);
@@ -78,7 +78,7 @@
             });
         }
         else {
-            $(".tr-header").after("<tr><td colspan='6'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='11'><div class='nodata-txt' >暂无数据!<div></td></tr>");
         }
 
         $("#pager").paginate({

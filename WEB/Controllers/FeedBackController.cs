@@ -20,7 +20,7 @@ namespace YXERP.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             FeedBack model = serializer.Deserialize<FeedBack>(entity);
             model.CreateUserID = CurrentUser.UserID;
-
+            
             bool flag= FeedBackBusiness.InsertFeedBack(model);
             JsonDictionary.Add("Result",flag?1:0);
             return new JsonResult
