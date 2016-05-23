@@ -1076,7 +1076,7 @@
 
                         $("#platemakingBody").html(tableHtml).css({ "border-top": "1px solid #eee", "border-left": "1px solid #eee" }).show();
 
-                        ObjectJS.binddropdown();
+                        ObjectJS.bindDropDown();
                         ObjectJS.bindContentClick();
                         ObjectJS.bindAddRow();
                         ObjectJS.bindRemoveRow();

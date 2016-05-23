@@ -262,6 +262,9 @@ namespace IntFactoryEntity
 
         public string WarningTime { get; set; }
 
+
+        public string CategoryName { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

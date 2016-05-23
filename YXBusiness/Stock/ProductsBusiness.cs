@@ -21,6 +21,8 @@ namespace IntFactoryBusiness
         public string FILEPATH = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Product/" + DateTime.Now.ToString("yyyyMM") + "/";
         public string TempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
 
+
+        public static ProductsBusiness BaseBusiness = new ProductsBusiness();
         public static object SingleLock = new object();
 
         #region Cache

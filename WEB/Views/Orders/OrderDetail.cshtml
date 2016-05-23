@@ -89,6 +89,9 @@
 <div class="content-title">
     <div class="left titlename">款式编码：@(model.IntGoodsCode)</div>
     <ul class="right">
+        <li title="订单品类">
+            <i class="iconfont">&#xe64e;</i>@(model.CategoryName)
+        </li>
         <li title="交货日期">
             <i class="iconfont">&#xe62b;</i>@(model.PlanTime.ToString("yyyy-MM-dd"))
         </li>

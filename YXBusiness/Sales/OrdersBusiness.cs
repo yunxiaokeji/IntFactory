@@ -228,6 +228,11 @@ namespace IntFactoryBusiness
                     model.SendStatusStr = "--";
                 }
 
+
+                if (!string.IsNullOrEmpty(model.CategoryID))
+                {
+                    model.CategoryName = ProductsBusiness.BaseBusiness.GetCategoryByID(model.BigCategoryID).CategoryName + ">" + ProductsBusiness.BaseBusiness.GetCategoryByID(model.CategoryID).CategoryName;
+                }
                 model.OrderProcess = SystemBusiness.BaseBusiness.GetOrderProcessByID(model.ProcessID, model.AgentID, model.ClientID);
 
                 
