@@ -6,7 +6,7 @@
 .step-header .step { width:24px; border:solid 1px #666; border-radius:13px;  text-align:center;  }
 .step-header .step-ico { width:60px; text-align:center; margin-top:2px; }
 .step-header .hover { border-color:#4a98e7; color:#4a98e7; }
-.step-header .over { border-color:#ccc; color:#ccc; }
+.step-header .over { border-color:#4a98e7; color:#4a98e7; }
 
 .step-content { width:918px; border:solid 1px #ccc; background-color:#fff; }
 .step-content h1{ color:#666; font-weight:500; font-size:14px; }
