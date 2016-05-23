@@ -13,6 +13,10 @@
         _self.agentid = agentid;
         var categoryitems = JSON.parse(categoryitem.replace(/&quot;/g, '"'));
 
+        //_self.bigCategoryValue = "请选择";
+
+        //_self.categoryValue = "请选择";
+
         if (categoryitem!=null)
         {
             ObjectJS.categoryitems = categoryitems;
@@ -36,58 +40,82 @@
     //绑定事件
     ObjectJS.bindEvent = function (citycode) {
         var _self = this;
+        //var dropDownWidth = 96;
+        //if ($(window).width() <= 600) {
+        //    //下拉框的宽度等于(最大显示区域宽度-边框宽度-边距宽度/2)-下拉控件右边距4个像素
+        //    dropDownWidth = (($('.pay-content').width() - 40) / 2) -4;
+        //}
 
-        //
+        ////大品类下拉
         //require.async("dropdown", function () {
         //    $(".bigcategory").dropdown({
         //        prevText: "",
-        //        defaultText: "选择",
-        //        defaultValue: "",
+        //        defaultText: "请选择",
+        //        defaultValue:"请选择",
         //        data: ObjectJS.categoryitems,
         //        dataValue: "CategoryID",
         //        dataText: "CategoryName",
-        //        width: "180",
+        //        width: dropDownWidth,
         //        onChange: function (data) {
+
         //            $('.ordercategory').empty();
-        //            if (data.value == "") {
-        //            }
-        //            else {
-        //                ObjectJS.bigCategoryID = "";
+        //            _self.bigCategoryValue = data.value;
+        //            _self.categoryValue = "";
+        //            alert(_self.categoryValue);
         //                Global.post("/Home/GetChildOrderCategorysByID", { categoryid: data.value, clientid: _self.clientid }, function (data) {
         //                    require.async("dropdown", function () {
         //                        $(".ordercategory").dropdown({
         //                            prevText: "",
+        //                            defaultText: "请选择",
+        //                            defaultValue:"请选择",
         //                            data: data.Items,
         //                            dataValue: "CategoryID",
         //                            dataText: "CategoryName",
-        //                            width: "180",
+        //                            width: dropDownWidth,
         //                            onChange: function (data) {
-
+        //                                _self.categoryValue = data.value;
         //                            }
         //                        });
         //                    });
         //                    $(".ordercategory .dropdown-text").html(data.Items[0].CategoryName);
         //                });
-        //            }
         //        }
         //    });
         //});
 
-        ////
+        ////小品类下拉控件
         //require.async("dropdown", function () {
         //    $(".ordercategory").dropdown({
         //        prevText: "",
-        //        defaultText: "选择",
-        //        defaultValue: "选择",
+        //        defaultText: "请选择",
+        //        defaultValue: "请选择",
         //        data: "",
         //        dataValue: "CategoryID",
         //        dataText: "CategoryName",
-        //        width: "180",
+        //        width: dropDownWidth,
         //        onChange: function (data) {
 
         //        }
         //    });
         //});
+
+        
+        //收缩订单或客户信息
+        $(".info-box").click(function () {
+            var _this=$(this);
+            var box = _this.data('type') == 1 ? ".orderinfo" : ".customer";
+            var lump = _this.find('.lump');
+            if (!$(box+"-box").is(":animated")) {
+                if (lump.data('type') == 'open') {
+                    lump.data('type', 'close');
+                    lump.css({ 'border-bottom': 'none', 'border-top': '6px solid #4a98e7' });
+                } else {
+                    lump.data('type', 'open');
+                    lump.css({ 'border-bottom': '6px solid #4a98e7', 'border-top': 'none' });
+                }
+                $(box+"-box").slideToggle();
+            }
+        })
 
         //保存
         $("#btnSave").click(function () {

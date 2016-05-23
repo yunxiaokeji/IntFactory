@@ -7,14 +7,21 @@
     var ObjectJS = {};
 
     var Params = {
-        pageIndex: 1,
+        keyWords: "",
         beginTime: "",
         endTime: "",
+        type: "1",
+        status: "",
+        pageSize:10,
+        pageIndex: 1,
+        totalCount: "",
+        pageCount:"",
         type: "-1",
         keyWords: "",
         isAsc:0
     };
 
+    //string keywords,string userID, string beginDate, string endDate, int type, int status, int pageSize, int pageIndex, out int totalCount, out int pageCount
     ObjectJS.init = function () {
 
         ObjectJS.getFeedBackList();

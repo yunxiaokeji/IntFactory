@@ -216,6 +216,7 @@
     <Content Include="modules\css\iconfont\iconfont.svg" />
     <Content Include="modules\css\inquire\common.css" />
     <Content Include="modules\css\inquire\online-pay.css" />
+    <Content Include="modules\css\myaccount\feedbacklist.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
@@ -441,6 +442,7 @@
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\home\guidestep.js" />
     <Content Include="modules\scripts\inquire\inquireorder.js" />
+    <Content Include="modules\scripts\myaccount\feedbacklist.js" />
     <Content Include="modules\scripts\orders\create.js" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.css" />
     <Content Include="modules\plug\fullcalendar\css\fullcalendar.print.css" />
@@ -1041,6 +1043,7 @@
     <Content Include="Views\Default\SetCategory.cshtml" />
     <Content Include="Views\Orders\FentOrderReport.cshtml" />
     <Content Include="Views\Default\SettingHelp.cshtml" />
+    <Content Include="Views\MyAccount\FeedBackList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
