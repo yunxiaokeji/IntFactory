@@ -1,7 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "任务详情";
     var task = (IntFactoryEntity.Task.TaskEntity)ViewBag.Model;
+    ViewBag.Title = "任务详情"+"-"+task.Title;
     var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
     var productAttr = (IntFactoryEntity.ProductAttr)ViewBag.ProductAttr;
     var attrValues = productAttr.AttrValues == null ? "" : Html.ToJSONString(productAttr.AttrValues);

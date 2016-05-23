@@ -110,6 +110,9 @@
                 <div class="btn @(ExpandClass.IsLimits(HttpContext.Current, "102019018"))" id="bindOriginalOrder">绑定打样款号</div> 
             }
         </li>
+        <li title="订单品类">
+            <i class="iconfont">&#xe64e;</i>@(model.CategoryName)
+        </li>
         <li title="交货日期">
             <i class="iconfont">&#xe62b;</i>@(model.PlanTime.ToString("yyyy-MM-dd"))
         </li>
