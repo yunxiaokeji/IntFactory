@@ -16,9 +16,9 @@ namespace IntFactoryBusiness.Manage
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static bool AddClientOrderAccount(ClientOrderAccount model)
+        public static int AddClientOrderAccount(ClientOrderAccount model )
         {
-            return ClientOrderAccountDAL.BaseProvider.InsertClientOrderAccount(model.OrderID,model.PayType,model.RealRealAmount,model.Type,model.ClientID,model.CreateUserID);
+            return ClientOrderAccountDAL.BaseProvider.InsertClientOrderAccount(model.OrderID,model.PayType,model.RealAmount,model.Type,model.ClientID,model.CreateUserID,model.Remark);
         }
 
         /// <summary>
@@ -65,5 +65,26 @@ namespace IntFactoryBusiness.Manage
         }
 
 
+        public static ClientOrderAccount GetClientOrderAccountByAutoID(string autoid) {
+          DataTable dt=  ClientOrderAccountDAL.BaseProvider.ClientOrderAccountByAutoIDDAL(autoid);
+          ClientOrderAccount model = new ClientOrderAccount();
+          if (dt.Rows.Count == 1)
+          {
+              DataRow row = dt.Rows[0];
+              model.FillData(row);
+              return model;
+          }
+          else
+              return null;
+        }
+
+
+        #region 修改
+        public static int UpdateClientOrderAccountStatus(string autoID, int status)
+        {
+            return ClientOrderAccountDAL.BaseProvider.UpdateClientOrderAccountStatus(autoID, status);             
+        } 
+
+        #endregion
     }
 }

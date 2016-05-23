@@ -9,11 +9,15 @@
             dataType: "json",
             async: !anync,
             cache: false,
-            success: function (data) {
-                if (data.error) {
-                    return;
+            success: function (data) { 
+                if (typeof (data.ErrMsg) != "undefined") {
+                    alert(data.ErrMsg);
                 } else {
-                    !!callback && callback(data);
+                    if (data.error) {
+                        return;
+                    } else { 
+                       !!callback && callback(data); 
+                    }
                 }
             }
         });

@@ -75,7 +75,7 @@
      <div id="pager" class="mTop20"></div>
 </div>
 <ul class="dropdown-ul hide" style="width:65px;">
-    <li class="" id="examineOrder">审核</li>
-    <li class="" id="editOrder">改价</li>
-    <li class="" id="deleteOrder">删除</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"201010201"))" id="examineOrder">审核</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"201010202"))" id="editOrder">改价</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"201010203"))" id="deleteOrder">删除</li>
 </ul>

@@ -61,26 +61,43 @@
         <tr class="tr-header">
             <td class="tLeft">工厂名称</td>
             <td>
-                <span class="td-span hover" data-column="SUM(a.CustomerCount)"> 客户数 
+                <span class="td-span hover" data-column="SUM(a.CustomerCount)"> 客户
                     <span class="asc"></span>
                     <span class="desc hover"></span>
                </span>
             </td>
             <td >
-               <span class="td-span" data-column="SUM(a.OrdersCount)"> 订单数 
+               <span class="td-span" data-column="SUM(a.OrdersCount)"> 订单
+                    <span class="asc"></span>
+                    <span class="desc"></span>
+               </span>
+            </td> 
+             <td >
+               <span class="td-span" data-column="SUM(a.DownOrderCount)"> 拉取订单
+                    <span class="asc"></span>
+                    <span class="desc"></span>
+               </span>
+            </td> 
+             <td >
+               <span class="td-span" data-column="SUM(a.TaskCount)"> 任务
+                    <span class="asc"></span>
+                    <span class="desc"></span>
+               </span>
+            </td> 
+              <td >
+               <span class="td-span" data-column="SUM(a.ProductOrderCount)"> 生产订单
                     <span class="asc"></span>
                     <span class="desc"></span>
                </span>
             </td>
-@*            <td>活动数</td>*@
             <td>                
-                <span class="td-span" data-column="SUM(a.ProductCount)"> 材料数 
+                <span class="td-span" data-column="SUM(a.ProductCount)"> 材料
                     <span class="asc"></span>
                     <span class="desc"></span>
                </span>
             </td>
             <td> 
-                <span class="td-span" data-column="SUM(a.UsersCount)"> 员工数 
+                <span class="td-span" data-column="SUM(a.UsersCount)"> 员工
                     <span class="asc"></span>
                     <span class="desc"></span>
                </span>
@@ -88,7 +105,7 @@
            @* <td>代理商数</td>
             <td>机会数</td>*@
             <td>
-                <span class="td-span" data-column="PurchaseCount"> 采购数 
+                <span class="td-span" data-column="PurchaseCount"> 采购 
                     <span class="asc"></span>
                     <span class="desc"></span>
                </span>

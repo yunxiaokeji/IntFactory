@@ -60,9 +60,9 @@
     </ul>
 
     <div class="mTop20">
-        <input type="button" id="btn-finish" class="btn mRight15" value="解决" />
-        <input type="button" id="btn-cancel" class="btn mRight15" value="驳回" />
-        <input type="button" id="btn-delete" class="btn" value="删除" />
+        <input type="button" id="btn-finish" class="btn mRight15  @(ExpandClass.IsLimits(HttpContext.Current,"205010201"))" value="解决" />
+        <input type="button" id="btn-cancel" class="btn mRight15 @(ExpandClass.IsLimits(HttpContext.Current,"205010201"))" value="驳回" />
+        <input type="button" id="btn-delete" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"205010201"))" value="删除" />
     </div>
 </div>
 

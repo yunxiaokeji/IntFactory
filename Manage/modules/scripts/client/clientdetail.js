@@ -406,19 +406,17 @@ define(function (require, exports, module) {
                 $("#tb-clientOrders a.deleteOrder").bind("click", function () {
                     if (confirm("确定删除?")) {
                         Global.post("/Client/CloseClientOrder", { id: $(this).data("id") }, function (data) {
-                            if (data.Result == 1) {
-                                Clients.getClientOrders();
-                            } else if (data.Result == 1001) {
-                                alert("订单已被审核,操作失败,请刷新页面查看.");
-                            } else if (data.Result == 1002) {
-                                alert("订单已被删除,操作失败,请刷新页面查看.");
-                            } else {
-                                alert("关闭失败");
-                            }
+                            Clients.validateResult(data);
                         });
                     }
                 });
-
+                $("#tb-clientOrders a.alipayOrder").bind("click", function () {
+                    if (confirm("确定标记已支付吗?")) {
+                        Global.post("/Client/PayClientOrder", { id: $(this).data("id") }, function (data) {
+                            Clients.validateResult(data);
+                        });
+                    }
+                });
                 $("#tb-clientOrders a.editOrder").bind("click", function () {
                     var id = $(this).data("id");
                     var amount = $(this).data("amount");
@@ -431,16 +429,7 @@ define(function (require, exports, module) {
                             yesFn: function () {
                                 if (confirm("确定修改价格吗?")) {
                                     Global.post("/Client/UpdateOrderAmount", { id: id, amount: $("#txt-orderAmount").val() }, function (data) {
-                                        if (data.Result == 1) {
-                                            Clients.getClientOrders();
-                                        } else if (data.Result == 1001) {
-                                            alert("订单已被审核,操作失败,请刷新页面查看.");
-                                        } else if (data.Result == 1002) {
-                                            alert("订单已被删除,操作失败,请刷新页面查看.");
-                                        } else {
-                                            alert("修改失败");
-                                        }
-
+                                        Clients.validateResult(data);
                                     });
                                 }
                             },
@@ -453,15 +442,7 @@ define(function (require, exports, module) {
                 $("#tb-clientOrders a.examineOrder").bind("click", function () {
                     if (confirm("确定审核通过吗?")) {
                         Global.post("/Client/PayOrderAndAuthorizeClient", { id: $(this).data("id"), agentID: Clients.Params.agentID }, function (data) {
-                            if (data.Result == 1) {
-                                Clients.getClientOrders();
-                            } else if (data.Result == 1001) {
-                                alert("订单已被审核,操作失败,请刷新页面查看.");
-                            } else if (data.Result == 1002) {
-                                alert("订单已被删除,操作失败,请刷新页面查看.");
-                            } else {
-                                alert("审核失败");
-                            }
+                            Clients.validateResult(data);
                         });
                     }
                 });
@@ -495,6 +476,16 @@ define(function (require, exports, module) {
             });
         });
     }
-
+    Clients.validateResult = function (data) {
+        if (data.Result == 1) {
+            Clients.getClientOrders();
+        } else if (data.Result == 1001) {
+            alert("订单已被处理,操作失败,请刷新页面查看.");
+        } else if (data.Result == 1002) {
+            alert("订单已被删除,操作失败,请刷新页面查看.");
+        } else {
+            alert("操作失败");
+        }
+    };
     module.exports = Clients;
 });
