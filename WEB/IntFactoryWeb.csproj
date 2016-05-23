@@ -484,6 +484,7 @@
     <Content Include="modules\template\orders\orders_originalid.html" />
     <Content Include="modules\template\orders\cutout-details.html" />
     <Content Include="modules\template\orders\send-details.html" />
+    <Content Include="modules\template\orders\senddydocs.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />
     <Content Include="modules\template\purchase\audit_details.html" />
@@ -1046,6 +1047,7 @@
     <Content Include="Views\Orders\FentOrderReport.cshtml" />
     <Content Include="Views\Default\SettingHelp.cshtml" />
     <Content Include="Views\MyAccount\FeedBackList.cshtml" />
+    <Content Include="Views\Task\SendDYDoc.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
