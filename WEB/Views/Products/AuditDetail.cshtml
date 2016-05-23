@@ -23,7 +23,7 @@
         <li><span class="column-title">状态：</span>@(model.StatusStr)</li>
         <li><span class="column-title">创建人：</span>@(model.CreateUser.Name)</li>
         <li><span class="column-title">创建日期：</span>@(model.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"))</li>
-        @*<li><span class="column-title">仓库：</span>@(model.WareHouse!=null?model.WareHouse.Name:"")</li>*@
+        <li><span class="column-title">仓库：</span>@(model.WareHouse!=null?model.WareHouse.Name:"")</li>
         <li style="width:100%;"><span class="column-title">备注：</span>@(model.Remark)</li>
     </ul>
     <div class="tab-nav mTop30">
@@ -43,6 +43,7 @@
             <td class="tLeft">规格</td>
             <td class="center width80">单位</td>
             <td class="center">供应商</td>
+            <td>货位</td>
             <td class="tRight">采购价</td>
             <td class="center">数量</td>
             <td class="center">已入库</td>
@@ -59,6 +60,7 @@
                 <td>@(item.Remark)</td>
                 <td class="center">@(item.UnitName)</td>
                 <td class="center">@(item.Providers!=null?item.Providers.Name:"")</td>
+                <td class="center">@(item.DepotCode)</td>
                 <td class=" tRight">@(item.Price.ToString("f2"))</td>
                 <td class="center">@(item.Quantity.ToString("f2"))</td>
                 <td class="center">@(item.Complete.ToString("f2"))</td>

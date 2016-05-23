@@ -101,7 +101,7 @@ namespace IntFactoryBusiness
                     model.Express = ExpressCompanyBusiness.GetExpressCompanyDetail(model.ExpressID);
                 }
 
-                //model.WareHouse = SystemBusiness.BaseBusiness.GetWareByID(model.WareID, model.ClientID);
+                model.WareHouse = SystemBusiness.BaseBusiness.GetWareByID(model.WareID, model.ClientID);
                 model.Details = new List<StorageDetail>();
                 foreach (DataRow item in ds.Tables["Details"].Rows)
                 {

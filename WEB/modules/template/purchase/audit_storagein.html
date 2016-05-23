@@ -7,6 +7,7 @@
     <td class="">数量</td>
     <td class="">已入库</td>
     <td class="">入库数量</td>
+    <td>货位</td>
 </tr>
 {%
 	for(var i=0, j=$data.length; i < j; i++){
@@ -18,6 +19,9 @@
     <td class="center">{%=item.Quantity.toFixed(2)%}</td>
     <td class="center">{%=item.Complete.toFixed(2)%}</td>
     <td class="center"><input class="width60 quantity" type="text"  value="" /></td>
+    <td class="center">
+        <select data-id="{%=item.DepotID%}"></select>
+    </td>
 </tr>
 {% } %}
 
