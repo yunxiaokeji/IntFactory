@@ -1230,6 +1230,10 @@
                 OrderID: ObjectJS.orderid,
                 TaskID: ObjectJS.taskid
             }
+            var icoUrl=item.Icon;
+            if (icoUrl != '') {
+                $(".plate-show-ico").show().find("img").attr("src", icoUrl);
+            }
             ObjectJS.savePlateMaking(item);
         });
 
@@ -1700,7 +1704,7 @@
     ObjectJS.sendOrders = function () {
         var _self = this;
         doT.exec("template/orders/send_orders.html", function (template) {
-            var innerText = template(_self.model.OrderGoods);
+            var innerText = template(_self.OrderGoods);
 
             Easydialog.open({
                 container: {
@@ -1716,6 +1720,7 @@
                         Global.post("/Orders/CreateOrderSendDoc", {
                             orderid: _self.orderid,
                             taskid: _self.taskid,
+                            doctype: 2,
                             isover: 0,
                             expressid: $("#expressid").data("id"),
                             expresscode: $("#expressCode").val(),
