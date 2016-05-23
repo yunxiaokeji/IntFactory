@@ -2,24 +2,27 @@
 
     require("pager");
 
+    var Global = require("global");
+
     var doT = require("dot");
     
     var ObjectJS = {};
 
     var Params = {
-        pageIndex: 1,
+        keyWords: "",
         beginTime: "",
         endTime: "",
         type: "-1",
-        keyWords: "",
-        isAsc:0
+        status: -1,
+        pageSize:10,
+        pageIndex: 1
     };
 
+    //string keywords,string userID, string beginDate, string endDate, int type, int status, int pageSize, int pageIndex, out int totalCount, out int pageCount
     ObjectJS.init = function () {
 
         ObjectJS.getFeedBackList();
         ObjectJS.bindEvent();
-
     }
 
     //绑定事件
@@ -70,19 +73,7 @@
             });
         });
 
-        $("#pager").paginate({
-            total_count: 12,
-            count: 12,
-            start: Params.pageIndex,
-            display: 5,
-            images: false,
-            mouse: 'slide',
-            onChange: function (page) {
-                $(".tr-header").nextAll().remove();
-                Params.pageIndex = page;
-                ObjectJS.getFeedBackList();
-            }
-        });
+     
 
     }
 
@@ -91,17 +82,35 @@
 
         $(".tr-header").after("<tr><td colspan='10'><div class='data-loading'><div></td></tr>");
 
-        doT.exec("template/myaccount/feedbacklist.html", function (template) {
+        Global.post("/MyAccount/GetFeedBacks", Params, function (data) {
 
-            var innerhtml = template();
+            doT.exec("template/myaccount/feedbacklist.html", function (template) {
 
-            innerhtml = $(innerhtml);
+                var innerhtml = template(data.items);
 
-            $(".table-list .tr-header").nextAll().remove();
+                innerhtml = $(innerhtml);
 
-            $(".table-list").append(innerhtml);
+                $(".table-list .tr-header").nextAll().remove();
 
-        });
+                $(".table-list").append(innerhtml);
+
+            });
+            $("#pager").paginate({
+                total_count: data.totalCount,
+                count: data.pageCount,
+                start: Params.pageIndex,
+                display: 5,
+                images: false,
+                mouse: 'slide',
+                onChange: function (page) {
+                    $(".tr-header").nextAll().remove();
+                    Params.pageIndex = page;
+                    ObjectJS.getFeedBackList();
+                }
+            });
+        })
+
+      
 
     }
 

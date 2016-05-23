@@ -25,13 +25,14 @@
     };
 
     var ObjectJS = {};
+    ObjectJS.isLoading = true;
+    ObjectJS.showType = "list";
 
     ObjectJS.init = function (isMy, nowDate) {
         Params.beginDate = nowDate;
         Params.endDate = nowDate;
         Params.pageSize = ($(".content-body").width() / 300).toFixed(0) * 3;
 
-        ObjectJS.showType = "list";
         if (isMy == 2) {
             Params.isParticipate = 1;
             document.title = "参与任务";
@@ -42,6 +43,7 @@
             Params.isMy = false;
             document.title = "所有任务";
             $(".header-title").html("所有任务");
+
             //人员筛选
             require.async("choosebranch", function () {
                 $("#chooseBranch").chooseBranch({
@@ -58,7 +60,6 @@
                     }
                 });
             });
-
         }
 
         ObjectJS.bindEvent();
@@ -73,8 +74,6 @@
             ObjectJS.getList();
         }
     }
-
-    ObjectJS.isLoading = true;
 
     ObjectJS.bindEvent = function () {
         //关键字查询 任务编码、订单编码、任务标题
@@ -105,7 +104,7 @@
             }
         });
 
-        //切换阶段
+        //切换任务阶段
         $(".search-stages li").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
@@ -114,6 +113,7 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
+
                 Params.pageIndex = 1;
                 Params.finishStatus = _this.data("id");
                 ObjectJS.getList();
@@ -155,14 +155,12 @@
             }
             var _this = $(this);
             if (!_this.hasClass('checked')) {
-               
                 _this.addClass('checked').siblings().removeClass('checked');
 
                 ObjectJS.showType = _this.data('type');
                 ObjectJS.getList();
             }
         });
-
 
         //时间段查询
         $("#btnSearch").click(function () {
@@ -298,6 +296,7 @@
         }
         $(".content-body").find('.nodata-txt').remove();
         ObjectJS.isLoading = false;
+
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".tr-header").nextAll().remove();
 
@@ -371,8 +370,6 @@
 
     //任务到期时间倒计时
     ObjectJS.showTime = function (item, isWarn,endTime,showType) {
-        var endtime = item.EndTime.toDate("yyyy/MM/dd hh:mm:ss");
-        var num = item.TaskID;
         if (ObjectJS.status == 8) {
             return;
         }
@@ -380,6 +377,8 @@
             return;
         }
 
+        var endtime = item.EndTime.toDate("yyyy/MM/dd hh:mm:ss");
+        var num = item.TaskID;
         var time_end = (new Date(endtime)).getTime();
         var time_start = new Date().getTime(); //设定当前时间
         // 计算时间差 
@@ -389,7 +388,7 @@
         if (time_distance < 0) {
             if (!overplusTime) {
                 if (showType == "card") {
-                    $(".overplusTime-" + num + "").html("超期时间：");
+                    $(".overplusTime-" + num + "").html("超期：");
                     $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show();
                     $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('已超期').css({ "background-color": "rgba(237,0,0,0.7)", "background-color": "rgba(237,0,0,0.7)" }).show();
                 }
@@ -406,7 +405,7 @@
             if (isWarn == 1) {
                 if (!overplusTime) {
                     if (showType == "card") {
-                        $(".overplusTime-" + num + "").html("剩余时间：");
+                        $(".overplusTime-" + num + "").html("剩余：");
                         $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show();
                         $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('快到期').show().css({ "background-color": "rgba(255,165,0,0.7)", "background-color": "rgba(255,165,0,0.7)" });
                     }
@@ -429,7 +428,7 @@
         var int_minute = Math.floor(time_distance / 60000)
         time_distance -= int_minute * 60000;
         // 秒 
-        var int_second = Math.floor(time_distance / 1000)
+        //var int_second = Math.floor(time_distance / 1000)
         // 时分秒为单数时、前面加零 
         if (int_day < 10) {
             int_day = "0" + int_day;
@@ -440,14 +439,14 @@
         if (int_minute < 10) {
             int_minute = "0" + int_minute;
         }
-        if (int_second < 10) {
-            int_second = "0" + int_second;
-        }
+        //if (int_second < 10) {
+        //    int_second = "0" + int_second;
+        //}
         // 显示时间 
         $(".time-d-" + num + "").html(int_day);
         $(".time-h-" + num + "").html(int_hour);
         $(".time-m-" + num + "").html(int_minute);
-        $(".time-s-" + num + "").html(int_second);
+        //$(".time-s-" + num + "").html(int_second);
     }
 
     //任务颜色标记
@@ -464,7 +463,8 @@
             if (data.result == "10001") {
                 alert("您没有标记任务的权限！");
                 callback && callback(false);
-            } else {
+            }
+            else {
                 callback && callback(data.result);
             }
             ObjectJS.isLoading = true;

@@ -1,13 +1,28 @@
 ﻿{%
-    for(var i=0;i<8;i++)
+if($data.length>0)
+{
+    for(var i=0;i<$data.length;i++)
     {
+        var item=$data[i];
 %}
     <tr class="center">
-        <td>2016-05-17 12:00:11</td>
-        <td>问题问题问题问题问题问题问题</td>
-        <td>呵呵</td><td>回答</td>
-        <td class="unsolved">未解决</td>
+        <td>{%=item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}</td>
+        <td>{%=item.Type==1?"问题":item.Type==2?"意见":"需求"%}</td>
+        <td>{%=item.Title%}</td>
+        <td>{%=item.Content%}</td>
+        <td class="{%=item.Status==1?'solved':'unsolved'%}">{%=item.Status==1?"已解决":"未解决"%}</td>
     </tr>
+{% 
+    }
+}
+else
+{
+%}
+    
+    <tr>
+        <td class="center font16" style='line-height:80px;' colspan="5">暂无数据</td>
+    </tr>
+
 {%
 }
 %}

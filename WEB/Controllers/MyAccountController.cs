@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
+using IntFactoryEntity.Manage;
+using IntFactoryBusiness.Manage;
 namespace YXERP.Controllers
 {
     
@@ -42,8 +44,25 @@ namespace YXERP.Controllers
         }
         public ActionResult FeedBackList()
         {
+
             return View();
         }
+
+        public JsonResult GetFeedBacks(string keyWords, string beginDate, string endDate, int type, int status, int pageSize, int pageIndex)
+        {
+            int totalCount = 0;
+            int pageCount = 0;
+            List<FeedBack> feedBacks = FeedBackBusiness.GetFeedBacks(keyWords, CurrentUser.UserID, beginDate, endDate, type, status, pageSize, pageIndex, out totalCount, out pageCount);
+            JsonDictionary.Add("items", feedBacks);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         #endregion
 
         #region ajax
