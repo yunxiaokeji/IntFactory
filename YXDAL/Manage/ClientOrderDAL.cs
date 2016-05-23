@@ -111,7 +111,7 @@ namespace IntFactoryDAL.Manage
                                      new SqlParameter("@Status",status),
                                    };
 
-            string cmdText = "update ClientOrder set Status=@Status  where orderID=@orderID";
+            string cmdText = "update ClientOrder set Status=@Status  where orderID=@OrderID";
 
             return ExecuteNonQuery(cmdText, paras, CommandType.Text)>0;
         }
@@ -123,8 +123,18 @@ namespace IntFactoryDAL.Manage
                                      new SqlParameter("@Amount",amount),
                                    };
 
-            string cmdText = "update ClientOrder set RealAmount=@Amount  where orderID=@orderID";
+            string cmdText = "update ClientOrder set RealAmount=@Amount  where orderID=@OrderID";
 
+            return ExecuteNonQuery(cmdText, paras, CommandType.Text) > 0;
+        }
+        public bool UpdateClientOrderPayStatus(string orderID, int payStatus)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderID),
+                                     new SqlParameter("@PayStatus",payStatus),
+                                   };
+
+            string cmdText = "update ClientOrder set PayStatus=@PayStatus  where orderID=@OrderID";
             return ExecuteNonQuery(cmdText, paras, CommandType.Text) > 0;
         }
         #endregion

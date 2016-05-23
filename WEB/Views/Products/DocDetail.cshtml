@@ -54,6 +54,7 @@
             <td class="tLeft">规格</td>
             <td class="">单位</td>
             <td class="">供应商-联系人-联系电话</td>
+             <td class="center">货位</td>
             <td class="tRight">采购价</td>
             <td class="center">数量</td>
             @if(model.DocType==1)
@@ -75,6 +76,7 @@
                     @(item.Providers!=null?item.Providers.Name+"—"+item.Providers.Contact+"—"+item.Providers.MobileTele:"")
                     <br />@(item.Providers!=null&&item.Providers.City!=null?item.Providers.City.Description:"")@(item.Providers!=null?item.Providers.Address:"")
                 </td>
+                <td class="center">@(item.DepotCode)</td>
                 <td class="tRight">@(item.Price.ToString("f2"))</td>
                 <td class="center">@(item.Quantity.ToString("f2"))</td>
                 @if(model.DocType==1)

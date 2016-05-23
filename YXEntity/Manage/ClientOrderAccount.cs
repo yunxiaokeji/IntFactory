@@ -13,7 +13,7 @@ namespace IntFactoryEntity.Manage
 
         public string ClientID { get; set; } 
 
-        public decimal RealRealAmount { get; set; }
+        public decimal RealAmount { get; set; }
 
         public int PayType { get; set; }
 

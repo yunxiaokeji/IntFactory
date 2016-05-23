@@ -64,6 +64,40 @@ define(function (require, exports, module) {
         CityObject = City.createCity({
             elementID: "citySpan"
         });
+        //保存客户端
+        $("#saveClient").click(function () {
+            if (!VerifyObject.isPass()) {
+                return false;
+            }; 
+            var modules = [];
+            $(".modules-item").each(function () {
+                var _this = $(this);
+                if (_this.hasClass("active")) {
+                    modules.push({
+                        ModulesID: _this.data("value")
+                    });
+                }
+            });
+
+            var client = {
+                CompanyName: $("#name").val(),
+                ContactName: $("#contact").val(),
+                MobilePhone: $("#mobile").val(),
+                Industry: $("#industry").val(),
+                CityCode: CityObject.getCityCode(),
+                Address: $("#address").val(),
+                Description: $("#description").val(),
+                Modules: modules
+            };
+            Global.post("/Client/SaveClient", { client: JSON.stringify(client), loginName: $("#loginName").val() }, function (data) {
+                if (data.Result == "1") {
+                    location.href = "/Client/Index";
+                } else if (data.Result == "2") {
+                    alert("登陆账号已存在!");
+                    $("#loginName").val("");
+                }
+            });
+        });
     };
     //客户列表初始化
     Clients.init = function () {

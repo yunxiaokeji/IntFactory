@@ -30,17 +30,24 @@ namespace IntFactoryBusiness
             if (dt.Rows.Count > 0)
             {
                 model = new M_Users();
-                model.FillData(dt.Rows[0]); 
-                if(!string.IsNullOrEmpty(model.RoleID))
-                    model.Role = ManageSystemBusiness.GetRoleByIDCache(model.RoleID);
+                model.FillData(dt.Rows[0]);
+                if (!string.IsNullOrEmpty(model.RoleID))
+                {
+                    model.Role = ManageSystemBusiness.GetRoleByID(model.RoleID);
+                    //ManageSystemBusiness.GetRoleByIDCache(model.RoleID);
+                }
                 //权限
-                if (model.Role != null && model.IsAdmin != 1)
+                if (model.Role != null && model.Role.IsDefault == 1)
+                {
+                    model.Menus = CommonBusiness.ManageMenus;
+                }
+                else if (model.IsAdmin == 1)
                 {
                     model.Menus = CommonBusiness.ManageMenus;
                 }
                 else
                 {
-                    model.Menus = new List<Menu>();
+                    model.Menus = model.Role.Menus;
                 }
             }
             return model;
@@ -65,6 +72,10 @@ namespace IntFactoryBusiness
                 if (!string.IsNullOrEmpty(model.RoleID))
                     model.Role = ManageSystemBusiness.GetRoleByIDCache(model.RoleID);
                 //权限
+                if (model.Role != null && model.Role.IsDefault == 1)
+                {
+                    model.Menus = CommonBusiness.ManageMenus;
+                }
                 if ( model.IsAdmin == 1)
                 {
                     model.Menus = CommonBusiness.ManageMenus;
