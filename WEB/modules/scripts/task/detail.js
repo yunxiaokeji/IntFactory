@@ -2,147 +2,98 @@
     var doT = require("dot");
     var Global = require("global");
     var TalkReply = require("scripts/task/reply");
-    var Easydialog = null;
+    var Upload = require("upload");
+    var Easydialog = require("easydialog");
     var ChooseUser = null;
     require("pager");
 
     var ObjectJS = {};
     var CacheAttrValues = [];//订单品类属性缓存
-    var Editor;
-    var Plate = {};
+    var PlateMakings = [];//制版工艺说明
 
     ///taskid：任务id
     ///orderid:订单id
     ///stageid：订单阶段id
-    ///mark:任务标记 1：材料 2 制版 3大货材料
+    ///mark:任务标记 11：材料 12 制版 21大货材料
     ///finishStatus：任务完成状态
     ///attrValues:订单品类属性
     ///orderType:订单类型
-    ///um:富文本编辑器
-    ///plateRemark:制版工艺描述
-    ObjectJS.init = function (attrValues,orderimages, task, isWarn) {
+    ObjectJS.init = function (attrValues, orderimages, isWarn, task) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
-
+        if (attrValues != "")
+            CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
         ObjectJS.orderid = task.OrderID;
         ObjectJS.guid = task.OrderID;
+        ObjectJS.taskid = task.TaskID;
+        ObjectJS.stageid = task.StageID;
+        ObjectJS.orderType = task.OrderType;
         ObjectJS.ownerid = task.OwnerID;
         ObjectJS.endTime = task.EndTime.toDate("yyyy/MM/dd hh:mm:ss");
         ObjectJS.finishStatus = task.FinishStatus;
         ObjectJS.status = task.Status;
-        ObjectJS.stageid = task.StageID;
-        ObjectJS.taskid = task.TaskID;
-        ObjectJS.orderType = task.OrderType;
         ObjectJS.isWarn = isWarn;
+        ObjectJS.orderimages = orderimages;
         ObjectJS.isPlate = true;//任务是否制版
-        if (attrValues != "")
-            CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
         ObjectJS.mark = task.Mark;//任务标记 用于做标记任务完成的限制条件
         ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
-        ObjectJS.orderimages = orderimages;
-        $(".part-btn").hide();
+        ObjectJS.isLoading = true;
+
         //事件绑定
         ObjectJS.bindEvent();
-
-        Easydialog = require("easydialog");
+        
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
             ObjectJS.materialMark = 1;
             if (ObjectJS.mark == 21) {
                 ObjectJS.materialMark = 2;
             }
-
-            ObjectJS.bindProduct();
-
-            ObjectJS.removeTaskPlateOperate();
+            ObjectJS.initTaskProduct();
         }
-            //制版任务
+         //制版任务
         else if ($("#btn-updateTaskRemark").length == 1) {
-            if (Easydialog == null) {
-                Easydialog = require("easydialog");
-            }
             ObjectJS.bindPlatemakingEvent();
+            ObjectJS.initPlateMaking();
         }
         else {
-            ObjectJS.removeTaskPlateOperate();
+            if (ObjectJS.mark == 12 || ObjectJS.mark == 22) {
+                ObjectJS.removeTaskPlateOperate();
+            }
         }
 
-
-        //统计材料总金额
+        //统计材料列表总金额
         ObjectJS.getProductAmount();
 
-
-        //判断制版任务是否执行了
-        if (ObjectJS.mark == 12) {
+        //判断制版任务是否已执行
+        if (ObjectJS.mark == 12 || ObjectJS.mark == 22) {
             if ($("#platemakingBody .table-list").length == 0) {
                 ObjectJS.isPlate = false;
             }
         }
 
+        //任务发货时 获取快递公司信息
         if (ObjectJS.mark === 15 || ObjectJS.mark === 25) {
             ObjectJS.getExpress();
         }
 
-        ObjectJS.isLoading = true;
-
-        ObjectJS.initPlateMaking();
-
-        ObjectJS.getOrderGoods();
+        //获取订单大货明细
+        if ($("#btnCutoutOrder").length == 1 || $("#btnSewnOrder").length == 1 || $("#btnSendDYOrder").length == 1 || $("#btnSendOrder").length == 1) {
+            ObjectJS.getOrderGoods();
+        }
     };
 
     //#region任务基本信息操作
     //绑定事件
     ObjectJS.bindEvent = function () {
+        //显示预警时间
+        ObjectJS.showWarnTime();
 
-        //裁片录入
-        if ($("#btnCutoutOrder").length == 1) {
-            if (Easydialog == null) {
-                Easydialog = require("easydialog");
-            }
-            $("#btnCutoutOrder").click(function () {
-                if (!ObjectJS.isLoading) {
-                    return;
-                }
+        //绑定任务样式图
+        ObjectJS.bindOrderImages();
 
-                ObjectJS.cutOutGoods();
-            });
-        }
+        //初始化任务讨论列表
+        TalkReply.initTalkReply(ObjectJS);
 
-        //打样发货录入
-        if ($("#btnSendDYOrder").length == 1) {
-            if (Easydialog == null) {
-                Easydialog = require("easydialog");
-            }
-            $("#btnSendDYOrder").click(function () {
-                ObjectJS.sendOrders();
-            });
-        }
-
-        //车缝录入
-        if ($("#btnSewnOrder").length == 1) {
-            if (Easydialog == null) {
-                Easydialog = require("easydialog");
-            }
-            $("#btnSewnOrder").click(function () {
-                if (!ObjectJS.isLoading) {
-                    return;
-                }
-                ObjectJS.sewnGoods();
-            });
-        }
-        //大货发货录入
-        if ($("#btnSendOrder").length == 1) {
-            if (Easydialog == null) {
-                Easydialog = require("easydialog");
-            }
-            $("#btnSendOrder").click(function () {
-                if (!ObjectJS.isLoading) {
-                    return;
-                }
-                ObjectJS.sendGoods();
-            });
-        }
-       
-        //切换模块
+        //任务模块切换
         $(".module-tab li").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
@@ -152,26 +103,23 @@
             if (_this.hasClass("hover")) {
                 return;
             }
+            _this.addClass("hover").siblings().removeClass("hover");
+            $("#navTask").children().hide();
+            $("#" + _this.data("id")).show();
             $(".part-btn").hide();
             if (_this.data("btn")) {
                 $("#" + _this.data("btn")).show();
             }
-            _this.addClass("hover").siblings().removeClass("hover");           
-
-            $("#navTask").children().hide();
-            $("#" + _this.data("id")).show();
 
             if (_this.data("id") == "orderTaskLogs") {
                 if (!_this.data("isget")) {
-                    //任务日志列表
                     ObjectJS.getLogs(1);
                     _this.data("isget", "1");
                 }
             }
             else if (_this.data("id") == "platemakingContent") {
                 if (!_this.data("isget")) {
-                    //任务日志列表
-                    ObjectJS.getPlateMakings(1);
+                    ObjectJS.getPlateMakings();
                     _this.data("isget", "1");
                 }
             }
@@ -193,6 +141,7 @@
                 if (!ObjectJS.isLoading) {
                     return;
                 }
+
                 ObjectJS.finishTask();
             });
         }
@@ -203,14 +152,14 @@
                 if (!ObjectJS.isLoading) {
                     return;
                 }
+
                 ObjectJS.updateTaskEndTime();
             });
         }
 
-        //添加任务成员
         if ($("#addTaskMembers").length == 1) {
             ChooseUser = require("chooseuser");
-
+            //添加任务成员
             $("#addTaskMembers").click(function () {
                 if (!ObjectJS.isLoading) {
                     return;
@@ -227,7 +176,6 @@
                             if (ObjectJS.ownerid == item.id) {
                                 continue;
                             }
-
                             if ($(".memberlist" + " tr[data-id='" + item.id + "']").html()) {
                                 continue;
                             }
@@ -250,14 +198,34 @@
             //列表删除任务成员
             ObjectJS.bindRemoveTaskMember();
         }
-        //显示剩余时间
-        ObjectJS.showTime();
 
-        //绑定任务样式图
-        ObjectJS.bindOrderImages();
+        //裁剪录入
+        if ($("#btnCutoutOrder").length == 1) {
+            $("#btnCutoutOrder").click(function () {
+                ObjectJS.cutOutGoods();
+            });
+        }
 
-        //初始化任务讨论列表
-        TalkReply.initTalkReply(ObjectJS);
+        //车缝录入
+        if ($("#btnSewnOrder").length == 1) {
+            $("#btnSewnOrder").click(function () {
+                ObjectJS.sewnGoods();
+            });
+        }
+
+        //打样发货录入
+        if ($("#btnSendDYOrder").length == 1) {
+            $("#btnSendDYOrder").click(function () {
+                ObjectJS.sendOrders();
+            });
+        }
+
+        //大货发货录入
+        if ($("#btnSendOrder").length == 1) {
+            $("#btnSendOrder").click(function () {
+                ObjectJS.sendGoods();
+            });
+        }
     }
 
     //更改任务到期时间
@@ -327,7 +295,6 @@
                 alert("材料没有添加,不能标记任务完成");
                 return;
             }
-
         }
         else if (ObjectJS.mark == 12) {
             if ($("#platemakingBody .table-list").length == 0) {
@@ -343,11 +310,14 @@
         confirm("标记完成的任务不可逆,确定完成?", function () {
             $("#FinishTask").val("完成中...").attr("disabled", "disabled");
             ObjectJS.isLoading = false;
+
             Global.post("/Task/FinishTask",
                {
                    id: ObjectJS.taskid
-               }, function (data) {
+               },
+               function (data) {
                    $("#FinishTask").val("标记完成").removeAttr("disabled");
+
                    if (data.result == 1) {
                        location.href = location.href;
                    }
@@ -409,6 +379,7 @@
         });
     }
 
+    //绑定任务更新成员权限
     ObjectJS.bindUpdateMemberPermission=function(){
         $('.check-lump').unbind().click(function () {
             if (!ObjectJS.isLoading) {
@@ -436,6 +407,7 @@
         });
     }
 
+    //绑定任务删除任务成员
     ObjectJS.bindRemoveTaskMember=function(){
         $(".memberlist td.removeTaskMember").unbind().click(function () {
             if (!ObjectJS.isLoading) {
@@ -464,8 +436,8 @@
         memberListHtml.fadeIn(300);
     }
 
-    //任务到期时间倒计时
-    ObjectJS.showTime = function () {
+    //任务预警时间
+    ObjectJS.showWarnTime = function () {
         if (ObjectJS.status == 8) {
             return;
         }
@@ -475,10 +447,10 @@
 
         var time_end = (new Date(ObjectJS.endTime)).getTime();
         var time_start = new Date().getTime(); //设定当前时间
-        
         // 计算时间差 
         var time_distance = time_end - time_start;
         var overplusTime = false;
+
         if (time_distance < 0) {
             if (!overplusTime) {
                 $("#overplusTime").html("超期时间");
@@ -487,7 +459,8 @@
             overplusTime = true;
             time_distance = time_start - time_end;
         }
-        else {
+        else
+        {
             if (ObjectJS.isWarn == 1) {
                 if (!overplusTime) {
                     $(".taskBaseInfo .li-plustime .task-time").css({ "background-color": "orange", "color": "#fff" });
@@ -527,7 +500,7 @@
         $("#time-s").html(int_second);
 
         // 设置定时器
-        setTimeout(function () { ObjectJS.showTime() }, 1000);
+        setTimeout(function () { ObjectJS.showWarnTime() }, 1000);
     }
 
     //绑定任务样式图
@@ -571,6 +544,7 @@
                 $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
             }
         });
+
         $(".close-enlarge-image").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
@@ -578,6 +552,7 @@
             $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
             $(".enlarge-image-item").empty();
         });
+
         $(".enlarge-image-bgbox").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
@@ -585,6 +560,7 @@
             $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
             $(".enlarge-image-item").empty();
         });
+
         $(".zoom-botton").click(function (e) {
             if (!ObjectJS.isLoading) {
                 return;
@@ -670,15 +646,17 @@
     }
     //#endregion
 
-    // #region任务材料基本操作
+
+    // #region任务材料操作
     //绑定事件
-    ObjectJS.bindProduct = function () {
+    ObjectJS.initTaskProduct = function () {
 
         //编辑价位
-        $(".price").change(function () {
+        $("#navProducts .price").change(function () {
             if (!ObjectJS.isLoading) {
                 return;
             }
+
             if ($(this).val().isDouble() && $(this).val() >= 0) {
                 ObjectJS.editPrice($(this));
             } else {
@@ -687,10 +665,11 @@
         });
 
         //编辑数量
-        $(".quantity").change(function () {
+        $("#navProducts .quantity").change(function () {
             if (!ObjectJS.isLoading) {
                 return;
             }
+
             if ($(this).val().isDouble() && $(this).val() > 0) {
                 ObjectJS.editQuantity($(this));
             } else {
@@ -699,10 +678,11 @@
         });
 
         //编辑损耗率
-        $(".loss-rate").change(function () {
+        $("#navProducts .loss-rate").change(function () {
             if (!ObjectJS.isLoading) {
                 return;
             }
+
             var lossRate = $(this).val();
 
             if (lossRate > -1) {
@@ -712,31 +692,12 @@
             }
         });
 
-        //编辑损耗量
-        $(".loss").change(function () {
-            //if (!ObjectJS.isLoading) {
-            //    return;
-            //}
-            //var loss = parseFloat($(this).val());
-            //if (!isNaN(loss)) {
-            //    if (loss < 0) {
-            //        if (-loss >= parseFloat($(this).parent().prev().html())) {
-            //            $(this).val($(this).data("value"));
-            //            return;
-            //        }
-            //    }
-
-            //    ObjectJS.editLoss($(this));
-            //} else {
-            //    $(this).val($(this).data("value"));
-            //}
-        });
-
         //删除产品
-        $(".ico-del").click(function () {
+        $("#navProducts .ico-del").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
             }
+
             var _this = $(this);
             confirm("确认从清单中移除此材料吗？", function () {
                 Global.post("/Orders/DeleteProduct", {
@@ -746,7 +707,8 @@
                 }, function (data) {
                     if (!data.status) {
                         alert("系统异常，请重新操作！");
-                    } else {
+                    }
+                    else {
                         _this.parents("tr.item").remove();
                         ObjectJS.getProductAmount();
                     }
@@ -760,6 +722,7 @@
                 if (!ObjectJS.isLoading) {
                     return;
                 }
+
                 ObjectJS.effectiveOrderProduct();
             });
         }
@@ -770,6 +733,7 @@
     ObjectJS.editPrice = function (ele) {
         var _self = this;
         ObjectJS.isLoading = false;
+
         Global.post("/Orders/UpdateOrderPrice", {
             orderid: _self.guid,
             autoid: ele.data("id"),
@@ -779,7 +743,8 @@
             if (!data.status) {
                 ele.val(ele.data("value"));
                 alert("当前订单状态,不能进行修改");
-            } else {
+            }
+            else {
                 ele.data("value", ele.val());
                 _self.getProductAmount();
             }
@@ -800,33 +765,13 @@
             if (!data.status) {
                 ele.val(ele.data("value"));
                 alert("当前订单状态,不能进行修改");
-            } else {
+            }
+            else {
                 ele.data("value", ele.val());
                 _self.getProductAmount();
             }
             ObjectJS.isLoading = true;
         });
-    }
-
-    //更改损耗量
-    ObjectJS.editLoss = function (ele) {
-        //var _self = this;
-        //ObjectJS.isLoading = false;
-        //Global.post("/Orders/UpdateProductLoss", {
-        //    orderid: _self.guid,
-        //    autoid: ele.data("id"),
-        //    name: ele.data("name"),
-        //    quantity: ele.val()
-        //}, function (data) {
-        //    if (!data.status) {
-        //        ele.val(ele.data("value"));
-        //        alert("当前订单状态,不能进行修改");
-        //    } else {
-        //        ele.data("value", ele.val());
-        //        _self.getProductAmount();
-        //    }
-        //    ObjectJS.isLoading = true;
-        //});
     }
 
     //更改损耗率
@@ -835,9 +780,7 @@
         ObjectJS.isLoading = false;
 
         ele.data('value', ele.val());
-
         var loss = ((ele.val() * 1) * (ele.parents('tr').find('.tr-quantity').html() * 1)).toFixed(3);
-
         ele.parents('tr').find('.tr-loss').html(loss);
 
         Global.post("/Orders/UpdateProductLoss", {
@@ -849,16 +792,13 @@
             if (!data.status) {
                 ele.val(ele.data("value"));
                 alert("当前订单状态,不能进行修改");
-            } else {
+            }
+            else {
                 ele.data("value", ele.val());
                 _self.getProductAmount();
             }
             ObjectJS.isLoading = true;
         });
-
-      
-
-
     }
     
     //生成采购单
@@ -897,11 +837,12 @@
     }
     //#endregion
 
-    //#region任务制版相关事件
+
+    //#region 任务制版相关事件
     //绑定
     ObjectJS.bindPlatemakingEvent = function () {
         ObjectJS.bindDocumentClick();
-        ObjectJS.binddropdown();
+        ObjectJS.bindDropDown();
 
         ObjectJS.bindContentClick();
 
@@ -915,11 +856,7 @@
             ObjectJS.updateOrderPlatemaking();
         });
 
-        $("#btn-updatePlateRemark").click(function () {
-            ObjectJS.updateOrderPlateRemark();
-        });
-
-        ObjectJS.bindAddTaskPlate();
+        ObjectJS.initAddTaskPlate();
     };
 
     //文档点击的隐藏事件
@@ -933,7 +870,7 @@
     }
 
     //显示制版列操作下拉框
-    ObjectJS.binddropdown = function () {
+    ObjectJS.bindDropDown = function () {
         $(".ico-dropdown").unbind().bind("click", function () {
             var _this = $(this);
             var position = _this.position();
@@ -955,10 +892,11 @@
         });
     }
 
-    //添加新列
+    //添加制版新列
     ObjectJS.bindAddColumn = function () {
         $("#btn-addColumn").unbind().bind("click", function () {
             ObjectJS.columnnameid = $(this).data("columnname");
+
             var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
             var noHaveLi = true;
             for (var i = 0; len = CacheAttrValues.length, i < len; i++) {
@@ -1023,10 +961,9 @@
         });
     }
 
-    //删除列
+    //删除制版列
     ObjectJS.bindRemoveColumn = function () {
         $("#btn-removeColumn").unbind().bind("click", function () {
-
             if ($("#platemakingBody .tr-header td").length == 3) {
                 alert("只剩最后一列,不能删除");
                 return;
@@ -1036,7 +973,7 @@
         });
     }
 
-    //添加行
+    //添加制版行
     ObjectJS.bindAddRow = function () {
         $("div.btn-addRow").unbind().bind('click', function () {
             var $newTR = $("<tr class='tr-content'>" + $(this).parent().parent().parent().html() + "</tr>");
@@ -1050,7 +987,7 @@
         });
     }
 
-    //删除行
+    //删除制版行
     ObjectJS.bindRemoveRow = function () {
         $("div.btn-removeRow").unbind().bind('click', function () {
             if ($("div.btn-removeRow").length == 1) {
@@ -1062,7 +999,7 @@
         });
     }
 
-    //删除行操作按钮
+    //删除制版操作按钮
     ObjectJS.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
         $("#platemakingBody table tr").each(function () {
@@ -1070,12 +1007,11 @@
         });
     }
 
-    //新增制版属性列
-    ObjectJS.bindAddTaskPlate = function () {
+    //初始化制版属性行列
+    ObjectJS.initAddTaskPlate = function () {
         if ($("#btn-addTaskPlate").length == 0) return;
 
         $("#btn-addTaskPlate").unbind().bind("click", function () {
-
             var noHaveLi = false;
             var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
             for (var i = 0; len = CacheAttrValues.length, i < len; i++) {
@@ -1089,14 +1025,12 @@
                 innerHtml = '<div style="width:300px;">制版属性没有配置,请联系后台管理员配置</div>';
             }
 
-
             Easydialog.open({
                 container: {
-                    id: "show-model-setRole",
+                    id: "show-model-initAddTaskPlate",
                     header: "新增制版属性列",
                     content: innerHtml,
                     yesFn: function () {
-
                         var $hovers = $("#setTaskPlateAttrBox li.hover");
                         if ($hovers.length == 0) return;
 
@@ -1149,12 +1083,10 @@
 
                         $("#btn-updateTaskRemark").show();
                         $("#btn-addTaskPlate").hide();
-
                     }
                 }
 
             });
-
 
             $("#setTaskPlateAttrBox .role-item").click(function () {
                 if (!$(this).hasClass("hover"))
@@ -1162,6 +1094,7 @@
                 else
                     $(this).removeClass("hover");
             });
+
         });
     }
 
@@ -1179,6 +1112,7 @@
         $("#platemakingBody .tr-header td.columnHeadr").each(function () {
             valueIDs += $(this).data("id") + '|';
         });
+
         ObjectJS.isLoading = false;
         Global.post("/Task/UpdateOrderPlateAttr", {
             orderID: ObjectJS.guid,
@@ -1191,28 +1125,13 @@
                 ObjectJS.isPlate = true;
             }
             else {
-                alert("aa");
+                alert("保存失败");
             }
             ObjectJS.isLoading = true;
         });
     }
 
-    //保存制版工艺说明
-    ObjectJS.updateOrderPlateRemark = function () {
-        ObjectJS.isLoading = false;
-        Global.post("/Task/UpdateOrderPlateRemark", {
-            orderID: ObjectJS.guid,
-            plateRemark: encodeURI(Editor.getContent())
-        }, function (data) {
-            if (data.result == 1) {
-                alert("保存成功");
-            }
-            ObjectJS.isLoading = true;
-        });
-    }
-
-    var PlateMakings = [];
-    var Upload = null;
+    //制版工艺
     ObjectJS.initPlateMaking = function () {
         $("#btnAddPalte").click(function () {
             ObjectJS.addPlateMaking();
@@ -1229,6 +1148,7 @@
                 OrderID: ObjectJS.orderid,
                 TaskID: ObjectJS.taskid
             }
+            
             ObjectJS.savePlateMaking(item);
         });
 
@@ -1256,7 +1176,7 @@
                     html = $(html);
                     $(".tb-plates .tr-header").after(html);
 
-                    if ("#setPlateMaking".length == 1) {
+                    if ($("#setPlateMaking").length == 1) {
                         html.find(".dropdown").click(function () {
                             var _this = $(this);
                             var position = _this.find(".ico-dropdown").position();
@@ -1326,6 +1246,12 @@
                 }
             });
 
+            var icoUrl = item.Icon;
+            if (icoUrl != '') {
+                $(".plate-show-ico").show().find("img").attr("src", icoUrl);
+            }
+
+
             if (Upload == null) {
                 Upload = require("upload");
             }
@@ -1359,8 +1285,10 @@
             });
         });
     }
-    //#endregion
+    //#endregion 任务制版相关事件
 
+
+    //#region 任务裁剪、车缝、发货
     //裁剪记录
     ObjectJS.getCutoutDoc = function () {
         ObjectJS.getGetGoodsDoc("navCutoutDoc",1);
@@ -1699,7 +1627,7 @@
     ObjectJS.sendOrders = function () {
         var _self = this;
         doT.exec("template/orders/send_orders.html", function (template) {
-            var innerText = template(_self.model.OrderGoods);
+            var innerText = template(_self.OrderGoods);
 
             Easydialog.open({
                 container: {
@@ -1715,6 +1643,7 @@
                         Global.post("/Orders/CreateOrderSendDoc", {
                             orderid: _self.orderid,
                             taskid: _self.taskid,
+                            doctype: 2,
                             isover: 0,
                             expressid: $("#expressid").data("id"),
                             expresscode: $("#expressCode").val(),
@@ -1809,6 +1738,7 @@
             ObjectJS.express = data.items;
         });
     }
+    //#endregion 任务裁剪、车缝、发货
 
     module.exports = ObjectJS;
 });
