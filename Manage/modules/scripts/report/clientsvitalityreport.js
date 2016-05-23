@@ -25,17 +25,13 @@
 
         $(".search-type li").click(function () {
             var _this = $(this);
-
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-
                 Params.searchType = _this.data("id");
                 Params.dateType = _this.data("type");
-
-                $(".source-box").hide();
+                //$(".source-box").hide();
                 $("#" + _this.data("id")).show();
-
                 if (!_self.clientsChart) {
                     _self.clientsChart = ec.init(document.getElementById('clientsVitalityRPT'));
                 }
@@ -72,7 +68,8 @@
                 alert("开始日期不能大于结束日期！");
                 return;
             }
-            _self.sourceDate()
+           
+            _self.sourceDate();
             $(".search-type .hover").data("begintime", Params.beginTime).data("endtime", Params.endTime);
         });
         $("#btnSearch").click();
@@ -80,6 +77,7 @@
     //按时间周期
     ObjectJS.sourceDate = function () {
         var _self = this;
+        
         _self.clientsChart.showLoading({
             text: "数据正在努力加载...",
             x: "center",
@@ -107,6 +105,7 @@
                 });
                 return;
             }
+
             for (var i = 0, j = data.items.length; i < j; i++) {
                 title.push(data.items[i].Name);
                 var _items = [];
@@ -177,6 +176,7 @@
                 ],
                 series: items
             };
+
             _self.clientsChart.hideLoading();
             _self.clientsChart.setOption(option);
         });

@@ -191,6 +191,42 @@ a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,
         }
 
         /// <summary>
+        /// 获取工厂活跃度报表
+        /// </summary>
+        public static List<ClientVitalityEntity> GetClientsVitalityReport(int type, string begintime, string endtime, string clientId)
+        {
+            List<ClientVitalityEntity> list = new List<ClientVitalityEntity>();
+            DataSet ds = ClientDAL.BaseProvider.GetClientsVitalityReport(type, begintime, endtime,clientId);
+            string clientName = "当前";
+            if (!string.IsNullOrEmpty(clientId))
+            { 
+                 Clients client=   GetClientDetail(clientId);
+                 if (client != null && !string.IsNullOrEmpty(client.CompanyName))
+                 {
+                     clientName = client.CompanyName;
+                 }
+            }
+            List<ClientVitalityItem> sysReport = new List<ClientVitalityItem>();
+            List<ClientVitalityItem> clientReport = new List<ClientVitalityItem>();
+            foreach (DataRow dr in ds.Tables["SystemReport"].Rows)
+            {
+                sysReport.Add(new ClientVitalityItem() { Name = dr["ReportDate"].ToString(), Value = Convert.ToDecimal(dr["Vitality"]) });
+                if (ds.Tables["ClientReport"].Rows.Count > 0)
+                {
+                    DataRow[] drs = ds.Tables["ClientReport"].Select("ReportDate='" + dr["ReportDate"].ToString() + "'");
+                    decimal clientValue = drs.Count() > 0 ? Convert.ToDecimal(drs.FirstOrDefault()["Vitality"]) : (decimal)0.0000;
+                    clientReport.Add(new ClientVitalityItem() { Name = dr["ReportDate"].ToString(), Value = clientValue });
+                }
+                else { clientReport.Add(new ClientVitalityItem() { Name = dr["ReportDate"].ToString(), Value = (decimal)0.0000 }); }
+
+            }
+            list.Add(new ClientVitalityEntity() { Name = "系统均值", Items = sysReport });
+            list.Add(new ClientVitalityEntity() { Name = clientName, Items = clientReport });
+
+            return list;
+        }
+
+        /// <summary>
         /// 获取客户端授权日志
         /// </summary>
         public static List<ClientAuthorizeLog> GetClientAuthorizeLogs(string clientID,string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)

@@ -7,7 +7,11 @@ define(function (require, exports, module) {
         Global = require("global"),
         doT = require("dot"),
         Easydialog = require("easydialog"),
-        City = require("city");
+        City = require("city"),
+        ec = require("echarts/echarts");
+    require("echarts/chart/pie");
+    require("echarts/chart/line");
+    require("echarts/chart/bar");
     var VerifyObject, CityObject;
 
     var Clients = {};
@@ -31,10 +35,20 @@ define(function (require, exports, module) {
         endDate: "",
         clientID: "?"
     };
+
+    var Params = {
+        searchType: "clientdetailVitalityRPT",
+        dateType: 3,
+        beginTime: "",
+        endTime: "",
+        clientID:""
+    };
     //客户详情初始化
     Clients.detailInit = function (id) {
+        var _self = this;
         Clients.Params.clientID = id;
-        Clients.detailEvent();
+        _self.clientsChart = ec.init(document.getElementById('clientdetailVitalityRPT'));
+        Clients.detailEvent();        
         //行业为空
         if ($("#industry option").length == 1) $("#industry").change();
         if (id) {
@@ -43,8 +57,56 @@ define(function (require, exports, module) {
     }
     //绑定事件
     Clients.detailEvent = function () {
+        var _self = this;       
+        $("#btnSearch").click(function () {
+            Params.beginTime = $("#beginTime").val().trim();
+            Params.endTime = $("#endTime").val().trim();
+            if (!Params.beginTime || !Params.endTime) {
+                alert("开始日期与结束日期不能为空！");
+                return;
+            }
+            if (Params.beginTime > Params.endTime) {
+                alert("开始日期不能大于结束日期！");
+                return;
+            }
+            _self.sourceDate()
+            $(".search-type .hover").data("begintime", Params.beginTime).data("endtime", Params.endTime);
+        });       
+
+        $(".search-type li").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+                Params.searchType = _this.data("id");
+                Params.dateType = _this.data("type"); 
+                $("#" + _this.data("id")).show();
+                if (!_self.clientsChart) {
+                    _self.clientsChart = ec.init(document.getElementById('clientdetailVitalityRPT'));
+                }
+                if (_this.data("begintime")) {
+                    $("#beginTime").val(_this.data("begintime"));
+                } else {
+                    if (Params.dateType == 3) {
+                        $("#beginTime").val(new Date().setFullYear(new Date().getFullYear() - 1).toString().toDate("yyyy-MM-dd"));
+                    } else if (Params.dateType == 2) {
+                        $("#beginTime").val(new Date().setMonth(new Date().getMonth() - 3).toString().toDate("yyyy-MM-dd"));
+                    }
+                    else if (Params.dateType == 1) {
+                        $("#beginTime").val(new Date().setDate(new Date().getDay() - 15).toString().toDate("yyyy-MM-dd"));
+                    }
+                }
+                if (_this.data("endtime")) {
+                    $("#endTime").val(_this.data("endtime"));
+                } else {
+                    $("#endTime").val(Date.now().toString().toDate("yyyy-MM-dd"));
+                }
+                $("#btnSearch").click();
+            }
+
+        });
         //客户设置菜单
-        $(".search-tab li").click(function () {
+        $(".search-status li").click(function () {
             $(this).addClass("hover").siblings().removeClass("hover");
             var index = $(this).data("index");
             $(".content-body div[name='navContent']").hide().eq(parseInt(index)).show();
@@ -57,9 +119,11 @@ define(function (require, exports, module) {
                 $('#addNewOrder').show();
                 $('#addAuthorize').hide();
             } else if (index == 2) {
-                Clients.bindActionReport();
+                $("#beginTime").val(new Date().setMonth(new Date().getMonth() - 3).toString().toDate("yyyy-MM-dd"));
+                $("#endTime").val(Date.now().toString().toDate("yyyy-MM-dd"));
+                $("#btnSearch").click();
                 $('#addNewOrder').hide();
-                $('#addAuthorize').hide();
+                $('#addAuthorize').hide();            
             }
         });
         $("#SearchClientOrders").click(function () {
@@ -120,13 +184,6 @@ define(function (require, exports, module) {
             regText: "data-text"
         });
 
-        $("#SearchList").click(function () {
-            Clients.ActionParams.pageIndex = 1;
-            Clients.ActionParams.startDate = $("#actionBeginTime").val();
-            Clients.ActionParams.endDate = $("#actionEndTime").val();
-            Clients.bindActionReport();
-
-        });
         $('#delClient').click(function () {
             if (confirm("确定删除?")) {
                 Global.post("/Client/DeleteClient", { id: Clients.Params.clientID }, function (data) {
@@ -347,6 +404,7 @@ define(function (require, exports, module) {
                 Clients.Params.clientID = item.ClientID;
                 Clients.Params.agentID = item.AgentID;
                 Clients.ActionParams.clientID = item.ClientID;
+                Params.clientID = item.ClientID;
                 //绑定编辑客户信息
                 $("#updateClient").click(function () {
                     Clients.editClient(item);
@@ -464,18 +522,7 @@ define(function (require, exports, module) {
             });
         });
     };
-
-    //绑定数据
-    Clients.bindActionReport = function () {
-        $(".tr-header").nextAll().remove();
-        Global.post("/Report/GetAgentActionReportsByClientID", Clients.ActionParams, function (data) {
-            doT.exec("template/report/agentactionreport-list.html?3", function (templateFun) {
-                var innerText = templateFun(data.Items);
-                innerText = $(innerText);
-                $(".tr-header").after(innerText);
-            });
-        });
-    }
+     
     Clients.validateResult = function (data) {
         if (data.Result == 1) {
             Clients.getClientOrders();
@@ -487,5 +534,114 @@ define(function (require, exports, module) {
             alert("操作失败");
         }
     };
+
+
+
+    Clients.sourceDate = function () {
+        var _self = this; 
+        _self.clientsChart.showLoading({
+            text: "数据正在努力加载...",
+            x: "center",
+            y: "center",
+            textStyle: {
+                color: "red",
+                fontSize: 14
+            },
+            effect: "spin"
+        });
+        Global.post("/Report/GetClientVitalityReport", Params, function (data) {
+            var title = [], items = [], datanames = [];
+            _self.clientsChart.clear(); 
+            if (data.items.length == 0) {
+                _self.clientsChart.hideLoading();
+                _self.clientsChart.showLoading({
+                    text: "暂无数据",
+                    x: "center",
+                    y: "center",
+                    textStyle: {
+                        color: "red",
+                        fontSize: 14
+                    },
+                    effect: "bubble"
+                });
+                return;
+            }
+            console.log(Params);
+            console.log(data);
+            for (var i = 0, j = data.items.length; i < j; i++) {
+                title.push(data.items[i].Name);
+                var _items = [];
+                for (var ii = 0, jj = data.items[i].Items.length; ii < jj; ii++) {
+                    if (i == 0) {
+                        datanames.push(data.items[i].Items[ii].Name);
+                    }
+                    _items.push(data.items[i].Items[ii].Value);
+                }
+                items.push({
+                    name: data.items[i].Name,
+                    type: 'line',
+                    stack: '活跃度',
+                    data: _items
+                });
+            } 
+            option = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: title
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false,
+                            optionToContent: function (opt) {
+                                var axisData = opt.xAxis[0].data;
+                                var series = opt.series;
+                                var table = '<table class="table-list"><tr class="tr-header">'
+                                             + '<td>时间</td>';
+                                for (var i = 0, l = series.length; i < l; i++) {
+                                    table += '<td>' + series[i].name + '</td>'
+                                }
+                                table += '</tr>';
+                                for (var i = 0, l = axisData.length; i < l; i++) {
+                                    table += '<tr>'
+                                    + '<td class="center">' + axisData[i] + '</td>'
+                                    for (var ii = 0, ll = series.length; ii < ll; ii++) {
+                                        table += '<td class="center">' + series[ii].data[i] + '</td>';
+                                    }
+
+                                    table += '</tr>';
+                                }
+                                table += '</table>';
+                                return table;
+                            }
+                        },
+                        magicType: { show: true, type: ['line', 'bar'] },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
+                    }
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: datanames
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: items
+            };
+            console.log(option);
+            _self.clientsChart.hideLoading();
+            _self.clientsChart.setOption(option);
+        });
+    }
     module.exports = Clients;
 });
