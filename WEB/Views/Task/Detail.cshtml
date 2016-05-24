@@ -37,34 +37,42 @@
         @{
             if (task.Mark == 11)
             {
+                //打样材料
                Html.RenderPartial("MaterialDetail",order);
             }
             else if (task.Mark == 21)
-            {
+            {   
+                //大货材料
                 Html.RenderPartial("CargoMaterialDetail", order);
             }
             else if (task.Mark == 12)
             {
+                //打样制版
                 Html.RenderPartial("PlateDetail", order);
             }
             else if (task.Mark == 22)
-            {
-               Html.RenderPartial("PlateDetail", order);
+            {   
+                //大货制版
+                Html.RenderPartial("PlateDetail", order);
             }
             else if (task.Mark == 15)
             {
+                //打样发货
                 Html.RenderPartial("SendDYDoc");
             }
             else if (task.Mark == 25)
             {
+                //大货发货
                 Html.RenderPartial("SendDoc");
             }
             else if (task.Mark == 23)
             {
+                //大货裁片
                 Html.RenderPartial("CutoutDoc");
             }
             else if (task.Mark == 24)
             {
+                //大货车缝
                 Html.RenderPartial("SewnDoc");
             }
         }

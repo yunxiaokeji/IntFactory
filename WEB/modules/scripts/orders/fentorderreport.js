@@ -8,7 +8,7 @@
 
     ObjectJS.bindEvent = function (plate) {
         if (plate=="") {
-            $("#Platemak").html('<tr><td class="border" style="width:500px;font-size:15px;">暂无！</td></tr>')
+            $("#Platemak").html('<tr><td class="no-border" style="width:500px;font-size:15px;">暂无！</td></tr>')
         } else {
             $("#Platemak").html(decodeURI(plate));
         }
