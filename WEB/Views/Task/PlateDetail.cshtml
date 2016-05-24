@@ -6,7 +6,7 @@
     @{
         if (!string.IsNullOrEmpty(Model.Platemaking) && isRoot)
         {
-            <a class="btn right" href="/Task/PlatePrint/@Model.OrderID" target="_blank" id="btn-platePrint">打印制版</a>
+            <a class="right" href="/Task/PlatePrint/@Model.OrderID" target="_blank" id="btn-platePrint" title="打印制版"><span class="iconfont">&#xe658;</span><span class="print-plate">打印制版</span></a>
         }
     }
     <div class="clear"></div>
