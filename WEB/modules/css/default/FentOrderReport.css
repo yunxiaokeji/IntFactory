@@ -4,10 +4,5 @@
 table{border:1px solid #000;border-collapse:collapse;}
 table tr td{border:1px solid #000;text-align:center;width:125px;height:50px;}
 table img{width:250px;}
-.t {border-top:0; }
-.b {border-bottom :0; }
-.r {border-right:0; }
-.l {border-left:0; }
-.border { border:0;}
 .customerName { color:blue;}
 .Sersion {color:orange; }

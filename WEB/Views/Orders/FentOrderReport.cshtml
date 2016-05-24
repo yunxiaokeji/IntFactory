@@ -36,36 +36,36 @@
         </tr>
         <tr>
             <td style="width:500px;">
-                <table class="border">
+                <table class="no-border">
                     <tr>
-                        <td class="t l">客户:</td>
-                        <td class="t customerName">
+                        <td class="no-border-top no-border-left">客户:</td>
+                        <td class="no-border-top customerName">
                             @(order.CustomerID==""?"--":order.Customer.Name)
                         </td>
-                        <td class="t">版本:</td>
-                        <td class="r t Sersion">1版</td>
+                        <td class="no-border-top">版本:</td>
+                        <td class="no-border-right no-border-top Sersion">1版</td>
                     </tr>                    
                     <tr>
-                        <td class="l">款号:</td>
+                        <td class="no-border-left">款号:</td>
                         <td>@(order.IntGoodsCode==""?"--":order.IntGoodsCode)</td>
                         <td>品名:</td>
-                        <td class="r">@(order.GoodsName==""?"--":order.GoodsName)</td>
+                        <td class="no-border-right">@(order.GoodsName==""?"--":order.GoodsName)</td>
                     </tr>
                     <tr>
-                        <td class="l">制版:</td>
+                        <td class="no-border-left">制版:</td>
                         <td>@(order.Tasts.Find(m=>m.Mark==12).Owner.Name)</td>
                         <td>做样:</td>
-                        <td class="r">袁银平</td>
+                        <td class="no-border-right">袁银平</td>
                     </tr>
                     <tr>
-                        <td class="l">时间:</td>
+                        <td class="no-border-left">时间:</td>
                         <td>@(order.PlanTime.ToString("yyyy-MM-dd"))</td>
                         <td>复核:</td>
-                        <td class="r"></td>
+                        <td class="no-border-right"></td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="b l">客户确认</td>
-                        <td colspan="2" class="b r"></td>
+                        <td colspan="2" class="no-border-bottom no-border-left">客户确认</td>
+                        <td colspan="2" class="no-border-bottom no-border-right"></td>
                     </tr>
                 </table>
             </td>
@@ -82,27 +82,27 @@
                 
             </td>
             <td>
-                <table class="border" style="height:100%">
+                <table class="no-border" style="height:100%">
                     <tr>
-                        <td colspan="6" class="r t l font20" style="height:30px;">面/辅料</td>
+                        <td colspan="6" class="no-border-right no-border-top no-border-left font20" style="height:30px;">面/辅料</td>
                     </tr>
                     @if (order.Details.Count>0)
                     {
                         foreach (var item in order.Details)
                         {
                             <tr>
-                                <td class="l b">@(item.ProductName)</td>                            
-                                <td class="b">门幅:</td>
-                                <td class="b">1.44</td>
-                                <td class="b">用料:</td>
-                                <td class="b">@(item.Quantity.ToString("f3"))</td>
+                                <td class="no-border-left no-border-bottom">@(item.ProductName)</td>                            
+                                <td class="no-border-bottom">门幅:</td>
+                                <td class="no-border-bottom">1.44</td>
+                                <td class="no-border-bottom">用料:</td>
+                                <td class="no-border-bottom">@(item.Quantity.ToString("f3"))</td>
                             </tr>
                         }
                     }
                     else
                     {
                         <tr>
-                            <td class="l b" colspan="2" style="width:250px;font-size:15px;">暂无材料！</td>
+                            <td class="no-border-left no-border-bottom" colspan="2" style="width:250px;font-size:15px;">暂无材料！</td>
                             
                         </tr>
                     }
@@ -113,9 +113,9 @@
         </tr>
         <tr>
             <td></td>
-            <td colspan="6" class="font16 l">
+            <td colspan="6" class="font16 no-border-left">
                 <span class="taskplate"> 成本/加工费</span>
-                <table class="border" id="Processing">
+                <table class="no-border" id="Processing">
                     @*<tr>
                         <td class=" l width125">加工费</td>
                         <td class="l r width125">@(order.CostPrice)</td>
@@ -123,8 +123,8 @@
                     @foreach (var obj in list)
                     {
                         <tr>
-                            <td class="l">@(obj.Remark)</td>
-                            <td class="l r">@(obj.Price)</td>
+                            <td class="no-border-left">@(obj.Remark)</td>
+                            <td class="no-border-left no-border-right">@(obj.Price)</td>
                         </tr>
                     }  
                 </table>
