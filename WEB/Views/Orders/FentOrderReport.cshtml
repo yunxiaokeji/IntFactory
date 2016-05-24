@@ -28,8 +28,14 @@
     </script>
 </head>
 <body>
-    <div class="titlename">@(client.CompanyName==""?"--":client.CompanyName)</div>
-    <table style="margin-left:20%;margin-bottom:20px;">
+    
+    <table style="margin-left:20%;margin-bottom:20px;position:relative" id="tableid">
+        <tr>
+            <td colspan="2">
+                <div class="titlename">@(client.CompanyName==""?"--":client.CompanyName)</div>
+            </td>
+            
+        </tr>
         <tr>
             <td class="font20">报价单</td>
             <td class="font20">款式图</td>
@@ -138,6 +144,11 @@
             <td colspan="2" style="height:200px;"></td>
         </tr>
     </table>
+    
+    <div class="export">
+        <input type="button" id="btnExecl" value="导出Excel表格" /> 
+    </div>
+      
 </body>
 </html>
 

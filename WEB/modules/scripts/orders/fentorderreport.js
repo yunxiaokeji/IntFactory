@@ -7,11 +7,15 @@
     };
 
     ObjectJS.bindEvent = function (plate) {
-        if (plate=="") {
+        if (plate == "") {
             $("#Platemak").html('<tr><td class="no-border" style="width:500px;font-size:15px;">暂无！</td></tr>')
         } else {
             $("#Platemak").html(decodeURI(plate));
-        }
+        };
+
+        $("#btnExecl").click(function () {
+            ObjectJS.tableExcel();
+        });
         
     };
 
@@ -29,6 +33,10 @@
 
     ObjectJS.addTaskPlateCss = function () {
         $("#Processing").find("tr:last").find("td").css("border-bottom","0");
+    }
+
+    ObjectJS.tableExcel = function () {
+        
     }
 
     module.exports = ObjectJS;
