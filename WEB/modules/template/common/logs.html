@@ -4,7 +4,8 @@
 %}
 <div class="log-item">
     <div class="left createuser">
-        <img src="{%=item.CreateUser.Avatar%}" />
+        <!--<img src='{%=item.CreateUser.Avatar%}'/>-->
+        <img src='{%=item.CreateUser.Avatar==""?"/modules/images/defaultavatar.png":item.CreateUser.Avatar%}' />        
         <h2 class="long">{%=item.CreateUser.Name%}</h2> 
     </div>
     <div class="left mLeft20">
