@@ -276,7 +276,7 @@
                 $("#ContactName").html(item.ContactName == "" ? "--" :item.ContactName);
                 $("#MobilePhone").html(item.MobilePhone == "" ? "--" :item.MobilePhone);
                 $("#OfficePhone").html(item.OfficePhone == "" ? "--" : item.OfficePhone);                
-                $("#lblReamrk").html(item.Description);
+                $("#lblReamrk").html(item.Description == "" ? "--" : item.Description);
                 $("#address").html(item.City ? item.City.Province + " " + item.City.City + " " + item.City.Counties : "--");
                 var s = window.location.href.toString();
                 var http = s.substr(0, s.length - 13);

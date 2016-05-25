@@ -593,7 +593,7 @@
         //切换模块
         $(".module-tab li").click(function () {
             var _this = $(this);
-
+            
             //操作按钮
             $(".part-btn").hide();
             if (_this.data("btn")) {
@@ -1557,8 +1557,10 @@
 
     //获取日志
     ObjectJS.getLogs = function (page) {
-        var _self = this;
+        var _self = this;        
         $("#orderLog").empty();
+       // $("#orderLog").nextAll().remove();
+        $("#orderLog").after("<div class='data-loading' ></div>");
         Global.post("/Orders/GetOrderLogs", {
             orderid: _self.orderid,
             pageindex: page
@@ -1569,8 +1571,10 @@
                     innerhtml = $(innerhtml);
                     $("#orderLog").append(innerhtml);
                 });
+                $(".data-loading").remove();
             } else {
-                $("#navLog").after("<div class='nodata-txt' >暂无日志!<div>");
+                $(".data-loading").remove();
+                $("#orderLog").after("<div class='nodata-txt' >暂无日志!</div>");
             }
             
             $("#pagerLogs").paginate({
