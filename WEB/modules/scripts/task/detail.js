@@ -1102,7 +1102,7 @@
     ObjectJS.updateOrderPlatemaking = function () {
         if ($("#platemakingBody").html() == "") { return; }
 
-        if ($(".tbContentIpt:visible").length == 0) { return; }
+        //if ($(".tbContentIpt:visible").length == 0) { return; }
 
         $(".tbContentIpt:visible").each(function () {
             $(this).attr("value", $(this).val()).hide().prev().html($(this).val()).show();
