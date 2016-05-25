@@ -21,7 +21,7 @@
 
 <div class="header-box">
     <div class="header-title">
-        订单详情页&nbsp;—&nbsp;@(!model.IsSelf&&!string.IsNullOrEmpty(model.EntrustClientID)?"委托订单":model.IsSelf&&!string.IsNullOrEmpty( model.EntrustClientID)?"协助订单":"本厂订单")
+        订单详情页&nbsp;—&nbsp;@(!model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID) ? "委托订单" : model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID) ? "协助订单" : "本厂订单")
         <a class="back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">
            <i class="iconfont">&#xe62d;</i> 返回 
         </a>
@@ -37,7 +37,7 @@
         {
             if (model.OrderStatus == 0)
             {
-                if (string.IsNullOrEmpty(model.EntrustClientID)) 
+                if (string.IsNullOrEmpty(model.EntrustClientID))
                 {
                     <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
                     <div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >订单委托</div>
@@ -45,7 +45,7 @@
                 else
                 {
                     <div class="btn right mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >退回委托</div>
-                }  
+                }
             }
             else if (model.OrderStatus == 1)
             {
@@ -117,7 +117,7 @@
 <div class="content-body">
     <div class="order-imgs-div left">
         <div class="order-imgs">
-            <img id="orderImage" src="@(string.IsNullOrEmpty(model.OrderImage)?"":model.OrderImage)" data-self="@(model.IsSelf ? 1 : 0)" />
+            <img id="orderImage" src="@(string.IsNullOrEmpty(model.OrderImage) ? "" : model.OrderImage)" data-self="@(model.IsSelf ? 1 : 0)" />
             @if (model.SourceType == 3)
             {
                <span class="aliorder">
@@ -150,7 +150,7 @@
             </li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019021"))">
                 <span class="column-title">利润比例(%)：</span>
-                <label class="left" id="profitPrice">@((model.ProfitPrice*100).ToString("f2"))</label>
+                <label class="left" id="profitPrice">@((model.ProfitPrice * 100).ToString("f2"))</label>
                  @if (model.IsSelf && model.OrderStatus == 1)
                  { 
                     <div id="updateProfitPrice" class="left ico-edit iconfont mLeft20">&#xe607;</div>
@@ -214,7 +214,7 @@
         {
             <span title="更换流程" class="iconfont change-ico left mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess">&#xe60b;</span>
         }
-        <div class="left info mLeft20">负责人：@(model.OrderProcess!=null&&model.OrderProcess.Owner!=null?model.OrderProcess.Owner.Name:"")</div>
+        <div class="left info mLeft20">负责人：@(model.OrderProcess != null && model.OrderProcess.Owner != null ? model.OrderProcess.Owner.Name : "")</div>
         @if (model.IsSelf)
         {
             if (string.IsNullOrEmpty(model.CategoryID))
@@ -296,8 +296,10 @@
                 <td class="">损耗量</td>
                 <td class="tRight">小计</td>
             </tr>
-            @foreach (var detail in model.Details)
-            { 
+            @if (model.Details.Count > 0)
+            {
+                foreach (var detail in model.Details)
+                { 
                 <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
                     <td class="width80">
                         <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">
@@ -313,7 +315,13 @@
                     <td class="center tr-loss"><label class="loss">@(detail.Loss.ToString("f3"))</label></td>
                     <td class="tRight moneytotal">@((detail.TotalMoney).ToString("f3"))</td>
                 </tr>
+                }
             }
+            else
+            {
+                <tr><td colspan='10'><div class='nodata-txt' >暂无数据!</div></td></tr>
+            }
+            
             <tr class="total-item bold">
                 <td></td>
                 <td></td>
