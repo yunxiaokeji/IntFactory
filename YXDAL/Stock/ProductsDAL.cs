@@ -296,6 +296,12 @@ namespace IntFactoryDAL
 
         #region 分类
 
+        public DataTable GetCategorys()
+        {
+            DataTable dt = GetDataTable("select * from Category where Status<>9 Order by CreateTime");
+            return dt;
+        }
+
         public DataTable GetChildCategorysByID(string categoryid, int type)
         {
             SqlParameter[] paras = { 

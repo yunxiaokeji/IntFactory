@@ -8,7 +8,7 @@
             <i class="iconfont">&#xe626;</i>
         </span>
         {% if(item.OrderImage){ %}
-              <img src="{%=item.OrderImage%}" />
+              <img onerror="this.src=''" src="{%=item.OrderImage%}" />
         {% } %}
         {% if(item.GoodsCode){ %}
               <span class="aliorder">

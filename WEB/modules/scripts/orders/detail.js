@@ -78,15 +78,38 @@
                 $(this).find("td").last().remove();
             });
         }
-        if (model.PlateRemark) {
-            $("#navEngravingRemark").html(decodeURI(model.PlateRemark));
-        }
-        else {
-            $(".edui-container").hide();
-        }
-
         //样图
-        _self.bindOrderImages(model.OrderImages)
+        _self.bindOrderImages(model.OrderImages);
+
+        _self.getPlateMakings();
+    }
+
+    //获取制版工艺说明
+    ObjectJS.getPlateMakings = function () {
+        var _self = this;
+
+        $(".tb-plates .tr-header").nextAll().remove();
+        $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
+
+        Global.post("/Task/GetPlateMakings", {
+            orderID: _self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID,
+            taskID: ""
+        }, function (data) {
+            $(".tb-plates .tr-header").nextAll().remove();
+
+            if (data.items.length > 0) {
+                doT.exec("template/task/platemarting-list.html", function (template) {
+                    PlateMakings = data.items;
+                    var html = template(data.items);
+                    html = $(html);
+                    html.find(".dropdown").remove();
+                    $(".tb-plates .tr-header").after(html);
+                });
+            }
+            else {
+                $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='nodata-txt'>暂无数据!<div></td></tr>");
+            }
+        });
     }
 
     //绑定事件
