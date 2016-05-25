@@ -623,7 +623,7 @@
                 });
             }
             else {
-                $("#taskLogList").html("<div class='nodata-txt'>暂无数据!</div>");
+                $("#taskLogList").html("<div class='nodata-txt'>暂无日志!</div>");
             }
 
             $("#pagerLogs").paginate({
