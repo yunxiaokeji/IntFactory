@@ -93,6 +93,8 @@ input[type="text"],#remark { border: 1px solid #ccc; border-radius: 2px; line-he
 .btn-query{display:inline-block;width:170px;height:50px;color:#4a98e7;background:#fff;border:1px solid #4a98e7;border-radius:5px;moz-border-radius:5px;-webkit-border-radius:5px;}
 .btn-query:hover{color:#318ae4;border:1px solid #318ae4;}
 
+.success-btn span { cursor:pointer;}
+.success-btn .btn-close:hover {background-color:#fff;}
 /*小图标*/
 .pay-content-main-form .lump { border-bottom: 6px solid #4a98e7; border-left: 6px solid transparent; border-right: 6px solid transparent;margin-top:20px;cursor:pointer;}
 @media screen and (max-width:600px) {

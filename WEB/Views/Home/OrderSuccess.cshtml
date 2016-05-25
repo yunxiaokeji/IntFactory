@@ -14,6 +14,25 @@
 	<meta name="author" content="zuroke" />
 	<title>智能工厂-在线下单成功</title>
     <link href="/modules/css/default/order_create.css" rel="stylesheet" />
+    <script>
+        function CloseWebPage() {
+            
+            if (navigator.userAgent.indexOf("MSIE") > 0) {
+                if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
+                    window.opener = null;
+                    window.close();
+                } else {
+                    window.open('', '_top');
+                    window.top.close();
+                }
+            }
+            else if (navigator.userAgent.indexOf("Firefox") > 0) {
+                window.location.href = 'about:blank ';
+            } else {
+                window.opener = null;window.open('', '_self');window.close();
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -37,7 +56,8 @@
             </ul>
         </div>
         <div class="success-btn">
-        	<a type="button" class="btn-order" href="/Home/SelfOrder/@(model.ClientID)">继续下单</a>
+        	<span class="btn-order" onclick="/Home/SelfOrder/@(model.ClientID)">继续下单</span>
+            <span class="btn-order btn-close" style="cursor:pointer; background:#eee;color:#999;border-color:#ddd;" onclick="CloseWebPage();">立即关闭</span>
             @*<button type="button" value="订单查询" class="btn-query">订单查询</button>*@
         </div>
     </div>
@@ -45,10 +65,5 @@
 </div>
 <!--内容end-->
 
-<!--页脚-->
-<div class="pay-bottom pay-body row">
-	<p>©2015-2016 智能工厂 沪ICP备15042543号</p>
-</div>
-<!--页脚end-->
 </body>
 </html>
