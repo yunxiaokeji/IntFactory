@@ -1,5 +1,4 @@
-﻿
-define(function (require, exports, module) {
+﻿define(function (require, exports, module) {
     var City = require("city"),  CityInvoice,
         Verify = require("verify"), VerifyInvoice,
         Global = require("global"),
@@ -21,7 +20,6 @@ define(function (require, exports, module) {
         _self.orderid = orderid;
         _self.status = status;        
         _self.model = JSON.parse(model.replace(/&quot;/g, '"'));
-
         _self.bindStyle(_self.model);
         _self.bindEvent();
         _self.getAmount();
@@ -1553,7 +1551,12 @@ define(function (require, exports, module) {
         }, function (data) {
             $("#navSendDoc .tr-header").nextAll().remove();
             if (data.items.length > 0) {
-                doT.exec("template/orders/senddocs.html", function (template) {
+                var templateInner = "senddocs";
+                if (ObjectJS.model.OrderType == 1)
+                {
+                    templateInner = "senddydocs";
+                }
+                doT.exec("template/orders/" + templateInner + ".html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 

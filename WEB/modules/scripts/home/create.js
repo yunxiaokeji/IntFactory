@@ -13,18 +13,18 @@
         _self.agentid = agentid;
         var categoryitems = JSON.parse(categoryitem.replace(/&quot;/g, '"'));
 
-        //_self.bigCategoryValue = "请选择";
-
-        //_self.categoryValue = "请选择";
-
         if (categoryitem!=null)
         {
             ObjectJS.categoryitems = categoryitems;
         }
 
+        _self.bigCategoryValue = _self.categoryitems[0].CategoryID;
+
+        _self.categoryValue = "";
+
         if (customerid) {
             Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
-                //console.log(data.model);
+
                 if (data.model.CustomerID) {
                     $("#name").val(data.model.Name);
                     $("#contactMobile").val(data.model.MobilePhone);
@@ -40,66 +40,34 @@
     //绑定事件
     ObjectJS.bindEvent = function (citycode) {
         var _self = this;
-        //var dropDownWidth = 96;
-        //if ($(window).width() <= 600) {
-        //    //下拉框的宽度等于(最大显示区域宽度-边框宽度-边距宽度/2)-下拉控件右边距4个像素
-        //    dropDownWidth = (($('.pay-content').width() - 40) / 2) -4;
-        //}
+        var dropDownWidth = 96;
+        if ($(window).width() <= 600) {
+            //下拉框的宽度等于(最大显示区域宽度-边框宽度-边距宽度/2)-下拉控件右边距4个像素
+            dropDownWidth = (($('.pay-content').width() - 40) / 2) - 4;
+        }
 
-        ////大品类下拉
-        //require.async("dropdown", function () {
-        //    $(".bigcategory").dropdown({
-        //        prevText: "",
-        //        defaultText: "请选择",
-        //        defaultValue:"请选择",
-        //        data: ObjectJS.categoryitems,
-        //        dataValue: "CategoryID",
-        //        dataText: "CategoryName",
-        //        width: dropDownWidth,
-        //        onChange: function (data) {
+        //大品类下拉
+        require.async("dropdown", function () {
+            $(".bigcategory").dropdown({
+                prevText: "",
+                defaultText: _self.categoryitems[0].CategoryName,
+                defaultValue: _self.categoryitems[0].CategoryID,
+                data: _self.categoryitems,
+                dataValue: "CategoryID",
+                dataText: "CategoryName",
+                width: dropDownWidth,
+                onChange: function (data) {
 
-        //            $('.ordercategory').empty();
-        //            _self.bigCategoryValue = data.value;
-        //            _self.categoryValue = "";
-        //            alert(_self.categoryValue);
-        //                Global.post("/Home/GetChildOrderCategorysByID", { categoryid: data.value, clientid: _self.clientid }, function (data) {
-        //                    require.async("dropdown", function () {
-        //                        $(".ordercategory").dropdown({
-        //                            prevText: "",
-        //                            defaultText: "请选择",
-        //                            defaultValue:"请选择",
-        //                            data: data.Items,
-        //                            dataValue: "CategoryID",
-        //                            dataText: "CategoryName",
-        //                            width: dropDownWidth,
-        //                            onChange: function (data) {
-        //                                _self.categoryValue = data.value;
-        //                            }
-        //                        });
-        //                    });
-        //                    $(".ordercategory .dropdown-text").html(data.Items[0].CategoryName);
-        //                });
-        //        }
-        //    });
-        //});
+                    ObjectJS.bigCategoryValue = data.value;
 
-        ////小品类下拉控件
-        //require.async("dropdown", function () {
-        //    $(".ordercategory").dropdown({
-        //        prevText: "",
-        //        defaultText: "请选择",
-        //        defaultValue: "请选择",
-        //        data: "",
-        //        dataValue: "CategoryID",
-        //        dataText: "CategoryName",
-        //        width: dropDownWidth,
-        //        onChange: function (data) {
+                    ObjectJS.bindCategory(data, dropDownWidth);
+                    
+                }
+            });
+        });
 
-        //        }
-        //    });
-        //});
+        ObjectJS.bindCategory({ value: _self.categoryitems[0].CategoryID }, dropDownWidth);
 
-        
         //收缩订单或客户信息
         $(".info-box").click(function () {
             var _this=$(this);
@@ -163,6 +131,7 @@
             cityCode: citycode,
             elementID: "city"
         });
+
         //切换类型
         $(".ico-radiobox").click(function () {
             var _this = $(this);
@@ -192,25 +161,55 @@
         $("#bigcategory").change();
     }
 
+    //
+
+    //绑定小品类
+    ObjectJS.bindCategory = function (item, dropDownWidth) {
+        var _self = this;
+        var isOnce = true;
+
+        $('.ordercategory').empty();
+        Global.post("/Home/GetChildOrderCategorysByID", { categoryid: item.value, clientid: _self.clientid }, function (data) {
+            var items = data.Items;
+
+            if (isOnce) {
+                _self.categoryValue = items[0].CategoryID;
+                isOnce = false;
+            }
+            
+            require.async("dropdown", function () {
+                $(".ordercategory").dropdown({
+                    prevText: "",
+                    defaultText:items[0].CategoryName,
+                    defaultValue: items[0].CategoryID,
+                    data:items ,
+                    dataValue: "CategoryID",
+                    dataText: "CategoryName",
+                    width: dropDownWidth,
+                    onChange: function (data) {
+                        _self.categoryValue = data.value;
+                    }
+                });
+            });
+
+        });
+
+    }
+
     //保存实体
     ObjectJS.saveModel = function () {
         var _self = this;
         var images = "";
-        var orderType;
         $("#orderImages img").each(function () {
             images += $(this).attr("src") + ",";
         });
-        $(".ico-radiobox").each(function () {
-            if ($(this).hasClass('hover')) {
-                orderType = $(this).data('type');
-            }
-        })
+
         var model = {
             CustomerID: "",
             PersonName: $("#name").val().trim(),
-            OrderType: orderType,
-            BigCategoryID: $("#bigcategory").val().trim(),
-            CategoryID: $("#ordercategory").val().trim(),
+            OrderType: $(".ico-radiobox.hover").data('type'),
+            BigCategoryID: _self.bigCategoryValue.trim(),
+            CategoryID: _self.categoryValue.trim(),
             CityCode: CityObject.getCityCode(),
             Address: $("#address").val().trim(),
             OrderImage: images,
