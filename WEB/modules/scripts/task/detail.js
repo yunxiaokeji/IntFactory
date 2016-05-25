@@ -901,6 +901,7 @@
     //添加制版新列
     ObjectJS.bindAddColumn = function () {
         $("#btn-addColumn").unbind().bind("click", function () {
+            $("#setTaskPlateAttrBox").remove();
             ObjectJS.columnnameid = $(this).data("columnname");
 
             var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
@@ -926,7 +927,7 @@
                     yesFn: function () {
                         var $hovers = $("#setTaskPlateAttrBox li.hover");
                         if ($hovers.length == 0) return;
-
+                        alert($hovers.length);
                         var newColumnHeadr = '';
                         var newColumn = '';
                         $hovers.each(function () {
@@ -944,7 +945,6 @@
                             newColumn += '</td>';
                         });
 
-
                         $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']").eq(0).after(newColumnHeadr);
                         $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']:gt(0)").after(newColumn).find("tbContentIpt").show();
 
@@ -952,6 +952,8 @@
                         ObjectJS.bindContentClick();
                         ObjectJS.bindAddRow();
                         ObjectJS.bindRemoveRow();
+                        Easydialog.close();
+                        //$("#setTaskPlateAttrBox").remove();
                     }
                 }
 
