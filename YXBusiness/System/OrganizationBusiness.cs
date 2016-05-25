@@ -15,13 +15,12 @@ namespace IntFactoryBusiness
     public class OrganizationBusiness
     {
 
-    #region Cache
+        #region Cache
 
         private static Dictionary<string, List<Users>> _cacheUsers;
         private static Dictionary<string, List<Department>> _cacheDeparts;
         private static Dictionary<string, List<Role>> _cacheRoles;
 
-        
         /// <summary>
         /// 缓存用户信息
         /// </summary>
@@ -83,11 +82,6 @@ namespace IntFactoryBusiness
 
         #region 查询
 
-        /// <summary>
-        /// 账号是否存在
-        /// </summary>
-        /// <param name="loginName">账号</param>
-        /// <returns></returns>
         public static bool IsExistLoginName(string loginName)
         {
             if (string.IsNullOrEmpty(loginName)) return false;
@@ -96,13 +90,6 @@ namespace IntFactoryBusiness
             return Convert.ToInt32(count) > 0;
         }
 
-        /// <summary>
-        /// 根据用户名密码获取会员信息（登录）
-        /// </summary>
-        /// <param name="loginname">用户名</param>
-        /// <param name="pwd">密码</param>
-        /// <param name="result">1:查询正常；2：用户名不存在；3：用户密码有误</param>
-        /// <returns></returns>
         public static Users GetUserByUserName(string loginname, string pwd,out int result, string operateip)
         {
             pwd = CloudSalesTool.Encrypt.GetEncryptPwd(pwd, loginname);
@@ -165,12 +152,6 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        /// <summary>
-        /// 验证账号密码是否正确
-        /// </summary>
-        /// <param name="loginname"></param>
-        /// <param name="pwd"></param>
-        /// <returns></returns>
         public static bool ConfirmLoginPwd(string loginname, string pwd)
         {
             pwd = CloudSalesTool.Encrypt.GetEncryptPwd(pwd, loginname);
@@ -184,12 +165,7 @@ namespace IntFactoryBusiness
 
             return false;
         }
-        /// <summary>
-        /// 根据明道用户ID和网络ID获取云销用户信息（登录）
-        /// </summary>
-        /// <param name="mduserid"></param>
-        /// <param name="mdprojectid"></param>
-        /// <returns></returns>
+
         public static Users GetUserByMDUserID(string mduserid, string operateip)
         {
             DataSet ds = new OrganizationDAL().GetUserByMDUserID(mduserid);
@@ -314,12 +290,6 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        /// <summary>
-        /// 获取用户信息
-        /// </summary>
-        /// <param name="userid"></param>
-        /// <param name="agentid"></param>
-        /// <returns></returns>
         public static Users GetUserByUserID(string userid, string agentid)
         {
             
@@ -350,15 +320,6 @@ namespace IntFactoryBusiness
             }
         }
 
-        /// <summary>
-        /// 获取用户列表
-        /// </summary>
-        /// <param name="keyWords"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="totalCount"></param>
-        /// <param name="pageCount"></param>
-        /// <returns></returns>
         public static List<Users> GetUsers(string keyWords, string departID, string roleID, string agentid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             string whereSql = "AgentID='" + agentid + "' and Status<>9";
@@ -390,11 +351,6 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        /// <summary>
-        /// 根据代理商ID获取员工列表（缓存,包含已注销）
-        /// </summary>
-        /// <param name="agentid">代理商ID</param>
-        /// <returns></returns>
         public static List<Users> GetUsers(string agentid)
         {
             if (string.IsNullOrEmpty(agentid))
@@ -421,23 +377,12 @@ namespace IntFactoryBusiness
             return Users[agentid].ToList();
         }
 
-        /// <summary>
-        /// 获取下级列表
-        /// </summary>
-        /// <param name="parentid"></param>
-        /// <param name="agentid"></param>
-        /// <returns></returns>
         public static List<Users> GetUsersByParentID(string parentid, string agentid)
         {
             var users = GetUsers(agentid).Where(m => m.ParentID == parentid && m.Status == 1).ToList();
             return users;
         }
-        /// <summary>
-        /// 获取PID获取组织架构
-        /// </summary>
-        /// <param name="parentid"></param>
-        /// <param name="agentid"></param>
-        /// <returns></returns>
+
         public static List<Users> GetStructureByParentID(string parentid, string agentid)
         {
             var users = GetUsersByParentID(parentid, agentid);
@@ -448,11 +393,6 @@ namespace IntFactoryBusiness
             return users;
         }
 
-        /// <summary>
-        /// 获取部门列表
-        /// </summary>
-        /// <param name="agentid">代理商ID</param>
-        /// <returns></returns>
         public static List<Department> GetDepartments(string agentid)
         {
             if (!Departments.ContainsKey(agentid))
@@ -470,22 +410,12 @@ namespace IntFactoryBusiness
             }
             return Departments[agentid].Where(m => m.Status == 1).ToList();
         }
-        /// <summary>
-        /// 根据ID获取部门
-        /// </summary>
-        /// <param name="departid"></param>
-        /// <param name="agendid"></param>
-        /// <returns></returns>
+
         public static Department GetDepartmentByID(string departid, string agendid)
         {
             return GetDepartments(agendid).Where(d => d.DepartID == departid).FirstOrDefault();
         }
 
-        /// <summary>
-        /// 获取角色列表
-        /// </summary>
-        /// <param name="agentid">代理商ID</param>
-        /// <returns></returns>
         public static List<Role> GetRoles(string agentid)
         {
             if (!Roles.ContainsKey(agentid))
@@ -504,23 +434,11 @@ namespace IntFactoryBusiness
             return Roles[agentid].Where(m => m.Status == 1).ToList();
         }
 
-        /// <summary>
-        /// 根据ID获取角色
-        /// </summary>
-        /// <param name="roleid"></param>
-        /// <param name="agentid"></param>
-        /// <returns></returns>
         public static Role GetRoleByIDCache(string roleid, string agentid)
         {
             return GetRoles(agentid).Where(r => r.RoleID == roleid).FirstOrDefault();
         }
 
-        /// <summary>
-        /// 获取角色详情（权限明细）
-        /// </summary>
-        /// <param name="roleid"></param>
-        /// <param name="agentid"></param>
-        /// <returns></returns>
         public static Role GetRoleByID(string roleid, string agentid)
         {
             Role model = null;
@@ -595,28 +513,6 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        /// <summary>
-        /// 添加员工
-        /// </summary>
-        /// <param name="loginname">登录名</param>
-        /// <param name="loginpwd">密码</param>
-        /// <param name="name">姓名</param>
-        /// <param name="mobile">手机</param>
-        /// <param name="email">邮箱</param>
-        /// <param name="citycode">城市</param>
-        /// <param name="address">地址</param>
-        /// <param name="jobs">职位</param>
-        /// <param name="roleid">角色ID</param>
-        /// <param name="departid">部门ID</param>
-        /// <param name="parentid">上级ID</param>
-        /// <param name="agentid">代理商ID></param>
-        /// <param name="clientid">客户端ID</param>
-        /// <param name="mduserid">明道用户ID</param>
-        /// <param name="mdprojectid">明道网络ID</param>
-        /// <param name="isAppAdmin">是否应用管理员</param>
-        /// <param name="operateid">操作人</param>
-        /// <param name="result">返回结果 0 失败 1成功 2账号已存在 3人数达到限制</param>
-        /// <returns></returns>
         public static Users CreateUser(string loginname, string loginpwd, string name, string mobile, string email, string citycode, string address, string jobs,
                                string roleid, string departid, string parentid, string agentid, string clientid, string mduserid, string mdprojectid, int isAppAdmin, string operateid, out int result)
         {
@@ -671,9 +567,6 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        /// <summary>
-        /// 编辑用户密码
-        /// </summary>
         public static bool UpdateUserPass(string userid, string loginPwd, string agentid)
         {
             loginPwd = CloudSalesTool.Encrypt.GetEncryptPwd(loginPwd, "");
@@ -682,9 +575,6 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        /// <summary>
-        /// 编辑用户密码
-        /// </summary>
         public static bool UpdateUserAccountPwd(string loginName, string loginPwd)
         {
             loginPwd = CloudSalesTool.Encrypt.GetEncryptPwd(loginPwd, loginName);
@@ -693,16 +583,6 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        /// <summary>
-        /// 编辑用户基本信息
-        /// </summary>
-        /// <param name="userid"></param>
-        /// <param name="name"></param>
-        /// <param name="jobs"></param>
-        /// <param name="birthday"></param>
-        /// <param name="age"></param>
-        /// <param name="departID"></param>
-        /// <returns></returns>
         public static bool UpdateUserInfo(string userid, string name, string jobs, DateTime birthday, int age, string departID, string email, string mobilePhone, string officePhone, string agentid)
         {
             bool flag = OrganizationDAL.BaseProvider.UpdateUserInfo(userid, name, jobs, birthday, age, departID, email, mobilePhone, officePhone);
@@ -727,13 +607,6 @@ namespace IntFactoryBusiness
            return flag;
         }
 
-        /// <summary>
-        /// 设置用户头像
-        /// </summary>
-        /// <param name="userid"></param>
-        /// <param name="avatar"></param>
-        /// <param name="agentid"></param>
-        /// <returns></returns>
         public static bool UpdateAccountAvatar(string userid, string avatar, string agentid)
         {
             bool flag = OrganizationDAL.BaseProvider.UpdateAccountAvatar(userid, avatar);
@@ -751,13 +624,6 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        /// <summary>
-        /// 更改账户的绑定手机
-        /// </summary>
-        /// <param name="userid"></param>
-        /// <param name="bindMobile"></param>
-        /// <param name="agentid"></param>
-        /// <returns></returns>
         public static bool UpdateAccountBindMobile(string userid, string bindMobile, string agentid)
         {
             bool flag = OrganizationDAL.BaseProvider.UpdateAccountBindMobile(userid, bindMobile);
@@ -792,12 +658,7 @@ namespace IntFactoryBusiness
             }
             return flag;
         }
-        /// <summary>
-        /// 清除账户的绑定手机
-        /// </summary>
-        /// <param name="userid"></param>
-        /// <param name="agentid"></param>
-        /// <returns></returns>
+
         public static bool ClearAccountBindMobile(string userid, string agentid)
         {
             bool flag = OrganizationDAL.BaseProvider.ClearAccountBindMobile(userid);
@@ -815,15 +676,6 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        /// <summary>
-        /// 编辑部门
-        /// </summary>
-        /// <param name="departid">部门ID</param>
-        /// <param name="name">名称</param>
-        /// <param name="description">描述</param>
-        /// <param name="operateid">操作人</param>
-        /// <param name="operateip">操作IP</param>
-        /// <returns></returns>
         public bool UpdateDepartment(string departid, string name, string description, string operateid, string operateip, string agentid)
         {
             var dal = new OrganizationDAL();
@@ -838,19 +690,11 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        /// <summary>
-        /// 编辑部门状态
-        /// </summary>
-        /// <param name="departid">部门ID</param>
-        /// <param name="status">状态</param>
-        /// <param name="operateid">操作人</param>
-        /// <param name="operateip">操作IP</param>
-        /// <returns></returns>
         public EnumResultStatus UpdateDepartmentStatus(string departid, EnumStatus status, string operateid, string operateip, string agentid)
         {
             if (status == EnumStatus.Delete)
             {
-                object count = CommonBusiness.Select("UserDepart", "count(0)", "DepartID='" + departid + "' and Status=1");
+                object count = CommonBusiness.Select("Users", "count(0)", "DepartID='" + departid + "' and Status=1");
                 if (Convert.ToInt32(count) > 0)
                 {
                     return EnumResultStatus.Exists;
@@ -868,16 +712,6 @@ namespace IntFactoryBusiness
             }
         }
 
-        /// <summary>
-        /// 编辑角色
-        /// </summary>
-        /// <param name="roleid"></param>
-        /// <param name="name">名称</param>
-        /// <param name="description">描述</param>
-        /// <param name="operateid">操作人</param>
-        /// <param name="ip">IP</param>
-        /// <param name="agentid">代理商ID</param>
-        /// <returns></returns>
         public bool UpdateRole(string roleid, string name, string description, string operateid, string ip, string agentid)
         {
             bool bl = OrganizationDAL.BaseProvider.UpdateRole(roleid, name, description, agentid);
@@ -891,15 +725,6 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        /// <summary>
-        /// 删除角色
-        /// </summary>
-        /// <param name="roleid"></param>
-        /// <param name="operateid"></param>
-        /// <param name="ip"></param>
-        /// <param name="agentid"></param>
-        /// <param name="result">0 失败 1成功 10002 存在员工</param>
-        /// <returns></returns>
         public bool DeleteRole(string roleid, string operateid, string ip, string agentid, out int result)
         {
             bool bl = OrganizationDAL.BaseProvider.DeleteRole(roleid, agentid, out result);
@@ -910,27 +735,12 @@ namespace IntFactoryBusiness
             }
             return bl;
         }
-        /// <summary>
-        /// 编辑角色权限
-        /// </summary>
-        /// <param name="roleid"></param>
-        /// <param name="permissions"></param>
-        /// <param name="operateid"></param>
-        /// <param name="ip"></param>
-        /// <returns></returns>
+
         public bool UpdateRolePermission(string roleid, string permissions, string operateid, string ip)
         {
             return OrganizationDAL.BaseProvider.UpdateRolePermission(roleid, permissions, operateid);
         }
-        /// <summary>
-        /// 编辑员工上级
-        /// </summary>
-        /// <param name="userid"></param>
-        /// <param name="parentid"></param>
-        /// <param name="agentid"></param>
-        /// <param name="operateid"></param>
-        /// <param name="ip"></param>
-        /// <returns></returns>
+
         public bool UpdateUserParentID(string userid, string parentid, string agentid, string operateid, string ip)
         {
             bool bl = OrganizationDAL.BaseProvider.UpdateUserParentID(userid, parentid, agentid);
@@ -941,15 +751,7 @@ namespace IntFactoryBusiness
             }
             return bl;
         }
-        /// <summary>
-        /// 替换人员
-        /// </summary>
-        /// <param name="userid"></param>
-        /// <param name="olduserid"></param>
-        /// <param name="agentid"></param>
-        /// <param name="operateid"></param>
-        /// <param name="ip"></param>
-        /// <returns></returns>
+
         public bool ChangeUsersParentID(string userid, string olduserid, string agentid, string operateid, string ip)
         {
             bool bl = OrganizationDAL.BaseProvider.ChangeUsersParentID(userid, olduserid, agentid);
@@ -971,15 +773,7 @@ namespace IntFactoryBusiness
             }
             return bl;
         }
-        /// <summary>
-        /// 删除员工
-        /// </summary>
-        /// <param name="userid"></param>
-        /// <param name="agentid"></param>
-        /// <param name="operateid"></param>
-        /// <param name="ip"></param>
-        /// <param name="result"></param>
-        /// <returns></returns>
+
         public bool DeleteUserByID(string userid, string agentid, string operateid, string ip, out int result)
         {
             bool bl = OrganizationDAL.BaseProvider.DeleteUserByID(userid, agentid, out result);
@@ -998,15 +792,7 @@ namespace IntFactoryBusiness
             }
             return bl;
         }
-        /// <summary>
-        /// 编辑员工角色
-        /// </summary>
-        /// <param name="userid"></param>
-        /// <param name="roleid"></param>
-        /// <param name="agentid"></param>
-        /// <param name="operateid"></param>
-        /// <param name="ip"></param>
-        /// <returns></returns>
+
         public bool UpdateUserRole(string userid, string roleid, string agentid, string operateid, string ip)
         {
             var user = GetUserByUserID(userid, agentid);

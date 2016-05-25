@@ -508,15 +508,39 @@ namespace IntFactoryBusiness
 
         #region 分类
 
-        public List<Category> GetChildCategorysByID(string categoryid, EnumCategoryType type)
+        public List<Category> GetCategorys()
         {
-            if (CacheCategory.Where(m => m.PID.ToLower() == categoryid.ToLower() && m.CategoryType == (int)type).Count() > 0)
+            if (CacheCategory.Count() > 0)
             {
-                return CacheCategory.Where(m => m.PID.ToLower() == categoryid.ToLower() && m.CategoryType == (int)type).ToList();
+                return CacheCategory;
             }
 
-            var dal = new ProductsDAL();
-            DataTable dt = dal.GetChildCategorysByID(categoryid, (int)type);
+            DataTable dt = ProductsDAL.BaseProvider.GetCategorys();
+
+            List<Category> list = new List<Category>();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                Category model = new Category();
+                model.FillData(dr);
+                model.ChildCategory = new List<Category>();
+                list.Add(model);
+
+                CacheCategory.Add(model);
+            }
+            return list;
+
+        }
+
+        public List<Category> GetChildCategorysByID(string categoryid, EnumCategoryType type)
+        {
+            var cacheList = GetCategorys();
+            if (cacheList.Where(m => m.PID.ToLower() == categoryid.ToLower() && m.CategoryType == (int)type).Count() > 0)
+            {
+                return cacheList.Where(m => m.PID.ToLower() == categoryid.ToLower() && m.CategoryType == (int)type).ToList();
+            }
+
+            DataTable dt = ProductsDAL.BaseProvider.GetChildCategorysByID(categoryid, (int)type);
 
             List<Category> list = new List<Category>();
 
@@ -552,9 +576,10 @@ namespace IntFactoryBusiness
 
         public Category GetCategoryByID(string categoryid)
         {
-            if (CacheCategory.Where(m => m.CategoryID.ToLower() == categoryid.ToLower()).Count() > 0)
+            var cacheList = GetCategorys();
+            if (cacheList.Where(m => m.CategoryID.ToLower() == categoryid.ToLower()).Count() > 0)
             {
-                return CacheCategory.Where(m => m.CategoryID.ToLower() == categoryid.ToLower()).FirstOrDefault();
+                return cacheList.Where(m => m.CategoryID.ToLower() == categoryid.ToLower()).FirstOrDefault();
             }
 
             var dal = new ProductsDAL();

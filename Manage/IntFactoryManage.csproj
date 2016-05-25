@@ -423,6 +423,7 @@
     <Content Include="modules\scripts\report\clientsgrowreport.js" />
     <Content Include="modules\scripts\report\clientsloginreport.js" />
     <Content Include="modules\scripts\report\clientsagentactionreport.js" />
+    <Content Include="modules\scripts\report\clientsvitalityreport.js" />
     <Content Include="modules\scripts\System\modulesproduct.js" />
     <Content Include="modules\scripts\System\expresscompany.js" />
     <Content Include="modules\scripts\System\industry.js" />
@@ -618,6 +619,7 @@
     <Content Include="Views\Report\ClientsAgentActionReport.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Views\Client\OrderDetail.cshtml" />
+    <Content Include="Views\Report\ClientsVitalityReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

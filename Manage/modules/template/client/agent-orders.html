@@ -10,7 +10,7 @@
     <td class='center'>{%= item.RealAmount%}</td>
     <td class="center">{%= item.Type==1?"购买系统": item.Type==2?"购买人数":item.Type==3?"续费":"试用"%}</td>
     <td class='center'>{%=item.Status==0?"未审核":item.Status==1?"已审核":"已关闭"%}</td>
-    <td class='center'>{%=item.Status==0?"未支付":item.Status==1?"已支付":item.Status==2?部分支付:"已关闭"%}</td>
+    <td class='center'>{%=item.PayStatus==0?"未支付":item.PayStatus==1?"已支付":item.PayStatus==2?"部分付款":item.PayStatus==3?"部分退款":"全额退款"%}</td>
     <td>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     <td class='center'>{%=item.CreateUser==null?"--":item.CreateUser.Name%}</td>
     <td class='center'>{%=item.SourceType==0?"客户下单":"系统下单"%}</td>        

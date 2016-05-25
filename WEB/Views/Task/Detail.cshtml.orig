@@ -8,7 +8,12 @@
 
     if(task.FinishStatus==2)
     {
+<<<<<<< HEAD
+        var finishDays = (int)Math.Ceiling((task.CompleteTime - task.AcceptTime).TotalDays);
+        ViewBag.FinishDay = finishDays;
+=======
         ViewBag.FinishDay=(int)Math.Ceiling((task.CompleteTime - task.AcceptTime).TotalDays);
+>>>>>>> 17b37ae6d68cd35127e9a4dd3ce1f82b19cfa96d
     }
     ViewBag.CutStatus = order.CutStatus;
     ViewBag.SendStatus = order.SendStatus;

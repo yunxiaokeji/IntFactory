@@ -56,5 +56,16 @@ namespace YXManage.Controllers
             }
             return false;
         }
+
+        public bool ClearClientCache(string agentID) {
+            string resultStr = "";
+            if (!string.IsNullOrEmpty(agentID))
+            {
+                Dictionary<string, object> para = new Dictionary<string, object>();
+                para.Add("agentid", agentID);
+                resultStr = YXManage.Common.Common.RequestServer("/Api/Cache/UpdatetAgentCache", para);
+            }
+            return string.IsNullOrEmpty(resultStr) ?true:false;
+        }
     }
 }

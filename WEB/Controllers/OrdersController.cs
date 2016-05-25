@@ -491,7 +491,10 @@ namespace YXERP.Controllers
         public JsonResult UpdateOrderStatus(string orderid, int status, string time, decimal price)
         {
             string errinfo = "";
-
+            if (!string.IsNullOrEmpty(time))
+            {
+                time = Convert.ToDateTime(time).ToString("yyyy-MM-dd") + " 23:59:59";
+            }
             var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStageStatus)status, time, price, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out errinfo);
             JsonDictionary.Add("status", bl);
             JsonDictionary.Add("errinfo", errinfo);

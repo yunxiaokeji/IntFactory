@@ -23,4 +23,17 @@ namespace IntFactoryEntity.Manage.Report
 
         public int Value { get; set; }
     }
+
+    public class ClientVitalityItem
+    {
+        public string Name { get; set; }
+
+        public decimal Value { get; set; }
+    }
+    public class ClientVitalityEntity
+    {
+        public string Name { get; set; }
+
+        public List<ClientVitalityItem> Items { get; set; }
+    }
 }

@@ -423,7 +423,6 @@ namespace YXManage.Controllers
         {
             string path = string.Empty;
             switch (type) {
-
                 case 1: {
                     path = "/Api/Cache/ClearCategoryCache";
                     break;
@@ -438,10 +437,12 @@ namespace YXManage.Controllers
                     path = "/Api/Cache/ClearUnitCache";
                     break;
                 }
+                case 4: {
+                    path = "/Api/Cache/UpdatetAgentCache";
+                    break;
+                }
             }
-
             string resultStr= YXManage.Common.Common.RequestServer(path);
-
             JsonDictionary.Add("result",!string.IsNullOrEmpty(resultStr)? 1:0);
             return new JsonResult()
             {

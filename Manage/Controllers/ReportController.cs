@@ -32,6 +32,11 @@ namespace YXManage.Controllers
         {
             return View();
         }
+        public ActionResult ClientsVitalityReport(string id="")
+        {
+            ViewBag.ClientID = id;
+            return View();
+        }
         #region Ajax
         /// <summary>
         /// 客户行为统计
@@ -97,6 +102,19 @@ namespace YXManage.Controllers
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public JsonResult GetClientVitalityReport(int dateType, string beginTime, string endTime, string clientId)
+        {
+             var list = ClientBusiness.GetClientsVitalityReport(dateType, beginTime, endTime, clientId);
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        
         }
         #endregion
     }

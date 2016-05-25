@@ -22,17 +22,22 @@
         isAsc:0,
         pageSize: 10,
         pageIndex: 1,
-        listType:""
+        listType: "list"
     };
 
     var ObjectJS = {};
     ObjectJS.isLoading = true;
   
-    ObjectJS.init = function (isMy, nowDate,listType) {
+    ObjectJS.init = function (isMy, nowDate) {
         Params.beginDate = nowDate;
         Params.endDate = nowDate;
         Params.pageSize = ($(".content-body").width() / 300).toFixed(0) * 3;
-        Params.listType = listType;
+        var taskListType = Global.getCookie('TaskListType');
+        if (taskListType) {
+            Params.listType = taskListType;
+        }
+        $(".task-tabtype i[data-type=" + Params.listType + "]").addClass("checked").siblings().removeClass("checked");
+
         if (isMy == 2) {
             Params.isParticipate = 1;
             document.title = "参与任务";
@@ -61,7 +66,7 @@
                 });
             });
         }
-        $(".task-tabtype i[data-type=" + listType + "]").addClass("checked").siblings().removeClass("checked");
+        
         
         ObjectJS.bindEvent();
 
@@ -161,6 +166,8 @@
             if (!_this.hasClass('checked')) {
                 _this.addClass('checked').siblings().removeClass('checked');
                 Params.listType = _this.data('type');
+
+                Global.setCookie('TaskListType',Params.listType);
                 ObjectJS.getList();
             }
         });
