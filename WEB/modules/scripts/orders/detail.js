@@ -77,6 +77,9 @@
             $("#navEngravingInfo tr").each(function () {
                 $(this).find("td").last().remove();
             });
+        } else {
+            $("#navEngravingInfo").after("<div class='nodata-txt' >暂无数据!<div>");
+            $(".talk-title").hide();
         }
         //样图
         _self.bindOrderImages(model.OrderImages);
@@ -106,7 +109,7 @@
                     $(".tb-plates .tr-header").after(html);
                 });
             }
-            else {
+        else {            
                 $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='nodata-txt'>暂无数据!<div></td></tr>");
             }
         });
@@ -1560,12 +1563,16 @@
             orderid: _self.orderid,
             pageindex: page
         }, function (data) {
-
-            doT.exec("template/common/logs.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
-                $("#orderLog").append(innerhtml);
-            });
+            if (data.items.length>0) {
+                doT.exec("template/common/logs.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
+                    $("#orderLog").append(innerhtml);
+                });
+            } else {
+                $("#navLog").after("<div class='nodata-txt' >暂无日志!<div>");
+            }
+            
             $("#pagerLogs").paginate({
                 total_count: data.totalCount,
                 count: data.pageCount,
@@ -1752,7 +1759,7 @@
                     }
                 });
             } else {
-                $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!</div></td></tr>");
             }
         });
     }

@@ -25,7 +25,7 @@
             }
         });
         
-        $("#addContact").hide();
+        $("#addContact").hide();       
 
     }
 
@@ -314,17 +314,25 @@
     ObjectJS.getLogs = function (customerid, page) {
         var _self = this;
         $("#customerLog").empty();
+        $("#customerLog").nextAll().remove();
+        $("#customerLog").after("<div class='data-loading' ><div>");
         ObjectJS.isLoading = false;
         Global.post("/Customer/GetCustomerLogs", {
             customerid: customerid,
             pageindex: page
         }, function (data) {
-           
-            doT.exec("template/common/logs.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
-                $("#customerLog").append(innerhtml);
-            });
+            if (data.items.length>0) {
+                doT.exec("template/common/logs.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
+                    $("#customerLog").append(innerhtml);
+                });
+                $(".data-loading").remove();
+            } else {
+                $(".data-loading").remove();
+                $("#customerLog").after("<div class='nodata-txt' >暂无日志!<div>");
+            }
+            
             $("#pagerLogs").paginate({
                 total_count: data.totalCount,
                 count: data.pageCount,
