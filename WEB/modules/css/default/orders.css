@@ -1,5 +1,4 @@
-﻿
-/*订单列表*/
+﻿/*订单列表*/
 .object-items { color:#999; }
 .object-items .object-item{ width:250px; height:390px; border:solid 1px #ddd; background-color:#fff; float:left; margin-right:15px; margin-top:20px; cursor:pointer; }
 .object-items .object-item span{ color:#999; }
@@ -168,7 +167,7 @@
 
 .order-layer-item .stage-items { }
 .order-layer-item .stage-items  li{ float:left; width:170px; cursor:pointer; padding:5px 10px; height:50px;
-                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc; border-left-width:10px; }
+                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc; border-left-width:8px; }
 
 .order-layer-item .stage-items  li:hover{ background-color:#eee;}
 

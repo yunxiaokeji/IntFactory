@@ -35,6 +35,15 @@
             }
             _self.saveModel();
         });
+        
+        //切换类型
+        $(".ico-radiobox").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                $(".ico-radiobox").removeClass("hover");
+                _this.addClass("hover");
+            }
+        });
 
         ProductIco = Upload.createUpload({
             element: "#productIco",
@@ -47,9 +56,12 @@
                     for (var i = 0; i < data.Items.length; i++) {
                         if ($("#orderImages li").length < 5) {
                             var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
-                            $("#orderImages").append(img);
+                            $("#orderImages").append(img).fadeIn(300);
                             img.find(".ico-delete").click(function () {
                                 $(this).parent().remove();
+                                if ($("#orderImages li").length == 0) {
+                                    $("#orderImages").hide();
+                                }
                             });
                         }
                     }
@@ -108,7 +120,7 @@
         var model = {
             CustomerID: _self.customerid,
             PersonName: $("#name").val().trim(),
-            OrderType: $("#companyCustom").hasClass("ico-checked") ? 1 : 2,
+            OrderType: $(".ico-radiobox.hover").data('type'),
             BigCategoryID: $("#bigcategory").val().trim(),
             CategoryID: $("#ordercategory").val().trim(),
             CityCode: CityObject.getCityCode(),

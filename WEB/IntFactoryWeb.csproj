@@ -218,6 +218,7 @@
     <Content Include="modules\css\inquire\common.css" />
     <Content Include="modules\css\inquire\online-pay.css" />
     <Content Include="modules\css\myaccount\feedbacklist.css" />
+    <Content Include="modules\css\order\create.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
