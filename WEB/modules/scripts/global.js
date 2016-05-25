@@ -112,6 +112,8 @@
         _layer.appendTo("body");
         window_confirm.appendTo("body");
 
+        $("input").blur();
+
         var left = $(window).width() / 2 - (window_confirm.width() / 2);
         window_confirm.offset({ left: left });
 
