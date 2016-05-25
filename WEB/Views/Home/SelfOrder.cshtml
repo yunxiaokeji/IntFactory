@@ -28,7 +28,7 @@
 <body>
 <!--页头-->
 <div class="pay-title pay-body row">
-    <div class="pay-title-name l">
+    <div class="pay-title-name left">
         <i><img src="@(string.IsNullOrEmpty(model.Logo) ? "/modules/images/selforder/title-logo.png" : model.Logo)" alt=""/></i>
         <span>@(model.CompanyName)</span>
     </div>
@@ -41,7 +41,7 @@
 	 <div class="pay-content-title">
     	<div class="pay-content-title-info">
             <h1>在线下单</h1>
-            <p>请填写完整订单信息，我们将根据订单生产制作</p>
+            <p class="color999 font16">@(model.CompanyName)</p>
         </div>
     </div>
      <div class="pay-content-main row">
@@ -49,7 +49,7 @@
         <div class="pay-content-main-form">
         	<ul>
                 <li class="form-row row mTop10">
-                	<div class="th pdall info-box hand" data-type="1">
+                	<div class="info-box" data-type="1">
                         <div class="left">
                             <span class="iconfont">&#xe62c;</span>
                             <span>订单信息</span>
@@ -74,23 +74,13 @@
                      <ul>
                     <li class="form-row row">
                     <div class="td">
-                    @* <div class="bigcategory">
+                     <div class="bigcategory">
 
                     </div>
                     <div class="ordercategory">
 
-                    </div>*@
+                    </div>
                     <div class="clear"></div>
-                    <span class="categoryselect-box">
-                    <select id="bigcategory" class="categoryselect">
-                    @foreach (IntFactoryEntity.Category item in (List<IntFactoryEntity.Category>)ViewBag.Items)
-                    {
-                        <option value="@(item.CategoryID)">@(item.CategoryName)</option> 
-                    }
-                    </select>
-                    <select id="ordercategory" class="categoryselect">
-                    </select>
-                    </span>
                     </div>
                     </li>
                 
@@ -107,7 +97,8 @@
                     </li>
                     <li class="form-row row">
                         <div class="td">
-                    	    <input type="text" id="remark" placeholder="如有详细需求请注明具体内容，以免制作时产品遗漏" class="textarea" />
+                            <textarea id="remark" placeholder="如有详细需求请注明具体内容，以免制作时产品遗漏"  onpropertychange="this.style.height=this.value.split('\n').length*24 + 'px';this.style.height=this.scrollHeight + 'px';" oninput="this.style.height=this.value.split('\n').length*24 + 'px';this.style.height=this.scrollHeight + 'px';"class="textarea"></textarea>
+                    	    @*<input type="text" id="remark" placeholder="如有详细需求请注明具体内容，以免制作时产品遗漏" class="textarea" />*@
                         </div>
                     </li>
                     <li class="row">
