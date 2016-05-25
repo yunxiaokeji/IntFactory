@@ -34,6 +34,7 @@ namespace IntFactoryEntity
         public string ClientID { get; set; }
 
         public string CompanyName { get; set; }
+        public string ClientCode { get; set; }
 
         public void FillData(System.Data.DataRow dr)
         {

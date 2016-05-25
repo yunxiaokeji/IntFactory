@@ -31,7 +31,7 @@ define(function (require, exports, module) {
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
                 AgentActionReport.Params.pageIndex = 1;
-                AgentActionReport.Params.keyWords = keyWords;
+                AgentActionReport.Params.keyword = keyWords;
                 AgentActionReport.bindData();
             });
         });
@@ -77,8 +77,13 @@ define(function (require, exports, module) {
 
         Global.post("/Report/GetAgentActionReports", AgentActionReport.Params, function (data) {
             doT.exec("template/report/agentactionreport-list.html?3", function (templateFun) {
-                var innerText = templateFun(data.Items);
-                innerText = $(innerText);
+                var innerText = "";
+                if (data.Items.length == 0) {
+                    innerText='<tr><td colspan="11" style="text-align:center;font-size:18px;color:#333;"> 暂无数据 </td></tr>';
+                } else {
+                    innerText=templateFun(data.Items);
+                    innerText = $(innerText);
+                }
                 $(".tr-header").after(innerText);
             });
             $("#pager").paginate({

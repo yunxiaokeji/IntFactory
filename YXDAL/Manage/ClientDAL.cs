@@ -51,9 +51,19 @@ namespace IntFactoryDAL.Manage
                                     new SqlParameter("@DateType",type), 
                                     new SqlParameter("@BeginTime",begintime),
                                     new SqlParameter("@EndTime",endtime),
-                                    new SqlParameter("@clientID",clientId)
+                                    new SqlParameter("@ClientID",clientId)
                                    };
             return GetDataSet("R_GetClientsAgentAction", paras, CommandType.StoredProcedure);
+        }
+        public DataSet GetClientsVitalityReport(int type, string begintime, string endtime, string clientId)
+        {
+            SqlParameter[] paras = { 
+                                    new SqlParameter("@DateType",type), 
+                                    new SqlParameter("@BeginTime",begintime),
+                                    new SqlParameter("@EndTime",endtime),
+                                    new SqlParameter("@ClientID",clientId)
+                                   };
+            return GetDataSet("R_GetClientsActiveReprot", paras, CommandType.StoredProcedure, "ClientReport|SystemReport");
         }
         #endregion
 

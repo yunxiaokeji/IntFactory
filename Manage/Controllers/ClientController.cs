@@ -204,8 +204,10 @@ namespace YXManage.Controllers
                     log.UserQuantity = agent.UserQuantity;
                     log.Type = 3;
                 }
-
+                ClientBusiness.UpdatetClientCache(client.ClientID);
+                AgentsBusiness.UpdatetAgentCache(client.AgentID);
                 ClientBusiness.InsertClientAuthorizeLog(log);
+                ClearClientCache(client.AgentID);
             }
             else//购买生成订单
             {
@@ -378,6 +380,7 @@ namespace YXManage.Controllers
                 {
                     ClientBusiness.UpdatetClientCache(order.ClientID);
                     AgentsBusiness.UpdatetAgentCache(agentID);
+                    ClearClientCache(agentID);
                 }
             }else {
                 JsonDictionary.Add("Result", order .Status== 1 ? 1001 : 1002);
