@@ -804,14 +804,20 @@
     //生成采购单
     ObjectJS.effectiveOrderProduct = function () {
         ObjectJS.isLoading = false;
-        Global.post("/Orders/EffectiveOrderProduct", {
-            orderID: ObjectJS.guid
-        }, function (data) {
-            if (data.result == 1) {
-                location.href = location.href;
-            }
+        confirm("生成采购单操作不可逆,确定要生成?", function () {
+            Global.post("/Orders/EffectiveOrderProduct", {
+                orderID: ObjectJS.guid
+            }, function (data) {
+                if (data.result == 1) {
+                    location.href = location.href;
+                }
+                ObjectJS.isLoading = true;
+            });
+        }, function () {
             ObjectJS.isLoading = true;
-        });
+        })
+      
+
     }
 
     //计算总金额
