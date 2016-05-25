@@ -804,14 +804,20 @@
     //生成采购单
     ObjectJS.effectiveOrderProduct = function () {
         ObjectJS.isLoading = false;
-        Global.post("/Orders/EffectiveOrderProduct", {
-            orderID: ObjectJS.guid
-        }, function (data) {
-            if (data.result == 1) {
-                location.href = location.href;
-            }
+        confirm("生成采购单操作不可逆,确定要生成?", function () {
+            Global.post("/Orders/EffectiveOrderProduct", {
+                orderID: ObjectJS.guid
+            }, function (data) {
+                if (data.result == 1) {
+                    location.href = location.href;
+                }
+                ObjectJS.isLoading = true;
+            });
+        }, function () {
             ObjectJS.isLoading = true;
-        });
+        })
+      
+
     }
 
     //计算总金额
@@ -895,6 +901,7 @@
     //添加制版新列
     ObjectJS.bindAddColumn = function () {
         $("#btn-addColumn").unbind().bind("click", function () {
+            $("#setTaskPlateAttrBox").remove();
             ObjectJS.columnnameid = $(this).data("columnname");
 
             var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
@@ -920,7 +927,7 @@
                     yesFn: function () {
                         var $hovers = $("#setTaskPlateAttrBox li.hover");
                         if ($hovers.length == 0) return;
-
+                        alert($hovers.length);
                         var newColumnHeadr = '';
                         var newColumn = '';
                         $hovers.each(function () {
@@ -938,7 +945,6 @@
                             newColumn += '</td>';
                         });
 
-
                         $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']").eq(0).after(newColumnHeadr);
                         $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']:gt(0)").after(newColumn).find("tbContentIpt").show();
 
@@ -946,6 +952,8 @@
                         ObjectJS.bindContentClick();
                         ObjectJS.bindAddRow();
                         ObjectJS.bindRemoveRow();
+                        Easydialog.close();
+                        //$("#setTaskPlateAttrBox").remove();
                     }
                 }
 
@@ -1434,8 +1442,17 @@
                 }
             });
 
+            $("#showCutoutGoods").find(".quantity").blur(function () {
+                var _this = $(this);
+                if (!_this.val()) {
+                    _this.val("0");
+                }
+            });
             $("#showCutoutGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
+                if (!_this.val()) {
+                    return;
+                }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 }
@@ -1518,8 +1535,17 @@
                 }
             });
 
+            $("#showSewnGoods").find(".quantity").blur(function () {
+                var _this = $(this);
+                if (!_this.val()) {
+                    _this.val("0");
+                }
+            });
             $("#showSewnGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
+                if (!_this.val()) {
+                    return;
+                }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 }
@@ -1620,8 +1646,17 @@
                 }
             });
 
+            $("#showSendOrderGoods").find(".quantity").blur(function () {
+                var _this = $(this);
+                if (!_this.val()) {
+                    _this.val("0");
+                }
+            });
             $("#showSendOrderGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
+                if (!_this.val()) {
+                    return;
+                }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 }
