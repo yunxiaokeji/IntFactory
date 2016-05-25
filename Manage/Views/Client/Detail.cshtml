@@ -13,30 +13,30 @@
         
         $(function () {
     
-            var begin = {
+            var orderBegin = {
                 elem: '#orderBeginTime',
                 format: 'YYYY-MM-DD',
                 max: '2099-06-16',
                 istime: false,
                 istoday: false,
                 choose: function (datas) {
-                    end.min = datas; //开始日选好后，重置结束日的最小日期
-                    end.start = datas //将结束日的初始值设定为开始日
+                    orderEnd.min = datas; //开始日选好后，重置结束日的最小日期
+                    orderEnd.start = datas //将结束日的初始值设定为开始日
                 }
             };
 
-            var end = {
+            var orderEnd = {
                 elem: '#orderEndTime',
                 format: 'YYYY-MM-DD',
                 max: '2099-06-16',
                 istime: false,
                 istoday: false,
                 choose: function (datas) {
-                    begin.max = datas; //结束日选好后，重置开始日的最大日期
+                    orderBegin.max = datas; //结束日选好后，重置开始日的最大日期
                 }
             };
             var reportBegin = {
-                elem: '#beginTime',
+                elem: '#reportBeginTime',
                 format: 'YYYY-MM-DD',
                 max: '2099-06-16',
                 istime: false,
@@ -48,7 +48,7 @@
             };
 
             var reportEnd = {
-                elem: '#endTime',
+                elem: '#reportEndTime',
                 format: 'YYYY-MM-DD',
                 max: '2099-06-16',
                 istime: false,
@@ -57,8 +57,8 @@
                     reportBegin.max = datas; //结束日选好后，重置开始日的最大日期
                 }
             }; 
-            laydate(begin);
-            laydate(end);           
+            laydate(orderBegin);
+            laydate(orderEnd);
             laydate(reportBegin);
             laydate(reportEnd);
         });
@@ -170,9 +170,9 @@
                 </div>
                  <div class="left search-body">
                     <div class="left lineHeight25 mLeft20">日期：</div>
-                    <input type="text" class="left" id="beginTime"/>
+                    <input type="text" class="left" id="reportBeginTime"/>
                     <div class="left lineHeight25">&nbsp;-&nbsp;</div>
-                    <input  type="text" class="left" id="endTime"/>
+                    <input  type="text" class="left" id="reportEndTime"/>
                     <div class="left btn mLeft20" id="btnSearch">查询</div>
                 </div>
                 <div class="clear"></div>

@@ -61,8 +61,8 @@ define(function (require, exports, module) {
     Clients.detailEvent = function () {
         var _self = this;       
         $("#btnSearch").click(function () {
-            Params.beginTime = $("#beginTime").val().trim();
-            Params.endTime = $("#endTime").val().trim();
+            Params.beginTime = $("#reportBeginTime").val().trim();
+            Params.endTime = $("#reportEndTime").val().trim();
             if (!Params.beginTime || !Params.endTime) {
                 alert("开始日期与结束日期不能为空！");
                 return;
@@ -72,7 +72,7 @@ define(function (require, exports, module) {
                 return;
             }
             _self.sourceDate()
-            $(".search-type .hover").data("begintime", Params.beginTime).data("endtime", Params.endTime);
+            $(".search-type .hover").data("reportBeginTime", Params.beginTime).data("reportEndTime", Params.endTime);
         });       
 
         $(".search-type li").click(function () {
@@ -87,21 +87,21 @@ define(function (require, exports, module) {
                     _self.clientsChart = ec.init(document.getElementById('clientdetailVitalityRPT'));
                 }
                 if (_this.data("begintime")) {
-                    $("#beginTime").val(_this.data("begintime"));
+                    $("#reportBeginTime").val(_this.data("begintime"));
                 } else {
                     if (Params.dateType == 3) {
-                        $("#beginTime").val(new Date().setFullYear(new Date().getFullYear() - 1).toString().toDate("yyyy-MM-dd"));
+                        $("#reportBeginTime").val(new Date().setFullYear(new Date().getFullYear() - 1).toString().toDate("yyyy-MM-dd"));
                     } else if (Params.dateType == 2) {
-                        $("#beginTime").val(new Date().setMonth(new Date().getMonth() - 3).toString().toDate("yyyy-MM-dd"));
+                        $("#reportBeginTime").val(new Date().setMonth(new Date().getMonth() - 3).toString().toDate("yyyy-MM-dd"));
                     }
                     else if (Params.dateType == 1) {
-                        $("#beginTime").val(new Date().setDate(new Date().getDay() - 15).toString().toDate("yyyy-MM-dd"));
+                        $("#reportBeginTime").val(new Date().setDate(new Date().getDay() - 15).toString().toDate("yyyy-MM-dd"));
                     }
                 }
                 if (_this.data("endtime")) {
-                    $("#endTime").val(_this.data("endtime"));
+                    $("#reportEndTime").val(_this.data("endtime"));
                 } else {
-                    $("#endTime").val(Date.now().toString().toDate("yyyy-MM-dd"));
+                    $("#reportEndTime").val(Date.now().toString().toDate("yyyy-MM-dd"));
                 }
                 $("#btnSearch").click();
             }
@@ -121,8 +121,8 @@ define(function (require, exports, module) {
                 $('#addNewOrder').show();
                 $('#addAuthorize').hide();
             } else if (index == 2) {
-                $("#beginTime").val(new Date().setMonth(new Date().getMonth() - 3).toString().toDate("yyyy-MM-dd"));
-                $("#endTime").val(Date.now().toString().toDate("yyyy-MM-dd"));
+                $("#reportBeginTime").val(new Date().setMonth(new Date().getMonth() - 3).toString().toDate("yyyy-MM-dd"));
+                $("#reportEndTime").val(Date.now().toString().toDate("yyyy-MM-dd"));
                 $("#btnSearch").click();
                 $('#addNewOrder').hide();
                 $('#addAuthorize').hide();            
