@@ -104,6 +104,21 @@ namespace IntFactoryBusiness
 
             return list;
         }
+
+        public static void UpdateAgentCache(string agentID) {
+            if (Agents.ContainsKey(agentID))
+            {
+                DataTable dt = AgentsDAL.BaseProvider.GetAgentDetail(agentID);
+                Agents model = new Agents();
+                if (dt.Rows.Count == 1)
+                {
+                    DataRow row = dt.Rows[0];
+                    model.FillData(row);
+
+                   Agents[agentID]=model;
+                }
+            }
+        }
         #endregion
 
         #region  编辑
