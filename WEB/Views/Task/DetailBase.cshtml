@@ -99,6 +99,15 @@
                     <span class="column-title">完成时间</span>
                     <span id="CompleteTime">@(Model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : Model.CompleteTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
                 </li>
+                @{
+                    if (Model.FinishStatus==2)
+                    {
+                        <li>
+                            <span class="column-title">完成周期</span>
+                            <span>@(ViewBag.FinishDay)天</span>
+                        </li>
+                    }
+                }
                  <li>
                     
                     @{

@@ -59,5 +59,28 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
+        /// <summary>
+        /// 根据agentID更新代理商信息缓存
+        /// </summary>
+        public JsonResult UpdatetAgentCache(string agentID)
+        {
+            if (!string.IsNullOrEmpty(agentID))
+            {
+                AgentsBusiness.UpdatetAgentCache(agentID);
+
+                JsonDictionary.Add("result", 1);
+            }
+            else
+            {
+                JsonDictionary.Add("result", 0);
+            }
+
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
     }
 }

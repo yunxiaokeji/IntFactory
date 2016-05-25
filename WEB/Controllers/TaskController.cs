@@ -257,6 +257,7 @@ namespace YXERP.Controllers
         /// </summary>
         public ActionResult Tasks()
         {
+
             ViewBag.IsMy = 0;
 
             return View("MyTask");
@@ -272,8 +273,25 @@ namespace YXERP.Controllers
         #endregion
 
         #region ajax
-        public JsonResult GetTasks(string keyWords, bool isMy, int isParticipate, string userID, int taskType, int colorMark, int status, int finishStatus, string beginDate, string endDate, int orderType, string orderProcessID, string orderStageID, int taskOrderColumn, int isAsc, int pageSize, int pageIndex)
+        public JsonResult GetTasks(string keyWords, bool isMy, int isParticipate, string userID, int taskType, int colorMark, int status, int finishStatus, string beginDate, string endDate, int orderType, string orderProcessID, string orderStageID, int taskOrderColumn, int isAsc, int pageSize, int pageIndex, string listType)
         {
+            if (!string.IsNullOrEmpty(listType))
+            {
+                HttpCookie cook = Request.Cookies["listtype"];
+                if (cook != null)
+                {
+                    cook["type"] = listType;
+                    Response.Cookies.Add(cook);
+                }
+                else
+                {
+                    HttpCookie newCook = new HttpCookie("listtype");
+                    newCook["type"] = listType;
+                    Response.Cookies.Add(newCook);
+                }
+            }
+            ViewBag.ListType = listType;
+
             int pageCount = 0;
             int totalCount = 0;
             //所有任务
