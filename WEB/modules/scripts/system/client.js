@@ -147,7 +147,7 @@
         $("#btnSaveClient").click(function () {
             if (!VerifyObject.isPass()) {
                 return false;
-            };
+            };            
             ObjectJS.saveModel();
             ObjectJS.getDetail();
         });
@@ -337,6 +337,7 @@
             ContactName: $("#ContactNameone").val(),
             MobilePhone: $("#MobilePhoneone").val(),
             OfficePhone: $("#OfficePhoneone").val(),
+            Logo:$("#PosterDisImgone").attr("src"),
             CityCode: CityObject.getCityCode(),
             Industry: $("#Industryone").val(),
             Address: $("#Address").val(),

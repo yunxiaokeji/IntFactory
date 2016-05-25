@@ -77,6 +77,9 @@
             $("#navEngravingInfo tr").each(function () {
                 $(this).find("td").last().remove();
             });
+        } else {
+            $("#navEngravingInfo").after("<div class='nodata-txt' >暂无数据!<div>");
+            $(".talk-title").hide();
         }
         //样图
         _self.bindOrderImages(model.OrderImages);
@@ -106,7 +109,7 @@
                     $(".tb-plates .tr-header").after(html);
                 });
             }
-            else {
+        else {            
                 $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='nodata-txt'>暂无数据!<div></td></tr>");
             }
         });
@@ -475,7 +478,7 @@
         $("#btnreturn").click(function () {
             confirm("委托退回后不能撤销，确认退回委托吗？", function () {
                 Global.post("/Orders/ApplyReturnOrder", {
-                    orderid: model.OrderID,
+                    orderid: _self.model.OrderID,
                 }, function (data) {
                     if (data.status) {
                         alert("委托退回成功!", location.href);
@@ -1065,8 +1068,17 @@
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
+            $("#showCutoutGoods").find(".quantity").blur(function () {
+                var _this = $(this);
+                if (!_this.val()) {
+                    _this.val("0");
+                }
+            });
             $("#showCutoutGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
+                if (!_this.val()) {
+                    return;
+                }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 } else if (_this.val() > _this.data("max")) {
@@ -1134,12 +1146,21 @@
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
+            $("#showSewnGoods").find(".quantity").blur(function () {
+                var _this = $(this);
+                if (!_this.val()) {
+                    _this.val("0");
+                }
+            });
             $("#showSewnGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
+                if (!_this.val()) {
+                    return;
+                }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 } else if (_this.val() > _this.data("max")) {
-                    _this.val(_this.data("max"));
+                    _this.val("0");//_this.data("max")
                     alert("输入车缝数量过大");
                 }
             });
@@ -1224,12 +1245,21 @@
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
+            $("#showSendOrderGoods").find(".quantity").blur(function () {
+                var _this = $(this);
+                if (!_this.val()) {
+                    _this.val("0");
+                }
+            });
             $("#showSendOrderGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
+                if (!_this.val()) {
+                    return;
+                }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 } else if (_this.val() > _this.data("max")) {
-                    _this.val(_this.data("max"));
+                    _this.val("0");//_this.data("max")
                     alert("输入发货数量过大");
                 }
             });
@@ -1533,12 +1563,16 @@
             orderid: _self.orderid,
             pageindex: page
         }, function (data) {
-
-            doT.exec("template/common/logs.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
-                $("#orderLog").append(innerhtml);
-            });
+            if (data.items.length>0) {
+                doT.exec("template/common/logs.html", function (template) {
+                    var innerhtml = template(data.items);
+                    innerhtml = $(innerhtml);
+                    $("#orderLog").append(innerhtml);
+                });
+            } else {
+                $("#navLog").after("<div class='nodata-txt' >暂无日志!<div>");
+            }
+            
             $("#pagerLogs").paginate({
                 total_count: data.totalCount,
                 count: data.pageCount,
@@ -1725,7 +1759,7 @@
                     }
                 });
             } else {
-                $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!</div></td></tr>");
             }
         });
     }

@@ -18,7 +18,7 @@
 }
 <div class="header-box">
     <div class="header-title">
-        订单详情页&nbsp;—&nbsp;@(!model.IsSelf&&!string.IsNullOrEmpty( model.EntrustClientID)?"委托订单":model.IsSelf&&!string.IsNullOrEmpty( model.EntrustClientID)?"协助订单":"本厂订单")
+        订单详情页&nbsp;—&nbsp;@(!model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID) ? "委托订单" : model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID) ? "协助订单" : "本厂订单")
         <a class="back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">
            <i class="iconfont">&#xe62d;</i> 返回 
         </a>
@@ -34,7 +34,7 @@
         {
             if (model.OrderStatus == 0)
             {
-                 if (string.IsNullOrEmpty(model.EntrustClientID)) 
+                if (string.IsNullOrEmpty(model.EntrustClientID))
                 {
                     <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
                     <div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >订单委托</div>
@@ -42,7 +42,7 @@
                 else
                 {
                     <div class="btn right mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >退回委托</div>
-                }  
+                }
             }
             else if (model.OrderStatus == 1)
             {
@@ -151,11 +151,11 @@
         <ul class="left moneyinfo @(ExpandClass.IsLimits(HttpContext.Current, "102010502"))">
              <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))">
                 <span class="column-title">材料成本：</span>
-                <label>@((model.Price*model.PlanQuantity).ToString("f2"))</label>
+                <label>@((model.Price * model.PlanQuantity).ToString("f2"))</label>
             </li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))">
                 <span class="column-title">加工成本：</span>
-                <label id="lblCostMoney">@((model.CostPrice*model.PlanQuantity).ToString("f2"))</label>
+                <label id="lblCostMoney">@((model.CostPrice * model.PlanQuantity).ToString("f2"))</label>
             </li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
                 <span class="column-title">单价：</span>
@@ -226,7 +226,7 @@
         {
             <span title="更换流程" class="change-ico iconfont left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess">&#xe60b;</span>
         }
-        <div class="left info mLeft20">负责人：@(model.OrderProcess!=null&&model.OrderProcess.Owner!=null?model.OrderProcess.Owner.Name:"")</div>
+        <div class="left info mLeft20">负责人：@(model.OrderProcess != null && model.OrderProcess.Owner != null ? model.OrderProcess.Owner.Name : "")</div>
 
         @if (model.IsSelf)
         {
@@ -324,29 +324,38 @@
                 <td class="">单价</td>
                 <td class="tRight">小计</td>
             </tr>
-            @foreach (var detail in model.OrderGoods)
-            { 
+            @if (model.OrderGoods.Count > 0)
+            {
+                foreach (var detail in model.OrderGoods)
+                { 
                 <tr class="item cart-item" >
                     <td>@(detail.Remark)</td>
                     <td class="center good1">@(detail.Quantity)</td>
                     <td class="center good2">@(detail.CutQuantity)</td>
                     <td class="center good3">@(detail.Complete)</td>
                     <td class="center good4">@(detail.SendQuantity)</td>
-                    <td class="center good5">@(detail.Complete-detail.SendQuantity)</td>
+                    <td class="center good5">@(detail.Complete - detail.SendQuantity)</td>
                     <td class="center">@(model.FinalPrice.ToString("f2"))</td>
                     <td class="tRight good6">@((detail.TotalMoney).ToString("f2"))</td>
+                </tr>                
+                }
+                <tr class="total-item bold" >
+                    <td class="">合计：</td>
+                    <td class="center" data-class="good1"></td>
+                    <td class="center" data-class="good2"></td>
+                    <td class="center" data-class="good3"></td>
+                    <td class="center" data-class="good4"></td>
+                    <td class="center" data-class="good5"></td>
+                    <td class="center"></td>
+                    <td class="tRight" data-class="good6"></td>
                 </tr>
             }
-            <tr class="total-item bold" >
-                <td class="">合计：</td>
-                <td class="center" data-class="good1"></td>
-                <td class="center" data-class="good2"></td>
-                <td class="center" data-class="good3"></td>
-                <td class="center" data-class="good4"></td>
-                <td class="center" data-class="good5"></td>
-                <td class="center"></td>
-                <td class="tRight" data-class="good6"></td>
-            </tr>
+            else
+            {
+                <tr><td colspan="7"><div class="nodata-txt">暂无明细</div></td></tr>
+            }
+            
+            
         </table>
     </div>
 
