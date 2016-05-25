@@ -623,7 +623,7 @@
                 });
             }
             else {
-                $("#taskLogList").html("<div class='nodata-txt'>暂无数据!</div>");
+                $("#taskLogList").html("<div class='nodata-txt'>暂无日志!</div>");
             }
 
             $("#pagerLogs").paginate({
@@ -1440,8 +1440,17 @@
                 }
             });
 
+            $("#showCutoutGoods").find(".quantity").blur(function () {
+                var _this = $(this);
+                if (!_this.val()) {
+                    _this.val("0");
+                }
+            });
             $("#showCutoutGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
+                if (!_this.val()) {
+                    return;
+                }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 }
@@ -1524,8 +1533,17 @@
                 }
             });
 
+            $("#showSewnGoods").find(".quantity").blur(function () {
+                var _this = $(this);
+                if (!_this.val()) {
+                    _this.val("0");
+                }
+            });
             $("#showSewnGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
+                if (!_this.val()) {
+                    return;
+                }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 }
@@ -1626,8 +1644,17 @@
                 }
             });
 
+            $("#showSendOrderGoods").find(".quantity").blur(function () {
+                var _this = $(this);
+                if (!_this.val()) {
+                    _this.val("0");
+                }
+            });
             $("#showSendOrderGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
+                if (!_this.val()) {
+                    return;
+                }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 }

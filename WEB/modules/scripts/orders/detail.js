@@ -478,7 +478,7 @@
         $("#btnreturn").click(function () {
             confirm("委托退回后不能撤销，确认退回委托吗？", function () {
                 Global.post("/Orders/ApplyReturnOrder", {
-                    orderid: model.OrderID,
+                    orderid: _self.model.OrderID,
                 }, function (data) {
                     if (data.status) {
                         alert("委托退回成功!", location.href);
@@ -1068,8 +1068,17 @@
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
+            $("#showCutoutGoods").find(".quantity").blur(function () {
+                var _this = $(this);
+                if (!_this.val()) {
+                    _this.val("0");
+                }
+            });
             $("#showCutoutGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
+                if (!_this.val()) {
+                    return;
+                }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 } else if (_this.val() > _this.data("max")) {
@@ -1137,12 +1146,21 @@
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
+            $("#showSewnGoods").find(".quantity").blur(function () {
+                var _this = $(this);
+                if (!_this.val()) {
+                    _this.val("0");
+                }
+            });
             $("#showSewnGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
+                if (!_this.val()) {
+                    return;
+                }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 } else if (_this.val() > _this.data("max")) {
-                    _this.val(_this.data("max"));
+                    _this.val("0");//_this.data("max")
                     alert("输入车缝数量过大");
                 }
             });
@@ -1227,12 +1245,21 @@
                     _this.addClass("ico-check").removeClass("ico-checked");
                 }
             });
+            $("#showSendOrderGoods").find(".quantity").blur(function () {
+                var _this = $(this);
+                if (!_this.val()) {
+                    _this.val("0");
+                }
+            });
             $("#showSendOrderGoods").find(".quantity").keyup(function () {
                 var _this = $(this);
+                if (!_this.val()) {
+                    return;
+                }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
                 } else if (_this.val() > _this.data("max")) {
-                    _this.val(_this.data("max"));
+                    _this.val("0");//_this.data("max")
                     alert("输入发货数量过大");
                 }
             });
