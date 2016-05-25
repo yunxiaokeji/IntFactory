@@ -24,12 +24,13 @@
         _self.bindEvent();
         _self.getAmount();
         _self.bingCache();
+
     }
 
     ObjectJS.bindStyle = function (model) {
 
         var _self = this;
-        
+
         $(".sample-report").click(function () {
             window.location = "/Orders/FentOrderReport/" + model.OrderID;            
         });
@@ -77,8 +78,7 @@
             $("#navEngravingInfo tr").each(function () {
                 $(this).find("td").last().remove();
             });
-        } else {
-            $("#navEngravingInfo").after("<div class='nodata-txt' >暂无数据!<div>");
+        } else {           
             $(".talk-title").hide();
         }
         //样图
