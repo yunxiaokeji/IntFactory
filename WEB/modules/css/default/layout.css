@@ -238,7 +238,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .table-add li textarea {resize:none; height:80px; line-height:20px; padding:1px 5px; border:solid 1px #ccc; width:350px; border-radius:2px;}
 .table-add span {  display:inline-block; vertical-align:top;}
 .table-add .column-title { color:#999; width:100px;}
-
+.table-boeder{border-bottom:0;padding-bottom:0;}
 
 /*切换导航样式*/
 .tab-nav { height: 35px; width: 100%; line-height: 35px; border-bottom: solid 1px #ccc; }

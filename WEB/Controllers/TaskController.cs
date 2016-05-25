@@ -148,6 +148,9 @@ namespace YXERP.Controllers
             };
         }
 
+        public ActionResult Demo() {
+            return View();
+        }
         #region view
         /// <summary>
         /// 任务详情

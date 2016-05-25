@@ -1,4 +1,7 @@
 ﻿@{
+    var order = (IntFactoryEntity.OrderEntity)ViewBag.Model;
+    var client = (IntFactoryEntity.Manage.Clients)ViewBag.Client;
+    var list = (List<IntFactoryEntity.OrderCostEntity>)ViewBag.List;
     ViewBag.Title = "FentOrderReport";
     Layout = null;
 }
@@ -17,49 +20,63 @@
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/Scripts/sea.js"></script>
     <script src="/Scripts/sea-config.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/orders/fentorderreport"], function (obj) {
+            obj.init('@order.Platemaking');
+        });
+
+    </script>
 </head>
 <body>
-    <div class="titlename">上海慕白服饰有限公司</div>
-    <table style="margin-left:30%">
+    
+    <table style="margin-left:20%;margin-bottom:20px;position:relative" id="tableid">
         <tr>
-            <td>报价单</td>
-            <td class="font22">款式图</td>
+            <td colspan="2">
+                <div class="titlename">@(client.CompanyName==""?"--":client.CompanyName)</div>
+            </td>
+            
         </tr>
         <tr>
-            <td style="width:300px;">
-                <table class="border">
+            <td class="font20">报价单</td>
+            <td class="font20">款式图</td>
+        </tr>
+        <tr>
+            <td style="width:500px;">
+                <table class="no-border">
                     <tr>
-                        <td class="t l">客户:</td>
-                        <td class="t customerName">林小姐</td>
-                        <td class="t">版本:</td>
-                        <td class="r t Sersion">1版</td>
+                        <td class="no-border-top no-border-left">客户:</td>
+                        <td class="no-border-top customerName">
+                            @(order.CustomerID==""?"--":order.Customer.Name)
+                        </td>
+                        <td class="no-border-top">版本:</td>
+                        <td class="no-border-right no-border-top Sersion">1版</td>
                     </tr>                    
                     <tr>
-                        <td class="l">款号:</td>
-                        <td>1603080003</td>
+                        <td class="no-border-left">款号:</td>
+                        <td>@(order.IntGoodsCode==""?"--":order.IntGoodsCode)</td>
                         <td>品名:</td>
-                        <td class="r">长褂</td>
+                        <td class="no-border-right">@(order.GoodsName==""?"--":order.GoodsName)</td>
                     </tr>
                     <tr>
-                        <td class="l">制版:</td>
-                        <td>黄庆兴</td>
+                        <td class="no-border-left">制版:</td>
+                        <td>@(order.Tasts.Find(m=>m.Mark==12).Owner.Name)</td>
                         <td>做样:</td>
-                        <td class="r">袁银平</td>
+                        <td class="no-border-right">袁银平</td>
                     </tr>
                     <tr>
-                        <td class="l">时间:</td>
-                        <td>3月14号</td>
+                        <td class="no-border-left">时间:</td>
+                        <td>@(order.PlanTime.ToString("yyyy-MM-dd"))</td>
                         <td>复核:</td>
-                        <td class="r"></td>
+                        <td class="no-border-right"></td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="b l">客户确认</td>
-                        <td colspan="2" class="b r"></td>
+                        <td colspan="2" class="no-border-bottom no-border-left">客户确认</td>
+                        <td colspan="2" class="no-border-bottom no-border-right"></td>
                     </tr>
                 </table>
             </td>
             <td>
-                <img src="/modules/images/none-img.png" />
+                <img src="@(order.OrderImage)" />
             </td>
         </tr>
         <tr>
@@ -67,150 +84,71 @@
             <td class="font20">成本核算</td>
         </tr>
         <tr>
-            <td>
-                <table class="border">
-                    <tr>
-                        <td class="t l">
-                            类型
-                        </td>
-                        <td class="t"></td>
-                        <td class="t">S</td>
-                        <td class="t">M</td>
-                        <td class="t">L</td>
-                        <td class="t"></td>
-                        <td class="t">档差</td>
-                        <td class="t r">误差</td>
-                    </tr>
-                    <tr>
-                        <td class="l">衣长</td>
-                        <td></td>
-                        <td>92</td>
-                        <td>93</td>
-                        <td>94</td>
-                        <td></td>
-                        <td>1</td>
-                        <td class="r"></td>
-                    </tr>
-                    <tr>
-                        <td class="l">胸围</td>
-                        <td></td>
-                        <td>94</td>
-                        <td>98</td>
-                        <td>102</td>
-                        <td></td>
-                        <td>4</td>
-                        <td class="r"></td>
-                    </tr>
-                    <tr>
-                        <td class="l">肩宽</td>
-                        <td></td>
-                        <td>37</td>
-                        <td>38</td>
-                        <td>39</td>
-                        <td></td>
-                        <td>1</td>
-                        <td class="r"></td>
-                    </tr>
-                    <tr>
-                        <td class="l">袖长</td>
-                        <td></td>
-                        <td>58</td>
-                        <td>59</td>
-                        <td>60</td>
-                        <td></td>
-                        <td>1</td>
-                        <td class="r"></td>
-                    </tr>
-                    <tr>
-                        <td class="l">袖肥</td>
-                        <td></td>
-                        <td>34.8</td>
-                        <td>36</td>
-                        <td>37.2</td>
-                        <td></td>
-                        <td>1.2</td>
-                        <td class="r"></td>
-                    </tr>
-                    <tr>
-                        <td class="b l">袖口</td>
-                        <td class="b"></td>
-                        <td class="b">17</td>
-                        <td class="b">18</td>
-                        <td class="b">19</td>
-                        <td class="b"></td>
-                        <td class="b">1</td>
-                        <td class="r b"></td>
-                    </tr>
-                </table>
+            <td id="Platemak">
+                
             </td>
             <td>
-                <table class="border">
+                <table class="no-border" style="height:100%">
                     <tr>
-                        <td colspan="6" class="r t l font22">面/辅料</td>
+                        <td colspan="6" class="no-border-right no-border-top no-border-left font20" style="height:30px;">面/辅料</td>
                     </tr>
-                    <tr>
-                        <td class="l">面料A:</td>
-                        <td></td>
-                        <td>门幅:</td>
-                        <td>1.44</td>
-                        <td>用料:</td>
-                        <td>1.65</td>
-                    </tr>
-                    <tr>
-                        <td class="l">面料B:</td>
-                        <td></td>
-                        <td>门幅:</td>
-                        <td>1.44</td>
-                        <td>用料:</td>
-                        <td>1.65</td>
-                    </tr>
-                    <tr>
-                        <td class="l">里布:</td>
-                        <td></td>
-                        <td>门幅:</td>
-                        <td>1.44</td>
-                        <td>用料:</td>
-                        <td>1.65</td>
-                    </tr>
+                    @if (order.Details.Count>0)
+                    {
+                        foreach (var item in order.Details)
+                        {
+                            <tr>
+                                <td class="no-border-left no-border-bottom">@(item.ProductName)</td>                            
+                                <td class="no-border-bottom">门幅:</td>
+                                <td class="no-border-bottom">1.44</td>
+                                <td class="no-border-bottom">用料:</td>
+                                <td class="no-border-bottom">@(item.Quantity.ToString("f3"))</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td class="no-border-left no-border-bottom" colspan="2" style="width:250px;font-size:15px;">暂无材料！</td>
+                            
+                        </tr>
+                    }
+                                   
+                     
                 </table>
             </td>
         </tr>
         <tr>
             <td></td>
-            <td class="font16">成本/加工费</td> 
-        </tr>
-        <tr>
-            <td>
-               
-            </td>
-            <td>
-                <table class="border">
-                    <tr>
-                        <td class="t l width125">加工费</td>
-                        <td class="l r t width125"></td>
-                    </tr>
-                    <tr>
-                        <td class="l">30-50件</td>
-                        <td class="l r">65</td>
-                    </tr>
-                    <tr>
-                        <td class="l">100-300件</td>
-                        <td class="l r">53</td>
-                    </tr>
-                    <tr>
-                        <td class="b l">500件</td>
-                        <td class="l r b">50</td>
-                    </tr>
+            <td colspan="6" class="font16 no-border-left">
+                <span class="taskplate"> 成本/加工费</span>
+                <table class="no-border" id="Processing">
+                    @*<tr>
+                        <td class=" l width125">加工费</td>
+                        <td class="l r width125">@(order.CostPrice)</td>
+                    </tr>*@
+                    @foreach (var obj in list)
+                    {
+                        <tr>
+                            <td class="no-border-left">@(obj.Remark)</td>
+                            <td class="no-border-left no-border-right">@(obj.Price)</td>
+                        </tr>
+                    }  
                 </table>
-            </td>                       
+            </td>
+                
         </tr>
         <tr>
-            <td class="border font20" colspan="2">修改意见:</td>            
+            <td class=" font20" colspan="2">修改意见:</td>            
         </tr>
         <tr>
             <td colspan="2" style="height:200px;"></td>
         </tr>
     </table>
+    
+    <div class="export">
+        <input type="button" id="btnExecl" value="导出Excel表格" /> 
+    </div>
+      
 </body>
 </html>
 

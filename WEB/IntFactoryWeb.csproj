@@ -452,6 +452,7 @@
     <Content Include="modules\plug\fullcalendar\fullcalendar.min.js" />
     <Content Include="modules\plug\fullcalendar\lib\jquery.min.js" />
     <Content Include="modules\plug\fullcalendar\lib\moment.min.js" />
+    <Content Include="modules\scripts\orders\fentorderreport.js" />
     <Content Include="modules\scripts\orders\orderplans.js" />
     <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
@@ -1049,6 +1050,7 @@
     <Content Include="Views\Default\SettingHelp.cshtml" />
     <Content Include="Views\MyAccount\FeedBackList.cshtml" />
     <Content Include="Views\Task\SendDYDoc.cshtml" />
+    <Content Include="Views\Task\Demo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
