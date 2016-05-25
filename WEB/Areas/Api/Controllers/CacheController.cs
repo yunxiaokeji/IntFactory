@@ -64,9 +64,16 @@ namespace YXERP.Areas.Api.Controllers
         /// </summary>
         public JsonResult UpdatetAgentCache(string agentID)
         {
-            AgentsBusiness.UpdatetAgentCache(agentID);
+            if (!string.IsNullOrEmpty(agentID))
+            {
+                AgentsBusiness.UpdatetAgentCache(agentID);
 
-            JsonDictionary.Add("result", 1);
+                JsonDictionary.Add("result", 1);
+            }
+            else
+            {
+                JsonDictionary.Add("result", 0);
+            }
 
             return new JsonResult()
             {
