@@ -1,6 +1,8 @@
 ﻿@{
     ViewBag.Title = "我的任务";
     var NowDate = ViewBag.NowDate;
+    HttpCookie cook = Request.Cookies["listtype"];
+    var ListType = cook == null ? "list" : cook["type"];
 }
 
 @section css{
@@ -12,7 +14,7 @@
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
        seajs.use(["scripts/task/list"], function (obj) {
-            obj.init('@ViewBag.IsMy', '@NowDate');
+           obj.init('@ViewBag.IsMy', '@NowDate', '@ListType');
        });
 
         $(function () {
@@ -108,7 +110,7 @@
             <span class="desc"></span>
         </li>
         <li class="right task-tabtype">
-            <i class="iconfont checked mRight5" data-type="list">&#xe64c;</i>
+            <i class="iconfont mRight5" data-type="list">&#xe64c;</i>
             <i class="iconfont" data-type="card">&#xe64b;</i>
         </li>
     </ul>

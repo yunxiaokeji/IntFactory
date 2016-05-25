@@ -21,18 +21,18 @@
         taskOrderColumn: 0,//0:创建时间；2：到期时间
         isAsc:0,
         pageSize: 10,
-        pageIndex:1
+        pageIndex: 1,
+        listType:""
     };
 
     var ObjectJS = {};
     ObjectJS.isLoading = true;
-    ObjectJS.showType = "list";
-
-    ObjectJS.init = function (isMy, nowDate) {
+  
+    ObjectJS.init = function (isMy, nowDate,listType) {
         Params.beginDate = nowDate;
         Params.endDate = nowDate;
         Params.pageSize = ($(".content-body").width() / 300).toFixed(0) * 3;
-
+        Params.listType = listType;
         if (isMy == 2) {
             Params.isParticipate = 1;
             document.title = "参与任务";
@@ -61,7 +61,8 @@
                 });
             });
         }
-
+        $(".task-tabtype i[data-type=" + listType + "]").addClass("checked").siblings().removeClass("checked");
+        
         ObjectJS.bindEvent();
 
         ObjectJS.getProcess();
@@ -155,11 +156,11 @@
             if (!ObjectJS.isLoading) {
                 return;
             }
+
             var _this = $(this);
             if (!_this.hasClass('checked')) {
                 _this.addClass('checked').siblings().removeClass('checked');
-
-                ObjectJS.showType = _this.data('type');
+                Params.listType = _this.data('type');
                 ObjectJS.getList();
             }
         });
@@ -283,7 +284,7 @@
     }
 
     ObjectJS.getList = function () {
-        var showtype = ObjectJS.showType;
+        var showtype = Params.listType;
         $(".tr-header").nextAll().remove();
 
         if (showtype == "list") {
