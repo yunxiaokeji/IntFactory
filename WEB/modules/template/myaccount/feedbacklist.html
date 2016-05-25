@@ -10,7 +10,7 @@ if($data.length>0)
         <td>{%=item.Type==1?"问题":item.Type==2?"意见":"需求"%}</td>
         <td>{%=item.Title%}</td>
         <td>{%=item.Content%}</td>
-        <td class="{%=item.Status==1?'solved':'unsolved'%}">{%=item.Status==1?"已解决":"未解决"%}</td>
+        <td class="{%=item.Status==1?'solved':'unsolved'%}">{%=item.Status==1?"未解决":item.Status==2?"已解决":item.Status==3?"驳回":"删除"%}</td>
     </tr>
 {% 
     }
