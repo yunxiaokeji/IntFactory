@@ -1320,11 +1320,24 @@
 
             if (data.items.length > 0) {
                 var templateHtml = "template/orders/cutoutdoc.html";
-                if (type == 2) {
+                if (ObjectJS.mark == 15) {
+                    templateHtml = "template/orders/senddydocs.html"
+                }
+                else if (ObjectJS.mark == 25) {
                     templateHtml = "template/orders/senddocs.html";
                 }
+                else {
+                    templateHtml = "template/orders/cutoutdoc.html";
+                }
+               
                 doT.exec(templateHtml, function (template) {
-                    var innerhtml = template(data.items);
+                    //if (ObjectJS.mark == 15) {
+                    //    var dataLists = { taskMark: ObjectJS.mark, data: data.items };
+                    //    var innerhtml = template(dataLists);
+                    //}
+                    //else {
+                        var innerhtml = template(data.items);
+                    //}
                     innerhtml = $(innerhtml);
 
                     innerhtml.click(function () {

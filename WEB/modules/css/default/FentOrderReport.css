@@ -1,12 +1,10 @@
 ﻿body {background-color:#fff; }
-.titlename{ font-size:20px;text-align:center;width:500px;height:50px;margin-top:20px;margin-left:32%;}
+.taskplate {line-height:50px;font-size:20px; }
+.titlename{ font-size:22px;height:50px;margin-top:22px;}
 table{border:1px solid #000;border-collapse:collapse;}
-table tr td{border:1px solid #000;text-align:center;width:100px;height:50px;}
+table tr td{border:1px solid #000;text-align:center;width:125px;height:50px;}
 table img{width:250px;}
-.t {border-top:0; }
-.b {border-bottom :0; }
-.r {border-right:0; }
-.l {border-left:0; }
-.border { border:0;}
 .customerName { color:blue;}
 .Sersion {color:orange; }
+.export { margin-top:-900px;margin-left:1200px;}
+.export input{padding:10px;}

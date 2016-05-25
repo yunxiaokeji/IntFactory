@@ -9,6 +9,7 @@ using IntFactoryEntity;
 using YXERP.Models;
 using IntFactoryBusiness;
 using IntFactoryEnum;
+using IntFactoryBusiness.Manage;
 
 namespace YXERP.Controllers
 {
@@ -173,8 +174,15 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult FentOrderReport()
+        public ActionResult FentOrderReport(string id)
         {
+            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetOrderCosts(id, CurrentUser.ClientID);
+            var client = ClientBusiness.GetClientDetail(model.ClientID);
+            model.IsSelf = model.ClientID == CurrentUser.ClientID;
+            ViewBag.Model = model;
+            ViewBag.Client = client;
+            ViewBag.List = list;
             return View();
         }
 

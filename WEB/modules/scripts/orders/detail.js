@@ -19,9 +19,9 @@ define(function (require, exports, module) {
     ObjectJS.init = function (orderid, status, model) {
         var _self = this;
         _self.orderid = orderid;
-        _self.status = status;
+        _self.status = status;        
         _self.model = JSON.parse(model.replace(/&quot;/g, '"'));
-       
+
         _self.bindStyle(_self.model);
         _self.bindEvent();
         _self.getAmount();
@@ -32,6 +32,10 @@ define(function (require, exports, module) {
 
         var _self = this;
         
+        $(".sample-report").click(function () {
+            window.location = "/Orders/FentOrderReport/" + model.OrderID;            
+        });
+
         //隐藏按钮
         $(".part-btn").hide();
 
@@ -55,13 +59,14 @@ define(function (require, exports, module) {
             $("#changeOrderStatus").html("交易结束");
         }
 
+
         //状态
         $(".status-items li").each(function () {
             var _this = $(this), status = _this.data("status");
             if (status <= _self.status) {
                 _this.find("span").css("color", "#3D90F0");
                 _this.find(".status-bg,.status-line").css("background-color", "#3D90F0");
-            }
+            }            
         });
 
         for (var i = 0; i < model.StatusItems.length; i++) {
@@ -69,7 +74,7 @@ define(function (require, exports, module) {
         }
 
         if (model.Platemaking) {
-            $("#navEngravingInfo").html(decodeURI(model.Platemaking));
+            $("#navEngravingInfo").html(decodeURI(model.Platemaking));  
             $("#navEngravingInfo .ico-dropdown").remove();
             $("#navEngravingInfo tr").each(function () {
                 $(this).find("td").last().remove();
