@@ -76,7 +76,7 @@ namespace IntFactoryBusiness
                 {
                     model.Menus = CommonBusiness.ManageMenus;
                 }
-                if ( model.IsAdmin == 1)
+                else if (model.IsAdmin == 1)
                 {
                     model.Menus = CommonBusiness.ManageMenus;
                 }
