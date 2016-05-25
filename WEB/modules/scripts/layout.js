@@ -14,7 +14,7 @@ define(function (require, exports, module) {
         LayoutObject.bindStyle();
         LayoutObject.bindEvent();
         LayoutObject.getAuthorizeInfo();
-        LayoutObject.bindUpcomings();
+        //LayoutObject.bindUpcomings();
         LayoutObject.placeholderSupport();
     }
 
