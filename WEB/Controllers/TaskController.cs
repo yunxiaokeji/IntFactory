@@ -281,12 +281,14 @@ namespace YXERP.Controllers
                 if (cook != null)
                 {
                     cook["type"] = listType;
+                    cook.Expires = DateTime.Now.AddDays(7);
                     Response.Cookies.Add(cook);
                 }
                 else
                 {
                     HttpCookie newCook = new HttpCookie("listtype");
                     newCook["type"] = listType;
+                    newCook.Expires = DateTime.Now.AddDays(7);
                     Response.Cookies.Add(newCook);
                 }
             }
