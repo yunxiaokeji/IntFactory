@@ -311,10 +311,12 @@ namespace IntFactoryBusiness
                 {
                     model.FillData(dt.Rows[0]);
 
-                    model.Department = GetDepartmentByID(model.DepartID, agentid);
-                    model.Role = GetRoleByIDCache(model.RoleID, agentid);
-
-                    Users[agentid].Add(model);
+                    if (agentid == model.AgentID)
+                    {
+                        model.Department = GetDepartmentByID(model.DepartID, agentid);
+                        model.Role = GetRoleByIDCache(model.RoleID, agentid);
+                        Users[agentid].Add(model);
+                    }
                 }
                 return model;
             }
