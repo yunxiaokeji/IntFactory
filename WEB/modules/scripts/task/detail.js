@@ -23,7 +23,7 @@
     ///finishStatus：任务完成状态
     ///attrValues:订单品类属性
     ///orderType:订单类型
-    ObjectJS.init = function (attrValues, orderimages, isWarn, task, isEditTask) {
+    ObjectJS.init = function (attrValues, orderimages, isWarn, task) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
         if (attrValues != "")
             CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
@@ -1210,6 +1210,9 @@
                                 $(this).hide();
                             });
                         });
+                    }
+                    else {
+                        html.find(".dropdown").remove();
                     }
 
                 });

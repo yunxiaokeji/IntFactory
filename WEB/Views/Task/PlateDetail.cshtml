@@ -1,5 +1,5 @@
 ﻿@{
-    var isRoot = (@ViewBag.Status != 8  && @ViewBag.FinishStatus > 0 && Model.Status < 3) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
+    var isRoot = (@ViewBag.Status != 8  && @ViewBag.FinishStatus==1) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
  }
 
 <div class="platemakingContent hide" id="platemakingContent">
