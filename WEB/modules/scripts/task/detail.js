@@ -781,7 +781,9 @@
 
         ele.data('value', ele.val());
         var loss = ((ele.val() * 1) * (ele.parents('tr').find('.tr-quantity').html() * 1)).toFixed(3);
+        var amount = (loss*1) + (ele.parents('tr').find('.tr-quantity').html() * 1);
         ele.parents('tr').find('.tr-loss').html(loss);
+        ele.parents('tr').find('.amount-count').html(amount);
 
         Global.post("/Orders/UpdateProductLoss", {
             orderid: _self.guid,
