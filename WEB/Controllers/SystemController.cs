@@ -370,13 +370,13 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.StageID))
             {
-                model.StageID = new SystemBusiness().CreateOrderStage(model.StageName, model.Sort, model.Mark, "", model.ProcessID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+                model.StageID = new SystemBusiness().CreateOrderStage(model.StageName, model.Sort, model.Mark, model.MaxHours, "", model.ProcessID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, out result);
 
                 model.Owner = OrganizationBusiness.GetUserByUserID(CurrentUser.UserID, CurrentUser.AgentID);
             }
             else
             {
-                bool bl = new SystemBusiness().UpdateOrderStage(model.StageID, model.StageName, model.Mark, model.ProcessID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                bool bl = new SystemBusiness().UpdateOrderStage(model.StageID, model.StageName, model.Mark, model.MaxHours, model.ProcessID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
                 if (bl)
                 {
                     result = 1;

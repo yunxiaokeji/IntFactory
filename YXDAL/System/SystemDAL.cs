@@ -293,7 +293,7 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqlText, paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool CreateOrderStage(string stageid, string name, int sort, int mark, string pid, string processid, string userid, string clientid, out int result)
+        public bool CreateOrderStage(string stageid, string name, int sort, int mark, int hours, string pid, string processid, string userid, string clientid, out int result)
         {
             result = 0;
             SqlParameter[] paras = { 
@@ -301,6 +301,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@StageID",stageid),
                                      new SqlParameter("@StageName",name),
                                      new SqlParameter("@Sort",sort),
+                                     new SqlParameter("@MaxHours",hours),
                                      new SqlParameter("@Mark",mark),
                                      new SqlParameter("@PID",pid),
                                      new SqlParameter("@ProcessID",processid),
@@ -467,13 +468,14 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool UpdateOrderStage(string stageid, string stagename, int mark, string clientid)
+        public bool UpdateOrderStage(string stageid, string stagename, int mark, int hours, string clientid)
         {
-            string sqltext = "update OrderStage set StageName=@StageName,Mark=@Mark where StageID=@StageID and ClientID=@ClientID";
+            string sqltext = "update OrderStage set StageName=@StageName,Mark=@Mark,MaxHours=@MaxHours where StageID=@StageID and ClientID=@ClientID";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@StageID",stageid),
                                      new SqlParameter("@StageName",stagename),
+                                     new SqlParameter("@MaxHours",hours),
                                      new SqlParameter("@Mark",mark),
                                      new SqlParameter("@ClientID" , clientid)
                                    };

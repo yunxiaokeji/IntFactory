@@ -26,7 +26,7 @@
         { 
             <li class="stages-item">
                 <div class="name"><span class="long" id="@(model.StageID)">@(model.StageName)</span></div>
-                <div class="ico-dropdown operatestage" data-sort="@(model.Sort)" data-type="@(model.Mark)" data-id="@(model.StageID)"></div>
+                <div class="ico-dropdown operatestage" data-sort="@(model.Sort)" data-type="@(model.Mark)" data-hours="@(model.MaxHours/24)" data-id="@(model.StageID)"></div>
                 <div class="pLeft10 mTop5">
                     操作模块：@(model.MarkStr)
                 </div>

@@ -37,7 +37,7 @@
         });
         //添加新阶段
         $("#addObject").click(function () {
-            _self.showLayer("", "", "", $(this).data("sort") * 1 + 1);
+            _self.showLayer("", "", "", $(this).data("sort") * 1 + 1, 0);
         });
 
         //删除阶段
@@ -55,7 +55,7 @@
         //编辑阶段
         $("#editObject").click(function () {
             var _this = $(this);
-            _self.showLayer(_this.data("id"), $("#" + _this.data("id")).html(), _this.data("mark"), _this.data("sort"));
+            _self.showLayer(_this.data("id"), $("#" + _this.data("id")).html(), _this.data("mark"), _this.data("sort"), _this.data("hours"));
         });
 
         //转移拥有者
@@ -116,7 +116,7 @@
     }
 
     //添加、编辑浮层
-    ObjectJS.showLayer = function (id, name, mark, sort) {
+    ObjectJS.showLayer = function (id, name, mark, sort, hours) {
         var _self = this;
         doT.exec("template/system/orderstage-detail.html", function (template) {
             var innerText = template({ CategoryType: _self.categoryType, ProcessType: _self.processType });
@@ -130,9 +130,14 @@
                             alert("阶段名称不能为空");
                             return false;
                         }
+                        if (!$("#iptNeedDays").val().trim().isInt() || $("#iptNeedDays").val().trim() < 0) {
+                            alert("完成天数只能是正整数");
+                            return false;
+                        }
                         var model = {
                             StageID: id,
-                            StageName:$("#iptStageName").val().trim(),
+                            StageName: $("#iptStageName").val().trim(),
+                            MaxHours: ($("#iptNeedDays").val().trim() || 0) * 24,
                             Sort: sort,
                             Mark: $("#addOrderStage .stage-item.hover").data("id") || 0
                         };
@@ -146,7 +151,9 @@
 
             if (id) {
                 $("#iptStageName").val(name);
+                $("#iptNeedDays").val(hours);
                 $("#addOrderStage .stage-item[data-id='" + mark + "']").addClass("hover");
+                console.log(hours);
             }
 
             $("#addOrderStage .stage-item").click(function () {
@@ -173,7 +180,7 @@
             //    $("#deleteObject").show();
             //}
             var offset = _this.offset();
-            $("#ddlStage li").data("id", _this.data("id")).data("sort", _this.data("sort")).data("mark", _this.data("type"));
+            $("#ddlStage li").data("id", _this.data("id")).data("sort", _this.data("sort")).data("mark", _this.data("type")).data("hours", _this.data("hours"));
             var left = offset.left;
             if (left > document.documentElement.clientWidth - 150) {
                 left = left - 150;
