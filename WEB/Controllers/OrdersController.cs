@@ -326,12 +326,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult CreateDHOrder(string entity, int ordertype, decimal discount)
+        public JsonResult CreateDHOrder(string entity, int ordertype, decimal discount, decimal price)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderGoodsModel model = serializer.Deserialize<OrderGoodsModel>(entity);
 
-            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, ordertype, discount, model.OrderGoods, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, ordertype, discount, price, model.OrderGoods, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
             {
@@ -536,9 +536,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateOrderDiscount(string orderid, decimal discount)
+        public JsonResult UpdateOrderDiscount(string orderid, decimal discount, decimal price)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderDiscount(orderid, discount, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderDiscount(orderid, discount, price, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
