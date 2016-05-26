@@ -1705,7 +1705,7 @@
                             return false;
                         }
 
-                        Global.post("/Orders/CreateOrderSendDoc", {
+                        Global.post("/Task/CreateOrderSendDoc", {
                             orderid: _self.orderid,
                             taskid: _self.taskid,
                             doctype: 2,
