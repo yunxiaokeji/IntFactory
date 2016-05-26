@@ -9,6 +9,7 @@
         ChooseOrder = require("chooseorder"),
         ChooseProcess = require("chooseprocess"),
         ChooseCustomer = require("choosecustomer"),
+        Sortable = require("sortable"),
         Easydialog = require("easydialog");
     require("pager");
     require("mark");
@@ -740,7 +741,7 @@
                     Easydialog.open({
                         container: {
                             id: "show-order-images",
-                            header: "更换订单样图",
+                            header: "更换订单样图(拖动排序)",
                             content: innerText,
                             yesFn: function () {
                                 var newimages = "";
@@ -792,11 +793,15 @@
                                         });
                                     }
                                 }
+                                $("#show-order-images .order-imgs-list").sortable();
                             } else {
                                 alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
                             }
                         }
                     });
+                    
+                    $("#show-order-images .order-imgs-list").sortable();
+
                     $("#show-order-images .ico-delete").click(function () {
                         $(this).parent().remove();
                     });
