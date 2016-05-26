@@ -50,17 +50,34 @@ namespace IntFactoryBusiness.Manage
         /// <summary>
         /// 获取客户端列表
         /// </summary>
-        public static List<Clients> GetClients(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public static List<Clients> GetClients(string keyWords,int type, string orderBy,int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             string sqlWhere = "a.Status<>9";
             if (!string.IsNullOrEmpty(keyWords))
-                sqlWhere += " and ( a.CompanyName like '%" + keyWords + "%'  or  a.MobilePhone like '%" + keyWords + "%' or  a.ClientCode like '%" + keyWords + "%')";
-
+            {
+                sqlWhere += " and ( a.CompanyName like '%" + keyWords + "%' or a.AliMemberID like '%" + keyWords + "%'  or  a.MobilePhone like '%" + keyWords + "%' or  a.ClientCode like '%" + keyWords + "%')";
+            }
+            if (type > -1) {
+                if (type == 0) { 
+                    sqlWhere += " and len(a.AliMemberID)=0 "; 
+                } else {
+                    sqlWhere += " and len(a.AliMemberID)>0 ";
+                }
+            }
             string sqlColumn = @" a.AutoID,a.ClientID,a.ClientCode,a.CompanyName,a.Logo,a.Industry,
                                 a.CityCode,a.Address,a.PostalCode,a.ContactName,a.MobilePhone,a.OfficePhone,
                                 a.Status,b.EndTime,b.UserQuantity,a.TotalIn,a.TotalOut,a.FreezeMoney,
                                 a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,a.AliMemberID ";
-            DataTable dt = CommonBusiness.GetPagerData("Clients a  join Agents b on a.ClientID=b.ClientID", sqlColumn, sqlWhere, "a.AutoID", pageSize, pageIndex, out totalCount, out pageCount);
+            bool isAsc=false;
+            if (string.IsNullOrEmpty(orderBy))
+            {
+                orderBy = "a.AutoID";
+            }
+            else { 
+                isAsc=orderBy.IndexOf(" asc")>-1?true:false; 
+                orderBy = orderBy.Replace(" desc", "").Replace(" asc", "");
+            }
+            DataTable dt = CommonBusiness.GetPagerData("Clients a  join Agents b on a.ClientID=b.ClientID", sqlColumn, sqlWhere, orderBy, pageSize, pageIndex, out totalCount, out pageCount, isAsc);
             List<Clients> list = new List<Clients>();
             Clients model; 
             foreach (DataRow item in dt.Rows)
@@ -170,7 +187,7 @@ namespace IntFactoryBusiness.Manage
         {
             List<ClientsBaseEntity> list = new List<ClientsBaseEntity>();
             DataSet ds = ClientDAL.BaseProvider.GetClientsAgentActionReport(type, begintime, endtime,clientId);
-            int k = 0;
+            int k = 1;
             foreach (DataTable dt in ds.Tables)
             {
                 List<ClientsItem> item = new List<ClientsItem>();
@@ -184,8 +201,9 @@ namespace IntFactoryBusiness.Manage
                 if (item.Any())
                 {
                     ClientsBaseEntity clientloginEntity = new ClientsBaseEntity
-                    {
-                        Name = (k == 0 ? "客户" : (k == 1 ? "订单" : (k == 2 ? "材料" : (k == 3 ? "员工" : "采购")))),
+                    { 
+                         Name = CommonBusiness.GetEnumDesc((IntFactoryEnum.EnumLogObjectType)k),
+                    //(k == 0 ? "客户" : (k == 1 ? "订单" : (k == 2 ? "材料" : (k == 3 ? "员工" : "采购")))),
                         Items = item
                     };
                     list.Add(clientloginEntity);

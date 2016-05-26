@@ -112,7 +112,7 @@
                 datanames.push(data.items[i].Name)
             }
             items.push({
-                name: data.items[0].Name,
+                name: "工厂增量",//data.items[0].Name,
                 type: 'line',
                 stack: '总量',
                 data: _items

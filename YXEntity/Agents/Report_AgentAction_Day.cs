@@ -35,7 +35,7 @@ namespace IntFactoryEntity
 
         public string CompanyName { get; set; }
         public string ClientCode { get; set; }
-
+        public string AliMemberID { get; set; }
         public void FillData(System.Data.DataRow dr)
         {
             dr.FillData(this);
