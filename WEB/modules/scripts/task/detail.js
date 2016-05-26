@@ -929,7 +929,6 @@
                     yesFn: function () {
                         var $hovers = $("#setTaskPlateAttrBox li.hover");
                         if ($hovers.length == 0) return;
-                        alert($hovers.length);
                         var newColumnHeadr = '';
                         var newColumn = '';
                         $hovers.each(function () {
