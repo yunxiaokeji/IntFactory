@@ -25,6 +25,8 @@
     };
 
     var ObjectJS = {};
+
+    ObjectJS.isLoading = true;
     //初始化
     ObjectJS.init = function (type) {
         var _self = this;
@@ -33,9 +35,7 @@
         _self.getList();
         _self.bindEvent(type);
     }
-
-    ObjectJS.isLoading = true;
-
+    
     //绑定事件
     ObjectJS.bindEvent = function (type) {
         var _self = this;
@@ -155,6 +155,7 @@
                 return;
             }
             $(".searth-module").searchKeys(function (keyWords) {
+                
                 Params.PageIndex = 1;
                 Params.Keywords = keyWords;
                 _self.getList();
@@ -299,6 +300,7 @@
             ObjectJS.isLoading = true;
         });
     }
+
     //加载列表
     ObjectJS.bindCustomerList = function (data) {
         var _self = this;

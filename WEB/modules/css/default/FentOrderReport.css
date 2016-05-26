@@ -1,14 +1,11 @@
 ﻿body {background-color:#fff; }
+.report { width:1000px;margin:20px auto;padding-bottom:20px;}
 .taskplate {line-height:50px;font-size:20px; }
-.titlename{ font-size:22px;height:50px;}
+.titlename{ font-size:22px;height:50px;line-height:50px;font-weight:bold;}
 table{border:1px solid #000;border-collapse:collapse;}
 table tr td{border:1px solid #000;text-align:center;width:200px;height:50px;}
-table img{width:250px;}
+table img{width:200px;margin-right:20px;margin-left:20px;}
 table:first-child tr td:last-child{width:120px;}
-.customerName { color:blue;}
-.Sersion {color:orange; }
-.export { margin-top:-800px;margin-left:1200px;}
-.export input{padding:10px;}
 .style-information tr td { height:25px;font-size:15px;}
 .style-information tr td:last-child{ font-size:12px;}
-.material tr td { width:100%}
+.export span { font-size:24px;color:#4a98e7;}

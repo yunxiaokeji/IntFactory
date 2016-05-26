@@ -276,9 +276,11 @@ namespace IntFactoryBusiness
                     if (!string.IsNullOrEmpty(detail.UnitID))
                     {
                         detail.UnitName = new ProductsBusiness().GetUnitByID(detail.UnitID).UnitName;
+                        
                     }
                     model.Details.Add(detail);
                 }
+                
                 model.OrderGoods = new List<OrderGoodsEntity>();
                 if (ds.Tables["Goods"].Rows.Count > 0)
                 {

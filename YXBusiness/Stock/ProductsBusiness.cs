@@ -784,8 +784,9 @@ namespace IntFactoryBusiness
                 }
 
                 model.IsPublicStr = CommonBusiness.GetEnumDesc((EnumProductPublicStatus)model.IsPublic);
-
+                
                 list.Add(model);
+                
             }
             return list;
         }
