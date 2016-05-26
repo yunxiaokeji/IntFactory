@@ -267,6 +267,7 @@
     <Content Include="modules\images\ico-task-hover.png" />
     <Content Include="modules\images\ico-task.png" />
     <Content Include="modules\images\ico-username.png" />
+    <Content Include="modules\images\icondate.png" />
     <Content Include="modules\images\img-noaccess.png" />
     <Content Include="modules\images\img-noimg.jpg" />
     <Content Include="modules\images\img-noimg.png" />
@@ -302,6 +303,9 @@
     <Content Include="modules\images\selforder\title-logo.png" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
     <Content Include="modules\plug\chooseproduct\productin.html" />
+    <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
+    <Content Include="modules\plug\daterangepicker\daterangepicker.js" />
+    <Content Include="modules\plug\daterangepicker\moment.js" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\an_hui_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\ao_men_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\bei_jing_geo.json" />

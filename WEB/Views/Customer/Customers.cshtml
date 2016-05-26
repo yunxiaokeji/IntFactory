@@ -3,42 +3,13 @@
  }
 @section css{
      <link href="/modules/css/customer/customer.css" rel="stylesheet" />
+     <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
 }
 
 @section scripts{
-   
-    <script src="/Scripts/jquery-1.11.1.js"></script>
-    <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/customer/customer"], function (ObjectJS) {
             ObjectJS.init('@ViewBag.Type');
-        });
-        $(function () {
-            var begin = {
-                elem: '#BeginTime',
-                format: 'YYYY-MM-DD',
-                max: '2099-06-16',
-                istime: false,
-                istoday: false,
-                choose: function (datas) {
-                    end.min = datas; //开始日选好后，重置结束日的最小日期
-                    end.start = datas //将结束日的初始值设定为开始日
-                }
-            };
-
-            var end = {
-                elem: '#EndTime',
-                format: 'YYYY-MM-DD',
-                max: '2099-06-16',
-                istime: false,
-                istoday: false,
-                choose: function (datas) {
-                    begin.max = datas; //结束日选好后，重置开始日的最大日期
-                }
-            };
-            laydate(begin);
-            laydate(end);
-           
         });
     </script>
 }
@@ -81,9 +52,7 @@
     <div class="search-items mTop10">
         <div class="left mRight20" id="chooseBranch"></div>
         <div class="left">
-            <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input width100"  />
-            <span class="pLeft5 pRight5">至</span><input type="text" id="EndTime"  class="input width100"  />
-            <span class="btn mLeft10" id="btnSearch">搜索</span>
+            <input type="text" id="iptCreateTime" placeholder="创建时间"  class="ipt-date"  />
         </div>
         <div class="right searth-module" data-text="输入客户名称/电话..." data-width="200"> </div>
     </div>
