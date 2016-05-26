@@ -463,9 +463,15 @@
     <Content Include="modules\scripts\system\orderprocess.js" />
     <Content Include="modules\scripts\system\orderstages.js" />
     <Content Include="modules\scripts\system\ordercategory.js" />
+    <Content Include="modules\scripts\task\ordergoods.js" />
+    <Content Include="modules\scripts\task\cutoutdoc.js" />
     <Content Include="modules\scripts\task\detail.js" />
+    <Content Include="modules\scripts\task\processcostdoc.js" />
     <Content Include="modules\scripts\task\reply.js" />
     <Content Include="modules\scripts\task\list.js" />
+    <Content Include="modules\scripts\task\sewndoc.js" />
+    <Content Include="modules\scripts\task\sendorders.js" />
+    <Content Include="modules\scripts\task\senddyorders.js" />
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />
     <Content Include="modules\template\inquire\inquireorder.html" />
@@ -498,6 +504,7 @@
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\system\orderstage-detail.html" />
+    <Content Include="modules\template\task\task-costs.html" />
     <Content Include="modules\template\task\platemarting-add.html" />
     <Content Include="modules\template\task\task-card.html" />
     <Content Include="modules\template\task\task-list.html" />
@@ -1055,6 +1062,7 @@
     <Content Include="Views\Default\SettingHelp.cshtml" />
     <Content Include="Views\MyAccount\FeedBackList.cshtml" />
     <Content Include="Views\Task\SendDYDoc.cshtml" />
+    <Content Include="Views\Task\ProcessCostDoc.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -228,7 +228,7 @@
             }
             else if(Model.Mark==15)
             {
-                <li  data-id="navSendDoc" data-btn="btnSendDYOrder">发货记录</li>
+                <li  data-id="navSendDYDoc" data-btn="btnSendDYOrder">发货记录</li>
             }
             else if(Model.Mark==25)
             {
@@ -242,6 +242,11 @@
             {
                 <li data-btn="btnSewnOrder"  data-id="navSewnDoc">车缝记录</li>
             }
+            else if(Model.Mark==16)
+            {
+                 <li data-btn="addOtherCost" data-id="navCosts">加工成本</li>
+            }
+           
         }
         <li data-id="orderTaskLogs">日志</li>
     </ul>
@@ -268,6 +273,11 @@
             {
                 <div class="btn part-btn right hide" id="btnSendOrder" style="display:none;">订单发货</div>
             }
+            else if(Model.Mark==16)
+            {
+                
+            }
+            <div class="btn part-btn right" id="addOtherCost">添加加工成本</div>
         }
      }
     <div class="clear"></div>

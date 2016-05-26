@@ -36,7 +36,7 @@ iframe{vertical-align:top;}embed{display:none;}
 .pay-title{height:30px;padding:10px 0;color:#4a98e7;background-color:#4a98e7;width:100%;}
 .pay-title-name { margin-left:10px;}
 .pay-title-name i{width:30px;height:30px;}
-.pay-title-name img { width:30px;height:30px;}
+.pay-title-name img { width:30px;height:30px;border-radius:50%;}
 .pay-title-name span{font-size:1.1em;line-height:30px;vertical-align:middle;color:#fff;}
 
 /*内容*/
