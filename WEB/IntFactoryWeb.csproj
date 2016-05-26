@@ -461,6 +461,7 @@
     <Content Include="modules\scripts\task\ordergoods.js" />
     <Content Include="modules\scripts\task\cutoutdoc.js" />
     <Content Include="modules\scripts\task\detail.js" />
+    <Content Include="modules\scripts\task\processcostdoc.js" />
     <Content Include="modules\scripts\task\reply.js" />
     <Content Include="modules\scripts\task\list.js" />
     <Content Include="modules\scripts\task\sewndoc.js" />
@@ -1055,6 +1056,7 @@
     <Content Include="Views\Default\SettingHelp.cshtml" />
     <Content Include="Views\MyAccount\FeedBackList.cshtml" />
     <Content Include="Views\Task\SendDYDoc.cshtml" />
+    <Content Include="Views\Task\ProcessCostDoc.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

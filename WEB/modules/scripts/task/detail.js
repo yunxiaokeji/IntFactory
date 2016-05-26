@@ -10,7 +10,7 @@
     var SewnDoc = null;
     var SendOrders = null;
     var SendDYOrders = null;
-
+    var ProcessDYCosts = null;
     
     var CacheAttrValues = [];//订单品类属性缓存
     var PlateMakings = [];//制版工艺说明
@@ -57,6 +57,7 @@
             ObjectJS.initPlateMaking();
         }
         else {
+          
             if (ObjectJS.mark == 12 || ObjectJS.mark == 22) {
                 ObjectJS.removeTaskPlateOperate();
             }
@@ -88,6 +89,13 @@
             SendDYOrders = require("scripts/task/senddyorders");
             SendDYOrders.initSendDYOrders(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
         }
+        else if (ObjectJS.mark === 16) {
+            ProcessDYCosts = require("scripts/task/processcostdoc");
+            ProcessDYCosts.initProcessCosts(ObjectJS.orderid, Global, DoT, ObjectJS.orderType);
+        }
+
+
+        $(".part-btn").hide();
 
         //事件绑定
         ObjectJS.bindBaseEvent();

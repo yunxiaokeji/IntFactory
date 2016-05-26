@@ -19,7 +19,7 @@
         }
     };
 
-    //获取订单大货明细
+    //获取订单明细
     ObjectJS.getGetGoodsDoc = function (id, type) {
         var _self = this;
         var $tr_header = $("#" + id + " .tr-header");
@@ -45,10 +45,12 @@
                 DoT.exec(templateHtml, function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
-
-                    innerhtml.click(function () {
-                        _self.getGoodsDocDetail(this, type == 2 ? 2 : 1);
-                    });
+                    
+                    if (type != 2) {
+                        innerhtml.click(function () {
+                            _self.getGoodsDocDetail(this, type == 22 ? 2 : 1);
+                        });
+                    }
 
                     $tr_header.after(innerhtml);
 
