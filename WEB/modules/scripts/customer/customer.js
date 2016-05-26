@@ -55,7 +55,6 @@
             _self.getList();
         });
 
-        
         //选择客户来源类型
         $(".customer-source li").click(function () {
             if (!ObjectJS.isLoading) {
@@ -151,10 +150,10 @@
 
         //关键字搜索
         require.async("search", function () {
-            if (!ObjectJS.isLoading) {
-                return;
-            }
             $(".searth-module").searchKeys(function (keyWords) {
+                if (!ObjectJS.isLoading) {
+                    return;
+                }
                 Params.PageIndex = 1;
                 Params.Keywords = keyWords;
                 _self.getList();
