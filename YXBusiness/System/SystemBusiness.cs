@@ -711,11 +711,11 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        public string CreateOrderStage(string name, int sort, int mark, string pid, string processid, string userid, string agentid, string clientid, out int result)
+        public string CreateOrderStage(string name, int sort, int mark, int hours, string pid, string processid, string userid, string agentid, string clientid, out int result)
         {
             string stageid = Guid.NewGuid().ToString();
 
-            bool bl = SystemDAL.BaseProvider.CreateOrderStage(stageid, name, sort, mark, pid, processid, userid, clientid, out result);
+            bool bl = SystemDAL.BaseProvider.CreateOrderStage(stageid, name, sort, mark, hours, pid, processid, userid, clientid, out result);
             if (bl)
             {
                 if (!OrderStages.ContainsKey(processid))
@@ -736,6 +736,7 @@ namespace IntFactoryBusiness
                     Sort = sort,
                     PID = pid,
                     Mark = mark,
+                    MaxHours = hours,
                     MarkStr = CommonBusiness.GetEnumDesc<EnumOrderStageMark>((EnumOrderStageMark)mark),
                     Status = 1,
                     CreateTime = DateTime.Now,
@@ -1014,15 +1015,16 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderStage(string stageid, string stagename, int mark, string processid, string userid, string ip, string agentid, string clientid)
+        public bool UpdateOrderStage(string stageid, string stagename, int mark, int hours,string processid, string userid, string ip, string agentid, string clientid)
         {
             var model = GetOrderStageByID(stageid, processid, agentid, clientid);
 
-            bool bl = SystemDAL.BaseProvider.UpdateOrderStage(stageid, stagename, mark, clientid);
+            bool bl = SystemDAL.BaseProvider.UpdateOrderStage(stageid, stagename, mark, hours,clientid);
             if (bl)
             {
                 model.StageName = stagename;
                 model.Mark = mark;
+                model.MaxHours = hours;
                 model.MarkStr = CommonBusiness.GetEnumDesc<EnumOrderStageMark>((EnumOrderStageMark)model.Mark);
             }
             return bl;

@@ -21,6 +21,8 @@ namespace IntFactoryEntity
 
         public string MarkStr { get; set; }
 
+        public int MaxHours { get; set; }
+
         public int Status { get; set; }
 
         [Property("Lower")]

@@ -17,12 +17,14 @@ namespace IntFactoryEnum
         DYProduct=11,
         [DescriptionAttribute("制版工艺")]
         DYEngraving=12,
-        [DescriptionAttribute("裁片录入/织片录入")]
+        [DescriptionAttribute("裁片/织片录入")]
         DYCut=13,
         [DescriptionAttribute("车缝/缝盘/套口")]
         DYSewn=14,
         [DescriptionAttribute("发货录入")]
         DYSend=15,
+        [DescriptionAttribute("加工成本录入")]
+        DYProcess = 16,
         [DescriptionAttribute("材料录入")]
         DHProduct = 21,
         [DescriptionAttribute("制版工艺")]
@@ -33,5 +35,7 @@ namespace IntFactoryEnum
         DHSewn = 24,
         [DescriptionAttribute("发货录入")]
         DHSend = 25,
+        [DescriptionAttribute("加工成本录入")]
+        DHProcess = 26
     }
 }

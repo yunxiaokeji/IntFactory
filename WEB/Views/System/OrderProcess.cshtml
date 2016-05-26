@@ -1,7 +1,10 @@
 ﻿@{
     ViewBag.Title = "阶段流程管理";
 }
-
+<style>
+    .process-items ul{ margin:10px 0; height:25px; line-height:25px; max-width:500px;}
+    .process-items ul li{ float:left; margin-right:10px; margin-top:10px; border:solid 1px #ccc; width:100px; text-align:center;}
+</style>
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/system/orderprocess"], function (obj) {

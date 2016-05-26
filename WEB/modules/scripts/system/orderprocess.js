@@ -145,6 +145,8 @@
                 $("#categoryType").find(".ico-radiobox[data-value='" + model.CategoryType + "']").addClass("hover");
                 $("#processName").val(model.ProcessName);
                 $("#planDays").val(model.PlanDays);
+                
+
             } else {
                 $(".radiobox").click(function () {
                     var _this = $(this);
@@ -152,7 +154,11 @@
                         _this.find(".ico-radiobox").addClass("hover");
                         _this.siblings().find(".ico-radiobox").removeClass("hover");
                     }
+
+                    $("#show-model-detail .process-items").hide();
+                    $("#show-model-detail .process-items[data-order='" + $("#processType").find(".hover").data("value") + "'][data-type='" + $("#categoryType").find(".hover").data("value") + "']").show();
                 });
+                $("#show-model-detail .process-items").first().show();
             }
 
             $("#processName").focus();
