@@ -81,7 +81,10 @@
                 Html.RenderPartial("SewnDoc");
             }
             //加工成本
-            Html.RenderPartial("ProcessCostDoc");
+            if(task.Mark==16)
+            {
+                Html.RenderPartial("ProcessCostDoc");
+            }
         }
         
         <div id="orderTaskLogs" class="mTop15 hide">

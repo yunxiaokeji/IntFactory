@@ -7,7 +7,7 @@
         
     var ObjectJS = {};
 
-    ObjectJS.initProcessCosts = function (orderid, global, doT, ordertype) {
+    ObjectJS.initProcessCosts = function (orderID, global, doT, orderType) {
         var _self = ObjectJS;
 
         if (global == null) {
@@ -29,8 +29,8 @@
             Easydialog = easydialog;
         }
 
-        _self.orderID = orderid;
-        _self.orderType = ordertype;
+        _self.orderID = orderID;
+        _self.orderType = orderType;
 
         //添加成本
         if ($("#addOtherCost").length == 1) {
@@ -46,12 +46,12 @@
         var _self = this;
         $("#navCosts .tr-header").nextAll().remove();
         $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
-        Global.post("/Orders/GetOrderCosts", {
+        Global.post("/Task/GetOrderCosts", {
             orderid: _self.orderID
         }, function (data) {
             $("#navCosts .tr-header").nextAll().remove();
             if (data.items.length > 0) {
-                DoT.exec("template/orders/orderCosts.html", function (template) {
+                DoT.exec("template/task/task-costs.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
@@ -65,7 +65,7 @@
                         innerhtml.find(".ico-del").click(function () {
                             var _this = $(this);
                             confirm("删除后不可恢复，确认删除吗？", function () {
-                                Global.post("/Orders/DeleteOrderCost", {
+                                Global.post("/Task/DeleteOrderCost", {
                                     orderid: _self.orderID,
                                     autoid: _this.data("id")
                                 }, function (data) {
@@ -106,7 +106,7 @@
                             alert("描述不能为空！");
                             return false;
                         };
-                        Global.post("/Orders/CreateOrderCost", {
+                        Global.post("/Task/CreateOrderCost", {
                             orderid: _self.orderID,
                             price: $("#iptCostPrice").val(),
                             remark: $("#iptCostDescription").val()
