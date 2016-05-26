@@ -14,7 +14,9 @@ seajs.config({
         //分页控件
         "pager": "plug/datapager/paginate.js",
         //报表底层
-        'zrender': 'plug/echarts/zrender/zrender.js'
+        'zrender': 'plug/echarts/zrender/zrender.js',
+        //排序
+        "sortable": "plug/sortable.js"
     },
     map: [
         //可配置版本号

@@ -9,6 +9,7 @@
         ChooseOrder = require("chooseorder"),
         ChooseProcess = require("chooseprocess"),
         ChooseCustomer = require("choosecustomer"),
+        Sortable = require("sortable"),
         Easydialog = require("easydialog");
     require("pager");
     require("mark");
@@ -187,15 +188,15 @@
                 Easydialog.open({
                     container: {
                         id: "show-updateOrderDiscount",
-                        header: "设置订单折扣",
+                        header: "设置订单价格",
                         content: innerText,
                         yesFn: function () {
-                            var discount = $("#iptDiscount").val().trim();
-                            if (!discount.isDouble() || discount <= 0 || discount > 100) {
-                                alert("折扣必须为1-100的数字！");
+                            var price = $("#newPrice").val().trim();
+                            if (!price.isDouble() || price < 0) {
+                                alert("价格必须为不小于0的数字！");
                                 return false;
                             }
-                            _self.updateOrderDiscount(discount);
+                            _self.updateOrderDiscount($("#iptDiscount").val().trim(), price);
                         },
                         callback: function () {
 
@@ -205,22 +206,41 @@
                 $("#iptDiscount").focus();
                 $("#iptDiscount").val((_self.model.Discount).toFixed(3)).data("value", (_self.model.Discount).toFixed(3));
                 $("#iptOriginalPrice").text(_self.model.OriginalPrice.toFixed(2));
-                $("#newPrice").text(_self.model.FinalPrice.toFixed(2));
+                $("#newPrice").val(_self.model.FinalPrice.toFixed(2)).data("value", _self.model.FinalPrice.toFixed(2));
                 $("#iptDiscount").change(function () {
                     var _this = $(this), _discount = $(this).val()
                     if (!_discount.isDouble() || _discount < 0) {
                         _this.val(_this.data("value"));
                     } else if (_discount > 1) {
                         confirm("折扣大于1会导致价格大于样衣报价，确认继续吗？", function () {
-                            $("#newPrice").text((_self.model.OriginalPrice * _discount).toFixed(2));
+                            $("#newPrice").val((_self.model.OriginalPrice * _discount).toFixed(2));
                             _this.data("value", _this.val());
                         }, function () {
                             _this.val(_this.data("value"));
                         });
                     } else {
-                        $("#newPrice").text((_self.model.OriginalPrice * _discount).toFixed(2));
+                        $("#newPrice").val((_self.model.OriginalPrice * _discount).toFixed(2));
                         _this.data("value", _discount);
                     }
+                });
+                //金额
+                $("#newPrice").change(function () {
+                    var _this = $(this);
+                    if (!_this.val().isDouble() || _this.val() < 0) {
+                        alert("价格必须为不小于0的数字");
+                        _this.val(_this.data("value"));
+                    } else if (_this.val() > _self.model.FinalPrice) {
+                        confirm("大货价格大于样衣报价，确认继续吗？", function () {
+                            $("#iptDiscount").val((_this.val() / _self.model.OriginalPrice).toFixed(2));
+                            _this.data("value", _this.val());
+                        }, function () {
+                            _this.val(_this.data("value"));
+                        });
+                    } else {
+                        $("#iptDiscount").val((_this.val() / _self.model.OriginalPrice).toFixed(2));
+                        _this.data("value", _this.val());
+                    }
+
                 });
             });
         });
@@ -739,7 +759,7 @@
                     Easydialog.open({
                         container: {
                             id: "show-order-images",
-                            header: "更换订单样图",
+                            header: "更换订单样图(拖动排序)",
                             content: innerText,
                             yesFn: function () {
                                 var newimages = "";
@@ -791,11 +811,15 @@
                                         });
                                     }
                                 }
+                                $("#show-order-images .order-imgs-list").sortable();
                             } else {
                                 alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
                             }
                         }
                     });
+                    
+                    $("#show-order-images .order-imgs-list").sortable();
+
                     $("#show-order-images .ico-delete").click(function () {
                         $(this).parent().remove();
                     });
@@ -897,7 +921,8 @@
                             Global.post("/Orders/CreateDHOrder", {
                                 entity: JSON.stringify(orderModel),
                                 ordertype: _self.model.OrderType,
-                                discount: $("#iptOrderDiscount").val().trim()
+                                discount: $("#iptOrderDiscount").val().trim(),
+                                price: $("#iptOrderNewPrice").val().trim()
                             }, function (data) {
                                 if (data.id) {
                                     alert("大货下单成功!", "/Orders/OrderDetail/" + data.id);
@@ -913,7 +938,8 @@
                 }
             });
             
-            $("#lblOrderFinalPrice,#lblOrderNewPrice").text(_self.model.FinalPrice);
+            $("#lblOrderFinalPrice").text(_self.model.FinalPrice);
+            $("#iptOrderNewPrice").val(_self.model.FinalPrice).data("value", _self.model.FinalPrice);
             //折扣
             $("#iptOrderDiscount").change(function () {
                 var _this = $(this);
@@ -922,13 +948,32 @@
                     _this.val(_this.data("value"));
                 } else if (_this.val() > 1) {
                     confirm("下单折扣大于1会导致大货价格大于样衣报价，确认继续吗？", function () {
-                        $("#lblOrderNewPrice").text((_self.model.FinalPrice * _this.val()).toFixed(2));
+                        $("#iptOrderNewPrice").val((_self.model.FinalPrice * _this.val()).toFixed(2));
                         _this.data("value", _this.val());
                     }, function () {
                         _this.val(_this.data("value"));
                     });
                 } else {
-                    $("#lblOrderNewPrice").text((_self.model.FinalPrice * _this.val()).toFixed(2));
+                    $("#iptOrderNewPrice").val((_self.model.FinalPrice * _this.val()).toFixed(2));
+                    _this.data("value", _this.val());
+                }
+
+            });
+            //金额
+            $("#iptOrderNewPrice").change(function () {
+                var _this = $(this);
+                if (!_this.val().isDouble() || _this.val() < 0) {
+                    alert("价格必须为不小于0的数字");
+                    _this.val(_this.data("value"));
+                } else if (_this.val() > _self.model.FinalPrice) {
+                    confirm("大货价格大于样衣报价，确认继续吗？", function () {
+                        $("#iptOrderDiscount").val((_this.val() / _self.model.FinalPrice).toFixed(2));
+                        _this.data("value", _this.val());
+                    }, function () {
+                        _this.val(_this.data("value"));
+                    });
+                } else {
+                    $("#iptOrderDiscount").val((_this.val() / _self.model.FinalPrice).toFixed(2));
                     _this.data("value", _this.val());
                 }
 
@@ -1366,11 +1411,12 @@
     }
 
     //设置折扣
-    ObjectJS.updateOrderDiscount = function (discount) {
+    ObjectJS.updateOrderDiscount = function (discount, price) {
         var _self = this;
         Global.post("/Orders/UpdateOrderDiscount", {
             orderid: _self.orderid,
-            discount: discount
+            discount: discount,
+            price: price
         }, function (data) {
             if (data.status) {
                 location.href = location.href;

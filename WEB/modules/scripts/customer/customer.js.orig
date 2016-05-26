@@ -151,10 +151,13 @@
         //关键字搜索
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
+<<<<<<< HEAD
+                
+=======
                 if (!ObjectJS.isLoading) {
                     return;
                 }
-                
+>>>>>>> a82448dbd9ed39c11a02c1befd79d06e0a317a0d
                 Params.PageIndex = 1;
                 Params.Keywords = keyWords;
                 _self.getList();

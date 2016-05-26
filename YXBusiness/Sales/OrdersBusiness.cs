@@ -539,14 +539,14 @@ namespace IntFactoryBusiness
             return id;
         }
 
-        public string CreateDHOrder(string orderid, int ordertype, decimal discount, List<ProductDetail> details, string operateid, string agentid, string clientid)
+        public string CreateDHOrder(string orderid, int ordertype, decimal discount, decimal price, List<ProductDetail> details, string operateid, string agentid, string clientid)
         {
             var dal = new OrdersDAL();
             string id = Guid.NewGuid().ToString().ToLower();
 
             if (ordertype == 2)
             {
-                if (!UpdateOrderDiscount(orderid, discount, operateid, "", agentid, clientid))
+                if (!UpdateOrderDiscount(orderid, discount, price, operateid, "", agentid, clientid))
                 {
                     return "";
                 }
@@ -563,7 +563,7 @@ namespace IntFactoryBusiness
                 //打样单
                 if (ordertype == (int)EnumOrderType.ProofOrder)
                 {
-                    bool bl = dal.CreateDHOrder(id, orderid, discount, operateid, clientid, tran);
+                    bool bl = dal.CreateDHOrder(id, orderid, discount, price, operateid, clientid, tran);
                     //产品添加成功添加子产品
                     if (bl)
                     {
@@ -791,12 +791,12 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderDiscount(string orderid, decimal discount, string operateid, string ip, string agentid, string clientid)
+        public bool UpdateOrderDiscount(string orderid, decimal discount, decimal price, string operateid, string ip, string agentid, string clientid)
         {
-            bool bl = OrdersDAL.BaseProvider.UpdateOrderDiscount(orderid, discount, operateid, agentid, clientid);
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderDiscount(orderid, discount, price, operateid, agentid, clientid);
             if (bl)
             {
-                string msg = "订单折扣设置为：" + discount;
+                string msg = "订单折扣设置为：" + discount + ",单价设置为：" + price;
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
             }
             return bl;

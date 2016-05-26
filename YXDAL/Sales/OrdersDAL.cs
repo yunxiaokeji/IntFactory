@@ -219,12 +219,13 @@ namespace IntFactoryDAL
             return result > 0;
         }
 
-        public bool CreateDHOrder(string orderid, string originalid, decimal discount, string operateid, string clientid, SqlTransaction tran)
+        public bool CreateDHOrder(string orderid, string originalid, decimal discount, decimal price, string operateid, string clientid, SqlTransaction tran)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@OriginalID",originalid),
                                      new SqlParameter("@Discount",discount),
+                                     new SqlParameter("@Price",price),
                                      new SqlParameter("@OrderCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)
@@ -445,11 +446,12 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateProfitPrice", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderDiscount(string orderid, decimal discount, string operateid, string agentid, string clientid)
+        public bool UpdateOrderDiscount(string orderid, decimal discount, decimal price, string operateid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@Discount",discount),
+                                     new SqlParameter("@Price",price),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)

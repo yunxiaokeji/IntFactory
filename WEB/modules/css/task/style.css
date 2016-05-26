@@ -460,7 +460,7 @@
 
 /*成员列表样式*/
 /*暂无成员*/
-.memberlist .member-title {line-height:30px;height:30px;width:360px;margin-bottom:5px;padding-bottom:5px;}
+.memberlist .member-title {line-height:30px;height:30px;width:380px;margin-bottom:5px;padding-bottom:5px;}
 
 .memberlist .member-boxs { max-height:320px;overflow-y:auto;width:360px;}
 .memberlist .member-items {width:100%;border:1px solid #ededed;border-collapse:collapse;}

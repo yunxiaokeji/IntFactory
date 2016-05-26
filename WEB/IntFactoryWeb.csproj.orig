@@ -1058,7 +1058,11 @@
     <Content Include="Views\Default\SettingHelp.cshtml" />
     <Content Include="Views\MyAccount\FeedBackList.cshtml" />
     <Content Include="Views\Task\SendDYDoc.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Views\Orders\ProofingPrint.cshtml" />
+=======
     <Content Include="Views\Task\ProcessCostDoc.cshtml" />
+>>>>>>> a82448dbd9ed39c11a02c1befd79d06e0a317a0d
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
