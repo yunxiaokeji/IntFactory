@@ -191,6 +191,10 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 
 .table-list .ico-check { vertical-align:middle; }
 .table-list .ico-checked { vertical-align:middle; }
+.table-list .show-all-txt {
+    word-wrap: break-word;
+    white-space:normal !important;
+}
 
 /*批量操作*/
 .batch-operate { padding-left:5px; height:20px; line-height:20px; }
