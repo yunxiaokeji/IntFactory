@@ -23,11 +23,12 @@
     ///finishStatus：任务完成状态
     ///attrValues:订单品类属性
     ///orderType:订单类型
-    ObjectJS.init = function (attrValues, orderimages, isWarn, task) {
+    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
         if (attrValues != "")
             CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
         ObjectJS.orderid = task.OrderID;
+        ObjectJS.originalID = originalID;
         ObjectJS.guid = task.OrderID;
         ObjectJS.taskid = task.TaskID;
         ObjectJS.stageid = task.StageID;
@@ -1177,7 +1178,7 @@
         });
 
         $("#deleteObject").click(function () {
-            var plateID = $(this).data("plateid");
+            var plateID = $(this).data("id");
             ObjectJS.deletePlateMaking(plateID);
         });
     }
@@ -1188,8 +1189,7 @@
         $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Task/GetPlateMakings", {
-            orderID: ObjectJS.orderid,
-            taskID: ObjectJS.taskid
+            orderID:ObjectJS.mark==22?ObjectJS.originalID: ObjectJS.orderid
         }, function (data) {
             $(".tb-plates .tr-header").nextAll().remove();
 
@@ -1200,7 +1200,7 @@
                     html = $(html);
                     $(".tb-plates .tr-header").after(html);
 
-                    if ($("#setPlateMaking").length == 1) {
+                    if ($("#btnAddPalte").length == 1) {
                         html.find(".dropdown").click(function () {
                             var _this = $(this);
                             var position = _this.find(".ico-dropdown").position();
@@ -1212,7 +1212,7 @@
                         });
                     }
                     else {
-                        html.find(".dropdown").remove();
+                        html.find(".ico-dropdown").remove();
                     }
 
                 });
