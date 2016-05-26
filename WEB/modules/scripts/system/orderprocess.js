@@ -146,7 +146,7 @@
                 $("#processName").val(model.ProcessName);
                 $("#planDays").val(model.PlanDays);
                 
-
+                $("#show-model-detail .create").hide();
             } else {
                 $(".radiobox").click(function () {
                     var _this = $(this);
