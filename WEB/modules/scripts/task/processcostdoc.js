@@ -32,13 +32,13 @@
         _self.orderID = orderID;
         _self.orderType = orderType;
 
+        _self.getCosts();
         //添加成本
         if ($("#addOtherCost").length == 1) {
             $("#addOtherCost").click(function () {
                 _self.addOtherCosts();
             })
         }
-        _self.getCosts();
     }
 
     //其他成本
@@ -82,7 +82,6 @@
                     else {
                         innerhtml.find(".ico-del").remove();
                     }
-
                 });
             } else {
                 $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!</div></td></tr>");

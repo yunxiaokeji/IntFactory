@@ -1179,6 +1179,7 @@
 
         $("#deleteObject").click(function () {
             var plateID = $(this).data("id");
+
             ObjectJS.deletePlateMaking(plateID);
         });
     }
