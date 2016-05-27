@@ -191,9 +191,8 @@ namespace YXERP.Controllers
         {
             var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
             var list = OrdersBusiness.BaseBusiness.GetOrderCosts(id, CurrentUser.ClientID);
-            var client = ClientBusiness.GetClientDetail(model.ClientID);
+            var client = ClientBusiness.GetClientDetail(model.ClientID);            
             
-            model.IsSelf = model.ClientID == CurrentUser.ClientID;
             ViewBag.Model = model;
             ViewBag.Client = client;
             ViewBag.List = list;

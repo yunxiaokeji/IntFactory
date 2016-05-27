@@ -13,20 +13,24 @@
             $("#Platemak").html(decodeURI(plate));
         };
 
-        $("#btnWord").click(function () {            
-            ObjectJS.tableWord();
-        });
-        var conclusion = parseInt( price) +parseInt( costprice);
-        
-        $(".conclusion").html(conclusion);
-        
+       
+        var conclusion = Number(price) + Number(costprice);
+
+        $(".conclusion").html(conclusion.toFixed(2));
+        $(".offer").html(conclusion.toFixed(2));
+        $(".nodata-txt").parent().attr("colspan", $('.longtd').find("td").length);
+       
+        if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {
+            $(".style-information").parent().css("height","100%");
+        }
+            
     };
 
     //删除行操作按钮
     ObjectJS.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
         $("#Platemak table").find("tr:first").find("td").css({ "border-top": "0", "border-bottom": "1px solid", "font-size": "16px" });
-        $("#Platemak table").find("tr").find("td").find("span").css("margin-left","40%");        
+        $("#Platemak table").find("tr").find("td").find("span").css("margin-left","30%");        
         $("#Platemak table tr").each(function () {            
             $(this).find("td:last").remove();            
             $(this).find("td:last").css("border-right", "0");
@@ -39,62 +43,6 @@
         $(".Processing").find("tr:last").find("td").addClass("no-border-bottom");
     }
 
-    ObjectJS.tableWord = function () {
-        var elTable = document.getElementById("tabletoexcel");
-        
-        if (!document.body.createTextRange) {
-            //非IE情况下
-            
-            //var oWD = new ActiveXObject("Word.Application");
-            //var oDC = oWD.Documents.Add("", 0, 1);
-            //var orange = oDC.Range(0, 1);            
-            //orange.Paste();
-            //oWD.Application.Visible = true;
-            //oWD = true;
-        } else {
-            //IE情况下
-            var sel = document.body.createTextRange();
-            sel.moveToElementText(elTable);
-            sel.execCommand("Copy");
-            var oWD = new ActiveXObject("Word.Application");
-            var oDC = oWD.Documents.Add("", 0, 1);
-            var orange = oDC.Range(0, 1);            
-            orange.Paste();
-            oWD.Application.Visible = true;
-            oWD = true;
-        }
-        ///table转换execl表格《不可用【只有在IE下可用】》
-
-        //var selection; //申明range 对象
-        //if (window.getSelection) {
-        //    //主流的浏览器，包括mozilla，chrome，safari
-        //    selection = window.getSelection();
-           
-        //} else if (document.selection) {
-        //    selection = document.selection.createRange();//IE浏览器下的处理，如果要获取内容，需要在selection 对象上加上text 属性
-            
-        //}
-
-        //var elTable = document.getElementById("tabletoexcel"); //table1改成你的tableID
-        
-        //var oRangeRef = document.body.createTextRange();
-
-        //oRangeRef.moveToElementText(elTable);
-
-        //oRangeRef.execCommand("Copy");
-
-        //try {
-        //    var appExcel = new ActiveXObject("Excel.Application");
-        //} catch (e) {
-        //    alert("无法调用Office对象，请确保您的机器已安装了Office并已将本系统的站点名加入到IE的信任站点列表中！");
-        //    return;
-        //}
-
-        //appExcel.Visible = true;
-
-        //appExcel.Workbooks.Add().Worksheets.Item(1).Paste();
-
-        //appExcel = true;
-    };
+    
     module.exports = ObjectJS;
 });
