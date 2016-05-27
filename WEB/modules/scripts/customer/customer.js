@@ -151,10 +151,6 @@
         //关键字搜索
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
-                if (!ObjectJS.isLoading) {
-                    return;
-                }
-                
                 Params.PageIndex = 1;
                 Params.Keywords = keyWords;
                 _self.getList();
