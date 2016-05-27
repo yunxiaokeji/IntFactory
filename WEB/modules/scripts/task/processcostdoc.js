@@ -62,7 +62,6 @@
                     $("#navCosts .tr-header").after(innerhtml);
 
                     if ($("#addOtherCost").length == 1) {
-                    } else {
                         if (_self.orderType == 1) {
                             innerhtml.find(".ico-del").click(function () {
                                 var _this = $(this);
@@ -81,10 +80,8 @@
                         }
                     }
                     else {
-                            innerhtml.find(".ico-del").remove();
-                        }
+                        innerhtml.find(".ico-del").remove();
                     }
-
                 });
             } else {
                 $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!</div></td></tr>");
