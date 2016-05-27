@@ -13,8 +13,9 @@
                   <i class="iconfont right">&#xe631;</i>
               </span>
         {% } %}
-        <div class='warning-layer {%=item.WarningStatus==1?"warning":item.WarningStatus==2?"pass":""%}'></div>
-        <div class="warning-msg">{%=item.WarningStatus==1?"快到期":item.WarningStatus==2?"已超期":""%}</div>
+       <div class='warning-layer'>
+            <div class='warning-msg {%=item.WarningStatus==1?"warning":item.WarningStatus==2?"pass":""%}'>{%=item.WarningStatus==1?"快到期":item.WarningStatus==2?"已超期":""%}</div>
+        </div>
     </a>
     <ul>
         <li>
