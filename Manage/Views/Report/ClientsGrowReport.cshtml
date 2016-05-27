@@ -6,29 +6,12 @@
 <style type="text/css">
     .source-box { height:400px; }
 </style>
-
+@section css{
+    <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    }
 @section scripts{
     <script src="/modules/plug/laydate/laydate.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            laydate({
-                elem: '#beginTime',
-                format: 'YYYY-MM-DD',
-                min: '2000-01-01',
-                max: laydate.now(),
-                istime: false,
-                istoday: false
-            });
-            laydate({
-                elem: '#endTime',
-                format: 'YYYY-MM-DD',
-                min: '2000-01-01',
-                max: laydate.now(),
-                istime: false,
-                istoday: true
-            });
-        })
-
+    <script type="text/javascript"> 
         seajs.use(["scripts/report/clientsgrowreport"], function (obj) {
             obj.init();
         });
@@ -47,12 +30,8 @@
     </div>
 </div>
 <div class="content-body">
-    <div class="search-body mBottom10">
-        <div class="left lineHeight25 mLeft20">日期：</div>
-        <input type="text" class="left" id="beginTime"/>
-        <div class="left lineHeight25">&nbsp;-&nbsp;</div>
-        <input  type="text" class="left" id="endTime"/>
-        <div class="left btn mLeft20" id="btnSearch">查询</div>
+    <div class="left mBottom10">
+         <input type="text" id="rptBeginTime" placeholder="请选择时间段"  class="ipt-date" />
     </div>
 
     <div id="clientsGrowRPT" class="source-box">
