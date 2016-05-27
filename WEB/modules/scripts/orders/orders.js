@@ -17,7 +17,7 @@
         PayStatus: -1,
         OrderStatus: -1,
         InvoiceStatus: -1,
-        ReturnStatus: 0,
+        ReturnStatus: -1,
         SourceType: -1,
         UserID: "",
         AgentID: "",
@@ -167,6 +167,23 @@
                 _this.addClass("hover");
                 Params.PageIndex = 1;
                 Params.Mark = _this.data("id");
+                _self.getList();
+            }
+        });
+        //预警
+        $(".search-warning .item").click(function () {
+            var _this = $(this);
+
+            //快速点击屏蔽
+            if (_self.isLoading) {
+                return false;
+            }
+
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+                Params.PageIndex = 1;
+                Params.InvoiceStatus = _this.data("id");
                 _self.getList();
             }
         });

@@ -289,6 +289,54 @@ namespace IntFactoryBusiness
         {
             return TaskDAL.BaseProvider.UnFinishTask(taskID);
         }
+
+        /// <summary>
+        /// 将任务锁定
+        /// </summary>
+        /// <param name="taskID"></param>
+        /// <param name="operateid"></param>
+        /// <param name="ip"></param>
+        /// <param name="agentid"></param>
+        /// <param name="clientid"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool LockTask(string taskID, string operateid, string ip, string agentid, string clientid, out int result)
+        {
+            bool flag = TaskDAL.BaseProvider.LockTask(taskID, operateid, out result);
+
+            if (flag)
+            {
+                string msg = "将任务锁定";
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, agentid, clientid);
+            }
+
+            return flag;
+        }
+
+        /// <summary>
+        /// 将任务解锁
+        /// </summary>
+        /// <param name="taskID"></param>
+        /// <param name="operateid"></param>
+        /// <param name="ip"></param>
+        /// <param name="agentid"></param>
+        /// <param name="clientid"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool UnLockTask(string taskID, string operateid, string ip, string agentid, string clientid, out int result)
+        {
+            bool flag = TaskDAL.BaseProvider.UnLockTask(taskID, operateid, out result);
+
+            if (flag)
+            {
+                string msg = "将任务解锁";
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, agentid, clientid);
+            }
+
+            return flag;
+        }
         #endregion
 
         #region 制版工艺
