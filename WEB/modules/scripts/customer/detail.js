@@ -51,7 +51,7 @@
         $("#lblOwner").text(model.Owner ? model.Owner.Name : "--");
         $("#changeOwner").data("userid", model.OwnerID);
 
-        $("#lblReamrk").text(model.Description);
+        $("#lblReamrk").text(model.Description == "" ? "--" : model.Description);
 
         //if (model.Type == 0) {
         //    $("#lblType").html("人")
@@ -276,7 +276,6 @@
                 _self.getDHOrders(model.CustomerID, 1);
             }
         });
-
 
         $("#editContact").click(function () {
             if (!ObjectJS.isLoading) {
@@ -621,6 +620,7 @@
             ObjectJS.isLoading = true;
         });
     }
+
     //编辑信息
     ObjectJS.editCustomer = function (model) {
         var _self = this;
@@ -647,7 +647,7 @@
                             MobilePhone: $("#contactMobile").val().trim(),
                             Email: $("#email").val().trim(),
                             Description: $("#remark").val().trim()
-                        };
+                        };                        
                         _self.saveModel(entity);
                     },
                     callback: function () {
@@ -675,12 +675,13 @@
             $(".edit-company").hide();
         });
     }
+
     //保存实体
     ObjectJS.saveModel = function (model) {
         var _self = this;
         ObjectJS.isLoading = false;
         Global.post("/Customer/SaveCustomer", { entity: JSON.stringify(model) }, function (data) {
-            if (data.model.CustomerID) {
+            if (data.model.CustomerID) {                
                 location.href = location.href;
                 
             } else {

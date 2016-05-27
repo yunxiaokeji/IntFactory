@@ -1,6 +1,8 @@
 ﻿define(function (require, exports, module) {
     var Global = require("global"),
-        doT = require("dot");
+        doT = require("dot"),
+        moment = require("moment");
+    require("daterangepicker");
     require("pager");
     require("mark");
 
@@ -172,14 +174,21 @@
             }
         });
 
-        //时间段查询
-        $("#btnSearch").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
+        //日期插件
+        $("#iptCreateTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
             }
+        }, function (start, end, label) {
             Params.pageIndex = 1;
-            Params.beginDate = $("#BeginTime").val();
-            Params.endDate = $("#EndTime").val();
+            Params.beginDate = start ? start.format("YYYY-MM-DD") : "";
+            Params.endDate = end ? end.format("YYYY-MM-DD") : "";
             ObjectJS.getList();
         });
 

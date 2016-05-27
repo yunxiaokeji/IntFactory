@@ -1,12 +1,12 @@
 ﻿define(function (require,exports,module) {
     var ObjectJS = {};
-    ObjectJS.init = function (plate) {
-        ObjectJS.bindEvent(plate);
+    ObjectJS.init = function (plate,price,costprice) {
+        ObjectJS.bindEvent(plate, price, costprice);
         ObjectJS.removeTaskPlateOperate();
         ObjectJS.addTaskPlateCss();
     };
 
-    ObjectJS.bindEvent = function (plate) {
+    ObjectJS.bindEvent = function (plate, price, costprice) {
         if (plate == "") {
             $("#Platemak").html('<tr><td class="no-border" style="width:500px;font-size:15px;">暂无！</td></tr>')
         } else {
@@ -16,15 +16,19 @@
         $("#btnWord").click(function () {            
             ObjectJS.tableWord();
         });
+        var conclusion = parseInt( price) +parseInt( costprice);
+        
+        $(".conclusion").html(conclusion);
         
     };
 
     //删除行操作按钮
     ObjectJS.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
-        $("#Platemak table").find("tr:first").find("td").css("border-top","0").css("border-bottom","1px solid");
-        $("#Platemak table tr").each(function () {
-            $(this).find("td:last").remove();
+        $("#Platemak table").find("tr:first").find("td").css({ "border-top": "0", "border-bottom": "1px solid", "font-size": "16px" });
+        $("#Platemak table").find("tr").find("td").find("span").css("margin-left","40%");        
+        $("#Platemak table tr").each(function () {            
+            $(this).find("td:last").remove();            
             $(this).find("td:last").css("border-right", "0");
             $(this).find("td:first").css("border-left", "0");            
         });
@@ -32,7 +36,7 @@
     };
 
     ObjectJS.addTaskPlateCss = function () {
-        $("#Processing").find("tr:last").find("td").addClass("no-border-bottom");
+        $(".Processing").find("tr:last").find("td").addClass("no-border-bottom");
     }
 
     ObjectJS.tableWord = function () {
@@ -41,12 +45,12 @@
         if (!document.body.createTextRange) {
             //非IE情况下
             
-            var oWD = new ActiveXObject("Word.Application");
-            var oDC = oWD.Documents.Add("", 0, 1);
-            var orange = oDC.Range(0, 1);            
-            orange.Paste();
-            oWD.Application.Visible = true;
-            oWD = true;
+            //var oWD = new ActiveXObject("Word.Application");
+            //var oDC = oWD.Documents.Add("", 0, 1);
+            //var orange = oDC.Range(0, 1);            
+            //orange.Paste();
+            //oWD.Application.Visible = true;
+            //oWD = true;
         } else {
             //IE情况下
             var sel = document.body.createTextRange();

@@ -80,7 +80,7 @@
                 $(this).find("td").last().remove();
             });
         } else {           
-            $(".talk-title").hide();
+            $(".talk-title").hide();            
         }
         //样图
         _self.bindOrderImages(model.OrderImages);
@@ -100,7 +100,6 @@
             taskID: ""
         }, function (data) {
             $(".tb-plates .tr-header").nextAll().remove();
-
             if (data.items.length > 0) {
                 doT.exec("template/task/platemarting-list.html", function (template) {
                     PlateMakings = data.items;

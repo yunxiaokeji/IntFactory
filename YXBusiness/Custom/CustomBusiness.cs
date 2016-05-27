@@ -200,7 +200,7 @@ namespace IntFactoryBusiness
         public bool UpdateCustomer(string customerid, string name, int type, string industryid, int extent, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string operateid, string ip, string agentid, string clientid)
         {
             bool bl = CustomDAL.BaseProvider.UpdateCustomer(customerid, name, type, industryid, extent, citycode, address, mobile, officephone, email, jobs, desc, operateid, agentid, clientid);
-            if (!bl)
+            if (bl)
             {
                 string msg = "编辑客户信息";
                 LogBusiness.AddLog(customerid, EnumLogObjectType.Customer, msg, operateid, ip, "", agentid, clientid);
@@ -261,7 +261,7 @@ namespace IntFactoryBusiness
             }
             return bl;
         }
-
+       
         public bool UpdateContact(string contactid, string customerid, string name, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string operateid, string agentid, string clientid)
         {
             bool bl = CustomDAL.BaseProvider.UpdateContact(contactid, customerid, name, citycode, address, mobile, officephone, email, jobs, desc, operateid, agentid, clientid);

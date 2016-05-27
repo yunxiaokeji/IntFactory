@@ -60,8 +60,8 @@
                     });
 
                     $("#navCosts .tr-header").after(innerhtml);
-                    if ($("#addOtherCost").length == 0) {
-                        innerhtml.find("ico-del").parent().remove();
+
+                    if ($("#addOtherCost").length == 1) {
                     } else {
                         if (_self.orderType == 1) {
                             innerhtml.find(".ico-del").click(function () {
@@ -78,10 +78,13 @@
                                     });
                                 });
                             });
-                        } else {
+                        }
+                    }
+                    else {
                             innerhtml.find(".ico-del").remove();
                         }
                     }
+
                 });
             } else {
                 $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!</div></td></tr>");
