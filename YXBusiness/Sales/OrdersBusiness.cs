@@ -324,6 +324,78 @@ namespace IntFactoryBusiness
             return model;
         }
 
+        public OrderEntity GetOrderForFentReport(string orderid, string agentid, string clientid)
+        {
+            DataSet ds = OrdersDAL.BaseProvider.GetOrderForFentReport(orderid, agentid, clientid);
+            OrderEntity model = new OrderEntity();
+            if (ds.Tables["Order"].Rows.Count > 0)
+            {
+
+                model.FillData(ds.Tables["Order"].Rows[0]);
+
+                if (model.Status == 2)
+                {
+                    model.SendStatusStr = CommonBusiness.GetEnumDesc((EnumSendStatus)model.SendStatus);
+                }
+                else if (model.Status < 2)
+                {
+                    model.SendStatusStr = "--";
+                }
+
+
+                if (!string.IsNullOrEmpty(model.CategoryID))
+                {
+                    model.CategoryName = ProductsBusiness.BaseBusiness.GetCategoryByID(model.BigCategoryID).CategoryName + ">" + ProductsBusiness.BaseBusiness.GetCategoryByID(model.CategoryID).CategoryName;
+                }
+
+                model.Tasts = new List<IntFactoryEntity.Task.TaskEntity>();
+                if (model.Status > 0 && ds.Tables["Tasks"].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables["Tasks"].Rows)
+                    {
+                        IntFactoryEntity.Task.TaskEntity task = new IntFactoryEntity.Task.TaskEntity();
+                        task.FillData(dr);
+                        task.Owner = OrganizationBusiness.GetUserByUserID(task.OwnerID, model.AgentID);
+                        model.Tasts.Add(task);
+                    }
+
+                }
+
+                model.City = CommonBusiness.GetCityByCode(model.CityCode);
+
+                if (ds.Tables["Customer"].Rows.Count > 0)
+                {
+                    model.Customer = new CustomerEntity();
+                    model.Customer.FillData(ds.Tables["Customer"].Rows[0]);
+                }
+                model.Details = new List<OrderDetail>();
+                foreach (DataRow dr in ds.Tables["Details"].Rows)
+                {
+                    OrderDetail detail = new OrderDetail();
+                    detail.FillData(dr);
+                    if (!string.IsNullOrEmpty(detail.UnitID))
+                    {
+                        detail.UnitName = new ProductsBusiness().GetUnitByID(detail.UnitID).UnitName;
+
+                    }
+                    model.Details.Add(detail);
+                }
+
+                model.OrderCoss = new List<OrderCostEntity>();
+                foreach (DataRow dr in ds.Tables["OrderCoss"].Rows)
+                {
+                    OrderCostEntity cos = new OrderCostEntity();
+                    cos.FillData(dr);
+
+                    model.OrderCoss.Add(cos);
+                }
+
+
+            }
+            return model;
+        }
+
+
         public static List<ReplyEntity> GetReplys(string guid, string stageID,int mark, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             List<ReplyEntity> list = new List<ReplyEntity>();

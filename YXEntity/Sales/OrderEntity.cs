@@ -166,6 +166,8 @@ namespace IntFactoryEntity
 
         public List<Task.TaskEntity> Tasts { get; set; }
 
+        public List<OrderCostEntity> OrderCoss { get; set; }
+
         public string Remark { get; set; }
 
         public string OrderCode { get; set; }
