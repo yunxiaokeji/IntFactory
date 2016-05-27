@@ -38,7 +38,7 @@
                 }
                 else
                 {
-                     <span class="taskFinishStatus">@( task.FinishStatus==0?"未接受":task.FinishStatus==1?"进行中":"已完成" )</span>
+                     <span class="taskFinishStatus">@( task.FinishStatus==0?"未接受":task.FinishStatus==1?"进行中":(task.FinishStatus==2&&task.LockStatus==2)?"已重启":"已完成" )</span>
                 }
             
             }

@@ -181,6 +181,14 @@
             });
         }
 
+        //锁定任务
+        if ($("#LockTask").length == 1) {
+            $("#LockTask").click(function () {
+                ObjectJS.lockTask();
+            })
+        }
+            
+
         if ($("#addTaskMembers").length == 1) {
             ChooseUser = require("chooseuser");
             //添加任务成员
@@ -335,7 +343,6 @@
                },
                function (data) {
                    $("#FinishTask").val("标记完成").removeAttr("disabled");
-
                    if (data.result == 1) {
                        location.href = location.href;
                    }
@@ -354,6 +361,23 @@
                    ObjectJS.isLoading = true;
                });
         });
+    }
+
+    //锁定任务
+    ObjectJS.lockTask = function () {
+        confirm("锁定后不能对任务进行任何操作,确定要锁定?", function () {
+            $("#LockTask").val("锁定中...").attr("disabled", "disabled");
+            ObjectJS.isLoading = false;
+            Global.post("/Task/LockTask", { taskID: ObjectJS.taskid }, function (data) {
+                ObjectJS.isLoading = true;
+                $("#LockTask").val("锁定任务").removeAttr("disabled");
+                if (data == 1) {
+                    location.href = location.href;
+                } else {
+                    alert("网络繁忙,解锁失败");
+                }
+            });
+        })
     }
 
     //添加任务成员
@@ -663,7 +687,6 @@
         });
     }
     //#endregion
-
 
     // #region任务材料操作
     //绑定事件
