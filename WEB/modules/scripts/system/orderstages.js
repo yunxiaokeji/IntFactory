@@ -47,7 +47,9 @@
                 _self.deleteModel(_this.data("id"), function (status) {
                     if (status) {
                         location.href = location.href;
-                    } 
+                    } else {
+                        alert("删除失败，阶段至少保留一个");
+                    }
                 });
             });
         });
