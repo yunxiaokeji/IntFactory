@@ -23,19 +23,6 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult ProofingPrint(string id) 
-        {
-            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
-            var list = OrdersBusiness.BaseBusiness.GetOrderCosts(id, CurrentUser.ClientID);
-            var client = ClientBusiness.GetClientDetail(model.ClientID);
-
-            model.IsSelf = model.ClientID == CurrentUser.ClientID;
-            ViewBag.Model = model;
-            ViewBag.Client = client;
-            ViewBag.List = list;
-            return View();
-        }
-
         public ActionResult MyOrder(string id)
         {
             ViewBag.Title = "我的订单";

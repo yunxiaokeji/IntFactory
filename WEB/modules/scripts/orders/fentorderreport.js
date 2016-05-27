@@ -17,13 +17,38 @@
         var conclusion = Number(price) + Number(costprice);
 
         $(".conclusion").html(conclusion.toFixed(2));
-        $(".offer").html(conclusion.toFixed(2));
-        $(".nodata-txt").parent().attr("colspan", $('.longtd').find("td").length);
-       
+
+        $(".offer").val(conclusion.toFixed(2));
+
         if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {
             $(".style-information").parent().css("height","100%");
         }
-            
+          
+        $(".icon-delete").click(function () {
+            $(this).parent().parent().remove();
+        });
+
+        $(".icon-delete-provider").click(function () {
+            var id = $(this).data("id");
+            $("." + id).remove();
+            $(".nodata-txt").parent().css("width","932px");
+        });
+
+        $(".btn").click(function () {
+            var priceoffer = $(".offer").val();            
+            $(".priceoffer").html(Number(priceoffer).toFixed(2));
+            $(".offer").remove();
+            $(".iconfont").remove();
+            $(".preview").remove();
+            $(".btn").remove();
+            $(".export").show().append('<span class="iconfont" style="cursor:pointer;">&#xe658;</span>');
+        });
+
+        //打印
+        $(".export").click(function () {
+            $(".export").remove();
+            window.print();
+        });
     };
 
     //删除行操作按钮
