@@ -524,6 +524,7 @@
     <Compile Include="Models\OrderGoodsModel.cs" />
     <Compile Include="Models\ShoppingCartProduct.cs" />
     <Compile Include="Models\FilterTasks.cs" />
+    <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\menuico\account.png" />
     <Content Include="Content\menuico\accounthover.png" />
