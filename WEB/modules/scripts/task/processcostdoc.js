@@ -115,7 +115,7 @@
                             remark: $("#iptCostDescription").val()
                         }, function (data) {
                             if (data.status) {
-                                alert("成本添加成本！");
+                                alert("成本添加成功！");
                                 $("#lblCostMoney").text(($("#lblCostMoney").text() * 1 + $("#iptCostPrice").val() * 1).toFixed(2));
                                 _self.getCosts();
                             } else {
