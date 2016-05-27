@@ -1,5 +1,5 @@
 ﻿@{
-    var isRoot = (ViewBag.Status != 8  && ViewBag.FinishStatus==1 && Model.PurchaseStatus == 0) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
+    var isRoot = ViewBag.IsRoot && Model.PurchaseStatus==0;
  }
 <div id="navProducts" class="nav-partdiv hide">
     <table class="table-list mTop20">

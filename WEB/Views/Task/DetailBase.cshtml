@@ -21,6 +21,10 @@
                     {
                         <input type="button" class="btn" id="FinishTask" value="标记完成"/>
                     }
+                    else if (Model.FinishStatus == 2 && ViewBag.LockStatus)
+                    {
+                        <input type="button" class="btn" id="LockTask" value="锁定任务"/>
+                    }
                     else if (Model.FinishStatus == 2)
                     {
                         <span class="taskFinishStatus">已完成</span>
@@ -254,9 +258,9 @@
      @{
            
          
-         var isRoot = (ViewBag.Status != 8 && ViewBag.FinishStatus ==1) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
+ 
           
-         if(isRoot){
+         if(ViewBag.IsRoot){
             if (Model.Mark == 23 && ViewBag.CutStatus!=2)
             {
                  <div class="btn part-btn right" id="btnCutoutOrder" style="display:none;">裁剪录入</div>                

@@ -12,7 +12,9 @@
     }
     ViewBag.CutStatus = order.CutStatus;
     ViewBag.SendStatus = order.SendStatus;
+    ViewBag.LockStatus = task.LockStatus == 2 ? true : false;
     ViewBag.Remark = order.Remark;
+    ViewBag.IsRoot = (ViewBag.Status != 8 && (ViewBag.FinishStatus == 1 || ViewBag.LockStatus) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner) );
 }
 
 @section css{

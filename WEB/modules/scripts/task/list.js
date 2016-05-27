@@ -168,7 +168,6 @@
             if (!_this.hasClass('checked')) {
                 _this.addClass('checked').siblings().removeClass('checked');
                 Params.listType = _this.data('type');
-
                 Global.setCookie('TaskListType',Params.listType);
                 ObjectJS.getList();
             }
