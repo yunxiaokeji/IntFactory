@@ -1,20 +1,12 @@
 ﻿
 @{
-    var task = (IntFactoryEntity.Task.TaskEntity)ViewBag.Model;
-    ViewBag.Title = "任务详情"+"-"+task.Title;
-    var order = (IntFactoryEntity.OrderEntity)ViewBag.Order;
-    var productAttr = (IntFactoryEntity.ProductAttr)ViewBag.ProductAttr;
+    var taskModel = (YXERP.Models.TaskModel)ViewBag.TaskModel;
+    var task = taskModel.Task;
+    var order = taskModel.Order;
+    var productAttr = taskModel.ProductAttr;
     var attrValues = productAttr.AttrValues == null ? "" : Html.ToJSONString(productAttr.AttrValues);
 
-    if(task.FinishStatus==2)
-    {
-        ViewBag.FinishDay=(int)Math.Ceiling((task.CompleteTime - task.AcceptTime).TotalDays);
-    }
-    ViewBag.CutStatus = order.CutStatus;
-    ViewBag.SendStatus = order.SendStatus;
-    ViewBag.LockStatus = task.LockStatus == 2 ? true : false;
-    ViewBag.Remark = order.Remark;
-    ViewBag.IsRoot = (ViewBag.Status != 8 && (ViewBag.FinishStatus == 1 || ViewBag.LockStatus) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner) );
+    ViewBag.Title = "任务详情" + "-" + task.Title;
 }
 
 @section css{
@@ -28,39 +20,38 @@
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@attrValues', '@order.OrderImages', '@ViewBag.IsWarn', '@Html.ToJSONString(task)', '@order.OriginalID');
+                obj.init('@attrValues', '@order.OrderImages', '@taskModel.IsWarn', '@Html.ToJSONString(task)', '@order.OriginalID');
             });
 
         });
     </script>
 }
-
-@{Html.RenderPartial("DetailBase", task);}
+@{Html.RenderPartial("DetailBase", taskModel);}
 
 <div class="taskContent" style="padding-bottom:60px;">
     <div id="navTask" class="talk-body nav-partdiv">
-        @{Html.RenderPartial("TaskReply", task);}
+        @{Html.RenderPartial("TaskReply");}
 
         @{
             if (task.Mark == 11)
             {
                 //打样材料
-               Html.RenderPartial("MaterialDetail",order);
+                Html.RenderPartial("MaterialDetail", taskModel);
             }
             else if (task.Mark == 21)
             {   
                 //大货材料
-                Html.RenderPartial("CargoMaterialDetail", order);
+                Html.RenderPartial("CargoMaterialDetail", taskModel);
             }
             else if (task.Mark == 12)
             {
                 //打样制版
-                Html.RenderPartial("PlateDetail", order);
+                Html.RenderPartial("PlateDetail", taskModel);
             }
             else if (task.Mark == 22)
             {   
                 //大货制版
-                Html.RenderPartial("PlateDetail", order);
+                Html.RenderPartial("PlateDetail", taskModel);
             }
             else if (task.Mark == 15)
             {

@@ -1,5 +1,8 @@
 ﻿@{
-    var isRoot = ViewBag.IsRoot;
+    var taskModel = (YXERP.Models.TaskModel)Model;
+    var task = taskModel.Task;
+    var order = taskModel.Order;
+    var isRoot = taskModel.IsRoot;
 }
 <div id="navProducts" class="nav-partdiv hide">
     <table class="table-list mTop20">
@@ -11,19 +14,13 @@
             <td class="tLeft">单价</td>
             <td class="">消耗量</td>
             <td class="tRight">小计</td>
-            @{
-                if (isRoot)
-                {
-                <td>删除</td>
-                }
-            }
-
+            <td>操作</td>
         </tr>
         @{
-            if (Model.Details.Count>0)
+            if (order.Details.Count > 0)
             {
-                
-                foreach (var detail in Model.Details)
+
+                foreach (var detail in order.Details)
                 { 
                     <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
                         <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
@@ -43,7 +40,8 @@
                         else
                         {
                             <td class="center tr-quantity">@(detail.Quantity.ToString("f3"))</td>
-                            <td class="tRight amount">@((detail.TotalMoney).ToString("f3"))</td>    
+                            <td class="tRight amount">@((detail.TotalMoney).ToString("f3"))</td>
+                            <td></td>
                         }
                     }
                     </tr>
@@ -56,12 +54,7 @@
                     <td></td>
                     <td class="tRight">成本合计：</td>
                     <td class="tRight"><label id="amount"></label></td>
-                    @{
-                        if (isRoot)
-                        {  
-                        <td></td>
-                        }
-                    }
+                    <td></td>
                 </tr>
             }
             else
@@ -69,14 +62,12 @@
                 <tr><td colspan="8"><div class="nodata-txt">暂无材料</div></td></tr>
             }
         }
-
-        
     </table>
 
     @{
         if (isRoot)
         {
-            <a href="/Orders/ChooseMaterial?id=@(Model.OrderID)&tid=@(ViewBag.TaskID)" id="btn-addMaterial" class="btn right mTop10">添加材料</a>
+            <a href="/Orders/ChooseMaterial?id=@(order.OrderID)&tid=@(task.TaskID)" id="btn-addMaterial" class="btn right mTop10">添加材料</a>
         }
     }
     <div class="clear"></div>
