@@ -6,9 +6,11 @@ table{border:1px solid #000;border-collapse:collapse;}
 table tr td{border:1px solid #000;text-align:center;width:200px;height:50px;}
 table img{width:200px;margin-right:20px;margin-left:20px;}
 table:first-child tr td:last-child{width:120px;}
-.style-information tr td { height:25px;font-size:15px;}
+.style-information tr td { height:35px;font-size:15px;}
 .style-information tr td:last-child{ font-size:12px;}
 .export span { font-size:24px;color:#666;}
-.icon-delete { float:left;margin-left:5px;margin-top:2px;color:#4798e7;cursor:pointer;margin-right:-20px;}
-.icon-delete-provider{ float:left;margin-left:5px;margin-top:2px;color:#4798e7;cursor:pointer;}
-.offer { text-align:center;}
+.icon-delete { float:left;margin-left:5px;margin-top:2px;color:#666;cursor:pointer;margin-right:-20px;}
+.offer { width:60%;}
+.no-select {color:#bbb; }
+.btn { background-color:#888;}
+.btn:hover{background-color:#666;}

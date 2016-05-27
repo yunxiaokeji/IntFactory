@@ -503,7 +503,7 @@
         }
         else
         {
-            if (ObjectJS.isWarn) {
+            if (ObjectJS.isWarn==1) {
                 if (!overplusTime) {
                     $(".taskBaseInfo .li-plustime .task-time").css({ "background-color": "orange", "color": "#fff" });
                 }
