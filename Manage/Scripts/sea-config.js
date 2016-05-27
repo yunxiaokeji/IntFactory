@@ -14,7 +14,10 @@ seajs.config({
         //分页控件
         "pager": "plug/datapager/paginate.js",
         //报表底层
-        'zrender': 'plug/echarts/zrender/zrender.js'
+        'zrender': 'plug/echarts/zrender/zrender.js',
+        //日期控件
+        'moment': 'plug/daterangepicker/moment.js',
+        'daterangepicker': 'plug/daterangepicker/daterangepicker.js'
     }
 });
 
@@ -30,7 +33,8 @@ seajs.config({
         //下拉框
         "dropdown": "plug/dropdown/dropdown.js",
         //弹出层插件
-        "easydialog": "plug/easydialog/easydialog.js"
+        "easydialog": "plug/easydialog/easydialog.js",
+  
     }
 });
 

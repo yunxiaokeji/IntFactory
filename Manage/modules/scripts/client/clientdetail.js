@@ -7,13 +7,15 @@ define(function (require, exports, module) {
     doT = require("dot"),
     Easydialog = require("easydialog"),
     City = require("city"),
-    ec = require("echarts/echarts");
+    ec = require("echarts/echarts"),
+    moment = require("moment");
 
     require("jquery");
     require("pager");
     require("echarts/chart/pie");
     require("echarts/chart/line");
-    require("echarts/chart/bar");   
+    require("echarts/chart/bar");
+    require("daterangepicker");
     var VerifyObject, CityObject;
 
     var Clients = {};
@@ -38,18 +40,18 @@ define(function (require, exports, module) {
         clientID: "?"
     };
 
-    var Params = {
+    Clients.ReportParams = {
         searchType: "clientdetailVitalityRPT",
-        dateType: 3,
-        beginTime: "",
-        endTime: "",
+        dateType: 1,
+        beginTime: new Date().setDate(new Date().getDate() - 15).toString().toDate("yyyy-MM-dd"),
+        endTime: Date.now().toString().toDate("yyyy-MM-dd"),
         clientID:""
     };
     //客户详情初始化
     Clients.detailInit = function (id) {
         var _self = this;
         Clients.Params.clientID = id;
-        _self.clientsChart = ec.init(document.getElementById('clientdetailVitalityRPT'));
+       
         Clients.detailEvent();        
         //行业为空
         if ($("#industry option").length == 1) $("#industry").change();
@@ -59,81 +61,59 @@ define(function (require, exports, module) {
     }
     //绑定事件
     Clients.detailEvent = function () {
-        var _self = this;       
-        $("#btnSearch").click(function () {
-            Params.beginTime = $("#reportBeginTime").val().trim();
-            Params.endTime = $("#reportEndTime").val().trim();
-            if (!Params.beginTime || !Params.endTime) {
-                alert("开始日期与结束日期不能为空！");
-                return;
+        var _self = this;
+        //日期插件
+        $("#orderBeginTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
             }
-            if (Params.beginTime > Params.endTime) {
-                alert("开始日期不能大于结束日期！");
-                return;
-            }
-            _self.sourceDate()
-            $(".search-type .hover").data("reportBeginTime", Params.beginTime).data("reportEndTime", Params.endTime);
-        });       
-
-        $(".search-type li").click(function () {
-            var _this = $(this);
-            if (!_this.hasClass("hover")) {
-                _this.siblings().removeClass("hover");
-                _this.addClass("hover");
-                Params.searchType = _this.data("id");
-                Params.dateType = _this.data("type"); 
-                $("#" + _this.data("id")).show();
-                if (!_self.clientsChart) {
-                    _self.clientsChart = ec.init(document.getElementById('clientdetailVitalityRPT'));
-                }
-                if (_this.data("begintime")) {
-                    $("#reportBeginTime").val(_this.data("begintime"));
-                } else {
-                    if (Params.dateType == 3) {
-                        $("#reportBeginTime").val(new Date().setFullYear(new Date().getFullYear() - 1).toString().toDate("yyyy-MM-dd"));
-                    } else if (Params.dateType == 2) {
-                        $("#reportBeginTime").val(new Date().setMonth(new Date().getMonth() - 3).toString().toDate("yyyy-MM-dd"));
-                    }
-                    else if (Params.dateType == 1) {
-                        $("#reportBeginTime").val(new Date().setDate(new Date().getDay() - 15).toString().toDate("yyyy-MM-dd"));
-                    }
-                }
-                if (_this.data("endtime")) {
-                    $("#reportEndTime").val(_this.data("endtime"));
-                } else {
-                    $("#reportEndTime").val(Date.now().toString().toDate("yyyy-MM-dd"));
-                }
-                $("#btnSearch").click();
-            }
-
+        }, function (start, end, label) {
+            Clients.Params.pageIndex = 1;
+            Clients.Params.beginDate = start ? start.format("YYYY-MM-DD") : '';
+            Clients.Params.endDate = end ? end.format("YYYY-MM-DD") : '';
+            Clients.getClientOrders();
         });
+        $("#rptBeginTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
+            }
+        }, function (start, end, label) {
+            Clients.ReportParams.pageIndex = 1;
+            Clients.ReportParams.beginTime = start ? start.format("YYYY-MM-DD") : '';
+            Clients.ReportParams.endTime = end ? end.format("YYYY-MM-DD") : '';
+            Clients.sourceDate();
+        });
+        $("#rptBeginTime").val(Clients.ReportParams.beginTime + ' 至 ' + Clients.ReportParams.endTime);
         //客户设置菜单
         $(".search-status li").click(function () {
+            $('#addNewOrder').hide();
+            $('#addAuthorize').hide();
             $(this).addClass("hover").siblings().removeClass("hover");
             var index = $(this).data("index");
             $(".content-body div[name='navContent']").hide().eq(parseInt(index)).show();
             if (index == 1) {
                 Clients.getClientAuthorizeData();
-                $('#addNewOrder').hide();
                 $('#addAuthorize').show();
             }else if (index == 0) {
                 Clients.getClientOrders();
-                $('#addNewOrder').show();
-                $('#addAuthorize').hide();
+                $('#addNewOrder').show();;
             } else if (index == 2) {
-                $("#reportBeginTime").val(new Date().setMonth(new Date().getMonth() - 3).toString().toDate("yyyy-MM-dd"));
-                $("#reportEndTime").val(Date.now().toString().toDate("yyyy-MM-dd"));
-                $("#btnSearch").click();
-                $('#addNewOrder').hide();
-                $('#addAuthorize').hide();            
+                Clients.clientsChart = ec.init(document.getElementById('clientdetailVitalityRPT'));
+                Clients.sourceDate();
             }
-        });
-        $("#SearchClientOrders").click(function () {
-            Clients.Params.pageIndex = 1;
-            Clients.Params.beginDate = $("#orderBeginTime").val();
-            Clients.Params.endDate = $("#orderEndTime").val();
-            Clients.getClientOrders();
-        });
+        }); 
         //搜索
         require.async("dropdown", function () {
             var OrderStatus = [
@@ -155,7 +135,6 @@ define(function (require, exports, module) {
                     Clients.getClientOrders();
                 }
             });
-
             var OrderTypes = [
                 {ID: "4", Name: "试用"},
                 {ID: "1",Name: "购买系统"},
@@ -175,6 +154,35 @@ define(function (require, exports, module) {
                     Clients.Params.pageIndex = 1;
                     Clients.Params.type = parseInt(data.value);
                     Clients.getClientOrders();
+                }
+            });
+            var SearchType = [ 
+                { ID: "2", Name: "按周统计" },
+                { ID: "3", Name: "按月统计" }
+            ];
+            $("#SearchType").dropdown({
+                prevText: "",
+                defaultText: "按日统计",
+                defaultValue: "1",
+                data: SearchType,
+                dataValue: "ID",
+                dataText: "Name",
+                width: "120",
+                onChange: function (data) { 
+                    Clients.ReportParams.pageIndex = 1;
+                    var type = parseInt(data.value);
+                    Clients.ReportParams.dateType=type;
+                    if (type == 3) {
+                        Clients.ReportParams.beginTime = new Date().setFullYear(new Date().getFullYear() - 1).toString().toDate("yyyy-MM-dd");
+                    } else if (type == 2) {
+                        Clients.ReportParams.beginTime = new Date().setMonth(new Date().getMonth() - 3).toString().toDate("yyyy-MM-dd");
+                    }
+                    else if (type == 1) {
+                        Clients.ReportParams.beginTime = new Date().setDate(new Date().getDay() - 15).toString().toDate("yyyy-MM-dd");
+                    }
+                    Clients.ReportParams.endTime = Date.now().toString().toDate("yyyy-MM-dd"); 
+                    $("#rptBeginTime").val(Clients.ReportParams.beginTime + ' 至 ' + Clients.ReportParams.endTime);
+                    Clients.sourceDate();
                 }
             });
         });
@@ -199,6 +207,18 @@ define(function (require, exports, module) {
             }
         });
     };
+    //$(".search-type li").click(function () {
+    //    var _this = $(this);
+    //    if (!_this.hasClass("hover")) {
+    //        _this.siblings().removeClass("hover");
+    //        _this.addClass("hover"); 
+    //        Clients.ReportParams.dateType = _this.data("type"); 
+    //        if (!Clients.clientsChart) {
+    //            Clients.clientsChart = ec.init(document.getElementById('clientdetailVitalityRPT'));
+    //        } 
+            
+    //    }
+    //});
     //编辑信息
     Clients.editClient = function (model) {
         var _self = this;
@@ -406,7 +426,7 @@ define(function (require, exports, module) {
                 Clients.Params.clientID = item.ClientID;
                 Clients.Params.agentID = item.AgentID;
                 Clients.ActionParams.clientID = item.ClientID;
-                Params.clientID = item.ClientID;
+                Clients.ReportParams.clientID = item.ClientID;
                 //绑定编辑客户信息
                 $("#updateClient").click(function () {
                     Clients.editClient(item);
@@ -458,9 +478,14 @@ define(function (require, exports, module) {
         var _self = this;
         $("#clientOrders").nextAll().remove();
         Global.post("/Client/GetClientOrders", Clients.Params, function (data) {
-            doT.exec("template/client/client-orders.html?3", function (templateFun) {
-                var innerText = templateFun(data.Items);
-                innerText = $(innerText);
+            doT.exec("template/client/client-orders.html?3", function (templateFun) { 
+                var innerText ="";
+                if (data.Items.length == 0) {
+                    innerText='<tr><td colspan="11" style="text-align:center;font-size:18px;color:#333;"> 暂无数据 </td></tr>';
+                } else {
+                    innerText=templateFun(data.Items);
+                    innerText = $(innerText);
+                }
                 $("#clientOrders").after(innerText);
 
                 $("#tb-clientOrders a.deleteOrder").bind("click", function () {
@@ -498,7 +523,6 @@ define(function (require, exports, module) {
                         }
                     });
                 });
-
                 $("#tb-clientOrders a.examineOrder").bind("click", function () {
                     if (confirm("确定审核通过吗?")) {
                         Global.post("/Client/PayOrderAndAuthorizeClient", { id: $(this).data("id"), agentID: Clients.Params.agentID }, function (data) {
@@ -507,7 +531,6 @@ define(function (require, exports, module) {
                     }
                 });
             });
-
             $("#pager2").paginate({
                 total_count: data.TotalCount,
                 count: data.PageCount,
@@ -541,7 +564,7 @@ define(function (require, exports, module) {
 
     Clients.sourceDate = function () {
         var _self = this; 
-        _self.clientsChart.showLoading({
+        Clients.clientsChart.showLoading({
             text: "数据正在努力加载...",
             x: "center",
             y: "center",
@@ -551,12 +574,12 @@ define(function (require, exports, module) {
             },
             effect: "spin"
         });
-        Global.post("/Report/GetClientVitalityReport", Params, function (data) {
+        Global.post("/Report/GetClientVitalityReport", Clients.ReportParams, function (data) {
             var title = [], items = [], datanames = [];
-            _self.clientsChart.clear(); 
+            Clients.clientsChart.clear();
             if (data.items.length == 0) {
-                _self.clientsChart.hideLoading();
-                _self.clientsChart.showLoading({
+                Clients.clientsChart.hideLoading();
+                Clients.clientsChart.showLoading({
                     text: "暂无数据",
                     x: "center",
                     y: "center",
@@ -567,9 +590,7 @@ define(function (require, exports, module) {
                     effect: "bubble"
                 });
                 return;
-            }
-            console.log(Params);
-            console.log(data);
+            } 
             for (var i = 0, j = data.items.length; i < j; i++) {
                 title.push(data.items[i].Name);
                 var _items = [];
@@ -639,10 +660,9 @@ define(function (require, exports, module) {
                     }
                 ],
                 series: items
-            };
-            console.log(option);
-            _self.clientsChart.hideLoading();
-            _self.clientsChart.setOption(option);
+            }; 
+            Clients.clientsChart.hideLoading();
+            Clients.clientsChart.setOption(option);
         });
     }
     module.exports = Clients;

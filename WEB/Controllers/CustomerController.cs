@@ -322,7 +322,7 @@ namespace YXERP.Controllers
         public JsonResult GetClientByKeywords(string keywords)
         {
             int totalCount = 0, pageCount = 0;
-            var list = IntFactoryBusiness.Manage.ClientBusiness.GetClients(keywords, 20, 1, ref totalCount, ref pageCount);
+            var list = IntFactoryBusiness.Manage.ClientBusiness.GetClients(keywords,-1,"", 20, 1, ref totalCount, ref pageCount);
             JsonDictionary.Add("items", list);
             return new JsonResult
             {

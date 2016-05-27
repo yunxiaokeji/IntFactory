@@ -21,7 +21,8 @@ define(function (require, exports, module) {
         endDate: '',
         clientID: '',
         agentID:'',
-        keyWords: ''
+        keyWords: '',
+        orderBy: 'a.CreateTime '
     };
     //新建客户初始化
     Clients.createInit = function (id) {
@@ -115,7 +116,58 @@ define(function (require, exports, module) {
             });
         });
     };
-
+    require.async("dropdown", function () {
+        var ClientType = [
+            {
+                ID: "0",
+                Name: "手动创建"
+            },
+            {
+                ID: "1",
+                Name: "阿里授权"
+            }
+        ];
+        $("#ClientType").dropdown({
+            prevText: "客户来源-",
+            defaultText: "所有",
+            defaultValue: "-1",
+            data: ClientType,
+            dataValue: "ID",
+            dataText: "Name",
+            width: "120",
+            onChange: function (data) {
+                $("#client-header").nextAll().remove();
+                Clients.Params.pageIndex = 1;
+                Clients.Params.type = parseInt(data.value);
+                Clients.bindData();
+            }
+        });
+    });
+    $(".td-span").click(function () {
+        var _this = $(this);
+        if (_this.hasClass("hover")) {
+            if (_this.find(".asc").hasClass("hover")) {
+                $(".td-span").find(".asc").removeClass("hover");
+                $(".td-span").find(".desc").removeClass("hover");
+                _this.find(".desc").addClass("hover");
+                Clients.Params.orderBy = _this.data("column") + " desc ";
+            } else {
+                $(".td-span").find(".desc").removeClass("hover");
+                $(".td-span").find(".asc").removeClass("hover");
+                _this.find(".asc").addClass("hover");
+                Clients.Params.orderBy = _this.data("column") + " asc ";
+            }
+        } else {
+            $(".td-span").removeClass("hover");
+            $(".td-span").find(".desc").removeClass("hover");
+            $(".td-span").find(".asc").removeClass("hover");
+            _this.addClass("hover");
+            _this.find(".desc").addClass("hover");
+            Clients.Params.orderBy = _this.data("column") + " desc ";
+        }
+        Clients.Params.PageIndex = 1;
+        Clients.bindData();
+    });
     //绑定数据
     Clients.bindData = function () {
         var _self = this;

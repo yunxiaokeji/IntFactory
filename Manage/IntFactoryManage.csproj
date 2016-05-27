@@ -199,6 +199,7 @@
     <Content Include="modules\images\ico-tree-open.png" />
     <Content Include="modules\images\ico-tree-pull.png" />
     <Content Include="modules\images\ico-username.png" />
+    <Content Include="modules\images\icondate.png" />
     <Content Include="modules\images\ico_search.png" />
     <Content Include="modules\images\ico_searchhover.png" />
     <Content Include="modules\images\img-noimg.png" />
@@ -215,6 +216,9 @@
     <Content Include="modules\plug\datapager\images\snext.png" />
     <Content Include="modules\plug\datapager\images\sprevious.png" />
     <Content Include="modules\plug\datapager\paginate.js" />
+    <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
+    <Content Include="modules\plug\daterangepicker\daterangepicker.js" />
+    <Content Include="modules\plug\daterangepicker\moment.js" />
     <Content Include="modules\plug\doT.js" />
     <Content Include="modules\plug\dropdown\dropdown.js" />
     <Content Include="modules\plug\dropdown\style.css" />

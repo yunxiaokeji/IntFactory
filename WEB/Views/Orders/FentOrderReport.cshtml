@@ -32,7 +32,7 @@
 </head>
 <body>
 <div class="report">
-   <div class="font22 mBottom5 preview">预览:</div>
+   <div class="font18 mBottom5 preview">报价预览:</div>
    <div class="left report-tb">
        <table width="100%" id="tabletoexcel">
         <tr>
@@ -42,7 +42,7 @@
         </tr>
         
         <tr>
-            <td id="Platemak" style="width:300px;"></td>
+            <td id="Platemak" style="width:350px;"></td>
             <td style="width:250px;">
                 <table class="no-border style-information" style="height:100%;">
                     <tr>
@@ -57,7 +57,7 @@
                         <td class="no-border-right">@(order.CategoryName==""?"--":order.CategoryName)</td>
                     </tr>
                     <tr>                        
-                        <td class="no-border-left"><i class="iconfont icon-delete">&#xe606;</i>客户:</td>
+                        <td class="no-border-left"><i class="iconfont icon-delete customer">&#xe613;</i>客户:</td>
                         <td class="no-border-right">@(order.Customer.Name==""?"--":order.Customer.Name)</td>
                     </tr>
                     <tr>
@@ -80,7 +80,7 @@
                     <tr><td class="font20 no-border">报价</td></tr>
                     <tr>
                         <td class="no-border-left no-border-bottom no-border-right priceoffer">
-                            <input type="text" class="offer" value="" />
+                            <input type="text" class="offer" value="" style="border-color:#4798ea" />
                         </td>
                     </tr>
                 </table>
@@ -94,16 +94,16 @@
                 <table class="no-border Processing">
                     <tr class="longtd">
                         <td style="width:8%;font-size:16px;" class="no-border-top no-border-left">面料编码</td>       
-                        <td style="width:10%;font-size:16px;" class="no-border-top provider">
-                            <i class="iconfont icon-delete-provider" data-id="provider">&#xe606;</i>
+                        <td style="width:10%;font-size:16px;" class="no-border-top">
+                            <i class="iconfont icon-delete providers ">&#xe613;</i>
                             供应商
                         </td>
-                        <td style="width:100px;font-size:16px;" class="no-border-top phone">
-                            <i class="iconfont icon-delete-provider" data-id="phone">&#xe606;</i>
+                        <td style="width:100px;font-size:16px;" class="no-border-top">
+                            <i class="iconfont icon-delete phones" style="margin-right:0">&#xe613;</i>
                             联系方式
                         </td>
-                        <td style="width:20%;font-size:16px;" class="no-border-top address"> 
-                            <i class="iconfont icon-delete-provider" data-id="address">&#xe606;</i>
+                        <td style="width:20%;font-size:16px;" class="no-border-top"> 
+                            <i class="iconfont icon-delete addresses">&#xe613;</i>
                             地址  
                         </td>
                         <td style="font-size:16px;" class="no-border-top">门幅</td>
@@ -118,7 +118,7 @@
                         foreach (var detail in order.Details)
                         {
                             <tr>
-                                <td class="no-border-left">@(detail.DetailsCode==""?"--":detail.DetailsCode)</td>
+                                <td class="no-border-left">@(detail.ProductName==""?"--":detail.ProductName)</td>
                                 <td class="provider">@(detail.ProviderName==""?"--":detail.ProviderName)</td>
                                 <td class="phone">@(string.IsNullOrEmpty( detail.ProviderMobileTele)?"--":detail.ProviderMobileTele)</td>
                                 <td class="address">@(detail.ProviderAddress==""?"--":detail.ProviderAddress)</td>
@@ -132,7 +132,7 @@
                     }
                     else
                     {
-                        <tr><td class="no-border-left" colspan="9"><div class="nodata-txt">暂无数据!</div></td></tr>
+                        <tr><td class="no-border-left no-border-right" colspan="9"><div class="nodata-txt">暂无数据!</div></td></tr>
                     }
                 </table>
             </td>
@@ -145,7 +145,7 @@
             <td colspan="4">
                 <table width="100%" class="no-border">
                     <tr>
-                        <td style="width:50%;font-size:16px;" class="no-border-top no-border-left">描述</td>
+                        <td style="width:50%;font-size:16px;" class="no-border-top no-border-left">加工项</td>
                         <td style="width:50%;font-size:16px;" class="no-border-top no-border-right">金额</td>
             
                     </tr>
@@ -154,21 +154,18 @@
 		                foreach (var item in list)
 	                    {
 		                    <tr>
-                                <td class="no-border-left">@(item.Remark)</td>
-                                <td class="no-border-right">@(item.Price)</td>
+                                <td class="no-border-left no-border-bottom">@(item.Remark)</td>
+                                <td class="no-border-right no-border-bottom">@(item.Price)</td>
                     
                             </tr>
 	                    }
                     }
                     else
                     {
-                        <tr><td colspan="4" class="no-border-left"><div class="nodata-txt">暂无数据!</div></td></tr>
+                        <tr><td colspan="4" class="no-border-left no-border-right no-border-bottom"><div class="nodata-txt">暂无数据!</div></td></tr>
                     }
                 
-                    <tr>
-                        <td colspan="4" style="font-size:18px;" class="no-border-bottom no-border-left no-border-right">总计：<span class="conclusion" style="color:red"></span> </td>
-            
-                    </tr>
+                    
                 </table>        
             </td>
         </tr>

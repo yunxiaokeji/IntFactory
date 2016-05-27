@@ -5,6 +5,7 @@
 <tr class="list-item">
     <td class="tLeft">{%=item.ClientCode%}</td>
     <td class="tLeft"><a href="/Client/Detail/{%=item.ClientID%}" target="_blank">{%=item.CompanyName%}</a></td>
+    <td class="tLeft">{%=item.AliMemberID%}</td>
     <td class="center {%=item.CustomerCount>0?'blue':''%}">{%=item.CustomerCount%}</td>
     <td class="center {%=item.OrdersCount>0?'blue':''%}"">{%=item.OrdersCount%}</td>
     <td class="center {%=item.OrdersCount>0?'blue':''%}"">{%=item.DownOrderCount%}</td>

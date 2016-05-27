@@ -4,9 +4,11 @@ define(function (require, exports, module) {
 
     require("jquery");
     require("pager");
+    require("daterangepicker");
     var Global = require("global"),
         Easydialog = require("easydialog"),
-        doT = require("dot");
+        doT = require("dot"),
+        moment = require("moment");
 
     var Order = {};
 
@@ -32,6 +34,23 @@ define(function (require, exports, module) {
 
     //绑定事件
     Order.bindEvent = function () {
+        //日期插件
+        $("#orderBeginTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
+            }
+        }, function (start, end, label) {
+            Order.Params.pageIndex = 1;
+            Order.Params.beginDate = start ? start.format("YYYY-MM-DD") : '';
+            Order.Params.endDate = end ? end.format("YYYY-MM-DD") : '';
+            Order.bindData();
+        });
         //关键字查询
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
@@ -39,8 +58,7 @@ define(function (require, exports, module) {
                 Order.Params.keyWords = keyWords;
                 Order.bindData();
             });
-        });
-       
+        });       
         $(document).click(function (e) {
             //隐藏下拉
             if (!$(e.target).parents().hasClass("dropdown-ul") && !$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown")) {
@@ -106,7 +124,6 @@ define(function (require, exports, module) {
                 });
             }
         });
-
     };
 
     //搜索
@@ -134,9 +151,7 @@ define(function (require, exports, module) {
             dataText: "Name",
             width: "120",
             onChange: function (data) {
-                $("#clientOrders").nextAll().remove();
-                Order.Params.beginDate = $("#orderBeginTime").val();
-                Order.Params.endDate = $("#orderEndTime").val();
+                $("#clientOrders").nextAll().remove(); 
                 Order.Params.pageIndex = 1;
                 Order.Params.status = parseInt(data.value);
                 Order.bindData();
@@ -170,21 +185,12 @@ define(function (require, exports, module) {
             dataText: "Name",
             width: "120",
             onChange: function (data) {
-                $("#clientOrders").nextAll().remove();
-                Order.Params.beginDate = $("#orderBeginTime").val();
-                Order.Params.endDate = $("#orderEndTime").val();
+                $("#clientOrders").nextAll().remove(); 
                 Order.Params.pageIndex = 1;
                 Order.Params.type = parseInt(data.value);
                 Order.bindData();
             }
-        });
-
-        $("#SearchClientOrders").click(function () {
-            Order.Params.pageIndex = 1;
-            Order.Params.beginDate = $("#orderBeginTime").val();
-            Order.Params.endDate = $("#orderEndTime").val();
-            Order.bindData();
-        });
+        }); 
 
     });
 

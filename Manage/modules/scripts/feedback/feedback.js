@@ -4,8 +4,11 @@ define(function (require, exports, module) {
 
     require("jquery");
     require("pager");
+    require("daterangepicker");
+
     var Global = require("global"),
-        doT = require("dot");
+        doT = require("dot"),
+        moment = require("moment");
 
     var FeedBack = {};
    
@@ -27,6 +30,23 @@ define(function (require, exports, module) {
 
     //绑定事件
     FeedBack.bindEvent = function () {
+        //日期插件
+        $("#feedBeginTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
+            }
+        }, function (start, end, label) {
+            Params.pageIndex = 1;
+            Params.beginDate = start ? start.format("YYYY-MM-DD") : '';
+            Params.endDate = end ? end.format("YYYY-MM-DD") : '';
+            FeedBack.getList();
+        });
         //关键字查询
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
@@ -37,7 +57,6 @@ define(function (require, exports, module) {
                 }
             });
         });
-
         //下拉状态、类型查询
         require.async("dropdown", function () {
             var Types = [
@@ -64,66 +83,20 @@ define(function (require, exports, module) {
                 width: "120",
                 onChange: function (data) {
                     Params.pageIndex = 1;
-                    Params.type = parseInt(data.value);
-                    Params.beginDate = $("#BeginTime").val();
-                    Params.endDate = $("#EndTime").val();
+                    Params.type = parseInt(data.value); 
                     FeedBack.getList();
                 }
-            });
-
-            //var Status = [
-            //    {
-            //        ID: "1",
-            //        Name: "待解决"
-            //    },
-            //    {
-            //        ID: "2",
-            //        Name: "已解决"
-            //    },
-            //    {
-            //        ID: "3",
-            //        Name: "驳回"
-            //    },
-            //    {
-            //        ID: "4",
-            //        Name: "删除"
-            //    }
-            //];
-            //$("#FeedStatus").dropdown({
-            //    prevText: "意见状态-",
-            //    defaultText: "所有",
-            //    defaultValue: "-1",
-            //    data: Status,
-            //    dataValue: "ID",
-            //    dataText: "Name",
-            //    width: "120",
-            //    onChange: function (data) {
-            //        Params.pageIndex = 1;
-            //        Params.status = parseInt(data.value);
-            //        Params.beginDate = $("#BeginTime").val();
-            //        Params.endDate = $("#EndTime").val();
-            //        FeedBack.getList();
-            //    }
-            //});
+            }); 
         });
         $(".search-tab li").click(function () {
             $(this).addClass("hover").siblings().removeClass("hover");
             var index = $(this).data("index");
             $(".content-body div[name='navContent']").hide().eq(parseInt(index)).show();
             Params.pageIndex = 1;
-            Params.status = index==0?-1:index;
-            Params.beginDate = $("#BeginTime").val();
-            Params.endDate = $("#EndTime").val();
+            Params.status = index==0?-1:index; 
             FeedBack.getList();
-        });
-        //时间段查询
-        $("#SearchFeedBacks").click(function () {
-            Params.pageIndex = 1;
-            Params.beginDate = $("#BeginTime").val();
-            Params.endDate = $("#EndTime").val();
-            FeedBack.getList();
-        });
-
+        }); 
+       
     };
 
     //绑定数据列表
@@ -143,7 +116,6 @@ define(function (require, exports, module) {
             if (data.items.length == 0) {
                 $(".tr-header").after("<tr><td colspan='7'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
-
             $("#pager").paginate({
                 total_count: data.totalCount,
                 count: data.pageCount,
