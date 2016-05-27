@@ -409,6 +409,18 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetPlateMakings(string orderID, string taskID)
+        {
+            var list = TaskBusiness.GetPlateMakings(orderID);
+
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult UpdateTaskEndTime(string id, string endTime)
         {
             int result = 0;
@@ -540,16 +552,20 @@ namespace YXERP.Controllers
 
         }
 
-        public JsonResult GetPlateMakings(string orderID, string taskID)
+        public JsonResult LockTask(string taskID) 
         {
-            var list = TaskBusiness.GetPlateMakings(orderID);
+            int result;
 
-            JsonDictionary.Add("items", list);
+            TaskBusiness.LockTask(taskID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+
+            JsonDictionary.Add("result",result);
+
             return new JsonResult
             {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                 Data = result,
+                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+            
         }
 
         public JsonResult SavePlateMaking(string plate)

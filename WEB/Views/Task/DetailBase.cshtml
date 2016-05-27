@@ -39,6 +39,10 @@
                     {
                         <span class="taskFinishStatus">进行中</span>
                     }
+                    else if (Model.FinishStatus == 2 && ViewBag.LockStatus)
+                    {
+                        <span class="taskFinishStatus">已解锁</span>
+                    }
                     else if (Model.FinishStatus == 2)
                     {
                         <span class="taskFinishStatus">已完成</span>
