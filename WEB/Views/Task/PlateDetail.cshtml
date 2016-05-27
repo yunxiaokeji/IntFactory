@@ -1,22 +1,27 @@
 ﻿@{
-    var isRoot = ViewBag.IsRoot;
+    var taskModel = (YXERP.Models.TaskModel)Model;
+    var task = taskModel.Task;
+    var order = taskModel.Order;
+    var isRoot = taskModel.IsRoot;
  }
 
 <div class="platemakingContent hide" id="platemakingContent">
     @{
-        if (!string.IsNullOrEmpty(Model.Platemaking) && isRoot)
+        if (!string.IsNullOrEmpty(order.Platemaking) && isRoot)
         {
-            <a class="right" href="/Task/PlatePrint/@Model.OrderID" target="_blank" id="btn-platePrint" title="打印制版"><span class="iconfont">&#xe658;</span><span class="print-plate">打印制版</span></a>
+            <a class="right" href="/Task/PlatePrint/@order.OrderID" target="_blank" id="btn-platePrint" title="打印制版">
+                <span class="iconfont">&#xe658;</span><span class="print-plate">打印制版</span>
+            </a>
         }
     }
     <div class="clear"></div>
 
     <div id="platemakingBody" class="mTop10 platemakingBody">
     @{
-        if (!string.IsNullOrEmpty(Model.Platemaking))
+        if (!string.IsNullOrEmpty(order.Platemaking))
         {
             <script type="text/javascript">
-                document.getElementById("platemakingBody").innerHTML = decodeURI('@(Model.Platemaking)');
+                document.getElementById("platemakingBody").innerHTML = decodeURI('@(order.Platemaking)');
             </script>   
         }
         else
@@ -31,7 +36,7 @@
     @{
       if (isRoot)
         {
-            var hasPlate = !string.IsNullOrEmpty(Model.Platemaking);
+            var hasPlate = !string.IsNullOrEmpty(order.Platemaking);
             if (!hasPlate)
             {
                 <div class="create-first" id="btn-addTaskPlate">
@@ -47,7 +52,7 @@
     @{
         <div class="mTop30">
             <div class="talk-title" >工艺说明
-                @{if (isRoot && ViewBag.Mark==12)
+                @{if (isRoot && task.Mark==12)
                   {
                 <div class="btn-add right" id="btnAddPalte">工艺说明录入</div>
                 <div class="clear"></div>}
