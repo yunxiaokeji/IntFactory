@@ -32,13 +32,13 @@
         _self.orderID = orderID;
         _self.orderType = orderType;
 
+        _self.getCosts();
         //添加成本
         if ($("#addOtherCost").length == 1) {
             $("#addOtherCost").click(function () {
                 _self.addOtherCosts();
             })
         }
-        _self.getCosts();
     }
 
     //其他成本
@@ -60,24 +60,27 @@
                     });
 
                     $("#navCosts .tr-header").after(innerhtml);
-
-                    if (_self.orderType == 1) {
-                        innerhtml.find(".ico-del").click(function () {
-                            var _this = $(this);
-                            confirm("删除后不可恢复，确认删除吗？", function () {
-                                Global.post("/Task/DeleteOrderCost", {
-                                    orderid: _self.orderID,
-                                    autoid: _this.data("id")
-                                }, function (data) {
-                                    if (data.status) {
-                                        $("#lblCostMoney").text(($("#lblCostMoney").text() - _this.parents("tr").find(".cost-price").text()).toFixed(2));
-                                        _this.parents("tr").first().remove();
-                                    }
+                    if ($("#addOtherCost").length == 0) {
+                        innerhtml.find("ico-del").parent().remove();
+                    } else {
+                        if (_self.orderType == 1) {
+                            innerhtml.find(".ico-del").click(function () {
+                                var _this = $(this);
+                                confirm("删除后不可恢复，确认删除吗？", function () {
+                                    Global.post("/Task/DeleteOrderCost", {
+                                        orderid: _self.orderID,
+                                        autoid: _this.data("id")
+                                    }, function (data) {
+                                        if (data.status) {
+                                            $("#lblCostMoney").text(($("#lblCostMoney").text() - _this.parents("tr").find(".cost-price").text()).toFixed(2));
+                                            _this.parents("tr").first().remove();
+                                        }
+                                    });
                                 });
                             });
-                        });
-                    } else {
-                        innerhtml.find(".ico-del").remove();
+                        } else {
+                            innerhtml.find(".ico-del").remove();
+                        }
                     }
                 });
             } else {

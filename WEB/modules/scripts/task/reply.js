@@ -172,7 +172,7 @@
                     Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                     FromReplyID: _this.data("replyid"),
                     FromReplyUserID: _this.data("createuserid"),
-                    FromReplyAgentID: _this.data("agentid")
+                    FromReplyAgentID: _this.data("agentid") 
                 };
                 ObjectJS.saveTaskReply(entity, _this);
 
