@@ -32,8 +32,9 @@
 </head>
 <body>
 <div class="report">
+   <div class="font22 mBottom5 preview">预览:</div>
    <div class="left report-tb">
-    <table width="100%" id="tabletoexcel">
+       <table width="100%" id="tabletoexcel">
         <tr>
             <td colspan="4">
                 <div class="titlename">@(client.CompanyName==""?"--":client.CompanyName)</div>
@@ -53,21 +54,16 @@
                     </tr>            
                     <tr>
                         <td class="no-border-left">品名:</td>
-                        <td class="no-border-right">@(order.GoodsName==""?"--":order.GoodsName)</td>
+                        <td class="no-border-right">@(order.CategoryName==""?"--":order.CategoryName)</td>
                     </tr>
-                    <tr>
-                        <td class="no-border-left">设计师:</td>
-                        <td class="no-border-right">@(order.GoodsName==""?"--":order.GoodsName)</td>
+                    <tr>                        
+                        <td class="no-border-left"><i class="iconfont icon-delete">&#xe606;</i>客户:</td>
+                        <td class="no-border-right">@(order.Customer.Name==""?"--":order.Customer.Name)</td>
                     </tr>
                     <tr>
                         <td class="no-border-left">制版:</td>
                         <td class="no-border-right">@(order.Tasts.Find(m=>m.Mark==12).Owner.Name)</td>
-                    </tr>
-                    <tr>
-                        
-                        <td class="no-border-left">做样:</td>
-                        <td class="no-border-right">袁银平</td>
-                    </tr>
+                    </tr>                    
                     <tr>
                         <td class="no-border-left no-border-bottom">时间:</td>
                         <td class="no-border-bottom no-border-right">@(order.PlanTime.ToString("yyyy-MM-dd"))</td>
@@ -82,7 +78,11 @@
             <td>
                 <table class="no-border" style="height:100%">
                     <tr><td class="font20 no-border">报价</td></tr>
-                    <tr><td class="no-border-left no-border-bottom no-border-right">@(order.FinalPrice.ToString("f2"))</td></tr>
+                    <tr>
+                        <td class="no-border-left no-border-bottom no-border-right priceoffer">
+                            <input type="text" class="offer" value="" />
+                        </td>
+                    </tr>
                 </table>
             </td>        
         </tr>
@@ -92,11 +92,20 @@
         <tr>
             <td colspan="4">
                 <table class="no-border Processing">
-                    <tr>
+                    <tr class="longtd">
                         <td style="width:8%;font-size:16px;" class="no-border-top no-border-left">面料编码</td>       
-                        <td style="width:10%;font-size:16px;" class="no-border-top">供应商</td>
-                        <td style="width:100px;font-size:16px;" class="no-border-top">联系方式</td>
-                        <td style="width:20%;" class="no-border-top"> 地址  </td>
+                        <td style="width:10%;font-size:16px;" class="no-border-top provider">
+                            <i class="iconfont icon-delete-provider" data-id="provider">&#xe606;</i>
+                            供应商
+                        </td>
+                        <td style="width:100px;font-size:16px;" class="no-border-top phone">
+                            <i class="iconfont icon-delete-provider" data-id="phone">&#xe606;</i>
+                            联系方式
+                        </td>
+                        <td style="width:20%;font-size:16px;" class="no-border-top address"> 
+                            <i class="iconfont icon-delete-provider" data-id="address">&#xe606;</i>
+                            地址  
+                        </td>
                         <td style="font-size:16px;" class="no-border-top">门幅</td>
                         <td style="font-size:16px;width:8%" class="no-border-top">用料</td>
                         <td style="font-size:16px;width:5%" class="no-border-top">单位</td>
@@ -110,20 +119,20 @@
                         {
                             <tr>
                                 <td class="no-border-left">@(detail.DetailsCode==""?"--":detail.DetailsCode)</td>
-                                <td>美丽纺织</td>
-                                <td>0571-56281691</td>
-                                <td>四季青面料市场一区1054号</td>
-                                <td>@(detail.ProductName)</td>
+                                <td class="provider">美丽纺织</td>
+                                <td class="phone">0571-56281691</td>
+                                <td class="address">四季青面料市场一区1054号</td>
+                                <td>@(detail.Remark==""?"--":detail.Remark)</td>
                                 <td>@(detail.Quantity.ToString("f3"))</td>
                                 <td>@(detail.UnitName)</td>
                                 <td>@(detail.Price.ToString("f2"))</td>
-                                <td>@((detail.TotalMoney).ToString("f3"))</td>         
+                                <td class="no-border-right">@((detail.TotalMoney).ToString("f3"))</td>         
                             </tr>
                         }
                     }
                     else
                     {
-                        <tr><td colspan="4" class="no-border-left"><div class="nodata-txt">暂无数据!</div></td></tr>
+                        <tr><td class="no-border-left" colspan="9"><div class="nodata-txt">暂无数据!</div></td></tr>
                     }
                 </table>
             </td>
@@ -146,7 +155,7 @@
 	                    {
 		                    <tr>
                                 <td class="no-border-left">@(item.Remark)</td>
-                                <td>@(item.Price)</td>
+                                <td class="no-border-right">@(item.Price)</td>
                     
                             </tr>
 	                    }
@@ -157,19 +166,22 @@
                     }
                 
                     <tr>
-                        <td colspan="4" style="font-size:18px;" class="no-border-bottom no-border-left">总计：<span class="conclusion" style="color:red"></span> </td>
+                        <td colspan="4" style="font-size:18px;" class="no-border-bottom no-border-left no-border-right">总计：<span class="conclusion" style="color:red"></span> </td>
             
                     </tr>
                 </table>        
             </td>
         </tr>
-    </table>   
+    </table> 
+       <div>
+           <span class="btn mTop10">保存</span>
+       </div>  
    </div>      
-        
+   
     
     
-    <div class="export left mLeft50 mTop20">
-        <a href="/Orders/ProofingPrint/@order.OrderID" target="_blank"><span class="iconfont">&#xe658;</span></a>      
+    <div class="export left mLeft50 mTop5 hide">
+        <span class="iconfont">&#xe658;</span>   
         
     </div>
     <div class="clear"></div>

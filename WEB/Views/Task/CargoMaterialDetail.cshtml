@@ -32,20 +32,20 @@
                 if (isRoot)
                 {
                     <td class="center tr-price"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Price.ToString("f2"))" class="price width50" value="@(detail.Price.ToString("f2"))" /></td>
-                    <td class="center tr-quantity">@((detail.Quantity*Model.PlanQuantity).ToString("f3"))</td>
-                    <td class="center tr-loss">@((detail.LossRate*(detail.Quantity*Model.PlanQuantity)).ToString("f3"))</td>
+                    <td class="center tr-quantity">@((detail.Quantity*order.PlanQuantity).ToString("f3"))</td>
+                    <td class="center tr-loss">@((detail.LossRate*(detail.Quantity*order.PlanQuantity)).ToString("f3"))</td>
                     <td class="center tr-lossrate"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.LossRate.ToString("f3"))" class="loss-rate width50" value="@(detail.LossRate.ToString("f3"))" /></td>
                 }
                 else
                 {
                     <td class="tr-price center"><label class="price">@(detail.Price.ToString("f2"))</label></td>
-                    <td class="center tr-quantity">@((detail.Quantity*Model.PlanQuantity).ToString("f3"))</td>
-                    <td class="center tr-loss">@((detail.LossRate*(detail.Quantity*Model.PlanQuantity)).ToString("f3"))</td>
+                    <td class="center tr-quantity">@((detail.Quantity*order.PlanQuantity).ToString("f3"))</td>
+                    <td class="center tr-loss">@((detail.LossRate*(detail.Quantity*order.PlanQuantity)).ToString("f3"))</td>
                     <td class="center tr-lossrate">@(detail.LossRate.ToString("f3"))</td>                   
                 }
-                    <td class="center amount-count">@(((detail.Quantity*Model.PlanQuantity)+(detail.LossRate*(detail.Quantity*Model.PlanQuantity))).ToString("f3"))</td>
+                    <td class="center amount-count">@(((detail.Quantity*order.PlanQuantity)+(detail.LossRate*(detail.Quantity*order.PlanQuantity))).ToString("f3"))</td>
                     /*小计=(单价*消耗量)+(单价*损耗量)*/
-                    <td class="tRight amount">@(((detail.Price*detail.Quantity*Model.PlanQuantity)+(detail.LossRate*(detail.Quantity*Model.PlanQuantity)*detail.Price)).ToString("f3"))</td>   
+                    <td class="tRight amount">@(((detail.Price*detail.Quantity*order.PlanQuantity)+(detail.LossRate*(detail.Quantity*order.PlanQuantity)*detail.Price)).ToString("f3"))</td>   
                 }
               </tr>
             }

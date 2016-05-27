@@ -8,4 +8,7 @@ table img{width:200px;margin-right:20px;margin-left:20px;}
 table:first-child tr td:last-child{width:120px;}
 .style-information tr td { height:25px;font-size:15px;}
 .style-information tr td:last-child{ font-size:12px;}
-.export span { font-size:24px;color:#4a98e7;}
+.export span { font-size:24px;color:#666;}
+.icon-delete { float:left;margin-left:5px;margin-top:2px;color:#4798e7;cursor:pointer;margin-right:-20px;}
+.icon-delete-provider{ float:left;margin-left:5px;margin-top:2px;color:#4798e7;cursor:pointer;}
+.offer { text-align:center;}
