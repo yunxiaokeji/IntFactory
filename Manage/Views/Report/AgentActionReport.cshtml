@@ -2,38 +2,14 @@
     ViewBag.Title = "客户行为统计";
 }
 
+@section css{
+    <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    }
  <script src="/modules/plug/laydate/laydate.js"></script>
 @section scripts{   
         <script type="text/javascript">
             seajs.use(["scripts/report/agentactionreport"], function (agentactionreport) {
                 agentactionreport.init();
-            });
-
-            $(function () {
-                var begin = {
-                    elem: '#BeginTime',
-                    format: 'YYYY-MM-DD',
-                    max: '2099-06-16',
-                    istime: false,
-                    istoday: false,
-                    choose: function (datas) {
-                        end.min = datas; //开始日选好后，重置结束日的最小日期
-                        end.start = datas //将结束日的初始值设定为开始日
-                    }
-                };
-
-                var end = {
-                    elem: '#EndTime',
-                    format: 'YYYY-MM-DD',
-                    max: '2099-06-16',
-                    istime: false,
-                    istoday: false,
-                    choose: function (datas) {
-                        begin.max = datas; //结束日选好后，重置开始日的最大日期
-                    }
-                };
-                laydate(begin);
-                laydate(end);
             });
     </script>
 }
@@ -43,16 +19,12 @@
 </div>
 
 <div class="content-body mTop20">
-        <div class="search-body">
-@*        <div id="FeedTypes" class="left"></div>
-        <div id="FeedStatus" class="left mLeft20"></div>*@
-        <div id="ClientType" class="left"></div>
+    <div class="search-body">
         <div class="left">
-            <span class="width80">时间段：</span><input type="text" id="BeginTime"  class="input"  />
-            <span style="padding:0px 5px 0px 3px;">至</span><input type="text" id="EndTime"  class="input"  />
-            <span class="btn mLeft10" id="SearchList">搜索</span>
-
+             <input type="text" id="rptBeginTime" placeholder="请选择时间段"   />
         </div>
+        <div id="ClientType" class="left mLeft5"></div>
+        
         <div class="right searth-module" data-text="输入关键字..." data-width="150"></div>
         <div class="clear"></div>
     </div>
