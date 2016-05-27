@@ -31,6 +31,8 @@ define(function (require, exports, module) {
                     defaultParas.stageid = $(this).data("stageid");
                     defaultParas.mark = $(this).data("mark");
                     defaultParas.self = $(this).data("self");
+                    defaultParas.lock = $(this).data("lock");
+                    
 
                     var $taskDetailContent = $("#taskDetailContent");
 
@@ -53,7 +55,6 @@ define(function (require, exports, module) {
                             }
                         }
                     }
-
                     isClickEventFinish = true;
                 }
 
@@ -71,12 +72,57 @@ define(function (require, exports, module) {
                     $("#taskDetailContent").remove();
                     $("body").append(innerhtml);
 
+                    $("#btnLockTask").hide();
+
                     if (item.FinishStatus == 0) {
                         $("#taskDetailContent").css("box-shadow", "0 0 5px #ccc");
                     } else if (item.FinishStatus == 1) {
                         $("#taskDetailContent").css("box-shadow", "0 0 5px #45BF67");
                     } else if (item.FinishStatus == 2) {
                         $("#taskDetailContent").css("box-shadow", "0 0 5px #3A7DE5");
+                        $("#btnLockTask").show();
+                        //是否有权限
+                        if (!defaultParas.lock) {
+                            if (item.LockStatus == 1) {
+                                $("#btnLockTask").html("重启任务").data("lock", item.LockStatus);
+                            } else {
+                                $("#btnLockTask").html("锁定任务").data("lock", item.LockStatus);
+                            }
+                            $("#btnLockTask").click(function () {
+                                var _this = $(this);
+                                if (_this.data("lock") == 1) {
+                                    confirm("任务重启后可以继续操作任务，确认重启吗？", function () {
+                                        Global.post("/Orders/UpdateTaskLockStatus", {
+                                            taskid: defaultParas.taskid,
+                                            status: 2
+                                        }, function (result) {
+                                            if (result.status) {
+                                                alert("任务重启成功");
+                                                _this.data("lock", 2).html("锁定任务");
+                                            } else {
+                                                alert("任务重启失败");
+                                            }
+                                        });
+                                    });
+                                } else {
+                                    confirm("任务锁定后不可继续操作，确认锁定吗？", function () {
+                                        Global.post("/Orders/UpdateTaskLockStatus", {
+                                            taskid: defaultParas.taskid,
+                                            status: 1
+                                        }, function (result) {
+                                            if (result.status) {
+                                                alert("任务锁定成功");
+                                                _this.data("lock", 1).html("重启任务");
+                                            } else {
+                                                alert("任务锁定失败");
+                                            }
+                                        });
+                                    });
+                                }
+                            });
+                        } else {
+                            $("#btnLockTask").remove();
+                        }
                     }
                     $("#taskDetailContent").animate({ width: '500px' }, 200);
 
@@ -98,6 +144,7 @@ define(function (require, exports, module) {
                         path: '/modules/plug/qqface/arclist/'	//表情存放的路径
                     });
 
+                    //转移
                     if (defaultParas.self == 1) {
                         $("#changeTaskOwner").click(function () {
                             var _this = $(this);
