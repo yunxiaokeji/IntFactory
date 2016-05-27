@@ -11,8 +11,7 @@
             client.detailInit('@ViewBag.ID');
         });
         
-        $(function () {
-    
+        $(function () {    
             var orderBegin = {
                 elem: '#orderBeginTime',
                 format: 'YYYY-MM-DD',
@@ -158,14 +157,14 @@
         </table>
         <div id="pager" class="mTop20"></div>
     </div>
-    <div name="navContent" class=" hide">
+    <div name="navContent" class="hide">
         <div class="search-box">
             <div class="search-header">
                  <div class="left">
                     <ul class="search-tab search-type">
-                        <li data-id="clientsVitalityRPT" data-type="3" class="hover">按月统计</li>
-                        <li data-id="clientsVitalityRPT" data-type="2">按周统计</li>
-                        <li data-id="clientsVitalityRPT" data-type="1">按日统计</li>
+                        <li data-id="clientdetailVitalityRPT" data-type="1" class="hover">按日统计</li>                        
+                        <li data-id="clientdetailVitalityRPT" data-type="2">按周统计</li>
+                       <li data-id="clientdetailVitalityRPT" data-type="3" >按月统计</li>
                     </ul>
                 </div>
                  <div class="left search-body">
@@ -177,13 +176,8 @@
                 </div>
                 <div class="clear"></div>
             </div>
-        </div>
-     
-
-        <div id="clientdetailVitalityRPT" class="source-box" style="display:block">
-
-        </div>
-
+        </div>        
+        <div id="clientdetailVitalityRPT" style="height:400px;" > </div>
     </div>
-     
+       
 </div>
