@@ -25,8 +25,11 @@ define(function (require, exports, module) {
                 Home.fromBindAccount = 1;
             }
         }
-        Home.returnUrl = returnUrl;
+        if (returnUrl) {
+            Home.returnUrl = returnUrl;
+        }
         Home.placeholderSupport();
+
         if (status == 2) {
             alert("您的账号已在其它地点登录，如不是本人操作，请及时通知管理员对账号冻结！");
         } else if (status == 1) {
@@ -66,14 +69,16 @@ define(function (require, exports, module) {
             },
             function (data)
             {
-                if (Home.fromBindAccount == 0)
+                if (Home.fromBindAccount == 0) {
                     $("#btnLogin").html("登录").removeAttr("disabled");
-                else
+                }
+                else {
                     $("#btnLogin").html("绑定").removeAttr("disabled");
+                }
 
                 if (data.result == 1)
                 {
-                    if (Home.returnUrl != '') {
+                    if (Home.returnUrl) {
                         location.href = Home.returnUrl;
                     }
                     else {
