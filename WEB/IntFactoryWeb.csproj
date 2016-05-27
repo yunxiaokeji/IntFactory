@@ -266,6 +266,7 @@
     <Content Include="modules\images\ico-surepwd.png" />
     <Content Include="modules\images\ico-task-hover.png" />
     <Content Include="modules\images\ico-task.png" />
+    <Content Include="modules\images\ico-unlock.png" />
     <Content Include="modules\images\ico-username.png" />
     <Content Include="modules\images\icondate.png" />
     <Content Include="modules\images\img-noaccess.png" />
