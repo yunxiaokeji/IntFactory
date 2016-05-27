@@ -166,6 +166,11 @@ namespace IntFactoryEntity
 
         public string ProductCode { get; set; }
 
+        public string ProviderName { get; set; }
+
+        public string ProviderMobileTele { get; set; }
+
+        public string ProviderAddress { get; set; }
 		#endregion Model
         /// <summary>
         /// 填充数据

@@ -223,6 +223,8 @@ select option{ padding:2px; }
           display:inline-block; cursor:pointer;}
 .ico-checked{ background:url(../images/ico-checked.png) no-repeat; height:20px; min-width:20px; line-height:20px;  text-indent:20px;
           display:inline-block; cursor:pointer;}
+/*日期*/
+.ipt-date{ background:url(/modules/images/icondate.png) no-repeat 4px 4px; height:25px;line-height:25px; text-indent:20px; width:180px;}
 
 
 /*alert 弹出层样式*/

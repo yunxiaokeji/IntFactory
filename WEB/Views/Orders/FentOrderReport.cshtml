@@ -1,7 +1,7 @@
 ﻿@{
     var order = (IntFactoryEntity.OrderEntity)ViewBag.Model;
     var client = (IntFactoryEntity.Manage.Clients)ViewBag.Client;
-    var list = (List<IntFactoryEntity.OrderCostEntity>)ViewBag.List;
+    var list = order.OrderCoss;
     ViewBag.Title = "打样报价";
     Layout = null;
 }
@@ -119,9 +119,9 @@
                         {
                             <tr>
                                 <td class="no-border-left">@(detail.ProductName==""?"--":detail.ProductName)</td>
-                                <td class="provider">美丽纺织</td>
-                                <td class="phone">0571-56281691</td>
-                                <td class="address">四季青面料市场一区1054号</td>
+                                <td class="provider">@(detail.ProviderName==""?"--":detail.ProviderName)</td>
+                                <td class="phone">@(string.IsNullOrEmpty( detail.ProviderMobileTele)?"--":detail.ProviderMobileTele)</td>
+                                <td class="address">@(detail.ProviderAddress==""?"--":detail.ProviderAddress)</td>
                                 <td>@(detail.Remark==""?"--":detail.Remark)</td>
                                 <td>@(detail.Quantity.ToString("f3"))</td>
                                 <td>@(detail.UnitName)</td>

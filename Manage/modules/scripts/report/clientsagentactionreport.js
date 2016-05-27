@@ -1,14 +1,18 @@
 ﻿define(function (require, exports, module) {
-    var Global = require("global"),
-        ec = require("echarts/echarts");
     require("echarts/chart/pie");
     require("echarts/chart/line");
     require("echarts/chart/bar");
+    require("daterangepicker");
+
+    var Global = require("global"),
+        ec = require("echarts/echarts"),
+        moment = require("moment");
+  
     var Params = {
         searchType: "clientsActionRPT",
-        dateType: 3,
-        beginTime: "",
-        endTime: ""
+        dateType: 1,
+        beginTime: new Date().setDate(new Date().getDate() - 15).toString().toDate("yyyy-MM-dd"),
+        endTime: Date.now().toString().toDate("yyyy-MM-dd")
     };
 
     var ObjectJS = {};
@@ -20,62 +24,47 @@
     }
     ObjectJS.bindEvent = function () {
         var _self = this;
-        $("#beginTime").val(new Date().setFullYear(new Date().getFullYear() - 1).toString().toDate("yyyy-MM-dd"));
-        $("#endTime").val(Date.now().toString().toDate("yyyy-MM-dd"));
-
+        //日期插件
+        $("#rptBeginTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
+            }
+        }, function (start, end, label) {
+            Params.pageIndex = 1;
+            Params.startDate = start ? start.format("YYYY-MM-DD") : '';
+            Params.endDate = end ? end.format("YYYY-MM-DD") : '';
+            _self.sourceDate();
+        });
+        $("#rptBeginTime").val(Params.beginTime + ' 至 ' + Params.endTime);
         $(".search-type li").click(function () {
             var _this = $(this);
-
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
-                _this.addClass("hover");
-
-                Params.searchType = _this.data("id");
-                Params.dateType = _this.data("type");
-
-                $(".source-box").hide();
-                $("#" + _this.data("id")).show();
-
+                _this.addClass("hover"); 
+                Params.dateType = _this.data("type"); 
                 if (!_self.clientsChart) {
                     _self.clientsChart = ec.init(document.getElementById('clientsActionRPT'));
+                } 
+                if (Params.dateType == 3) {
+                    Params.beginTime = new Date().setFullYear(new Date().getFullYear() - 1).toString().toDate("yyyy-MM-dd");
+                } else if (Params.dateType == 2) {
+                    Params.beginTime = new Date().setMonth(new Date().getMonth() - 3).toString().toDate("yyyy-MM-dd");
                 }
-                if (_this.data("begintime")) {
-                    $("#beginTime").val(_this.data("begintime"));
-                } else {
-                    if (Params.dateType == 3) {
-                        $("#beginTime").val(new Date().setFullYear(new Date().getFullYear() - 1).toString().toDate("yyyy-MM-dd"));
-                    } else if (Params.dateType == 2) {
-                        $("#beginTime").val(new Date().setMonth(new Date().getMonth() - 3).toString().toDate("yyyy-MM-dd"));
-                    }
-                    else if (Params.dateType == 1) {
-                        $("#beginTime").val(new Date().setDate(new Date().getDay() - 15).toString().toDate("yyyy-MM-dd"));
-                    }
+                else if (Params.dateType == 1) { 
+                    Params.beginTime = new Date().setDate(new Date().getDate() - 15).toString().toDate("yyyy-MM-dd");
                 }
-                if (_this.data("endtime")) {
-                    $("#endTime").val(_this.data("endtime"));
-                } else {
-                    $("#endTime").val(Date.now().toString().toDate("yyyy-MM-dd"));
-                }
-                $("#btnSearch").click();
-            }
-
+                Params.endTime = Date.now().toString().toDate("yyyy-MM-dd");
+                $("#rptBeginTime").val(Params.beginTime + ' 至 ' + Params.endTime);
+                _self.sourceDate();
+            }            
         });
-
-        $("#btnSearch").click(function () {
-            Params.beginTime = $("#beginTime").val().trim();
-            Params.endTime = $("#endTime").val().trim();
-            if (!Params.beginTime || !Params.endTime) {
-                alert("开始日期与结束日期不能为空！");
-                return;
-            }
-            if (Params.beginTime > Params.endTime) {
-                alert("开始日期不能大于结束日期！");
-                return;
-            }
-            _self.sourceDate()
-            $(".search-type .hover").data("begintime", Params.beginTime).data("endtime", Params.endTime);
-        });
-        $("#btnSearch").click();
+        _self.sourceDate(); 
     }
     //按时间周期
     ObjectJS.sourceDate = function () {

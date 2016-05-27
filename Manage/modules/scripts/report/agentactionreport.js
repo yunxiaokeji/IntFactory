@@ -4,8 +4,10 @@ define(function (require, exports, module) {
 
     require("jquery");
     require("pager");
+    require("daterangepicker");
     var Global = require("global"),
-        doT = require("dot");
+        doT = require("dot"),
+        moment = require("moment");
 
     var AgentActionReport = {};
    
@@ -13,8 +15,9 @@ define(function (require, exports, module) {
         pageIndex: 1,
         pageSize: 15,
         keyword: "",
-        startDate: "",
-        endDate: "",
+        startDate: new Date().setMonth(new Date().getMonth() - 1).toString().toDate("yyyy-MM-dd"),
+        endDate: Date.now().toString().toDate("yyyy-MM-dd"),
+        type:-1,
         orderBy: "SUM(a.CustomerCount) desc"
     };
 
@@ -26,7 +29,26 @@ define(function (require, exports, module) {
     };
 
     //绑定事件
-    AgentActionReport.bindEvent = function () {
+    AgentActionReport.bindEvent = function () { 
+        //日期插件
+        $("#rptBeginTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
+            }
+        }, function (start, end, label) {
+            AgentActionReport.Params.pageIndex = 1;
+            AgentActionReport.Params.startDate = start ? start.format("YYYY-MM-DD") : '';
+            AgentActionReport.Params.endDate = end ? end.format("YYYY-MM-DD") : '';
+            AgentActionReport.bindData();
+        });
+        $("#rptBeginTime").val(AgentActionReport.Params.startDate + ' 至 ' + AgentActionReport.Params.endDate);
+
         //关键字查询
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
@@ -36,14 +58,33 @@ define(function (require, exports, module) {
             });
         });
     };
-
-    $("#SearchList").click(function () {       
-        AgentActionReport.Params.pageIndex = 1;
-        AgentActionReport.Params.startDate = $("#BeginTime").val();
-        AgentActionReport.Params.endDate = $("#EndTime").val();
-        AgentActionReport.bindData();
-       
-    });
+    require.async("dropdown", function () {
+        var ClientType = [
+            {
+                ID: "0",
+                Name: "手动创建"
+            },
+            {
+                ID: "1",
+                Name: "阿里授权"
+            }
+        ];
+        $("#ClientType").dropdown({
+            prevText: "客户来源-",
+            defaultText: "所有",
+            defaultValue: "-1",
+            data: ClientType,
+            dataValue: "ID",
+            dataText: "Name",
+            width: "120",
+            onChange: function (data) {
+                $(".tr-header").nextAll().remove();
+                AgentActionReport.Params.pageIndex = 1;
+                AgentActionReport.Params.type = parseInt(data.value);
+                AgentActionReport.bindData();
+            }
+        });
+    }); 
     //排序
     $(".td-span").click(function () {
         var _this = $(this);

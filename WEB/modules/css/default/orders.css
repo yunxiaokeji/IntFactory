@@ -80,7 +80,7 @@
 .order-imgs-list li.hover{ border-color:red;}
 .order-imgs-list img{ width:48px; height:48px;}
 .order-imgs-list .edit-orderimages { font-size:40px; width:48px; height:48px;  color:#999; line-height:40px; text-align:center; }
-.order-imgs-list #addOrderImages .edit-orderimages { line-height:0;padding-bottom:8px;}
+.order-imgs-list #addOrderImages .edit-orderimages { line-height:0;padding-bottom:8px;border:none;background:transparent;}
 .order-imgs-list .ico-delete { position:absolute; top:-8px; right:-8px; background-color:#fff; border-radius:10px; }
 
 
