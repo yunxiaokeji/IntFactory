@@ -47,10 +47,12 @@
                 $(".providers").parent().remove();
                 $(".provider").remove();
             }
+
             if ($(".phones").hasClass("no-select")) {
                 $(".phones").parent().remove();
                 $(".phone").remove();
             }
+
             if ($(".addresses").hasClass("no-select")) {
                 $(".addresses").parent().remove();
                 $(".address").remove();
@@ -64,7 +66,6 @@
 
         //打印
         $(".export").click(function () {
-            
             $(".export").remove();
             window.print();
         });
