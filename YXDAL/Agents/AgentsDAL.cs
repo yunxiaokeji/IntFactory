@@ -31,7 +31,7 @@ namespace IntFactoryDAL.Agents
                                    };
             return GetDataTable("M_Get_Report_AgentAction_Day", paras, CommandType.StoredProcedure);
         }
-        public DataTable GetAgentActionReportPageList(string keyword, string beginDate, string endDate,string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public DataTable GetAgentActionReportPageList(string keyword, string beginDate, string endDate,int type,string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
                                     new SqlParameter("@totalCount",SqlDbType.Int),
@@ -41,6 +41,7 @@ namespace IntFactoryDAL.Agents
                                     new SqlParameter("@pageIndex",pageIndex), 
                                     new SqlParameter("@BeginDate",beginDate),
                                     new SqlParameter("@EndDate",endDate),
+                                    new SqlParameter("@Type",type),
                                     new SqlParameter("@OrderBy",orderBy)
                                    
                                    };
