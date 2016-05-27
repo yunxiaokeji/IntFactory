@@ -864,6 +864,26 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UpdateTaskLockStatus(string taskid, int status)
+        {
+            var bl = false;
+            int result=0;
+            if (status == 2)
+            {
+                bl = TaskBusiness.UnLockTask(taskid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            }
+            else 
+            {
+                bl = TaskBusiness.LockTask(taskid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            }
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         #endregion
 
     }

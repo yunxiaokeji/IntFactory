@@ -51,6 +51,8 @@ namespace IntFactoryEntity.Task
 
         public int Sort { get; set; }
 
+        public int LockStatus { get; set; }
+
         public int Status { get; set; }
 
         public int Mark { get; set; }
@@ -58,6 +60,8 @@ namespace IntFactoryEntity.Task
         public int ColorMark { get; set; }
 
         public string Remark { get; set; }
+
+        public int MaxHours { get; set; }
 
         public int FinishStatus { get; set; }
 

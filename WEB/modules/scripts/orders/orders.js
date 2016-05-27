@@ -3,7 +3,9 @@
         doT = require("dot"),
         Easydialog = require("easydialog"),
         ChooseCustomer = require("choosecustomer"),
-        ChooseUser = require("chooseuser");
+        ChooseUser = require("chooseuser"),
+        moment = require("moment");
+    require("daterangepicker");
     require("pager");
     require("mark");
 
@@ -15,7 +17,7 @@
         PayStatus: -1,
         OrderStatus: -1,
         InvoiceStatus: -1,
-        ReturnStatus: 0,
+        ReturnStatus: -1,
         SourceType: -1,
         UserID: "",
         AgentID: "",
@@ -66,10 +68,21 @@
             }
         });
 
-        $("#btnSearch").click(function () {
+        //日期插件
+        $("#iptCreateTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
+            }
+        }, function (start, end, label) {
             Params.PageIndex = 1;
-            Params.BeginTime = $("#BeginTime").val().trim();
-            Params.EndTime = $("#EndTime").val().trim();
+            Params.BeginTime = start ? start.format("YYYY-MM-DD") : "";
+            Params.EndTime = end ? end.format("YYYY-MM-DD") : "";
             _self.getList();
         });
 
@@ -154,6 +167,23 @@
                 _this.addClass("hover");
                 Params.PageIndex = 1;
                 Params.Mark = _this.data("id");
+                _self.getList();
+            }
+        });
+        //预警
+        $(".search-warning .item").click(function () {
+            var _this = $(this);
+
+            //快速点击屏蔽
+            if (_self.isLoading) {
+                return false;
+            }
+
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+                Params.PageIndex = 1;
+                Params.InvoiceStatus = _this.data("id");
                 _self.getList();
             }
         });

@@ -149,6 +149,43 @@ namespace IntFactoryDAL
             return result == 1;
         }
 
+        public bool LockTask(string taskID, string operateid, out int result)
+        {
+            result = 0;
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@Result",SqlDbType.Int),
+                                     new SqlParameter("@TaskID",taskID),
+                                     new SqlParameter("@UserID",operateid)
+                                   };
+
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
+
+            ExecuteNonQuery("P_LockTask", paras, CommandType.StoredProcedure);
+
+            result = Convert.ToInt32(paras[0].Value);
+
+            return result == 1;
+        }
+
+        public bool UnLockTask(string taskID, string operateid, out int result)
+        {
+            result = 0;
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@Result",SqlDbType.Int),
+                                     new SqlParameter("@TaskID",taskID),
+                                     new SqlParameter("@UserID",operateid)
+                                   };
+
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
+
+            ExecuteNonQuery("P_UnLockTask", paras, CommandType.StoredProcedure);
+
+            result = Convert.ToInt32(paras[0].Value);
+
+            return result == 1;
+        }
         public bool AddTaskMembers(string taskID, string memberIDs,string operateID, string agentID,out int result)
         {
             result=0;

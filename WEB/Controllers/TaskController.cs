@@ -198,6 +198,7 @@ namespace YXERP.Controllers
             ViewBag.FinishStatus = task.FinishStatus;
             ViewBag.TaskID = task.TaskID;
             ViewBag.Status = task.Status;
+            ViewBag.Mark = task.Mark;
             //当前用户是否为任务负责人
             ViewBag.IsTaskOwner = task.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase) ? true : false;
 
@@ -541,7 +542,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetPlateMakings(string orderID, string taskID)
         {
-            var list = TaskBusiness.GetPlateMakings(orderID, taskID);
+            var list = TaskBusiness.GetPlateMakings(orderID);
 
             JsonDictionary.Add("items", list);
             return new JsonResult

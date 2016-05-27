@@ -462,9 +462,10 @@
 /*暂无成员*/
 .memberlist .member-title {line-height:30px;height:30px;width:380px;margin-bottom:5px;padding-bottom:5px;}
 
-.memberlist .member-boxs { max-height:320px;overflow-y:auto;width:360px;}
+.memberlist .member-boxs { max-height:320px;overflow-y:auto;}
 .memberlist .member-items {width:100%;border:1px solid #ededed;border-collapse:collapse;}
 .memberlist .member-items tr { text-align:center;width:25%;line-height:34px;}
+.member-items tr:first-child td:first-child .iconfont { line-height:1;}
 .memberlist .member-items tr:last-child td { padding-bottom:5px;}
 .memberlist .member-items tbody tr td:last-child { font-size:20px;padding-top:4px;}
 .memberlist .member-items thead td { text-align:inherit;font-size:12px;height:40px;background-color:#efefef;color:#999;}

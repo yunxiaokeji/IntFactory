@@ -1,5 +1,5 @@
 ﻿@{
-    var isRoot = (@ViewBag.Status != 8  && @ViewBag.FinishStatus > 0 && Model.Status < 3) && (ViewBag.IsEditTask || ViewBag.IsTaskOwner);
+    var isRoot = ViewBag.IsRoot;
  }
 
 <div class="platemakingContent hide" id="platemakingContent">
@@ -47,7 +47,8 @@
     @{
         <div class="mTop30">
             <div class="talk-title" >工艺说明
-                @{if (isRoot){
+                @{if (isRoot && ViewBag.Mark==12)
+                  {
                 <div class="btn-add right" id="btnAddPalte">工艺说明录入</div>
                 <div class="clear"></div>}
                 }
