@@ -59,6 +59,8 @@ namespace IntFactoryEntity.Task
 
         public string Remark { get; set; }
 
+        public int MaxHours { get; set; }
+
         public int FinishStatus { get; set; }
 
         public DateTime CreateTime { get; set; }

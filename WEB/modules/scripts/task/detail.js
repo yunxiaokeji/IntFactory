@@ -23,11 +23,12 @@
     ///finishStatus：任务完成状态
     ///attrValues:订单品类属性
     ///orderType:订单类型
-    ObjectJS.init = function (attrValues, orderimages, isWarn, task, isEditTask) {
+    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
         if (attrValues != "")
             CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
         ObjectJS.orderid = task.OrderID;
+        ObjectJS.originalID = originalID;
         ObjectJS.guid = task.OrderID;
         ObjectJS.taskid = task.TaskID;
         ObjectJS.stageid = task.StageID;
@@ -36,6 +37,7 @@
         ObjectJS.endTime = task.EndTime.toDate("yyyy/MM/dd hh:mm:ss");
         ObjectJS.finishStatus = task.FinishStatus;
         ObjectJS.status = task.Status;
+        ObjectJS.maxHours = task.MaxHours;
         ObjectJS.isWarn = isWarn;
         ObjectJS.orderimages = orderimages;
         ObjectJS.isPlate = true;//任务是否制版
@@ -224,60 +226,82 @@
 
     //更改任务到期时间
     ObjectJS.updateTaskEndTime = function () {
-        Easydialog = require("easydialog");
-        var innerHtml = '<div class="pTop10 pBottom5"><span class="width80" style="display:inline-block;">到期时间:</span><input style="width:180px;" type="text" class="taskEndTime" id="UpdateTaskEndTime" placeholder="设置到期时间"/></div>';
-        Easydialog.open({
-            container: {
-                id: "show-model-setRole",
-                header: "设置任务到期时间",
-                content: innerHtml,
-                yesFn: function () {
-                    if ($("#UpdateTaskEndTime").val() == "") {
-                        alert("任务到期时间不能为空");
-                        return;
-                    }
+        if (ObjectJS.maxHours == 0) {
+            Easydialog = require("easydialog");
+            var innerHtml = '<div class="pTop10 pBottom5"><span class="width80" style="display:inline-block;">到期时间:</span><input style="width:180px;" type="text" class="taskEndTime" id="UpdateTaskEndTime" placeholder="设置到期时间"/></div>';
+            Easydialog.open({
+                container: {
+                    id: "show-model-setRole",
+                    header: "设置任务到期时间",
+                    content: innerHtml,
+                    yesFn: function () {
+                        if ($("#UpdateTaskEndTime").val() == "") {
+                            alert("任务到期时间不能为空");
+                            return;
+                        }
 
-                    confirm("任务到期时间不可逆，确定设置?", function () {
-                        ObjectJS.isLoading = false;
-                        Global.post("/Task/UpdateTaskEndTime", {
-                            id: ObjectJS.taskid,
-                            endTime: $("#UpdateTaskEndTime").val()
-                        }, function (data) {
-                            if (data.result == 0) {
-                                alert("操作无效");
-                            }
-                            else if (data.result == 2) {
-                                alert("任务已接受,不能操作");
-                            }
-                            else if (data.result == 3) {
-                                alert("没有权限操作");
-                            }
-                            else {
-                                location.href = location.href;
-                            }
-                            ObjectJS.isLoading = true;
+                        confirm("任务到期时间不可逆，确定设置?", function () {
+                            ObjectJS.isLoading = false;
+                            Global.post("/Task/UpdateTaskEndTime", {
+                                id: ObjectJS.taskid,
+                                endTime: $("#UpdateTaskEndTime").val()
+                            }, function (data) {
+                                if (data.result == 0) {
+                                    alert("操作无效");
+                                }
+                                else if (data.result == 2) {
+                                    alert("任务已接受,不能操作");
+                                }
+                                else if (data.result == 3) {
+                                    alert("没有权限操作");
+                                }
+                                else {
+                                    location.href = location.href;
+                                }
+                                ObjectJS.isLoading = true;
+                            });
                         });
-                    });
 
+                    }
                 }
-            }
-        });
+            });
 
-        var myDate = new Date();
-        var minDate = myDate.toLocaleDateString();
-        minDate = minDate + " 23:59:59"
-        //更新任务到期日期
-        var taskEndTime = {
-            elem: '#UpdateTaskEndTime',
-            format: 'YYYY-MM-DD hh:mm:ss',
-            min: minDate,
-            max: '2099-06-16',
-            istime: true,
-            istoday: false
-        };
+            var myDate = new Date();
+            var minDate = myDate.toLocaleDateString();
+            minDate = minDate + " 23:59:59"
+            //更新任务到期日期
+            var taskEndTime = {
+                elem: '#UpdateTaskEndTime',
+                format: 'YYYY-MM-DD hh:mm:ss',
+                min: minDate,
+                max: '2099-06-16',
+                istime: true,
+                istoday: false
+            };
 
-        laydate(taskEndTime);
+            laydate(taskEndTime);
+        }
+        else {
+            Global.post("/Task/UpdateTaskEndTime", {
+                id: ObjectJS.taskid,
+                endTime: ""
+            }, function (data) {
+                if (data.result == 0) {
+                    alert("操作无效");
+                }
+                else if (data.result == 2) {
+                    alert("任务已接受,不能操作");
+                }
+                else if (data.result == 3) {
+                    alert("没有权限操作");
+                }
+                else {
+                    location.href = location.href;
+                }
+                ObjectJS.isLoading = true;
+            });
 
+        }
 
 
     }
@@ -947,8 +971,6 @@
                         ObjectJS.bindContentClick();
                         ObjectJS.bindAddRow();
                         ObjectJS.bindRemoveRow();
-                        Easydialog.close();
-                        //$("#setTaskPlateAttrBox").remove();
                     }
                 }
 
@@ -1156,7 +1178,7 @@
         });
 
         $("#deleteObject").click(function () {
-            var plateID = $(this).data("plateid");
+            var plateID = $(this).data("id");
             ObjectJS.deletePlateMaking(plateID);
         });
     }
@@ -1167,8 +1189,7 @@
         $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Task/GetPlateMakings", {
-            orderID: ObjectJS.orderid,
-            taskID: ObjectJS.taskid
+            orderID:ObjectJS.mark==22?ObjectJS.originalID: ObjectJS.orderid
         }, function (data) {
             $(".tb-plates .tr-header").nextAll().remove();
 
@@ -1179,7 +1200,7 @@
                     html = $(html);
                     $(".tb-plates .tr-header").after(html);
 
-                    if ($("#setPlateMaking").length == 1) {
+                    if ($("#btnAddPalte").length == 1) {
                         html.find(".dropdown").click(function () {
                             var _this = $(this);
                             var position = _this.find(".ico-dropdown").position();
@@ -1189,6 +1210,9 @@
                                 $(this).hide();
                             });
                         });
+                    }
+                    else {
+                        html.find(".ico-dropdown").remove();
                     }
 
                 });

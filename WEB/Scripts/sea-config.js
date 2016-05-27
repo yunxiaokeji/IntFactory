@@ -16,7 +16,10 @@ seajs.config({
         //报表底层
         'zrender': 'plug/echarts/zrender/zrender.js',
         //排序
-        "sortable": "plug/sortable.js"
+        "sortable": "plug/sortable.js",
+        //日期控件
+        'moment': 'plug/daterangepicker/moment.js',
+        'daterangepicker': 'plug/daterangepicker/daterangepicker.js'
     },
     map: [
         //可配置版本号
