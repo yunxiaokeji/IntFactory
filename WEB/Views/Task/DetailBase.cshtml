@@ -1,52 +1,48 @@
-﻿
+﻿@{
+    var taskModel =(YXERP.Models.TaskModel)Model;
+    var task = taskModel.Task;
+    var order = taskModel.Order;
+ }
+
 <div class="header-box">
     <div class="header-title">
-        任务详情-@(Model.Title)
+        任务详情-@(task.Title)
         <a class="back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">
            <i class="iconfont">&#xe62d;</i> 返回
         </a>
     </div>
 
     <div class="mTop10">
-        <div class="left titlename">订单编号：<a class="font16" href="/Orders/OrderDetail/@(Model.OrderID)" >@(Model.OrderCode)</a></div>
+        <div class="left titlename">订单编号：<a class="font16" href="/Orders/OrderDetail/@(task.OrderID)" >@(task.OrderCode)</a></div>
         
         <div class="right">
             @{
-                if (ViewBag.IsTaskOwner){
-                    if(Model.FinishStatus==0)
+                if (taskModel.IsTaskOwner)
+                {
+                    if(task.FinishStatus==0)
                     {
                         <input type="button" class="btn" id="AcceptTask" value="接受任务"/>
                     }
-                    else if (Model.FinishStatus == 1)
+                    else if (task.FinishStatus == 1)
                     {
                         <input type="button" class="btn" id="FinishTask" value="标记完成"/>
                     }
-                    else if (Model.FinishStatus == 2 && ViewBag.LockStatus)
+                    else if (task.FinishStatus == 2 && task.LockStatus==2)
                     {
                         <input type="button" class="btn" id="LockTask" value="锁定任务"/>
                     }
-                    else if (Model.FinishStatus == 2)
+                    else if (task.FinishStatus == 2)
                     {
                         <span class="taskFinishStatus">已完成</span>
                     }
                 }
-                else{
-                    if(Model.FinishStatus==0)
-                    {
-                        <span class="taskFinishStatus">未接受</span>
-                    }
-                    else if (Model.FinishStatus == 1)
-                    {
-                        <span class="taskFinishStatus">进行中</span>
-                    }
+                else
                     else if (Model.FinishStatus == 2 && ViewBag.LockStatus)
                     {
                         <span class="taskFinishStatus">已解锁</span>
                     }
-                    else if (Model.FinishStatus == 2)
-                    {
-                        <span class="taskFinishStatus">已完成</span>
-                    }
+                {
+                     <span class="taskFinishStatus">@( task.FinishStatus==0?"未接受":task.FinishStatus==1?"进行中":"已完成" )</span>
                 }
             
             }
@@ -55,13 +51,13 @@
 </div>
 
 <div class="content-title">
-    <div class="left titlename">任务编码：@(Model.TaskCode)</div>
+    <div class="left titlename">任务编码：@(task.TaskCode)</div>
     <ul class="right">
         <li title="订单类型">
-            <span class="left"> 订单类型：</span><label class="left" >@(Model.OrderType==1?"打样":"大货")</label>
+            <span class="left"> 订单类型：</span><label class="left" >@(task.OrderType==1?"打样":"大货")</label>
         </li>
         <li>
-            <span class="left"> 负责人：</span><label class="left">@(Model.Owner != null ? Model.Owner.Name : "--")</label>
+            <span class="left"> 负责人：</span><label class="left">@(task.Owner != null ? task.Owner.Name : "--")</label>
         </li>
     </ul>
 </div>
@@ -70,10 +66,9 @@
    <div class="taskDetail">
         <div class="order-imgs-div left">
             <div class="order-imgs">
-                <img id="orderImage" src="@(Model.OrderImg)" />
+                <img id="orderImage" src="@(order.OrderImage)" />
             </div>
             <ul class="order-imgs-list mTop5"></ul>
-            
         </div>
 
        <div class="mLeft20 left">
@@ -93,164 +88,161 @@
                 </li>
                 <li>
                     <span class="column-title">任务标题</span>
-                    <span>@(Model.Title)</span>
+                    <span>@(task.Title)</span>
                 </li>
                 <li>
                     <span class="column-title">接受时间</span>
-                    <span id="AcceptTime">@(Model.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : Model.AcceptTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                    <span id="AcceptTime">@(task.AcceptTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未接受" : task.AcceptTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
                 </li>
                 <li>
                     <span class="column-title">到期时间</span>
-                    <span>@(Model.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : Model.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                    <span>@(task.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : task.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
                 </li>
                 <li>
                     <span class="column-title">完成时间</span>
-                    <span id="CompleteTime">@(Model.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : Model.CompleteTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                    <span id="CompleteTime">@(task.CompleteTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未完成" : task.CompleteTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
                 </li>
                 @{
-                    if (Model.FinishStatus==2)
+                    if (task.FinishStatus==2)
                     {
                         <li>
                             <span class="column-title">完成周期</span>
-                            <span>@(ViewBag.FinishDay)天</span>
+                            <span>@(taskModel.FinishDay)天</span>
                         </li>
                     }
                 }
                  <li>
                     
-                    @{
-                        if (!ViewBag.IsTaskOwner)
+                @{
+                    if (!taskModel.IsTaskOwner)
+                    {
+                        <span class="column-title left">成员</span>                            
+                        if (task.TaskMembers.Count > 0)
                         {
-                            <span class="column-title left">成员</span>                            
-                            if (Model.TaskMembers.Count > 0)
+                            foreach (var member in task.TaskMembers)
                             {
-                                foreach (var member in Model.TaskMembers)
-                                {
-                                <div class="task-member left">
-                                    <div class="pRight5"><span>@member.Member.Name</span></div>
-                                </div>
-                                }
-                            }
-                            else
-                            {
-                                <div class="left">暂无成员</div>
+                            <div class="task-member left">
+                                <div class="pRight10"><span>@member.Member.Name</span></div>
+                            </div>
                             }
                         }
+                        else
+                        {
+                            <div class="left">暂无成员</div>
+                        }
                     }
-                    <div class="clear"></div>
-                 </li>
+                }
+                <div class="clear"></div>
+                </li>
             </ul>
         </div>
        
-               @{
-                   if (ViewBag.IsTaskOwner)
-                   {
-                    <div class="right memberlist mTop5">
+        @{
+            if (taskModel.IsTaskOwner)
+            {
+            <div class="right memberlist mTop5">
                     
-                    @{
-                        if(Model.FinishStatus>0){
-                            <div class="member-title">
-                                <span class="right btn-add" id="addTaskMembers">添加成员</span>
-                            </div>
-                        }
-                    }
-                    <div class="clear"></div>
+            @{
+                if(task.FinishStatus>0){
+                    <div class="member-title">
+                        <span class="right btn-add" id="addTaskMembers">添加成员</span>
+                    </div>
+                }
+            }
+            <div class="clear"></div>
 
-                    <div class="member-boxs">
-                     <table class="member-items">
-                        @{
-                            <thead>
-                                <tr>
-                                   <td class="tLeft pLeft10 task-members"><span class="iconfont">&#xe624;</span>成员列表</td>
-                                   <td width="82">查看权限</td>
-                                   <td width="82">编辑权限</td>
-                                   <td width="50">操作</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                    @{
-                       if (Model.TaskMembers.Count > 0)
-                       {
-                           foreach (var member in Model.TaskMembers)
-                           {
-                                <tr data-id="@member.Member.UserID">
-                                    <td class="tLeft pLeft10">
-                                        <i><img onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="@(string.IsNullOrEmpty(member.Member.Avatar) ? "/modules/images/defaultavatar.png" : member.Member.Avatar)" /></i>
-                                        <i class="membername">@member.Member.Name</i>
-                                    </td>
-                                    <td>
-                                        <i class="hand ico-radiobox check-lump @(member.PermissionType==1?"hover":"")" data-type="1" data-taskid="@member.TaskID" data-memberid="@member.MemberID">
-                                               <span></span>
-                                        </i>
-                                    </td>
-                                    <td>
-                                        <i class="hand ico-radiobox check-lump @(member.PermissionType==2?"hover":"")" data-type="2" data-taskid="@member.TaskID" data-memberid="@member.MemberID">
-                                            <span></span>
-                                        </i>
-                                    </td>
-                                    <td class="hand removeTaskMember iconfont" data-id="@member.Member.UserID">&#xe651;</td>
-                                </tr>
-                           }
-                       }
-                       else
-                       {
-                           <tr class="member-nodata-txt"><td colspan="4" class="font14 color666">暂无成员</td></tr>
-                       }
+            <div class="member-boxs">
+                <table class="member-items">
+                @{
+                    <thead>
+                        <tr>
+                            <td class="tLeft pLeft10 task-members"><span class="iconfont">&#xe624;</span>成员列表</td>
+                            <td width="82">查看权限</td>
+                            <td width="82">编辑权限</td>
+                            <td width="50">操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+            @{
+                if (task.TaskMembers.Count > 0)
+                {
+                    foreach (var member in task.TaskMembers)
+                    {
+                        <tr data-id="@member.Member.UserID">
+                            <td class="tLeft pLeft10">
+                                <i><img onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="@(string.IsNullOrEmpty(member.Member.Avatar) ? "/modules/images/defaultavatar.png" : member.Member.Avatar)" /></i>
+                                <i class="membername">@member.Member.Name</i>
+                            </td>
+                            <td>
+                                <i class="hand ico-radiobox check-lump @(member.PermissionType==1?"hover":"")" data-type="1" data-taskid="@member.TaskID" data-memberid="@member.MemberID">
+                                        <span></span>
+                                </i>
+                            </td>
+                            <td>
+                                <i class="hand ico-radiobox check-lump @(member.PermissionType==2?"hover":"")" data-type="2" data-taskid="@member.TaskID" data-memberid="@member.MemberID">
+                                    <span></span>
+                                </i>
+                            </td>
+                            <td class="hand removeTaskMember iconfont" data-id="@member.Member.UserID">&#xe651;</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="member-nodata-txt"><td colspan="4" class="font14 color666">暂无成员</td></tr>
+                }
                        
-                        }
-                        </tbody>
-                        }
-                    </table>
-                    </div>
-                    </div>
-                    }
-               }
-              
-         
+                }
+                </tbody>
+                }
+            </table>
+            </div>
+        </div>
+           }
+        }
+             
        <div class="clear"></div>
-       <div class="order-remark">详细需求: @(ViewBag.Remark)</div>
-
+       <div class="order-remark">详细需求: @(order.Remark)</div>
     </div>
-
   </div>
 
 <div class="module-header mTop20">
     <ul class="module-tab">
         <li  class="hover" data-id="taskReplys">讨论</li>
         @{
-            if(Model.Mark==11)
+            if(task.Mark==11)
             {
                 <li  data-id="navProducts">材料</li>
             }
-            else if(Model.Mark==21)
+            else if(task.Mark==21)
             {
                 <li  data-id="navProducts">材料</li>
             }
-            else if(Model.Mark==12)
+            else if(task.Mark==12)
             {
                 <li  data-id="platemakingContent">制版</li>
             }
-            else if(Model.Mark==22)
+            else if(task.Mark==22)
             {
                 <li  data-id="platemakingContent">制版</li>
             }
-            else if(Model.Mark==15)
+            else if(task.Mark==15)
             {
                 <li  data-id="navSendDYDoc" data-btn="btnSendDYOrder">发货记录</li>
             }
-            else if(Model.Mark==25)
+            else if(task.Mark==25)
             {
                 <li data-btn="btnSendOrder" data-id="navSendDoc">发货记录</li>
             }
-            else if(Model.Mark==23)
+            else if(task.Mark==23)
             {
                 <li data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁剪记录</li>
             }
-            else if(Model.Mark==24)
+            else if(task.Mark==24)
             {
                 <li data-btn="btnSewnOrder"  data-id="navSewnDoc">车缝记录</li>
             }
-            else if(Model.Mark==16)
+            else if(task.Mark==16)
             {
                  <li data-btn="addOtherCost" data-id="navCosts">加工成本</li>
             }
@@ -260,28 +252,25 @@
     </ul>
 
      @{
-           
-         
- 
-          
-         if(ViewBag.IsRoot){
-            if (Model.Mark == 23 && ViewBag.CutStatus!=2)
+         if (taskModel.IsRoot)
+         {
+            if (task.Mark == 23 && order.CutStatus!=2)
             {
                  <div class="btn part-btn right" id="btnCutoutOrder" style="display:none;">裁剪录入</div>                
             }
-            else if (Model.Mark == 24)
+            else if (task.Mark == 24)
             {
                 <div class="btn part-btn right"  id="btnSewnOrder" style="display:none;">车缝录入</div>
             }
-            else if (Model.Mark == 15)
+            else if (task.Mark == 15)
             {
                 <div class="btn part-btn right" id="btnSendDYOrder" style="display:none;">订单发货</div>
             }
-            else if (Model.Mark == 25 &&ViewBag.SendStatus!=2)
+            else if (task.Mark == 25 && order.SendStatus!=2)
             {
                 <div class="btn part-btn right hide" id="btnSendOrder" style="display:none;">订单发货</div>
             }
-            else if(Model.Mark==16)
+            else if(task.Mark==16)
             {
                 <div class="btn part-btn right" id="addOtherCost">添加加工成本</div>
             }

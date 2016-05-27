@@ -10,6 +10,7 @@ using IntFactoryEnum;
 using System.Globalization;
 using System.IO;
 using System.Web.Script.Serialization;
+using YXERP.Models;
 namespace YXERP.Controllers
 {
     public class TaskController : BaseController
@@ -160,9 +161,10 @@ namespace YXERP.Controllers
                 return Redirect("/Task/MyTask");
             }
 
+            TaskModel taskModel = new Models.TaskModel();
             //任务详情
             var task = TaskBusiness.GetTaskDetail(id);
-            ViewBag.Model = task;
+            taskModel.Task = task;
 
             //任务对应的订单详情
             var order = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
@@ -170,15 +172,16 @@ namespace YXERP.Controllers
             if (order.Details == null){
                 order.Details = new List<IntFactoryEntity.OrderDetail>();
             }
-            ViewBag.Order = order;
+            taskModel.Order = order;
 
+            //判断查看权限
             if(!IsSeeRoot(task,order)){
                 Response.Write("<script>alert('您无查看任务权限');location.href='/Task/MyTask';</script>");
                 Response.End();
             }
 
             //任务剩余时间警告
-            var IsWarn = 0;
+            var isWarn = false;
             if (task.FinishStatus == 1)
             {
                 if (task.EndTime > DateTime.Now)
@@ -189,38 +192,45 @@ namespace YXERP.Controllers
                     var residue = residueHour / totalHour;
                     if (residue < 0.333)
                     {
-                        IsWarn = 1;
+                        isWarn = true;
                     }
                 }
             }
-            ViewBag.IsWarn = IsWarn;
+            taskModel.IsWarn = isWarn;
 
-            ViewBag.FinishStatus = task.FinishStatus;
-            ViewBag.TaskID = task.TaskID;
-            ViewBag.Status = task.Status;
-            ViewBag.Mark = task.Mark;
             //当前用户是否为任务负责人
-            ViewBag.IsTaskOwner = task.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase) ? true : false;
+            taskModel.IsTaskOwner = task.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase) ? true : false;
 
             //当前用户是否有编辑权限
-            var IsEditTask = false;
+            var isEditTask = false;
             TaskMember member = task.TaskMembers.Find(a => a.MemberID.ToLower() == CurrentUser.UserID.ToLower());
             if (member != null)
             {
                 if (member.PermissionType == 2)
                 {
-                    IsEditTask = true;
+                    isEditTask = true;
                 }
             }
-            ViewBag.IsEditTask = IsEditTask;
+            taskModel.IsEditTask = isEditTask;
 
             //订单的品类属性
-            ViewBag.ProductAttr = new IntFactoryEntity.ProductAttr();
-            if (task.Mark == 12)//打样制版
+            taskModel.ProductAttr = new IntFactoryEntity.ProductAttr();
+            //制版任务
+            if (task.Mark == 12 || task.Mark==22)
             {
-                ViewBag.ProductAttr = new ProductsBusiness().GetTaskPlateAttrByCategoryID(order.CategoryID);
+                taskModel.ProductAttr = new ProductsBusiness().GetTaskPlateAttrByCategoryID(order.CategoryID);
             }
 
+            //任务完成周期
+            if (task.FinishStatus == 2)
+            {
+                taskModel.FinishDay = (int)Math.Ceiling((task.CompleteTime - task.AcceptTime).TotalDays);
+            }
+
+            //操作权限
+            taskModel.IsRoot = (task.Status != 8 && (task.FinishStatus == 1 || task.LockStatus==2) && (taskModel.IsEditTask || taskModel.IsTaskOwner) );
+
+            ViewBag.TaskModel = taskModel;
             return View();
         }
 
