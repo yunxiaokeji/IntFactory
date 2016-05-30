@@ -460,11 +460,20 @@
 
 /*成员列表样式*/
 /*暂无成员*/
-.memberlist .member-title {line-height:30px;height:30px;width:380px;margin-bottom:5px;padding-bottom:5px;}
+.memberlist .member-title {line-height:30px;height:30px;margin-bottom:5px;padding-bottom:5px;}
 
-.memberlist .member-boxs { max-height:320px;overflow-y:auto;}
+/*.memberlist .member-boxs { max-height:320px;overflow-y:auto;}*/
+
+/*设置表格宽度*/
+.memberlist .member-items tr td:first-child{width:166px;}
+.memberlist .member-items tr td:nth-child(2),td:nth-child(3) { width:82px;}
+.memberlist .member-items tr td:last-child { width:50px;}
+.memberlist .member-items .member-nodata-txt td { width:380px !important;}
+
 .memberlist .member-items {width:100%;border:1px solid #ededed;border-collapse:collapse;}
-.memberlist .member-items tr { text-align:center;width:25%;line-height:34px;}
+.memberlist .member-items tbody { display:block;max-height:238px;overflow-y:auto;width:380px;}
+.memberlist .member-items tr { text-align:center;line-height:34px;}
+.memberlist thead tr { display:block;width:380px;}
 .member-items tr:first-child td:first-child .iconfont { line-height:1;}
 .memberlist .member-items tr:last-child td { padding-bottom:5px;}
 .memberlist .member-items tbody tr td:last-child { font-size:20px;padding-top:4px;}

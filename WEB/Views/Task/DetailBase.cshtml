@@ -123,7 +123,7 @@
                             foreach (var member in task.TaskMembers)
                             {
                             <div class="task-member left">
-                                <div class="pRight10"><span>@member.Member.Name</span></div>
+                                <div class="pRight10"><span>@(member.Member.Name)&nbsp;&nbsp;&nbsp;</span></div>
                             </div>
                             }
                         }
@@ -154,48 +154,46 @@
 
             <div class="member-boxs">
                 <table class="member-items">
-                @{
                     <thead>
                         <tr>
                             <td class="tLeft pLeft10 task-members"><span class="iconfont">&#xe624;</span>成员列表</td>
-                            <td width="82">查看权限</td>
-                            <td width="82">编辑权限</td>
-                            <td width="50">操作</td>
+                            <td>查看权限</td>
+                            <td>编辑权限</td>
+                            <td>操作</td>
                         </tr>
                     </thead>
                     <tbody>
-            @{
-                if (task.TaskMembers.Count > 0)
-                {
-                    foreach (var member in task.TaskMembers)
-                    {
-                        <tr data-id="@member.Member.UserID">
-                            <td class="tLeft pLeft10">
-                                <i><img onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="@(string.IsNullOrEmpty(member.Member.Avatar) ? "/modules/images/defaultavatar.png" : member.Member.Avatar)" /></i>
-                                <i class="membername">@member.Member.Name</i>
-                            </td>
-                            <td>
-                                <i class="hand ico-radiobox check-lump @(member.PermissionType==1?"hover":"")" data-type="1" data-taskid="@member.TaskID" data-memberid="@member.MemberID">
-                                        <span></span>
-                                </i>
-                            </td>
-                            <td>
-                                <i class="hand ico-radiobox check-lump @(member.PermissionType==2?"hover":"")" data-type="2" data-taskid="@member.TaskID" data-memberid="@member.MemberID">
-                                    <span></span>
-                                </i>
-                            </td>
-                            <td class="hand removeTaskMember iconfont" data-id="@member.Member.UserID">&#xe651;</td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr class="member-nodata-txt"><td colspan="4" class="font14 color666">暂无成员</td></tr>
-                }
+                        @{
+                            if (task.TaskMembers.Count > 0)
+                            {
+                                foreach (var member in task.TaskMembers)
+                                {
+                                    <tr data-id="@member.Member.UserID">
+                                        <td class="tLeft pLeft10" width="166">
+                                            <i><img src="@(string.IsNullOrEmpty(member.Member.Avatar) ? "/modules/images/defaultavatar.png" : member.Member.Avatar)" /></i>
+                                            <i class="membername">@member.Member.Name</i>
+                                        </td>
+                                        <td>
+                                            <i class="hand ico-radiobox check-lump @(member.PermissionType==1?"hover":"")" data-type="1" data-taskid="@member.TaskID" data-memberid="@member.MemberID">
+                                                    <span></span>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <i class="hand ico-radiobox check-lump @(member.PermissionType==2?"hover":"")" data-type="2" data-taskid="@member.TaskID" data-memberid="@member.MemberID">
+                                                <span></span>
+                                            </i>
+                                        </td>
+                                        <td class="hand removeTaskMember iconfont" data-id="@member.Member.UserID">&#xe651;</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr class="member-nodata-txt"><td colspan="4" class="font14 color666" width="380">暂无成员</td></tr>
+                            }
                        
-                }
-                </tbody>
-                }
+                        }
+                    </tbody>
             </table>
             </div>
         </div>

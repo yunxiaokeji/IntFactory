@@ -2,8 +2,9 @@
     var Upload = require("upload"), ProductIco, ImgsIco,
         Global = require("global"),
         City = require("city"), CityObject,
-        Verify = require("verify"), VerifyObject;
-
+        Verify = require("verify"), VerifyObject,
+        moment = require("moment");
+        require("daterangepicker");
 
     var ObjectJS = {}, CacheCategory = [];
     //初始化
@@ -43,6 +44,22 @@
                 $(".ico-radiobox").removeClass("hover");
                 _this.addClass("hover");
             }
+        });
+
+        //日期插件
+        $("#iptCreateTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
+            }
+        }, function (start, end, label) {
+            _self.beginTime = start ? start.format("YYYY-MM-DD") : "";
+            _self.endTime = end ? end.format("YYYY-MM-DD") : "";
         });
 
         ProductIco = Upload.createUpload({
