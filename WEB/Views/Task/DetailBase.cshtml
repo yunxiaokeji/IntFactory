@@ -13,7 +13,7 @@
     </div>
 
     <div class="mTop10">
-        <div class="left titlename">订单编号：<a class="font16" href="/Orders/OrderDetail/@(task.OrderID)" >@(task.OrderCode)</a></div>
+        <div class="left titlename">任务编码：@(task.TaskCode)</div>
         
         <div class="right">
             @{
@@ -47,7 +47,8 @@
 </div>
 
 <div class="content-title">
-    <div class="left titlename">任务编码：@(task.TaskCode)</div>
+    
+    <div class="left titlename">订单编号：<a class="font16" href="/Orders/OrderDetail/@(task.OrderID)" >@(task.OrderCode)</a></div>
     <ul class="right">
         <li title="订单类型">
             <span class="left"> 订单类型：</span><label class="left" >@(task.OrderType==1?"打样":"大货")</label>
@@ -66,8 +67,12 @@
             </div>
             <ul class="order-imgs-list mTop5"></ul>
         </div>
-
+       
        <div class="mLeft20 left">
+            <div class="titlename mTop10 mBottom20">
+                <span class="column-title">款式编码</span>
+                <span>@(order.IntGoodsCode==""?"--":order.IntGoodsCode)</span>
+            </div>
             <ul class=" taskBaseInfo ">
                  <li class="li-plustime"><span class="column-title" id="overplusTime">剩余时间</span>
                     <span class="task-time" id="time-d">0</span>

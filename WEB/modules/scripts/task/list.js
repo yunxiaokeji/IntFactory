@@ -72,7 +72,7 @@
         
         ObjectJS.bindEvent();
 
-        ObjectJS.getProcess();
+        //ObjectJS.getProcess();
 
         //获取任务列表
         if (Params.isParticipate != 1) {
@@ -139,23 +139,27 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-
-                $(".search-process .item").removeClass('hover').eq(0).addClass('hover');
-                $(".search-stage .item").removeClass('hover').eq(0).addClass('hover').nextAll().remove();
+                
                 Params.orderType = _this.data("id");
-                if (Params.orderType != -1) {
-                    $(".search-process .item[data-type='" + Params.orderType + "']").show();
-                    $(".search-process .item[data-type!='" + Params.orderType + "']:gt(0)").hide();
-                }
-                else {
-                    $(".search-process li").show();
-                }
+                
 
                 Params.orderProcessID = '-1';
                 Params.orderStageID = '-1';
                 $(".search-stage").hide();
                 ObjectJS.getList();
             }
+        });
+
+        //切换任务标记
+        $(".search-process .item").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+            };
+            var mark = _this.data("id");
+            Params.keyWords = mark;
+            ObjectJS.getList();
         });
 
         //切换任务显示方式(列表或者卡片式)
@@ -240,63 +244,63 @@
     }
 
     //获取订单流程
-    ObjectJS.getProcess = function () {
-        ObjectJS.isLoading = false;
-        Global.post("/Task/GetOrderProcess", null, function (data) {
-            var items = data.items;
-            var content = "<li class='item hover' data-id='-1' data-type='-1'>全部</li>";
-            for (var i = 0; i < items.length; i++) {
-                var item=items[i];
-                content += "<li data-type=" + item.ProcessType + " data-id=" + item.ProcessID + " class='item'>" + item.ProcessName + "</li>";
-            }
-            content = $(content);
-            $(".search-process").append(content);
+    //ObjectJS.getProcess = function () {
+    //    ObjectJS.isLoading = false;
+    //    Global.post("/Task/GetOrderProcess", null, function (data) {
+    //        var items = data.items;
+    //        var content = "<li class='item hover' data-id='-1' data-type='-1'>全部</li>";
+    //        for (var i = 0; i < items.length; i++) {
+    //            var item=items[i];
+    //            content += "<li data-type=" + item.ProcessType + " data-id=" + item.ProcessID + " class='item'>" + item.ProcessName + "</li>";
+    //        }
+    //        content = $(content);
+    //        $(".search-process").append(content);
 
-            content.click(function () {
-                var _this = $(this);
-                if (!_this.hasClass("hover")) {
-                    _this.siblings().removeClass("hover");
-                    _this.addClass("hover");
+    //        content.click(function () {
+    //            var _this = $(this);
+    //            if (!_this.hasClass("hover")) {
+    //                _this.siblings().removeClass("hover");
+    //                _this.addClass("hover");
 
-                    Params.orderProcessID = _this.data('id');
-                    Params.orderStageID = "-1";
-                    Params.pageIndex = 1;
-                    $(".search-stage").hide();
-                    ObjectJS.getList();
+    //                Params.orderProcessID = _this.data('id');
+    //                Params.orderStageID = "-1";
+    //                Params.pageIndex = 1;
+    //                $(".search-stage").hide();
+    //                ObjectJS.getList();
 
-                    ObjectJS.getStage();
-                }
-            });
-            ObjectJS.isLoading = true;
-        });
-    }
+    //                ObjectJS.getStage();
+    //            }
+    //        });
+    //        ObjectJS.isLoading = true;
+    //    });
+    //}
 
-    //获取订单阶段
-    ObjectJS.getStage = function () {
-        $(".search-stage").show();
-        ObjectJS.isLoading = false;
-        Global.post("/Task/GetOrderStages", { id: Params.orderProcessID }, function (data) {
-            var items = data.items;
-            var content = "<li class='item hover' data-id='-1'>全部</li>";
-            for (var i = 0; i < items.length; i++) {
-                content += "<li data-id=" + items[i].StageID + " class='item'>" + items[i].StageName + "</li>";
-            }
-            content = $(content);
-            $(".search-stage .column-name").nextAll().remove();
-            $(".search-stage").append(content);
-            content.click(function () {
-                var _this = $(this);
-                if (!_this.hasClass("hover")) {
-                    _this.siblings().removeClass("hover");
-                    _this.addClass("hover");
-                    Params.orderStageID = _this.data('id');
-                    Params.pageIndex = 1;
-                    ObjectJS.getList();
-                }
-            });
-            ObjectJS.isLoading = true;
-        });
-    }
+    ////获取订单阶段
+    //ObjectJS.getStage = function () {
+    //    $(".search-stage").show();
+    //    ObjectJS.isLoading = false;
+    //    Global.post("/Task/GetOrderStages", { id: Params.orderProcessID }, function (data) {
+    //        var items = data.items;
+    //        var content = "<li class='item hover' data-id='-1'>全部</li>";
+    //        for (var i = 0; i < items.length; i++) {
+    //            content += "<li data-id=" + items[i].StageID + " class='item'>" + items[i].StageName + "</li>";
+    //        }
+    //        content = $(content);
+    //        $(".search-stage .column-name").nextAll().remove();
+    //        $(".search-stage").append(content);
+    //        content.click(function () {
+    //            var _this = $(this);
+    //            if (!_this.hasClass("hover")) {
+    //                _this.siblings().removeClass("hover");
+    //                _this.addClass("hover");
+    //                Params.orderStageID = _this.data('id');
+    //                Params.pageIndex = 1;
+    //                ObjectJS.getList();
+    //            }
+    //        });
+    //        ObjectJS.isLoading = true;
+    //    });
+    //}
 
     ObjectJS.getList = function () {
         var showtype = Params.listType;
