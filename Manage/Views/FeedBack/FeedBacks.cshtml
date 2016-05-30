@@ -1,41 +1,16 @@
 ﻿@{
     ViewBag.Title = "意见反馈";
 }
-
+@section css{
+    <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    }
 @section scripts{
 <script src="/Scripts/jquery-1.11.1.js"></script>
 <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/feedback/feedback"], function (feedback) {
             feedback.init();
-        });
-
-        $(function () {
-            var begin = {
-                elem: '#BeginTime',
-                format: 'YYYY-MM-DD',
-                max: '2099-06-16',
-                istime: false,
-                istoday: false,
-                choose: function (datas) {
-                    end.min = datas; //开始日选好后，重置结束日的最小日期
-                    end.start = datas //将结束日的初始值设定为开始日
-                }
-            };
-
-            var end = {
-                elem: '#EndTime',
-                format: 'YYYY-MM-DD',
-                max: '2099-06-16',
-                istime: false,
-                istoday: false,
-                choose: function (datas) {
-                    begin.max = datas; //结束日选好后，重置开始日的最大日期
-                }
-            };
-            laydate(begin);
-            laydate(end);
-        });
+        }); 
     </script>
 }
 
@@ -54,22 +29,18 @@
 </div>
 <div class="content-body">
     <div class="search-body">
-        <div id="FeedTypes" class="left"></div>
-        @*<div id="FeedStatus" class="left mLeft20"></div>*@
-
-        <div class="left mLeft20">
-            <span class="width80">创建时间：</span><input type="text" id="BeginTime"  class="input"  />
-            <span style="padding:0px 5px 0px 3px;">至</span><input type="text" id="EndTime"  class="input"  />
-            <span class="btn mLeft10" id="SearchFeedBacks">搜索</span>
-
-        </div>
+        <div class="left">
+            <input type="text" id="feedBeginTime" placeholder="请选择时间段"  class="ipt-date" />
+        </div> 
+        <div id="FeedTypes" class="left mLeft5"></div>
+         
         <div class="right searth-module" data-text="输入关键字..." data-width="150"></div>
         <div class="clear"></div>
     </div>
 
     <table class="table-list">
         <tr class="tr-header">           
-            <td class="">标题</td>
+            <td class="tLeft">标题</td>
             <td class="">类型</td>
             <td class="">状态</td>
             <td class="">联系人</td>

@@ -33,8 +33,7 @@
                         <span class="name">首页</span>
                         <span class="cursor"></span>
                     </a> 
-                </li>
-            @*class="@(model.MenuCode.ToUpper()==controllerMenu.PCode.ToUpper() ? "select left" : "left")"*@
+                </li>          
               @foreach (IntFactoryEntity.Menu model in ExpandClass.GetChildMenuByCode(HttpContext.Current, ExpandClass.CLIENT_TOP_CODE))
             {                   
                 <li class="@(model.MenuCode.ToUpper()==(controllerMenu!=null?controllerMenu.PCode.ToUpper():"") ? "select left" : "left")"  BindController="@(model.Controller)"  data-code="@(model.MenuCode)">            

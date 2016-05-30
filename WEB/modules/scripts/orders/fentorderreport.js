@@ -61,7 +61,7 @@
             $(".btn,.preview").remove();
             $(".iconfont").hide();
 
-            $(".export").show().append('<span class="iconfont" style="cursor:pointer;">&#xe658;</span>');
+            $(".export").show().append('<span class="iconfont mTop10 right" style="cursor:pointer;margin-right:-20px;">&#xe658;</span>');
         });
 
         //打印
@@ -71,7 +71,7 @@
         });
     };
 
-    //删除行操作按钮
+    //删除行操作按钮(制版工艺)
     ObjectJS.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
         $("#Platemak table").find("tr:first").find("td").css({ "border-top": "0", "border-bottom": "1px solid", "font-size": "16px" });
