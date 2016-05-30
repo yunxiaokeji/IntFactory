@@ -3,6 +3,7 @@
         Global = require("global"),
         City = require("city"), CityObject,
         Verify = require("verify"), VerifyObject;
+        
 
 
     var ObjectJS = {}, CacheCategory = [];
@@ -16,6 +17,13 @@
         if (categoryitem!=null)
         {
             ObjectJS.categoryitems = categoryitems;
+        }
+
+        //require("moment")
+
+        if ($("#iptCreateTime").length == 1) {
+            moment = require("moment");
+            require("daterangepicker");
         }
 
         _self.bigCategoryValue = _self.categoryitems[0].CategoryID;
@@ -68,6 +76,25 @@
 
         ObjectJS.bindCategory({ value: _self.categoryitems[0].CategoryID }, dropDownWidth);
 
+        //日期插件
+        if ($("#iptCreateTime").length == 1) {
+            $("#iptCreateTime").click(function () {
+                var myDate = new Date();
+                var minDate = myDate.toLocaleDateString();
+                minDate = minDate + " 23:59:59"
+                //期望交货日期
+                var taskEndTime = {
+                    elem: '#iptCreateTime',
+                    format: 'YYYY-MM-DD',
+                    min: minDate,
+                    max: '2099-06-16',
+                    istime: true,
+                    istoday: false
+                };
+                laydate(taskEndTime);
+            })
+        }
+
         //收缩订单或客户信息
         $(".info-box").click(function () {
             var _this=$(this);
@@ -87,6 +114,7 @@
 
         //保存
         $("#btnSave").click(function () {
+            console.log($("#iptCreateTime").val() == null ? "" : $("#iptCreateTime").val());
             if (!VerifyObject.isPass()) {
                 return false;
             }
@@ -139,6 +167,9 @@
                 $(".ico-radiobox").removeClass("hover");
                 _this.addClass("hover");
             }
+            
+            console.log(!!_self.endTime?_self.endTime:"");
+            
         });
 
         $("#bigcategory").change(function () {
@@ -160,8 +191,6 @@
 
         $("#bigcategory").change();
     }
-
-    //
 
     //绑定小品类
     ObjectJS.bindCategory = function (item, dropDownWidth) {
@@ -203,10 +232,11 @@
         $("#orderImages img").each(function () {
             images += $(this).attr("src") + ",";
         });
-
+        
         var model = {
             CustomerID: "",
             PersonName: $("#name").val().trim(),
+            PlanTime: $("#iptCreateTime").val() == null ? "" : $("#iptCreateTime").val(),
             OrderType: $(".ico-radiobox.hover").data('type'),
             BigCategoryID: _self.bigCategoryValue.trim(),
             CategoryID: _self.categoryValue.trim(),

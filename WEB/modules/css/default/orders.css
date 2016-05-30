@@ -28,6 +28,8 @@
 .object-items .object-item .owner { max-width:90px; }
 .object-items .object-item .view-detail { font-size:20px; }
 
+.object-items .object-item.looking-view { border:solid 1px #4a98e7;}
+
 /*划过*/
 .object-items .object-item:hover{ border:solid 1px #4a98e7; }
 .object-items .object-item:hover .check{ display:inline-block;}

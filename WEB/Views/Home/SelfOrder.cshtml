@@ -15,9 +15,12 @@
     <link href="/modules/css/base.css" rel="stylesheet" />
     <link href="/modules/css/default/layout.css" rel="stylesheet" />
     <link href="/modules/css/default/order_create.css" rel="stylesheet" />
-    <link href="../../modules/css/iconfont/iconfont.css" rel="stylesheet" />
+    <link href="/modules/css/iconfont/iconfont.css" rel="stylesheet" />
+    <link href="/modules/plug/laydate/need/laydate.css" rel="stylesheet" />
+    <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/Scripts/sea.js"></script>
     <script src="/Scripts/sea-config.js"></script>
+    <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/home/create"], function (home) {
             home.init('@(model.ClientID)', '@(model.AgentID)', "", '@Html.ToJSONString(categoryItems)');
@@ -94,6 +97,11 @@
                     <li class="form-row row">
                         <div class="td">
                     	    <input type="text" maxlength="10" id="planPrice" placeholder="请输入期望价格" data-empty="必填" data-type="double"  class="inputbox verify"/>
+                        </div>
+                    </li>
+                    <li class="form-row row">
+                        <div class="td">
+                            <input type="text" id="iptCreateTime" readonly="true" placeholder="期望交货日期"  class="ipt-date hand"  />
                         </div>
                     </li>
                     <li class="form-row row">
