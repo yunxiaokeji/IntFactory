@@ -312,18 +312,18 @@
     border-radius:12px;  
     vertical-align:top; 
 }
-.task-replys .table-list tr:not(:first-child) td {
+.task-replys .content-list tr:not(:first-child) td {
     height:35px;
 }
-.task-replys .table-list .reply-box {
+.task-replys .content-list .reply-box {
     border:1px solid  #ddd;
     padding:10px 10px 10px 10px;
     border-radius:3px;
 }
-.task-replys .table-list .reply-box:hover {
+.task-replys .content-list .reply-box:hover {
     border: 1px solid #666;
 }
-.task-replys .table-list .reply-box textarea {
+.task-replys .content-list .reply-box textarea {
     width:100%;
     border:none;
     height:60px;
