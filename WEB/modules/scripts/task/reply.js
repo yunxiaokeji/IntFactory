@@ -14,7 +14,7 @@
         if (moduleType === "customer") {
             Controller = moduleType;
         }
-
+       
         //任务讨论盒子点击
         $(".taskreply-box").click(function () {
             $(this).addClass("taskreply-box-hover").find(".reply-content").focus();

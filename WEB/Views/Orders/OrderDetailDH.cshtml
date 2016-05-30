@@ -375,6 +375,7 @@
                 <td class="">消耗量</td>
                 <td class="">损耗量</td>
                 <td class="">损耗率</td>
+                <td>采购量</td>
                 <td class="tRight">小计</td>
             </tr>
             @if (model.Details.Count > 0)
@@ -395,18 +396,12 @@
                     <td class="center tr-quantity"><label class="quantity">@((detail.Quantity * model.PlanQuantity).ToString("f3"))</label></td>
                     <td class="center tr-loss"><label class="loss">@((detail.Loss * model.PlanQuantity).ToString("f3"))</label></td>
                     <td class="center">@(detail.LossRate.ToString("f3"))</td>
+                    <td class="center">@(((detail.Quantity * model.PlanQuantity)+(detail.Loss * model.PlanQuantity)).ToString("f3"))</td>
                     <td class="tRight moneytotal">@((detail.TotalMoney * model.PlanQuantity).ToString("f3"))</td>
                 </tr>
                 }
             <tr class="total-item bold">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td colspan="9"></td>
                 <td class="tRight">成本合计：</td>
                 <td class="tRight" data-class="moneytotal"></td>
             </tr>
