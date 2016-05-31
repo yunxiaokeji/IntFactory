@@ -280,8 +280,7 @@
                 }
                 //关键字搜索
                 require.async("search", function () {
-                    $(".searth-module").searchKeys(function () {
-                        var keyWords = $("#keyWordsByOrder .search-ipt").val();
+                    $(".searth-module").searchKeys(function (keyWords) {                       
                         _self.getOrders(keyWords, model.CustomerID, 1);
 
                     });
@@ -295,8 +294,7 @@
                 }
                 //关键字搜索
                 require.async("search", function () {
-                    $(".searth-module").searchKeys(function () {
-                        var keyWords = $("#keyWordsByOppor .search-ipt").val();
+                    $(".searth-module").searchKeys(function (keyWords) {                        
                         _self.getOpportunitys(keyWords, model.CustomerID, 1);
 
                     });
@@ -311,8 +309,7 @@
                 }
                 //关键字搜索
                 require.async("search", function () {
-                    $(".searth-module").searchKeys(function () {
-                        var keyWords = $("#keyWordsByDHOrder .search-ipt").val();
+                    $(".searth-module").searchKeys(function (keyWords) {                        
                         _self.getDHOrders(keyWords,model.CustomerID, 1);
                        
                     });
@@ -430,7 +427,7 @@
                     $("#navOrder .tr-header").after(innerhtml);
                 });
             } else {
-                $("#navOrder .tr-header").after("<tr><td colspan='12'><div class='nodata-txt' >暂无订单!<div></td></tr>");
+                $("#navOrder .tr-header").after("<tr><td colspan='13'><div class='nodata-txt' >暂无订单!<div></td></tr>");
             }
             $("#pagerOrders").paginate({
                 total_count: data.totalCount,
@@ -449,7 +446,7 @@
                 mouse: 'slide',
                 float: "left",
                 onChange: function (page) {
-                    _self.getOrders(customerid, page);
+                    _self.getOrders(keyWords,customerid, page);
                 }
             });
             ObjectJS.isLoading = true;
@@ -485,7 +482,7 @@
                     $("#navDHOrder .tr-header").after(innerhtml);
                 });
             } else {
-                $("#navDHOrder .tr-header").after("<tr><td colspan='12'><div class='nodata-txt' >暂无订单!<div></td></tr>");
+                $("#navDHOrder .tr-header").after("<tr><td colspan='13'><div class='nodata-txt' >暂无订单!<div></td></tr>");
             }
             $("#pagerDHOrders").paginate({
                 total_count: data.totalCount,
@@ -504,7 +501,7 @@
                 mouse: 'slide',
                 float: "left",
                 onChange: function (page) {
-                    _self.getDHOrders(customerid, page);
+                    _self.getDHOrders(keyWords,customerid, page);
                 }
             });
             ObjectJS.isLoading = true;
@@ -539,7 +536,7 @@
                     $("#navOppor .tr-header").after(innerhtml);
                 });
             } else {
-                $("#navOppor .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无需求!<div></td></tr>");
+                $("#navOppor .tr-header").after("<tr><td colspan='11'><div class='nodata-txt' >暂无需求!<div></td></tr>");
             }
             $("#pagerOppors").paginate({
                 total_count: data.totalCount,
@@ -558,7 +555,7 @@
                 mouse: 'slide',
                 float: "left",
                 onChange: function (page) {
-                    _self.getOpportunitys(customerid, page);
+                    _self.getOpportunitys(keyWords,customerid, page);
                 }
             });
             ObjectJS.isLoading = true;

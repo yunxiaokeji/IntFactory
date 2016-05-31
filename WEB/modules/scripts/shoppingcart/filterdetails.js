@@ -162,12 +162,12 @@ define(function (require, exports, module) {
     }
 
     //获取使用记录
-    ObjectJS.getUseLogs = function (page) {
+    ObjectJS.getUseLogs = function (pages) {
         var _self = this;
         $(".use-table-list .tr-header").nextAll().remove();
         Global.post("/Products/GetProductUseLogs", {
             productid: _self.productid,
-            pageindex: page
+            pageindex: pages
         }, function (data) {
             if (data.items.length > 0) {
                 doT.exec("template/products/uselogs.html", function (template) {
@@ -181,7 +181,7 @@ define(function (require, exports, module) {
             $("#pagerUseLogs").paginate({
                 total_count: data.totalCount,
                 count: data.pageCount,
-                start: page,
+                start: pages,
                 display: 5,
                 border: true,
                 border_color: '#fff',
