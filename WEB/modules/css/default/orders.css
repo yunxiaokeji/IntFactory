@@ -30,6 +30,9 @@
 
 .object-items .object-item.looking-view { border:solid 1px #4a98e7;}
 
+/*筛选三角形显示*/
+#shrinkScreen .lump { display:inline-block;border-top:6px solid #fff;border-left:6px solid transparent;border-right:6px solid transparent;margin-bottom:2px;margin-right:4px;}
+
 /*划过*/
 .object-items .object-item:hover{ border:solid 1px #4a98e7; }
 .object-items .object-item:hover .check{ display:inline-block;}

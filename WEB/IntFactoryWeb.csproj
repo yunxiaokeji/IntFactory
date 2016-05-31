@@ -269,6 +269,7 @@
     <Content Include="modules\images\ico-task.png" />
     <Content Include="modules\images\ico-unlock.png" />
     <Content Include="modules\images\ico-username.png" />
+    <Content Include="modules\images\ico-wechat.png" />
     <Content Include="modules\images\icondate.png" />
     <Content Include="modules\images\img-noaccess.png" />
     <Content Include="modules\images\img-noimg.jpg" />
@@ -303,6 +304,7 @@
     <Content Include="modules\images\selforder\success.png" />
     <Content Include="modules\images\selforder\title-img.png" />
     <Content Include="modules\images\selforder\title-logo.png" />
+    <Content Include="modules\images\wechat.jpg" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
     <Content Include="modules\plug\chooseproduct\productin.html" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
