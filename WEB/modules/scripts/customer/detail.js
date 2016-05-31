@@ -243,8 +243,6 @@
             _self.addContact();
         });
 
-
-        
         //切换模块
         $(".module-tab li").click(function () {
             if (!ObjectJS.isLoading) {

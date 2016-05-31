@@ -82,6 +82,7 @@
     }
 
     ObjectJS.bindEvent = function () {
+
         //切换任务阶段
         $(".search-stages li").click(function () {
             if (!ObjectJS.isLoading) {
@@ -142,7 +143,7 @@
                 
                 Params.orderType = _this.data("id");
                 if (Params.orderType=="-1") {                   
-                    $(".search-processDH").show();
+                    $(".search-process .itemDH").show();
                     $(".search-process .itemDY").show();
                 } else if (Params.orderType == "1") {     
                     $(".search-process .itemDY").show();
