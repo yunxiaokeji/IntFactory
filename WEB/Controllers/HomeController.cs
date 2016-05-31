@@ -28,6 +28,9 @@ namespace YXERP.Controllers
             return Redirect("/Default/Index");
         }
 
+        public ActionResult NewIndex() {
+            return View();
+        }
         //public ActionResult Register()
         //{
         //    return View();
