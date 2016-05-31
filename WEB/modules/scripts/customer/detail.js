@@ -84,7 +84,31 @@
     //绑定事件
     ObjectJS.bindEvent = function (model) {
         var _self = this;
-     
+
+        require.async("search", function () {
+            $(".searth-module").searchKeys(function () {
+                var keys= $(".search-ipt").val();
+                Global.post("/Orders/GetDYOrders", { keys: keys }, function (data) {
+                    if (data.items.length>0) {
+                        doT.exec("template/orders/customerorders.html", function (template) {
+                            var innerhtml = template(data.items);
+
+                            innerhtml = $(innerhtml);
+                            innerhtml.find(".mark").markColor({
+                                isAll: false,
+                                onChange: function (obj, callback) {
+                                    _self.markOrders(obj.data("id"), obj.data("value"), callback);
+                                }
+                            });
+
+                            $("#navOrder .tr-header").after(innerhtml);
+                        });
+                    } else {
+                        $("#navOrder .tr-header").after("<tr><td colspan='12'><div class='nodata-txt' >暂无订单!<div></td></tr>");
+                    }
+                });
+            });
+        });
 
         $(document).click(function (e) {
             //隐藏下拉
@@ -255,25 +279,37 @@
             $("#" + _this.data("id")).show();
 
             $("#addContact").hide();
+            $("#keyssearch").hide();
 
-            if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) {
+            if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) {                
                 _this.data("first", "1");
                 _self.getLogs(model.CustomerID, 1);
-            } else if (_this.data("id") == "navContact") {
+            }else if (_this.data("id") == "navContact") {
                 $("#addContact").show();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
                     _self.getContacts(model.CustomerID);
                 }
-            } else if (_this.data("id") == "navOrder" && (!_this.data("first") || _this.data("first") == 0)) {
-                _this.data("first", "1");
-                _self.getOrders(model.CustomerID, 1);
-            } else if (_this.data("id") == "navOppor" && (!_this.data("first") || _this.data("first") == 0)) {
-                _this.data("first", "1");
-                _self.getOpportunitys(model.CustomerID, 1);
-            } else if (_this.data("id") == "navDHOrder" && (!_this.data("first") || _this.data("first") == 0)) {
-                _this.data("first", "1");
-                _self.getDHOrders(model.CustomerID, 1);
+            } else if (_this.data("id") == "navOrder") {
+                $("#keyssearch").show();
+                if ((!_this.data("first") || _this.data("first") == 0)) {
+                    _this.data("first", "1");
+                    _self.getOrders(model.CustomerID, 1);
+                }                
+            } else if (_this.data("id") == "navOppor") {
+                
+                if ((!_this.data("first") || _this.data("first") == 0)) {
+                    _this.data("first", "1");
+                    _self.getOpportunitys(model.CustomerID, 1);
+                }
+
+            } else if (_this.data("id") == "navDHOrder") {
+                $("#keyssearch").show();
+                if ((!_this.data("first") || _this.data("first") == 0)) {
+                    _this.data("first", "1");
+                    _self.getDHOrders(model.CustomerID, 1);
+                }
+
             }
         });
 

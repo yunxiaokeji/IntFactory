@@ -65,6 +65,7 @@
 
             if (!$(e.target).parents().hasClass("order-layer") && !$(e.target).hasClass("order-layer")) {
                 $(".order-layer").animate({ right: "-505px" }, 200);
+                $(".object-item").removeClass('looking-view');
             }
         });
 
@@ -85,6 +86,22 @@
             Params.EndTime = end ? end.format("YYYY-MM-DD") : "";
             _self.getList();
         });
+
+        //收缩订单筛选项
+        $("#shrinkScreen").click(function () {
+            var _this = $(this);
+            if (!$(".search-body").is(":animated")) {
+                if (_this.data('id') == 'open') {
+                    _this.html('收起筛选');
+                    _this.data('id', 'close');
+                } else {
+                    _this.html('展开筛选');
+                    _this.data('id', 'open');
+                }
+                $(".search-body").slideToggle(250);
+
+            }
+        })
 
         //切换订单状态
         $(".search-status .item").click(function () {
@@ -223,6 +240,24 @@
                 _self.getList();
             }
         });
+
+        ////切换订单来源类型
+        //$(".search-entrustclientid li").click(function () {
+        //    var _this = $(this);
+
+        //    //快速点击屏蔽
+        //    if (_self.isLoading) {
+        //        return false;
+        //    }
+
+        //    if (!_this.hasClass("hover")) {
+        //        _this.siblings().removeClass("hover");
+        //        _this.addClass("hover");
+        //        Params.PageIndex = 1;
+        //        Params.EntrustClientID = _this.data("id");
+        //        _self.getList();
+        //    }
+        //});
 
         //关键字搜索
         require.async("search", function () {
@@ -544,7 +579,9 @@
                 });
 
                 innerhtml.find(".view-detail").click(function () {
-                    _self.getDetail($(this).data("id"));
+                    _self.getDetail($(this).data("id"), $(this).parents('.object-item').find('.order-code').html());
+                    $('.object-item').removeClass('looking-view');
+                    $(this).parents('.object-item').addClass('looking-view');
                     return false;
                 });
 
@@ -581,7 +618,7 @@
         });
     }
 
-    ObjectJS.getDetail = function (id) {
+    ObjectJS.getDetail = function (id,orderCode) {
 
         $(".order-layer-item").hide();
         if ($(".order-layer").css("right") == "-505px" || $(".order-layer").css("right") == "-505") {
@@ -596,8 +633,12 @@
             $.get("/Orders/OrderLayer", { id: id }, function (html) {
                 $(".order-layer").find(".data-loading").remove();
                 $(".order-layer").append(html);
+               
             });
         }
+        var detail = "<a class='font14 mLeft5' href='/Orders/OrderDetail/" + id + "'>" + orderCode + "</a>";
+        $(".order-layer").find('.layer-header').find('a').remove();
+        $(".order-layer").find('.layer-header').append(detail);
     }
 
     //转移客户

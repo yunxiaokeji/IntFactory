@@ -14,15 +14,15 @@
 .list-card .check{ float:right;width:20px;height:20px;border:1px solid #007aff;margin-top:-1px;margin-right:-1px;border-radius:0 3px 0 0;
                    box-shadow:0 0 5px #4a98e7 inset;color:#fff;display:none;}
 .list-card .icon-check{background-color:#4a98e7;color:#fff;font-size:18px;}
-.list-card li{margin-left:5px;height:25px;cursor:pointer;}
+.list-card li{margin-left:5px;height:25px;cursor:pointer;margin-top:5px;}
 .list-card li .photo{width:24px;height:24px;border-radius:50%;background-color:#ccc;color:#fff;float:left;text-align:center;line-height:24px;font-size:14px;}
 .list-card li .message{height:20px;line-height:25px;}
 .list-card li .message-name{width:180px;}
-.list-card .message-name a{font-size:15px;line-height:26px;}
+.list-card .message-name a{font-size:15px;line-height:26px;color:#1372D2;}
 .list-card li .list-mark{line-height:23px;}
 .list-card li .iconfont {
     font-size:14px;
-    color:#999;
+    color:#4798ea;
     margin-right:10px;
 }
 

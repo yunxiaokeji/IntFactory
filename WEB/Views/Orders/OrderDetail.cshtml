@@ -93,7 +93,7 @@
             <i class="iconfont">&#xe64e;</i>@(model.CategoryName)
         </li>
         <li title="交货日期">
-            <i class="iconfont">&#xe62b;</i>@(model.PlanTime.ToString("yyyy-MM-dd"))
+            <i class="iconfont">&#xe62b;</i>@(model.PlanTime.ToString("yyyy-MM-dd") == "1900-01-01" ? "未设置" : model.PlanTime.ToString("yyyy-MM-dd"))
         </li>
         <li>
             <span class="left"> 负责人：</span><label class="left" id="lblOwner">@(model.Owner != null ? model.Owner.Name : "--")</label>
@@ -102,13 +102,13 @@
                 <span title="更换负责人" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner">&#xe60b;</span>
             }
         </li>
-        @*@if (model.Status>0)
+        @if (model.Status>0)
         {
             <li class="sample-report">
                 <span class="iconfont  left">&#xe645;</span>
                 <span class="left mLeft5 blue">打样报价</span>
             </li>
-        }*@
+        }
             
         
     </ul>
