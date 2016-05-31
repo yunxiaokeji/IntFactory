@@ -257,7 +257,7 @@
             $("#" + _this.data("id")).show();
 
             $("#addContact").hide();
-            $("#keyssearch").hide();
+            $(".searth-module").hide();
 
             if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) {                
                 _this.data("first", "1");
@@ -270,7 +270,7 @@
                     _self.getContacts(model.CustomerID);
                 }
             } else if (_this.data("id") == "navOrder") {
-                $("#keyssearch").show();
+                $(".searth-module").show();
                 $(".search-ipt,.search-ico").remove();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
@@ -280,35 +280,26 @@
                 require.async("search", function () {
                     $(".searth-module").searchKeys(function () {
                         _self.getOrders(model.CustomerID, 1);
-                        //var keys = $(".search-ipt").val();
-                        //Global.post("/Orders/", { customerid: urlid, ordertype: 1, keywords: keys, }, function (data) {
-                        //    if (data.items.length > 0) {
-                        //        doT.exec("template/orders/customerorders.html", function (template) {
-                        //            var innerhtml = template(data.items);
-
-                        //            innerhtml = $(innerhtml);
-                        //            innerhtml.find(".mark").markColor({
-                        //                isAll: false,
-                        //                onChange: function (obj, callback) {
-                        //                    _self.markOrders(obj.data("id"), obj.data("value"), callback);
-                        //                }
-                        //            });
-
-                        //            $("#navOrder .tr-header").after(innerhtml);
-                        //        });
-                        //    } 
-                        //});
+                        
                     });
                 });
             } else if (_this.data("id") == "navOppor") {
-                
+                $(".searth-module").show();
+                $(".search-ipt,.search-ico").remove();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
                     _self.getOpportunitys(model.CustomerID, 1);
                 }
+                //关键字搜索
+                require.async("search", function () {
+                    $(".searth-module").searchKeys(function () {
+                        _self.getOrders(model.CustomerID, 1);
+
+                    });
+                });
 
             } else if (_this.data("id") == "navDHOrder") {
-                $("#keyssearch").show();
+                $(".searth-module").show();
                 $(".search-ipt,.search-ico").remove();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
@@ -318,24 +309,7 @@
                 require.async("search", function () {
                     $(".searth-module").searchKeys(function () {
                         _self.getDHOrders(model.CustomerID, 1);
-                        //var keys = $(".search-ipt").val();
-                        //Global.post("/Orders/", {customerid:urlid, ordertype: 1, keywords: keys, }, function (data) {
-                        //    if (data.items.length > 0) {
-                        //        doT.exec("template/orders/customerorders.html", function (template) {
-                        //            var innerhtml = template(data.items);
-
-                        //            innerhtml = $(innerhtml);
-                        //            innerhtml.find(".mark").markColor({
-                        //                isAll: false,
-                        //                onChange: function (obj, callback) {
-                        //                    _self.markOrders(obj.data("id"), obj.data("value"), callback);
-                        //                }
-                        //            });
-
-                        //            $("#navDHOrder .tr-header").after(innerhtml);
-                        //        });
-                        //    } 
-                        //});
+                       
                     });
                 });
             }

@@ -141,7 +141,18 @@
                 _this.addClass("hover");
                 
                 Params.orderType = _this.data("id");
-                
+                if (Params.orderType=="-1") {                   
+                    $(".search-processDH").show();
+                    $(".search-process .itemDY").show();
+                } else if (Params.orderType == "1") {     
+                    $(".search-process .itemDY").show();
+                    $(".search-process .item:first").addClass("hover").siblings().removeClass("hover");
+                    $(".search-process .itemDH").hide();
+                } else {
+                    $(".search-process .itemDH").show();
+                    $(".search-process .item:first").addClass("hover").siblings().removeClass("hover");
+                    $(".search-process .itemDY").hide();
+                }
 
                 Params.orderProcessID = '-1';
                 Params.orderStageID = '-1';
@@ -151,16 +162,18 @@
         });
 
         //切换任务标记
-        $(".search-process .item").click(function () {
+        $(".search-process .item").on("click", function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
             };
             var mark = _this.data("id");
-            Params.keyWords = mark;
-            ObjectJS.getList();
-        });
+            Params = mark;
+            ObjectJS.getList();        
+        })
+
+       
 
         //切换任务显示方式(列表或者卡片式)
         $(".search-sort .task-tabtype i").click(function () {
