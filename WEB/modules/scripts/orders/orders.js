@@ -633,11 +633,12 @@
             $.get("/Orders/OrderLayer", { id: id }, function (html) {
                 $(".order-layer").find(".data-loading").remove();
                 $(".order-layer").append(html);
-                var detail = "<a class='font14 mLeft5' href='/Orders/OrderDetail/" + id + "'>" + orderCode + "</a>";
-                $(".order-layer").find('.layer-header').find('a').remove();
-                $(".order-layer").find('.layer-header').append(detail);
+               
             });
         }
+        var detail = "<a class='font14 mLeft5' href='/Orders/OrderDetail/" + id + "'>" + orderCode + "</a>";
+        $(".order-layer").find('.layer-header').find('a').remove();
+        $(".order-layer").find('.layer-header').append(detail);
     }
 
     //转移客户
