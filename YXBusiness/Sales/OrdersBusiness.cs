@@ -150,7 +150,7 @@ namespace IntFactoryBusiness
             string condition="CustomerID='" + customerid + "' and OrderType=" + ordertype + " and Status<>9 and Status<>0";
             if (!string.IsNullOrEmpty(keyWords))
             {
-                condition += " and ( OrderCode like '" + keyWords + "' or GoodsCode like '" + keyWords + "' MobileTele like '" + keyWords + "' PersonName like '" + keyWords + "')";
+                condition += " and ( OrderCode like '%" + keyWords + "%' or GoodsCode like '%" + keyWords + "%' or MobileTele like '%" + keyWords + "%' or PersonName like '%" + keyWords + "%')";
             }
             
             DataTable dt = CommonBusiness.GetPagerData("Orders", "*", condition, "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
@@ -192,7 +192,7 @@ namespace IntFactoryBusiness
             string condition="CustomerID='" + customerid + "' and Status = 0 ";
             if (!string.IsNullOrEmpty(keyWords))
             {
-                condition += " and ( OrderCode like '" + keyWords + "' or GoodsCode like '" + keyWords + "' MobileTele like '" + keyWords + "' PersonName like '" + keyWords + "')";
+                condition += " and ( OrderCode like '%" + keyWords + "%' or GoodsCode like '%" + keyWords + "%' or MobileTele like '%" + keyWords + "%' or PersonName like '%" + keyWords + "%')";
             }
             DataTable dt = CommonBusiness.GetPagerData("Orders", "*",condition , "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
             foreach (DataRow dr in dt.Rows)

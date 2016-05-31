@@ -169,7 +169,7 @@
                 _this.addClass("hover");
             };
             var mark = _this.data("id");
-            Params = mark;
+            Params.taskType = mark;
             ObjectJS.getList();        
         })
 

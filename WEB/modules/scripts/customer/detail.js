@@ -31,6 +31,8 @@
 
     ObjectJS.isLoading = true;
 
+    ObjectJS.keyWords = "";
+
     //基本信息
     ObjectJS.bindCustomerInfo = function (model) {
 
@@ -274,13 +276,14 @@
                 $(".search-ipt,.search-ico").remove();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
-                    _self.getOrders(model.CustomerID, 1);
+                    _self.getOrders(ObjectJS.keyWords,model.CustomerID, 1);
                 }
                 //关键字搜索
                 require.async("search", function () {
                     $(".searth-module").searchKeys(function () {
-                        _self.getOrders(model.CustomerID, 1);
-                        
+                        var keyWords = $("#keyWordsByOrder .search-ipt").val();
+                        _self.getOrders(keyWords, model.CustomerID, 1);
+
                     });
                 });
             } else if (_this.data("id") == "navOppor") {
@@ -288,12 +291,13 @@
                 $(".search-ipt,.search-ico").remove();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
-                    _self.getOpportunitys(model.CustomerID, 1);
+                    _self.getOpportunitys(ObjectJS.keyWords, model.CustomerID, 1);
                 }
                 //关键字搜索
                 require.async("search", function () {
                     $(".searth-module").searchKeys(function () {
-                        _self.getOrders(model.CustomerID, 1);
+                        var keyWords = $("#keyWordsByOppor .search-ipt").val();
+                        _self.getOpportunitys(keyWords, model.CustomerID, 1);
 
                     });
                 });
@@ -303,16 +307,18 @@
                 $(".search-ipt,.search-ico").remove();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
-                    _self.getDHOrders(model.CustomerID, 1);
+                    _self.getDHOrders(ObjectJS.keyWords, model.CustomerID, 1);
                 }
                 //关键字搜索
                 require.async("search", function () {
                     $(".searth-module").searchKeys(function () {
-                        _self.getDHOrders(model.CustomerID, 1);
+                        var keyWords = $("#keyWordsByDHOrder .search-ipt").val();
+                        _self.getDHOrders(keyWords,model.CustomerID, 1);
                        
                     });
                 });
             }
+            
         });
 
         $("#editContact").click(function () {
@@ -395,12 +401,13 @@
     }
 
     //获取订单
-    ObjectJS.getOrders = function (customerid, page) {
+    ObjectJS.getOrders = function (keyWords,customerid, page) {
         var _self = this;
         $("#navOrder .tr-header").nextAll().remove();
         $("#navOrder .tr-header").after("<tr><td colspan='12'><div class='data-loading' ><div></td></tr>");
         ObjectJS.isLoading = false;
         Global.post("/Orders/GetOrdersByCustomerID", {
+            keyWords:keyWords,
             customerid: customerid,
             ordertype: 1,
             pagesize: 10,
@@ -450,12 +457,13 @@
     }
 
     //获取大货订单
-    ObjectJS.getDHOrders = function (customerid, page) {
+    ObjectJS.getDHOrders = function (keyWords,customerid, page) {
         var _self = this;
         $("#navDHOrder .tr-header").nextAll().remove();
         $("#navDHOrder .tr-header").after("<tr><td colspan='12'><div class='data-loading' ><div></td></tr>");
         ObjectJS.isLoading = false;
         Global.post("/Orders/GetOrdersByCustomerID", {
+            keyWords:keyWords,
             customerid: customerid,
             ordertype: 2,
             pagesize: 10,
@@ -504,12 +512,13 @@
     }
 
     //获取需求
-    ObjectJS.getOpportunitys = function (customerid, page) {
+    ObjectJS.getOpportunitys = function (keyWords,customerid, page) {
         var _self = this;
         $("#navOppor .tr-header").nextAll().remove();
         $("#navOppor .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         ObjectJS.isLoading = false;
         Global.post("/Orders/GetNeedsOrderByCustomerID", {
+            keyWords:keyWords,
             customerid: customerid,
             pagesize: 10,
             pageindex: page
