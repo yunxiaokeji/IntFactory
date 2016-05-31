@@ -531,6 +531,7 @@
         //关闭浮层
         $("#closeLayer").click(function () {
             $(".order-layer").animate({ right: "-505px" }, 200);
+            $(".object-item").removeClass('looking-view');
         });
     }
 

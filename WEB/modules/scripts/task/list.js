@@ -119,6 +119,7 @@
             if (!ObjectJS.isLoading) {
                 return;
             }
+            
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -142,7 +143,7 @@
                 
                 Params.orderType = _this.data("id");
                 if (Params.orderType=="-1") {                   
-                    $(".search-processDH").show();
+                    $(".search-process .itemDH").show();
                     $(".search-process .itemDY").show();
                 } else if (Params.orderType == "1") {     
                     $(".search-process .itemDY").show();
@@ -161,7 +162,7 @@
             }
         });
 
-        //切换任务标记
+        //切换模块
         $(".search-process .item").on("click", function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
