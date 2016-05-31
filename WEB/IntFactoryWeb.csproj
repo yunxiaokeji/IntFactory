@@ -210,6 +210,7 @@
     <Content Include="modules\css\default\fentorderreport.css" />
     <Content Include="modules\css\error\error.css" />
     <Content Include="modules\css\home\feedback.css" />
+    <Content Include="modules\css\home\index.css" />
     <Content Include="modules\css\home\selectlogin.css" />
     <Content Include="modules\css\iconfont\demo.css" />
     <Content Include="modules\css\iconfont\demo.html" />
@@ -451,6 +452,7 @@
     <Content Include="modules\scripts\home\feedback.js" />
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\home\guidestep.js" />
+    <Content Include="modules\scripts\home\index.js" />
     <Content Include="modules\scripts\inquire\inquireorder.js" />
     <Content Include="modules\scripts\myaccount\feedbacklist.js" />
     <Content Include="modules\scripts\orders\create.js" />
@@ -1068,6 +1070,7 @@
     <Content Include="Views\Task\SendDYDoc.cshtml" />
     <Content Include="Views\Task\ProcessCostDoc.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\NewIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,108 @@
+﻿.main-content {
+    margin-left:0;
+}
+.index-report {
+    width:1150px;
+    margin:30px auto;
+    background-color:#fff;
+    border:1px solid #ddd;
+}
+.index-report-header {
+    line-height:50px;
+    background-color:#f2f4f8;
+    padding:0 15px;
+    
+}
+.index-report-header span {
+    color:#666!important;
+}
+.index-report-sum {
+    padding-top:10px;
+    margin-left:27px;
+    border-bottom:1px solid #eee;
+    
+}
+.sum-list li{
+    float:left;
+    margin-right:15px;
+    padding-bottom:5px;
+}
+.sum-list .active {
+border-bottom:2px solid #4a98e7;
+}
+.sum-list li div{
+    color:#888;
+    text-align:center;
+}
+.sum-list .sun-count {
+    color:#333;
+    font-size:16px;
+}
+.index-report-sum .report-status li {
+    float: left;
+    padding: 0 6px;
+    margin: 5px 15px 10px 0;
+    border-left: solid 1px #ccc;
+    border-left-width: 15px;
+}
+.index-report-content {
+    position:relative;
+    height:317px;
+    margin:0 10px 30px 28px;
+}
+.index-report-content .report-guid {
+    position:absolute;
+    left:0px;
+    bottom:15px;
+    width:100%;
+    height:300px;
+    
+}
+.report-guid ul{
+    position:absolute;
+    left:0px;
+    bottom:0px;
+    width:100%;
+}
+.report-guid ul li {
+    border-top:1px solid #f2eded;
+    position:relative;
+    height:59px;
+}
+.report-guid .guid-count {
+    position:absolute;
+    left:-20px;
+    top:-10px;
+    color:#666;
+}
+.index-report-content .report-item {
+    display:none;
+    width:50px;
+    position:absolute;
+    bottom:0px;
+}
+.index-report-content .report-item li {
+    vertical-align:middle; 
+    text-align:center;
+    color:#fff;
+}
+
+.report-item .item-date {
+    text-align:center;
+    color:#666;
+}
+.index-report-content .item-expire {
+    background-color:#ffa200;
+}
+
+.index-report-content .item-finish {
+    background-color:#2F73B8;
+}
+
+.index-report-content .item-work {
+    background-color:#49b3f5;
+}
+
+.index-report-content .item-exceed {
+    background-color:#f35353;
+}
