@@ -1,4 +1,7 @@
-﻿.main-content {
+﻿
+/*全局样式*/
+* { padding: 0; margin: 0; font-size:12px; color:#666; font-family:'Microsoft YaHei' !important; }/*033d91*/
+.main-content {
     margin-left:0;
 }
 .index-report {
@@ -106,3 +109,120 @@ border-bottom:2px solid #4a98e7;
 .index-report-content .item-exceed {
     background-color:#f35353;
 }
+.index-list {
+    width:1130px;
+    margin:20px auto;
+    padding:10px;
+    background-color:#fff;
+    border:1px solid #ddd;
+}
+.index-list .list-header {
+    color:#666;
+}
+
+.index-list .list-total {
+    display:inline-block;
+    width:40px;
+    color:#fff;
+    border-radius:3px;
+    background-color:#aaa;
+    text-align:center;
+    line-height:20px;
+}
+
+.order-item {
+    margin-top:15px;
+    width:580px;
+}
+.order-item .order-img {
+    width:100px;
+}
+.order-item .order-img img{
+    max-width:100px;
+    max-height:100px;
+}
+
+.order-item .order-title {
+color:#333;
+font-size:14px;
+}
+
+.order-item .iconfont {
+    color:#999;
+}
+
+.order-detail {
+    width:480px;
+}
+
+.order-progress {
+    margin-top: 6px;
+}
+
+.order-progress .order-progress-use {
+   width:100px;
+   height:4px;
+   background-color:#5994e6;
+   float:left;
+   border-top-left-radius:1px;
+   border-bottom-left-radius:1px;
+   position:relative;
+}
+
+.order-progress .order-progress-have {
+   width:80px;
+   height:4px;
+   background-color:#ccc; 
+   float:left;
+   border-top-right-radius:1px;
+   border-bottom-right-radius:1px;
+   position:relative;
+}
+
+.order-progress .order-progress-exceed {
+   width:60px;
+   height:4px;
+   background-color:#f35353; 
+   float:left;
+   border-top-right-radius:1px;
+   border-bottom-right-radius:1px;
+   position:relative;
+}
+
+.order-progress .top-lump {
+    border-top: solid 4px #5994e6;
+    border-left: solid 2px transparent;
+    border-right: solid 2px transparent;
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 50px;
+    top: -10px;
+}
+.order-progress .progress-tip {
+    background-color:#5994e6;
+    padding:2px 10px;
+    border-radius:2px;
+    color:#fff;
+    position: absolute;
+    left: 30px;
+    top: -29px;
+}
+.order-progress-use .top-lump {
+    border-top-color:#5994e6;
+}
+
+.order-progress-use .progress-tip {
+    
+    background-color:#5994e6;
+}
+
+.order-progress-have .top-lump {
+    border-top-color:#ddd;
+}
+
+.order-progress-have .progress-tip {
+    min-width:55px;
+    background-color:#ddd;
+}
+
