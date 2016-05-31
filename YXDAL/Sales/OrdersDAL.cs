@@ -106,6 +106,19 @@ namespace IntFactoryDAL
             return ds;
         }
 
+        public DataTable GetOrdersByPlanTime(string startPlanTime, string endPlanTime, string userID, string clientID)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@StartPlanTime",startPlanTime),
+                                       new SqlParameter("@EndPlanTime",endPlanTime),
+                                       new SqlParameter("@UserID",userID),
+                                       new SqlParameter("@ClientID",clientID)
+                                   };
+
+            DataTable dt = GetDataTable("P_GetOrdersByPlanTime", paras, CommandType.StoredProcedure);
+            return dt;
+        }
+
         public DataSet GetOrderByID(string orderid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
@@ -514,6 +527,7 @@ namespace IntFactoryDAL
         public bool UpdateOrderImages(string orderid, string image, string images, string agentid, string clientid)
         {
             string sql = "Update Orders set OrderImage=@OrderImage,OrderImages=@OrderImages where OrderID=@OrderID and ClientID=@ClientID";
+            sql += " update OrderTask set OrderImg=@OrderImage where OrderID=@OrderID and ClientID=@ClientID ";
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@OrderImage",image),

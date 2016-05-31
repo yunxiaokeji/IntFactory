@@ -144,6 +144,19 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<OrderEntity> GetOrdersByPlanTime(string startPlanTime, string endPlanTime, string userID, string clientID)
+        {
+            List<OrderEntity> list = new List<OrderEntity>();
+            DataTable dt = OrdersDAL.BaseProvider.GetOrdersByPlanTime(startPlanTime, endPlanTime, userID, clientID);
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderEntity model = new OrderEntity();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
+
         public List<OrderEntity> GetOrdersByCustomerID(string keyWords, string customerid, int ordertype, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();

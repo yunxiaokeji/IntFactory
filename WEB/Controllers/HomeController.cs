@@ -788,5 +788,84 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public JsonResult GetOrdersByPlanTime(string userID)
+        {
+            Dictionary<string, Object> resultObj = new Dictionary<string, object>();
+            int result = 0;
+            if (Session["ClientManager"] != null)
+            {
+                var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+                var nowDate=DateTime.Now;
+                var list= IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(nowDate.Date.ToString(), 
+                    nowDate.Date.AddDays(14).ToString(), string.Empty, currentUser.ClientID);
+
+                var TotalExceedCount = 0;
+                var TotalFinishCount = 0;
+                var TotalWarnCount = 0;
+                var TotalWorkCount = 0;
+                var TotalSumCount = 0;
+                var reportArr =new  List<Dictionary<string, Object>>();
+                for (var i = 0; i < 15; i++) {
+                    var orderList = list.FindAll(m => m.PlanTime.Date == nowDate.AddDays(i).Date);
+
+                    var report = new Dictionary<string, Object>();
+                    report.Add("Date", nowDate.AddDays(i).Date.ToString("MM.dd"));
+
+                    var ExceedCount = 0;
+                    var FinishCount = 0;
+                    var WarnCount = 0;
+                    var WorkCount = 0;
+                    var TotalCount = 0;
+                    FinishCount = orderList.FindAll(m => m.EndTime.ToString("yyyy-MM-dd") != "0001-01-01").Count;
+                    ExceedCount = orderList.FindAll(m => m.EndTime < nowDate).Count;
+                    for (var j = 0; j < orderList.Count; j++) { 
+                        var order=orderList[j];
+                        if (order.EndTime > nowDate && order.EndTime.ToString("yyyy-MM-dd") != "0001-01-01")
+                        {
+                            if ((order.PlanTime - nowDate).TotalHours * 3 < (order.PlanTime - order.OrderTime).TotalHours)
+                            {
+                                WarnCount++;
+                            }
+                            else
+                            {
+                                WorkCount++;
+                            }
+                        }
+                    }
+                    report.Add("WarnCount", WarnCount);
+                    report.Add("FinishCount", FinishCount);
+                    report.Add("WorkCount", WorkCount);
+                    report.Add("ExceedCount", ExceedCount);
+                    TotalCount=WarnCount + FinishCount + WorkCount + ExceedCount;
+                    report.Add("TotalCount", TotalCount);
+                    if (TotalCount > 0)
+                    {
+                        TotalExceedCount += ExceedCount;
+                        TotalFinishCount += FinishCount;
+                        TotalWarnCount += WarnCount;
+                        TotalWorkCount += WorkCount;
+                        TotalSumCount += TotalCount;
+                        reportArr.Add(report);
+                    }
+                }
+
+                result = 1;
+                resultObj.Add("items", reportArr);
+                resultObj.Add("totalExceedCount", TotalExceedCount);
+                resultObj.Add("totalFinishCount", TotalFinishCount);
+                resultObj.Add("totalWarnCount", TotalWarnCount);
+                resultObj.Add("totalWorkCount", TotalWorkCount);
+                resultObj.Add("totalSumCount", TotalSumCount);
+            }
+            resultObj.Add("result", result);
+
+            return new JsonResult()
+            {
+                Data=resultObj,
+                JsonRequestBehavior=JsonRequestBehavior.AllowGet
+            };
+        }
+
+
     }
 }
