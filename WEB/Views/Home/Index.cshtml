@@ -1,176 +1,246 @@
 ﻿@{
-    
-    Layout = "/Views/Shared/_LayoutNoLeft.cshtml";
-    IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
     ViewBag.Title = "首页";
+    Layout = "/Views/Shared/_LayoutNoLeft.cshtml";
 }
-
 @section css{
-<link href="/modules/css/home/home.css" rel="stylesheet" />
+    <link href="/modules/css/home/index.css" rel="stylesheet" />
 }
-
 @section scripts{
-<script type="text/javascript">
-    seajs.use(["scripts/home"], function (layout) {
-        layout.initHome();
-    });
-</script>
+    <script type="text/javascript">
+       seajs.use(["scripts/home/index"], function (obj) {
+           obj.init();
+       });
+    </script>
 }
-<div class="indexContent">
-    <div style="width:500px;" class="left">
 
-    <div class="orderContent">
-        <div class="header">
-            需求
+<div class="index-report">
+    <div class="index-report-header">
+        <div class="left">
+            <span class="font14">订单</span>
+            <span class="mLeft20">2016年5月</span>
         </div>
-
-        <div class="needOrderNav">
-            <ul class="navTab">
-                <li data-filterType="6">
-                    <a href="javascript:void(0);" class="center">
-                         
-                         <div>本厂订单</div>
-                         <div class="center mTop5" id="myOrders">0</div>
-                    </a>
-                </li>
-                <li  data-filterType="7">
-                    <a href="javascript:void(0);" class="center">
-                        <div>委托订单</div>
-                        <div class="center mTop5" id="delegateOrders">0</div>
-                    </a>
-                </li>
-                <li data-filterType="5">
-                    <a href="javascript:void(0);" class="center">
-                        <div>协助订单</div>
-                        <div class="center mTop5" id="cooperationOrders">0</div>
-                    </a>
-                </li>
-            </ul> 
-            <div class="clear"></div>
+        <div class="right">
+            <span class="">信息类型:</span>
+            <select>
+                <option>订单</option>
+                <option>任务</option>
+            </select>
         </div>
-
+        <div class="clear"></div>
     </div>
 
-    <div class="orderContent">
-        <div class="header">
-            打样
+    <div class="index-report-sum">
+        <div class="left">
+            <ul class="sum-list">
+                <li class="active">
+                    <div class="sun-count" id="totalSumCount">0</div>
+                    <div>全部订单</div>
+                </li>
+                <li>
+                     <div class="sun-count" id="totalWarnCount">0</div>
+                    <div>快到期</div>
+                </li>
+                <li>
+                     <div class="sun-count" id="totalExceedCount">0</div>
+                    <div>已到期</div>
+                </li>
+                <li>
+                     <div class="sun-count" id="totalWorkCount">0</div>
+                    <div>进行中</div>
+                </li>
+                 <li>
+                     <div class="sun-count" id="totalFinishCount">0</div>
+                    <div>已完成</div>
+                </li>
+            </ul>
+            <div class="clear"></div>
         </div>
-
-        <div class="fentOrderNav">
-            <ul class="navTab">
-                <li data-filterType="6">
-                    <a href="javascript:void(0);">
-                        <div class="center">
-                            <img style="width:18px;" src="/modules/images/home/ico-myorder.png" />
-                        </div>
-                        我负责的<span class="mLeft5">(</span><span class="" id="doMyFentOrder">0</span>/<span id="myFentOrder">0</span>)
-                    </a>
-                </li>
-                <li  data-filterType="7">
-                    <a href="javascript:void(0);">
-                        <div class="center">
-                            <img style="width:18px;" src="/modules/images/home/ico-delegateorder.png" />
-                        </div>
-                        我委托的<span class="mLeft5">(</span><span class="" id="doDelegateFentOrders">0</span>/<span id="delegateFentOrders">0</span>)
-                    </a>
-                </li>
-                <li data-filterType="5">
-                    <a href="javascript:void(0);">
-                        <div class="center">
-                            <img style="width:18px;" src="/modules/images/home/ico-cooperationorder.png" />
-                        </div>
-                        我协助的<span class="mLeft5">(</span><span class="" id="doCooperationFentOrders">0</span>/<span id="cooperationFentOrders">0</span>)
-                    </a>
-                </li>
+        
+        <div class="right">
+            <ul class="report-status">
+                <li style="border-color:#ffa200"><span>快到期</span></li>
+                <li style="border-color:#f35353"><span>已到期</span></li>
+                <li style="border-color:#49b3f5"><span>进行中</span></li>
+                <li style="border-color:#2F73B8"><span>已完成</span></li>
             </ul>
              <div class="clear"></div>
         </div>
-
+        <div class="clear"></div>
     </div>
 
-    <div class="orderContent">
-        <div class="header">
-            大货
-        </div>
-
-        <div class="bulkOrderNav">
-            <ul class="navTab">
-                <li data-filterType="6">
-                    <a href="javascript:void(0);">
-                        <div class="center">
-                            <img style="width:18px;" src="/modules/images/home/ico-myorder.png" />
-                        </div>
-                        我负责的<span class="mLeft5">(</span><span class="" id="doMyBulkOrder">0</span>/<span id="myBulkOrder">0</span>)
-                    </a>
-                </li>
-                <li  data-filterType="7">
-                    <a href="javascript:void(0);">
-                        <div class="center">
-                            <img style="width:18px;" src="/modules/images/home/ico-delegateorder.png" />
-                        </div>
-                        我委托的<span class="mLeft5">(</span><span  id="doCooperationBulkOrders">0</span>/<span id="cooperationBulkOrders">0</span>)
-                    </a>
-                </li>
-                <li data-filterType="5">
-                    <a href="javascript:void(0);">
-                         <div class="center">
-                            <img style="width:18px;" src="/modules/images/home/ico-cooperationorder.png" />
-                        </div>
-                        我协助的<span class="mLeft5">(</span><span class="" id="doDelegateBulkOrders">0</span>/<span id="delegateBulkOrders">0</span>)
-                    </a>
-                </li>
+    <div class="index-report-content">
+        <div class="report-guid">
+            <ul>
+                <li><div class="guid-count">100</div></li>
+                 <li><div class="guid-count">75</div></li>
+                <li><div class="guid-count">50</div></li>
+                <li><div class="guid-count">25</div></li>
+                <li style="height:0px;"><div class="guid-count">0</div></li>
             </ul>
             <div class="clear"></div>
         </div>
 
+       @* <div class="report-item">
+            <ul>
+                <li style="line-height:40px;" >40</li>
+                <li style="line-height:30px;" class="item-finish">30</li>
+                <li style="line-height:90px;" class="item-work">90</li>
+                <li style="line-height:100px;" class="item-exceed">50</li>
+            </ul>
+            <div class="item-date">5月30日</div>
+        </div>*@
     </div>
+</div>
 
-    </div>
-
-    <div class="right mLeft30">
-        <div class="header">
-            客户
+<div class="index-list">
+    <div class="left order-list">
+        <div class="list-header">
+            <span>2016-5-31/周三</span>
+            <span class="mLeft15 list-total">125</span>
         </div>
 
-        <div class="itemContent mTop10">
-            <a href="javascript:void(0);">
-                <div class="left pTop5"><img style="width:26px;" src="/modules/images/home/ico-allcustomer.png" /></div>
-                <div class="left mLeft10">
-                    <div>客户数</div>
-                    <div class="center mTop5" id="customercount">0</div>
+        <div class="order-item">
+            <div class="left order-img"><img src="/modules/images/img-nouse.png" /></div>
+            <div class="left order-detail mLeft10">
+                <div class="left">
+                    <div class="order-title">款式名称</div>
+                    <div class="mTop10">
+                        <span class="iconfont mRight5">&#xe624;</span><span>客户名称</span>
+                        <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>大货</span>
+                        <span class="mLeft10">生产中</span><span>79%</span>
+                    </div>
+                    <div class="mTop10">
+                        <span>负责人：</span><span>周公</span>
+                    </div>
                 </div>
-            </a>
-            <div class="clear"></div>
-        </div>
+                <div class="right">
+                    <div class="mTop20">
+                        <div class="order-progress left">
+                            <div class="order-progress-use order-progress-item">
+                                <div class="progress-tip">12天</div>
+                                <div class="top-lump"></div>
+                            </div>
+                            <div class="order-progress-have order-progress-item">
+                                <div class="progress-tip">剩余12天</div>
+                                <div class="top-lump"></div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="left">
+                            18天
+                        </div>
+                        <div class="clear"></div>
+                    </div>
 
-        <div class="itemContent" style="margin-top:60px;">
-            <a href="javascript:void(0);">
-                <div class="left pTop5">
-                    <img style="width:26px;" src="/modules/images/home/ico-allorder.png" />
+                    <div class="mTop15 tRight">
+                        <span>交货日期：</span><span>2014-1-1</span>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="mTop5 tRight">
+                        <span>创建日期：</span><span>2014-1-1</span>
+                    </div>
+                    <div class="clear"></div>
                 </div>
-                <div class="left mLeft10">
-                    <div>订单数</div>
-                    <div class="center mTop5" id="ordercount">0</div>
-                </div>
-            </a>
-            <div class="clear"></div>
-        </div>
-
-        <div class="itemContent" style="margin-top:60px;">
-            <div class="left pTop5"><img style="width:26px;" src="/modules/images/home/ico-allamount.png" /></div>
-            <div class="left mLeft10" >
-                <div>订单金额</div>
-                
-                <div class="center mTop5" id="totalmoney">0</div>
+                <div class="clear"></div>
             </div>
             <div class="clear"></div>
         </div>
 
+        <div class="order-item">
+            <div class="left order-img"><img src="/modules/images/img-nouse.png" /></div>
+            <div class="left order-detail mLeft10">
+                <div class="left">
+                    <div class="order-title">款式名称</div>
+                    <div class="mTop10">
+                        <span class="iconfont mRight5">&#xe624;</span><span>客户名称</span>
+                        <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>大货</span>
+                        <span class="mLeft10">生产中</span><span>79%</span>
+                    </div>
+                    <div class="mTop10">
+                        <span>负责人：</span><span>周公</span>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="mTop20">
+                        <div class="order-progress left">
+                            <div class="order-progress-use order-progress-item">
+                                <div class="progress-tip">12天</div>
+                                <div class="top-lump"></div>
+                            </div>
+                            <div class="order-progress-exceed order-progress-item">
+                                <div class="progress-tip">超期12天</div>
+                                <div class="top-lump"></div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="left">
+                            18天
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="mTop15 tRight">
+                        <span>交货日期：</span><span>2014-1-1</span>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="mTop5 tRight">
+                        <span>创建日期：</span><span>2014-1-1</span>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="order-item">
+            <div class="left order-img"><img src="/modules/images/img-nouse.png" /></div>
+            <div class="left order-detail mLeft10">
+                <div class="left">
+                    <div class="order-title">款式名称</div>
+                    <div class="mTop10">
+                        <span class="iconfont mRight5">&#xe624;</span><span>客户名称</span>
+                        <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>大货</span>
+                        <span class="mLeft10">生产中</span><span>79%</span>
+                    </div>
+                    <div class="mTop10">
+                        <span>负责人：</span><span>周公</span>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="mTop20">
+                        <div class="order-progress left">
+                            <div class="order-progress-use order-progress-item">
+                                <div class="progress-tip">12天</div>
+                                <div class="top-lump"></div>
+                            </div>
+                            <div class="order-progress-warn order-progress-item">
+                                <div class="progress-tip">超期12天</div>
+                                <div class="top-lump"></div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="left">
+                            18天
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="mTop15 tRight">
+                        <span>交货日期：</span><span>2014-1-1</span>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="mTop5 tRight">
+                        <span>创建日期：</span><span>2014-1-1</span>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
     </div>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="clear"></div>
 </div>
-
-
-
-
-
-

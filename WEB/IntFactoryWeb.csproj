@@ -1069,8 +1069,8 @@
     <Content Include="Views\MyAccount\FeedBackList.cshtml" />
     <Content Include="Views\Task\SendDYDoc.cshtml" />
     <Content Include="Views\Task\ProcessCostDoc.cshtml" />
+    <Content Include="Views\Home\OldIndex.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\NewIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
