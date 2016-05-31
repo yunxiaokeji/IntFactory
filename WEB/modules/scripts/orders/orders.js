@@ -92,10 +92,12 @@
             var _this = $(this);
             if (!$(".search-body").is(":animated")) {
                 if (_this.data('id') == 'open') {
-                    _this.html('收起筛选');
+                    _this.find('.shrink-text').html('收起筛选');
+                    _this.find('.lump').css({ "border-bottom": "none", "border-top": "6px solid #fff" });
                     _this.data('id', 'close');
                 } else {
-                    _this.html('展开筛选');
+                    _this.find('.shrink-text').html('展开筛选');
+                    _this.find('.lump').css({ "border-top": "none", "border-bottom": "6px solid #fff" });
                     _this.data('id', 'open');
                 }
                 $(".search-body").slideToggle(250);
