@@ -836,7 +836,7 @@ namespace YXERP.Controllers
                             }
                         }
                     }
-                    report.Add("Date", nextDate.Date.ToString("MM.dd"));
+                    report.Add("date", nextDate.Date.ToString("MM.dd"));
                     report.Add("warnCount", warnCount);
                     report.Add("finishCount", finishCount);
                     report.Add("workCount", workCount);

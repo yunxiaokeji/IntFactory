@@ -38,13 +38,14 @@
                 MaxTotalCount = item.totalCount;
             }
         }
-
+        
         HeightCount =300/MaxTotalCount;
-        GuidCount =parseInt( MaxTotalCount / 5);
+        GuidCount = parseInt(MaxTotalCount % 5 == 0 ? MaxTotalCount / 5 : (MaxTotalCount / 5+1) );
         for (var l = 0; l < items.length; l++) {
             ObjectJS.getReportHtml(items[l], l);
         }
 
+        $(".report-guid ul li:not(:last)").css("height", (GuidCount * HeightCount) + "px");
         for (var h = 0; h<5; h++) {
             $(".report-guid ul li").eq(h).find(".guid-count").html( GuidCount * (4 - h) );
         }
@@ -75,7 +76,7 @@
                 html += '        <li style="line-height:' + (item.workCount * HeightCount + MinHeight) + 'px;" class="item-work">' + item.workCount + '</li>';
             }
             html += '    </ul>';
-            html += '    <div class="item-date">' + item.Date + '</div>';
+            html += '    <div class="item-date">' + item.date + '</div>';
             html += '</div>';
             html = $(html);
             $(".index-report-content").append(html);
