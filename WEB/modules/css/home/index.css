@@ -19,6 +19,26 @@
 .index-report-header span {
     color:#666!important;
 }
+
+.index-report-header .order-type span {
+    padding:0 6px;
+    line-height:20px; 
+    display:inline-block;
+    background-color:#fff;
+    border:1px solid #cecece;
+    cursor:pointer;
+}
+
+.index-report-header .order-type span:first-child.hover { 
+    border-right:none;
+    background-color:#eee;
+}
+
+.index-report-header .order-type span:last-child.hover { 
+    border-left:none;
+    background-color:#eee;
+}
+
 .index-report-sum {
     padding-top:10px;
     margin-left:27px;
@@ -110,16 +130,68 @@ border-bottom:2px solid #4a98e7;
     background-color:#f35353;
 }
 .index-list {
-    width:1130px;
+    width:1150px;
     margin:20px auto;
-    
 }
 .order-list {
     border:1px solid #ddd;
     background-color:#fff;
-    padding:10px 20px 20px 15px;
-    width:580px;
+    padding:10px 20px 20px 20px;
+    width:658px;
 }
+
+.order-list .order-layerbox { 
+    border-left:2px solid #999;
+    padding-left:24px;
+    position:relative;
+}
+
+.order-list .order-layerbox .layer-lump { 
+    position:absolute;
+    left:-7px;
+    top:-10px;
+    width:8px;
+    height:8px;
+    border:2px solid #999;
+    border-radius:50%;
+}
+
+.order-item {
+    position:relative;
+}
+.order-item .hint-layer { 
+    position:absolute;
+    left:0;
+    top:0;
+    width:50px;
+    height:50px;
+    display:block;
+    overflow:hidden;
+}
+.order-item .hint-msg {
+    width:80px;
+    height:24px;
+    color:#fff;
+    line-height:24px;
+    margin-left:-23px;
+    margin-top:5px;
+    text-align:center;
+    transform: rotate(-45deg);
+    -webkit-transform:rotate(-45deg);
+    -ms-transform:rotate(-45deg);
+    -moz-transform:rotate(-45deg);
+    -o-transform:rotate(-45deg);
+    background-color:background;
+}
+
+.order-item .hint-msg.pass { 
+    background-color:rgba(237,0,0,0.7);
+}
+
+.order-item .hint-msg.warning { 
+    background-color: rgba(255, 165, 0, 0.7);
+}
+
 .index-list .list-header {
     color:#666;
 }
@@ -136,10 +208,12 @@ border-bottom:2px solid #4a98e7;
 
 .order-item {
     margin-top:15px;
-    width:590px;
 }
 .order-item .order-img {
-    width:100px;
+    width:120px;
+    border:1px solid #efefef;
+    background-color:#eee;
+    box-sizing:border-box;
 }
 .order-item .order-img img{
     max-width:100px;
@@ -147,8 +221,8 @@ border-bottom:2px solid #4a98e7;
 }
 
 .order-item .order-title {
-color:#333;
-font-size:14px;
+    color:#333;
+    font-size:14px;
 }
 
 .order-item .iconfont {

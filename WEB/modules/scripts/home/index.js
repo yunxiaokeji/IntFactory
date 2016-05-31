@@ -8,7 +8,17 @@
 
     ObjectJS.init = function () {
         ObjectJS.bindReport();
+        ObjectJS.bindEvent();
     };
+
+    ObjectJS.bindEvent = function () {
+
+        $(".order-type span").click(function () {
+            var _this = $(this);
+            _this.addClass('hover').siblings().removeClass('hover');
+        })
+
+    }
 
     ObjectJS.bindReport = function () {
         var items = [];
