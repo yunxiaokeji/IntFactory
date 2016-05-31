@@ -83,32 +83,7 @@
 
     //绑定事件
     ObjectJS.bindEvent = function (model) {
-        var _self = this;
-
-        require.async("search", function () {
-            $(".searth-module").searchKeys(function () {
-                var keys= $(".search-ipt").val();
-                Global.post("/Orders/GetDYOrders", { keys: keys }, function (data) {
-                    if (data.items.length>0) {
-                        doT.exec("template/orders/customerorders.html", function (template) {
-                            var innerhtml = template(data.items);
-
-                            innerhtml = $(innerhtml);
-                            innerhtml.find(".mark").markColor({
-                                isAll: false,
-                                onChange: function (obj, callback) {
-                                    _self.markOrders(obj.data("id"), obj.data("value"), callback);
-                                }
-                            });
-
-                            $("#navOrder .tr-header").after(innerhtml);
-                        });
-                    } else {
-                        $("#navOrder .tr-header").after("<tr><td colspan='12'><div class='nodata-txt' >暂无订单!<div></td></tr>");
-                    }
-                });
-            });
-        });
+        var _self = this;      
 
         $(document).click(function (e) {
             //隐藏下拉
@@ -266,11 +241,14 @@
             _self.addContact();
         });
 
+
+        
         //切换模块
         $(".module-tab li").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
-            }
+            }           
+
             var _this = $(this);
             _this.siblings().removeClass("hover");
             _this.addClass("hover");
@@ -286,16 +264,42 @@
                 _self.getLogs(model.CustomerID, 1);
             }else if (_this.data("id") == "navContact") {
                 $("#addContact").show();
+                
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
                     _self.getContacts(model.CustomerID);
                 }
             } else if (_this.data("id") == "navOrder") {
                 $("#keyssearch").show();
+                $(".search-ipt,.search-ico").remove();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
                     _self.getOrders(model.CustomerID, 1);
-                }                
+                }
+                //关键字搜索
+                require.async("search", function () {
+                    $(".searth-module").searchKeys(function () {
+                        _self.getOrders(model.CustomerID, 1);
+                        //var keys = $(".search-ipt").val();
+                        //Global.post("/Orders/", { customerid: urlid, ordertype: 1, keywords: keys, }, function (data) {
+                        //    if (data.items.length > 0) {
+                        //        doT.exec("template/orders/customerorders.html", function (template) {
+                        //            var innerhtml = template(data.items);
+
+                        //            innerhtml = $(innerhtml);
+                        //            innerhtml.find(".mark").markColor({
+                        //                isAll: false,
+                        //                onChange: function (obj, callback) {
+                        //                    _self.markOrders(obj.data("id"), obj.data("value"), callback);
+                        //                }
+                        //            });
+
+                        //            $("#navOrder .tr-header").after(innerhtml);
+                        //        });
+                        //    } 
+                        //});
+                    });
+                });
             } else if (_this.data("id") == "navOppor") {
                 
                 if ((!_this.data("first") || _this.data("first") == 0)) {
@@ -305,11 +309,35 @@
 
             } else if (_this.data("id") == "navDHOrder") {
                 $("#keyssearch").show();
+                $(".search-ipt,.search-ico").remove();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
                     _self.getDHOrders(model.CustomerID, 1);
                 }
+                //关键字搜索
+                require.async("search", function () {
+                    $(".searth-module").searchKeys(function () {
+                        _self.getDHOrders(model.CustomerID, 1);
+                        //var keys = $(".search-ipt").val();
+                        //Global.post("/Orders/", {customerid:urlid, ordertype: 1, keywords: keys, }, function (data) {
+                        //    if (data.items.length > 0) {
+                        //        doT.exec("template/orders/customerorders.html", function (template) {
+                        //            var innerhtml = template(data.items);
 
+                        //            innerhtml = $(innerhtml);
+                        //            innerhtml.find(".mark").markColor({
+                        //                isAll: false,
+                        //                onChange: function (obj, callback) {
+                        //                    _self.markOrders(obj.data("id"), obj.data("value"), callback);
+                        //                }
+                        //            });
+
+                        //            $("#navDHOrder .tr-header").after(innerhtml);
+                        //        });
+                        //    } 
+                        //});
+                    });
+                });
             }
         });
 
