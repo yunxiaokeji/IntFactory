@@ -238,12 +238,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrdersByCustomerID(string customerid, int ordertype, int pagesize, int pageindex)
+        public JsonResult GetOrdersByCustomerID(string keyWords, string customerid, int ordertype, int pagesize, int pageindex)
         {
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOrdersByCustomerID("",customerid, ordertype, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetOrdersByCustomerID(keyWords, customerid, ordertype, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -270,12 +270,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetNeedsOrderByCustomerID(string customerid, int pagesize, int pageindex)
+        public JsonResult GetNeedsOrderByCustomerID(string keyWords, string customerid, int pagesize, int pageindex)
         {
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetNeedsOrderByCustomerID("",customerid, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetNeedsOrderByCustomerID(keyWords, customerid, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);

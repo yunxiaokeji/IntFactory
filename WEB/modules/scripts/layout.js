@@ -145,6 +145,21 @@ define(function (require, exports, module) {
                 _this.parent().animate({ "height": "135px" }, "fast");
             }
         });
+
+        //关注微信号
+        $(".help-feedback .ico-help").click(function () {
+            Easydialog.open({
+                container: {
+                    id: "",
+                    header: "厂盟科技官方微信号",
+                    content: "<div class='center'><img src='/modules/images/wechat.jpg' /><br><span class='font14'>扫一扫关注微信号</span></div>",
+                    yesfn: function () {
+
+                    }
+                }
+            });
+        })
+
     }
 
     //旋转按钮（顺时针）

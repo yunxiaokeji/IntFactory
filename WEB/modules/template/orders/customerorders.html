@@ -8,6 +8,7 @@
         <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />
     </td>
     <td class=""><a href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.OrderCode%}</a> </td>
+    <td class="">{%=item.IntGoodsCode==""?"--":item.IntGoodsCode%}</td>
     <td class="center">{%=item.StatusStr%}</td>
     <td class="center ">{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</td>
     <td class="center">{%=item.OrderType==1? "1":item.PlanQuantity%}</td>

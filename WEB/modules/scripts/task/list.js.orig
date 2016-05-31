@@ -168,11 +168,20 @@
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
                 var mark = _this.data("id");
-                Params.taskType = mark;
-                ObjectJS.getList();        
+                Params.keyWords = mark;
+                ObjectJS.getList();
             };
-        });
+<<<<<<< HEAD
+            var mark = _this.data("id");
+            Params.taskType = mark;
+            ObjectJS.getList();        
+        })
+
        
+=======
+            
+        });
+>>>>>>> c576bdd407f6f4d97c39387ab3c3c601a9e74496
 
         //切换任务显示方式(列表或者卡片式)
         $(".search-sort .task-tabtype i").click(function () {

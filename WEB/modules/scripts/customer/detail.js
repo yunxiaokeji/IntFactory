@@ -31,6 +31,8 @@
 
     ObjectJS.isLoading = true;
 
+    ObjectJS.keyWords = "";
+
     //基本信息
     ObjectJS.bindCustomerInfo = function (model) {
 
@@ -83,32 +85,7 @@
 
     //绑定事件
     ObjectJS.bindEvent = function (model) {
-        var _self = this;
-
-        require.async("search", function () {
-            $(".searth-module").searchKeys(function () {
-                var keys= $(".search-ipt").val();
-                Global.post("/Orders/GetDYOrders", { keys: keys }, function (data) {
-                    if (data.items.length>0) {
-                        doT.exec("template/orders/customerorders.html", function (template) {
-                            var innerhtml = template(data.items);
-
-                            innerhtml = $(innerhtml);
-                            innerhtml.find(".mark").markColor({
-                                isAll: false,
-                                onChange: function (obj, callback) {
-                                    _self.markOrders(obj.data("id"), obj.data("value"), callback);
-                                }
-                            });
-
-                            $("#navOrder .tr-header").after(innerhtml);
-                        });
-                    } else {
-                        $("#navOrder .tr-header").after("<tr><td colspan='12'><div class='nodata-txt' >暂无订单!<div></td></tr>");
-                    }
-                });
-            });
-        });
+        var _self = this;      
 
         $(document).click(function (e) {
             //隐藏下拉
@@ -266,11 +243,14 @@
             _self.addContact();
         });
 
+
+        
         //切换模块
         $(".module-tab li").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
-            }
+            }           
+
             var _this = $(this);
             _this.siblings().removeClass("hover");
             _this.addClass("hover");
@@ -279,38 +259,66 @@
             $("#" + _this.data("id")).show();
 
             $("#addContact").hide();
-            $("#keyssearch").hide();
+            $(".searth-module").hide();
 
             if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) {                
                 _this.data("first", "1");
                 _self.getLogs(model.CustomerID, 1);
             }else if (_this.data("id") == "navContact") {
                 $("#addContact").show();
+                
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
                     _self.getContacts(model.CustomerID);
                 }
             } else if (_this.data("id") == "navOrder") {
-                $("#keyssearch").show();
+                $(".searth-module").show();
+                $(".search-ipt,.search-ico").remove();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
-                    _self.getOrders(model.CustomerID, 1);
-                }                
-            } else if (_this.data("id") == "navOppor") {
-                
-                if ((!_this.data("first") || _this.data("first") == 0)) {
-                    _this.data("first", "1");
-                    _self.getOpportunitys(model.CustomerID, 1);
+                    _self.getOrders(ObjectJS.keyWords,model.CustomerID, 1);
                 }
+                //关键字搜索
+                require.async("search", function () {
+                    $(".searth-module").searchKeys(function () {
+                        var keyWords = $("#keyWordsByOrder .search-ipt").val();
+                        _self.getOrders(keyWords, model.CustomerID, 1);
+
+                    });
+                });
+            } else if (_this.data("id") == "navOppor") {
+                $(".searth-module").show();
+                $(".search-ipt,.search-ico").remove();
+                if ((!_this.data("first") || _this.data("first") == 0)) {
+                    _this.data("first", "1");
+                    _self.getOpportunitys(ObjectJS.keyWords, model.CustomerID, 1);
+                }
+                //关键字搜索
+                require.async("search", function () {
+                    $(".searth-module").searchKeys(function () {
+                        var keyWords = $("#keyWordsByOppor .search-ipt").val();
+                        _self.getOpportunitys(keyWords, model.CustomerID, 1);
+
+                    });
+                });
 
             } else if (_this.data("id") == "navDHOrder") {
-                $("#keyssearch").show();
+                $(".searth-module").show();
+                $(".search-ipt,.search-ico").remove();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
-                    _self.getDHOrders(model.CustomerID, 1);
+                    _self.getDHOrders(ObjectJS.keyWords, model.CustomerID, 1);
                 }
-
+                //关键字搜索
+                require.async("search", function () {
+                    $(".searth-module").searchKeys(function () {
+                        var keyWords = $("#keyWordsByDHOrder .search-ipt").val();
+                        _self.getDHOrders(keyWords,model.CustomerID, 1);
+                       
+                    });
+                });
             }
+            
         });
 
         $("#editContact").click(function () {
@@ -393,12 +401,13 @@
     }
 
     //获取订单
-    ObjectJS.getOrders = function (customerid, page) {
+    ObjectJS.getOrders = function (keyWords,customerid, page) {
         var _self = this;
         $("#navOrder .tr-header").nextAll().remove();
         $("#navOrder .tr-header").after("<tr><td colspan='12'><div class='data-loading' ><div></td></tr>");
         ObjectJS.isLoading = false;
         Global.post("/Orders/GetOrdersByCustomerID", {
+            keyWords:keyWords,
             customerid: customerid,
             ordertype: 1,
             pagesize: 10,
@@ -448,12 +457,13 @@
     }
 
     //获取大货订单
-    ObjectJS.getDHOrders = function (customerid, page) {
+    ObjectJS.getDHOrders = function (keyWords,customerid, page) {
         var _self = this;
         $("#navDHOrder .tr-header").nextAll().remove();
         $("#navDHOrder .tr-header").after("<tr><td colspan='12'><div class='data-loading' ><div></td></tr>");
         ObjectJS.isLoading = false;
         Global.post("/Orders/GetOrdersByCustomerID", {
+            keyWords:keyWords,
             customerid: customerid,
             ordertype: 2,
             pagesize: 10,
@@ -502,12 +512,13 @@
     }
 
     //获取需求
-    ObjectJS.getOpportunitys = function (customerid, page) {
+    ObjectJS.getOpportunitys = function (keyWords,customerid, page) {
         var _self = this;
         $("#navOppor .tr-header").nextAll().remove();
         $("#navOppor .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         ObjectJS.isLoading = false;
         Global.post("/Orders/GetNeedsOrderByCustomerID", {
+            keyWords:keyWords,
             customerid: customerid,
             pagesize: 10,
             pageindex: page
