@@ -34,8 +34,8 @@
         var items=data.items;
         for (var j = 0; j < items.length; j++) {
             var item=items[j];
-            if (item.TotalCount > MaxTotalCount) {
-                MaxTotalCount = item.TotalCount;
+            if (item.totalCount > MaxTotalCount) {
+                MaxTotalCount = item.totalCount;
             }
         }
 
@@ -51,28 +51,28 @@
 
         $("#totalSumCount").html(data.totalSumCount);
         $("#totalExceedCount").html(data.totalExceedCount);
-        $("#TotalFinishCount").html(data.TotalFinishCount);
-        $("#TotalWarnCount").html(data.TotalWarnCount);
-        $("#TotalWorkCount").html(data.TotalWorkCount);
-        $("#TotalSumCount").html(data.TotalSumCount);
+        $("#totalFinishCount").html(data.totalFinishCount);
+        $("#totalWarnCount").html(data.totalWarnCount);
+        $("#totalWorkCount").html(data.totalWorkCount);
+        $("#totalSumCount").html(data.totalSumCount);
     }
 
     ObjectJS.getReportHtml = function (item, index) {
-        if (item.TotalCount > 0) {
+        if (item.totalCount > 0) {
             var html = '';
             html += '<div class="report-item" style="left:' + (75 * index) + 'px">';
             html += '    <ul>';
-            if (item.ExceedCount > 0) {
-                html += '        <li style="line-height:' + (item.ExceedCount * HeightCount + MinHeight) + 'px;" class="item-exceed">' + item.ExceedCount + '</li>';
+            if (item.exceedCount > 0) {
+                html += '        <li style="line-height:' + (item.exceedCount * HeightCount + MinHeight) + 'px;" class="item-exceed">' + item.exceedCount + '</li>';
             }
-            if (item.ExpireCount > 0) {
-                html += '         <li style="line-height:' + (item.WareCount * HeightCount + MinHeight) + 'px;" class="item-expire">' + item.ExpireCount + '</li>';
+            if (item.warnCount > 0) {
+                html += '         <li style="line-height:' + (item.warnCount * HeightCount + MinHeight) + 'px;" class="item-expire">' + item.warnCount + '</li>';
             }
-            if (item.FinishCount > 0) {
-                html += '         <li style="line-height:' + (item.FinishCount * HeightCount + MinHeight) + 'px;" class="item-finish">' + item.FinishCount + '</li>';
+            if (item.finishCount > 0) {
+                html += '         <li style="line-height:' + (item.finishCount * HeightCount + MinHeight) + 'px;" class="item-finish">' + item.finishCount + '</li>';
             }
-            if (item.WorkCount > 0) {
-                html += '        <li style="line-height:' + (item.WorkCount * HeightCount + MinHeight) + 'px;" class="item-work">' + item.WorkCount + '</li>';
+            if (item.workCount > 0) {
+                html += '        <li style="line-height:' + (item.workCount * HeightCount + MinHeight) + 'px;" class="item-work">' + item.workCount + '</li>';
             }
             html += '    </ul>';
             html += '    <div class="item-date">' + item.Date + '</div>';

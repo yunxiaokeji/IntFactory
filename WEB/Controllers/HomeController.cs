@@ -25,7 +25,8 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Home/Login");
             }
-            return Redirect("/Default/Index");
+
+            return View();
         }
 
         public ActionResult NewIndex() {
@@ -799,63 +800,67 @@ namespace YXERP.Controllers
                 var list= IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(nowDate.Date.ToString(), 
                     nowDate.Date.AddDays(14).ToString(), string.Empty, currentUser.ClientID);
 
-                var TotalExceedCount = 0;
-                var TotalFinishCount = 0;
-                var TotalWarnCount = 0;
-                var TotalWorkCount = 0;
-                var TotalSumCount = 0;
+                var totalExceedCount = 0;
+                var totalFinishCount = 0;
+                var totalWarnCount = 0;
+                var totalWorkCount = 0;
+                var totalSumCount = 0;
                 var reportArr =new  List<Dictionary<string, Object>>();
                 for (var i = 0; i < 15; i++) {
-                    var orderList = list.FindAll(m => m.PlanTime.Date == nowDate.AddDays(i).Date);
-
                     var report = new Dictionary<string, Object>();
-                    report.Add("Date", nowDate.AddDays(i).Date.ToString("MM.dd"));
-
-                    var ExceedCount = 0;
-                    var FinishCount = 0;
-                    var WarnCount = 0;
-                    var WorkCount = 0;
-                    var TotalCount = 0;
-                    FinishCount = orderList.FindAll(m => m.EndTime.ToString("yyyy-MM-dd") != "0001-01-01").Count;
-                    ExceedCount = orderList.FindAll(m => m.EndTime < nowDate).Count;
+                    var nextDate = nowDate.AddDays(i);
+                    var orderList = list.FindAll(m => m.PlanTime.Date == nextDate.Date);
+                    
+                    var exceedCount = 0;
+                    var finishCount = 0;
+                    var warnCount = 0;
+                    var workCount = 0;
+                    var totalCount = 0;
+                    if (i > 0)
+                    {
+                        nextDate = nextDate.Date;
+                    }
+                    finishCount = orderList.FindAll(m => m.EndTime.ToString("yyyy-MM-dd") != "0001-01-01").Count;
+                    exceedCount = orderList.FindAll(m => m.PlanTime < nextDate && m.EndTime.ToString("yyyy-MM-dd") == "0001-01-01").Count;
                     for (var j = 0; j < orderList.Count; j++) { 
                         var order=orderList[j];
-                        if (order.EndTime > nowDate && order.EndTime.ToString("yyyy-MM-dd") != "0001-01-01")
+                        if (order.PlanTime > nowDate && order.EndTime.ToString("yyyy-MM-dd") == "0001-01-01")
                         {
                             if ((order.PlanTime - nowDate).TotalHours * 3 < (order.PlanTime - order.OrderTime).TotalHours)
                             {
-                                WarnCount++;
+                                warnCount++;
                             }
                             else
                             {
-                                WorkCount++;
+                                workCount++;
                             }
                         }
                     }
-                    report.Add("WarnCount", WarnCount);
-                    report.Add("FinishCount", FinishCount);
-                    report.Add("WorkCount", WorkCount);
-                    report.Add("ExceedCount", ExceedCount);
-                    TotalCount=WarnCount + FinishCount + WorkCount + ExceedCount;
-                    report.Add("TotalCount", TotalCount);
-                    if (TotalCount > 0)
+                    report.Add("Date", nextDate.Date.ToString("MM.dd"));
+                    report.Add("warnCount", warnCount);
+                    report.Add("finishCount", finishCount);
+                    report.Add("workCount", workCount);
+                    report.Add("exceedCount", exceedCount);
+                    totalCount=warnCount + finishCount + workCount + exceedCount;
+                    report.Add("totalCount", totalCount);
+                    if (totalCount > 0)
                     {
-                        TotalExceedCount += ExceedCount;
-                        TotalFinishCount += FinishCount;
-                        TotalWarnCount += WarnCount;
-                        TotalWorkCount += WorkCount;
-                        TotalSumCount += TotalCount;
+                        totalExceedCount += exceedCount;
+                        totalFinishCount += finishCount;
+                        totalWarnCount += warnCount;
+                        totalWorkCount += workCount;
+                        totalSumCount += totalCount;
                         reportArr.Add(report);
                     }
                 }
 
                 result = 1;
                 resultObj.Add("items", reportArr);
-                resultObj.Add("totalExceedCount", TotalExceedCount);
-                resultObj.Add("totalFinishCount", TotalFinishCount);
-                resultObj.Add("totalWarnCount", TotalWarnCount);
-                resultObj.Add("totalWorkCount", TotalWorkCount);
-                resultObj.Add("totalSumCount", TotalSumCount);
+                resultObj.Add("totalExceedCount", totalExceedCount);
+                resultObj.Add("totalFinishCount", totalFinishCount);
+                resultObj.Add("totalWarnCount", totalWarnCount);
+                resultObj.Add("totalWorkCount", totalWorkCount);
+                resultObj.Add("totalSumCount", totalSumCount);
             }
             resultObj.Add("result", result);
 
