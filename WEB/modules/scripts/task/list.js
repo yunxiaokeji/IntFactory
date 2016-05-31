@@ -168,10 +168,10 @@
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
                 var mark = _this.data("id");
-            Params.taskType = mark;
-            ObjectJS.getList();        
-        })
-
+                Params.taskType = mark;
+                ObjectJS.getList();        
+            };
+        });
        
 
         //切换任务显示方式(列表或者卡片式)
