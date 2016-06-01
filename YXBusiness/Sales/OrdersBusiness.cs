@@ -152,7 +152,24 @@ namespace IntFactoryBusiness
             {
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
-                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                if (model.OrderStatus == 1)
+                {
+                    if (model.PlanTime <= DateTime.Now)
+                    {
+                        model.WarningStatus = 2;
+                        model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
+                    }
+                    else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
+                    {
+                        model.WarningStatus = 1;
+                        model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                    }
+                    else
+                    {
+                        model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                    }
+                }
                 list.Add(model);
             }
             return list;
