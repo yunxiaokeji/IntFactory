@@ -152,6 +152,7 @@ namespace IntFactoryBusiness
             {
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
                 list.Add(model);
             }
             return list;

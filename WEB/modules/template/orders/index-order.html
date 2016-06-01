@@ -1,7 +1,7 @@
 ﻿{%
-    for(var i=0;i<10;i++)
+    for(var i=0;i<$data.length;i++)
     {
-
+        var item=$data[i];
 %}
     <div class="order-item">
         <div class="hint-layer">
@@ -12,12 +12,12 @@
             <div class="left">
                 <div class="order-title">款式名称</div>
                 <div class="mTop10">
-                    <span class="iconfont mRight5">&#xe624;</span><span>客户名称</span>
-                    <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>大货</span>
-                    <span class="mLeft10">生产中</span><span>79%</span>
+                    <span class="iconfont mRight5">&#xe624;</span><span>{%=item.CustomerName%}</span>
+                    <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
+                    <span class="mLeft10">{%=item.StatusStr%}：</span><span>79%</span>
                 </div>
                 <div class="mTop10">
-                    <span>负责人：</span><span>周公</span>
+                    <span>负责人：</span><span></span>
                 </div>
             </div>
             <div class="right">
@@ -40,11 +40,11 @@
                 </div>
 
                 <div class="mTop15 tRight">
-                    <span>交货日期：</span><span>2014-1-1</span>
+                    <span>交货日期：</span><span>{%=item.PlanTime.toDate('yyyy-MM-dd')%}</span>
                 </div>
                 <div class="clear"></div>
                 <div class="mTop5 tRight">
-                    <span>创建日期：</span><span>2014-1-1</span>
+                    <span>创建日期：</span><span>{%=item.CreateTime.toDate('yyyy-MM-dd')%}</span>
                 </div>
                 <div class="clear"></div>
             </div>
