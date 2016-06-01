@@ -74,6 +74,7 @@
     //删除行操作按钮(制版工艺)
     ObjectJS.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
+        
         $("#Platemak table").find("tr:first").find("td").css({ "border-top": "0", "border-bottom": "1px solid", "font-size": "16px" });
         $("#Platemak table").find("tr").find("td").find("span").css("margin-left","30%");        
         $("#Platemak table tr").each(function () {            
@@ -81,7 +82,8 @@
             $(this).find("td:last").css("border-right", "0");
             $(this).find("td:first").css("border-left", "0");            
         });
-        $("#Platemak table").css("border", "0").css("height","100%");
+        $("#Platemak table").css("border", "0").css("height", "100%");        
+        $("#Platemak table").find("tr:first").find("td:last").css("margin-left","10%");
     };
 
     ObjectJS.addTaskPlateCss = function () {

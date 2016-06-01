@@ -61,33 +61,21 @@ namespace IntFactoryBusiness
 
                 model.SourceTypeStr = CommonBusiness.GetEnumDesc((EnumOrderSourceType)model.SourceType);
 
-                if (model.OrderStatus == 1)
+                if (model.PlanTime <= DateTime.Now)
                 {
-                    if (model.PlanTime <= DateTime.Now)
-                    {
-                        model.WarningStatus = 2;
-                        model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
-                        model.WarningDays = (DateTime.Now - model.PlanTime).Days;
-                        model.UseDays = (model.PlanTime - model.OrderTime).Days;
-                    }
-                    else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
-                    {
-                        model.WarningStatus = 1;
-                        model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
-                        model.WarningDays = (model.PlanTime - DateTime.Now).Days;
-                        model.UseDays = (DateTime.Now - model.OrderTime).Days;
-                    }
-                    else
-                    {
-                        model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
-                        model.WarningDays = (model.PlanTime - DateTime.Now).Days;
-                        model.UseDays = (DateTime.Now - model.OrderTime).Days;
-                    }
+                    model.WarningStatus = 2;
+                    model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
+                }
+                else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
+                {
+                    model.WarningStatus = 1;
+                    model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
                 }
                 else
                 {
-                    model.UseDays = (model.PlanTime - model.OrderTime).Days;
+                    model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
                 }
+
 
                 list.Add(model);
             }
@@ -170,26 +158,26 @@ namespace IntFactoryBusiness
                     {
                         model.WarningStatus = 2;
                         model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
-                        model.WarningDays = (DateTime.Now.Date - model.PlanTime.Date).Days;
-                        model.UseDays = (model.PlanTime.Date - model.OrderTime.Date).Days;
+                        model.WarningDays = (DateTime.Now - model.PlanTime).Days;
+                        model.UseDays = (model.PlanTime - model.OrderTime).Days;
                     }
                     else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
                     {
                         model.WarningStatus = 1;
                         model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
-                        model.WarningDays = (model.PlanTime.Date - DateTime.Now.Date).Days;
-                        model.UseDays = (DateTime.Now.Date - model.OrderTime.Date).Days;
+                        model.WarningDays = (model.PlanTime - DateTime.Now).Days;
+                        model.UseDays = (DateTime.Now - model.OrderTime).Days;
                     }
                     else
                     {
                         model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
-                        model.WarningDays = (model.PlanTime.Date - DateTime.Now.Date).Days;
-                        model.UseDays = (DateTime.Now.Date - model.OrderTime.Date).Days;
+                        model.WarningDays = (model.PlanTime - DateTime.Now).Days;
+                        model.UseDays = (DateTime.Now - model.OrderTime).Days;
                     }
                 }
                 else
                 {
-                    model.UseDays = (model.PlanTime.Date - model.OrderTime.Date).Days;
+                    model.UseDays = (model.PlanTime - model.OrderTime).Days;
                 }
                 list.Add(model);
             }
