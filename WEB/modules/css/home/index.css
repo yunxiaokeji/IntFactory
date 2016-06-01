@@ -211,13 +211,14 @@ border-bottom:2px solid #4a98e7;
     margin-top:15px;
 }
 .order-item .order-img {
-    width:100px;
+    width:120px;
+    height:120px;
     background-color:#f0f0f0;
     
 }
 .order-item .order-img img{
-    max-width:100px;
-    max-height:100px;
+    width:120px;
+    height:120px;
 }
 
 .order-item .order-title {
@@ -231,7 +232,7 @@ border-bottom:2px solid #4a98e7;
 
 .order-detail {
     width:480px;
-    padding-bottom:10px;
+    height:119px;
     border-bottom:1px solid #eee;
 }
 .order-detail span {

@@ -582,7 +582,7 @@
                 });
 
                 innerhtml.find(".view-detail").click(function () {
-                    _self.getDetail($(this).data("id"), $(this).parents('.object-item').find('.order-code').html());
+                    _self.getDetail($(this).data("id"), $(this).data('code'));
                     $('.object-item').removeClass('looking-view');
                     $(this).parents('.object-item').addClass('looking-view');
                     return false;
