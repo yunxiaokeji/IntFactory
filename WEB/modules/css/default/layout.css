@@ -196,6 +196,34 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
     white-space:normal !important;
 }
 
+
+/*客户表格卡片样式*/
+.table-list-order .createimg { margin-left:-20px;width:30px;}
+.order-information li {line-height:25px;margin-bottom:8px;}
+
+.table-list-order { width: 100%; border-spacing: 0px;}
+
+.table-list-order .tr-header{ height:35px; text-align:center; }
+.table-list-order .tr-header td{ height:35px; border-bottom:solid 2px #eee; font-size:13px; color:#999; padding:0 5px;
+                           white-space:nowrap; overflow: hidden; text-overflow:ellipsis; }
+
+.table-list-order tr:not(:first-child){ height:35px; cursor:pointer; }
+.table-list-order tr:not(:first-child):hover { background-color: #f6f6f6; }
+.table-list-order tr:not(:first-child) td{ padding:5px; line-height:35px; border-bottom:solid 1px #eee; color:#333; 
+                                    white-space:nowrap; overflow: hidden; text-overflow:ellipsis;  }
+           
+.table-list-order td a{ color:#4a98e7;  vertical-align:middle;}
+.table-list-order td a:hover{ color:red; text-decoration:underline; }
+           
+.table-list-order tr .order-img{ width:90px;height:90px;display:inline-block;  vertical-align:middle;margin-right:15px;}
+           
+.table-list-order .ico-check { vertical-align:middle; }
+.table-list-order .ico-checked { vertical-align:middle; }
+.table-list-order .show-all-txt {
+    word-wrap: break-word;
+    white-space:normal !important;
+}
+
 /*批量操作*/
 .batch-operate { padding-left:5px; height:20px; line-height:20px; }
 .batch-operate li{ float:left;}
