@@ -19,12 +19,8 @@
             <span class="font14">订单</span>
             <span class="mLeft20">2016年5月</span>
         </div>
-        <div class="right">
-            <span class="">信息类型:</span>
-            <select>
-                <option>订单</option>
-                <option>任务</option>
-            </select>
+        <div class="right order-type">
+            <span class="hover">订单</span><span>任务</span>
         </div>
         <div class="clear"></div>
     </div>
@@ -55,7 +51,7 @@
             </ul>
             <div class="clear"></div>
         </div>
-        
+
         <div class="right">
             <ul class="report-status">
                 <li style="border-color:#ffa200"><span>快到期</span></li>
@@ -99,147 +95,156 @@
             <span>2016-5-31/周三</span>
             <span class="mLeft15 list-total">125</span>
         </div>
+        <div class="order-layerbox">
+            <div class="layer-lump"></div>
 
-        <div class="order-item">
-            <div class="left order-img"><img src="/modules/images/img-nouse.png" /></div>
-            <div class="left order-detail mLeft10">
-                <div class="left">
-                    <div class="order-title">款式名称</div>
-                    <div class="mTop10">
-                        <span class="iconfont mRight5">&#xe624;</span><span>客户名称</span>
-                        <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>大货</span>
-                        <span class="mLeft10">生产中</span><span>79%</span>
+            <div class="order-item">
+                <div class="left order-img"><img src="/modules/images/img-nouse.png" /></div>
+                <div class="left order-detail mLeft10">
+                    <div class="left">
+                        <div class="order-title">款式名称</div>
+                        <div class="mTop10">
+                            <span class="iconfont mRight5">&#xe624;</span><span>客户名称</span>
+                            <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>大货</span>
+                            <span class="mLeft10">生产中</span><span>79%</span>
+                        </div>
+                        <div class="mTop10">
+                            <span>负责人：</span><span>周公</span>
+                        </div>
                     </div>
-                    <div class="mTop10">
-                        <span>负责人：</span><span>周公</span>
-                    </div>
-                </div>
-                <div class="right">
-                    <div class="mTop20">
-                        <div class="order-progress left">
-                            <div class="order-progress-use order-progress-item">
-                                <div class="progress-tip">12天</div>
-                                <div class="top-lump"></div>
+                    <div class="right">
+                        <div class="mTop20">
+                            <div class="order-progress left">
+                                <div class="order-progress-use order-progress-item">
+                                    <div class="progress-tip">12天</div>
+                                    <div class="top-lump"></div>
+                                </div>
+                                <div class="order-progress-have order-progress-item">
+                                    <div class="progress-tip">剩余12天</div>
+                                    <div class="top-lump"></div>
+                                </div>
+                                <div class="clear"></div>
                             </div>
-                            <div class="order-progress-have order-progress-item">
-                                <div class="progress-tip">剩余12天</div>
-                                <div class="top-lump"></div>
+                            <div class="left">
+                                18天
                             </div>
                             <div class="clear"></div>
                         </div>
-                        <div class="left">
-                            18天
+
+                        <div class="mTop15 tRight">
+                            <span>交货日期：</span><span>2014-1-1</span>
                         </div>
                         <div class="clear"></div>
-                    </div>
-
-                    <div class="mTop15 tRight">
-                        <span>交货日期：</span><span>2014-1-1</span>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="mTop5 tRight">
-                        <span>创建日期：</span><span>2014-1-1</span>
+                        <div class="mTop5 tRight">
+                            <span>创建日期：</span><span>2014-1-1</span>
+                        </div>
+                        <div class="clear"></div>
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
             </div>
-            <div class="clear"></div>
-        </div>
 
-        <div class="order-item">
-            <div class="left order-img"><img src="/modules/images/img-nouse.png" /></div>
-            <div class="left order-detail mLeft10">
-                <div class="left">
-                    <div class="order-title">款式名称</div>
-                    <div class="mTop10">
-                        <span class="iconfont mRight5">&#xe624;</span><span>客户名称</span>
-                        <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>大货</span>
-                        <span class="mLeft10">生产中</span><span>79%</span>
-                    </div>
-                    <div class="mTop10">
-                        <span>负责人：</span><span>周公</span>
-                    </div>
+            <div class="order-item">
+                <div class="hint-layer">
+                    <div class="hint-msg pass">已超期</div>
                 </div>
-                <div class="right">
-                    <div class="mTop20">
-                        <div class="order-progress left">
-                            <div class="order-progress-use order-progress-item">
-                                <div class="progress-tip">12天</div>
-                                <div class="top-lump"></div>
+                <div class="left order-img"><img src="/modules/images/img-nouse.png" /></div>
+                <div class="left order-detail mLeft10">
+                    <div class="left">
+                        <div class="order-title">款式名称</div>
+                        <div class="mTop10">
+                            <span class="iconfont mRight5">&#xe624;</span><span>客户名称</span>
+                            <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>大货</span>
+                            <span class="mLeft10">生产中</span><span>79%</span>
+                        </div>
+                        <div class="mTop10">
+                            <span>负责人：</span><span>周公</span>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="mTop20">
+                            <div class="order-progress left">
+                                <div class="order-progress-use order-progress-item">
+                                    <div class="progress-tip">12天</div>
+                                    <div class="top-lump"></div>
+                                </div>
+                                <div class="order-progress-exceed order-progress-item">
+                                    <div class="progress-tip">超期12天</div>
+                                    <div class="top-lump"></div>
+                                </div>
+                                <div class="clear"></div>
                             </div>
-                            <div class="order-progress-exceed order-progress-item">
-                                <div class="progress-tip">超期12天</div>
-                                <div class="top-lump"></div>
+                            <div class="left">
+                                18天
                             </div>
                             <div class="clear"></div>
                         </div>
-                        <div class="left">
-                            18天
+
+                        <div class="mTop15 tRight">
+                            <span>交货日期：</span><span>2014-1-1</span>
                         </div>
                         <div class="clear"></div>
-                    </div>
-
-                    <div class="mTop15 tRight">
-                        <span>交货日期：</span><span>2014-1-1</span>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="mTop5 tRight">
-                        <span>创建日期：</span><span>2014-1-1</span>
+                        <div class="mTop5 tRight">
+                            <span>创建日期：</span><span>2014-1-1</span>
+                        </div>
+                        <div class="clear"></div>
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
             </div>
-            <div class="clear"></div>
-        </div>
 
-        <div class="order-item">
-            <div class="left order-img"><img src="/modules/images/img-nouse.png" /></div>
-            <div class="left order-detail mLeft10">
-                <div class="left">
-                    <div class="order-title">款式名称</div>
-                    <div class="mTop10">
-                        <span class="iconfont mRight5">&#xe624;</span><span>客户名称</span>
-                        <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>大货</span>
-                        <span class="mLeft10">生产中</span><span>79%</span>
-                    </div>
-                    <div class="mTop10">
-                        <span>负责人：</span><span>周公</span>
-                    </div>
+            <div class="order-item">
+                <div class="hint-layer">
+                    <div class="hint-msg warning">快到期</div>
                 </div>
-                <div class="right">
-                    <div class="mTop20">
-                        <div class="order-progress left">
-                            <div class="order-progress-use order-progress-item">
-                                <div class="progress-tip">12天</div>
-                                <div class="top-lump"></div>
+                <div class="left order-img"><img src="/modules/images/img-nouse.png" /></div>
+                <div class="left order-detail mLeft10">
+                    <div class="left">
+                        <div class="order-title">款式名称</div>
+                        <div class="mTop10">
+                            <span class="iconfont mRight5">&#xe624;</span><span>客户名称</span>
+                            <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>大货</span>
+                            <span class="mLeft10">生产中</span><span>79%</span>
+                        </div>
+                        <div class="mTop10">
+                            <span>负责人：</span><span>周公</span>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="mTop20">
+                            <div class="order-progress left">
+                                <div class="order-progress-use order-progress-item">
+                                    <div class="progress-tip">12天</div>
+                                    <div class="top-lump"></div>
+                                </div>
+                                <div class="order-progress-warn order-progress-item">
+                                    <div class="progress-tip">超期12天</div>
+                                    <div class="top-lump"></div>
+                                </div>
+                                <div class="clear"></div>
                             </div>
-                            <div class="order-progress-warn order-progress-item">
-                                <div class="progress-tip">超期12天</div>
-                                <div class="top-lump"></div>
+                            <div class="left">
+                                18天
                             </div>
                             <div class="clear"></div>
                         </div>
-                        <div class="left">
-                            18天
+
+                        <div class="mTop15 tRight">
+                            <span>交货日期：</span><span>2014-1-1</span>
                         </div>
                         <div class="clear"></div>
-                    </div>
-
-                    <div class="mTop15 tRight">
-                        <span>交货日期：</span><span>2014-1-1</span>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="mTop5 tRight">
-                        <span>创建日期：</span><span>2014-1-1</span>
+                        <div class="mTop5 tRight">
+                            <span>创建日期：</span><span>2014-1-1</span>
+                        </div>
+                        <div class="clear"></div>
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
             </div>
-            <div class="clear"></div>
-        </div>
+       </div>
     </div>
     <div class="left"></div>
     <div class="right"></div>
