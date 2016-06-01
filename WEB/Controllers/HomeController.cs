@@ -876,8 +876,8 @@ namespace YXERP.Controllers
             {
                 var currentUser=(IntFactoryEntity.Users)Session["ClientManager"];
                 var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(orderTime, orderTime, filterType,
-                                                                                    string.Empty, currentUser.ClientID);
-                JsonDictionary.Add("items",list);                
+                                                                                                string.Empty, currentUser.ClientID);
+                JsonDictionary.Add("items",list);
             }
             return new JsonResult
             {

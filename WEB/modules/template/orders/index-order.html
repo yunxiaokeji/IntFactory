@@ -5,16 +5,16 @@
 %}
     <div class="order-item">
         <div class="hint-layer">
-            <div class="hint-msg warning">快到期</div>
+            <div class="hint-msg {%=item.WarningStatus==1?'warning':item.WarningStatus==2?'pass':'hide'%}">{%=item.WarningStatus==1?"快到期":item.WarningStatus==2?"已超期":""%}</div>
         </div>
         <div class="left order-img"><img src="/modules/images/img-nouse.png" /></div>
         <div class="left order-detail mLeft20">
             <div class="left">
-                <div class="order-title">款式名称</div>
+                <div class="order-title">{%=item.GoodsName%}</div>
                 <div class="mTop10">
                     <span class="iconfont mRight5">&#xe624;</span><span>{%=item.CustomerName%}</span>
                     <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
-                    <span class="mLeft10">{%=item.StatusStr%}：</span><span>79%</span>
+                    <span class="mLeft10">{%=item.StatusStr%}：</span><span>{%=(item.TaskCount>0?item.TaskOver/item.TaskCount*100:0).toFixed(0)+"%"%}</span>
                 </div>
                 <div class="mTop10">
                     <span>负责人：</span><span>{%=item.Owner.Name%}</span>
@@ -28,7 +28,7 @@
                             <div class="top-lump"></div>
                         </div>
                         <div class="order-progress-warn order-progress-item">
-                            <div class="progress-tip">剩余12天</div>
+                            <div class="progress-tip">剩余天</div>
                             <div class="top-lump"></div>
                         </div>
                         <div class="clear"></div>

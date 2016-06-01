@@ -153,6 +153,7 @@ namespace IntFactoryBusiness
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
                 if (model.OrderStatus == 1)
                 {
                     if (model.PlanTime <= DateTime.Now)
