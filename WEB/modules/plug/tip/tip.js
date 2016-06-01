@@ -2,30 +2,34 @@
     require("plug/tip/style.css");
 
     (function ($) {
-        var Option = {
-            width: "",
-            msg:""
-        }
+        
 
         $.fn.Tip = function (option) {
+            var Option = {
+                width: "",
+                msg: ""
+            }
+
             Option = $.extend([], Option, option);
             var _this = $(this);
             
             _this.mouseover(function (event) {
                 var e = event || window.event;
-                var tipDiv = createTip();
+                var tipDiv = createTip(Option);
                 var height = tipDiv.find(".tip-msg").height();
                 var thisWidth = _this.width();
 
-                tipDiv.css({ "top": (e.clientY + document.body.scrollTop - height - 30) + "px", "left": (_this .offset().left- ((Option.width - thisWidth) / 2)) + "px" });
-                tipDiv.find(".tip-lump").css({ "top": (height+ 19) + "px", "left": (Option.width / 2 - 3) + "px" });
+                tipDiv.css({ "top": (e.clientY + document.body.scrollTop - height - 30) + "px", "left": (_this.offset().left - ((Option.width - thisWidth) / 2)) + "px" });
+                tipDiv.find(".tip-lump").css({ "top": (height + 19) + "px", "left": (Option.width / 2 - 3) + "px" });
+            }).mouseout(function () {
+                $(".content-tip").remove();
             });
 
         }
 
-        var createTip = function () {
+        var createTip = function (Option) {
             if ($(".content-tip").length == 1) {
-                $(".content-tip").find(".tip-msg").html(Option.msg).css("width",Option.width+"px");
+                $(".content-tip").find(".tip-msg").html(Option.msg);
 
                 return $(".content-tip");
             }

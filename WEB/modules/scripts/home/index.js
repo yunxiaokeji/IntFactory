@@ -83,8 +83,15 @@
         for (var h = 0; h<5; h++) {
             $(".report-guid ul li").eq(h).find(".guid-count").html(GuidLineHeight * (4 - h));
         }
-
         
+        $(".index-report-content .report-item li").each(function () {
+            var _this = $(this);
+            var type = _this.data("type");
+            _this.Tip({
+                width: 160,
+                msg: _this.data("date") + "      " + (type == 1 ? "已超期订单" : type == 2 ? "快到期订单" : type == 3 ? "进行中订单" : "已完成订单") + "：" + _this.data("count")
+            });
+        });
     }
 
     ObjectJS.createReportHtml = function (item, index) {
@@ -126,14 +133,7 @@
             html.fadeIn(500);
         }
 
-        $(".index-report-content .report-item li").each(function () {
-            var _this = $(this);
-            var type = _this.data("type");
-            _this.Tip({
-                width: 160,
-                msg: _this.data("date") + "      " + (type == 1 ? "已超期订单" : type == 2 ? "快到期订单" : type == 3 ? "进行中订单" : "已完成订单") + "：" + _this.data("count")
-            });
-        });
+        
     }
 
     module.exports= ObjectJS;
