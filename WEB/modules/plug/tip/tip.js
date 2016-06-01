@@ -13,15 +13,15 @@
             
             _this.mouseover(function (event) {
                 
-                //$(".content-tip").remove();
-                //var e = event || window.event;
-                //var tipDiv = createTip();
-                //tipDiv = $(tipDiv);
-                //$("body").append(tipDiv);
+                $(".content-tip").remove();
+                var e = event || window.event;
+                var tipDiv = createTip();
+                tipDiv = $(tipDiv);
+                $("body").append(tipDiv);
 
-                //var height = tipDiv.find(".tip-msg").height();
-                //tipDiv.css({ "top": (e.clientY + document.body.scrollTop - height - 30) + "px", "left": (e.clientX - Option.width / 2) + "px" });
-                //tipDiv.find(".tip-lump").css({ "top": (height+ 19) + "px", "left": (Option.width / 2 - 3) + "px" });
+                var height = tipDiv.find(".tip-msg").height();
+                tipDiv.css({ "top": (e.clientY + document.body.scrollTop - height - 30) + "px", "left": (e.clientX - Option.width / 2) + "px" });
+                tipDiv.find(".tip-lump").css({ "top": (height+ 19) + "px", "left": (Option.width / 2 - 3) + "px" });
             });
 
         }
