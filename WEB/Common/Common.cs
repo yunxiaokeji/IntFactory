@@ -100,10 +100,13 @@ namespace YXERP.Common
         /// </summary>
         /// <param name="msg">显示周日还是星期日</param>
         /// <returns></returns>
-        public static string Week(string msg)
+        public static string Week(string msg, int day)
         {
+            if (string.IsNullOrEmpty(msg)) {
+                msg = "星期";
+            }
             string[] weekdays = { "" + msg + "日", "" + msg + "一", "" + msg + "二", "" + msg + "三", "" + msg + "四", "" + msg + "五", "" + msg + "六" };
-            string week = weekdays[Convert.ToInt32(DateTime.Now.DayOfWeek)];
+            string week = weekdays[day];
             return week;
         }
 
