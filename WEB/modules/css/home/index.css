@@ -49,6 +49,7 @@
     float:left;
     margin-right:15px;
     padding-bottom:5px;
+    cursor:pointer;
 }
 .sum-list .active {
 border-bottom:2px solid #4a98e7;
@@ -108,13 +109,14 @@ border-bottom:2px solid #4a98e7;
     vertical-align:middle; 
     text-align:center;
     color:#fff;
+    cursor:pointer;
 }
 
 .report-item .item-date {
     text-align:center;
     color:#666;
 }
-.index-report-content .item-expire {
+.index-report-content .item-warn {
     background-color:#ffa200;
 }
 
@@ -141,7 +143,7 @@ border-bottom:2px solid #4a98e7;
 }
 
 .order-list .order-layerbox { 
-    border-left:2px solid #999;
+    border-left:2px solid #ddd;
     padding-left:24px;
     position:relative;
 }
@@ -211,13 +213,13 @@ border-bottom:2px solid #4a98e7;
 }
 .order-item .order-img {
     width:120px;
-    border:1px solid #efefef;
-    background-color:#eee;
-    box-sizing:border-box;
+    height:120px;
+    background-color:#f0f0f0;
+    
 }
 .order-item .order-img img{
-    max-width:100px;
-    max-height:100px;
+    width:120px;
+    height:120px;
 }
 
 .order-item .order-title {
@@ -231,7 +233,7 @@ border-bottom:2px solid #4a98e7;
 
 .order-detail {
     width:480px;
-    padding-bottom:10px;
+    height:119px;
     border-bottom:1px solid #eee;
 }
 .order-detail span {

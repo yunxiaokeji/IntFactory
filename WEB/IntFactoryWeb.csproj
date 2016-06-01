@@ -448,6 +448,8 @@
     <Content Include="modules\plug\autocomplete\autocomplete.js" />
     <Content Include="modules\plug\autocomplete\style.css" />
     <Content Include="modules\plug\e-smart-zoom-jquery.min.js" />
+    <Content Include="modules\plug\tip\style.css" />
+    <Content Include="modules\plug\tip\tip.js" />
     <Content Include="modules\scripts\auction\buynow.js" />
     <Content Include="modules\scripts\home\feedback.js" />
     <Content Include="modules\scripts\home\create.js" />

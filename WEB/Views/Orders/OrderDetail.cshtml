@@ -93,7 +93,7 @@
             订单品类：@(model.CategoryName)
         </li>
         <li title="交货日期">
-            交货日期：@(model.PlanTime.ToString("yyyy-MM-dd") == "1900-01-01" ? "未设置" : model.PlanTime.ToString("yyyy-MM-dd"))
+            交货日期：@(model.PlanTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.PlanTime.ToString("yyyy-MM-dd"))
         </li>
         <li>
             <span class="left"> 负责人：</span><label class="left" id="lblOwner">@(model.Owner != null ? model.Owner.Name : "--")</label>
