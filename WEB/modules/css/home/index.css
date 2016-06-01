@@ -104,6 +104,7 @@ border-bottom:2px solid #4a98e7;
     width:50px;
     position:absolute;
     bottom:0px;
+    z-index:100;
 }
 .index-report-content .report-item li {
     vertical-align:middle; 
@@ -296,9 +297,17 @@ border-bottom:2px solid #4a98e7;
     border-radius:2px;
     color:#fff;
     position: absolute;
-    left: 10px;
     top: -29px;
 }
+
+.order-progress .order-progress-use .progress-tip { 
+    left:10px;
+}
+
+.order-progress .order-progress-warn .progress-tip { 
+    right: 0;
+}
+
 .order-progress-use .top-lump {
     border-top-color:#5994e6;
 }

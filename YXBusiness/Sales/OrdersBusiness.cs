@@ -61,23 +61,21 @@ namespace IntFactoryBusiness
 
                 model.SourceTypeStr = CommonBusiness.GetEnumDesc((EnumOrderSourceType)model.SourceType);
 
-                if (model.OrderStatus == 1)
+                if (model.PlanTime <= DateTime.Now)
                 {
-                    if (model.PlanTime <= DateTime.Now)
-                    {
-                        model.WarningStatus = 2;
-                        model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
-                    }
-                    else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
-                    {
-                        model.WarningStatus = 1;
-                        model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
-                    }
-                    else
-                    {
-                        model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
-                    }
+                    model.WarningStatus = 2;
+                    model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
                 }
+                else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
+                {
+                    model.WarningStatus = 1;
+                    model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                }
+                else
+                {
+                    model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                }
+
 
                 list.Add(model);
             }
@@ -144,14 +142,42 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<OrderEntity> GetOrdersByPlanTime(string startPlanTime, string endPlanTime, string userID, string clientID)
+        public List<OrderEntity> GetOrdersByPlanTime(string startPlanTime, string endPlanTime,int filterType, string userID, string clientID)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataTable dt = OrdersDAL.BaseProvider.GetOrdersByPlanTime(startPlanTime, endPlanTime, userID, clientID);
+            DataTable dt = OrdersDAL.BaseProvider.GetOrdersByPlanTime(startPlanTime, endPlanTime, filterType, userID, clientID);
             foreach (DataRow dr in dt.Rows)
             {
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                if (model.OrderStatus == 1)
+                {
+                    if (model.PlanTime <= DateTime.Now)
+                    {
+                        model.WarningStatus = 2;
+                        model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (DateTime.Now - model.PlanTime).Days;
+                        model.UseDays = (model.PlanTime - model.OrderTime).Days;
+                    }
+                    else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
+                    {
+                        model.WarningStatus = 1;
+                        model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (model.PlanTime - DateTime.Now).Days;
+                        model.UseDays = (DateTime.Now - model.OrderTime).Days;
+                    }
+                    else
+                    {
+                        model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (model.PlanTime - DateTime.Now).Days;
+                        model.UseDays = (DateTime.Now - model.OrderTime).Days;
+                    }
+                }
+                else
+                {
+                    model.UseDays = (model.PlanTime - model.OrderTime).Days;
+                }
                 list.Add(model);
             }
             return list;

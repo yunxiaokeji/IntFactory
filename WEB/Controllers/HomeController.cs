@@ -798,12 +798,12 @@ namespace YXERP.Controllers
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var nowDate=DateTime.Now;
                 var list= IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(nowDate.Date.ToString(), 
-                    nowDate.Date.AddDays(14).ToString(), string.Empty, currentUser.ClientID);
+                    nowDate.Date.AddDays(14).ToString(),-1, string.Empty, currentUser.ClientID);
 
                 var totalExceedCount = 0;
-                var totalFinishCount = 0;
                 var totalWarnCount = 0;
                 var totalWorkCount = 0;
+                var totalFinishCount = 0;
                 var totalSumCount = 0;
                 var reportArr =new  List<Dictionary<string, Object>>();
                 for (var i = 0; i < 15; i++) {
@@ -812,19 +812,14 @@ namespace YXERP.Controllers
                     var orderList = list.FindAll(m => m.PlanTime.Date == nextDate.Date);
                     
                     var exceedCount = 0;
-                    var finishCount = 0;
                     var warnCount = 0;
                     var workCount = 0;
+                    var finishCount = 0;
                     var totalCount = 0;
-                    if (i > 0)
-                    {
-                        nextDate = nextDate.Date;
-                    }
-                    finishCount = orderList.FindAll(m => m.EndTime.ToString("yyyy-MM-dd") != "0001-01-01").Count;
-                    exceedCount = orderList.FindAll(m => m.PlanTime < nextDate && m.EndTime.ToString("yyyy-MM-dd") == "0001-01-01").Count;
+                    exceedCount = orderList.FindAll(m => m.PlanTime < nowDate && m.OrderStatus == 1).Count;
                     for (var j = 0; j < orderList.Count; j++) { 
                         var order=orderList[j];
-                        if (order.PlanTime > nowDate && order.EndTime.ToString("yyyy-MM-dd") == "0001-01-01")
+                        if (order.PlanTime > nowDate && order.OrderStatus==1)
                         {
                             if ((order.PlanTime - nowDate).TotalHours * 3 < (order.PlanTime - order.OrderTime).TotalHours)
                             {
@@ -836,6 +831,8 @@ namespace YXERP.Controllers
                             }
                         }
                     }
+                    finishCount = orderList.FindAll(m => m.OrderStatus == 2).Count;
+
                     report.Add("date", nextDate.Date.ToString("MM.dd"));
                     report.Add("warnCount", warnCount);
                     report.Add("finishCount", finishCount);
@@ -871,6 +868,23 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetOrdersByTypeAndTime(int filterType, string orderTime) 
+        {
+            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
+            orderTime = DateTime.Now.Year + "." + orderTime;
+            if(Session["ClientManager"]!=null)
+            {
+                var currentUser=(IntFactoryEntity.Users)Session["ClientManager"];
+                var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(orderTime, orderTime, filterType,
+                                                                                    string.Empty, currentUser.ClientID);
+                JsonDictionary.Add("items",list);                
+            }
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
     }
 }

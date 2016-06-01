@@ -1,11 +1,14 @@
 ﻿define(function (require, exports, module) {
     var Global = require("global");
     var Tip = require("tip");
-
+    var DoT = require("dot");
     var OrderListCache = null;
     var Paras = {
-        orderFilter:-1
+        orderFilter: -1,
+        orderTime: "",
+        filterType:-1
     }
+
     var ObjectJS = {};
 
     ObjectJS.init = function () {
@@ -14,6 +17,7 @@
     };
 
     ObjectJS.bindEvent = function () {
+
         $(".sum-list li").click(function () {
             var _this = $(this);
             if (!_this.hasClass("active")) {
@@ -27,6 +31,8 @@
             var _this = $(this);
             _this.addClass('hover').siblings().removeClass('hover');
         })
+
+        
 
     }
 
@@ -83,13 +89,23 @@
         for (var h = 0; h<5; h++) {
             $(".report-guid ul li").eq(h).find(".guid-count").html(GuidLineHeight * (4 - h));
         }
-
-        $(".report-item li").each(function () {
-            $(this).Tip({
-                width: 300,
-                msg: '/modules/plug/qqface/arclist/11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111'
+        
+        $(".index-report-content .report-item li").each(function () {
+            var _this = $(this);
+            var type = _this.data("type");
+            _this.Tip({
+                width: 160,
+                msg: _this.data("date") + "      " + (type == 1 ? "已超期订单" : type == 2 ? "快到期订单" : type == 3 ? "进行中订单" : "已完成订单") + "：" + _this.data("count")
             });
         });
+
+        $(".report-item li").click(function () {
+            var _this = $(this);
+            Paras.filterType = _this.data('type');
+            Paras.orderTime = _this.data('date');
+            $(".order-layerbox .layer-lump").nextAll().remove();
+            ObjectJS.getOrdersByStatus();
+        })
     }
 
     ObjectJS.createReportHtml = function (item, index) {
@@ -102,25 +118,25 @@
                 lineHeight = item.exceedCount * ReportAvgHeight;
                 lineHeight = lineHeight < 10 ? ReportMinHeight : lineHeight;
 
-                html += '<li style="line-height:' + lineHeight + 'px;" class="item-exceed">' + item.exceedCount + '</li>';
+                html += '<li style="line-height:' + lineHeight + 'px;" class="item-exceed" data-count="' + item.exceedCount + '" data-date="'+item.date+'" data-type="1">' + item.exceedCount + '</li>';
             }
             if (item.warnCount > 0 && (Paras.orderFilter == -1 || Paras.orderFilter == 2) ) {
                 lineHeight = item.warnCount * ReportAvgHeight;
                 lineHeight = lineHeight < 10 ? ReportMinHeight : lineHeight;
 
-                html += '<li style="line-height:' + lineHeight + 'px;" class="item-warn">' + item.warnCount + '</li>';
+                html += '<li style="line-height:' + lineHeight + 'px;" class="item-warn" data-count="' + item.warnCount + '" data-date="' + item.date + '" data-type="2">' + item.warnCount + '</li>';
             }
             if (item.workCount > 0 && (Paras.orderFilter == -1 || Paras.orderFilter == 3) ) {
                 lineHeight = item.workCount * ReportAvgHeight;
                 lineHeight = lineHeight < 10 ? ReportMinHeight : lineHeight;
 
-                html += '<li style="line-height:' + lineHeight + 'px;" class="item-work">' + item.workCount + '</li>';
+                html += '<li style="line-height:' + lineHeight + 'px;" class="item-work" data-count="' + item.workCount + '" data-date="' + item.date + '" data-type="3">' + item.workCount + '</li>';
             }
             if (item.finishCount > 0 && (Paras.orderFilter == -1 || Paras.orderFilter == 4) ) {
                 lineHeight = item.finishCount * ReportAvgHeight;
                 lineHeight = lineHeight < 10 ? ReportMinHeight : lineHeight;
 
-                html += ' <li style="line-height:' + lineHeight + 'px;" class="item-finish">' + item.finishCount + '</li>';
+                html += ' <li style="line-height:' + lineHeight + 'px;" class="item-finish" data-count="' + item.finishCount + '" data-date="' + item.date + '" data-type="4">' + item.finishCount + '</li>';
             }
             
             html += '    </ul>';
@@ -130,6 +146,28 @@
             $(".index-report-content").append(html);
             html.fadeIn(500);
         }
+
+        
+    }
+
+    ObjectJS.getOrdersByStatus = function () {
+        var loadding = "<div class='center loadding'><img src='/modules/images/ico-loading.gif' style='width:30px;height:30px;' /></div>";
+        $(".order-layerbox").append(loadding);
+        Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
+            $(".order-layerbox").find('.loadding').remove();
+            var items = data.items;
+            if (items.length == 0) {
+                var nodata = "<div class='center font14'>暂无数据</div>";
+                $(".order-layerbox").append(nodata);
+                return false;
+            }
+            
+            DoT.exec("/template/orders/index-order.html", function (template) {
+                var innerText = template(items);
+                innerText = $(innerText);
+                $(".order-layerbox").append(innerText);
+            });
+        })
     }
 
     module.exports= ObjectJS;
