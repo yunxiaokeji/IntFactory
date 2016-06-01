@@ -17,7 +17,7 @@
     <div class="index-report-header">
         <div class="left">
             <span class="font14">订单</span>
-            <span class="mLeft20">2016年5月</span>
+            <span class="mLeft20">@(DateTime.Now.Year+"年"+DateTime.Now.Month+"月")</span>
         </div>
         <div class="right order-type">
             <span class="hover">订单</span><span>任务</span>
@@ -91,7 +91,7 @@
 <div class="index-list">
     <div class="left order-list">
         <div class="list-header">
-            <span>2016-5-31/周三</span>
+            <span>@(DateTime.Now.ToString("yyyy-MM-dd")+"/"+YXERP.Common.Common.Week("周"))</span>
             <span class="mLeft15 list-total">125</span>
         </div>
         <div class="order-layerbox mTop20">
