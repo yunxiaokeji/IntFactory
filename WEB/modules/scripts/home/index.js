@@ -1,7 +1,7 @@
 ﻿define(function (require, exports, module) {
     var Global = require("global");
     var Tip = require("tip");
-
+    var DoT = require("dot");
     var OrderListCache = null;
     var Paras = {
         orderFilter:-1
@@ -10,10 +10,12 @@
 
     ObjectJS.init = function () {
         ObjectJS.getOrdersByPlanTime();
+        ObjectJS.getOrdersByStatus();
         ObjectJS.bindEvent();
     };
 
     ObjectJS.bindEvent = function () {
+        
         $(".sum-list li").click(function () {
             var _this = $(this);
             if (!_this.hasClass("active")) {
@@ -134,6 +136,31 @@
         }
 
         
+    }
+
+    ObjectJS.getOrdersByStatus = function () {
+        var a = 1;
+        if (a == 0) {
+            var nodata = "<div class='center font14'>暂无数据</div>";
+            $(".order-layerbox").append(nodata);
+            return false;
+        }
+        if (a == 1) {
+            var loadding = "<div class='center loadding'><img src='/modules/images/ico-loading.gif' style='width:30px;height:30px;' /></div>";
+            $(".order-layerbox").append(loadding);
+        }
+        DoT.exec("/template/orders/index-order.html", function (template) {
+            $(".order-layerbox").find('.loadding').remove();
+            var innerText = template();
+            innerText = $(innerText);
+            $(".order-layerbox").append(innerText);
+        });
+
+
+        Global.post("",null,function (data) {
+
+        })
+
     }
 
     module.exports= ObjectJS;
