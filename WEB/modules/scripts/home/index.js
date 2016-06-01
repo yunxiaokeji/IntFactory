@@ -1,5 +1,6 @@
 ﻿define(function (require, exports, module) {
     var Global = require("global");
+    var Tip = require("tip");
 
     var OrderListCache = null;
     var Paras = {
@@ -82,6 +83,13 @@
         for (var h = 0; h<5; h++) {
             $(".report-guid ul li").eq(h).find(".guid-count").html(GuidLineHeight * (4 - h));
         }
+
+        $(".report-item li").each(function () {
+            $(this).Tip({
+                width: 300,
+                msg: '/modules/plug/qqface/arclist/11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111'
+            });
+        });
     }
 
     ObjectJS.createReportHtml = function (item, index) {
