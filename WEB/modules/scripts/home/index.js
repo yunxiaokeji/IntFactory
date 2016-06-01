@@ -1,11 +1,14 @@
 ﻿define(function (require, exports, module) {
     var Global = require("global");
     var Tip = require("tip");
-
+    var DoT = require("dot");
     var OrderListCache = null;
     var Paras = {
-        orderFilter:-1
+        orderFilter: -1,
+        orderTime: "",
+        filterType:-1
     }
+
     var ObjectJS = {};
 
     ObjectJS.init = function () {
@@ -14,6 +17,7 @@
     };
 
     ObjectJS.bindEvent = function () {
+
         $(".sum-list li").click(function () {
             var _this = $(this);
             if (!_this.hasClass("active")) {
@@ -27,6 +31,8 @@
             var _this = $(this);
             _this.addClass('hover').siblings().removeClass('hover');
         })
+
+        
 
     }
 
@@ -92,6 +98,14 @@
                 msg: _this.data("date") + "      " + (type == 1 ? "已超期订单" : type == 2 ? "快到期订单" : type == 3 ? "进行中订单" : "已完成订单") + "：" + _this.data("count")
             });
         });
+
+        $(".report-item li").click(function () {
+            var _this = $(this);
+            Paras.filterType = _this.data('type');
+            Paras.orderTime = _this.data('date');
+            $(".order-layerbox .layer-lump").nextAll().remove();
+            ObjectJS.getOrdersByStatus();
+        })
     }
 
     ObjectJS.createReportHtml = function (item, index) {
@@ -134,6 +148,26 @@
         }
 
         
+    }
+
+    ObjectJS.getOrdersByStatus = function () {
+        var loadding = "<div class='center loadding'><img src='/modules/images/ico-loading.gif' style='width:30px;height:30px;' /></div>";
+        $(".order-layerbox").append(loadding);
+        Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
+            $(".order-layerbox").find('.loadding').remove();
+            var items = data.items;
+            if (items.length == 0) {
+                var nodata = "<div class='center font14'>暂无数据</div>";
+                $(".order-layerbox").append(nodata);
+                return false;
+            }
+            
+            DoT.exec("/template/orders/index-order.html", function (template) {
+                var innerText = template(items);
+                innerText = $(innerText);
+                $(".order-layerbox").append(innerText);
+            });
+        })
     }
 
     module.exports= ObjectJS;
