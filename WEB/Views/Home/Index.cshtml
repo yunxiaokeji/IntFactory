@@ -28,23 +28,23 @@
     <div class="index-report-sum">
         <div class="left">
             <ul class="sum-list">
-                <li class="active">
+                <li class="active" data-orderfilter="-1">
                     <div class="sun-count" id="totalSumCount">0</div>
                     <div>全部订单</div>
                 </li>
-                <li>
+                <li data-orderfilter="1">
                      <div class="sun-count" id="totalWarnCount">0</div>
                     <div>快到期</div>
                 </li>
-                <li>
+                <li data-orderfilter="2">
                      <div class="sun-count" id="totalExceedCount">0</div>
                     <div>已到期</div>
                 </li>
-                <li>
+                <li data-orderfilter="3">
                      <div class="sun-count" id="totalWorkCount">0</div>
                     <div>进行中</div>
                 </li>
-                 <li>
+                 <li data-orderfilter="4">
                      <div class="sun-count" id="totalFinishCount">0</div>
                     <div>已完成</div>
                 </li>
@@ -54,8 +54,8 @@
 
         <div class="right">
             <ul class="report-status">
-                <li style="border-color:#ffa200"><span>快到期</span></li>
                 <li style="border-color:#f35353"><span>已到期</span></li>
+                <li style="border-color:#ffa200"><span>快到期</span></li>
                 <li style="border-color:#49b3f5"><span>进行中</span></li>
                 <li style="border-color:#2F73B8"><span>已完成</span></li>
             </ul>
@@ -67,11 +67,10 @@
     <div class="index-report-content">
         <div class="report-guid">
             <ul>
-                <li><div class="guid-count">100</div></li>
-                 <li><div class="guid-count">80</div></li>
-               @* <li><div class="guid-count">60</div></li>*@
-                <li><div class="guid-count">40</div></li>
-                <li><div class="guid-count">20</div></li>
+                <li><div class="guid-count">4</div></li>
+                 <li><div class="guid-count">3</div></li>
+                <li><div class="guid-count">2</div></li>
+                <li><div class="guid-count">1</div></li>
                 <li style="height:0px;"><div class="guid-count">0</div></li>
             </ul>
             <div class="clear"></div>
