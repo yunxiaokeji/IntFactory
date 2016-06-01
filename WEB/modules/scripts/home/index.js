@@ -165,7 +165,28 @@
             DoT.exec("/template/orders/index-order.html", function (template) {
                 var innerText = template(items);
                 innerText = $(innerText);
+
+                innerText.find('.order-progress-item').each(function () {
+                    var _this = $(this);
+
+                    _this.css({ "width": _this.data('width') });
+
+                });
+
                 $(".order-layerbox").append(innerText);
+
+                $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
+                    var _this = $(this);
+
+                    _this.css({ "left": (_this.parent().width()-_this.width()) / 2 });
+
+                })
+
+                //$(".order-layerbox").find('.top-lump').each(function () {
+                //    var _this = $(this);
+
+                //    _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
+                //})
             });
         })
     }

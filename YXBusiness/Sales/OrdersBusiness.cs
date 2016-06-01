@@ -170,16 +170,26 @@ namespace IntFactoryBusiness
                     {
                         model.WarningStatus = 2;
                         model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (DateTime.Now.Date - model.PlanTime.Date).Days;
+                        model.UseDays = (model.PlanTime.Date - model.OrderTime.Date).Days;
                     }
                     else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
                     {
                         model.WarningStatus = 1;
                         model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (model.PlanTime.Date - DateTime.Now.Date).Days;
+                        model.UseDays = (DateTime.Now.Date - model.OrderTime.Date).Days;
                     }
                     else
                     {
                         model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (model.PlanTime.Date - DateTime.Now.Date).Days;
+                        model.UseDays = (DateTime.Now.Date - model.OrderTime.Date).Days;
                     }
+                }
+                else
+                {
+                    model.UseDays = (model.PlanTime.Date - model.OrderTime.Date).Days;
                 }
                 list.Add(model);
             }

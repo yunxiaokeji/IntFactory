@@ -242,6 +242,7 @@ border-bottom:2px solid #4a98e7;
 }
 .order-progress {
     margin-top: 6px;
+    width:160px;
 }
 .order-progress .order-progress-item {
     width:80px;
@@ -298,14 +299,6 @@ border-bottom:2px solid #4a98e7;
     color:#fff;
     position: absolute;
     top: -29px;
-}
-
-.order-progress .order-progress-use .progress-tip { 
-    left:10px;
-}
-
-.order-progress .order-progress-warn .progress-tip { 
-    right: 0;
 }
 
 .order-progress-use .top-lump {
