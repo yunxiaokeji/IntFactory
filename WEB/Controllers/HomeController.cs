@@ -798,7 +798,7 @@ namespace YXERP.Controllers
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var nowDate=DateTime.Now;
                 var list= IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(nowDate.Date.ToString(), 
-                    nowDate.Date.AddDays(14).ToString(), string.Empty, currentUser.ClientID);
+                    nowDate.Date.AddDays(14).ToString(),-1, string.Empty, currentUser.ClientID);
 
                 var totalExceedCount = 0;
                 var totalFinishCount = 0;
