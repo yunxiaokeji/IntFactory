@@ -120,6 +120,7 @@
             if (!ObjectJS.isLoading) {
                 return;
             }
+            
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -162,7 +163,7 @@
             }
         });
 
-        //切换任务标记
+        //切换模块
         $(".search-process .item").on("click", function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
