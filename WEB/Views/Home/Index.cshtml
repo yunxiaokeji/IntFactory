@@ -92,12 +92,11 @@
 <div class="index-list">
     <div class="left order-list">
         <div class="list-header">
-            <span>@(DateTime.Now.ToString("yyyy-MM-dd")+"/"+YXERP.Common.Common.Week("周"))</span>
+            <span>@(DateTime.Now.ToString("yyyy-MM-dd")+"/"+YXERP.Common.Common.Week("周",Convert.ToInt32(DateTime.Now.DayOfWeek)))</span>
             <span class="mLeft15 list-total">125</span>
         </div>
         <div class="order-layerbox mTop20">
             <div class="layer-lump"></div>
-
             <div class="order-item">
                 <div class="left order-img"><img src="/modules/images/img-nouse.png" /></div>
                 <div class="left order-detail mLeft10">
