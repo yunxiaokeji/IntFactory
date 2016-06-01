@@ -1,0 +1,176 @@
+﻿@{
+    
+    Layout = "/Views/Shared/_LayoutNoLeft.cshtml";
+    IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+    ViewBag.Title = "首页";
+}
+
+@section css{
+<link href="/modules/css/home/home.css" rel="stylesheet" />
+}
+
+@section scripts{
+<script type="text/javascript">
+    seajs.use(["scripts/home"], function (layout) {
+        layout.initHome();
+    });
+</script>
+}
+<div class="indexContent">
+    <div style="width:500px;" class="left">
+
+    <div class="orderContent">
+        <div class="header">
+            需求
+        </div>
+
+        <div class="needOrderNav">
+            <ul class="navTab">
+                <li data-filterType="6">
+                    <a href="javascript:void(0);" class="center">
+                         
+                         <div>本厂订单</div>
+                         <div class="center mTop5" id="myOrders">0</div>
+                    </a>
+                </li>
+                <li  data-filterType="7">
+                    <a href="javascript:void(0);" class="center">
+                        <div>委托订单</div>
+                        <div class="center mTop5" id="delegateOrders">0</div>
+                    </a>
+                </li>
+                <li data-filterType="5">
+                    <a href="javascript:void(0);" class="center">
+                        <div>协助订单</div>
+                        <div class="center mTop5" id="cooperationOrders">0</div>
+                    </a>
+                </li>
+            </ul> 
+            <div class="clear"></div>
+        </div>
+
+    </div>
+
+    <div class="orderContent">
+        <div class="header">
+            打样
+        </div>
+
+        <div class="fentOrderNav">
+            <ul class="navTab">
+                <li data-filterType="6">
+                    <a href="javascript:void(0);">
+                        <div class="center">
+                            <img style="width:18px;" src="/modules/images/home/ico-myorder.png" />
+                        </div>
+                        我负责的<span class="mLeft5">(</span><span class="" id="doMyFentOrder">0</span>/<span id="myFentOrder">0</span>)
+                    </a>
+                </li>
+                <li  data-filterType="7">
+                    <a href="javascript:void(0);">
+                        <div class="center">
+                            <img style="width:18px;" src="/modules/images/home/ico-delegateorder.png" />
+                        </div>
+                        我委托的<span class="mLeft5">(</span><span class="" id="doDelegateFentOrders">0</span>/<span id="delegateFentOrders">0</span>)
+                    </a>
+                </li>
+                <li data-filterType="5">
+                    <a href="javascript:void(0);">
+                        <div class="center">
+                            <img style="width:18px;" src="/modules/images/home/ico-cooperationorder.png" />
+                        </div>
+                        我协助的<span class="mLeft5">(</span><span class="" id="doCooperationFentOrders">0</span>/<span id="cooperationFentOrders">0</span>)
+                    </a>
+                </li>
+            </ul>
+             <div class="clear"></div>
+        </div>
+
+    </div>
+
+    <div class="orderContent">
+        <div class="header">
+            大货
+        </div>
+
+        <div class="bulkOrderNav">
+            <ul class="navTab">
+                <li data-filterType="6">
+                    <a href="javascript:void(0);">
+                        <div class="center">
+                            <img style="width:18px;" src="/modules/images/home/ico-myorder.png" />
+                        </div>
+                        我负责的<span class="mLeft5">(</span><span class="" id="doMyBulkOrder">0</span>/<span id="myBulkOrder">0</span>)
+                    </a>
+                </li>
+                <li  data-filterType="7">
+                    <a href="javascript:void(0);">
+                        <div class="center">
+                            <img style="width:18px;" src="/modules/images/home/ico-delegateorder.png" />
+                        </div>
+                        我委托的<span class="mLeft5">(</span><span  id="doCooperationBulkOrders">0</span>/<span id="cooperationBulkOrders">0</span>)
+                    </a>
+                </li>
+                <li data-filterType="5">
+                    <a href="javascript:void(0);">
+                         <div class="center">
+                            <img style="width:18px;" src="/modules/images/home/ico-cooperationorder.png" />
+                        </div>
+                        我协助的<span class="mLeft5">(</span><span class="" id="doDelegateBulkOrders">0</span>/<span id="delegateBulkOrders">0</span>)
+                    </a>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+
+    </div>
+
+    </div>
+
+    <div class="right mLeft30">
+        <div class="header">
+            客户
+        </div>
+
+        <div class="itemContent mTop10">
+            <a href="javascript:void(0);">
+                <div class="left pTop5"><img style="width:26px;" src="/modules/images/home/ico-allcustomer.png" /></div>
+                <div class="left mLeft10">
+                    <div>客户数</div>
+                    <div class="center mTop5" id="customercount">0</div>
+                </div>
+            </a>
+            <div class="clear"></div>
+        </div>
+
+        <div class="itemContent" style="margin-top:60px;">
+            <a href="javascript:void(0);">
+                <div class="left pTop5">
+                    <img style="width:26px;" src="/modules/images/home/ico-allorder.png" />
+                </div>
+                <div class="left mLeft10">
+                    <div>订单数</div>
+                    <div class="center mTop5" id="ordercount">0</div>
+                </div>
+            </a>
+            <div class="clear"></div>
+        </div>
+
+        <div class="itemContent" style="margin-top:60px;">
+            <div class="left pTop5"><img style="width:26px;" src="/modules/images/home/ico-allamount.png" /></div>
+            <div class="left mLeft10" >
+                <div>订单金额</div>
+                
+                <div class="center mTop5" id="totalmoney">0</div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+

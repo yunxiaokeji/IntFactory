@@ -88,7 +88,7 @@
                     format: 'YYYY-MM-DD',
                     min: minDate,
                     max: '2099-06-16',
-                    istime: true,
+                    istime: false,
                     istoday: false
                 };
                 laydate(taskEndTime);

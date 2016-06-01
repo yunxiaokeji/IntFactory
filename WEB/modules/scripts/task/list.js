@@ -82,6 +82,7 @@
     }
 
     ObjectJS.bindEvent = function () {
+
         //切换任务阶段
         $(".search-stages li").click(function () {
             if (!ObjectJS.isLoading) {
