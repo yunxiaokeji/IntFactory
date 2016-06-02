@@ -156,12 +156,13 @@
         Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
             $(".order-layerbox").find('.loadding').remove();
             var items = data.items;
+            $(".list-total").html(items.length);
+
             if (items.length == 0) {
                 var nodata = "<div class='center font14'>暂无数据</div>";
                 $(".order-layerbox").append(nodata);
                 return false;
             }
-            
             DoT.exec("/template/orders/index-order.html", function (template) {
                 var innerText = template(items);
                 innerText = $(innerText);
