@@ -42,8 +42,7 @@
 .index-report-sum {
     padding-top:10px;
     margin-left:27px;
-    border-bottom:1px solid #eee;
-    
+    /*border-bottom:1px solid #eee;*/
 }
 .sum-list li{
     float:left;
@@ -61,6 +60,7 @@ border-bottom:2px solid #4a98e7;
 .sum-list .sun-count {
     color:#333;
     font-size:16px;
+    
 }
 .index-report-sum .report-status li {
     float: left;
@@ -72,7 +72,7 @@ border-bottom:2px solid #4a98e7;
 .index-report-content {
     position:relative;
     height:297px;
-    margin:0 10px 20px 28px;
+    margin:20px 10px 20px 28px;
 }
 .index-report-content .report-guid {
     position:absolute;
