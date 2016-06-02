@@ -81,6 +81,18 @@ namespace IntFactoryEntity.Task
         public string Members { get; set; }
 
         public List<TaskMember> TaskMembers { get; set; }
+
+        /// <summary>
+        /// 预警状态 0：正常 1：快到期 2：已超期
+        /// </summary>
+        public int WarningStatus { get; set; }
+
+        public string WarningTime { get; set; }
+
+        public int WarningDays { get; set; }
+
+        public int UseDays { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>
