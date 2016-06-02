@@ -243,6 +243,19 @@ border-bottom:2px solid #4a98e7;
 .order-progress {
     margin-top: 6px;
     width:160px;
+    position:relative;
+}
+.order-progress .layer-line { 
+    width:160px;
+    height:4px;
+    left:0;
+    top:0;
+    z-index:9999;
+    transition:3.5s;
+    -webkit-transition:3.5s;
+    -moz-transition:3.5s;
+    position:absolute;
+    background-color:rgba(255,255,255,0.8);
 }
 .order-progress .order-progress-item {
     width:80px;

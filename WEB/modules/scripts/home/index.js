@@ -11,6 +11,8 @@
 
     var ObjectJS = {};
 
+    var IsLoadding = false;
+
     ObjectJS.init = function () {
         ObjectJS.getOrdersByPlanTime();
         ObjectJS.getOrdersByStatus();
@@ -34,23 +36,24 @@
             _this.addClass('hover').siblings().removeClass('hover');
         })
 
-        
-
     }
 
     ObjectJS.getOrdersByPlanTime = function () {
+        IsLoadding = true;
+        if (IsLoadding) {
+            Global.post("/Home/GetOrdersByPlanTime", {}, function (data) {
+                IsLoadding = false;
+                OrderListCache = data.items;
+                ObjectJS.bindReport();
 
-        Global.post("/Home/GetOrdersByPlanTime", {}, function (data) {
-            OrderListCache = data.items;
-            ObjectJS.bindReport();
-
-            $("#totalSumCount").html(data.totalSumCount);
-            $("#totalExceedCount").html(data.totalExceedCount);
-            $("#totalFinishCount").html(data.totalFinishCount);
-            $("#totalWarnCount").html(data.totalWarnCount);
-            $("#totalWorkCount").html(data.totalWorkCount);
-            $("#totalSumCount").html(data.totalSumCount);
-        });
+                $("#totalSumCount").html(data.totalSumCount);
+                $("#totalExceedCount").html(data.totalExceedCount);
+                $("#totalFinishCount").html(data.totalFinishCount);
+                $("#totalWarnCount").html(data.totalWarnCount);
+                $("#totalWorkCount").html(data.totalWorkCount);
+                $("#totalSumCount").html(data.totalSumCount);
+            });
+        }
     }
 
     var ReportAvgHeight = 0;//报表每一份对应的行高
@@ -153,53 +156,59 @@
     }
 
     ObjectJS.getOrdersByStatus = function () {
-        var loadding = "<div class='center loadding'><img src='/modules/images/ico-loading.gif' style='width:30px;height:30px;' /></div>";
-        $(".order-layerbox").append(loadding);
-        Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
-            $(".order-layerbox").find('.loadding').remove();
-            var items = data.items;
-            $(".list-total").html(items.length);
+        IsLoadding = true;
+        if (IsLoadding) {
+            var loadding = "<div class='center loadding'><img src='/modules/images/ico-loading.gif' style='width:30px;height:30px;' /></div>";
+            $(".order-layerbox").append(loadding);
+            Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
+                IsLoadding = false;
+                $(".order-layerbox").find('.loadding').remove();
+                var items = data.items;
+                $(".list-total").html(items.length);
 
-            var timeHtml = $(".list-header").find("span").eq(0);
-            if (timeHtml.data('isget') != 1) {
-                timeHtml.html(data.showTime);
-            } else {
-                timeHtml.data('isget', 0);
-            }
+                var timeHtml = $(".list-header").find("span").eq(0);
+                if (timeHtml.data('isget') != 1) {
+                    timeHtml.html(data.showTime);
+                } else {
+                    timeHtml.data('isget', 0);
+                }
 
-            if (items.length == 0) {
-                var nodata = "<div class='center font14'>暂无数据</div>";
-                $(".order-layerbox").append(nodata);
-            } else {
-                DoT.exec("/template/orders/index-order.html", function (template) {
-                    var innerText = template(items);
-                    innerText = $(innerText);
+                if (items.length == 0) {
+                    var nodata = "<div class='center font14'>暂无数据</div>";
+                    $(".order-layerbox").append(nodata);
+                } else {
+                    DoT.exec("/template/orders/index-order.html", function (template) {
+                        var innerText = template(items);
+                        innerText = $(innerText);
 
-                    innerText.find('.order-progress-item').each(function () {
-                        var _this = $(this);
+                        innerText.find('.order-progress-item').each(function () {
+                            var _this = $(this);
 
-                        _this.css({ "width": _this.data('width') });
+                            _this.css({ "width": _this.data('width') });
+
+                        });
+
+                        $(".order-layerbox").append(innerText);
+
+                        $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
+                            var _this = $(this);
+
+                            _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
+
+                        })
+
+                        //$(".order-layerbox").find('.top-lump').each(function () {
+                        //    var _this = $(this);
+
+                        //    _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
+                        //})
+                        innerText.find('.layer-line').css({ width: 0, left: 160 });
 
                     });
+                }
 
-                    $(".order-layerbox").append(innerText);
-
-                    $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
-                        var _this = $(this);
-
-                        _this.css({ "left": (_this.parent().width()-_this.width()) / 2 });
-
-                    })
-
-                    //$(".order-layerbox").find('.top-lump').each(function () {
-                    //    var _this = $(this);
-
-                    //    _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
-                    //})
-                });
-            }
-            
-        })
+            })
+        }
     }
 
     module.exports= ObjectJS;
