@@ -53,6 +53,23 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public static List<TaskEntity> GetTasksByEndTime(string startEndTime, string endEndTime, int filterType, string userID, string clientID)
+        {
+            List<TaskEntity> list = new List<TaskEntity>();
+            DataTable dt = TaskDAL.BaseProvider.GetTasksByEndTime(startEndTime, endEndTime, filterType, userID, clientID);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                TaskEntity model = new TaskEntity();
+                model.FillData(dr);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+
+                list.Add(model);
+            }
+
+            return list;
+        }
+
         /// <summary>
         /// 获取任务详情
         /// </summary>
