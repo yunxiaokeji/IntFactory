@@ -13,8 +13,9 @@
     }
 
     var ObjectJS = {};
-    //默认是显示订单
-    ObjectJS.type = 1;
+
+    //默认显示订单
+    ObjectJS.moduleType = 1;
 
     ObjectJS.init = function (level, userID) {
         if (level == 2) {
@@ -25,9 +26,8 @@
             Paras.type = 1;
         }
         ObjectJS.bindEvent();
-
         ObjectJS.getReportList();
-        ObjectJS.getOrdersByStatus();
+        ObjectJS.getDataList(ObjectJS.moduleType);
     };
 
     ObjectJS.bindEvent = function () {
@@ -44,7 +44,13 @@
         $(".order-type span").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
+                //切换任务或订单初始化
+                Paras.filterTime = new Date().getMonth().toString() + '.' + new Date().getDay().toString();
+                Paras.filterType = 1;
                 _this.addClass('hover').siblings().removeClass('hover');
+                $(".list-header").find("span").eq(0).data('isget', '1');
+                $(".list-header").find('.list-total').css({ "background-color": "#f35353" });
+                ObjectJS.moduleType = _this.data('id');
 
                 if (_this.data('id') == 1) {
                     $(".order-msg").html("订单");
@@ -52,8 +58,7 @@
                 else {
                     $(".order-msg").html("任务");
                 }
-
-                ObjectJS.type = _this.data('id');
+                ObjectJS.getDataList(ObjectJS.moduleType);
                 ObjectJS.getReportList();
             }
         });
@@ -63,7 +68,7 @@
     ObjectJS.getReportList = function () {
         if (IsLoadding) {
             IsLoadding = false;
-            var action = ObjectJS.type == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
+            var action = ObjectJS.moduleType == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
             Global.post("/Home/" + action, {}, function (data) {
                 IsLoadding = true;
                 OrderListCache = data.items;
@@ -123,7 +128,7 @@
         $(".index-report-content .report-item li").each(function () {
             var _this = $(this);
             var type = _this.data("type");
-            var showMsg = ObjectJS.type == 1 ? "订单" : "任务";
+            var showMsg = ObjectJS.moduleType == 1 ? "订单" : "任务";
             _this.Tip({
                 width: 160,
                 msg: _this.data("date") + "      " + (type == 1 ? "已超期" + showMsg : type == 2 ? "快到期" + showMsg : type == 3 ? "进行中" + showMsg : "已完成" + showMsg) + "：" + _this.data("count")
@@ -137,11 +142,7 @@
             $(".order-layerbox .layer-lump").nextAll().remove();
             $(".list-header .list-total").css("background-color", _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8");
 
-            if (ObjectJS.type == 1) {
-                ObjectJS.getOrdersByStatus();
-            } else {
-                ObjectJS.getTaskByStatus();
-            }
+            ObjectJS.getDataList(ObjectJS.moduleType);
         });
     }
 
@@ -192,111 +193,62 @@
         }
     }
 
-    ObjectJS.getOrdersByStatus = function () {
-        IsLoadding = true;
-        if (IsLoadding) {
-            var loadding = "<div class='center loadding'><img src='/modules/images/ico-loading.gif' style='width:30px;height:30px;' /></div>";
-            $(".order-layerbox").append(loadding);
-            Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
-                IsLoadding = false;
-                $(".order-layerbox").find('.loadding').remove();
-                var items = data.items;
-                $(".list-total").html(items.length);
-
-                var timeHtml = $(".list-header").find("span").eq(0);
-                if (timeHtml.data('isget') != 1) {
-                    timeHtml.html(data.showTime);
-                }
-                else {
-                    timeHtml.data('isget', 0);
-                }
-
-                if (items.length == 0) {
-                    var nodata = "<div class='center font14'>暂无数据</div>";
-                    $(".order-layerbox").append(nodata);
-                } else {
-                    DoT.exec("/template/orders/index-order.html", function (template) {
-                        var innerText = template(items);
-                        innerText = $(innerText);
-
-                        innerText.find('.order-progress-item').each(function () {
-                            var _this = $(this);
-
-                            _this.css({ "width": _this.data('width') });
-                        });
-
-                        $(".order-layerbox").append(innerText);
-
-                        $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
-                            var _this = $(this);
-                            _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
-
-                        })
-
-                        innerText.find('.layer-line').css({ width: 0, left: 160 });
-                    });
-                }
-
-            })
+    ObjectJS.getDataList = function (moduleType) {
+        var url = "";
+        var action = "";
+        if (moduleType == 1) {
+            url = "/template/home/index-order.html";
+            action = "GetOrdersByTypeAndTime";
+        } else {
+            url = "/template/home/index-task.html";
+            action = "GetTasksByTypeAndTime";
         }
-    }
+        var loadding = "<div class='data-loading'>";
+        $(".order-layerbox").find('.order-item').remove();
+        $(".order-layerbox").append(loadding);
+        Global.post("/Home/" + action, Paras, function (data) {
+            IsLoadding = true;
+            $(".order-layerbox").find('.data-loading').remove();
+            var items = data.items;
+            $(".list-total").html(items.length);
 
-    ObjectJS.getTaskByStatus = function () {
-        IsLoadding = true;
-        if (IsLoadding) {
-            var loadding = "<div class='center loadding'><img src='/modules/images/ico-loading.gif' style='width:30px;height:30px;' /></div>";
-            $(".order-layerbox").append(loadding);
-            Global.post("/Home/GetTasksByTypeAndTime", Paras, function (data) {
-                IsLoadding = false;
-                $(".order-layerbox").find('.loadding').remove();
-                var items = data.items;
-                $(".list-total").html(items.length);
+            var timeHtml = $(".list-header").find("span").eq(0);
+            if (timeHtml.data('isget') != 1) {
+                timeHtml.html(data.showTime);
+            } else {
+                timeHtml.html('已超期');
+                timeHtml.data('isget', 0);
+            }
 
-                var timeHtml = $(".list-header").find("span").eq(0);
-                if (timeHtml.data('isget') != 1) {
-                    timeHtml.html(data.showTime);
-                } else {
-                    timeHtml.data('isget', 0);
-                }
+            if (items.length == 0) {
+                var nodata = "<div class='nodata-txt'>暂无数据!<div>";
+                $(".order-layerbox").append(nodata);
+            } else {
+                DoT.exec(url, function (template) {
+                    var innerText = template(items);
+                    innerText = $(innerText);
 
-                if (items.length == 0) {
-                    var nodata = "<div class='center font14'>暂无数据</div>";
-                    $(".order-layerbox").append(nodata);
-                } else {
-                    DoT.exec("/template/orders/index-task.html", function (template) {
-                        var innerText = template(items);
-                        innerText = $(innerText);
+                    innerText.find('.order-progress-item').each(function () {
+                        var _this = $(this);
 
-                        innerText.find('.order-progress-item').each(function () {
-                            var _this = $(this);
-
-                            _this.css({ "width": _this.data('width') });
-
-                        });
-
-                        $(".order-layerbox").append(innerText);
-
-                        $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
-                            var _this = $(this);
-
-                            _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
-
-                        })
-
-                        //$(".order-layerbox").find('.top-lump').each(function () {
-                        //    var _this = $(this);
-
-                        //    _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
-                        //})
-                        innerText.find('.layer-line').css({ width: 0, left: 160 });
-
-
+                        _this.css({ "width": _this.data('width') });
 
                     });
-                }
 
-            })
-        }
+                    $(".order-layerbox").append(innerText);
+
+                    $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
+                        var _this = $(this);
+
+                        _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
+
+                    })
+
+                    innerText.find('.layer-line').css({ width: 0, left: 160 });
+                });
+            }
+
+        })
     }
 
     module.exports= ObjectJS;
