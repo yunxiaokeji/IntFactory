@@ -6,7 +6,7 @@
 }
 .index-report {
     width:1150px;
-    margin:30px auto;
+    margin:25px auto;
     background-color:#fff;
     border:1px solid #ddd;
 }
@@ -71,15 +71,15 @@ border-bottom:2px solid #4a98e7;
 }
 .index-report-content {
     position:relative;
-    height:317px;
-    margin:0 10px 30px 28px;
+    height:297px;
+    margin:0 10px 20px 28px;
 }
 .index-report-content .report-guid {
     position:absolute;
     left:0px;
     bottom:15px;
     width:100%;
-    height:300px;
+    height:280px;
     
 }
 .report-guid ul{
