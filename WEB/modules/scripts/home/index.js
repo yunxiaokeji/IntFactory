@@ -14,6 +14,7 @@
     ObjectJS.init = function () {
         ObjectJS.getOrdersByPlanTime();
         ObjectJS.bindEvent();
+
     };
 
     ObjectJS.bindEvent = function () {
@@ -157,7 +158,7 @@
             $(".order-layerbox").find('.loadding').remove();
             var items = data.items;
             $(".list-total").html(items.length);
-
+            $(".list-header").find("span").eq(0).html(data.showTime);
             if (items.length == 0) {
                 var nodata = "<div class='center font14'>暂无数据</div>";
                 $(".order-layerbox").append(nodata);

@@ -13,7 +13,7 @@
             <div class="left">
                 <div class="order-title">{%=item.GoodsName%}</div>
                 <div class="mTop10">
-                    <span class="iconfont mRight5">&#xe624;</span><span>{%=item.CustomerName%}</span>
+                    <span class="iconfont mRight5">&#xe624;</span><span>{%=item.CustomerName==""?item.PersonName:item.CustomerName%}</span>
                     <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
                     <span class="mLeft10">{%=item.StatusStr%}：</span><span>{%=(item.TaskCount>0?item.TaskOver/item.TaskCount*100:0).toFixed(0)+"%"%}</span>
                 </div>
@@ -24,6 +24,7 @@
             <div class="right">
                 <div class="mTop30">
                     <div class="order-progress left">
+                        <div class="layer-line"></div>
                         <div class="order-progress-use order-progress-item" data-width="{%=(item.UseDays==0?1:item.UseDays)/totalDay*100+'%'%}">
                             <div class="progress-tip">{%=item.UseDays==0?1:item.UseDays%}天</div>
                             <div class="top-lump"></div>

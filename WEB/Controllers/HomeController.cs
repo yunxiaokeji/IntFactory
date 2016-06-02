@@ -878,6 +878,7 @@ namespace YXERP.Controllers
                 var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(orderTime, orderTime, filterType,
                                                                                                 string.Empty, currentUser.ClientID);
                 JsonDictionary.Add("items",list);
+                JsonDictionary.Add("showTime", orderTime.Replace(".", "-") + "/" + YXERP.Common.Common.Week("周", (int)Convert.ToDateTime(orderTime).DayOfWeek));
             }
             return new JsonResult
             {
