@@ -21,13 +21,16 @@
         if (level == 2) {
             Paras.userID = userID;
         }
+        else if (level == 3) {
+            ObjectJS.moduleType = 2;
+        }
         else if (level == 0) {
             Paras.userID = userID;
-            Paras.type = 1;
+            ObjectJS.moduleType = 2;
         }
         ObjectJS.bindEvent();
         ObjectJS.getReportList();
-        ObjectJS.getDataList(ObjectJS.moduleType);
+        ObjectJS.getDataList();
     };
 
     ObjectJS.bindEvent = function () {
@@ -45,20 +48,21 @@
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 //切换任务或订单初始化
-                Paras.filterTime = new Date().getMonth().toString() + '.' + new Date().getDay().toString();
-                Paras.filterType = 1;
                 _this.addClass('hover').siblings().removeClass('hover');
                 $(".list-header").find("span").eq(0).data('isget', '1');
                 $(".list-header").find('.list-total').css({ "background-color": "#f35353" });
-                ObjectJS.moduleType = _this.data('id');
-
                 if (_this.data('id') == 1) {
                     $(".order-msg").html("订单");
                 }
                 else {
                     $(".order-msg").html("任务");
                 }
-                ObjectJS.getDataList(ObjectJS.moduleType);
+
+                ObjectJS.moduleType = _this.data('id');
+                Paras.filterTime = new Date().getMonth().toString() + '.' + new Date().getDay().toString();
+                Paras.filterType = 1;
+                
+                ObjectJS.getDataList();
                 ObjectJS.getReportList();
             }
         });
@@ -69,7 +73,7 @@
         if (IsLoadding) {
             IsLoadding = false;
             var action = ObjectJS.moduleType == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
-            Global.post("/Home/" + action, {}, function (data) {
+            Global.post("/Home/" + action, { userID: Paras.userID }, function (data) {
                 IsLoadding = true;
                 OrderListCache = data.items;
 
@@ -142,7 +146,7 @@
             $(".order-layerbox .layer-lump").nextAll().remove();
             $(".list-header .list-total").css("background-color", _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8");
 
-            ObjectJS.getDataList(ObjectJS.moduleType);
+            ObjectJS.getDataList();
         });
     }
 
@@ -193,7 +197,8 @@
         }
     }
 
-    ObjectJS.getDataList = function (moduleType) {
+    ObjectJS.getDataList = function () {
+        var moduleType = ObjectJS.moduleType;
         var url = "";
         var action = "";
         if (moduleType == 1) {
