@@ -4,11 +4,12 @@
     var DoT = require("dot");
 
     var OrderListCache = null;
-    var IsLoadding = false;
+    var IsLoadding = true;
     var Paras = {
         orderFilter: -1,
         filterTime: new Date().getMonth().toString() + '.' + new Date().getDay().toString(),
-        filterType: 1
+        filterType: 1,
+        moduleType:1
     }
 
     var ObjectJS = {};
@@ -16,7 +17,6 @@
         //默认是显示订单
         ObjectJS.type = 1;
         ObjectJS.bindEvent();
-
 
         ObjectJS.getOrdersByPlanTime();
         ObjectJS.getOrdersByStatus();
@@ -36,27 +36,28 @@
         $(".order-type span").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
+                _this.addClass('hover').siblings().removeClass('hover');
+
                 if (_this.data('id') == 1) {
                     $(".order-msg").html("订单");
-                    ObjectJS.getOrdersByPlanTime();
-                } else {
+                }
+                else {
                     $(".order-msg").html("任务");
-                    ObjectJS.getTasksByEndTime();
                 }
 
                 ObjectJS.type = _this.data('id');
-
-                _this.addClass('hover').siblings().removeClass('hover');
+                ObjectJS.getReportList();
             }
-        })
+        });
 
     }
 
-    ObjectJS.getOrdersByPlanTime = function () {
-        IsLoadding = true;
+    ObjectJS.getReportList = function () {
         if (IsLoadding) {
-            Global.post("/Home/GetOrdersByPlanTime", {}, function (data) {
-                IsLoadding = false;
+            IsLoadding = false;
+            var action = ObjectJS.type == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
+            Global.post("/Home/" + action, {}, function (data) {
+                IsLoadding = true;
                 OrderListCache = data.items;
                 ObjectJS.bindReport();
 
@@ -70,21 +71,6 @@
         }
     }
 
-    ObjectJS.getTasksByEndTime = function () {
-
-        Global.post("/Home/GetTasksByEndTime", {}, function (data) {
-            OrderListCache = data.items;
-            ObjectJS.bindReport();
-            $("#totalSumCount").html(data.totalSumCount);
-            $("#totalExceedCount").html(data.totalExceedCount);
-            $("#totalFinishCount").html(data.totalFinishCount);
-            $("#totalWarnCount").html(data.totalWarnCount);
-            $("#totalWorkCount").html(data.totalWorkCount);
-            $("#totalSumCount").html(data.totalSumCount);
-        });
-
-    }
-
     var ReportAvgHeight = 0;//报表每一份对应的行高
     var GuidLineHeight = 0;//报表网格线对应的份数
     var ReportMinHeight = 0;//最低行高
@@ -93,14 +79,16 @@
         //for (var i = 0; i < 1; i++) {
         //    var item = {
         //        date: "6.1",
-        //        exceedCount: 3,
-        //        warnCount: 1,
-        //        workCount: 1,
-        //        finishCount: 6,
-        //        totalCount: 11
+        //        //exceedCount: 3,
+        //        //warnCount: 1,
+        //        //workCount: 1,
+        //        finishCount: 9,
+        //        totalCount: 9
         //    };
         //    items.push(item);
         //}
+        //OrderListCache = items;
+
         $(".report-guid").nextAll().remove();
 
         var maxTotalCount = 0;
@@ -113,15 +101,15 @@
 
         var guidLineHeight =maxTotalCount / 5;
         GuidLineHeight = parseInt(maxTotalCount % 5 == 0 ? guidLineHeight : (guidLineHeight + 1));
-        ReportAvgHeight = 280 / (maxTotalCount + (GuidLineHeight - guidLineHeight) * 4);
+        ReportAvgHeight = 280 / (maxTotalCount + (GuidLineHeight - guidLineHeight) * 5);
 
         for (var l = 0; l < OrderListCache.length; l++) {
             ObjectJS.createReportHtml(OrderListCache[l], l);
         }
 
         $(".report-guid ul li:not(:last)").css("height", (GuidLineHeight * ReportAvgHeight - 1.25) + "px");
-        for (var h = 0; h<5; h++) {
-            $(".report-guid ul li").eq(h).find(".guid-count").html(GuidLineHeight * (4 - h));
+        for (var h = 0; h<6; h++) {
+            $(".report-guid ul li").eq(h).find(".guid-count").html(GuidLineHeight * (5 - h));
         }
         
         $(".index-report-content .report-item li").each(function () {
@@ -194,8 +182,6 @@
                 html.fadeIn(500);
             }
         }
-
-        
     }
 
     ObjectJS.getOrdersByStatus = function () {
@@ -212,7 +198,8 @@
                 var timeHtml = $(".list-header").find("span").eq(0);
                 if (timeHtml.data('isget') != 1) {
                     timeHtml.html(data.showTime);
-                } else {
+                }
+                else {
                     timeHtml.data('isget', 0);
                 }
 
@@ -228,27 +215,17 @@
                             var _this = $(this);
 
                             _this.css({ "width": _this.data('width') });
-
                         });
 
                         $(".order-layerbox").append(innerText);
 
                         $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
                             var _this = $(this);
-
                             _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
 
                         })
 
-                        //$(".order-layerbox").find('.top-lump').each(function () {
-                        //    var _this = $(this);
-
-                        //    _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
-                        //})
                         innerText.find('.layer-line').css({ width: 0, left: 160 });
-
-
-
                     });
                 }
 
