@@ -506,6 +506,7 @@
     <Content Include="modules\template\orders\cutout-details.html" />
     <Content Include="modules\template\orders\send-details.html" />
     <Content Include="modules\template\orders\senddydocs.html" />
+    <Content Include="modules\template\orders\index-task.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />
     <Content Include="modules\template\purchase\audit_details.html" />
