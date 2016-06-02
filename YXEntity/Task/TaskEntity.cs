@@ -65,6 +65,8 @@ namespace IntFactoryEntity.Task
 
         public int FinishStatus { get; set; }
 
+        public int PreFinishStatus { get; set; }
+
         public DateTime CreateTime { get; set; }
 
         [Property("Lower")]
