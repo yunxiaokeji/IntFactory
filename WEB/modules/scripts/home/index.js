@@ -5,16 +5,17 @@
     var OrderListCache = null;
     var Paras = {
         orderFilter: -1,
-        orderTime: "",
-        filterType:-1
+        orderTime: new Date().getMonth().toString()+'.' + new Date().getDay().toString(),
+        filterType: 2
     }
 
     var ObjectJS = {};
 
     ObjectJS.init = function () {
         ObjectJS.getOrdersByPlanTime();
+        ObjectJS.getOrdersByStatus();
+        //console.log(new Date().getMonth().toString() + '.' + new Date().getDay().toString());
         ObjectJS.bindEvent();
-
     };
 
     ObjectJS.bindEvent = function () {
@@ -158,38 +159,46 @@
             $(".order-layerbox").find('.loadding').remove();
             var items = data.items;
             $(".list-total").html(items.length);
-            $(".list-header").find("span").eq(0).html(data.showTime);
+
+            var timeHtml = $(".list-header").find("span").eq(0);
+            if (timeHtml.data('isget') != 1) {
+                timeHtml.html(data.showTime);
+            } else {
+                timeHtml.data('isget', 0);
+            }
+
             if (items.length == 0) {
                 var nodata = "<div class='center font14'>暂无数据</div>";
                 $(".order-layerbox").append(nodata);
-                return false;
-            }
-            DoT.exec("/template/orders/index-order.html", function (template) {
-                var innerText = template(items);
-                innerText = $(innerText);
+            } else {
+                DoT.exec("/template/orders/index-order.html", function (template) {
+                    var innerText = template(items);
+                    innerText = $(innerText);
 
-                innerText.find('.order-progress-item').each(function () {
-                    var _this = $(this);
+                    innerText.find('.order-progress-item').each(function () {
+                        var _this = $(this);
 
-                    _this.css({ "width": _this.data('width') });
+                        _this.css({ "width": _this.data('width') });
 
+                    });
+
+                    $(".order-layerbox").append(innerText);
+
+                    $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
+                        var _this = $(this);
+
+                        _this.css({ "left": (_this.parent().width()-_this.width()) / 2 });
+
+                    })
+
+                    //$(".order-layerbox").find('.top-lump').each(function () {
+                    //    var _this = $(this);
+
+                    //    _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
+                    //})
                 });
-
-                $(".order-layerbox").append(innerText);
-
-                $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
-                    var _this = $(this);
-
-                    _this.css({ "left": (_this.parent().width()-_this.width()) / 2 });
-
-                })
-
-                //$(".order-layerbox").find('.top-lump').each(function () {
-                //    var _this = $(this);
-
-                //    _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
-                //})
-            });
+            }
+            
         })
     }
 
