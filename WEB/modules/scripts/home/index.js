@@ -7,15 +7,25 @@
     var IsLoadding = true;
     var Paras = {
         orderFilter: -1,
-        filterTime: new Date().getMonth().toString() + '.' + new Date().getDay().toString(),
-        filterType: 1
+        filterTime: new Date().getMonth() + '.' + new Date().getDay(),
+        filterType: 1,
+        userID:''
     }
 
     var ObjectJS = {};
 
     //默认显示订单
     ObjectJS.moduleType = 1;
-    ObjectJS.init = function () {
+
+
+    ObjectJS.init = function (level, userID) {
+        if (level == 2) {
+            Paras.userID = userID;
+        }
+        else if (level == 0) {
+            Paras.userID = userID;
+            Paras.type = 1;
+        }
         ObjectJS.bindEvent();
         ObjectJS.getReportList();
         ObjectJS.getDataList(ObjectJS.moduleType);
@@ -63,8 +73,8 @@
             Global.post("/Home/" + action, {}, function (data) {
                 IsLoadding = true;
                 OrderListCache = data.items;
-                ObjectJS.bindReport();
 
+                ObjectJS.bindReport();
                 $("#totalSumCount").html(data.totalSumCount);
                 $("#totalExceedCount").html(data.totalExceedCount);
                 $("#totalFinishCount").html(data.totalFinishCount);

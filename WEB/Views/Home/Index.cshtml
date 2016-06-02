@@ -8,7 +8,7 @@
 @section scripts{
     <script type="text/javascript">
        seajs.use(["scripts/home/index"], function (obj) {
-           obj.init();
+           obj.init('@ViewBag.Level', '@ViewBag.UserID');
        });
     </script>
 }

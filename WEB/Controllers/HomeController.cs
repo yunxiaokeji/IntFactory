@@ -21,11 +21,29 @@ namespace YXERP.Controllers
 
         public ActionResult Index()
         {
+            int level = 0;
             if (Session["ClientManager"] == null)
             {
                 return Redirect("/Home/Login");
             }
+            else
+            {
+                var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+                if (currentUser.Role.IsDefault == 1)
+                {
+                    level = 1;
+                }
+                else
+                {
+                    if (currentUser.Role.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0) {
+                        level = 2;
+                    }
+                }
 
+                ViewBag.UserID = currentUser.UserID;
+            }
+
+            ViewBag.Level = level;
             return View();
         }
 
