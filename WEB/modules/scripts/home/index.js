@@ -36,16 +36,20 @@
         $(".order-type span").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
+                Paras.filterTime = new Date().getMonth().toString() + '.' + new Date().getDay().toString();
+                Paras.filterType = 1;
+                $(".list-header").find("span").eq(0).data('isget', '1');
                 if (_this.data('id') == 1) {
                     $(".order-msg").html("订单");
                     ObjectJS.getOrdersByPlanTime();
+                    ObjectJS.getOrdersByStatus();
                 } else {
                     $(".order-msg").html("任务");
                     ObjectJS.getTasksByEndTime();
+                    ObjectJS.getTaskByStatus();
                 }
-
                 ObjectJS.type = _this.data('id');
-
+                $(".order-layerbox").find('.order-item').remove();
                 _this.addClass('hover').siblings().removeClass('hover');
             }
         })
@@ -213,6 +217,7 @@
                 if (timeHtml.data('isget') != 1) {
                     timeHtml.html(data.showTime);
                 } else {
+                    timeHtml.html('已超期');
                     timeHtml.data('isget', 0);
                 }
 
@@ -271,6 +276,7 @@
                 if (timeHtml.data('isget') != 1) {
                     timeHtml.html(data.showTime);
                 } else {
+                    timeHtml.html('已超期');
                     timeHtml.data('isget', 0);
                 }
 
