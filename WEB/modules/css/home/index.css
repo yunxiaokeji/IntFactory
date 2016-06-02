@@ -107,7 +107,7 @@ border-bottom:2px solid #4a98e7;
     z-index:100;
 }
 .index-report-content .report-item li {
-    vertical-align:middle; 
+    vertical-align:middle;
     text-align:center;
     color:#fff;
     cursor:pointer;
@@ -204,7 +204,7 @@ border-bottom:2px solid #4a98e7;
     width:40px;
     color:#fff;
     border-radius:3px;
-    background-color:#aaa;
+    background-color:#f35353;
     text-align:center;
     line-height:20px;
 }

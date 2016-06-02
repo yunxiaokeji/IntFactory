@@ -109,6 +109,8 @@
             Paras.filterType = _this.data('type');
             Paras.orderTime = _this.data('date');
             $(".order-layerbox .layer-lump").nextAll().remove();
+
+            $(".list-header .list-total").css("background-color", _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8");
             ObjectJS.getOrdersByStatus();
         })
     }
@@ -203,6 +205,8 @@
                         //    _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
                         //})
                         innerText.find('.layer-line').css({ width: 0, left: 160 });
+
+
 
                     });
                 }

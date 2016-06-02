@@ -17,7 +17,7 @@
     <div class="index-report-header">
         <div class="left">
             <span class="font14">订单</span>
-            <span class="mLeft20">@(DateTime.Now.Year+"年"+DateTime.Now.Month+"月")</span>
+            <span class="mLeft20">@(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(15).ToString("MM.dd"))</span>
         </div>
         <div class="right order-type">
             <span class="hover">订单</span><span>任务</span>
@@ -34,7 +34,7 @@
                 </li>
                 <li data-orderfilter="1">
                      <div class="sun-count" id="totalExceedCount">0</div>
-                    <div>已到期</div>
+                    <div>已超期</div>
                 </li>
                  <li data-orderfilter="2">
                      <div class="sun-count" id="totalWarnCount">0</div>
@@ -54,7 +54,7 @@
 
         <div class="right">
             <ul class="report-status">
-                <li style="border-color:#f35353"><span>已到期</span></li>
+                <li style="border-color:#f35353"><span>已超期</span></li>
                 <li style="border-color:#ffa200"><span>快到期</span></li>
                 <li style="border-color:#49b3f5"><span>进行中</span></li>
                 <li style="border-color:#2F73B8"><span>已完成</span></li>
@@ -91,8 +91,8 @@
 <div class="index-list">
     <div class="left order-list">
         <div class="list-header">
-            <span data-isget="1">@(DateTime.Now.ToString("yyyy-MM-dd")+"/"+YXERP.Common.Common.Week("周",Convert.ToInt32(DateTime.Now.DayOfWeek)))</span>
-            <span class="mLeft15 list-total">125</span>
+            <span data-isget="1">已超期</span>
+            <span class="mLeft15 list-total ">0</span>
         </div>
         <div class="order-layerbox mTop20">
             <div class="layer-lump"></div>
