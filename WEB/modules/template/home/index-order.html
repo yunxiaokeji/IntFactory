@@ -3,19 +3,21 @@
     {
         var item=$data[i];
         var totalDay=(item.UseDays==0?1:item.UseDays)+(item.WarningDays==0?1:item.WarningDays);
-
 %}
     <div class="order-item">
-        <div class="hint-layer">
-            <div class="hint-msg {%=item.WarningStatus==1?'warning':item.WarningStatus==2?'pass':'hide'%}">{%=item.WarningStatus==1?"快到期":item.WarningStatus==2?"已超期":""%}</div>
-        </div>
-        <div class="left order-img"><img src="{%=item.OrderImage%}" /></div>
+        <a href="/Orders/OrderDetail/{%=item.OrderID%}">
+            <div class="hint-layer">
+                <div class="hint-msg {%=item.WarningStatus==1?'warning':item.WarningStatus==2?'pass':'hide'%}">{%=item.WarningStatus==1?"快到期":item.WarningStatus==2?"已超期":""%}</div>
+            </div>
+        </a>
+        <div class="left order-img"><a href="/Orders/OrderDetail/{%=item.OrderID%}"><img src="{%=item.OrderImage%}" /></a></div>
         <div class="left order-detail mLeft20">
             <div class="left">
-                <div class="order-title">{%=item.Title%}</div>
+                <div class="order-title"><a href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.GoodsName%}</a></div>
                 <div class="mTop10">
-                    <span class="iconfont mRight5">&#xe60f;</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
-                    <span class="mLeft10">任务进度：</span><span>{%=item.FinishStatus==0?"未接收":item.FinishStatus==1?"进行中":"已完成"%}</span>
+                    <span class="iconfont mRight5">&#xe624;</span><span>{%=item.CustomerName==""?item.PersonName:item.CustomerName%}</span>
+                    <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
+                    <span class="mLeft10">{%=item.StatusStr%}：</span><span>{%=(item.TaskCount>0?item.TaskOver/item.TaskCount*100:0).toFixed(0)+"%"%}</span>
                 </div>
                 <div class="mTop10">
                     <span>负责人：</span><span>{%=item.Owner.Name%}</span>
@@ -42,11 +44,11 @@
                 </div>
 
                 <div class="mTop15 tRight">
-                    <span>到期时间：</span><span>{%=item.EndTime.toDate('yyyy-MM-dd')%}</span>
+                    <span>交货时间：</span><span>{%=item.PlanTime.toDate('yyyy-MM-dd')%}</span>
                 </div>
                 <div class="clear"></div>
                 <div class="mTop5 tRight">
-                    <span>接受时间：</span><span>{%=item.AcceptTime.toDate('yyyy-MM-dd')%}</span>
+                    <span>接受时间：</span><span>{%=item.CreateTime.toDate('yyyy-MM-dd')%}</span>
                 </div>
                 <div class="clear"></div>
             </div>

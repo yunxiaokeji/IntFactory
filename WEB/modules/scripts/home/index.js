@@ -17,7 +17,6 @@
     //默认显示订单
     ObjectJS.moduleType = 1;
 
-
     ObjectJS.init = function (level, userID) {
         if (level == 2) {
             Paras.userID = userID;
@@ -198,18 +197,18 @@
         var url = "";
         var action = "";
         if (moduleType == 1) {
-            url = "/template/orders/index-order.html";
+            url = "/template/home/index-order.html";
             action = "GetOrdersByTypeAndTime";
         } else {
-            url = "/template/orders/index-task.html";
+            url = "/template/home/index-task.html";
             action = "GetTasksByTypeAndTime";
         }
-        var loadding = "<div class='center loadding'><img src='/modules/images/ico-loading.gif' style='width:30px;height:30px;' /></div>";
+        var loadding = "<div class='data-loading'>";
         $(".order-layerbox").find('.order-item').remove();
         $(".order-layerbox").append(loadding);
         Global.post("/Home/" + action, Paras, function (data) {
             IsLoadding = true;
-            $(".order-layerbox").find('.loadding').remove();
+            $(".order-layerbox").find('.data-loading').remove();
             var items = data.items;
             $(".list-total").html(items.length);
 
@@ -222,7 +221,7 @@
             }
 
             if (items.length == 0) {
-                var nodata = "<div class='center font14'>暂无数据</div>";
+                var nodata = "<div class='nodata-txt'>暂无数据!<div>";
                 $(".order-layerbox").append(nodata);
             } else {
                 DoT.exec(url, function (template) {
