@@ -38,12 +38,16 @@ namespace YXERP.Controllers
                     if (currentUser.Role.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0) {
                         level = 2;
                     }
+                    else if (currentUser.Role.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
+                    {
+                        level = 3;
+                    }
                 }
 
                 ViewBag.UserID = currentUser.UserID;
             }
 
-            ViewBag.Level = level;
+            ViewBag.Level = 3;
             return View();
         }
 
@@ -815,8 +819,8 @@ namespace YXERP.Controllers
             {
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var nowDate=DateTime.Now;
-                var list= IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(nowDate.Date.ToString(), 
-                    nowDate.Date.AddDays(14).ToString(),-1, string.Empty, currentUser.ClientID);
+                var list= IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(nowDate.Date.ToString(),
+                    nowDate.Date.AddDays(14).ToString(), -1, userID, currentUser.ClientID);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;
@@ -895,7 +899,7 @@ namespace YXERP.Controllers
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var nowDate = DateTime.Now;
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(nowDate.Date.ToString(),
-                    nowDate.Date.AddDays(14).ToString(), -1, string.Empty, currentUser.ClientID);
+                    nowDate.Date.AddDays(14).ToString(), -1, userID, currentUser.ClientID);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;
