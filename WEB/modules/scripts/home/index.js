@@ -6,7 +6,7 @@
     var Paras = {
         orderFilter: -1,
         orderTime: new Date().getMonth().toString()+'.' + new Date().getDay().toString(),
-        filterType: 2
+        filterType: 1
     }
 
     var ObjectJS = {};
