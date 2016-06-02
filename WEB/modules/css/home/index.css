@@ -6,7 +6,7 @@
 }
 .index-report {
     width:1150px;
-    margin:30px auto;
+    margin:25px auto;
     background-color:#fff;
     border:1px solid #ddd;
 }
@@ -42,8 +42,7 @@
 .index-report-sum {
     padding-top:10px;
     margin-left:27px;
-    border-bottom:1px solid #eee;
-    
+    /*border-bottom:1px solid #eee;*/
 }
 .sum-list li{
     float:left;
@@ -61,6 +60,7 @@ border-bottom:2px solid #4a98e7;
 .sum-list .sun-count {
     color:#333;
     font-size:16px;
+    
 }
 .index-report-sum .report-status li {
     float: left;
@@ -71,15 +71,15 @@ border-bottom:2px solid #4a98e7;
 }
 .index-report-content {
     position:relative;
-    height:317px;
-    margin:0 10px 30px 28px;
+    height:297px;
+    margin:20px 10px 20px 28px;
 }
 .index-report-content .report-guid {
     position:absolute;
     left:0px;
     bottom:15px;
     width:100%;
-    height:300px;
+    height:280px;
     
 }
 .report-guid ul{
@@ -107,7 +107,7 @@ border-bottom:2px solid #4a98e7;
     z-index:100;
 }
 .index-report-content .report-item li {
-    vertical-align:middle; 
+    vertical-align:middle;
     text-align:center;
     color:#fff;
     cursor:pointer;
@@ -147,6 +147,7 @@ border-bottom:2px solid #4a98e7;
     border-left:2px solid #ddd;
     padding-left:24px;
     position:relative;
+    padding-bottom:10px;
 }
 
 .order-list .order-layerbox .layer-lump { 
@@ -204,9 +205,9 @@ border-bottom:2px solid #4a98e7;
     width:40px;
     color:#fff;
     border-radius:3px;
-    background-color:#aaa;
+    background-color:#f35353;
     text-align:center;
-    line-height:20px;
+    line-height:18px;
 }
 
 .order-item {
@@ -243,6 +244,19 @@ border-bottom:2px solid #4a98e7;
 .order-progress {
     margin-top: 6px;
     width:160px;
+    position:relative;
+}
+.order-progress .layer-line { 
+    width:160px;
+    height:4px;
+    left:0;
+    top:0;
+    z-index:9999;
+    transition:3.5s;
+    -webkit-transition:3.5s;
+    -moz-transition:3.5s;
+    position:absolute;
+    background-color:rgba(255,255,255,0.8);
 }
 .order-progress .order-progress-item {
     width:80px;
@@ -280,7 +294,7 @@ border-bottom:2px solid #4a98e7;
 }
 
 .order-progress .top-lump {
-    border-top: solid 4px #5994e6;
+    border-top: solid 4px #49b3f5;
     border-left: solid 2px transparent;
     border-right: solid 2px transparent;
     width: 0;
@@ -290,7 +304,7 @@ border-bottom:2px solid #4a98e7;
     top: -10px;
 }
 .order-progress .progress-tip {
-    background-color:#5994e6;
+    background-color:#49b3f5;
     padding:2px 0;
     min-width:54px;
     text-align:center;
@@ -302,11 +316,11 @@ border-bottom:2px solid #4a98e7;
 }
 
 .order-progress-use .top-lump {
-    border-top-color:#5994e6;
+    border-top-color:#49b3f5;
 }
 
 .order-progress-use .progress-tip {
-    background-color:#5994e6;
+    background-color:#49b3f5;
 }
 
 .order-progress-have .top-lump {

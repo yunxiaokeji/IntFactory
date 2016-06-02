@@ -486,7 +486,7 @@
     <Content Include="modules\template\inquire\inquireorder.html" />
     <Content Include="modules\template\myaccount\feedbacklist.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />
-    <Content Include="modules\template\orders\index-order.html" />
+    <Content Include="modules\template\home\index-order.html" />
     <Content Include="modules\template\orders\orders_child_list.html" />
     <Content Include="modules\template\orders\surequantity.html" />
     <Content Include="modules\template\orders\sureprice.html" />
@@ -508,6 +508,7 @@
     <Content Include="modules\template\orders\cutout-details.html" />
     <Content Include="modules\template\orders\send-details.html" />
     <Content Include="modules\template\orders\senddydocs.html" />
+    <Content Include="modules\template\home\index-task.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />
     <Content Include="modules\template\purchase\audit_details.html" />

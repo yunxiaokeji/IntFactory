@@ -8,7 +8,7 @@
 @section scripts{
     <script type="text/javascript">
        seajs.use(["scripts/home/index"], function (obj) {
-           obj.init();
+           obj.init('@ViewBag.Level', '@ViewBag.UserID');
        });
     </script>
 }
@@ -16,11 +16,11 @@
 <div class="index-report">
     <div class="index-report-header">
         <div class="left">
-            <span class="font14">订单</span>
-            <span class="mLeft20">@(DateTime.Now.Year+"年"+DateTime.Now.Month+"月")</span>
+            <span class="font14 order-msg">订单</span>
+            <span class="mLeft20">@(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))</span>
         </div>
         <div class="right order-type">
-            <span class="hover">订单</span><span>任务</span>
+            <span class="hover" data-id="1">订单</span><span data-id="2">任务</span>
         </div>
         <div class="clear"></div>
     </div>
@@ -30,15 +30,15 @@
             <ul class="sum-list">
                 <li class="active" data-orderfilter="-1">
                     <div class="sun-count" id="totalSumCount">0</div>
-                    <div>全部订单</div>
+                    <div>全部<span class="order-msg" style="color:#888;">订单</span></div>
                 </li>
                 <li data-orderfilter="1">
+                     <div class="sun-count" id="totalExceedCount">0</div>
+                    <div>已超期</div>
+                </li>
+                 <li data-orderfilter="2">
                      <div class="sun-count" id="totalWarnCount">0</div>
                     <div>快到期</div>
-                </li>
-                <li data-orderfilter="2">
-                     <div class="sun-count" id="totalExceedCount">0</div>
-                    <div>已到期</div>
                 </li>
                 <li data-orderfilter="3">
                      <div class="sun-count" id="totalWorkCount">0</div>
@@ -54,7 +54,7 @@
 
         <div class="right">
             <ul class="report-status">
-                <li style="border-color:#f35353"><span>已到期</span></li>
+                <li style="border-color:#f35353"><span>已超期</span></li>
                 <li style="border-color:#ffa200"><span>快到期</span></li>
                 <li style="border-color:#49b3f5"><span>进行中</span></li>
                 <li style="border-color:#2F73B8"><span>已完成</span></li>
@@ -67,6 +67,7 @@
     <div class="index-report-content">
         <div class="report-guid">
             <ul>
+                <li><div class="guid-count">5</div></li>
                 <li><div class="guid-count">4</div></li>
                  <li><div class="guid-count">3</div></li>
                 <li><div class="guid-count">2</div></li>
@@ -91,8 +92,8 @@
 <div class="index-list">
     <div class="left order-list">
         <div class="list-header">
-            <span>@(DateTime.Now.ToString("yyyy-MM-dd")+"/"+YXERP.Common.Common.Week("周",Convert.ToInt32(DateTime.Now.DayOfWeek)))</span>
-            <span class="mLeft15 list-total">125</span>
+            <span data-isget="1">已超期</span>
+            <span class="mLeft15 list-total ">0</span>
         </div>
         <div class="order-layerbox mTop20">
             <div class="layer-lump"></div>
