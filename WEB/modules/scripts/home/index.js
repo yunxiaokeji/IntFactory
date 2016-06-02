@@ -140,12 +140,13 @@
             Paras.filterTime = _this.data('date');
             $(".order-layerbox .layer-lump").nextAll().remove();
             $(".list-header .list-total").css("background-color", _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8");
-            
+
             if (ObjectJS.type == 1) {
                 ObjectJS.getOrdersByStatus();
             } else {
                 ObjectJS.getTaskByStatus();
             }
+        });
     }
 
     ObjectJS.createReportHtml = function (item, index) {
