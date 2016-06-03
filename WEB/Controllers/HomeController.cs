@@ -36,15 +36,17 @@ namespace YXERP.Controllers
 
                 if (currentUser.Role != null)
                 {
-                    if (currentUser.Role.IsDefault == 1)
+                    //所有订单
+                    if (currentUser.Menus.FindAll(m => m.MenuCode == "102010300").Count > 0)
                     {
                         level = 1;
                     }
                     else
                     {
+                        //我的订单
                         if (currentUser.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0) {
                             level = 2;
-                        }
+                        }//所有任务
                         else if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
                         {
                             level = 3;
@@ -52,8 +54,7 @@ namespace YXERP.Controllers
                     }
 
                     ViewBag.UserID = currentUser.UserID;
-
-                    }
+                }
             }
 
             ViewBag.Level = level;
@@ -985,7 +986,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrdersByTypeAndTime(int filterType, string filterTime, string userID, int moduleStatus, int orderType, int pageSize,int pageIndex) 
+        public JsonResult GetOrdersByTypeAndTime(int filterType, string filterTime, string userID, int moduleType, int orderType, int pageSize,int pageIndex) 
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             string startTime = string.Empty;
@@ -1003,7 +1004,7 @@ namespace YXERP.Controllers
                 var currentUser=(IntFactoryEntity.Users)Session["ClientManager"];
                 int getTotalCount = 0;
                 int pageCount = 0;
-                if (moduleStatus == 1)
+                if (moduleType == 1)
                 {
                     var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(startTime, filterTime, orderType, filterType,
                                                                                                     userID, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
@@ -1026,21 +1027,21 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrderOrTaskCount(int moduleStatus, int orderType)
+        public JsonResult GetOrderOrTaskCount(string userID, int moduleType, int orderType)
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             if (Session["ClientManager"] != null)
             {
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var result = 0;
-                if (moduleStatus == 1)
+                if (moduleType == 1)
                 {
-                    result = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetNeedOrderCount(currentUser.UserID,orderType, currentUser.ClientID);
+                    result = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetNeedOrderCount(userID,orderType, currentUser.ClientID);
                     
                 }
                 else
                 {
-                    result = IntFactoryBusiness.TaskBusiness.GetNoAcceptTaskCount(currentUser.UserID, orderType, currentUser.ClientID);
+                    result = IntFactoryBusiness.TaskBusiness.GetNoAcceptTaskCount(userID, orderType, currentUser.ClientID);
                 }
 
                 JsonDictionary.Add("result", result);
