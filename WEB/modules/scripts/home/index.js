@@ -40,6 +40,7 @@
         ObjectJS.bindEvent();
         ObjectJS.getReportList();
         ObjectJS.getDataList();
+        ObjectJS.getTaskOrOrderCount();
     };
 
     ObjectJS.bindEvent = function () {
@@ -73,6 +74,7 @@
                     ObjectJS.moduleType = _this.data('id');
                     Paras.filterTime ='';
                     Paras.filterType = 1;
+                    ObjectJS.getTaskOrOrderCount();
                     ObjectJS.getDataList();
                     ObjectJS.getReportList();
                 }
@@ -303,6 +305,18 @@
             }
 
         })
+    }
+
+    ObjectJS.getTaskOrOrderCount = function () {
+
+        Global.post("/Home/GetOrderOrTaskCount", Paras, function (data) {
+            if (Paras.moduleStatus ==1) {
+                $(".total-need").siblings().html('需求订单总数:');
+            } else {
+                $(".total-need").siblings().html('超期任务总数:');
+            }
+            $(".total-need").html(data.result);
+        });
     }
 
     module.exports= ObjectJS;

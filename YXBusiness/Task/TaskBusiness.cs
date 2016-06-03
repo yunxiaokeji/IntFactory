@@ -97,7 +97,7 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public int GetNoAcceptTaskCount(int orderType, string clientID)
+        public static int GetNoAcceptTaskCount(int orderType, string clientID)
         {
             return TaskDAL.BaseProvider.GetNoAcceptTaskCount(orderType, clientID);
         }

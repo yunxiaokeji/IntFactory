@@ -1018,5 +1018,30 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetOrderOrTaskCount(int moduleStatus, int orderType)
+        {
+            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
+            if (Session["ClientManager"] != null)
+            {
+                var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+                var result = 0;
+                if (moduleStatus == 1)
+                {
+                    result = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetNeedOrderCount(orderType, currentUser.ClientID);
+                    
+                }
+                else
+                {
+                    result = IntFactoryBusiness.TaskBusiness.GetNoAcceptTaskCount(orderType, currentUser.ClientID);
+                }
+
+                JsonDictionary.Add("result", result);
+            }
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
     }
 }
