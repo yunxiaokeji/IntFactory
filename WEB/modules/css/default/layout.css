@@ -426,7 +426,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .help-feedback .ico-feedback { background:url('/modules/images/ico-feedback.png') no-repeat; background-size:cover; bottom:90px;}
 .help-feedback .ico-feedback:hover { background:url('/modules/images/ico-feedback-hover.png') no-repeat; background-size:cover;}
 
-.help-feedback .ico-help { background:url('/modules/images/ico-help.png') no-repeat; background-size:cover; bottom:45px; }
+.help-feedback .ico-help { background:url('/modules/images/ico-wechat.png') no-repeat; background-size:cover; bottom:45px; }
 .help-feedback .ico-help:hover { background:url('/modules/images/ico-help-hover.png') no-repeat; background-size:cover;}
 
 .help-feedback .ico-open { background:url('/modules/images/ico-operate-open.png') no-repeat; background-size:cover;  bottom:0;  }

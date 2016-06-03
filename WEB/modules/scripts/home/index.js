@@ -15,7 +15,9 @@
         filterType: 1,  //订单阶段-1全部 1已超期 2快到期 3进行中 4已完成
         userID: '',
         moduleStatus:1,//模块类型 1.订单  2.任务
-        orderType:-1
+        orderType: -1,
+        pageSize:20,
+        pageIndex:1
     }
 
     var ObjectJS = {};
@@ -53,6 +55,7 @@
         $(".sum-list li").click(function () {
             var _this = $(this);
             if (!_this.hasClass("active")) {
+                Paras.pageIndex = 1;
                 _this.addClass("active").siblings().removeClass("active");
                 Paras.orderFilter = _this.data("orderfilter");
                 ObjectJS.bindReport();
@@ -70,6 +73,8 @@
                     Paras.moduleStatus = _this.data('id');
                     Paras.filterTime ='';
                     Paras.filterType = 1;
+                    Paras.pageIndex = 1;
+
                     ObjectJS.getTaskOrOrderCount();
                     ObjectJS.getDataList();
                     ObjectJS.getReportList();
@@ -94,6 +99,7 @@
                 onChange: function (data) {
                     if (IsLoadding && IsLoaddingTwo) {
                         Paras.orderType = data.value;
+                        Paras.pageIndex = 1;
                         ObjectJS.getDataList();
                         ObjectJS.getReportList();
                     }
@@ -240,7 +246,8 @@
         }
     }
 
-    ObjectJS.getDataList = function () {
+    ObjectJS.getDataList = function (addStatus) {
+        
         IsLoaddingTwo = false;
         var moduleType = Paras.moduleStatus;
         var url = "";
@@ -251,11 +258,33 @@
             url = "/template/home/index-task.html";
         }
         var loadding = "<div class='data-loading'>";
-        $(".order-layerbox").find('.layer-lump').nextAll().remove();
+        if (addStatus === undefined) {
+            $(".order-layerbox").find('.layer-lump').nextAll().remove();
+        }
         $(".order-layerbox").append(loadding);
+                            
+
+
         Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
             IsLoaddingTwo = true;
             var items = data.items;
+
+            if (data.items.length < 20) {
+                $(".load-more").remove();
+            } else {
+                if ($(".load-more").length == 0) {
+                    $(".load-box").append('<span class="load-more font14 hand">加载更多</span>');
+                    $('.load-more').unbind().click(function () {
+                        if (IsLoadding && IsLoaddingTwo) {
+                            Paras.pageIndex++;
+                            ObjectJS.getDataList('1');
+                        }
+                        else {
+                            alert("数据加载中，请稍等 !");
+                        }
+                    });
+                }
+            }
 
             if ($(".order-type span.hover").data('id') == 1) {
                 $(".order-msg").html("订单");
