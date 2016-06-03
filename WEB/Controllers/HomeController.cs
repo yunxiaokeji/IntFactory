@@ -977,14 +977,14 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrdersByTypeAndTime(int filterType, string filterTime, string userID,int orderType) 
+        public JsonResult GetOrdersByTypeAndTime(int filterType, string filterTime, string userID, int moduleStatus,int orderType) 
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             filterTime = DateTime.Now.Year + "." + filterTime;
             if(Session["ClientManager"]!=null)
             {
                 var currentUser=(IntFactoryEntity.Users)Session["ClientManager"];
-                if (orderType == 1)
+                if (moduleStatus == 1)
                 {
                     var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(filterTime, filterTime, filterType,
                                                                                                     userID, currentUser.ClientID);

@@ -12,7 +12,8 @@
         filterTime: new Date().getMonth() + '.' + new Date().getDay(),
         filterType: 1,
         userID: '',
-        orderType:1
+        moduleStatus:1,
+        orderType:-1
     }
 
     var ObjectJS = {};
@@ -82,7 +83,7 @@
         });
 
         require.async("dropdown", function () {
-            var orderTypes = [{ ID: "1", Name: "大货" }, { ID: "2", Name: "打样" }];
+            var orderTypes = [{ ID: "1", Name: "打样" }, { ID: "2", Name: "大货" }];
             $("#orderType").dropdown({
                 prevText: "订单类型-",
                 defaultText: "全部",
@@ -92,9 +93,15 @@
                 dataText: "Name",
                 width: "110",
                 onChange: function (data) {
-                    //ObjectJS.Params.PageIndex = 1;
-                    //ObjectJS.Params.DepartID = data.value;
-                    //ObjectJS.getList();
+                    console.log(data.value);
+                    if (IsLoadding && IsLoaddingTwo) {
+                        Paras.moduleStatus = data.value;
+                        ObjectJS.getDataList();
+                        ObjectJS.getReportList();
+                    }
+                    else {
+                        alert("数据加载中，请稍等 !");
+                    }
                 }
             });
         });
@@ -237,7 +244,7 @@
     ObjectJS.getDataList = function () {
         IsLoaddingTwo = false;
         var moduleType = ObjectJS.moduleType;
-        Paras.orderType = moduleType;
+        Paras.moduleStatus = moduleType;
         var url = "";
         var action = "";
         if (moduleType == 1) {
