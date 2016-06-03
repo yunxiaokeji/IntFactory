@@ -1027,7 +1027,7 @@ namespace YXERP.Controllers
                 var result = 0;
                 if (moduleStatus == 1)
                 {
-                    result = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetNeedOrderCount(orderType, currentUser.ClientID);
+                    result = IntFactoryBusiness.OrdersBusiness.GetNeedOrderCount(orderType, currentUser.ClientID);
                     
                 }
                 else

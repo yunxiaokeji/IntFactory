@@ -449,6 +449,10 @@ namespace IntFactoryBusiness
             return model;
         }
 
+        public static int GetNeedOrderCount(int orderType, string clientID)
+        {
+            return OrdersDAL.BaseProvider.GetNeedOrderCount(orderType, clientID);
+        }
 
         public static List<ReplyEntity> GetReplys(string guid, string stageID,int mark, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
