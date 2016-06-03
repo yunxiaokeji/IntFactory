@@ -829,8 +829,10 @@ namespace YXERP.Controllers
             {
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var nowDate=DateTime.Now;
+                int getTotalCount=0;
+                int pageCount = 0;
                 var list= IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(nowDate.Date.ToString(),
-                    nowDate.Date.AddDays(14).ToString(), orderType, -1, userID, currentUser.ClientID);
+                    nowDate.Date.AddDays(14).ToString(), orderType, -1, userID, currentUser.ClientID, 20, 1, ref getTotalCount, ref pageCount);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;
@@ -908,8 +910,10 @@ namespace YXERP.Controllers
             {
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var nowDate = DateTime.Now;
+                int getTotalCount = 0;
+                int pageCount = 0;
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(nowDate.Date.ToString(),
-                    nowDate.Date.AddDays(14).ToString(), orderType, -1, userID, currentUser.ClientID);
+                    nowDate.Date.AddDays(14).ToString(), orderType, -1, userID, currentUser.ClientID, 20, 1, ref getTotalCount, ref pageCount);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;
@@ -997,16 +1001,18 @@ namespace YXERP.Controllers
             if(Session["ClientManager"]!=null)
             {
                 var currentUser=(IntFactoryEntity.Users)Session["ClientManager"];
+                int getTotalCount = 0;
+                int pageCount = 0;
                 if (moduleStatus == 1)
                 {
                     var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(startTime, filterTime, orderType, filterType,
-                                                                                                    userID, currentUser.ClientID);
+                                                                                                    userID, currentUser.ClientID, 20, 1, ref getTotalCount, ref pageCount);
                     JsonDictionary.Add("items", list);
                 }
                 else
                 {
                     var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(startTime, filterTime, orderType, filterType,
-                                                                                                    userID, currentUser.ClientID);
+                                                                                                    userID, currentUser.ClientID, 20, 1, ref getTotalCount, ref pageCount);
                     JsonDictionary.Add("items", list);
                 }
                 JsonDictionary.Add("showTime", filterTime.Replace(".", "-") + "/" + YXERP.Common.Common.Week("周", (int)Convert.ToDateTime(filterTime).DayOfWeek));
@@ -1027,12 +1033,12 @@ namespace YXERP.Controllers
                 var result = 0;
                 if (moduleStatus == 1)
                 {
-                    result = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetNeedOrderCount(orderType, currentUser.ClientID);
+                    result = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetNeedOrderCount(string.Empty,orderType, currentUser.ClientID);
                     
                 }
                 else
                 {
-                    result = IntFactoryBusiness.TaskBusiness.GetNoAcceptTaskCount(orderType, currentUser.ClientID);
+                    result = IntFactoryBusiness.TaskBusiness.GetNoAcceptTaskCount(string.Empty,orderType, currentUser.ClientID);
                 }
 
                 JsonDictionary.Add("result", result);

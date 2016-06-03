@@ -60,9 +60,13 @@ namespace IntFactoryDAL
             return ds.Tables[0];
         }
 
-        public DataTable GetTasksByEndTime(string startEndTime, string endEndTime,int orderType, int filterType, string userID, string clientID)
+        public DataTable GetTasksByEndTime(string startEndTime, string endEndTime, int orderType, int filterType, string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
+                                       new SqlParameter("@totalCount",SqlDbType.Int),
+                                       new SqlParameter("@pageCount",SqlDbType.Int),
+                                       new SqlParameter("@pageSize",pageSize),
+                                       new SqlParameter("@pageIndex",pageIndex),
                                       new SqlParameter("@StartEndTime",startEndTime),
                                        new SqlParameter("@EndEndTime",endEndTime),
                                         new SqlParameter("@OrderType",orderType),
@@ -71,14 +75,22 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ClientID",clientID)
    
                                    };
+            paras[0].Value = totalCount;
+            paras[1].Value = pageCount;
 
-            return GetDataTable("P_GetTasksByEndTime", paras, CommandType.StoredProcedure);
+            paras[0].Direction = ParameterDirection.InputOutput;
+            paras[1].Direction = ParameterDirection.InputOutput;
+            DataTable dt= GetDataTable("P_GetTasksByEndTime", paras, CommandType.StoredProcedure);
+            totalCount = Convert.ToInt32(paras[0].Value);
+            pageCount = Convert.ToInt32(paras[1].Value);
+            return dt;
         }
 
-        public int GetNoAcceptTaskCount(int orderType, string clientID)
+        public int GetNoAcceptTaskCount(string onwerID,int orderType, string clientID)
         {
             SqlParameter[] paras = {
                                        new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@OnwerID",onwerID),
                                        new SqlParameter("@OrderType",clientID)
                                    };
 
@@ -87,7 +99,10 @@ namespace IntFactoryDAL
             {
                 sql += " and OrderType=@OrderType";
             }
-
+            if (!string.IsNullOrEmpty(onwerID))
+            {
+                sql += " and OnwerID=@OnwerID";
+            }
             return (int)ExecuteScalar(sql, paras, CommandType.Text);
         }
 
