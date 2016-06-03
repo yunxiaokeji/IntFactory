@@ -106,11 +106,12 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataTable GetOrdersByPlanTime(string startPlanTime, string endPlanTime,int filterType, string userID, string clientID)
+        public DataTable GetOrdersByPlanTime(string startPlanTime, string endPlanTime, int orderType, int filterType, string userID, string clientID)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@StartPlanTime",startPlanTime),
                                        new SqlParameter("@EndPlanTime",endPlanTime),
+                                       new SqlParameter("@OrderType",orderType),
                                        new SqlParameter("@FilterType",filterType),
                                        new SqlParameter("@UserID",userID),
                                        new SqlParameter("@ClientID",clientID)
