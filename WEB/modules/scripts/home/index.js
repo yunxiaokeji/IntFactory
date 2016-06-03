@@ -3,7 +3,6 @@
     var Tip = require("tip");
     var DoT = require("dot");
 
-
     var OrderListCache = null;
     
     var IsLoadding = true;
