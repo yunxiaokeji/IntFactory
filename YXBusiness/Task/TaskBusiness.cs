@@ -53,10 +53,10 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public static List<TaskEntity> GetTasksByEndTime(string startEndTime, string endEndTime, int filterType, string userID, string clientID)
+        public static List<TaskEntity> GetTasksByEndTime(string startEndTime, string endEndTime, int orderType, int filterType, string userID, string clientID)
         {
             List<TaskEntity> list = new List<TaskEntity>();
-            DataTable dt = TaskDAL.BaseProvider.GetTasksByEndTime(startEndTime, endEndTime, filterType, userID, clientID);
+            DataTable dt = TaskDAL.BaseProvider.GetTasksByEndTime(startEndTime, endEndTime,orderType, filterType, userID, clientID);
 
             foreach (DataRow dr in dt.Rows)
             {

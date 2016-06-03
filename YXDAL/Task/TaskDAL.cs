@@ -60,11 +60,12 @@ namespace IntFactoryDAL
             return ds.Tables[0];
         }
 
-        public DataTable GetTasksByEndTime(string startEndTime, string endEndTime, int filterType, string userID, string clientID)
+        public DataTable GetTasksByEndTime(string startEndTime, string endEndTime,int orderType, int filterType, string userID, string clientID)
         {
             SqlParameter[] paras = { 
                                       new SqlParameter("@StartEndTime",startEndTime),
                                        new SqlParameter("@EndEndTime",endEndTime),
+                                        new SqlParameter("@OrderType",orderType),
                                        new SqlParameter("@FilterType",filterType),
                                        new SqlParameter("@UserID",userID),
                                        new SqlParameter("@ClientID",clientID)

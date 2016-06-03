@@ -826,7 +826,7 @@ namespace YXERP.Controllers
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var nowDate=DateTime.Now;
                 var list= IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(nowDate.Date.ToString(),
-                    nowDate.Date.AddDays(14).ToString(), -1, userID, currentUser.ClientID);
+                    nowDate.Date.AddDays(14).ToString(),-1, -1, userID, currentUser.ClientID);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;
@@ -905,7 +905,7 @@ namespace YXERP.Controllers
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var nowDate = DateTime.Now;
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(nowDate.Date.ToString(),
-                    nowDate.Date.AddDays(14).ToString(), -1, userID, currentUser.ClientID);
+                    nowDate.Date.AddDays(14).ToString(), -1, -1, userID, currentUser.ClientID);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;
@@ -986,13 +986,13 @@ namespace YXERP.Controllers
                 var currentUser=(IntFactoryEntity.Users)Session["ClientManager"];
                 if (orderType == 1)
                 {
-                    var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(filterTime, filterTime, filterType,
+                    var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(filterTime, filterTime, -1, filterType,
                                                                                                     userID, currentUser.ClientID);
                     JsonDictionary.Add("items", list);
                 }
                 else
                 {
-                    var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(filterTime, filterTime, filterType,
+                    var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(filterTime, filterTime, -1, filterType,
                                                                                                     userID, currentUser.ClientID);
                     JsonDictionary.Add("items", list);
                 }
