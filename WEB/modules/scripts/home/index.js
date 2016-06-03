@@ -5,6 +5,8 @@
 
     var OrderListCache = null;
     var IsLoadding = true;
+    var IsLoaddingTwo = true;
+
     var Paras = {
         orderFilter: -1,
         filterTime: new Date().getMonth() + '.' + new Date().getDay(),
@@ -54,32 +56,40 @@
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 //切换任务或订单初始化
-                _this.addClass('hover').siblings().removeClass('hover');
-                $(".list-header").find("span").eq(0).data('isget', '1');
-                $(".list-header").find('.list-total').css({ "background-color": "#f35353" });
-                if (_this.data('id') == 1) {
-                    $(".order-msg").html("订单");
+                if (IsLoadding && IsLoaddingTwo) {
+                    _this.addClass('hover').siblings().removeClass('hover');
+                    $(".report-guid").nextAll().remove();
+                    $(".list-header").find("span").eq(0).data('isget', '1');
+                    $(".list-header").find('.list-total').css({ "background-color": "#f35353" });
+
+                    if (_this.data('id') == 1) {
+                        $(".order-msg").html("订单");
+                    }
+                    else {
+                        $(".order-msg").html("任务");
+                    }
+
+                    ObjectJS.moduleType = _this.data('id');
+                    Paras.filterTime = new Date().getMonth().toString() + '.' + new Date().getDay().toString();
+                    Paras.filterType = 1;
+                    ObjectJS.getDataList();
+                    ObjectJS.getReportList();
                 }
                 else {
-                    $(".order-msg").html("任务");
+                    alert("数据加载中，请稍等 !");
                 }
-
-                ObjectJS.moduleType = _this.data('id');
-                Paras.filterTime = new Date().getMonth().toString() + '.' + new Date().getDay().toString();
-                Paras.filterType = 1;
-                
-                ObjectJS.getDataList();
-                ObjectJS.getReportList();
             }
         });
 
     }
 
     ObjectJS.getReportList = function () {
-        if (IsLoadding) {
             IsLoadding = false;
             var action = ObjectJS.moduleType == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
+            var loadding = "<div class='data-loading'>";
+            $(".report-guid").append(loadding);
             Global.post("/Home/" + action, { userID: Paras.userID }, function (data) {
+                $(".report-guid").find('.data-loading').remove();
                 IsLoadding = true;
                 OrderListCache = data.items;
 
@@ -91,7 +101,6 @@
                 $("#totalWorkCount").html(data.totalWorkCount);
                 $("#totalSumCount").html(data.totalSumCount);
             });
-        }
     }
 
     var ReportAvgHeight = 0;//报表每一份对应的行高
@@ -146,13 +155,17 @@
         });
 
         $(".report-item li").click(function () {
-            var _this = $(this);
-            Paras.filterType = _this.data('type');
-            Paras.filterTime = _this.data('date');
-            $(".order-layerbox .layer-lump").nextAll().remove();
-            $(".list-header .list-total").css("background-color", _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8");
+            if (IsLoadding && IsLoaddingTwo) {
+                var _this = $(this);
+                Paras.filterType = _this.data('type');
+                Paras.filterTime = _this.data('date');
+                $(".order-layerbox .layer-lump").nextAll().remove();
+                $(".list-header .list-total").css("background-color", _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8");
 
-            ObjectJS.getDataList();
+                ObjectJS.getDataList();
+            } else {
+                alert("数据加载中，请稍等 !");
+            }
         });
     }
 
@@ -204,6 +217,7 @@
     }
 
     ObjectJS.getDataList = function () {
+        IsLoaddingTwo = false;
         var moduleType = ObjectJS.moduleType;
         Paras.orderType = moduleType;
         var url = "";
@@ -217,7 +231,7 @@
         $(".order-layerbox").find('.layer-lump').nextAll().remove();
         $(".order-layerbox").append(loadding);
         Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
-            IsLoadding = true;
+            IsLoaddingTwo = true;
             $(".order-layerbox").find('.data-loading').remove();
             var items = data.items;
             $(".list-total").html(items.length);
