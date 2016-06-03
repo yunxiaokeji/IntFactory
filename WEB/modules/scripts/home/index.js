@@ -16,7 +16,7 @@
         userID: '',
         moduleStatus:1,//模块类型 1.订单  2.任务
         orderType: -1,
-        pageSize:20,
+        pageSize:10,
         pageIndex:1
     }
 
@@ -24,6 +24,8 @@
 
 
     ObjectJS.init = function (level, userID) {
+
+        ObjectJS.IsLast = false;
 
         //level   3和0移除订单按钮
         if (level == 2) {
@@ -262,16 +264,15 @@
             $(".order-layerbox").find('.layer-lump').nextAll().remove();
         }
         $(".order-layerbox").append(loadding);
-                            
-
 
         Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
             IsLoaddingTwo = true;
             var items = data.items;
 
-            if (data.items.length < 20) {
+            if (data.items.length < 10) {
                 $(".load-more").remove();
-            } else {
+            }
+            else {
                 if ($(".load-more").length == 0) {
                     $(".load-box").append('<span class="load-more font14 hand">加载更多</span>');
                     $('.load-more').unbind().click(function () {
@@ -295,7 +296,6 @@
                 $(".ordertotal .total-ecceed").siblings().html('超期任务总数:');
             }
             $(".order-layerbox").find('.data-loading').remove();
-            $(".list-total").html(items.length);
 
             var timeHtml = $(".list-header").find("span").eq(0);
             if (timeHtml.data('isget') != 1) {
@@ -305,11 +305,14 @@
                 $(".list-header").find('.list-total').css({ "background-color": "#f35353" });
                 timeHtml.data('isget', 0);
             }
-            $(".total-ecceed").html(items.length);
+            $(".list-total").html(data.getTotalCount);
+            $(".total-ecceed").html(data.getTotalCount);
 
             if (items.length == 0) {
+
                 var nodata = "<div class='nodata-txt'>暂无数据!<div>";
                 $(".order-layerbox").append(nodata);
+
             } else {
                 DoT.exec(url, function (template) {
                     var innerText = template(items);
