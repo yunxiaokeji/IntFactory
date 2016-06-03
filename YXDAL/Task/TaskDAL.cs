@@ -86,11 +86,11 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public int GetNoAcceptTaskCount(string onwerID,int orderType, string clientID)
+        public int GetNoAcceptTaskCount(string ownerID,int orderType, string clientID)
         {
             SqlParameter[] paras = {
                                        new SqlParameter("@ClientID",clientID),
-                                       new SqlParameter("@OnwerID",onwerID),
+                                       new SqlParameter("@OwnerID",ownerID),
                                        new SqlParameter("@OrderType",clientID)
                                    };
 
@@ -99,9 +99,9 @@ namespace IntFactoryDAL
             {
                 sql += " and OrderType=@OrderType";
             }
-            if (!string.IsNullOrEmpty(onwerID))
+            if (!string.IsNullOrEmpty(ownerID))
             {
-                sql += " and OnwerID=@OnwerID";
+                sql += " and OwnerID=@OwnerID";
             }
             return (int)ExecuteScalar(sql, paras, CommandType.Text);
         }

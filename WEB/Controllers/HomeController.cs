@@ -985,7 +985,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrdersByTypeAndTime(int filterType, string filterTime, string userID, int moduleStatus,int orderType) 
+        public JsonResult GetOrdersByTypeAndTime(int filterType, string filterTime, string userID, int moduleStatus, int orderType, int pageSize,int pageIndex) 
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             string startTime = string.Empty;
@@ -1006,13 +1006,13 @@ namespace YXERP.Controllers
                 if (moduleStatus == 1)
                 {
                     var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(startTime, filterTime, orderType, filterType,
-                                                                                                    userID, currentUser.ClientID, 20, 1, ref getTotalCount, ref pageCount);
+                                                                                                    userID, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
                     JsonDictionary.Add("items", list);
                 }
                 else
                 {
                     var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(startTime, filterTime, orderType, filterType,
-                                                                                                    userID, currentUser.ClientID, 20, 1, ref getTotalCount, ref pageCount);
+                                                                                                    userID, currentUser.ClientID, 20, pageIndex, ref getTotalCount, ref pageCount);
                     JsonDictionary.Add("items", list);
                 }
                 JsonDictionary.Add("showTime", filterTime.Replace(".", "-") + "/" + YXERP.Common.Common.Week("周", (int)Convert.ToDateTime(filterTime).DayOfWeek));
@@ -1033,12 +1033,12 @@ namespace YXERP.Controllers
                 var result = 0;
                 if (moduleStatus == 1)
                 {
-                    result = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetNeedOrderCount(string.Empty,orderType, currentUser.ClientID);
+                    result = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetNeedOrderCount(currentUser.UserID,orderType, currentUser.ClientID);
                     
                 }
                 else
                 {
-                    result = IntFactoryBusiness.TaskBusiness.GetNoAcceptTaskCount(string.Empty,orderType, currentUser.ClientID);
+                    result = IntFactoryBusiness.TaskBusiness.GetNoAcceptTaskCount(currentUser.UserID, orderType, currentUser.ClientID);
                 }
 
                 JsonDictionary.Add("result", result);

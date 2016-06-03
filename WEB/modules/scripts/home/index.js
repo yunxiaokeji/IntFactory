@@ -3,37 +3,44 @@
     var Tip = require("tip");
     var DoT = require("dot");
 
+
     var OrderListCache = null;
+    
     var IsLoadding = true;
     var IsLoaddingTwo = true;
 
     var Paras = {
-        orderFilter: -1,
-        filterTime: '',
-        filterType: 1,
+        orderFilter: -1,  
+        filterTime: '', 
+        filterType: 1,  //订单阶段-1全部 1已超期 2快到期 3进行中 4已完成
         userID: '',
-        moduleStatus:1,
-        orderType:-1
+        moduleStatus:1,//模块类型 1.订单  2.任务
+        orderType: -1,
+        pageSize:20,
+        pageIndex:1
     }
 
     var ObjectJS = {};
 
-    //默认显示订单
-    ObjectJS.moduleType = 1;
 
     ObjectJS.init = function (level, userID) {
 
+        //level   3和0移除订单按钮
         if (level == 2) {
             Paras.userID = userID;
         }
         else if (level == 3) {
-            ObjectJS.moduleType = 2;
+            Paras.moduleStatus = 2;
+
+            $(".list-header").find("span").eq(0).data('isget', '0');
             $('.order-type').find('span:first-child').remove();
             $('.order-type').find('span:last-child').addClass('hover').css({ "border-left": "1px solid #cecece", "border-right": "1px solid #cecece" });
         }
         else if (level == 0) {
             Paras.userID = userID;
-            ObjectJS.moduleType = 2;
+            Paras.moduleStatus = 2;
+
+            $(".list-header").find("span").eq(0).data('isget', '0');
             $('.order-type').find('span:first-child').remove();
             $('.order-type').find('span:last-child').addClass('hover').css({ "border-left": "1px solid #cecece", "border-right": "1px solid #cecece" });
         }
@@ -48,6 +55,7 @@
         $(".sum-list li").click(function () {
             var _this = $(this);
             if (!_this.hasClass("active")) {
+                Paras.pageIndex = 1;
                 _this.addClass("active").siblings().removeClass("active");
                 Paras.orderFilter = _this.data("orderfilter");
                 ObjectJS.bindReport();
@@ -62,22 +70,15 @@
                     _this.addClass('hover').siblings().removeClass('hover');
                     $(".list-header").find("span").eq(0).data('isget', '1');
 
-                    if (_this.data('id') == 1) {
-                        $(".order-msg").html("订单");
-                        $(".ordertotal .total-ecceed").siblings().html('超期订单总数:');
-                    }
-                    else {
-                        $(".order-msg").html("任务");
-                        $(".ordertotal .total-ecceed").siblings().html('超期任务总数:');
-                    }
-
-                    ObjectJS.moduleType = _this.data('id');
                     Paras.moduleStatus = _this.data('id');
                     Paras.filterTime ='';
                     Paras.filterType = 1;
+                    Paras.pageIndex = 1;
+
                     ObjectJS.getTaskOrOrderCount();
                     ObjectJS.getDataList();
                     ObjectJS.getReportList();
+                    
                 }
                 else {
                     alert("数据加载中，请稍等 !");
@@ -98,6 +99,7 @@
                 onChange: function (data) {
                     if (IsLoadding && IsLoaddingTwo) {
                         Paras.orderType = data.value;
+                        Paras.pageIndex = 1;
                         ObjectJS.getDataList();
                         ObjectJS.getReportList();
                     }
@@ -112,7 +114,7 @@
 
     ObjectJS.getReportList = function () {
             IsLoadding = false;
-            var action = ObjectJS.moduleType == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
+            var action = Paras.moduleStatus == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
             $(".report-guid").nextAll().remove();
             var loadding = "<div class='data-loading'>";
             $(".report-guid").append(loadding);
@@ -175,7 +177,7 @@
         $(".index-report-content .report-item li").each(function () {
             var _this = $(this);
             var type = _this.data("type");
-            var showMsg = ObjectJS.moduleType == 1 ? "订单" : "任务";
+            var showMsg = Paras.moduleStatus == 1 ? "订单" : "任务";
             _this.Tip({
                 width: 160,
                 msg: _this.data("date") + "      " + (type == 1 ? "已超期" + showMsg : type == 2 ? "快到期" + showMsg : type == 3 ? "进行中" + showMsg : "已完成" + showMsg) + "：" + _this.data("count")
@@ -244,10 +246,10 @@
         }
     }
 
-    ObjectJS.getDataList = function () {
+    ObjectJS.getDataList = function (addStatus) {
+        
         IsLoaddingTwo = false;
-        var moduleType = ObjectJS.moduleType;
-        Paras.moduleStatus = moduleType;
+        var moduleType = Paras.moduleStatus;
         var url = "";
         var action = "";
         if (moduleType == 1) {
@@ -256,26 +258,54 @@
             url = "/template/home/index-task.html";
         }
         var loadding = "<div class='data-loading'>";
-        $(".order-layerbox").find('.layer-lump').nextAll().remove();
+        if (addStatus === undefined) {
+            $(".order-layerbox").find('.layer-lump').nextAll().remove();
+        }
         $(".order-layerbox").append(loadding);
+                            
+
+
         Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
             IsLoaddingTwo = true;
-            $(".order-layerbox").find('.data-loading').remove();
             var items = data.items;
+
+            if (data.items.length < 20) {
+                $(".load-more").remove();
+            } else {
+                if ($(".load-more").length == 0) {
+                    $(".load-box").append('<span class="load-more font14 hand">加载更多</span>');
+                    $('.load-more').unbind().click(function () {
+                        if (IsLoadding && IsLoaddingTwo) {
+                            Paras.pageIndex++;
+                            ObjectJS.getDataList('1');
+                        }
+                        else {
+                            alert("数据加载中，请稍等 !");
+                        }
+                    });
+                }
+            }
+
+            if ($(".order-type span.hover").data('id') == 1) {
+                $(".order-msg").html("订单");
+                $(".ordertotal .total-ecceed").siblings().html('超期订单总数:');
+            }
+            else {
+                $(".order-msg").html("任务");
+                $(".ordertotal .total-ecceed").siblings().html('超期任务总数:');
+            }
+            $(".order-layerbox").find('.data-loading').remove();
             $(".list-total").html(items.length);
 
             var timeHtml = $(".list-header").find("span").eq(0);
-
             if (timeHtml.data('isget') != 1) {
                 timeHtml.html(data.showTime);
             } else {
                 timeHtml.html('已超期');
                 $(".list-header").find('.list-total').css({ "background-color": "#f35353" });
-                $(".total-ecceed").html(items.length);
                 timeHtml.data('isget', 0);
             }
-
-           
+            $(".total-ecceed").html(items.length);
 
             if (items.length == 0) {
                 var nodata = "<div class='nodata-txt'>暂无数据!<div>";
@@ -311,10 +341,10 @@
     ObjectJS.getTaskOrOrderCount = function () {
 
         Global.post("/Home/GetOrderOrTaskCount", Paras, function (data) {
-            if (ObjectJS.moduleType == 1) {
+            if (Paras.moduleStatus == 1) {
                 $(".total-need").siblings().html('需求订单总数:');
             } else {
-                $(".total-need").siblings().html('超期任务总数:');
+                $(".total-need").siblings().html('未接受任务总数:');
             }
             $(".total-need").html(data.result);
         });

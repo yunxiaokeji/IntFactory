@@ -187,9 +187,9 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public int GetNeedOrderCount(string onwerID,int orderType, string clientID)
+        public int GetNeedOrderCount(string ownerID,int orderType, string clientID)
         {
-            return OrdersDAL.BaseProvider.GetNeedOrderCount(onwerID,orderType,clientID);
+            return OrdersDAL.BaseProvider.GetNeedOrderCount(ownerID, orderType, clientID);
         }
 
         public List<OrderEntity> GetOrdersByCustomerID(string keyWords, string customerid, int ordertype, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
@@ -453,7 +453,6 @@ namespace IntFactoryBusiness
             }
             return model;
         }
-
 
         public static List<ReplyEntity> GetReplys(string guid, string stageID,int mark, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {

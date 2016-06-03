@@ -36,7 +36,6 @@ header .logo {margin-top:13px; margin-left:10px; }
 header .logo img{ height:26px; }
 
 header .companyname { width: 150px; font-size: 14px; padding: 16px 0 0 5px; color: #BFD2F2; cursor: pointer; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
-
 header .companyname:hover { color: #fff; }
 
 /*公司名称下拉列表*/
@@ -97,7 +96,6 @@ nav .controller-box .point { width:6px; height:6px; border-radius:3px; backgroun
 nav .controller .rotate { transform:rotate(90deg); }
 
 /*nav .controller.select { background-color:#f8f8f8; }*/
-
 nav .action-box {}
 nav .action-box .action {  height:40px; line-height:40px;}
 nav .action-box a { width:100%; display:inline-block; color:#666; text-align:center; height:40px;}
@@ -386,7 +384,6 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 
 
 /*alert 弹出层样式*/
-
 .alert-layer {position: fixed; z-index:99998; top:0; left:0;right:0; bottom:0; background-color:#666; opacity:0.6;}
 
 .alert { border: 1px solid #2F73B8; background-color: #fff; font-size: 13px; position: fixed; top:35%; z-index: 99999; 
@@ -418,7 +415,6 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .verify-fail-err { height:20px; line-height:20px; padding-left:10px; padding-top:2px;}
 
 /*帮助-意见浮层*/
-
 .help-feedback { width:40px; height:45px; position:fixed; bottom:20px; left:10px; overflow:hidden;}
 .help-feedback li { height:40px; width:40px; cursor:pointer; margin-top:5px; position:absolute;}
 .help-feedback li a{ height:40px; width:40px; display:inline-block; }
@@ -426,7 +422,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .help-feedback .ico-feedback { background:url('/modules/images/ico-feedback.png') no-repeat; background-size:cover; bottom:90px;}
 .help-feedback .ico-feedback:hover { background:url('/modules/images/ico-feedback-hover.png') no-repeat; background-size:cover;}
 
-.help-feedback .ico-help { background:url('/modules/images/ico-help.png') no-repeat; background-size:cover; bottom:45px; }
+.help-feedback .ico-help { background:url('/modules/images/ico-wechat.png') no-repeat; background-size:cover; bottom:45px; }
 .help-feedback .ico-help:hover { background:url('/modules/images/ico-help-hover.png') no-repeat; background-size:cover;}
 
 .help-feedback .ico-open { background:url('/modules/images/ico-operate-open.png') no-repeat; background-size:cover;  bottom:0;  }

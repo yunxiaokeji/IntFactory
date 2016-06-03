@@ -132,11 +132,11 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public int GetNeedOrderCount(string onwerID, int orderType, string clientID)
+        public int GetNeedOrderCount(string ownerID, int orderType, string clientID)
         {
             SqlParameter[] paras = {
                                        new SqlParameter("@ClientID",clientID),
-                                       new SqlParameter("@OnwerID",onwerID),
+                                       new SqlParameter("@OwnerID",ownerID),
                                        new SqlParameter("@OrderType",clientID)
                                    };
 
@@ -144,8 +144,9 @@ namespace IntFactoryDAL
             if (orderType != -1) {
                 sql += " and OrderType=@OrderType";
             }
-            if (!string.IsNullOrEmpty(onwerID)) {
-                sql += " and OnwerID=@OnwerID";
+            if (!string.IsNullOrEmpty(ownerID))
+            {
+                sql += " and OwnerID=@OwnerID";
             }
 
             return (int)ExecuteScalar(sql, paras, CommandType.Text);
