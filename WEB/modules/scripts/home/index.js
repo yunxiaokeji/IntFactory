@@ -9,7 +9,7 @@
 
     var Paras = {
         orderFilter: -1,
-        filterTime: new Date().getMonth() + '.' + new Date().getDay(),
+        filterTime: '',
         filterType: 1,
         userID: '',
         moduleStatus:1,
@@ -59,19 +59,19 @@
                 //切换任务或订单初始化
                 if (IsLoadding && IsLoaddingTwo) {
                     _this.addClass('hover').siblings().removeClass('hover');
-                    $(".report-guid").nextAll().remove();
                     $(".list-header").find("span").eq(0).data('isget', '1');
-                    $(".list-header").find('.list-total').css({ "background-color": "#f35353" });
 
                     if (_this.data('id') == 1) {
                         $(".order-msg").html("订单");
+                        $(".ordertotal .total-ecceed").siblings().html('超期订单总数:');
                     }
                     else {
                         $(".order-msg").html("任务");
+                        $(".ordertotal .total-ecceed").siblings().html('超期任务总数:');
                     }
 
                     ObjectJS.moduleType = _this.data('id');
-                    Paras.filterTime = new Date().getMonth().toString() + '.' + new Date().getDay().toString();
+                    Paras.filterTime ='';
                     Paras.filterType = 1;
                     ObjectJS.getDataList();
                     ObjectJS.getReportList();
@@ -87,15 +87,14 @@
             $("#orderType").dropdown({
                 prevText: "订单类型-",
                 defaultText: "全部",
-                defaultValue: "",
+                defaultValue: "-1",
                 data: orderTypes,
                 dataValue: "ID",
                 dataText: "Name",
                 width: "110",
                 onChange: function (data) {
-                    console.log(data.value);
                     if (IsLoadding && IsLoaddingTwo) {
-                        Paras.moduleStatus = data.value;
+                        Paras.orderType = data.value;
                         ObjectJS.getDataList();
                         ObjectJS.getReportList();
                     }
@@ -111,9 +110,10 @@
     ObjectJS.getReportList = function () {
             IsLoadding = false;
             var action = ObjectJS.moduleType == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
+            $(".report-guid").nextAll().remove();
             var loadding = "<div class='data-loading'>";
             $(".report-guid").append(loadding);
-            Global.post("/Home/" + action, { userID: Paras.userID }, function (data) {
+            Global.post("/Home/" + action, { userID: Paras.userID,orderType:Paras.orderType }, function (data) {
                 $(".report-guid").find('.data-loading').remove();
                 IsLoadding = true;
                 OrderListCache = data.items;
@@ -262,12 +262,17 @@
             $(".list-total").html(items.length);
 
             var timeHtml = $(".list-header").find("span").eq(0);
+
             if (timeHtml.data('isget') != 1) {
                 timeHtml.html(data.showTime);
             } else {
                 timeHtml.html('已超期');
+                $(".list-header").find('.list-total').css({ "background-color": "#f35353" });
+                $(".total-ecceed").html(items.length);
                 timeHtml.data('isget', 0);
             }
+
+           
 
             if (items.length == 0) {
                 var nodata = "<div class='nodata-txt'>暂无数据!<div>";

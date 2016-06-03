@@ -196,14 +196,12 @@ define(function (require, exports, module) {
     LayoutObject.getAuthorizeInfo = function () {
         Global.post("/Home/GetAuthorizeInfo", null, function (data) {
             $("#remainderDays").html(data.remainderDays);
-            $(".remain-day").html(data.remainderDays);
             if (data.authorizeType == 0) {
                 $(".btn-buy").html("立即购买");
             }
             else {
                 if (parseInt(data.remainderDays) < 31) {
                     $("#remainderDays").addClass("red");
-                    $(".remain-day").addClass("red");
                     $(".btn-buy").html("续费").attr("href", "/Auction/ExtendNow");
                 }
                 else {

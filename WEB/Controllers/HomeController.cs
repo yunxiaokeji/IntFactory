@@ -29,7 +29,11 @@ namespace YXERP.Controllers
             else
             {
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-                
+                var agent = IntFactoryBusiness.AgentsBusiness.GetAgentDetail(currentUser.AgentID);
+                ViewBag.RemainDay = Math.Ceiling((agent.EndTime - DateTime.Now).TotalDays);
+                ViewBag.BuyPeople = agent.UserQuantity;
+                ViewBag.UsePeople = OrganizationBusiness.GetUsers(agent.AgentID).Count;
+
                 if (currentUser.Role != null)
                 {
                     if (currentUser.Role.IsDefault == 1)
@@ -816,7 +820,7 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public JsonResult GetOrdersByPlanTime(string userID)
+        public JsonResult GetOrdersByPlanTime(string userID,int orderType)
         {
             Dictionary<string, Object> resultObj = new Dictionary<string, object>();
             int result = 0;
@@ -826,7 +830,7 @@ namespace YXERP.Controllers
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var nowDate=DateTime.Now;
                 var list= IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(nowDate.Date.ToString(),
-                    nowDate.Date.AddDays(14).ToString(),-1, -1, userID, currentUser.ClientID);
+                    nowDate.Date.AddDays(14).ToString(), orderType, -1, userID, currentUser.ClientID);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;
@@ -896,7 +900,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetTasksByEndTime(string userID)
+        public JsonResult GetTasksByEndTime(string userID,int orderType)
         {
             Dictionary<string, Object> resultObj = new Dictionary<string, object>();
             int result = 0;
@@ -905,7 +909,7 @@ namespace YXERP.Controllers
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var nowDate = DateTime.Now;
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(nowDate.Date.ToString(),
-                    nowDate.Date.AddDays(14).ToString(), -1, -1, userID, currentUser.ClientID);
+                    nowDate.Date.AddDays(14).ToString(), orderType, -1, userID, currentUser.ClientID);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;
@@ -980,19 +984,28 @@ namespace YXERP.Controllers
         public JsonResult GetOrdersByTypeAndTime(int filterType, string filterTime, string userID, int moduleStatus,int orderType) 
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            filterTime = DateTime.Now.Year + "." + filterTime;
+            string startTime = string.Empty;
+            if (string.IsNullOrEmpty(filterTime))
+            {
+                filterTime = DateTime.Now.ToString("yyyy.MM.dd");
+            }
+            else
+            {
+                filterTime = DateTime.Now.Year + "." + filterTime;
+                startTime = filterTime;
+            }
             if(Session["ClientManager"]!=null)
             {
                 var currentUser=(IntFactoryEntity.Users)Session["ClientManager"];
                 if (moduleStatus == 1)
                 {
-                    var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(filterTime, filterTime, -1, filterType,
+                    var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(startTime, filterTime, orderType, filterType,
                                                                                                     userID, currentUser.ClientID);
                     JsonDictionary.Add("items", list);
                 }
                 else
                 {
-                    var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(filterTime, filterTime, -1, filterType,
+                    var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(startTime, filterTime, orderType, filterType,
                                                                                                     userID, currentUser.ClientID);
                     JsonDictionary.Add("items", list);
                 }
