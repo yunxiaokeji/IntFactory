@@ -1015,6 +1015,8 @@ namespace YXERP.Controllers
                                                                                                     userID, currentUser.ClientID, 20, pageIndex, ref getTotalCount, ref pageCount);
                     JsonDictionary.Add("items", list);
                 }
+                JsonDictionary.Add("getTotalCount", getTotalCount);
+                JsonDictionary.Add("pageCount", pageCount);
                 JsonDictionary.Add("showTime", filterTime.Replace(".", "-") + "/" + YXERP.Common.Common.Week("周", (int)Convert.ToDateTime(filterTime).DayOfWeek));
             }
             return new JsonResult
