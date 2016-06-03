@@ -416,16 +416,16 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 
 /*帮助-意见浮层*/
 .help-feedback { width:40px; height:45px; position:fixed; bottom:20px; left:10px; overflow:hidden;}
-.help-feedback li { height:40px; width:40px; cursor:pointer; margin-top:5px; position:absolute;}
+.help-feedback li { height:40px; width:40px; cursor:pointer; margin-top:5px; position:absolute;border-radius:50%;}
 .help-feedback li a{ height:40px; width:40px; display:inline-block; }
 
 .help-feedback .ico-feedback { background:url('/modules/images/ico-feedback.png') no-repeat; background-size:cover; bottom:90px;}
 .help-feedback .ico-feedback:hover { background:url('/modules/images/ico-feedback-hover.png') no-repeat; background-size:cover;}
 
-.help-feedback .ico-help { background:url('/modules/images/ico-wechat.png') no-repeat; background-size:cover; bottom:45px; }
-.help-feedback .ico-help:hover { background:url('/modules/images/ico-help-hover.png') no-repeat; background-size:cover;}
+.help-feedback .ico-help { background:url('/modules/images/ico-wechat.png') no-repeat center center; background-size:22px 22px; bottom:45px; background-color:#4a98e7;}
+.help-feedback .ico-help:hover {background-color:#2F73B8;}
 
-.help-feedback .ico-open { background:url('/modules/images/ico-operate-open.png') no-repeat; background-size:cover;  bottom:0;  }
+.help-feedback .ico-open { background:url('/modules/images/ico-operate-open.png') no-repeat; background-size:cover;  bottom:0; }
 .help-feedback .ico-open:hover { background:url('/modules/images/ico-operate-open-hover.png') no-repeat; background-size:cover;}
 
 /*图片loading*/
