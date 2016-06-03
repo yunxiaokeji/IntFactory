@@ -1,4 +1,7 @@
 ﻿@{
+    var order = (IntFactoryEntity.OrderEntity)ViewBag.Model;
+    var goods = (List<IntFactoryEntity.GoodsDoc>)ViewBag.List;
+    var obj = (List<IntFactoryEntity.Task.PlateMaking>)ViewBag.Obj;
     ViewBag.title = "制版工艺单";
     Layout = null;
 }
@@ -22,455 +25,243 @@
     <script src="/Scripts/sea-config.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/orders/platemakingprocess"], function (obj) {
-            obj.init();
+            obj.init('@(order.Platemaking)');
         })
     </script>
 </head>
 <body>
-    <div class="process">
-        <table>
-            <tr class="bgcolorC0C0C0" style="height:50px">
-                <td class="no-border-right">
-                    <img src="/modules/images/none-img.png" />
-                </td>
-                <td class="no-border-left" colspan="5">
-                    <div class="titlename">
-                        生产工艺单
-                        <span class="red">（此单所示左右指穿起计）</span>
-                    </div>
-                </td>                
-            </tr>
-            <tr>
-                <td>跨界款号：</td>
-                <td>w10210</td>
-                <td>采购负责人：</td>
-                <td>卢云</td>
-                <td>下单日期：</td>
-                <td>2015.4.20</td>
-            </tr>
-            <tr>
-                <td>销售负责人：</td>
-                <td>清扬</td>
-                <td>纸样师负责人：</td>
-                <td>萧秋水</td>
-                <td>合同货期：</td>
-                <td>2015.5.5</td>
-            </tr>
-            <tr>
-                <td>理单负责人：</td>
-                <td>卫青</td>
-                <td>QC负责人：</td>
-                <td>李世明</td>
-                <td class="no-border-right">准确资料签章：</td>       
-                <td class="no-border-left"></td>         
-            </tr>
-        </table>   
-        <table class="navgoods no-border">
-            <tr>
-                <td colspan="7" class="font18 no-border-top fontbold bgcolorC0C0C0" style="height:40px;">下单数量、颜色、配比（短溢数：±3%）</td>
-                <td class="no-border-top width157">前片图片</td>
-                <td class="no-border-top width157">后片图片</td>
-            </tr>
-            <tr>
-                <td class="bgcolorC0C0C0 fontbold">颜色尺码</td>
-                <td class="bgcolorC0C0C0 fontbold">S</td>
-                <td class="bgcolorC0C0C0 fontbold">M</td>
-                <td class="bgcolorC0C0C0 fontbold">L</td>
-                <td class="bgcolorC0C0C0 fontbold">XL</td>
-                <td class="bgcolorC0C0C0 fontbold">XXL</td>
-                <td class="bgcolorC0C0C0 fontbold">合计</td>
-                <td rowspan="9"><img src="/modules/images/none-img.png" /></td>
-                <td rowspan="9"><img src="/modules/images/none-img.png" /></td>
-            </tr>
-            <tr>
-                <td class="fontbold">蓝白条</td>
-                <td>252</td>
-                <td>168</td>
-                <td>84</td>
-                <td></td>
-                <td></td>
-                <td>504</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>0</td>
-            </tr>
-            <tr>
-                <td class="fontbold">合计:</td>
-                <td>252件</td>
-                <td>168件</td>
-                <td>q84件</td>
-                <td>0件</td>
-                <td>0件</td>
-                <td>504</td>
-            </tr>
-            <tr>
-                <td colspan="7" class="font18 bgcolorC0C0C0 fontbold" style="height:40px;">实际裁剪数量</td>
-            </tr>
-            <tr class="bgcolorC0C0C0 fontbold">
-                <td>颜色尺码</td>
-                <td>S</td>
-                <td>M</td>
-                <td>L</td>
-                <td>XL</td>
-                <td>XXL</td>
-                <td>合计</td>
-            </tr>
-            <tr>
-                <td class="fontbold">蓝白条</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="fontbold">合计:</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-        <table class="navProducts no-border">
-            <tr>
-                <td colspan="5" class="font18 fontbold no-border-top tLeft bgcolorC0C0C0 hight40">一、物 料 栏</td>
-            </tr>
-            <tr class="bgcolorC0C0C0 fontbold">
-                <td class="width150">物料列表</td>
-                <td class="width100">实际采购数量</td>
-                <td class="width100">单件用料</td>
-                <td class="width200">面料成分</td>
-                <td class="width400">物料用途及使用说明</td>
-            </tr>
-            <tr>
-                <td>尺码唛</td>
-                <td></td>
-                <td>121</td>
-                <td>树脂</td>
-                <td>合侧缝定于左侧缝，下脚往上12CM处，正面朝上，往后倒.</td>
-            </tr>
-            <tr>
-                <td>尺码唛</td>
-                <td></td>
-                <td>121</td>
-                <td>树脂</td>
-                <td>合侧缝定于左侧缝，下脚往上12CM处，正面朝上，往后倒.</td>
-            </tr>
-            <tr>
-                <td>尺码唛</td>
-                <td></td>
-                <td>121</td>
-                <td>树脂</td>
-                <td>合侧缝定于左侧缝，下脚往上12CM处，正面朝上，往后倒.</td>
-            </tr>
-        </table>                      
-        <table class="navEngraving no-border">
-            <tr>
-                <td colspan="10" class="font18 fontbold no-border-top tLeft bgcolorC0C0C0 hight40">二、尺寸表</td>
-            </tr>
-            <tr class="bgcolorC0C0C0 fontbold">
-                <td class="width115" rowspan="2">衡量部位</td>
-                <td class="width100" rowspan="2">度量方法</td>
-                <td class="width50">基码</td>
-                <td class="width50">误差</td>
-                <td class="width400" colspan="5">放码尺寸表</td>
-                <td class="width200" rowspan="2">备注：</td>
-            </tr>
-            <tr class="bgcolorC0C0C0 fontbold">
-                <td>M</td>
-                <td class="width80">±</td>
-                <td class="width80">S</td>
-                <td class="width80">M</td>
-                <td class="width80">L</td>
-                <td class="width80"></td>
-                <td class="width80"></td>                
-            </tr>
-            <tr>
-                <td>前衣长</td>
-                <td>肩点至下摆</td>
-                <td>68</td>
-                <td>1</td>
-                <td>67</td>
-                <td>68</td>
-                <td>69</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>前衣长</td>
-                <td>肩点至下摆</td>
-                <td>68</td>
-                <td>1</td>
-                <td>67</td>
-                <td>68</td>
-                <td>69</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>前衣长</td>
-                <td>肩点至下摆</td>
-                <td>68</td>
-                <td>1</td>
-                <td>67</td>
-                <td>68</td>
-                <td>69</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>前衣长</td>
-                <td>肩点至下摆</td>
-                <td>68</td>
-                <td>1</td>
-                <td>67</td>
-                <td>68</td>
-                <td>69</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+    <div class="report">
+        <div class="preview">预览:</div>    
+        <div class="process left">
+            <table style="width:955px;">
+                <tr class="bgcolorC0C0C0" style="height:50px">
+                    <td class="no-border-right">
+                        <img src="@(order.OrderImage==""?"/modules/images/none-img.png":order.OrderImage)" />
+                    </td>
+                    <td class="no-border-left" colspan="5">
+                        <div class="titlename">
+                            生产工艺单
+                            <span class="red">（此单所示左右指穿起计）</span>
+                        </div>
+                    </td>                
+                </tr>
+                <tr>
+                    <td>跨界款号：</td>
+                    <td>@(order.IntGoodsCode==""?"未设置":order.IntGoodsCode)</td>
+                    <td>采购负责人：</td>
+                    <td>卢云</td>
+                    <td>下单日期：</td>
+                    <td>@(order.CreateTime.ToString("yyyy-MM-dd"))</td>
+                </tr>
+                <tr>
+                    <td>销售负责人：</td>
+                    <td>清扬</td>
+                    <td>纸样师负责人：</td>
+                    <td>萧秋水</td>
+                    <td>合同货期：</td>
+                    <td>@(order.PlanTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : order.PlanTime.ToString("yyyy-MM-dd"))</td>
+                </tr>
+                <tr>
+                    <td>理单负责人：</td>
+                    <td>卫青</td>
+                    <td>QC负责人：</td>
+                    <td>李世明</td>
+                    <td class="no-border-right">准确资料签章：</td>       
+                    <td class="no-border-left"></td>         
+                </tr>
+            </table>   
+            <table class="navgoods no-border">
+                <tr>
+                    <td colspan="7" class="font18 no-border-top fontbold bgcolorC0C0C0" style="height:40px;">下单明细</td>
+                    <td class="no-border-top" style="width:161px">前片图片</td>
+                    <td class="no-border-top" style="width:161px">后片图片</td>
+                </tr>
+                <tr>
+                    <td class="bgcolorC0C0C0 fontbold">规格</td>
+                    <td class="bgcolorC0C0C0 fontbold">下单数量</td>
+                    <td class="bgcolorC0C0C0 fontbold">裁片/织片数量</td>
+                    <td class="bgcolorC0C0C0 fontbold">缝制/套口数量</td>
+                    <td class="bgcolorC0C0C0 fontbold">发货数量</td>
+                    <td class="bgcolorC0C0C0 fontbold">剩余未发</td>                
+                    <td class="bgcolorC0C0C0 fontbold">小计</td>
+                    <td rowspan="9"><img src="/modules/images/none-img.png" /></td>
+                    <td rowspan="9"><img src="/modules/images/none-img.png" /></td>
+                </tr>
+                @if (order.OrderGoods.Count > 0)
+                {
+                    foreach (var detail in order.OrderGoods)
+                    { 
+                    <tr class="item cart-item" >
+                        <td>@(detail.Remark)</td>
+                        <td class="center good1">@(detail.Quantity)</td>
+                        <td class="center good2">@(detail.CutQuantity)</td>
+                        <td class="center good3">@(detail.Complete)</td>
+                        <td class="center good4">@(detail.SendQuantity)</td>
+                        <td class="center good5">@(detail.Complete - detail.SendQuantity)</td>                    
+                        <td class="tRight good6">@((detail.TotalMoney).ToString("f2"))</td>
+                    </tr>                
+                    }
+                    <tr class="total-items bold" >
+                        <td class="">合计：</td>
+                        <td class="center" data-class="good1"></td>
+                        <td class="center" data-class="good2"></td>
+                        <td class="center" data-class="good3"></td>
+                        <td class="center" data-class="good4"></td>
+                        <td class="center" data-class="good5"></td>                    
+                        <td class="tRight" data-class="good6"></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr><td colspan="7"><div class="nodata-txt">暂无明细</div></td></tr>
+                }   
+                    
+                <tr>
+                    <td colspan="7">
+                        <table class="no-border" id="navsenddoc">
+                            <tr>
+                                <td colspan="4" class="font18 bgcolorC0C0C0 fontbold no-border" style="height:40px;">裁片/织片</td>
+                            </tr>
+                            <tr class="bgcolorC0C0C0 fontbold">
+                                <td class="no-border-left no-border-fight">单号</td>
+                                <td>数量</td>
+                                <td>登记人</td>
+                                <td class="width no-border-right">登记时间</td>               
+                            </tr>
+                            @if (goods.Count>0)
+	                        {
+		                        foreach (var item in goods)
+	                            {
+		                            <tr>
+                                        <td class="no-border-left no-border-fight">@(item.DocCode)</td>
+                                        <td class="cut1">@(item.Quantity)</td>
+                                        <td>@(item.CreateUser.Name==""?"--": item.CreateUser.Name)</td>
+                                        <td class="no-border-right">@(item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"))</td> 
+                                    </tr>
+	                            }
+                                <tr class="total-item bold">
+                                    <td class="no-border-left no-border-fight no-border-bottom">合计：</td>
+                                    <td class="center no-border-bottom" data-class="cut1"></td>
+                                    <td class='center no-border-bottom no-border-right'></td>
+                                    <td class='center no-border-bottom no-border-right no-border-left'></td>                                
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr><td colspan="7"><div class="nodata-txt no-border-left no-border-bottom no-border-right">暂无数据</div></td></tr>
+	                        }
+                        </table>
+                    </td>
+                
+                </tr>     
+            </table>
+            <table class="navproducts no-border">
+                <tr>
+                    <td colspan="11" class="font18 fontbold no-border-top tLeft bgcolorC0C0C0 hight40">一、材料成本</td>
+                </tr>
+                <tr class="bgcolorC0C0C0 fontbold" style="height:30px;">
+                    <td class="width100">样图</td>
+                    <td class="width60">材料名称</td>
+                    <td class="width100">编码</td>
+                    <td class="width100">规格</td>
+                    <td class="width50">单位</td>
+                    <td class="width50">单价</td>
+                    <td class="width100">消耗量</td>
+                    <td class="width100">损耗量</td>
+                    <td class="width100">损耗率</td>
+                    <td class="width100">采购量</td>
+                    <td class="width100">小计</td>
+                </tr>
+                @if (order.Details.Count>0)
+                {
+                    foreach (var detail in order.Details)
+                    {
+                        <tr class="products">
+                            <td class="width100">
+                                <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
+                            </td>
+                            <td class="width60">@(detail.ProductName)</td>
+                            <td class="width100">@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
+                            <td class="width100">@(detail.Remark)</td>
+                            <td class="width50">@(detail.UnitName)</td>
+                            <td class="width50">@(detail.Price.ToString("f2"))</td>
+                            <td class="width100">@((detail.Quantity * order.PlanQuantity).ToString("f3"))</td>
+                            <td class="width100">@((detail.Loss * order.PlanQuantity).ToString("f3"))</td>
+                            <td class="width100">@(detail.LossRate.ToString("f3"))</td>
+                            <td class="width100">@(((detail.Quantity * order.PlanQuantity)+(detail.Loss * order.PlanQuantity)).ToString("f3"))</td>
+                            <td class="width100 moneytotal">@((detail.TotalMoney * order.PlanQuantity).ToString("f3"))</td>
+                        </tr>
+                    }
+                    <tr class="total-items bold">
+                        <td colspan="9"></td>
+                        <td class="tRight">成本合计：</td>
+                        <td class="tRight" data-class="moneytotal"></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr><td colspan="11"><div class="nodata-txt">暂无材料</div></td></tr>
+                }           
+            </table>                      
+            <table class="navengraving no-border" style="width:955px;">
+                <tr>
+                    <td colspan="10" class="font18 fontbold no-border-top tLeft bgcolorC0C0C0 hight40">二、制版</td>
+                </tr>
+                <tr>
+                    <td id="Platemak" colspan="10"></td>
+                </tr>
 
-            <tr>
-                <td class="bgcolorC0C0C0 fontbold font18 tLeft hight40" colspan="10">三、裁剪</td>
-            </tr>
-           <tr>
-                <td class="width115 font16 fontbold" rowspan="2">拉布</td>
-                <td colspan="9" class="tLeft font14 width839">1.检查唛架纸是否漏片错片，检查每匹面料可用门幅是否与唛架相符.</td>
-            </tr>
-             <tr>
-                <td colspan="9" class="tLeft font14 width839">2.拉布前请确保松布超过24小时以上。拉布张力要均匀，条纹面料条子归正顺直，一床不宜太高。每匹面料需隔层，避免色差.（备注：每匹面料预留2-3米配片布，预留切斜条布.)</td>
-            </tr>
-           <tr>
-                <td class="width115 font16 fontbold" rowspan="2">裁剪</td>
-                <td colspan="9" class="tLeft font14 width839">1.裁剪不偏刀、确保每刀第一层与最后一层大小一致.</td>
-            </tr>
-            <tr>
-                <td colspan="9" class="tLeft font14 width839">2.刀眼齐全、刀眼垂直、刀眼深度0.3CM.</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="2">分包</td>
-                <td colspan="9" class="tLeft font14 width839">1.裁片需要编号生产.</td>
-            </tr>
-            <tr>
-                <td colspan="9" class="tLeft font14 width839">3.分码包装、捆扎结实，避免掉落裁片。检查是否少片、漏片.</td>
-            </tr>
+                <tr>
+                    <td class="bgcolorC0C0C0 fontbold font18 tLeft hight40" colspan="10">三、工艺</td>
+                </tr>
+                <tr>
+                    <td colspan="2">图标</td>
+                    <td colspan="2">名称</td>
+                    <td colspan="4">描述</td>
+                    <td colspan="2">创建时间</td>
+                </tr>
+                @if (obj.Count>0)
+                {
+                    foreach (var item in obj)
+                    {
+                        <tr>
+                            <td colspan="2"><img style="width:30px;height:30px;" src="@(item.Icon)" /></td>
+                            <td colspan="2">@(item.Title)</td>
+                            <td colspan="4">@(item.Remark)</td>
+                            <td colspan="2">@(item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"))</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10"><div class="nodata-txt">暂无工艺</div></td>
+                    </tr>
+                }
 
-            <tr>
-                <td class="bgcolorC0C0C0 fontbold font18 tLeft hight40" colspan="10">四、粘衬</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="3">粘合条件</td>
-                <td colspan="9" class="tLeft font14 width839">袖口*2，门襟烫4CM宽衬*2，面领四周烫1CM无线纸衬条.</td>
-            </tr>
-             <tr>
-                <td colspan="9" class="tLeft font14 width839">纸衬.</td>
-            </tr>
-            <tr>
-                <td colspan="9" class="tLeft font14 width839">粘合温度140°C-180°C；粘合时间5-8秒.</td>
-            </tr>
 
-            <tr>
-                <td class="bgcolorC0C0C0 fontbold font18 tLeft hight40" colspan="10">五、缝制工艺</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="1">拼缝针距</td>
-                <td colspan="9" class="tLeft font14 width839">请用9号圆头针，平车3CM/13针 ，拷边车3CM/14针，线迹清晰平服、无跳针、无浮现等现象.</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="1">缝制用线</td>
-                <td colspan="9" class="tLeft font14 width839">配白色条纹线，本白色，柳青402S本白线.</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="1">拼缝缝位</td>
-                <td colspan="9" class="tLeft font14 width839">后担干、左右侧缝、袖笼缝拼合1CM,3线拷边.</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="1">裁片数</td>
-                <td colspan="9" class="tLeft font14 width839">前片*2；后担干*1；后片*1；领*2；袖子*2；袖口*2；肩带*2；腰袢*2；斜条*3米.</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="2">前片</td>
-                <td colspan="9" class="tLeft font14 width839">1.前中门襟按2.5CM宽净样包烫，内止口1CM,压边线；门襟条纹顺直.</td>
-            </tr>
-            <tr>
-                <td colspan="9" class="tLeft font14 width839"></td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="3">后片</td>
-                <td colspan="9" class="tLeft font14 width839">1.后片上口收碎褶，与后担干拼1CM缝拷边.</td>
-            </tr>
-             <tr>
-                <td colspan="9" class="tLeft font14 width839">2.前后片侧缝拼1CM缝拷边.</td>
-            </tr>
-            <tr>
-                <td colspan="9" class="tLeft font14 width839">3.腰袢做光两边压0.1CM明线，宽度0.8CM；订在夹下(净)14CM处,袢长（净）3CM.</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="3">袖子</td>
-                <td colspan="9" class="tLeft font14 width839">1.袖叉32#拉筒包边，条宽0.9CM。叉角封三角针；拼1ＣＭ袖底缝；按收折前袖后上袖口介英.</td>
-            </tr>
-             <tr>
-                <td colspan="9" class="tLeft font14 width839">2.袖口大袖段收碎褶，装袖口。袖口按净样板包烫封口，0.1明线夹袖子.</td>
-            </tr>
-            <tr>
-                <td colspan="9" class="tLeft font14 width839">3.袖笼拼1CM缝拷边装袖.</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="6">其他</td>
-                <td colspan="9" class="tLeft font14 width839">1.领边四周烫1CM无线纸衬条,领边压暗线0.1CM，不可有反止口，注意:左领角应比右两脚宽0.4CM.</td>
-            </tr>
-             <tr>
-                <td colspan="9" class="tLeft font14 width839">2.肩带做光，宽3CM，烫平按肩带尺寸订位,易拉大，注意反止口，注意分辨内外.</td>
-            </tr>
-            <tr>
-                <td colspan="9" class="tLeft font14 width839">3.领缝拼合0.8CM，修止口0.5CM。拉筒0.8CM包边，内折压0.7CM明。注意放肩带位置，要求对称.</td>
-            </tr>
-            <tr>
-                <td colspan="9" class="tLeft font14 width839">4.拉腰带宽0.9CM；长短按尺寸封带头.</td>
-            </tr>
-            <tr>
-                <td colspan="9" class="tLeft font14 width839">5.下脚卷0.9CM单线.</td>
-            </tr>
-            <tr>
-                <td colspan="9" class="tLeft font14 width839"></td>
-            </tr>
-
-            <tr>
-                <td class="bgcolorC0C0C0 fontbold font18 tLeft hight40" colspan="10">六、锁眼、钉扣、手工、成衣水洗</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="1">锁眼</td>
-                <td colspan="9" class="tLeft font14 width839">右门襟平眼*7个，左右袖口*2个，大小参考扣子，大小合适.</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="1">钉扣</td>
-                <td colspan="9" class="tLeft font14 width839">左门襟*7个，袖口*2个.</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="1">手工</td>
-                <td colspan="9" class="tLeft font14 width839">无</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="1">成衣水洗</td>
-                <td colspan="9" class="tLeft font14 width839">无</td>
-            </tr>
-
-            <tr>
-                <td class="bgcolorC0C0C0 fontbold font18 tLeft hight40" colspan="10">七、成衣整烫</td>
-            </tr>
-            <tr>
-                <td class="font14 tLeft" colspan="10">铺平平烫，不可拖烫，肩带易拉长，整烫不可有极光，烫印。</td>
-            </tr>
-            <tr>
-                <td class="" colspan="10"></td>
-            </tr>
-
-            <tr>
-                <td class="bgcolorC0C0C0 fontbold font18 tLeft hight40" colspan="10">八、成衣检验</td>
-            </tr>
-            <tr>
-                <td class="font14 tLeft" colspan="10">1.整件线头干净。所有明线宽窄一致，不漏针。领尖左右对称，领边不可反止口。锁定平服，钉扣牢固.</td>
-            </tr>
-            <tr>
-                <td class="font14 tLeft" colspan="10">2.成衣不可有色差，面料不可有布疵.</td>
-            </tr>
-            <tr>
-                <td class="font14 tLeft" colspan="10">3.门襟，袖口条子顺直，下摆平顺.</td>
-            </tr>
-            <tr>
-                <td class="font14 tLeft" colspan="10">4.成品尺寸在公差内，尺码是否符合，不可有错码乱码.</td>
-            </tr>
-
-            <tr>
-                <td class="bgcolorC0C0C0 fontbold font18 tLeft hight40" colspan="10">九、成品包装</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="1">包装材料</td>
-                <td colspan="9" class="tLeft font14 width839">吊牌A*1(印nogo）；吊牌B*1（二维码）；吊牌C*1(空白）；条码贴纸*1；吊粒*1；备扣袋；单件胶袋*1.</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="1">折衣规格</td>
-                <td colspan="9" class="tLeft font14 width839">对称折叠，大小参考胶袋大小.</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="1">吊牌方式</td>
-                <td colspan="9" class="tLeft font14 width839">条码贴纸贴于空白吊牌C；吊牌A,吊牌B,吊牌C，备扣袋依次排放，挂于主唛上.</td>
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold" rowspan="1">装箱</td>
-                <td colspan="9" class="tLeft font14 width839">分色分码装箱；打包带十字架打包.</td>
-            </tr>
-
-            <tr>
-                <td class="bgcolorC0C0C0 fontbold font18 tLeft hight40" colspan="10">十、送货方式</td>
-            </tr>
-            <tr>
-                <td class="font14 tLeft" colspan="10">纸箱打好包送至客户指定仓库，请向MR专员索取.</td>
-            </tr>
-            <tr>
-                <td class="bgcolorC0C0C0 fontbold font18 tLeft hight40" colspan="10">十一、辅料图片</td>
-            </tr>
-            <tr class="bgcolorC0C0C0">
-                <td>主唛</td>
-                <td>尺码唛</td>
-                <td>洗水唛</td>
-                <td>吊牌A</td>
-                <td>吊牌B</td>
-                <td>吊牌C</td>
-                <td>吊粒</td>
-                <td>胶袋</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr style="height:100px;">
-                <td class="width50"></td>
-                <td class="width50"></td>
-                <td class="width50"></td>
-                <td class="width50"></td>
-                <td class="width50"></td>
-                <td class="width50"></td>
-                <td class="width50"></td>
-                <td class="width50"></td>
-                <td class="width50"></td>
-                <td class="width50"></td>
-            </tr>
-
-            <tr>
-                <td class="width115 font16 fontbold tLeft" colspan="10">备注：避免每个人对专业术语理解误差，由此工艺单供参考，具体工艺参照样衣</td>                
-            </tr>
-            <tr>
-                <td class="width115 font16 fontbold tLeft" colspan="10">*****注：请跟单QC、裁床、缝制、后整、负责人仔细阅读此工艺单并理解，如有疑问及时与技术部相关人员联系！（工艺单看了，未理解，等同没有看）</td>                
-            </tr>
-        </table>       
-        <div class="font18">
-            <span class="fontbold">制表人:</span>
-            <span>萧秋水</span>
-            <span class="fontbold">审核人:</span>
-            <span>卫青</span>
-            <span class="fontbold">制单日期:</span>
-            <span>2015.4.21</span>
+            
+                <tr>
+                    <td class="width115 font16 fontbold tLeft" colspan="10">备注：避免每个人对专业术语理解误差，由此工艺单供参考，具体工艺参照样衣</td>                
+                </tr>
+                <tr>
+                    <td class="width115 font16 fontbold tLeft" colspan="10">*****注：请跟单QC、裁床、缝制、后整、负责人仔细阅读此工艺单并理解，如有疑问及时与技术部相关人员联系！（工艺单看了，未理解，等同没有看）</td>                
+                </tr>
+            </table>       
+            <div class="font18">
+                <span class="fontbold">制表人:</span>
+                <span>萧秋水</span>
+                <span class="fontbold">审核人:</span>
+                <span>卫青</span>
+                <span class="fontbold">制单日期:</span>
+                <span>2015.4.21</span>
+            </div>
+            <div>
+                <span class="btn mTop10">保存</span>
+            </div>
+        </div>
+        <div class="print hide mTop25">
+            
         </div>
     </div>
 </body>
