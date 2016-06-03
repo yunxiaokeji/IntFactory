@@ -386,7 +386,6 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 
 
 /*alert 弹出层样式*/
-
 .alert-layer {position: fixed; z-index:99998; top:0; left:0;right:0; bottom:0; background-color:#666; opacity:0.6;}
 
 .alert { border: 1px solid #2F73B8; background-color: #fff; font-size: 13px; position: fixed; top:35%; z-index: 99999; 
