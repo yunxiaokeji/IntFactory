@@ -44,24 +44,66 @@
     margin-left:27px;
     /*border-bottom:1px solid #eee;*/
 }
+ .ordertotal {
+    line-height:28px;
+    font-size:16px;
+    text-align:center;
+    padding:0 8px;
+    border:1px solid #ededed;
+}
+  .ordertotal span{
+    font-size:16px;
+    color:#888;
+}
 .sum-list li{
     float:left;
-    margin-right:15px;
+    margin-right:18px;
     padding-bottom:5px;
     cursor:pointer;
 }
 .sum-list .active {
 border-bottom:2px solid #4a98e7;
 }
-.sum-list li div{
+.sum-list li div,.sum-list li span{
     color:#888;
     text-align:center;
 }
 .sum-list .sun-count {
-    color:#333;
-    font-size:16px;
+    color:#fff;
+    font-size:14px;
+    /*font-weight:bold;*/
     
 }
+.sum-list .total {
+    color:#333;
+    font-size:16px;
+    margin-top:-2px;
+}
+.sum-list .exceed {
+    background-color:#f35353;
+    width:21px;
+    display:inline-block;
+    margin-left:6px;
+}
+.sum-list .warn {
+    background-color:#ffa200;
+    width:21px;
+    display:inline-block;
+    margin-left:6px;
+}
+.sum-list .work {
+    background-color:#49b3f5;
+    width:21px;
+    display:inline-block;
+    margin-left:6px;
+}
+.sum-list .finish {
+    background-color:#2F73B8;
+    width:21px;
+    display:inline-block;
+    margin-left:6px;
+}
+
 .index-report-sum .report-status li {
     float: left;
     padding: 0 6px;

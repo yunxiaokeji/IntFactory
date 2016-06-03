@@ -73,6 +73,24 @@
             }
         });
 
+        require.async("dropdown", function () {
+            var orderTypes = [{ ID: "1", Name: "大货" }, { ID: "2", Name: "打样" }];
+            $("#orderType").dropdown({
+                prevText: "订单类型-",
+                defaultText: "全部",
+                defaultValue: "",
+                data: orderTypes,
+                dataValue: "ID",
+                dataText: "Name",
+                width: "110",
+                onChange: function (data) {
+                    //ObjectJS.Params.PageIndex = 1;
+                    //ObjectJS.Params.DepartID = data.value;
+                    //ObjectJS.getList();
+                }
+            });
+        });
+
     }
 
     ObjectJS.getReportList = function () {
