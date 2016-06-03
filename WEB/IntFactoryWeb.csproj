@@ -199,6 +199,8 @@
     <Content Include="bin\YXERP.dll" />
     <Content Include="bin\YXERP.pdb" />
     <Content Include="Content\menuico\saleshover.png" />
+    <Content Include="Content\menuico\task.png" />
+    <Content Include="Content\menuico\taskhover.png" />
     <Content Include="Content\UploadFiles\bc6802e9-285c-471c-8172-3867c87803e2.png" />
     <Content Include="DLL\JsonObject.dll" />
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
