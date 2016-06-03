@@ -25,8 +25,6 @@
 
     ObjectJS.init = function (level, userID) {
 
-        ObjectJS.IsLast = false;
-
         //level   3和0移除订单按钮
         if (level == 2) {
             Paras.userID = userID;
