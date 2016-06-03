@@ -385,7 +385,7 @@ border-bottom:2px solid #4a98e7;
 }
 
 .author-message { width:430px;height:130px;background-color:#fff;border:1px solid #cecece;}
-.author-message .author-head { line-height:50px;height:50px;font-size:18px;border-bottom:1px solid #cecece;color:#555;}
+.author-message .author-head { line-height:50px;height:50px;font-size:18px;border-bottom:1px solid #cecece;color:#888;}
 .author-message ul li { width:33.3333%;float:left;text-align:center;box-sizing:border-box;border-right:1px solid #cecece;height:80px;padding:15px 0;}
 .author-message ul li:last-child { border-right:0;}
 .author-message ul p {font-size:14px;color:#555;line-height:24px;}

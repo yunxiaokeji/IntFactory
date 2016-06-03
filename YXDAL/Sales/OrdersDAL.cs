@@ -121,6 +121,21 @@ namespace IntFactoryDAL
             return dt;
         }
 
+        public int GetNeedOrderCount(int orderType,string clientID)
+        {
+            SqlParameter[] paras = {
+                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@OrderType",clientID)
+                                   };
+
+            string sql = "select count(orderid) from orders where OrderStatus=0 and status<>9 and ClientID=@ClientID";
+            if (orderType != -1) {
+                sql += " and OrderType=@OrderType";
+            }
+
+            return (int)ExecuteScalar(sql, paras, CommandType.Text);
+        }
+
         public DataSet GetOrderByID(string orderid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 

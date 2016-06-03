@@ -75,6 +75,22 @@ namespace IntFactoryDAL
             return GetDataTable("P_GetTasksByEndTime", paras, CommandType.StoredProcedure);
         }
 
+        public int GetNoAcceptTaskCount(int orderType, string clientID)
+        {
+            SqlParameter[] paras = {
+                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@OrderType",clientID)
+                                   };
+
+            string sql = "select count(taskid) from Ordertask where finishstatus=0 and status<>9 and ClientID=@ClientID";
+            if (orderType != -1)
+            {
+                sql += " and OrderType=@OrderType";
+            }
+
+            return (int)ExecuteScalar(sql, paras, CommandType.Text);
+        }
+
         public  DataTable GetTasksByOrderID(string orderID)
         {
             string sqltext = "select * from  OrderTask where OrderID=@OrderID and status<>9";
