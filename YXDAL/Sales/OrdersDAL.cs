@@ -106,9 +106,13 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataTable GetOrdersByPlanTime(string startPlanTime, string endPlanTime, int orderType, int filterType, string userID, string clientID)
+        public DataTable GetOrdersByPlanTime(string startPlanTime, string endPlanTime, int orderType, int filterType, string userID, string clientID,int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
+                                       new SqlParameter("@totalCount",SqlDbType.Int),
+                                       new SqlParameter("@pageCount",SqlDbType.Int),
+                                       new SqlParameter("@pageSize",pageSize),
+                                       new SqlParameter("@pageIndex",pageIndex),
                                        new SqlParameter("@StartPlanTime",startPlanTime),
                                        new SqlParameter("@EndPlanTime",endPlanTime),
                                        new SqlParameter("@OrderType",orderType),
@@ -117,20 +121,31 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ClientID",clientID)
                                    };
 
+            paras[0].Value = totalCount;
+            paras[1].Value = pageCount;
+
+            paras[0].Direction = ParameterDirection.InputOutput;
+            paras[1].Direction = ParameterDirection.InputOutput;
             DataTable dt = GetDataTable("P_GetOrdersByPlanTime", paras, CommandType.StoredProcedure);
+            totalCount = Convert.ToInt32(paras[0].Value);
+            pageCount = Convert.ToInt32(paras[1].Value);
             return dt;
         }
 
-        public int GetNeedOrderCount(int orderType,string clientID)
+        public int GetNeedOrderCount(string onwerID, int orderType, string clientID)
         {
             SqlParameter[] paras = {
                                        new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@OnwerID",onwerID),
                                        new SqlParameter("@OrderType",clientID)
                                    };
 
             string sql = "select count(orderid) from orders where OrderStatus=0 and status<>9 and ClientID=@ClientID";
             if (orderType != -1) {
                 sql += " and OrderType=@OrderType";
+            }
+            if (!string.IsNullOrEmpty(onwerID)) {
+                sql += " and OnwerID=@OnwerID";
             }
 
             return (int)ExecuteScalar(sql, paras, CommandType.Text);
