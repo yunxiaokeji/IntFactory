@@ -25,10 +25,14 @@
         }
         else if (level == 3) {
             ObjectJS.moduleType = 2;
+            $('.order-type').find('span:first-child').remove();
+            $('.order-type').find('span:last-child').addClass('hover').css({ "border-left": "1px solid #cecece", "border-right": "1px solid #cecece" });
         }
         else if (level == 0) {
             Paras.userID = userID;
             ObjectJS.moduleType = 2;
+            $('.order-type').find('span:first-child').remove();
+            $('.order-type').find('span:last-child').addClass('hover').css({ "border-left": "1px solid #cecece", "border-right": "1px solid #cecece" });
         }
         ObjectJS.bindEvent();
         ObjectJS.getReportList();

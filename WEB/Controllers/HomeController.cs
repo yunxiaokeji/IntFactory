@@ -816,7 +816,7 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public JsonResult GetOrdersByPlanTime(string userID,string orderType)
+        public JsonResult GetOrdersByPlanTime(string userID)
         {
             Dictionary<string, Object> resultObj = new Dictionary<string, object>();
             int result = 0;
