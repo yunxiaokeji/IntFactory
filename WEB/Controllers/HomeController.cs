@@ -29,25 +29,30 @@ namespace YXERP.Controllers
             else
             {
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-                if (currentUser.Role.IsDefault == 1)
+                
+                if (currentUser.Role != null)
                 {
-                    level = 1;
-                }
-                else
-                {
-                    if (currentUser.Role.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0) {
-                        level = 2;
-                    }
-                    else if (currentUser.Role.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
+                    if (currentUser.Role.IsDefault == 1)
                     {
-                        level = 3;
+                        level = 1;
                     }
-                }
+                    else
+                    {
+                        if (currentUser.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0) {
+                            level = 2;
+                        }
+                        else if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
+                        {
+                            level = 3;
+                        }
+                    }
 
-                ViewBag.UserID = currentUser.UserID;
+                    ViewBag.UserID = currentUser.UserID;
+
+                    }
             }
 
-            ViewBag.Level = 3;
+            ViewBag.Level = level;
             return View();
         }
 
@@ -811,10 +816,11 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public JsonResult GetOrdersByPlanTime(string userID)
+        public JsonResult GetOrdersByPlanTime(string userID,string orderType)
         {
             Dictionary<string, Object> resultObj = new Dictionary<string, object>();
             int result = 0;
+
             if (Session["ClientManager"] != null)
             {
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
@@ -971,16 +977,25 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrdersByTypeAndTime(int filterType, string filterTime) 
+        public JsonResult GetOrdersByTypeAndTime(int filterType, string filterTime, string userID,int orderType) 
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             filterTime = DateTime.Now.Year + "." + filterTime;
             if(Session["ClientManager"]!=null)
             {
                 var currentUser=(IntFactoryEntity.Users)Session["ClientManager"];
-                var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(filterTime, filterTime, filterType,
-                                                                                                string.Empty, currentUser.ClientID);
-                JsonDictionary.Add("items",list);
+                if (orderType == 1)
+                {
+                    var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(filterTime, filterTime, filterType,
+                                                                                                    userID, currentUser.ClientID);
+                    JsonDictionary.Add("items", list);
+                }
+                else
+                {
+                    var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(filterTime, filterTime, filterType,
+                                                                                                    userID, currentUser.ClientID);
+                    JsonDictionary.Add("items", list);
+                }
                 JsonDictionary.Add("showTime", filterTime.Replace(".", "-") + "/" + YXERP.Common.Common.Week("周", (int)Convert.ToDateTime(filterTime).DayOfWeek));
             }
             return new JsonResult
@@ -988,27 +1003,6 @@ namespace YXERP.Controllers
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-        }
-
-        public JsonResult GetTasksByTypeAndTime(int filterType, string filterTime)
-        {
-
-            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            filterTime = DateTime.Now.Year + "." + filterTime;
-            if (Session["ClientManager"] != null)
-            {
-                var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-                var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(filterTime, filterTime, filterType,
-                                                                                                string.Empty, currentUser.ClientID);
-                JsonDictionary.Add("items", list);
-                JsonDictionary.Add("showTime", filterTime.Replace(".", "-") + "/" + YXERP.Common.Common.Week("周", (int)Convert.ToDateTime(filterTime).DayOfWeek));
-            }
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-
         }
 
     }

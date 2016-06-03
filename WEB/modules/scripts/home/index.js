@@ -9,7 +9,8 @@
         orderFilter: -1,
         filterTime: new Date().getMonth() + '.' + new Date().getDay(),
         filterType: 1,
-        userID:''
+        userID: '',
+        orderType:1
     }
 
     var ObjectJS = {};
@@ -18,6 +19,7 @@
     ObjectJS.moduleType = 1;
 
     ObjectJS.init = function (level, userID) {
+
         if (level == 2) {
             Paras.userID = userID;
         }
@@ -199,61 +201,60 @@
 
     ObjectJS.getDataList = function () {
         var moduleType = ObjectJS.moduleType;
-            var url = "";
-            var action = "";
-            if (moduleType == 1) {
-                url = "/template/home/index-order.html";
-                action = "GetOrdersByTypeAndTime";
+        Paras.orderType = moduleType;
+        var url = "";
+        var action = "";
+        if (moduleType == 1) {
+            url = "/template/home/index-order.html";
+        } else {
+            url = "/template/home/index-task.html";
+        }
+        var loadding = "<div class='data-loading'>";
+        $(".order-layerbox").find('.layer-lump').nextAll().remove();
+        $(".order-layerbox").append(loadding);
+        Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
+            IsLoadding = true;
+            $(".order-layerbox").find('.data-loading').remove();
+            var items = data.items;
+            $(".list-total").html(items.length);
+
+            var timeHtml = $(".list-header").find("span").eq(0);
+            if (timeHtml.data('isget') != 1) {
+                timeHtml.html(data.showTime);
             } else {
-                url = "/template/home/index-task.html";
-                action = "GetTasksByTypeAndTime";
+                timeHtml.html('已超期');
+                timeHtml.data('isget', 0);
             }
-            var loadding = "<div class='data-loading'>";
-            $(".order-layerbox").find('.order-item').remove();
-            $(".order-layerbox").append(loadding);
-            Global.post("/Home/" + action, Paras, function (data) {
-                IsLoadding = true;
-                $(".order-layerbox").find('.data-loading').remove();
-                var items = data.items;
-                $(".list-total").html(items.length);
 
-                var timeHtml = $(".list-header").find("span").eq(0);
-                if (timeHtml.data('isget') != 1) {
-                    timeHtml.html(data.showTime);
-                } else {
-                    timeHtml.html('已超期');
-                    timeHtml.data('isget', 0);
-                }
+            if (items.length == 0) {
+                var nodata = "<div class='nodata-txt'>暂无数据!<div>";
+                $(".order-layerbox").append(nodata);
+            } else {
+                DoT.exec(url, function (template) {
+                    var innerText = template(items);
+                    innerText = $(innerText);
 
-                if (items.length == 0) {
-                    var nodata = "<div class='nodata-txt'>暂无数据!<div>";
-                    $(".order-layerbox").append(nodata);
-                } else {
-                    DoT.exec(url, function (template) {
-                        var innerText = template(items);
-                        innerText = $(innerText);
+                    innerText.find('.order-progress-item').each(function () {
+                        var _this = $(this);
 
-                        innerText.find('.order-progress-item').each(function () {
-                            var _this = $(this);
+                        _this.css({ "width": _this.data('width') });
 
-                            _this.css({ "width": _this.data('width') });
-
-                        });
-
-                        $(".order-layerbox").append(innerText);
-
-                        $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
-                            var _this = $(this);
-
-                            _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
-
-                        })
-
-                        innerText.find('.layer-line').css({ width: 0, left: 160 });
                     });
-                }
 
-            })
+                    $(".order-layerbox").append(innerText);
+
+                    $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
+                        var _this = $(this);
+
+                        _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
+
+                    })
+
+                    innerText.find('.layer-line').css({ width: 0, left: 160 });
+                });
+            }
+
+        })
     }
 
     module.exports= ObjectJS;
