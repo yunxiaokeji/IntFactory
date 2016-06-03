@@ -1,0 +1,9 @@
+﻿body { background:#fff;}
+.process { margin:20px 0 20px 17%; }
+table{border:1px solid #000;border-collapse:collapse;}
+table:first-child tr td{border:1px solid #000;text-align:center;width:157.5px;height:30px;}
+table:first-child tr:first-child img{width:100px;height:40px;}
+table .titlename{font-size:22px;font-weight:bold;}
+.navgoods tr td {border:1px solid #000;text-align:center;height:25px;width:90px; }
+.navProducts tr td {border:1px solid #000;text-align:center;height:25px; }
+.navEngraving tr td {border:1px solid #000;text-align:center;height:25px; }

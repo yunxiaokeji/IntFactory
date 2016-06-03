@@ -220,6 +220,7 @@
     <Content Include="modules\css\inquire\online-pay.css" />
     <Content Include="modules\css\myaccount\feedbacklist.css" />
     <Content Include="modules\css\order\create.css" />
+    <Content Include="modules\css\order\platemakingprocess.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
@@ -466,6 +467,7 @@
     <Content Include="modules\plug\fullcalendar\lib\moment.min.js" />
     <Content Include="modules\scripts\orders\fentorderreport.js" />
     <Content Include="modules\scripts\orders\orderplans.js" />
+    <Content Include="modules\scripts\orders\platemakingprocess.js" />
     <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
     <Content Include="modules\scripts\system\orderstages.js" />
@@ -1075,6 +1077,7 @@
     <Content Include="Views\Task\ProcessCostDoc.cshtml" />
     <Content Include="Views\Home\OldIndex.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Orders\PlateMakingProcess.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

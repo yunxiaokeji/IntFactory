@@ -120,7 +120,7 @@
 
         var guidLineHeight =maxTotalCount / 5;
         GuidLineHeight = parseInt(maxTotalCount % 5 == 0 ? guidLineHeight : (guidLineHeight + 1));
-        ReportAvgHeight = 280 / (maxTotalCount + (GuidLineHeight - guidLineHeight) * 5);
+        ReportAvgHeight = 220 / (maxTotalCount + (GuidLineHeight - guidLineHeight) * 5);
 
         for (var l = 0; l < OrderListCache.length; l++) {
             ObjectJS.createReportHtml(OrderListCache[l], l);
