@@ -848,12 +848,12 @@ namespace YXERP.Controllers
                     var workCount = 0;
                     var finishCount = 0;
                     var totalCount = 0;
-                    exceedCount = orderList.FindAll(m => m.PlanTime < nowDate && m.OrderStatus == 1).Count;
+                    exceedCount = orderList.FindAll(m => m.PlanTime < DateTime.Now && m.OrderStatus == 1).Count;
                     for (var j = 0; j < orderList.Count; j++) { 
                         var order=orderList[j];
-                        if (order.PlanTime > nowDate && order.OrderStatus==1)
+                        if (order.PlanTime > DateTime.Now && order.OrderStatus == 1)
                         {
-                            if ((order.PlanTime - nowDate).TotalHours * 3 < (order.PlanTime - order.OrderTime).TotalHours)
+                            if ((order.PlanTime - DateTime.Now).TotalHours * 3 < (order.PlanTime - order.OrderTime).TotalHours)
                             {
                                 warnCount++;
                             }
