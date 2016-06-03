@@ -196,7 +196,6 @@ define(function (require, exports, module) {
     LayoutObject.getAuthorizeInfo = function () {
         Global.post("/Home/GetAuthorizeInfo", null, function (data) {
             $("#remainderDays").html(data.remainderDays);
-
             if (data.authorizeType == 0) {
                 $(".btn-buy").html("立即购买");
             }

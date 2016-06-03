@@ -106,11 +106,12 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataTable GetOrdersByPlanTime(string startPlanTime, string endPlanTime,int filterType, string userID, string clientID)
+        public DataTable GetOrdersByPlanTime(string startPlanTime, string endPlanTime, int orderType, int filterType, string userID, string clientID)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@StartPlanTime",startPlanTime),
                                        new SqlParameter("@EndPlanTime",endPlanTime),
+                                       new SqlParameter("@OrderType",orderType),
                                        new SqlParameter("@FilterType",filterType),
                                        new SqlParameter("@UserID",userID),
                                        new SqlParameter("@ClientID",clientID)
@@ -118,6 +119,21 @@ namespace IntFactoryDAL
 
             DataTable dt = GetDataTable("P_GetOrdersByPlanTime", paras, CommandType.StoredProcedure);
             return dt;
+        }
+
+        public int GetNeedOrderCount(int orderType,string clientID)
+        {
+            SqlParameter[] paras = {
+                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@OrderType",clientID)
+                                   };
+
+            string sql = "select count(orderid) from orders where OrderStatus=0 and status<>9 and ClientID=@ClientID";
+            if (orderType != -1) {
+                sql += " and OrderType=@OrderType";
+            }
+
+            return (int)ExecuteScalar(sql, paras, CommandType.Text);
         }
 
         public DataSet GetOrderByID(string orderid, string agentid, string clientid)

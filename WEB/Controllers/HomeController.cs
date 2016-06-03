@@ -29,25 +29,34 @@ namespace YXERP.Controllers
             else
             {
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-                if (currentUser.Role.IsDefault == 1)
-                {
-                    level = 1;
-                }
-                else
-                {
-                    if (currentUser.Role.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0) {
-                        level = 2;
-                    }
-                    else if (currentUser.Role.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
-                    {
-                        level = 3;
-                    }
-                }
+                var agent = IntFactoryBusiness.AgentsBusiness.GetAgentDetail(currentUser.AgentID);
+                ViewBag.RemainDay = Math.Ceiling((agent.EndTime - DateTime.Now).TotalDays);
+                ViewBag.BuyPeople = agent.UserQuantity;
+                ViewBag.UsePeople = OrganizationBusiness.GetUsers(agent.AgentID).Count;
 
-                ViewBag.UserID = currentUser.UserID;
+                if (currentUser.Role != null)
+                {
+                    if (currentUser.Role.IsDefault == 1)
+                    {
+                        level = 1;
+                    }
+                    else
+                    {
+                        if (currentUser.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0) {
+                            level = 2;
+                        }
+                        else if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
+                        {
+                            level = 3;
+                        }
+                    }
+
+                    ViewBag.UserID = currentUser.UserID;
+
+                    }
             }
 
-            ViewBag.Level = 3;
+            ViewBag.Level = level;
             return View();
         }
 
@@ -811,16 +820,17 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public JsonResult GetOrdersByPlanTime(string userID)
+        public JsonResult GetOrdersByPlanTime(string userID,int orderType)
         {
             Dictionary<string, Object> resultObj = new Dictionary<string, object>();
             int result = 0;
+
             if (Session["ClientManager"] != null)
             {
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var nowDate=DateTime.Now;
                 var list= IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(nowDate.Date.ToString(),
-                    nowDate.Date.AddDays(14).ToString(), -1, userID, currentUser.ClientID);
+                    nowDate.Date.AddDays(14).ToString(), orderType, -1, userID, currentUser.ClientID);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;
@@ -838,12 +848,12 @@ namespace YXERP.Controllers
                     var workCount = 0;
                     var finishCount = 0;
                     var totalCount = 0;
-                    exceedCount = orderList.FindAll(m => m.PlanTime < nowDate && m.OrderStatus == 1).Count;
+                    exceedCount = orderList.FindAll(m => m.PlanTime < DateTime.Now && m.OrderStatus == 1).Count;
                     for (var j = 0; j < orderList.Count; j++) { 
                         var order=orderList[j];
-                        if (order.PlanTime > nowDate && order.OrderStatus==1)
+                        if (order.PlanTime > DateTime.Now && order.OrderStatus == 1)
                         {
-                            if ((order.PlanTime - nowDate).TotalHours * 3 < (order.PlanTime - order.OrderTime).TotalHours)
+                            if ((order.PlanTime - DateTime.Now).TotalHours * 3 < (order.PlanTime - order.OrderTime).TotalHours)
                             {
                                 warnCount++;
                             }
@@ -890,7 +900,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetTasksByEndTime(string userID)
+        public JsonResult GetTasksByEndTime(string userID,int orderType)
         {
             Dictionary<string, Object> resultObj = new Dictionary<string, object>();
             int result = 0;
@@ -899,7 +909,7 @@ namespace YXERP.Controllers
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var nowDate = DateTime.Now;
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(nowDate.Date.ToString(),
-                    nowDate.Date.AddDays(14).ToString(), -1, userID, currentUser.ClientID);
+                    nowDate.Date.AddDays(14).ToString(), orderType, -1, userID, currentUser.ClientID);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;
@@ -971,16 +981,34 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrdersByTypeAndTime(int filterType, string filterTime) 
+        public JsonResult GetOrdersByTypeAndTime(int filterType, string filterTime, string userID, int moduleStatus,int orderType) 
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            filterTime = DateTime.Now.Year + "." + filterTime;
+            string startTime = string.Empty;
+            if (string.IsNullOrEmpty(filterTime))
+            {
+                filterTime = DateTime.Now.ToString("yyyy.MM.dd");
+            }
+            else
+            {
+                filterTime = DateTime.Now.Year + "." + filterTime;
+                startTime = filterTime;
+            }
             if(Session["ClientManager"]!=null)
             {
                 var currentUser=(IntFactoryEntity.Users)Session["ClientManager"];
-                var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(filterTime, filterTime, filterType,
-                                                                                                string.Empty, currentUser.ClientID);
-                JsonDictionary.Add("items",list);
+                if (moduleStatus == 1)
+                {
+                    var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(startTime, filterTime, orderType, filterType,
+                                                                                                    userID, currentUser.ClientID);
+                    JsonDictionary.Add("items", list);
+                }
+                else
+                {
+                    var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(startTime, filterTime, orderType, filterType,
+                                                                                                    userID, currentUser.ClientID);
+                    JsonDictionary.Add("items", list);
+                }
                 JsonDictionary.Add("showTime", filterTime.Replace(".", "-") + "/" + YXERP.Common.Common.Week("周", (int)Convert.ToDateTime(filterTime).DayOfWeek));
             }
             return new JsonResult
@@ -990,26 +1018,30 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetTasksByTypeAndTime(int filterType, string filterTime)
+        public JsonResult GetOrderOrTaskCount(int moduleStatus, int orderType)
         {
-
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            filterTime = DateTime.Now.Year + "." + filterTime;
             if (Session["ClientManager"] != null)
             {
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-                var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(filterTime, filterTime, filterType,
-                                                                                                string.Empty, currentUser.ClientID);
-                JsonDictionary.Add("items", list);
-                JsonDictionary.Add("showTime", filterTime.Replace(".", "-") + "/" + YXERP.Common.Common.Week("周", (int)Convert.ToDateTime(filterTime).DayOfWeek));
+                var result = 0;
+                if (moduleStatus == 1)
+                {
+                    result = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetNeedOrderCount(orderType, currentUser.ClientID);
+                    
+                }
+                else
+                {
+                    result = IntFactoryBusiness.TaskBusiness.GetNoAcceptTaskCount(orderType, currentUser.ClientID);
+                }
+
+                JsonDictionary.Add("result", result);
             }
             return new JsonResult
             {
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-
         }
-
     }
 }

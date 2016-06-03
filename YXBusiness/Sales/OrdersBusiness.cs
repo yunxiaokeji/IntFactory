@@ -145,10 +145,10 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<OrderEntity> GetOrdersByPlanTime(string startPlanTime, string endPlanTime,int filterType, string userID, string clientID)
+        public List<OrderEntity> GetOrdersByPlanTime(string startPlanTime, string endPlanTime, int orderType, int filterType, string userID, string clientID)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataTable dt = OrdersDAL.BaseProvider.GetOrdersByPlanTime(startPlanTime, endPlanTime, filterType, userID, clientID);
+            DataTable dt = OrdersDAL.BaseProvider.GetOrdersByPlanTime(startPlanTime, endPlanTime, orderType, filterType, userID, clientID);
             foreach (DataRow dr in dt.Rows)
             {
                 OrderEntity model = new OrderEntity();
@@ -185,6 +185,11 @@ namespace IntFactoryBusiness
                 list.Add(model);
             }
             return list;
+        }
+
+        public int GetNeedOrderCount(int orderType, string clientID)
+        {
+            return OrdersDAL.BaseProvider.GetNeedOrderCount(orderType,clientID);
         }
 
         public List<OrderEntity> GetOrdersByCustomerID(string keyWords, string customerid, int ordertype, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)

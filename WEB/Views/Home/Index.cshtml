@@ -29,38 +29,45 @@
         <div class="left">
             <ul class="sum-list">
                 <li class="active" data-orderfilter="-1">
-                    <div class="sun-count" id="totalSumCount">0</div>
+                    <div class="sun-count total" id="totalSumCount">0</div>
                     <div>全部<span class="order-msg" style="color:#888;">订单</span></div>
                 </li>
                 <li data-orderfilter="1">
-                     <div class="sun-count" id="totalExceedCount">0</div>
+                     <span class="sun-count exceed" id="totalExceedCount">0</span>
                     <div>已超期</div>
                 </li>
                  <li data-orderfilter="2">
-                     <div class="sun-count" id="totalWarnCount">0</div>
+                     <div class="sun-count warn" id="totalWarnCount">0</div>
                     <div>快到期</div>
                 </li>
                 <li data-orderfilter="3">
-                     <div class="sun-count" id="totalWorkCount">0</div>
+                     <div class="sun-count work" id="totalWorkCount">0</div>
                     <div>进行中</div>
                 </li>
                  <li data-orderfilter="4">
-                     <div class="sun-count" id="totalFinishCount">0</div>
+                     <div class="sun-count finish" id="totalFinishCount">0</div>
                     <div>已完成</div>
                 </li>
             </ul>
             <div class="clear"></div>
         </div>
-
         <div class="right">
+            <div class="right mRight15" id="orderType"></div>
+            <div class="right mRight30 ordertotal"><span>需求订单总数:</span><span class="mLeft5 total-need" style="color:#666;">0</span></div>
+            <div class="right mRight15 ordertotal"><span>超期订单总数:</span><span class="mLeft5 total-ecceed" style="color:#666;">0</span></div>
+        </div>
+        
+     @*   <div class="right">
             <ul class="report-status">
                 <li style="border-color:#f35353"><span>已超期</span></li>
                 <li style="border-color:#ffa200"><span>快到期</span></li>
                 <li style="border-color:#49b3f5"><span>进行中</span></li>
                 <li style="border-color:#2F73B8"><span>已完成</span></li>
             </ul>
-             <div class="clear"></div>
-        </div>
+            
+            <div class="right">订单类型:</div>
+            <div class="clear"></div>
+        </div>*@
         <div class="clear"></div>
     </div>
 
@@ -100,7 +107,22 @@
 
        </div>
     </div>
-    <div class="left"></div>
-    <div class="right"></div>
+    <div class="right author-message">
+        <div class="author-head center">授权信息</div>
+        <ul>
+            <li>
+                <p class="remain-day blue">@(ViewBag.RemainDay)</p>
+                <p>剩余天数</p>
+            </li>
+            <li>
+                <p>@(ViewBag.BuyPeople)</p>
+                <p>购买人数</p>
+            </li>
+            <li>
+                <p>@(ViewBag.UsePeople)</p>
+                <p>使用人数</p>
+            </li>
+        </ul>
+    </div>
     <div class="clear"></div>
 </div>

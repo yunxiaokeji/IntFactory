@@ -5,7 +5,7 @@
     margin-left:0;
 }
 .index-report {
-    width:1150px;
+    width:1148px;
     margin:25px auto;
     background-color:#fff;
     border:1px solid #ddd;
@@ -44,24 +44,66 @@
     margin-left:27px;
     /*border-bottom:1px solid #eee;*/
 }
+ .ordertotal {
+    line-height:28px;
+    font-size:16px;
+    text-align:center;
+    padding:0 8px;
+    border:1px solid #ededed;
+}
+  .ordertotal span{
+    font-size:14px;
+    color:#888;
+}
 .sum-list li{
     float:left;
-    margin-right:15px;
+    margin-right:18px;
     padding-bottom:5px;
     cursor:pointer;
 }
 .sum-list .active {
 border-bottom:2px solid #4a98e7;
 }
-.sum-list li div{
+.sum-list li div,.sum-list li span{
     color:#888;
     text-align:center;
 }
 .sum-list .sun-count {
-    color:#333;
-    font-size:16px;
+    color:#fff;
+    font-size:14px;
+    /*font-weight:bold;*/
     
 }
+.sum-list .total {
+    color:#333;
+    font-size:16px;
+    margin-top:-2px;
+}
+.sum-list .exceed {
+    background-color:#f35353;
+    width:21px;
+    display:inline-block;
+    margin-left:6px;
+}
+.sum-list .warn {
+    background-color:#ffa200;
+    width:21px;
+    display:inline-block;
+    margin-left:6px;
+}
+.sum-list .work {
+    background-color:#49b3f5;
+    width:21px;
+    display:inline-block;
+    margin-left:6px;
+}
+.sum-list .finish {
+    background-color:#2F73B8;
+    width:21px;
+    display:inline-block;
+    margin-left:6px;
+}
+
 .index-report-sum .report-status li {
     float: left;
     padding: 0 6px;
@@ -137,7 +179,7 @@ border-bottom:2px solid #4a98e7;
     margin:20px auto;
 }
 .order-list {
-    border:1px solid #ddd;
+    border:1px solid #cecece;
     background-color:#fff;
     padding:10px 20px 20px 20px;
     width:658px;
@@ -162,6 +204,7 @@ border-bottom:2px solid #4a98e7;
 
 .order-item {
     position:relative;
+    margin-top:15px;
 }
 .order-item .hint-layer { 
     position:absolute;
@@ -208,10 +251,6 @@ border-bottom:2px solid #4a98e7;
     background-color:#f35353;
     text-align:center;
     line-height:18px;
-}
-
-.order-item {
-    margin-top:15px;
 }
 .order-item .order-img {
     width:120px;
@@ -344,4 +383,13 @@ border-bottom:2px solid #4a98e7;
 .order-progress-warn .progress-tip {
     background-color:#ffa200;
 }
+
+.author-message { width:430px;height:130px;background-color:#fff;border:1px solid #cecece;}
+.author-message .author-head { line-height:50px;height:50px;font-size:18px;border-bottom:1px solid #cecece;color:#888;}
+.author-message ul li { width:33.3333%;float:left;text-align:center;box-sizing:border-box;border-right:1px solid #cecece;height:80px;padding:15px 0;}
+.author-message ul li:last-child { border-right:0;}
+.author-message ul p {font-size:14px;color:#555;line-height:24px;}
+.author-message ul p:first-child { font-size:20px;}
+
+
 
