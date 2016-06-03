@@ -123,6 +123,13 @@
                 <span title="更换负责人" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner">&#xe60b;</span>
             }
         </li>
+        @if (model.Status > 0)
+        {
+            <li class="sample-report" data-type="2">
+                <span class="iconfont left">&#xe645;</span>
+                <span class="left mLeft5 blue">制版工艺</span>
+            </li>
+        }
        
     </ul>
 </div>
@@ -258,9 +265,9 @@
                     <span class="long">@(stage.Title)</span>
                     <span class="long">负责人：@(stage.Owner.Name)</span>
                    @if (stage.LockStatus == 2)
-                    {
+                   {
                        <span class="unlock"></span>
-                    }
+                   }
                 </li>
             }
         }
@@ -396,7 +403,7 @@
                     <td class="center tr-quantity"><label class="quantity">@((detail.Quantity * model.PlanQuantity).ToString("f3"))</label></td>
                     <td class="center tr-loss"><label class="loss">@((detail.Loss * model.PlanQuantity).ToString("f3"))</label></td>
                     <td class="center">@(detail.LossRate.ToString("f3"))</td>
-                    <td class="center">@(((detail.Quantity * model.PlanQuantity)+(detail.Loss * model.PlanQuantity)).ToString("f3"))</td>
+                    <td class="center">@(((detail.Quantity * model.PlanQuantity) + (detail.Loss * model.PlanQuantity)).ToString("f3"))</td>
                     <td class="tRight moneytotal">@((detail.TotalMoney * model.PlanQuantity).ToString("f3"))</td>
                 </tr>
                 }
