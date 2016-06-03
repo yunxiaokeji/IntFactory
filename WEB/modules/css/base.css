@@ -36,6 +36,7 @@
 .font18 {font-size:18px !important; }
 .font20 {font-size:20px !important; }
 .font22 {font-size:22px !important; }
+.font24 {font-size:24px !important; }
 
 /*字体加粗*/
 .fontbold { font-weight:bold;}
@@ -96,6 +97,7 @@
 .mTop10 {margin-top:10px !important;}
 .mTop15 {margin-top:15px !important;}
 .mTop20 {margin-top:20px !important;}
+.mTop25 {margin-top:25px !important;}
 .-mTop20 {margin-top:-20px !important;}
 .mTop30 {margin-top:30px;}
 .mTop40 {margin-top:40px;}

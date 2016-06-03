@@ -33,8 +33,11 @@
         var _self = this;
 
         $(".sample-report").click(function () {
-            window.open("/Orders/FentOrderReport/" + model.OrderID); 
-            //window.location = "/Orders/FentOrderReport/" + model.OrderID;
+            if ($(this).data("type")=="1") {
+                window.open("/Orders/FentOrderReport/" + model.OrderID);
+            } else {
+                window.open("/Orders/PlateMakingProcess/" + model.OrderID);
+            }            
         });
 
         //隐藏按钮
