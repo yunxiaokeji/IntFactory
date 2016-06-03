@@ -72,6 +72,7 @@
                     }
 
                     ObjectJS.moduleType = _this.data('id');
+                    Paras.moduleStatus = _this.data('id');
                     Paras.filterTime ='';
                     Paras.filterType = 1;
                     ObjectJS.getTaskOrOrderCount();
@@ -310,7 +311,7 @@
     ObjectJS.getTaskOrOrderCount = function () {
 
         Global.post("/Home/GetOrderOrTaskCount", Paras, function (data) {
-            if (Paras.moduleStatus ==1) {
+            if (ObjectJS.moduleType == 1) {
                 $(".total-need").siblings().html('需求订单总数:');
             } else {
                 $(".total-need").siblings().html('超期任务总数:');
