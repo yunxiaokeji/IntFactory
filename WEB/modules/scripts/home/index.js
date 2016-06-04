@@ -106,6 +106,7 @@
             });
         });
 
+        //获取所有已超期订单或任务
         $(".get-ecceed").click(function () {
             if (Paras.filterTime != "") {
                 if (IsLoadding && IsLoaddingTwo) {
@@ -138,7 +139,7 @@
         Global.post("/Home/" + action, { userID: Paras.userID,orderType:Paras.orderType }, function (data) {
             $(".report-guid").find('.data-loading').remove();
             IsLoadding = true;
-
+            
             OrderListCache = data.items;
             ObjectJS.bindReport();
             $("#totalSumCount").html(data.totalSumCount);
