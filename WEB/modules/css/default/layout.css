@@ -428,6 +428,10 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .help-feedback .ico-open { background:url('/modules/images/ico-operate-open.png') no-repeat; background-size:cover;  bottom:0; }
 .help-feedback .ico-open:hover { background:url('/modules/images/ico-operate-open-hover.png') no-repeat; background-size:cover;}
 
+.wechat { position:fixed;bottom:105px;left:100px;border:1px solid #cecece;}
+/*.wechat .lump { position:absolute;left:-8px;top:70px;width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-right:8px solid #ddd;}*/
+.wechat img { width:150px;height:150px;}
+
 /*图片loading*/
 .data-loading { padding: 80px 0px; font-size: 16px;text-align: center; color: #666; background:url(/modules/images/ico-loading.gif) no-repeat center center;background-size:45px 45px; }
 

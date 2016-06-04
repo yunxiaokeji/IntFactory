@@ -116,6 +116,14 @@ define(function (require, exports, module) {
             }
         });
 
+        $(".ico-help").hover(function () {
+            if (!$(".wechat").is(":animated")) {
+                $(".wechat").fadeIn();
+            }
+        }, function () {
+             $(".wechat").fadeOut();
+        })
+        
         //登录信息展开
         $("#currentUser").click(function () {
             $(".dropdown-userinfo").fadeIn("1000");

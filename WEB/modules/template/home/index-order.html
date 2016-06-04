@@ -10,7 +10,7 @@
                 <div class="hint-msg {%=item.WarningStatus==1?'warning':item.WarningStatus==2?'pass':'hide'%}">{%=item.WarningStatus==1?"快到期":item.WarningStatus==2?"已超期":""%}</div>
             </div>
         </a>
-        <div class="left order-img"><a href="/Orders/OrderDetail/{%=item.OrderID%}"><img src="{%=item.OrderImage%}" /></a></div>
+        <div class="left order-img"><a href="/Orders/OrderDetail/{%=item.OrderID%}"><img src="{%=item.OrderImage==""?'/modules/images/img-noimg.png':item.OrderImage%}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" /></a></div>
         <div class="left order-detail mLeft20">
             <div class="left">
                 <div class="order-title"><a href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.GoodsName==""?item.OrderCode:item.GoodsName%}</a></div>
