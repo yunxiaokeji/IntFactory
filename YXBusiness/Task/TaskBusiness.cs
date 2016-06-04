@@ -53,10 +53,10 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public static List<TaskEntity> GetTasksByEndTime(string startEndTime, string endEndTime, int orderType, int filterType, string userID, string clientID)
+        public static List<TaskEntity> GetTasksByEndTime(string startEndTime, string endEndTime, int orderType, int filterType, string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             List<TaskEntity> list = new List<TaskEntity>();
-            DataTable dt = TaskDAL.BaseProvider.GetTasksByEndTime(startEndTime, endEndTime,orderType, filterType, userID, clientID);
+            DataTable dt = TaskDAL.BaseProvider.GetTasksByEndTime(startEndTime, endEndTime, orderType, filterType, userID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -97,9 +97,9 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public static int GetNoAcceptTaskCount(int orderType, string clientID)
+        public static int GetNoAcceptTaskCount(string ownerID,int orderType, string clientID)
         {
-            return TaskDAL.BaseProvider.GetNoAcceptTaskCount(orderType, clientID);
+            return TaskDAL.BaseProvider.GetNoAcceptTaskCount(ownerID, orderType, clientID);
         }
 
         /// <summary>
