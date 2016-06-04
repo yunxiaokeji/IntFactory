@@ -89,14 +89,16 @@
                 dataText: "Name",
                 width: "110",
                 onChange: function (data) {
-                    if (IsLoadding && IsLoaddingTwo) {
-                        Paras.orderType = data.value;
-                        Paras.pageIndex = 1;
-                        ObjectJS.getDataList();
-                        ObjectJS.getReportList();
-                    }
-                    else {
-                        alert("数据加载中，请稍等 !");
+                    if (Paras.orderType != data.value) {
+                        if (IsLoadding && IsLoaddingTwo) {
+                            Paras.orderType = data.value;
+                            Paras.pageIndex = 1;
+                            ObjectJS.getDataList();
+                            ObjectJS.getReportList();
+                        }
+                        else {
+                            alert("数据加载中，请稍等 !");
+                        }
                     }
                 }
             });
@@ -209,20 +211,24 @@
         });
 
         $(".report-item li").click(function () {
-            if (IsLoadding && IsLoaddingTwo) {
-                var _this = $(this);
-                Paras.pageIndex = 1;
-                Paras.filterType = _this.data('type');
-                Paras.filterTime = _this.data('date');
-                $(".order-layerbox .layer-lump").nextAll().remove();
-                $(".list-header .list-total").css("background-color", _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8");
+            var _this = $(this);
 
-                ObjectJS.getDataList();
-            }
-            else {
-                alert("数据加载中，请稍等 !");
+            if (Paras.filterType != _this.data('type') || Paras.filterTime != _this.data('date')) {
+                if (IsLoadding && IsLoaddingTwo) {
+                    Paras.pageIndex = 1;
+                    Paras.filterType = _this.data('type');
+                    Paras.filterTime = _this.data('date');
+                    $(".order-layerbox .layer-lump").nextAll().remove();
+                    $(".list-header .list-total").css("background-color", _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8");
+
+                    ObjectJS.getDataList();
+                }
+                else {
+                    alert("数据加载中，请稍等 !");
+                }
             }
         });
+
     }
 
     //拼接报表柱状图形
