@@ -284,7 +284,7 @@ namespace YXERP.Controllers
         #endregion
 
         #region ajax
-        public JsonResult GetTasks(string keyWords, bool isMy, int isParticipate, string userID, int taskType, int colorMark, int status, int finishStatus, string beginDate, string endDate, int orderType, string orderProcessID, string orderStageID, int taskOrderColumn, int isAsc, int pageSize, int pageIndex, string listType)
+        public JsonResult GetTasks(string keyWords, bool isMy, int isParticipate, string userID, int taskType, int colorMark, int status, int finishStatus, string beginDate, string endDate,string beginEndDate,string endEndDate, int orderType, string orderProcessID, string orderStageID, int taskOrderColumn, int isAsc, int pageSize, int pageIndex, string listType)
         {
 
 
@@ -303,9 +303,9 @@ namespace YXERP.Controllers
                     ownerID = userID;
                 }
             }
-
-            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, isParticipate,status, finishStatus, 
-                colorMark,taskType,beginDate,endDate,string.Empty,string.Empty,
+            
+            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, isParticipate,status, finishStatus,
+                colorMark, taskType, beginDate, endDate, beginEndDate,endEndDate,
                 orderType, orderProcessID, orderStageID,
                  (EnumTaskOrderColumn)taskOrderColumn, isAsc, CurrentUser.ClientID,
                 pageSize, pageIndex, ref totalCount, ref pageCount);

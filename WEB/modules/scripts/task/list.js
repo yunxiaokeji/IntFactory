@@ -17,10 +17,12 @@
         keyWords:"",
         beginDate: "",
         endDate: "",
+        beginEndDate: "",
+        endEndDate:"",
         orderType: -1,
         orderProcessID: "-1",
         orderStageID: "-1",
-        taskOrderColumn: 0,//0:创建时间；2：到期时间
+        taskOrderColumn: 0,//拍序列  0:创建时间；2：到期时间 
         isAsc:0,
         pageSize: 10,
         pageIndex: 1,
@@ -208,6 +210,25 @@
             Params.endDate = end ? end.format("YYYY-MM-DD") : "";
             ObjectJS.getList();
         });
+
+        //到期时间
+        $("#iptExpireTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
+            }
+        }, function (start, end, label) {            
+            Params.pageIndex = 1;
+            Params.beginEndDate = start ? start.format("YYYY-MM-DD") : "";
+            Params.endEndDate = end ? end.format("YYYY-MM-DD") : "";            
+            ObjectJS.getList();
+        });
+
 
         //列表排序
         $(".sort-item").click(function () {
