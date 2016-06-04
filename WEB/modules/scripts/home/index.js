@@ -29,7 +29,6 @@
 
         if (level == 0 || level == 3) {
             Paras.moduleType = 2;
-            $(".list-header").find("span").eq(0).data('isget', '0');
             $('.order-type').find('span:first-child').remove();
             $('.order-type').find('span:last-child').addClass('hover').css({ "border-left": "1px solid #cecece", "border-right": "1px solid #cecece" });
         }
@@ -60,7 +59,7 @@
                 if (IsLoadding && IsLoaddingTwo)
                 {
                     _this.addClass('hover').siblings().removeClass('hover');
-                    $(".list-header").find("span").eq(0).data('isget', '1');
+                    $(".show-timemsg").data('isget', '1');
 
                     Paras.moduleType = _this.data('id');
                     Paras.filterTime ='';
@@ -91,6 +90,10 @@
                 width: "110",
                 onChange: function (data) {
                     if (IsLoadding && IsLoaddingTwo) {
+                        if (Paras.filterTime == "") {
+                            $(".show-timemsg").data('isget',1);
+                        }
+
                         Paras.orderType = data.value;
                         Paras.pageIndex = 1;
                         ObjectJS.getDataList();
@@ -103,16 +106,23 @@
             });
         });
 
+        //获取所有已超期订单或任务
         $(".get-ecceed").click(function () {
-            if (IsLoadding && IsLoaddingTwo)
-            {
-                $(".list-total").css("background-color", "#f35353");
-                Paras.filterTime = '';
-                Paras.filterType = 1;
-                ObjectJS.getDataList();
+            if (Paras.filterTime != "") {
+                if (IsLoadding && IsLoaddingTwo) {
+                    $(".list-total").css("background-color", "#f35353");
+                    $(".show-timemsg").data('isget',1);
+
+                    Paras.filterTime = '';
+                    Paras.filterType = 1;
+                    ObjectJS.getDataList();
+                }
+                else {
+                    alert("数据加载中，请稍等 !");
+                }
             }
             else {
-                alert("数据加载中，请稍等 !");
+                alert("已经显示所有超期数据了!");
             }
         })
 
@@ -129,7 +139,7 @@
         Global.post("/Home/" + action, { userID: Paras.userID,orderType:Paras.orderType }, function (data) {
             $(".report-guid").find('.data-loading').remove();
             IsLoadding = true;
-
+            
             OrderListCache = data.items;
             ObjectJS.bindReport();
             $("#totalSumCount").html(data.totalSumCount);
@@ -336,7 +346,7 @@
             $(".order-layerbox").find('.data-loading').remove();
 
             //判断是否选择时间没有列表时间则显示已超期
-            var timeHtml = $(".list-header").find("span").eq(0);
+            var timeHtml = $(".show-timemsg");
             if (timeHtml.data('isget') != 1) {
                 timeHtml.html(data.showTime);
             }
