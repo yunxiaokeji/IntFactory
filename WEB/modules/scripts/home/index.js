@@ -110,9 +110,6 @@
                     Paras.filterType = 1;
                     ObjectJS.getDataList();
                 }
-                else {
-                    alert("已经显示所有超期数据了!");
-                }
             }
             else {
                 alert("数据加载中，请稍等 !");
@@ -347,14 +344,17 @@
             var timeHtml = $(".show-timemsg");
             if (Paras.filterTime !='') {
                 timeHtml.html(data.showTime);
+                
             }
             else {
                 timeHtml.html('已超期');
                 $(".list-total").css({ "background-color": "#f35353" });
+
+                $(".list-total").html(data.getTotalCount);
+                $(".total-ecceed").html(data.getTotalCount);
             }
             //
-            $(".list-total").html(data.getTotalCount);
-            $(".total-ecceed").html(data.getTotalCount);
+           
 
         })
     }
