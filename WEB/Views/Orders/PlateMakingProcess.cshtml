@@ -70,7 +70,7 @@
                     <td class="no-border-left"></td>         
                 </tr>
             </table>   
-            <table class="navgoods no-border">
+            <table class="navgoods no-border left">
                 <tr>
                     <td colspan="7" class="no-border-top">
                         <table class="no-border goosddoc" style="width:635px;height:100%;">
@@ -117,14 +117,12 @@
                             }   
                    
                         </table>
-                    </td>
-                    <td class="no-border-top locationimg" rowspan="2" style="width:158px"><span>前片图片</span><img src="@(order.OrderImage==""?"/modules/images/none-img.png":order.OrderImage)" /></td>
-                    <td class="no-border-top locationimg" rowspan="2" style="width:158px"><span>后片图片</span><img src="@(order.OrderImage==""?"/modules/images/none-img.png":order.OrderImage)" /></td>
+                    </td>  
                 </tr>
  
                 <tr>
                     <td colspan="7" class="no-border-top">
-                        <table class="no-border" id="navsenddoc" style="width:635px;height:100%;">
+                        <table class="no-border navsenddoc" style="width:635px;height:100%;">
                             <tr>
                                 <td colspan="4" class="font18 bgcolorC0C0C0 fontbold no-border" style="height:50px;"><i class="iconfont icon-delete senddoc">&#xe613;</i>裁片/织片</td>
                             </tr>
@@ -145,7 +143,7 @@
                                         <td class="no-border-right">@(item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"))</td> 
                                     </tr>
 	                            }
-                                <tr class="total-item bold">
+                                <tr class="total-items bold">
                                     <td class="no-border-left no-border-fight no-border-bottom">合计：</td>
                                     <td class="center no-border-bottom" data-class="cut1"></td>
                                     <td class='center no-border-bottom no-border-right'></td>
@@ -158,10 +156,20 @@
 	                        }
                         </table>
                     </td>                    
-                </tr> 
-                
+                </tr>                 
 
             </table>
+            <table class="no-border img-order">
+                <tr>
+                    <td class="no-border-top no-border-left">前片图片</td>
+                    <td class="no-border-top">后片图片</td>
+                </tr>
+                <tr>
+                    <td class="no-border-left"><img src="@(order.OrderImage==""?"/modules/images/none-img.png":order.OrderImage)" /></td>
+                    <td><img src="@(order.OrderImage==""?"/modules/images/none-img.png":order.OrderImage)" /></td>
+                </tr>
+            </table>
+            <div class="clear"></div>
             <table class="navproducts no-border">
                 <tr>
                     <td colspan="11" class="font18 fontbold no-border-top tLeft bgcolorC0C0C0 hight40"><i class="iconfont icon-delete products">&#xe613;</i>一、材料成本</td>

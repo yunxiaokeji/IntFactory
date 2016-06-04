@@ -6,6 +6,7 @@
         Objects.bindEvent(plate,img);
         Objects.removeTaskPlateOperate();
         Objects.getAmount();
+        Objects.imgOrderTable();
     };
 
     Objects.bindEvent = function (plate,img) {
@@ -15,8 +16,11 @@
             $("#Platemak").html(decodeURI(plate));
         };
 
+        if (img == "") {
+            img = "/modules/images/none-img.png";
+        };
         
-
+        
         $(".icon-delete").click(function () {
             if (!$(this).hasClass("hover")) {
                 $(this).addClass("hover");
@@ -34,6 +38,7 @@
                 _this.html(_total);               
             }            
         });
+        
 
         $(".btn").click(function () {
             $(".preview").remove();
@@ -42,11 +47,16 @@
 
             if ($(".goods").hasClass("hover")) {
                 $(".goosddoc").parent().parent().remove();
-                $("#navsenddoc").parent().after('<td class="no-border-top locationimg" rowspan="2" style="width:158px"><span>前片图片</span><img src="'+img+'" /></td><td class="no-border-top locationimg" rowspan="2" style="width:158px"><span>后片图片</span><img src="'+img+'" /></td>');
-
+                Objects.imgOrderTable();
+                
+                if (navigator.webkitPersistentStorage == undefined) {
+                    alert("a");
+                    $(".total-item").height("32px");
+                }
             }
             if ($(".senddoc").hasClass("hover")) {
-                $("#navsenddoc").parent().remove();
+                $(".navsenddoc").parent().parent().remove();
+                Objects.imgOrderTable();
             }
             if ($(".products").hasClass("hover")) {
                 $(".navproducts").remove();
@@ -99,6 +109,17 @@
                 }
             }
         });
+    }
+
+    Objects.imgOrderTable = function () {
+        var height = $(".navgoods").height();
+        if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {            
+            $(".img-order").height(parseInt(height)+ 'px');
+        } else {
+            $(".img-order").height(parseInt(height) + 1 + 'px');
+        }
+        
+        $(".img-order img").height(height/2);
     }
 
     module.exports = Objects;
