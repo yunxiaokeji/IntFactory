@@ -103,6 +103,19 @@
             });
         });
 
+        $(".get-ecceed").click(function () {
+            if (IsLoadding && IsLoaddingTwo)
+            {
+                $(".list-total").css("background-color", "#f35353");
+                Paras.filterTime = '';
+                Paras.filterType = 1;
+                ObjectJS.getDataList();
+            }
+            else {
+                alert("数据加载中，请稍等 !");
+            }
+        })
+
     }
 
     //获取报表数据
