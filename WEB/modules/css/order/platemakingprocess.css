@@ -17,5 +17,8 @@ table .titlename{font-size:22px;font-weight:bold;}
 .icon-delete { float:left;margin-right:20px;margin-left:5px;color:#666;cursor:pointer;}
 .hover {color:#007aff; }
 .img-order img { width:120px;height:200px;}
-.img-order tr td { border:1px solid #000;text-align:center;height:35px;}
+.img-order tr td { border:1px solid #000;text-align:center;height:30px;}
 .img-order { width:318px;height:290px;}
+
+
+
