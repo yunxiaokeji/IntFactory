@@ -1013,7 +1013,7 @@ namespace YXERP.Controllers
                 else
                 {
                     var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(startTime, filterTime, orderType, filterType,
-                                                                                                    userID, currentUser.ClientID, 20, pageIndex, ref getTotalCount, ref pageCount);
+                                                                                                    userID, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
                     JsonDictionary.Add("items", list);
                 }
                 JsonDictionary.Add("getTotalCount", getTotalCount);

@@ -103,6 +103,19 @@
             });
         });
 
+        $(".get-ecceed").click(function () {
+            if (IsLoadding && IsLoaddingTwo)
+            {
+                $(".list-total").css("background-color", "#f35353");
+                Paras.filterTime = '';
+                Paras.filterType = 1;
+                ObjectJS.getDataList();
+            }
+            else {
+                alert("数据加载中，请稍等 !");
+            }
+        })
+
     }
 
     //获取报表数据
@@ -175,7 +188,7 @@
             var showMsg = Paras.moduleType == 1 ? "订单" : "任务";
             _this.Tip({
                 width: 160,
-                msg: _this.data("date") + "      " + (type == 1 ? "已超期" + showMsg : type == 2 ? "快到期" + showMsg : type == 3 ? "进行中" + showMsg : "已完成" + showMsg) + "：" + _this.data("count")
+                msg: _this.data("date") + "      " + (type == 1 ? "已超期" + showMsg : type == 2 ? "快到期" + showMsg : type == 3 ? "正常" + showMsg : "已完成" + showMsg) + "：" + _this.data("count")
             });
         });
 
