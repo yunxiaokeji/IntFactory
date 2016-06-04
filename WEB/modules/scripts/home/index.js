@@ -350,11 +350,9 @@
                 timeHtml.html('已超期');
                 $(".list-total").css({ "background-color": "#f35353" });
 
-                $(".list-total").html(data.getTotalCount);
                 $(".total-ecceed").html(data.getTotalCount);
             }
-            //
-           
+            $(".list-total").html(data.getTotalCount);
 
         })
     }
