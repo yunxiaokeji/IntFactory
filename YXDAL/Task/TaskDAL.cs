@@ -329,15 +329,16 @@ namespace IntFactoryDAL
             return GetDataTable(sqltext, paras, CommandType.Text);
         }
 
-        public bool AddPlateMaking(string title,string remark,string icon,string taskID,string orderID,string userID,string agentID)
+        public bool AddPlateMaking(string title,string remark,string icon,string taskID,int type,string orderID,string userID,string agentID)
         {
-            string sqltext = "insert into  PlateMaking(PlateID,Title,Remark,Icon,TaskID,OrderID,CreateUserID,AgentID,CreateTime) values(NEWID(),@Title,@Remark,@Icon,@TaskID,@OrderID,@UserID,@AgentID,getdate())";
+            string sqltext = "insert into  PlateMaking(PlateID,Title,Remark,Icon,TaskID,OrderID,Type,CreateUserID,AgentID,CreateTime) values(NEWID(),@Title,@Remark,@Icon,@TaskID,@OrderID,@Type,@UserID,@AgentID,getdate())";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@Title",title),
                                      new SqlParameter("@Remark",remark),
                                      new SqlParameter("@Icon",icon),
                                      new SqlParameter("@TaskID",taskID),
+                                     new SqlParameter("@Type",type),
                                      new SqlParameter("@OrderID",orderID),
                                      new SqlParameter("@UserID",userID),
                                      new SqlParameter("@AgentID",agentID)
@@ -345,15 +346,16 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
         }
 
-        public bool UpdatePlateMaking(string plateID, string title, string remark, string icon)
+        public bool UpdatePlateMaking(string plateID, string title, string remark, string icon,int type)
         {
-            string sqltext = "update PlateMaking set Title=@Title,Remark=@Remark,Icon=@Icon where PlateID=@PlateID ";
+            string sqltext = "update PlateMaking set Title=@Title,Remark=@Remark,Icon=@Icon,Type=@Type where PlateID=@PlateID ";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@PlateID",plateID),
                                      new SqlParameter("@Title",title),
                                      new SqlParameter("@Remark",remark),
-                                     new SqlParameter("@Icon",icon)
+                                     new SqlParameter("@Icon",icon),
+                                     new SqlParameter("@Type",type)
                                    };
 
             return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
