@@ -90,10 +90,6 @@
                 width: "110",
                 onChange: function (data) {
                     if (IsLoadding && IsLoaddingTwo) {
-                        if (Paras.filterTime == "") {
-                            $(".show-timemsg").data('isget',1);
-                        }
-
                         Paras.orderType = data.value;
                         Paras.pageIndex = 1;
                         ObjectJS.getDataList();
@@ -108,23 +104,32 @@
 
         //获取所有已超期订单或任务
         $(".get-ecceed").click(function () {
-            if (Paras.filterTime != "") {
-                if (IsLoadding && IsLoaddingTwo) {
-                    $(".list-total").css("background-color", "#f35353");
-                    $(".show-timemsg").data('isget',1);
-
+            if (IsLoadding && IsLoaddingTwo) {
+                if (Paras.filterTime != "") {
                     Paras.filterTime = '';
                     Paras.filterType = 1;
                     ObjectJS.getDataList();
                 }
                 else {
-                    alert("数据加载中，请稍等 !");
+                    alert("已经显示所有超期数据了!");
                 }
             }
             else {
-                alert("已经显示所有超期数据了!");
+                alert("数据加载中，请稍等 !");
             }
-        })
+           
+        });
+
+        //加载完毕绑定加载更多事件
+        $('.load-more').click(function () {
+            if (IsLoadding && IsLoaddingTwo) {
+                Paras.pageIndex++;
+                ObjectJS.getDataList();
+            }
+            else {
+                alert("数据加载中，请稍等 !");
+            }
+        });
 
     }
 
@@ -153,17 +158,18 @@
 
     var ReportAvgHeight = 0;//报表每一份对应的行高
     var GuidLineHeight = 0;//报表网格线对应的份数
-    var ReportMinHeight = 0;//最低行高
+    var ReportMinHeight = 10;//最低行高
+    var ReportIndex=0;
     ObjectJS.bindReport = function () {
         //var items = [];
-        //for (var i = 0; i < 1; i++) {
+        //for (var i = 0; i < 6; i++) {
         //    var item = {
         //        date: "6.1",
-        //        //exceedCount: 3,
-        //        //warnCount: 1,
-        //        //workCount: 1,
-        //        finishCount: 9,
-        //        totalCount: 9
+        //        exceedCount: 3,
+        //        warnCount: 1,
+        //        workCount: 0,
+        //        finishCount: 100,
+        //        totalCount: 104
         //    };
         //    items.push(item);
         //}
@@ -179,15 +185,16 @@
             }
         }
 
-        var guidLineHeight =maxTotalCount / 5;
+        var guidLineHeight = maxTotalCount / 5;
         GuidLineHeight = parseInt(maxTotalCount % 5 == 0 ? guidLineHeight : (guidLineHeight + 1));
         ReportAvgHeight = 220 / (maxTotalCount + (GuidLineHeight - guidLineHeight) * 5);
 
+        ReportIndex = 0;
         for (var l = 0; l < OrderListCache.length; l++) {
-            ObjectJS.createReportHtml(OrderListCache[l], l);
+            ObjectJS.createReportHtml(OrderListCache[l]);
         }
 
-        $(".report-guid ul li:not(:last)").css("height", (GuidLineHeight * ReportAvgHeight - 1.25) + "px");
+        $(".report-guid ul li:not(:last)").css("height", (GuidLineHeight * ReportAvgHeight - 1.2) + "px");
         for (var h = 0; h<6; h++) {
             $(".report-guid ul li").eq(h).find(".guid-count").html(GuidLineHeight * (5 - h));
         }
@@ -220,12 +227,12 @@
     }
 
     //拼接报表柱状图形
-    ObjectJS.createReportHtml = function (item, index) {
+    ObjectJS.createReportHtml = function (item) {
         if (item.totalCount > 0) {
             var lineHeight = 0;
             var isShow = false;
             var html = '';
-            html += '<div class="report-item" style="left:' + (75 * index) + 'px">';
+            html += '<div class="report-item" style="left:' + (75 * ReportIndex) + 'px">';
             html += '    <ul>';
             if (item.exceedCount > 0 && (ObjectJS.orderFilter == -1 || ObjectJS.orderFilter == 1)) {
                 lineHeight = item.exceedCount * ReportAvgHeight;
@@ -263,19 +270,19 @@
             if (isShow) {
                 $(".index-report-content").append(html);
                 html.fadeIn(500);
+
+                ReportIndex++;
             }
         }
     }
 
     //获取数据
-    ObjectJS.getDataList = function (addStatus) {
-        var loadding = "<div class='data-loading'>";
-
-        //如果addStatus传入参数则不移除列表数据而是累加数据
-        if (addStatus === undefined) {
+    ObjectJS.getDataList = function () {
+        if (Paras.pageIndex == 1) {
             $(".order-layerbox").find('.layer-lump').nextAll().remove();
         }
-        $(".order-layerbox").append(loadding);
+
+        $(".order-layerbox").append("<div class='data-loading'></div>");
 
         IsLoaddingTwo = false;
         var moduleType = Paras.moduleType;
@@ -285,44 +292,24 @@
         }
         Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
             IsLoaddingTwo = true;
+            $('.data-loading').remove();
+
             var items = data.items;
-            //如果最后已到了最后一页则移除加载更多按钮
-            if (data.items.length < 10 || data.pageCount==Paras.pageIndex) {
-                $(".load-more").remove();
-            }
-            else {
-                if ($(".load-more").length == 0) {
-                    $(".load-box").append('<span class="load-more font14 hand">加载更多</span>');
-
-                    //加载完毕绑定加载更多事件
-                    $('.load-more').unbind().click(function () {
-                        if (IsLoadding && IsLoaddingTwo) {
-                            Paras.pageIndex++;
-                            ObjectJS.getDataList('1');
-                        }
-                        else {
-                            alert("数据加载中，请稍等 !");
-                        }
-                    });
-                }
-            }
-
             if (items.length == 0) {
-                var nodata = "<div class='nodata-txt'>暂无数据!<div>";
-                $(".order-layerbox").append(nodata);
+                $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
             }
-            else {
+            else
+            {
                 DoT.exec(url, function (template) {
                     var innerText = template(items);
                     innerText = $(innerText);
+                    $(".order-layerbox").append(innerText);
 
                     innerText.find('.order-progress-item').each(function () {
                         var _this = $(this);
                         _this.css({ "width": _this.data('width') });
                     });
-
-                    $(".order-layerbox").append(innerText);
-
+                    
                     $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
                         var _this = $(this);
                         _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
@@ -333,28 +320,37 @@
                 });
             }
 
+            //如果最后已到了最后一页则移除加载更多按钮
+            if (data.pageCount == Paras.pageIndex) {
+                $(".load-box").hide();
+            }
+            else {
+                if (data.pageCount > 1) {
+                    $(".load-box").show();
+                }
+            }
+
             //切换模块显示任务或订单描述
             var orderMsg = "任务";
             var totalEcceed = "超期任务总数:";
-            if ($(".order-type span.hover").data('id') == 1) {
+            if (Paras.moduleType == 1) {
                 orderMsg = "订单";
                 totalEcceed = "超期订单总数:";
             }
             $(".order-msg").html(orderMsg);
-            $(".ordertotal .total-ecceed").siblings().html(totalEcceed);
+            $(".ordertotal .total-ecceed").prev().html(totalEcceed);
 
-            $(".order-layerbox").find('.data-loading').remove();
-
+            
             //判断是否选择时间没有列表时间则显示已超期
             var timeHtml = $(".show-timemsg");
-            if (timeHtml.data('isget') != 1) {
+            if (Paras.filterTime !='') {
                 timeHtml.html(data.showTime);
             }
             else {
                 timeHtml.html('已超期');
                 $(".list-total").css({ "background-color": "#f35353" });
-                timeHtml.data('isget', 0);
             }
+            //
             $(".list-total").html(data.getTotalCount);
             $(".total-ecceed").html(data.getTotalCount);
 
@@ -365,14 +361,11 @@
     ObjectJS.getTaskOrOrderCount = function () {
         Global.post("/Home/GetOrderOrTaskCount", Paras,
             function (data) {
-            if (Paras.moduleType == 1) {
-                $(".total-need").siblings().html('需求订单总数:');
-            }
-            else {
-                $(".total-need").siblings().html('未接受任务总数:');
-            }
-
-            $(".total-need").html(data.result);
+                var name = "需求订单总数:";
+                if (Paras.moduleType == 2) {
+                    name = "未接受任务总数:";
+                }
+                $(".total-need").html(data.result).prev().html(name);
         });
     }
 
