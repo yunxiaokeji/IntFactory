@@ -349,16 +349,6 @@
 
                     });
 
-                    innerhtml.find(".picbox img").each(function () {
-                        if ($(this).width() > $(this).height()) {
-                            $(this).css("width", 248);
-                        } else if ($(this).width() < $(this).height()) {
-                            $(this).css("height", 248);
-                        } else {
-                            $(this).css("height", 248);
-                        }
-                    });
-
                     if (showtype == "list") {
                         $(".table-list").append(innerhtml);
                     }

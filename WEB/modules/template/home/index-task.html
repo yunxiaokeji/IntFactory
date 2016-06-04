@@ -3,7 +3,6 @@
     {
         var item=$data[i];
         var totalDay=(item.UseDays==0?1:item.UseDays)+(item.WarningDays==0?1:item.WarningDays);
-
 %}
     <div class="order-item">
         <a href="/Task/Detail/{%=item.TaskID%}">
@@ -11,7 +10,7 @@
             <div class="hint-msg {%=item.WarningStatus==1?'warning':item.WarningStatus==2?'pass':'hide'%}">{%=item.WarningStatus==1?"快到期":item.WarningStatus==2?"已超期":""%}</div>
         </div>
         </a>
-        <div class="left order-img"><a href="/Task/Detail/{%=item.TaskID%}"><img src="{%=item.OrderImage%}" /></a></div>
+        <div class="left order-img"><a href="/Task/Detail/{%=item.TaskID%}"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="{%=item.OrderImg==""?'/modules/images/img-noimg.png':item.OrderImg%}" /></a></div>
         <div class="left order-detail mLeft20">
             <div class="left">
                 <div class="order-title"><a href="/Task/Detail/{%=item.TaskID%}">{%=item.Title%}</a></div>
