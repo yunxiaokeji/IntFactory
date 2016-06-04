@@ -6,11 +6,7 @@
     <div class="task-top">
         <div class="picbox">
             <a href="/Task/Detail/{%=item.TaskID%}" class="image-box">
-                {%
-                if(item.OrderImg!='')
-                {%}
-                    <img src="{%=item.OrderImg%}" />  
-               {%}%}
+                <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="{%=item.OrderImg==''?'/modules/images/img-noimg.png':item.OrderImg%}" />  
                 <div class="hint-layer hide">
                     <div class="hint-msg hide">已超期</div>
                 </div>

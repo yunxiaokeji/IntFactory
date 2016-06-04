@@ -246,6 +246,8 @@
     //获取数据
     ObjectJS.getDataList = function (addStatus) {
         var loadding = "<div class='data-loading'>";
+
+        //如果addStatus传入参数则不移除列表数据而是累加数据
         if (addStatus === undefined) {
             $(".order-layerbox").find('.layer-lump').nextAll().remove();
         }
@@ -260,14 +262,15 @@
         Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
             IsLoaddingTwo = true;
             var items = data.items;
-
-            if (data.items.length < 10) {
+            //如果最后已到了最后一页则移除加载更多按钮
+            if (data.items.length < 10 || data.pageCount==Paras.pageIndex) {
                 $(".load-more").remove();
             }
             else {
                 if ($(".load-more").length == 0) {
                     $(".load-box").append('<span class="load-more font14 hand">加载更多</span>');
 
+                    //加载完毕绑定加载更多事件
                     $('.load-more').unbind().click(function () {
                         if (IsLoadding && IsLoaddingTwo) {
                             Paras.pageIndex++;
@@ -280,32 +283,9 @@
                 }
             }
 
-            if ($(".order-type span.hover").data('id') == 1) {
-                $(".order-msg").html("订单");
-                $(".ordertotal .total-ecceed").siblings().html('超期订单总数:');
-            }
-            else {
-                $(".order-msg").html("任务");
-                $(".ordertotal .total-ecceed").siblings().html('超期任务总数:');
-            }
-            $(".order-layerbox").find('.data-loading').remove();
-
-            var timeHtml = $(".list-header").find("span").eq(0);
-            if (timeHtml.data('isget') != 1) {
-                timeHtml.html(data.showTime);
-            } else {
-                timeHtml.html('已超期');
-                $(".list-header").find('.list-total').css({ "background-color": "#f35353" });
-                timeHtml.data('isget', 0);
-            }
-            $(".list-total").html(data.getTotalCount);
-            $(".total-ecceed").html(data.getTotalCount);
-
             if (items.length == 0) {
-
                 var nodata = "<div class='nodata-txt'>暂无数据!<div>";
                 $(".order-layerbox").append(nodata);
-
             }
             else {
                 DoT.exec(url, function (template) {
@@ -328,6 +308,31 @@
                     innerText.find('.layer-line').css({ width: 0, left: 160 });
                 });
             }
+
+            //切换模块显示任务或订单描述
+            var orderMsg = "任务";
+            var totalEcceed = "超期任务总数:";
+            if ($(".order-type span.hover").data('id') == 1) {
+                orderMsg = "订单";
+                totalEcceed = "超期订单总数:";
+            }
+            $(".order-msg").html(orderMsg);
+            $(".ordertotal .total-ecceed").siblings().html(totalEcceed);
+
+            $(".order-layerbox").find('.data-loading').remove();
+
+            //判断是否选择时间没有列表时间则显示已超期
+            var timeHtml = $(".list-header").find("span").eq(0);
+            if (timeHtml.data('isget') != 1) {
+                timeHtml.html(data.showTime);
+            }
+            else {
+                timeHtml.html('已超期');
+                $(".list-total").css({ "background-color": "#f35353" });
+                timeHtml.data('isget', 0);
+            }
+            $(".list-total").html(data.getTotalCount);
+            $(".total-ecceed").html(data.getTotalCount);
 
         })
     }

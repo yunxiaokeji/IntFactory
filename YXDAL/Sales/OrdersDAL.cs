@@ -137,7 +137,7 @@ namespace IntFactoryDAL
             SqlParameter[] paras = {
                                        new SqlParameter("@ClientID",clientID),
                                        new SqlParameter("@OwnerID",ownerID),
-                                       new SqlParameter("@OrderType",clientID)
+                                       new SqlParameter("@OrderType",orderType)
                                    };
 
             string sql = "select count(orderid) from orders where OrderStatus=0 and status<>9 and ClientID=@ClientID";
