@@ -455,7 +455,7 @@ namespace IntFactoryBusiness
         public static bool AddPlateMaking(PlateMaking plate)
         {
             return TaskDAL.BaseProvider.AddPlateMaking(plate.Title, plate.Remark, plate.Icon,
-                plate.TaskID,plate.OrderID,plate.CreateUserID,plate.AgentID);
+                plate.TaskID,plate.Type,plate.OrderID,plate.CreateUserID,plate.AgentID);
         }
 
         /// <summary>
@@ -465,7 +465,7 @@ namespace IntFactoryBusiness
         /// <returns></returns>
         public static bool UpdatePlateMaking(PlateMaking plate)
         {
-            return TaskDAL.BaseProvider.UpdatePlateMaking(plate.PlateID,plate.Title,plate.Remark,plate.Icon);
+            return TaskDAL.BaseProvider.UpdatePlateMaking(plate.PlateID,plate.Title,plate.Remark,plate.Icon,plate.Type);
         }
 
         /// <summary>
