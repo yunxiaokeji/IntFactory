@@ -305,7 +305,7 @@ namespace YXERP.Controllers
             }
 
             List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, isParticipate,status, finishStatus, 
-                colorMark,taskType,beginDate,endDate,
+                colorMark,taskType,beginDate,endDate,string.Empty,string.Empty,
                 orderType, orderProcessID, orderStageID,
                  (EnumTaskOrderColumn)taskOrderColumn, isAsc, CurrentUser.ClientID,
                 pageSize, pageIndex, ref totalCount, ref pageCount);
