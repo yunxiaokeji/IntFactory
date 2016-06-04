@@ -218,8 +218,12 @@
                     Paras.pageIndex = 1;
                     Paras.filterType = _this.data('type');
                     Paras.filterTime = _this.data('date');
+
+                    $(".report-item li").css({ "box-shadow": "none" });
+                    var backgroundColor=_this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8";
+                    _this.css({ "box-shadow": "2px 2px 10px " + backgroundColor });
                     $(".order-layerbox .layer-lump").nextAll().remove();
-                    $(".list-header .list-total").css("background-color", _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8");
+                    $(".list-header .list-total").css("background-color", backgroundColor);
 
                     ObjectJS.getDataList();
                 }
