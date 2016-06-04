@@ -81,6 +81,17 @@ define(function (require, exports, module) {
             LayoutObject.bindStyle();
         });
 
+        //窗体滚动 置顶头部
+        $(window).scroll(function(){  
+            if ($(window).scrollTop()>100){  
+                $(".back-top").fadeIn(500);
+            }  
+            else  
+            {  
+                $(".back-top").fadeOut(1000);
+             }  
+        });  
+
         $(document).click(function (e) {
 
             if (!$(e.target).parents().hasClass("currentuser") && !$(e.target).hasClass("currentuser")) {
@@ -170,6 +181,18 @@ define(function (require, exports, module) {
                 }
             });
         })
+
+        //返回顶部
+        $(".back-top").click(function () {
+             $('body,html').animate({scrollTop:0},300);  
+            return false;  
+        });
+
+        //头部双击 返回顶部
+        $("header").dblclick(function () {
+            $('body,html').animate({ scrollTop: 0 }, 300);
+            return false;
+        });
 
     }
 
