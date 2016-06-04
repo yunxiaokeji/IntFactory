@@ -182,6 +182,7 @@
         $(".report-item li").click(function () {
             if (IsLoadding && IsLoaddingTwo) {
                 var _this = $(this);
+                Paras.pageIndex = 1;
                 Paras.filterType = _this.data('type');
                 Paras.filterTime = _this.data('date');
                 $(".order-layerbox .layer-lump").nextAll().remove();

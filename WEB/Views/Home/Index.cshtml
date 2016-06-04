@@ -112,7 +112,7 @@
     <div class="right author-message">
         <ul>
             <li>
-                <p class="remain-day blue">@(ViewBag.RemainDay)</p>
+                <p class="remain-day @(ViewBag.RemainDay<30?"red":"blue")">@(ViewBag.RemainDay)</p>
                 <p>剩余天数</p>
             </li>
             <li>

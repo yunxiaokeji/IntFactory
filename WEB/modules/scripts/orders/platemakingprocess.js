@@ -2,23 +2,32 @@
 
     var Objects = {};
 
-    Objects.init = function (plate) {
-        Objects.bindEvent(plate);
+    Objects.init = function (plate,img) {
+        Objects.bindEvent(plate,img);
         Objects.removeTaskPlateOperate();
         Objects.getAmount();
+        Objects.imgOrderTable();
     };
 
-    Objects.bindEvent = function (plate) {
+    Objects.bindEvent = function (plate,img) {
         if (plate == "") {
             $("#Platemak").html('<tr><td class="no-border" style="width:500px;font-size:15px;">暂无！</td></tr>')
         } else {
             $("#Platemak").html(decodeURI(plate));
         };
 
-        $(".print").click(function () {
-            $(".print").remove();
-            window.print();            
-        });
+        if (img == "") {
+            img = "/modules/images/none-img.png";
+        };
+        
+        
+        $(".icon-delete").click(function () {
+            if (!$(this).hasClass("hover")) {
+                $(this).addClass("hover");
+            } else {
+                $(this).removeClass("hover");
+            }
+        });      
 
         $("#navsenddoc .total-item td").each(function () {
             var _this = $(this), _total = 0;
@@ -26,15 +35,45 @@
                 $("#navsenddoc ." + _this.data("class")).each(function () {
                     _total += $(this).html() * 1;
                 });
-                _this.html(_total);
+                _this.html(_total);               
             }            
         });
+        
 
         $(".btn").click(function () {
             $(".preview").remove();
             $(".btn").remove();
             $(".iconfont").hide();
+
+            if ($(".goods").hasClass("hover")) {
+                $(".goosddoc").parent().parent().remove();
+                Objects.imgOrderTable();
+                
+                if (navigator.webkitPersistentStorage == undefined) {
+                    alert("a");
+                    $(".total-item").height("32px");
+                }
+            }
+            if ($(".senddoc").hasClass("hover")) {
+                $(".navsenddoc").parent().parent().remove();
+                Objects.imgOrderTable();
+            }
+            if ($(".products").hasClass("hover")) {
+                $(".navproducts").remove();
+            }
+            if ($(".raving").hasClass("hover")) {
+                $(".navengraving").remove();
+            }
+            if ($(".pro").hasClass("hover")) {
+                $(".proplate").remove();
+            }
+
             $(".print").show().append('<span class="iconfont right font24 mTop5 mLeft20 color666" style="cursor:pointer;">&#xe658;</span>');
+        });
+
+        $(".print").click(function () {
+            $(".print").remove();
+            window.print();            
         });
     };
 
@@ -60,15 +99,27 @@
             var _this = $(this), _total = 0;
             if (_this.data("class")) {
                 $("." + _this.data("class")).each(function () {
-                    _total += $(this).html() * 1;
+                    _total += $(this).html() * 1;                   
                 });
                 if (_this.data("class") == "moneytotal") {
-                    _this.html(_total.toFixed(2));
+                    _this.html(_total.toFixed(2));                    
                 } else {
-                    _this.html(_total);
+                    _this.html(_total);                    
+                    _this.attr("title", _total);
                 }
             }
         });
+    }
+
+    Objects.imgOrderTable = function () {
+        var height = $(".navgoods").height();
+        if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {            
+            $(".img-order").height(parseInt(height)+ 'px');
+        } else {
+            $(".img-order").height(parseInt(height) + 1 + 'px');
+        }
+        
+        $(".img-order img").height(height/2);
     }
 
     module.exports = Objects;

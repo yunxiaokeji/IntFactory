@@ -117,11 +117,14 @@ define(function (require, exports, module) {
         });
 
         $(".ico-help").hover(function () {
-            if (!$(".wechat").is(":animated")) {
-                $(".wechat").fadeIn();
-            }
+            $(".wechat").css({ "bottom": "105px", "left": "70px" });
+
+            $(".wechat img").css({ "width": "150px", "height": "150px" });
+            
         }, function () {
-             $(".wechat").fadeOut();
+            $(".wechat").css({ "bottom": "70px", "left": "44px" });
+
+            $(".wechat img").css({ "width": "0", "height": "0" });
         })
         
         //登录信息展开
