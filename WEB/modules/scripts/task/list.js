@@ -22,6 +22,7 @@
         orderType: -1,
         orderProcessID: "-1",
         orderStageID: "-1",
+        invoiceStatus:-1,
         taskOrderColumn: 0,//拍序列  0:创建时间；2：到期时间 
         isAsc:0,
         pageSize: 10,
@@ -73,8 +74,6 @@
         
         
         ObjectJS.bindEvent();
-
-        //ObjectJS.getProcess();
 
         //获取任务列表
         if (Params.isParticipate != 1) {
@@ -178,6 +177,19 @@
         });
        
 
+        //预警切换
+        $(".search-warning .item").on("click", function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+
+                var status = _this.data("id");
+                Params.invoiceStatus = status;
+                ObjectJS.getList();
+            };
+        });
+
         //切换任务显示方式(列表或者卡片式)
         $(".search-sort .task-tabtype i").click(function () {
             if (!ObjectJS.isLoading) {
@@ -278,65 +290,6 @@
         });
     }
 
-    //获取订单流程
-    //ObjectJS.getProcess = function () {
-    //    ObjectJS.isLoading = false;
-    //    Global.post("/Task/GetOrderProcess", null, function (data) {
-    //        var items = data.items;
-    //        var content = "<li class='item hover' data-id='-1' data-type='-1'>全部</li>";
-    //        for (var i = 0; i < items.length; i++) {
-    //            var item=items[i];
-    //            content += "<li data-type=" + item.ProcessType + " data-id=" + item.ProcessID + " class='item'>" + item.ProcessName + "</li>";
-    //        }
-    //        content = $(content);
-    //        $(".search-process").append(content);
-
-    //        content.click(function () {
-    //            var _this = $(this);
-    //            if (!_this.hasClass("hover")) {
-    //                _this.siblings().removeClass("hover");
-    //                _this.addClass("hover");
-
-    //                Params.orderProcessID = _this.data('id');
-    //                Params.orderStageID = "-1";
-    //                Params.pageIndex = 1;
-    //                $(".search-stage").hide();
-    //                ObjectJS.getList();
-
-    //                ObjectJS.getStage();
-    //            }
-    //        });
-    //        ObjectJS.isLoading = true;
-    //    });
-    //}
-
-    ////获取订单阶段
-    //ObjectJS.getStage = function () {
-    //    $(".search-stage").show();
-    //    ObjectJS.isLoading = false;
-    //    Global.post("/Task/GetOrderStages", { id: Params.orderProcessID }, function (data) {
-    //        var items = data.items;
-    //        var content = "<li class='item hover' data-id='-1'>全部</li>";
-    //        for (var i = 0; i < items.length; i++) {
-    //            content += "<li data-id=" + items[i].StageID + " class='item'>" + items[i].StageName + "</li>";
-    //        }
-    //        content = $(content);
-    //        $(".search-stage .column-name").nextAll().remove();
-    //        $(".search-stage").append(content);
-    //        content.click(function () {
-    //            var _this = $(this);
-    //            if (!_this.hasClass("hover")) {
-    //                _this.siblings().removeClass("hover");
-    //                _this.addClass("hover");
-    //                Params.orderStageID = _this.data('id');
-    //                Params.pageIndex = 1;
-    //                ObjectJS.getList();
-    //            }
-    //        });
-    //        ObjectJS.isLoading = true;
-    //    });
-    //}
-
     ObjectJS.getList = function () {
         var showtype = Params.listType;
         $(".tr-header").nextAll().remove();
@@ -384,9 +337,7 @@
                             }
                         }
                     }
-
                 });
-               
             }
             else {
                 if (showtype == "list") {
