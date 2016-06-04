@@ -173,7 +173,7 @@ define(function (require, exports, module) {
             Easydialog.open({
                 container: {
                     id: "",
-                    header: "厂盟智能微信号公众号",
+                    header: "厂盟智能微信公众号",
                     content: "<div class='center'><img src='/modules/images/wechat.jpg' /><br><span class='font14'>扫一扫关注公众号</span></div>",
                     yesfn: function () {
 
