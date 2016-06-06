@@ -15,7 +15,7 @@
         Status: -1,
         Mark: -1,
         PayStatus: -1,
-        OrderStatus: -1,
+        OrderStatus: 1,
         InvoiceStatus: -1,
         ReturnStatus: -1,
         SourceType: -1,
