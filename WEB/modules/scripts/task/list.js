@@ -22,7 +22,8 @@
         orderType: -1,
         orderProcessID: "-1",
         orderStageID: "-1",
-        invoiceStatus:-1,
+        invoiceStatus: -1,
+        preFinishStatus: -1,
         taskOrderColumn: 0,//拍序列  0:创建时间；2：到期时间 
         isAsc:0,
         pageSize: 10,
@@ -144,18 +145,18 @@
                 _this.addClass("hover");
                 
                 Params.orderType = _this.data("id");
-                if (Params.orderType=="-1") {                   
-                    $(".search-process .itemDH").show();
-                    $(".search-process .itemDY").show();
-                } else if (Params.orderType == "1") {     
-                    $(".search-process .itemDY").show();
-                    $(".search-process .item:first").addClass("hover").siblings().removeClass("hover");
-                    $(".search-process .itemDH").hide();
-                } else {
-                    $(".search-process .itemDH").show();
-                    $(".search-process .item:first").addClass("hover").siblings().removeClass("hover");
-                    $(".search-process .itemDY").hide();
-                }
+                //if (Params.orderType=="-1") {                   
+                //    $(".search-process .itemDH").show();
+                //    $(".search-process .itemDY").show();
+                //} else if (Params.orderType == "1") {     
+                //    $(".search-process .itemDY").show();
+                //    $(".search-process .item:first").addClass("hover").siblings().removeClass("hover");
+                //    $(".search-process .itemDH").hide();
+                //} else {
+                //    $(".search-process .itemDH").show();
+                //    $(".search-process .item:first").addClass("hover").siblings().removeClass("hover");
+                //    $(".search-process .itemDY").hide();
+                //}
 
                 Params.orderProcessID = '-1';
                 Params.orderStageID = '-1';
@@ -164,18 +165,30 @@
             }
         });
 
-        //切换模块
+        //切换任务类型
         $(".search-process .item").on("click", function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-                var mark = _this.data("id");
-                Params.taskType = mark;
+
+                Params.taskType = _this.data("id");
                 ObjectJS.getList();        
             };
         });
        
+        //切换任务上级任务进度
+        $(".search-prefinishstatus .item").on("click", function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+
+                Params.preFinishStatus = _this.data("id");
+                ObjectJS.getList();
+            };
+        });
+
 
         //预警切换
         $(".search-warning .item").on("click", function () {
