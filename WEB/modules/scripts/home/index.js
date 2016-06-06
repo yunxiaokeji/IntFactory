@@ -19,7 +19,7 @@
     }
 
     var ObjectJS = {};
-
+    
     ObjectJS.orderFilter = -1;
 
     ObjectJS.init = function (level, userID) {
