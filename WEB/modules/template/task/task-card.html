@@ -8,7 +8,7 @@
             <a href="/Task/Detail/{%=item.TaskID%}" class="image-box">
                 <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="{%=item.OrderImg==''?'/modules/images/img-noimg.png':item.OrderImg%}" />  
                 <div class="hint-layer hide">
-                    <div class="hint-msg hide">已超期</div>
+                    <div class="hint-msg {%=item.WarningStatus==0?'hide':item.WarningStatus==1?'warning':'excced'%}">{%=item.WarningStatus==0?"":item.WarningStatus==1?"快到期":"已超期"%}</div>
                 </div>
             </a>
             <div class="task-layer">
@@ -18,27 +18,20 @@
                 </ul>
                 <div class="clear"></div>
                 <div class="remain-time mLeft10 mTop5">
-                    <span class="overplusTime-{%=item.TaskID%}">{%=item.FinishStatus==2?"完成时间：":item.FinishStatus==1?"剩余：":"创建时间："%}</span>
-
                     {%
                     if(item.FinishStatus==1)
                     {
                     %}
-                    <span class="time-d-{%=item.TaskID%}">0</span>天
-                    <span class="time-h-{%=item.TaskID%}">0</span>时
-                    <span class="time-m-{%=item.TaskID%}">0</span>分
+                        <span>{%=item.WarningTime%}</span>
                   <!--  <span class="time-s-{%=item.TaskID%}">10</span>秒-->
                     {%}
                     else
                     {
                     %}
-                    <span>{%=item.FinishStatus==2?item.CompleteTime.toDate('yyyy-MM-dd hh:mm:ss'):item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}</span>                    
+                    <span>{%=item.FinishStatus==2?"完成时间："+item.CompleteTime.toDate('yyyy-MM-dd hh:mm:ss'):"创建时间："+item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}</span>                    
                     {%}%}
                </div>
             </div>
-
-            
-
         </div>
     </div>
         

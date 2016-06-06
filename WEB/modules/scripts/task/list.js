@@ -22,7 +22,8 @@
         orderType: -1,
         orderProcessID: "-1",
         orderStageID: "-1",
-        invoiceStatus:-1,
+        invoiceStatus: -1,
+        preFinishStatus: -1,
         taskOrderColumn: 0,//拍序列  0:创建时间；2：到期时间 
         isAsc:0,
         pageSize: 10,
@@ -144,18 +145,18 @@
                 _this.addClass("hover");
                 
                 Params.orderType = _this.data("id");
-                if (Params.orderType=="-1") {                   
-                    $(".search-process .itemDH").show();
-                    $(".search-process .itemDY").show();
-                } else if (Params.orderType == "1") {     
-                    $(".search-process .itemDY").show();
-                    $(".search-process .item:first").addClass("hover").siblings().removeClass("hover");
-                    $(".search-process .itemDH").hide();
-                } else {
-                    $(".search-process .itemDH").show();
-                    $(".search-process .item:first").addClass("hover").siblings().removeClass("hover");
-                    $(".search-process .itemDY").hide();
-                }
+                //if (Params.orderType=="-1") {                   
+                //    $(".search-process .itemDH").show();
+                //    $(".search-process .itemDY").show();
+                //} else if (Params.orderType == "1") {     
+                //    $(".search-process .itemDY").show();
+                //    $(".search-process .item:first").addClass("hover").siblings().removeClass("hover");
+                //    $(".search-process .itemDH").hide();
+                //} else {
+                //    $(".search-process .itemDH").show();
+                //    $(".search-process .item:first").addClass("hover").siblings().removeClass("hover");
+                //    $(".search-process .itemDY").hide();
+                //}
 
                 Params.orderProcessID = '-1';
                 Params.orderStageID = '-1';
@@ -164,18 +165,30 @@
             }
         });
 
-        //切换模块
+        //切换任务类型
         $(".search-process .item").on("click", function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-                var mark = _this.data("id");
-                Params.taskType = mark;
+
+                Params.taskType = _this.data("id");
                 ObjectJS.getList();        
             };
         });
        
+        //切换任务上级任务进度
+        $(".search-prefinishstatus .item").on("click", function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+
+                Params.preFinishStatus = _this.data("id");
+                ObjectJS.getList();
+            };
+        });
+
 
         //预警切换
         $(".search-warning .item").on("click", function () {
@@ -329,14 +342,6 @@
                     else {
                         $(".task-items").html(innerhtml);
                     }
-                    if (Params.finishStatus == 1 || Params.finishStatus == -1) {
-                        for (var i = 0; i < data.items.length; i++) {
-                            var item = data.items[i];
-                            if (item.FinishStatus == 1) {
-                                ObjectJS.showTime(item, data.isWarns[i], data.endTimes[i], showtype);
-                            }
-                        }
-                    }
                 });
             }
             else {
@@ -364,87 +369,6 @@
 
             ObjectJS.isLoading = true;
         });
-    }
-
-    //任务到期时间倒计时
-    ObjectJS.showTime = function (item, isWarn,endTime,showType) {
-        if (ObjectJS.status == 8) {
-            return;
-        }
-        if (item.FinishStatus != 1) {
-            return;
-        }
-
-        var endtime = item.EndTime.toDate("yyyy/MM/dd hh:mm:ss");
-        var num = item.TaskID;
-        var time_end = (new Date(endtime)).getTime();
-        var time_start = new Date().getTime(); //设定当前时间
-        // 计算时间差 
-        var time_distance = time_end - time_start;
-        var overplusTime = false;
-
-        if (time_distance < 0) {
-            if (!overplusTime) {
-                if (showType == "card") {
-                    $(".overplusTime-" + num + "").html("超期：");
-                    $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show();
-                    $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('已超期').css({ "background-color": "rgba(237,0,0,0.7)", "background-color": "rgba(237,0,0,0.7)" }).show();
-                }
-                else {
-                    var $list_picbox=$(".table-list .list-item[data-taskid='" + item.TaskID + "']");
-                    $list_picbox.find(".hint-msg").html("已超期").css({ "background-color": "rgba(237,0,0,0.7)", "background-color": "rgba(237,0,0,0.7)" }).show();
-                }
-            }
-
-            overplusTime = true;
-            time_distance = time_start - time_end;
-        }
-        else {
-            if (isWarn == 1) {
-                if (!overplusTime) {
-                    if (showType == "card") {
-                        $(".overplusTime-" + num + "").html("剩余：");
-                        $(".overplusTime-" + num + "").parents('.picbox').find(".hint-layer").show();
-                        $(".overplusTime-" + num + "").parents('.picbox').find(".hint-msg").html('快到期').show().css({ "background-color": "rgba(255,165,0,0.7)", "background-color": "rgba(255,165,0,0.7)" });
-                    }
-                    else {
-                        var $list_picbox = $(".table-list .list-item[data-taskid='" + item.TaskID + "']");
-                        $list_picbox.find(".hint-msg").html("快到期").css({ "background-color": "rgba(255,165,0,0.7)", "background-color": "rgba(255,165,0,0.7)" }).show();
-                    }
-                }
-                overplusTime = true;
-            }
-        }
-
-        // 天
-        var int_day = Math.floor(time_distance / 86400000)
-        time_distance -= int_day * 86400000;
-        // 时
-        var int_hour = Math.floor(time_distance / 3600000)
-        time_distance -= int_hour * 3600000;
-        // 分
-        var int_minute = Math.floor(time_distance / 60000)
-        time_distance -= int_minute * 60000;
-        // 秒 
-        //var int_second = Math.floor(time_distance / 1000)
-        // 时分秒为单数时、前面加零 
-        if (int_day < 10) {
-            int_day = "0" + int_day;
-        }
-        if (int_hour < 10) {
-            int_hour = "0" + int_hour;
-        }
-        if (int_minute < 10) {
-            int_minute = "0" + int_minute;
-        }
-        //if (int_second < 10) {
-        //    int_second = "0" + int_second;
-        //}
-        // 显示时间 
-        $(".time-d-" + num + "").html(int_day);
-        $(".time-h-" + num + "").html(int_hour);
-        $(".time-m-" + num + "").html(int_minute);
-        //$(".time-s-" + num + "").html(int_second);
     }
 
     //任务颜色标记
