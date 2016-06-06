@@ -227,20 +227,22 @@
                     <td id="Platemak" colspan="10"></td>
                 </tr>
             </table>  
+           
             <table class="processplate no-border" style="width:955px">
-                <tr class="proplate">
-                    <td class="bgcolorC0C0C0 fontbold font18 tLeft hight40 no-border-top" colspan="10"><i class="iconfont icon-delete pro">&#xe613;</i>三、工艺</td>
-                </tr>
-                <tr class="proplate">
-                    <td colspan="2">图标</td>
-                    <td colspan="2">名称</td>
-                    <td colspan="4">描述</td>
-                    <td colspan="2">创建时间</td>
-                </tr>
                 @if (obj.Count>0)
                 {
                     foreach (var item in obj)
                     {
+                        <tr class="proplate">
+                            <td class="bgcolorC0C0C0 fontbold font18 tLeft hight40 no-border-top" colspan="10"><i class="iconfont icon-delete pro">&#xe613;</i>@(item.Type==0?"三、裁剪":item.Type==1?"四、粘衬":item.Type==2?"五、缝制工艺":item.Type==3?"六、成衣整烫":item.Type==4?"七、成衣检验":"八、成品包装")</td>
+                        </tr>
+                        <tr class="proplate">
+                            <td colspan="2">图标</td>
+                            <td colspan="2">名称</td>
+                            <td colspan="4">描述</td>
+                            <td colspan="2">创建时间</td>
+                        </tr>
+                    
                         <tr class="proplate">
                             <td colspan="2"><img style="width:30px;height:30px;" src="@(item.Icon)" /></td>
                             <td colspan="2">@(item.Title)</td>
@@ -248,6 +250,7 @@
                             <td colspan="2">@(item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"))</td>
                         </tr>
                     }
+
                 }
                 else
                 {
@@ -263,6 +266,7 @@
                     <td class="width115 font16 fontbold tLeft" colspan="10">*****注：请跟单QC、裁床、缝制、后整、负责人仔细阅读此工艺单并理解，如有疑问及时与技术部相关人员联系！（工艺单看了，未理解，等同没有看）</td>                
                 </tr>
              </table>    
+
             <div class="font18">
                 <span class="fontbold">制表人:</span>
                 <span>萧秋水</span>
