@@ -217,10 +217,14 @@
         $(".index-report-content .report-item li").each(function () {
             var _this = $(this);
             var type = _this.data("type");
+            var totalCount=_this.data("totalcount");
+            var count=_this.data("count");
             var showMsg = Paras.moduleType == 1 ? "订单" : "任务";
+            var message = _this.data("date") + "      " + (type == 1 ? "已超期" + showMsg : type == 2 ? "快到期" + showMsg : type == 3 ? "正常" + showMsg : "已完成" + showMsg) + "：" +count;
+            message += "</br>总计：" + totalCount + "，比例：" + (count / totalCount * 100).toFixed(2) + "%";
             _this.Tip({
                 width: 160,
-                msg: _this.data("date") + "      " + (type == 1 ? "已超期" + showMsg : type == 2 ? "快到期" + showMsg : type == 3 ? "正常" + showMsg : "已完成" + showMsg) + "：" + _this.data("count")
+                msg: message
             });
         });
 
@@ -268,7 +272,7 @@
                     lineHeight = lineHeight < 10 ? ReportMinHeight : lineHeight;
                     isShow = true;
 
-                    html += '<li style="line-height:' + lineHeight + 'px;" class="' + classname + '" data-count="' + count + '" data-date="' + item.date + '" data-type="' + type + '">' + count + '</li>';
+                    html += '<li style="line-height:' + lineHeight + 'px;" class="' + classname + '" data-totalcount="' + item.totalCount + '" data-count="' + count + '" data-date="' + item.date + '" data-type="' + type + '">' + count + '</li>';
                 }
             }
 
