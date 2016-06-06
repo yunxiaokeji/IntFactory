@@ -114,7 +114,8 @@
         ObjectJS.bindOrderImages();
 
         //初始化任务讨论列表
-        TalkReply.initTalkReply(ObjectJS);
+        TalkReply.initTalkReply(ObjectJS);       
+       
 
         //任务模块切换
         $(".module-tab li").click(function () {
@@ -1182,12 +1183,13 @@
     //制版工艺
     ObjectJS.initPlateMaking = function () {
         $("#btnAddPalte").click(function () {
-            ObjectJS.addPlateMaking();
+            ObjectJS.addPlateMaking();            
         });
-
+        
+        
         $("#setObjectPlate").click(function () {
             var index = $(this).data("index");
-            var item = PlateMakings[index];
+            var item = PlateMakings[index];           
             Plate = {
                 PlateID: item.PlateID,
                 Title: $("#plateTitle").val(),
@@ -1195,7 +1197,7 @@
                 Icon: $("#plateIcon").val(),
                 OrderID: ObjectJS.orderid,
                 TaskID: ObjectJS.taskid,
-                Type:$("#plateType").val()
+                Type: $("#selectType").val()
             }
             
             ObjectJS.savePlateMaking(item);
@@ -1225,6 +1227,7 @@
                     html = $(html);
                     $(".tb-plates .tr-header").after(html);
 
+ 
                     if ($("#btnAddPalte").length == 1) {
                         html.find(".dropdown").click(function () {
                             var _this = $(this);
@@ -1255,7 +1258,9 @@
             Title: "",
             Remark: "",
             Icon: "",
-            Type:""
+            OrderID: "",
+            TaskID: "",
+            Type:1
         }
 
         ObjectJS.savePlateMaking(item);
@@ -1284,9 +1289,10 @@
                             Icon: $("#plateIcon").val(),
                             OrderID: ObjectJS.orderid,
                             TaskID: ObjectJS.taskid,
-                            Type: $("#plateType").val()
+                            Type: $("#selectType").val()
                         }
 
+                                      
                         Global.post("/Task/SavePlateMaking", { plate: JSON.stringify(Plate) }, function (data) {
                             if (data.result == 0) {
                                 alert("保存失败");
@@ -1295,10 +1301,13 @@
                                 ObjectJS.getPlateMakings();
                             }
                         });
+                        
 
                     }
                 }
             });
+
+            $("#selectType").val(item.Type);
 
             var icoUrl = item.Icon;
             if (icoUrl != '') {
