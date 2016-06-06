@@ -60,7 +60,6 @@
                 if (IsLoadding && IsLoaddingTwo)
                 {
                     _this.addClass('hover').siblings().removeClass('hover');
-                    $(".show-timemsg").data('isget', '1');
 
                     Paras.moduleType = _this.data('id');
                     Paras.filterTime ='';
