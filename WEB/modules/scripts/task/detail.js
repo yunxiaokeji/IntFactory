@@ -1194,7 +1194,8 @@
                 Remark: $("#plateRemark").val(),
                 Icon: $("#plateIcon").val(),
                 OrderID: ObjectJS.orderid,
-                TaskID: ObjectJS.taskid
+                TaskID: ObjectJS.taskid,
+                Type:$("#plateType").val()
             }
             
             ObjectJS.savePlateMaking(item);
@@ -1253,7 +1254,8 @@
             PlateID:"",
             Title: "",
             Remark: "",
-            Icon: ""
+            Icon: "",
+            Type:""
         }
 
         ObjectJS.savePlateMaking(item);
@@ -1281,7 +1283,8 @@
                             Remark: $("#plateRemark").val(),
                             Icon: $("#plateIcon").val(),
                             OrderID: ObjectJS.orderid,
-                            TaskID: ObjectJS.taskid
+                            TaskID: ObjectJS.taskid,
+                            Type: $("#plateType").val()
                         }
 
                         Global.post("/Task/SavePlateMaking", { plate: JSON.stringify(Plate) }, function (data) {
