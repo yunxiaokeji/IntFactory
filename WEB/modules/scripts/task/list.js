@@ -346,7 +346,8 @@
                         for (var i = 0; i < data.items.length; i++) {
                             var item = data.items[i];
                             if (item.FinishStatus == 1) {
-                                ObjectJS.showTime(item, data.isWarns[i], data.endTimes[i], showtype);
+                                console.log(data.endTimes[i]);
+                                ObjectJS.showTime(item, item.WarningStatus, data.endTimes[i], showtype);
                             }
                         }
                     }

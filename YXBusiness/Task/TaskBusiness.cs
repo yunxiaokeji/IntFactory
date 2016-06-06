@@ -51,6 +51,33 @@ namespace IntFactoryBusiness
                 //model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
+                if (model.FinishStatus == 1)
+                {
+                    if (model.EndTime <= DateTime.Now)
+                    {
+                        model.WarningStatus = 2;
+                        model.WarningTime = "超期：" + (DateTime.Now - model.EndTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.EndTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.EndTime).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (DateTime.Now - model.EndTime).Days;
+                        model.UseDays = (model.EndTime - model.AcceptTime).Days;
+                    }
+                    else if ((model.EndTime - DateTime.Now).TotalHours * 3 < (model.EndTime - model.AcceptTime).TotalHours)
+                    {
+                        model.WarningStatus = 1;
+                        model.WarningTime = "剩余：" + (model.EndTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.EndTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.EndTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (model.EndTime - DateTime.Now).Days;
+                        model.UseDays = (DateTime.Now - model.AcceptTime).Days;
+                    }
+                    else
+                    {
+                        model.WarningTime = "剩余：" + (model.EndTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.EndTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.EndTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (model.EndTime - DateTime.Now).Days;
+                        model.UseDays = (DateTime.Now - model.AcceptTime).Days;
+                    }
+                }
+                else
+                {
+                    model.UseDays = (model.EndTime - model.AcceptTime).Days;
+                }
                 list.Add(model);
             }
 
