@@ -17,7 +17,7 @@
     
 }
 .index-report-header span {
-    color:#666!important;
+    color:#666;
 }
 
 .index-report-header .order-type span {
@@ -25,18 +25,20 @@
     line-height:20px; 
     display:inline-block;
     background-color:#fff;
-    border:1px solid #cecece;
+    border:1px solid #49b3f5;
     cursor:pointer;
 }
 
 .index-report-header .order-type span:first-child.hover { 
     border-right:none;
-    background-color:#eee;
+    background-color:#49b3f5;
+    color:#fff;
 }
 
 .index-report-header .order-type span:last-child.hover { 
     border-left:none;
-    background-color:#eee;
+    background-color:#49b3f5;
+    color:#fff;
 }
 
 .index-report-sum {
@@ -388,11 +390,33 @@ border-bottom:2px solid #4a98e7;
     background-color:#ffa200;
 }
 
-.author-message { width:430px;background-color:#fff;border:1px solid #cecece;}
-.author-message .author-head { line-height:50px;height:50px;font-size:18px;border-bottom:1px solid #cecece;color:#888;}
-.author-message ul li { width:33.3333%;float:left;text-align:center;box-sizing:border-box;height:80px;padding:15px 0;}
-.author-message ul p {font-size:14px;color:#555;line-height:24px;}
-.author-message ul p:first-child { font-size:20px;}
+.author-message { 
+    width:430px;
+    background-color:#fff;
+    border:1px solid #cecece;
+}
+.author-message .author-head {
+     line-height:50px;
+     height:50px;
+     font-size:18px;
+     border-bottom:1px solid #cecece;
+     color:#888;
+}
+.author-message ul li {
+     width:33.3333%;
+     float:left;
+     text-align:center;
+     box-sizing:border-box;
+     padding:30px 0;
+}
+.author-message ul p {
+    font-size:14px;
+    color:#555;
+    line-height:24px;
+}
+.author-message ul p:first-child { 
+    font-size:20px;
+}
 
 
 

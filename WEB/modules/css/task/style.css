@@ -425,14 +425,13 @@
 
 .task-top .picbox img{ max-width:248px;max-height:248px;}
 
-.task-top .picbox .hint-layer { position:absolute;left:0;top:0;width:50px;height:50px;display:block;overflow:hidden;}
-.task-top .picbox .hint-msg {width:80px;height:24px;background:red;color:#fff;line-height:24px;margin-left:-23px;margin-top:5px;text-align:center;transform: rotate(-45deg);-webkit-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-o-transform:rotate(-45deg);background-color:red;}
-
-
 
 .list-pic-box {position:relative;}
-.list-pic-box .hint-layer { position:absolute;left:0;top:0;width:50px;height:50px;display:block;overflow:hidden;}
-.list-pic-box .hint-msg {width:80px;height:24px;background:red;color:#fff;line-height:24px;margin-left:-23px;margin-top:5px;text-align:center;transform: rotate(-45deg);-webkit-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-o-transform:rotate(-45deg);background-color:red;}
+.task-top .picbox .hint-layer,.list-pic-box .hint-layer { position:absolute;left:0;top:0;width:50px;height:50px;display:block;overflow:hidden;}
+.task-top .picbox .hint-msg,.list-pic-box .hint-msg {width:80px;height:24px;background:red;color:#fff;line-height:24px;margin-left:-23px;margin-top:5px;text-align:center;transform: rotate(-45deg);-webkit-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-o-transform:rotate(-45deg);}
+
+.task-top .picbox .hint-msg.warning,.list-pic-box .hint-msg.warning { background-color:rgba(255,165,0,0.7); }
+.task-top .picbox .hint-msg.excced,.list-pic-box .hint-msg.excced { background-color:rgba(237,0,0,0.7);}
 
 .task-layer {position:absolute;left:0;bottom:0;width: 248px;background: rgba(119,119,119,0.6);padding:5px 0;}
 .task-imgtitlemark li:first-child {width:210px;}

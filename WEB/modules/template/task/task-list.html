@@ -1,16 +1,18 @@
 ﻿{%
-	for(var i=0, j=$data.length; i < j; i++){
+	for(var i=0; i<$data.length; i++){
 	var item = $data[i];
 %}
 <tr class="list-item" data-taskid="{%=item.TaskID%}" data-orderid="{%=item.OrderID%}" data-stageid="{%=item.StageID%}">
     <td class='tLeft'><span class="mark" data-id="{%= item.TaskID %}" data-value="{%= item.ColorMark %}"></span> </td>
     <td class="tLeft">
+        <a href="/Task/Detail/{%=item.TaskID%}">
         <div class="list-pic-box">
             <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="{%=item.OrderImg==''?'/modules/images/img-noimg.png':item.OrderImg%}"/>
             <div class='hint-layer hide'>
-                <div class='hint-msg hide'>已超期</div>
+                <div class='hint-msg {%=item.WarningStatus==0?"hide":item.WarningStatus==1?"warning":"excced"%}'>{%=item.WarningStatus==0?"":item.WarningStatus==1?"快到期":"已超期"%}</div>
             </div>
         </div>
+        </a>
     </td>
     <td class="center"><a href="/Task/Detail/{%=item.TaskID%}">{%=item.Title%}</a></td>
     <td class="center"><a href="/Task/Detail/{%=item.TaskID%}">{%=item.TaskCode%}</a></td>

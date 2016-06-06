@@ -307,7 +307,7 @@
                 <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
                     <td class="width80">
                         <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">
-                            <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
+                            <img src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
                         </a>
                     </td>
                     <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
@@ -364,13 +364,7 @@
         <div id="navEngravingInfo"></div>
         <div class="mTop20" style="font-size:14px; color:#666; margin-left:5px;">工艺</div>
         <table class="table-list mTop10 tb-plates">
-            <tr class="tr-header">
-                <td class="width50 tLeft">图标</td>
-                <td class="width150">名称</td>
-                <td class="width150">类型</td>
-                <td class="">描述</td>
-                <td class="width200">创建时间</td>
-            </tr>
+            
         </table>
     </div>
 
