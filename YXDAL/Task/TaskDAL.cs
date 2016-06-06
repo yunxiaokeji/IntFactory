@@ -306,7 +306,7 @@ namespace IntFactoryDAL
 
         public DataTable GetPlateMakings(string orderID, string taskID)
         {
-            string sqltext = "select * from PlateMaking where OrderID=@OrderID and TaskID=@TaskID and status<>9  order by createtime desc";
+            string sqltext = "select * from PlateMaking where OrderID=@OrderID and TaskID=@TaskID and status<>9  order by Type asc, createtime asc";
             if (string.IsNullOrEmpty(taskID))
             {
                 sqltext = "select * from PlateMaking where OrderID=@OrderID and status<>9  order by createtime desc";
