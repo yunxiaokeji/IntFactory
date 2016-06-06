@@ -110,7 +110,7 @@
                     var html = template(data.items);
                     html = $(html);
                     html.find(".dropdown").remove();
-                    $(".tb-plates .tr-header").after(html);
+                    $(".tb-plates").append(html);
                 });
             }
         else {            

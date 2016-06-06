@@ -194,3 +194,5 @@
 .total-item.hover { background-color:#fafafa; }
 
 .sample-report { cursor:pointer;}
+.typetitle {background-color:#eee;color:#007aff; }
+.typetitle:first-child {height:46px;}

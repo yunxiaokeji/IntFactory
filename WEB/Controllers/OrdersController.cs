@@ -190,11 +190,8 @@ namespace YXERP.Controllers
             var type = 1;
             var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
             var list = StockBusiness.GetGoodsDocByOrderID(id, taskid, (EnumDocType)type, CurrentUser.ClientID);
-            var orderid = model.OriginalID;
-            var obj = TaskBusiness.GetPlateMakings(orderid);
             ViewBag.Model = model;
             ViewBag.List = list;
-            ViewBag.Obj = obj;
             return View();
         }
 
