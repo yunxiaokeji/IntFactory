@@ -1,7 +1,6 @@
 ﻿@{
     var order = (IntFactoryEntity.OrderEntity)ViewBag.Model;
-    var goods = (List<IntFactoryEntity.GoodsDoc>)ViewBag.List;
-    var obj = (List<IntFactoryEntity.Task.PlateMaking>)ViewBag.Obj;
+    var goods = (List<IntFactoryEntity.GoodsDoc>)ViewBag.List;   
     ViewBag.title = "制版工艺单";
     Layout = null;
 }
@@ -20,12 +19,14 @@
     <link href="/modules/css/order/platemakingprocess.css" rel="stylesheet" />
     <link href="/modules/css/iconfont/iconfont.css" rel="stylesheet" />
 
+    <script src="/modules/plug/doT.js"></script>
     <script src="/Scripts/jquery-1.11.1.js"></script>    
     <script src="/Scripts/sea.js"></script>
     <script src="/Scripts/sea-config.js"></script>
+    
     <script type="text/javascript">
         seajs.use(["scripts/orders/platemakingprocess"], function (obj) {
-            obj.init('@(order.Platemaking)','@(order.OrderImage)');
+            obj.init('@(order.Platemaking)','@(order.OrderImage)',"@(order.OrderID)");
         })
     </script>
 </head>
@@ -35,7 +36,7 @@
         
         <div class="process left">
             <table style="width:955px;">
-                <tr class="bgcolorC0C0C0" style="height:50px">
+                <tr class="head" style="height:50px">
                     <td class="no-border-right">
                         <img src="@(order.OrderImage==""?"/modules/images/none-img.png":order.OrderImage)" />
                     </td>
@@ -76,16 +77,16 @@
                     <td colspan="7" class="no-border-top">
                         <table class="no-border goosddoc" style="width:635px;height:100%;">
                             <tr>
-                                <td colspan="7" class="font18 no-border-top fontbold bgcolorC0C0C0 no-border-top no-border-left no-border-right" style="height:51px;"><i class="iconfont icon-delete goods">&#xe613;</i>下单明细</td>
+                                <td colspan="7" class="font18 no-border-top fontbold head no-border-top no-border-left no-border-right" style="height:51px;"><i class="iconfont icon-delete goods">&#xe613;</i>下单明细</td>
                             </tr>
                             <tr>
-                                <td class="bgcolorC0C0C0 fontbold no-border-left">规格</td>
-                                <td class="bgcolorC0C0C0 fontbold">下单数量</td>
-                                <td class="bgcolorC0C0C0 fontbold">裁片/织片数量</td>
-                                <td class="bgcolorC0C0C0 fontbold">缝制/套口数量</td>
-                                <td class="bgcolorC0C0C0 fontbold">发货数量</td>
-                                <td class="bgcolorC0C0C0 fontbold">剩余未发</td>                
-                                <td class="bgcolorC0C0C0 fontbold no-border-right">小计</td>
+                                <td class="head fontbold no-border-left">规格</td>
+                                <td class="head fontbold">下单数量</td>
+                                <td class="head fontbold">裁片/织片数量</td>
+                                <td class="head fontbold">缝制/套口数量</td>
+                                <td class="head fontbold">发货数量</td>
+                                <td class="head fontbold">剩余未发</td>                
+                                <td class="head fontbold no-border-right">小计</td>
 
                             </tr>
                             @if (order.OrderGoods.Count > 0)
@@ -114,7 +115,7 @@
                             }
                             else
                             {
-                                <tr><td colspan="7"><div class="nodata-txt">暂无明细</div></td></tr>
+                                <tr><td class="no-border-bottom no-border-left" colspan="7"><div class="nodata-txt">暂无明细</div></td></tr>
                             }   
                    
                         </table>
@@ -125,9 +126,9 @@
                     <td colspan="7" class="no-border-top">
                         <table class="no-border navsenddoc" style="width:635px;height:100%;">
                             <tr>
-                                <td colspan="4" class="font18 bgcolorC0C0C0 fontbold no-border" style="height:50px;"><i class="iconfont icon-delete senddoc">&#xe613;</i>裁片/织片</td>
+                                <td colspan="4" class="font18 head fontbold no-border" style="height:50px;"><i class="iconfont icon-delete senddoc">&#xe613;</i>裁片/织片</td>
                             </tr>
-                            <tr class="bgcolorC0C0C0 fontbold">
+                            <tr class="head fontbold">
                                 <td class="no-border-left no-border-fight">单号</td>
                                 <td>数量</td>
                                 <td>登记人</td>
@@ -173,9 +174,9 @@
             <div class="clear"></div>
             <table class="navproducts no-border">
                 <tr>
-                    <td colspan="11" class="font18 fontbold no-border-top tLeft bgcolorC0C0C0 hight40"><i class="iconfont icon-delete products">&#xe613;</i>一、材料成本</td>
+                    <td colspan="11" class="font18 fontbold no-border-top tLeft head hight40"><i class="iconfont icon-delete products">&#xe613;</i>一、材料成本</td>
                 </tr>
-                <tr class="bgcolorC0C0C0 fontbold" style="height:30px;">
+                <tr class="head fontbold" style="height:30px;">
                     <td class="width100">样图</td>
                     <td class="width80">材料名称</td>
                     <td class="width80">编码</td>
@@ -221,7 +222,7 @@
             </table>                      
             <table class="navengraving no-border" style="width:955px;">
                 <tr>
-                    <td colspan="10" class="font18 fontbold no-border-top tLeft bgcolorC0C0C0 hight40"><i class="iconfont icon-delete raving">&#xe613;</i>二、制版</td>
+                    <td colspan="10" class="font18 fontbold no-border-top tLeft head hight40"><i class="iconfont icon-delete raving">&#xe613;</i>二、制版</td>
                 </tr>
                 <tr>
                     <td id="Platemak" colspan="10"></td>
@@ -229,35 +230,7 @@
             </table>  
            
             <table class="processplate no-border" style="width:955px">
-                @if (obj.Count>0)
-                {
-                    foreach (var item in obj)
-                    {
-                        <tr class="proplate">
-                            <td class="bgcolorC0C0C0 fontbold font18 tLeft hight40 no-border-top" colspan="10"><i class="iconfont icon-delete pro">&#xe613;</i>@(item.Type==0?"三、裁剪":item.Type==1?"四、粘衬":item.Type==2?"五、缝制工艺":item.Type==3?"六、成衣整烫":item.Type==4?"七、成衣检验":"八、成品包装")</td>
-                        </tr>
-                        <tr class="proplate">
-                            <td colspan="2">图标</td>
-                            <td colspan="2">名称</td>
-                            <td colspan="4">描述</td>
-                            <td colspan="2">创建时间</td>
-                        </tr>
-                    
-                        <tr class="proplate">
-                            <td colspan="2"><img style="width:30px;height:30px;" src="@(item.Icon)" /></td>
-                            <td colspan="2">@(item.Title)</td>
-                            <td colspan="4">@(item.Remark)</td>
-                            <td colspan="2">@(item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"))</td>
-                        </tr>
-                    }
-
-                }
-                else
-                {
-                    <tr class="proplate">
-                        <td colspan="10"><div class="nodata-txt">暂无工艺</div></td>
-                    </tr>
-                }
+                
 
                 <tr>
                     <td class="width115 font16 fontbold tLeft no-border-top" colspan="10">备注：避免每个人对专业术语理解误差，由此工艺单供参考，具体工艺参照样衣</td>                

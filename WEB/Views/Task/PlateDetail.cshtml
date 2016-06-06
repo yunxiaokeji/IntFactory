@@ -9,8 +9,8 @@
     @{
         if (!string.IsNullOrEmpty(order.Platemaking) && isRoot)
         {
-            <a class="right" href="/Task/PlatePrint/@order.OrderID" target="_blank" id="btn-platePrint" title="打印制版">
-                <span class="iconfont">&#xe658;</span><span class="print-plate">打印制版</span>
+            <a class="right" href="/Orders/PlateMakingProcess/@order.OrderID" target="_blank" id="btn-platePrint" title="制版工艺">
+                <span class="iconfont">&#xe658;</span><span class="print-plate">制版工艺</span>
             </a>
         }
     }
@@ -50,7 +50,7 @@
     <div class="clear"></div>
 
     @{
-        <div class="mTop30">
+        <div class="mTop30 plate">
             <div class="talk-title" >工艺说明
                 @{if (isRoot && task.Mark==12)
                   {
@@ -58,7 +58,9 @@
                 <div class="clear"></div>}
                 }
             </div>
-            
+            <table class="table-list mTop10 tb-plates">
+
+            </table>
         </div>
     }
 </div>

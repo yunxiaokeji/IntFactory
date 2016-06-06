@@ -1225,9 +1225,11 @@
                     PlateMakings = data.items;
                     var html = template(data.items);
                     html = $(html);
-                    $(".tb-plates .tr-header").after(html);
+                    $(".tb-plates").append(html);
 
- 
+                    $(".typetitle").css({"background-color":"#eee","color":"#007aff"});
+                    $(".typetitle:first").css("height", "46px");
+
                     if ($("#btnAddPalte").length == 1) {
                         html.find(".dropdown").click(function () {
                             var _this = $(this);
@@ -1299,6 +1301,7 @@
                             }
                             else {
                                 ObjectJS.getPlateMakings();
+                                window.location = window.location;
                             }
                         });
                         

@@ -1,17 +1,18 @@
 ﻿define(function (require,exports,module) {
-
+    var Global = require("global");
     var Objects = {};
 
-    Objects.init = function (plate,img) {
+    Objects.init = function (plate, img, OrderID) {
         Objects.bindEvent(plate,img);
         Objects.removeTaskPlateOperate();
         Objects.getAmount();
         Objects.imgOrderTable();
+        Objects.processPlate(OrderID);
     };
 
     Objects.bindEvent = function (plate,img) {
         if (plate == "") {
-            $("#Platemak").html('<tr><td class="no-border" style="width:500px;font-size:15px;">暂无！</td></tr>')
+            $("#Platemak").html('<tr><td class="no-border" style="width:954px;font-size:15px;height:50px;">暂无！</td></tr>')
         } else {
             $("#Platemak").html(decodeURI(plate));
         };
@@ -75,6 +76,8 @@
             $(".print").remove();
             window.print();            
         });
+
+        
     };
 
     //删除行操作按钮(制版工艺)
@@ -122,5 +125,20 @@
         $(".img-order img").height(height/2);
     }
 
+    Objects.processPlate = function (OrderID) {
+        Global.post("/Task/GetPlateMakings", {
+            orderID: OrderID
+        }, function (data) {
+            if (data.items.length > 0) {
+                doT.exec("template/orders/processplate.html", function (template) {                    
+                    var html = template(data.items);
+                    html = $(html);
+                    $(".processplate").prepend(html);
+                });
+            } else {
+                $(".processplate").prepend('<tr class="proplate"><td colspan="10" class="no-border-top"><div class="nodata-txt">暂无工艺</div></td></tr>');
+            }
+        });    
+    };
     module.exports = Objects;
 });
