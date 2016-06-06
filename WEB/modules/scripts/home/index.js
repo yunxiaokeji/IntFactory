@@ -221,8 +221,8 @@
                         var backgroundColor = _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8";
                         $(".report-item li").removeClass('checked').css({ "box-shadow": "none" });
                         _this.addClass('checked').css({ "box-shadow": "2px 2px 10px " + backgroundColor });
-                        $(".order-layerbox .layer-lump").nextAll().remove();
                         $(".list-header .list-total").css("background-color", backgroundColor);
+                        $(".order-layerbox .layer-lump").nextAll().remove();
 
                         ObjectJS.getDataList();
                 }
@@ -324,7 +324,7 @@
 
                     });
 
-                    innerText.find('.layer-line').css({ width: 0, left: 160 });
+                    innerText.find('.layer-line').css({ width: 0, left: "160px" });
                 });
             }
 
