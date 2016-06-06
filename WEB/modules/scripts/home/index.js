@@ -253,36 +253,23 @@
         if (item.totalCount > 0) {
             var lineHeight = 0;
             var isShow = false;
+            var countArr = [item.exceedCount, item.warnCount, item.workCount, item.finishCount];
+            var classNameArr = ["item-exceed", "item-warn", "item-work", "item-finish"];
             var html = '';
             html += '<div class="report-item" style="left:' + (75 * ReportIndex) + 'px">';
             html += '    <ul>';
-            if (item.exceedCount > 0 && (ObjectJS.orderFilter == -1 || ObjectJS.orderFilter == 1)) {
-                lineHeight = item.exceedCount * ReportAvgHeight;
-                lineHeight = lineHeight < 10 ? ReportMinHeight : lineHeight;
-                isShow = true;
+            
+            for (var i = 0; i < 4; i++) {
+                var count = countArr[i];
+                var classname = classNameArr[i];
+                var type=i+1;
+                if (count > 0 && (ObjectJS.orderFilter == -1 || ObjectJS.orderFilter == type)) {
+                    lineHeight = count * ReportAvgHeight;
+                    lineHeight = lineHeight < 10 ? ReportMinHeight : lineHeight;
+                    isShow = true;
 
-                html += '<li style="line-height:' + lineHeight + 'px;" class="item-exceed" data-count="' + item.exceedCount + '" data-date="'+item.date+'" data-type="1">' + item.exceedCount + '</li>';
-            }
-            if (item.warnCount > 0 && (ObjectJS.orderFilter == -1 || ObjectJS.orderFilter == 2)) {
-                lineHeight = item.warnCount * ReportAvgHeight;
-                lineHeight = lineHeight < 10 ? ReportMinHeight : lineHeight;
-                isShow = true;
-
-                html += '<li style="line-height:' + lineHeight + 'px;" class="item-warn" data-count="' + item.warnCount + '" data-date="' + item.date + '" data-type="2">' + item.warnCount + '</li>';
-            }
-            if (item.workCount > 0 && (ObjectJS.orderFilter == -1 || ObjectJS.orderFilter == 3)) {
-                lineHeight = item.workCount * ReportAvgHeight;
-                lineHeight = lineHeight < 10 ? ReportMinHeight : lineHeight;
-                isShow = true;
-
-                html += '<li style="line-height:' + lineHeight + 'px;" class="item-work" data-count="' + item.workCount + '" data-date="' + item.date + '" data-type="3">' + item.workCount + '</li>';
-            }
-            if (item.finishCount > 0 && (ObjectJS.orderFilter == -1 || ObjectJS.orderFilter == 4)) {
-                lineHeight = item.finishCount * ReportAvgHeight;
-                lineHeight = lineHeight < 10 ? ReportMinHeight : lineHeight;
-                isShow = true;
-
-                html += ' <li style="line-height:' + lineHeight + 'px;" class="item-finish" data-count="' + item.finishCount + '" data-date="' + item.date + '" data-type="4">' + item.finishCount + '</li>';
+                    html += '<li style="line-height:' + lineHeight + 'px;" class="' + classname + '" data-count="' + count + '" data-date="' + item.date + '" data-type="' + type + '">' + count + '</li>';
+                }
             }
             html += '    </ul>';
             html += '    <div class="item-date">' + item.date + '</div>';
