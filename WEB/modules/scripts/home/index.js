@@ -139,7 +139,7 @@
         var loadding = "<div class='data-loading'>";
         $(".report-guid").append(loadding);
 
-        var data=CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType] ;
+        var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "ReportList"];
         if (data == null) {
             IsLoadding = false;
             var action = Paras.moduleType == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
@@ -147,7 +147,7 @@
                 $(".report-guid").find('.data-loading').remove();
                 IsLoadding = true;
 
-                CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType] = data;
+                CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "ReportList"] = data;
                 OrderListCache = data.items;
                 ObjectJS.bindReport();
                 $("#totalSumCount").html(data.totalSumCount);
@@ -303,7 +303,7 @@
         var data = null;
         if (Paras.pageIndex == 1) {
             $(".order-layerbox").find('.layer-lump').nextAll().remove();
-            var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType];
+            data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "DataList"];
         }
 
         $(".order-layerbox").append("<div class='data-loading'></div>");
@@ -320,10 +320,10 @@
                 IsLoaddingTwo = true;
                 $('.data-loading').remove();
 
-                if (Paras.pageIndex == 1) {
-                    CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType] = data;
-                }
                 var items = data.items;
+                if (Paras.pageIndex == 1) {
+                    CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "DataList"] = data;
+                }
                 if (items.length == 0) {
                     $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
                 }
@@ -388,7 +388,6 @@
         else {
             IsLoaddingTwo = true;
             $('.data-loading').remove();
-
             var items = data.items;
             if (items.length == 0) {
                 $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
