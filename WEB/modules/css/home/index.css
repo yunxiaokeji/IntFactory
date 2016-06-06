@@ -17,7 +17,7 @@
     
 }
 .index-report-header span {
-    color:#666!important;
+    color:#666;
 }
 
 .index-report-header .order-type span {
@@ -25,18 +25,20 @@
     line-height:20px; 
     display:inline-block;
     background-color:#fff;
-    border:1px solid #cecece;
+    border:1px solid #49b3f5;
     cursor:pointer;
 }
 
 .index-report-header .order-type span:first-child.hover { 
     border-right:none;
-    background-color:#eee;
+    background-color:#49b3f5;
+    color:#fff;
 }
 
 .index-report-header .order-type span:last-child.hover { 
     border-left:none;
-    background-color:#eee;
+    background-color:#49b3f5;
+    color:#fff;
 }
 
 .index-report-sum {

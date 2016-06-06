@@ -122,7 +122,6 @@
         //加载完毕绑定加载更多事件
         $('.load-more').click(function () {
             if (IsLoadding && IsLoaddingTwo) {
-               
                 Paras.pageIndex++;
                 ObjectJS.getDataList();
             }
@@ -140,6 +139,7 @@
         $(".report-guid").append(loadding);
 
         var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "ReportList"];
+
         if (data == null) {
             IsLoadding = false;
             var action = Paras.moduleType == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
@@ -298,8 +298,9 @@
         }
     }
 
-    //获取数据
+    //获取列表数据
     ObjectJS.getDataList = function () {
+
         var data = null;
         if (Paras.pageIndex == 1) {
             $(".order-layerbox").find('.layer-lump').nextAll().remove();
@@ -309,12 +310,7 @@
         $(".order-layerbox").append("<div class='data-loading'></div>");
 
         IsLoaddingTwo = false;
-        var moduleType = Paras.moduleType;
-        var url = "/template/home/index-order.html";
-        if (moduleType == 2) {
-            url = "/template/home/index-task.html";
-        }
-
+       
         if (data == null) {
             Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
                 IsLoaddingTwo = true;
@@ -324,130 +320,83 @@
                 if (Paras.pageIndex == 1) {
                     CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "DataList"] = data;
                 }
-                if (items.length == 0) {
-                    $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
-                }
-                else {
-                    DoT.exec(url, function (template) {
-                        var innerText = template(items);
-                        innerText = $(innerText);
-                        $(".order-layerbox").append(innerText);
-
-                        innerText.find('.order-progress-item').each(function () {
-                            var _this = $(this);
-                            _this.css({ "width": _this.data('width') });
-                        });
-
-                        $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
-                            var _this = $(this);
-                            _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
-
-                        });
-
-                        innerText.find('.layer-line').css({ width: 0, left: "160px" });
-                    });
-                }
-
-                //如果最后已到了最后一页则移除加载更多按钮
-                if (data.pageCount == Paras.pageIndex) {
-                    $(".load-box").hide();
-                }
-                else {
-                    if (data.pageCount > 1) {
-                        $(".load-box").show();
-                    }
-                }
-
-                //切换模块显示任务或订单描述
-                var orderMsg = "任务";
-                var totalEcceed = "超期任务总数:";
-                if (Paras.moduleType == 1) {
-                    orderMsg = "订单";
-                    totalEcceed = "超期订单总数:";
-                }
-                $(".order-msg").html(orderMsg);
-                $(".ordertotal .total-ecceed").prev().html(totalEcceed);
-
-
-                //判断是否选择时间没有列表时间则显示已超期
-                var timeHtml = $(".show-timemsg");
-                if (Paras.filterTime != '') {
-                    timeHtml.html(data.showTime);
-
-                }
-                else {
-                    timeHtml.html('已超期');
-                    $(".list-total").css({ "background-color": "#f35353" });
-
-                    $(".total-ecceed").html(data.getTotalCount);
-                }
-                $(".list-total").html(data.getTotalCount);
-
-            });
+                ObjectJS.createDataListHtml(data);
+            })
         }
         else {
-            IsLoaddingTwo = true;
-            $('.data-loading').remove();
-            var items = data.items;
-            if (items.length == 0) {
-                $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
-            }
-            else {
-                DoT.exec(url, function (template) {
-                    var innerText = template(items);
-                    innerText = $(innerText);
-                    $(".order-layerbox").append(innerText);
-
-                    innerText.find('.order-progress-item').each(function () {
-                        var _this = $(this);
-                        _this.css({ "width": _this.data('width') });
-                    });
-
-                    $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
-                        var _this = $(this);
-                        _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
-
-                    });
-
-                    innerText.find('.layer-line').css({ width: 0, left: "160px" });
-                });
-            }
-
-            //如果最后已到了最后一页则移除加载更多按钮
-            if (data.pageCount == Paras.pageIndex) {
-                $(".load-box").hide();
-            }
-            else {
-                if (data.pageCount > 1) {
-                    $(".load-box").show();
-                }
-            }
-
-            //切换模块显示任务或订单描述
-            var orderMsg = "任务";
-            var totalEcceed = "超期任务总数:";
-            if (Paras.moduleType == 1) {
-                orderMsg = "订单";
-                totalEcceed = "超期订单总数:";
-            }
-            $(".order-msg").html(orderMsg);
-            $(".ordertotal .total-ecceed").prev().html(totalEcceed);
-
-
-            //判断是否选择时间没有列表时间则显示已超期
-            var timeHtml = $(".show-timemsg");
-            if (Paras.filterTime != '') {
-                timeHtml.html(data.showTime);
-
-            }
-            else {
-                timeHtml.html('已超期');
-                $(".list-total").css({ "background-color": "#f35353" });
-
-                $(".total-ecceed").html(data.getTotalCount);
-            }
-            $(".list-total").html(data.getTotalCount);
+            ObjectJS.createDataListHtml(data);
         }
+    }
+
+    //拼接列表数据
+    ObjectJS.createDataListHtml = function (data) {
+        var moduleType = Paras.moduleType;
+        var url = "/template/home/index-order.html";
+        if (moduleType == 2) {
+            url = "/template/home/index-task.html";
+        }
+
+        IsLoaddingTwo = true;
+        $('.data-loading').remove();
+        var items = data.items;
+        if (items.length == 0) {
+            $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
+        }
+        else {
+            DoT.exec(url, function (template) {
+                var innerText = template(items);
+                innerText = $(innerText);
+                $(".order-layerbox").append(innerText);
+
+                innerText.find('.order-progress-item').each(function () {
+                    var _this = $(this);
+                    _this.css({ "width": _this.data('width') });
+                });
+
+                $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
+                    var _this = $(this);
+                    _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
+
+                });
+
+                innerText.find('.layer-line').css({ width: 0, left: "160px" });
+            });
+        }
+
+        //如果最后已到了最后一页则移除加载更多按钮
+        if (data.pageCount == Paras.pageIndex) {
+            $(".load-box").hide();
+        }
+        else {
+            if (data.pageCount > 1) {
+                $(".load-box").show();
+            }
+        }
+
+        //切换模块显示任务或订单描述
+        var orderMsg = "任务";
+        var totalEcceed = "超期任务总数:";
+        if (Paras.moduleType == 1) {
+            orderMsg = "订单";
+            totalEcceed = "超期订单总数:";
+        }
+        $(".order-msg").html(orderMsg);
+        $(".ordertotal .total-ecceed").prev().html(totalEcceed);
+
+
+        //判断是否选择时间没有列表时间则显示已超期
+        var timeHtml = $(".show-timemsg");
+        if (Paras.filterTime != '') {
+            timeHtml.html(data.showTime);
+
+        }
+        else {
+            timeHtml.html('已超期');
+            $(".list-total").css({ "background-color": "#f35353" });
+
+            $(".total-ecceed").html(data.getTotalCount);
+        }
+        $(".list-total").html(data.getTotalCount);
     }
 
     //获取统计总数
