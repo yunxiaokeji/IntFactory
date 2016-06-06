@@ -302,6 +302,8 @@ border-bottom:2px solid #4a98e7;
 .order-progress .order-progress-item {
     width:80px;
     height:4px;
+    min-width:5px;
+    max-width:155px;
     background-color:#5994e6;
     float:left;
     position:relative;
