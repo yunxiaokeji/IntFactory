@@ -19,6 +19,7 @@
     }
 
     var ObjectJS = {};
+
     ObjectJS.orderFilter = -1;
 
     ObjectJS.init = function (level, userID) {
@@ -89,14 +90,16 @@
                 dataText: "Name",
                 width: "110",
                 onChange: function (data) {
-                    if (IsLoadding && IsLoaddingTwo) {
-                        Paras.orderType = data.value;
-                        Paras.pageIndex = 1;
-                        ObjectJS.getDataList();
-                        ObjectJS.getReportList();
-                    }
-                    else {
-                        alert("数据加载中，请稍等 !");
+                    if (Paras.orderType != data.value) {
+                        if (IsLoadding && IsLoaddingTwo) {
+                            Paras.orderType = data.value;
+                            Paras.pageIndex = 1;
+                            ObjectJS.getDataList();
+                            ObjectJS.getReportList();
+                        }
+                        else {
+                            alert("数据加载中，请稍等 !");
+                        }
                     }
                 }
             });
@@ -110,9 +113,6 @@
                     Paras.filterType = 1;
                     ObjectJS.getDataList();
                 }
-                else {
-                    alert("已经显示所有超期数据了!");
-                }
             }
             else {
                 alert("数据加载中，请稍等 !");
@@ -122,7 +122,6 @@
 
         //加载完毕绑定加载更多事件
         $('.load-more').click(function () {
-            console.log("11");
             if (IsLoadding && IsLoaddingTwo) {
                
                 Paras.pageIndex++;
@@ -212,20 +211,27 @@
         });
 
         $(".report-item li").click(function () {
-            if (IsLoadding && IsLoaddingTwo) {
-                var _this = $(this);
-                Paras.pageIndex = 1;
-                Paras.filterType = _this.data('type');
-                Paras.filterTime = _this.data('date');
-                $(".order-layerbox .layer-lump").nextAll().remove();
-                $(".list-header .list-total").css("background-color", _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8");
+            var _this = $(this);
+            if ((Paras.filterType != _this.data('type') || Paras.filterTime != _this.data('date')) || !_this.hasClass('checked')) {
+                if (IsLoadding && IsLoaddingTwo) {
+                        Paras.pageIndex = 1;
+                        Paras.filterType = _this.data('type');
+                        Paras.filterTime = _this.data('date');
 
-                ObjectJS.getDataList();
-            }
-            else {
-                alert("数据加载中，请稍等 !");
+                        var backgroundColor = _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8";
+                        $(".report-item li").removeClass('checked').css({ "box-shadow": "none" });
+                        _this.addClass('checked').css({ "box-shadow": "2px 2px 10px " + backgroundColor });
+                        $(".order-layerbox .layer-lump").nextAll().remove();
+                        $(".list-header .list-total").css("background-color", backgroundColor);
+
+                        ObjectJS.getDataList();
+                }
+                else {
+                    alert("数据加载中，请稍等 !");
+                }
             }
         });
+
     }
 
     //拼接报表柱状图形
@@ -347,14 +353,15 @@
             var timeHtml = $(".show-timemsg");
             if (Paras.filterTime !='') {
                 timeHtml.html(data.showTime);
+                
             }
             else {
                 timeHtml.html('已超期');
                 $(".list-total").css({ "background-color": "#f35353" });
+
+                $(".total-ecceed").html(data.getTotalCount);
             }
-            //
             $(".list-total").html(data.getTotalCount);
-            $(".total-ecceed").html(data.getTotalCount);
 
         })
     }
