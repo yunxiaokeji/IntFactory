@@ -296,7 +296,7 @@ namespace IntFactoryDAL
         #region PlateMaking
         public DataTable GetPlateMakings(string orderID)
         {
-            string sqltext = "select * from PlateMaking where OrderID=@OrderID and status<>9 order by createtime desc";
+            string sqltext = "select * from PlateMaking where OrderID=@OrderID and status<>9  order by Type asc, createtime asc";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderID)

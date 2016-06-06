@@ -1212,13 +1212,13 @@
 
     //获取制版工艺说明
     ObjectJS.getPlateMakings = function () {
-        $(".tb-plates .tr-header").nextAll().remove();
-        $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
+        $(".tb-plates").html('');
+        $(".tb-plates").html("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Task/GetPlateMakings", {
             orderID:ObjectJS.mark==22?ObjectJS.originalID: ObjectJS.orderid
         }, function (data) {
-            $(".tb-plates .tr-header").nextAll().remove();
+            $(".tb-plates").html('');
 
             if (data.items.length > 0) {
                 DoT.exec("template/task/platemarting-list.html", function (template) {
@@ -1248,7 +1248,7 @@
                 });
             }
             else {
-                $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='nodata-txt'>暂无数据!<div></td></tr>");
+                $(".tb-plates").html("<tr><td colspan='5'><div class='nodata-txt'>暂无数据!<div></td></tr>");
             }
         });
     }
@@ -1293,19 +1293,15 @@
                             TaskID: ObjectJS.taskid,
                             Type: $("#selectType").val()
                         }
-
-                                      
+         
                         Global.post("/Task/SavePlateMaking", { plate: JSON.stringify(Plate) }, function (data) {
                             if (data.result == 0) {
                                 alert("保存失败");
                             }
                             else {
                                 ObjectJS.getPlateMakings();
-                                window.location = window.location;
                             }
                         });
-                        
-
                     }
                 }
             });
