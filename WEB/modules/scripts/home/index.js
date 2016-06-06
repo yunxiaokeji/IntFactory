@@ -122,7 +122,6 @@
 
         //加载完毕绑定加载更多事件
         $('.load-more').click(function () {
-            console.log("11");
             if (IsLoadding && IsLoaddingTwo) {
                
                 Paras.pageIndex++;
