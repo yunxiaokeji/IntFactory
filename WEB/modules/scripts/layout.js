@@ -83,7 +83,7 @@ define(function (require, exports, module) {
 
         //窗体滚动 置顶头部
         $(window).scroll(function(){  
-            if ($(window).scrollTop()>100){  
+            if ($(window).scrollTop()>50){  
                 $(".back-top").fadeIn(500);
             }  
             else  

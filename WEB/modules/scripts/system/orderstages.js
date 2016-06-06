@@ -155,7 +155,6 @@
                 $("#iptStageName").val(name);
                 $("#iptNeedDays").val(hours);
                 $("#addOrderStage .stage-item[data-id='" + mark + "']").addClass("hover");
-                console.log(hours);
             }
 
             $("#addOrderStage .stage-item").click(function () {
