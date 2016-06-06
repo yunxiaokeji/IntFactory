@@ -26,7 +26,7 @@
     
     <script type="text/javascript">
         seajs.use(["scripts/orders/platemakingprocess"], function (obj) {
-            obj.init('@(order.Platemaking)','@(order.OrderImage)',"@(order.OrderID)");
+            obj.init('@(order.Platemaking)', '@(order.OrderImage)', "@(order.OrderID)", "@(order.OriginalID)", "@(order.Mark)");
         })
     </script>
 </head>
@@ -72,6 +72,7 @@
                     <td class="no-border-left"></td>         
                 </tr>
             </table>   
+
             <table class="navgoods no-border left">
                 <tr>
                     <td colspan="7" class="no-border-top">
@@ -161,6 +162,7 @@
                 </tr>                 
 
             </table>
+
             <table class="no-border img-order">
                 <tr>
                     <td class="no-border-top no-border-left">前片图片</td>
@@ -171,10 +173,12 @@
                     <td><img src="@(order.OrderImage==""?"/modules/images/none-img.png":order.OrderImage)" /></td>
                 </tr>
             </table>
+
             <div class="clear"></div>
+
             <table class="navproducts no-border">
                 <tr>
-                    <td colspan="11" class="font18 fontbold no-border-top tLeft head hight40"><i class="iconfont icon-delete products">&#xe613;</i>一、材料成本</td>
+                    <td colspan="11" class="font18 fontbold no-border-top tLeft head hight40"><i class="iconfont icon-delete products">&#xe613;</i>材料成本</td>
                 </tr>
                 <tr class="head fontbold" style="height:30px;">
                     <td class="width100">样图</td>
@@ -219,10 +223,11 @@
                 {
                     <tr><td colspan="11"><div class="nodata-txt">暂无材料</div></td></tr>
                 }           
-            </table>                      
+            </table>    
+                              
             <table class="navengraving no-border" style="width:955px;">
                 <tr>
-                    <td colspan="10" class="font18 fontbold no-border-top tLeft head hight40"><i class="iconfont icon-delete raving">&#xe613;</i>二、制版</td>
+                    <td colspan="10" class="font18 fontbold no-border-top tLeft head hight40"><i class="iconfont icon-delete raving">&#xe613;</i>制版</td>
                 </tr>
                 <tr>
                     <td id="Platemak" colspan="10"></td>
@@ -248,13 +253,20 @@
                 <span class="fontbold">制单日期:</span>
                 <span>2015.4.21</span>
             </div>
-            <div>
+
+            <div class="mBottom20">
                 <span class="btn mTop10">保存</span>
             </div>
+
         </div>
+
         <div class="print hide mTop25">
             
         </div>
+        <div class="get-back hide mTop25">
+            
+        </div>
+
     </div>
 </body>
 </html>
