@@ -14,7 +14,7 @@
         userID: '',
         moduleType:1,//模块类型 1.订单  2.任务
         orderType: -1,
-        pageSize:10,
+        pageSize:5,
         pageIndex:1
     }
 
@@ -271,6 +271,7 @@
                     html += '<li style="line-height:' + lineHeight + 'px;" class="' + classname + '" data-count="' + count + '" data-date="' + item.date + '" data-type="' + type + '">' + count + '</li>';
                 }
             }
+
             html += '    </ul>';
             html += '    <div class="item-date">' + item.date + '</div>';
             html += '</div>';
