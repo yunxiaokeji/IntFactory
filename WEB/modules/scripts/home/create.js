@@ -22,7 +22,7 @@
         //require("moment")
 
         if ($("#iptCreateTime").length == 1) {
-            moment = require("moment");
+            require("moment");
             require("daterangepicker");
         }
 

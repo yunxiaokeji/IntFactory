@@ -3,10 +3,12 @@
 }
 @section css{
     <link href="/modules/css/order/create.css" rel="stylesheet" />
+    <link href="/modules/plug/laydate/need/laydate.css" rel="stylesheet" />
 }
 
 
 @section scripts{
+    <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/orders/create"], function (ObjectJS) {
             ObjectJS.init('@ViewBag.CID');
@@ -60,6 +62,10 @@
         <li>
             <span class="column-title">期望价格：</span>
             <span><input type="text" maxlength="10" id="planPrice"  data-empty="必填" data-type="double" class="input verify" /></span>
+        </li>
+        <li>
+            <span class="column-title">交货日期：</span>
+            <span><input type="text" id="iptCreateTime" readonly="true" placeholder="期望交货日期"  class="ipt-date hand" style="width:150px"  /></span>
         </li>
         <li>
             <span class="column-title">快递单号：</span> 

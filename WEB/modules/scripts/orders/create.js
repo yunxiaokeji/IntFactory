@@ -12,6 +12,11 @@
         var _self = this;
         _self.customerid = customerid;
         
+        if ($("#iptCreateTime").length == 1) {
+            moment = require("moment");
+            require("daterangepicker");
+        }
+
         if (customerid) {
             Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
                 if (data.model.CustomerID) {
@@ -107,6 +112,25 @@
             }
         });
 
+        //日期插件
+        if ($("#iptCreateTime").length == 1) {
+            $("#iptCreateTime").click(function () {
+                var myDate = new Date();
+                var minDate = myDate.toLocaleDateString();
+                minDate = minDate + " 23:59:59"
+                //期望交货日期
+                var taskEndTime = {
+                    elem: '#iptCreateTime',
+                    format: 'YYYY-MM-DD',
+                    min: minDate,
+                    max: '2099-06-16',
+                    istime: false,
+                    istoday: false
+                };
+                laydate(taskEndTime);
+            })
+        }
+
         $("#bigcategory").change(function () {
             var _this = $(this);
             $("#ordercategory").empty();
@@ -138,6 +162,7 @@
             CustomerID: _self.customerid,
             PersonName: $("#name").val().trim(),
             OrderType: $(".ico-radiobox.hover").data('type'),
+            PlanTime: $("#iptCreateTime").val() == null ? "" : $("#iptCreateTime").val(),
             BigCategoryID: $("#bigcategory").val().trim(),
             CategoryID: $("#ordercategory").val().trim(),
             CityCode: CityObject.getCityCode(),
