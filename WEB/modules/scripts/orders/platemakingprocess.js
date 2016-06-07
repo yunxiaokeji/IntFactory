@@ -2,12 +2,12 @@
     var Global = require("global");
     var Objects = {};
 
-    Objects.init = function (plate, img, orderid, OriginalID,mark) {
+    Objects.init = function (plate, img, orderid, OriginalID,ordertype) {
         Objects.bindEvent(plate,img);
         Objects.removeTaskPlateOperate();
         Objects.getAmount();
         Objects.imgOrderTable();
-        Objects.processPlate(orderid, OriginalID, mark);
+        Objects.processPlate(orderid, OriginalID, ordertype);
     };
 
     Objects.bindEvent = function (plate,img) {
@@ -46,7 +46,7 @@
         $(".btn").click(function () {
             $(".preview").remove();
             $(".btn").remove();
-            $(".iconfont").hide();
+            $(".icon-delete").hide();
 
             if ($(".goods").hasClass("hover")) {
                 $(".goosddoc").parent().parent().remove();
@@ -64,11 +64,8 @@
                     $(".navsenddoc").parent().parent().remove();
                     Objects.imgOrderTable();                   
                 }
-            }           
-            
-            if ($(".goods").hasClass("hover")) {
-                alert("a");
-            }
+            }       
+           
             if ($(".products").hasClass("hover")) {
                 $(".navproducts").remove();
             }
@@ -96,20 +93,17 @@
             if ($(".product-packaging").hasClass("hover")) {
                 $(".product-packaging").remove();
             };
-            $(".print").show().append('<span class="iconfont font24 mTop5 mLeft20 color666" style="cursor:pointer;">&#xe658;</span>');
-            $(".get-back").show().append('<span class="iconfont font24 mTop5 mLeft20 color666" style="cursor:pointer;">&#xe62d;</span>');
+            $(".operation").show();
         });
 
-        $(".print").click(function () {
-            $(".print").remove();
-            $(".get-back").remove();
+        $(".operation").find(".printico").click(function () {
+            $(".operation").remove();
             window.print();            
         });
 
-        $(".get-back").click(function () {
+        $(".operation").find(".get-back").click(function () {
             window.location = window.location;
-        });
-        
+        })
     };
 
     //删除行操作按钮(制版工艺)
@@ -157,9 +151,9 @@
         $(".img-order img").height(height / 2);
     };
 
-    Objects.processPlate = function (orderid, OriginalID, mark) {
+    Objects.processPlate = function (orderid, OriginalID, ordertype) {        
         Global.post("/Task/GetPlateMakings", {
-            orderID: mark == 22 ? OriginalID : orderid
+            orderID: ordertype == 2 ? OriginalID : orderid
         }, function (data) {
             if (data.items.length > 0) {
                 doT.exec("template/orders/processplate.html", function (template) {                    
