@@ -95,6 +95,7 @@
                             Paras.pageIndex = 1;
                             ObjectJS.getDataList();
                             ObjectJS.getReportList();
+                            ObjectJS.getTaskOrOrderCount();
                         }
                         else {
                             alert("数据加载中，请稍等 !");

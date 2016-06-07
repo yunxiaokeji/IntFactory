@@ -178,8 +178,10 @@
         //重置密码
         $("#resetPassword").click(function () {
             var _this = $(this);
-            var userid = _this.data("id");            
-            confirm("确认重置吗?", function () {
+            var userid = _this.data("id");
+            var tr = $(".list-item .dropdown[data-id=" + _this.data("id") + "]").parent();
+            var showmsg = "确认重置帐号：<span class='red'>" + tr.find('.name').html() + "<span>&nbsp;的密码?";
+            confirm(showmsg, function () {
                 Global.post("/Organization/UpdateUserPwd", {
                     userID:userid,
                     loginPwd: ObjectJS.loginName
@@ -187,12 +189,38 @@
                     if (data.status) {
                         alert("密码重置成功");
                     } else {
-                        alert("重置操作未完成！请稍后再试");
+                        alert("服务器繁忙！请稍后再试");
                     }
                 });
                 
             });
         });
+        
+        //重置手机号
+        $("#resetMobilePhone").click(function () {
+            var _this = $(this);
+            var userid = _this.data("id");
+            var tr = $(".list-item .dropdown[data-id=" + _this.data("id") + "]").parent();
+            var showmsg = "确认重置帐号：<span class='red'>" + tr.find('.name').html() + "<span>&nbsp;的手机号?";
+            confirm(showmsg, function () {
+                Global.post("/Organization/UpdateMobilePhone", {
+                    userID: userid
+                }, function (data) {
+                    if (data.result == 1) {
+                        tr.find('.mobile').html('');
+                        alert("手机号重置成功");
+                    }
+                    else if (data.result == 2) {
+                        alert("没有绑定手机号");
+                    }
+                    else {
+                        alert("服务器繁忙！请稍后再试");
+                    }
+                });
+
+            });
+        });
+
     }
 
     //获取列表

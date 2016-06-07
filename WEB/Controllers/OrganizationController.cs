@@ -250,6 +250,42 @@ namespace YXERP.Controllers
         }
 
         /// <summary>
+        /// 重置手机号
+        /// </summary>
+        /// <param name="bindMobile"></param>
+        /// <param name="option"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public JsonResult UpdateMobilePhone(string userID)
+        {
+            bool flag = false;
+            int  result = 0;
+            if (!string.IsNullOrEmpty(CurrentUser.LoginName))
+            {
+                Users item = IntFactoryBusiness.OrganizationBusiness.GetUserByUserID(userID, CurrentUser.AgentID);
+                if (!string.IsNullOrEmpty(item.BindMobilePhone))
+                {
+                    flag = OrganizationBusiness.ClearAccountBindMobile(userID, CurrentUser.AgentID);
+                    if (flag)
+                    {
+                        result = 1;
+                    }
+                }
+                else 
+                {
+                    result = 2;
+                }
+            }
+
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
         /// 保存角色权限
         /// </summary>
         /// <param name="roleid"></param>
