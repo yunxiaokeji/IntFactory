@@ -3,7 +3,7 @@
 	var item = $data[i];
 %}
 
-<tr class="list-item">
+<tr class="list-item" style="border-top:1px solid #eee;">
     <td>
         <span class="mark" data-id="{%= item.OrderID %}" data-value="{%= item.Mark %}"></span>
     </td>
@@ -11,35 +11,67 @@
         <img class="left order-img" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />
         <ul class="order-information">
             <li>
-                <span>创建时间：{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
+                <span>款式编码：{%=item.IntGoodsCode==""?"--":item.IntGoodsCode%}</span>
             </li>
             <li>
                 <span>订单编号：<a href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.OrderCode%}</a></span>
             </li>
             <li>
-                <span>状态：</span><span>{%=item.StatusStr%}</span>
+                <span>订单状态：</span><span>{%=item.StatusStr%}</span>
+            </li>
+            <li>
+                <span>订单进度：</span><span style="color:#CAAB12">{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</span>
             </li>
         </ul>
-    </td>
-    <td>{%=item.IntGoodsCode==""?"--":item.IntGoodsCode%}</td>  
+    </td>   
     {% if(item.OrderType==1){ %}  
-        <td class="">{%=item.CostPrice%}</td>
-        <td class="">{%=item.FinalPrice%}</td>    
+        <td class="">
+            <ul class="order-information-a">
+                <li>
+                    <span>报价：{%=item.FinalPrice%}</span>
+                </li>
+                <li>
+                    <span>加工成本：{%=item.CostPrice%}</span>
+                </li>
+                <li>
+                    <span>交货日期：{%=item.PlanTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
+                </li>
+            </ul>
+        </td>        
     {% }else{ %}
-        <td class="">{%=item.OrderType==1? item.Price:item.FinalPrice%}</td>
-        <td class="">{%=item.OrderType==1? (item.Price*(1+item.ProfitPrice)).toFixed(2):item.TotalMoney.toFixed(2)%}</td>
-        <td class="center">{%=item.OrderType==1? "1":item.PlanQuantity%}</td>
+        <td class="">
+            <ul class="order-information">
+                <li>
+                    <span>单价：{%=item.FinalPrice%}</span>
+                </li>                
+                <li>
+                    <span>数量：{%=item.PlanQuantity%}</span>
+                </li>
+                <li>
+                    <span>总价：{%=item.TotalMoney.toFixed(2)%}</span>
+                </li>
+                <li>
+                    <span>交货日期：{%=item.PlanTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
+                </li>
+            </ul>
+        </td>     
+       
     {% } %}
-    <td class="">{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</td>
+   
     <td class="">
-        <div class="mBottom-10">{%= item.PersonName ||"--"%}</div>
-        <div>{%=item.MobileTele||"--"%}</div>
-    </td>
-    <td class="">
-        <div class="mLeft20">
-            <img class="width30 createimg" style="border-radius: 50%;" src="{%=item.Owner.Avatar||'/modules/images/defaultavatar.png'%}" />
-            <span class="mLeft10" style="position: absolute;">{%=(item.Owner ? item.Owner.Name:"--")%}</span>
-        </div>
+        <ul class="order-information-a">
+            <li>
+                <span>联系人：{%= item.PersonName ||"--"%}</span>
+            </li>
+            <li>
+                <span>联系电话：{%=item.MobileTele||"--"%}</span>
+            </li>
+            <li>
+                <span>负责人：{%=(item.Owner ? item.Owner.Name:"--")%}</span>
+            </li>
+           
+        </ul>
+        
     </td>
 </tr>
 {% } %}

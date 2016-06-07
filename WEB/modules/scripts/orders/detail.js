@@ -105,7 +105,7 @@
         }, function (data) {
             $(".tb-plates .tr-header").nextAll().remove();
             if (data.items.length > 0) {
-                doT.exec("template/task/platemarting-list.html", function (template) {
+                doT.exec("template/task/platematring-orderdatail.html", function (template) {
                     PlateMakings = data.items;
                     var html = template(data.items);
                     html = $(html);

@@ -32,18 +32,15 @@
 </head>
 <body>
     <div class="report">
-        <div class="preview">预览:</div>    
+        <div class="preview">工艺单预览:</div>    
         
         <div class="process left">
             <table style="width:955px;">
                 <tr class="head" style="height:50px">
-                    <td class="no-border-right">
-                        <img src="@(order.OrderImage==""?"/modules/images/none-img.png":order.OrderImage)" />
-                    </td>
-                    <td class="no-border-left" colspan="5">
+                   
+                    <td class="no-border-left" colspan="6">
                         <div class="titlename">
-                            生产工艺单
-                            <span class="red">（此单所示左右指穿起计）</span>
+                            制版工艺单                            
                         </div>
                     </td>                
                 </tr>
@@ -53,7 +50,7 @@
                     <td>采购负责人：</td>
                     <td>卢云</td>
                     <td>下单日期：</td>
-                    <td>@(order.CreateTime.ToString("yyyy-MM-dd"))</td>
+                    <td>@(order.OrderTime.ToString("yyyy-MM-dd"))</td>
                 </tr>
                 <tr>
                     <td>销售负责人：</td>
@@ -83,7 +80,7 @@
                             <tr>
                                 <td class="head  no-border-left">规格</td>
                                 <td class="head ">下单数量</td>                                
-                                <td class="head ">剩余未发</td>                
+                                                
                                 <td class="head  no-border-right">小计</td>
 
                             </tr>
@@ -94,15 +91,14 @@
                                 <tr class="item cart-item" >
                                     <td class="no-border-left">@(detail.Remark)</td>
                                     <td class="center good1">@(detail.Quantity)</td>
-                                    <td class="center good5">@(detail.Complete - detail.SendQuantity)</td>                    
+                                                  
                                     <td class=" good6 no-border-right no-border-top no-border-left" title="@((detail.TotalMoney).ToString("f2"))" style="line-height:30px;">@((detail.TotalMoney).ToString("f2"))</td>
                                 </tr>                
                                 }
                                 <tr class="total-items bold" >
-                                    <td class="no-border-left no-border-bottom" >合计：</td>
-                                    
-                                    <td class="center no-border-bottom" data-class="good5"></td>                    
-                                    <td class=" no-border-right no-border-left no-border-bottom tRight" style="height:100%;line-height:30px;" data-class="good6"></td>
+                                    <td class="no-border-left no-border-bottom" >合计：</td>                                    
+                                    <td class="center no-border-bottom" data-class="good1"></td>                    
+                                    <td class=" no-border-right no-border-left no-border-bottom" style="height:100%;line-height:30px;" data-class="good6"></td>
                                 </tr>
                             }
                             else
@@ -169,7 +165,7 @@
 
             <table class="navproducts no-border">
                 <tr>
-                    <td colspan="11" class="font18  no-border-top tLeft head hight40"><i class="iconfont icon-delete products">&#xe613;</i>材料成本</td>
+                    <td colspan="11" class="font18  no-border-top tLeft head hight40 pLeft10"><i class="iconfont icon-delete products">&#xe613;</i>材料成本</td>
                 </tr>
                 <tr class="head " style="height:30px;">
                     <td class="width100">样图</td>
@@ -194,7 +190,7 @@
                             </td>
                             <td class="width80">@(detail.ProductName)</td>
                             <td class="width80">@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
-                            <td class="width70">@(detail.Remark)</td>
+                            <td class="width70">@(detail.Remark==""?"--":detail.Remark)</td>
                             <td class="width70">@(detail.UnitName)</td>
                             <td class="width80">@(detail.Price.ToString("f2"))</td>
                             <td class="width80">@((detail.Quantity * order.PlanQuantity).ToString("f3"))</td>
@@ -204,7 +200,7 @@
                             <td class="width100 moneytotal">@((detail.TotalMoney * order.PlanQuantity).ToString("f3"))</td>
                         </tr>
                     }
-                    <tr class="total-items bold">
+                    <tr style="height:40px;" class="total-items bold">
                         <td colspan="9"></td>
                         <td class="">成本合计：</td>
                         <td class="" data-class="moneytotal"></td>
@@ -218,7 +214,7 @@
                               
             <table class="navengraving no-border" style="width:955px;">
                 <tr>
-                    <td colspan="10" class="font18  no-border-top tLeft head hight40"><i class="iconfont icon-delete raving">&#xe613;</i>制版</td>
+                    <td colspan="10" class="font18  no-border-top tLeft head hight40 pLeft10"><i class="iconfont icon-delete raving ">&#xe613;</i>制版</td>
                 </tr>
                 <tr>
                     <td id="Platemak" colspan="10"></td>
@@ -227,32 +223,17 @@
            
             <table class="processplate no-border" style="width:955px">
                 
-
-                <tr>
-                    <td class="width115 font16 no-border-bottom tLeft no-border-top" colspan="10">备注：避免每个人对专业术语理解误差，由此工艺单供参考，具体工艺参照样衣</td>                
-                </tr>
-                <tr>
-                    <td class="width115 font16  tLeft" colspan="10">*****注：请跟单QC、裁床、缝制、后整、负责人仔细阅读此工艺单并理解，如有疑问及时与技术部相关人员联系！（工艺单看了，未理解，等同没有看）</td>                
-                </tr>
              </table>    
 
-            <div class="font18">
-                <span class="">制表人:</span>
-                <span>萧秋水</span>
-                <span class="">审核人:</span>
-                <span>卫青</span>
-                <span class="">制单日期:</span>
-                <span>2015.4.21</span>
-            </div>
-
-            <div class="mBottom20">
-                <span class="btn mTop10">保存</span>
+            <div class="mBottom40">
+                <span class="btn mTop30">确定</span>
             </div>
 
         </div>
 
         <div class="operation hide mTop25">
-            <span class="iconfont font24 mTop5 mLeft20 color666 left printico" style="cursor:pointer;">&#xe658;</span><span class="iconfont font24 mTop5 mLeft20 color666 get-back" style="cursor:pointer;position:absolute">撤销</span>
+            <span class="iconfont font24 mTop5 mLeft20 color666 left printico" style="cursor:pointer;">&#xe658;</span>
+            <span class="iconfont font18 mTop5 mLeft20 color666 get-back" style="cursor:pointer;position:absolute"><i class="iconfont mRight5">&#xe62d;</i>返回</span>
         </div>
         
 
