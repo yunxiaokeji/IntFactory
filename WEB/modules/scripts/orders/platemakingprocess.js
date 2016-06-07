@@ -94,6 +94,7 @@
                 $(".product-packaging").remove();
             };
             $(".operation").show();
+            $('body,html').animate({ scrollTop: 0 }, 300);
         });
 
         $(".operation").find(".printico").click(function () {

@@ -62,6 +62,7 @@
             $(".icon-delete").hide();
 
             $(".export").show();
+            $('body,html').animate({ scrollTop: 0 }, 300);
         });
 
         //打印

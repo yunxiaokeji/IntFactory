@@ -17,10 +17,10 @@
                 <span>订单编号：<a href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.OrderCode%}</a></span>
             </li>
             <li>
-                <span>状态：</span><span>{%=item.StatusStr%}</span>
+                <span>订单状态：</span><span>{%=item.StatusStr%}</span>
             </li>
             <li>
-                <span>进度：{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</span>
+                <span>订单进度：</span><span style="color:#CAAB12">{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</span>
             </li>
         </ul>
     </td>   

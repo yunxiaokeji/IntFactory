@@ -16,18 +16,18 @@
                 <span>订单编号：<a href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.OrderCode%}</a></span>
             </li>
             <li>
-                <span>类型：</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
+                <span>订单类型：</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
             </li>           
         </ul>
     </td>
    <td class="">
         <ul class="order-information-a">
             <li>
-                <span>期望价格：{%=item.FinalPrice%}</span>
-            </li>               
-            <li>
                 <span>数量：{%=item.PlanQuantity%}</span>
             </li>
+            <li>
+                <span>期望价格：{%=item.PlanPrice%}</span>
+            </li>   
             <li>
                 <span>创建时间：{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
             </li>
