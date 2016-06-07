@@ -13,7 +13,7 @@
         <div class="left order-img"><a href="/Orders/OrderDetail/{%=item.OrderID%}"><img src="{%=item.OrderImage==""?'/modules/images/img-noimg.png':item.OrderImage%}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" /></a></div>
         <div class="left order-detail mLeft20">
             <div class="left">
-                <div class="order-title"><a href="/Orders/OrderDetail/{%=item.OrderID%}" class="long width250" >{%=item.GoodsName+item.OrderCode%}</a></div>
+                <div class="order-title"><a href="/Orders/OrderDetail/{%=item.OrderID%}" class="long width250" >{%=item.GoodsName==""&&item.GoodsCode==""?item.OrderCode:item.GoodsCode+item.GoodsName%}</a></div>
                 <div class="mTop10">
                     <span class="iconfont mRight5">&#xe624;</span><span>{%=item.CustomerName==""?item.PersonName:item.CustomerName%}</span>
                     <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
