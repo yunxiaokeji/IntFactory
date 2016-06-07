@@ -5,7 +5,7 @@
 <tr class="list-item">
     <td class="name {%=item.Role ?'':'red'%}">{%=item.LoginName%}</td>
     <td class="center {%=item.Role ?'':'red'%}">{%=item.Name%}</td>
-    <td class="center">{%=item.MobilePhone%}</td>
+    <td class="center mobile">{%=item.MobilePhone==""?item.BindMobilePhone:item.MobilePhone%}</td>
     <td class="">{%=item.Email%}</td>
     <td class='center'>{%=(item.Department ? item.Department.Name:"--")%}</td>
     <td class='center'>{%=(item.Role ? item.Role.Name:"--")%}</td>
