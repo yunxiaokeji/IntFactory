@@ -236,12 +236,12 @@ namespace IntFactoryDAL
         public bool UpdateUserInfo(string userid, string name, string jobs, DateTime birthday, int age, string departID, string email, string mobilePhone, string officePhone)
         {
             string sql = "update users set Name=@Name,Jobs=@Jobs, Birthday=@Birthday, Age=@Age,DepartID=@DepartID,Email=@Email,MobilePhone=@MobilePhone, OfficePhone=@OfficePhone where UserID=@UserID";
-
+            DateTime date = birthday.ToString("yyyy/MM/dd") == "0001/01/01" ? Convert.ToDateTime("1900/01/01") : birthday;
             SqlParameter[] paras = { 
                                        new SqlParameter("@UserID",userid),
                                        new SqlParameter("@Name",name),
                                        new SqlParameter("@Jobs",jobs),
-                                       new SqlParameter("@Birthday",birthday),
+                                       new SqlParameter("@Birthday",date),
                                        new SqlParameter("@Age",age),
                                        new SqlParameter("@DepartID",departID),
                                        new SqlParameter("@Email",email),
