@@ -2,36 +2,52 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-<tr class="list-item">
+<tr class="list-item" style="border-top:1px solid #eee;">
     <td>
         <span class="mark" data-id="{%= item.OrderID %}" data-value="{%= item.Mark %}"></span>
     </td>
     <td>
         <img class="left order-img" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />
-        <ul class="order-information">
+        <ul class="order-information-a">
             <li>
-                <span>创建时间：{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
+                <span>款式编码：{%=item.IntGoodsCode==""?"--":item.IntGoodsCode%}</span>
             </li>
             <li>
                 <span>订单编号：<a href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.OrderCode%}</a></span>
             </li>
             <li>
-                <span>订单类型：{%=item.OrderType==1?"打样":"大货" %}</span>
-            </li>
+                <span>类型：</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
+            </li>           
         </ul>
     </td>
-    <td>{%=item.IntGoodsCode==""?"--":item.IntGoodsCode%}</td>
-    <td class="">{%=item.PlanPrice%}</td>
-    <td class="">{%=item.PlanQuantity%}</td>
+   <td class="">
+        <ul class="order-information-a">
+            <li>
+                <span>期望价格：{%=item.FinalPrice%}</span>
+            </li>               
+            <li>
+                <span>数量：{%=item.PlanQuantity%}</span>
+            </li>
+            <li>
+                <span>创建时间：{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
+            </li>
+        </ul>
+    </td>     
+    
     <td class="">
-        <div class="mBottom-10">{%= item.PersonName ||"--"%}</div>
-        <div>{%=item.MobileTele||"--"%}</div>
-    </td>
-    <td class="">
-        <div class="mLeft20">
-            <img class="width30 createimg" style="border-radius: 50%;" src="{%=item.Owner.Avatar||'/modules/images/defaultavatar.png'%}" />
-            <span class="mLeft10" style="position: absolute;">{%=(item.Owner ? item.Owner.Name:"--")%}</span>
-        </div>
+        <ul class="order-information-a">
+            <li>
+                <span>联系人：{%= item.PersonName ||"--"%}</span>
+            </li>
+            <li>
+                <span>联系电话：{%=item.MobileTele||"--"%}</span>
+            </li>
+            <li>
+                <span>负责人：{%=(item.Owner ? item.Owner.Name:"--")%}</span>
+            </li>
+           
+        </ul>
+        
     </td>
 </tr>
 {% } %}
