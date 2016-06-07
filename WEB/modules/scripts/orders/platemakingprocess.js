@@ -43,9 +43,9 @@
         });
         
 
-        $(".btn").click(function () {
+        $(".btn-ok").click(function () {
             $(".preview").remove();
-            $(".btn").remove();
+            $(".btn-ok").remove();
             $(".icon-delete").hide();
 
             if ($(".goods").hasClass("hover")) {

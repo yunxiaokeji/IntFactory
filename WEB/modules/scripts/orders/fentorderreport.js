@@ -34,7 +34,7 @@
             $(".nodata-txt").parent().css("width", "932px");
         });
 
-        $(".btn").click(function () {
+        $(".btn-ok").click(function () {
             var priceoffer = $(".offer").val();            
             $(".priceoffer").html(Number(priceoffer).toFixed(2));
             $(".offer").remove();
@@ -58,7 +58,7 @@
                 $(".address").remove();
             }
 
-            $(".btn,.preview").remove();
+            $(".btn-ok,.preview").remove();
             $(".icon-delete").hide();
 
             $(".export").show();
