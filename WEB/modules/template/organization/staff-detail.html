@@ -1,0 +1,27 @@
+﻿{%
+	var item = $data;
+%}
+<ul class="easydialog-create">
+    <li>
+        <span class="width80">账号：</span>
+        <span><label>{%=item.name%}</label></span> 
+    </li>
+    <li>
+        <span class="width80">部门：</span>
+        <span class="dropdown-module" id="depart"></span> 
+    </li>
+    <li>
+        <span class="width80">员工姓名：</span>
+        <span><input type="text" maxlength="50" id="name" data-empty="必填" class="input verify" value="{%=item.staffName%}" /></span> 
+    </li>
+    <li>
+        <span class="width80">手机号码：</span>
+        <span><input type="text" maxlength="11" id="mobile" data-text="手机格式错误" data-type="mobile" class="input verify" value="{%=item.mobilePhone%}" /></span>
+    </li>
+    <li>
+        <span class="width80">Email：</span> 
+        <span><input type="text" maxlength="200" id="email" data-text="邮箱格式错误" data-type="email" class="input verify" value="{%=item.email%}" /></span>
+
+    </li>
+</ul>
+{% %}

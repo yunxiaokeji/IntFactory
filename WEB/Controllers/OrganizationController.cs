@@ -269,11 +269,15 @@ namespace YXERP.Controllers
                     if (flag)
                     {
                         result = 1;
+                        if (!string.IsNullOrEmpty(item.MobilePhone))
+                        {
+                            result = 2;
+                        }
                     }
                 }
                 else 
                 {
-                    result = 2;
+                    result = 3;
                 }
             }
 
