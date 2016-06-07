@@ -23,7 +23,7 @@
 <div class="content-title">
     <div id="spCustomerName" class="left titlename"></div>
     <div id="updateCustomer" class="left ico-edit iconfont mLeft20">&#xe607;</div>
-    <a class="btn right mTop10" target="_blank" href="/Orders/Create?cid=@ViewBag.ID">新建订单</a>
+    <a class="btn-add right mTop10" target="_blank" href="/Orders/Create?cid=@ViewBag.ID">新建订单</a>
 </div>
 <div class="content-body">
     <ul class="content-info">
@@ -53,7 +53,7 @@
         <li data-id="navContact">联系人</li>
         <li data-id="navLog">日志</li>
     </ul>
-    <div id="addContact" class="btn right @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))">添加联系人</div>
+    <div id="addContact" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))">添加联系人</div>
     
 </div>
 <div class="content-body pBottom50">

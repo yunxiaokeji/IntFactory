@@ -88,7 +88,7 @@
                 dataValue: "ID",
                 dataText: "Name",
                 width: "110",
-                onChange: function (data) {
+                onChange: function (data) {                    
                     if (Paras.orderType != data.value) {
                         if (IsLoadding && IsLoaddingTwo) {
                             Paras.orderType = data.value;
