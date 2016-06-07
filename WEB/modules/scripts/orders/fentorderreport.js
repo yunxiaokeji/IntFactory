@@ -59,16 +59,19 @@
             }
 
             $(".btn,.preview").remove();
-            $(".iconfont").hide();
+            $(".icon-delete").hide();
 
-            $(".export").show().append('<span class="iconfont mTop10 right" style="cursor:pointer;margin-right:-20px;">&#xe658;</span>');
+            $(".export").show();
         });
 
         //打印
-        $(".export").click(function () {
+        $(".print").click(function () {
             $(".export").remove();
             window.print();
         });
+        $(".get-back").click(function () {
+            window.location = window.location;
+        })
     };
 
     //删除行操作按钮(制版工艺)
