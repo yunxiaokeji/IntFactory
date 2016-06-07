@@ -2,12 +2,12 @@
     var Global = require("global");
     var Objects = {};
 
-    Objects.init = function (plate, img, OrderID) {
+    Objects.init = function (plate, img, orderid, OriginalID,ordertype) {
         Objects.bindEvent(plate,img);
         Objects.removeTaskPlateOperate();
         Objects.getAmount();
         Objects.imgOrderTable();
-        Objects.processPlate(OrderID);
+        Objects.processPlate(orderid, OriginalID, ordertype);
     };
 
     Objects.bindEvent = function (plate,img) {
@@ -22,13 +22,15 @@
         };
         
         
-        $(".icon-delete").click(function () {
+        $('.icon-delete').click(function () {
+            
             if (!$(this).hasClass("hover")) {
                 $(this).addClass("hover");
             } else {
                 $(this).removeClass("hover");
             }
-        });      
+
+        });        
 
         $("#navsenddoc .total-item td").each(function () {
             var _this = $(this), _total = 0;
@@ -44,21 +46,26 @@
         $(".btn").click(function () {
             $(".preview").remove();
             $(".btn").remove();
-            $(".iconfont").hide();
+            $(".icon-delete").hide();
 
             if ($(".goods").hasClass("hover")) {
                 $(".goosddoc").parent().parent().remove();
                 Objects.imgOrderTable();
-                
-                if (navigator.webkitPersistentStorage == undefined) {
-                    alert("a");
-                    $(".total-item").height("32px");
+                if ($(".senddoc").hasClass("hover")) {
+                    $(".navsenddoc").parent().parent().remove();
+                    Objects.imgOrderTable();
+                    $(".img-order tr td").removeClass("no-border-left");
+                    $(".img-order img").removeAttr("style");
+                    $(".img-order img").parent().addClass("no-border-bottom");
+                    $(".navproducts tr:first td").removeClass("no-border-top");
                 }
-            }
-            if ($(".senddoc").hasClass("hover")) {
-                $(".navsenddoc").parent().parent().remove();
-                Objects.imgOrderTable();
-            }
+            } else {
+                if ($(".senddoc").hasClass("hover")) {
+                    $(".navsenddoc").parent().parent().remove();
+                    Objects.imgOrderTable();                   
+                }
+            }       
+           
             if ($(".products").hasClass("hover")) {
                 $(".navproducts").remove();
             }
@@ -68,16 +75,35 @@
             if ($(".pro").hasClass("hover")) {
                 $(".proplate").remove();
             }
-
-            $(".print").show().append('<span class="iconfont right font24 mTop5 mLeft20 color666" style="cursor:pointer;">&#xe658;</span>');
+            if ($(".tailor").hasClass("hover")) {
+                $(".tailor").remove();
+            }
+            if ($(".adhesive").hasClass("hover")) {
+                $(".adhesive").remove();
+            }
+            if ($(".sewing-process").hasClass("hover")) {
+                $(".sewing-process").remove();
+            }
+            if ($(".garment-finishing").hasClass("hover")) {
+                $(".garment-finishing").remove();
+            }
+            if ($(".garment-inspection").hasClass("hover")) {
+                $(".garment-inspection").remove();
+            }
+            if ($(".product-packaging").hasClass("hover")) {
+                $(".product-packaging").remove();
+            };
+            $(".operation").show();
         });
 
-        $(".print").click(function () {
-            $(".print").remove();
+        $(".operation").find(".printico").click(function () {
+            $(".operation").remove();
             window.print();            
         });
 
-        
+        $(".operation").find(".get-back").click(function () {
+            window.location = window.location;
+        })
     };
 
     //删除行操作按钮(制版工艺)
@@ -102,43 +128,53 @@
             var _this = $(this), _total = 0;
             if (_this.data("class")) {
                 $("." + _this.data("class")).each(function () {
-                    _total += $(this).html() * 1;                   
+                    _total += $(this).html() * 1;
                 });
                 if (_this.data("class") == "moneytotal") {
-                    _this.html(_total.toFixed(2));                    
+                    _this.html(_total.toFixed(2));
                 } else {
-                    _this.html(_total);                    
+                    _this.html(_total);
                     _this.attr("title", _total);
                 }
             }
         });
-    }
+    };
 
     Objects.imgOrderTable = function () {
         var height = $(".navgoods").height();
-        if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {            
-            $(".img-order").height(parseInt(height)+ 'px');
+        if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {
+            $(".img-order").height(parseInt(height) + 'px');
         } else {
             $(".img-order").height(parseInt(height) + 1 + 'px');
         }
-        
-        $(".img-order img").height(height/2);
-    }
 
-    Objects.processPlate = function (OrderID) {
+        $(".img-order img").height(height / 2);
+    };
+
+    Objects.processPlate = function (orderid, OriginalID, ordertype) {        
         Global.post("/Task/GetPlateMakings", {
-            orderID: OrderID
+            orderID: ordertype == 2 ? OriginalID : orderid
         }, function (data) {
             if (data.items.length > 0) {
                 doT.exec("template/orders/processplate.html", function (template) {                    
                     var html = template(data.items);
                     html = $(html);
                     $(".processplate").prepend(html);
+
+                    html.find(".icon-delete").click(function () {
+                        if (!$(this).hasClass("hover")) {
+                            $(this).addClass("hover");
+                        } else {
+                            $(this).removeClass("hover");
+                        }
+                    })
+
                 });
             } else {
                 $(".processplate").prepend('<tr class="proplate"><td colspan="10" class="no-border-top"><div class="nodata-txt">暂无工艺</div></td></tr>');
             }
         });    
     };
+
     module.exports = Objects;
 });

@@ -26,7 +26,7 @@
     
     <script type="text/javascript">
         seajs.use(["scripts/orders/platemakingprocess"], function (obj) {
-            obj.init('@(order.Platemaking)','@(order.OrderImage)',"@(order.OrderID)");
+            obj.init('@(order.Platemaking)', '@(order.OrderImage)', "@(order.OrderID)", "@(order.OriginalID)", "@(order.OrderType)");
         })
     </script>
 </head>
@@ -72,21 +72,19 @@
                     <td class="no-border-left"></td>         
                 </tr>
             </table>   
+
             <table class="navgoods no-border left">
                 <tr>
                     <td colspan="7" class="no-border-top">
                         <table class="no-border goosddoc" style="width:635px;height:100%;">
                             <tr>
-                                <td colspan="7" class="font18 no-border-top fontbold head no-border-top no-border-left no-border-right" style="height:51px;"><i class="iconfont icon-delete goods">&#xe613;</i>下单明细</td>
+                                <td colspan="7" class="font18 no-border-top head no-border-top no-border-left no-border-right" style="height:51px;"><i class="iconfont icon-delete goods">&#xe613;</i>下单明细</td>
                             </tr>
                             <tr>
-                                <td class="head fontbold no-border-left">规格</td>
-                                <td class="head fontbold">下单数量</td>
-                                <td class="head fontbold">裁片/织片数量</td>
-                                <td class="head fontbold">缝制/套口数量</td>
-                                <td class="head fontbold">发货数量</td>
-                                <td class="head fontbold">剩余未发</td>                
-                                <td class="head fontbold no-border-right">小计</td>
+                                <td class="head  no-border-left">规格</td>
+                                <td class="head ">下单数量</td>                                
+                                <td class="head ">剩余未发</td>                
+                                <td class="head  no-border-right">小计</td>
 
                             </tr>
                             @if (order.OrderGoods.Count > 0)
@@ -96,21 +94,15 @@
                                 <tr class="item cart-item" >
                                     <td class="no-border-left">@(detail.Remark)</td>
                                     <td class="center good1">@(detail.Quantity)</td>
-                                    <td class="center good2">@(detail.CutQuantity)</td>
-                                    <td class="center good3">@(detail.Complete)</td>
-                                    <td class="center good4">@(detail.SendQuantity)</td>
                                     <td class="center good5">@(detail.Complete - detail.SendQuantity)</td>                    
                                     <td class=" good6 no-border-right no-border-top no-border-left" title="@((detail.TotalMoney).ToString("f2"))" style="line-height:30px;">@((detail.TotalMoney).ToString("f2"))</td>
                                 </tr>                
                                 }
                                 <tr class="total-items bold" >
                                     <td class="no-border-left no-border-bottom" >合计：</td>
-                                    <td class="center no-border-bottom" data-class="good1"></td>
-                                    <td class="center no-border-bottom" data-class="good2"></td>
-                                    <td class="center no-border-bottom" data-class="good3"></td>
-                                    <td class="center no-border-bottom" data-class="good4"></td>
+                                    
                                     <td class="center no-border-bottom" data-class="good5"></td>                    
-                                    <td class=" no-border-right no-border-left no-border-bottom" style="height:100%;line-height:30px;" data-class="good6"></td>
+                                    <td class=" no-border-right no-border-left no-border-bottom tRight" style="height:100%;line-height:30px;" data-class="good6"></td>
                                 </tr>
                             }
                             else
@@ -126,9 +118,9 @@
                     <td colspan="7" class="no-border-top">
                         <table class="no-border navsenddoc" style="width:635px;height:100%;">
                             <tr>
-                                <td colspan="4" class="font18 head fontbold no-border" style="height:50px;"><i class="iconfont icon-delete senddoc">&#xe613;</i>裁片/织片</td>
+                                <td colspan="4" class="font18 head  no-border" style="height:50px;"><i class="iconfont icon-delete senddoc">&#xe613;</i>裁片/织片</td>
                             </tr>
-                            <tr class="head fontbold">
+                            <tr class="head ">
                                 <td class="no-border-left no-border-fight">单号</td>
                                 <td>数量</td>
                                 <td>登记人</td>
@@ -161,6 +153,7 @@
                 </tr>                 
 
             </table>
+
             <table class="no-border img-order">
                 <tr>
                     <td class="no-border-top no-border-left">前片图片</td>
@@ -171,12 +164,14 @@
                     <td><img src="@(order.OrderImage==""?"/modules/images/none-img.png":order.OrderImage)" /></td>
                 </tr>
             </table>
+
             <div class="clear"></div>
+
             <table class="navproducts no-border">
                 <tr>
-                    <td colspan="11" class="font18 fontbold no-border-top tLeft head hight40"><i class="iconfont icon-delete products">&#xe613;</i>一、材料成本</td>
+                    <td colspan="11" class="font18  no-border-top tLeft head hight40"><i class="iconfont icon-delete products">&#xe613;</i>材料成本</td>
                 </tr>
-                <tr class="head fontbold" style="height:30px;">
+                <tr class="head " style="height:30px;">
                     <td class="width100">样图</td>
                     <td class="width80">材料名称</td>
                     <td class="width80">编码</td>
@@ -219,10 +214,11 @@
                 {
                     <tr><td colspan="11"><div class="nodata-txt">暂无材料</div></td></tr>
                 }           
-            </table>                      
+            </table>    
+                              
             <table class="navengraving no-border" style="width:955px;">
                 <tr>
-                    <td colspan="10" class="font18 fontbold no-border-top tLeft head hight40"><i class="iconfont icon-delete raving">&#xe613;</i>二、制版</td>
+                    <td colspan="10" class="font18  no-border-top tLeft head hight40"><i class="iconfont icon-delete raving">&#xe613;</i>制版</td>
                 </tr>
                 <tr>
                     <td id="Platemak" colspan="10"></td>
@@ -233,28 +229,33 @@
                 
 
                 <tr>
-                    <td class="width115 font16 fontbold tLeft no-border-top" colspan="10">备注：避免每个人对专业术语理解误差，由此工艺单供参考，具体工艺参照样衣</td>                
+                    <td class="width115 font16 no-border-bottom tLeft no-border-top" colspan="10">备注：避免每个人对专业术语理解误差，由此工艺单供参考，具体工艺参照样衣</td>                
                 </tr>
                 <tr>
-                    <td class="width115 font16 fontbold tLeft" colspan="10">*****注：请跟单QC、裁床、缝制、后整、负责人仔细阅读此工艺单并理解，如有疑问及时与技术部相关人员联系！（工艺单看了，未理解，等同没有看）</td>                
+                    <td class="width115 font16  tLeft" colspan="10">*****注：请跟单QC、裁床、缝制、后整、负责人仔细阅读此工艺单并理解，如有疑问及时与技术部相关人员联系！（工艺单看了，未理解，等同没有看）</td>                
                 </tr>
              </table>    
 
             <div class="font18">
-                <span class="fontbold">制表人:</span>
+                <span class="">制表人:</span>
                 <span>萧秋水</span>
-                <span class="fontbold">审核人:</span>
+                <span class="">审核人:</span>
                 <span>卫青</span>
-                <span class="fontbold">制单日期:</span>
+                <span class="">制单日期:</span>
                 <span>2015.4.21</span>
             </div>
-            <div>
+
+            <div class="mBottom20">
                 <span class="btn mTop10">保存</span>
             </div>
+
         </div>
-        <div class="print hide mTop25">
-            
+
+        <div class="operation hide mTop25">
+            <span class="iconfont font24 mTop5 mLeft20 color666 left printico" style="cursor:pointer;">&#xe658;</span><span class="iconfont font24 mTop5 mLeft20 color666 get-back" style="cursor:pointer;position:absolute">撤销</span>
         </div>
+        
+
     </div>
 </body>
 </html>
