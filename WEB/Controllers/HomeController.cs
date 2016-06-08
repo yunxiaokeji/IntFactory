@@ -44,9 +44,11 @@ namespace YXERP.Controllers
                     else
                     {
                         //我的订单
-                        if (currentUser.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0) {
+                        if (currentUser.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0) 
+                        {
                             level = 2;
-                        }//所有任务
+                        }
+                        //所有任务
                         else if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
                         {
                             level = 3;

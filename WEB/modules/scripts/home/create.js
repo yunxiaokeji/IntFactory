@@ -4,8 +4,6 @@
         City = require("city"), CityObject,
         Verify = require("verify"), VerifyObject;
         
-
-
     var ObjectJS = {}, CacheCategory = [];
     //初始化
     ObjectJS.init = function (clientid, agentid, customerid, categoryitem) {
@@ -17,13 +15,6 @@
         if (categoryitem!=null)
         {
             ObjectJS.categoryitems = categoryitems;
-        }
-
-        //require("moment")
-
-        if ($("#iptCreateTime").length == 1) {
-            require("moment");
-            require("daterangepicker");
         }
 
         _self.bigCategoryValue = _self.categoryitems[0].CategoryID;

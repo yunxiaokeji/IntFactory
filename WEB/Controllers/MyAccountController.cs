@@ -296,27 +296,6 @@ namespace YXERP.Controllers
         }
         #endregion
 
-        public JsonResult UpdateUserBaseInfo(string entity, string userID) 
-        {
-            int result = 0;
-            if (!string.IsNullOrEmpty(userID))
-            {
-                bool flag = false;
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                IntFactoryEntity.Users newItem = serializer.Deserialize<IntFactoryEntity.Users>(entity);
-                IntFactoryEntity.Users item = OrganizationBusiness.GetUserByUserID(userID, CurrentUser.AgentID);
-                flag = OrganizationBusiness.UpdateUserInfo(userID, newItem.Name, item.Jobs, item.Birthday, item.Age.Value, newItem.DepartID,
-                                                            newItem.Email, newItem.MobilePhone, item.OfficePhone, CurrentUser.AgentID);
-                result = flag ? 1 : 0;
-            }
-            JsonDictionary.Add("result", result);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
 
         #endregion
 
