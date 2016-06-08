@@ -164,13 +164,13 @@
     margin:10px 0px;
 }
 .platemakingContent .iconfont{
-    color:#4a98e7;
+    color:#333;
     font-size:24px;
 }
 .platemakingContent .print-plate {
     line-height:24px;
     vertical-align:text-bottom;
-    color:#4a98e7;
+    color:#333;
     display:inline-block;
     margin-left:2px;
 }
