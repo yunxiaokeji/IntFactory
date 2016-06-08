@@ -255,7 +255,7 @@
                                 MobilePhone: $("#mobile").val(),
                                 Email: $("#email").val()
                             };
-                            Global.post("/MyAccount/UpdateUserBaseInfo", { entity: JSON.stringify(newParams), userID: _this.data("id") }, function (data) {
+                            Global.post("/Organization/UpdateUserBaseInfo", { entity: JSON.stringify(newParams), userID: _this.data("id") }, function (data) {
                                 if (data.result == 1) {
                                     tr.find('.staff-name').html(newParams.Name);
                                     tr.find('.mobile').html(newParams.MobilePhone);
