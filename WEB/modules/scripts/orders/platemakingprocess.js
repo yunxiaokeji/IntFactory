@@ -50,9 +50,7 @@
                 var nameresponsible = $(this).val();
                 $(this).next().html(nameresponsible);
             });
-            
 
-            $(".preview").remove();
             $(".btn-ok").remove();
             $(".icon-delete").hide();
 

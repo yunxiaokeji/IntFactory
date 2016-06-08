@@ -1,7 +1,7 @@
 ﻿body {background-color:#fff; }
 .report { width:1000px;margin:20px auto;padding-bottom:20px;}
 .taskplate {line-height:50px;font-size:20px; }
-.titlename{ font-size:22px;height:50px;line-height:50px;font-weight:bold;}
+.titlename{ font-size:22px;height:50px;line-height:50px;}
 table{border:1px solid #000;border-collapse:collapse;}
 table tr td{border:1px solid #000;text-align:center;width:200px;height:50px;}
 table img{width:200px;margin-right:20px;margin-left:20px;}

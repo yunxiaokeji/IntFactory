@@ -32,8 +32,7 @@
 </head>
 <body>
     <div class="report">
-        <div class="preview">工艺信息:</div>    
-        
+                
         <div class="process left mBottom30">
             <table style="width:955px;">
                 <tr class="head" style="height:50px">
@@ -144,12 +143,12 @@
                     <td class="width100">样图</td>
                     <td class="width80">材料名称</td>
                     <td class="width80">编码</td>
-                    <td class="width70">规格</td>
+                    <td class="width70" colspan="2">规格</td>
                     <td class="width70">单位</td>
                     <td class="width80">单价</td>
                     <td class="width80">消耗量</td>
                     <td class="width80">损耗量</td>
-                    <td class="width100">损耗率</td>
+                    
                     <td class="width100">采购量</td>
                     <td class="width100">小计</td>
                 </tr>
@@ -163,12 +162,12 @@
                             </td>
                             <td class="width80">@(detail.ProductName)</td>
                             <td class="width80">@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
-                            <td class="width70">@(detail.Remark==""?"--":detail.Remark)</td>
+                            <td class="width70" colspan="2">@(detail.Remark==""?"--":detail.Remark)</td>
                             <td class="width70">@(detail.UnitName)</td>
                             <td class="width80">@(detail.Price.ToString("f2"))</td>
                             <td class="width80">@((detail.Quantity * order.PlanQuantity).ToString("f3"))</td>
                             <td class="width80">@((detail.Loss * order.PlanQuantity).ToString("f3"))</td>
-                            <td class="width100">@(detail.LossRate.ToString("f3"))</td>
+                           
                             <td class="width100">@(((detail.Quantity * order.PlanQuantity)+(detail.Loss * order.PlanQuantity)).ToString("f3"))</td>
                             <td class="width100 moneytotal">@((detail.TotalMoney * order.PlanQuantity).ToString("f3"))</td>
                         </tr>
@@ -204,7 +203,7 @@
             <span class="mTop22 font14">预览</span>
         </div>
 
-        <div class="operation hide mTop25">
+        <div class="operation hide">
             <span class="iconfont font24 mTop5 mLeft20 color666 left printico" style="cursor:pointer;">&#xe658;</span>
             <span class="iconfont font18 mTop5 mLeft20 color666 get-back" style="cursor:pointer;position:absolute"><i class="iconfont mRight5">&#xe62d;</i>返回</span>
         </div>

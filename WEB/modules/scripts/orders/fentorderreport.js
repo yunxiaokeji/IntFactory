@@ -58,7 +58,7 @@
                 $(".address").remove();
             }
 
-            $(".btn-ok,.preview").remove();
+            $(".btn-ok").remove();
             $(".icon-delete").hide();
 
             $(".export").show();

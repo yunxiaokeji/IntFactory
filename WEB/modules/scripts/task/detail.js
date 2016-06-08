@@ -245,10 +245,13 @@
                     content: innerHtml,
                     yesFn: function () {
                         if ($("#UpdateTaskEndTime").val() == "") {
-
-
                             alert("任务到期时间不能为空");
                             return;
+                        } else {
+                            if (platetime < $("#UpdateTaskEndTime").val()) {
+                                alert("任务到期时间不能大于订单交货时间");
+                                return;
+                            } 
                         }
 
                         confirm("任务到期时间不可逆，确定设置?", function () {
