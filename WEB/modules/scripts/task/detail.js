@@ -23,7 +23,7 @@
     ///finishStatus：任务完成状态
     ///attrValues:订单品类属性
     ///orderType:订单类型
-    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID,platetime) {
+    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID,orderPlanTime) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
         if (attrValues != "")
             CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
@@ -38,7 +38,7 @@
         ObjectJS.finishStatus = task.FinishStatus;
         ObjectJS.status = task.Status;
         ObjectJS.maxHours = task.MaxHours;
-        ObjectJS.planTime = planTime;
+        ObjectJS.planTime = orderPlanTime;
         ObjectJS.isWarn = isWarn;
         ObjectJS.orderimages = orderimages;
         ObjectJS.isPlate = true;//任务是否制版
@@ -101,13 +101,13 @@
         $(".part-btn").hide();
 
         //事件绑定
-        ObjectJS.bindBaseEvent(platetime);
+        ObjectJS.bindBaseEvent();
 
     };
 
     //#region任务基本信息操作
     //绑定事件
-    ObjectJS.bindBaseEvent = function (platetime) {
+    ObjectJS.bindBaseEvent = function () {
         //显示预警时间
         ObjectJS.showWarnTime();
 
@@ -178,7 +178,7 @@
                 if (!ObjectJS.isLoading) {
                     return;
                 }
-                ObjectJS.updateTaskEndTime(platetime);
+                ObjectJS.updateTaskEndTime();
             });
         }
 
@@ -234,7 +234,7 @@
     }
 
     //更改任务到期时间
-    ObjectJS.updateTaskEndTime = function (platetime) {
+    ObjectJS.updateTaskEndTime = function () {
         if (ObjectJS.maxHours == 0) {
             Easydialog = require("easydialog");
             //var innerHtml = '<div class="pTop10 pBottom5"><span class="width80" style="display:inline-block;">到期时间:</span><input style="width:180px;" type="text" class="taskEndTime" id="UpdateTaskEndTime" placeholder="设置到期时间"/></div>';
@@ -247,8 +247,6 @@
                         content: innerHtml,
                         yesFn: function () {
                             if ($("#UpdateTaskEndTime").val() == "") {
-
-
                                 alert("任务到期时间不能为空");
                                 return;
                             }
