@@ -12,7 +12,6 @@
         } else {
             $("#Platemak").html(decodeURI(plate));
         };
-
        
         var conclusion = Number(price) + Number(costprice);
 
