@@ -329,7 +329,8 @@
 
         //更改订单状态
         $("#changeOrderStatus").click(function () {
-            var _this=$(this);
+            var _this = $(this);
+            debugger;
             //开始打样
             if (_self.model.OrderType == 1 && _self.status == 0) {
                 doT.exec("template/orders/sure_plan_time.html", function (template) {
