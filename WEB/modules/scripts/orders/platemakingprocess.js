@@ -44,26 +44,25 @@
         
 
         $(".btn-ok").click(function () {
+            $(".input").hide();
+            $(".span").show();
+            $(".input").each(function () {
+                var nameresponsible = $(this).val();
+                $(this).next().html(nameresponsible);
+            });
+            
+
             $(".preview").remove();
             $(".btn-ok").remove();
             $(".icon-delete").hide();
 
             if ($(".goods").hasClass("hover")) {
                 $(".goosddoc").parent().parent().remove();
-                Objects.imgOrderTable();
-                if ($(".senddoc").hasClass("hover")) {
-                    $(".navsenddoc").parent().parent().remove();
-                    Objects.imgOrderTable();
-                    $(".img-order tr td").removeClass("no-border-left");
-                    $(".img-order img").removeAttr("style");
-                    $(".img-order img").parent().addClass("no-border-bottom");
-                    $(".navproducts tr:first td").removeClass("no-border-top");
-                }
-            } else {
-                if ($(".senddoc").hasClass("hover")) {
-                    $(".navsenddoc").parent().parent().remove();
-                    Objects.imgOrderTable();                   
-                }
+                Objects.imgOrderTable();                
+                $(".img-order tr td").removeClass("no-border-left");
+                $(".img-order img").removeAttr("style");
+                $(".img-order img").parent().addClass("no-border-bottom");
+                $(".navproducts tr:first td").removeClass("no-border-top");               
             }       
            
             if ($(".products").hasClass("hover")) {
