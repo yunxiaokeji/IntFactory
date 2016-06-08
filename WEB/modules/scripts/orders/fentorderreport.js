@@ -70,8 +70,9 @@
             $(".export").remove();
             window.print();
         });
+
         $(".get-back").click(function () {
-            window.location = window.location;
+            location.href = location.href;
         })
     };
 
