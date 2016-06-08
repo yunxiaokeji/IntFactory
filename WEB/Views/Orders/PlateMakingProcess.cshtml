@@ -84,44 +84,45 @@
                     <td class="no-border-left"></td>         
                 </tr>
             </table>   
-
-            <table class="navgoods no-border left">
-                <tr>
-                    <td colspan="7" class="no-border-top">
-                        <table class="no-border goosddoc" style="width:635px;height:100%;">
-                            <tr>
-                                <td colspan="7" class="font18 no-border-top head no-border-top no-border-left no-border-right" style="height:51px;"><i class="iconfont icon-delete goods">&#xe613;</i>下单明细</td>
-                            </tr>
-                            <tr>
-                                <td class="head  no-border-left">规格</td>
-                                <td class="head ">下单数量</td>   
-                            </tr>
-                            @if (order.OrderGoods.Count > 0)
-                            {
-                                foreach (var detail in order.OrderGoods)
-                                { 
-                                <tr class="item cart-item" >
-                                    <td class="no-border-left">@(detail.Remark)</td>
-                                    <td class="center good1">@(detail.Quantity)</td>
-                                </tr>                
-                                }
-                                <tr class="total-items bold" >
-                                    <td class="no-border-left no-border-bottom" >合计：</td>                                    
-                                    <td class="center no-border-bottom" data-class="good1"></td>  
+            @if (order.OrderType==2)
+            {
+                <table class="navgoods no-border left">
+                    <tr>
+                        <td colspan="7" class="no-border-top">
+                            <table class="no-border goosddoc" style="width:635px;height:100%;">
+                                <tr>
+                                    <td colspan="7" class="font18 no-border-top head no-border-top no-border-left no-border-right" style="height:51px;"><i class="iconfont icon-delete goods">&#xe613;</i>下单明细</td>
                                 </tr>
-                            }
-                            else
-                            {
-                                <tr><td class="no-border-bottom no-border-left" colspan="7"><div class="nodata-txt">暂无明细</div></td></tr>
-                            }   
+                                <tr>
+                                    <td class="head  no-border-left">规格</td>
+                                    <td class="head ">下单数量</td>   
+                                </tr>
+                                @if (order.OrderGoods.Count > 0)
+                                {
+                                    foreach (var detail in order.OrderGoods)
+                                    { 
+                                    <tr class="item cart-item" >
+                                        <td class="no-border-left">@(detail.Remark)</td>
+                                        <td class="center good1">@(detail.Quantity)</td>
+                                    </tr>                
+                                    }
+                                    <tr class="total-items bold" >
+                                        <td class="no-border-left no-border-bottom" >合计：</td>                                    
+                                        <td class="center no-border-bottom" data-class="good1"></td>  
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr><td class="no-border-bottom no-border-left" colspan="7"><div class="nodata-txt">暂无明细</div></td></tr>
+                                }   
                    
-                        </table>
-                    </td>  
-                </tr>        
+                            </table>
+                        </td>  
+                    </tr>        
 
-            </table>
-
-            <table class="no-border img-order">
+                </table>
+                
+                <table class="no-border img-order">
                 <tr>
                     <td class="no-border-top no-border-left">前片图片</td>
                     <td class="no-border-top">后片图片</td>
@@ -131,7 +132,8 @@
                     <td><img src="@(order.OrderImage==""?"/modules/images/none-img.png":order.OrderImage)" /></td>
                 </tr>
             </table>
-
+            }
+            
             <div class="clear"></div>
 
             <table class="navproducts no-border">

@@ -292,7 +292,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .btn {  padding:5px 10px; background-color:#4a98e7; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; line-height:18px;
         -moz-transition:all 0.3s;
         -webkit-transition:all 0.3s;
-        -o-transition:all 0.3s;
+        -o-transition:all 0.3s;        
 }
 .btn:hover { background-color:#2F73B8; }
 
@@ -311,7 +311,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .btn999:hover { background-color:#666; color:#fff; }
 
 /*日期*/
-.ipt-date{ background:url(/modules/images/icondate.png) no-repeat 4px 4px; height:25px;line-height:25px; text-indent:20px; width:180px;margin-right:20px;}
+.ipt-date{ background:url(/modules/images/icondate.png) no-repeat 4px 4px; height:28px !important;line-height:28px; text-indent:20px; width:180px;margin-right:20px;}
 
 /*替换*/
 .change-ico{ display:inline-block; cursor:pointer; color:#4a98e7; font-size:20px !important;}
