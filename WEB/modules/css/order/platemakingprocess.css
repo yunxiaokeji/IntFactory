@@ -19,7 +19,7 @@ table .titlename{font-size:22px;}
 .img-order img { width:120px;height:200px;}
 .img-order tr td { border:1px solid #000;text-align:center;height:30px;}
 .img-order { width:318px;}
-.process input { border-color:#4798ea;}
+.process .input { border-color:#666;height:22px;line-height:22px !important;}
 
 
 
