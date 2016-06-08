@@ -10,16 +10,13 @@
         var _self = this;
         _self.clientid = clientid;
         _self.agentid = agentid;
-        var categoryitems = JSON.parse(categoryitem.replace(/&quot;/g, '"'));
-
         if (categoryitem!=null)
         {
+            var categoryitems = JSON.parse(categoryitem.replace(/&quot;/g, '"'));
             ObjectJS.categoryitems = categoryitems;
+            _self.bigCategoryValue = _self.categoryitems[0].CategoryID;
+            _self.categoryValue = "";
         }
-
-        _self.bigCategoryValue = _self.categoryitems[0].CategoryID;
-
-        _self.categoryValue = "";
 
         if (customerid) {
             Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
@@ -142,25 +139,6 @@
             console.log(!!_self.endTime?_self.endTime:"");
             
         });
-
-        $("#bigcategory").change(function () {
-            var _this = $(this);
-            $("#ordercategory").empty();
-            if (CacheCategory[_this.val()]) {
-                for (var i = 0; i < CacheCategory[_this.val()].length; i++) {
-                    $("#ordercategory").append("<option value=" + CacheCategory[_this.val()][i].CategoryID + ">" + CacheCategory[_this.val()][i].CategoryName + "</option>")
-                }
-            } else {
-                Global.post("/Home/GetChildOrderCategorysByID", { categoryid: _this.val(), clientid: _self.clientid }, function (data) {
-                    CacheCategory[_this.val()] = data.Items;
-                    for (var i = 0; i < CacheCategory[_this.val()].length; i++) {
-                        $("#ordercategory").append("<option value=" + CacheCategory[_this.val()][i].CategoryID + ">" + CacheCategory[_this.val()][i].CategoryName + "</option>")
-                    }
-                });
-            }
-        });
-
-        $("#bigcategory").change();
     }
 
     //绑定小品类

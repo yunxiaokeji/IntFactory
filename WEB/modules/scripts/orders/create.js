@@ -7,9 +7,16 @@
 
     var ObjectJS = {}, CacheCategory = [];
     //初始化
-    ObjectJS.init = function (customerid) {
+    ObjectJS.init = function (customerid,clientid,categoryitem) {
         var _self = this;
         _self.customerid = customerid;
+        _self.clientid = clientid;
+        if (categoryitem != null) {
+            var categoryitems = JSON.parse(categoryitem.replace(/&quot;/g, '"'));
+            ObjectJS.categoryitems = categoryitems;
+            _self.bigCategoryValue = _self.categoryitems[0].CategoryID;
+            _self.categoryValue = "";
+        }
 
         if (customerid) {
             Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
@@ -36,6 +43,28 @@
             _self.saveModel();
         });
         
+        //大品类下拉
+        require.async("dropdown", function () {
+            $(".bigcategory").dropdown({
+                prevText: "",
+                defaultText: _self.categoryitems[0].CategoryName,
+                defaultValue: _self.categoryitems[0].CategoryID,
+                data: _self.categoryitems,
+                dataValue: "CategoryID",
+                dataText: "CategoryName",
+                width: 78,
+                onChange: function (data) {
+
+                    ObjectJS.bigCategoryValue = data.value;
+
+                    ObjectJS.bindCategory(data);
+
+                }
+            });
+        });
+
+        ObjectJS.bindCategory({ value: _self.categoryitems[0].CategoryID });
+
         //切换类型
         $(".ico-radiobox").click(function () {
             var _this = $(this);
@@ -89,24 +118,38 @@
                 _this.addClass("ico-checked").removeClass("ico-check");
             }
         });
+    }
 
-        $("#bigcategory").change(function () {
-            var _this = $(this);
-            $("#ordercategory").empty();
-            if (CacheCategory[_this.val()]) {
-                for (var i = 0; i < CacheCategory[_this.val()].length; i++) {
-                    $("#ordercategory").append("<option value=" + CacheCategory[_this.val()][i].CategoryID + ">" + CacheCategory[_this.val()][i].CategoryName + "</option>")
-                }
-            } else {
-                Global.post("/Products/GetChildOrderCategorysByID", { categoryid: _this.val() }, function (data) {
-                    CacheCategory[_this.val()] = data.Items;
-                    for (var i = 0; i < CacheCategory[_this.val()].length; i++) {
-                        $("#ordercategory").append("<option value=" + CacheCategory[_this.val()][i].CategoryID + ">" + CacheCategory[_this.val()][i].CategoryName + "</option>")
+    //绑定小品类
+    ObjectJS.bindCategory = function (item) {
+        var _self = this;
+        var isOnce = true;
+
+        $('.ordercategory').empty();
+        Global.post("/Home/GetChildOrderCategorysByID", { categoryid: item.value, clientid: _self.clientid }, function (data) {
+            var items = data.Items;
+
+            if (isOnce) {
+                _self.categoryValue = items[0].CategoryID;
+                isOnce = false;
+            }
+
+            require.async("dropdown", function () {
+                $(".ordercategory").dropdown({
+                    prevText: "",
+                    defaultText: items[0].CategoryName,
+                    defaultValue: items[0].CategoryID,
+                    data: items,
+                    dataValue: "CategoryID",
+                    dataText: "CategoryName",
+                    width: 78,
+                    onChange: function (data) {
+                        _self.categoryValue = data.value;
                     }
                 });
-            }
+            });
+
         });
-        $("#bigcategory").change();
     }
 
     //保存实体
@@ -122,8 +165,8 @@
             PersonName: $("#name").val().trim(),
             OrderType: $(".ico-radiobox.hover").data('type'),
             PlanTime: $("#iptCreateTime").val() == null ? "" : $("#iptCreateTime").val(),
-            BigCategoryID: $("#bigcategory").val().trim(),
-            CategoryID: $("#ordercategory").val().trim(),
+            BigCategoryID: _self.bigCategoryValue.trim(),
+            CategoryID: _self.categoryValue.trim(),
             CityCode: CityObject.getCityCode(),
             ExpressCode: $("#expressCode").val().trim(),
             Address: $("#address").val().trim(),
