@@ -100,7 +100,7 @@
         });
 
         $(".operation").find(".get-back").click(function () {
-            window.location = window.location;
+            location.href = location.href;
         })
     };
 
