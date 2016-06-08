@@ -51,7 +51,7 @@ namespace IntFactoryDAL
 
         public DataTable GetUsers(string agentid)
         {
-            string sql = "select * from Users where AgentID=@AgentID";
+            string sql = "select * from Users where AgentID=@AgentID and Status<>9";
 
             SqlParameter[] paras = { 
                                     new SqlParameter("@AgentID",agentid)

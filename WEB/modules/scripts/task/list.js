@@ -2,9 +2,9 @@
     var Global = require("global"),
         doT = require("dot"),
         moment = require("moment");
-    require("daterangepicker");
-    require("pager");
-    require("mark");
+        require("daterangepicker");
+        require("pager");
+        require("mark");
 
     var Params = {
         isMy: true,//是否获取我的任务
