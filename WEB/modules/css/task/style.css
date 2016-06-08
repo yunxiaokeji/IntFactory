@@ -371,6 +371,7 @@
 .search-item-color .mark-all {
      background:url('/modules/plug/mark/ico-ball.png') no-repeat; 
      background-size:cover; 
+     border:solid 1px #fff;
 }
 .search-item-color .mark0 { 
     background-color:#FFF; 
