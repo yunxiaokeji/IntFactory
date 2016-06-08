@@ -9,10 +9,23 @@
 
 @section scripts{
     <script src="/modules/plug/laydate/laydate.js"></script>
-    <script type="text/javascript">
+        <script type="text/javascript">
         seajs.use(["scripts/orders/create"], function (ObjectJS) {
-            ObjectJS.init('@ViewBag.CID');
+                ObjectJS.init('@ViewBag.CID');
         });
+        var myDate = new Date();
+        var minDate = myDate.toLocaleDateString();
+        minDate = minDate + " 23:59:59"
+        //期望交货日期
+        var taskEndTime = {
+            elem: '#iptCreateTime',
+            format: 'YYYY-MM-DD',
+            min: minDate,
+            max: '2099-06-16',
+            istime: false,
+            istoday: false
+        };
+        laydate(taskEndTime);
     </script>
 }
 <div class="header-box">

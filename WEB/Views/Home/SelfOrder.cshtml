@@ -21,12 +21,7 @@
     <script src="/Scripts/sea.js"></script>
     <script src="/Scripts/sea-config.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
-    <script type="text/javascript">
-        seajs.use(["scripts/home/create"], function (home) {
-            home.init('@(model.ClientID)', '@(model.AgentID)', "", '@Html.ToJSONString(categoryItems)');
-        });
-
-    </script>
+    
 </head>
 
 <body>
@@ -180,5 +175,26 @@
 </div>
 <!--页脚end-->*@
 </body>
+    <script type="text/javascript">
+        seajs.use(["scripts/home/create"], function (home) {
+            home.init('@(model.ClientID)', '@(model.AgentID)', "", '@Html.ToJSONString(categoryItems)');
+        });
+
+
+        var myDate = new Date();
+        var minDate = myDate.toLocaleDateString();
+        minDate = minDate + " 23:59:59"
+        //期望交货日期
+        var taskEndTime = {
+            elem: '#iptCreateTime',
+            format: 'YYYY-MM-DD',
+            min: minDate,
+            max: '2099-06-16',
+            istime: false,
+            istoday: false
+        };
+        laydate(taskEndTime);
+
+    </script>
 </html>
 
