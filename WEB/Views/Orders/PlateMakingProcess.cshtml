@@ -90,11 +90,11 @@
                         <td colspan="7" class="no-border-top">
                             <table class="no-border goosddoc" style="width:635px;height:100%;">
                                 <tr>
-                                    <td colspan="7" class="font18 no-border-top head no-border-top no-border-left no-border-right" style="height:51px;"><i class="iconfont icon-delete goods">&#xe613;</i>下单明细</td>
+                                    <td colspan="7" class="font18 no-border-top head no-border-top no-border-left no-border-right pLeft10" style="height:51px;"><i class="iconfont icon-delete goods">&#xe613;</i>下单明细</td>
                                 </tr>
                                 <tr>
-                                    <td class="head  no-border-left">规格</td>
-                                    <td class="head ">下单数量</td>   
+                                    <td class="head no-border-left">规格</td>
+                                    <td class="head no-border-right">下单数量</td>   
                                 </tr>
                                 @if (order.OrderGoods.Count > 0)
                                 {
@@ -102,12 +102,12 @@
                                     { 
                                     <tr class="item cart-item" >
                                         <td class="no-border-left">@(detail.Remark)</td>
-                                        <td class="center good1">@(detail.Quantity)</td>
+                                        <td class="center good1 no-border-right">@(detail.Quantity)</td>
                                     </tr>                
                                     }
                                     <tr class="total-items bold" >
                                         <td class="no-border-left no-border-bottom" >合计：</td>                                    
-                                        <td class="center no-border-bottom" data-class="good1"></td>  
+                                        <td class="center no-border-bottom no-border-right" data-class="good1"></td>  
                                     </tr>
                                 }
                                 else

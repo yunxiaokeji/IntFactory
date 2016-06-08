@@ -71,7 +71,7 @@
         });
 
         $(".get-back").click(function () {
-            location.href = location.href;
+            location.href = location.href+"?"+(new Date().getMilliseconds() );
         })
     };
 
