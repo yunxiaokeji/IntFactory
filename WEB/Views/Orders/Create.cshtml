@@ -1,5 +1,7 @@
 ﻿@{
     ViewBag.Title = "新建订单";
+    var model = (IntFactoryEntity.Manage.Clients)ViewBag.Model;    
+    var categoryItems = (List<IntFactoryEntity.Category>)ViewBag.Items;
 }
 @section css{
     <link href="/modules/css/order/create.css" rel="stylesheet" />
@@ -11,7 +13,7 @@
     <script src="/modules/plug/laydate/laydate.js"></script>
         <script type="text/javascript">
         seajs.use(["scripts/orders/create"], function (ObjectJS) {
-                ObjectJS.init('@ViewBag.CID');
+            ObjectJS.init('@ViewBag.CID', '@(model.ClientID)', '@Html.ToJSONString(categoryItems)');
         });
         var myDate = new Date();
         var minDate = myDate.toLocaleDateString();
@@ -59,14 +61,20 @@
         </li>
         <li>
             <span class="column-title">订单品类：</span>
-            <select id="bigcategory">
+            <span class="bigcategory">
+
+            </span>
+            <span class="ordercategory">
+
+            </span>
+@*            <select id="bigcategory">
             @foreach (IntFactoryEntity.Category model in (List<IntFactoryEntity.Category>)ViewBag.Items)
             {
                 <option value="@(model.CategoryID)">@(model.CategoryName)</option> 
             }
             </select>
             <select id="ordercategory">
-            </select>
+            </select>*@
         </li>
         <li>
             <span class="column-title">数量：</span>

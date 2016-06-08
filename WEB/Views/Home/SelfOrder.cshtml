@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    var model = (IntFactoryEntity.Manage.Clients)ViewBag.Model;
+    var model = (IntFactoryEntity.Users)Session["ClientManager"];
     var categoryItems = (List<IntFactoryEntity.Category>)ViewBag.Items;
 }
 
