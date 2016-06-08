@@ -51,7 +51,7 @@
     <div class="left titlename">订单编号：<a class="font16" href="/Orders/OrderDetail/@(task.OrderID)" >@(task.OrderCode)</a></div>
     <ul class="right">
         <li title="订单类型">
-            <span class="left"> 订单类型：</span><label class="left" >@(task.OrderType==1?"打样":"大货")</label>
+            <span class="left color666 font14"> 订单类型：</span><label class="left color666 font14" >@(task.OrderType==1?"打样":"大货")</label>
         </li>
         <li>
             <span class="left"> 负责人：</span><label class="left">@(task.Owner != null ? task.Owner.Name : "--")</label>
@@ -69,7 +69,7 @@
         </div>
        
        <div class="mLeft20 left">
-            <div class="titlename mTop10 mBottom20">
+            <div class="titlename mTop5 mBottom10">
                 <span class="column-title">款式编码</span>
                 <span>@(order.IntGoodsCode==""?"--":order.IntGoodsCode)</span>
             </div>
