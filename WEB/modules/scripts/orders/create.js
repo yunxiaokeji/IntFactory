@@ -118,24 +118,6 @@
                 _this.addClass("ico-checked").removeClass("ico-check");
             }
         });
-
-        $("#bigcategory").change(function () {
-            var _this = $(this);
-            $("#ordercategory").empty();
-            if (CacheCategory[_this.val()]) {
-                for (var i = 0; i < CacheCategory[_this.val()].length; i++) {
-                    $("#ordercategory").append("<option value=" + CacheCategory[_this.val()][i].CategoryID + ">" + CacheCategory[_this.val()][i].CategoryName + "</option>")
-                }
-            } else {
-                Global.post("/Products/GetChildOrderCategorysByID", { categoryid: _this.val() }, function (data) {
-                    CacheCategory[_this.val()] = data.Items;
-                    for (var i = 0; i < CacheCategory[_this.val()].length; i++) {
-                        $("#ordercategory").append("<option value=" + CacheCategory[_this.val()][i].CategoryID + ">" + CacheCategory[_this.val()][i].CategoryName + "</option>")
-                    }
-                });
-            }
-        });
-        $("#bigcategory").change();
     }
 
     //绑定小品类
@@ -183,8 +165,8 @@
             PersonName: $("#name").val().trim(),
             OrderType: $(".ico-radiobox.hover").data('type'),
             PlanTime: $("#iptCreateTime").val() == null ? "" : $("#iptCreateTime").val(),
-            BigCategoryID: $("#bigcategory").val().trim(),
-            CategoryID: $("#ordercategory").val().trim(),
+            BigCategoryID: _self.bigCategoryValue.trim(),
+            CategoryID: _self.categoryValue.trim(),
             CityCode: CityObject.getCityCode(),
             ExpressCode: $("#expressCode").val().trim(),
             Address: $("#address").val().trim(),
