@@ -16,7 +16,7 @@
     {% type=item.Type } %}
     
     <tr class="list-item" id="tr-plate-{%=item.PlateID%}">
-        <td><img style="width:30px;height:30px;" src="{%=item.Icon%}" /></td>
+        <td class="center"><img style="width:30px;height:30px;" src="{%=item.Icon%}" /></td>
         <td class="center">{%=item.Title%}</td>        
         <td class="tLeft show-all-txt">{%=item.Remark%}</td>
         <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
