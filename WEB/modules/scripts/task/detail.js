@@ -235,7 +235,7 @@
     ObjectJS.updateTaskEndTime = function () {
         if (ObjectJS.maxHours == 0) {
             Easydialog = require("easydialog");
-            //var innerHtml = '<div class="pTop10 pBottom5"><span class="width80" style="display:inline-block;">到期时间:</span><input style="width:180px;" type="text" class="taskEndTime" id="UpdateTaskEndTime" placeholder="设置到期时间"/></div>';
+
             DoT.exec("/template/task/set-endtime.html", function (template) {
                 var innerHtml = template();
                 Easydialog.open({
@@ -246,7 +246,7 @@
                         yesFn: function () {
                             if ($("#UpdateTaskEndTime").val() == "") {
                                 alert("任务到期时间不能为空");
-                                return;                        
+                                return;
                             }
                             confirm("任务到期时间不可逆，确定设置?", function () {
                                 ObjectJS.isLoading = false;
@@ -275,7 +275,10 @@
 
                 var myDate = new Date();
                 var minDate = myDate.toLocaleDateString();
-                minDate = minDate + " 23:59:59"
+                minDate = minDate + " 00:00:00"
+                if (ObjectJS.planTime <= minDate) {
+                    ObjectJS.planTime = '';
+                }
                 //更新任务到期日期
                 var taskEndTime = {
                     elem: '#UpdateTaskEndTime',
@@ -286,7 +289,8 @@
                     istoday: false
                 };
                 laydate(taskEndTime);
-            })
+               
+            });
 
         }
         else {
