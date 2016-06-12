@@ -88,13 +88,14 @@
                 dataValue: "ID",
                 dataText: "Name",
                 width: "110",
-                onChange: function (data) {
+                onChange: function (data) {                    
                     if (Paras.orderType != data.value) {
                         if (IsLoadding && IsLoaddingTwo) {
                             Paras.orderType = data.value;
                             Paras.pageIndex = 1;
                             ObjectJS.getDataList();
                             ObjectJS.getReportList();
+                            ObjectJS.getTaskOrOrderCount();
                         }
                         else {
                             alert("数据加载中，请稍等 !");
@@ -200,38 +201,39 @@
             }
         }
 
-        var guidLineHeight = maxTotalCount / 5;
-        GuidLineHeight = parseInt(maxTotalCount % 5 == 0 ? guidLineHeight : (guidLineHeight + 1));
-        ReportAvgHeight = 220 / (maxTotalCount + (GuidLineHeight - guidLineHeight) * 5);
+        if (maxTotalCount > 0) {
+            var guidLineHeight = maxTotalCount / 5;
+            GuidLineHeight = parseInt(maxTotalCount % 5 == 0 ? guidLineHeight : (guidLineHeight + 1));
+            ReportAvgHeight = 220 / (maxTotalCount + (GuidLineHeight - guidLineHeight) * 5);
 
-        ReportIndex = 0;
-        for (var l = 0; l < OrderListCache.length; l++) {
-            ObjectJS.createReportHtml(OrderListCache[l]);
-        }
+            ReportIndex = 0;
+            for (var l = 0; l < OrderListCache.length; l++) {
+                ObjectJS.createReportHtml(OrderListCache[l]);
+            }
 
-        $(".report-guid ul li:not(:last)").css("height", (GuidLineHeight * ReportAvgHeight - 1.2) + "px");
-        for (var h = 0; h<6; h++) {
-            $(".report-guid ul li").eq(h).find(".guid-count").html(GuidLineHeight * (5 - h));
-        }
-        
-        $(".index-report-content .report-item li").each(function () {
-            var _this = $(this);
-            var type = _this.data("type");
-            var totalCount=_this.data("totalcount");
-            var count=_this.data("count");
-            var showMsg = Paras.moduleType == 1 ? "订单" : "任务";
-            var message = _this.data("date") + "&nbsp;&nbsp;&nbsp;" + (type == 1 ? "已超期" + showMsg : type == 2 ? "快到期" + showMsg : type == 3 ? "正常" + showMsg : "已完成" + showMsg) + "：" + count;
-            message += "</br>总计：" + totalCount + "，占比：" + (count / totalCount * 100).toFixed(2) + "%";
-            _this.Tip({
-                width: 160,
-                msg: message
+            $(".report-guid ul li:not(:last)").css("height", (GuidLineHeight * ReportAvgHeight - 1.2) + "px");
+            for (var h = 0; h < 6; h++) {
+                $(".report-guid ul li").eq(h).find(".guid-count").html(GuidLineHeight * (5 - h));
+            }
+
+            $(".index-report-content .report-item li").each(function () {
+                var _this = $(this);
+                var type = _this.data("type");
+                var totalCount = _this.data("totalcount");
+                var count = _this.data("count");
+                var showMsg = Paras.moduleType == 1 ? "订单" : "任务";
+                var message = _this.data("date") + "&nbsp;&nbsp;&nbsp;" + (type == 1 ? "已超期" + showMsg : type == 2 ? "快到期" + showMsg : type == 3 ? "正常" + showMsg : "已完成" + showMsg) + "：" + count;
+                message += "</br>总计：" + totalCount + "，占比：" + (count / totalCount * 100).toFixed(2) + "%";
+                _this.Tip({
+                    width: 160,
+                    msg: message
+                });
             });
-        });
 
-        $(".report-item li").click(function () {
-            var _this = $(this);
-            if ((Paras.filterType != _this.data('type') || Paras.filterTime != _this.data('date')) || !_this.hasClass('checked')) {
-                if (IsLoadding && IsLoaddingTwo) {
+            $(".report-item li").click(function () {
+                var _this = $(this);
+                if ((Paras.filterType != _this.data('type') || Paras.filterTime != _this.data('date')) || !_this.hasClass('checked')) {
+                    if (IsLoadding && IsLoaddingTwo) {
                         Paras.pageIndex = 1;
                         Paras.filterType = _this.data('type');
                         Paras.filterTime = _this.data('date');
@@ -243,12 +245,13 @@
                         $(".order-layerbox .layer-lump").nextAll().remove();
 
                         ObjectJS.getDataList();
+                    }
+                    else {
+                        alert("数据加载中，请稍等 !");
+                    }
                 }
-                else {
-                    alert("数据加载中，请稍等 !");
-                }
-            }
-        });
+            });
+        }
 
     }
 

@@ -12,7 +12,6 @@
         } else {
             $("#Platemak").html(decodeURI(plate));
         };
-
        
         var conclusion = Number(price) + Number(costprice);
 
@@ -34,7 +33,7 @@
             $(".nodata-txt").parent().css("width", "932px");
         });
 
-        $(".btn").click(function () {
+        $(".btn-ok").click(function () {
             var priceoffer = $(".offer").val();            
             $(".priceoffer").html(Number(priceoffer).toFixed(2));
             $(".offer").remove();
@@ -58,17 +57,22 @@
                 $(".address").remove();
             }
 
-            $(".btn,.preview").remove();
-            $(".iconfont").hide();
+            $(".btn-ok").remove();
+            $(".icon-delete").hide();
 
-            $(".export").show().append('<span class="iconfont mTop10 right" style="cursor:pointer;margin-right:-20px;">&#xe658;</span>');
+            $(".export").show();
+            $('body,html').animate({ scrollTop: 0 }, 300);
         });
 
         //打印
-        $(".export").click(function () {
+        $(".print").click(function () {
             $(".export").remove();
             window.print();
         });
+
+        $(".get-back").click(function () {
+            location.href = location.href+"?"+(new Date().getMilliseconds() );
+        })
     };
 
     //删除行操作按钮(制版工艺)

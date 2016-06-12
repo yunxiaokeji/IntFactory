@@ -83,6 +83,7 @@ define(function (require, exports, module) {
             if (opts.isposition) {
                 offset = obj.position();
             }
+
             if ($("#" + obj.data("itemid")).length == 1) {
                 $("#" + obj.data("itemid")).css({ "top": offset.top + 27, "left": offset.left }).show();
             } else {

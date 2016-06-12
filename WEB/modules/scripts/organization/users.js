@@ -178,8 +178,10 @@
         //重置密码
         $("#resetPassword").click(function () {
             var _this = $(this);
-            var userid = _this.data("id");            
-            confirm("确认重置吗?", function () {
+            var userid = _this.data("id");
+            var tr = $(".list-item .dropdown[data-id=" + _this.data("id") + "]").parent();
+            var showmsg = "确认重置帐号：<span class='red'>" + tr.find('.name').html() + "<span>&nbsp;的密码?";
+            confirm(showmsg, function () {
                 Global.post("/Organization/UpdateUserPwd", {
                     userID:userid,
                     loginPwd: ObjectJS.loginName
@@ -187,12 +189,127 @@
                     if (data.status) {
                         alert("密码重置成功");
                     } else {
-                        alert("重置操作未完成！请稍后再试");
+                        alert("服务器繁忙！请稍后再试");
                     }
                 });
                 
             });
         });
+        
+        //解除手机号绑定
+        $("#resetMobilePhone").click(function () {
+            var _this = $(this);
+            var userid = _this.data("id");
+            var tr = $(".list-item .dropdown[data-id=" + _this.data("id") + "]").parent();
+            var showmsg = "确认解除&nbsp;<span class='red'>" + tr.find('.name').html() + "<span>&nbsp;的绑定手机?";
+            confirm(showmsg, function () {
+                Global.post("/Organization/UpdateMobilePhone", {
+                    userID: userid
+                }, function (data) {
+                    if (data.result == 1) {
+                        tr.find('.mobile').html('');
+                        alert("手机号解绑成功");
+                    }
+                    else if (data.result == 2) {
+                        alert("手机号解绑成功");
+                    }
+                    else if (data.result == 3) {
+                        alert("没有绑定手机号");
+                    }
+                    else {
+                        alert("服务器繁忙！请稍后再试");
+                    }
+                });
+
+            });
+        });
+
+        //编辑员工基本信息
+        $("#editBaseInfo").click(function () {
+            var _this = $(this);
+
+            doT.exec("template/organization/staff-detail.html", function (template) {
+                var tr = $(".list-item .dropdown[data-id=" + _this.data("id") + "]").parent();
+                var staff = {
+                    name: tr.find('.name').html(),
+                    staffName: tr.find('.staff-name').html(),
+                    mobilePhone: tr.find('.mobile').html(),
+                    email:tr.find('.email').html()
+                };
+                var innerHtml = template(staff);
+
+                var departID = tr.find('.department').data('id');
+                var departName = tr.find('.department').html();
+                Easydialog.open({
+                    container: {
+                        id: "StaffInfo",
+                        header: "编辑员工信息",
+                        content: innerHtml,
+                        yesFn: function () {
+                            if (!VerifyObject.isPass()) {
+                                return false;
+                            }
+                            var newParams = {
+                                Name: $("#name").val(),
+                                DepartID: departID,
+                                MobilePhone: $("#mobile").val(),
+                                Email: $("#email").val()
+                            };
+                            Global.post("/Organization/UpdateUserBaseInfo", { entity: JSON.stringify(newParams), userID: _this.data("id") }, function (data) {
+                                if (data.result == 1) {
+                                    tr.find('.staff-name').html(newParams.Name);
+                                    tr.find('.mobile').html(newParams.MobilePhone);
+                                    tr.find('.email').html(newParams.Email);
+                                    tr.find('.department').html(departName);
+                                    alert("修改成功");
+                                }
+                                else {
+                                    alert("修改失败");
+                                }
+                            })
+
+                        },
+                        callback: function () {
+
+                        }
+                    }
+
+                });
+                require.async("dropdown", function () {
+                    var drop = $("#depart");
+                    drop.css("width", "130px");
+
+                    $("#depart").dropdown({
+                        prevText: "部门-",
+                        defaultText: departName,
+                        defaultValue: departID,
+                        data: departs,
+                        dataValue: "DepartID",
+                        dataText: "Name",
+                        width: 130,
+                        isposition:true,
+                        onChange:function (data) {
+                            departID = data.value;
+                            departName = data.text;
+                            tr.find('.department').data('id', data.value);
+                        }
+                    })
+                })
+
+
+                VerifyObject = Verify.createVerify({
+                    element: ".verify",
+                    emptyAttr: "data-empty",
+                    verifyType: "data-type",
+                    regText: "data-text"
+                });
+
+
+
+            })
+
+        })
+
     }
 
     //获取列表
@@ -239,11 +356,15 @@
                 //操作
                 innerhtml.find(".dropdown").click(function () {
                     var _this = $(this);
+                    $("#resetMobilePhone").show();
+                    if (_this.data('status') == 0) {
+                        $("#resetMobilePhone").hide();
+                    }
                     ObjectJS.loginName = _this.data("name");
                     var position = _this.find(".ico-dropdown").position();
                     $(".dropdown-ul li").data("id", _this.data("id")).data("roleid", _this.data("roleid"));
 
-                    $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left-80 }).show().mouseleave(function () {
+                    $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 80 }).show().mouseleave(function () {
                         $(this).hide();
                     });
                 });

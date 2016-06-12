@@ -23,7 +23,7 @@
     ///finishStatus：任务完成状态
     ///attrValues:订单品类属性
     ///orderType:订单类型
-    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID) {
+    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID,orderPlanTime) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
         if (attrValues != "")
             CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
@@ -38,13 +38,14 @@
         ObjectJS.finishStatus = task.FinishStatus;
         ObjectJS.status = task.Status;
         ObjectJS.maxHours = task.MaxHours;
+        ObjectJS.planTime = orderPlanTime;
         ObjectJS.isWarn = isWarn;
         ObjectJS.orderimages = orderimages;
         ObjectJS.isPlate = true;//任务是否制版
         ObjectJS.mark = task.Mark;//任务标记 用于做标记任务完成的限制条件
         ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
         ObjectJS.isLoading = true;
-
+        
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
             ObjectJS.materialMark = 1;
@@ -177,7 +178,6 @@
                 if (!ObjectJS.isLoading) {
                     return;
                 }
-
                 ObjectJS.updateTaskEndTime();
             });
         }
@@ -237,58 +237,59 @@
     ObjectJS.updateTaskEndTime = function () {
         if (ObjectJS.maxHours == 0) {
             Easydialog = require("easydialog");
-            var innerHtml = '<div class="pTop10 pBottom5"><span class="width80" style="display:inline-block;">到期时间:</span><input style="width:180px;" type="text" class="taskEndTime" id="UpdateTaskEndTime" placeholder="设置到期时间"/></div>';
-            Easydialog.open({
-                container: {
-                    id: "show-model-setRole",
-                    header: "设置任务到期时间",
-                    content: innerHtml,
-                    yesFn: function () {
-                        if ($("#UpdateTaskEndTime").val() == "") {
-                            alert("任务到期时间不能为空");
-                            return;
-                        }
-
-                        confirm("任务到期时间不可逆，确定设置?", function () {
-                            ObjectJS.isLoading = false;
-                            Global.post("/Task/UpdateTaskEndTime", {
-                                id: ObjectJS.taskid,
-                                endTime: $("#UpdateTaskEndTime").val()
-                            }, function (data) {
-                                if (data.result == 0) {
-                                    alert("操作无效");
-                                }
-                                else if (data.result == 2) {
-                                    alert("任务已接受,不能操作");
-                                }
-                                else if (data.result == 3) {
-                                    alert("没有权限操作");
-                                }
-                                else {
-                                    location.href = location.href;
-                                }
-                                ObjectJS.isLoading = true;
+            //var innerHtml = '<div class="pTop10 pBottom5"><span class="width80" style="display:inline-block;">到期时间:</span><input style="width:180px;" type="text" class="taskEndTime" id="UpdateTaskEndTime" placeholder="设置到期时间"/></div>';
+            DoT.exec("/template/task/set-endtime.html", function (template) {
+                var innerHtml = template();
+                Easydialog.open({
+                    container: {
+                        id: "show-model-setRole",
+                        header: "设置任务到期时间",
+                        content: innerHtml,
+                        yesFn: function () {
+                            if ($("#UpdateTaskEndTime").val() == "") {
+                                alert("任务到期时间不能为空");
+                                return;                        
+                            }
+                            confirm("任务到期时间不可逆，确定设置?", function () {
+                                ObjectJS.isLoading = false;
+                                Global.post("/Task/UpdateTaskEndTime", {
+                                    id: ObjectJS.taskid,
+                                    endTime: $("#UpdateTaskEndTime").val()
+                                }, function (data) {
+                                    if (data.result == 0) {
+                                        alert("操作无效");
+                                    }
+                                    else if (data.result == 2) {
+                                        alert("任务已接受,不能操作");
+                                    }
+                                    else if (data.result == 3) {
+                                        alert("没有权限操作");
+                                    }
+                                    else {
+                                        location.href = location.href;
+                                    }
+                                    ObjectJS.isLoading = true;
+                                });
                             });
-                        });
-
+                        }
                     }
-                }
-            });
+                });
 
-            var myDate = new Date();
-            var minDate = myDate.toLocaleDateString();
-            minDate = minDate + " 23:59:59"
-            //更新任务到期日期
-            var taskEndTime = {
-                elem: '#UpdateTaskEndTime',
-                format: 'YYYY-MM-DD hh:mm:ss',
-                min: minDate,
-                max: '2099-06-16',
-                istime: true,
-                istoday: false
-            };
+                var myDate = new Date();
+                var minDate = myDate.toLocaleDateString();
+                minDate = minDate + " 23:59:59"
+                //更新任务到期日期
+                var taskEndTime = {
+                    elem: '#UpdateTaskEndTime',
+                    format: 'YYYY-MM-DD hh:mm:ss',
+                    min: minDate,
+                    max: ObjectJS.planTime,
+                    istime: true,
+                    istoday: false
+                };
+                laydate(taskEndTime);
+            })
 
-            laydate(taskEndTime);
         }
         else {
             Global.post("/Task/UpdateTaskEndTime", {
@@ -1212,13 +1213,13 @@
 
     //获取制版工艺说明
     ObjectJS.getPlateMakings = function () {
-        $(".tb-plates .tr-header").nextAll().remove();
-        $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
+        $(".tb-plates").html('');
+        $(".tb-plates").html("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Task/GetPlateMakings", {
             orderID:ObjectJS.mark==22?ObjectJS.originalID: ObjectJS.orderid
         }, function (data) {
-            $(".tb-plates .tr-header").nextAll().remove();
+            $(".tb-plates").html('');
 
             if (data.items.length > 0) {
                 DoT.exec("template/task/platemarting-list.html", function (template) {
@@ -1248,7 +1249,7 @@
                 });
             }
             else {
-                $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='nodata-txt'>暂无数据!<div></td></tr>");
+                $(".tb-plates").html("<tr><td colspan='5'><div class='nodata-txt'>暂无数据!<div></td></tr>");
             }
         });
     }
@@ -1293,19 +1294,15 @@
                             TaskID: ObjectJS.taskid,
                             Type: $("#selectType").val()
                         }
-
-                                      
+         
                         Global.post("/Task/SavePlateMaking", { plate: JSON.stringify(Plate) }, function (data) {
                             if (data.result == 0) {
                                 alert("保存失败");
                             }
                             else {
                                 ObjectJS.getPlateMakings();
-                                window.location = window.location;
                             }
                         });
-                        
-
                     }
                 }
             });

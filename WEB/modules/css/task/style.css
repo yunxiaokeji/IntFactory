@@ -164,7 +164,7 @@
     margin:10px 0px;
 }
 .platemakingContent .iconfont{
-    color:#4a98e7;
+    color:#666;
     font-size:24px;
 }
 .platemakingContent .print-plate {
@@ -371,6 +371,7 @@
 .search-item-color .mark-all {
      background:url('/modules/plug/mark/ico-ball.png') no-repeat; 
      background-size:cover; 
+     border:solid 1px #fff;
 }
 .search-item-color .mark0 { 
     background-color:#FFF; 

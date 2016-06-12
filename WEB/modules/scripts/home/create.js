@@ -4,31 +4,19 @@
         City = require("city"), CityObject,
         Verify = require("verify"), VerifyObject;
         
-
-
     var ObjectJS = {}, CacheCategory = [];
     //初始化
     ObjectJS.init = function (clientid, agentid, customerid, categoryitem) {
         var _self = this;
         _self.clientid = clientid;
         _self.agentid = agentid;
-        var categoryitems = JSON.parse(categoryitem.replace(/&quot;/g, '"'));
-
         if (categoryitem!=null)
         {
+            var categoryitems = JSON.parse(categoryitem.replace(/&quot;/g, '"'));
             ObjectJS.categoryitems = categoryitems;
+            _self.bigCategoryValue = _self.categoryitems[0].CategoryID;
+            _self.categoryValue = "";
         }
-
-        //require("moment")
-
-        if ($("#iptCreateTime").length == 1) {
-            moment = require("moment");
-            require("daterangepicker");
-        }
-
-        _self.bigCategoryValue = _self.categoryitems[0].CategoryID;
-
-        _self.categoryValue = "";
 
         if (customerid) {
             Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
@@ -76,25 +64,6 @@
 
         ObjectJS.bindCategory({ value: _self.categoryitems[0].CategoryID }, dropDownWidth);
 
-        //日期插件
-        if ($("#iptCreateTime").length == 1) {
-            $("#iptCreateTime").click(function () {
-                var myDate = new Date();
-                var minDate = myDate.toLocaleDateString();
-                minDate = minDate + " 23:59:59"
-                //期望交货日期
-                var taskEndTime = {
-                    elem: '#iptCreateTime',
-                    format: 'YYYY-MM-DD',
-                    min: minDate,
-                    max: '2099-06-16',
-                    istime: false,
-                    istoday: false
-                };
-                laydate(taskEndTime);
-            })
-        }
-
         //收缩订单或客户信息
         $(".info-box").click(function () {
             var _this=$(this);
@@ -114,7 +83,6 @@
 
         //保存
         $("#btnSave").click(function () {
-            console.log($("#iptCreateTime").val() == null ? "" : $("#iptCreateTime").val());
             if (!VerifyObject.isPass()) {
                 return false;
             }
@@ -171,25 +139,6 @@
             console.log(!!_self.endTime?_self.endTime:"");
             
         });
-
-        $("#bigcategory").change(function () {
-            var _this = $(this);
-            $("#ordercategory").empty();
-            if (CacheCategory[_this.val()]) {
-                for (var i = 0; i < CacheCategory[_this.val()].length; i++) {
-                    $("#ordercategory").append("<option value=" + CacheCategory[_this.val()][i].CategoryID + ">" + CacheCategory[_this.val()][i].CategoryName + "</option>")
-                }
-            } else {
-                Global.post("/Home/GetChildOrderCategorysByID", { categoryid: _this.val(), clientid: _self.clientid }, function (data) {
-                    CacheCategory[_this.val()] = data.Items;
-                    for (var i = 0; i < CacheCategory[_this.val()].length; i++) {
-                        $("#ordercategory").append("<option value=" + CacheCategory[_this.val()][i].CategoryID + ">" + CacheCategory[_this.val()][i].CategoryName + "</option>")
-                    }
-                });
-            }
-        });
-
-        $("#bigcategory").change();
     }
 
     //绑定小品类

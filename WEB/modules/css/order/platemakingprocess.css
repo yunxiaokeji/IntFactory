@@ -1,24 +1,25 @@
 ﻿body { background:#fff;}
-.report {margin:20px auto; width:1000px;}
-.preview{font-size:22px;margin-bottom:10px;}
+.report {margin:30px auto; width:1000px;}
+.preview{font-size:20px;margin-bottom:10px;}
 table{border:1px solid #000;border-collapse:collapse;}
-table:first-child tr td{border:1px solid #000;text-align:center;width:157.5px;height:30px;}
+table:first-child tr td{border:1px solid #000;text-align:center;width:157.5px;height:35px;}
 table:first-child tr:first-child img{width:60px;height:30px;}
-table .titlename{font-size:22px;font-weight:bold;}
+table .titlename{font-size:22px;}
 .navsenddoc { width:636px;}
 .navgoods tr td {border:1px solid #000;text-align:center;height:25px;width:89px; }
 .navproducts { width:955px;}
 .navproducts .products img{width:90px;height:90px;padding:5px;}
-.navproducts tr td {border:1px solid #000;text-align:center;height:25px; }
+.navproducts tr td {border:1px solid #000;text-align:center;height:35px; }
 .navengraving tr td {border:1px solid #000;text-align:center;height:25px; }
-.processplate tr td {border:1px solid #000;text-align:center;height:35px; }
+.processplate tr td {border:1px solid #000;text-align:center;height:38px; }
 .btn { background-color:#888}
 .btn:hover{background-color:#666}
 .icon-delete { float:left;margin-right:20px;margin-left:5px;color:#666;cursor:pointer;}
-.hover {color:#007aff; }
+.hover {color:#bbb; }
 .img-order img { width:120px;height:200px;}
 .img-order tr td { border:1px solid #000;text-align:center;height:30px;}
-.img-order { width:318px;height:290px;}
+.img-order { width:318px;}
+.process .input { border-color:#666;height:22px;line-height:22px !important;}
 
 
 

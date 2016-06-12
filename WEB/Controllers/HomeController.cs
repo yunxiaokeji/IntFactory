@@ -32,7 +32,7 @@ namespace YXERP.Controllers
                 var agent = IntFactoryBusiness.AgentsBusiness.GetAgentDetail(currentUser.AgentID);
                 ViewBag.RemainDay = Math.Ceiling((agent.EndTime - DateTime.Now).TotalDays);
                 ViewBag.BuyPeople = agent.UserQuantity;
-                ViewBag.UsePeople = OrganizationBusiness.GetUsers(agent.AgentID).Count;
+                ViewBag.UsePeople = OrganizationBusiness.GetUsers(agent.AgentID).FindAll(m=>m.Status!=9).Count;
 
                 if (currentUser.Role != null)
                 {
@@ -44,9 +44,11 @@ namespace YXERP.Controllers
                     else
                     {
                         //我的订单
-                        if (currentUser.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0) {
+                        if (currentUser.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0) 
+                        {
                             level = 2;
-                        }//所有任务
+                        }
+                        //所有任务
                         else if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
                         {
                             level = 3;

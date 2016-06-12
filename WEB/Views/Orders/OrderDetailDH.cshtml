@@ -103,8 +103,8 @@
     <div class="left titlename">款式编码：@(model.IntGoodsCode)</div>
     <ul class="right">
         <li title="来源打样单">
-            <i class="iconfont">&#xe612;</i>
-            <a href="/Orders/OrderDetail/@(model.OriginalID)" class="">@(model.OriginalCode)</a>
+            <span class="font14 color666">来源打样单：</span>
+            <a href="/Orders/OrderDetail/@(model.OriginalID)" class="font14">@(model.OriginalCode)</a>
             @if (string.IsNullOrEmpty(model.OriginalID) && model.IsSelf)
             {
                 <div class="btn @(ExpandClass.IsLimits(HttpContext.Current, "102019018"))" id="bindOriginalOrder">绑定打样款号</div> 
@@ -123,14 +123,7 @@
                 <span title="更换负责人" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner">&#xe60b;</span>
             }
         </li>
-        @if (model.Status > 0)
-        {
-            <li class="sample-report" data-type="2">
-                <span class="iconfont left">&#xe645;</span>
-                <span class="left mLeft5 blue">制版工艺</span>
-            </li>
-        }
-       
+               
     </ul>
 </div>
 

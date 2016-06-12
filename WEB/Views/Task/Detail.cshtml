@@ -20,7 +20,7 @@
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn?1:0)', '@Html.ToJSONString(task)', '@order.OriginalID');
+                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn?1:0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")');
             });
 
         });
@@ -92,9 +92,6 @@
     <li id="btn-addColumn">添加新列</li>
     <li id="btn-removeColumn">删除此列</li>
 </ul>
-
-
-
 
 <div class="enlarge-image-bgbox hide">
     <div class="close-enlarge-image iconfont">&#xe606;</div> 

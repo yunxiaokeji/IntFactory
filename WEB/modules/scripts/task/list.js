@@ -2,9 +2,9 @@
     var Global = require("global"),
         doT = require("dot"),
         moment = require("moment");
-    require("daterangepicker");
-    require("pager");
-    require("mark");
+        require("daterangepicker");
+        require("pager");
+        require("mark");
 
     var Params = {
         isMy: true,//是否获取我的任务
@@ -145,22 +145,8 @@
                 _this.addClass("hover");
                 
                 Params.orderType = _this.data("id");
-                //if (Params.orderType=="-1") {                   
-                //    $(".search-process .itemDH").show();
-                //    $(".search-process .itemDY").show();
-                //} else if (Params.orderType == "1") {     
-                //    $(".search-process .itemDY").show();
-                //    $(".search-process .item:first").addClass("hover").siblings().removeClass("hover");
-                //    $(".search-process .itemDH").hide();
-                //} else {
-                //    $(".search-process .itemDH").show();
-                //    $(".search-process .item:first").addClass("hover").siblings().removeClass("hover");
-                //    $(".search-process .itemDY").hide();
-                //}
-
                 Params.orderProcessID = '-1';
                 Params.orderStageID = '-1';
-                $(".search-stage").hide();
                 ObjectJS.getList();
             }
         });
@@ -310,7 +296,7 @@
         if (showtype == "list") {
             $(".task-items").hide();
             $(".table-list").show();
-            $(".tr-header").after("<tr><td colspan='10'><div class='data-loading'><div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='11'><div class='data-loading'><div></td></tr>");
         }
         else {
             $(".table-list").hide();
