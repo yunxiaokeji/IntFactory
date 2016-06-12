@@ -7,12 +7,13 @@
 
 <div class="platemakingContent hide" id="platemakingContent">
     @{
-        if (!string.IsNullOrEmpty(order.Platemaking) && isRoot)
-        {
+        //if (!string.IsNullOrEmpty(order.Platemaking) && isRoot)
+        //{
             <a class="right" href="/Orders/PlateMakingProcess/@order.OrderID" target="_blank" id="btn-platePrint" title="制版工艺">
                 <span class="iconfont">&#xe658;</span><span class="print-plate">制版工艺</span>
             </a>
-        }
+            @*
+        }*@
     }
     <div class="clear"></div>
 

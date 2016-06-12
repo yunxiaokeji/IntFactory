@@ -21,7 +21,8 @@ namespace YXERP.Controllers
 
         public ActionResult Index()
         {
-            int level = 0;
+            int orderLevel = 0;
+            int taskLevel = 0;
             if (Session["ClientManager"] == null)
             {
                 return Redirect("/Home/Login");
@@ -39,27 +40,32 @@ namespace YXERP.Controllers
                     //所有订单
                     if (currentUser.Menus.FindAll(m => m.MenuCode == "102010300").Count > 0)
                     {
-                        level = 1;
+                        orderLevel = 2;
                     }
-                    else
+                    //我的订单
+                    else if (currentUser.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0)
                     {
-                        //我的订单
-                        if (currentUser.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0) 
-                        {
-                            level = 2;
-                        }
-                        //所有任务
-                        else if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
-                        {
-                            level = 3;
-                        }
+                        orderLevel = 1;
                     }
 
-                    ViewBag.UserID = currentUser.UserID;
+                    //所有任务
+                    if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
+                    {
+                        taskLevel = 2;
+                    }
+                    //我的任务
+                    else if (currentUser.Menus.FindAll(m => m.MenuCode == "109010100").Count > 0)
+                    {
+                        taskLevel = 1;
+                    }
+                    
                 }
+
+                ViewBag.UserID = currentUser.UserID;
+                ViewBag.orderLevel = orderLevel;
+                ViewBag.taskLevel = taskLevel;
             }
 
-            ViewBag.Level = level;
             return View();
         }
 

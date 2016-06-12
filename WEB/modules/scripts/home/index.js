@@ -22,16 +22,23 @@
     
     ObjectJS.orderFilter = -1;
 
-    ObjectJS.init = function (level, userID) {
-        //level   3和0移除订单按钮
-        if (level == 2 || level == 0) {
-            Paras.userID = userID;
-        }
+    ObjectJS.init = function (orderLevel, taskLevel, userID) {
+        ObjectJS.orderLevel = orderLevel;
+        ObjectJS.taskLevel = taskLevel;
 
-        if (level == 0 || level == 3) {
+        //没有订单权限
+        if (orderLevel == 0) {
             Paras.moduleType = 2;
             $('.order-type').find('span:first-child').remove();
             $('.order-type').find('span:last-child').addClass('hover').css({ "border-left": "1px solid #cecece", "border-right": "1px solid #cecece" });
+
+            if (taskLevel != 2) {
+                Paras.userID = userID;
+            }
+        }
+        //我的订单
+        else if (orderLevel == 1) {
+            Paras.userID = userID;
         }
 
         ObjectJS.bindEvent();
@@ -62,6 +69,17 @@
                     _this.addClass('hover').siblings().removeClass('hover');
 
                     Paras.moduleType = _this.data('id');
+                    Paras.userID = "";
+                    if (Paras.moduleType == 1) {
+                        if (ObjectJS.orderLevel != 2) {
+                            Paras.userID = ObjectJS.userID;
+                        }
+                    }
+                    else {
+                        if (ObjectJS.taskLevel != 2) {
+                            Paras.userID = ObjectJS.userID;
+                        }
+                    }
                     Paras.filterTime ='';
                     Paras.filterType = 1;
                     Paras.pageIndex = 1;
@@ -369,11 +387,20 @@
         }
 
         //切换模块显示任务或订单描述
-        var orderMsg = "任务";
+        var orderMsg = "我的任务";
         var totalEcceed = "超期任务总数:";
         if (Paras.moduleType == 1) {
-            orderMsg = "订单";
+            orderMsg = "我的订单";
             totalEcceed = "超期订单总数:";
+
+            if (ObjectJS.orderLevel == 2) {
+                orderMsg = "所有订单";
+            }
+        }
+        else {
+            if (ObjectJS.taskLevel == 2) {
+                orderMsg = "所有任务";
+            }
         }
         $(".order-msg").html(orderMsg);
         $(".ordertotal .total-ecceed").prev().html(totalEcceed);

@@ -8,7 +8,7 @@
 @section scripts{
     <script type="text/javascript">
        seajs.use(["scripts/home/index"], function (obj) {
-           obj.init('@ViewBag.Level', '@ViewBag.UserID');
+           obj.init('@ViewBag.orderLevel', '@ViewBag.taskLevel', '@ViewBag.UserID');
        });
     </script>
 }
@@ -16,7 +16,7 @@
 <div class="index-report">
     <div class="index-report-header">
         <div class="left">
-            <span class="font14 order-msg">订单</span>
+            <span class="font14 order-msg">所有订单</span>
             <span class="mLeft20">@(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))</span>
         </div>
         <div class="right order-type">
@@ -30,7 +30,7 @@
             <ul class="sum-list">
                 <li class="active" data-orderfilter="-1">
                     <div class="sun-count total" id="totalSumCount">0</div>
-                    <div>全部<span class="order-msg" style="color:#888;">订单</span></div>
+                    <div><span class="order-msg" style="color:#888;">所有订单</span></div>
                 </li>
                 <li data-orderfilter="1">
                      <span class="sun-count exceed" id="totalExceedCount">0</span>
