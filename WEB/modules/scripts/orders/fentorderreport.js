@@ -7,11 +7,9 @@
     };
 
     ObjectJS.bindEvent = function (plate, price, costprice) {
-        if (plate == "") {
-            $("#Platemak").html('<tr><td class="no-border" style="width:500px;font-size:15px;">暂无！</td></tr>')
-        } else {
+        if (plate != "") {
             $("#Platemak").html(decodeURI(plate));
-        };
+        }
 
         var conclusion = Number(price) + Number(costprice);
 
@@ -72,7 +70,7 @@
         });
 
         $(".get-back").click(function () {
-            location.href = location.href+"?"+(new Date().getMilliseconds() );
+            location.href = location.href+"?"+(new Date().getMilliseconds());
         })
     };
 

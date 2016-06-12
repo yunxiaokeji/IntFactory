@@ -12,7 +12,7 @@
 
     Objects.bindEvent = function (plate,img) {
         if (plate == "") {
-            $("#Platemak").html('<tr><td class="no-border" style="width:954px;font-size:15px;height:50px;">暂无！</td></tr>')
+            $("#Platemak").html('<tr><td class="no-border" style="width:954px;font-size:15px;height:50px;"></td></tr>')
         } else {
             $("#Platemak").html(decodeURI(plate));
         };
@@ -168,9 +168,10 @@
                     })
 
                 });
-            } else {
-                $(".processplate").prepend('<tr class="proplate"><td colspan="10" class="no-border-top"><div class="nodata-txt">暂无工艺</div></td></tr>');
             }
+            //else {
+            //    $(".processplate").prepend('<tr class="proplate"><td colspan="10" class="no-border-top"><div class="nodata-txt"></div></td></tr>');
+            //}
         });    
     };
 
