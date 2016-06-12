@@ -997,15 +997,22 @@ namespace IntFactoryBusiness
                     }
                     if (first)
                     {
-                        FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
-
-                        if (file.Exists)
+                        if (orderimg.ToLower().IndexOf("http://img.china.alibaba.com") < 0)
                         {
-                            firstimg = orderimg.Substring(0, orderimg.IndexOf(file.Name)) + "small" + file.Name;
-                            if (!new FileInfo(HttpContext.Current.Server.MapPath(firstimg)).Exists)
+                            FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
+
+                            if (file.Exists)
                             {
-                                CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 250, HttpContext.Current.Server.MapPath(firstimg));
+                                firstimg = orderimg.Substring(0, orderimg.IndexOf(file.Name)) + "small" + file.Name;
+                                if (!new FileInfo(HttpContext.Current.Server.MapPath(firstimg)).Exists)
+                                {
+                                    CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 250, HttpContext.Current.Server.MapPath(firstimg));
+                                }
                             }
+                        }
+                        else 
+                        {
+                            firstimg = orderimg;
                         }
                         first = false;
                     }
