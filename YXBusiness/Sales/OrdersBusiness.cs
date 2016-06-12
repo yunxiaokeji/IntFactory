@@ -427,6 +427,7 @@ namespace IntFactoryBusiness
                     model.Customer = new CustomerEntity();
                     model.Customer.FillData(ds.Tables["Customer"].Rows[0]);
                 }
+
                 model.Details = new List<OrderDetail>();
                 foreach (DataRow dr in ds.Tables["Details"].Rows)
                 {
@@ -436,6 +437,11 @@ namespace IntFactoryBusiness
                     {
                         detail.UnitName = new ProductsBusiness().GetUnitByID(detail.UnitID).UnitName;
 
+                    }
+                    var city = CommonBusiness.GetCityByCode(detail.ProviderCityCode);
+                    if (city != null)
+                    {
+                        detail.ProviderAddress = city.Description + detail.ProviderAddress;
                     }
                     model.Details.Add(detail);
                 }
