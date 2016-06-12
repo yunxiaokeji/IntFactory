@@ -12,7 +12,7 @@
         } else {
             $("#Platemak").html(decodeURI(plate));
         };
-       
+
         var conclusion = Number(price) + Number(costprice);
 
         $(".conclusion").html(conclusion.toFixed(2));
@@ -22,7 +22,7 @@
         if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {
             $(".style-information").parent().css("height","100%");
         }
-          
+
         $(".icon-delete,.icon-delete-provider").click(function () {
             if ($(this).hasClass("no-select")) {
                 $(this).removeClass("no-select");
@@ -37,6 +37,7 @@
             var priceoffer = $(".offer").val();            
             $(".priceoffer").html(Number(priceoffer).toFixed(2));
             $(".offer").remove();
+
 
             if ($(".customer").hasClass("no-select")) {
                 $(".customer").parent().parent().remove();
