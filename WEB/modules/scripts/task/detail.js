@@ -45,7 +45,6 @@
         ObjectJS.mark = task.Mark;//任务标记 用于做标记任务完成的限制条件
         ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
         ObjectJS.isLoading = true;
-        
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
             ObjectJS.materialMark = 1;
@@ -75,7 +74,6 @@
                 ObjectJS.isPlate = false;
             }
         }
-
         if (ObjectJS.mark === 23) {
             CutoutDoc = require("scripts/task/cutoutdoc");
             CutoutDoc.initCutoutDoc(ObjectJS.orderid,ObjectJS.taskid,Global,DoT,Easydialog);
@@ -1186,11 +1184,10 @@
         $("#btnAddPalte").click(function () {
             ObjectJS.addPlateMaking();            
         });
-        
-        
+
         $("#setObjectPlate").click(function () {
             var index = $(this).data("index");
-            var item = PlateMakings[index];           
+            var item = PlateMakings[index];
             Plate = {
                 PlateID: item.PlateID,
                 Title: $("#plateTitle").val(),
@@ -1215,7 +1212,7 @@
     ObjectJS.getPlateMakings = function () {
         $(".tb-plates").html('');
         $(".tb-plates").html("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
-
+      
         Global.post("/Task/GetPlateMakings", {
             orderID:ObjectJS.mark==22?ObjectJS.originalID: ObjectJS.orderid
         }, function (data) {
@@ -1282,7 +1279,7 @@
                     yesFn: function () {
                         if ($("#plateTitle").val() == '') {
                             alert("工艺不能为空");
-                            return;
+                            return false;
                         }
 
                         Plate = {

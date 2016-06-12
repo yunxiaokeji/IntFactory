@@ -39,7 +39,6 @@
         if (status) {
             Params.OrderStatus = status;
         }
-       
         Params.PageSize = ($(".object-items").width() / 300).toFixed(0) * 3;
 
         _self.getList();
