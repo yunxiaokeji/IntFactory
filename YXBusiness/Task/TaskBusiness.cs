@@ -84,10 +84,14 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public static List<TaskEntity> GetTasksByEndTime(string startEndTime, string endEndTime, int orderType, int filterType, string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public static List<TaskEntity> GetTasksByEndTime(string startEndTime, string endEndTime, 
+            int orderType, int filterType, int finishStatus,
+            string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             List<TaskEntity> list = new List<TaskEntity>();
-            DataTable dt = TaskDAL.BaseProvider.GetTasksByEndTime(startEndTime, endEndTime, orderType, filterType, userID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            DataTable dt = TaskDAL.BaseProvider.GetTasksByEndTime(startEndTime, endEndTime, 
+                orderType, filterType, finishStatus,
+                userID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -133,6 +137,10 @@ namespace IntFactoryBusiness
             return TaskDAL.BaseProvider.GetNoAcceptTaskCount(ownerID, orderType, clientID);
         }
 
+        public static int GetexceedTaskCount(string ownerID, int orderType, string clientID)
+        {
+            return TaskDAL.BaseProvider.GetexceedTaskCount(ownerID, orderType, clientID);
+        }
         /// <summary>
         /// 获取任务详情
         /// </summary>
