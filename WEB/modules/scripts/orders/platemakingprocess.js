@@ -16,7 +16,6 @@
         } else {
             $("#Platemak").html(decodeURI(plate));
         };
-
         if (img == "") {
             img = "/modules/images/none-img.png";
         };
