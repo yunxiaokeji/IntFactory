@@ -55,6 +55,16 @@
                 $(".addresses").parent().remove();
                 $(".address").remove();
             }
+            
+            if ($(".price").hasClass("no-select")) {
+                $(".price").parent().remove();
+                $(".price-txt").remove();
+            }
+
+            if ($(".cost").hasClass("no-select")) {
+                $(".cost").parent().remove();
+                $(".cost-txt").remove();
+            }
 
             $(".btn-ok").remove();
             $(".icon-delete").hide();

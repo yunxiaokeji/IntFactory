@@ -260,7 +260,6 @@
                             var ids = "", userid = items[0].id;
                             checks.each(function () {
                                 var _this = $(this);
-                                console.log(_this.attr('class'));
                                 if (_this.data("userid") != userid) {
                                     ids += _this.data("id") + ",";
                                     
