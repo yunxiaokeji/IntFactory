@@ -1,6 +1,8 @@
 ﻿@{
     var order = (IntFactoryEntity.OrderEntity)ViewBag.Model;
-    var goods = (List<IntFactoryEntity.GoodsDoc>)ViewBag.List;   
+    var goods = (List<IntFactoryEntity.GoodsDoc>)ViewBag.List;
+    var currentUser=(IntFactoryEntity.Users)Session["ClientManager"];
+    string[] orderImages = order.OrderImages.Trim(',').Split(',');
     ViewBag.title = "制版工艺单";
     Layout = null;
 }
@@ -39,12 +41,12 @@
                    
                     <td class="no-border-left" colspan="6">
                         <div class="titlename">
-                            制版工艺单                            
+                            @(currentUser.Client.CompanyName)制版工艺单                            
                         </div>
                     </td>                
                 </tr>
                 <tr>
-                    <td>跨界款号：</td>
+                    <td>款号：</td>
                     <td>@(order.IntGoodsCode==""?order.OrderCode:order.IntGoodsCode)</td>
                     <td>采购负责人：</td>
                     <td>

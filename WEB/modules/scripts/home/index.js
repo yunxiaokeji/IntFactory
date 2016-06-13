@@ -41,7 +41,7 @@
             Paras.userID = userID;
         }
 
-        ObjectJS.bindEvent();
+        ObjectJS.bindEvent();       
         ObjectJS.getReportList();
         ObjectJS.getDataList();
         ObjectJS.getTaskOrOrderCount();
