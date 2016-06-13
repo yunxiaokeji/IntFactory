@@ -456,6 +456,7 @@
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\home\guidestep.js" />
     <Content Include="modules\scripts\home\index.js" />
+    <Content Include="modules\scripts\home\task-list.html" />
     <Content Include="modules\scripts\inquire\inquireorder.js" />
     <Content Include="modules\scripts\myaccount\feedbacklist.js" />
     <Content Include="modules\scripts\orders\create.js" />
@@ -483,6 +484,8 @@
     <Content Include="modules\scripts\task\senddyorders.js" />
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />
+    <Content Include="modules\template\home\customerorders.html" />
+    <Content Include="modules\template\home\task-list.html" />
     <Content Include="modules\template\inquire\inquireorder.html" />
     <Content Include="modules\template\myaccount\feedbacklist.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />

@@ -10,8 +10,7 @@
 
     var Paras = {
         filterTime: '', 
-        filterType: 1,  //订单阶段-1全部 1已超期 2快到期 3进行中 4已完成
-        userID: '',
+        filterType: -1,  //订单阶段-1全部 1已超期 2快到期 3进行中 4已完成
         moduleType:1,//模块类型 1.订单  2.任务
         orderType: -1,
         pageSize:5,
@@ -22,29 +21,20 @@
     
     ObjectJS.orderFilter = -1;
 
-    ObjectJS.init = function (orderLevel, taskLevel, userID) {
+    ObjectJS.init = function (orderLevel) {
         ObjectJS.orderLevel = orderLevel;
-        ObjectJS.taskLevel = taskLevel;
 
         //没有订单权限
         if (orderLevel == 0) {
             Paras.moduleType = 2;
             $('.order-type').find('span:first-child').remove();
             $('.order-type').find('span:last-child').addClass('hover').css({ "border-left": "1px solid #cecece", "border-right": "1px solid #cecece" });
-
-            if (taskLevel != 2) {
-                Paras.userID = userID;
-            }
-        }
-        //我的订单
-        else if (orderLevel == 1) {
-            Paras.userID = userID;
         }
 
         ObjectJS.bindEvent();       
         ObjectJS.getReportList();
         ObjectJS.getDataList();
-        ObjectJS.getTaskOrOrderCount();
+        ObjectJS.getTaskOrOrderEcceedCount();
     };
 
     ObjectJS.bindEvent = function () {
@@ -67,26 +57,11 @@
                 if (IsLoadding && IsLoaddingTwo)
                 {
                     _this.addClass('hover').siblings().removeClass('hover');
-
                     Paras.moduleType = _this.data('id');
-                    Paras.userID = "";
-                    if (Paras.moduleType == 1) {
-                        if (ObjectJS.orderLevel != 2) {
-                            Paras.userID = ObjectJS.userID;
-                        }
-                    }
-                    else {
-                        if (ObjectJS.taskLevel != 2) {
-                            Paras.userID = ObjectJS.userID;
-                        }
-                    }
-                    Paras.filterTime ='';
-                    Paras.filterType = 1;
-                    Paras.pageIndex = 1;
 
                     ObjectJS.getReportList();
+                    ObjectJS.getNeedOrderList();
                     ObjectJS.getTaskOrOrderCount();
-                    ObjectJS.getDataList();
                 }
                 else {
                     alert("数据加载中，请稍等 !");
@@ -113,7 +88,7 @@
                             Paras.pageIndex = 1;
                             ObjectJS.getDataList();
                             ObjectJS.getReportList();
-                            ObjectJS.getTaskOrOrderCount();
+                            ObjectJS.getTaskOrOrderEcceedCount();
                         }
                         else {
                             alert("数据加载中，请稍等 !");
@@ -124,12 +99,10 @@
         });
 
         //获取所有已超期订单或任务
-        $(".get-ecceed").click(function () {
+        $(".get-need").click(function () {
             if (IsLoadding && IsLoaddingTwo) {
                 if (Paras.filterTime != "") {
-                    Paras.filterTime = '';
-                    Paras.filterType = 1;
-                    ObjectJS.getDataList();
+                    ObjectJS.getNeedOrderList();
                 }
             }
             else {
@@ -162,7 +135,7 @@
         if (data == null) {
             IsLoadding = false;
             var action = Paras.moduleType == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
-            Global.post("/Home/" + action, { userID: Paras.userID, orderType: Paras.orderType }, function (data) {
+            Global.post("/Home/" + action, {orderType: Paras.orderType }, function (data) {
                 $(".report-guid").find('.data-loading').remove();
                 IsLoadding = true;
 
@@ -252,7 +225,6 @@
                 var _this = $(this);
                 if ((Paras.filterType != _this.data('type') || Paras.filterTime != _this.data('date')) || !_this.hasClass('checked')) {
                     if (IsLoadding && IsLoaddingTwo) {
-                        Paras.pageIndex = 1;
                         Paras.filterType = _this.data('type');
                         Paras.filterTime = _this.data('date');
 
@@ -262,7 +234,7 @@
                         $(".list-header .list-total").css("background-color", backgroundColor);
                         $(".order-layerbox .layer-lump").nextAll().remove();
 
-                        ObjectJS.getDataList();
+                        ObjectJS.getOrdersByTypeAndTime();
                     }
                     else {
                         alert("数据加载中，请稍等 !");
@@ -311,9 +283,20 @@
         }
     }
 
+    ObjectJS.getNeedOrderList = function () {
+        Paras.filterTime = '';
+        Paras.filterType = -1;
+        Paras.pageIndex = 1;
+        ObjectJS.getDataList();
+    }
+
+    ObjectJS.getOrdersByTypeAndTime = function () {
+        Paras.pageIndex = 1;
+        ObjectJS.getDataList();
+    }
+
     //获取列表数据
     ObjectJS.getDataList = function () {
-
         var data = null;
         if (Paras.pageIndex == 1) {
             $(".order-layerbox").find('.layer-lump').nextAll().remove();
@@ -323,13 +306,11 @@
         $(".order-layerbox").append("<div class='data-loading'></div>");
 
         IsLoaddingTwo = false;
-       
         if (data == null) {
             Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
                 IsLoaddingTwo = true;
                 $('.data-loading').remove();
 
-                var items = data.items;
                 if (Paras.pageIndex == 1) {
                     CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "DataList"] = data;
                 }
@@ -343,14 +324,25 @@
 
     //拼接列表数据
     ObjectJS.createDataListHtml = function (data) {
-        var moduleType = Paras.moduleType;
-        var url = "/template/home/index-order.html";
-        if (moduleType == 2) {
-            url = "/template/home/index-task.html";
-        }
-
         IsLoaddingTwo = true;
         $('.data-loading').remove();
+
+        var url = "";
+        if (Paras.moduleType == 2) {
+            url = "/template/home/index-task.html";
+
+            if (Paras.filterTime == '') {
+                url = "/template/home/task-list.html";
+            }
+        }
+        else {
+            url = "/template/home/index-order.html";
+
+            if (Paras.filterTime == '') {
+                url = "/template/home/customerorders.html";
+            }
+        }
+
         var items = data.items;
         if (items.length == 0) {
             $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
@@ -365,13 +357,11 @@
                     var _this = $(this);
                     _this.css({ "width": _this.data('width') });
                 });
-
                 $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
                     var _this = $(this);
                     _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
 
                 });
-
                 innerText.find('.layer-line').css({ width: 0, left: "160px" });
             });
         }
@@ -386,61 +376,58 @@
             }
         }
 
-        //切换模块显示任务或订单描述
-        var orderMsg = "我的任务";
-        var totalEcceed = "超期任务总数:";
-        if (Paras.moduleType == 1) {
-            orderMsg = "我的订单";
-            totalEcceed = "超期订单总数:";
-
-            if (ObjectJS.orderLevel == 2) {
-                orderMsg = "所有订单";
-            }
+        //文字说明切换
+        var reportTitle = "我的订单";
+        var reportTotalTtitle = "全部订单";
+        var totalEcceedTtitle = "超期订单总数:";
+        if (Paras.moduleType == 2) 
+        {
+            var reportTitle = "我的任务";
+            var reportTotalTtitle = "全部任务";
+            var totalEcceedTtitle = "超期任务总数:";
         }
-        else {
-            if (ObjectJS.taskLevel == 2) {
-                orderMsg = "所有任务";
-            }
-        }
-        $(".order-msg").html(orderMsg);
-        $(".ordertotal .total-ecceed").prev().html(totalEcceed);
-
-
-        //判断是否选择时间没有列表时间则显示已超期
-        var timeHtml = $(".show-timemsg");
+        $(".report-title").html(reportTitle);
+        $(".report-total-title").html(reportTotalTtitle);
+        $(".ordertotal .total-ecceed").prev().html(totalEcceedTtitle);
+        
+        var $listTitle = $(".list-title");
         if (Paras.filterTime != '') {
-            timeHtml.html(data.showTime);
-
+            $listTitle.html(data.showTime);
         }
         else {
-            timeHtml.html('已超期');
-            $(".list-total").css({ "background-color": "#f35353" });
+            var listTitle = "需求单";
+            if (Paras.moduleType == 2) {
+                listTitle = "未接受任务";
+            }
+            $listTitle.html(listTitle);
 
-            $(".total-ecceed").html(data.getTotalCount);
+            $(".list-total").css({ "background-color": "#49b3f5" });
+            $(".list-total").html(data.getNeedTotalCount);
+            $(".total-need").html(data.getNeedTotalCount);
         }
-        $(".list-total").html(data.getTotalCount);
     }
 
-    //获取统计总数
-    ObjectJS.getTaskOrOrderCount = function () {
+    //获取超期总数
+    ObjectJS.getTaskOrOrderEcceedCount = function () {
         var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "TaskOrOrderCount"];
         if (data == null) {
-            Global.post("/Home/GetOrderOrTaskCount", Paras,
+            Global.post("/Home/GetTaskOrOrderEcceedCount", Paras,
                 function (data) {
                     CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "TaskOrOrderCount"] = data;
-                    var name = "需求订单总数:";
+
+                    var name = "超期订单总数:";
                     if (Paras.moduleType == 2) {
-                        name = "未接受任务总数:";
+                        name = "超期任务总数:";
                     }
-                    $(".total-need").html(data.result).prev().html(name);
+                    $(".total-ecceed").html(data.result).prev().html(name);
                 });
         }
         else {
-            var name = "需求订单总数:";
+            var name = "超期订单总数:";
             if (Paras.moduleType == 2) {
-                name = "未接受任务总数:";
+                name = "超期任务总数:";
             }
-            $(".total-need").html(data.result).prev().html(name);
+            $(".total-ecceed").html(data.result).prev().html(name);
         }
     }
 

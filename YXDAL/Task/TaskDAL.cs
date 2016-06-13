@@ -67,7 +67,9 @@ namespace IntFactoryDAL
             return ds.Tables[0];
         }
 
-        public DataTable GetTasksByEndTime(string startEndTime, string endEndTime, int orderType, int filterType, string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public DataTable GetTasksByEndTime(string startEndTime, string endEndTime,
+            int orderType, int filterType, int finishStatus,
+            string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
@@ -78,6 +80,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@EndEndTime",endEndTime),
                                         new SqlParameter("@OrderType",orderType),
                                        new SqlParameter("@FilterType",filterType),
+                                        new SqlParameter("@FinishStatus",finishStatus),
                                        new SqlParameter("@UserID",userID),
                                        new SqlParameter("@ClientID",clientID)
    
@@ -102,6 +105,26 @@ namespace IntFactoryDAL
                                    };
 
             string sql = "select count(taskid) from Ordertask where finishstatus=0 and status<>9 and ClientID=@ClientID";
+            if (orderType != -1)
+            {
+                sql += " and OrderType=@OrderType";
+            }
+            if (!string.IsNullOrEmpty(ownerID))
+            {
+                sql += " and OwnerID=@OwnerID";
+            }
+            return (int)ExecuteScalar(sql, paras, CommandType.Text);
+        }
+
+        public int GetexceedTaskCount(string ownerID, int orderType, string clientID)
+        {
+            SqlParameter[] paras = {
+                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@OwnerID",ownerID),
+                                       new SqlParameter("@OrderType",orderType)
+                                   };
+
+            string sql = "select count(taskid) from Ordertask where finishstatus=1 and status<>9 and endtime<getdate() and ClientID=@ClientID";
             if (orderType != -1)
             {
                 sql += " and OrderType=@OrderType";

@@ -276,15 +276,15 @@
                 var myDate = new Date();
                 var minDate = myDate.toLocaleDateString();
                 minDate = minDate + " 00:00:00"
-                if (ObjectJS.planTime <= minDate) {
-                    ObjectJS.planTime = '';
-                }
+                //if (ObjectJS.planTime <= minDate) {
+                //    ObjectJS.planTime = '';
+                //}
                 //更新任务到期日期
                 var taskEndTime = {
                     elem: '#UpdateTaskEndTime',
                     format: 'YYYY-MM-DD hh:mm:ss',
                     min: minDate,
-                    max: ObjectJS.planTime,
+                    //max: ObjectJS.planTime,
                     istime: true,
                     istoday: false
                 };
