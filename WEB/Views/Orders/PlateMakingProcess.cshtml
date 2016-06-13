@@ -3,6 +3,13 @@
     var goods = (List<IntFactoryEntity.GoodsDoc>)ViewBag.List;
     var currentUser=(IntFactoryEntity.Users)Session["ClientManager"];
     string[] orderImages = order.OrderImages.Trim(',').Split(',');
+    if(orderImages.Length==1){
+        orderImages = new string[] { orderImages[0], string.Empty };
+    }
+    if(orderImages.Length==0){
+        orderImages = new string[] { string.Empty, string.Empty };
+    }
+    
     ViewBag.title = "制版工艺单";
     Layout = null;
 }
@@ -41,7 +48,7 @@
                    
                     <td class="no-border-left" colspan="6">
                         <div class="titlename">
-                            @(currentUser.Client.CompanyName)制版工艺单                            
+                            @(currentUser.Client.CompanyName)生产工艺单                            
                         </div>
                     </td>                
                 </tr>
@@ -51,6 +58,8 @@
                     <td>采购负责人：</td>
                     <td>
                         <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
                         <span class="span hide"></span>
                     </td>
                     <td>下单日期：</td>
@@ -60,11 +69,15 @@
                     <td>销售负责人：</td>
                     <td>
                         <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
                         <span class="span hide"></span>
                     </td>
                     <td>纸样师负责人：</td>
                     <td>
                         <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
                         <span class="span hide"></span>
                     </td>
                     <td>合同货期：</td>
@@ -74,11 +87,15 @@
                     <td>理单负责人：</td>
                     <td>
                         <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
                         <span class="span hide"></span>
                     </td>
                     <td>QC负责人：</td>
                     <td>
                         <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
                         <span class="span hide"></span>
                     </td>
                     <td class="no-border-right">准确资料签章：</td>       
@@ -129,8 +146,14 @@
                     <td class="no-border-top">后片图片</td>
                 </tr>
                 <tr>
-                    <td class="no-border-left"><img src="@(order.OrderImage==""?"/modules/images/none-img.png":order.OrderImage)" /></td>
-                    <td><img src="@(order.OrderImage==""?"/modules/images/none-img.png":order.OrderImage)" /></td>
+                    <td class="no-border-left order-image">
+                        <img src="@(string.IsNullOrEmpty(orderImages[0])?"/modules/images/none-img.png":orderImages[0])" />
+                        <div id="upLoadOneImg" class="layer-upload"></div>
+                    </td>
+                    <td class="order-image">
+                        <img src="@(string.IsNullOrEmpty(orderImages[1])?"/modules/images/none-img.png":orderImages[1])" />
+                        <div id="upLoadTwoImg" class="layer-upload"></div>
+                    </td>
                 </tr>
             </table>
             }
@@ -142,43 +165,34 @@
                     <td colspan="11" class="font18  no-border-top tLeft head hight40 pLeft10"><i class="iconfont icon-delete products">&#xe613;</i>材料成本</td>
                 </tr>
                 <tr class="head " style="height:30px;">
-                    <td class="width100">样图</td>
                     <td class="width80">材料名称</td>
                     <td class="width80">编码</td>
                     <td class="width70" colspan="2">规格</td>
                     <td class="width70">单位</td>
-                    <td class="width80">单价</td>
                     <td class="width80">消耗量</td>
                     <td class="width80">损耗量</td>
-                    
                     <td class="width100">采购量</td>
-                    <td class="width100">小计</td>
+                    <td>材料使用说明</td>
                 </tr>
                 @if (order.Details.Count>0)
                 {
                     foreach (var detail in order.Details)
                     {
                         <tr class="products">
-                            <td class="width100">
-                                <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
+                            <td>@(detail.ProductName)</td>
+                            <td>@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
+                            <td colspan="2">@(detail.Remark==""?"--":detail.Remark)</td>
+                            <td>@(detail.UnitName)</td>
+                            <td>@((detail.Quantity * order.PlanQuantity).ToString("f3"))</td>
+                            <td>@((detail.Loss * order.PlanQuantity).ToString("f3"))</td>
+                            <td>@(((detail.Quantity * order.PlanQuantity)+(detail.Loss * order.PlanQuantity)).ToString("f3"))</td>
+                            <td class="center" style="max-width:300px;padding:4px 0;">
+                                <textarea class="input" onpropertychange="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" oninput="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" class="textarea" style="width:90%;min-height:20px;height:24px;line-height:20px;vertical-align:middle;"></textarea>                                
+                                <span class="span hide"></span>
                             </td>
-                            <td class="width80">@(detail.ProductName)</td>
-                            <td class="width80">@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
-                            <td class="width70" colspan="2">@(detail.Remark==""?"--":detail.Remark)</td>
-                            <td class="width70">@(detail.UnitName)</td>
-                            <td class="width80">@(detail.Price.ToString("f2"))</td>
-                            <td class="width80">@((detail.Quantity * order.PlanQuantity).ToString("f3"))</td>
-                            <td class="width80">@((detail.Loss * order.PlanQuantity).ToString("f3"))</td>
-                           
-                            <td class="width100">@(((detail.Quantity * order.PlanQuantity)+(detail.Loss * order.PlanQuantity)).ToString("f3"))</td>
-                            <td class="width100 moneytotal">@((detail.TotalMoney * order.PlanQuantity).ToString("f3"))</td>
                         </tr>
                     }
-                    <tr style="height:40px;" class="total-items bold">
-                        <td colspan="9"></td>
-                        <td class="">成本合计：</td>
-                        <td class="" data-class="moneytotal"></td>
-                    </tr>
+                    
                 }
                 else
                 {
@@ -198,7 +212,18 @@
            
             <table class="processplate no-border" style="width:955px">
                 
-             </table>   
+             </table>  
+            <table style="width:955px" class="navengraving no-border">
+                <tr>
+                    <td colspan="10"  class="font18 no-border-top tLeft head hight40 pLeft10">备注</td>
+                </tr>
+                <tr>
+                    <td colspan="10" style="padding:5px;">
+                        <textarea class="input" onpropertychange="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" oninput="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" class="textarea" style="width:90%;min-height:20px;height:24px;line-height:20px;min-height:100px;vertical-align:middle;padding:5px;box-sizing:border-box;"></textarea>                                
+                        <span class="span hide"></span>
+                    </td>
+                </tr>
+            </table> 
         </div>
 
         <div class="btn-ok" style="cursor:pointer;width:1100px;" title="预览">

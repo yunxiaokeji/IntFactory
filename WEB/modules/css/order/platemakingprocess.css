@@ -3,6 +3,8 @@
 .preview{font-size:20px;margin-bottom:10px;}
 table{border:1px solid #000;border-collapse:collapse;}
 table:first-child tr td{border:1px solid #000;text-align:center;width:157.5px;height:35px;}
+table:first-child td .input { width:100px;}
+table:first-child td .change-owner { vertical-align:middle;margin-left:5px;}
 table:first-child tr:first-child img{width:60px;height:30px;}
 table .titlename{font-size:22px;}
 .navsenddoc { width:636px;}
@@ -16,6 +18,8 @@ table .titlename{font-size:22px;}
 .btn:hover{background-color:#666}
 .icon-delete { float:left;margin-right:20px;margin-left:5px;color:#666;cursor:pointer;}
 .hover {color:#bbb; }
+.img-order .order-image { position:relative;}
+.img-order .order-image .layer-upload {position:absolute;right:0;top:0; }
 .img-order img { width:120px;height:200px;}
 .img-order tr td { border:1px solid #000;text-align:center;height:30px;}
 .img-order { width:318px;}

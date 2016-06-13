@@ -90,7 +90,7 @@
             </td>        
         </tr>
         <tr>
-            <td colspan="4" style="font-size:18px;font-weight:500;">材料成本</td>
+            <td colspan="4" style="font-size:18px;font-weight:500;">物料信息</td>
         </tr>
         <tr>
             <td colspan="4">
@@ -110,10 +110,18 @@
                             地址  
                         </td>
                         <td style="font-size:16px;" class="no-border-top">门幅</td>
-                        <td style="font-size:16px;width:8%" class="no-border-top">用料</td>
-                        <td style="font-size:16px;width:5%" class="no-border-top">单位</td>
-                        <td style="font-size:16px;width:10%" class="no-border-top">单价</td>
-                        <td style="font-size:16px;" class="no-border-top no-border-right">成本</td>         
+                        <td style="font-size:16px;" class="no-border-top">用料</td>
+                        <td style="font-size:16px;" class="no-border-top">
+                            单位
+                        </td>
+                        <td style="font-size:16px;width:10%" class="no-border-top">
+                            <i class="iconfont icon-delete price">&#xe613;</i>                            
+                            单价
+                        </td>
+                        <td style="font-size:16px;" class="no-border-top no-border-right">
+                            <i class="iconfont icon-delete cost">&#xe613;</i>                                                        
+                            成本
+                        </td>         
                     </tr>
 
                     @if (order.Details.Count>0)
@@ -128,8 +136,8 @@
                                 <td>@(detail.Remark==""?"--":detail.Remark)</td>
                                 <td>@(detail.Quantity.ToString("f3"))</td>
                                 <td>@(detail.UnitName)</td>
-                                <td>@(detail.Price.ToString("f2"))</td>
-                                <td class="no-border-right">@((detail.TotalMoney).ToString("f3"))</td>         
+                                <td class="price-txt">@(detail.Price.ToString("f2"))</td>
+                                <td class="no-border-right cost-txt">@((detail.TotalMoney).ToString("f3"))</td>         
                             </tr>
                         }
                     }
