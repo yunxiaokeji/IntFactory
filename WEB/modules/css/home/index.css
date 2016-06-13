@@ -417,5 +417,8 @@ border-bottom:2px solid #4a98e7;
     font-size:20px;
 }
 
+.table-list-order td {
+    border-bottom:1px solid #eee;
+}
 
 

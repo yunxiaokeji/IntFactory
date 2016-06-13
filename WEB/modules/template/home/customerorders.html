@@ -4,11 +4,11 @@
 
 %}
 
-<table class="table-list-order mBottom10"  style="width:1080px">
-<tr class="list-item" style="border-bottom:1px solid #eee;">
+<table class="table-list-order mBottom10" >
+<tr class="list-item" >
     <td>
         <img class="left order-img" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />
-        <ul class="order-information">
+        <ul class="order-information mLeft10">
             <li>
                 <span>款式编码：{%=item.IntGoodsCode==""?"--":item.IntGoodsCode%}</span>
             </li>
@@ -24,7 +24,7 @@
         </ul>
     </td>   
     {% if(item.OrderType==1){ %}  
-        <td class="">
+        <td>
             <ul class="order-information-a">
                 <li>
                     <span>报价：{%=item.FinalPrice%}</span>
@@ -38,7 +38,7 @@
             </ul>
         </td>        
     {% }else{ %}
-        <td class="">
+        <td>
             <ul class="order-information">
                 <li>
                     <span>单价：{%=item.FinalPrice%}</span>
@@ -57,7 +57,7 @@
        
     {% } %}
    
-    <td class="">
+    <td>
         <ul class="order-information-a">
             <li>
                 <span>联系人：{%= item.PersonName ||"--"%}</span>
