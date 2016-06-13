@@ -4,11 +4,14 @@
 
 %}
 
-<table class="table-list-order mBottom10" >
+<table class="table-list-order" >
 <tr class="list-item" >
-    <td>
-        <img class="left order-img" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />
-        <ul class="order-information mLeft10">
+    <td width="120px">
+        <img class="order-pic" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />
+    </td>
+    <td width="380px">
+        
+        <ul class="order-ul-3 mLeft10">
             <li>
                 <span>款式编码：{%=item.IntGoodsCode==""?"--":item.IntGoodsCode%}</span>
             </li>
@@ -16,16 +19,13 @@
                 <span>订单编号：<a href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.OrderCode%}</a></span>
             </li>
             <li>
-                <span>订单状态：</span><span>{%=item.StatusStr%}</span>
-            </li>
-            <li>
-                <span>订单进度：</span><span style="color:#CAAB12">{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</span>
+                <span>订单类型：</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
             </li>
         </ul>
     </td>   
     {% if(item.OrderType==1){ %}  
-        <td>
-            <ul class="order-information-a">
+        <td width="300px">
+            <ul class="order-ul-3">
                 <li>
                     <span>报价：{%=item.FinalPrice%}</span>
                 </li>
@@ -38,8 +38,8 @@
             </ul>
         </td>        
     {% }else{ %}
-        <td>
-            <ul class="order-information">
+        <td width="300px">
+            <ul class="order-ul">
                 <li>
                     <span>单价：{%=item.FinalPrice%}</span>
                 </li>                
@@ -58,7 +58,7 @@
     {% } %}
    
     <td>
-        <ul class="order-information-a">
+        <ul class="order-ul-3">
             <li>
                 <span>联系人：{%= item.PersonName ||"--"%}</span>
             </li>

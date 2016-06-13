@@ -195,6 +195,10 @@ border-bottom:2px solid #4a98e7;
     padding-bottom:10px;
 }
 
+.order-layerbox table,.order-layerbox table span { 
+    color:#333;
+}
+
 .order-list .order-layerbox .layer-lump { 
     position:absolute;
     left:-7px;
@@ -420,5 +424,20 @@ border-bottom:2px solid #4a98e7;
 .table-list-order td {
     border-bottom:1px solid #eee;
 }
+.order-ul li{
+    line-height:28px;
+}
+.order-ul, .order-ul-3 { 
+    padding:10px 0;
+}
+.order-ul-3 li{
+    line-height:40px;
+}
+.order-pic { 
+    max-height:120px;
+    max-width:120px;
+}
+
+
 
 

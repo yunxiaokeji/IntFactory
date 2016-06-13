@@ -61,7 +61,7 @@
 
                     ObjectJS.getReportList();
                     ObjectJS.getNeedOrderList();
-                    ObjectJS.getTaskOrOrderCount();
+                    ObjectJS.getTaskOrOrderEcceedCount();
                 }
                 else {
                     alert("数据加载中，请稍等 !");
@@ -86,6 +86,7 @@
                         if (IsLoadding && IsLoaddingTwo) {
                             Paras.orderType = data.value;
                             Paras.pageIndex = 1;
+
                             ObjectJS.getDataList();
                             ObjectJS.getReportList();
                             ObjectJS.getTaskOrOrderEcceedCount();
@@ -379,17 +380,18 @@
         //文字说明切换
         var reportTitle = "我的订单";
         var reportTotalTtitle = "全部订单";
-        var totalEcceedTtitle = "超期订单总数:";
+        var totalEcceedTtitle = "需求订单总数:";
         if (Paras.moduleType == 2) 
         {
-            var reportTitle = "我的任务";
-            var reportTotalTtitle = "全部任务";
-            var totalEcceedTtitle = "超期任务总数:";
+            reportTitle = "我的任务";
+            reportTotalTtitle = "全部任务";
+            totalEcceedTtitle = "未接收任务总数:";
         }
         $(".report-title").html(reportTitle);
         $(".report-total-title").html(reportTotalTtitle);
-        $(".ordertotal .total-ecceed").prev().html(totalEcceedTtitle);
+        $(".ordertotal .total-need").prev().html(totalEcceedTtitle);
         
+
         var $listTitle = $(".list-title");
         if (Paras.filterTime != '') {
             $listTitle.html(data.showTime);

@@ -832,7 +832,7 @@ namespace YXERP.Controllers
                 int pageCount = 0;
                 var list= IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(nowDate.Date.ToString(),nowDate.Date.AddDays(14).ToString(), 
                     orderType, -1, -1,
-                    currentUser.UserID, currentUser.ClientID, 20, 1, ref getTotalCount, ref pageCount);
+                    currentUser.UserID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;
@@ -914,7 +914,7 @@ namespace YXERP.Controllers
                 int pageCount = 0;
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(nowDate.Date.ToString(), nowDate.Date.AddDays(14).ToString(), 
                     orderType, -1, -1,
-                    currentUser.UserID, currentUser.ClientID, 20, 1, ref getTotalCount, ref pageCount);
+                    currentUser.UserID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;

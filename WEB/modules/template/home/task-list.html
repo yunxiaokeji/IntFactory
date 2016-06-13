@@ -4,13 +4,13 @@
 
 %}
 
-<table class="table-list-order mBottom10"  style="width:1080px">
+<table class="table-list-order"  style="width:1080px">
 <tr class="list-item" style="border-bottom:1px solid #eee;">
     <td width="120px">
-        <img class="left order-img" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />
+        <img class="order-pic" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />
     </td>
     <td width="380px">
-        <ul class="order-information-a">
+        <ul class="order-ul-3 mLeft10">
             <li>
                 <span>{%=item.Title%}</span>
             </li>
@@ -25,7 +25,7 @@
     </td>   
 
         <td class="" width="400px">
-            <ul class="order-information-a">
+            <ul class="order-ul-3">
                 <li>
                     <span>订单编号：</span><span>{%=item.OrderCode%}</span>
                 </li>
@@ -40,7 +40,7 @@
         </td>        
    
     <td class="">
-        <ul class="order-information-a">
+        <ul class="order-ul-3">
             <li>
                 <span>负责人：{%=item.Owner.Name%}</span>
             </li>
