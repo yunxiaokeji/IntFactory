@@ -62,7 +62,7 @@
                 {
                     //上级任务进行进度筛选
                     require.async("dropdown", function () {
-                        var taskTypes = [{ ID: "-1", Name: "全部" }, { ID: "0", Name: "未接收" }, { ID: "1", Name: "进行中" }, { ID: "2", Name: "已完成" }];
+                        var taskTypes = [{ ID: "-1", Name: "全部" }, { ID: "0", Name: "未接收" }, { ID: "1", Name: "进行中" }, { ID: "2", Name: "已完成" },{ ID: "9", Name: "无" }];
                         $("#taskType").dropdown({
                             prevText: "上级任务进度-",
                             defaultText: "全部",
@@ -290,40 +290,35 @@
 
     //拼接报表柱状图形
     ObjectJS.createReportHtml = function (item) {
-        if (item.totalCount > 0) {
-            var lineHeight = 0;
-            var isShow = false;
-            var countArr = [item.exceedCount, item.warnCount, item.workCount, item.finishCount];
-            var classNameArr = ["item-exceed", "item-warn", "item-work", "item-finish"];
-            var html = '';
-            html += '<div class="report-item" style="left:' + (75 * ReportIndex) + 'px">';
-            html += '    <ul>';
-            
+        var lineHeight = 0;
+        var countArr = [item.exceedCount, item.warnCount, item.workCount, item.finishCount];
+        var classNameArr = ["item-exceed", "item-warn", "item-work", "item-finish"];
+        var html = '';
+        html += '<div class="report-item" style="left:' + (75 * ReportIndex) + 'px">';
+        html += '    <ul>';
+        
+        if(item.totalCount>0){
             for (var i = 0; i < 4; i++) {
                 var count = countArr[i];
                 var classname = classNameArr[i];
                 var type=i+1;
-                if (count > 0 && (ObjectJS.orderFilter == -1 || ObjectJS.orderFilter == type)) {
+                if (count>0 && (ObjectJS.orderFilter == -1 || ObjectJS.orderFilter == type)) {
                     lineHeight = count * ReportAvgHeight;
                     lineHeight = lineHeight < 10 ? ReportMinHeight : lineHeight;
-                    isShow = true;
 
                     html += '<li style="line-height:' + lineHeight + 'px;" class="' + classname + '" data-totalcount="' + item.totalCount + '" data-count="' + count + '" data-date="' + item.date + '" data-type="' + type + '">' + count + '</li>';
                 }
             }
-
-            html += '    </ul>';
-            html += '    <div class="item-date">' + item.date + '</div>';
-            html += '</div>';
-            html = $(html);
-
-            if (isShow) {
-                $(".index-report-content").append(html);
-                html.fadeIn(500);
-
-                ReportIndex++;
-            }
         }
+
+        html += '    </ul>';
+        html += '    <div class="item-date">' + item.date + '</div>';
+        html += '</div>';
+        html = $(html);
+
+        $(".index-report-content").append(html);
+        html.fadeIn(500);
+        ReportIndex++;
     }
 
     ObjectJS.getNeedOrderList = function () {

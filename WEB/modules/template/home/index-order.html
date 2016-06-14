@@ -17,10 +17,10 @@
                 <div class="mTop20">
                     <span class="iconfont mRight5">&#xe624;</span><span>{%=item.CustomerName==""?item.PersonName:item.CustomerName%}</span>
                     <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
-                    <span class="mLeft10">{%=item.StatusStr%}：</span><span>{%=(item.TaskCount>0?item.TaskOver/item.TaskCount*100:0).toFixed(0)+"%"%}</span>
+                    
                 </div>
                 <div class="mTop20">
-                    <span>负责人：</span><span>{%=item.Owner.Name%}</span>
+                    <span class="">{%=item.StatusStr%}：</span><span>{%=(item.TaskCount>0?item.TaskOver/item.TaskCount*100:0).toFixed(0)+"%"%}</span>
                 </div>
             </div>
             <div class="right mLeft30">
@@ -48,7 +48,7 @@
                         <span>负责人：</span><span>{%=item.Owner.Name%}</span>
                     </div>
                 </div>
-                <div class="right mLeft50">
+                <div class="right mLeft65">
                     <div class="mTop15 tRight">
                         <span>交货时间：</span><span>{%=item.PlanTime.toDate('yyyy-MM-dd')%}</span>
                     </div>
