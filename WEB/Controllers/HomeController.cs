@@ -988,7 +988,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetOrdersByTypeAndTime(int filterType, string filterTime, 
            int moduleType, int orderType,
-           int pageSize, int pageIndex) 
+           int pageSize, int pageIndex, int preFinishStatus) 
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
@@ -1026,7 +1026,7 @@ namespace YXERP.Controllers
             else
             {
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(startTime, startTime,
-                    orderType, filterType, finishStatus,-1,
+                    orderType, filterType, finishStatus, preFinishStatus,
                     userID, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
                 JsonDictionary.Add("items", list);
             }

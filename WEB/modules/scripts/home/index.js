@@ -9,12 +9,13 @@
     var IsLoaddingTwo = true;
 
     var Paras = {
-        filterTime: '', 
+        filterTime: '',
         filterType: -1,  //订单阶段-1全部 1已超期 2快到期 3进行中 4已完成
-        moduleType:1,//模块类型 1.订单  2.任务
+        moduleType: 1,//模块类型 1.订单  2.任务
         orderType: -1,
-        pageSize:5,
-        pageIndex:1
+        pageSize: 5,
+        pageIndex: 1,
+        preFinishStatus: -1
     }
 
     var ObjectJS = {};
@@ -59,6 +60,35 @@
             {
                 if (IsLoadding && IsLoaddingTwo)
                 {
+                    //上级任务进行进度筛选
+                    require.async("dropdown", function () {
+                        var taskTypes = [{ ID: "-1", Name: "全部" }, { ID: "0", Name: "未接收" }, { ID: "1", Name: "进行中" }, { ID: "2", Name: "已完成" }];
+                        $("#taskType").dropdown({
+                            prevText: "上级任务进度-",
+                            defaultText: "全部",
+                            defaultValue: "-1",
+                            data: taskTypes,
+                            dataValue: "ID",
+                            dataText: "Name",
+                            width: 150,
+                            onChange: function (data) {
+                                if (Paras.preFinishStatus != data.value) {
+                                    if (IsLoadding && IsLoaddingTwo) {
+                                        Paras.preFinishStatus = data.value;
+                                        Paras.pageIndex = 1;
+
+                                        ObjectJS.getDataList();
+                                        ObjectJS.getTaskOrOrderEcceedCount();
+                                    }
+                                    else {
+                                        alert("数据加载中，请稍等 !");
+                                    }
+                                }
+
+                            }
+
+                        });
+                    });
                     _this.addClass('hover').siblings().removeClass('hover');
                     Paras.moduleType = _this.data('id');
 
@@ -318,13 +348,20 @@
     //获取列表数据
     ObjectJS.getDataList = function () {
         IsLoaddingTwo = false;
-
         var data = null;
+        if (Paras.moduleType == 2) {
+            $("#taskType").show();
+        }
+        else {
+            Paras.preFinishStatus = -1;
+            $("#taskType").hide();
+        }
         if (Paras.pageIndex == 1) {
             $(".order-layerbox .layer-lump").nextAll().remove();
-            data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "DataList"];
+            data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.preFinishStatus + "DataList"];
         }
         $(".order-layerbox").append("<div class='data-loading'></div>");
+
 
         if (data == null) {
             Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
@@ -332,7 +369,7 @@
                 $('.data-loading').remove();
 
                 if (Paras.pageIndex == 1) {
-                    CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "DataList"] = data;
+                    CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.preFinishStatus + "DataList"] = data;
                 }
                 ObjectJS.createDataListHtml(data);
             })
