@@ -52,7 +52,7 @@
     //大货单发货
     ObjectJS.sendGoods = function () {
         var _self = this;
-        DoT.exec("template/task/sendordergoods.html", function (template) {
+        DoT.exec("template/orders/sendordergoods.html", function (template) {
             var innerText = template(Common.OrderGoods);
 
             Easydialog.open({

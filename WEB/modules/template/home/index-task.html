@@ -3,6 +3,7 @@
     {
         var item=$data[i];
         var totalDay=(item.UseDays==0?1:item.UseDays)+(item.WarningDays==0?1:item.WarningDays);
+
 %}
     <div class="order-item">
         <a href="/Orders/OrderDetail/{%=item.OrderID%}">

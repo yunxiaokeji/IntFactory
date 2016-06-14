@@ -371,10 +371,12 @@
                 if (Paras.pageIndex == 1) {
                     CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.preFinishStatus + "DataList"] = data;
                 }
+
                 ObjectJS.createDataListHtml(data);
             })
         }
         else {
+
             ObjectJS.createDataListHtml(data);
         }
     }
@@ -383,7 +385,7 @@
     ObjectJS.createDataListHtml = function (data) {
         $('.data-loading').remove();
         IsLoaddingTwo = true;
-       
+        
         var url = "";
         if (Paras.moduleType == 2) {
             url = "/template/home/index-task.html";
@@ -466,12 +468,12 @@
                 $(".list-total").css({ "background-color": "#49b3f5" });
             }
             $listTitle.html(listTitle);
-            $(".list-total").html(data.getNeedTotalCount);
-            
+
             if (Paras.filterType == -1) {
                 $(".total-need").html(data.getNeedTotalCount);
             }
         }
+        $(".list-total").html(data.getNeedTotalCount);
     }
 
     //获取超期总数
