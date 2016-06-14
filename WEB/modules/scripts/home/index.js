@@ -62,7 +62,7 @@
                 {
                     //上级任务进行进度筛选
                     require.async("dropdown", function () {
-                        var taskTypes = [{ ID: "-1", Name: "全部" }, { ID: "0", Name: "未接收" }, { ID: "1", Name: "进行中" }, { ID: "2", Name: "已完成" },{ ID: "9", Name: "无" }];
+                        var taskTypes = [{ ID: "-1", Name: "全部" }, { ID: "0", Name: "未接收" }, { ID: "1", Name: "进行中" }, { ID: "2", Name: "已完成" },{ ID: "9", Name: "无上级" }];
                         $("#taskType").dropdown({
                             prevText: "上级任务进度-",
                             defaultText: "全部",
@@ -84,9 +84,7 @@
                                         alert("数据加载中，请稍等 !");
                                     }
                                 }
-
                             }
-
                         });
                     });
                     _this.addClass('hover').siblings().removeClass('hover');
@@ -100,7 +98,6 @@
                     alert("数据加载中，请稍等 !");
                 }
             }
-
         });
 
         //订单类型选择
@@ -240,14 +237,14 @@
             GuidLineHeight = parseInt(maxTotalCount % 5 == 0 ? guidLineHeight : (guidLineHeight + 1));
             ReportAvgHeight = 220 / (maxTotalCount + (GuidLineHeight - guidLineHeight) * 5);
 
-            ReportIndex = 0;
-            for (var l = 0; l < OrderListCache.length; l++) {
-                ObjectJS.createReportHtml(OrderListCache[l]);
-            }
-
             $(".report-guid ul li:not(:last)").css("height", (GuidLineHeight * ReportAvgHeight - 1.2) + "px");
             for (var h = 0; h < 6; h++) {
                 $(".report-guid ul li").eq(h).find(".guid-count").html(GuidLineHeight * (5 - h));
+            }
+
+            ReportIndex = 0;
+            for (var l = 0; l < OrderListCache.length; l++) {
+                ObjectJS.createReportHtml(OrderListCache[l]);
             }
 
             $(".index-report-content .report-item li").each(function () {
@@ -284,6 +281,12 @@
                     }
                 }
             });
+        }
+        else {
+            ReportIndex = 0;
+            for (var l = 0; l < OrderListCache.length; l++) {
+                ObjectJS.createReportHtml(OrderListCache[l]);
+            }
         }
 
     }
