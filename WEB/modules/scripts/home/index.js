@@ -121,7 +121,7 @@
                             Paras.pageIndex = 1;
 
                             ObjectJS.getReportList();
-                            ObjectJS.getDataList();
+                            ObjectJS.getNeedOrderList();
                             ObjectJS.getTaskOrOrderEcceedCount();
                         }
                         else {
@@ -466,12 +466,12 @@
                 $(".list-total").css({ "background-color": "#49b3f5" });
             }
             $listTitle.html(listTitle);
-            $(".list-total").html(data.getNeedTotalCount);
             
             if (Paras.filterType == -1) {
                 $(".total-need").html(data.getNeedTotalCount);
             }
         }
+        $(".list-total").html(data.getNeedTotalCount);
     }
 
     //获取超期总数

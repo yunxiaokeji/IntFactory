@@ -125,7 +125,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@OrderType",orderType)
                                    };
 
-            string sql = "select count(taskid) from Ordertask where finishstatus=1 and status<>9 and endtime<getdate() and ClientID=@ClientID";
+            string sql = "select count(taskid) from Ordertask where finishstatus=1 and status<>8 and endtime<getdate() and ClientID=@ClientID";
             if (orderType != -1)
             {
                 sql += " and OrderType=@OrderType";
