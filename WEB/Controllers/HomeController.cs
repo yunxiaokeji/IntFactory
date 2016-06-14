@@ -407,7 +407,7 @@ namespace YXERP.Controllers
 
             if (Common.Common.CachePwdErrorUsers.ContainsKey(userName)) pwdErrorUser = Common.Common.CachePwdErrorUsers[userName];
 
-            if (pwdErrorUser == null || (pwdErrorUser.ErrorCount < 3 && pwdErrorUser.ForbidTime<DateTime.Now) )
+            if (pwdErrorUser == null || (pwdErrorUser.ErrorCount < 10 && pwdErrorUser.ForbidTime<DateTime.Now) )
             {
                 string operateip = Common.Common.GetRequestIP();
                 int outResult;
@@ -455,14 +455,14 @@ namespace YXERP.Controllers
                         }
                         else
                         {
-                            if (pwdErrorUser.ErrorCount > 2)
+                            if (pwdErrorUser.ErrorCount > 9)
                             {
                                 pwdErrorUser.ErrorCount = 0;
                             }
                         }
 
                         pwdErrorUser.ErrorCount++;
-                        if (pwdErrorUser.ErrorCount > 2)
+                        if (pwdErrorUser.ErrorCount > 9)
                         {
                             pwdErrorUser.ForbidTime = DateTime.Now.AddHours(2);
                             result = 2;

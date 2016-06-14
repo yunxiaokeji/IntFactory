@@ -121,7 +121,7 @@
                             Paras.pageIndex = 1;
 
                             ObjectJS.getReportList();
-                            ObjectJS.getDataList();
+                            ObjectJS.getNeedOrderList();
                             ObjectJS.getTaskOrOrderEcceedCount();
                         }
                         else {

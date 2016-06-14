@@ -11,20 +11,20 @@
             </div>
         </a>
         <div class="left order-img"><a href="/Orders/OrderDetail/{%=item.OrderID%}"><img src="{%=item.OrderImage==""?'/modules/images/img-noimg.png':item.OrderImage%}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" /></a></div>
-        <div class="left order-detail mLeft20">
+        <div class="left order-detail mLeft20 mTop10">
             <div class="left">
                 <div class="order-title"><a href="/Orders/OrderDetail/{%=item.OrderID%}" class="long width250" >{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}</a></div>
-                <div class="mTop10">
+                <div class="mTop20">
                     <span class="iconfont mRight5">&#xe624;</span><span>{%=item.CustomerName==""?item.PersonName:item.CustomerName%}</span>
                     <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
                     <span class="mLeft10">{%=item.StatusStr%}：</span><span>{%=(item.TaskCount>0?item.TaskOver/item.TaskCount*100:0).toFixed(0)+"%"%}</span>
                 </div>
-                <div class="mTop10">
+                <div class="mTop20">
                     <span>负责人：</span><span>{%=item.Owner.Name%}</span>
                 </div>
             </div>
             <div class="right mLeft30">
-                <div class="mTop50 left">
+                <div class="mTop40 left">
                     <div class="order-progress left">
                         <div class="layer-line"></div>
                         <div class="order-progress-use order-progress-item" data-width="{%=(item.UseDays==0?1:item.UseDays)/totalDay*100+'%'%}">

@@ -212,6 +212,8 @@ border-bottom:2px solid #4a98e7;
 .order-item {
     position:relative;
     margin-top:15px;
+    padding-bottom:5px;
+    border-bottom:1px solid #eee;
 }
 .order-item .hint-layer { 
     position:absolute;
@@ -249,11 +251,9 @@ border-bottom:2px solid #4a98e7;
 .index-list .list-header {
     color:#666;
 }
-
 .owner-box { 
     margin-left:100px;
 }
-
 .index-list .list-total {
     display:inline-block;
     width:40px;
@@ -285,8 +285,8 @@ border-bottom:2px solid #4a98e7;
 
 .order-detail {
     /*width:480px;*/
-    height:119px;
-    border-bottom:1px solid #eee;
+    height:105px;
+    
 }
 .order-detail span {
     color:#999;
