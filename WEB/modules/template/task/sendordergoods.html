@@ -1,0 +1,41 @@
+﻿
+<div style="max-height:300px; overflow:auto;">
+<table id="orderSendGoods" class="table-list">
+<tr class="tr-header">
+    <td class="tLeft">规格</td>
+    <td class="">下单量</td>
+    <td class="">已车缝</td>
+    <td class="">已发货</td>
+    <td class="">发货数量</td>
+</tr>
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr data-id="{%=item.AutoID%}" class="list-item">
+    <td class="">{%=item.Remark%}</td>
+    <td class="center">{%=item.Quantity.toFixed(0)%}</td>
+    <td class="center">{%=item.Complete.toFixed(0)%}</td>
+    <td class="center">{%=item.SendQuantity.toFixed(0)%}</td>
+    <td class="center"><input class="width60 quantity" type="text" data-max="{%=item.Complete-item.SendQuantity%}" value="{%=item.Complete-item.SendQuantity%}" /></td>
+</tr>
+{% } %}
+
+</table>
+</div>
+<ul class="easydialog-create">
+    <li>
+        <span class="width80">快递公司：</span>
+        <span id="expressid"></span> 
+    </li>
+    <li>
+        <span class="width80">快递单号：</span>
+        <span><input type="text" maxlength="50" id="expressCode"  /></span> 
+    </li>
+    <li>
+        <span class="width80">备注：</span>
+        <textarea id="expressRemark">
+            
+        </textarea>
+    </li>
+</ul>

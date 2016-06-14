@@ -253,7 +253,7 @@
      @{
          if (taskModel.IsRoot)
          {
-            if (task.Mark == 23 && order.CutStatus!=2)
+             if (task.Mark == 23 && order.CutStatus != 2)
             {
                  <div class="btn part-btn right" id="btnCutoutOrder" style="display:none;">裁剪录入</div>                
             }
@@ -265,7 +265,7 @@
             {
                 <div class="btn part-btn right" id="btnSendDYOrder" style="display:none;">订单发货</div>
             }
-            else if (task.Mark == 25 && order.SendStatus!=2)
+             else if (task.Mark == 25 && order.SendStatus != 2)
             {
                 <div class="btn part-btn right hide" id="btnSendOrder" style="display:none;">订单发货</div>
             }
@@ -273,7 +273,6 @@
             {
                 <div class="btn part-btn right" id="addOtherCost" style="display:none;">添加加工成本</div>
             }
-            
         }
      }
     <div class="clear"></div>
