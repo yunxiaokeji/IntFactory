@@ -1007,6 +1007,12 @@ namespace YXERP.Controllers
                 orderStatus = -1;
                 finishStatus = -1;
             }
+            else {
+                if (filterType != -1) {
+                    orderStatus = -1;
+                    finishStatus = -1;
+                }
+            }
 
             int getTotalCount = 0;
             int pageCount = 0;
