@@ -68,7 +68,7 @@ namespace IntFactoryDAL
         }
 
         public DataTable GetTasksByEndTime(string startEndTime, string endEndTime,
-            int orderType, int filterType, int finishStatus,
+            int orderType, int filterType, int finishStatus, int preFinishStatus,
             string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
@@ -81,6 +81,7 @@ namespace IntFactoryDAL
                                         new SqlParameter("@OrderType",orderType),
                                        new SqlParameter("@FilterType",filterType),
                                         new SqlParameter("@FinishStatus",finishStatus),
+                                         new SqlParameter("@PreFinishStatus",preFinishStatus),
                                        new SqlParameter("@UserID",userID),
                                        new SqlParameter("@ClientID",clientID)
    

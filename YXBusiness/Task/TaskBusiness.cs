@@ -85,12 +85,12 @@ namespace IntFactoryBusiness
         }
 
         public static List<TaskEntity> GetTasksByEndTime(string startEndTime, string endEndTime, 
-            int orderType, int filterType, int finishStatus,
+            int orderType, int filterType, int finishStatus,int preFinishStatus,
             string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             List<TaskEntity> list = new List<TaskEntity>();
             DataTable dt = TaskDAL.BaseProvider.GetTasksByEndTime(startEndTime, endEndTime, 
-                orderType, filterType, finishStatus,
+                orderType, filterType, finishStatus,preFinishStatus,
                 userID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
 
             foreach (DataRow dr in dt.Rows)
