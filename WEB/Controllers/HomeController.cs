@@ -874,15 +874,13 @@ namespace YXERP.Controllers
                     report.Add("exceedCount", exceedCount);
                     totalCount=warnCount + finishCount + workCount + exceedCount;
                     report.Add("totalCount", totalCount);
-                    if (totalCount > 0)
-                    {
-                        totalExceedCount += exceedCount;
-                        totalFinishCount += finishCount;
-                        totalWarnCount += warnCount;
-                        totalWorkCount += workCount;
-                        totalSumCount += totalCount;
-                        reportArr.Add(report);
-                    }
+
+                    totalExceedCount += exceedCount;
+                    totalFinishCount += finishCount;
+                    totalWarnCount += warnCount;
+                    totalWorkCount += workCount;
+                    totalSumCount += totalCount;
+                    reportArr.Add(report);
                 }
 
                 result = 1;
@@ -958,15 +956,13 @@ namespace YXERP.Controllers
                     report.Add("exceedCount", exceedCount);
                     totalCount = warnCount + finishCount + workCount + exceedCount;
                     report.Add("totalCount", totalCount);
-                    if (totalCount > 0)
-                    {
-                        totalExceedCount += exceedCount;
-                        totalFinishCount += finishCount;
-                        totalWarnCount += warnCount;
-                        totalWorkCount += workCount;
-                        totalSumCount += totalCount;
-                        reportArr.Add(report);
-                    }
+
+                    totalExceedCount += exceedCount;
+                    totalFinishCount += finishCount;
+                    totalWarnCount += warnCount;
+                    totalWorkCount += workCount;
+                    totalSumCount += totalCount;
+                    reportArr.Add(report);
                 }
 
                 result = 1;
