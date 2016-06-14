@@ -53,6 +53,14 @@
             }
         });
 
+        $(document).click(function (e) {
+
+            if (!$(e.target).parents().hasClass('dropdown-items-modules') && !$(e.target).parents().hasClass('dropdown-module')) {
+                $(".dropdown-items-modules").hide();
+            }
+
+        })
+
         //订单模块筛选
         $(".order-type span").click(function () {
             var _this = $(this);
