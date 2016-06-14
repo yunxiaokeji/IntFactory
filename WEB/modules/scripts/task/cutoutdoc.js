@@ -52,7 +52,7 @@
     ObjectJS.cutOutGoods = function () {
         var _self = this;
         
-        DoT.exec("template/orders/cutoutgoods.html", function (template) {
+        DoT.exec("template/task/cutoutgoods.html", function (template) {
             var innerText = template(Common.OrderGoods);
             Easydialog.open({
                 container: {
