@@ -913,7 +913,7 @@ namespace YXERP.Controllers
                 int getTotalCount = 0;
                 int pageCount = 0;
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(nowDate.Date.ToString(), nowDate.Date.AddDays(14).ToString(), 
-                    orderType, -1, -1,
+                    orderType, -1, -1,-1,
                     currentUser.UserID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
 
                 var totalExceedCount = 0;
@@ -1026,7 +1026,7 @@ namespace YXERP.Controllers
             else
             {
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(startTime, startTime,
-                    orderType, filterType, finishStatus,
+                    orderType, filterType, finishStatus,-1,
                     userID, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
                 JsonDictionary.Add("items", list);
             }
