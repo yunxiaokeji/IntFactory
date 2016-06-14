@@ -456,7 +456,6 @@
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\home\guidestep.js" />
     <Content Include="modules\scripts\home\index.js" />
-    <Content Include="modules\scripts\home\task-list.html" />
     <Content Include="modules\scripts\inquire\inquireorder.js" />
     <Content Include="modules\scripts\myaccount\feedbacklist.js" />
     <Content Include="modules\scripts\orders\create.js" />

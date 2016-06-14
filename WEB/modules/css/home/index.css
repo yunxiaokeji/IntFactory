@@ -250,6 +250,10 @@ border-bottom:2px solid #4a98e7;
     color:#666;
 }
 
+.owner-box { 
+    margin-left:100px;
+}
+
 .index-list .list-total {
     display:inline-block;
     width:40px;

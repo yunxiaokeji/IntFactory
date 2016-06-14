@@ -317,7 +317,6 @@
 
     //获取列表数据
     ObjectJS.getDataList = function () {
-        $(".order-layerbox").append("<div class='data-loading'></div>");
         IsLoaddingTwo = false;
 
         var data = null;
@@ -325,6 +324,7 @@
             $(".order-layerbox .layer-lump").nextAll().remove();
             data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "DataList"];
         }
+        $(".order-layerbox").append("<div class='data-loading'></div>");
 
         if (data == null) {
             Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {

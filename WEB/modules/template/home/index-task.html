@@ -5,10 +5,10 @@
         var totalDay=(item.UseDays==0?1:item.UseDays)+(item.WarningDays==0?1:item.WarningDays);
 %}
     <div class="order-item">
-        <a href="/Task/Detail/{%=item.TaskID%}">
-        <div class="hint-layer">
-            <div class="hint-msg {%=item.WarningStatus==1?'warning':item.WarningStatus==2?'pass':'hide'%}">{%=item.WarningStatus==1?"快到期":item.WarningStatus==2?"已超期":""%}</div>
-        </div>
+        <a href="/Orders/OrderDetail/{%=item.OrderID%}">
+            <div class="hint-layer">
+                <div class="hint-msg {%=item.WarningStatus==1?'warning':item.WarningStatus==2?'pass':'hide'%}">{%=item.WarningStatus==1?"快到期":item.WarningStatus==2?"已超期":""%}</div>
+            </div>
         </a>
         <div class="left order-img"><a href="/Task/Detail/{%=item.TaskID%}"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="{%=item.OrderImg==""?'/modules/images/img-noimg.png':item.OrderImg%}" /></a></div>
         <div class="left order-detail mLeft20">
@@ -22,8 +22,8 @@
                     <span>负责人：</span><span>{%=item.Owner.Name%}</span>
                 </div>
             </div>
-            <div class="right">
-                <div class="mTop30">
+            <div class="right mLeft50">
+                <div class="mTop50 left">
                     <div class="order-progress left">
                         <div class="layer-line"></div>
                         <div class="order-progress-use order-progress-item" data-width="{%=(item.UseDays==0?1:item.UseDays)/totalDay*100+'%'%}">
@@ -42,13 +42,22 @@
                     <div class="clear"></div>
                 </div>
 
-                <div class="mTop15 tRight">
-                    <span>到期时间：</span><span>{%=item.EndTime.toDate('yyyy-MM-dd')%}</span>
+                <div class="right owner-box">
+                     <div class="mTop30">
+                        <span>负责人：</span><span>{%=item.Owner.Name%}</span>
+                    </div>
                 </div>
-                <div class="clear"></div>
-                <div class="mTop5 tRight">
-                    <span>接受时间：</span><span>{%=item.AcceptTime.toDate('yyyy-MM-dd')%}</span>
+                <div class="right mLeft50">
+                    <div class="mTop15 tRight">
+                        <span>到期时间：</span><span>{%=item.EndTime.toDate('yyyy-MM-dd')%}</span>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="mTop25 tRight">
+                        <span>接受时间：</span><span>{%=item.AcceptTime.toDate('yyyy-MM-dd')%}</span>
+                    </div>
+                    <div class="clear"></div>
                 </div>
+
                 <div class="clear"></div>
             </div>
             <div class="clear"></div>
