@@ -89,13 +89,12 @@
         
         $(".btn-ok").click(function () {
             $(".input").hide();
-            $(".span").show();
             $(".input").each(function () {
                 var nameresponsible = $(this).val();
                 $(this).next().hide();
                 $(this).parent().find('.span').html(nameresponsible);
             });
-
+            $(".span").show();
             $(".btn-ok").remove();
             $(".icon-delete").hide();
             $(".layer-upload").hide();
