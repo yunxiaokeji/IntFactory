@@ -117,7 +117,6 @@
             $(".module-tab li.default-check").click();
         };
         TalkReply.initTalkReply(ObjectJS, 'task', callBack);
-
         //任务模块切换
         $(".module-tab li").click(function () {
             var _this = $(this);
