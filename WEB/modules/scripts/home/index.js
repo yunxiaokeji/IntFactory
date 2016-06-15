@@ -9,35 +9,36 @@
     var IsLoaddingTwo = true;
 
     var Paras = {
-        filterTime: '', 
-        filterType: 1,  //订单阶段-1全部 1已超期 2快到期 3进行中 4已完成
-        userID: '',
-        moduleType:1,//模块类型 1.订单  2.任务
+        filterTime: '',
+        filterType: -1,  //订单阶段-1全部 1已超期 2快到期 3进行中 4已完成
+        moduleType: 1,//模块类型 1.订单  2.任务
         orderType: -1,
-        pageSize:5,
-        pageIndex:1
+        pageSize: 5,
+        pageIndex: 1,
+        preFinishStatus: -1
     }
 
     var ObjectJS = {};
     
     ObjectJS.orderFilter = -1;
+    var ReportAvgHeight = 0;//报表每一份对应的行高
+    var GuidLineHeight = 0;//报表网格线对应的份数
+    var ReportMinHeight = 10;//最低行高
+    var ReportIndex = 0;
+    ObjectJS.init = function (orderLevel) {
+        ObjectJS.orderLevel = orderLevel;
 
-    ObjectJS.init = function (level, userID) {
-        //level   3和0移除订单按钮
-        if (level == 2 || level == 0) {
-            Paras.userID = userID;
-        }
-
-        if (level == 0 || level == 3) {
+        //没有订单权限
+        if (orderLevel == 0) {
             Paras.moduleType = 2;
             $('.order-type').find('span:first-child').remove();
             $('.order-type').find('span:last-child').addClass('hover').css({ "border-left": "1px solid #cecece", "border-right": "1px solid #cecece" });
         }
 
-        ObjectJS.bindEvent();
+        ObjectJS.bindEvent();       
         ObjectJS.getReportList();
-        ObjectJS.getDataList();
-        ObjectJS.getTaskOrOrderCount();
+        ObjectJS.getNeedOrderList();
+        ObjectJS.getTaskOrOrderEcceedCount();
     };
 
     ObjectJS.bindEvent = function () {
@@ -52,6 +53,14 @@
             }
         });
 
+        $(document).click(function (e) {
+
+            if (!$(e.target).parents().hasClass('dropdown-items-modules') && !$(e.target).parents().hasClass('dropdown-module')) {
+                $(".dropdown-items-modules").hide();
+            }
+
+        })
+
         //订单模块筛选
         $(".order-type span").click(function () {
             var _this = $(this);
@@ -59,22 +68,44 @@
             {
                 if (IsLoadding && IsLoaddingTwo)
                 {
-                    _this.addClass('hover').siblings().removeClass('hover');
+                    //上级任务进行进度筛选
+                    require.async("dropdown", function () {
+                        var taskTypes = [{ ID: "-1", Name: "全部" }, { ID: "0", Name: "未接收" }, { ID: "1", Name: "进行中" }, { ID: "2", Name: "已完成" },{ ID: "9", Name: "无上级" }];
+                        $("#taskType").dropdown({
+                            prevText: "上级任务进度-",
+                            defaultText: "全部",
+                            defaultValue: "-1",
+                            data: taskTypes,
+                            dataValue: "ID",
+                            dataText: "Name",
+                            width: 150,
+                            onChange: function (data) {
+                                if (Paras.preFinishStatus != data.value) {
+                                    if (IsLoadding && IsLoaddingTwo) {
+                                        Paras.preFinishStatus = data.value;
+                                        Paras.pageIndex = 1;
 
+                                        ObjectJS.getDataList();
+                                        ObjectJS.getTaskOrOrderEcceedCount();
+                                    }
+                                    else {
+                                        alert("数据加载中，请稍等 !");
+                                    }
+                                }
+                            }
+                        });
+                    });
+                    _this.addClass('hover').siblings().removeClass('hover');
                     Paras.moduleType = _this.data('id');
-                    Paras.filterTime ='';
-                    Paras.filterType = 1;
-                    Paras.pageIndex = 1;
 
                     ObjectJS.getReportList();
-                    ObjectJS.getTaskOrOrderCount();
-                    ObjectJS.getDataList();
+                    ObjectJS.getNeedOrderList();
+                    ObjectJS.getTaskOrOrderEcceedCount();
                 }
                 else {
                     alert("数据加载中，请稍等 !");
                 }
             }
-
         });
 
         //订单类型选择
@@ -93,9 +124,10 @@
                         if (IsLoadding && IsLoaddingTwo) {
                             Paras.orderType = data.value;
                             Paras.pageIndex = 1;
-                            ObjectJS.getDataList();
+
                             ObjectJS.getReportList();
-                            ObjectJS.getTaskOrOrderCount();
+                            ObjectJS.getNeedOrderList();
+                            ObjectJS.getTaskOrOrderEcceedCount();
                         }
                         else {
                             alert("数据加载中，请稍等 !");
@@ -105,19 +137,30 @@
             });
         });
 
-        //获取所有已超期订单或任务
-        $(".get-ecceed").click(function () {
+        //获取需球订单或未接受任务
+        $(".get-need").click(function () {
             if (IsLoadding && IsLoaddingTwo) {
-                if (Paras.filterTime != "") {
-                    Paras.filterTime = '';
-                    Paras.filterType = 1;
-                    ObjectJS.getDataList();
+                if (Paras.filterTime != "" || Paras.filterType != -1) {
+                    ObjectJS.getNeedOrderList();
                 }
             }
             else {
                 alert("数据加载中，请稍等 !");
             }
            
+        });
+
+        //获取所有已超期订单或任务
+        $(".get-ecceed").click(function () {
+            if (IsLoadding && IsLoaddingTwo) {
+                if (Paras.filterTime != "" || Paras.filterType!=1) {
+                    ObjectJS.getEcceedOrderList();
+                }
+            }
+            else {
+                alert("数据加载中，请稍等 !");
+            }
+
         });
 
         //加载完毕绑定加载更多事件
@@ -130,7 +173,6 @@
                 alert("数据加载中，请稍等 !");
             }
         });
-
     }
 
     //获取报表数据
@@ -144,7 +186,7 @@
         if (data == null) {
             IsLoadding = false;
             var action = Paras.moduleType == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
-            Global.post("/Home/" + action, { userID: Paras.userID, orderType: Paras.orderType }, function (data) {
+            Global.post("/Home/" + action, {orderType: Paras.orderType }, function (data) {
                 $(".report-guid").find('.data-loading').remove();
                 IsLoadding = true;
 
@@ -172,10 +214,7 @@
         }
     }
 
-    var ReportAvgHeight = 0;//报表每一份对应的行高
-    var GuidLineHeight = 0;//报表网格线对应的份数
-    var ReportMinHeight = 10;//最低行高
-    var ReportIndex=0;
+   
     ObjectJS.bindReport = function () {
         //var items = [];
         //for (var i = 0; i < 6; i++) {
@@ -206,14 +245,14 @@
             GuidLineHeight = parseInt(maxTotalCount % 5 == 0 ? guidLineHeight : (guidLineHeight + 1));
             ReportAvgHeight = 220 / (maxTotalCount + (GuidLineHeight - guidLineHeight) * 5);
 
-            ReportIndex = 0;
-            for (var l = 0; l < OrderListCache.length; l++) {
-                ObjectJS.createReportHtml(OrderListCache[l]);
-            }
-
             $(".report-guid ul li:not(:last)").css("height", (GuidLineHeight * ReportAvgHeight - 1.2) + "px");
             for (var h = 0; h < 6; h++) {
                 $(".report-guid ul li").eq(h).find(".guid-count").html(GuidLineHeight * (5 - h));
+            }
+
+            ReportIndex = 0;
+            for (var l = 0; l < OrderListCache.length; l++) {
+                ObjectJS.createReportHtml(OrderListCache[l]);
             }
 
             $(".index-report-content .report-item li").each(function () {
@@ -230,21 +269,20 @@
                 });
             });
 
+            //报表色块点击
             $(".report-item li").click(function () {
                 var _this = $(this);
                 if ((Paras.filterType != _this.data('type') || Paras.filterTime != _this.data('date')) || !_this.hasClass('checked')) {
                     if (IsLoadding && IsLoaddingTwo) {
-                        Paras.pageIndex = 1;
-                        Paras.filterType = _this.data('type');
-                        Paras.filterTime = _this.data('date');
-
                         var backgroundColor = _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8";
                         $(".report-item li").removeClass('checked').css({ "box-shadow": "none" });
                         _this.addClass('checked').css({ "box-shadow": "2px 2px 10px " + backgroundColor });
                         $(".list-header .list-total").css("background-color", backgroundColor);
                         $(".order-layerbox .layer-lump").nextAll().remove();
 
-                        ObjectJS.getDataList();
+                        Paras.filterType = _this.data('type');
+                        Paras.filterTime = _this.data('date');
+                        ObjectJS.getOrdersByTypeAndTime();
                     }
                     else {
                         alert("数据加载中，请稍等 !");
@@ -252,87 +290,124 @@
                 }
             });
         }
+        else {
+            ReportIndex = 0;
+            for (var l = 0; l < OrderListCache.length; l++) {
+                ObjectJS.createReportHtml(OrderListCache[l]);
+            }
+        }
 
     }
 
     //拼接报表柱状图形
     ObjectJS.createReportHtml = function (item) {
-        if (item.totalCount > 0) {
-            var lineHeight = 0;
-            var isShow = false;
-            var countArr = [item.exceedCount, item.warnCount, item.workCount, item.finishCount];
-            var classNameArr = ["item-exceed", "item-warn", "item-work", "item-finish"];
-            var html = '';
-            html += '<div class="report-item" style="left:' + (75 * ReportIndex) + 'px">';
-            html += '    <ul>';
-            
+        var lineHeight = 0;
+        var countArr = [item.exceedCount, item.warnCount, item.workCount, item.finishCount];
+        var classNameArr = ["item-exceed", "item-warn", "item-work", "item-finish"];
+        var html = '';
+        html += '<div class="report-item" style="left:' + (75 * ReportIndex) + 'px">';
+        html += '    <ul>';
+        
+        if(item.totalCount>0){
             for (var i = 0; i < 4; i++) {
                 var count = countArr[i];
                 var classname = classNameArr[i];
                 var type=i+1;
-                if (count > 0 && (ObjectJS.orderFilter == -1 || ObjectJS.orderFilter == type)) {
+                if (count>0 && (ObjectJS.orderFilter == -1 || ObjectJS.orderFilter == type)) {
                     lineHeight = count * ReportAvgHeight;
                     lineHeight = lineHeight < 10 ? ReportMinHeight : lineHeight;
-                    isShow = true;
 
                     html += '<li style="line-height:' + lineHeight + 'px;" class="' + classname + '" data-totalcount="' + item.totalCount + '" data-count="' + count + '" data-date="' + item.date + '" data-type="' + type + '">' + count + '</li>';
                 }
             }
-
-            html += '    </ul>';
-            html += '    <div class="item-date">' + item.date + '</div>';
-            html += '</div>';
-            html = $(html);
-
-            if (isShow) {
-                $(".index-report-content").append(html);
-                html.fadeIn(500);
-
-                ReportIndex++;
-            }
         }
+
+        html += '    </ul>';
+        html += '    <div class="item-date">' + item.date + '</div>';
+        html += '</div>';
+        html = $(html);
+
+        $(".index-report-content").append(html);
+        html.fadeIn(500);
+        ReportIndex++;
+    }
+
+    ObjectJS.getNeedOrderList = function () {
+        Paras.filterTime = '';
+        Paras.filterType = -1;
+        Paras.pageIndex = 1;
+        ObjectJS.getDataList();
+    }
+
+    ObjectJS.getEcceedOrderList = function () {
+        Paras.filterTime = '';
+        Paras.filterType = 1;
+        Paras.pageIndex = 1;
+        ObjectJS.getDataList();
+    }
+
+    ObjectJS.getOrdersByTypeAndTime = function () {
+        Paras.pageIndex = 1;
+        ObjectJS.getDataList();
     }
 
     //获取列表数据
     ObjectJS.getDataList = function () {
-
+        IsLoaddingTwo = false;
         var data = null;
-        if (Paras.pageIndex == 1) {
-            $(".order-layerbox").find('.layer-lump').nextAll().remove();
-            data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "DataList"];
+        if (Paras.moduleType == 2) {
+            $("#taskType").show();
         }
-
+        else {
+            Paras.preFinishStatus = -1;
+            $("#taskType").hide();
+        }
+        if (Paras.pageIndex == 1) {
+            $(".order-layerbox .layer-lump").nextAll().remove();
+            data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.preFinishStatus + "DataList"];
+        }
         $(".order-layerbox").append("<div class='data-loading'></div>");
 
-        IsLoaddingTwo = false;
-       
+
         if (data == null) {
             Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
                 IsLoaddingTwo = true;
                 $('.data-loading').remove();
 
-                var items = data.items;
                 if (Paras.pageIndex == 1) {
-                    CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "DataList"] = data;
+                    CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.preFinishStatus + "DataList"] = data;
                 }
+
                 ObjectJS.createDataListHtml(data);
             })
         }
         else {
+
             ObjectJS.createDataListHtml(data);
         }
     }
 
     //拼接列表数据
     ObjectJS.createDataListHtml = function (data) {
-        var moduleType = Paras.moduleType;
-        var url = "/template/home/index-order.html";
-        if (moduleType == 2) {
+        $('.data-loading').remove();
+        IsLoaddingTwo = true;
+        
+        var url = "";
+        if (Paras.moduleType == 2) {
             url = "/template/home/index-task.html";
+
+            if (Paras.filterTime == '' && Paras.filterType==-1) {
+                url = "/template/home/task-list.html";
+            }
+        }
+        else {
+            url = "/template/home/index-order.html";
+
+            if (Paras.filterTime == '' && Paras.filterType == -1) {
+                url = "/template/home/customerorders.html";
+            }
         }
 
-        IsLoaddingTwo = true;
-        $('.data-loading').remove();
         var items = data.items;
         if (items.length == 0) {
             $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
@@ -347,13 +422,11 @@
                     var _this = $(this);
                     _this.css({ "width": _this.data('width') });
                 });
-
                 $(".order-layerbox").find('.progress-tip,.top-lump').each(function () {
                     var _this = $(this);
                     _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
 
                 });
-
                 innerText.find('.layer-line').css({ width: 0, left: "160px" });
             });
         }
@@ -368,52 +441,68 @@
             }
         }
 
-        //切换模块显示任务或订单描述
-        var orderMsg = "任务";
-        var totalEcceed = "超期任务总数:";
-        if (Paras.moduleType == 1) {
-            orderMsg = "订单";
-            totalEcceed = "超期订单总数:";
+        //文字说明切换
+        var reportTitle = "我的订单";
+        var reportTotalTtitle = "全部订单";
+        var totalEcceedTtitle = "需求订单总数:";
+        if (Paras.moduleType == 2) 
+        {
+            reportTitle = "我的任务";
+            reportTotalTtitle = "全部任务";
+            totalEcceedTtitle = "未接收任务总数:";
         }
-        $(".order-msg").html(orderMsg);
-        $(".ordertotal .total-ecceed").prev().html(totalEcceed);
-
-
-        //判断是否选择时间没有列表时间则显示已超期
-        var timeHtml = $(".show-timemsg");
+        $(".report-title").html(reportTitle);
+        $(".report-total-title").html(reportTotalTtitle);
+        if (Paras.filterType == -1) {
+            $(".ordertotal .total-need").prev().html(totalEcceedTtitle);
+        }
+        
+        var $listTitle = $(".list-title");
         if (Paras.filterTime != '') {
-            timeHtml.html(data.showTime);
-
+            $listTitle.html(data.showTime);
         }
         else {
-            timeHtml.html('已超期');
-            $(".list-total").css({ "background-color": "#f35353" });
+            var listTitle = "需求单";
+            if (Paras.moduleType == 2) {
+                listTitle = "未接受";
+            }
+            if (Paras.filterType == 1) {
+                listTitle = "已超期";
+                $(".list-total").css({ "background-color": "#f35353" });
+            }
+            else {
+                $(".list-total").css({ "background-color": "#49b3f5" });
+            }
+            $listTitle.html(listTitle);
 
-            $(".total-ecceed").html(data.getTotalCount);
+            if (Paras.filterType == -1) {
+                $(".total-need").html(data.getNeedTotalCount);
+            }
         }
-        $(".list-total").html(data.getTotalCount);
+        $(".list-total").html(data.getNeedTotalCount);
     }
 
-    //获取统计总数
-    ObjectJS.getTaskOrOrderCount = function () {
+    //获取超期总数
+    ObjectJS.getTaskOrOrderEcceedCount = function () {
         var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "TaskOrOrderCount"];
         if (data == null) {
-            Global.post("/Home/GetOrderOrTaskCount", Paras,
+            Global.post("/Home/GetTaskOrOrderEcceedCount", Paras,
                 function (data) {
                     CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "TaskOrOrderCount"] = data;
-                    var name = "需求订单总数:";
+
+                    var name = "超期订单总数:";
                     if (Paras.moduleType == 2) {
-                        name = "未接受任务总数:";
+                        name = "超期任务总数:";
                     }
-                    $(".total-need").html(data.result).prev().html(name);
+                    $(".total-ecceed").html(data.result).prev().html(name);
                 });
         }
         else {
-            var name = "需求订单总数:";
+            var name = "超期订单总数:";
             if (Paras.moduleType == 2) {
-                name = "未接受任务总数:";
+                name = "超期任务总数:";
             }
-            $(".total-need").html(data.result).prev().html(name);
+            $(".total-ecceed").html(data.result).prev().html(name);
         }
     }
 

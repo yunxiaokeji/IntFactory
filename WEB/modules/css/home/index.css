@@ -186,14 +186,17 @@ border-bottom:2px solid #4a98e7;
     border:1px solid #cecece;
     background-color:#fff;
     padding:10px 20px 20px 20px;
-    width:658px;
 }
 
 .order-list .order-layerbox { 
     border-left:2px solid #ddd;
-    padding-left:24px;
+    padding-left:10px;
     position:relative;
     padding-bottom:10px;
+}
+
+.order-layerbox table,.order-layerbox table span { 
+    color:#333;
 }
 
 .order-list .order-layerbox .layer-lump { 
@@ -208,7 +211,9 @@ border-bottom:2px solid #4a98e7;
 
 .order-item {
     position:relative;
-    margin-top:15px;
+    margin-top:10px;
+    padding-bottom:10px;
+    border-bottom:1px solid #eee;
 }
 .order-item .hint-layer { 
     position:absolute;
@@ -246,13 +251,15 @@ border-bottom:2px solid #4a98e7;
 .index-list .list-header {
     color:#666;
 }
-
+.owner-box { 
+    margin-left:100px;
+}
 .index-list .list-total {
     display:inline-block;
     width:40px;
     color:#fff;
     border-radius:3px;
-    background-color:#f35353;
+    background-color:#49b3f5;
     text-align:center;
     line-height:18px;
 }
@@ -277,9 +284,9 @@ border-bottom:2px solid #4a98e7;
 }
 
 .order-detail {
-    width:480px;
-    height:119px;
-    border-bottom:1px solid #eee;
+    /*width:480px;*/
+    height:105px;
+    
 }
 .order-detail span {
     color:#999;
@@ -417,6 +424,24 @@ border-bottom:2px solid #4a98e7;
 .author-message ul p:first-child { 
     font-size:20px;
 }
+
+.table-list-order td {
+    border-bottom:1px solid #eee;
+}
+.order-ul li{
+    line-height:28px;
+}
+.order-ul, .order-ul-3 { 
+    padding:10px 0;
+}
+.order-ul-3 li{
+    line-height:40px;
+}
+.order-pic { 
+    max-height:120px;
+    max-width:120px;
+}
+
 
 
 

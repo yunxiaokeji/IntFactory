@@ -1,5 +1,8 @@
 ﻿define(function (require,exports,module) {
-    var Global = require("global");
+    var Global = require("global"),
+    ChooseUser = require("chooseuser"),
+    Upload = require("upload")
+    
     var Objects = {};
 
     Objects.init = function (plate, img, orderid, OriginalID,ordertype) {
@@ -16,11 +19,53 @@
         } else {
             $("#Platemak").html(decodeURI(plate));
         };
-
         if (img == "") {
             img = "/modules/images/none-img.png";
         };
         
+        Upload.createUpload({
+            element: "#upLoadOneImg",
+            buttonText: "&#xe60b;",
+            className: "iconfont ico-upload",
+            multiple: false,
+            data: { folder: '', action: 'add', oldPath: "" },
+            success: function (data, status) {
+                if (data.Items.length > 0) {
+                    $("#upLoadOneImg").prev().attr('src', data.Items[0]);
+                } else {
+                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+                }
+            }
+        });
+
+        Upload.createUpload({
+            element: "#upLoadTwoImg",
+            buttonText: "&#xe60b;",
+            className: "iconfont ico-upload",
+            multiple: false,
+            data: { folder: '', action: 'add', oldPath: "" },
+            success: function (data, status) {
+                if (data.Items.length > 0) {
+                    $("#upLoadTwoImg").prev().attr('src', data.Items[0]);
+                } else {
+                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+                }
+            }
+        });
+
+        $(".change-owner").click(function () {
+            var _this = $(this);
+            ChooseUser.create({
+                title: "批量更换负责人",
+                type: 1,
+                single: true,
+                callback: function (items) {
+                    if (items.length > 0) {
+                        _this.prev().val(items[0].name);
+                    }
+                }
+            });
+        })
         
         $('.icon-delete').click(function () {
             
@@ -42,55 +87,47 @@
             }            
         });
         
-
         $(".btn-ok").click(function () {
             $(".input").hide();
-            $(".span").show();
             $(".input").each(function () {
                 var nameresponsible = $(this).val();
-                $(this).next().html(nameresponsible);
+                $(this).next().hide();
+                $(this).parent().find('.span').html(nameresponsible);
             });
-
+            $(".span").show();
             $(".btn-ok").remove();
             $(".icon-delete").hide();
+            $(".layer-upload").hide();
 
-            if ($(".goods").hasClass("hover")) {
-                $(".goosddoc").parent().parent().remove();
-                Objects.imgOrderTable();                
-                $(".img-order tr td").removeClass("no-border-left");
-                $(".img-order img").removeAttr("style");
-                $(".img-order img").parent().addClass("no-border-bottom");
-                $(".navproducts tr:first td").removeClass("no-border-top");               
-            }       
-           
-            if ($(".products").hasClass("hover")) {
-                $(".navproducts").remove();
-            }
-            if ($(".raving").hasClass("hover")) {
-                $(".navengraving").remove();
-            }
-            if ($(".pro").hasClass("hover")) {
-                $(".proplate").remove();
-            }
-            if ($(".tailor").hasClass("hover")) {
-                $(".tailor").remove();
-            }
-            if ($(".adhesive").hasClass("hover")) {
-                $(".adhesive").remove();
-            }
-            if ($(".sewing-process").hasClass("hover")) {
-                $(".sewing-process").remove();
-            }
-            if ($(".garment-finishing").hasClass("hover")) {
-                $(".garment-finishing").remove();
-            }
-            if ($(".garment-inspection").hasClass("hover")) {
-                $(".garment-inspection").remove();
-            }
-            if ($(".product-packaging").hasClass("hover")) {
-                $(".product-packaging").remove();
-            };
+            $(".information").each(function () {
+                _this=$(this);
+                if (_this.hasClass("hover")) {                    
+                    var id = _this.parent().parent().parent().parent().data("id");
+                    if (id == "navgoods") {
+                        $("#" + id).remove();
+                        Objects.imgOrderTable();
+                        $(".img-order tr td").removeClass("no-border-left");
+                        $(".img-order img").removeAttr("style");
+                        $(".img-order img").parent().addClass("no-border-bottom");
+                        $(".navproducts tr:first td").removeClass("no-border-top")
+                    } else {
+                        $("." + id).remove();
+                    };
+                                       
+                }
+            });
+
+            $(".processplates").each(function () {
+                _this = $(this);
+                if (_this.hasClass("hover")) {
+                    var id = _this.parent().attr("id");
+                    $("#" + id).remove();
+                    $("." + id).remove();
+                }
+            });
+
             $(".operation").show();
+
             $('body,html').animate({ scrollTop: 0 }, 300);
         });
 

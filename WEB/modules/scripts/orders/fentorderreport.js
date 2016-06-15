@@ -41,20 +41,13 @@
                 $(".customer").parent().parent().remove();
             }
 
-            if ($(".providers").hasClass("no-select")) {
-                $(".providers").parent().remove();
-                $(".provider").remove();
-            }
-
-            if ($(".phones").hasClass("no-select")) {
-                $(".phones").parent().remove();
-                $(".phone").remove();
-            }
-
-            if ($(".addresses").hasClass("no-select")) {
-                $(".addresses").parent().remove();
-                $(".address").remove();
-            }
+            $(".information").each(function () {
+                _this = $(this);
+                if (_this.hasClass("no-select")) {
+                    var id = _this.parent().data("id");
+                    $("."+id).remove();
+                }                
+            });
 
             $(".btn-ok").remove();
             $(".icon-delete").hide();

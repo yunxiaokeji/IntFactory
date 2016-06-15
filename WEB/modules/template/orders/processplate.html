@@ -5,19 +5,19 @@
 %}
 
     {% if(type!=item.Type){ %}
-    <tr class="typetitle">
-        <td colspan="11" class='pLeft10 font18 tLeft no-border-top head {%=item.Type==1?"tailor":item.Type==2?"adhesive":item.Type==3?"sewing-process":item.Type==4?"garment-finishing":item.Type==5?"garment-inspection":"product-packaging"%}' style="line-height:46px;"><i class='iconfont icon-delete {%=item.Type==1?"tailor":item.Type==2?"adhesive":item.Type==3?"sewing-process":item.Type==4?"garment-finishing":item.Type==5?"garment-inspection":"product-packaging"%}'>&#xe613;</i>{%=item.Type==1?"裁剪":item.Type==2?"粘衬":item.Type==3?"缝制工艺":item.Type==4?"成衣整烫":item.Type==5?"成衣检验":"成品包装"%}</td>
+    <tr class='typetitle {%=item.Type==1?"tailor":item.Type==2?"adhesive":item.Type==3?"sewing-process":item.Type==4?"garment-finishing":item.Type==5?"garment-inspection":"product-packaging"%}'>
+        <td colspan="11" class='pLeft10 font18 tLeft no-border-top head {%=item.Type==1?"tailor":item.Type==2?"adhesive":item.Type==3?"sewing-process":item.Type==4?"garment-finishing":item.Type==5?"garment-inspection":"product-packaging"%}' id='{%=item.Type==1?"tailor":item.Type==2?"adhesive":item.Type==3?"sewing-process":item.Type==4?"garment-finishing":item.Type==5?"garment-inspection":"product-packaging"%}' style="line-height:46px;"><i class='iconfont icon-delete processplates'>&#xe613;</i>{%=item.Type==1?"裁剪":item.Type==2?"粘衬":item.Type==3?"缝制工艺":item.Type==4?"成衣整烫":item.Type==5?"成衣检验":"成品包装"%}</td>
     </tr>
     <tr class='proplate {%=item.Type==1?"tailor":item.Type==2?"adhesive":item.Type==3?"sewing-process":item.Type==4?"garment-finishing":item.Type==5?"garment-inspection":"product-packaging"%}'>
        
-        <td colspan="2">名称</td>
+        <td colspan="2" style="min-width:100px;">名称</td>
         <td colspan="4">描述</td>
     </tr>
     {% type=item.Type } %}
     <tr class='proplate {%=item.Type==1?"tailor":item.Type==2?"adhesive":item.Type==3?"sewing-process":item.Type==4?"garment-finishing":item.Type==5?"garment-inspection":"product-packaging"%}'>
         
         <td colspan="2">{%=item.Title%}</td>
-        <td colspan="4">{%=item.Remark%}</td>
+        <td colspan="4" style="width:200px">{%=item.Remark%}</td>
         
     </tr>
 

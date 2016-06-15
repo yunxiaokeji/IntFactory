@@ -293,14 +293,11 @@
     @if (model.IsSelf)
     {
         <div id="addPay" class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">收款登记</div>
-        if (model.Status == 5 && model.OrderStatus == 1)
+        if (model.Status == 5)
         { 
             <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" id="btnSendOrder">订单发货</div>
             <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" id="btnSewnOrder">缝制/套口录入</div>
-            if (model.CutStatus != 2)
-            {
-                <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" id="btnCutoutOrder">裁片/织片录入</div>
-            }
+            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" id="btnCutoutOrder">裁片/织片录入</div>
         }
     }
     

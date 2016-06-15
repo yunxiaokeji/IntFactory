@@ -9,6 +9,7 @@ table:first-child tr td:last-child{width:120px;}
 .style-information tr td { height:35px;font-size:15px;}
 .style-information tr td:last-child{ font-size:12px;}
 .export span { font-size:24px;color:#666;}
+.Processing tr td:last-child{border-right:none; }
 .icon-delete { float:left;margin-left:5px;margin-top:2px;color:#666;cursor:pointer;margin-right:-20px;}
 .offer { width:60%;}
 .no-select {color:#bbb; }

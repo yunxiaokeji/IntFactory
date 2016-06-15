@@ -42,9 +42,9 @@
         <div class="task-status {%=item.FinishStatus==0?'task-noaccept':item.FinishStatus==2?'task-finish':'task-underway'%}">
             {%=item.FinishStatus==0?'未接受':item.FinishStatus==2?'已完成':'进行中'%}
         </div>
-        <div class="task-owner">
+        <div class="task-owner right">
             <span><img src='{%=item.Owner.Avatar==""?"/modules/images/defaultavatar.png":item.Owner.Avatar%}' onerror="$(this).attr('src','/modules/images/defaultavatar.png');" /></span>
-            <span class="name{%=i%}">{%=item.Owner.Name%}</span>
+            <span class="name{%=i%} long" style="max-width:60px;">{%=item.Owner.Name%}</span>
         </div>
     </div>
 </div>
