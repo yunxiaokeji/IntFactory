@@ -240,7 +240,7 @@
                 $(".search-status .item[data-hide=" + dataHide + "]").hide();
 
                 if ($(".search-status .item.hover").is(":hidden")) {
-                    $(".search-status .item[data-id='-1']").addClass('hover');
+                    $(".search-status .item[data-id='-1']").addClass('hover').siblings().removeClass('hover');
                     Params.Status = -1;
                 }
 
