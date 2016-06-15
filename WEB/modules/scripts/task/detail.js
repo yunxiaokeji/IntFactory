@@ -115,7 +115,6 @@
         //初始化任务讨论列表
         TalkReply.initTalkReply(ObjectJS);       
        
-
         //任务模块切换
         $(".module-tab li").click(function () {
             var _this = $(this);
