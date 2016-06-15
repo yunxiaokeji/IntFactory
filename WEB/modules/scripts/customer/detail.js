@@ -422,7 +422,7 @@
                         }
                     });
 
-                    $("#navOrder .tr-header").after(innerhtml);
+                    $("#navOrder .table-list-order").append(innerhtml);
                 });
             } else {
                 $("#navOrder .tr-header").after("<tr><td colspan='13'><div class='nodata-txt' >暂无订单!<div></td></tr>");

@@ -106,19 +106,74 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataTable GetOrdersByPlanTime(string startPlanTime, string endPlanTime, int orderType, int filterType, string userID, string clientID)
+        public DataTable GetOrdersByPlanTime(string startPlanTime, string endPlanTime,
+            int orderType, int filterType, int orderStatus,
+            string userID, string clientID,int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
+                                       new SqlParameter("@totalCount",SqlDbType.Int),
+                                       new SqlParameter("@pageCount",SqlDbType.Int),
+                                       new SqlParameter("@pageSize",pageSize),
+                                       new SqlParameter("@pageIndex",pageIndex),
                                        new SqlParameter("@StartPlanTime",startPlanTime),
                                        new SqlParameter("@EndPlanTime",endPlanTime),
                                        new SqlParameter("@OrderType",orderType),
+                                       new SqlParameter("@OrderStatus",orderStatus),
                                        new SqlParameter("@FilterType",filterType),
                                        new SqlParameter("@UserID",userID),
                                        new SqlParameter("@ClientID",clientID)
                                    };
 
+            paras[0].Value = totalCount;
+            paras[1].Value = pageCount;
+
+            paras[0].Direction = ParameterDirection.InputOutput;
+            paras[1].Direction = ParameterDirection.InputOutput;
             DataTable dt = GetDataTable("P_GetOrdersByPlanTime", paras, CommandType.StoredProcedure);
+            totalCount = Convert.ToInt32(paras[0].Value);
+            pageCount = Convert.ToInt32(paras[1].Value);
             return dt;
+        }
+
+        public int GetNeedOrderCount(string ownerID, int orderType, string clientID)
+        {
+            SqlParameter[] paras = {
+                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@OwnerID",ownerID),
+                                       new SqlParameter("@OrderType",orderType)
+                                   };
+
+            string sql = "select count(orderid) from orders where OrderStatus=0 and status<>9 and ClientID=@ClientID";
+            if (orderType != -1) {
+                sql += " and OrderType=@OrderType";
+            }
+            if (!string.IsNullOrEmpty(ownerID))
+            {
+                sql += " and OwnerID=@OwnerID";
+            }
+
+            return (int)ExecuteScalar(sql, paras, CommandType.Text);
+        }
+
+        public int GetexceedOrderCount(string ownerID, int orderType, string clientID)
+        {
+            SqlParameter[] paras = {
+                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@OwnerID",ownerID),
+                                       new SqlParameter("@OrderType",orderType)
+                                   };
+
+            string sql = "select count(orderid) from orders where OrderStatus=1 and status<>9 and PlanTime<getdate() and ClientID=@ClientID";
+            if (orderType != -1)
+            {
+                sql += " and OrderType=@OrderType";
+            }
+            if (!string.IsNullOrEmpty(ownerID))
+            {
+                sql += " and OwnerID=@OwnerID";
+            }
+
+            return (int)ExecuteScalar(sql, paras, CommandType.Text);
         }
 
         public DataSet GetOrderByID(string orderid, string agentid, string clientid)

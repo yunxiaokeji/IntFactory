@@ -21,7 +21,10 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_CreateTask", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public DataTable GetTasks(string keyWords, string ownerID,int isParticipate, int status, int finishStatus, int colorMark, int taskType, string beginDate, string endDate, int orderType, string orderProcessID, string orderStageID, int taskOrderColumn, int isAsc, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public DataTable GetTasks(string keyWords, string ownerID, int isParticipate, int status, int finishStatus, int invoiceStatus, int preFinishStatus,
+            int colorMark, int taskType, string beginDate, string endDate, string beginEndDate, string endEndDate,
+            int orderType, string orderProcessID, string orderStageID, int taskOrderColumn, int isAsc, string clientID,
+            int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
@@ -30,6 +33,8 @@ namespace IntFactoryDAL
                                        new SqlParameter("@IsParticipate",isParticipate),
                                        new SqlParameter("@Status",status),
                                        new SqlParameter("@FinishStatus",finishStatus),
+                                       new SqlParameter("@InvoiceStatus",invoiceStatus),
+                                       new SqlParameter("@PreFinishStatus",preFinishStatus),
                                        new SqlParameter("@OrderType",orderType),
                                        new SqlParameter("@OrderProcessID",orderProcessID),
                                        new SqlParameter("@OrderStageID",orderStageID),
@@ -38,6 +43,8 @@ namespace IntFactoryDAL
                                        new SqlParameter("@KeyWords",keyWords),
                                        new SqlParameter("@BeginDate",beginDate),
                                        new SqlParameter("@EndDate",endDate),
+                                       new SqlParameter("@BeginEndDate",beginEndDate),
+                                       new SqlParameter("@EndEndDate",endEndDate),
                                        new SqlParameter("@ClientID",clientID),
                                        new SqlParameter("@TaskOrderColumn",taskOrderColumn),
                                        new SqlParameter("@IsAsc",isAsc),
@@ -60,19 +67,74 @@ namespace IntFactoryDAL
             return ds.Tables[0];
         }
 
-        public DataTable GetTasksByEndTime(string startEndTime, string endEndTime,int orderType, int filterType, string userID, string clientID)
+        public DataTable GetTasksByEndTime(string startEndTime, string endEndTime,
+            int orderType, int filterType, int finishStatus, int preFinishStatus,
+            string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
+                                       new SqlParameter("@totalCount",SqlDbType.Int),
+                                       new SqlParameter("@pageCount",SqlDbType.Int),
+                                       new SqlParameter("@pageSize",pageSize),
+                                       new SqlParameter("@pageIndex",pageIndex),
                                       new SqlParameter("@StartEndTime",startEndTime),
                                        new SqlParameter("@EndEndTime",endEndTime),
                                         new SqlParameter("@OrderType",orderType),
                                        new SqlParameter("@FilterType",filterType),
+                                        new SqlParameter("@FinishStatus",finishStatus),
+                                         new SqlParameter("@PreFinishStatus",preFinishStatus),
                                        new SqlParameter("@UserID",userID),
                                        new SqlParameter("@ClientID",clientID)
    
                                    };
+            paras[0].Value = totalCount;
+            paras[1].Value = pageCount;
 
-            return GetDataTable("P_GetTasksByEndTime", paras, CommandType.StoredProcedure);
+            paras[0].Direction = ParameterDirection.InputOutput;
+            paras[1].Direction = ParameterDirection.InputOutput;
+            DataTable dt= GetDataTable("P_GetTasksByEndTime", paras, CommandType.StoredProcedure);
+            totalCount = Convert.ToInt32(paras[0].Value);
+            pageCount = Convert.ToInt32(paras[1].Value);
+            return dt;
+        }
+
+        public int GetNoAcceptTaskCount(string ownerID,int orderType, string clientID)
+        {
+            SqlParameter[] paras = {
+                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@OwnerID",ownerID),
+                                       new SqlParameter("@OrderType",orderType)
+                                   };
+
+            string sql = "select count(taskid) from Ordertask where finishstatus=0 and status<>9 and ClientID=@ClientID";
+            if (orderType != -1)
+            {
+                sql += " and OrderType=@OrderType";
+            }
+            if (!string.IsNullOrEmpty(ownerID))
+            {
+                sql += " and OwnerID=@OwnerID";
+            }
+            return (int)ExecuteScalar(sql, paras, CommandType.Text);
+        }
+
+        public int GetexceedTaskCount(string ownerID, int orderType, string clientID)
+        {
+            SqlParameter[] paras = {
+                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@OwnerID",ownerID),
+                                       new SqlParameter("@OrderType",orderType)
+                                   };
+
+            string sql = "select count(taskid) from Ordertask where finishstatus=1 and status<>8 and endtime<getdate() and ClientID=@ClientID";
+            if (orderType != -1)
+            {
+                sql += " and OrderType=@OrderType";
+            }
+            if (!string.IsNullOrEmpty(ownerID))
+            {
+                sql += " and OwnerID=@OwnerID";
+            }
+            return (int)ExecuteScalar(sql, paras, CommandType.Text);
         }
 
         public  DataTable GetTasksByOrderID(string orderID)
@@ -258,7 +320,7 @@ namespace IntFactoryDAL
         #region PlateMaking
         public DataTable GetPlateMakings(string orderID)
         {
-            string sqltext = "select * from PlateMaking where OrderID=@OrderID and status<>9 order by createtime desc";
+            string sqltext = "select * from PlateMaking where OrderID=@OrderID and status<>9  order by Type asc, createtime asc";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderID)
@@ -269,7 +331,7 @@ namespace IntFactoryDAL
 
         public DataTable GetPlateMakings(string orderID, string taskID)
         {
-            string sqltext = "select * from PlateMaking where OrderID=@OrderID and TaskID=@TaskID and status<>9  order by createtime desc";
+            string sqltext = "select * from PlateMaking where OrderID=@OrderID and TaskID=@TaskID and status<>9  order by Type asc, createtime asc";
             if (string.IsNullOrEmpty(taskID))
             {
                 sqltext = "select * from PlateMaking where OrderID=@OrderID and status<>9  order by createtime desc";
@@ -293,15 +355,16 @@ namespace IntFactoryDAL
             return GetDataTable(sqltext, paras, CommandType.Text);
         }
 
-        public bool AddPlateMaking(string title,string remark,string icon,string taskID,string orderID,string userID,string agentID)
+        public bool AddPlateMaking(string title,string remark,string icon,string taskID,int type,string orderID,string userID,string agentID)
         {
-            string sqltext = "insert into  PlateMaking(PlateID,Title,Remark,Icon,TaskID,OrderID,CreateUserID,AgentID,CreateTime) values(NEWID(),@Title,@Remark,@Icon,@TaskID,@OrderID,@UserID,@AgentID,getdate())";
+            string sqltext = "insert into  PlateMaking(PlateID,Title,Remark,Icon,TaskID,OrderID,Type,CreateUserID,AgentID,CreateTime) values(NEWID(),@Title,@Remark,@Icon,@TaskID,@OrderID,@Type,@UserID,@AgentID,getdate())";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@Title",title),
                                      new SqlParameter("@Remark",remark),
                                      new SqlParameter("@Icon",icon),
                                      new SqlParameter("@TaskID",taskID),
+                                     new SqlParameter("@Type",type),
                                      new SqlParameter("@OrderID",orderID),
                                      new SqlParameter("@UserID",userID),
                                      new SqlParameter("@AgentID",agentID)
@@ -309,15 +372,16 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
         }
 
-        public bool UpdatePlateMaking(string plateID, string title, string remark, string icon)
+        public bool UpdatePlateMaking(string plateID, string title, string remark, string icon,int type)
         {
-            string sqltext = "update PlateMaking set Title=@Title,Remark=@Remark,Icon=@Icon where PlateID=@PlateID ";
+            string sqltext = "update PlateMaking set Title=@Title,Remark=@Remark,Icon=@Icon,Type=@Type where PlateID=@PlateID ";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@PlateID",plateID),
                                      new SqlParameter("@Title",title),
                                      new SqlParameter("@Remark",remark),
-                                     new SqlParameter("@Icon",icon)
+                                     new SqlParameter("@Icon",icon),
+                                     new SqlParameter("@Type",type)
                                    };
 
             return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;

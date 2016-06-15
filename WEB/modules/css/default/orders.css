@@ -54,7 +54,7 @@
 .search-item-color .item{ width:12px; height:12px;  border-radius:7px; margin-top:5px;}
 .search-item-color .item.hover{ width:20px; height:20px;border-radius:11px; margin-top:2px;}
 
-.search-item-color .mark-all { background:url('/modules/plug/mark/ico-ball.png') no-repeat; background-size:cover; }
+.search-item-color .mark-all { background:url('/modules/plug/mark/ico-ball.png') no-repeat; background-size:cover;border:solid 1px #fff; }
 .search-item-color .mark0 { background-color:#FFF; border:solid 1px #ccc; }
 .search-item-color .mark1 { background-color:#FF7C7C; border:solid 1px #FF7C7C; }
 .search-item-color .mark2 { background-color:#3BB3FF; border:solid 1px #3BB3FF; }
@@ -194,3 +194,5 @@
 .total-item.hover { background-color:#fafafa; }
 
 .sample-report { cursor:pointer;}
+.typetitle {background-color:#eee;color:#007aff; }
+.typetitle:first-child {height:46px;}

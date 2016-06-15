@@ -6,7 +6,7 @@
     Layout = null;
 }
 
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -31,9 +31,8 @@
 
 </head>
 <body>
-<div class="report">
-   <div class="font18 mBottom5 preview">报价预览:</div>
-   <div class="left report-tb mBottom20">
+<div class="report">   
+   <div class="left report-tb mBottom30">
        <table width="100%" id="tabletoexcel">
         <tr>
             <td colspan="4">
@@ -42,7 +41,11 @@
         </tr>
         
         <tr>
-            <td id="Platemak" style="width:350px;"></td>
+            <td id="Platemak" style="width:350px;">
+                <div style="height: 100%;">
+                    <p style="border-bottom:1px solid #000;font-size:18px;font-weight:500;padding:7.5px 0;">规格信息</p>
+                </div>
+            </td>
             <td style="width:250px;">
                 <table class="no-border style-information" style="height:100%;">
                     <tr>
@@ -87,7 +90,7 @@
             </td>        
         </tr>
         <tr>
-            <td colspan="4" style="font-size:18px;font-weight:500;">材料成本</td>
+            <td colspan="4" style="font-size:18px;font-weight:500;">物料信息</td>
         </tr>
         <tr>
             <td colspan="4">
@@ -107,10 +110,18 @@
                             地址  
                         </td>
                         <td style="font-size:16px;" class="no-border-top">门幅</td>
-                        <td style="font-size:16px;width:8%" class="no-border-top">用料</td>
-                        <td style="font-size:16px;width:5%" class="no-border-top">单位</td>
-                        <td style="font-size:16px;width:10%" class="no-border-top">单价</td>
-                        <td style="font-size:16px;" class="no-border-top no-border-right">成本</td>         
+                        <td style="font-size:16px;" class="no-border-top">用料</td>
+                        <td style="font-size:16px;" class="no-border-top">
+                            单位
+                        </td>
+                        <td style="font-size:16px;width:10%" class="no-border-top">
+                            <i class="iconfont icon-delete price">&#xe613;</i>                            
+                            单价
+                        </td>
+                        <td style="font-size:16px;" class="no-border-top no-border-right">
+                            <i class="iconfont icon-delete cost">&#xe613;</i>                                                        
+                            成本
+                        </td>         
                     </tr>
 
                     @if (order.Details.Count>0)
@@ -125,14 +136,14 @@
                                 <td>@(detail.Remark==""?"--":detail.Remark)</td>
                                 <td>@(detail.Quantity.ToString("f3"))</td>
                                 <td>@(detail.UnitName)</td>
-                                <td>@(detail.Price.ToString("f2"))</td>
-                                <td class="no-border-right">@((detail.TotalMoney).ToString("f3"))</td>         
+                                <td class="price-txt">@(detail.Price.ToString("f2"))</td>
+                                <td class="no-border-right cost-txt">@((detail.TotalMoney).ToString("f3"))</td>         
                             </tr>
                         }
                     }
                     else
                     {
-                        <tr><td class="no-border-left no-border-right" colspan="9"><div class="nodata-txt">暂无数据!</div></td></tr>
+                        <tr><td class="no-border-left no-border-right" colspan="9"><div class="nodata-txt"></div></td></tr>
                     }
                 </table>
             </td>
@@ -162,23 +173,24 @@
                     }
                     else
                     {
-                        <tr><td colspan="4" class="no-border-left no-border-right no-border-bottom"><div class="nodata-txt">暂无数据!</div></td></tr>
+                        <tr><td colspan="4" class="no-border-left no-border-right no-border-bottom"><div class="nodata-txt"></div></td></tr>
                     }
                 
                     
                 </table>        
             </td>
         </tr>
-    </table> 
-       <div>
-           <span class="btn mTop10">保存</span>
-       </div>  
+    </table>        
    </div>      
    
     
-    
-    <div class="export mLeft50 hide">          
-        
+    <div class="btn-ok" style="cursor:pointer;width:1100px;" title="预览">
+        <i class="iconfont font22 mLeft20">&#xe605;</i>
+        <span class="mTop22 font14">预览</span>
+    </div>
+    <div class="export mLeft50 hide">  
+        <span class="iconfont font22 right print" style="cursor:pointer;margin-right:-20px;">&#xe658;</span>
+        <span class="iconfont font18 mLeft80 color666 get-back" style="cursor:pointer;position:absolute"><i class="iconfont mRight5">&#xe62d;</i><span class="font14">返回</span></span>
     </div>
     
  </div>

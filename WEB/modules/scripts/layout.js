@@ -81,6 +81,17 @@ define(function (require, exports, module) {
             LayoutObject.bindStyle();
         });
 
+        //窗体滚动 置顶头部
+        $(window).scroll(function(){  
+            if ($(window).scrollTop()>50){  
+                $(".back-top").fadeIn(500);
+            }  
+            else  
+            {  
+                $(".back-top").fadeOut(1000);
+             }  
+        });  
+
         $(document).click(function (e) {
 
             if (!$(e.target).parents().hasClass("currentuser") && !$(e.target).hasClass("currentuser")) {
@@ -105,6 +116,17 @@ define(function (require, exports, module) {
             }
         });
 
+        $(".ico-help").hover(function () {
+            $(".wechat").css({ "bottom": "105px", "left": "70px" });
+
+            $(".wechat img").css({ "width": "150px", "height": "150px" });
+            
+        }, function () {
+            $(".wechat").css({ "bottom": "70px", "left": "44px" });
+
+            $(".wechat img").css({ "width": "0", "height": "0" });
+        })
+        
         //登录信息展开
         $("#currentUser").click(function () {
             $(".dropdown-userinfo").fadeIn("1000");
@@ -151,14 +173,26 @@ define(function (require, exports, module) {
             Easydialog.open({
                 container: {
                     id: "",
-                    header: "厂盟科技官方微信号",
-                    content: "<div class='center'><img src='/modules/images/wechat.jpg' /><br><span class='font14'>扫一扫关注微信号</span></div>",
+                    header: "厂盟智能微信公众号",
+                    content: "<div class='center'><img src='/modules/images/wechat.jpg' /><br><span class='font14'>扫一扫关注公众号</span></div>",
                     yesfn: function () {
 
                     }
                 }
             });
         })
+
+        //返回顶部
+        $(".back-top").click(function () {
+             $('body,html').animate({scrollTop:0},300);  
+            return false;  
+        });
+
+        //头部双击 返回顶部
+        $("header").dblclick(function () {
+            $('body,html').animate({ scrollTop: 0 }, 300);
+            return false;
+        });
 
     }
 
@@ -196,14 +230,12 @@ define(function (require, exports, module) {
     LayoutObject.getAuthorizeInfo = function () {
         Global.post("/Home/GetAuthorizeInfo", null, function (data) {
             $("#remainderDays").html(data.remainderDays);
-            $(".remain-day").html(data.remainderDays);
             if (data.authorizeType == 0) {
                 $(".btn-buy").html("立即购买");
             }
             else {
                 if (parseInt(data.remainderDays) < 31) {
                     $("#remainderDays").addClass("red");
-                    $(".remain-day").addClass("red");
                     $(".btn-buy").html("续费").attr("href", "/Auction/ExtendNow");
                 }
                 else {

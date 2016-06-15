@@ -91,7 +91,7 @@ namespace IntFactoryBusiness
             string where = " ClientID='" + clientid + "' and  OrderType=1 and Status= " + (int)EnumOrderStageStatus.FYFJ;
             if (!string.IsNullOrEmpty(keyWords))
             {
-                where += "and (OrderCode like '%" + keyWords + "%' or Title like '%" + keyWords + "%' or PersonName like '%" + keyWords + "%' or IntGoodsCode like '%" + keyWords + "%')";
+                where += "and (OrderCode like '%" + keyWords + "%' or Title like '%" + keyWords + "%' or PersonName like '%" + keyWords + "%' or IntGoodsCode like '%" + keyWords + "%' or GoodsCode like '%" + keyWords + "%')";
             }
             DataTable dt = CommonBusiness.GetPagerData("Orders", "*", where, "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
             foreach (DataRow dr in dt.Rows)
@@ -145,16 +145,22 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<OrderEntity> GetOrdersByPlanTime(string startPlanTime, string endPlanTime,int orderType,int filterType, string userID, string clientID)
+        public List<OrderEntity> GetOrdersByPlanTime(string startPlanTime, string endPlanTime, 
+            int orderType, int filterType, int orderStatus,
+            string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataTable dt = OrdersDAL.BaseProvider.GetOrdersByPlanTime(startPlanTime, endPlanTime, orderType, filterType, userID, clientID);
+            DataTable dt = OrdersDAL.BaseProvider.GetOrdersByPlanTime(startPlanTime, endPlanTime, 
+                orderType, filterType, orderStatus,
+                userID, clientID,pageSize,pageIndex,ref totalCount,ref pageCount);
+
             foreach (DataRow dr in dt.Rows)
             {
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+
                 if (model.OrderStatus == 1)
                 {
                     if (model.PlanTime <= DateTime.Now)
@@ -178,13 +184,24 @@ namespace IntFactoryBusiness
                         model.UseDays = (DateTime.Now - model.OrderTime).Days;
                     }
                 }
-                else
+                else if(model.OrderStatus==2)
                 {
                     model.UseDays = (model.PlanTime - model.OrderTime).Days;
                 }
+
                 list.Add(model);
             }
             return list;
+        }
+
+        public int GetNeedOrderCount(string ownerID,int orderType, string clientID)
+        {
+            return OrdersDAL.BaseProvider.GetNeedOrderCount(ownerID, orderType, clientID);
+        }
+
+        public int GetexceedOrderCount(string ownerID, int orderType, string clientID)
+        {
+            return OrdersDAL.BaseProvider.GetexceedOrderCount(ownerID, orderType, clientID);
         }
 
         public List<OrderEntity> GetOrdersByCustomerID(string keyWords, string customerid, int ordertype, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
@@ -193,7 +210,7 @@ namespace IntFactoryBusiness
             string condition="CustomerID='" + customerid + "' and OrderType=" + ordertype + " and Status<>9 and Status<>0";
             if (!string.IsNullOrEmpty(keyWords))
             {
-                condition += " and ( OrderCode like '%" + keyWords + "%' or GoodsCode like '%" + keyWords + "%' or MobileTele like '%" + keyWords + "%' or PersonName like '%" + keyWords + "%')";
+                condition += " and ( OrderCode like '%" + keyWords + "%' or GoodsCode like '%" + keyWords + "%' or MobileTele like '%" + keyWords + "%' or PersonName like '%" + keyWords + "%' or IntGoodsCode like '%" + keyWords + "%')";
             }
             
             DataTable dt = CommonBusiness.GetPagerData("Orders", "*", condition, "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
@@ -422,6 +439,7 @@ namespace IntFactoryBusiness
                     model.Customer = new CustomerEntity();
                     model.Customer.FillData(ds.Tables["Customer"].Rows[0]);
                 }
+
                 model.Details = new List<OrderDetail>();
                 foreach (DataRow dr in ds.Tables["Details"].Rows)
                 {
@@ -431,6 +449,11 @@ namespace IntFactoryBusiness
                     {
                         detail.UnitName = new ProductsBusiness().GetUnitByID(detail.UnitID).UnitName;
 
+                    }
+                    var city = CommonBusiness.GetCityByCode(detail.ProviderCityCode);
+                    if (city != null)
+                    {
+                        detail.ProviderAddress = city.Description + detail.ProviderAddress;
                     }
                     model.Details.Add(detail);
                 }
@@ -448,7 +471,6 @@ namespace IntFactoryBusiness
             }
             return model;
         }
-
 
         public static List<ReplyEntity> GetReplys(string guid, string stageID,int mark, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
@@ -993,15 +1015,22 @@ namespace IntFactoryBusiness
                     }
                     if (first)
                     {
-                        FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
-
-                        if (file.Exists)
+                        if (orderimg.ToLower().IndexOf("http://img.china.alibaba.com") < 0)
                         {
-                            firstimg = orderimg.Substring(0, orderimg.IndexOf(file.Name)) + "small" + file.Name;
-                            if (!new FileInfo(HttpContext.Current.Server.MapPath(firstimg)).Exists)
+                            FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
+
+                            if (file.Exists)
                             {
-                                CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 250, HttpContext.Current.Server.MapPath(firstimg));
+                                firstimg = orderimg.Substring(0, orderimg.IndexOf(file.Name)) + "small" + file.Name;
+                                if (!new FileInfo(HttpContext.Current.Server.MapPath(firstimg)).Exists)
+                                {
+                                    CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 250, HttpContext.Current.Server.MapPath(firstimg));
+                                }
                             }
+                        }
+                        else 
+                        {
+                            firstimg = orderimg;
                         }
                         first = false;
                     }

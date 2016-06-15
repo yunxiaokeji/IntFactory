@@ -1,22 +1,24 @@
 ﻿{%
-	for(var i=0, j=$data.length; i < j; i++){
+	for(var i=0; i<$data.length; i++){
 	var item = $data[i];
 %}
 <tr class="list-item" data-taskid="{%=item.TaskID%}" data-orderid="{%=item.OrderID%}" data-stageid="{%=item.StageID%}">
     <td class='tLeft'><span class="mark" data-id="{%= item.TaskID %}" data-value="{%= item.ColorMark %}"></span> </td>
     <td class="tLeft">
+        <a href="/Task/Detail/{%=item.TaskID%}">
         <div class="list-pic-box">
             <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="{%=item.OrderImg==''?'/modules/images/img-noimg.png':item.OrderImg%}"/>
             <div class='hint-layer hide'>
-                <div class='hint-msg hide'>已超期</div>
+                <div class='hint-msg {%=item.WarningStatus==0?"hide":item.WarningStatus==1?"warning":"excced"%}'>{%=item.WarningStatus==0?"":item.WarningStatus==1?"快到期":"已超期"%}</div>
             </div>
         </div>
+        </a>
     </td>
     <td class="center"><a href="/Task/Detail/{%=item.TaskID%}">{%=item.Title%}</a></td>
     <td class="center"><a href="/Task/Detail/{%=item.TaskID%}">{%=item.TaskCode%}</a></td>
     <td class="center">{%=item.OrderCode%}</td>
     <td class="center">{%=item.OrderType==1?"打样":"大货"%}</td>
-    <td class="center"><span class="{%=item.PreFinishStatus==null?'--':item.PreFinishStatus==1?'blue':item.PreFinishStatus==0?'red':''%}">{%=item.PreFinishStatus==0?'未接受':item.PreFinishStatus==2?'已完成':'进行中'%}</span></td>
+    <td class="center"><span class="{%=item.PreFinishStatus==-1?'':item.PreFinishStatus==1?'blue':item.PreFinishStatus==0?'red':''%}">{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'未接受':item.PreFinishStatus==2?'已完成':'进行中'%}</span></td>
     <td class="center"><span class="{%=item.FinishStatus==1?'blue':item.FinishStatus==0?'red':''%}">{%=item.FinishStatus==0?'未接受':item.FinishStatus==2?'已完成':'进行中'%}</span></td>
     <td class="center">{%=item.Owner.Name%}</td>
      <td class='center' id="EndTime-{%=item.TaskID%}">{%=item.EndTime.toDate("yyyy-MM-dd")=="3939-01-01"?"未指定时间":item.EndTime.toDate("yyyy-MM-dd")%}</td>

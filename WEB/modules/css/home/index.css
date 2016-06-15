@@ -17,7 +17,7 @@
     
 }
 .index-report-header span {
-    color:#666!important;
+    color:#666;
 }
 
 .index-report-header .order-type span {
@@ -25,18 +25,20 @@
     line-height:20px; 
     display:inline-block;
     background-color:#fff;
-    border:1px solid #cecece;
+    border:1px solid #49b3f5;
     cursor:pointer;
 }
 
 .index-report-header .order-type span:first-child.hover { 
     border-right:none;
-    background-color:#eee;
+    background-color:#49b3f5;
+    color:#fff;
 }
 
 .index-report-header .order-type span:last-child.hover { 
     border-left:none;
-    background-color:#eee;
+    background-color:#49b3f5;
+    color:#fff;
 }
 
 .index-report-sum {
@@ -45,14 +47,15 @@
     /*border-bottom:1px solid #eee;*/
 }
  .ordertotal {
-    line-height:28px;
-    font-size:16px;
+    line-height:26px;
+    font-size:12px;
     text-align:center;
     padding:0 8px;
-    border:1px solid #ededed;
+    border:1px solid #E1E8F5;
+    background-color:#ECF2FF;
 }
   .ordertotal span{
-    font-size:14px;
+    font-size:12px;
     color:#888;
 }
 .sum-list li{
@@ -148,6 +151,7 @@ border-bottom:2px solid #4a98e7;
     bottom:0px;
     z-index:100;
 }
+
 .index-report-content .report-item li {
     vertical-align:middle;
     text-align:center;
@@ -182,14 +186,17 @@ border-bottom:2px solid #4a98e7;
     border:1px solid #cecece;
     background-color:#fff;
     padding:10px 20px 20px 20px;
-    width:658px;
 }
 
 .order-list .order-layerbox { 
     border-left:2px solid #ddd;
-    padding-left:24px;
+    padding-left:10px;
     position:relative;
     padding-bottom:10px;
+}
+
+.order-layerbox table,.order-layerbox table span { 
+    color:#333;
 }
 
 .order-list .order-layerbox .layer-lump { 
@@ -204,7 +211,9 @@ border-bottom:2px solid #4a98e7;
 
 .order-item {
     position:relative;
-    margin-top:15px;
+    margin-top:10px;
+    padding-bottom:10px;
+    border-bottom:1px solid #eee;
 }
 .order-item .hint-layer { 
     position:absolute;
@@ -242,20 +251,22 @@ border-bottom:2px solid #4a98e7;
 .index-list .list-header {
     color:#666;
 }
-
+.owner-box { 
+    margin-left:100px;
+}
 .index-list .list-total {
     display:inline-block;
     width:40px;
     color:#fff;
     border-radius:3px;
-    background-color:#f35353;
+    background-color:#49b3f5;
     text-align:center;
     line-height:18px;
 }
 .order-item .order-img {
     width:120px;
     height:120px;
-    background-color:#f0f0f0;
+    background-color:#f9f9f9;
     
 }
 .order-item .order-img img{
@@ -273,9 +284,9 @@ border-bottom:2px solid #4a98e7;
 }
 
 .order-detail {
-    width:480px;
-    height:119px;
-    border-bottom:1px solid #eee;
+    /*width:480px;*/
+    height:105px;
+    
 }
 .order-detail span {
     color:#999;
@@ -300,6 +311,8 @@ border-bottom:2px solid #4a98e7;
 .order-progress .order-progress-item {
     width:80px;
     height:4px;
+    min-width:5px;
+    max-width:155px;
     background-color:#5994e6;
     float:left;
     position:relative;
@@ -384,12 +397,51 @@ border-bottom:2px solid #4a98e7;
     background-color:#ffa200;
 }
 
-.author-message { width:430px;height:130px;background-color:#fff;border:1px solid #cecece;}
-.author-message .author-head { line-height:50px;height:50px;font-size:18px;border-bottom:1px solid #cecece;color:#555;}
-.author-message ul li { width:33.3333%;float:left;text-align:center;box-sizing:border-box;border-right:1px solid #cecece;height:80px;padding:15px 0;}
-.author-message ul li:last-child { border-right:0;}
-.author-message ul p {font-size:14px;color:#555;line-height:24px;}
-.author-message ul p:first-child { font-size:20px;}
+.author-message { 
+    width:430px;
+    background-color:#fff;
+    border:1px solid #cecece;
+}
+.author-message .author-head {
+     line-height:50px;
+     height:50px;
+     font-size:18px;
+     border-bottom:1px solid #cecece;
+     color:#888;
+}
+.author-message ul li {
+     width:33.3333%;
+     float:left;
+     text-align:center;
+     box-sizing:border-box;
+     padding:30px 0;
+}
+.author-message ul p {
+    font-size:14px;
+    color:#555;
+    line-height:24px;
+}
+.author-message ul p:first-child { 
+    font-size:20px;
+}
+
+.table-list-order td {
+    border-bottom:1px solid #eee;
+}
+.order-ul li{
+    line-height:28px;
+}
+.order-ul, .order-ul-3 { 
+    padding:10px 0;
+}
+.order-ul-3 li{
+    line-height:40px;
+}
+.order-pic { 
+    max-height:120px;
+    max-width:120px;
+}
+
 
 
 

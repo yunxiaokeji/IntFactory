@@ -177,6 +177,7 @@
 
     //绑定手机
     ObjectJS.saveAccountBindMobile = function () {
+
         if (!$("#S_LoginName").html()) {
             alert("请先设置账号！");
             return;

@@ -4,14 +4,14 @@
 %}
 <tr class="list-item">
     <td class="name {%=item.Role ?'':'red'%}">{%=item.LoginName%}</td>
-    <td class="center {%=item.Role ?'':'red'%}">{%=item.Name%}</td>
-    <td class="center">{%=item.MobilePhone%}</td>
-    <td class="">{%=item.Email%}</td>
-    <td class='center'>{%=(item.Department ? item.Department.Name:"--")%}</td>
+    <td class="center {%=item.Role ?'':'red'%} staff-name">{%=item.Name%}</td>
+    <td class="center mobile">{%=item.MobilePhone==""?item.BindMobilePhone:item.MobilePhone%}</td>
+    <td class="email">{%=item.Email%}</td>
+    <td class='center department' data-id="{%=item.DepartID%}">{%=(item.Department ? item.Department.Name:"--")%}</td>
     <td class='center'>{%=(item.Role ? item.Role.Name:"--")%}</td>
     <td class="center {%=item.Role ?'':'red'%}">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     <td class='center'>{%=(item.CreateUser ? item.CreateUser.Name:"--")%}</td>
-    <td class="center dropdown" data-roleid="{%=item.RoleID%}"  data-id="{%=item.UserID%}" data-name="{%=item.LoginName%}">
+    <td class="center dropdown" data-status="{%=item.BindMobilePhone==""?0:1%}" data-roleid="{%=item.RoleID%}"  data-id="{%=item.UserID%}" data-name="{%=item.LoginName%}">
         <span class="ico-dropdown"></span>
     </td>
 </tr>

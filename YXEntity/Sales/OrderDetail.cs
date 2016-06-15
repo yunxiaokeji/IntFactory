@@ -171,6 +171,8 @@ namespace IntFactoryEntity
         public string ProviderMobileTele { get; set; }
 
         public string ProviderAddress { get; set; }
+
+        public string ProviderCityCode { get; set; }
 		#endregion Model
         /// <summary>
         /// 填充数据

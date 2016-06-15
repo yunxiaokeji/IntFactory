@@ -103,8 +103,8 @@
     <div class="left titlename">款式编码：@(model.IntGoodsCode)</div>
     <ul class="right">
         <li title="来源打样单">
-            <i class="iconfont">&#xe612;</i>
-            <a href="/Orders/OrderDetail/@(model.OriginalID)" class="">@(model.OriginalCode)</a>
+            <span class="font14 color666">来源打样单：</span>
+            <a href="/Orders/OrderDetail/@(model.OriginalID)" class="font14">@(model.OriginalCode)</a>
             @if (string.IsNullOrEmpty(model.OriginalID) && model.IsSelf)
             {
                 <div class="btn @(ExpandClass.IsLimits(HttpContext.Current, "102019018"))" id="bindOriginalOrder">绑定打样款号</div> 
@@ -114,7 +114,7 @@
             订单品类：@(model.CategoryName)
         </li>
         <li title="交货日期">
-            交货日期：@(model.PlanTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : model.PlanTime.ToString("yyyy-MM-dd"))
+            交货日期：@(model.PlanTime.ToString("yyyy-MM-dd") == "0001-01-01"||model.PlanTime.ToString("yyyy-MM-dd")=="1900-01-01" ? "未设置" : model.PlanTime.ToString("yyyy-MM-dd"))
         </li>
         <li>
             <span class="left"> 负责人：</span><label class="left" id="lblOwner">@(model.Owner != null ? model.Owner.Name : "--")</label>
@@ -123,7 +123,7 @@
                 <span title="更换负责人" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner">&#xe60b;</span>
             }
         </li>
-       
+               
     </ul>
 </div>
 
@@ -258,9 +258,9 @@
                     <span class="long">@(stage.Title)</span>
                     <span class="long">负责人：@(stage.Owner.Name)</span>
                    @if (stage.LockStatus == 2)
-                    {
+                   {
                        <span class="unlock"></span>
-                    }
+                   }
                 </li>
             }
         }
@@ -293,14 +293,11 @@
     @if (model.IsSelf)
     {
         <div id="addPay" class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">收款登记</div>
-        if (model.Status == 5 && model.OrderStatus == 1)
+        if (model.Status == 5)
         { 
             <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" id="btnSendOrder">订单发货</div>
             <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" id="btnSewnOrder">缝制/套口录入</div>
-            if (model.CutStatus != 2)
-            {
-                <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" id="btnCutoutOrder">裁片/织片录入</div>
-            }
+            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" id="btnCutoutOrder">裁片/织片录入</div>
         }
     }
     
@@ -385,7 +382,7 @@
                 <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
                     <td class="width80">
                         <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">
-                          <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
+                          <img src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
                         </a>
                     </td>
                     <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
@@ -396,7 +393,7 @@
                     <td class="center tr-quantity"><label class="quantity">@((detail.Quantity * model.PlanQuantity).ToString("f3"))</label></td>
                     <td class="center tr-loss"><label class="loss">@((detail.Loss * model.PlanQuantity).ToString("f3"))</label></td>
                     <td class="center">@(detail.LossRate.ToString("f3"))</td>
-                    <td class="center">@(((detail.Quantity * model.PlanQuantity)+(detail.Loss * model.PlanQuantity)).ToString("f3"))</td>
+                    <td class="center">@(((detail.Quantity * model.PlanQuantity) + (detail.Loss * model.PlanQuantity)).ToString("f3"))</td>
                     <td class="tRight moneytotal">@((detail.TotalMoney * model.PlanQuantity).ToString("f3"))</td>
                 </tr>
                 }
@@ -430,12 +427,7 @@
         <div id="navEngravingInfo"></div>
        <div class="mTop20" style="font-size:14px; color:#666; margin-left:5px;">工艺</div>
         <table class="table-list mTop10 tb-plates">
-            <tr class="tr-header">
-                <td class="width50 tLeft">图标</td>
-                <td class="width200">名称</td>
-                <td class="">描述</td>
-                <td class="width200">创建时间</td>
-            </tr>
+            
         </table>
     </div>
 

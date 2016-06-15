@@ -15,7 +15,7 @@
         Status: -1,
         Mark: -1,
         PayStatus: -1,
-        OrderStatus: -1,
+        OrderStatus: 1,
         InvoiceStatus: -1,
         ReturnStatus: -1,
         SourceType: -1,
@@ -39,7 +39,6 @@
         if (status) {
             Params.OrderStatus = status;
         }
-       
         Params.PageSize = ($(".object-items").width() / 300).toFixed(0) * 3;
 
         _self.getList();

@@ -14,7 +14,6 @@ define(function (require, exports, module) {
         _self.guid = guid;
         model = JSON.parse(model.replace(/&quot;/g, '"'));
         _self.productid = model.ProductID;
-
         $("#productStockQuantity").text(model.StockIn - model.LogicOut);
 
         _self.bindDetail(model);

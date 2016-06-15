@@ -43,11 +43,18 @@
 </div>
 <ul class="dropdown-ul hide" style="width:90px;">
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108010303"))" id="setObjectRole">角色设置</li>
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108010304"))" id="deleteObject">注销员工</li>
+     @{
+         if (ViewBag.IsSysAdmin)
+         {
+             <li id="editBaseInfo">编辑信息</li>
+         }        
+      }
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current, "108010304"))" id="deleteObject">注销员工</li>
      @{
          if (ViewBag.IsSysAdmin)
          {
              <li id="resetPassword">重置密码</li>
+            <li id="resetMobilePhone">解绑手机</li>
          }        
       }
     

@@ -27,7 +27,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Title = "我的订单";
             ViewBag.Type = (int)EnumSearchType.Myself;
-            int State = -1;
+            int State = 1;
             if (!string.IsNullOrEmpty(id))
             {
                 if (id.Equals("need", StringComparison.OrdinalIgnoreCase))
@@ -50,7 +50,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Title = "所有订单";
             ViewBag.Type = (int)EnumSearchType.All;
-            int State = -1;
+            int State = 1;
             if (!string.IsNullOrEmpty(id))
             {
                 if (id.Equals("need", StringComparison.OrdinalIgnoreCase))
@@ -185,7 +185,13 @@ namespace YXERP.Controllers
         }
 
         public ActionResult PlateMakingProcess(string id)
-        {
+        {   
+            var taskid="";
+            var type = 1;
+            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = StockBusiness.GetGoodsDocByOrderID(id, taskid, (EnumDocType)type, CurrentUser.ClientID);
+            ViewBag.Model = model;
+            ViewBag.List = list;
             return View();
         }
 

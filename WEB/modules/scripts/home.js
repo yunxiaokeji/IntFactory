@@ -90,10 +90,10 @@ define(function (require, exports, module) {
                    $(".registerErr").html("账号或密码有误").slideDown();
                 }
                 else if (data.result == 2) {
-                    $(".registerErr").html("密码输入错误超过3次，请2小时后再试").slideDown();
+                    $(".registerErr").html("密码输入错误超过10次，请2小时后再试").slideDown();
                 }
                 else if (data.result == 3) {
-                    $(".registerErr").html("账号或密码有误,您还有" + (3 - parseInt( data.errorCount) ) + "错误机会").slideDown();
+                    $(".registerErr").html("账号或密码有误,您还有" + (10 - parseInt( data.errorCount) ) + "错误机会").slideDown();
                 }
                 else if (data.result == 4) {
                     $(".registerErr").html("该系统已绑定过阿里账户,不能再绑定").slideDown();

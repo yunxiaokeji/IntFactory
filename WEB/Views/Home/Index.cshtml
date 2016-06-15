@@ -8,7 +8,7 @@
 @section scripts{
     <script type="text/javascript">
        seajs.use(["scripts/home/index"], function (obj) {
-           obj.init('@ViewBag.Level', '@ViewBag.UserID');
+           obj.init('@ViewBag.orderLevel');
        });
     </script>
 }
@@ -16,7 +16,7 @@
 <div class="index-report">
     <div class="index-report-header">
         <div class="left">
-            <span class="font14 order-msg">订单</span>
+            <span class="font14 report-title">我的订单</span>
             <span class="mLeft20">@(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))</span>
         </div>
         <div class="right order-type">
@@ -30,7 +30,7 @@
             <ul class="sum-list">
                 <li class="active" data-orderfilter="-1">
                     <div class="sun-count total" id="totalSumCount">0</div>
-                    <div>全部<span class="order-msg" style="color:#888;">订单</span></div>
+                    <div><span class="report-total-title" style="color:#888;">全部订单</span></div>
                 </li>
                 <li data-orderfilter="1">
                      <span class="sun-count exceed" id="totalExceedCount">0</span>
@@ -41,8 +41,8 @@
                     <div>快到期</div>
                 </li>
                 <li data-orderfilter="3">
-                     <div class="sun-count work" id="totalWorkCount">0</div>
-                    <div>进行中</div>
+                     <div class="sun-count work" style="margin-left:0px;" id="totalWorkCount">0</div>
+                    <div>正常</div>
                 </li>
                  <li data-orderfilter="4">
                      <div class="sun-count finish" id="totalFinishCount">0</div>
@@ -53,21 +53,9 @@
         </div>
         <div class="right">
             <div class="right mRight15" id="orderType"></div>
-            <div class="right mRight30 ordertotal"><span>需求订单总数:</span><span class="mLeft5" style="color:#666;">2</span></div>
-            <div class="right mRight15 ordertotal"><span>超期订单总数:</span><span class="mLeft5" style="color:#666;">4</span></div>
+            <div class="right mRight30 ordertotal hand get-need" ><span>需求订单总数:</span><span class="mLeft5 total-need" style="color:#666;">0</span></div>
+            <div class="right mRight15 ordertotal hand get-ecceed" style="background-color:#ffebeb;border:1px solid #fddddd ;" title="获取所有超期数据"><span>超期订单总数:</span><span class="mLeft5 total-ecceed" style="color:#666;">0</span></div>
         </div>
-        
-     @*   <div class="right">
-            <ul class="report-status">
-                <li style="border-color:#f35353"><span>已超期</span></li>
-                <li style="border-color:#ffa200"><span>快到期</span></li>
-                <li style="border-color:#49b3f5"><span>进行中</span></li>
-                <li style="border-color:#2F73B8"><span>已完成</span></li>
-            </ul>
-            
-            <div class="right">订单类型:</div>
-            <div class="clear"></div>
-        </div>*@
         <div class="clear"></div>
     </div>
 
@@ -83,46 +71,38 @@
             </ul>
             <div class="clear"></div>
         </div>
-
-       @* <div class="report-item">
-            <ul>
-                <li style="line-height:40px;" >40</li>
-                <li style="line-height:30px;" class="item-finish">30</li>
-                <li style="line-height:90px;" class="item-work">90</li>
-                <li style="line-height:100px;" class="item-exceed">50</li>
-            </ul>
-            <div class="item-date">5月30日</div>
-        </div>*@
     </div>
 </div>
 
 <div class="index-list">
-    <div class="left order-list">
+    <div class="order-list">
         <div class="list-header">
-            <span data-isget="1">已超期</span>
+            <span class="list-title">需求单</span>
             <span class="mLeft15 list-total ">0</span>
+            <span id="taskType" class="right hide"></span>
         </div>
         <div class="order-layerbox mTop20">
             <div class="layer-lump"></div>
-
        </div>
+        <div class="center load-box hide">
+            <span class="font14 hand load-more">加载更多</span>
+        </div>
     </div>
-    <div class="right author-message">
-        <div class="author-head center">授权信息</div>
+
+  @*  <div class="right author-message">
         <ul>
             <li>
-                <p class="remain-day blue"></p>
+                <p class="remain-day @(ViewBag.RemainDay<30?"red":"blue")">@(ViewBag.RemainDay)</p>
                 <p>剩余天数</p>
             </li>
             <li>
-                <p>30</p>
+                <p>@(ViewBag.BuyPeople)</p>
                 <p>购买人数</p>
             </li>
             <li>
-                <p>24</p>
+                <p>@(ViewBag.UsePeople)</p>
                 <p>使用人数</p>
             </li>
         </ul>
-    </div>
-    <div class="clear"></div>
+    </div>*@
 </div>

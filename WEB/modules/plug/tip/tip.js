@@ -30,7 +30,6 @@
         var createTip = function (Option) {
             if ($(".content-tip").length == 1) {
                 $(".content-tip").find(".tip-msg").html(Option.msg);
-
                 return $(".content-tip");
             }
             else {

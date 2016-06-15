@@ -45,8 +45,8 @@ namespace YXERP.Areas.Api.Controllers
             }
             var currentUser = OrganizationBusiness.GetUserByUserID(userID,agentID);
 
-            List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID,paras.isParticipate?1:0, paras.status, paras.finishStatus,
-                paras.colorMark, paras.taskType, paras.beginDate, paras.endDate,
+            List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID,paras.isParticipate?1:0, paras.status, paras.finishStatus,-1,-1,
+                paras.colorMark, paras.taskType, paras.beginDate, paras.endDate,string.Empty,string.Empty,
                 paras.orderType, paras.orderProcessID, paras.orderStageID,
                 (EnumTaskOrderColumn)paras.taskOrderColumn, paras.isAsc, currentUser.ClientID,
                 paras.pageSize, paras.pageIndex, ref totalCount, ref pageCount);

@@ -7,13 +7,10 @@
     };
 
     ObjectJS.bindEvent = function (plate, price, costprice) {
-        if (plate == "") {
-            $("#Platemak").html('<tr><td class="no-border" style="width:500px;font-size:15px;">暂无！</td></tr>')
-        } else {
+        if (plate != "") {
             $("#Platemak").html(decodeURI(plate));
-        };
+        }
 
-       
         var conclusion = Number(price) + Number(costprice);
 
         $(".conclusion").html(conclusion.toFixed(2));
@@ -23,7 +20,7 @@
         if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {
             $(".style-information").parent().css("height","100%");
         }
-          
+
         $(".icon-delete,.icon-delete-provider").click(function () {
             if ($(this).hasClass("no-select")) {
                 $(this).removeClass("no-select");
@@ -34,10 +31,11 @@
             $(".nodata-txt").parent().css("width", "932px");
         });
 
-        $(".btn").click(function () {
+        $(".btn-ok").click(function () {
             var priceoffer = $(".offer").val();            
             $(".priceoffer").html(Number(priceoffer).toFixed(2));
             $(".offer").remove();
+
 
             if ($(".customer").hasClass("no-select")) {
                 $(".customer").parent().parent().remove();
@@ -57,18 +55,33 @@
                 $(".addresses").parent().remove();
                 $(".address").remove();
             }
+            
+            if ($(".price").hasClass("no-select")) {
+                $(".price").parent().remove();
+                $(".price-txt").remove();
+            }
 
-            $(".btn,.preview").remove();
-            $(".iconfont").hide();
+            if ($(".cost").hasClass("no-select")) {
+                $(".cost").parent().remove();
+                $(".cost-txt").remove();
+            }
 
-            $(".export").show().append('<span class="iconfont mTop10 right" style="cursor:pointer;margin-right:-20px;">&#xe658;</span>');
+            $(".btn-ok").remove();
+            $(".icon-delete").hide();
+
+            $(".export").show();
+            $('body,html').animate({ scrollTop: 0 }, 300);
         });
 
         //打印
-        $(".export").click(function () {
+        $(".print").click(function () {
             $(".export").remove();
             window.print();
         });
+
+        $(".get-back").click(function () {
+            location.href = location.href+"?"+(new Date().getMilliseconds());
+        })
     };
 
     //删除行操作按钮(制版工艺)
@@ -76,7 +89,7 @@
         $("span.ico-dropdown").remove();
         
         $("#Platemak table").find("tr:first").find("td").css({ "border-top": "0", "border-bottom": "1px solid", "font-size": "16px" });
-        $("#Platemak table").find("tr").find("td").find("span").css("margin-left","30%");        
+        $("#Platemak table").find("tr").find("td").removeClass("tLeft");        
         $("#Platemak table tr").each(function () {            
             $(this).find("td:last").remove();            
             $(this).find("td:last").css("border-right", "0");

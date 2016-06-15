@@ -51,7 +51,7 @@
     <div class="left titlename">订单编号：<a class="font16" href="/Orders/OrderDetail/@(task.OrderID)" >@(task.OrderCode)</a></div>
     <ul class="right">
         <li title="订单类型">
-            <span class="left"> 订单类型：</span><label class="left" >@(task.OrderType==1?"打样":"大货")</label>
+            <span class="left color666 font14"> 订单类型：</span><label class="left color666 font14" >@(task.OrderType==1?"打样":"大货")</label>
         </li>
         <li>
             <span class="left"> 负责人：</span><label class="left">@(task.Owner != null ? task.Owner.Name : "--")</label>
@@ -69,7 +69,7 @@
         </div>
        
        <div class="mLeft20 left">
-            <div class="titlename mTop10 mBottom20">
+            <div class="titlename mTop5 mBottom10">
                 <span class="column-title">款式编码</span>
                 <span>@(order.IntGoodsCode==""?"--":order.IntGoodsCode)</span>
             </div>
@@ -253,7 +253,7 @@
      @{
          if (taskModel.IsRoot)
          {
-            if (task.Mark == 23 && order.CutStatus!=2)
+             if (task.Mark == 23 && order.CutStatus != 2)
             {
                  <div class="btn part-btn right" id="btnCutoutOrder" style="display:none;">裁剪录入</div>                
             }
@@ -265,15 +265,14 @@
             {
                 <div class="btn part-btn right" id="btnSendDYOrder" style="display:none;">订单发货</div>
             }
-            else if (task.Mark == 25 && order.SendStatus!=2)
+             else if (task.Mark == 25 && order.SendStatus != 2)
             {
                 <div class="btn part-btn right hide" id="btnSendOrder" style="display:none;">订单发货</div>
             }
             else if(task.Mark==16)
             {
-                <div class="btn part-btn right" id="addOtherCost">添加加工成本</div>
+                <div class="btn part-btn right" id="addOtherCost" style="display:none;">添加加工成本</div>
             }
-            
         }
      }
     <div class="clear"></div>

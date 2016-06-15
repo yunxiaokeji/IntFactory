@@ -46,6 +46,7 @@ namespace YXERP
         protected void Application_Error(object sender, EventArgs e)
         {
             return;
+            string urlReferrer=Request.UrlReferrer != null ? Request.UrlReferrer.AbsoluteUri : Request.Url.AbsoluteUri;
             Exception exception = Server.GetLastError();
             HttpException httpException = exception as HttpException;
             RouteData routeData = new RouteData();
@@ -69,6 +70,7 @@ namespace YXERP
                         routeData.Values.Add("action", "NotAccess");
                         break;
                     case 403:
+                        urlReferrer = exception.Message;
                         routeData.Values.Add("action", "NoRoot");
                         break;
                     default:
@@ -77,7 +79,7 @@ namespace YXERP
                 }
             }
             // Pass exception details to the target error View.  
-            routeData.Values.Add("urlReferrer", Request.UrlReferrer != null ? Request.UrlReferrer.AbsoluteUri : Request.Url.AbsoluteUri);
+            routeData.Values.Add("urlReferrer", urlReferrer);
             // Clear the error on server.  
             Server.ClearError();
             // Call target Controller and pass the routeData.  

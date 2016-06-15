@@ -26,6 +26,8 @@ namespace IntFactoryEntity.Task
 
         public int Status { get; set; }
 
+        public int Type { get; set; }
+
         [Property("Lower")]
         public string AgentID { get; set; }
 

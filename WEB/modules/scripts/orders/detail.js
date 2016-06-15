@@ -33,8 +33,11 @@
         var _self = this;
 
         $(".sample-report").click(function () {
-            window.open("/Orders/FentOrderReport/" + model.OrderID); 
-            //window.location = "/Orders/FentOrderReport/" + model.OrderID;
+            if ($(this).data("type")=="1") {
+                window.open("/Orders/FentOrderReport/" + model.OrderID);
+            } else {
+                window.open("/Orders/PlateMakingProcess/" + model.OrderID);
+            }            
         });
 
         //隐藏按钮
@@ -102,12 +105,12 @@
         }, function (data) {
             $(".tb-plates .tr-header").nextAll().remove();
             if (data.items.length > 0) {
-                doT.exec("template/task/platemarting-list.html", function (template) {
+                doT.exec("template/task/platematring-orderdatail.html", function (template) {
                     PlateMakings = data.items;
                     var html = template(data.items);
                     html = $(html);
                     html.find(".dropdown").remove();
-                    $(".tb-plates .tr-header").after(html);
+                    $(".tb-plates").append(html);
                 });
             }
         else {            
@@ -326,7 +329,7 @@
 
         //更改订单状态
         $("#changeOrderStatus").click(function () {
-            var _this=$(this);
+            var _this = $(this);
             //开始打样
             if (_self.model.OrderType == 1 && _self.status == 0) {
                 doT.exec("template/orders/sure_plan_time.html", function (template) {
@@ -357,7 +360,7 @@
                         istime: false,
                         istoday: true
                     });
-                    //$("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd"));
+                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : _self.model.PlanTime.toDate("yyyy-MM-dd"));
                 });
             } //开始大货(无)
             else if (_self.model.OrderType == 2 && _self.status == 0) {
@@ -420,7 +423,7 @@
                         istime: false,
                         istoday: true
                     });
-                    //$("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd"));
+                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : _self.model.PlanTime.toDate("yyyy-MM-dd"));
                 });
             }//发货
             else if (_self.status == 5) {
