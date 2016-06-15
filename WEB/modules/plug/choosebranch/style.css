@@ -21,11 +21,11 @@
 .default-item:hover { background-color:#eee; }
 
 /*结构样式*/
-.choosebranch-items-modules { overflow:auto; padding-bottom:10px; border-bottom:solid 1px #ccc; border:solid 1px #ccc; position:absolute; background-color:#fff; z-index:1001; }
+.choosebranch-items-modules { padding-bottom:10px; border-bottom:solid 1px #ccc; border:solid 1px #ccc; position:absolute; background-color:#fff; z-index:1001; }
 
-.choosebranch-items { max-height:200px; overflow-y:auto;  padding-bottom:10px; }
+.choosebranch-items { max-height:200px; overflow-y:auto; padding-bottom:10px; }
 
-.choosebranch-items-modules .branchitem { height:26px; }
+.choosebranch-items-modules .branchitem { height:26px; white-space:nowrap;}
 .choosebranch-items-modules .branchitem .name{ height:26px; line-height:26px; cursor:pointer; display:inline-block; padding:0 5px; }
 .choosebranch-items-modules .branchitem .name:hover{ color:#4a98e7; background-color:#eee; }
 

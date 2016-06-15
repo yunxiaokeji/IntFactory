@@ -159,6 +159,8 @@
             }
         });
 
+        $(".module-tab li.default-check").click();
+
         //标记任务完成
         if ($("#FinishTask").length == 1) {
             $("#FinishTask").click(function () {
@@ -320,13 +322,14 @@
 
     //标记任务完成
     ObjectJS.finishTask = function () {
-        if (ObjectJS.mark == 11) {
+        var mark=ObjectJS.mark;
+        if (mark == 11) {
             if ($("#navProducts .table-list tr").length == 2) {
                 alert("材料没有添加,不能标记任务完成");
                 return;
             }
         }
-        else if (ObjectJS.mark == 12) {
+        else if (mark == 12) {
             if ($("#platemakingBody .table-list").length == 0) {
                 alert("制版没有设置,不能标记任务完成");
                 return;
@@ -336,7 +339,32 @@
                 return;
             }
         }
-
+        else if (mark == 15 || mark == 25) {
+            if ($(".nav-partdiv .list-item").length == 0) {
+                alert("没有发货,不能标记任务完成");
+                return;
+            }
+        }
+        else if (mark == 16) {
+            if ($(".nav-partdiv .list-item").length == 0) {
+                alert("没有录入加工成本,不能标记任务完成");
+                return;
+            }
+        }
+        else if (mark == 23) {
+            if ($(".nav-partdiv .list-item").length == 0) {
+                alert("没有裁剪,不能标记任务完成");
+                return;
+            }
+        }
+        else if (mark == 24) {
+            if ($(".nav-partdiv .list-item").length == 0) {
+                alert("没有车缝,不能标记任务完成");
+                return;
+            }
+        }
+        
+        
         confirm("标记完成的任务不可逆,确定完成?", function () {
             $("#FinishTask").val("完成中...").attr("disabled", "disabled");
             ObjectJS.isLoading = false;

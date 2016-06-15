@@ -76,7 +76,7 @@ define(function (require, exports, module) {
             } else {
                 var _branch = $("<div style='min-width:" + opts.width + "px;' class='choosebranch-items-modules' id='" + obj.data("itemid") + "'></div>");
 
-                var _search = $("<div data-width='" + (opts.width - 37) + "' class='search-branch'></div>");
+                var _search = $("<div data-width='" + (opts.width - 37) + "' class='search-branch'></div>").css("width", (opts.width));
                 
                 _branch.append(_search);
 
@@ -112,11 +112,14 @@ define(function (require, exports, module) {
 
                                     $("#" + _this.attr("data-id")).show();
 
+                                    $.fn.drawChooseBranchStyleHeight();
+
                                 } else { //隐藏子下属
                                     _this.attr("data-state", "close");
                                     _this.removeClass("icoclose").addClass("icoopen");
 
                                     $("#" + _this.attr("data-id")).hide();
+                                    $.fn.drawChooseBranchStyleHeight();
                                 }
                             });
                         });
@@ -237,16 +240,27 @@ define(function (require, exports, module) {
 
                             $("#" + _this.attr("data-id")).show();
 
+                            $.fn.drawChooseBranchStyleHeight();
+
                         } else { //隐藏子下属
                             _this.attr("data-state", "close");
                             _this.removeClass("icoclose").addClass("icoopen");
 
                             $("#" + _this.attr("data-id")).hide();
+
+                            $.fn.drawChooseBranchStyleHeight();
                         }
                     });
                 });
             }
             return _div;
+        }
+        $.fn.drawChooseBranchStyleHeight = function (obj) {
+            if ($(".choosebranch-items").height() >= 200) {
+                $(".choosebranch-items").css("overflow-y", "scroll");
+            } else {
+                $(".choosebranch-items").css("overflow-y", "auto");
+            }
         }
     })(jQuery)
     module.exports = jQuery;

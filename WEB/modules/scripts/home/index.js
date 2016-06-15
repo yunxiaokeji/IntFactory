@@ -25,8 +25,9 @@
     var GuidLineHeight = 0;//报表网格线对应的份数
     var ReportMinHeight = 10;//最低行高
     var ReportIndex = 0;
-    ObjectJS.init = function (orderLevel) {
+    ObjectJS.init = function (orderLevel, roleLevel) {
         ObjectJS.orderLevel = orderLevel;
+        ObjectJS.roleLevel = roleLevel;
 
         //没有订单权限
         if (orderLevel == 0) {
@@ -214,7 +215,6 @@
         }
     }
 
-   
     ObjectJS.bindReport = function () {
         //var items = [];
         //for (var i = 0; i < 6; i++) {
@@ -445,11 +445,18 @@
         var reportTitle = "我的订单";
         var reportTotalTtitle = "全部订单";
         var totalEcceedTtitle = "需求订单总数:";
-        if (Paras.moduleType == 2) 
-        {
+        if (Paras.moduleType == 2) {
             reportTitle = "我的任务";
+            if (ObjectJS.roleLevel == 1) {
+                reportTitle = "所有任务";
+            }
             reportTotalTtitle = "全部任务";
             totalEcceedTtitle = "未接收任务总数:";
+        }
+        else {
+            if (ObjectJS.roleLevel == 1) {
+                reportTitle = "所有订单";
+            }
         }
         $(".report-title").html(reportTitle);
         $(".report-total-title").html(reportTotalTtitle);
