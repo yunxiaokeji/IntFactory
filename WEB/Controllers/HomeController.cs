@@ -830,9 +830,14 @@ namespace YXERP.Controllers
                 var nowDate=DateTime.Now;
                 int getTotalCount=0;
                 int pageCount = 0;
+                string userID = string.Empty;
+                if (currentUser.Role.IsDefault == 0)
+                {
+                    userID = currentUser.UserID;
+                }
                 var list= IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(nowDate.Date.ToString(),nowDate.Date.AddDays(14).ToString(), 
                     orderType, -1, -1,
-                    currentUser.UserID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
+                    userID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;
@@ -910,9 +915,14 @@ namespace YXERP.Controllers
                 var nowDate = DateTime.Now;
                 int getTotalCount = 0;
                 int pageCount = 0;
+                string userID = string.Empty;
+                if (currentUser.Role.IsDefault == 0)
+                {
+                    userID = currentUser.UserID;
+                }
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(nowDate.Date.ToString(), nowDate.Date.AddDays(14).ToString(), 
                     orderType, -1, -1,-1,
-                    currentUser.UserID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
+                    userID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
 
                 var totalExceedCount = 0;
                 var totalWarnCount = 0;
@@ -999,7 +1009,6 @@ namespace YXERP.Controllers
             if (!string.IsNullOrEmpty(filterTime))
             {
                 startTime = DateTime.Now.Year + "." + filterTime;
-                userID = currentUser.UserID;
                 orderStatus = -1;
                 finishStatus = -1;
             }
