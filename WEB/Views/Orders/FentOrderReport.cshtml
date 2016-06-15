@@ -97,16 +97,16 @@
                 <table class="no-border Processing">
                     <tr class="longtd">
                         <td style="width:8%;font-size:16px;" class="no-border-top no-border-left">面料编码</td>       
-                        <td style="width:10%;font-size:16px;" class="no-border-top">
-                            <i class="iconfont icon-delete providers ">&#xe613;</i>
+                        <td style="width:10%;font-size:16px;" class="no-border-top providers" data-id="providers">
+                            <i class="iconfont icon-delete information ">&#xe613;</i>
                             供应商
                         </td>
-                        <td style="width:100px;font-size:16px;" class="no-border-top">
-                            <i class="iconfont icon-delete phones" style="margin-right:0">&#xe613;</i>
+                        <td style="width:100px;font-size:16px;" class="no-border-top phones" data-id="phones">
+                            <i class="iconfont icon-delete information" style="margin-right:0">&#xe613;</i>
                             联系方式
                         </td>
-                        <td style="width:20%;font-size:16px;" class="no-border-top"> 
-                            <i class="iconfont icon-delete addresses">&#xe613;</i>
+                        <td style="width:20%;font-size:16px;" class="no-border-top addresses" data-id="addresses"> 
+                            <i class="iconfont icon-delete information">&#xe613;</i>
                             地址  
                         </td>
                         <td style="font-size:16px;" class="no-border-top">门幅</td>
@@ -114,12 +114,12 @@
                         <td style="font-size:16px;" class="no-border-top">
                             单位
                         </td>
-                        <td style="font-size:16px;width:10%" class="no-border-top">
-                            <i class="iconfont icon-delete price">&#xe613;</i>                            
+                        <td style="font-size:16px;width:10%" class="no-border-top price" data-id="price">
+                            <i class="iconfont icon-delete information">&#xe613;</i>                            
                             单价
                         </td>
-                        <td style="font-size:16px;" class="no-border-top no-border-right">
-                            <i class="iconfont icon-delete cost">&#xe613;</i>                                                        
+                        <td style="font-size:16px;" class="no-border-top no-border-right cost" data-id="cost">
+                            <i class="iconfont icon-delete information">&#xe613;</i>    
                             成本
                         </td>         
                     </tr>
@@ -130,14 +130,14 @@
                         {
                             <tr>
                                 <td class="no-border-left">@(detail.ProductName==""?"--":detail.ProductName)</td>
-                                <td class="provider">@(detail.ProviderName==""?"--":detail.ProviderName)</td>
-                                <td class="phone">@(string.IsNullOrEmpty( detail.ProviderMobileTele)?"--":detail.ProviderMobileTele)</td>
-                                <td class="address">@(detail.ProviderAddress==""?"--":detail.ProviderAddress)</td>
+                                <td class="providers">@(detail.ProviderName==""?"--":detail.ProviderName)</td>
+                                <td class="phones">@(string.IsNullOrEmpty( detail.ProviderMobileTele)?"--":detail.ProviderMobileTele)</td>
+                                <td class="addresses">@(detail.ProviderAddress==""?"--":detail.ProviderAddress)</td>
                                 <td>@(detail.Remark==""?"--":detail.Remark)</td>
                                 <td>@(detail.Quantity.ToString("f3"))</td>
                                 <td>@(detail.UnitName)</td>
-                                <td class="price-txt">@(detail.Price.ToString("f2"))</td>
-                                <td class="no-border-right cost-txt">@((detail.TotalMoney).ToString("f3"))</td>         
+                                <td class="price">@(detail.Price.ToString("f2"))</td>
+                                <td class="no-border-right cost">@((detail.TotalMoney).ToString("f3"))</td>         
                             </tr>
                         }
                     }
