@@ -89,7 +89,7 @@
         //样图
         _self.bindOrderImages(model.OrderImages);
 
-        _self.getPlateMakings();
+        _self.getPlateMakings();        
     }
 
     //获取制版工艺说明
@@ -104,7 +104,7 @@
             taskID: ""
         }, function (data) {
             $(".tb-plates .tr-header").nextAll().remove();
-            if (data.items.length > 0) {
+            if (data.items.length > 0) {                
                 doT.exec("template/task/platematring-orderdatail.html", function (template) {
                     PlateMakings = data.items;
                     var html = template(data.items);
@@ -113,8 +113,8 @@
                     $(".tb-plates").append(html);
                 });
             }
-        else {            
-                $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='nodata-txt'>暂无数据!<div></td></tr>");
+            else {            
+                $(".tb-plates").append("<tr><td colspan='5'><div class='nodata-txt'>暂无数据!<div></td></tr>");
             }
         });
     }

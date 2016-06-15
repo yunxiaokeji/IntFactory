@@ -74,7 +74,7 @@
             }
         });
 
-        ProductIco = Upload.createUpload({
+        Upload.createUpload({
             element: "#productIco",
             buttonText: "选择图片",
             className: "",
