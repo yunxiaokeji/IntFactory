@@ -99,43 +99,35 @@
             $(".icon-delete").hide();
             $(".layer-upload").hide();
 
-            if ($(".goods").hasClass("hover")) {
-                $(".goosddoc").parent().parent().remove();
-                Objects.imgOrderTable();                
-                $(".img-order tr td").removeClass("no-border-left");
-                $(".img-order img").removeAttr("style");
-                $(".img-order img").parent().addClass("no-border-bottom");
-                $(".navproducts tr:first td").removeClass("no-border-top");               
-            }       
-           
-            if ($(".products").hasClass("hover")) {
-                $(".navproducts").remove();
-            }
-            if ($(".raving").hasClass("hover")) {
-                $(".navengraving").remove();
-            }
-            if ($(".pro").hasClass("hover")) {
-                $(".proplate").remove();
-            }
-            if ($(".tailor").hasClass("hover")) {
-                $(".tailor").remove();
-            }
-            if ($(".adhesive").hasClass("hover")) {
-                $(".adhesive").remove();
-            }
-            if ($(".sewing-process").hasClass("hover")) {
-                $(".sewing-process").remove();
-            }
-            if ($(".garment-finishing").hasClass("hover")) {
-                $(".garment-finishing").remove();
-            }
-            if ($(".garment-inspection").hasClass("hover")) {
-                $(".garment-inspection").remove();
-            }
-            if ($(".product-packaging").hasClass("hover")) {
-                $(".product-packaging").remove();
-            };
+            $(".information").each(function () {
+                _this=$(this);
+                if (_this.hasClass("hover")) {                    
+                    var id = _this.parent().parent().parent().parent().data("id");
+                    if (id == "navgoods") {
+                        $("#" + id).remove();
+                        Objects.imgOrderTable();
+                        $(".img-order tr td").removeClass("no-border-left");
+                        $(".img-order img").removeAttr("style");
+                        $(".img-order img").parent().addClass("no-border-bottom");
+                        $(".navproducts tr:first td").removeClass("no-border-top")
+                    } else {
+                        $("." + id).remove();
+                    };
+                                       
+                }
+            });
+
+            $(".processplates").each(function () {
+                _this = $(this);
+                if (_this.hasClass("hover")) {
+                    var id = _this.parent().attr("id");
+                    $("#" + id).remove();
+                    $("." + id).remove();
+                }
+            });
+
             $(".operation").show();
+
             $('body,html').animate({ scrollTop: 0 }, 300);
         });
 
