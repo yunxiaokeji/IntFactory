@@ -113,8 +113,10 @@
         ObjectJS.bindOrderImages();
 
         //初始化任务讨论列表
-        TalkReply.initTalkReply(ObjectJS);       
-       
+        var callBack = function () {
+            $(".module-tab li.default-check").click();
+        };
+        TalkReply.initTalkReply(ObjectJS, 'task', callBack);
 
         //任务模块切换
         $(".module-tab li").click(function () {
@@ -159,7 +161,6 @@
             }
         });
 
-        $(".module-tab li.default-check").click();
 
         //标记任务完成
         if ($("#FinishTask").length == 1) {
@@ -189,7 +190,6 @@
             })
         }
             
-
         if ($("#addTaskMembers").length == 1) {
             ChooseUser = require("chooseuser");
             //添加任务成员

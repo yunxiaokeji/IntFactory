@@ -50,7 +50,8 @@
 
     //绑定样式
     ObjectJS.bindStyle = function () {
-
+        $(".search-status .item[data-type!=1]").hide();
+        $(".search-status .item[data-id=-1]").show();
     }
 
     //绑定事件
@@ -134,16 +135,23 @@
             if (!_this.hasClass("hover")) {
 
                 //隐藏状态
-                $(".search-status .item").show();
-                if (_this.data("hide")) {
-                    $(".search-status .item[data-hide='" + _this.data("hide") + "']").hide();
+                var dataID = $(".search-orderstatus li.hover").data('id');
+                var dataHide = _this.data('hide');
+                if (dataID != '8'&&dataID != '-1') {
+                    $(".search-status .item[data-type=" + dataID + "]").show();
+                    $(".search-status .item[data-type!=" + dataID + "]").hide();
+                }
+                else {
+                    $(".search-status .item").show();
+                }
+                $(".search-status .item[data-id='-1']").show();
+                $(".search-status .item[data-hide=" + dataHide + "]").hide();
 
-                    if ($(".search-status .item.hover").data("hide") == _this.data("hide")) {
-                        $(".search-status .item").removeClass("hover");
-                        $(".search-status .item").first().addClass("hover")
-                        Params.Status = -1;
-                    }
-                } 
+                if ($(".search-status .item.hover").data("hide") == _this.data("hide")) {
+                    $(".search-status .item").removeClass("hover");
+                    $(".search-status .item").first().addClass("hover")
+                    Params.Status = -1;
+                }
 
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
@@ -218,8 +226,26 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-                Params.PageIndex = 1;
+               
+                var dataID=_this.data('id');
+                var dataHide = $(".search-ordertype .item.hover").data('hide');
+                if (dataID != '8' && dataID!='-1') {
+                    $(".search-status .item[data-type=" + dataID + "]").show();
+                    $(".search-status .item[data-type!=" + dataID + "]").hide();
+                }
+                else {
+                    $(".search-status .item").show();
+                }
+                $(".search-status .item[data-id='-1']").show();
+                $(".search-status .item[data-hide=" + dataHide + "]").hide();
+
+                if ($(".search-status .item.hover").is(":hidden")) {
+                    $(".search-status .item[data-id='-1']").addClass('hover');
+                    Params.Status = -1;
+                }
+
                 Params.OrderStatus = _this.data("id");
+                Params.PageIndex = 1;
                 _self.getList();
             }
         });
