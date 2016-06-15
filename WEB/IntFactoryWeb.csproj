@@ -483,6 +483,8 @@
     <Content Include="modules\scripts\task\senddyorders.js" />
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />
+    <Content Include="modules\template\home\customerorders.html" />
+    <Content Include="modules\template\home\task-list.html" />
     <Content Include="modules\template\inquire\inquireorder.html" />
     <Content Include="modules\template\myaccount\feedbacklist.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />

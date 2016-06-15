@@ -1,0 +1,53 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+
+%}
+
+<table class="table-list-order"  style="width:1080px">
+<tr class="list-item" style="border-bottom:1px solid #eee;">
+    <td width="120px">
+        <img class="order-pic" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImg!=''?item.OrderImg:'/modules/images/img-noimg.png'%}" />
+    </td>
+    <td width="380px">
+        <ul class="order-ul-3 mLeft10">
+            <li>
+                <span class="long" style="display:block;max-width:300px;">{%=item.Title%}</span>
+            </li>
+            <li>
+                <span>任务编号：<a href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.TaskCode%}</a></span>
+            </li>
+            <li>
+                <span>上级任务：<span class="{%=item.PreFinishStatus==-1?'':item.PreFinishStatus==1?'blue':item.PreFinishStatus==0?'red':''%}">{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'未接受':item.PreFinishStatus==2?'已完成':'进行中'%}</span></span>
+            </li>
+            
+        </ul>
+    </td>   
+
+        <td class="" width="400px">
+            <ul class="order-ul-3">
+                <li>
+                    <span>订单编号：</span><span>{%=item.OrderCode%}</span>
+                </li>
+                <li>
+                    <span>订单类型：{%=item.OrderType==1?"打样":"大货"%}</span>
+                </li>
+                <li>
+                    <span>创建时间：{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
+                </li>
+               
+            </ul>
+        </td>        
+   
+    <td class="">
+        <ul class="order-ul-3">
+            <li>
+                <span>负责人：{%=item.Owner.Name%}</span>
+            </li>
+           
+        </ul>
+        
+    </td>
+</tr>
+</table>
+{% } %}

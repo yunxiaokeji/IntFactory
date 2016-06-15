@@ -45,7 +45,6 @@
         ObjectJS.mark = task.Mark;//任务标记 用于做标记任务完成的限制条件
         ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
         ObjectJS.isLoading = true;
-        
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
             ObjectJS.materialMark = 1;
@@ -75,7 +74,6 @@
                 ObjectJS.isPlate = false;
             }
         }
-
         if (ObjectJS.mark === 23) {
             CutoutDoc = require("scripts/task/cutoutdoc");
             CutoutDoc.initCutoutDoc(ObjectJS.orderid,ObjectJS.taskid,Global,DoT,Easydialog);
@@ -237,7 +235,7 @@
     ObjectJS.updateTaskEndTime = function () {
         if (ObjectJS.maxHours == 0) {
             Easydialog = require("easydialog");
-            //var innerHtml = '<div class="pTop10 pBottom5"><span class="width80" style="display:inline-block;">到期时间:</span><input style="width:180px;" type="text" class="taskEndTime" id="UpdateTaskEndTime" placeholder="设置到期时间"/></div>';
+
             DoT.exec("/template/task/set-endtime.html", function (template) {
                 var innerHtml = template();
                 Easydialog.open({
@@ -248,7 +246,7 @@
                         yesFn: function () {
                             if ($("#UpdateTaskEndTime").val() == "") {
                                 alert("任务到期时间不能为空");
-                                return;                        
+                                return;
                             }
                             confirm("任务到期时间不可逆，确定设置?", function () {
                                 ObjectJS.isLoading = false;
@@ -277,18 +275,22 @@
 
                 var myDate = new Date();
                 var minDate = myDate.toLocaleDateString();
-                minDate = minDate + " 23:59:59"
+                minDate = minDate + " 00:00:00"
+                //if (ObjectJS.planTime <= minDate) {
+                //    ObjectJS.planTime = '';
+                //}
                 //更新任务到期日期
                 var taskEndTime = {
                     elem: '#UpdateTaskEndTime',
                     format: 'YYYY-MM-DD hh:mm:ss',
                     min: minDate,
-                    max: ObjectJS.planTime,
+                    //max: ObjectJS.planTime,
                     istime: true,
                     istoday: false
                 };
                 laydate(taskEndTime);
-            })
+               
+            });
 
         }
         else {
@@ -1186,11 +1188,10 @@
         $("#btnAddPalte").click(function () {
             ObjectJS.addPlateMaking();            
         });
-        
-        
+
         $("#setObjectPlate").click(function () {
             var index = $(this).data("index");
-            var item = PlateMakings[index];           
+            var item = PlateMakings[index];
             Plate = {
                 PlateID: item.PlateID,
                 Title: $("#plateTitle").val(),
@@ -1215,7 +1216,7 @@
     ObjectJS.getPlateMakings = function () {
         $(".tb-plates").html('');
         $(".tb-plates").html("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
-
+      
         Global.post("/Task/GetPlateMakings", {
             orderID:ObjectJS.mark==22?ObjectJS.originalID: ObjectJS.orderid
         }, function (data) {
@@ -1282,7 +1283,7 @@
                     yesFn: function () {
                         if ($("#plateTitle").val() == '') {
                             alert("工艺不能为空");
-                            return;
+                            return false;
                         }
 
                         Plate = {

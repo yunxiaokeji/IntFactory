@@ -43,7 +43,6 @@
             Params.listType = taskListType;
         }
         $(".task-tabtype i[data-type=" + Params.listType + "]").addClass("checked").siblings().removeClass("checked");
-
         if (isMy == 2) {
             Params.isParticipate = 1;
             document.title = "参与任务";

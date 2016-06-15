@@ -330,7 +330,6 @@
         //更改订单状态
         $("#changeOrderStatus").click(function () {
             var _this = $(this);
-            debugger;
             //开始打样
             if (_self.model.OrderType == 1 && _self.status == 0) {
                 doT.exec("template/orders/sure_plan_time.html", function (template) {
@@ -361,7 +360,7 @@
                         istime: false,
                         istoday: true
                     });
-                    //$("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd"));
+                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : _self.model.PlanTime.toDate("yyyy-MM-dd"));
                 });
             } //开始大货(无)
             else if (_self.model.OrderType == 2 && _self.status == 0) {
@@ -424,7 +423,7 @@
                         istime: false,
                         istoday: true
                     });
-                    //$("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd"));
+                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : _self.model.PlanTime.toDate("yyyy-MM-dd"));
                 });
             }//发货
             else if (_self.status == 5) {

@@ -27,7 +27,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Title = "我的订单";
             ViewBag.Type = (int)EnumSearchType.Myself;
-            int State = -1;
+            int State = 1;
             if (!string.IsNullOrEmpty(id))
             {
                 if (id.Equals("need", StringComparison.OrdinalIgnoreCase))
@@ -50,7 +50,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Title = "所有订单";
             ViewBag.Type = (int)EnumSearchType.All;
-            int State = -1;
+            int State = 1;
             if (!string.IsNullOrEmpty(id))
             {
                 if (id.Equals("need", StringComparison.OrdinalIgnoreCase))

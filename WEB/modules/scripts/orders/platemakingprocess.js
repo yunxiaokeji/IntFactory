@@ -1,5 +1,8 @@
 ﻿define(function (require,exports,module) {
-    var Global = require("global");
+    var Global = require("global"),
+    ChooseUser = require("chooseuser"),
+    Upload = require("upload")
+    
     var Objects = {};
 
     Objects.init = function (plate, img, orderid, OriginalID,ordertype) {
@@ -12,15 +15,57 @@
 
     Objects.bindEvent = function (plate,img) {
         if (plate == "") {
-            $("#Platemak").html('<tr><td class="no-border" style="width:954px;font-size:15px;height:50px;">暂无！</td></tr>')
+            $("#Platemak").html('<tr><td class="no-border" style="width:954px;font-size:15px;height:50px;"></td></tr>')
         } else {
             $("#Platemak").html(decodeURI(plate));
         };
-
         if (img == "") {
             img = "/modules/images/none-img.png";
         };
         
+        Upload.createUpload({
+            element: "#upLoadOneImg",
+            buttonText: "&#xe60b;",
+            className: "iconfont ico-upload",
+            multiple: false,
+            data: { folder: '', action: 'add', oldPath: "" },
+            success: function (data, status) {
+                if (data.Items.length > 0) {
+                    $("#upLoadOneImg").prev().attr('src', data.Items[0]);
+                } else {
+                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+                }
+            }
+        });
+
+        Upload.createUpload({
+            element: "#upLoadTwoImg",
+            buttonText: "&#xe60b;",
+            className: "iconfont ico-upload",
+            multiple: false,
+            data: { folder: '', action: 'add', oldPath: "" },
+            success: function (data, status) {
+                if (data.Items.length > 0) {
+                    $("#upLoadTwoImg").prev().attr('src', data.Items[0]);
+                } else {
+                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+                }
+            }
+        });
+
+        $(".change-owner").click(function () {
+            var _this = $(this);
+            ChooseUser.create({
+                title: "批量更换负责人",
+                type: 1,
+                single: true,
+                callback: function (items) {
+                    if (items.length > 0) {
+                        _this.prev().val(items[0].name);
+                    }
+                }
+            });
+        })
         
         $('.icon-delete').click(function () {
             
@@ -42,17 +87,17 @@
             }            
         });
         
-
         $(".btn-ok").click(function () {
             $(".input").hide();
-            $(".span").show();
             $(".input").each(function () {
                 var nameresponsible = $(this).val();
-                $(this).next().html(nameresponsible);
+                $(this).next().hide();
+                $(this).parent().find('.span').html(nameresponsible);
             });
-
+            $(".span").show();
             $(".btn-ok").remove();
             $(".icon-delete").hide();
+            $(".layer-upload").hide();
 
             if ($(".goods").hasClass("hover")) {
                 $(".goosddoc").parent().parent().remove();
@@ -168,9 +213,10 @@
                     })
 
                 });
-            } else {
-                $(".processplate").prepend('<tr class="proplate"><td colspan="10" class="no-border-top"><div class="nodata-txt">暂无工艺</div></td></tr>');
             }
+            //else {
+            //    $(".processplate").prepend('<tr class="proplate"><td colspan="10" class="no-border-top"><div class="nodata-txt"></div></td></tr>');
+            //}
         });    
     };
 

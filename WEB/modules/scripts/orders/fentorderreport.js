@@ -7,13 +7,10 @@
     };
 
     ObjectJS.bindEvent = function (plate, price, costprice) {
-        if (plate == "") {
-            $("#Platemak").html('<tr><td class="no-border" style="width:500px;font-size:15px;">暂无！</td></tr>')
-        } else {
+        if (plate != "") {
             $("#Platemak").html(decodeURI(plate));
-        };
+        }
 
-       
         var conclusion = Number(price) + Number(costprice);
 
         $(".conclusion").html(conclusion.toFixed(2));
@@ -23,7 +20,7 @@
         if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {
             $(".style-information").parent().css("height","100%");
         }
-          
+
         $(".icon-delete,.icon-delete-provider").click(function () {
             if ($(this).hasClass("no-select")) {
                 $(this).removeClass("no-select");
@@ -38,6 +35,7 @@
             var priceoffer = $(".offer").val();            
             $(".priceoffer").html(Number(priceoffer).toFixed(2));
             $(".offer").remove();
+
 
             if ($(".customer").hasClass("no-select")) {
                 $(".customer").parent().parent().remove();
@@ -57,6 +55,16 @@
                 $(".addresses").parent().remove();
                 $(".address").remove();
             }
+            
+            if ($(".price").hasClass("no-select")) {
+                $(".price").parent().remove();
+                $(".price-txt").remove();
+            }
+
+            if ($(".cost").hasClass("no-select")) {
+                $(".cost").parent().remove();
+                $(".cost-txt").remove();
+            }
 
             $(".btn-ok").remove();
             $(".icon-delete").hide();
@@ -72,7 +80,7 @@
         });
 
         $(".get-back").click(function () {
-            location.href = location.href+"?"+(new Date().getMilliseconds() );
+            location.href = location.href+"?"+(new Date().getMilliseconds());
         })
     };
 
