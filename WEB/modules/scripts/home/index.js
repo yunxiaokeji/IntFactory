@@ -46,7 +46,7 @@
 
     ObjectJS.bindEvent = function () {
         //授权快到期提示
-        if (ObjectJS.remainDay <= 20) {
+        if (ObjectJS.remainDay >= 20) {
             var authorWarn = Global.getCookie('authorWarn');
             if (authorWarn!="no") {
                 var data = { remainDay: ObjectJS.remainDay, remainDate: ObjectJS.remainDate };
@@ -56,7 +56,7 @@
                     EasyDialog.open({
                         container: {
                             id: "author-box",
-                            header: "到期提醒",
+                            header: "授权快到期",
                             content: innerHtml
                         }
                     });
