@@ -245,11 +245,23 @@
                         header: "设置任务到期时间",
                         content: innerHtml,
                         yesFn: function () {
+
+
+                            var showMsg="任务到期时间不可逆，确定设置?";
+                            var planTime = new Date(ObjectJS.planTime).getTime();
+                            var endTime = new Date($("#UpdateTaskEndTime").val()).getTime();
+
+                            //判断该任务的订单是否超期
+                            var isExceed = new Date().getTime() < planTime ? true : false;
+                           
+                            if (planTime < endTime && isExceed) {
+                                showMsg = "已超出订单交货时间,确定设置?";
+                            }
                             if ($("#UpdateTaskEndTime").val() == "") {
                                 alert("任务到期时间不能为空");
                                 return;
                             }
-                            confirm("任务到期时间不可逆，确定设置?", function () {
+                            confirm(showMsg, function () {
                                 ObjectJS.isLoading = false;
                                 Global.post("/Task/UpdateTaskEndTime", {
                                     id: ObjectJS.taskid,
@@ -270,6 +282,7 @@
                                     ObjectJS.isLoading = true;
                                 });
                             });
+
                         }
                     }
                 });
@@ -283,7 +296,7 @@
                 //更新任务到期日期
                 var taskEndTime = {
                     elem: '#UpdateTaskEndTime',
-                    format: 'YYYY-MM-DD hh:mm:ss',
+                    format: 'YYYY/MM/DD hh:mm:ss',
                     min: minDate,
                     //max: ObjectJS.planTime,
                     istime: true,
