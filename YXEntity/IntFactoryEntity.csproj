@@ -134,6 +134,7 @@
     <Compile Include="Task\PlateMaking.cs" />
     <Compile Include="Task\TaskEntity.cs" />
     <Compile Include="Task\TaskMember.cs" />
+    <Compile Include="Common\Attachment.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Manage\ClientOrderDetail.cs" />
