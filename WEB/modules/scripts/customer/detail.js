@@ -115,6 +115,9 @@
             }
         });
         
+        $(".no-img li .ico-delete-upload").click(function () {
+            $(this).parent().remove();
+        });
 
         $(document).click(function (e) {
             //隐藏下拉

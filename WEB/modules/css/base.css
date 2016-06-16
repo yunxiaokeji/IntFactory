@@ -13,6 +13,7 @@
 .relative {position:relative;}
 .bold {font-weight:bold}
 .red { color:red;}
+.borderEEE {border:1px solid #eee; }
 
 /*超过长度显示...*/
 .long { display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -163,9 +164,11 @@
 .width350 { width:350px !important; }
 .width400 { width:400px !important; }
 .width500 { width:500px !important; }
+.width750 { width:750px !important; }
 .width800 { width:800px !important; }
 .width839 { width:839px !important;}
 .minwidth300 { min-width:300px !important; }
 
 /*常用高度*/
 .hight40 { height:40px !important;}
+.hight59 { height:59px !important;}

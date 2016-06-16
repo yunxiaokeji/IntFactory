@@ -53,7 +53,7 @@
                 path: '/modules/plug/qqface/arclist/'	//表情存放的路径
             });
         });
-  
+        
         ObjectJS.getTaskReplys(1);
 
         //任务讨论盒子隐藏
@@ -199,6 +199,12 @@
                 assign: $(this).data("id"),
                 path: '/modules/plug/qqface/arclist/'	//表情存放的路径
             });
+        });
+
+        replys.find(".information-upload").mouseover(function () {
+            $(this).next().show();
+        }).mouseout(function () {
+            $(this).next().hide();
         });
 
         Upload.createUpload({
