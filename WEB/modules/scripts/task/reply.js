@@ -201,22 +201,31 @@
             });
         });
 
-        //Upload.createUpload({
-        //    element: "#btn-update-reply",
-        //    buttonText: "&#xe618;",
-        //    className: "left iconfont",
-        //    multiple: false,
-        //    data: { folder: '', action: 'add', oldPath: "" },
-        //    success: function (data, status) {
-        //        if (data.Items.length > 0) {
-        //            $(".accessory-reply").show();
-        //            $(".accessory-reply").append("<img class='mLeft5' style='width:100px;height:100px;max-height:110px;max-width:110px' src=" + data.Items[0] + " />");
-        //        } else {
-        //            $(".accessory-reply").hide();
-        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-        //        }
-        //    }
-        //});
+        Upload.createUpload({
+            element: "#btn-update-reply",
+            buttonText: "&#xe618;",
+            className: "left iconfont",
+            multiple: false,
+            data: { folder: '', action: 'add', oldPath: "" },
+            success: function (data, status) {
+                if (data.Items.length > 0) {
+                    for (var i = 0; i < data.Items.length; i++) {
+                        if ($("#orderImages-reply li").length < 5) {
+                            var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
+                            $("#orderImages-reply").append(img).fadeIn(300);
+                            img.find(".ico-delete").click(function () {
+                                $(this).parent().remove();
+                                if ($("#orderImages-reply li").length == 0) {
+                                    $("#orderImages-reply").hide();
+                                }
+                            });
+                        }
+                    }
+                } else {
+                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+                }
+            }
+        });
         
     }
 
