@@ -147,6 +147,32 @@ define(function (require, exports, module) {
                         path: '/modules/plug/qqface/arclist/'	//表情存放的路径
                     });
 
+                    Upload.createUpload({
+                        element: "#btn-update-reply",
+                        buttonText: "&#xe618;",
+                        className: "left iconfont",
+                        multiple: false,
+                        data: { folder: '', action: 'add', oldPath: "" },
+                        success: function (data, status) {
+                            if (data.Items.length > 0) {
+                                for (var i = 0; i < data.Items.length; i++) {
+                                    if ($("#orderImages-task li").length < 5) {
+                                        var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
+                                        $("#orderImages-task").append(img).fadeIn(300);
+                                        img.find(".ico-delete").click(function () {
+                                            $(this).parent().remove();
+                                            if ($("#orderImages-task li").length == 0) {
+                                                $("#orderImages-task").hide();
+                                            }
+                                        });
+                                    }
+                                }
+                            } else {
+                                alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+                            }
+                        }
+                    });
+
                     //转移
                     if (defaultParas.self == 1) {
                         $("#changeTaskOwner").click(function () {
