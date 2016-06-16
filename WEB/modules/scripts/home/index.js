@@ -46,7 +46,7 @@
 
     ObjectJS.bindEvent = function () {
         //授权快到期提示
-        if (ObjectJS.remainDay >= 20) {
+        if (ObjectJS.remainDay <= 20) {
             var authorWarn = Global.getCookie('authorWarn');
             if (authorWarn!="no") {
                 var data = { remainDay: ObjectJS.remainDay, remainDate: ObjectJS.remainDate };
