@@ -6,13 +6,19 @@
     var ObjectJS = {};
     var Reply = {};
     var Controller = "Opportunitys";
+    
+    var IsCallBack = false;
 
     ///任务讨论
     //初始化任务讨论列表
-    ObjectJS.initTalkReply = function (reply,moduleType) {
+    ObjectJS.initTalkReply = function (reply,moduleType,callback) {
         Reply = reply;
         if (moduleType === "customer") {
             Controller = moduleType;
+        }
+        else if(moduleType==="task") {
+            ObjectJS.callBack = callback;
+            IsCallBack = true;
         }
        
         //任务讨论盒子点击
@@ -74,7 +80,6 @@
             pageIndex: page
         }, function (data) {
             $("#replyList").empty();
-            
 
             if (data.items.length > 0) {
                 doT.exec("template/customer/replys.html", function (template) {
@@ -105,6 +110,12 @@
                     ObjectJS.getTaskReplys(page);
                 }
             });
+
+            if (IsCallBack) {
+                ObjectJS.callBack();
+                IsCallBack = false;
+            }
+
         });
     }
 
