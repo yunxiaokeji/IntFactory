@@ -28,7 +28,7 @@
     ObjectJS.init = function (orderLevel, roleLevel) {
         ObjectJS.orderLevel = orderLevel;
         ObjectJS.roleLevel = roleLevel;
-        alert("bbb");
+
         //没有订单权限
         if (orderLevel == 0) {
             Paras.moduleType = 2;
