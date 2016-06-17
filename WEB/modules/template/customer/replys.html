@@ -12,7 +12,7 @@
                 <div class="" >
                     <span style="color:#2f73b8;" class="reply-username">{%=item.CreateUser.Name%}{%=item.FromReplyUser!=null?" 回复 "+item.FromReplyUser.Name:""%}:</span>
                     <span style="color:#777;" class="reply-content">{%=decodeURI(item.Content)%}</span>
-                    <!--<div class="width750 mBottom40">
+                    <div class="width750 mBottom40">
                         <ul class="mTop20 no-img pBottom20">
                             <li>
                                 <div class="left logo-upload">
@@ -81,7 +81,7 @@
                             <li><img src="/Content/tempfile/20160616151140114030201.png"></li>
                             <li><img src="/Content/tempfile/20160616151140114030202.png"></li>
                         </ul>
-                    </div>-->                    
+                    </div>             
                 </div>
                 <div class="pTop5" style="color:#999;">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss") %}</div>
             </div>
@@ -97,20 +97,8 @@
                 </div>
                 <div class="btn-emotion mTop5 left" data-id="Msg_{%=item.ReplyID%}" title="表情"></div>
                 <div id="btn-update-reply{%=item.ReplyID%}" title="附件"></div>
-                <ul class="mTop40 no-img hide" id="taskflie{%=item.ReplyID%}">
-                    <li>
-                        <div class="upload-lump left mRight20" style="top:5px;">
-                            <div class="content">
-                                TXT
-                            </div>
-                            <div class="lump"></div>
-                        </div>
-                        <div class="information mLeft10 width100">
-                            <span title="代码.txt" class="long">代码1.txt</span>
-                            <span title="192KB">192KB</span>
-                        </div>                    
-                        <span class="ico-delete-upload iconfont">&#xe628;</span>                    
-                    </li>                
+                <ul class="mTop40 no-img" id="taskflie{%=item.ReplyID%}">
+                              
                 </ul> 
                 <div class="clear"></div>
                 <ul id="orderImages-reply" class="accessory order-imgs addimg hide">

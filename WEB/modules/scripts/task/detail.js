@@ -121,16 +121,18 @@
                 if (data.Items.length > 0) {
                     DoT.exec("/template/task/task-file-upload.html", function (template) {
                         var file = template(data.Items);
-                        if ($(".lump")) {                            
+                        debuger;
+                        if ($(".lump")) {
+                            debuger;
                             $("#orderflie-task").append(file).fadeIn(300);
-
                             $(".ico-delete-upload").click(function () {
                                 $(this).parent().remove();
                                 if ($("#orderflie-task li").length == 0) {
                                     $("#orderflie-task").hide();
                                 }
                             });
-                        } else {                            
+                        } else {
+                            debuger;
                             $("#Images-reply-task").append(file).fadeIn(300);
                             file.find(".ico-delete").click(function () {
                                 $(this).parent().remove();
