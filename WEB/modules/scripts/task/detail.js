@@ -118,8 +118,6 @@
             url: "/Plug/UploadFiles",
             data: { folder: '', action: 'add', oldPath: ""},
             success: function (data, status) {
-                if (data.Items.length > 0) {
-                console.log(data.Items);
             }
         });
 

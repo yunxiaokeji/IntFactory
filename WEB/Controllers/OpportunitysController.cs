@@ -190,7 +190,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult SavaReply(string entity)
+        public JsonResult SavaReply(string entity,string taskID)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             ReplyEntity model = serializer.Deserialize<ReplyEntity>(entity);
@@ -198,7 +198,7 @@ namespace YXERP.Controllers
             string replyID = "";
             replyID = OrdersBusiness.CreateReply(model.GUID,model.StageID,model.Mark,model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
 
-            TaskBusiness.AddTaskReplyAttachments(null, model.ReplyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);
+            TaskBusiness.AddTaskReplyAttachments(taskID, model.ReplyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);
 
             List<ReplyEntity> list = new List<ReplyEntity>();
             if (!string.IsNullOrEmpty(replyID))

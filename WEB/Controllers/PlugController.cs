@@ -176,14 +176,15 @@ namespace YXERP.Controllers
                 }
 
                 string[] arr = file.FileName.Split('.');
-                string newfileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + i + "." + arr[arr.Length - 1];
-                string newfilePath = uploadPath + newfileName;
+                string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + i + "." + arr[arr.Length - 1];
+                string saveFilePath = uploadPath + newFileName;
+                string newFilePath = folder + newFileName;
 
                 Dictionary<string, object> item = new Dictionary<string, object>();
                 if (string.IsNullOrEmpty(oldPath))
                 {
-                    file.SaveAs(newfilePath);
-                    item.Add("path", newfilePath);
+                    file.SaveAs(saveFilePath);
+                    item.Add("path", newFilePath);
                 }
                 else
                 {

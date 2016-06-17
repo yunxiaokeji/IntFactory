@@ -47,7 +47,6 @@
 
         });
        
-
         $(".btn-emotion").each(function () {
             $(this).qqFace({
                 assign: $(this).data("id"),
@@ -129,7 +128,7 @@
             btnObject.html("保存中...").attr("disabled", "disabled");
         }
 
-        Global.post("/" + Controller + "/SavaReply", { entity: JSON.stringify(model) }, function (data) {
+        Global.post("/" + Controller + "/SavaReply", { entity: JSON.stringify(model), taskID: Reply.taskid }, function (data) {
             if (btnObject) {
                 btnObject.html(btnname).removeAttr("disabled");
             }
