@@ -754,15 +754,15 @@ namespace YXERP.Controllers
         {
 
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            int remainderDays = 0;
+            double remainderDays = 0;
             int authorizeType = 0;
 
             if (Session["ClientManager"] != null)
             {
                 var CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var agent = AgentsBusiness.GetAgentDetail(CurrentUser.AgentID);
-
-                remainderDays = (agent.EndTime - DateTime.Now).Days;
+                //Math.Ceiling((agent.EndTime - DateTime.Now).TotalDays)
+                remainderDays = Math.Ceiling((agent.EndTime - DateTime.Now).TotalDays);
                 authorizeType = agent.AuthorizeType;
 
             }
