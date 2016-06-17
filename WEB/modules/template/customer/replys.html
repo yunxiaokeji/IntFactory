@@ -77,7 +77,18 @@
                 </div>
                 <div class="btn-emotion mTop5 left" data-id="Msg_{%=item.ReplyID%}" title="表情"></div>
                 <div id="btn-update-reply" title="附件"></div>
-                <ul id="orderImages-reply" class="accessory order-imgs addimg hide mTop40">
+                <ul class="mTop40 no-img hide" id="orderflie">
+                    <li>
+                        <img class="left" src="/modules/images/txt.png" />
+                        <div class="information mLeft10 width100">
+                            <span title="代码.txt" class="long">代码1.txt</span>
+                            <span title="192KB">192KB</span>
+                        </div>                    
+                        <span class="ico-delete-upload iconfont">&#xe628;</span>                    
+                    </li>                
+                </ul> 
+                <div class="clear"></div>
+                <ul id="orderImages-reply" class="accessory order-imgs addimg hide">
 
                 </ul>
                 <div class="right mTop10 btn save-reply" data-id="{%=item.GUID%}"  data-stageid="{%=item.StageID%}" data-replyid="{%=item.ReplyID%}" data-createuserid="{%=item.CreateUserID%}" data-agentid="{%=item.AgentID%}">

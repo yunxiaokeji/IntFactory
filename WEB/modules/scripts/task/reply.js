@@ -202,7 +202,7 @@
         });
 
         replys.find(".no-img li").hover(function () {
-            $(this).find(".popup-download").slideDown(300);
+            $(this).find(".popup-download").stop(true).slideDown(300);
             $(".popup-download").click(function () {
                 alert("ok");
             });

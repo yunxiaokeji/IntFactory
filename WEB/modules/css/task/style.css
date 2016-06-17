@@ -562,5 +562,5 @@
 .information-upload { background-color:#fafafa;position:relative;margin-left:60px;}
 .information-upload .filename{color:#222;margin-top:7px;}
 .upload-img li img{ width:120px;height:80px;}
-.popup-download { height:60px;background-color:#ccc;width:111px;z-index:100;top:0;left:60px;position:absolute;font-size:28px !important;
-                  text-align:center;color:#fff !important;line-height:60px !important;}
+.popup-download { height:60px;background-color:#ccc;width:111px;z-index:100;top:0;left:60px;position:absolute;
+                  font-size:28px !important;text-align:center;color:#fff !important;line-height:60px !important;}
