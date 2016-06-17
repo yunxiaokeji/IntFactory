@@ -118,17 +118,16 @@
             url: "/Plug/UploadFiles",
             data: { folder: '', action: 'add', oldPath: ""},
             success: function (data, status) {
-                if (data.Items.length > 0) {
-                    console.log(data.Items);
+                if (data.Items.length > 0) {                    
                     var obj=data.Items;
                     for (var i = 0; i < obj.length; i++) {
-                        if (obj[i].isImage==0) {
-                            var file = $('<li data-path="' + obj[i].path + '" data-filename="' + obj[i].fileName + '"> <div class="upload-lump left mRight20" style="top:5px;"> <div class="content long width35">' + obj[i].extensions.toUpperCase() + '</div><div class="lump"></div></div><div class="information mLeft10 width120"><span title="' + obj[i].fileName + '" class="long width60">' + obj[i].fileName + '</span><span title="' + obj[i].fileSize + 'kb">' + obj[i].fileSize + 'kb</span></div><span class="ico-delete-upload iconfont">&#xe628;</span></li> ');
-                            $("#orderflie").append(file).fadeIn(300);
+                        if (obj[i].isImage==2) {
+                            var file = $('<li data-path="' + obj[i].path + '" data-filename="' + obj[i].fileName + '" data-isimg="' + obj[i].isImage + '"> <div class="upload-lump left mRight20" style="top:5px;"> <div class="content long width35">' + obj[i].extensions.toUpperCase() + '</div><div class="lump"></div></div><div class="information mLeft10 width120"><span title="' + obj[i].fileName + '" class="long width60">' + obj[i].fileName + '</span><span title="' + obj[i].fileSize + 'kb">' + obj[i].fileSize + 'kb</span></div><span class="ico-delete-upload iconfont">&#xe628;</span></li> ');
+                            $("#orderflie-task").append(file).fadeIn(300);
                             file.find(".ico-delete-upload").click(function () {
                                 $(this).parent().remove();
-                                if ($("#orderflie li").length == 0) {
-                                    $("#orderflie").hide();
+                                if ($("#orderflie-task li").length == 0) {                                    
+                                    $("#orderflie-task").hide();
                                 }
                             });
                         } else {
