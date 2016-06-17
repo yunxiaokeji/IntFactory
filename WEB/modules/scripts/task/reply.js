@@ -138,8 +138,7 @@
                         if (ele && ele.find("img").attr("src")) {
                             var _img = ele.find("img");
                             $("#orderImages .hoverimg").removeClass("hoverimg");
-                            ele.addClass("hoverimg");
-                            $("#orderImage").attr("src", _img.data("src"));
+                            ele.addClass("hoverimg");                            
                             $(".enlarge-image-item").empty();
                             $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
                             $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
@@ -151,8 +150,7 @@
                         if (ele && ele.find("img").attr("src")) {
                             var _img = ele.find("img");
                             $("#orderImages .hoverimg").removeClass("hoverimg");
-                            ele.addClass("hoverimg");
-                            $("#orderImage").attr("src", _img.data("src"));
+                            ele.addClass("hoverimg");                            
                             $(".enlarge-image-item").empty();
                             $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
                             $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
