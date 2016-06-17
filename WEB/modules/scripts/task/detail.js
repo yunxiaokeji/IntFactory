@@ -129,7 +129,7 @@
                                 $(this).parent().remove();
                                     if ($("#orderflie-task li").length == 0) {
                                         $("#orderflie-task").hide();
-                                    }
+                                    } 
                                 });
                             });
                         } else {
@@ -987,7 +987,7 @@
             //隐藏制版列操作下拉框
             if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
                 $("#setPlateInfo").hide();
-            }
+            };
         });
     }
 
