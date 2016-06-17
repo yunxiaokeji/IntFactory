@@ -118,33 +118,31 @@
             url: "/Plug/UploadFiles",
             data: { folder: '', action: 'add', oldPath: ""},
             success: function (data, status) {
-                if (data.Items.length > 0) {                    
-                    var obj=data.Items;
-                    for (var i = 0; i < obj.length; i++) {
-                        if (obj[i].isImage==2) {
-                            var file = $('<li data-filepath="' + obj[i].filePath + '" data-filename="' + obj[i].fileName + '" data-originalname="' + obj[i].originalName + '" data-isimg="' + obj[i].isImage + '"> <div class="upload-lump left mRight20" style="top:5px;"> <div class="content long width35">' + obj[i].extensions.toUpperCase() + '</div><div class="lump"></div></div><div class="information mLeft10 width120"><span title="' + obj[i].fileName + '" class="long width60">' + obj[i].fileName + '</span><span title="' + obj[i].fileSize + 'kb">' + obj[i].fileSize + 'kb</span></div><span class="ico-delete-upload iconfont">&#xe628;</span></li> ');
+                if (data.Items.length > 0) {
+                    DoT.exec("/template/task/task-file-upload.html", function (template) {
+                        var file = template(data.Items);
+                        if ($(".lump")) {                            
                             $("#orderflie-task").append(file).fadeIn(300);
-                            file.find(".ico-delete-upload").click(function () {
+
+                            $(".ico-delete-upload").click(function () {
                                 $(this).parent().remove();
-                                if ($("#orderflie-task li").length == 0) {                                    
+                                if ($("#orderflie-task li").length == 0) {
                                     $("#orderflie-task").hide();
                                 }
                             });
-                        } else {
-                            var img = $('<li data-filepath="' + obj[i].filePath + '" data-filename="' + obj[i].fileName + '" data-originalname="' + obj[i].originalName + '" data-isimg="' + obj[i].isImage + '"><img src="' + obj[i].filePath + obj[i].fileName + '" /><span class="ico-delete"></span> </li>');
-                            $("#Images-reply-task").append(img).fadeIn(300);
-                            img.find(".ico-delete").click(function () {
+                        } else {                            
+                            $("#Images-reply-task").append(file).fadeIn(300);
+                            file.find(".ico-delete").click(function () {
                                 $(this).parent().remove();
                                 if ($("#Images-reply-task li").length == 0) {
                                     $("#Images-reply-task").hide();
                                 }
                             });
-                        }
-                        
-                    }
+                        };
+                    });
                 } else {
                     alert("上传失败");
-                }
+                };
             }
         });
 
