@@ -122,7 +122,7 @@
                     var obj=data.Items;
                     for (var i = 0; i < obj.length; i++) {
                         if (obj[i].isImage==2) {
-                            var file = $('<li data-path="' + obj[i].path + '" data-filename="' + obj[i].fileName + '" data-isimg="' + obj[i].isImage + '"> <div class="upload-lump left mRight20" style="top:5px;"> <div class="content long width35">' + obj[i].extensions.toUpperCase() + '</div><div class="lump"></div></div><div class="information mLeft10 width120"><span title="' + obj[i].fileName + '" class="long width60">' + obj[i].fileName + '</span><span title="' + obj[i].fileSize + 'kb">' + obj[i].fileSize + 'kb</span></div><span class="ico-delete-upload iconfont">&#xe628;</span></li> ');
+                            var file = $('<li data-filepath="' + obj[i].filePath + '" data-filename="' + obj[i].fileName + '" data-originalname="' + obj[i].originalName + '" data-isimg="' + obj[i].isImage + '"> <div class="upload-lump left mRight20" style="top:5px;"> <div class="content long width35">' + obj[i].extensions.toUpperCase() + '</div><div class="lump"></div></div><div class="information mLeft10 width120"><span title="' + obj[i].fileName + '" class="long width60">' + obj[i].fileName + '</span><span title="' + obj[i].fileSize + 'kb">' + obj[i].fileSize + 'kb</span></div><span class="ico-delete-upload iconfont">&#xe628;</span></li> ');
                             $("#orderflie-task").append(file).fadeIn(300);
                             file.find(".ico-delete-upload").click(function () {
                                 $(this).parent().remove();
@@ -131,7 +131,7 @@
                                 }
                             });
                         } else {
-                            var img = $('<li data-path="' + obj[i].path + '" data-filename="' + obj[i].fileName + '" data-isimg="' + obj[i].isImage + '"><img src="' + obj[i].path + '" /><span class="ico-delete"></span> </li>');
+                            var img = $('<li data-filepath="' + obj[i].filePath + '" data-filename="' + obj[i].fileName + '" data-originalname="' + obj[i].originalName + '" data-isimg="' + obj[i].isImage + '"><img src="' + obj[i].filePath + obj[i].fileName + '" /><span class="ico-delete"></span> </li>');
                             $("#Images-reply-task").append(img).fadeIn(300);
                             img.find(".ico-delete").click(function () {
                                 $(this).parent().remove();
