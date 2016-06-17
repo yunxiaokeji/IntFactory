@@ -134,10 +134,7 @@ namespace YXERP.Controllers
             string oldPath = "",
                    folder = CloudSalesTool.AppSettings.Settings["UploadTempPath"],
                    action = "";
-            if (Request.Form.AllKeys.Contains("oldPath"))
-            {
-                oldPath = Request.Form["oldPath"];
-            }
+
             if (Request.Form.AllKeys.Contains("folder") && !string.IsNullOrEmpty(Request.Form["folder"]))
             {
                 folder = Request.Form["folder"];
@@ -152,35 +149,52 @@ namespace YXERP.Controllers
             {
                 Directory.CreateDirectory(uploadPath);
             }
-            Dictionary<string, object> items = new Dictionary<string, object>();
 
+
+
+            List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
             for (int i = 0; i < Request.Files.Count; i++)
             {
+                int isImage = 0;
                 if (i == 10)
                 {
                     break;
                 }
                 HttpPostedFileBase file = Request.Files[i];
-
-                if (file.ContentLength > 1024 * 1024 * 5)
+                string ContentType = file.ContentType;
+                Dictionary<string, string> types = new Dictionary<string, string>();
+                types.Add("image/x-png", "1");
+                types.Add("image/png", "1");
+                types.Add("image/gif", "1");
+                types.Add("image/jpeg", "1");
+                types.Add("image/tiff", "1");
+                types.Add("application/x-MS-bmp", "1");
+                types.Add("image/pjpeg", "1");
+                if (types.ContainsKey(ContentType))
                 {
-                    continue;
+                    isImage = 1;
                 }
 
-                string fileName = file.FileName;
+                string[] arr = file.FileName.Split('.');
+                string newfileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + i + "." + arr[arr.Length - 1];
+                string newfilePath = uploadPath + newfileName;
+
+                Dictionary<string, object> item = new Dictionary<string, object>();
                 if (string.IsNullOrEmpty(oldPath))
                 {
-                    string filePath = uploadPath + fileName;
-                    file.SaveAs(filePath);
-                    items.Add("fileName",fileName);
-                    items.Add("path", folder + fileName);
+                    file.SaveAs(newfilePath);
+                    item.Add("path", newfilePath);
                 }
                 else
                 {
                     file.SaveAs(HttpContext.Server.MapPath(oldPath));
-                    items.Add("fileName",fileName);
-                    items.Add("path", oldPath);
+                    item.Add("path", oldPath);
                 }
+                item.Add("fileName", file.FileName);
+                item.Add("fileSize", file.ContentLength / 1024);
+                item.Add("extensions", arr[arr.Length - 1]);
+                item.Add("isImage", isImage);
+                items.Add(item);
             }
 
             JsonDictionary.Add("Items", items);
