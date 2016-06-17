@@ -21,6 +21,81 @@
             IsCallBack = true;
         }
        
+        //图片放大功能
+        var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
+        $("#orderImage").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+            if ($(this).attr("src")) {
+
+                $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
+                $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
+
+                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).attr("src") + '"/>');
+                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+            }
+        });
+
+        $(".close-enlarge-image").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+            $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+            $(".enlarge-image-item").empty();
+        });
+
+        $(".enlarge-image-bgbox").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+            $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+            $(".enlarge-image-item").empty();
+        });
+
+        $(".zoom-botton").click(function (e) {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+            var scaleToAdd = 0.8;
+            if (e.target.id == 'zoomOutButton')
+                scaleToAdd = -scaleToAdd;
+            $('#enlargeImage').smartZoom('zoom', scaleToAdd);
+            return false;
+        });
+
+        $(".left-enlarge-image").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+            var ele = $(".order-imgs-list .hover").prev();
+            if (ele && ele.find("img").attr("src")) {
+                var _img = ele.find("img");
+                $(".order-imgs-list .hover").removeClass("hover");
+                ele.addClass("hover");
+                $("#orderImage").attr("src", _img.attr("src"));
+                $(".enlarge-image-item").empty();
+                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
+                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+            }
+        });
+
+        $(".right-enlarge-image").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+            var ele = $(".order-imgs-list .hover").next();
+            if (ele && ele.find("img").attr("src")) {
+                var _img = ele.find("img");
+                $(".order-imgs-list .hover").removeClass("hover");
+                ele.addClass("hover");
+                $("#orderImage").attr("src", _img.attr("src"));
+                $(".enlarge-image-item").empty();
+                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
+                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+            }
+        });
+
         //任务讨论盒子点击
         $(".taskreply-box").click(function () {
             $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
@@ -71,7 +146,8 @@
         $(document).click(function (e) {
             if (!$(e.target).parents().hasClass("taskreply-box") && !$(e.target).hasClass("taskreply-box")&&
                 !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace") &&
-                !$(e.target).parents().hasClass("taskreply-box"))
+                !$(e.target).parents().hasClass("ico-delete") && !$(e.target).hasClass("ico-delete") &&
+                !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload"))
             {
                 $(".taskreply-box").removeClass("taskreply-box-hover");
                 
@@ -192,8 +268,7 @@
                 url: "/Plug/UploadFiles",
                 data: { folder: '', action: 'add', oldPath: "" },
                 success: function (data, status) {
-                    if (data.Items.length > 0) {
-                        $("#btn-update-reply" + _this.data("replyid")).empty();
+                    if (data.Items.length > 0) {                        
                         for (var i = 0; i < data.Items.length; i++) {
                             if (data.Items[i].isImage == 2) {
                                 doT.exec("/template/task/task-file-upload.html", function (template) {
@@ -218,6 +293,7 @@
                                     });
                                 });
                             };
+                            return;
                         }
                     } else {
                         alert("上传失败");

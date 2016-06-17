@@ -119,7 +119,8 @@
             data: { folder: '', action: 'add', oldPath: ""},
             success: function (data, status) {
                 if (data.Items.length > 0) {
-                    for (var i = 0; i < data.Items.length; i++) { 
+                    for (var i = 0; i < data.Items.length; i++) {
+                        console.log(data.Items);
                         if (data.Items[i].isImage==2) {
                             DoT.exec("/template/task/task-file-upload.html", function (template) {
                                 var file = template(data.Items);                       
@@ -128,7 +129,7 @@
                                 $(this).parent().remove();
                                     if ($("#orderflie-task li").length == 0) {
                                         $("#orderflie-task").hide();
-                                    }
+                                    } 
                                 });
                             });
                         } else {
@@ -143,6 +144,7 @@
                                 });
                             });
                         };
+                        return;
                     }
                     
                 } else {
@@ -985,7 +987,7 @@
             //隐藏制版列操作下拉框
             if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
                 $("#setPlateInfo").hide();
-            }
+            };
         });
     }
 
