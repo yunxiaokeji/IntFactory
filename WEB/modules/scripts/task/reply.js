@@ -52,7 +52,7 @@
                     });
                 })
                 ObjectJS.saveTaskReply(model, $(this),attchments);
-                $(".task-file").empty();
+                $("#btnSaveTalk").parents('.taskreply-box').find(".task-file").empty();
                 txt.val("");
             }
 
@@ -168,7 +168,7 @@
         //回复点击
         replys.find(".btn-reply").click(function () {
             var _this = $(this), reply = _this.nextAll(".reply-box");
-
+            $("#btn-update-reply" + _this.data("replyid")).empty();
             $("#replyList .reply-box").each(function () {
                 if ($(this).data("replyid") != reply.data("replyid")) {
                     $(this).hide();
@@ -254,7 +254,7 @@
                 })
 
                 ObjectJS.saveTaskReply(entity, _this,attchments);
-                $(".task-file").empty();
+                _this.parents('.reply-box').find(".task-file").empty();
             }
             $("#Msg_" + _this.data("replyid")).val('');
             $(this).parent().slideUp(300);
