@@ -180,7 +180,7 @@ namespace YXERP.Controllers
                 }
             }
 
-            JsonDictionary.Add("result", list);
+            JsonDictionary.Add("Items", list);
             return new JsonResult()
             {
                 Data = JsonDictionary,
