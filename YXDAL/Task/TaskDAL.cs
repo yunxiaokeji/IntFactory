@@ -205,7 +205,7 @@ namespace IntFactoryDAL
             SqlParameter[] paras = { 
                                      new SqlParameter("@TaskID",taskid),
                                      new SqlParameter("@ReplyID",replyid),
-                                     new SqlParameter("@AttachmentType",attachmentType),
+                                     new SqlParameter("@Type",attachmentType),
                                      new SqlParameter("@ServerUrl",serverUrl),
                                      new SqlParameter("@FilePath",filePath),
                                      new SqlParameter("@FileName",fileName),

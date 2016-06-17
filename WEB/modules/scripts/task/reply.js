@@ -126,23 +126,19 @@
             btnname = btnObject.html();
             btnObject.html("保存中...").attr("disabled", "disabled");
         }
-        var attchments = [{
-            "Type": 1,
-            "ServerUrl": "",
-            "FilePath": "11",
-            "FileName": "22",
-            "OriginalName": "",
-            "ThumbnailName": ""
-        }];
-        attchments.push({
-            "Type": 1,
-            "ServerUrl": "",
-            "FilePath": "331",
-            "FileName": "22",
-            "OriginalName": "",
-            "ThumbnailName": ""
-        });
-        console.log(attchments);
+        var attchments = [];
+       
+        $("#btnSaveTalk").parents('.taskreply-box').find('.no-img li').each(function () {
+            var _this = $(this);
+            attchments.push({
+                "Type": 1,
+                "ServerUrl": "",
+                "FilePath": _this.data('path'),
+                "FileName": "",
+                "OriginalName": _this.data('filename'),
+                "ThumbnailName": ""
+            });
+        })
         Global.post("/" + Controller + "/SavaReply", { entity: JSON.stringify(model), taskID: Reply.taskid, attchmentEntity: JSON.stringify(attchments) }, function (data) {
             if (btnObject) {
                 btnObject.html(btnname).removeAttr("disabled");

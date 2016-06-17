@@ -150,8 +150,6 @@ namespace YXERP.Controllers
                 Directory.CreateDirectory(uploadPath);
             }
 
-
-
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
             for (int i = 0; i < Request.Files.Count; i++)
             {
@@ -178,20 +176,21 @@ namespace YXERP.Controllers
                 string[] arr = file.FileName.Split('.');
                 string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + i + "." + arr[arr.Length - 1];
                 string saveFilePath = uploadPath + newFileName;
-                string newFilePath = folder + newFileName;
+                string newFilePath = folder;
 
                 Dictionary<string, object> item = new Dictionary<string, object>();
                 if (string.IsNullOrEmpty(oldPath))
                 {
                     file.SaveAs(saveFilePath);
-                    item.Add("path", newFilePath);
+                    item.Add("filePath", newFilePath);
                 }
                 else
                 {
                     file.SaveAs(HttpContext.Server.MapPath(oldPath));
-                    item.Add("path", oldPath);
+                    item.Add("filePath", oldPath);
                 }
-                item.Add("fileName", file.FileName);
+                item.Add("fileName", newFileName);
+                item.Add("originalName",file.FileName);
                 item.Add("fileSize", file.ContentLength / 1024);
                 item.Add("extensions", arr[arr.Length - 1]);
                 item.Add("isImage", isImage);
