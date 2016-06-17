@@ -8,7 +8,7 @@
 @section scripts{
     <script type="text/javascript">
        seajs.use(["scripts/home/index"], function (obj) {
-           obj.init('@ViewBag.orderLevel');
+           obj.init('@ViewBag.orderLevel', '@ViewBag.roleLevel', '@ViewBag.RemainDay', '@ViewBag.RemainDate');
        });
     </script>
 }
@@ -80,6 +80,7 @@
             <span class="list-title">需求单</span>
             <span class="mLeft15 list-total ">0</span>
             <span id="taskType" class="right hide"></span>
+            <div class="clear"></div>
         </div>
         <div class="order-layerbox mTop20">
             <div class="layer-lump"></div>

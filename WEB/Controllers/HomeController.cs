@@ -32,6 +32,8 @@ namespace YXERP.Controllers
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var agent = IntFactoryBusiness.AgentsBusiness.GetAgentDetail(currentUser.AgentID);
                 ViewBag.RemainDay = Math.Ceiling((agent.EndTime - DateTime.Now).TotalDays);
+                ViewBag.RemainDate = agent.EndTime.Date.ToString("yyyy-MM-dd");
+
                 ViewBag.BuyPeople = agent.UserQuantity;
                 ViewBag.UsePeople = OrganizationBusiness.GetUsers(agent.AgentID).FindAll(m=>m.Status!=9).Count;
 

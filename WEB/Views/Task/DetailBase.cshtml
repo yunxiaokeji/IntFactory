@@ -50,6 +50,9 @@
     
     <div class="left titlename">订单编号：<a class="font16" href="/Orders/OrderDetail/@(task.OrderID)" >@(task.OrderCode)</a></div>
     <ul class="right">
+        <li title="订单交货日期">
+            <span class="left color666 font14"> 订单交货日期：</span><label class="left color666 font14" >@(order.PlanTime.ToString("yyyy-MM-dd hh:mm"))</label>
+        </li>
         <li title="订单类型">
             <span class="left color666 font14"> 订单类型：</span><label class="left color666 font14" >@(task.OrderType==1?"打样":"大货")</label>
         </li>
@@ -207,43 +210,43 @@
 
 <div class="module-header mTop20">
     <ul class="module-tab">
-        <li  class="hover" data-id="taskReplys">讨论</li>
+        <li  class="@(task.Mark==0?"hover":"")" data-id="taskReplys">讨论</li>
         @{
             if(task.Mark==11)
             {
-                <li  data-id="navProducts">材料</li>
+                <li  data-id="navProducts" class="default-check">材料</li>
             }
             else if(task.Mark==21)
             {
-                <li  data-id="navProducts">材料</li>
+                <li  data-id="navProducts" class="default-check">材料</li>
             }
             else if(task.Mark==12)
             {
-                <li  data-id="platemakingContent">制版</li>
+                <li  data-id="platemakingContent" class="default-check">制版</li>
             }
             else if(task.Mark==22)
             {
-                <li  data-id="platemakingContent">制版</li>
+                <li  data-id="platemakingContent" class="default-check">制版</li>
             }
             else if(task.Mark==15)
             {
-                <li  data-id="navSendDYDoc" data-btn="btnSendDYOrder">发货记录</li>
+                <li  data-id="navSendDYDoc" data-btn="btnSendDYOrder" class="default-check">发货</li>
             }
             else if(task.Mark==25)
             {
-                <li data-btn="btnSendOrder" data-id="navSendDoc">发货记录</li>
+                <li data-btn="btnSendOrder" data-id="navSendDoc" class="default-check">发货</li>
             }
             else if(task.Mark==23)
             {
-                <li data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁剪记录</li>
+                <li data-btn="btnCutoutOrder" data-id="navCutoutDoc" class="default-check">裁剪</li>
             }
             else if(task.Mark==24)
             {
-                <li data-btn="btnSewnOrder"  data-id="navSewnDoc">车缝记录</li>
+                <li data-btn="btnSewnOrder"  data-id="navSewnDoc" class="default-check">车缝</li>
             }
             else if(task.Mark==16)
             {
-                 <li data-btn="addOtherCost" data-id="navCosts">加工成本</li>
+                 <li data-btn="addOtherCost" data-id="navCosts" class="default-check">加工成本</li>
             }
            
         }

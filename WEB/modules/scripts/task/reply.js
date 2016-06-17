@@ -2,17 +2,23 @@
     var Global = require("global");
     var doT = require("dot");
     var Qqface = require("qqface");
-
+    Upload = require("upload");
     var ObjectJS = {};
     var Reply = {};
     var Controller = "Opportunitys";
+    
+    var IsCallBack = false;
 
     ///任务讨论
     //初始化任务讨论列表
-    ObjectJS.initTalkReply = function (reply,moduleType) {
+    ObjectJS.initTalkReply = function (reply,moduleType,callback) {
         Reply = reply;
         if (moduleType === "customer") {
             Controller = moduleType;
+        }
+        else if(moduleType==="task") {
+            ObjectJS.callBack = callback;
+            IsCallBack = true;
         }
        
         //任务讨论盒子点击
@@ -39,7 +45,8 @@
             }
 
         });
-        
+       
+
         $(".btn-emotion").each(function () {
             $(this).qqFace({
                 assign: $(this).data("id"),
@@ -55,6 +62,7 @@
                 !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace"))
             {
                 $(".taskreply-box").removeClass("taskreply-box-hover");
+                
             }
         });
     }
@@ -72,7 +80,6 @@
             pageIndex: page
         }, function (data) {
             $("#replyList").empty();
-            
 
             if (data.items.length > 0) {
                 doT.exec("template/customer/replys.html", function (template) {
@@ -103,6 +110,12 @@
                     ObjectJS.getTaskReplys(page);
                 }
             });
+
+            if (IsCallBack) {
+                ObjectJS.callBack();
+                IsCallBack = false;
+            }
+
         });
     }
 
@@ -188,6 +201,23 @@
             });
         });
 
+        //Upload.createUpload({
+        //    element: "#btn-update-reply",
+        //    buttonText: "&#xe618;",
+        //    className: "left iconfont",
+        //    multiple: false,
+        //    data: { folder: '', action: 'add', oldPath: "" },
+        //    success: function (data, status) {
+        //        if (data.Items.length > 0) {
+        //            $(".accessory-reply").show();
+        //            $(".accessory-reply").append("<img class='mLeft5' style='width:100px;height:100px;max-height:110px;max-width:110px' src=" + data.Items[0] + " />");
+        //        } else {
+        //            $(".accessory-reply").hide();
+        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+        //        }
+        //    }
+        //});
+        
     }
 
     module.exports = ObjectJS;

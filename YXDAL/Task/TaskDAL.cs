@@ -52,7 +52,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@PageIndex",pageIndex),
    
                                    };
-
+            
             paras[0].Value = totalCount;
             paras[1].Value = pageCount;
 
