@@ -184,6 +184,32 @@
 
             reply.find("textarea").focus();
 
+            Upload.createUpload({
+                element: "#btn-update-reply" + _this.data("replyid"),
+                buttonText: "&#xe618;",
+                className: "left iconfont",
+                multiple: false,
+                url: "/Plug/UploadFiles",
+                data: { folder: '', action: 'add', oldPath: "" },
+                success: function (data, status) {
+                    if (data.Items.length > 0) {
+                        for (var i = 0; i < data.Items.length; i++) {
+                            if ($("#orderImages-reply" + _this.data("replyid") + " li").length < 5) {
+                                var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
+                                $("#orderImages-reply" + _this.data("replyid")).append(img).fadeIn(300);
+                                img.find(".ico-delete").click(function () {
+                                    $(this).parent().remove();
+                                    if ($("#orderImages-reply" + _this.data("replyid") + " li").length == 0) {
+                                        $("#orderImages-reply" + _this.data("replyid")).hide();
+                                    }
+                                });
+                            }
+                        }
+                    } else {
+                        alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+                    }
+                }
+            });
         });
 
         //回复
@@ -221,32 +247,6 @@
 
         $(".download").click(function () {
             window.open($(this).data('url'), '_target');
-        });
-
-        Upload.createUpload({
-            element: "#btn-update-reply",
-            buttonText: "&#xe618;",
-            className: "left iconfont",
-            multiple: false,
-            data: { folder: '', action: 'add', oldPath: "" },
-            success: function (data, status) {
-                if (data.Items.length > 0) {
-                    for (var i = 0; i < data.Items.length; i++) {
-                        if ($("#orderImages-reply li").length < 5) {
-                            var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');  
-                            $("#orderImages-reply").append(img).fadeIn(300);
-                            img.find(".ico-delete").click(function () {
-                                $(this).parent().remove();
-                                if ($("#orderImages-reply li").length == 0) {                                    
-                                    $("#orderImages-reply").hide();
-                                }
-                            });
-                        }
-                    }
-                } else {
-                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-                }
-            }
         });
         
     }
