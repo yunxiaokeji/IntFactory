@@ -2,7 +2,6 @@
 	for(var i=0, j=$data.length; i < j; i++)
     {
 	    var item = $data[i];
-        if(item.isImage==2){
 %}
         <li data-filepath="{%=item.filePath%}" data-filename="{%=item.fileName%}" data-originalname="{%=item.originalName%}" data-isimg="{%=item.isImage%}">
             <div class="upload-lump left mRight20" style="top:5px;"> 
@@ -14,10 +13,4 @@
             <span title="{%=item.fileSize%}kb">{%=item.fileSize%}kb</span></div>
             <span class="ico-delete-upload iconfont">&#xe628;</span>
         </li>
-   {%  } else {  %}
-        <li data-filepath="{%=item.filePath%}" data-filename="{%=item.fileName%}" data-originalname="{%=item.originalName%}" data-isimg="{%=item.isImage%}">
-        <img src="{%=item.filePath%}{%=item.fileName%}" />
-        <span class="ico-delete"></span>
-        </li>
-    {%}%}
 {%}%}
