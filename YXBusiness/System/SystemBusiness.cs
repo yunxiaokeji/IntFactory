@@ -966,7 +966,7 @@ namespace IntFactoryBusiness
             {
                 return false;
             }
-            bool bl = SystemDAL.BaseProvider.DeleteOrderProcess(processid);
+            bool bl = SystemDAL.BaseProvider.DeleteOrderProcess(processid, clientid);
             if (bl)
             {
                 OrderProcess[clientid].Remove(model);

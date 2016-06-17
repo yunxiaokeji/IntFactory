@@ -7,10 +7,32 @@
 <table class="table-list-order" >
 <tr class="list-item" >
     <td width="120px">
+        <div class="pic-box">
         <img class="order-pic" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />
+        {% if(item.GoodsCode){ %}
+              <span class="aliorder">
+                  <i class="iconfont right">&#xe631;</i>
+              </span>
+        {% } %}
+        </div>
     </td>
     <td width="380px">
-        
+        {% if(item.GoodsCode){ %}
+        <ul class="order-ul mLeft10">
+            <li>
+                <span>款式编码：{%=item.IntGoodsCode==""?"--":item.IntGoodsCode%}</span>
+            </li>
+            <li>
+                <span>阿里编码：{%=item.GoodsCode%}</span>
+            </li>
+            <li>
+                <span>订单编号：<a href="/Orders/OrderDetail/{%=item.OrderID%}">{%=item.OrderCode%}</a></span>
+            </li>
+            <li>
+                <span>订单类型：</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
+            </li>
+        </ul>
+        {% } else{%}
         <ul class="order-ul-3 mLeft10">
             <li>
                 <span>款式编码：{%=item.IntGoodsCode==""?"--":item.IntGoodsCode%}</span>
@@ -22,6 +44,7 @@
                 <span>订单类型：</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
             </li>
         </ul>
+        {% }%}
     </td>   
     {% if(item.OrderType==1){ %}  
         <td width="300px">
