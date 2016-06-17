@@ -956,7 +956,6 @@
     }
     //#endregion
 
-
     //#region 任务制版相关事件
     //绑定
     ObjectJS.bindPlatemakingEvent = function () {
