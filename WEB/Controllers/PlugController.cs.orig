@@ -130,11 +130,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult UploadFiles()
         {
-<<<<<<< HEAD
             
-=======
-            JavaScriptSerializer serializer=new JavaScriptSerializer();
->>>>>>> 4db7601e3ae206361bcaad5f098652a694b35b5c
             string oldPath = "",
                    folder = CloudSalesTool.AppSettings.Settings["UploadTempPath"],
                    action = "";
@@ -155,12 +151,9 @@ namespace YXERP.Controllers
             if (!Directory.Exists(uploadPath))
             {
                 Directory.CreateDirectory(uploadPath);
-<<<<<<< HEAD
-            }            
-=======
             }
->>>>>>> 4db7601e3ae206361bcaad5f098652a694b35b5c
-            List<string> list = new List<string>();
+            Dictionary<string, object> items = new Dictionary<string, object>();
+
             for (int i = 0; i < Request.Files.Count; i++)
             {
                 if (i == 10)
@@ -173,26 +166,28 @@ namespace YXERP.Controllers
                 {
                     continue;
                 }
-                if (string.IsNullOrEmpty(oldPath) || oldPath == "/modules/images/default.png")
+
+                string fileName = file.FileName;
+                if (string.IsNullOrEmpty(oldPath))
                 {
-                    string[] arr = file.FileName.Split('.');
-                    string fileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + i + "." + arr[arr.Length - 1];
                     string filePath = uploadPath + fileName;
                     file.SaveAs(filePath);
-                    list.Add(folder + fileName);
+                    items.Add("fileName",fileName);
+                    items.Add("path", folder + fileName);
                 }
                 else
                 {
                     file.SaveAs(HttpContext.Server.MapPath(oldPath));
-                    list.Add(oldPath);
+                    items.Add("fileName",fileName);
+                    items.Add("path", oldPath);
                 }
             }
 
 <<<<<<< HEAD
-            
+            JsonDictionary.Add("Items", list);
 =======
-            JsonDictionary.Add("result", list);
->>>>>>> 4db7601e3ae206361bcaad5f098652a694b35b5c
+            JsonDictionary.Add("Items", items);
+>>>>>>> ed3a0bfdfa64ed859547cd1f071f10fe86b95965
             return new JsonResult()
             {
                 Data = JsonDictionary,
