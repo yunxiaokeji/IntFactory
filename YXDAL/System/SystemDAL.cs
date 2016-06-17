@@ -434,7 +434,7 @@ namespace IntFactoryDAL
 
         public bool DeleteOrderProcess(string processid)
         {
-            string sqltext = "update OrderProcess set Status=9 where ProcessID=@ProcessID";
+            string sqltext = "if( not exists( select OrderID from Orders where ProcessID=@ProcessID and OrderStatus in(0,1)) )  update OrderProcess set Status=9 where ProcessID=@ProcessID";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@ProcessID",processid)
