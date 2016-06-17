@@ -240,6 +240,7 @@ namespace IntFactoryBusiness
                     model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
                 }
 
+                model.Attachments = new List<Attachment>();
                 if (attachments.Rows.Count > 0)
                 {
                     foreach (DataRow dr2 in attachments.Select(" Guid='" + model.ReplyID + "'"))

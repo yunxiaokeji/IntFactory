@@ -133,6 +133,7 @@
                         } else {                            
                             $("#Images-reply-task").append(file).fadeIn(300);
                             file.find(".ico-delete").click(function () {
+                                alert("aa");
                                 $(this).parent().remove();
                                 if ($("#Images-reply-task li").length == 0) {
                                     $("#Images-reply-task").hide();
