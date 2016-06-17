@@ -2,6 +2,7 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
     var attchment=item.Attachments;
+console.log(attchment);
 %}
 <tr>
     <td class="user-avatar">
@@ -51,7 +52,7 @@
                                 if(attchmentItem.Type==1)
                                 { 
                             %}  
-                            <li class="mTop5 hand"><img id="orderImage" src="{%=attchmentItem.FilePath+attchmentItem.FileName%}"></li>
+                            <li class="mTop5 hand"><img id="orderImage" data-src="{%=attchmentItem.FilePath+attchmentItem.FileName%}" src="{%=attchmentItem.FilePath+(attchmentItem.ThumbnailName==""?attchmentItem.FileName:attchmentItem.ThumbnailName)%}"></li>
                             {%
                                 }
                             }

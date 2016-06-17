@@ -198,41 +198,40 @@ namespace YXERP.Controllers
             string replyID = "";
             replyID = OrdersBusiness.CreateReply(model.GUID,model.StageID,model.Mark,model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
 
+            string movePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Tasks/" + DateTime.Now.ToString("yyyyMM") + "/";
+            string uploadTempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
+            DirectoryInfo directory = new DirectoryInfo(Server.MapPath(movePath));
+            if (!directory.Exists)
+            {
+                directory.Create();
+            }
+
             foreach (var attachments in model.Attachments)
             {
-                string filePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Tasks/" + DateTime.Now.ToString("yyyyMM") + "/";
-                string tempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"] + attachments.FileName;
-                attachments.FilePath = filePath;
-                string fileFullPath = attachments.FilePath + attachments.FileName;
-
-                DirectoryInfo directory = new DirectoryInfo(Server.MapPath(filePath));
-                if (!directory.Exists)
+                attachments.FilePath = movePath;
+                string fileUrl = movePath + attachments.FileName;
+                string tempFileUrl = uploadTempPath + attachments.FileName;
+                FileInfo tempFile = new FileInfo(Server.MapPath(tempFileUrl));
+               
+                if (tempFile.Exists)
                 {
-                    directory.Create();
-                }
-                FileInfo oldFile = new FileInfo(Server.MapPath(tempPath));
-                filePath = filePath + oldFile.Name;
-                if (oldFile.Exists)
-                {
-                    oldFile.MoveTo(Server.MapPath(filePath));
+                    tempFile.MoveTo(Server.MapPath(fileUrl));
                 }
 
-                if (attachments.Type != 1)
+                if (attachments.Type == 1)
                 {
-                    continue;
-                }
-                FileInfo file = new FileInfo(Server.MapPath(fileFullPath));
-                if (file.Length  > 10)
-                {
-                    if (file.Exists)
+                    FileInfo file = new FileInfo(Server.MapPath(fileUrl));
+                    if (file.Length  > 10)
                     {
-                        if (new FileInfo(Server.MapPath(fileFullPath)).Exists)
+                        if (file.Exists)
                         {
-                            string smallImgPath = fileFullPath.Substring(0, fileFullPath.IndexOf(file.Name)) + "small" + file.Name;
-                            CommonBusiness.GetThumImage(Server.MapPath(fileFullPath), 30, 250, Server.MapPath(smallImgPath));
+                            string smallImgUrl = Path.GetDirectoryName(fileUrl) + "\\small" + file.Name;
+                            attachments.ThumbnailName = "small" + file.Name;
+                            CommonBusiness.GetThumImage(Server.MapPath(fileUrl), 30, 250, Server.MapPath(smallImgUrl));
                         }
                     }
                 }
+
             }
 
 
