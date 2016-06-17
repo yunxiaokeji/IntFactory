@@ -1,10 +1,23 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++)
+    {
+	    var item = $data[i];
+        if(item.isImage==2){
+%}
+        <li data-filepath="{%=item.filePath%}" data-filename="{%=item.fileName%}" data-originalname="{%=item.originalName%}" data-isimg="{%=item.isImage%}">
+            <div class="upload-lump left mRight20" style="top:5px;"> 
+            <div class="content long width35">{%=item.extensions%}</div>
+                <div class="lump"></div>
+            </div>
+            <div class="information mLeft10 width120">
+            <span title="{%=item.fileName%}" class="long width60">{%=item.originalName%}</span>
+            <span title="{%=item.fileSize%}kb">{%=item.fileSize%}kb</span></div>
+            <span class="ico-delete-upload iconfont">&#xe628;</span>
+        </li>
+   {%  } else {  %}
+        <li data-filepath="{%=item.filePath%}" data-filename="{%=item.fileName%}" data-originalname="{%=item.originalName%}" data-isimg="{%=item.isImage%}">
+        <img src="{%=item.filePath%}{%=item.fileName%}" />
+        <span class="ico-delete"></span>
+        </li>
+    {%}%}
+{%}%}
