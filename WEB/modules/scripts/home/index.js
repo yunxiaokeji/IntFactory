@@ -21,12 +21,12 @@
     var ObjectJS = {};
     
     ObjectJS.orderFilter = -1;
-    var ReportAvgHeight = 0;//报表每一份对应的行高
     var GuidLineHeight = 0;//报表网格线对应的份数
     var ReportMinHeight = 10;//最低行高
     var ReportIndex = 0;
     ObjectJS.init = function (orderLevel, roleLevel) {
         ObjectJS.orderLevel = orderLevel;
+    var ReportAvgHeight = 0;//报表每一份对应的行高
         ObjectJS.roleLevel = roleLevel;
 
         //没有订单权限
