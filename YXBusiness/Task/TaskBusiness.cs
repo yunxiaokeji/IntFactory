@@ -15,7 +15,7 @@ namespace IntFactoryBusiness
     public class TaskBusiness
     {
         #region 增
-        public bool AddTaskReplyAttachments(string taskid, string replyid, List<Attachment> attachments,string userid,string clientid)
+        public static bool AddTaskReplyAttachments(string taskid, string replyid, List<Attachment> attachments,string userid,string clientid)
         {
             SqlConnection conn = new SqlConnection(TaskDAL.ConnectionString);
             conn.Open();

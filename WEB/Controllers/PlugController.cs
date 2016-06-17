@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 using IntFactoryBusiness;
 using System.IO;
+using System.Web.Script.Serialization;
 
 namespace YXERP.Controllers
 {
@@ -116,6 +117,73 @@ namespace YXERP.Controllers
             }
 
             JsonDictionary.Add("Items", list);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult UploadFiles(string taskID,string replyID,string entity)
+        {
+            JavaScriptSerializer serializer=new JavaScriptSerializer();
+            List<IntFactoryEntity.Attachment> items = serializer.Deserialize<List<IntFactoryEntity.Attachment>>(entity);
+            string oldPath = "",
+                   folder = CloudSalesTool.AppSettings.Settings["UploadTempPath"],
+                   action = "";
+            if (Request.Form.AllKeys.Contains("oldPath"))
+            {
+                oldPath = Request.Form["oldPath"];
+            }
+            if (Request.Form.AllKeys.Contains("folder") && !string.IsNullOrEmpty(Request.Form["folder"]))
+            {
+                folder = Request.Form["folder"];
+            }
+            string uploadPath = HttpContext.Server.MapPath(folder);
+
+            if (Request.Form.AllKeys.Contains("action"))
+            {
+                action = Request.Form["action"];
+            }
+            if (!Directory.Exists(uploadPath))
+            {
+                Directory.CreateDirectory(uploadPath);
+            }
+
+            int result = TaskBusiness.AddTaskReplyAttachments(null, null, items, CurrentUser.UserID, CurrentUser.ClientID) ? 1 : 0;
+            List<string> list = new List<string>();
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                if (i == 10)
+                {
+                    break;
+                }
+                HttpPostedFileBase file = Request.Files[i];
+
+                if (file.ContentLength > 1024 * 1024 * 5)
+                {
+                    continue;
+                }
+                if (string.IsNullOrEmpty(oldPath) || oldPath == "/modules/images/default.png")
+                {
+                    string[] arr = file.FileName.Split('.');
+                    string fileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + i + "." + arr[arr.Length - 1];
+                    string filePath = uploadPath + fileName;
+                    file.SaveAs(filePath);
+                    list.Add(folder + fileName);
+                }
+                else
+                {
+                    file.SaveAs(HttpContext.Server.MapPath(oldPath));
+                    list.Add(oldPath);
+                }
+            }
+
+            JsonDictionary.Add("result", result);
             return new JsonResult()
             {
                 Data = JsonDictionary,

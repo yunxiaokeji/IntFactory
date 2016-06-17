@@ -160,7 +160,6 @@
             }
         });
 
-
         //标记任务完成
         if ($("#FinishTask").length == 1) {
             $("#FinishTask").click(function () {
