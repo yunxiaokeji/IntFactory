@@ -126,10 +126,10 @@
                                 $("#orderflie-task").append(file).fadeIn(300);
                                 $(".ico-delete-upload").click(function () {
                                 $(this).parent().remove();
-                                if ($("#orderflie-task li").length == 0) {
-                                    $("#orderflie-task").hide();
-                                }
-                            });
+                                    if ($("#orderflie-task li").length == 0) {
+                                        $("#orderflie-task").hide();
+                                    }
+                                });
                             });
                         } else {
                             DoT.exec("/template/task/task-file-upload-img.html", function (template) {

@@ -215,11 +215,12 @@
 
         replys.find(".no-img li").hover(function () {
             $(this).find(".popup-download").stop(true).slideDown(300);
-            $(".popup-download").click(function () {
-                alert("ok");
-            });
         },function () {
             $(this).find(".popup-download").stop(true).slideUp(300);
+        });
+
+        $(".download").click(function () {
+            window.open($(this).data('url'), '_target');
         });
 
         Upload.createUpload({
