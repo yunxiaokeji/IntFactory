@@ -118,6 +118,11 @@
             url: "/Plug/UploadFiles",
             data: { folder: '', action: 'add', oldPath: ""},
             success: function (data, status) {
+                if (data.Items.length > 0) {
+                    console.log(data.Items);
+                } else {
+                    alert("上传失败");
+                }
             }
         });
 
