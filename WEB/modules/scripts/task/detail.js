@@ -115,24 +115,33 @@
             buttonText: "&#xe618;",
             className: "left iconfont",
             multiple: false,
-            data: { folder: '', action: 'add', oldPath: "" },
+            url: "/Plug/UploadFiles",
+            data: { folder: '', action: 'add', oldPath: "", taskID: ObjectJS.taskid },
             success: function (data, status) {
-                if (data.Items.length > 0) {                   
-                    for (var i = 0; i < data.Items.length; i++) {
-                        if ($("#Images-reply-task li").length < 5) {
-                            var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
-                            $("#Images-reply-task").append(img).fadeIn(300);
-                            img.find(".ico-delete").click(function () {
-                                $(this).parent().remove();
-                                if ($("#Images-reply-task li").length == 0) {
-                                    $("#Images-reply-task").hide();
-                                }
-                            });
-                        }
-                    }
+                if (data.Items.length > 0) {
+                    alert("ok");
+                    //for (var i = 0; i < data.Items.length; i++) {
+                    //    if ($("#Images-reply-task li").length < 5) {
+                    //        var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
+                    //        $("#Images-reply-task").append(img).fadeIn(300);
+                    //        img.find(".ico-delete").click(function () {
+                    //            $(this).parent().remove();
+                    //            if ($("#Images-reply-task li").length == 0) {
+                    //                $("#Images-reply-task").hide();
+                    //            }
+                    //        });
+                    //    }
+                    //}
                 } else {
                     alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
                 }
+            }
+        });
+
+        $("#orderflie li .ico-delete-upload").click(function () {
+            $(this).parent().remove();
+            if ($("#orderflie li").length == 0) {
+                $("#orderflie").hide();
             }
         });
 
