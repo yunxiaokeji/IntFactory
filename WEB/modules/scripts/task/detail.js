@@ -119,28 +119,32 @@
             data: { folder: '', action: 'add', oldPath: ""},
             success: function (data, status) {
                 if (data.Items.length > 0) {
-                    DoT.exec("/template/task/task-file-upload.html", function (template) {
-                        var file = template(data.Items);
-                        if ($(".lump")) {                            
-                            $("#orderflie-task").append(file).fadeIn(300);
-
-                            $(".ico-delete-upload").click(function () {
+                    for (var i = 0; i < data.Items.length; i++) { 
+                        if (data.Items[i].isImage==2) {
+                            DoT.exec("/template/task/task-file-upload.html", function (template) {
+                                var file = template(data.Items);                       
+                                $("#orderflie-task").append(file).fadeIn(300);
+                                $(".ico-delete-upload").click(function () {
                                 $(this).parent().remove();
                                 if ($("#orderflie-task li").length == 0) {
                                     $("#orderflie-task").hide();
                                 }
                             });
-                        } else {                            
-                            $("#Images-reply-task").append(file).fadeIn(300);
-                            file.find(".ico-delete").click(function () {
-                                alert("aa");
-                                $(this).parent().remove();
-                                if ($("#Images-reply-task li").length == 0) {
-                                    $("#Images-reply-task").hide();
-                                }
+                            });
+                        } else {
+                            DoT.exec("/template/task/task-file-upload-img.html", function (template) {
+                                var file = template(data.Items);
+                                $("#Images-reply-task").append(file).fadeIn(300);
+                                $(".ico-delete").click(function () {                                    
+                                    $(this).parent().remove();
+                                    if ($("#Images-reply-task li").length == 0) {
+                                        $("#Images-reply-task").hide();
+                                    }
+                                });
                             });
                         };
-                    });
+                    }
+                    
                 } else {
                     alert("上传失败");
                 };

@@ -1,0 +1,11 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++)
+    {
+	    var item = $data[i];
+%}
+ <li data-filepath="{%=item.filePath%}" data-filename="{%=item.fileName%}" data-originalname="{%=item.originalName%}" data-isimg="{%=item.isImage%}">
+        <img src="{%=item.filePath%}{%=item.fileName%}" />
+        <span class="ico-delete"></span>
+        </li>
+    
+{%}%}
