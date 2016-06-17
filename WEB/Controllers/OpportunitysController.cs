@@ -190,15 +190,15 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult SavaReply(string entity,string taskID)
+        public JsonResult SavaReply(string entity, string taskID, string attchmentEntity)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             ReplyEntity model = serializer.Deserialize<ReplyEntity>(entity);
-            
+            model.Attachments = serializer.Deserialize<List<IntFactoryEntity.Attachment>>(attchmentEntity);
             string replyID = "";
             replyID = OrdersBusiness.CreateReply(model.GUID,model.StageID,model.Mark,model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
 
-            TaskBusiness.AddTaskReplyAttachments(taskID, model.ReplyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);
+            TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);
 
             List<ReplyEntity> list = new List<ReplyEntity>();
             if (!string.IsNullOrEmpty(replyID))
