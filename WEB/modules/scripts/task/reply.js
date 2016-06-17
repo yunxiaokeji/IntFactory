@@ -128,17 +128,18 @@
         }
         var attchments = [];
        
-        $("#btnSaveTalk").parents('.taskreply-box').find('.no-img li').each(function () {
+        $("#btnSaveTalk").parents('.taskreply-box').find('.task-file li').each(function () {
             var _this = $(this);
             attchments.push({
-                "Type": 1,
+                "Type": _this.data('isimg'),
                 "ServerUrl": "",
-                "FilePath": _this.data('path'),
-                "FileName": "",
-                "OriginalName": _this.data('filename'),
+                "FilePath": _this.data('filepath'),
+                "FileName": _this.data('filename'),
+                "OriginalName": _this.data('originalname'),
                 "ThumbnailName": ""
             });
         })
+
         Global.post("/" + Controller + "/SavaReply", { entity: JSON.stringify(model), taskID: Reply.taskid, attchmentEntity: JSON.stringify(attchments) }, function (data) {
             if (btnObject) {
                 btnObject.html(btnname).removeAttr("disabled");

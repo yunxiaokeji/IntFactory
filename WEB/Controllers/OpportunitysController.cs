@@ -174,12 +174,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetReplys(string guid, string stageID, int mark, int pageSize, int pageIndex)
+        public JsonResult GetReplys(string guid, string stageID, int pageSize, int pageIndex)
         {
             int pageCount = 0;
             int totalCount = 0;
 
-            var list = OrdersBusiness.GetReplys(guid,stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            var list = TaskBusiness.GetTaskReplys(guid, stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
