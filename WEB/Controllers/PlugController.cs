@@ -150,12 +150,10 @@ namespace YXERP.Controllers
                 Directory.CreateDirectory(uploadPath);
             }
 
-
-
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
             for (int i = 0; i < Request.Files.Count; i++)
             {
-                int isImage = 0;
+                int isImage = 2;
                 if (i == 10)
                 {
                     break;
