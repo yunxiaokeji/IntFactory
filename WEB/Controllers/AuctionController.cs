@@ -185,8 +185,7 @@ namespace YXERP.Controllers
                 {
                     return Redirect("/Auction/BuyUserQuantity");
                 }
-
-                int Days = (CurrentAgent.EndTime - DateTime.Now).Days;
+                double Days = Math.Ceiling((CurrentAgent.EndTime - DateTime.Now).TotalDays);
                 ViewBag.Days = Days;
                 ViewBag.UserQuantity = OrganizationBusiness.GetUsers(CurrentAgent.AgentID).Count;
                 ViewBag.CurrentAgent = CurrentAgent;

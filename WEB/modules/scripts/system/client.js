@@ -316,7 +316,7 @@
                 else {
                     if (parseInt(data.Days) < 31)
                     {
-                        $("#agentRemainderDays").addClass("red");
+                        $("#agentRemainderDays").addClass("blue");
                         $(".btn-buy").html("续费").attr("href", "/Auction/ExtendNow");
                     }
                     else {

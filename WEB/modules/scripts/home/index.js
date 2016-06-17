@@ -187,7 +187,7 @@
         //授权快到期提示
         if (ObjectJS.remainDay <= 20) {
             var authorWarn = Global.getCookie('authorWarn');
-            if (authorWarn != "no") {
+            if (authorWarn != "1") {
                 var data = { remainDay: ObjectJS.remainDay, remainDate: ObjectJS.remainDate };
                 EasyDialog = require('easydialog');
                 DoT.exec("/template/home/author-page.html", function (template) {
@@ -202,19 +202,21 @@
                     $("#ExtendNow").click(function () {
                         window.open('/Auction/ExtendNow', '_target');
                     })
-                    $("#IKnow").click(function () {
-                        if ($(".author-lump").hasClass('hover')) {
-                            Global.setCookie('authorWarn', 'no');
-                        }
-                        EasyDialog.close();
-                    })
+                    //$("#IKnow").click(function () {
+                        //if ($(".author-lump").hasClass('hover')) {
+                        //    Global.setCookie('authorWarn', 'no');
+                        //}
+                    //    EasyDialog.close();
+                    //})
                     $('.no-hint').click(function () {
                         var _this = $(this);
                         if ($(".author-lump").hasClass('hover')) {
                             $(".author-lump").removeClass('hover');
+                            Global.delCookie('authorWarn');
                         }
                         else {
                             $(".author-lump").addClass('hover');
+                            Global.setCookie('authorWarn', '1');
                         }
                     })
                 })

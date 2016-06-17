@@ -476,8 +476,8 @@ border-bottom:2px solid #4a98e7;
 }
 .author-lump { width:10px;height:10px;display:inline-block;border:1px solid #ccc;}
 .author-lump.hover { background-color:#4a98e7;border-color:#4a98e7;}
-.author-footer div:nth-child(2) { background-color:#eee;border:1px solid #ccc;}
-.author-footer div:first-child { background-color:#4a98e7;color:#fff;border:1px solid #3a98e7;margin:0 20px 0 200px;}
+/*.author-footer div:nth-child(2) { background-color:#eee;border:1px solid #ccc;}*/
+.author-footer div:first-child { background-color:#4a98e7;color:#fff;border:1px solid #3a98e7;margin:0 10px 0 360px;}
 
 /*阿里标记*/
 .list-item  .aliorder { height:24px; line-height:24px; position:absolute; bottom:0px; background-color:#ff7300; opacity:0.6; 
