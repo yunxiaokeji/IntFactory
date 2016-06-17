@@ -192,8 +192,7 @@
                 url: "/Plug/UploadFiles",
                 data: { folder: '', action: 'add', oldPath: "" },
                 success: function (data, status) {
-                    if (data.Items.length > 0) {
-                        $("#btn-update-reply" + _this.data("replyid")).empty();
+                    if (data.Items.length > 0) {                        
                         for (var i = 0; i < data.Items.length; i++) {
                             if (data.Items[i].isImage == 2) {
                                 doT.exec("/template/task/task-file-upload.html", function (template) {

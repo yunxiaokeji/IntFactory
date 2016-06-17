@@ -151,6 +151,7 @@ namespace YXERP.Controllers
             }
 
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
+            
             for (int i = 0; i < Request.Files.Count; i++)
             {
                 int isImage = 2;
@@ -194,7 +195,7 @@ namespace YXERP.Controllers
                 item.Add("fileSize", file.ContentLength / 1024);
                 item.Add("extensions", arr[arr.Length - 1]);
                 item.Add("isImage", isImage);
-                items.Add(item);
+                items.Add(item);                
             }
 
             JsonDictionary.Add("Items", items);

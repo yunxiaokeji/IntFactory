@@ -119,7 +119,8 @@
             data: { folder: '', action: 'add', oldPath: ""},
             success: function (data, status) {
                 if (data.Items.length > 0) {
-                    for (var i = 0; i < data.Items.length; i++) { 
+                    for (var i = 0; i < data.Items.length; i++) {
+                        console.log(data.Items);
                         if (data.Items[i].isImage==2) {
                             DoT.exec("/template/task/task-file-upload.html", function (template) {
                                 var file = template(data.Items);                       
@@ -143,6 +144,7 @@
                                 });
                             });
                         };
+                        return;
                     }
                     
                 } else {
