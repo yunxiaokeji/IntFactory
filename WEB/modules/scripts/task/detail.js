@@ -115,7 +115,8 @@
             buttonText: "&#xe618;",
             className: "left iconfont",
             multiple: false,
-            data: { folder: '', action: 'add', oldPath: "" },
+            url: "/Plug/UploadFiles",
+            data: { folder: '', action: 'add', oldPath: "", taskID: ObjectJS.taskid },
             success: function (data, status) {
                 if (data.Items.length > 0) {                   
                     for (var i = 0; i < data.Items.length; i++) {

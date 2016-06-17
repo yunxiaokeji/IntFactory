@@ -128,10 +128,9 @@ namespace YXERP.Controllers
         /// 上传文件
         /// </summary>
         /// <returns></returns>
-        public JsonResult UploadFiles(string taskID,string replyID,string entity)
+        public JsonResult UploadFiles()
         {
             JavaScriptSerializer serializer=new JavaScriptSerializer();
-            List<IntFactoryEntity.Attachment> items = serializer.Deserialize<List<IntFactoryEntity.Attachment>>(entity);
             string oldPath = "",
                    folder = CloudSalesTool.AppSettings.Settings["UploadTempPath"],
                    action = "";
@@ -153,8 +152,6 @@ namespace YXERP.Controllers
             {
                 Directory.CreateDirectory(uploadPath);
             }
-
-            int result = TaskBusiness.AddTaskReplyAttachments(null, null, items, CurrentUser.UserID, CurrentUser.ClientID) ? 1 : 0;
             List<string> list = new List<string>();
             for (int i = 0; i < Request.Files.Count; i++)
             {
@@ -183,7 +180,7 @@ namespace YXERP.Controllers
                 }
             }
 
-            JsonDictionary.Add("result", result);
+            JsonDictionary.Add("result", list);
             return new JsonResult()
             {
                 Data = JsonDictionary,

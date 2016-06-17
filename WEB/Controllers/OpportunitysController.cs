@@ -198,6 +198,8 @@ namespace YXERP.Controllers
             string replyID = "";
             replyID = OrdersBusiness.CreateReply(model.GUID,model.StageID,model.Mark,model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
 
+            TaskBusiness.AddTaskReplyAttachments(null, model.ReplyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);
+
             List<ReplyEntity> list = new List<ReplyEntity>();
             if (!string.IsNullOrEmpty(replyID))
             {
