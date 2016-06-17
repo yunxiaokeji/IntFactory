@@ -53,7 +53,7 @@
                 path: '/modules/plug/qqface/arclist/'	//表情存放的路径
             });
         });
-  
+        
         ObjectJS.getTaskReplys(1);
 
         //任务讨论盒子隐藏
@@ -201,6 +201,16 @@
             });
         });
 
+        replys.find(".information-upload").mouseover(function () {
+            $(this).next().slideDown();
+            $(".popup-download").click(function () {
+                alert("ok");
+            });
+        });
+        replys.find(".popup-download").mouseout(function () {
+            $(this).next().slideUp();
+        });
+
         Upload.createUpload({
             element: "#btn-update-reply",
             buttonText: "&#xe618;",
@@ -211,7 +221,7 @@
                 if (data.Items.length > 0) {
                     for (var i = 0; i < data.Items.length; i++) {
                         if ($("#orderImages-reply li").length < 5) {
-                            var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
+                            var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');  
                             $("#orderImages-reply").append(img).fadeIn(300);
                             img.find(".ico-delete").click(function () {
                                 $(this).parent().remove();
