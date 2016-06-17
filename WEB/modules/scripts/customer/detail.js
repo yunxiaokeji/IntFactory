@@ -96,15 +96,15 @@
             multiple: false,
             data: { folder: '', action: 'add', oldPath: "" },
             success: function (data, status) {
-                if (data.Items.length > 0) {                    
+                if (data.Items.length > 0) {
                     for (var i = 0; i < data.Items.length; i++) {
-                        if ($("#orderImages li").length < 5) {
+                        if ($("#customerimg li").length < 5) {
                             var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
-                            $("#orderImages").append(img).fadeIn(300);
+                            $("#customerimg").append(img).fadeIn(300);                            
                             img.find(".ico-delete").click(function () {
                                 $(this).parent().remove();
-                                if ($("#orderImages li").length == 0) {
-                                    $("#orderImages").hide();
+                                if ($("#customerimg li").length == 0) {
+                                    $("#customerimg").hide();
                                 }
                             });
                         }
