@@ -197,22 +197,22 @@
                             if (data.Items[i].isImage == 2) {
                                 doT.exec("/template/task/task-file-upload.html", function (template) {
                                     var file = template(data.Items);
-                                    $("#taskflie" + _this.data("replyid")).append(file).fadeIn(300);
+                                    $("#file_" + _this.data("replyid")).append(file).fadeIn(300);
                                     $(".ico-delete-upload").click(function () {
                                         $(this).parent().remove();
-                                        if ($("#taskflie" + _this.data("replyid")+" li").length == 0) {
-                                            $("#taskflie" + _this.data("replyid")).hide();
+                                        if ($("#file_" + _this.data("replyid") + " li").length == 0) {
+                                            $("#file_" + _this.data("replyid")).hide();
                                         }
                                     });
                                 });
                             } else {
                                 doT.exec("/template/task/task-file-upload-img.html", function (template) {
                                     var file = template(data.Items);
-                                    $("#Images-reply-task").append(file).fadeIn(300);
+                                    $("#images_" + _this.data("replyid")).append(file).fadeIn(300);
                                     $(".ico-delete").click(function () {
                                         $(this).parent().remove();
-                                        if ($("#orderImages-reply" + _this.data("replyid")+" li").length == 0) {
-                                            $("#orderImages-reply" + _this.data("replyid")).hide();
+                                        if ($("#images_" + _this.data("replyid") + " li").length == 0) {
+                                            $("#images_" + _this.data("replyid")).hide();
                                         }
                                     });
                                 });
