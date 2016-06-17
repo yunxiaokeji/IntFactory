@@ -326,15 +326,21 @@
 .accessory { 
     margin-top:10px;
 }
-.accessory li img{ 
-    height:60px;
-    border-bottom:1px solid #ccc;        
-    width:60px;
-}
 .accessory li{ 
    position:relative;
    float:left;
    margin-right:40px;
+   border:1px solid #efefef;
+   width:120px;
+   height:80px;
+   text-align:center;
+   font-size:0;
+   line-height:80px;
+}
+.accessory li img{ 
+    max-width:120px;
+    max-height:80px;
+    vertical-align:middle;
 }
 .accessory li .ico-delete{ 
     background: url(/modules/images/ico-delete.png) no-repeat;
@@ -563,6 +569,5 @@
 .upload-lump .lump { position:absolute;right:0;top:0;z-index:888;width:0;height:0;border-top:5px solid #eee;border-right:5px solid #eee;border-left:5px solid rgba(0,0,0,0.1);border-bottom:5px solid rgba(0,0,0,0.1);}
 .information-upload { background-color:#fafafa;position:relative;margin-left:60px;}
 .information-upload .filename{color:#222;margin-top:7px;}
-.upload-img li img{ width:120px;height:80px;}
 .popup-download { height:60px;background-color:#ccc;width:111px;z-index:100;top:0;left:60px;position:absolute;
                   font-size:28px !important;text-align:center;color:#fff !important;line-height:60px !important;}
