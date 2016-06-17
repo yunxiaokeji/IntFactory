@@ -9,6 +9,7 @@ using IntFactoryEntity;
 using YXERP.Models;
 using IntFactoryBusiness;
 using IntFactoryEnum;
+using System.IO;
 
 namespace YXERP.Controllers
 {
@@ -59,7 +60,6 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Opportunitys/MyOpportunity");
             }
-
 
             ViewBag.Model = model;
             if (model.Status == 0)
@@ -197,6 +197,44 @@ namespace YXERP.Controllers
             model.Attachments = serializer.Deserialize<List<IntFactoryEntity.Attachment>>(attchmentEntity);
             string replyID = "";
             replyID = OrdersBusiness.CreateReply(model.GUID,model.StageID,model.Mark,model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
+
+            foreach (var attachments in model.Attachments)
+            {
+                string filePath = IntFactoryBusiness.OrdersBusiness.BaseBusiness.FILEPATH;
+                string tempPath = IntFactoryBusiness.OrdersBusiness.BaseBusiness.TempPath + attachments.FileName;
+                attachments.FilePath = filePath;
+                string fileFullPath = attachments.FilePath + attachments.FileName;
+
+                DirectoryInfo directory = new DirectoryInfo(Server.MapPath(filePath));
+                if (!directory.Exists)
+                {
+                    directory.Create();
+                }
+                FileInfo oldFile = new FileInfo(Server.MapPath(tempPath));
+                filePath = filePath + oldFile.Name;
+                if (oldFile.Exists)
+                {
+                    oldFile.MoveTo(Server.MapPath(filePath));
+                }
+
+                if (attachments.Type != 1)
+                {
+                    continue;
+                }
+                FileInfo file = new FileInfo(Server.MapPath(fileFullPath));
+                if (file.Length  > 10)
+                {
+                    if (file.Exists)
+                    {
+                        if (new FileInfo(Server.MapPath(fileFullPath)).Exists)
+                        {
+                            string smallImgPath = fileFullPath.Substring(0, fileFullPath.IndexOf(file.Name)) + "small" + file.Name;
+                            CommonBusiness.GetThumImage(Server.MapPath(fileFullPath), 30, 250, Server.MapPath(smallImgPath));
+                        }
+                    }
+                }
+            }
+
 
             TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);
 
