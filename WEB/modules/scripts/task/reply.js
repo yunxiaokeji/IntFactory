@@ -38,8 +38,21 @@
                     FromReplyUserID: "",
                     FromReplyAgentID: ""
                 };
-                ObjectJS.saveTaskReply(model, $(this));
+                var attchments = [];
 
+                $("#btnSaveTalk").parents('.taskreply-box').find('.task-file li').each(function () {
+                    var _this = $(this);
+                    attchments.push({
+                        "Type": _this.data('isimg'),
+                        "ServerUrl": "",
+                        "FilePath": _this.data('filepath'),
+                        "FileName": _this.data('filename'),
+                        "OriginalName": _this.data('originalname'),
+                        "ThumbnailName": ""
+                    });
+                })
+                ObjectJS.saveTaskReply(model, $(this),attchments);
+                $(".task-file").empty();
                 txt.val("");
             }
 
@@ -119,27 +132,14 @@
     }
 
     //保存任务讨论
-    ObjectJS.saveTaskReply = function (model, btnObject) {
+    ObjectJS.saveTaskReply = function (model, btnObject,attchments) {
         var _self = this;
         var btnname = "";
         if (btnObject) {
             btnname = btnObject.html();
             btnObject.html("保存中...").attr("disabled", "disabled");
         }
-        var attchments = [];
-       
-        $("#btnSaveTalk").parents('.taskreply-box').find('.task-file li').each(function () {
-            var _this = $(this);
-            attchments.push({
-                "Type": _this.data('isimg'),
-                "ServerUrl": "",
-                "FilePath": _this.data('filepath'),
-                "FileName": _this.data('filename'),
-                "OriginalName": _this.data('originalname'),
-                "ThumbnailName": ""
-            });
-        })
-
+        
         Global.post("/" + Controller + "/SavaReply", { entity: JSON.stringify(model), taskID: Reply.taskid, attchmentEntity: JSON.stringify(attchments) }, function (data) {
             if (btnObject) {
                 btnObject.html(btnname).removeAttr("disabled");
@@ -193,6 +193,7 @@
                 data: { folder: '', action: 'add', oldPath: "" },
                 success: function (data, status) {
                     if (data.Items.length > 0) {
+                        $("#btn-update-reply" + _this.data("replyid")).empty();
                         for (var i = 0; i < data.Items.length; i++) {
                             if (data.Items[i].isImage == 2) {
                                 doT.exec("/template/task/task-file-upload.html", function (template) {
@@ -238,8 +239,22 @@
                     FromReplyUserID: _this.data("createuserid"),
                     FromReplyAgentID: _this.data("agentid") 
                 };
-                ObjectJS.saveTaskReply(entity, _this);
+                var attchments = [];
 
+                _this.parents('.reply-box').find('.task-file li').each(function () {
+                    var _this = $(this);
+                    attchments.push({
+                        "Type": _this.data('isimg'),
+                        "ServerUrl": "",
+                        "FilePath": _this.data('filepath'),
+                        "FileName": _this.data('filename'),
+                        "OriginalName": _this.data('originalname'),
+                        "ThumbnailName": ""
+                    });
+                })
+
+                ObjectJS.saveTaskReply(entity, _this,attchments);
+                $(".task-file").empty();
             }
             $("#Msg_" + _this.data("replyid")).val('');
             $(this).parent().slideUp(300);
