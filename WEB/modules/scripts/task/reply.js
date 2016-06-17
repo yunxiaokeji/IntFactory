@@ -194,19 +194,32 @@
                 success: function (data, status) {
                     if (data.Items.length > 0) {
                         for (var i = 0; i < data.Items.length; i++) {
-                            if ($("#orderImages-reply" + _this.data("replyid") + " li").length < 5) {
-                                var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
-                                $("#orderImages-reply" + _this.data("replyid")).append(img).fadeIn(300);
-                                img.find(".ico-delete").click(function () {
-                                    $(this).parent().remove();
-                                    if ($("#orderImages-reply" + _this.data("replyid") + " li").length == 0) {
-                                        $("#orderImages-reply" + _this.data("replyid")).hide();
-                                    }
+                            if (data.Items[i].isImage == 2) {
+                                doT.exec("/template/task/task-file-upload.html", function (template) {
+                                    var file = template(data.Items);
+                                    $("#taskflie" + _this.data("replyid")).append(file).fadeIn(300);
+                                    $(".ico-delete-upload").click(function () {
+                                        $(this).parent().remove();
+                                        if ($("#taskflie" + _this.data("replyid")+" li").length == 0) {
+                                            $("#taskflie" + _this.data("replyid")).hide();
+                                        }
+                                    });
                                 });
-                            }
+                            } else {
+                                doT.exec("/template/task/task-file-upload-img.html", function (template) {
+                                    var file = template(data.Items);
+                                    $("#Images-reply-task").append(file).fadeIn(300);
+                                    $(".ico-delete").click(function () {
+                                        $(this).parent().remove();
+                                        if ($("#orderImages-reply" + _this.data("replyid")+" li").length == 0) {
+                                            $("#orderImages-reply" + _this.data("replyid")).hide();
+                                        }
+                                    });
+                                });
+                            };
                         }
                     } else {
-                        alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+                        alert("上传失败");
                     }
                 }
             });
