@@ -112,7 +112,7 @@
         //上传
         Upload.createUpload({
             element: "#btn-task-reply",
-            buttonText: "&#xe618;",
+            buttonText: "&#xe65a;",
             className: "left iconfont",
             multiple: false,
             url: "/Plug/UploadFiles",

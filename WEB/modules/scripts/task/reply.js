@@ -106,7 +106,7 @@
                     var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
 
                     innerhtml.find("#orderImage").click(function () {
-                        if ($(this).data("src")) {
+                        if ($(this).attr("src")) {
                             $(this).parent().addClass("hoverimg");
                             $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
                             $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
@@ -135,11 +135,11 @@
                     
                     $(".left-enlarge-image").click(function () {
                         var ele = $("#orderImages .hoverimg").prev();
-                        if (ele && ele.find("img").data("src")) {
+                        if (ele && ele.find("img").attr("src")) {
                             var _img = ele.find("img");
                             $("#orderImages .hoverimg").removeClass("hoverimg");
                             ele.addClass("hoverimg");
-                            $("#orderImage").data("src", _img.data("src"));
+                            $("#orderImage").attr("src", _img.data("src"));
                             $(".enlarge-image-item").empty();
                             $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
                             $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
@@ -148,11 +148,11 @@
                     
                     $(".right-enlarge-image").click(function () {
                         var ele = $("#orderImages .hoverimg").next();
-                        if (ele && ele.find("img").data("src")) {
+                        if (ele && ele.find("img").attr("src")) {
                             var _img = ele.find("img");
                             $("#orderImages .hoverimg").removeClass("hoverimg");
                             ele.addClass("hoverimg");
-                            $("#orderImage").data("src", _img.data("src"));
+                            $("#orderImage").attr("src", _img.data("src"));
                             $(".enlarge-image-item").empty();
                             $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
                             $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
@@ -243,7 +243,7 @@
 
             Upload.createUpload({
                 element: "#btn-update-reply" + _this.data("replyid"),
-                buttonText: "&#xe618;",
+                buttonText: "&#xe65a;",
                 className: "left iconfont",
                 multiple: false,
                 url: "/Plug/UploadFiles",
