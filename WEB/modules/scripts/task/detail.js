@@ -120,16 +120,32 @@
             success: function (data, status) {
                 if (data.Items.length > 0) {
                     console.log(data.Items);
+                    var obj=data.Items;
+                    for (var i = 0; i < obj.length; i++) {
+                        if (obj[i].isImage==0) {
+                            var file = $('<li data-path="' + obj[i].path + '" data-filename="' + obj[i].fileName + '"> <div class="upload-lump left mRight20" style="top:5px;"> <div class="content long width35">' + obj[i].extensions.toUpperCase() + '</div><div class="lump"></div></div><div class="information mLeft10 width120"><span title="' + obj[i].fileName + '" class="long width60">' + obj[i].fileName + '</span><span title="' + obj[i].fileSize + 'kb">' + obj[i].fileSize + 'kb</span></div><span class="ico-delete-upload iconfont">&#xe628;</span></li> ');
+                            $("#orderflie").append(file).fadeIn(300);
+                            file.find(".ico-delete-upload").click(function () {
+                                $(this).parent().remove();
+                                if ($("#orderflie li").length == 0) {
+                                    $("#orderflie").hide();
+                                }
+                            });
+                        } else {
+                            var img = $('<li><img src="' + obj[i].path + '" /><span class="ico-delete"></span> </li>');
+                            $("#Images-reply-task").append(img).fadeIn(300);
+                            img.find(".ico-delete").click(function () {
+                                $(this).parent().remove();
+                                if ($("#Images-reply-task li").length == 0) {
+                                    $("#Images-reply-task").hide();
+                                }
+                            });
+                        }
+                        
+                    }
                 } else {
                     alert("上传失败");
                 }
-            }
-        });
-
-        $("#orderflie li .ico-delete-upload").click(function () {
-            $(this).parent().remove();
-            if ($("#orderflie li").length == 0) {
-                $("#orderflie").hide();
             }
         });
 
