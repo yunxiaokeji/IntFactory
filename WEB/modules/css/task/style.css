@@ -325,7 +325,6 @@
 }
 .accessory { 
     margin-top:20px;
-    height:60px;
 }
 .accessory li img{ 
     height:60px;
@@ -549,8 +548,8 @@
 }
 
 /*上传*/
-.no-img {  height:40px; margin-right:10px;}
-.no-img li { float:left;position:relative;margin-right:20px;margin-bottom:20px;}
+.no-img {margin-right:10px;}
+.no-img li { float:left;position:relative;margin-right:20px;}
 .no-img li img{ width:35px;height:40px;margin-right:3px;}
 .no-img div{ font-size:10px;color:#aaa;line-height:20px;cursor:pointer;}
 .no-img div span{ color:#aaa;}
