@@ -19,6 +19,8 @@
                             for(var a=0;a<attchment.length;a++){   
                                 
                                 var attchmentItem=attchment[a];
+                                var extension=attchmentItem.OriginalName.split('.');
+                                console.log(extension);
                                 if(attchmentItem.Type==2)
                                 { 
                             %}  
@@ -26,7 +28,7 @@
                                     <div class="left logo-upload">
                                         <div class="upload-lump">
                                             <div class="content">
-                                                TXT
+                                                {%=extension[extension.length-1]%}
                                             </div>
                                             <div class="lump"></div>
                                         </div>
