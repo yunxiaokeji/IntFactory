@@ -201,14 +201,13 @@
             });
         });
 
-        replys.find(".information-upload").mouseover(function () {
-            $(this).next().slideDown();
+        replys.find(".no-img li").hover(function () {
+            $(this).find(".popup-download").slideDown(300);
             $(".popup-download").click(function () {
                 alert("ok");
             });
-        });
-        replys.find(".popup-download").mouseout(function () {
-            $(this).next().slideUp();
+        },function () {
+            $(this).find(".popup-download").stop(true).slideUp(300);
         });
 
         Upload.createUpload({
@@ -225,7 +224,7 @@
                             $("#orderImages-reply").append(img).fadeIn(300);
                             img.find(".ico-delete").click(function () {
                                 $(this).parent().remove();
-                                if ($("#orderImages-reply li").length == 0) {
+                                if ($("#orderImages-reply li").length == 0) {                                    
                                     $("#orderImages-reply").hide();
                                 }
                             });
