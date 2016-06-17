@@ -59,7 +59,8 @@
         //任务讨论盒子隐藏
         $(document).click(function (e) {
             if (!$(e.target).parents().hasClass("taskreply-box") && !$(e.target).hasClass("taskreply-box")&&
-                !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace"))
+                !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace") &&
+                !$(e.target).parents().hasClass("taskreply-box"))
             {
                 $(".taskreply-box").removeClass("taskreply-box-hover");
                 
