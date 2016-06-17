@@ -13,6 +13,7 @@
                 <div class="" >
                     <span style="color:#2f73b8;" class="reply-username">{%=item.CreateUser.Name%}{%=item.FromReplyUser!=null?" 回复 "+item.FromReplyUser.Name:""%}:</span>
                     <span style="color:#777;" class="reply-content">{%=decodeURI(item.Content)%}</span>
+                    {%if(attchment.length>0){%}
                     <div class="width750">
                         <ul class="mTop20 no-img">
                             {%
@@ -20,7 +21,6 @@
                                 
                                 var attchmentItem=attchment[a];
                                 var extension=attchmentItem.OriginalName.split('.');
-                                console.log(extension);
                                 if(attchmentItem.Type==2)
                                 { 
                             %}  
@@ -60,7 +60,9 @@
                         </ul>
                         <div class="clear"></div>                   
                 </div>
+                {%}%}
                 <div class="pTop5" style="color:#999;">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss") %}</div>
+                </div>
             </div>
             <div class="right mTop15 hand btn-reply" data-replyid="{%=item.ReplyID%}">
                 <div class="left" style="padding-top:3px;"><img src="/modules/images/ico-reply-gray.png"/></div>
