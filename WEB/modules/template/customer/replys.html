@@ -15,10 +15,9 @@
                     <span style="color:#777;" class="reply-content">{%=decodeURI(item.Content)%}</span>
                     {%if(attchment.length>0){%}
                     <div class="width750">
-                        <ul class="mTop20 no-img">
+                        <ul class="mTop10 no-img">
                             {%
                             for(var a=0;a<attchment.length;a++){   
-                                
                                 var attchmentItem=attchment[a];
                                 var extension=attchmentItem.OriginalName.split('.');
                                 if(attchmentItem.Type==2)
@@ -37,14 +36,14 @@
                                         <div title="代码.txt" class="long filename width100">{%=attchmentItem.OriginalName%}</div>
                                         <div title="192KB">192KB</div>
                                     </div> 
-                                    <div class="popup-download iconfont hide">&#xe62e;</div>                
+                                    <div class="popup-download download iconfont hide" data-url="{%=attchmentItem.FilePath+attchmentItem.FileName%}">&#xe62e;</div>                
                                 </li>      
                             {%
                                 }
                             }
                             %}
                         </ul>
-                        <div class="clear"></div>             
+                        <div class="clear"></div>
                         <ul id="orderImages" class="accessory upload-img" style="display: block;">
                             {%
                             for(var s=0;s<attchment.length;s++){   
@@ -58,7 +57,9 @@
                             }
                             %}
                         </ul>
+
                         <div class="clear"></div>                   
+
                 </div>
                 {%}%}
                 <div class="pTop5" style="color:#999;">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss") %}</div>
