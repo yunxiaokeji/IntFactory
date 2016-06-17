@@ -130,7 +130,11 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult UploadFiles()
         {
+<<<<<<< HEAD
             
+=======
+            JavaScriptSerializer serializer=new JavaScriptSerializer();
+>>>>>>> 4db7601e3ae206361bcaad5f098652a694b35b5c
             string oldPath = "",
                    folder = CloudSalesTool.AppSettings.Settings["UploadTempPath"],
                    action = "";
@@ -151,7 +155,11 @@ namespace YXERP.Controllers
             if (!Directory.Exists(uploadPath))
             {
                 Directory.CreateDirectory(uploadPath);
+<<<<<<< HEAD
             }            
+=======
+            }
+>>>>>>> 4db7601e3ae206361bcaad5f098652a694b35b5c
             List<string> list = new List<string>();
             for (int i = 0; i < Request.Files.Count; i++)
             {
@@ -180,7 +188,11 @@ namespace YXERP.Controllers
                 }
             }
 
+<<<<<<< HEAD
+            
+=======
             JsonDictionary.Add("result", list);
+>>>>>>> 4db7601e3ae206361bcaad5f098652a694b35b5c
             return new JsonResult()
             {
                 Data = JsonDictionary,
