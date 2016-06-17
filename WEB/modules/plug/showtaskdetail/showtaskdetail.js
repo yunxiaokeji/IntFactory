@@ -148,7 +148,7 @@ define(function (require, exports, module) {
                     });
 
                     Upload.createUpload({
-                        element: "#btn-update-reply",
+                        element: "#btn-task-reply",
                         buttonText: "&#xe618;",
                         className: "left iconfont",
                         multiple: false,
