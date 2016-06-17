@@ -200,8 +200,8 @@ namespace YXERP.Controllers
 
             foreach (var attachments in model.Attachments)
             {
-                string filePath = IntFactoryBusiness.OrdersBusiness.BaseBusiness.FILEPATH;
-                string tempPath = IntFactoryBusiness.OrdersBusiness.BaseBusiness.TempPath + attachments.FileName;
+                string filePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Tasks/" + DateTime.Now.ToString("yyyyMM") + "/";
+                string tempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"] + attachments.FileName;
                 attachments.FilePath = filePath;
                 string fileFullPath = attachments.FilePath + attachments.FileName;
 
