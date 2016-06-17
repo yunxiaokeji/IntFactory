@@ -28,7 +28,7 @@
 
         $("#btnSaveTalk").click(function () {
             var txt = $("#txtContent");
-
+            var attchments = [{}];
             if (txt.val().trim()) {
                 var model = {
                     GUID: Reply.guid,
@@ -37,7 +37,8 @@
                     Content: txt.val().trim(),
                     FromReplyID: "",
                     FromReplyUserID: "",
-                    FromReplyAgentID: ""
+                    FromReplyAgentID: "",
+                    Attachments:attchments
                 };
                 ObjectJS.saveTaskReply(model, $(this));
 

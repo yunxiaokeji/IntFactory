@@ -118,8 +118,26 @@
             url: "/Plug/UploadFiles",
             data: { folder: '', action: 'add', oldPath: ""},
             success: function (data, status) {
-                if (data.Items.length > 0) {
+<<<<<<< HEAD
+                if (data.Items.length > 0) {                   
+                    for (var i = 0; i < data.Items.length; i++) {
+                        if ($("#Images-reply-task li").length < 5) {
+                            var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
+                            $("#Images-reply-task").append(img).fadeIn(300);
+                            img.find(".ico-delete").click(function () {
+                                $(this).parent().remove();
+                                if ($("#Images-reply-task li").length == 0) {
+                                    $("#Images-reply-task").hide();
+                                }
+                            });
+                        }
+                    }
+                } else {
+                    alert("上传失败");
+                }
+=======
                 console.log(data.Items);
+>>>>>>> ed3a0bfdfa64ed859547cd1f071f10fe86b95965
             }
         });
 

@@ -151,8 +151,9 @@ namespace YXERP.Controllers
             if (!Directory.Exists(uploadPath))
             {
                 Directory.CreateDirectory(uploadPath);
-            }            
-            List<string> list = new List<string>();
+            }
+            Dictionary<string, object> items = new Dictionary<string, object>();
+
             for (int i = 0; i < Request.Files.Count; i++)
             {
                 if (i == 10)
@@ -165,22 +166,24 @@ namespace YXERP.Controllers
                 {
                     continue;
                 }
-                if (string.IsNullOrEmpty(oldPath) || oldPath == "/modules/images/default.png")
+
+                string fileName = file.FileName;
+                if (string.IsNullOrEmpty(oldPath))
                 {
-                    string[] arr = file.FileName.Split('.');
-                    string fileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + i + "." + arr[arr.Length - 1];
                     string filePath = uploadPath + fileName;
                     file.SaveAs(filePath);
-                    list.Add(folder + fileName);
+                    items.Add("fileName",fileName);
+                    items.Add("path", folder + fileName);
                 }
                 else
                 {
                     file.SaveAs(HttpContext.Server.MapPath(oldPath));
-                    list.Add(oldPath);
+                    items.Add("fileName",fileName);
+                    items.Add("path", oldPath);
                 }
             }
 
-            JsonDictionary.Add("Items", list);
+            JsonDictionary.Add("Items", items);
             return new JsonResult()
             {
                 Data = JsonDictionary,

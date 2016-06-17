@@ -194,7 +194,7 @@ namespace YXERP.Controllers
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             ReplyEntity model = serializer.Deserialize<ReplyEntity>(entity);
-
+            
             string replyID = "";
             replyID = OrdersBusiness.CreateReply(model.GUID,model.StageID,model.Mark,model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
 
