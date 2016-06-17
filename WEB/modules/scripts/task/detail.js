@@ -131,7 +131,7 @@
                                 }
                             });
                         } else {
-                            var img = $('<li><img src="' + obj[i].path + '" /><span class="ico-delete"></span> </li>');
+                            var img = $('<li data-path="' + obj[i].path + '" data-filename="' + obj[i].fileName + '" data-isimg="' + obj[i].isImage + '"><img src="' + obj[i].path + '" /><span class="ico-delete"></span> </li>');
                             $("#Images-reply-task").append(img).fadeIn(300);
                             img.find(".ico-delete").click(function () {
                                 $(this).parent().remove();

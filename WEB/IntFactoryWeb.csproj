@@ -527,6 +527,7 @@
     <Content Include="modules\template\task\task-costs.html" />
     <Content Include="modules\template\task\platemarting-add.html" />
     <Content Include="modules\template\task\task-card.html" />
+    <Content Include="modules\template\task\task-file-upload.html" />
     <Content Include="modules\template\task\task-list.html" />
     <Content Include="modules\plug\showtaskdetail\task-detail.html" />
     <Content Include="modules\template\task\platemarting-list.html" />
