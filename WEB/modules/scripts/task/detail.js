@@ -351,30 +351,30 @@
                 return;
             }
         }
-        else if (mark == 15 || mark == 25) {
-            if ($(".nav-partdiv .list-item").length == 0) {
-                alert("没有发货,不能标记任务完成");
-                return;
-            }
-        }
-        else if (mark == 16) {
-            if ($(".nav-partdiv .list-item").length == 0) {
-                alert("没有录入加工成本,不能标记任务完成");
-                return;
-            }
-        }
-        else if (mark == 23) {
-            if ($(".nav-partdiv .list-item").length == 0) {
-                alert("没有裁剪,不能标记任务完成");
-                return;
-            }
-        }
-        else if (mark == 24) {
-            if ($(".nav-partdiv .list-item").length == 0) {
-                alert("没有车缝,不能标记任务完成");
-                return;
-            }
-        }
+        //else if (mark == 15 || mark == 25) {
+        //    if ($(".nav-partdiv .list-item").length == 0) {
+        //        alert("没有发货,不能标记任务完成");
+        //        return;
+        //    }
+        //}
+        //else if (mark == 16) {
+        //    if ($(".nav-partdiv .list-item").length == 0) {
+        //        alert("没有录入加工成本,不能标记任务完成");
+        //        return;
+        //    }
+        //}
+        //else if (mark == 23) {
+        //    if ($(".nav-partdiv .list-item").length == 0) {
+        //        alert("没有裁剪,不能标记任务完成");
+        //        return;
+        //    }
+        //}
+        //else if (mark == 24) {
+        //    if ($(".nav-partdiv .list-item").length == 0) {
+        //        alert("没有车缝,不能标记任务完成");
+        //        return;
+        //    }
+        //}
         
         
         confirm("标记完成的任务不可逆,确定完成?", function () {
