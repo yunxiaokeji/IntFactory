@@ -334,7 +334,8 @@
 
     //标记任务完成
     ObjectJS.finishTask = function () {
-        var mark=ObjectJS.mark;
+        var mark = ObjectJS.mark;
+        var confirmMsg = '确定标记完成';
         if (mark == 11) {
             if ($("#navProducts .table-list tr").length == 2) {
                 alert("材料没有添加,不能标记任务完成");
@@ -353,31 +354,27 @@
         }
         else if (mark == 15 || mark == 25) {
             if ($(".nav-partdiv .list-item").length == 0) {
-                alert("没有发货,不能标记任务完成");
-                return;
+                confirmMsg = '还没发货,确定标记完成';
             }
         }
         else if (mark == 16) {
             if ($(".nav-partdiv .list-item").length == 0) {
-                alert("没有录入加工成本,不能标记任务完成");
-                return;
+                confirmMsg = '还没录入加工成本,确定标记完成';
             }
         }
         else if (mark == 23) {
             if ($(".nav-partdiv .list-item").length == 0) {
-                alert("没有裁剪,不能标记任务完成");
-                return;
+                confirmMsg = '还没裁剪,确定标记完成';
             }
         }
         else if (mark == 24) {
             if ($(".nav-partdiv .list-item").length == 0) {
-                alert("没有车缝,不能标记任务完成");
-                return;
+                confirmMsg = '还没车缝,确定标记完成';
             }
         }
         
         
-        confirm("标记完成的任务不可逆,确定完成?", function () {
+        confirm(confirmMsg+"?", function () {
             $("#FinishTask").val("完成中...").attr("disabled", "disabled");
             ObjectJS.isLoading = false;
 
