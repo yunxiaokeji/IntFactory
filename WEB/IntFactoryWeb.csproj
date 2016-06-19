@@ -352,6 +352,7 @@
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\xi_zang_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\yun_nan_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\zhe_jiang_geo.json" />
+    <Content Include="modules\plug\jquery.form.js" />
     <Content Include="modules\plug\sortable.js" />
     <Content Include="modules\plug\qqface\arclist\1.gif" />
     <Content Include="modules\plug\qqface\arclist\10.gif" />
@@ -455,6 +456,9 @@
     <Content Include="modules\plug\e-smart-zoom-jquery.min.js" />
     <Content Include="modules\plug\tip\style.css" />
     <Content Include="modules\plug\tip\tip.js" />
+    <Content Include="modules\plug\upload.js" />
+    <Content Include="modules\plug\upload\jquery.form.js" />
+    <Content Include="modules\plug\upload\upload.js" />
     <Content Include="modules\scripts\auction\buynow.js" />
     <Content Include="modules\scripts\home\feedback.js" />
     <Content Include="modules\scripts\home\create.js" />
