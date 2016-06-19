@@ -105,7 +105,7 @@
                     //图片放大功能
                     var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
 
-                    innerhtml.find("#orderImage").click(function () {
+                    innerhtml.find(".orderImage-repay").click(function () {
                         if ($(this).attr("src")) {
                             $(this).parent().addClass("hoverimg");
                             $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
@@ -134,10 +134,10 @@
                     });
                     
                     $(".left-enlarge-image").click(function () {
-                        var ele = $("#orderImages .hoverimg").prev();
+                        var ele = $("#Images-reply .hoverimg").prev();
                         if (ele && ele.find("img").attr("src")) {
                             var _img = ele.find("img");
-                            $("#orderImages .hoverimg").removeClass("hoverimg");
+                            $("#Images-reply .hoverimg").removeClass("hoverimg");
                             ele.addClass("hoverimg");                            
                             $(".enlarge-image-item").empty();
                             $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
@@ -146,10 +146,10 @@
                     });
                     
                     $(".right-enlarge-image").click(function () {
-                        var ele = $("#orderImages .hoverimg").next();
+                        var ele = $("#Images-reply .hoverimg").next();
                         if (ele && ele.find("img").attr("src")) {
                             var _img = ele.find("img");
-                            $("#orderImages .hoverimg").removeClass("hoverimg");
+                            $("#Images-reply .hoverimg").removeClass("hoverimg");
                             ele.addClass("hoverimg");                            
                             $(".enlarge-image-item").empty();
                             $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
