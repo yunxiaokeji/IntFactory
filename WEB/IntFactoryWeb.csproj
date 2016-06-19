@@ -1221,8 +1221,6 @@
     <Content Include="modules\plug\umeditor\umeditor.config.js" />
     <Content Include="modules\plug\umeditor\umeditor.js" />
     <Content Include="modules\plug\umeditor\umeditor.min.js" />
-    <Content Include="modules\plug\upload\jquery.form.js" />
-    <Content Include="modules\plug\upload\upload.js" />
     <Content Include="modules\plug\verify.js" />
     <Content Include="modules\plug\shoppingcart\shoppingcart.js" />
     <Content Include="modules\plug\shoppingcart\style.css" />
