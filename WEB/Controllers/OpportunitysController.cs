@@ -212,26 +212,25 @@ namespace YXERP.Controllers
                 string fileUrl = movePath + attachments.FileName;
                 string tempFileUrl = uploadTempPath + attachments.FileName;
                 FileInfo tempFile = new FileInfo(Server.MapPath(tempFileUrl));
-               
+
                 if (tempFile.Exists)
                 {
                     tempFile.MoveTo(Server.MapPath(fileUrl));
-                }
 
-                if (attachments.Type == 1)
-                {
-                    FileInfo file = new FileInfo(Server.MapPath(fileUrl));
-                    if (file.Length  > 10)
+                    if (attachments.Type == 1)
                     {
-                        if (file.Exists)
+                        FileInfo file = new FileInfo(Server.MapPath(fileUrl));
+                        if (file.Length > 10)
                         {
-                            string smallImgUrl = Path.GetDirectoryName(fileUrl) + "\\small" + file.Name;
-                            attachments.ThumbnailName = "small" + file.Name;
-                            CommonBusiness.GetThumImage(Server.MapPath(fileUrl), 30, 250, Server.MapPath(smallImgUrl));
+                            if (file.Exists)
+                            {
+                                string smallImgUrl = Path.GetDirectoryName(fileUrl) + "\\small" + file.Name;
+                                attachments.ThumbnailName = "small" + file.Name;
+                                CommonBusiness.GetThumImage(Server.MapPath(fileUrl), 30, 250, Server.MapPath(smallImgUrl));
+                            }
                         }
                     }
                 }
-
             }
 
 

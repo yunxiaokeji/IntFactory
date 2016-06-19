@@ -120,13 +120,12 @@
             success: function (data, status) {
                 if (data.Items.length > 0) {
                     for (var i = 0; i < data.Items.length; i++) {
-                        console.log(data.Items);
                         if (data.Items[i].isImage==2) {
                             DoT.exec("/template/task/task-file-upload.html", function (template) {
                                 var file = template(data.Items);                       
                                 $("#orderflie-task").append(file).fadeIn(300);
                                 $(".ico-delete-upload").click(function () {
-                                $(this).parent().remove();
+                                    $(this).parent().remove();
                                     if ($("#orderflie-task li").length == 0) {
                                         $("#orderflie-task").hide();
                                     } 
