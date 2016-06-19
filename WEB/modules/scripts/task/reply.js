@@ -101,7 +101,6 @@
 
                     $("#replyList").html(innerhtml);
 
-                    ObjectJS.bindReplyOperate(innerhtml);
                     //图片放大功能
                     var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
 
@@ -128,7 +127,6 @@
                             $(".right-enlarge-image").unbind().click(function () {
                                 var ele = $("#Images-reply .hoverimg").next();
                                 if (ele && ele.find("img").attr("src")) {
-                                    console.log(ele.find("img").attr("src"));
                                     var _img = ele.find("img");
                                     $("#Images-reply .hoverimg").removeClass("hoverimg");
                                     ele.addClass("hoverimg");
@@ -158,8 +156,7 @@
                         return false;
                     });
                     
-                    
-
+                    ObjectJS.bindReplyOperate(innerhtml);
                 });
             }
             else {
@@ -207,6 +204,41 @@
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
                 innerhtml.hide();
+                var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
+
+                innerhtml.find(".orderImage-repay").click(function () {
+                    if ($(this).attr("src")) {
+                        $("#Images-reply .hoverimg").removeClass("hoverimg");
+                        $(this).parent().addClass("hoverimg");
+                        $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
+                        $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
+                        $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).data("src") + '"/>');
+                        $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                        $(".left-enlarge-image").unbind().click(function () {
+                            var ele = $("#Images-reply .hoverimg").prev();
+                            if (ele && ele.find("img").attr("src")) {
+                                var _img = ele.find("img");
+                                $("#Images-reply .hoverimg").removeClass("hoverimg");
+                                ele.addClass("hoverimg");
+                                $(".enlarge-image-item").empty();
+                                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
+                                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                            }
+                        });
+
+                        $(".right-enlarge-image").unbind().click(function () {
+                            var ele = $("#Images-reply .hoverimg").next();
+                            if (ele && ele.find("img").attr("src")) {
+                                var _img = ele.find("img");
+                                $("#Images-reply .hoverimg").removeClass("hoverimg");
+                                ele.addClass("hoverimg");
+                                $(".enlarge-image-item").empty();
+                                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
+                                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                            }
+                        });
+                    }
+                });
                 $("#replyList .nodata-txt").parent().parent().remove();
                 $("#replyList").prepend(innerhtml);
                 innerhtml.fadeIn(500);
@@ -330,43 +362,6 @@
             window.open($(this).data('url'), '_target');
         });
         
-        //点击图片放大功能
-        replys.find(".orderImage-repay").click(function () {
-            var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
-            if ($(this).attr("src")) {
-                $("#Images-reply .hoverimg").removeClass("hoverimg");
-                $(this).parent().addClass("hoverimg");
-                $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
-                $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
-                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).data("src") + '"/>');
-                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-                $(".left-enlarge-image").unbind().click(function () {
-                    var ele = $("#Images-reply .hoverimg").prev();
-                    if (ele && ele.find("img").attr("src")) {
-                        var _img = ele.find("img");
-                        $("#Images-reply .hoverimg").removeClass("hoverimg");
-                        ele.addClass("hoverimg");
-                        $(".enlarge-image-item").empty();
-                        $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
-                        $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-                    }
-                });
-
-                $(".right-enlarge-image").unbind().click(function () {
-                    var ele = $("#Images-reply .hoverimg").next();
-                    if (ele && ele.find("img").attr("src")) {
-                        console.log(ele.find("img").attr("src"));
-                        var _img = ele.find("img");
-                        $("#Images-reply .hoverimg").removeClass("hoverimg");
-                        ele.addClass("hoverimg");
-                        $(".enlarge-image-item").empty();
-                        $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
-                        $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-                    }
-                });
-            }
-        });
-
     }
 
     module.exports = ObjectJS;
