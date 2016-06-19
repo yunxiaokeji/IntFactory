@@ -107,11 +107,36 @@
 
                     innerhtml.find(".orderImage-repay").click(function () {
                         if ($(this).attr("src")) {
+                            $("#Images-reply .hoverimg").removeClass("hoverimg");
                             $(this).parent().addClass("hoverimg");
                             $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
                             $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
                             $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).data("src") + '"/>');
                             $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                            $(".left-enlarge-image").unbind().click(function () {
+                                var ele = $("#Images-reply .hoverimg").prev();
+                                if (ele && ele.find("img").attr("src")) {
+                                    var _img = ele.find("img");
+                                    $("#Images-reply .hoverimg").removeClass("hoverimg");
+                                    ele.addClass("hoverimg");
+                                    $(".enlarge-image-item").empty();
+                                    $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
+                                    $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                                }
+                            });
+
+                            $(".right-enlarge-image").unbind().click(function () {
+                                var ele = $("#Images-reply .hoverimg").next();
+                                if (ele && ele.find("img").attr("src")) {
+                                    console.log(ele.find("img").attr("src"));
+                                    var _img = ele.find("img");
+                                    $("#Images-reply .hoverimg").removeClass("hoverimg");
+                                    ele.addClass("hoverimg");
+                                    $(".enlarge-image-item").empty();
+                                    $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
+                                    $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                                }
+                            });
                         }
                     });
 
@@ -133,29 +158,7 @@
                         return false;
                     });
                     
-                    $(".left-enlarge-image").click(function () {
-                        var ele = $("#Images-reply .hoverimg").prev();
-                        if (ele && ele.find("img").attr("src")) {
-                            var _img = ele.find("img");
-                            $("#Images-reply .hoverimg").removeClass("hoverimg");
-                            ele.addClass("hoverimg");                            
-                            $(".enlarge-image-item").empty();
-                            $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
-                            $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-                        }
-                    });
                     
-                    $(".right-enlarge-image").click(function () {
-                        var ele = $("#Images-reply .hoverimg").next();
-                        if (ele && ele.find("img").attr("src")) {
-                            var _img = ele.find("img");
-                            $("#Images-reply .hoverimg").removeClass("hoverimg");
-                            ele.addClass("hoverimg");                            
-                            $(".enlarge-image-item").empty();
-                            $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
-                            $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-                        }
-                    });
 
                 });
             }
@@ -249,30 +252,25 @@
                 success: function (data, status) {
                     if (data.Items.length > 0) {                        
                         for (var i = 0; i < data.Items.length; i++) {
-                            if (data.Items[i].isImage == 2) {
-                                doT.exec("/template/task/task-file-upload.html", function (template) {
+                            for (var i = 0; i < data.Items.length; i++) {
+                                var templateUrl = "/template/task/task-file-upload.html";
+                                var appendHtml = $("#file_" + _this.data("replyid"));
+                                if (data.Items[i].isImage == 1) {
+                                    templateUrl = "/template/task/task-file-upload-img.html";
+                                    appendHtml = $("#images_" + _this.data("replyid"));
+                                }
+                                doT.exec(templateUrl, function (template) {
                                     var file = template(data.Items);
-                                    $("#file_" + _this.data("replyid")).append(file).fadeIn(300);
-                                    $(".ico-delete-upload").click(function () {
+                                    file = $(file);
+                                    appendHtml.append(file).fadeIn(300);
+                                    file.find(".delete").click(function () {
                                         $(this).parent().remove();
-                                        if ($("#file_" + _this.data("replyid") + " li").length == 0) {
-                                            $("#file_" + _this.data("replyid")).hide();
+                                        if (appendHtml.find('li').length == 0) {
+                                            appendHtml.hide();
                                         }
                                     });
                                 });
-                            } else {
-                                doT.exec("/template/task/task-file-upload-img.html", function (template) {
-                                    var file = template(data.Items);
-                                    $("#images_" + _this.data("replyid")).append(file).fadeIn(300);
-                                    $(".ico-delete").click(function () {
-                                        $(this).parent().remove();
-                                        if ($("#images_" + _this.data("replyid") + " li").length == 0) {
-                                            $("#images_" + _this.data("replyid")).hide();
-                                        }
-                                    });
-                                });
-                            };
-                            return;
+                            }
                         }
                     } else {
                         alert("上传失败");

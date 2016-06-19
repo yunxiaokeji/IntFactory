@@ -120,32 +120,24 @@
             success: function (data, status) {
                 if (data.Items.length > 0) {
                     for (var i = 0; i < data.Items.length; i++) {
-                        if (data.Items[i].isImage==2) {
-                            DoT.exec("/template/task/task-file-upload.html", function (template) {
-                                var file = template(data.Items);                       
-                                $("#orderflie-task").append(file).fadeIn(300);
-                                $(".ico-delete-upload").click(function () {
-                                    $(this).parent().remove();
-                                    if ($("#orderflie-task li").length == 0) {
-                                        $("#orderflie-task").hide();
-                                    } 
-                                });
+                        var templateUrl="/template/task/task-file-upload.html";
+                        var appendHtml = $("#orderflie-task");
+                        if (data.Items[i].isImage == 1) {
+                            templateUrl = "/template/task/task-file-upload-img.html";
+                            appendHtml = $("#Images-reply-task");
+                        } 
+                        DoT.exec(templateUrl, function (template) {
+                            var file = template(data.Items);
+                            file = $(file);
+                            appendHtml.append(file).fadeIn(300);
+                            file.find(".delete").click(function () {
+                                $(this).parent().remove();
+                                if (appendHtml.find('li').length == 0) {
+                                    appendHtml.hide();
+                                }
                             });
-                        } else {
-                            DoT.exec("/template/task/task-file-upload-img.html", function (template) {
-                                var file = template(data.Items);
-                                $("#Images-reply-task").append(file).fadeIn(300);
-                                $(".ico-delete").click(function () {                                    
-                                    $(this).parent().remove();
-                                    if ($("#Images-reply-task li").length == 0) {
-                                        $("#Images-reply-task").hide();
-                                    }
-                                });
-                            });
-                        };
-                        return;
+                        });
                     }
-                    
                 } else {
                     alert("上传失败");
                 };
@@ -657,6 +649,37 @@
 
                 $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).attr("src") + '"/>');
                 $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                $(".left-enlarge-image").unbind().click(function () {
+                    if (!ObjectJS.isLoading) {
+                        return;
+                    }
+                    var ele = $(".order-imgs-list .hover").prev();
+                    if (ele && ele.find("img").attr("src")) {
+                        var _img = ele.find("img");
+                        $(".order-imgs-list .hover").removeClass("hover");
+                        ele.addClass("hover");
+                        $("#orderImage").attr("src", _img.attr("src"));
+                        $(".enlarge-image-item").empty();
+                        $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
+                        $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                    }
+                });
+
+                $(".right-enlarge-image").unbind().click(function () {
+                    if (!ObjectJS.isLoading) {
+                        return;
+                    }
+                    var ele = $(".order-imgs-list .hover").next();
+                    if (ele && ele.find("img").attr("src")) {
+                        var _img = ele.find("img");
+                        $(".order-imgs-list .hover").removeClass("hover");
+                        ele.addClass("hover");
+                        $("#orderImage").attr("src", _img.attr("src"));
+                        $(".enlarge-image-item").empty();
+                        $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
+                        $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                    }
+                });
             }
         });
 
@@ -687,37 +710,7 @@
             return false;
         });
 
-        $(".left-enlarge-image").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
-            }
-            var ele = $(".order-imgs-list .hover").prev();
-            if (ele && ele.find("img").attr("src")) {
-                var _img = ele.find("img");
-                $(".order-imgs-list .hover").removeClass("hover");
-                ele.addClass("hover");
-                $("#orderImage").attr("src", _img.attr("src"));
-                $(".enlarge-image-item").empty();
-                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
-                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-            }
-        });
 
-        $(".right-enlarge-image").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
-            }
-            var ele = $(".order-imgs-list .hover").next();
-            if (ele && ele.find("img").attr("src")) {
-                var _img = ele.find("img");
-                $(".order-imgs-list .hover").removeClass("hover");
-                ele.addClass("hover");
-                $("#orderImage").attr("src", _img.attr("src"));
-                $(".enlarge-image-item").empty();
-                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
-                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-            }
-        });
     }
 
     //获取任务日志
