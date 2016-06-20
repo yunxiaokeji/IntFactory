@@ -27,6 +27,18 @@
             $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
         });
 
+        //任务讨论盒子隐藏
+        $(document).click(function (e) {
+            if (!$(e.target).parents().hasClass("taskreply-box") && !$(e.target).hasClass("taskreply-box") &&
+                !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace") &&
+                !$(e.target).parents().hasClass("ico-delete") && !$(e.target).hasClass("ico-delete") &&
+                !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload")) {
+                $(".taskreply-box").removeClass("taskreply-box-hover");
+
+            }
+        });
+
+        //保存讨论
         $("#btnSaveTalk").click(function () {
             var txt = $("#txtContent");
             if (txt.val().trim()) {
@@ -52,13 +64,15 @@
                         "ThumbnailName": ""
                     });
                 })
-                ObjectJS.saveTaskReply(model, $(this),attchments);
+                ObjectJS.saveTaskReply(model, $(this), attchments);
+
                 $("#btnSaveTalk").parents('.taskreply-box').find(".task-file").empty();
                 txt.val("");
             }
 
         });
        
+        //讨论表情
         $(".btn-emotion").each(function () {
             $(this).qqFace({
                 assign: $(this).data("id"),
@@ -66,19 +80,10 @@
             });
         });
         
+        //获取讨论
         ObjectJS.getTaskReplys(1);
 
-        //任务讨论盒子隐藏
-        $(document).click(function (e) {
-            if (!$(e.target).parents().hasClass("taskreply-box") && !$(e.target).hasClass("taskreply-box")&&
-                !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace") &&
-                !$(e.target).parents().hasClass("ico-delete") && !$(e.target).hasClass("ico-delete") &&
-                !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload"))
-            {
-                $(".taskreply-box").removeClass("taskreply-box-hover");
-                
-            }
-        });
+       
     }
 
     //获取任务讨论列表
@@ -102,61 +107,61 @@
 
                     $("#replyList").html(innerhtml);
 
-                    //图片放大功能
-                    var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
+                    ////图片放大功能
+                    //var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
 
-                    innerhtml.find(".orderImage-repay").click(function () {
-                        if ($(this).attr("src")) {
-                            $("#Images-reply .hoverimg").removeClass("hoverimg");
-                            $(this).parent().addClass("hoverimg");
-                            $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
-                            $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
-                            $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).data("src") + '"/>');
-                            $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                    //innerhtml.find(".orderImage-repay").click(function () {
+                    //    if ($(this).attr("src")) {
+                    //        $("#Images-reply .hoverimg").removeClass("hoverimg");
+                    //        $(this).parent().addClass("hoverimg");
+                    //        $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
+                    //        $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
+                    //        $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).data("src") + '"/>');
+                    //        $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
 
-                            $(".left-enlarge-image").unbind().click(function () {
-                                var ele = $("#Images-reply .hoverimg").prev();
-                                if (ele && ele.find("img").attr("src")) {
-                                    var _img = ele.find("img");
-                                    $("#Images-reply .hoverimg").removeClass("hoverimg");
-                                    ele.addClass("hoverimg");
-                                    $(".enlarge-image-item").empty();
-                                    $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
-                                    $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-                                }
-                            });
+                    //        $(".left-enlarge-image").unbind().click(function () {
+                    //            var ele = $("#Images-reply .hoverimg").prev();
+                    //            if (ele && ele.find("img").attr("src")) {
+                    //                var _img = ele.find("img");
+                    //                $("#Images-reply .hoverimg").removeClass("hoverimg");
+                    //                ele.addClass("hoverimg");
+                    //                $(".enlarge-image-item").empty();
+                    //                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
+                    //                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                    //            }
+                    //        });
 
-                            $(".right-enlarge-image").unbind().click(function () {
-                                var ele = $("#Images-reply .hoverimg").next();
-                                if (ele && ele.find("img").attr("src")) {
-                                    var _img = ele.find("img");
-                                    $("#Images-reply .hoverimg").removeClass("hoverimg");
-                                    ele.addClass("hoverimg");
-                                    $(".enlarge-image-item").empty();
-                                    $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
-                                    $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-                                }
-                            });
+                    //        $(".right-enlarge-image").unbind().click(function () {
+                    //            var ele = $("#Images-reply .hoverimg").next();
+                    //            if (ele && ele.find("img").attr("src")) {
+                    //                var _img = ele.find("img");
+                    //                $("#Images-reply .hoverimg").removeClass("hoverimg");
+                    //                ele.addClass("hoverimg");
+                    //                $(".enlarge-image-item").empty();
+                    //                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
+                    //                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                    //            }
+                    //        });
 
-                            $(".close-enlarge-image").unbind().click(function () {
-                                $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
-                                $(".enlarge-image-item").empty();
-                            });
+                    //        $(".close-enlarge-image").unbind().click(function () {
+                    //            $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+                    //            $(".enlarge-image-item").empty();
+                    //        });
 
-                            $(".enlarge-image-bgbox").unbind().click(function () {
-                                $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
-                                $(".enlarge-image-item").empty();
-                            });
+                    //        $(".enlarge-image-bgbox").unbind().click(function () {
+                    //            $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+                    //            $(".enlarge-image-item").empty();
+                    //        });
 
-                            $(".zoom-botton").unbind().click(function (e) {
-                                var scaleToAdd = 0.8;
-                                if (e.target.id == 'zoomOutButton')
-                                    scaleToAdd = -scaleToAdd;
-                                $('#enlargeImage').smartZoom('zoom', scaleToAdd);
-                                return false;
-                            });
-                        }
-                    });
+                    //        $(".zoom-botton").unbind().click(function (e) {
+                    //            var scaleToAdd = 0.8;
+                    //            if (e.target.id == 'zoomOutButton')
+                    //                scaleToAdd = -scaleToAdd;
+                    //            $('#enlargeImage').smartZoom('zoom', scaleToAdd);
+                    //            return false;
+                    //        });
+                    //    }
+                    //});
 
                     ObjectJS.bindReplyOperate(innerhtml);
                         
@@ -216,46 +221,10 @@
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
                 innerhtml.hide();
-                var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
-
-                //绑定图片放大功能
-                innerhtml.find(".orderImage-repay").click(function () {
-                    if ($(this).attr("src")) {
-                        $("#Images-reply .hoverimg").removeClass("hoverimg");
-                        $(this).parent().addClass("hoverimg");
-                        $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
-                        $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
-                        $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).data("src") + '"/>');
-                        $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-                        $(".left-enlarge-image").unbind().click(function () {
-                            var ele = $("#Images-reply .hoverimg").prev();
-                            if (ele && ele.find("img").attr("src")) {
-                                var _img = ele.find("img");
-                                $("#Images-reply .hoverimg").removeClass("hoverimg");
-                                ele.addClass("hoverimg");
-                                $(".enlarge-image-item").empty();
-                                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
-                                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-                            }
-                        });
-
-                        $(".right-enlarge-image").unbind().click(function () {
-                            var ele = $("#Images-reply .hoverimg").next();
-                            if (ele && ele.find("img").attr("src")) {
-                                var _img = ele.find("img");
-                                $("#Images-reply .hoverimg").removeClass("hoverimg");
-                                ele.addClass("hoverimg");
-                                $(".enlarge-image-item").empty();
-                                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
-                                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-                            }
-                        });
-                    }
-                });
+               
+                innerhtml.fadeIn(500);
                 $("#replyList .nodata-txt").parent().parent().remove();
                 $("#replyList").prepend(innerhtml);
-                innerhtml.fadeIn(500);
-
                 ObjectJS.bindReplyOperate(innerhtml);
 
             });
@@ -264,20 +233,22 @@
 
     //绑定任务讨论操作
     ObjectJS.bindReplyOperate = function (replys) {
+        //替换表情内容
         replys.find(".reply-content").each(function () {
             $(this).html(Global.replaceQqface($(this).html()));
         });
 
         //回复点击
         replys.find(".btn-reply").click(function () {
-            var _this = $(this), reply = _this.nextAll(".reply-box");
+            var _this = $(this);
+            var reply = _this.nextAll(".reply-box");
             $("#btn-update-reply" + _this.data("replyid")).empty();
+
             $("#replyList .reply-box").each(function () {
                 if ($(this).data("replyid") != reply.data("replyid")) {
                     $(this).hide();
                 }
             });
-
             if (reply.is(":visible")) {
                 reply.slideUp(300);
             }
@@ -287,6 +258,7 @@
 
             reply.find("textarea").focus();
 
+            //讨论附件
             Upload.createUpload({
                 element: "#btn-update-reply" + _this.data("replyid"),
                 buttonText: "&#xe65a;",
@@ -328,7 +300,7 @@
             });
         });
 
-        //回复
+        //保存讨论
         replys.find(".save-reply").click(function () {
             var _this = $(this);
             if ($("#Msg_" + _this.data("replyid")).val().trim()) {
@@ -362,6 +334,7 @@
             $(this).parent().slideUp(300);
         });
 
+        //点击讨论按钮
         replys.find('.btn-emotion').each(function () {
             $(this).qqFace({
                 assign: $(this).data("id"),
@@ -369,12 +342,50 @@
             });
         });
 
+        //绑定图片放大功能
+        var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
+        replys.find(".orderImage-repay").click(function () {
+            if ($(this).attr("src")) {
+                $("#Images-reply .hoverimg").removeClass("hoverimg");
+                $(this).parent().addClass("hoverimg");
+                $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
+                $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
+                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).data("src") + '"/>');
+                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                $(".left-enlarge-image").unbind().click(function () {
+                    var ele = $("#Images-reply .hoverimg").prev();
+                    if (ele && ele.find("img").attr("src")) {
+                        var _img = ele.find("img");
+                        $("#Images-reply .hoverimg").removeClass("hoverimg");
+                        ele.addClass("hoverimg");
+                        $(".enlarge-image-item").empty();
+                        $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
+                        $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                    }
+                });
+
+                $(".right-enlarge-image").unbind().click(function () {
+                    var ele = $("#Images-reply .hoverimg").next();
+                    if (ele && ele.find("img").attr("src")) {
+                        var _img = ele.find("img");
+                        $("#Images-reply .hoverimg").removeClass("hoverimg");
+                        ele.addClass("hoverimg");
+                        $(".enlarge-image-item").empty();
+                        $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
+                        $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                    }
+                });
+            }
+        });
+        
+        //
         replys.find(".no-img li").hover(function () {
             $(this).find(".popup-download").stop(true).slideDown(300);
         },function () {
             $(this).find(".popup-download").stop(true).slideUp(300);
         });
 
+        //
         $(".download").click(function () {
             window.open($(this).data('url'), '_target');
         });
