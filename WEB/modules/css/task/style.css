@@ -299,26 +299,26 @@
     font-size:22px;
     height:28px;
     line-height:30px;
-    color:#888;
+    color:#999;
     cursor:pointer;
     background-color:#fff;
     border:0;
 }
 .taskreply-box .iconfont:hover { 
-    color:#007aff;
+    color:#4a98e7;
 }
 .reply-box .iconfont { 
     font-size:22px;
     height:28px;
     line-height:30px;
-    color:#888;
+    color:#999;
     cursor:pointer;
     margin-top:5px;
     background-color:#fff;
     border:0;
 }
 .reply-box .iconfont:hover { 
-    color:#007aff;
+    color:#4a98e7;
 }
 .task-replys .content-list {
     width:100%;
