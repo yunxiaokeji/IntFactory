@@ -6,12 +6,13 @@
     var ObjectJS = {};
     var Reply = {};
     var Controller = "Task";
-    
+    var id = "";
     var IsCallBack = false;
 
     ///任务讨论
     //初始化任务讨论列表
-    ObjectJS.initTalkReply = function (reply,moduleType,callback) {
+    ObjectJS.initTalkReply = function (reply, moduleType, callback) {
+
         Reply = reply;
         if (moduleType === "customer") {
             Controller = moduleType;
@@ -101,7 +102,6 @@
 
                     $("#replyList").html(innerhtml);
 
-
                     //图片放大功能
                     var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
 
@@ -137,27 +137,27 @@
                                     $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
                                 }
                             });
+
+                            $(".close-enlarge-image").unbind().click(function () {
+                                $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+                                $(".enlarge-image-item").empty();
+                            });
+
+                            $(".enlarge-image-bgbox").unbind().click(function () {
+                                $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+                                $(".enlarge-image-item").empty();
+                            });
+
+                            $(".zoom-botton").unbind().click(function (e) {
+                                var scaleToAdd = 0.8;
+                                if (e.target.id == 'zoomOutButton')
+                                    scaleToAdd = -scaleToAdd;
+                                $('#enlargeImage').smartZoom('zoom', scaleToAdd);
+                                return false;
+                            });
                         }
                     });
 
-                    innerhtml.find(".close-enlarge-image").click(function () {
-                        $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
-                        $(".enlarge-image-item").empty();                       
-                    });
-                    
-                    innerhtml.find(".enlarge-image-bgbox").click(function () {
-                        $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
-                        $(".enlarge-image-item").empty();
-                    });
-                    
-                    innerhtml.find(".zoom-botton").click(function (e) {
-                        var scaleToAdd = 0.8;
-                        if (e.target.id == 'zoomOutButton')
-                            scaleToAdd = -scaleToAdd;
-                        $('#enlargeImage').smartZoom('zoom', scaleToAdd);
-                        return false;
-                    });
-                    
                     ObjectJS.bindReplyOperate(innerhtml);
                         
                 });
@@ -197,8 +197,17 @@
             btnname = btnObject.html();
             btnObject.html("保存中...").attr("disabled", "disabled");
         }
-        
-        Global.post("/" + Controller + "/SavaReply", { entity: JSON.stringify(model), taskID: Reply.taskid, attchmentEntity: JSON.stringify(attchments) }, function (data) {
+       
+        var params = { entity: JSON.stringify(model), attchmentEntity: JSON.stringify(attchments) };
+            
+        if (Controller == "customer") {
+            params.customerID = Reply.guid;
+        }
+        else {
+            params.taskID = Reply.taskid;
+        }
+
+        Global.post("/" + Controller + "/SavaReply", params, function (data) {
             if (btnObject) {
                 btnObject.html(btnname).removeAttr("disabled");
             }
@@ -209,6 +218,7 @@
                 innerhtml.hide();
                 var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
 
+                //绑定图片放大功能
                 innerhtml.find(".orderImage-repay").click(function () {
                     if ($(this).attr("src")) {
                         $("#Images-reply .hoverimg").removeClass("hoverimg");
