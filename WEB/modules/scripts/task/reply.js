@@ -143,23 +143,23 @@
                     //            }
                     //        });
 
-                    //        $(".close-enlarge-image").unbind().click(function () {
-                    //            $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
-                    //            $(".enlarge-image-item").empty();
-                    //        });
+                            //$(".close-enlarge-image").unbind().click(function () {
+                            //    $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+                            //    $(".enlarge-image-item").empty();
+                            //});
 
-                    //        $(".enlarge-image-bgbox").unbind().click(function () {
-                    //            $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
-                    //            $(".enlarge-image-item").empty();
-                    //        });
+                            //$(".enlarge-image-bgbox").unbind().click(function () {
+                            //    $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+                            //    $(".enlarge-image-item").empty();
+                            //});
 
-                    //        $(".zoom-botton").unbind().click(function (e) {
-                    //            var scaleToAdd = 0.8;
-                    //            if (e.target.id == 'zoomOutButton')
-                    //                scaleToAdd = -scaleToAdd;
-                    //            $('#enlargeImage').smartZoom('zoom', scaleToAdd);
-                    //            return false;
-                    //        });
+                            //$(".zoom-botton").unbind().click(function (e) {
+                            //    var scaleToAdd = 0.8;
+                            //    if (e.target.id == 'zoomOutButton')
+                            //        scaleToAdd = -scaleToAdd;
+                            //    $('#enlargeImage').smartZoom('zoom', scaleToAdd);
+                            //    return false;
+                            //});
                     //    }
                     //});
 
