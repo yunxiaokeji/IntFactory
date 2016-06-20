@@ -96,7 +96,7 @@
         }
 
         TalkReply = require("scripts/task/reply");
-        TalkReply.initTalkReply(ObjectJS, 'task');
+        TalkReply.initTalkReply(ObjectJS, 'task',0);
 
         $(".part-btn").hide();
 
@@ -110,6 +110,7 @@
     ObjectJS.bindBaseEvent = function () {
         //显示预警时间
         ObjectJS.showWarnTime();
+
 
         //绑定任务样式图
         ObjectJS.bindOrderImages();

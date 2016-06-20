@@ -9,7 +9,7 @@
 
     ///任务讨论
     //初始化任务讨论列表
-    ObjectJS.initTalkReply = function (reply, moduleType) {
+    ObjectJS.initTalkReply = function (reply, moduleType,noGet) {
 
         Reply = reply;
         if (moduleType === "customer") {
@@ -115,7 +115,9 @@
         });
         
         //获取讨论
-        ObjectJS.getTaskReplys(1);
+        if (!noGet) {
+            ObjectJS.getTaskReplys(1);
+        }
 
        
     }
@@ -238,9 +240,12 @@
                 url: "/Plug/UploadFiles",
                 data: { folder: '', action: 'add', oldPath: "" },
                 success: function (data, status) {
-                    if (data.Items.length > 0) {
+                    if (data.Items.length > 0) {   
                         for (var i = 0; i < data.Items.length; i++) {
                             if ($(".task-file li").length <= 9) {
+                                if ($("#Msg_" + _this.data("replyid")).val() == "" && i == 0) {
+                                    $("#Msg_" + _this.data("replyid")).val(data.Items[0].originalName.split('.')[0]);
+                                }
                                 var templateUrl = "/template/task/task-file-upload.html";
                                 var appendHtml = $("#file_" + _this.data("replyid"));
                                 if (data.Items[i].isImage == 1) {
@@ -320,6 +325,23 @@
                 $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
                 $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).data("src") + '"/>');
                 $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+
+                $(".close-enlarge-image").unbind().click(function () {
+                    $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+                    $(".enlarge-image-item").empty();
+                });
+                $(".enlarge-image-bgbox").unbind().click(function () {
+                    $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+                    $(".enlarge-image-item").empty();
+                });
+                $(".zoom-botton").unbind().click(function (e) {
+                    var scaleToAdd = 0.8;
+                    if (e.target.id == 'zoomOutButton')
+                        scaleToAdd = -scaleToAdd;
+                    $('#enlargeImage').smartZoom('zoom', scaleToAdd);
+                    return false;
+                });
+
                 $(".left-enlarge-image").unbind().click(function () {
                     var ele = $("#Images-reply .hoverimg").prev();
                     if (ele && ele.find("img").attr("src")) {
@@ -331,7 +353,6 @@
                         $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
                     }
                 });
-
                 $(".right-enlarge-image").unbind().click(function () {
                     var ele = $("#Images-reply .hoverimg").next();
                     if (ele && ele.find("img").attr("src")) {
