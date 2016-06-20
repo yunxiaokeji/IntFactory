@@ -228,7 +228,7 @@ namespace IntFactoryBusiness
             foreach (var attachment in attachments)
             {
                 if (!CustomDAL.BaseProvider.AddCustomerReplyAttachments(customerid, replyid, attachment.Type,
-                    attachment.ServerUrl, attachment.FilePath, attachment.FileName, attachment.OriginalName, attachment.ThumbnailName,
+                    attachment.ServerUrl, attachment.FilePath, attachment.FileName, attachment.OriginalName, attachment.ThumbnailName,attachment.Size,
                     userid, clientid, tran))
                 {
                     tran.Rollback();

@@ -15,7 +15,7 @@ namespace IntFactoryEntity
 
         public int Type { get; set; }
 
-        public int Size { get; set; }
+        public long Size { get; set; }
 
         public string ServerUrl { get; set; }
 
