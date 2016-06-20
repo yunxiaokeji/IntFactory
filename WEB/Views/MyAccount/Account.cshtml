@@ -37,7 +37,7 @@
                     <span class="width80">手机：</span>
                     <span id="S_BindMobile">@(CurrentUser.BindMobilePhone)</span>
                     <input type="text" id="mobilePhone" class="input bindloginmobile hide" value="@(CurrentUser.BindMobilePhone)" />
-                    <label id="bindLoginMobile" class="font14 blue hand @(string.IsNullOrEmpty(CurrentUser.BindMobilePhone)?"":"mLeft10")">@(string.IsNullOrEmpty(CurrentUser.BindMobilePhone)?"绑定":"解绑")</label>
+                    <label id="bindLoginMobile" class="font14 blue hand @(string.IsNullOrEmpty(CurrentUser.BindMobilePhone)?"":"mLeft10")">@(CurrentUser.BindMobilePhone==""?"绑定":"解绑")</label>
                     <span class="mLeft10 red loginError"  id="BindMobileError"></span>
                 </li>
                 <li class="bindloginmobile hide">
