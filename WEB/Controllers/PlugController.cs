@@ -155,7 +155,7 @@ namespace YXERP.Controllers
             for (int i = 0; i < Request.Files.Count; i++)
             {
                 int isImage = 2;
-                if (i == 10)
+                if (i >= 10)
                 {
                     break;
                 }
