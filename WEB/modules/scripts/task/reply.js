@@ -1,6 +1,7 @@
 ﻿define(function (require, exports, module) {
     var Global = require("global");
     var doT = require("dot");
+    var Tip = require("tip");
     var Qqface = require("qqface");
     Upload = require("upload");
     var ObjectJS = {};
@@ -31,6 +32,7 @@
             data: { folder: '', action: 'add', oldPath: "" },
             success: function (data, status) {
                 if (data.Items.length > 0) {
+
                     for (var i = 0; i < data.Items.length; i++) {
                         if ($(".task-file li").length <= 9) {
                             var templateUrl = "/template/task/task-file-upload.html";
@@ -119,7 +121,11 @@
             ObjectJS.getTaskReplys(1);
         }
 
-       
+        //提示
+        $("#reply-attachment").Tip({
+            width: 100,
+            msg: "上传附件最多10个"
+        });
     }
 
     //获取任务讨论列表
@@ -239,7 +245,7 @@
                 multiple: false,
                 url: "/Plug/UploadFiles",
                 data: { folder: '', action: 'add', oldPath: "" },
-                success: function (data, status) {
+                success: function (data, status) {                   
                     if (data.Items.length > 0) {   
                         for (var i = 0; i < data.Items.length; i++) {
                             if ($(".task-file li").length <= 9) {
@@ -272,6 +278,10 @@
                         alert("上传失败");
                     }
                 }
+            });
+            $("#btn-update-reply" + _this.data("replyid")).Tip({
+                width: 100,
+                msg: "上传附件最多10个"
             });
         });
 
