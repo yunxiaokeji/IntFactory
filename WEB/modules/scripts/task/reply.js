@@ -298,9 +298,9 @@
                     if (data.Items.length > 0) {   
                         for (var i = 0; i < data.Items.length; i++) {
                             if ($(".task-file li").length <= 9) {
-                                //if ($("#Msg_" + _this.data("replyid")).val() == "" && i == 0) {
-                                //    $("#Msg_" + _this.data("replyid")).val(data.Items[0].originalName.split('.')[0]);
-                                //}
+                                if ($("#Msg_" + _this.data("replyid")).val() == "" && i == 0) {
+                                    $("#Msg_" + _this.data("replyid")).val(data.Items[0].originalName.split('.')[0]);
+                                }
                                 var templateUrl = "/template/task/task-file-upload.html";
                                 var appendHtml = $("#file_" + _this.data("replyid"));
                                 if (data.Items[i].isImage == 1) {

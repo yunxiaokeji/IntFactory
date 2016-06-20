@@ -120,7 +120,8 @@
             success: function (data, status) {
                 if (data.Items.length > 0) {                    
                     for (var i = 0; i < data.Items.length; i++) {
-                        if ($(".task-file li").length<=9) {
+                        if ($(".task-file li").length <= 9) {
+
                             var templateUrl="/template/task/task-file-upload.html";
                             var appendHtml = $("#orderflie-task");
                             if (data.Items[i].isImage == 1) {
