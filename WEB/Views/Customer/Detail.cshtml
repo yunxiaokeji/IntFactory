@@ -10,7 +10,7 @@
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/customer/detail"], function (ObjectJS) {
-            ObjectJS.init('@ViewBag.ID', '@ViewBag.MDToken');
+            ObjectJS.init('@ViewBag.ID', '@ViewBag.MDToken', '@ViewBag.Nav');
         });
     </script>
 }
@@ -46,10 +46,10 @@
 </div>
 <div class="module-header mTop20">
     <ul class="module-tab left">
-        <li class="hover" data-id="taskReplys">备忘</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019009"))" data-id="navOppor">需求列表</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019010"))" data-id="navOrder">打样订单</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019011"))" data-id="navDHOrder">大货订单</li>
+        <li data-id="taskReplys">备忘</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019009"))" data-id="navOppor">需求列表（0）</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019010"))" data-id="navOrder">打样订单（0）</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019011"))" data-id="navDHOrder">大货订单（0）</li>
         <li data-id="navContact">联系人</li>
         <li data-id="navLog">日志</li>
     </ul>
@@ -68,7 +68,7 @@
             <td class="width50">操作</td>
         </tr>
     </table>
-    <div class="mTop20 task-replys" id="taskReplys">
+    <div class="mTop20 task-replys hide" id="taskReplys">
         <div class="taskreply-box">
             <textarea id="txtContent" class="reply-content" placeholder="发表备忘"></textarea><br />
             <div class="btn-emotion left" id="btn-emotion" data-id="txtContent" title="表情"></div>

@@ -23,6 +23,7 @@
         BeginTime: "",
         EndTime: "",
         PageIndex: 1,
+        OrderBy: "cus.CreateTime desc",
         PageSize: 15
     };
 
@@ -129,21 +130,6 @@
             };
         });
 
-        //切换阶段
-        $(".search-stages li").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
-            }
-            var _this = $(this);
-            if (!_this.hasClass("hover")) {
-                _this.siblings().removeClass("hover");
-                _this.addClass("hover");
-                Params.PageIndex = 1;
-                Params.StageID = _this.data("id");
-                _self.getList();
-            }
-        });
-
         //切换状态
         $(".search-status li").click(function () {
             if (!ObjectJS.isLoading) {
@@ -243,6 +229,7 @@
                 }
             });
         });
+
         //批量转移
         $("#batchChangeOwner").click(function () {
             if (!ObjectJS.isLoading) {
@@ -288,9 +275,36 @@
                 _self.getList();
             }
         });
+        //排序
+        $(".sort-item").click(function () {
+            var _this = $(this);
 
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+
+            if (_this.hasClass("hover")) {
+                if (_this.find(".asc").hasClass("hover")) {
+                    _this.find(".asc").removeClass("hover");
+                    _this.find(".desc").addClass("hover");
+                    Params.OrderBy = _this.data("column") + " desc ";
+                } else {
+                    _this.find(".desc").removeClass("hover");
+                    _this.find(".asc").addClass("hover");
+                    Params.OrderBy = _this.data("column") + " asc ";
+                }
+            } else {
+                _this.addClass("hover").siblings().removeClass("hover");
+                _this.siblings().find(".hover").removeClass("hover");
+                _this.find(".desc").addClass("hover");
+                Params.OrderBy = _this.data("column") + " desc ";
+            }
+            Params.PageIndex = 1;
+            _self.getList();
+        });
         
     }
+
     //获取列表
     ObjectJS.getList = function () {
         var _self = this;
@@ -460,6 +474,7 @@
             ObjectJS.isLoading = true;
         });
     }
+
     //转移客户
     ObjectJS.ChangeOwner = function (ids, userid) {
         var _self = this;

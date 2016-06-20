@@ -64,9 +64,9 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult Detail(string id)
+        public ActionResult Detail(string id, string nav = "")
         {
-            //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID).OrderBy(m => m.Sort).ToList();
+            ViewBag.Nav = nav;
             ViewBag.ID = id;
             return View();
         }
@@ -119,10 +119,9 @@ namespace YXERP.Controllers
             int pageCount = 0;
             
             List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomers(model.SearchType, model.Type, model.SourceType, 
-                model.SourceID, model.StageID, model.Status, 
-                model.Mark, model.ActivityID, model.UserID, 
-                model.TeamID, model.AgentID, model.BeginTime, model.EndTime, 
-                model.FirstName,model.Keywords, model.PageSize, model.PageIndex, 
+                model.SourceID, model.StageID, model.Status, model.Mark, model.ActivityID, model.UserID, 
+                model.TeamID, model.AgentID, model.BeginTime, model.EndTime,
+                model.FirstName, model.Keywords, model.OrderBy, model.PageSize, model.PageIndex, 
                 ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
 
             JsonDictionary.Add("items", list);

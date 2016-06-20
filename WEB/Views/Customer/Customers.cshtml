@@ -56,7 +56,30 @@
         </div>
         <div class="right searth-module" data-text="输入客户名称/电话..." data-width="200"></div>
     </div>
-    <hr />
+    
+    <ul class="search-sort">
+        <li>排序</li>
+        <li class="sort-item hover" data-column="cus.CreateTime">
+            创建日期
+            <span class="asc"></span>
+            <span class="desc hover"></span>
+        </li>
+        <li class="sort-item" data-column="cus.DemandCount">
+            需求单
+            <span class="asc"></span>
+            <span class="desc"></span>
+        </li>
+         <li class="sort-item" data-column="cus.DYCount">
+            打样单
+            <span class="asc"></span>
+            <span class="desc"></span>
+        </li>
+         <li class="sort-item" data-column="cus.DHCount">
+            大货单
+            <span class="asc"></span>
+            <span class="desc"></span>
+        </li>
+    </ul>
     
     @* 卡片式显示 *@
     <div class="list-customer">
@@ -75,5 +98,14 @@
     </ul>
     <div id="pager" class="mTop20"></div>
 </div>
+@*<div class="hold">
+    <div class="outer"></div>
+    <div class="pie"></div>
+</div>
+<style>
+    .hold { position:absolute;width:200px;height:200px; bottom:0; background-color:#eee;border-radius:100px; }
+    .outer {position:absolute; width:200px;height:200px; transform:rotate(225deg);clip:rect(0px,100px,200px,0px);border-radius:100px; background-color:red; }
+    .pie { position:absolute ;width:200px; height:200px;transform:rotate(180deg) !important;clip:rect(0px,100px,200px,0px);border-radius:100px; background-color:#000;}
+</style>*@
 
 
