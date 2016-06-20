@@ -111,44 +111,6 @@
         //显示预警时间
         ObjectJS.showWarnTime();
 
-        //上传
-        Upload.createUpload({
-            element: "#btn-task-reply",
-            buttonText: "&#xe65a;",
-            className: "left iconfont",
-            multiple: false,
-            url: "/Plug/UploadFiles",
-            data: { folder: '', action: 'add', oldPath: ""},
-            success: function (data, status) {
-                if (data.Items.length > 0) {                    
-                    for (var i = 0; i < data.Items.length; i++) {
-                        if ($(".task-file li").length <= 9) {
-
-                            var templateUrl="/template/task/task-file-upload.html";
-                            var appendHtml = $("#orderflie-task");
-                            if (data.Items[i].isImage == 1) {
-                                templateUrl = "/template/task/task-file-upload-img.html";
-                                appendHtml = $("#Images-reply-task");
-                            } 
-                            DoT.exec(templateUrl, function (template) {
-                                var file = template(data.Items);
-                                file = $(file);
-                                appendHtml.append(file).fadeIn(300);
-                                file.find(".delete").click(function () {
-                                    $(this).parent().remove();
-                                    if (appendHtml.find('li').length == 0) {
-                                        appendHtml.hide();
-                                    }
-                                });
-                            });
-                        }                        
-                        return;
-                    }
-                } else {
-                    alert("上传失败");
-                };
-            }
-        });
 
         //绑定任务样式图
         ObjectJS.bindOrderImages();
