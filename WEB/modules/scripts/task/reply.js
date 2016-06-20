@@ -85,7 +85,7 @@
                 };
                 var attchments = [];
                
-                $("#btnSaveTalk").parents('.taskreply-box').find('.task-file li').each(function () {
+                $(this).parents('.taskreply-box').find('.task-file li').each(function () {
                     var _this = $(this);
                     attchments.push({
                         "Type": _this.data('isimg'),
@@ -286,7 +286,7 @@
                 };
                 var attchments = [];
 
-                _this.parents('.reply-box').find('.task-file li').each(function () {
+                $(".upload-files-" + _this.data("replyid")+" li").each(function () {
                     var _this = $(this);
                     attchments.push({
                         "Type": _this.data('isimg'),
