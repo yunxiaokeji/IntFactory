@@ -113,6 +113,7 @@
                             $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
                             $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).data("src") + '"/>');
                             $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+
                             $(".left-enlarge-image").unbind().click(function () {
                                 var ele = $("#Images-reply .hoverimg").prev();
                                 if (ele && ele.find("img").attr("src")) {
@@ -158,8 +159,7 @@
                     });
                     
                     ObjectJS.bindReplyOperate(innerhtml);
-                        console.log("1");console.log("a");
-                        console.log("2");console.log("b");
+                        
                 });
             }
             else {
@@ -287,7 +287,7 @@
                 success: function (data, status) {
                     if (data.Items.length > 0) {                        
                         for (var i = 0; i < data.Items.length; i++) {
-                            for (var i = 0; i < data.Items.length; i++) {
+                            if ($(".task-file li").length <= 9) {
                                 var templateUrl = "/template/task/task-file-upload.html";
                                 var appendHtml = $("#file_" + _this.data("replyid"));
                                 if (data.Items[i].isImage == 1) {
@@ -306,6 +306,7 @@
                                     });
                                 });
                             }
+                            return;
                         }
                     } else {
                         alert("上传失败");
