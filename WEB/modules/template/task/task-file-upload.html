@@ -10,7 +10,7 @@
             </div>
             <div class="information mLeft10 width120">
             <span title="{%=item.fileName%}" class="long width60">{%=item.originalName%}</span>
-            <span title="{%=item.fileSize%}kb">{%=item.fileSize/1024/1024<1?(item.fileSize/1024).toFixed(2)+"KB":(item.fileSize/1024/1024).toFixed(2)+"MB"%}</span></div>
+            <span title="{%=item.fileSize%}kb">{%=item.fileSize/1024/1024<1?(item.fileSize/1024).toFixed(1)+"KB":(item.fileSize/1024/1024).toFixed(2)+"MB"%}</span></div>
             <span class="ico-delete-upload delete iconfont">&#xe628;</span>
         </li>
 {%}%}
