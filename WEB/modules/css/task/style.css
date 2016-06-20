@@ -296,7 +296,7 @@
     overflow:visible;
 }
 .taskreply-box .iconfont { 
-    font-size:24px;
+    font-size:22px;
     height:28px;
     line-height:30px;
     color:#888;
@@ -308,7 +308,7 @@
     color:#007aff;
 }
 .reply-box .iconfont { 
-    font-size:24px;
+    font-size:22px;
     height:28px;
     line-height:30px;
     color:#888;
@@ -386,15 +386,6 @@
     border:none;
     height:60px;
     border-bottom:1px solid #ddd;  
-}
-.btn-emotion {
-    background:url(/modules/images/ico-emotion.png) no-repeat center center;
-    width:28px;
-    height:28px;
-    cursor:pointer;
-}
-.btn-emotion:hover {
-    background:url(/modules/images/ico-emotion-hover.png) no-repeat center center;  
 }
 
 /*标记筛选*/
