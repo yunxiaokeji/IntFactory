@@ -245,10 +245,14 @@
                 multiple: false,
                 url: "/Plug/UploadFiles",
                 data: { folder: '', action: 'add', oldPath: "" },
-                success: function (data, status) {                   
-                    if (data.Items.length > 0) {   
-                        for (var i = 0; i < data.Items.length; i++) {
-                            if ($(".task-file li").length <= 9) {
+                success: function (data, status) {
+                    var len = data.Items.length;
+                    if (len > 0) {
+                        if (( $(".task-file li").length + len) > 10) {
+                            alert("最多允许上传10个");
+                            return;
+                        }
+                        for (var i = 0; i <len ; i++) {
                                 if ($("#Msg_" + _this.data("replyid")).val() == "" && i == 0) {
                                     $("#Msg_" + _this.data("replyid")).val(data.Items[0].originalName.split('.')[0]);
                                 }
@@ -269,12 +273,12 @@
                                         }
                                     });
                                 });
-                            } else {
-                                alert("最多允许上传10个");
-                            }
+ 
                             return;
                         }
-                    } else {
+
+                    }
+                    else {
                         alert("上传失败");
                     }
                 }
