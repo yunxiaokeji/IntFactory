@@ -31,7 +31,8 @@
             if (!$(e.target).parents().hasClass("taskreply-box") && !$(e.target).hasClass("taskreply-box") &&
                 !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace") &&
                 !$(e.target).parents().hasClass("ico-delete") && !$(e.target).hasClass("ico-delete") &&
-                !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload")) {
+                !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload")&&
+                !$(e.target).parents().hasClass("alert") && !$(e.target).hasClass("alert")) {
                 $(".taskreply-box").removeClass("taskreply-box-hover");
 
             }
