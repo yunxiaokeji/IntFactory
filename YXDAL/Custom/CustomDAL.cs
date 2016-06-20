@@ -162,7 +162,7 @@ namespace IntFactoryDAL
         }
 
         public bool AddCustomerReplyAttachments(string customerid, string replyid, int attachmentType,
-            string serverUrl, string filePath, string fileName, string originalName, string thumbnailName,
+            string serverUrl, string filePath, string fileName, string originalName, string thumbnailName,int size,
             string userid, string clientid, SqlTransaction tran)
         {
             SqlParameter[] paras = { 
@@ -174,6 +174,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@FileName",fileName),
                                      new SqlParameter("@OriginalName",originalName),
                                      new SqlParameter("@ThumbnailName",thumbnailName),
+                                     new SqlParameter("@Size",size),
                                      new SqlParameter("@UserID",userid),
                                      new SqlParameter("@ClientID",clientid)
                                    };
