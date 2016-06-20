@@ -102,10 +102,11 @@
                     $("#replyList").html(innerhtml);
 
                     ObjectJS.bindReplyOperate(innerhtml);
+
                     //图片放大功能
                     var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
 
-                    innerhtml.find("#orderImage").click(function () {
+                    innerhtml.find("#orderImage-task").click(function () {
                         if ($(this).attr("src")) {
                             $(this).parent().addClass("hoverimg");
                             $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
@@ -134,7 +135,8 @@
                     });
                     
                     $(".left-enlarge-image").click(function () {
-                        var ele = $("#orderImages .hoverimg").prev();
+                        console.log("1");console.log("a");
+                        var ele = $("#orderImages .hoverimg").prev();                        
                         if (ele && ele.find("img").attr("src")) {
                             var _img = ele.find("img");
                             $("#orderImages .hoverimg").removeClass("hoverimg");
@@ -146,7 +148,8 @@
                     });
                     
                     $(".right-enlarge-image").click(function () {
-                        var ele = $("#orderImages .hoverimg").next();
+                        console.log("2");console.log("b");
+                        var ele = $("#orderImages .hoverimg").next();                        
                         if (ele && ele.find("img").attr("src")) {
                             var _img = ele.find("img");
                             $("#orderImages .hoverimg").removeClass("hoverimg");
