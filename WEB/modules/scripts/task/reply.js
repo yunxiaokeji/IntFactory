@@ -184,7 +184,7 @@
             multiple: false,
             url: "/Plug/UploadFiles",
             data: { folder: '', action: 'add', oldPath: "" },
-            success: function (data, status) {
+            success: function (data, status) {                
                 var len = data.Items.length;
                 if (len > 0) {
                     if (($(".task-file li").length + len) > 10) {
@@ -249,9 +249,10 @@
 
             reply.find("textarea").focus();
 
-            ObjectJS.replyAttachment(_this.data("replyid"));
-                        
-            $("#btn-update-reply" + _this.data("replyid")).Tip({
+            ObjectJS.replyAttachment(_this.data("replyid"));                        
+            
+            //提示
+            $("#reply-attachment"+_this.replyid).Tip({
                 width: 100,
                 msg: "上传附件最多10个"
             });
@@ -297,7 +298,7 @@
                 assign: $(this).data("id"),
                 path: '/modules/plug/qqface/arclist/'	//表情存放的路径
             });
-        });
+        });        
 
         //绑定图片放大功能
         var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
@@ -351,7 +352,7 @@
             }
         });
         
-        //下载下滑切换
+        //下载图标下滑切换
         replys.find(".no-img li").hover(function () {
             $(this).find(".popup-download").stop(true).slideDown(300);
         },function () {
