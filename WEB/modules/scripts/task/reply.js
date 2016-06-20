@@ -6,20 +6,14 @@
     var ObjectJS = {};
     var Reply = {};
     var Controller = "Task";
-    var id = "";
-    var IsCallBack = false;
 
     ///任务讨论
     //初始化任务讨论列表
-    ObjectJS.initTalkReply = function (reply, moduleType, callback) {
+    ObjectJS.initTalkReply = function (reply, moduleType) {
 
         Reply = reply;
         if (moduleType === "customer") {
             Controller = moduleType;
-        }
-        else if(moduleType==="task") {
-            ObjectJS.callBack = callback;
-            IsCallBack = true;
         }
 
         //任务讨论盒子点击
@@ -81,7 +75,7 @@
         });
         
         //获取讨论
-        ObjectJS.getTaskReplys(1);
+        //ObjectJS.getTaskReplys(1);
 
        
     }
@@ -104,67 +98,9 @@
                 doT.exec("template/customer/replys.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
-
                     $("#replyList").html(innerhtml);
 
-                    ////图片放大功能
-                    //var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
-
-                    //innerhtml.find(".orderImage-repay").click(function () {
-                    //    if ($(this).attr("src")) {
-                    //        $("#Images-reply .hoverimg").removeClass("hoverimg");
-                    //        $(this).parent().addClass("hoverimg");
-                    //        $(".enlarge-image-bgbox,.enlarge-image-box").fadeIn();
-                    //        $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
-                    //        $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).data("src") + '"/>');
-                    //        $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-
-                    //        $(".left-enlarge-image").unbind().click(function () {
-                    //            var ele = $("#Images-reply .hoverimg").prev();
-                    //            if (ele && ele.find("img").attr("src")) {
-                    //                var _img = ele.find("img");
-                    //                $("#Images-reply .hoverimg").removeClass("hoverimg");
-                    //                ele.addClass("hoverimg");
-                    //                $(".enlarge-image-item").empty();
-                    //                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
-                    //                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-                    //            }
-                    //        });
-
-                    //        $(".right-enlarge-image").unbind().click(function () {
-                    //            var ele = $("#Images-reply .hoverimg").next();
-                    //            if (ele && ele.find("img").attr("src")) {
-                    //                var _img = ele.find("img");
-                    //                $("#Images-reply .hoverimg").removeClass("hoverimg");
-                    //                ele.addClass("hoverimg");
-                    //                $(".enlarge-image-item").empty();
-                    //                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.data("src") + '"/>');
-                    //                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-                    //            }
-                    //        });
-
-                            //$(".close-enlarge-image").unbind().click(function () {
-                            //    $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
-                            //    $(".enlarge-image-item").empty();
-                            //});
-
-                            //$(".enlarge-image-bgbox").unbind().click(function () {
-                            //    $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
-                            //    $(".enlarge-image-item").empty();
-                            //});
-
-                            //$(".zoom-botton").unbind().click(function (e) {
-                            //    var scaleToAdd = 0.8;
-                            //    if (e.target.id == 'zoomOutButton')
-                            //        scaleToAdd = -scaleToAdd;
-                            //    $('#enlargeImage').smartZoom('zoom', scaleToAdd);
-                            //    return false;
-                            //});
-                    //    }
-                    //});
-
-                    ObjectJS.bindReplyOperate(innerhtml);
-                        
+                    ObjectJS.bindReplyOperate(innerhtml);  
                 });
             }
             else {
@@ -185,11 +121,6 @@
                     ObjectJS.getTaskReplys(page);
                 }
             });
-
-            if (IsCallBack) {
-                ObjectJS.callBack();
-                IsCallBack = false;
-            }
 
         });
     }
@@ -238,7 +169,7 @@
             $(this).html(Global.replaceQqface($(this).html()));
         });
 
-        //回复点击
+        //打开讨论盒
         replys.find(".btn-reply").click(function () {
             var _this = $(this);
             var reply = _this.nextAll(".reply-box");
@@ -334,7 +265,7 @@
             $(this).parent().slideUp(300);
         });
 
-        //点击讨论按钮
+        //讨论表情
         replys.find('.btn-emotion').each(function () {
             $(this).qqFace({
                 assign: $(this).data("id"),
@@ -389,7 +320,6 @@
         $(".download").click(function () {
             window.open($(this).data('url'), '_target');
         });
-        
     }
 
     module.exports = ObjectJS;
