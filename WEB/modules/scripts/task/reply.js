@@ -32,6 +32,9 @@
             success: function (data, status) {
                 if (data.Items.length > 0) {
                     for (var i = 0; i < data.Items.length; i++) {
+                        if ($(".taskreply-box #txtContent").val() == "" && i == 0) {
+                            $(".taskreply-box #txtContent").val(data.Items[0].originalName.split('.')[0]);
+                        }
                         if ($(".task-file li").length <= 9) {
                             var templateUrl = "/template/task/task-file-upload.html";
                             var Htmlappend = $("#reply-files");
