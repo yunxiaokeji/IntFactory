@@ -90,7 +90,7 @@
                 };
                 var attchments = [];
                
-                $(this).parents('.taskreply-box').find('.task-file li').each(function () {
+                $('.taskreply-box .task-file li').each(function () {
                     var _this = $(this);
                     attchments.push({
                         "Type": _this.data('isimg'),
@@ -98,6 +98,7 @@
                         "FilePath": _this.data('filepath'),
                         "FileName": _this.data('filename'),
                         "OriginalName": _this.data('originalname'),
+                        "Size": _this.data("filesize"),
                         "ThumbnailName": ""
                     });
                 });                
