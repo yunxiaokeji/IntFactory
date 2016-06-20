@@ -429,8 +429,8 @@ namespace YXERP.Controllers
         {
             int pageCount = 0;
             int totalCount = 0;
-
-            var list = CustomBusiness.GetReplys(guid, pageSize, pageIndex, ref totalCount, ref pageCount);
+            //GetCustomerReplys
+            var list = CustomBusiness.GetCustomerReplys(guid, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
