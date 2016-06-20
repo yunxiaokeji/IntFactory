@@ -22,49 +22,9 @@
             $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
         });
 
-        //上传附件
-        Upload.createUpload({
-            element: "#reply-attachment",
-            buttonText: "&#xe65a;",
-            className: "left iconfont",
-            multiple: false,
-            url: "/Plug/UploadFiles",
-            data: { folder: '', action: 'add', oldPath: "" },
-            success: function (data, status) {
-                if (data.Items.length > 0) {
+        var replyid = "";
 
-                    for (var i = 0; i < data.Items.length; i++) {
-                        if ($(".taskreply-box #txtContent").val() == "" && i == 0) {
-                            $(".taskreply-box #txtContent").val(data.Items[0].originalName.split('.')[0]);
-                        }
-                        if ($(".task-file li").length <= 9) {
-                            var templateUrl = "/template/task/task-file-upload.html";
-                            var Htmlappend = $("#reply-files");
-                            if (data.Items[i].isImage == 1) {
-                                templateUrl = "/template/task/task-file-upload-img.html";
-                                Htmlappend = $("#reply-imgs");
-                            }
-                            doT.exec(templateUrl, function (template) {
-                                var file = template(data.Items);
-                                file = $(file);
-                                Htmlappend.append(file).fadeIn(300);
-                                file.find(".delete").click(function () {
-                                    $(this).parent().remove();
-                                    if (Htmlappend.find('li').length == 0) {
-                                        Htmlappend.hide();
-                                    }
-                                });
-                            });
-                        } else {
-                            alert("最多允许上传10个");
-                        }
-                        return;
-                    }
-                } else {
-                    alert("上传失败");
-                };
-            }
-        });
+        ObjectJS.replyAttachment(replyid);
 
         //任务讨论盒子隐藏
         $(document).click(function (e) {
@@ -214,6 +174,53 @@
         });
     }
 
+    //上传附件
+    ObjectJS.replyAttachment = function (replyid) {
+        Upload.createUpload({
+            element: "#reply-attachment" + replyid,
+            buttonText: "&#xe65a;",
+            className: "left iconfont",
+            multiple: false,
+            url: "/Plug/UploadFiles",
+            data: { folder: '', action: 'add', oldPath: "" },
+            success: function (data, status) {
+                var len = data.Items.length;
+                if (len > 0) {
+                    if (($(".task-file li").length + len) > 10) {
+                        alert("最多允许上传10个");
+                        return;
+                    }
+                    for (var i = 0; i < len ; i++) {
+                        if ($("#Msg_" + replyid).val() == "" && i == 0) {
+                            $("#Msg_" + replyid).val(data.Items[0].originalName.split('.')[0]);
+                        }
+                        var templateUrl = "/template/task/task-file-upload.html";
+                        var Htmlappend = $("#reply-files" + replyid);
+                        if (data.Items[i].isImage == 1) {
+                            templateUrl = "/template/task/task-file-upload-img.html";
+                            Htmlappend = $("#reply-imgs" + replyid);
+                        }
+                        doT.exec(templateUrl, function (template) {
+                            var file = template(data.Items);
+                            file = $(file);
+                            Htmlappend.append(file).fadeIn(300);
+                            file.find(".delete").click(function () {
+                                $(this).parent().remove();
+                                if (Htmlappend.find('li').length == 0) {
+                                    Htmlappend.hide();
+                                }
+                            });
+                        });
+                        return;
+                    }
+                }
+                else {
+                    alert("上传失败");
+                }
+            }
+        });
+    }
+
     //绑定任务讨论操作
     ObjectJS.bindReplyOperate = function (replys) {
         //替换表情内容
@@ -225,7 +232,7 @@
         replys.find(".btn-reply").click(function () {
             var _this = $(this);
             var reply = _this.nextAll(".reply-box");
-            $("#btn-update-reply" + _this.data("replyid")).empty();
+            $("#reply-attachment" + _this.data("replyid")).empty();
 
             $("#replyList .reply-box").each(function () {
                 if ($(this).data("replyid") != reply.data("replyid")) {
@@ -241,52 +248,8 @@
 
             reply.find("textarea").focus();
 
-            //讨论附件
-            Upload.createUpload({
-                element: "#btn-update-reply" + _this.data("replyid"),
-                buttonText: "&#xe65a;",
-                className: "left iconfont",
-                multiple: false,
-                url: "/Plug/UploadFiles",
-                data: { folder: '', action: 'add', oldPath: "" },
-                success: function (data, status) {
-                    var len = data.Items.length;
-                    if (len > 0) {
-                        if (( $(".task-file li").length + len) > 10) {
-                            alert("最多允许上传10个");
-                            return;
-                        }
-                        for (var i = 0; i <len ; i++) {
-                                if ($("#Msg_" + _this.data("replyid")).val() == "" && i == 0) {
-                                    $("#Msg_" + _this.data("replyid")).val(data.Items[0].originalName.split('.')[0]);
-                                }
-                                var templateUrl = "/template/task/task-file-upload.html";
-                                var Htmlappend = $("#file_" + _this.data("replyid"));
-                                if (data.Items[i].isImage == 1) {
-                                    templateUrl = "/template/task/task-file-upload-img.html";
-                                    Htmlappend = $("#images_" + _this.data("replyid"));
-                                }
-                                doT.exec(templateUrl, function (template) {
-                                    var file = template(data.Items);
-                                    file = $(file);
-                                    Htmlappend.append(file).fadeIn(300);
-                                    file.find(".delete").click(function () {
-                                        $(this).parent().remove();
-                                        if (Htmlappend.find('li').length == 0) {
-                                            Htmlappend.hide();
-                                        }
-                                    });
-                                });
- 
-                            return;
-                        }
-
-                    }
-                    else {
-                        alert("上传失败");
-                    }
-                }
-            });
+            ObjectJS.replyAttachment(_this.data("replyid"));
+                        
             $("#btn-update-reply" + _this.data("replyid")).Tip({
                 width: 100,
                 msg: "上传附件最多10个"
