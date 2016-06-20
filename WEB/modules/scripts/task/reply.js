@@ -33,7 +33,7 @@
         });
 
         //保存讨论
-        $("#btnSaveTalk").click(function () {
+        $("#btnSaveTalk").click(function () {            
             var txt = $("#txtContent");
             if (txt.val().trim()) {
                 var model = {
@@ -57,7 +57,7 @@
                         "OriginalName": _this.data('originalname'),
                         "ThumbnailName": ""
                     });
-                })
+                });                
                 ObjectJS.saveTaskReply(model, $(this), attchments);
 
                 $("#btnSaveTalk").parents('.taskreply-box').find(".task-file").empty();
