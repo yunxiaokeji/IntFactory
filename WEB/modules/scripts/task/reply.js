@@ -9,7 +9,7 @@
 
     ///任务讨论
     //初始化任务讨论列表
-    ObjectJS.initTalkReply = function (reply, moduleType) {
+    ObjectJS.initTalkReply = function (reply, moduleType,noGet) {
 
         Reply = reply;
         if (moduleType === "customer") {
@@ -75,7 +75,9 @@
         });
         
         //获取讨论
-        //ObjectJS.getTaskReplys(1);
+        if (!noGet) {
+            ObjectJS.getTaskReplys(1);
+        }
 
        
     }
@@ -283,6 +285,23 @@
                 $(".right-enlarge-image,.left-enlarge-image").css({ "top": height / 2 - 80 })
                 $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).data("src") + '"/>');
                 $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+
+                $(".close-enlarge-image").unbind().click(function () {
+                    $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+                    $(".enlarge-image-item").empty();
+                });
+                $(".enlarge-image-bgbox").unbind().click(function () {
+                    $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
+                    $(".enlarge-image-item").empty();
+                });
+                $(".zoom-botton").unbind().click(function (e) {
+                    var scaleToAdd = 0.8;
+                    if (e.target.id == 'zoomOutButton')
+                        scaleToAdd = -scaleToAdd;
+                    $('#enlargeImage').smartZoom('zoom', scaleToAdd);
+                    return false;
+                });
+
                 $(".left-enlarge-image").unbind().click(function () {
                     var ele = $("#Images-reply .hoverimg").prev();
                     if (ele && ele.find("img").attr("src")) {
@@ -294,7 +313,6 @@
                         $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
                     }
                 });
-
                 $(".right-enlarge-image").unbind().click(function () {
                     var ele = $("#Images-reply .hoverimg").next();
                     if (ele && ele.find("img").attr("src")) {
@@ -309,14 +327,14 @@
             }
         });
         
-        //
+        //附件鼠标滑动效果
         replys.find(".no-img li").hover(function () {
             $(this).find(".popup-download").stop(true).slideDown(300);
         },function () {
             $(this).find(".popup-download").stop(true).slideUp(300);
         });
 
-        //
+        //下载附件
         $(".download").click(function () {
             window.open($(this).data('url'), '_target');
         });
