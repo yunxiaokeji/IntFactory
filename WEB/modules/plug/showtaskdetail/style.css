@@ -69,3 +69,6 @@
 .information-upload .filename{color:#222;margin-top:7px;}
 .popup-download { height:60px;background-color:#ccc;width:111px;z-index:100;top:0;left:60px;position:absolute;
                   font-size:28px !important;text-align:center;color:#fff !important;line-height:60px !important;}
+.reply-box .iconfont { background-color:#fff;border:0;font-size:22px;}
+.reply-box .iconfont:hover { color:#007aff;}
+.width-order-taskdetail { width:415px;}
