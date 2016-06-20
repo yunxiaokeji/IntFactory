@@ -23,7 +23,7 @@
 
         //上传附件
         Upload.createUpload({
-            element: "#btn-task-reply",
+            element: "#reply-attachment",
             buttonText: "&#xe65a;",
             className: "left iconfont",
             multiple: false,
@@ -34,22 +34,24 @@
                     for (var i = 0; i < data.Items.length; i++) {
                         if ($(".task-file li").length <= 9) {
                             var templateUrl = "/template/task/task-file-upload.html";
-                            var appendHtml = $("#orderflie-task");
+                            var Htmlappend = $("#reply-files");
                             if (data.Items[i].isImage == 1) {
                                 templateUrl = "/template/task/task-file-upload-img.html";
-                                appendHtml = $("#Images-reply-task");
+                                Htmlappend = $("#reply-imgs");
                             }
                             doT.exec(templateUrl, function (template) {
                                 var file = template(data.Items);
                                 file = $(file);
-                                appendHtml.append(file).fadeIn(300);
+                                Htmlappend.append(file).fadeIn(300);
                                 file.find(".delete").click(function () {
                                     $(this).parent().remove();
-                                    if (appendHtml.find('li').length == 0) {
-                                        appendHtml.hide();
+                                    if (Htmlappend.find('li').length == 0) {
+                                        Htmlappend.hide();
                                     }
                                 });
                             });
+                        } else {
+                            alert("最多允许上传10个");
                         }
                         return;
                     }
@@ -245,22 +247,24 @@
                                     $("#Msg_" + _this.data("replyid")).val(data.Items[0].originalName.split('.')[0]);
                                 }
                                 var templateUrl = "/template/task/task-file-upload.html";
-                                var appendHtml = $("#file_" + _this.data("replyid"));
+                                var Htmlappend = $("#file_" + _this.data("replyid"));
                                 if (data.Items[i].isImage == 1) {
                                     templateUrl = "/template/task/task-file-upload-img.html";
-                                    appendHtml = $("#images_" + _this.data("replyid"));
+                                    Htmlappend = $("#images_" + _this.data("replyid"));
                                 }
                                 doT.exec(templateUrl, function (template) {
                                     var file = template(data.Items);
                                     file = $(file);
-                                    appendHtml.append(file).fadeIn(300);
+                                    Htmlappend.append(file).fadeIn(300);
                                     file.find(".delete").click(function () {
                                         $(this).parent().remove();
-                                        if (appendHtml.find('li').length == 0) {
-                                            appendHtml.hide();
+                                        if (Htmlappend.find('li').length == 0) {
+                                            Htmlappend.hide();
                                         }
                                     });
                                 });
+                            } else {
+                                alert("最多允许上传10个");
                             }
                             return;
                         }
