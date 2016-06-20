@@ -45,14 +45,14 @@
                             %}
                         </ul>
                         <div class="clear"></div>
-                        <ul id="orderImages" class="accessory upload-img" style="display: block;">
+                        <ul id="Images-reply" class="accessory upload-img" style="display: block;">
                             {%
                             for(var s=0;s<attchment.length;s++){   
                                 var attchmentItem=attchment[s];
                                 if(attchmentItem.Type==1)
                                 { 
                             %}  
-                            <li class="mTop5 hand"><img id="orderImage-task" data-src="{%=attchmentItem.FilePath+attchmentItem.FileName%}" src="{%=attchmentItem.FilePath+(attchmentItem.ThumbnailName==""?attchmentItem.FileName:attchmentItem.ThumbnailName)%}"></li>
+                            <li class="mTop5 hand"><img class="orderImage-repay" data-src="{%=attchmentItem.FilePath+attchmentItem.FileName%}" src="{%=attchmentItem.FilePath+(attchmentItem.ThumbnailName==""?attchmentItem.FileName:attchmentItem.ThumbnailName)%}"></li>
                             {%
                                 }
                             }

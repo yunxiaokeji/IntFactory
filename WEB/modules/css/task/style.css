@@ -330,13 +330,14 @@
    position:relative;
    float:left;
    margin-right:40px;
-   border:1px solid #efefef;
+   border:1px solid #ddd;
    width:120px;
    height:80px;
    text-align:center;
    font-size:0;
    line-height:80px;
    margin-bottom:20px;
+   padding:1px;
 }
 .accessory li img{ 
     max-width:120px;
