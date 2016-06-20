@@ -221,7 +221,7 @@
             {
                  <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019019"))" id="changeOrderCategory">绑定品类</div>
             }
-            else if (model.OrderStatus <= 2)
+            else if (model.OrderStatus <= 2 && model.Status != 1)
             {
                  <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="changeOrderStatus"></div>
             }
