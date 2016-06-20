@@ -192,7 +192,7 @@ namespace YXERP.Controllers
                 }
                 item.Add("fileName", newFileName);
                 item.Add("originalName",file.FileName);
-                item.Add("fileSize", file.ContentLength / 1024);
+                item.Add("fileSize", file.ContentLength);
                 item.Add("extensions", arr[arr.Length - 1]);
                 item.Add("isImage", isImage);
                 items.Add(item);                

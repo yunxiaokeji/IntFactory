@@ -34,6 +34,9 @@
                 if (data.Items.length > 0) {
 
                     for (var i = 0; i < data.Items.length; i++) {
+                        if ($(".taskreply-box #txtContent").val() == "" && i == 0) {
+                            $(".taskreply-box #txtContent").val(data.Items[0].originalName.split('.')[0]);
+                        }
                         if ($(".task-file li").length <= 9) {
                             var templateUrl = "/template/task/task-file-upload.html";
                             var Htmlappend = $("#reply-files");
@@ -89,7 +92,7 @@
                 };
                 var attchments = [];
                
-                $("#btnSaveTalk").parents('.taskreply-box').find('.task-file li').each(function () {
+                $('.taskreply-box .task-file li').each(function () {
                     var _this = $(this);
                     attchments.push({
                         "Type": _this.data('isimg'),
@@ -97,6 +100,7 @@
                         "FilePath": _this.data('filepath'),
                         "FileName": _this.data('filename'),
                         "OriginalName": _this.data('originalname'),
+                        "Size": _this.data("filesize"),
                         "ThumbnailName": ""
                     });
                 });                
@@ -304,7 +308,7 @@
                 };
                 var attchments = [];
 
-                _this.parents('.reply-box').find('.task-file li').each(function () {
+                $(".upload-files-" + _this.data("replyid")+" li").each(function () {
                     var _this = $(this);
                     attchments.push({
                         "Type": _this.data('isimg'),
