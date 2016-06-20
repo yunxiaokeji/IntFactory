@@ -74,6 +74,7 @@ namespace IntFactoryBusiness
 
                 if (attachments.Rows.Count > 0)
                 {
+                    model.Attachments=new List<Attachment>();
                     foreach (DataRow dr2 in attachments.Select(" Guid='" + model.ReplyID + "'"))
                     {
                         Attachment attachment = new Attachment();

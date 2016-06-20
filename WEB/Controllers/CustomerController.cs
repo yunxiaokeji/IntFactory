@@ -9,6 +9,7 @@ using IntFactoryBusiness;
 using System.Web.Script.Serialization;
 using IntFactoryEntity;
 using YXERP.Models;
+using System.IO;
 
 namespace YXERP.Controllers
 {
@@ -395,17 +396,57 @@ namespace YXERP.Controllers
 
         #region 讨论
 
-        public JsonResult SavaReply(string entity)
+        public JsonResult SavaReply(string entity, string customerID, string attchmentEntity)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             ReplyEntity model = serializer.Deserialize<ReplyEntity>(entity);
+            model.Attachments = serializer.Deserialize<List<IntFactoryEntity.Attachment>>(attchmentEntity);
 
             string replyID = "";
             replyID = CustomBusiness.CreateReply(model.GUID, model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
 
+            string movePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Customers/" + DateTime.Now.ToString("yyyyMM") + "/";
+            string uploadTempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
+            DirectoryInfo directory = new DirectoryInfo(Server.MapPath(movePath));
+            if (!directory.Exists)
+            {
+                directory.Create();
+            }
+
+            foreach (var attachments in model.Attachments)
+            {
+                attachments.FilePath = movePath;
+                string fileUrl = movePath + attachments.FileName;
+                string tempFileUrl = uploadTempPath + attachments.FileName;
+                FileInfo tempFile = new FileInfo(Server.MapPath(tempFileUrl));
+
+                if (tempFile.Exists)
+                {
+                    tempFile.MoveTo(Server.MapPath(fileUrl));
+
+                    if (attachments.Type == 1)
+                    {
+                        FileInfo file = new FileInfo(Server.MapPath(fileUrl));
+                        if (file.Length > 10)
+                        {
+                            if (file.Exists)
+                            {
+                                string smallImgUrl = Path.GetDirectoryName(fileUrl) + "\\small" + file.Name;
+                                attachments.ThumbnailName = "small" + file.Name;
+                                CommonBusiness.GetThumImage(Server.MapPath(fileUrl), 30, 250, Server.MapPath(smallImgUrl));
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            CustomBusiness.AddCustomerReplyAttachments(customerID, replyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);
+
             List<ReplyEntity> list = new List<ReplyEntity>();
             if (!string.IsNullOrEmpty(replyID))
             {
+
                 model.ReplyID = replyID;
                 model.CreateTime = DateTime.Now;
                 model.CreateUser = CurrentUser;
@@ -429,7 +470,6 @@ namespace YXERP.Controllers
         {
             int pageCount = 0;
             int totalCount = 0;
-            //GetCustomerReplys
             var list = CustomBusiness.GetCustomerReplys(guid, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);

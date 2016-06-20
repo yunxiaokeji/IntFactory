@@ -7,7 +7,9 @@
 }
 
 @section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
+    <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/customer/detail"], function (ObjectJS) {
             ObjectJS.init('@ViewBag.ID', '@ViewBag.MDToken');
@@ -134,3 +136,17 @@
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" id="editContact">编辑</li>
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019007"))" id="deleteContact">删除</li>
 </ul>
+
+<div class="enlarge-image-bgbox hide">
+    <div class="close-enlarge-image iconfont">&#xe606;</div> 
+    <span id="zoomInButton" class="zoom-botton iconfont mRight50">&#xe642;</span>
+    <span id="zoomOutButton" class="zoom-botton iconfont">&#xe641;</span>
+</div>
+
+<div id="pageContent" class="enlarge-image-box hide">
+    <div class="left-enlarge-image"></div>
+    <div class="right-enlarge-image"></div>
+    <div class="enlarge-image-item">
+         
+    </div>
+</div>
