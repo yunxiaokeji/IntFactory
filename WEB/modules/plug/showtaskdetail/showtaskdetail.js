@@ -1,7 +1,7 @@
 ﻿
 define(function (require, exports, module) {
     require("plug/showtaskdetail/style.css");
-
+    
     var Global = require("global"),
         ChooseUser = require("chooseuser");
     var doT = require("dot");
@@ -136,6 +136,7 @@ define(function (require, exports, module) {
                             && !$(e.target).parents().hasClass("alert") && !$(e.target).hasClass("alert")
                             && !$(e.target).parents().hasClass("stage-items") && !$(e.target).hasClass("stage-items")
                             && !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace")
+                            && !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload")
                             ) {
                             $("#taskDetailContent").animate({ width: '0px' }, 100);
                         }
@@ -147,29 +148,41 @@ define(function (require, exports, module) {
                         path: '/modules/plug/qqface/arclist/'	//表情存放的路径
                     });
 
+                    //上传
                     Upload.createUpload({
                         element: "#btn-task-reply",
-                        buttonText: "&#xe618;",
+                        buttonText: "&#xe65a;",
                         className: "left iconfont",
                         multiple: false,
+                        url: "/Plug/UploadFiles",
                         data: { folder: '', action: 'add', oldPath: "" },
                         success: function (data, status) {
                             if (data.Items.length > 0) {
                                 for (var i = 0; i < data.Items.length; i++) {
-                                    if ($("#orderImages-task li").length < 5) {
-                                        var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
-                                        $("#orderImages-task").append(img).fadeIn(300);
-                                        img.find(".ico-delete").click(function () {
-                                            $(this).parent().remove();
-                                            if ($("#orderImages-task li").length == 0) {
-                                                $("#orderImages-task").hide();
-                                            }
+                                    if ($(".task-file li").length <= 9) {
+                                        var templateUrl = "/template/task/task-file-upload.html";
+                                        var appendHtml = $("#orderflie-task");
+                                        if (data.Items[i].isImage == 1) {
+                                            templateUrl = "/template/task/task-file-upload-img.html";
+                                            appendHtml = $("#Images-reply-task");
+                                        }
+                                        doT.exec(templateUrl, function (template) {
+                                            var file = template(data.Items);
+                                            file = $(file);
+                                            appendHtml.append(file).fadeIn(300);
+                                            file.find(".delete").click(function () {
+                                                $(this).parent().remove();
+                                                if (appendHtml.find('li').length == 0) {
+                                                    appendHtml.hide();
+                                                }
+                                            });
                                         });
                                     }
+                                    return;
                                 }
                             } else {
-                                alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-                            }
+                                alert("上传失败");
+                            };
                         }
                     });
 
