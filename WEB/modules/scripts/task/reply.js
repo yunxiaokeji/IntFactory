@@ -21,7 +21,7 @@
         $(".taskreply-box").click(function () {
             $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
         });
-
+        
         var replyid = "";
 
         ObjectJS.replyAttachment(replyid);
