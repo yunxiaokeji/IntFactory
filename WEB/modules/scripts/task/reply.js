@@ -370,7 +370,7 @@
 
         //下载附件
         $(".download").click(function () {
-            window.open($(this).data('url'), '_target');
+            window.open($(this).data('url'),'_self');
         });
     }
     module.exports = ObjectJS;
