@@ -210,10 +210,6 @@ namespace YXERP.Controllers
 
         public FileStreamResult DownLoadFile(string filePath, string fileName, string originalName)
         {
-            //string fileName = "20160525.xls";
-
-            //string filtPath = "/Content/UploadFiles/Tasks/201606/";
-
             originalName = HttpUtility.UrlEncode(originalName, Encoding.GetEncoding("UTF-8"));
             return File(new FileStream(Server.MapPath(filePath + fileName), FileMode.Open), "application/octet-stream", originalName);
         }
