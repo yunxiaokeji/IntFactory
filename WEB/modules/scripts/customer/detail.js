@@ -87,11 +87,7 @@
     //绑定事件
     ObjectJS.bindEvent = function (model) {
         var _self = this;      
-
-        $(".upload-file li .ico-delete-upload").click(function () {
-            $(this).parent().remove();
-        });
-
+               
         $(document).click(function (e) {
             //隐藏下拉
             if (!$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown")) {
