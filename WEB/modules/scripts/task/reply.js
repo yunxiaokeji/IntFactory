@@ -23,7 +23,6 @@
         });
         
         var replyid = "";
-
         ObjectJS.replyAttachment(replyid);
 
         //任务讨论盒子隐藏
