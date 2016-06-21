@@ -28,7 +28,7 @@
 .taskContent .talk-body .content-list td{ border-bottom:dashed 1px #ccc;  }
 .taskContent .talk-body .content-list .user-avatar { width:35px; padding-top:20px; vertical-align:top; }
 .taskContent .talk-body .content-list .user-avatar img{ width:24px; height:24px; border-radius:12px;  vertical-align:top; }
-.taskContent .talk-body .reply-content { display:inline-block;white-space: pre-wrap;word-wrap: break-word;  }
+.taskContent .talk-body .reply-content { display:inline-block;white-space: pre-wrap;word-wrap: break-word; width:415px; }
 .attchment-box {width:415px !important;}
 
 .taskReplyBox { border: 1px solid #ddd; padding: 10px 10px 0px 10px; border-radius: 3px;  overflow:hidden;}
