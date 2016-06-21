@@ -1,5 +1,5 @@
 ﻿{%
-	for(var i=0, j=$data.length; i < j; i++){
+	for(var i=0;i<$data.length; i++){
 	var item = $data[i];
     var attchment=item.Attachments;
 %}
@@ -18,8 +18,8 @@
                     <div class="width750 attchment-box">
                         <ul class="mTop10 upload-file">
                             {%
-                            for(var a=0;a<attchment.length;a++){   
-                                var attchmentItem=attchment[a];
+                            for(var j=0;j<attchment.length;j++){   
+                                var attchmentItem=attchment[j];
                                 var extension=attchmentItem.OriginalName.split('.');
                                 if(attchmentItem.Type==2)
                                 { 
@@ -51,8 +51,8 @@
                         <div class="clear"></div>
                         <ul id="Images-reply" class="accessory upload-img" style="display: block;">
                             {%
-                            for(var s=0;s<attchment.length;s++){   
-                                var attchmentItem=attchment[s];
+                            for(var k=0;k<attchment.length;k++){   
+                                var attchmentItem=attchment[k];
                                 if(attchmentItem.Type==1)
                                 { 
                             %}  

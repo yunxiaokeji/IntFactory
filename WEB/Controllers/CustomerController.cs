@@ -427,14 +427,11 @@ namespace YXERP.Controllers
                     if (attachments.Type == 1)
                     {
                         FileInfo file = new FileInfo(Server.MapPath(fileUrl));
-                        if (file.Length > 10)
+                        if (file.Exists)
                         {
-                            if (file.Exists)
-                            {
-                                string smallImgUrl = Path.GetDirectoryName(fileUrl) + "\\small" + file.Name;
-                                attachments.ThumbnailName = "small" + file.Name;
-                                CommonBusiness.GetThumImage(Server.MapPath(fileUrl), 30, 250, Server.MapPath(smallImgUrl));
-                            }
+                            string smallImgUrl = Path.GetDirectoryName(fileUrl) + "\\small" + file.Name;
+                            attachments.ThumbnailName = "small" + file.Name;
+                            CommonBusiness.GetThumImage(Server.MapPath(fileUrl), 30, 250, Server.MapPath(smallImgUrl));
                         }
                     }
                 }
