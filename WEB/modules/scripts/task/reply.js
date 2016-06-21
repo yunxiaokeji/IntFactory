@@ -94,9 +94,7 @@
             width: 100,
             msg: "上传附件最多10个"
         });
-        //if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {
-        //    $(".btn-reply").removeClass("mTop15");            
-        //}
+        
     }
 
     //获取任务讨论列表
@@ -239,7 +237,8 @@
         replys.find(".btn-reply").click(function () {
             
             var _this = $(this);
-            var reply = _this.nextAll(".reply-box");
+            var reply = _this.parent().nextAll(".reply-box");
+            
             $("#reply-attachment" + _this.data("replyid")).empty();
 
             $("#replyList .reply-box").each(function () {
@@ -248,12 +247,12 @@
                 }
             });
             if (reply.is(":visible")) {
-                reply.slideUp(300);
+                reply.slideUp(300);                
             }
             else {
-                reply.slideDown(300);
+                reply.slideDown(300);                
             }
-
+            
             reply.find("textarea").focus();
 
             ObjectJS.replyAttachment(_this.data("replyid"));                        
