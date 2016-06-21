@@ -290,15 +290,15 @@
                         "ThumbnailName": ""
                     });
                 })
-
                 ObjectJS.saveTaskReply(entity, _this, attchments);
+                $(this).parent().slideUp(300);
                 _this.parents('.reply-box').find(".task-file").empty();
             }
             else {
                 alert("请输入讨论内容");
             }
             $("#Msg_" + _this.data("replyid")).val('');
-            $(this).parent().slideUp(300);
+
         });
 
         //讨论表情
