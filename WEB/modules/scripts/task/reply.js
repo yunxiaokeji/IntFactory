@@ -236,7 +236,7 @@
         replys.find(".btn-reply").click(function () {
 
             var _this = $(this);
-            var reply = _this.parent().nextAll(".reply-box");
+            var reply = _this.nextAll(".reply-box");
             
             $("#reply-attachment" + _this.data("replyid")).empty();
 
