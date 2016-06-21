@@ -252,7 +252,7 @@
             ObjectJS.replyAttachment(_this.data("replyid"));                        
             
             //提示
-            $("#reply-attachment"+_this.replyid).Tip({
+            $("#reply-attachment" + _this.data("replyid")).Tip({
                 width: 100,
                 msg: "上传附件最多10个"
             });
