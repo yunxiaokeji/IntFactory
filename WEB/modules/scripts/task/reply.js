@@ -237,6 +237,7 @@
 
             var _this = $(this);
             var reply = _this.nextAll(".reply-box");
+            
             $("#reply-attachment" + _this.data("replyid")).empty();
 
             $("#replyList .reply-box").each(function () {
@@ -245,12 +246,12 @@
                 }
             });
             if (reply.is(":visible")) {
-                reply.slideUp(300);
+                reply.slideUp(300);                
             }
             else {
-                reply.slideDown(300);
+                reply.slideDown(300);                
             }
-
+            
             reply.find("textarea").focus();
 
             ObjectJS.replyAttachment(_this.data("replyid"));                        
@@ -361,7 +362,7 @@
         });
         
         //下载图标下滑切换
-        replys.find(".no-img li").hover(function () {
+        replys.find(".upload-file li").hover(function () {
             $(this).find(".popup-download").stop(true).slideDown(300);
         },function () {
             $(this).find(".popup-download").stop(true).slideUp(300);
