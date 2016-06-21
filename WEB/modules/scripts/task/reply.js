@@ -373,7 +373,6 @@
             window.open($(this).data('url'), '_target');
         });
     }
-
     module.exports = ObjectJS;
 });
 

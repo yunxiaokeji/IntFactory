@@ -206,6 +206,16 @@ namespace YXERP.Controllers
             };
         }
 
+
+        public FileStreamResult DownLoadFile(string filePath, string fileName, string originalName)
+        {
+            //string fileName = "20160525.xls";
+
+            //string filtPath = "/Content/UploadFiles/Tasks/201606/";
+
+            return File(new FileStream(Server.MapPath(filePath + fileName), FileMode.Open), "application/octet-stream", fileName);
+        }
+
         /// <summary>
         /// 获取下属列表
         /// </summary>
