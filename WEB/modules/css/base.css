@@ -19,7 +19,7 @@
 .long { display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /*强制换行*/
-.wordbreak {display:inline-block;word-break:break-word; }
+.wordbreak {display:inline-block;word-break:break-all; }
 
 .green { color:#74D07D !important;}
 .blue { color:#4a98e7 !important;}

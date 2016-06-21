@@ -60,15 +60,19 @@
                         </ul>
                         <div class="clear"></div>                   
                 </div>
-                {%}}%}
-                <div class="pTop5" style="color:#999;margin-bottom:-35px;">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss") %}</div>
+                {%}}%}                
                 </div>
             </div>
-            <div class="right mTop15 hand btn-reply" data-replyid="{%=item.ReplyID%}">
-                <div class="left" style="padding-top:3px;"><img src="/modules/images/ico-reply-gray.png"/></div>
-                <div class="left mLeft5" style="color:#777;font-size:14px;">回复</div>
-                <div class="clear"></div>
-            </div>
+            <div class="clear"></div>
+            <div>
+                <div class="pTop5" style="color:#999;margin-bottom:-35px;">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss") %}</div>
+                <div class="right mTop15 hand btn-reply" data-replyid="{%=item.ReplyID%}">
+                    <div class="left" style="padding-top:3px;"><img src="/modules/images/ico-reply-gray.png"/></div>
+                    <div class="left mLeft5" style="color:#777;font-size:14px;">回复</div>
+                    <div class="clear"></div>
+                </div>
+            </div>  
+            
             <div class="clear"></div>
             <div class="mTop10 hide reply-box" data-replyid="{%=item.ReplyID%}">
                 <div>
