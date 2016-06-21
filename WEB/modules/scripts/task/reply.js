@@ -67,7 +67,7 @@
                 });                
                 ObjectJS.saveTaskReply(model, $(this), attchments);
 
-                $("#btnSaveTalk").parents('.taskreply-box').find(".task-file").empty();
+                $('.taskreply-box .task-file').empty();
                 txt.val("");
             }
 
