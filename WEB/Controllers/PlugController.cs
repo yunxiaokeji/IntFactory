@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using IntFactoryBusiness;
 using System.IO;
 using System.Web.Script.Serialization;
+using System.Text;
 
 namespace YXERP.Controllers
 {
@@ -213,7 +214,8 @@ namespace YXERP.Controllers
 
             //string filtPath = "/Content/UploadFiles/Tasks/201606/";
 
-            return File(new FileStream(Server.MapPath(filePath + fileName), FileMode.Open), "application/octet-stream", fileName);
+            originalName = HttpUtility.UrlEncode(originalName, Encoding.GetEncoding("UTF-8"));
+            return File(new FileStream(Server.MapPath(filePath + fileName), FileMode.Open), "application/octet-stream", originalName);
         }
 
         /// <summary>
