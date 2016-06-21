@@ -369,7 +369,7 @@
 
         //下载附件
         $(".download").click(function () {
-            window.open($(this).data('url'),'_self');
+            window.open($(this).data('url'));
         });
     }
     module.exports = ObjectJS;
