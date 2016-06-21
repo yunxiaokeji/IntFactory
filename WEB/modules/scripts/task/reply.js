@@ -52,7 +52,7 @@
                     FromReplyAgentID: ""
                 };
                 var attchments = [];
-               
+
                 $('.taskreply-box .task-file li').each(function () {
                     var _this = $(this);
                     attchments.push({
@@ -64,11 +64,14 @@
                         "Size": _this.data("filesize"),
                         "ThumbnailName": ""
                     });
-                });                
+                });
                 ObjectJS.saveTaskReply(model, $(this), attchments);
 
                 $("#btnSaveTalk").parents('.taskreply-box').find(".task-file").empty();
                 txt.val("");
+            }
+            else {
+                alert("请输入讨论内容");
             }
 
         });
@@ -192,8 +195,8 @@
                         return;
                     }
                     for (var i = 0; i < len ; i++) {
-                        if ($("#Msg_" + replyid).val() == "" && i == 0) {
-                            $("#Msg_" + replyid).val(data.Items[0].originalName.split('.')[0]);
+                        if ($(".msg-" + replyid).val() == "" && i == 0) {
+                            $(".msg-" + replyid).val(data.Items[0].originalName.split('.')[0]);
                         }
                         var templateUrl = "/template/task/task-file-upload.html";
                         var Htmlappend = $("#reply-files" + replyid);
@@ -269,11 +272,11 @@
                     Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                     FromReplyID: _this.data("replyid"),
                     FromReplyUserID: _this.data("createuserid"),
-                    FromReplyAgentID: _this.data("agentid") 
+                    FromReplyAgentID: _this.data("agentid")
                 };
                 var attchments = [];
 
-                $(".upload-files-" + _this.data("replyid")+" li").each(function () {
+                $(".upload-files-" + _this.data("replyid") + " li").each(function () {
                     var _this = $(this);
                     attchments.push({
                         "Type": _this.data('isimg'),
@@ -285,8 +288,11 @@
                     });
                 })
 
-                ObjectJS.saveTaskReply(entity, _this,attchments);
+                ObjectJS.saveTaskReply(entity, _this, attchments);
                 _this.parents('.reply-box').find(".task-file").empty();
+            }
+            else {
+                alert("请输入讨论内容");
             }
             $("#Msg_" + _this.data("replyid")).val('');
             $(this).parent().slideUp(300);
