@@ -15,7 +15,7 @@
                     <span style="color:#777;" class="reply-content">{%=decodeURI(item.Content)%}</span>
                     {%if(attchment){%}
                     {%if(attchment.length>0){%}
-                    <div class="width750">
+                    <div style="width:100%;">
                         <ul class="mTop10 no-img">
                             {%
                             for(var a=0;a<attchment.length;a++){   
@@ -61,7 +61,7 @@
                         <div class="clear"></div>                   
                 </div>
                 {%}}%}
-                <div class="pTop5" style="color:#999;margin-bottom:-35px;">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss") %}</div>
+                <div class="pTop5" style="color:#999;">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss") %}</div>
                 </div>
             </div>
             <div class="right mTop15 hand btn-reply" data-replyid="{%=item.ReplyID%}">
@@ -76,10 +76,6 @@
                 </div>
                 <div id="reply-attachment{%=item.ReplyID%}" style="width:25px;"></div>
                 <div class="btn-emotion left iconfont mLeft10" data-id="Msg_{%=item.ReplyID%}" title="表情">&#xe65b;</div>
-                
-                <div class="right mTop5 btn save-reply" data-id="{%=item.GUID%}"  data-stageid="{%=item.StageID%}" data-replyid="{%=item.ReplyID%}" data-createuserid="{%=item.CreateUserID%}" data-agentid="{%=item.AgentID%}">
-                    回复
-                </div>
                 <ul class="mTop40 no-img hide task-file upload-files-{%=item.ReplyID%}" id="reply-files{%=item.ReplyID%}">
                               
                 </ul> 
@@ -88,6 +84,10 @@
 
                 </ul>
                 <div class="clear"></div>
+                <div class="right mTop5 btn save-reply" data-id="{%=item.GUID%}"  data-stageid="{%=item.StageID%}" data-replyid="{%=item.ReplyID%}" data-createuserid="{%=item.CreateUserID%}" data-agentid="{%=item.AgentID%}">
+                    回复
+                </div>
+                
             </div>
         </div>
     </td>
