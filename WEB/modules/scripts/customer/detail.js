@@ -88,7 +88,7 @@
     ObjectJS.bindEvent = function (model) {
         var _self = this;      
 
-        $(".no-img li .ico-delete-upload").click(function () {
+        $(".upload-file li .ico-delete-upload").click(function () {
             $(this).parent().remove();
         });
 

@@ -547,12 +547,12 @@
 }
 
 /*上传*/
-.no-img {margin-right:10px;}
-.no-img li { float:left;position:relative;margin-right:20px;margin-bottom:10px;}
-.no-img li img{ width:35px;height:40px;margin-right:3px;}
-.no-img div{ font-size:10px;color:#aaa;line-height:20px;cursor:pointer;}
-.no-img div span{ color:#aaa;}
-.no-img .ico-delete-upload{position:absolute;top:-5px;width:20px;height:20px;right:0;font-size:10px; color:#bbb;}
+.upload-file {margin-right:10px;}
+.upload-file li { float:left;position:relative;margin-right:20px;margin-bottom:10px;}
+.upload-file li img{ width:35px;height:40px;margin-right:3px;}
+.upload-file div{ font-size:10px;color:#aaa;line-height:20px;cursor:pointer;}
+.upload-file div span{ color:#aaa;}
+.upload-file .ico-delete-upload{position:absolute;top:-5px;width:20px;height:20px;right:0;font-size:10px; color:#bbb;}
 
 /*回复*/
 .logo-upload { background-color:#eee;width:60px;height:60px;float:left;margin-right:10px;position:absolute;z-index:100;}

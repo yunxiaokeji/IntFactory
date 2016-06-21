@@ -362,7 +362,7 @@
         });
         
         //下载图标下滑切换
-        replys.find(".no-img li").hover(function () {
+        replys.find(".upload-file li").hover(function () {
             $(this).find(".popup-download").stop(true).slideDown(300);
         },function () {
             $(this).find(".popup-download").stop(true).slideUp(300);
