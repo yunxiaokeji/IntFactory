@@ -78,7 +78,7 @@
     //绑定事件
     ObjectJS.bindEvent = function (model, navid) {
         var _self = this;      
-
+               
         $(document).click(function (e) {
             //隐藏下拉
             if (!$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown")) {

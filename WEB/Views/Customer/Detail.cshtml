@@ -7,7 +7,9 @@
 }
 
 @section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
+    <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/customer/detail"], function (ObjectJS) {
             ObjectJS.init('@ViewBag.ID', '@ViewBag.MDToken', '@ViewBag.Nav');
@@ -70,20 +72,26 @@
     </table>
     <div class="mTop20 task-replys hide" id="taskReplys">
         <div class="taskreply-box">
-            <textarea id="txtContent" class="reply-content" placeholder="发表备忘"></textarea><br />
-            <div class="btn-emotion left" id="btn-emotion" data-id="txtContent" title="表情"></div>
-            <div id="btn-update" title="附件"></div>
-            <ul id="orderImages" class="accessory order-imgs addimg hide">
+            <textarea id="txtContent" class="reply-content msg-" placeholder="发表备忘"></textarea><br />
+            <div id="reply-attachment" style="width:25px;"></div>
+            <div class="left iconfont btn-emotion mLeft10" id="btn-emotion" data-id="txtContent" title="表情">&#xe65b;</div>
+                      
+            <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
+            <ul class="mTop40 upload-file hide task-file" id="reply-files">
+                 
+            </ul> 
+            <div class="clear"></div>
+            <ul id="reply-imgs" class="accessory hide task-file">
 
             </ul>
-            
-            <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
             <div class="clear"></div>
         </div>
 
         <div class="talk-title">全部备忘</div>
 
-        <table class="content-list" id="replyList"></table>
+        <table class="content-list" id="replyList">
+            
+        </table>
 
         <div class="mTop10" id="pagerReply"></div>
     </div>
@@ -128,3 +136,17 @@
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" id="editContact">编辑</li>
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019007"))" id="deleteContact">删除</li>
 </ul>
+
+<div class="enlarge-image-bgbox hide">
+    <div class="close-enlarge-image iconfont">&#xe606;</div> 
+    <span id="zoomInButton" class="zoom-botton iconfont mRight50">&#xe642;</span>
+    <span id="zoomOutButton" class="zoom-botton iconfont">&#xe641;</span>
+</div>
+
+<div id="pageContent" class="enlarge-image-box hide">
+    <div class="left-enlarge-image"></div>
+    <div class="right-enlarge-image"></div>
+    <div class="enlarge-image-item">
+         
+    </div>
+</div>

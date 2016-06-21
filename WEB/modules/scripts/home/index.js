@@ -22,13 +22,13 @@
     var ObjectJS = {};
     
     ObjectJS.orderFilter = -1;
-    var ReportAvgHeight = 0;//报表每一份对应的行高
     var GuidLineHeight = 0;//报表网格线对应的份数
     var ReportMinHeight = 10;//最低行高
     var ReportIndex = 0;
     ObjectJS.init = function (orderLevel, roleLevel, remainDay, remainDate) {
         ObjectJS.remainDay = remainDay;
         ObjectJS.orderLevel = orderLevel;
+    var ReportAvgHeight = 0;//报表每一份对应的行高
         ObjectJS.roleLevel = roleLevel;
         ObjectJS.remainDate = remainDate;
         //没有订单权限

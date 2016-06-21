@@ -10,6 +10,7 @@ using IntFactoryDAL;
 using IntFactoryEntity;
 using System.Data;
 using IntFactoryEnum;
+using System.Data.SqlClient;
 
 namespace IntFactoryBusiness
 {
@@ -52,6 +53,41 @@ namespace IntFactoryBusiness
                 list.Add(model);
             }
             return list;
+        }
+
+        public static List<ReplyEntity> GetCustomerReplys(string guid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            List<ReplyEntity> list = new List<ReplyEntity>();
+
+            DataSet ds = CustomDAL.BaseProvider.GetCustomerReplys(guid, pageSize, pageIndex, ref totalCount, ref pageCount);
+            DataTable replys = ds.Tables["Replys"];
+            DataTable attachments = ds.Tables["Attachments"];
+            foreach (DataRow dr in replys.Rows)
+            {
+                ReplyEntity model = new ReplyEntity();
+                model.FillData(dr);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                if (!string.IsNullOrEmpty(model.FromReplyID))
+                {
+                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
+                }
+
+                if (attachments.Rows.Count > 0)
+                {
+                    model.Attachments=new List<Attachment>();
+                    foreach (DataRow dr2 in attachments.Select(" Guid='" + model.ReplyID + "'"))
+                    {
+                        Attachment attachment = new Attachment();
+                        attachment.FillData(dr2);
+
+                        model.Attachments.Add(attachment);
+                    }
+                }
+                list.Add(model);
+            }
+
+            return list;
+
         }
 
         public List<CustomerEntity> GetCustomersByActivityID(string activityid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
@@ -180,6 +216,32 @@ namespace IntFactoryBusiness
         public static string CreateReply(string guid, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
         {
             return CustomDAL.BaseProvider.CreateReply(guid, content, userID, agentID, fromReplyID, fromReplyUserID, fromReplyAgentID);
+        }
+
+        public static bool AddCustomerReplyAttachments(string customerid, string replyid, List<Attachment> attachments, string userid, string clientid)
+        {
+            SqlConnection conn = new SqlConnection(CustomDAL.ConnectionString);
+            conn.Open();
+            SqlTransaction tran = conn.BeginTransaction();
+
+
+            foreach (var attachment in attachments)
+            {
+                if (!CustomDAL.BaseProvider.AddCustomerReplyAttachments(customerid, replyid, attachment.Type,
+                    attachment.ServerUrl, attachment.FilePath, attachment.FileName, attachment.OriginalName, attachment.ThumbnailName,attachment.Size,
+                    userid, clientid, tran))
+                {
+                    tran.Rollback();
+                    conn.Dispose();
+
+                    return false;
+                }
+            }
+
+            tran.Commit();
+            conn.Dispose();
+
+            return true;
         }
 
         public string CreateContact(string customerid,string name, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string operateid, string agentid, string clientid)

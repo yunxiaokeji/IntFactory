@@ -28,20 +28,14 @@
 .taskContent .talk-body .content-list td{ border-bottom:dashed 1px #ccc;  }
 .taskContent .talk-body .content-list .user-avatar { width:35px; padding-top:20px; vertical-align:top; }
 .taskContent .talk-body .content-list .user-avatar img{ width:24px; height:24px; border-radius:12px;  vertical-align:top; }
-.taskContent .talk-body .reply-content { display:inline-block; max-width:300px; white-space: pre-wrap;word-wrap: break-word;  }
+.taskContent .talk-body .reply-content { display:inline-block;white-space: pre-wrap;word-wrap: break-word; width:415px; }
+.attchment-box {width:415px !important;}
 
 .taskReplyBox { border: 1px solid #ddd; padding: 10px 10px 0px 10px; border-radius: 3px;  overflow:hidden;}
 
-.taskReplyBox .iconfont { 
-    font-size:28px;
-    height:28px;
-    line-height:30px;
-    color:#888;
-    cursor:pointer;
-}
-.taskReplyBox .iconfont:hover { 
-    color:#007aff;
-}
+.taskReplyBox .iconfont { font-size:22px;height:28px;line-height:30px;color:#999;cursor:pointer;
+                          background-color:#fff;border:0;margin-top:5px;}
+.taskReplyBox .iconfont:hover { color:#4a98e7;}
 
 .taskReplyBox .taskReplyContent { border: none; width: 100%; height: 60px; border-bottom: 1px solid #ddd; }
 
@@ -51,6 +45,59 @@
 
 .reply-box textarea { width: 100%; border: none; height: 40px; border-bottom: 1px solid #ddd; }
 
-.btn-emotion { background: url(/modules/images/ico-emotion.png) no-repeat center center; width: 28px; height: 28px; cursor: pointer; }
 
-.btn-emotion:hover { background: url(/modules/images/ico-emotion-hover.png) no-repeat center center; }
+.accessory {
+    margin-top:10px;
+}
+.accessory li{ 
+   position:relative;
+   float:left;
+   margin-right:15px;
+   border:1px solid #ddd;
+   width:120px;
+   height:80px;
+   text-align:center;
+   font-size:0;
+   line-height:80px;
+   margin-bottom:20px;
+   padding:1px;
+}
+.accessory li img{ 
+    max-width:120px;
+    max-height:80px;
+    vertical-align:middle;
+}
+.accessory li .ico-delete{ 
+    background: url(/modules/images/ico-delete.png) no-repeat;
+    height: 20px;
+    min-width: 20px;
+    line-height: 20px;
+    display: inline-block;
+    cursor: pointer;
+    position:absolute;
+    right:-10px;    
+    top:-10px;
+}
+
+/*上传*/
+.upload-file {margin-right:10px;}
+.upload-file li { float:left;position:relative;margin-right:20px;margin-bottom:10px;}
+.upload-file li img{ width:35px;height:40px;margin-right:3px;}
+.upload-file div{ font-size:10px;color:#aaa;line-height:20px;cursor:pointer;}
+.upload-file div span{ color:#aaa;}
+.upload-file .ico-delete-upload{position:absolute;top:-5px;width:20px;height:20px;right:0;font-size:10px !important; color:#bbb;}
+
+/*回复*/
+.logo-upload { background-color:#eee;width:60px;height:60px;float:left;margin-right:10px;position:absolute;z-index:100;}
+.logo-upload img{ margin:10px 0 0 13px;}
+.upload-lump {position:relative;left:13px;top:10px;width:35px;height:40px;background-color:#1DE9B6; }
+.upload-lump .content { color:#efefef;text-align:center;line-height:40px;font-size:12px;}
+.upload-lump .lump { position:absolute;right:0;top:0;z-index:888;width:0;height:0;border-top:5px solid #eee;border-right:5px solid #eee;border-left:5px solid rgba(0,0,0,0.1);border-bottom:5px solid rgba(0,0,0,0.1);}
+.information-upload { background-color:#fafafa;position:relative;margin-left:60px;}
+.information-upload .filename{color:#222;margin-top:7px;}
+.popup-download { height:60px;background-color:rgba(204,204,204,0.9);width:111px;z-index:100;top:0;left:60px;position:absolute;
+                  font-size:28px !important;text-align:center;color:#fff !important;line-height:60px !important;}
+.reply-box .iconfont { background-color:#fff;border:0;font-size:22px;margin-top:5px;color:#999;}
+.reply-box .iconfont:hover { color:#4a98e7;}
+.reply-box input:last-child { margin-top:8px;}
+.width-order-taskdetail { width:415px;}

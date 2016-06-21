@@ -53,6 +53,26 @@ namespace IntFactoryDAL
             return ds;
         }
 
+        public DataSet GetCustomerReplys(string guid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@totalCount",SqlDbType.Int),
+                                       new SqlParameter("@pageCount",SqlDbType.Int),
+                                       new SqlParameter("@pageSize",pageSize),
+                                       new SqlParameter("@pageIndex",pageIndex),
+                                      new SqlParameter("@CustomerID",guid)
+   
+                                   };
+            paras[0].Value = totalCount;
+            paras[1].Value = pageCount;
+
+            paras[0].Direction = ParameterDirection.InputOutput;
+            paras[1].Direction = ParameterDirection.InputOutput;
+            DataSet ds = GetDataSet("P_GetCustomerReplys", paras, CommandType.StoredProcedure, "Replys|Attachments");
+            totalCount = Convert.ToInt32(paras[0].Value);
+            pageCount = Convert.ToInt32(paras[1].Value);
+            return ds;
+        }
 
         public DataSet GetCustomersByKeywords(string keyWords, string userid, string agentid, string clientid)
         {
@@ -140,6 +160,27 @@ namespace IntFactoryDAL
                                    };
 
             return ExecuteNonQuery("P_CreateCustomerReply", paras, CommandType.StoredProcedure) > 0 ? replyID : string.Empty;
+        }
+
+        public bool AddCustomerReplyAttachments(string customerid, string replyid, int attachmentType,
+            string serverUrl, string filePath, string fileName, string originalName, string thumbnailName,long size,
+            string userid, string clientid, SqlTransaction tran)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@CustomerID",customerid),
+                                     new SqlParameter("@ReplyID",replyid),
+                                     new SqlParameter("@Type",attachmentType),
+                                     new SqlParameter("@ServerUrl",serverUrl),
+                                     new SqlParameter("@FilePath",filePath),
+                                     new SqlParameter("@FileName",fileName),
+                                     new SqlParameter("@OriginalName",originalName),
+                                     new SqlParameter("@ThumbnailName",thumbnailName),
+                                     new SqlParameter("@Size",size),
+                                     new SqlParameter("@UserID",userid),
+                                     new SqlParameter("@ClientID",clientid)
+                                   };
+
+            return ExecuteNonQuery(tran, "P_AddCustomerReplyAttachment", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool CreateContact(string contactid, string customerid, string name, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string userid, string agentid, string clientid)

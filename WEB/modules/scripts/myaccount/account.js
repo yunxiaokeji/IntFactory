@@ -44,12 +44,13 @@
 
             $("#mobilePhone,#BindMobileCode").val("");
             $("#BindMobileCodeError,#BindMobileError").html("");
-            $("#SendBindMobileCode").removeAttr("disabled")
+            $("#SendBindMobileCode").removeAttr("disabled");
         })
 
         //绑定手机
         $("#saveLoginMobile").click(function () {
             _self.saveAccountBindMobile();
+            window.location = window.location;
         });
 
         //获取手机验证码
