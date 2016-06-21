@@ -303,6 +303,7 @@
     cursor:pointer;
     background-color:#fff;
     border:0;
+    margin-top:5px;
 }
 .taskreply-box .iconfont:hover { 
     color:#4a98e7;
