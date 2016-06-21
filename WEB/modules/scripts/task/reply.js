@@ -94,6 +94,9 @@
             width: 100,
             msg: "上传附件最多10个"
         });
+        //if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {
+        //    $(".btn-reply").removeClass("mTop15");            
+        //}
     }
 
     //获取任务讨论列表
@@ -234,6 +237,7 @@
 
         //打开讨论盒
         replys.find(".btn-reply").click(function () {
+            
             var _this = $(this);
             var reply = _this.nextAll(".reply-box");
             $("#reply-attachment" + _this.data("replyid")).empty();
