@@ -111,7 +111,6 @@
         //显示预警时间
         ObjectJS.showWarnTime();
 
-
         //绑定任务样式图
         ObjectJS.bindOrderImages();
 

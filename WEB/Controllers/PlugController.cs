@@ -170,6 +170,19 @@ namespace YXERP.Controllers
                 types.Add("image/tiff", "1");
                 types.Add("application/x-MS-bmp", "1");
                 types.Add("image/pjpeg", "1");
+
+                Dictionary<string, string> fileTypeItems = new Dictionary<string, string>();
+                fileTypeItems.Add("application/vnd.ms-powerpoint", "1");
+                fileTypeItems.Add("application/vnd.openxmlformats-officedocument.presentationml.presentation", "1");
+                fileTypeItems.Add("application/vnd.ms-excel", "1");
+                fileTypeItems.Add("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "1");
+                fileTypeItems.Add("application/msword", "1");
+                fileTypeItems.Add("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "1");
+                fileTypeItems.Add("text/plain", "1");
+                if (!fileTypeItems.ContainsKey(ContentType) && !types.ContainsKey(ContentType)) 
+                {
+                    continue;
+                }
                 if (types.ContainsKey(ContentType))
                 {
                     isImage = 1;
@@ -210,6 +223,8 @@ namespace YXERP.Controllers
 
         public FileStreamResult DownLoadFile(string filePath, string fileName, string originalName)
         {
+            byte[] byteArray = System.Text.Encoding.Default.GetBytes(originalName);
+            //originalName = Encoding.Default.GetString(byteArray);
             originalName = HttpUtility.UrlEncode(originalName, Encoding.GetEncoding("UTF-8"));
             return File(new FileStream(Server.MapPath(filePath + fileName), FileMode.Open), "application/octet-stream", originalName);
         }
