@@ -23,7 +23,8 @@
         });
         
         var replyid = "";
-        ObjectJS.replyAttachment(replyid);
+
+        ObjectJS.bindReplyAttachment(replyid);
 
         //任务讨论盒子隐藏
         $(document).click(function (e) {
@@ -178,7 +179,7 @@
     }
 
     //上传附件
-    ObjectJS.replyAttachment = function (replyid) {
+    ObjectJS.bindReplyAttachment = function (replyid) {
         Upload.createUpload({
             element: "#reply-attachment" + replyid,
             buttonText: "&#xe65a;",
@@ -253,7 +254,7 @@
             
             reply.find("textarea").focus();
 
-            ObjectJS.replyAttachment(_this.data("replyid"));                        
+            ObjectJS.bindReplyAttachment(_this.data("replyid"));
             
             //提示
             $("#reply-attachment" + _this.data("replyid")).Tip({
