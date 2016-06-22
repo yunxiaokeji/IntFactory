@@ -15,7 +15,7 @@
         Reply = reply;
         if (moduleType === "customer") {
             Controller = moduleType;
-        }
+        }        
 
         //任务讨论盒子点击
         $(".taskreply-box").click(function () {
@@ -64,7 +64,7 @@
                         "Size": _this.data("filesize"),
                         "ThumbnailName": ""
                     });
-                });
+                });                
                 ObjectJS.saveTaskReply(model, $(this), attchments);
 
                 $('.taskreply-box .task-file').empty();
@@ -145,6 +145,7 @@
     ObjectJS.saveTaskReply = function (model, btnObject,attchments) {
         var _self = this;
         var btnname = "";
+
         if (btnObject) {
             btnname = btnObject.html();
             btnObject.html("保存中...").attr("disabled", "disabled");
@@ -219,7 +220,7 @@
                     }
                 }
                 else {
-                    alert("上传文件过大或格式不正确");
+                    alert("上传文件格式不正确,且大小不能超过10M");
                 }
             }
         });
@@ -295,7 +296,7 @@
                 _this.parents('.reply-box').find(".task-file").empty();
             }
             else {
-                alert("请输入讨论内容");
+                alert("请输入回复内容");
             }
             $("#Msg_" + _this.data("replyid")).val('');
 
