@@ -220,20 +220,26 @@ namespace YXERP.Controllers
             };
         }
 
-
-        public FileStreamResult DownLoadFile(string filePath, string fileName, string originalName)
+        public void DownLoadFile(string filePath, string fileName, string originalName,string isIE)
         {
-            FileInfo file=new FileInfo(Server.MapPath(filePath + fileName));
-            if (!file.Exists)
-            {
-                Response.Write("该文件已被删除！");
-                return null;
+            if (!string.IsNullOrEmpty(isIE)) { 
+                originalName=HttpUtility.UrlEncode(originalName, Encoding.UTF8);
             }
 
-            //originalName = HttpUtility.UrlEncode(originalName, Encoding.GetEncoding("UTF-8"));
-            byte[] byteArray = System.Text.Encoding.Default.GetBytes(originalName);
-            originalName = Encoding.Default.GetString(byteArray);
-            return File(new FileStream(Server.MapPath(filePath + fileName), FileMode.Open), "application/octet-stream", originalName);
+            string path = Server.MapPath(filePath + fileName);//路径
+            FileInfo fileInfo = new FileInfo(path);
+            HttpContext.Response.Clear();
+            HttpContext.Response.ClearContent();
+            HttpContext.Response.ClearHeaders();
+            //加上HttpUtility.UrlEncode()方法，防止文件下载时，文件名乱码，（保存到磁盘上的文件名称应为“中文名.gif”）
+            HttpContext.Response.AddHeader("Content-Disposition", "attachment;filename=" + originalName);
+            HttpContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
+            HttpContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
+            HttpContext.Response.ContentType = "application/octet-stream";
+            HttpContext.Response.ContentEncoding = Encoding.GetEncoding("gb2312");
+            HttpContext.Response.WriteFile(fileInfo.FullName);
+            HttpContext.Response.Flush();
+            HttpContext.Response.End();
         }
 
         /// <summary>
