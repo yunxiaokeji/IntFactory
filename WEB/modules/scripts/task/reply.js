@@ -206,8 +206,9 @@
                             templateUrl = "/template/task/task-file-upload-img.html";
                             Htmlappend = $("#reply-imgs" + replyid);
                         }
+                        
                         doT.exec(templateUrl, function (template) {
-                            var file = template(data.Items);
+                            var file = template(data.Items[i]);
                             file = $(file);
                             Htmlappend.append(file).fadeIn(300);
                             file.find(".delete").click(function () {
@@ -217,7 +218,6 @@
                                 }
                             });
                         });
-                        return;
                     }
                 }
                 else {
