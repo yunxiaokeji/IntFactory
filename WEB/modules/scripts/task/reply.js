@@ -241,14 +241,12 @@
 
                             innerhtml.find(".delete").click(function () {
                                 $(this).parent().remove();
-                                if (fileBox.find('li').length == 0) {
-                                    fileBox.hide();
+                                if ($("#reply-imgs" + replyid).find('li').length == 0) {
+                                    $("#reply-imgs" + replyid).hide();
                                 }
                             });
                         });
                     }
-
-
                 }
                 else {
                     alert("上传文件格式不正确,且上传文件不能超过10M");
