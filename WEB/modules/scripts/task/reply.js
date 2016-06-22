@@ -228,6 +228,7 @@
 
     //绑定任务讨论操作
     ObjectJS.bindReplyOperate = function (replys) {
+
         //替换表情内容
         replys.find(".reply-content").each(function () {
             $(this).html(Global.replaceQqface($(this).html()));
@@ -312,6 +313,7 @@
 
         //绑定图片放大功能
         var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
+
         replys.find(".orderImage-repay").click(function () {
             if ($(this).attr("src")) {
                 $("#Images-reply .hoverimg").removeClass("hoverimg");
