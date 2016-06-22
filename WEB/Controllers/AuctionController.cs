@@ -185,8 +185,7 @@ namespace YXERP.Controllers
                 {
                     return Redirect("/Auction/BuyUserQuantity");
                 }
-
-                int Days = (CurrentAgent.EndTime - DateTime.Now).Days;
+                double Days = Math.Ceiling((CurrentAgent.EndTime - DateTime.Now).TotalDays);
                 ViewBag.Days = Days;
                 ViewBag.UserQuantity = OrganizationBusiness.GetUsers(CurrentAgent.AgentID).Count;
                 ViewBag.CurrentAgent = CurrentAgent;
@@ -391,7 +390,7 @@ namespace YXERP.Controllers
                             if (order.RealAmount == total_fee)
                             {
                                 //订单支付及后台客户授权
-                                bool flag = ClientOrderBusiness.PayOrderAndAuthorizeClient(order.OrderID, CurrentUser.UserID,1);
+                                bool flag = ClientOrderBusiness.PayOrderAndAuthorizeClient(order.OrderID, string.Empty,1);
 
                                 if (flag)
                                 {

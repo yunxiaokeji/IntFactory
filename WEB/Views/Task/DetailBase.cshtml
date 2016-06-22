@@ -50,6 +50,9 @@
     
     <div class="left titlename">订单编号：<a class="font16" href="/Orders/OrderDetail/@(task.OrderID)" >@(task.OrderCode)</a></div>
     <ul class="right">
+        <li title="订单交货日期">
+            <span class="left color666 font14"> 订单交货日期：</span><label class="left color666 font14" >@(order.PlanTime.ToString("yyyy-MM-dd hh:mm"))</label>
+        </li>
         <li title="订单类型">
             <span class="left color666 font14"> 订单类型：</span><label class="left color666 font14" >@(task.OrderType==1?"打样":"大货")</label>
         </li>

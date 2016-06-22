@@ -17,7 +17,7 @@
     <td class="center">{%=item.Quantity.toFixed(0)%}</td>
     <td class="center">{%=item.Complete.toFixed(0)%}</td>
     <td class="center">{%=item.SendQuantity.toFixed(0)%}</td>
-    <td class="center"><input class="width60 quantity" type="text" data-max="{%=item.Complete-item.SendQuantity%}" value="{%=item.Complete-item.SendQuantity%}" /></td>
+    <td class="center"><input class="width60 quantity" type="text" data-max="{%=item.Complete-item.SendQuantity%}" value="0" /></td>
 </tr>
 {% } %}
 

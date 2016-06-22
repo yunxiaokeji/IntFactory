@@ -3,6 +3,7 @@
     {
         var item=$data[i];
         var totalDay=(item.UseDays==0?1:item.UseDays)+(item.WarningDays==0?1:item.WarningDays);
+        var classname=(item.GoodsCode==''?'mTop20':'mTop15');
 %}
     <div class="order-item">
         <a href="/Orders/OrderDetail/{%=item.OrderID%}">
@@ -10,18 +11,34 @@
                 <div class="hint-msg {%=item.WarningStatus==1?'warning':item.WarningStatus==2?'pass':'hide'%}">{%=item.WarningStatus==1?"快到期":item.WarningStatus==2?"已超期":""%}</div>
             </div>
         </a>
-        <div class="left order-img"><a href="/Orders/OrderDetail/{%=item.OrderID%}"><img src="{%=item.OrderImage==""?'/modules/images/img-noimg.png':item.OrderImage%}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" /></a></div>
+        <div class="left order-img pic-box">
+            <a href="/Orders/OrderDetail/{%=item.OrderID%}"><img src="{%=item.OrderImage==""?'/modules/images/img-noimg.png':item.OrderImage%}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" /></a>
+            {% if(item.GoodsCode){ %}
+              <span class="aliorder">
+                  <i class="iconfont right">&#xe631;</i>
+              </span>
+            {% } %}
+        </div>
         <div class="left order-detail mLeft20 mTop10">
             <div class="left">
                 <div class="order-title"><a href="/Orders/OrderDetail/{%=item.OrderID%}" class="long width250" >{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}</a></div>
-                <div class="mTop20">
+                 {%  if(item.GoodsCode){ %}
+                  <div class="mTop10">
+                      <span>阿里编码：</span>
+                      <span class="mLeft10">{%=item.GoodsCode%}</span>
+                  </div>
+                {%  }%}
+
+                <div class="mTop15">
                     <span class="iconfont mRight5">&#xe624;</span><span>{%=item.CustomerName==""?item.PersonName:item.CustomerName%}</span>
                     <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
                     
                 </div>
-                <div class="mTop20">
+                <div class="{%=classname%}">
                     <span class="">{%=item.StatusStr%}：</span><span>{%=(item.TaskCount>0?item.TaskOver/item.TaskCount*100:0).toFixed(0)+"%"%}</span>
                 </div>
+               
+
             </div>
             <div class="right mLeft30">
                 <div class="mTop40 left">

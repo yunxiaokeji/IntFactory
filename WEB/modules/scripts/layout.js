@@ -235,7 +235,6 @@ define(function (require, exports, module) {
             }
             else {
                 if (parseInt(data.remainderDays) < 31) {
-                    $("#remainderDays").addClass("red");
                     $(".btn-buy").html("续费").attr("href", "/Auction/ExtendNow");
                 }
                 else {

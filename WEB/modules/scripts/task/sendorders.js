@@ -62,6 +62,7 @@
                     content: innerText,
                     yesFn: function () {
                         var details = ""
+                        
                         $("#showSendOrderGoods .list-item").each(function () {
                             var _this = $(this);
                             var quantity = _this.find(".quantity").val();
