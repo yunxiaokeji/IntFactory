@@ -183,7 +183,9 @@
             element: "#reply-attachment" + replyid,
             buttonText: "&#xe65a;",
             className: "left iconfont",
-            multiple: false,
+            multiple: true,
+            maxSize: 10 * 1024,
+            fileType: 3,
             url: "/Plug/UploadFiles",
             data: { folder: '', action: 'add', oldPath: "" },
             success: function (data, status) {                

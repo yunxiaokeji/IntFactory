@@ -247,7 +247,6 @@ namespace YXERP.Controllers
                 return null;
             }
             else {
-
                 return Redirect("/Error/NoFindFile");
             }
 
