@@ -184,6 +184,9 @@
             buttonText: "&#xe65a;",
             className: "left iconfont",
             multiple: false,
+            fileType: 3,//附件类型 1:图片；2：文件；3图片和文件
+            maxSize: 5 * 1024,//附件最大大小
+            maxQuantity: 10,//最大上传文件个数
             url: "/Plug/UploadFiles",
             data: { folder: '', action: 'add', oldPath: "" },
             success: function (data, status) {                
