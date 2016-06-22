@@ -223,9 +223,16 @@ namespace YXERP.Controllers
 
         public FileStreamResult DownLoadFile(string filePath, string fileName, string originalName)
         {
+            FileInfo file=new FileInfo(Server.MapPath(filePath + fileName));
+            if (!file.Exists)
+            {
+                Response.Write("该文件已被删除！");
+                return null;
+            }
+
+            //originalName = HttpUtility.UrlEncode(originalName, Encoding.GetEncoding("UTF-8"));
             byte[] byteArray = System.Text.Encoding.Default.GetBytes(originalName);
-            //originalName = Encoding.Default.GetString(byteArray);
-            originalName = HttpUtility.UrlEncode(originalName, Encoding.GetEncoding("UTF-8"));
+            originalName = Encoding.Default.GetString(byteArray);
             return File(new FileStream(Server.MapPath(filePath + fileName), FileMode.Open), "application/octet-stream", originalName);
         }
 
