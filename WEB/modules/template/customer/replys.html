@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="information-upload pLeft10 width100 borderEEE hight58">
                                         <div title="{%=attchmentItem.OriginalName%}" class="long filename width100">{%=attchmentItem.OriginalName%}</div>
-                                        <div title="{%=attchmentItem.Size%}">{%=attchmentItem.Size/1024/1024<1?(attchmentItem.Size/1024).toFixed(1)+"KB":(attchmentItem.Size/1024/1024).toFixed(2)+"MB"%}</div>
+                                        <div title='{%=attchmentItem.Size/1024/1024<1?(attchmentItem.Size/1024).toFixed(2)+"KB":(attchmentItem.Size/1024/1024).toFixed(2)+"MB"%}'>{%=attchmentItem.Size/1024/1024<1?(attchmentItem.Size/1024).toFixed(2)+"KB":(attchmentItem.Size/1024/1024).toFixed(2)+"MB"%}</div>
                                     </div> 
                                     <div class="popup-download download iconfont hide" data-url="/Plug/DownLoadFile?filePath={%=attchmentItem.FilePath%}&fileName={%=attchmentItem.FileName%}&originalName={%=attchmentItem.OriginalName%}">
                                         &#xe655;
