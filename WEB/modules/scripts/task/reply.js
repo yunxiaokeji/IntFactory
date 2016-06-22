@@ -15,7 +15,7 @@
         Reply = reply;
         if (moduleType === "customer") {
             Controller = moduleType;
-        }        
+        }
 
         //任务讨论盒子点击
         $(".taskreply-box").click(function () {
@@ -23,8 +23,7 @@
         });
         
         var replyid = "";
-
-        ObjectJS.bindReplyAttachment(replyid);
+        ObjectJS.replyAttachment(replyid);
 
         //任务讨论盒子隐藏
         $(document).click(function (e) {
@@ -64,7 +63,7 @@
                         "Size": _this.data("filesize"),
                         "ThumbnailName": ""
                     });
-                });                
+                });
                 ObjectJS.saveTaskReply(model, $(this), attchments);
 
                 $('.taskreply-box .task-file').empty();
@@ -145,7 +144,6 @@
     ObjectJS.saveTaskReply = function (model, btnObject,attchments) {
         var _self = this;
         var btnname = "";
-
         if (btnObject) {
             btnname = btnObject.html();
             btnObject.html("保存中...").attr("disabled", "disabled");
@@ -180,7 +178,7 @@
     }
 
     //上传附件
-    ObjectJS.bindReplyAttachment = function (replyid) {
+    ObjectJS.replyAttachment = function (replyid) {
         Upload.createUpload({
             element: "#reply-attachment" + replyid,
             buttonText: "&#xe65a;",
@@ -220,7 +218,7 @@
                     }
                 }
                 else {
-                    alert("上传文件格式不正确,且大小不能超过10M");
+                    alert("上传文件格式不正确,且上传文件不能超过10M");
                 }
             }
         });
@@ -228,7 +226,6 @@
 
     //绑定任务讨论操作
     ObjectJS.bindReplyOperate = function (replys) {
-
         //替换表情内容
         replys.find(".reply-content").each(function () {
             $(this).html(Global.replaceQqface($(this).html()));
@@ -256,7 +253,7 @@
             
             reply.find("textarea").focus();
 
-            ObjectJS.bindReplyAttachment(_this.data("replyid"));
+            ObjectJS.replyAttachment(_this.data("replyid"));                        
             
             //提示
             $("#reply-attachment" + _this.data("replyid")).Tip({
@@ -297,7 +294,7 @@
                 _this.parents('.reply-box').find(".task-file").empty();
             }
             else {
-                alert("请输入回复内容");
+                alert("请输入讨论内容");
             }
             $("#Msg_" + _this.data("replyid")).val('');
 
@@ -313,7 +310,6 @@
 
         //绑定图片放大功能
         var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
-
         replys.find(".orderImage-repay").click(function () {
             if ($(this).attr("src")) {
                 $("#Images-reply .hoverimg").removeClass("hoverimg");

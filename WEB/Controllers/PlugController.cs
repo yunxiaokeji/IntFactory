@@ -220,26 +220,38 @@ namespace YXERP.Controllers
             };
         }
 
-        public void DownLoadFile(string filePath, string fileName, string originalName,string isIE)
+        public ActionResult DownLoadFile(string filePath, string fileName, string originalName,string isIE)
         {
-            if (!string.IsNullOrEmpty(isIE)) { 
-                originalName=HttpUtility.UrlEncode(originalName, Encoding.UTF8);
-            }
+           
 
             string path = Server.MapPath(filePath + fileName);//路径
             FileInfo fileInfo = new FileInfo(path);
-            HttpContext.Response.Clear();
-            HttpContext.Response.ClearContent();
-            HttpContext.Response.ClearHeaders();
-            //加上HttpUtility.UrlEncode()方法，防止文件下载时，文件名乱码，（保存到磁盘上的文件名称应为“中文名.gif”）
-            HttpContext.Response.AddHeader("Content-Disposition", "attachment;filename=" + originalName);
-            HttpContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
-            HttpContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
-            HttpContext.Response.ContentType = "application/octet-stream";
-            HttpContext.Response.ContentEncoding = Encoding.GetEncoding("gb2312");
-            HttpContext.Response.WriteFile(fileInfo.FullName);
-            HttpContext.Response.Flush();
-            HttpContext.Response.End();
+            if (fileInfo.Exists)
+            {
+                if (!string.IsNullOrEmpty(isIE))
+                {
+                    originalName = HttpUtility.UrlEncode(originalName, Encoding.UTF8);
+                }
+                HttpContext.Response.Clear();
+                HttpContext.Response.ClearContent();
+                HttpContext.Response.ClearHeaders();
+                //加上HttpUtility.UrlEncode()方法，防止文件下载时，文件名乱码，（保存到磁盘上的文件名称应为“中文名.gif”）
+                HttpContext.Response.AddHeader("Content-Disposition", "attachment;filename=" + originalName);
+                HttpContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
+                HttpContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
+                HttpContext.Response.ContentType = "application/octet-stream";
+                HttpContext.Response.ContentEncoding = Encoding.GetEncoding("gb2312");
+                HttpContext.Response.WriteFile(fileInfo.FullName);
+                HttpContext.Response.Flush();
+                HttpContext.Response.End();
+                return null;
+            }
+            else {
+
+                return Redirect("/Error/NoFindFile");
+            }
+
+            
         }
 
         /// <summary>
