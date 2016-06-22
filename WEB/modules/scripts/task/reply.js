@@ -369,7 +369,7 @@
 
         //下载附件
         $(".download").click(function () {
-            window.open($(this).data('url'));
+            window.open($(this).data('url') + "&isIE=" + (!!window.ActiveXObject || "ActiveXObject" in window ? "1" : ""));
         });
     }
     module.exports = ObjectJS;

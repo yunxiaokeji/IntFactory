@@ -179,7 +179,7 @@ namespace YXERP.Controllers
                 fileTypeItems.Add("application/msword", "1");
                 fileTypeItems.Add("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "1");
                 fileTypeItems.Add("text/plain", "1");
-                if (!fileTypeItems.ContainsKey(ContentType) && !types.ContainsKey(ContentType))
+                if (!fileTypeItems.ContainsKey(ContentType) && !types.ContainsKey(ContentType)) 
                 {
                     continue;
                 }
@@ -220,13 +220,26 @@ namespace YXERP.Controllers
             };
         }
 
-
-        public FileStreamResult DownLoadFile(string filePath, string fileName, string originalName)
+        public void DownLoadFile(string filePath, string fileName, string originalName,string isIE)
         {
-            byte[] byteArray = System.Text.Encoding.Default.GetBytes(originalName);
-            //originalName = Encoding.Default.GetString(byteArray);
-            originalName = HttpUtility.UrlEncode(originalName, Encoding.GetEncoding("UTF-8"));
-            return File(new FileStream(Server.MapPath(filePath + fileName), FileMode.Open), "application/octet-stream", originalName);
+            if (!string.IsNullOrEmpty(isIE)) { 
+                originalName=HttpUtility.UrlEncode(originalName, Encoding.UTF8);
+            }
+
+            string path = Server.MapPath(filePath + fileName);//路径
+            FileInfo fileInfo = new FileInfo(path);
+            HttpContext.Response.Clear();
+            HttpContext.Response.ClearContent();
+            HttpContext.Response.ClearHeaders();
+            //加上HttpUtility.UrlEncode()方法，防止文件下载时，文件名乱码，（保存到磁盘上的文件名称应为“中文名.gif”）
+            HttpContext.Response.AddHeader("Content-Disposition", "attachment;filename=" + originalName);
+            HttpContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
+            HttpContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
+            HttpContext.Response.ContentType = "application/octet-stream";
+            HttpContext.Response.ContentEncoding = Encoding.GetEncoding("gb2312");
+            HttpContext.Response.WriteFile(fileInfo.FullName);
+            HttpContext.Response.Flush();
+            HttpContext.Response.End();
         }
 
         /// <summary>
