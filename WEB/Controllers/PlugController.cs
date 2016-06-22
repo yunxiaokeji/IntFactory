@@ -179,7 +179,7 @@ namespace YXERP.Controllers
                 fileTypeItems.Add("application/msword", "1");
                 fileTypeItems.Add("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "1");
                 fileTypeItems.Add("text/plain", "1");
-                if (!fileTypeItems.ContainsKey(ContentType) && !types.ContainsKey(ContentType)) 
+                if (!fileTypeItems.ContainsKey(ContentType) && !types.ContainsKey(ContentType))
                 {
                     continue;
                 }
