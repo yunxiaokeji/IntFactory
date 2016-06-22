@@ -184,40 +184,71 @@
             buttonText: "&#xe65a;",
             className: "left iconfont",
             multiple: true,
+            fileType: 3,//附件类型 1:图片；2：文件；3图片和文件
+            maxSize: 5 * 1024,//附件最大大小
+            maxQuantity: 10,//最大上传文件个数
             url: "/Plug/UploadFiles",
             fileType: 3,
             maxSize:5*1024,
             maxQuantity:10,
             data: { folder: '', action: 'add', oldPath: "" },
-            success: function (data, status) {                
+            success: function (data, status) {
+
                 var len = data.Items.length;
                 if (len > 0) {
                     if (($(".task-file li").length + len) > 10) {
                         alert("最多允许上传10个");
                         return;
                     }
+
+                    var templateUrl = "/template/task/task-file-upload.html";
+                    var fileBox = $("#reply-files" + replyid);
+
+                    var fileArr = new Array();
+                    var picArr = new Array();
                     for (var i = 0; i < len ; i++) {
+                        var item = data.Items[i];
                         if ($(".msg-" + replyid).val() == "" && i == 0) {
-                            $(".msg-" + replyid).val(data.Items[0].originalName.split('.')[0]);
+                            $(".msg-" + replyid).val(item.originalName.split('.')[0]);
                         }
-                        var templateUrl = "/template/task/task-file-upload.html";
-                        var Htmlappend = $("#reply-files" + replyid);
-                        if (data.Items[i].isImage == 1) {
-                            templateUrl = "/template/task/task-file-upload-img.html";
-                            Htmlappend = $("#reply-imgs" + replyid);
+                        if (item.isImage == 1) {
+                            picArr.push(item);
                         }
+                        else {
+                            fileArr.push(item);
+                        }
+
+                    }
+
+                    if (fileArr.length > 0) {
                         doT.exec(templateUrl, function (template) {
-                            var file = template(data.Items);
-                            file = $(file);
-                            Htmlappend.append(file).fadeIn(300);
-                            file.find(".delete").click(function () {
+                            var innerhtml = template(fileArr);
+                            innerhtml = $(innerhtml);
+                            fileBox.append(innerhtml).fadeIn(300);
+
+                            innerhtml.find(".delete").click(function () {
                                 $(this).parent().remove();
-                                if (Htmlappend.find('li').length == 0) {
-                                    Htmlappend.hide();
+                                if (fileBox.find('li').length == 0) {
+                                    fileBox.hide();
+                                }
+                            });
+
+
+                        });
+                    }
+                    if (picArr.length > 0) {
+                        doT.exec("/template/task/task-file-upload-img.html", function (template) {
+                            var innerhtml = template(picArr);
+                            innerhtml = $(innerhtml);
+                            $("#reply-imgs" + replyid).append(innerhtml).fadeIn(300);
+
+                            innerhtml.find(".delete").click(function () {
+                                $(this).parent().remove();
+                                if ($("#reply-imgs" + replyid).find('li').length == 0) {
+                                    $("#reply-imgs" + replyid).hide();
                                 }
                             });
                         });
-                        return;
                     }
                 }
                 else {

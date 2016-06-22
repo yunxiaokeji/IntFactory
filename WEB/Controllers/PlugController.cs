@@ -205,7 +205,7 @@ namespace YXERP.Controllers
                     item.Add("filePath", oldPath);
                 }
                 item.Add("fileName", newFileName);
-                item.Add("originalName",file.FileName);
+                item.Add("originalName",Path.GetFileName( file.FileName));
                 item.Add("fileSize", file.ContentLength);
                 item.Add("extensions", arr[arr.Length - 1]);
                 item.Add("isImage", isImage);
@@ -224,18 +224,18 @@ namespace YXERP.Controllers
         {
            
 
-            string path = Server.MapPath(filePath + fileName);//路径
+            string path = Server.MapPath(filePath + fileName);//服务器文件物理路径
             FileInfo fileInfo = new FileInfo(path);
             if (fileInfo.Exists)
             {
                 if (!string.IsNullOrEmpty(isIE))
                 {
+                    //加上HttpUtility.UrlEncode()方法，防止文件下载时，文件名乱码，（保存到磁盘上的文件名称应为“中文名.gif”）
                     originalName = HttpUtility.UrlEncode(originalName, Encoding.UTF8);
                 }
                 HttpContext.Response.Clear();
                 HttpContext.Response.ClearContent();
                 HttpContext.Response.ClearHeaders();
-                //加上HttpUtility.UrlEncode()方法，防止文件下载时，文件名乱码，（保存到磁盘上的文件名称应为“中文名.gif”）
                 HttpContext.Response.AddHeader("Content-Disposition", "attachment;filename=" + originalName);
                 HttpContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
                 HttpContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
@@ -247,7 +247,6 @@ namespace YXERP.Controllers
                 return null;
             }
             else {
-
                 return Redirect("/Error/NoFindFile");
             }
 
