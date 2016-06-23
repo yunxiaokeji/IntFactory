@@ -161,7 +161,6 @@ namespace YXERP.Controllers
             {
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
-
                     int isImage = 2;
                     HttpPostedFileBase file = Request.Files[i];
                     string ContentType = file.ContentType;
