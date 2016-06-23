@@ -24,6 +24,7 @@ define(function (require, exports, module) {
     };
     UPLoad.prototype.init = function () {
         var _self = this;
+ 
         if (_self.setting.element) {
             var form = $('<form id="' + _self.setting.element + '_postForm" enctype="multipart/form-data"></form>'),
                 file = $('<input type="file" data-filequantity="0" accept="' + _self.setting.fileType + '" name="file" id="' + _self.setting.element + '_fileUpLoad" ' + (_self.setting.multiple ? 'multiple="multiple"' : '') + ' style="display:none;" />'),
@@ -71,16 +72,16 @@ define(function (require, exports, module) {
                     var file = files[i];
                     var filepath = file.name;
                     var fileSize = 0;
-                    var isContinue = false;
+                    var isContinue = true;
                     var fileend = filepath.substring(filepath.lastIndexOf(".") + 1);
 
                     if (_self.setting.fileType == 2) {
                         attachmenttypes = filetypes;
                     }
                     else if (_self.setting.fileType == 3) {
-                        attachmenttypes=attachmenttypes.concat(filetypes);
+                        attachmenttypes = attachmenttypes.concat(filetypes);
                     }
-                    for (var i = 0; i < attachmenttypes.length; i++) {
+                    for (var k = 0; k < attachmenttypes.length; k++) {
                         if (attachmenttypes[i] == fileend) {
                             isContinue = true;
                             break;
