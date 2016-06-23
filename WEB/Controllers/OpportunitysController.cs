@@ -9,6 +9,7 @@ using IntFactoryEntity;
 using YXERP.Models;
 using IntFactoryBusiness;
 using IntFactoryEnum;
+using System.IO;
 
 namespace YXERP.Controllers
 {
@@ -59,7 +60,6 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Opportunitys/MyOpportunity");
             }
-
 
             ViewBag.Model = model;
             if (model.Status == 0)
@@ -167,53 +167,6 @@ namespace YXERP.Controllers
             }
 
             JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult GetReplys(string guid, string stageID, int mark, int pageSize, int pageIndex)
-        {
-            int pageCount = 0;
-            int totalCount = 0;
-
-            var list = OrdersBusiness.GetReplys(guid,stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
-            JsonDictionary.Add("items", list);
-            JsonDictionary.Add("totalCount", totalCount);
-            JsonDictionary.Add("pageCount", pageCount);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult SavaReply(string entity)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            ReplyEntity model = serializer.Deserialize<ReplyEntity>(entity);
-
-            string replyID = "";
-            replyID = OrdersBusiness.CreateReply(model.GUID,model.StageID,model.Mark,model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
-
-            List<ReplyEntity> list = new List<ReplyEntity>();
-            if (!string.IsNullOrEmpty(replyID))
-            {
-
-                model.ReplyID = replyID;
-                model.CreateTime = DateTime.Now;
-                model.CreateUser = CurrentUser;
-                model.CreateUserID = CurrentUser.UserID;
-                model.AgentID = CurrentUser.AgentID;
-                if (!string.IsNullOrEmpty(model.FromReplyUserID) && !string.IsNullOrEmpty(model.FromReplyAgentID))
-                {
-                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
-                }
-                list.Add(model);
-            }
-            JsonDictionary.Add("items", list);
             return new JsonResult
             {
                 Data = JsonDictionary,

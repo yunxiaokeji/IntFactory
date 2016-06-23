@@ -1,7 +1,7 @@
 ﻿
 define(function (require, exports, module) {
     require("plug/showtaskdetail/style.css");
-
+    
     var Global = require("global"),
         ChooseUser = require("chooseuser");
     var doT = require("dot");
@@ -136,6 +136,7 @@ define(function (require, exports, module) {
                             && !$(e.target).parents().hasClass("alert") && !$(e.target).hasClass("alert")
                             && !$(e.target).parents().hasClass("stage-items") && !$(e.target).hasClass("stage-items")
                             && !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace")
+                            && !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload")
                             ) {
                             $("#taskDetailContent").animate({ width: '0px' }, 100);
                         }
@@ -146,6 +147,7 @@ define(function (require, exports, module) {
                         assign: 'txtContent',
                         path: '/modules/plug/qqface/arclist/'	//表情存放的路径
                     });
+
 
                     //转移
                     if (defaultParas.self == 1) {

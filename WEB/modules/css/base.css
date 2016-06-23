@@ -13,9 +13,13 @@
 .relative {position:relative;}
 .bold {font-weight:bold}
 .red { color:red;}
+.borderEEE {border:1px solid #eee; }
 
 /*超过长度显示...*/
 .long { display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/*强制换行*/
+.wordbreak {display:inline-block;word-break:break-all; }
 
 .green { color:#74D07D !important;}
 .blue { color:#4a98e7 !important;}
@@ -100,7 +104,7 @@
 .mTop25 {margin-top:25px !important;}
 .-mTop20 {margin-top:-20px !important;}
 .mTop30 {margin-top:30px;}
-.mTop40 {margin-top:40px;}
+.mTop40 {margin-top:40px !important;}
 .mTop50 {margin-top:50px;}
 
 .mLeft1 {margin-left:1px;}
@@ -143,6 +147,7 @@
 /*常用宽度*/
 .width20 { width:20px; }
 .width30 { width:30px !important; }
+.width35 { width:35px !important; }
 .width50 { width:50px !important; }
 .width60 { width:60px !important; }
 .width70 { width:65px !important; }
@@ -163,9 +168,11 @@
 .width350 { width:350px !important; }
 .width400 { width:400px !important; }
 .width500 { width:500px !important; }
+.width750 { width:750px !important; }
 .width800 { width:800px !important; }
 .width839 { width:839px !important;}
 .minwidth300 { min-width:300px !important; }
 
 /*常用高度*/
 .hight40 { height:40px !important;}
+.hight58 { height:58px !important;}

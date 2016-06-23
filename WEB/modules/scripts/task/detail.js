@@ -1,10 +1,10 @@
 ﻿define(function (require, exports, module) {
     var DoT = require("dot");
     var Global = require("global");
-    var TalkReply = require("scripts/task/reply"); 
     var Upload = require("upload");
     var Easydialog = require("easydialog");
-    var Pager=require("pager");
+    var Pager = require("pager");
+    var TalkReply = null;
     var ChooseUser = null;
     var CutoutDoc = null;
     var SewnDoc = null;
@@ -95,6 +95,8 @@
             ProcessDYCosts.initProcessCosts(ObjectJS.orderid, Global, DoT, ObjectJS.orderType);
         }
 
+        TalkReply = require("scripts/task/reply");
+        TalkReply.initTalkReply(ObjectJS, 'task',0);
 
         $(".part-btn").hide();
 
@@ -112,11 +114,6 @@
         //绑定任务样式图
         ObjectJS.bindOrderImages();
 
-        //初始化任务讨论列表
-        var callBack = function () {
-            $(".module-tab li.default-check").click();
-        };
-        TalkReply.initTalkReply(ObjectJS, 'task', callBack);
         //任务模块切换
         $(".module-tab li").click(function () {
             var _this = $(this);
@@ -135,7 +132,7 @@
             }
 
             if (_this.data("id") == "orderTaskLogs") {
-                if (!_this.data("isget")) {
+                if (!_this.data("isget")) {                    
                     ObjectJS.getLogs(1);
                     _this.data("isget", "1");
                 }
@@ -143,6 +140,12 @@
             else if (_this.data("id") == "platemakingContent") {
                 if (!_this.data("isget")) {
                     ObjectJS.getPlateMakings();
+                    _this.data("isget", "1");
+                }
+            }
+            else if (_this.data("id") == "taskReplys") {
+                if (!_this.data("isget")) {
+                    TalkReply.getTaskReplys(1);
                     _this.data("isget", "1");
                 }
             }
@@ -160,6 +163,7 @@
             }
         });
 
+        $(".module-tab li.default-check").click();
 
         //标记任务完成
         if ($("#FinishTask").length == 1) {
@@ -334,7 +338,8 @@
 
     //标记任务完成
     ObjectJS.finishTask = function () {
-        var mark=ObjectJS.mark;
+        var mark = ObjectJS.mark;
+        var confirmMsg = '确定标记完成';
         if (mark == 11) {
             if ($("#navProducts .table-list tr").length == 2) {
                 alert("材料没有添加,不能标记任务完成");
@@ -353,31 +358,27 @@
         }
         //else if (mark == 15 || mark == 25) {
         //    if ($(".nav-partdiv .list-item").length == 0) {
-        //        alert("没有发货,不能标记任务完成");
-        //        return;
+                confirmMsg = '还没发货,确定标记完成';
         //    }
         //}
         //else if (mark == 16) {
         //    if ($(".nav-partdiv .list-item").length == 0) {
-        //        alert("没有录入加工成本,不能标记任务完成");
-        //        return;
+                confirmMsg = '还没录入加工成本,确定标记完成';
         //    }
         //}
         //else if (mark == 23) {
         //    if ($(".nav-partdiv .list-item").length == 0) {
-        //        alert("没有裁剪,不能标记任务完成");
-        //        return;
+                confirmMsg = '还没裁剪,确定标记完成';
         //    }
         //}
         //else if (mark == 24) {
         //    if ($(".nav-partdiv .list-item").length == 0) {
-        //        alert("没有车缝,不能标记任务完成");
-        //        return;
+                confirmMsg = '还没车缝,确定标记完成';
         //    }
         //}
         
         
-        confirm("标记完成的任务不可逆,确定完成?", function () {
+        confirm(confirmMsg+"?", function () {
             $("#FinishTask").val("完成中...").attr("disabled", "disabled");
             ObjectJS.isLoading = false;
 
@@ -628,6 +629,37 @@
 
                 $(".enlarge-image-item").append('<img id="enlargeImage" src="' + $(this).attr("src") + '"/>');
                 $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                $(".left-enlarge-image").unbind().click(function () {
+                    if (!ObjectJS.isLoading) {
+                        return;
+                    }
+                    var ele = $(".order-imgs-list .hover").prev();
+                    if (ele && ele.find("img").attr("src")) {
+                        var _img = ele.find("img");
+                        $(".order-imgs-list .hover").removeClass("hover");
+                        ele.addClass("hover");
+                        $("#orderImage").attr("src", _img.attr("src"));
+                        $(".enlarge-image-item").empty();
+                        $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
+                        $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                    }
+                });
+
+                $(".right-enlarge-image").unbind().click(function () {
+                    if (!ObjectJS.isLoading) {
+                        return;
+                    }
+                    var ele = $(".order-imgs-list .hover").next();
+                    if (ele && ele.find("img").attr("src")) {
+                        var _img = ele.find("img");
+                        $(".order-imgs-list .hover").removeClass("hover");
+                        ele.addClass("hover");
+                        $("#orderImage").attr("src", _img.attr("src"));
+                        $(".enlarge-image-item").empty();
+                        $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
+                        $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
+                    }
+                });
             }
         });
 
@@ -658,37 +690,7 @@
             return false;
         });
 
-        $(".left-enlarge-image").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
-            }
-            var ele = $(".order-imgs-list .hover").prev();
-            if (ele && ele.find("img").attr("src")) {
-                var _img = ele.find("img");
-                $(".order-imgs-list .hover").removeClass("hover");
-                ele.addClass("hover");
-                $("#orderImage").attr("src", _img.attr("src"));
-                $(".enlarge-image-item").empty();
-                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
-                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-            }
-        });
 
-        $(".right-enlarge-image").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
-            }
-            var ele = $(".order-imgs-list .hover").next();
-            if (ele && ele.find("img").attr("src")) {
-                var _img = ele.find("img");
-                $(".order-imgs-list .hover").removeClass("hover");
-                ele.addClass("hover");
-                $("#orderImage").attr("src", _img.attr("src"));
-                $(".enlarge-image-item").empty();
-                $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
-                $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
-            }
-        });
     }
 
     //获取任务日志
@@ -930,7 +932,6 @@
     }
     //#endregion
 
-
     //#region 任务制版相关事件
     //绑定
     ObjectJS.bindPlatemakingEvent = function () {
@@ -958,7 +959,7 @@
             //隐藏制版列操作下拉框
             if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
                 $("#setPlateInfo").hide();
-            }
+            };
         });
     }
 

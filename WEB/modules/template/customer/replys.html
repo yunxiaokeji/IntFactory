@@ -1,41 +1,105 @@
 ﻿{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
+    var attchment=item.Attachments;
 %}
 <tr>
     <td class="user-avatar">
         <img data-id="{%=item.CreateUser.UserID%}" src="{%=item.CreateUser.Avatar||'/modules/images/defaultavatar.png'%}"/>
     </td>
     <td class="pTop20">
-        <div style="padding-bottom:10px;">
-            <div class="left">
+        <div class="width-order-taskdetail" style="padding-bottom:10px;">
+            <div class="">
                 <div class="" >
                     <span style="color:#2f73b8;" class="reply-username">{%=item.CreateUser.Name%}{%=item.FromReplyUser!=null?" 回复 "+item.FromReplyUser.Name:""%}:</span>
-                    <span style="color:#777;" class="reply-content">{%=decodeURI(item.Content)%}</span>
+                    <span style="color:#777;" class="reply-content wordbreak">{%=decodeURI(item.Content)%}</span>
+                    {%if(attchment){%}
+                    {%if(attchment.length>0){%}
+                    <div class="width750 attchment-box">
+                        <ul class="mTop10 upload-file">
+                            {%
+                            for(var a=0;a<attchment.length;a++){   
+                                var attchmentItem=attchment[a];
+                                var extension=attchmentItem.OriginalName.split('.');
+                                if(attchmentItem.Type==2)
+                                { 
+                            %}  
+                                <li class="mTop5">
+                                    <div class="left logo-upload">
+                                        <div class="upload-lump">
+                                            <div class="content width35 long" title="{%=extension[extension.length-1]%}">
+                                                {%=extension[extension.length-1]%}
+                                            </div>
+                                            <div class="lump"></div>
+                                        </div>
+                                    </div>
+                                    <div class="information-upload pLeft10 width100 borderEEE hight58">
+                                        <div title="{%=attchmentItem.OriginalName%}" class="long filename width100">{%=attchmentItem.OriginalName%}</div>
+                                        <div title="{%=attchmentItem.Size%}">{%=attchmentItem.Size/1024/1024<1?(attchmentItem.Size/1024).toFixed(1)+"KB":(attchmentItem.Size/1024/1024).toFixed(2)+"MB"%}</div>
+                                    </div> 
+                                    <div class="popup-download download iconfont hide" data-url="/Plug/DownLoadFile?filePath={%=attchmentItem.FilePath%}&fileName={%=attchmentItem.FileName%}&originalName={%=attchmentItem.OriginalName%}">
+                                        &#xe655;
+                                    </div>
+                                    
+
+                                </li>      
+                            {%
+                                }
+                            }
+                            %}
+                        </ul>
+                        <div class="clear"></div>
+                        <ul id="Images-reply" class="accessory upload-img" style="display: block;">
+                            {%
+                            for(var s=0;s<attchment.length;s++){   
+                                var attchmentItem=attchment[s];
+                                if(attchmentItem.Type==1)
+                                { 
+                            %}  
+                            <li class="mTop5 hand"><img class="orderImage-repay" data-src="{%=attchmentItem.FilePath+attchmentItem.FileName%}" src="{%=attchmentItem.FilePath+(attchmentItem.ThumbnailName==""?attchmentItem.FileName:attchmentItem.ThumbnailName)%}"></li>
+                            {%
+                                }
+                            }
+                            %}
+                        </ul> 
+                        <div class="clear"></div>              
                 </div>
-                <div class="pTop5" style="color:#999;">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss") %}</div>
-            </div>
-            <div class="right mTop15 hand btn-reply">
-                <div class="left" style="padding-top:3px;"><img src="/modules/images/ico-reply-gray.png"/></div>
-                <div class="left mLeft5" style="color:#777;font-size:14px;">回复</div>
-                <div class="clear"></div>
+                {%}}%}                
+                </div>
             </div>
             <div class="clear"></div>
-            <div class="mTop10 hide reply-box" data-replyid="{%=item.ReplyID%}">
-                <div>
-                    <textarea placeholder="发表评论" id="Msg_{%=item.ReplyID%}" style="width:100%;"></textarea>
-                </div>
-                <div class="btn-emotion mTop5 left" data-id="Msg_{%=item.ReplyID%}" title="表情"></div>
-                <div id="btn-update-reply" title="附件"></div>
-                <div class="accessory-reply hide">
-
-                </div>
-                <div class="right mTop10 btn save-reply" data-id="{%=item.GUID%}"  data-stageid="{%=item.StageID%}" data-replyid="{%=item.ReplyID%}" data-createuserid="{%=item.CreateUserID%}" data-agentid="{%=item.AgentID%}">
-                    回复
+            <div class="mTop5">
+                <div class="left" style="color:#999;">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss") %}</div>
+                <div class="right hand btn-reply" data-replyid="{%=item.ReplyID%}">
+                    <div class="left" style="padding-top:3px;"><img src="/modules/images/ico-reply-gray.png"/></div>
+                    <div class="left mLeft5" style="color:#777;font-size:14px;">回复</div>
+                    <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
-            </div>
+                <div class="mTop10 hide reply-box" data-replyid="{%=item.ReplyID%}">
+                    <div>
+                        <textarea placeholder="发表评论" class="msg-{%=item.ReplyID%}" id="Msg_{%=item.ReplyID%}" style="width:100%;"></textarea>
+                    </div>
+                    <div id="reply-attachment{%=item.ReplyID%}" style="width:25px;"></div>
+                    <div class="btn-emotion left iconfont mLeft10" data-id="Msg_{%=item.ReplyID%}" title="表情">&#xe65b;</div>
+                
+                    <div class="right mTop5 btn save-reply" data-id="{%=item.GUID%}"  data-stageid="{%=item.StageID%}" data-replyid="{%=item.ReplyID%}" data-createuserid="{%=item.CreateUserID%}" data-agentid="{%=item.AgentID%}">
+                        回复
+                    </div>
+                    <ul class="mTop40 upload-file hide task-file upload-files-{%=item.ReplyID%}" id="reply-files{%=item.ReplyID%}">
+                              
+                    </ul> 
+                    <div class="clear"></div>
+                    <ul id="reply-imgs{%=item.ReplyID%}" class="accessory order-imgs addimg hide task-file upload-files-{%=item.ReplyID%}">
+
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>  
+            
         </div>
     </td>
 </tr>
+
+
 {% } %}

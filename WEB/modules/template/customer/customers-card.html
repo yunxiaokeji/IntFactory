@@ -2,22 +2,53 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-<ul class="list-card mRight15 mTop20">
+<div class="list-card mRight15 mTop20">
     <div class="check iconfont" data-id="{%=item.CustomerID%}" data-userid="{%=item.OwnerID%}">&#xe626;</div>
-    <li class="mTop5">
-        <div class="message">
-            <div class="list-mark left mRight10"><span class="mark" data-id="{%= item.CustomerID %}" data-value="{%= item.Mark%}"></span></div>
-            <div class="message-name long"><a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%}</a></div>
-        </div>
-    </li>
-    <li class="color333 mTop10"><span class="iconfont">&#xe64f;</span>{%=item.MobilePhone?item.MobilePhone:"--"%}</li>
-    <li class="color666"><span class="iconfont">&#xe657;</span>{%=item.City?item.City.Description:"--"%}</li>
-    <li class="color666"><span class="iconfont">&#xe639;</span>{%=item.CreateTime.toDate("yyyy-MM-dd")%}</li>
-    <li>
-        <div class="mRight30 color666 left"><i class="iconfont mRight5">&#xe601;</i>{%=(item.Owner ? item.Owner.Name:"--")%}</div>
-        <div class="mRight10 right"> {%=item.SourceType==1?"阿里客户":item.SourceType==2?"自助下单":"手工创建"%}</div>
-    </li>
-</ul>
+    <div class="message">
+        <div class="list-mark left mRight10"><span class="mark" data-id="{%= item.CustomerID %}" data-value="{%= item.Mark%}"></span></div>
+        <div class="message-name long"><a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%}</a></div>
+    </div>
+    <ul class="info mTop5">
+        <li><span class="iconfont">&#xe64f;</span>{%=item.MobilePhone?item.MobilePhone:"--"%}</li>
+        <li><span class="iconfont">&#xe657;</span>{%=item.City?item.City.Description:"--"%}</li>
+        <li>
+            <div class="left" title="创建日期"><span class="iconfont">&#xe639;</span>{%=item.CreateTime.toDate("yyyy-MM-dd")%}</div>
+            <div class="right mRight10" title="负责人">
+                <img class="photo mTop2" onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="{%=item.Owner&&item.Owner.Avatar?item.Owner.Avatar:'/modules/images/defaultavatar.png'%}" />
+                <span class="left mLeft5">{%=(item.Owner ? item.Owner.Name:"--")%}</span>
+            </div>
+        </li>
+        <!--<li class="">
+            <div class="mRight10 right"> {%=item.SourceType==1?"阿里客户":item.SourceType==2?"自助下单":"手工创建"%}</div>
+        </li>-->
+    </ul>
+    <ul class="order-count">
+        <li class="{%=item.DemandCount==0||'red'%}">
+            需求单：
+            {% if(item.DemandCount>0){%}
+                <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navOppor">{%=item.DemandCount%}</a>
+            {% } else{ %}
+                0
+            {% } %}
+        </li>
+        <li>
+            打样单：
+            {% if(item.DYCount>0){%}
+                <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navOrder">{%=item.DYCount%}</a>
+            {% } else{ %}
+                0
+            {% } %}
+        </li>
+        <li>
+            大货单：
+            {% if(item.DHCount>0){%}
+                <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navDHOrder">{%=item.DHCount%}</a>
+            {% } else{ %}
+                0
+            {% } %}
+        </li>
+    </ul>
+</div>
 
 {% } %}
   

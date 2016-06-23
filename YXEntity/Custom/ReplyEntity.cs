@@ -43,6 +43,8 @@ namespace IntFactoryEntity
 
         public Users FromReplyUser { get; set; }
 
+        public List<Attachment> Attachments { get; set; }
+
         public void FillData(System.Data.DataRow dr)
         {
             dr.FillData(this);
