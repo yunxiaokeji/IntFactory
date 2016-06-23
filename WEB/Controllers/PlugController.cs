@@ -163,10 +163,6 @@ namespace YXERP.Controllers
                 {
 
                     int isImage = 2;
-                    if (i == 10)
-                    {
-                        break;
-                    }
                     HttpPostedFileBase file = Request.Files[i];
                     string ContentType = file.ContentType;
                     Dictionary<string, string> types = new Dictionary<string, string>();
