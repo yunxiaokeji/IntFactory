@@ -150,6 +150,8 @@
             btnObject.html("保存中...").attr("disabled", "disabled");
         }
       
+        var params = { entity: JSON.stringify(model), attchmentEntity: JSON.stringify(attchments) };
+
         if (Controller == "customer") {
             params.customerID = Reply.guid;
         }
@@ -157,7 +159,7 @@
             params.taskID = Reply.taskid;
         }
 
-        var params = { entity: JSON.stringify(model), attchmentEntity: JSON.stringify(attchments) };
+        
         Global.post("/" + Controller + "/SavaReply", params, function (data) {
             if (btnObject) {
                 btnObject.html(btnName).removeAttr("disabled");
