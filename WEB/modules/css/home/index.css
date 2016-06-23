@@ -183,7 +183,7 @@ border-bottom:2px solid #4a98e7;
     margin:20px auto;
 }
 .order-list {
-    border:1px solid #cecece;
+    border:1px solid #ddd;
     background-color:#fff;
     padding:10px 20px 20px 20px;
 }
@@ -443,5 +443,57 @@ border-bottom:2px solid #4a98e7;
 }
 
 
+/*续费页面
+.author-body { 
+    position:fixed;
+    width:100%;
+    height:100%;
+    background-color:rgba(0, 0, 0,0.6);
+    left:0;
+    top:0;
+    z-index:99999;
+}*/
+.author-box { 
+    width:600px;
+    padding-bottom:10px;
+}
+.autnor-msg li:first-child { margin-top:20px;}
+.autnor-msg li,.autnor-msg li span { 
+    font-size:16px;
+    line-height:40px;
+}
+.autnor-msg li:last-child { 
+    font-size:12px;
+}
+.author-footer div {display:inline-block;}
+.author-footer div:not(:last-child) { 
+    width:120px;
+    line-height:50px;
+    text-align:center;
+    cursor:pointer;
+    border-radius:5px;
+    font-size:16px;
+}
+.author-lump { width:10px;height:10px;display:inline-block;border:1px solid #ccc;}
+.author-lump.hover { background-color:#4a98e7;border-color:#4a98e7;}
+/*.author-footer div:nth-child(2) { background-color:#eee;border:1px solid #ccc;}*/
+.author-footer div:first-child { background-color:#4a98e7;color:#fff;border:1px solid #3a98e7;margin:0 10px 0 360px;}
+
+/*阿里标记*/
+.list-item  .aliorder { height:24px; line-height:24px; position:absolute; bottom:0px; background-color:#ff7300; opacity:0.6; 
+                                        display:block; width:120px; font-size:14px; color:#fff; text-indent:10px;}
+.list-item .iconfont{ color:#fff; }
+
+.list-item .pic-box{
+    position:relative;
+}
+
+.order-item .aliorder { height:24px; line-height:24px; position:absolute; bottom:0px; background-color:#ff7300; opacity:0.6; 
+                                        display:block; width:120px; font-size:14px; color:#fff; text-indent:10px;}
+.order-item .aliorder .iconfont{ color:#fff; }
+
+.order-item .pic-box{
+    position:relative;
+}
 
 

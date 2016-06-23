@@ -225,6 +225,7 @@
     <Content Include="modules\css\order\platemakingprocess.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task\style.css" />
+    <Content Include="modules\images\author-image.png" />
     <Content Include="modules\images\bg-loginBackground.png" />
     <Content Include="modules\images\btn-add.png" />
     <Content Include="modules\images\btn-remove.png" />
@@ -493,6 +494,7 @@
     <Content Include="modules\template\customer\customers.html" />
     <Content Include="modules\template\home\customerorders.html" />
     <Content Include="modules\template\home\task-list.html" />
+    <Content Include="modules\template\home\author-page.html" />
     <Content Include="modules\template\inquire\inquireorder.html" />
     <Content Include="modules\template\myaccount\feedbacklist.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />

@@ -188,6 +188,9 @@
             maxSize: 5 * 1024,//附件最大大小
             maxQuantity: 10,//最大上传文件个数
             url: "/Plug/UploadFiles",
+            fileType: 3,
+            maxSize:5*1024,
+            maxQuantity:10,
             data: { folder: '', action: 'add', oldPath: "" },
             success: function (data, status) {
 

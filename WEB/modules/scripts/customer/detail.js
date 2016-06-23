@@ -13,16 +13,22 @@
     var ObjectJS = {}, CacheIems = [];
     
     //初始化
-    ObjectJS.init = function (customerid, MDToken) {
+    ObjectJS.init = function (customerid, MDToken, navid) {
         var _self = this;
         _self.guid = customerid;
 
-        CustomerReply.initTalkReply(_self, "customer");
-
+        var nav = $(".module-tab li[data-id='" + navid + "']");
+        if (nav.length > 0) {
+            nav.addClass("hover");
+        } else {
+            $(".module-tab li").first().addClass("hover").data("first", "1");
+            $("#taskReplys").show();
+            CustomerReply.initTalkReply(_self, "customer");
+        }
         Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
             if (data.model.CustomerID) {
                 _self.bindCustomerInfo(data.model);
-                _self.bindEvent(data.model);
+                _self.bindEvent(data.model, navid);
             }
         });
         
@@ -56,6 +62,10 @@
 
         $("#lblReamrk").text(model.Description == "" ? "--" : model.Description);
 
+        $(".module-tab li[data-id='navOppor']").html("需求列表（" + model.DemandCount + "）");
+        $(".module-tab li[data-id='navOrder']").html("打样订单（" + model.DYCount + "）");
+        $(".module-tab li[data-id='navDHOrder']").html("大货订单（" + model.DHCount + "）");
+
         //if (model.Type == 0) {
         //    $("#lblType").html("人")
         //    $(".companyinfo").hide();
@@ -63,29 +73,10 @@
         //    $("#lblType").html("企")
         //    $(".companyinfo").show();
         //}
-
-        //处理阶段
-        //var stage = $(".stage-items li[data-id='" + model.StageID + "']");
-        //stage.addClass("hover");
-        //if (model.Stage) {
-        //    CacheIems[model.StageID] = model.Stage.StageItem;
-        //    if (model.Stage.StageItem) {
-        //        _self.bindStageItems(model.Stage.StageItem);
-        //    }
-        //}
-
     }
 
-    //阶段行为项
-    ObjectJS.bindStageItems = function (items) {
-        $("#stageItems").empty();
-        for (var i = 0; i < items.length; i++) {
-            $("#stageItems").append("<li>" + items[i].ItemName + "</li>");
-        }
-    };
-
     //绑定事件
-    ObjectJS.bindEvent = function (model) {
+    ObjectJS.bindEvent = function (model, navid) {
         var _self = this;      
                
         $(document).click(function (e) {
@@ -134,42 +125,6 @@
                     Global.post("/Customer/CloseCustomer", { ids: model.CustomerID }, function (data) {
                         if (data.status) {
                             location.href = location.href;
-                        }
-                        ObjectJS.isLoading = true;
-                    });
-                });
-            });
-
-            //切换阶段
-            $(".stage-items li").click(function () {
-                if (!ObjectJS.isLoading) {
-                    return;
-                }
-                var _this = $(this);
-                !_this.hasClass("hover") && confirm("确认客户切换到此阶段吗?", function () {
-                    ObjectJS.isLoading = false;
-                    Global.post("/Customer/UpdateCustomStage", {
-                        ids: model.CustomerID,
-                        stageid: _this.data("id")
-                    }, function (data) {
-                        if (data.result == "10001") {
-                            alert("您没有此操作权限，请联系管理员帮您添加权限！");
-                            return;
-                        }
-
-                        if (data.status) {
-                            _this.siblings().removeClass("hover");
-                            _this.addClass("hover");
-                            if (CacheIems[_this.data("id")]) {
-                                _self.bindStageItems(CacheIems[_this.data("id")]);
-                            } else {
-                                Global.post("/Customer/GetStageItems", {
-                                    stageid: _this.data("id")
-                                }, function (data) {
-                                    CacheIems[_this.data("id")] = data.items;
-                                    _self.bindStageItems(CacheIems[_this.data("id")]);
-                                });
-                            }
                         }
                         ObjectJS.isLoading = true;
                     });
@@ -260,17 +215,19 @@
             $("#addContact").hide();
             $(".searth-module").hide();
 
-            if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) {                
+            if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) { //日志               
                 _this.data("first", "1");
                 _self.getLogs(model.CustomerID, 1);
-            }else if (_this.data("id") == "navContact") {
+            } else if (_this.data("id") == "taskReplys" && (!_this.data("first") || _this.data("first") == 0)) { //备忘
+                _this.data("first", "1");
+                CustomerReply.initTalkReply(_self, "customer");
+            } else if (_this.data("id") == "navContact") { //联系人
                 $("#addContact").show();
-                
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
                     _self.getContacts(model.CustomerID);
                 }
-            } else if (_this.data("id") == "navOrder") {
+            } else if (_this.data("id") == "navOrder") { //订单
                 $(".searth-module").show();
                 $(".search-ipt,.search-ico").remove();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
@@ -284,7 +241,7 @@
 
                     });
                 });
-            } else if (_this.data("id") == "navOppor") {
+            } else if (_this.data("id") == "navOppor") { //机会
                 $(".searth-module").show();
                 $(".search-ipt,.search-ico").remove();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
@@ -299,7 +256,7 @@
                     });
                 });
 
-            } else if (_this.data("id") == "navDHOrder") {
+            } else if (_this.data("id") == "navDHOrder") { //大货单
                 $(".searth-module").show();
                 $(".search-ipt,.search-ico").remove();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
@@ -347,6 +304,11 @@
                 });
             });
         });
+
+        //默认选中标签页
+        if (navid) {
+            $(".module-tab li[data-id='" + navid + "']").click();
+        }
     }
 
     //获取日志

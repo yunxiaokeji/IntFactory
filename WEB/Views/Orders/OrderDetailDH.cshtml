@@ -160,7 +160,7 @@
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
                 <span class="column-title">单价：</span>
                 <label class="left">@(model.FinalPrice.ToString("f2"))</label>
-                @if (model.IsSelf && model.Status == 4)
+                @if (model.IsSelf && model.Status < 7)
                 { 
                     <div id="updateOrderDiscount" title="编辑订单折扣" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019023"))">&#xe607;</div>
                 }
@@ -284,9 +284,9 @@
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016"))" data-id="navGoods">订单明细</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))" data-id="navProducts" data-mark="3">材料成本</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" data-id="navCosts">加工成本</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁片/织片</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" data-btn="btnSewnOrder" data-id="navSewnDoc">缝制/套口</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" data-btn="btnSendOrder" data-id="navSendDoc">发货记录</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁片</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" data-btn="btnSewnOrder" data-id="navSewnDoc">车缝</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" data-btn="btnSendOrder" data-id="navSendDoc">发货</li>
         <li class="navPays @(ExpandClass.IsLimits(HttpContext.Current, "102019017"))" data-btn="addPay" data-id="navPays">付款记录</li>
         <li data-id="navLog">日志</li>
     </ul>
@@ -296,8 +296,8 @@
         if (model.Status == 5)
         { 
             <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" id="btnSendOrder">订单发货</div>
-            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" id="btnSewnOrder">缝制/套口录入</div>
-            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" id="btnCutoutOrder">裁片/织片录入</div>
+            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" id="btnSewnOrder">车缝录入</div>
+            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" id="btnCutoutOrder">裁片录入</div>
         }
     }
     

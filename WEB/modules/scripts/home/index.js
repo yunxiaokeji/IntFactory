@@ -2,6 +2,7 @@
     var Global = require("global");
     var Tip = require("tip");
     var DoT = require("dot");
+    var EasyDialog = null;
 
     var OrderListCache = null;
     var CacheArr = new Array();
@@ -24,11 +25,12 @@
     var GuidLineHeight = 0;//报表网格线对应的份数
     var ReportMinHeight = 10;//最低行高
     var ReportIndex = 0;
-    ObjectJS.init = function (orderLevel, roleLevel) {
+    ObjectJS.init = function (orderLevel, roleLevel, remainDay, remainDate) {
+        ObjectJS.remainDay = remainDay;
         ObjectJS.orderLevel = orderLevel;
     var ReportAvgHeight = 0;//报表每一份对应的行高
         ObjectJS.roleLevel = roleLevel;
-
+        ObjectJS.remainDate = remainDate;
         //没有订单权限
         if (orderLevel == 0) {
             Paras.moduleType = 2;
@@ -40,9 +42,14 @@
         ObjectJS.getReportList();
         ObjectJS.getNeedOrderList();
         ObjectJS.getTaskOrOrderEcceedCount();
+        setTimeout(function () {
+            ObjectJS.authorWarn();
+        }, 500);
     };
 
     ObjectJS.bindEvent = function () {
+       
+
         //订单进行状态筛选
         $(".sum-list li").click(function () {
             var _this = $(this);
@@ -174,6 +181,48 @@
                 alert("数据加载中，请稍等 !");
             }
         });
+    }
+
+    ObjectJS.authorWarn = function () {
+        //授权快到期提示
+        if (ObjectJS.remainDay <= 20) {
+            var authorWarn = Global.getCookie('authorWarn');
+            if (authorWarn != "1") {
+                var data = { remainDay: ObjectJS.remainDay, remainDate: ObjectJS.remainDate };
+                EasyDialog = require('easydialog');
+                DoT.exec("/template/home/author-page.html", function (template) {
+                    var innerHtml = template(data);
+                    EasyDialog.open({
+                        container: {
+                            id: "author-box",
+                            header: "授权快到期",
+                            content: innerHtml
+                        }
+                    });
+                    $("#ExtendNow").click(function () {
+                        window.open('/Auction/ExtendNow', '_target');
+                    })
+                    //$("#IKnow").click(function () {
+                        //if ($(".author-lump").hasClass('hover')) {
+                        //    Global.setCookie('authorWarn', 'no');
+                        //}
+                    //    EasyDialog.close();
+                    //})
+                    $('.no-hint').click(function () {
+                        var _this = $(this);
+                        if ($(".author-lump").hasClass('hover')) {
+                            $(".author-lump").removeClass('hover');
+                            Global.delCookie('authorWarn');
+                        }
+                        else {
+                            $(".author-lump").addClass('hover');
+                            Global.setCookie('authorWarn', '1');
+                        }
+                    })
+                })
+            }
+        }
+
     }
 
     //获取报表数据
