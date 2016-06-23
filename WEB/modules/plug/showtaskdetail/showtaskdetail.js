@@ -137,6 +137,7 @@ define(function (require, exports, module) {
                             && !$(e.target).parents().hasClass("stage-items") && !$(e.target).hasClass("stage-items")
                             && !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace")
                             && !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload")
+                            && !$(e.target).parents().hasClass("ico-delete") && !$(e.target).hasClass("ico-delete")
                             ) {
                             $("#taskDetailContent").animate({ width: '0px' }, 100);
                         }
