@@ -50,24 +50,24 @@
                     FromReplyUserID: "",
                     FromReplyAgentID: ""
                 };
-                var attchments = [];
 
+                var attchments = [];
                 $('.taskreply-box .task-file li').each(function () {
                     var _this = $(this);
                     attchments.push({
                         "Type": _this.data('isimg'),
-                        "ServerUrl": "",
                         "FilePath": _this.data('filepath'),
                         "FileName": _this.data('filename'),
                         "OriginalName": _this.data('originalname'),
                         "Size": _this.data("filesize"),
+                        "ServerUrl": "",
                         "ThumbnailName": ""
                     });
                 });
                 ObjectJS.saveTaskReply(model, $(this), attchments);
 
-                $('.taskreply-box .task-file').empty();
                 txt.val("");
+                $('.taskreply-box .task-file').empty();
             }
             else {
                 alert("请输入讨论内容");
@@ -76,7 +76,7 @@
         });
        
         //讨论表情
-        $(".btn-emotion").each(function () {
+        $(".taskreply-box .btn-emotion").each(function () {
             $(this).qqFace({
                 assign: $(this).data("id"),
                 path: '/modules/plug/qqface/arclist/'	//表情存放的路径
@@ -88,7 +88,7 @@
             ObjectJS.getTaskReplys(1);
         }
 
-        //提示
+        //tip提示
         $("#reply-attachment").Tip({
             width: 100,
             msg: "上传附件最多10个"
@@ -118,7 +118,8 @@
                     ObjectJS.bindReplyOperate(innerhtml);  
                 });
             }
-            else {
+            else
+            {
                 $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
             }
 
@@ -143,14 +144,12 @@
     //保存任务讨论
     ObjectJS.saveTaskReply = function (model, btnObject,attchments) {
         var _self = this;
-        var btnname = "";
+        var btnName = "";
         if (btnObject) {
-            btnname = btnObject.html();
+            btnName = btnObject.html();
             btnObject.html("保存中...").attr("disabled", "disabled");
         }
-       
-        var params = { entity: JSON.stringify(model), attchmentEntity: JSON.stringify(attchments) };
-            
+      
         if (Controller == "customer") {
             params.customerID = Reply.guid;
         }
@@ -158,9 +157,10 @@
             params.taskID = Reply.taskid;
         }
 
+        var params = { entity: JSON.stringify(model), attchmentEntity: JSON.stringify(attchments) };
         Global.post("/" + Controller + "/SavaReply", params, function (data) {
             if (btnObject) {
-                btnObject.html(btnname).removeAttr("disabled");
+                btnObject.html(btnName).removeAttr("disabled");
             }
 
             doT.exec("template/customer/replys.html", function (template) {
@@ -190,22 +190,27 @@
             successItems: ".upload-files-" + replyid + " li",
             url: "/Plug/UploadFiles",
             data: { folder: '', action: 'add', oldPath: "" },
-            success: function (data, status) {
-                if (data.Stage == false) {
+            success: function (data, status)
+            {
+                if (data.Stage == false)
+                {
                     alert("最多允许上传10个");
-                } else {
+                }
+                else {
                     var len = data.Items.length;
-                    if (len > 0) {
+                    if (len > 0)
+                    {
                         var templateUrl = "/template/task/task-file-upload.html";
                         var fileBox = $("#reply-files" + replyid);
+                        if ($(".msg-" + replyid).val() == "") {
+                            $(".msg-" + replyid).val(data.Items[0].originalName.split('.')[0]);
+                        }
 
                         var fileArr = new Array();
                         var picArr = new Array();
                         for (var i = 0; i < len ; i++) {
                             var item = data.Items[i];
-                            if ($(".msg-" + replyid).val() == "" && i == 0) {
-                                $(".msg-" + replyid).val(item.originalName.split('.')[0]);
-                            }
+                            
                             if (item.isImage == 1) {
                                 picArr.push(item);
                             }
@@ -246,7 +251,7 @@
                         }
                     }
                     else {
-                        alert("上传文件格式不正确,且上传文件不能超过10M");
+                        alert("上传文件格式不正确或有文件超过10M");
                     }
 
                 }

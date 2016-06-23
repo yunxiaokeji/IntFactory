@@ -74,13 +74,14 @@ define(function (require, exports, module) {
                 var filetypes = ["rar", "txt", "zip", "doc", "ppt", "xls", "pdf", "docx", "xlsx"];
                 var attachmenttypes=pictypes;
                 var maxSize = _self.setting.maxSize;//2M 
+                var isContinue = false;
 
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
                     var filepath = file.name;
                     var fileSize = 0;
-                    var isContinue = true;
-                    var fileend = filepath.substring(filepath.lastIndexOf(".") + 1);
+                    isContinue = false;
+                    var fileExtension = filepath.substring(filepath.lastIndexOf(".") + 1);
 
                     if (_self.setting.fileType == 2) {
                         attachmenttypes = filetypes;
@@ -89,7 +90,7 @@ define(function (require, exports, module) {
                         attachmenttypes = attachmenttypes.concat(filetypes);
                     }
                     for (var k = 0; k < attachmenttypes.length; k++) {
-                        if (attachmenttypes[k] == fileend) {
+                        if (attachmenttypes[k] == fileExtension) {
                             isContinue = true;
                             break;
                         }
