@@ -195,7 +195,6 @@
                 } else {
                     var len = data.Items.length;
                     if (len > 0) {
-
                         if (($(".upload-files-" + replyid + " li").length + len) > 10) {
                             alert("最多允许上传10个");
                             return;
