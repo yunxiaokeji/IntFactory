@@ -23,6 +23,7 @@ define(function (require, exports, module) {
         var _self = this;
         _self.setting = $.extend({}, Defaults, options);
         _self.init();
+
     };
     UPLoad.prototype.init = function () {
         var _self = this;
@@ -32,7 +33,6 @@ define(function (require, exports, module) {
                 file = $('<input type="file" data-filequantity="0" class="'+_self.setting.element + '_fileUpLoad" accept="' + _self.setting.fileType + '" name="file" id="' + _self.setting.element + '_fileUpLoad" ' + (_self.setting.multiple ? 'multiple="multiple"' : '') + ' style="display:none;" />'),
                 button = $('<input id="' + _self.setting.element + '_buttonSubmit" class="' + (_self.setting.className || "ico-upload") + '" type="button" value="' + _self.setting.buttonText + '" />')
             form.append(file).append(button);
-
             $("#"+_self.setting.element).append(form);
 
             form.submit(function () {
@@ -48,6 +48,7 @@ define(function (require, exports, module) {
                 $(this).ajaxSubmit(options);
                 return false;
             })
+
             button.click(function () {
                 file.click();
             });

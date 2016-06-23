@@ -149,6 +149,7 @@
         }
       
         var params = { entity: JSON.stringify(model), attchmentEntity: JSON.stringify(attchments) };
+
         if (Controller == "customer") {
             params.customerID = Reply.guid;
         }
