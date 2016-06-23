@@ -153,7 +153,7 @@ namespace YXERP.Controllers
 
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
             bool stage = true;
-            if (Request.Files.Count>10)
+            if (Request.Files.Count>5)
             {
                 stage = false;                
             }
