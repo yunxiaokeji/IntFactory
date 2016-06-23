@@ -54,6 +54,8 @@
 
         //进入确认购买信息
         $("#btn-sureOrder").click(function () {
+            var totalmoney = parseFloat($("#TotalMoney").html());
+            if (totalmoney <= 0) { return;}
             if (!ObjectJS.validate(1)) { return; };
 
             $(this).parent().parent().hide().next().fadeIn(500);
@@ -70,7 +72,7 @@
                 $("#order-useryear").html($("#UserYear").val() + "年");
             }
 
-            var totalmoney =parseFloat( $("#TotalMoney").html() );
+            
             var trueamount = parseFloat(totalmoney / ObjectJS.discount);
             var freeamount = parseFloat(trueamount * (1 - ObjectJS.discount));
             $("#order-amount").html(totalmoney.toFixed(2));

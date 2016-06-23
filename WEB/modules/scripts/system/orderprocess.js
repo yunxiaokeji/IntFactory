@@ -49,7 +49,7 @@
                     if (status) {
                         _self.getList();
                     } else {
-                        alert("系统异常，请稍后重试!");
+                        alert("流程对应有未完成的订单,不能删除");
                     }
                 });
             });

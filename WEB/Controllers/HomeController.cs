@@ -32,6 +32,8 @@ namespace YXERP.Controllers
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var agent = IntFactoryBusiness.AgentsBusiness.GetAgentDetail(currentUser.AgentID);
                 ViewBag.RemainDay = Math.Ceiling((agent.EndTime - DateTime.Now).TotalDays);
+                ViewBag.RemainDate = agent.EndTime.Date.ToString("yyyy-MM-dd");
+
                 ViewBag.BuyPeople = agent.UserQuantity;
                 ViewBag.UsePeople = OrganizationBusiness.GetUsers(agent.AgentID).FindAll(m=>m.Status!=9).Count;
 
@@ -752,15 +754,15 @@ namespace YXERP.Controllers
         {
 
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            int remainderDays = 0;
+            double remainderDays = 0;
             int authorizeType = 0;
 
             if (Session["ClientManager"] != null)
             {
                 var CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
                 var agent = AgentsBusiness.GetAgentDetail(CurrentUser.AgentID);
-
-                remainderDays = (agent.EndTime - DateTime.Now).Days;
+                //Math.Ceiling((agent.EndTime - DateTime.Now).TotalDays)
+                remainderDays = Math.Ceiling((agent.EndTime - DateTime.Now).TotalDays);
                 authorizeType = agent.AuthorizeType;
 
             }

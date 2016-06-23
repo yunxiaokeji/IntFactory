@@ -188,6 +188,9 @@
             maxSize: 5 * 1024,//附件最大大小
             maxQuantity: 10,//最大上传文件个数
             url: "/Plug/UploadFiles",
+            fileType: 3,
+            maxSize:5*1024,
+            maxQuantity:10,
             data: { folder: '', action: 'add', oldPath: "" },
             success: function (data, status) {
 
@@ -241,14 +244,12 @@
 
                             innerhtml.find(".delete").click(function () {
                                 $(this).parent().remove();
-                                if (fileBox.find('li').length == 0) {
-                                    fileBox.hide();
+                                if ($("#reply-imgs" + replyid).find('li').length == 0) {
+                                    $("#reply-imgs" + replyid).hide();
                                 }
                             });
                         });
                     }
-
-
                 }
                 else {
                     alert("上传文件格式不正确,且上传文件不能超过10M");

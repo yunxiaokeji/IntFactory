@@ -249,11 +249,23 @@
                         header: "设置任务到期时间",
                         content: innerHtml,
                         yesFn: function () {
+
+
+                            var showMsg="任务到期时间不可逆，确定设置?";
+                            var planTime = new Date(ObjectJS.planTime).getTime();
+                            var endTime = new Date($("#UpdateTaskEndTime").val()).getTime();
+
+                            //判断该任务的订单是否超期
+                            var isExceed = new Date().getTime() < planTime ? true : false;
+                           
+                            if (planTime < endTime && isExceed) {
+                                showMsg = "已超出订单交货时间,确定设置?";
+                            }
                             if ($("#UpdateTaskEndTime").val() == "") {
                                 alert("任务到期时间不能为空");
                                 return;
                             }
-                            confirm("任务到期时间不可逆，确定设置?", function () {
+                            confirm(showMsg, function () {
                                 ObjectJS.isLoading = false;
                                 Global.post("/Task/UpdateTaskEndTime", {
                                     id: ObjectJS.taskid,
@@ -274,6 +286,7 @@
                                     ObjectJS.isLoading = true;
                                 });
                             });
+
                         }
                     }
                 });
@@ -287,7 +300,7 @@
                 //更新任务到期日期
                 var taskEndTime = {
                     elem: '#UpdateTaskEndTime',
-                    format: 'YYYY-MM-DD hh:mm:ss',
+                    format: 'YYYY/MM/DD hh:mm:ss',
                     min: minDate,
                     //max: ObjectJS.planTime,
                     istime: true,
@@ -325,7 +338,8 @@
 
     //标记任务完成
     ObjectJS.finishTask = function () {
-        var mark=ObjectJS.mark;
+        var mark = ObjectJS.mark;
+        var confirmMsg = '确定标记完成';
         if (mark == 11) {
             if ($("#navProducts .table-list tr").length == 2) {
                 alert("材料没有添加,不能标记任务完成");
@@ -344,31 +358,27 @@
         }
         else if (mark == 15 || mark == 25) {
             if ($(".nav-partdiv .list-item").length == 0) {
-                alert("没有发货,不能标记任务完成");
-                return;
+                confirmMsg = '还没发货,确定标记完成';
             }
         }
         else if (mark == 16) {
             if ($(".nav-partdiv .list-item").length == 0) {
-                alert("没有录入加工成本,不能标记任务完成");
-                return;
+                confirmMsg = '还没录入加工成本,确定标记完成';
             }
         }
         else if (mark == 23) {
             if ($(".nav-partdiv .list-item").length == 0) {
-                alert("没有裁剪,不能标记任务完成");
-                return;
+                confirmMsg = '还没裁剪,确定标记完成';
             }
         }
         else if (mark == 24) {
             if ($(".nav-partdiv .list-item").length == 0) {
-                alert("没有车缝,不能标记任务完成");
-                return;
+                confirmMsg = '还没车缝,确定标记完成';
             }
         }
         
         
-        confirm("标记完成的任务不可逆,确定完成?", function () {
+        confirm(confirmMsg+"?", function () {
             $("#FinishTask").val("完成中...").attr("disabled", "disabled");
             ObjectJS.isLoading = false;
 

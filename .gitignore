@@ -31,7 +31,7 @@ tempFiles
 tempfile
 UploadFiles
 *.dbmdl
-upload/
+**/umeditor/net/upload
 [Ww]eb.config
 *.sql
 YXDB/IntFactoryDB.sqlproj
