@@ -311,15 +311,18 @@
                 callback: function (items) {
                     if (items.length > 0) {
                         if (_this.data("userid") != items[0].id) {
+
                             Global.post("/Orders/UpdateOrderOwner", {
                                 userid: items[0].id,
                                 ids: _this.data("id")
                             }, function (data) {
                                 if (data.status) {
+                                    _this.data("userid", items[0].id);
                                     $("#lblOwner").text(items[0].name);
                                 }
                             });
-                        } else {
+                        }
+                        else {
                             alert("请选择不同人员进行更换!");
                         }
                     }
