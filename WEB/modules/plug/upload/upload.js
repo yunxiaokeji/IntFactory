@@ -56,11 +56,12 @@ define(function (require, exports, module) {
                 var files = target.files;
                 if (files.length < 1) {
                     return false;
-                }               
-                if ((files.length + _file.parent().parent().parent().find(".task-file li").length) > _self.setting.maxQuantity) {
-                    alert("上传文件最多" + _self.setting.maxQuantity + "个");
-                    return false;
                 }
+
+                //if ((files.length + parseInt(_file.data("filequantity"))) > _self.setting.maxQuantity) {
+                //    alert("上传文件最多" + _self.setting.maxQuantity + "个");
+                //    return false;
+                //}
 
                 var isIE = /msie/i.test(navigator.userAgent) && !window.opera;
                 var pictypes = ["jpg", "png", "jpeg", "x-png", "x-tiff", "x-pjpeg"];
