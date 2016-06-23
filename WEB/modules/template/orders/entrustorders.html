@@ -5,7 +5,7 @@
 <div class="object-item">
     <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="orderimg">
         {% if(item.OrderImage){ %}
-              <img onerror="this.src=''" src="{%=item.OrderImage%}" />
+              <img src="{%=item.OrderImage%}" />
         {% } %}
         {% if(item.GoodsCode){ %}
               <span class="aliorder">
