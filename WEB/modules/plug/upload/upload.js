@@ -82,7 +82,7 @@ define(function (require, exports, module) {
                         attachmenttypes = attachmenttypes.concat(filetypes);
                     }
                     for (var k = 0; k < attachmenttypes.length; k++) {
-                        if (attachmenttypes[i] == fileend) {
+                        if (attachmenttypes[k] == fileend) {
                             isContinue = true;
                             break;
                         }
