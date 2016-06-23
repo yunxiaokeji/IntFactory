@@ -194,13 +194,12 @@
             data: { folder: '', action: 'add', oldPath: "" },
             success: function (data, status) {
 
-                var len = data.Items.length;
+                var len = data.Items.length;                
                 if (len > 0) {
-                    if (($(".task-file li").length + len) > 10) {
+                    if (($("#reply-attachment" + replyid).parent().find(".task-file li").length + len) > 10) {
                         alert("最多允许上传10个");
                         return;
                     }
-
                     var templateUrl = "/template/task/task-file-upload.html";
                     var fileBox = $("#reply-files" + replyid);
 
@@ -217,7 +216,6 @@
                         else {
                             fileArr.push(item);
                         }
-
                     }
 
                     if (fileArr.length > 0) {
