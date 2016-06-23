@@ -186,7 +186,7 @@
             multiple: true,
             fileType: 3,//附件类型 1:图片；2：文件；3图片和文件
             maxSize: 5 * 1024,//附件最大大小
-            maxQuantity: 5,//最大上传文件个数
+            maxQuantity: 10,//最大上传文件个数
             successItems: ".upload-files-" + replyid + " li",
             url: "/Plug/UploadFiles",
             data: { folder: '', action: 'add', oldPath: "" },
@@ -196,8 +196,6 @@
                 } else {
                     var len = data.Items.length;
                     if (len > 0) {
-
-
                         var templateUrl = "/template/task/task-file-upload.html";
                         var fileBox = $("#reply-files" + replyid);
 
