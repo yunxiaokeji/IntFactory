@@ -80,7 +80,7 @@
 }
 
 /*上传*/
-.upload-file {margin-right:10px;}
+/*.upload-file {margin-right:10px;}*/
 .upload-file li { float:left;position:relative;margin-right:20px;margin-bottom:10px;}
 .upload-file li img{ width:35px;height:40px;margin-right:3px;}
 .upload-file div{ font-size:10px;color:#aaa;line-height:20px;cursor:pointer;}
