@@ -457,8 +457,6 @@
     <Content Include="modules\plug\tip\style.css" />
     <Content Include="modules\plug\tip\tip.js" />
     <Content Include="modules\plug\upload.js" />
-    <Content Include="modules\plug\upload\jquery.form.js" />
-    <Content Include="modules\plug\upload\upload.js" />
     <Content Include="modules\scripts\auction\buynow.js" />
     <Content Include="modules\scripts\home\feedback.js" />
     <Content Include="modules\scripts\home\create.js" />
