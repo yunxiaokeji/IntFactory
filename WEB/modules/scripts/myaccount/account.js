@@ -28,7 +28,12 @@
                 alert("请先设置账号！");
                 return;
             }
-
+            var S_BindMobile = $("#S_BindMobile").html();
+            if (S_BindMobile == "") {
+                $("#saveLoginMobile").val("绑定");
+            } else {
+                $("#saveLoginMobile").val("解绑");
+            }
             $(this).hide();
             $(".bindloginmobile").show();
 
@@ -48,9 +53,9 @@
         })
 
         //绑定手机
-        $("#saveLoginMobile").click(function () {
-            _self.saveAccountBindMobile();
-            window.location = window.location;
+        $("#saveLoginMobile").click(function () {            
+            _self.saveAccountBindMobile();            
+            location.href = location.href + "?" + (new Date().getMilliseconds());
         });
 
         //获取手机验证码
