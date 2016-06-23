@@ -585,6 +585,7 @@
             if (Params.SearchType == 4) {
                 url = "template/orders/entrustorders.html";
             }
+            
             doT.exec(url, function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
