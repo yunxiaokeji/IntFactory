@@ -79,6 +79,7 @@
             buttonText: "选择图片",
             className: "",
             multiple: true,
+            maxQuantity: 5,
             data: { folder: '', action: 'add', oldPath: "" },
             success: function (data, status) {
                 if (data.Items.length > 0) {
