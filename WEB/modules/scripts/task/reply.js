@@ -11,7 +11,6 @@
     ///任务讨论
     //初始化任务讨论列表
     ObjectJS.initTalkReply = function (reply, moduleType,noGet) {
-
         Reply = reply;
         if (moduleType === "customer") {
             Controller = moduleType;
@@ -22,8 +21,7 @@
             $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
         });
         
-        var replyid = "";
-        ObjectJS.replyAttachment(replyid);
+        ObjectJS.replyAttachment("");
 
         //任务讨论盒子隐藏
         $(document).click(function (e) {
@@ -150,14 +148,13 @@
             btnObject.html("保存中...").attr("disabled", "disabled");
         }
       
+        var params = { entity: JSON.stringify(model), attchmentEntity: JSON.stringify(attchments) };
         if (Controller == "customer") {
             params.customerID = Reply.guid;
         }
         else {
             params.taskID = Reply.taskid;
         }
-
-        var params = { entity: JSON.stringify(model), attchmentEntity: JSON.stringify(attchments) };
         Global.post("/" + Controller + "/SavaReply", params, function (data) {
             if (btnObject) {
                 btnObject.html(btnName).removeAttr("disabled");

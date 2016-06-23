@@ -28,8 +28,8 @@
         if (attrValues != "")
             CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
         ObjectJS.orderid = task.OrderID;
-        ObjectJS.originalID = originalID;
         ObjectJS.guid = task.OrderID;
+        ObjectJS.originalID = originalID;
         ObjectJS.taskid = task.TaskID;
         ObjectJS.stageid = task.StageID;
         ObjectJS.orderType = task.OrderType;
@@ -788,7 +788,7 @@
             var _this = $(this);
             confirm("确认从清单中移除此材料吗？", function () {
                 Global.post("/Orders/DeleteProduct", {
-                    orderid: ObjectJS.guid,
+                    orderid: ObjectJS.orderid,
                     autoid: _this.data("id"),
                     name: _this.data("name")
                 }, function (data) {
@@ -895,7 +895,7 @@
         ObjectJS.isLoading = false;
         confirm("生成采购单操作不可逆,确定要生成?", function () {
             Global.post("/Orders/EffectiveOrderProduct", {
-                orderID: ObjectJS.guid
+                orderID: ObjectJS.orderid
             }, function (data) {
                 if (data.result == 1) {
                     location.href = location.href;
@@ -1208,7 +1208,7 @@
 
         ObjectJS.isLoading = false;
         Global.post("/Task/UpdateOrderPlateAttr", {
-            orderID: ObjectJS.guid,
+            orderID: ObjectJS.orderid,
             taskID: ObjectJS.taskid,
             platehtml: encodeURI($("#platemakingBody").html()),
             valueIDs: valueIDs
