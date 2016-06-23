@@ -356,26 +356,26 @@
                 return;
             }
         }
-        //else if (mark == 15 || mark == 25) {
-        //    if ($(".nav-partdiv .list-item").length == 0) {
+        else if (mark == 15 || mark == 25) {
+            if ($(".nav-partdiv .list-item").length == 0) {
                 confirmMsg = '还没发货,确定标记完成';
-        //    }
-        //}
-        //else if (mark == 16) {
-        //    if ($(".nav-partdiv .list-item").length == 0) {
+            }
+        }
+        else if (mark == 16) {
+            if ($(".nav-partdiv .list-item").length == 0) {
                 confirmMsg = '还没录入加工成本,确定标记完成';
-        //    }
-        //}
-        //else if (mark == 23) {
-        //    if ($(".nav-partdiv .list-item").length == 0) {
+            }
+        }
+        else if (mark == 23) {
+            if ($(".nav-partdiv .list-item").length == 0) {
                 confirmMsg = '还没裁剪,确定标记完成';
-        //    }
-        //}
-        //else if (mark == 24) {
-        //    if ($(".nav-partdiv .list-item").length == 0) {
+            }
+        }
+        else if (mark == 24) {
+            if ($(".nav-partdiv .list-item").length == 0) {
                 confirmMsg = '还没车缝,确定标记完成';
-        //    }
-        //}
+            }
+        }
         
         
         confirm(confirmMsg+"?", function () {
