@@ -191,7 +191,7 @@
             url: "/Plug/UploadFiles",
             data: { folder: '', action: 'add', oldPath: "" },
             success: function (data, status) {
-                if (data.Stage==false) {
+                if (data.Stage == false) {
                     alert("最多允许上传10个");
                 } else {
                     var len = data.Items.length;
@@ -238,21 +238,23 @@
                                 innerhtml = $(innerhtml);
                                 $("#reply-imgs" + replyid).append(innerhtml).fadeIn(300);
 
-                            innerhtml.find(".delete").click(function () {
-                                $(this).parent().remove();
-                                if ($("#reply-imgs" + replyid).find('li').length == 0) {
-                                    $("#reply-imgs" + replyid).hide();
-                                }
+                                innerhtml.find(".delete").click(function () {
+                                    $(this).parent().remove();
+                                    if ($("#reply-imgs" + replyid).find('li').length == 0) {
+                                        $("#reply-imgs" + replyid).hide();
+                                    }
+                                });
                             });
-                        });
+                        }
                     }
+                    else {
+                        alert("上传文件格式不正确,且上传文件不能超过10M");
+                    }
+
                 }
-                else {
-                    alert("上传文件格式不正确,且上传文件不能超过10M");
-                }
-                
             }
         });
+
     }
 
     //绑定任务讨论操作
