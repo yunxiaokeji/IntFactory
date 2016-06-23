@@ -180,23 +180,20 @@
     //上传附件
     ObjectJS.replyAttachment = function (replyid) {
         Upload.createUpload({
-            element: "#reply-attachment" + replyid,
+            element: "reply-attachment" + replyid,
             buttonText: "&#xe65a;",
             className: "left iconfont",
             multiple: true,
             fileType: 3,//附件类型 1:图片；2：文件；3图片和文件
             maxSize: 5 * 1024,//附件最大大小
-            maxQuantity: 10,//最大上传文件个数
+            maxQuantity: 5,//最大上传文件个数
+            successItems: ".upload-files-" + replyid + " li",
             url: "/Plug/UploadFiles",
             data: { folder: '', action: 'add', oldPath: "" },
             success: function (data, status) {
                 var len = data.Items.length;                
                 if (len > 0) {
 
-                    if (($(".upload-files-" + replyid + " li").length + len) > 10) {
-                        alert("最多允许上传10个");
-                        return;
-                    }
 
                     var templateUrl = "/template/task/task-file-upload.html";
                     var fileBox = $("#reply-files" + replyid);

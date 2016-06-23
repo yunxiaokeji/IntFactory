@@ -799,11 +799,12 @@
                         }
                     });
                     Upload.createUpload({
-                        element: "#addOrderImages",
+                        element: "addOrderImages",
                         buttonText: "+",
                         className: "edit-orderimages",
                         multiple: true,
                         data: { folder: '', action: 'add', oldPath: "" },
+                        successItems: ".order-imgs-box li:not(:last-child)",
                         success: function (data, status) {
                             if (data.Items.length > 0) {
                                 for (var i = 0; i < data.Items.length; i++) {

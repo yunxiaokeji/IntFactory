@@ -130,7 +130,7 @@ define(function (require, exports, module) {
                 });
 
                 BrandIco = Upload.createUpload({
-                    element: "#brandIco",
+                    element: "brandIco",
                     buttonText: "更换商标",
                     className: "",
                     data: { folder: '', action: 'edit', oldPath: model.IcoPath },
@@ -149,7 +149,7 @@ define(function (require, exports, module) {
                     elementID: "brandCity"
                 });
                 BrandIco = Upload.createUpload({
-                    element: "#brandIco",
+                    element: "brandIco",
                     buttonText: "选择商标",
                     className: "",
                     data: { folder: '', action: 'add', oldPath: "" },

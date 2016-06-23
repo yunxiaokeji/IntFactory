@@ -1362,7 +1362,7 @@
             }
             //选择意见反馈附件
             Upload.createUpload({
-                element: "#selectPlateIcon",
+                element: "selectPlateIcon",
                 buttonText: "选择图标",
                 data: { folder: '/Content/tempfile/', action: 'add', oldPath: "" },
                 success: function (data, status) {

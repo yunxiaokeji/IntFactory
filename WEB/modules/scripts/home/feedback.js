@@ -10,7 +10,7 @@
     ObjectJS.bindEvent = function () {
 
         ProductIco = Upload.createUpload({
-            element: "#upload",
+            element: "upload",
             buttonText: "选择附件",
             className: "",
             multiple: true,

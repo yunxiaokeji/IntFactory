@@ -83,7 +83,7 @@
 
         //选择海报图片
         PosterIco = Upload.createUpload({
-            element: "#Logo",
+            element: "Logo",
             buttonText: "选择LOGO",
             className: "",
             data: { folder: '/Content/tempfile/', action: 'add', oldPath: "" },
