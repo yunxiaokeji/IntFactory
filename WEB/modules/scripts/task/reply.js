@@ -149,6 +149,7 @@
         }
       
         var params = { entity: JSON.stringify(model), attchmentEntity: JSON.stringify(attchments) };
+
         if (Controller == "customer") {
             params.customerID = Reply.guid;
         }
@@ -191,9 +192,9 @@
             {
                 if (data.Stage == false)
                 {
-                    alert("最多允许上传10个");
+                    alert("每次最多允许上传5个");
                 }
-                else {
+                else {                    
                     var len = data.Items.length;
                     if (len > 0)
                     {
@@ -202,7 +203,7 @@
                         if ($(".msg-" + replyid).val() == "") {
                             $(".msg-" + replyid).val(data.Items[0].originalName.split('.')[0]);
                         }
-
+                        
                         var fileArr = new Array();
                         var picArr = new Array();
                         for (var i = 0; i < len ; i++) {
@@ -215,7 +216,7 @@
                                 fileArr.push(item);
                             }
                         }
-
+                        
                         if (fileArr.length > 0) {
                             doT.exec(templateUrl, function (template) {
                                 var innerhtml = template(fileArr);
@@ -254,7 +255,6 @@
                 }
             }
         });
-
     }
 
     //绑定任务讨论操作
