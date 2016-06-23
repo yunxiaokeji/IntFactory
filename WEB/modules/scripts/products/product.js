@@ -37,7 +37,7 @@ define(function (require, exports, module) {
     Product.bindEvent = function () {
         var _self = this;
         ProductIco = Upload.createUpload({
-            element: "#productIco",
+            element: "productIco",
             buttonText: "选择图片",
             className: "",
             data: { folder: '', action: 'add', oldPath: "" },
@@ -221,7 +221,7 @@ define(function (require, exports, module) {
                     innerText.find(".upload-child-img").each(function () {
                         var _this = $(this);
                         Upload.createUpload({
-                            element: "#" + _this.attr("id"),
+                            element: _this.attr("id"),
                             buttonText: "选择图片",
                             className: "",
                             data: { folder: '', action: 'add', oldPath: "" },
@@ -666,7 +666,7 @@ define(function (require, exports, module) {
         });
         //编辑图片
         ProductIco = Upload.createUpload({
-            element: "#productIco",
+            element: "productIco",
             buttonText: "更换图片",
             className: "",
             data: { folder: '', action: 'add', oldPath: model.ProductImage },
@@ -850,7 +850,7 @@ define(function (require, exports, module) {
             }
 
             ImgsIco = Upload.createUpload({
-                element: "#imgSIco",
+                element: "imgSIco",
                 buttonText: "选择图片",
                 className: "",
                 data: { folder: '/Content/tempfile/', action: 'add', oldPath: _self.ImgS },

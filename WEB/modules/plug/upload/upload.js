@@ -2,6 +2,7 @@
 define(function (require, exports, module) {
 
     require("plug/upload/jquery.form.js");
+    
     var Defaults = {
         element: "#",		        //元素ID
         buttonText: "上传",         //按钮文本
@@ -12,6 +13,7 @@ define(function (require, exports, module) {
         fileType: 1,//附件类型 1:图片；2：文件；3图片和文件
         maxSize: 5 * 1024,//附件最大大小
         maxQuantity: 10,//最大上传文件个数
+        successItems:'',
         beforeSubmit: function () { },
         error: function () { },
         success: function () { },		//上传成功
@@ -27,11 +29,11 @@ define(function (require, exports, module) {
  
         if (_self.setting.element) {
             var form = $('<form id="' + _self.setting.element + '_postForm" enctype="multipart/form-data"></form>'),
-                file = $('<input type="file" data-filequantity="0" accept="' + _self.setting.fileType + '" name="file" id="' + _self.setting.element + '_fileUpLoad" ' + (_self.setting.multiple ? 'multiple="multiple"' : '') + ' style="display:none;" />'),
+                file = $('<input type="file" data-filequantity="0" class="'+_self.setting.element + '_fileUpLoad" accept="' + _self.setting.fileType + '" name="file" id="' + _self.setting.element + '_fileUpLoad" ' + (_self.setting.multiple ? 'multiple="multiple"' : '') + ' style="display:none;" />'),
                 button = $('<input id="' + _self.setting.element + '_buttonSubmit" class="' + (_self.setting.className || "ico-upload") + '" type="button" value="' + _self.setting.buttonText + '" />')
             form.append(file).append(button);
 
-            $(_self.setting.element).append(form);
+            $("#"+_self.setting.element).append(form);
 
             form.submit(function () {
                 var options = {
@@ -52,16 +54,20 @@ define(function (require, exports, module) {
 
             file.change(function () {
                 var target = this;
-                var _file = $(this);
                 var files = target.files;
                 if (files.length < 1) {
                     return false;
                 }
-
-                //if ((files.length + parseInt(_file.data("filequantity"))) > _self.setting.maxQuantity) {
-                //    alert("上传文件最多" + _self.setting.maxQuantity + "个");
-                //    return false;
-                //}
+                if (_self.setting.successItems != '') {
+                    if ($(_self.setting.successItems).length + files.length > _self.setting.maxQuantity) {
+                        alert("上传文件最多" + _self.setting.maxQuantity + "个");
+                        return false;
+                    }
+                }
+                if (files.length > _self.setting.maxQuantity) {
+                    alert("上传文件最多" + _self.setting.maxQuantity + "个");
+                    return false;
+                }
 
                 var isIE = /msie/i.test(navigator.userAgent) && !window.opera;
                 var pictypes = ["jpg", "png", "jpeg", "x-png", "x-tiff", "x-pjpeg"];
@@ -123,7 +129,6 @@ define(function (require, exports, module) {
                     }
                 }
 
-                _file.data("filequantity", parseInt(_file.data("filequantity")) + files.length);
                 form.submit();
             })
         }

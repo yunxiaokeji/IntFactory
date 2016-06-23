@@ -24,7 +24,7 @@
         };
         
         Upload.createUpload({
-            element: "#upLoadOneImg",
+            element: "upLoadOneImg",
             buttonText: "&#xe60b;",
             className: "iconfont ico-upload",
             multiple: false,
@@ -39,7 +39,7 @@
         });
 
         Upload.createUpload({
-            element: "#upLoadTwoImg",
+            element: "upLoadTwoImg",
             buttonText: "&#xe60b;",
             className: "iconfont ico-upload",
             multiple: false,
