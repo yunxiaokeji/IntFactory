@@ -40,7 +40,6 @@
             Params.OrderStatus = status;
         }
         Params.PageSize = ($(".object-items").width() / 300).toFixed(0) * 3;
-
         _self.getList();
         _self.bindStyle();
         _self.bindEvent(type);
@@ -577,6 +576,7 @@
 
     //加载列表
     ObjectJS.bindList = function (data) {
+        
         var _self = this;
         $(".object-items").empty();
 
