@@ -45,11 +45,18 @@
         $("#deleteObject").click(function () {
             var _this = $(this);
             confirm("阶段流程删除后不可恢复,确认删除吗？",function(){
-                _self.deleteModel(_this.data("id"), function (status) {
-                    if (status) {
+                _self.deleteModel(_this.data("id"), function (data) {
+                    if (data.result==1) {
                         _self.getList();
-                    } else {
-                        alert("流程对应有未完成的订单,不能删除");
+                    }
+                    else if (data.result == 2) {
+                        alert("流程有对应的订单,不能删除");
+                    }
+                    else if (data.result == 3) {
+                        alert("默认流程不能删除");
+                    }
+                    else {
+                        alert("删除失败");
                     }
                 });
             });
@@ -234,7 +241,7 @@
     //删除
     ObjectJS.deleteModel = function (id, callback) {
         Global.post("/System/DeleteOrderProcess", { id: id }, function (data) {
-            !!callback && callback(data.status);
+            !!callback && callback(data);
         })
     }
 

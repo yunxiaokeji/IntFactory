@@ -432,15 +432,20 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool DeleteOrderProcess(string processid, string clientid)
+        public bool DeleteOrderProcess(string processid, string clientid, ref int result)
         {
             string sqltext = "P_DeleteOrderProcess";
 
             SqlParameter[] paras = { 
+                                    new SqlParameter("@Result",SqlDbType.Int),
                                      new SqlParameter("@ProcessID",processid),
                                      new SqlParameter("@ClientID",clientid)
                                    };
-            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.StoredProcedure) > 0;
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
+            bool bl= ExecuteNonQuery(sqltext, paras, CommandType.StoredProcedure) > 0;
+            result = Convert.ToInt32(paras[0].Value);
+
             return bl;
         }
 
