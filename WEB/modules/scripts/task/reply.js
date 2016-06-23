@@ -188,18 +188,16 @@
             maxSize: 5 * 1024,//附件最大大小
             maxQuantity: 10,//最大上传文件个数
             url: "/Plug/UploadFiles",
-            fileType: 3,
-            maxSize:5*1024,
-            maxQuantity:10,
             data: { folder: '', action: 'add', oldPath: "" },
             success: function (data, status) {
-
                 var len = data.Items.length;                
                 if (len > 0) {
-                    //if (($("#reply-attachment" + replyid).parent().find(".task-file li").length + len) > 10) {
-                    //    alert("最多允许上传10个");
-                    //    return;
-                    //}
+
+                    if (($(".upload-files-" + replyid + " li").length + len) > 10) {
+                        alert("最多允许上传10个");
+                        return;
+                    }
+
                     var templateUrl = "/template/task/task-file-upload.html";
                     var fileBox = $("#reply-files" + replyid);
 
