@@ -13,7 +13,7 @@
             element: "upload",
             buttonText: "选择附件",
             className: "",
-            multiple: true,
+            multiple: false,
             data: { folder: '', action: 'add', oldPath: "" },
             success: function (data, status) {
                 if (data.Items.length > 0) {
