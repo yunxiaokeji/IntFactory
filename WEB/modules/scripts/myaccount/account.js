@@ -61,7 +61,7 @@
             } else {
                 location.href = location.href + "?" + (new Date().getMilliseconds());
             }
-                                  
+            location.href = location.href + "?" + (new Date().getMilliseconds());
         });
 
         //获取手机验证码
@@ -309,7 +309,7 @@
         Global.post("/Home/SendMobileMessage", { mobilePhone: mobilePhone }, function (data) {
 
             if (data.Result == 1) {
-                $("#BindMobileError").html(data.code);
+                $("#BindMobileError").html("");
                 $("#BindMobileCode").focus();
                 $("#" + id).css("background-color", "#aaa");
                 interval = setInterval(function () {
