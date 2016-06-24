@@ -84,8 +84,6 @@ define(function (require, exports, module) {
                     isContinue = false;
                     var fileExtension = filepath.substring(filepath.lastIndexOf(".") + 1).toLowerCase();
 
-                    console.log(fileExtension);
-
                     if (_self.setting.fileType == 2) {
                         attachmenttypes = filetypes;
                     }
