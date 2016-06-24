@@ -10,20 +10,6 @@
 
     ObjectJS.bindEvent = function () {
 
-        //$("#mobilePhone").change(function () {
-        //    var mobilePhone = $("#mobilePhone").val();
-        //    if (mobilePhone != "") {
-        //        if (Global.validateMobilephone(mobilePhone)) {
-        //            $(".validation").html();
-        //        }
-        //        else {
-        //            $(".validation").html("手机号格式有误").css("color", "red");
-        //        }
-        //    } else {
-        //        $(".validation").html("手机号不能为空").css("color", "red");
-        //    }
-        //});  
-        
         //绑定手机
         $("#saveLoginMobile").click(function () {
             ObjectJS.saveAccountBindMobile();
