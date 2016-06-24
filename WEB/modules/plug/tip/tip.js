@@ -2,8 +2,6 @@
     require("plug/tip/style.css");
 
     (function ($) {
-        
-
         $.fn.Tip = function (option) {
             var Option = {
                 width: "",
@@ -18,8 +16,7 @@
                 var tipDiv = createTip(Option);
                 var height = tipDiv.find(".tip-msg").height();
                 var thisWidth = _this.width();
-
-                tipDiv.css({ "top": (e.clientY + document.body.scrollTop - height - 30) + "px", "left": (_this.offset().left - ((Option.width - thisWidth) / 2)) + "px" });
+                tipDiv.css({ "top": (e.clientY + $(document).scrollTop() - height - 30) + "px", "left": (_this.offset().left - ((Option.width - thisWidth) / 2)) + "px" });
                 tipDiv.find(".tip-lump").css({ "top": (height + 19) + "px", "left": (Option.width / 2 - 3) + "px" });
             }).mouseout(function () {
                 $(".content-tip").remove();

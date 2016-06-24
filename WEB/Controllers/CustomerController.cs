@@ -426,7 +426,7 @@ namespace YXERP.Controllers
                     if (attachments.Type == 1)
                     {
                         FileInfo file = new FileInfo(Server.MapPath(fileUrl));
-                        if (file.Length > 10)
+                        if (file.Length / 1024 > 500)
                         {
                             if (file.Exists)
                             {

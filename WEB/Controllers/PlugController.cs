@@ -131,7 +131,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult UploadFiles()
         {
-            
+
             string oldPath = "",
                    folder = CloudSalesTool.AppSettings.Settings["UploadTempPath"],
                    action = "";
@@ -152,54 +152,71 @@ namespace YXERP.Controllers
             }
 
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
-            
-            for (int i = 0; i < Request.Files.Count; i++)
+            bool stage = true;
+            if (Request.Files.Count>5)
             {
-                int isImage = 2;
-                if (i == 10)
+                stage = false;                
+            }
+            else
+            {
+                for (int i = 0; i < Request.Files.Count; i++)
                 {
-                    break;
-                }
-                HttpPostedFileBase file = Request.Files[i];
-                string ContentType = file.ContentType;
-                Dictionary<string, string> types = new Dictionary<string, string>();
-                types.Add("image/x-png", "1");
-                types.Add("image/png", "1");
-                types.Add("image/gif", "1");
-                types.Add("image/jpeg", "1");
-                types.Add("image/tiff", "1");
-                types.Add("application/x-MS-bmp", "1");
-                types.Add("image/pjpeg", "1");
-                if (types.ContainsKey(ContentType))
-                {
-                    isImage = 1;
-                }
+                    int isImage = 2;
+                    HttpPostedFileBase file = Request.Files[i];
+                    string ContentType = file.ContentType;
+                    Dictionary<string, string> types = new Dictionary<string, string>();
+                    types.Add("image/x-png", "1");
+                    types.Add("image/png", "1");
+                    types.Add("image/gif", "1");
+                    types.Add("image/jpeg", "1");
+                    types.Add("image/tiff", "1");
+                    types.Add("application/x-MS-bmp", "1");
+                    types.Add("image/pjpeg", "1");
 
-                string[] arr = file.FileName.Split('.');
-                string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + i + "." + arr[arr.Length - 1];
-                string saveFilePath = uploadPath + newFileName;
-                string newFilePath = folder;
+                    Dictionary<string, string> fileTypeItems = new Dictionary<string, string>();
+                    fileTypeItems.Add("application/vnd.ms-powerpoint", "1");
+                    fileTypeItems.Add("application/vnd.openxmlformats-officedocument.presentationml.presentation", "1");
+                    fileTypeItems.Add("application/vnd.ms-excel", "1");
+                    fileTypeItems.Add("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "1");
+                    fileTypeItems.Add("application/msword", "1");
+                    fileTypeItems.Add("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "1");
+                    fileTypeItems.Add("text/plain", "1");
+                    if (!fileTypeItems.ContainsKey(ContentType) && !types.ContainsKey(ContentType))
+                    {
+                        continue;
+                    }
+                    if (types.ContainsKey(ContentType))
+                    {
+                        isImage = 1;
+                    }
 
-                Dictionary<string, object> item = new Dictionary<string, object>();
-                if (string.IsNullOrEmpty(oldPath))
-                {
-                    file.SaveAs(saveFilePath);
-                    item.Add("filePath", newFilePath);
+                    string[] arr = file.FileName.Split('.');
+                    string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + i + "." + arr[arr.Length - 1];
+                    string saveFilePath = uploadPath + newFileName;
+                    string newFilePath = folder;
+
+                    Dictionary<string, object> item = new Dictionary<string, object>();
+                    if (string.IsNullOrEmpty(oldPath))
+                    {
+                        file.SaveAs(saveFilePath);
+                        item.Add("filePath", newFilePath);
+                    }
+                    else
+                    {
+                        file.SaveAs(HttpContext.Server.MapPath(oldPath));
+                        item.Add("filePath", oldPath);
+                    }
+                    item.Add("fileName", newFileName);
+                    item.Add("originalName", Path.GetFileName(file.FileName));
+                    item.Add("fileSize", file.ContentLength);
+                    item.Add("extensions", arr[arr.Length - 1]);
+                    item.Add("isImage", isImage);
+                    items.Add(item);
                 }
-                else
-                {
-                    file.SaveAs(HttpContext.Server.MapPath(oldPath));
-                    item.Add("filePath", oldPath);
-                }
-                item.Add("fileName", newFileName);
-                item.Add("originalName",file.FileName);
-                item.Add("fileSize", file.ContentLength);
-                item.Add("extensions", arr[arr.Length - 1]);
-                item.Add("isImage", isImage);
-                items.Add(item);                
             }
 
             JsonDictionary.Add("Items", items);
+            JsonDictionary.Add("Stage", stage);
             return new JsonResult()
             {
                 Data = JsonDictionary,
@@ -207,11 +224,37 @@ namespace YXERP.Controllers
             };
         }
 
-
-        public FileStreamResult DownLoadFile(string filePath, string fileName, string originalName)
+        public ActionResult DownLoadFile(string filePath, string fileName, string originalName,string isIE)
         {
-            originalName = HttpUtility.UrlEncode(originalName, Encoding.GetEncoding("UTF-8"));
-            return File(new FileStream(Server.MapPath(filePath + fileName), FileMode.Open), "application/octet-stream", originalName);
+           
+
+            string path = Server.MapPath(filePath + fileName);//服务器文件物理路径
+            FileInfo fileInfo = new FileInfo(path);
+            if (fileInfo.Exists)
+            {
+                if (!string.IsNullOrEmpty(isIE))
+                {
+                    //加上HttpUtility.UrlEncode()方法，防止文件下载时，文件名乱码，（保存到磁盘上的文件名称应为“中文名.gif”）
+                    originalName = HttpUtility.UrlEncode(originalName, Encoding.UTF8);
+                }
+                HttpContext.Response.Clear();
+                HttpContext.Response.ClearContent();
+                HttpContext.Response.ClearHeaders();
+                HttpContext.Response.AddHeader("Content-Disposition", "attachment;filename=" + originalName);
+                HttpContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
+                HttpContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
+                HttpContext.Response.ContentType = "application/octet-stream";
+                HttpContext.Response.ContentEncoding = Encoding.GetEncoding("gb2312");
+                HttpContext.Response.WriteFile(fileInfo.FullName);
+                HttpContext.Response.Flush();
+                HttpContext.Response.End();
+                return null;
+            }
+            else {
+                return Redirect("/Error/NoFindFile");
+            }
+
+            
         }
 
         /// <summary>
