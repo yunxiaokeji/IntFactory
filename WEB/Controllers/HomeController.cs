@@ -669,7 +669,8 @@ namespace YXERP.Controllers
             int code=rd.Next(100000, 1000000);
 
             bool flag = Common.MessageSend.SendMessage(mobilePhone, code);
-            JsonDictionary.Add("Result",flag?1:0);
+            JsonDictionary.Add("Result", flag ? 1 : 0);
+           
 
             if (flag) 
             {
