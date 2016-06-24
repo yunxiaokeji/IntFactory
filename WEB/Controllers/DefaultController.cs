@@ -59,13 +59,13 @@ namespace YXERP.Controllers
 
         public ActionResult BindMobile()
         {
-            if (CurrentUser.Client.GuideStep == 3 && string.IsNullOrEmpty( CurrentUser.BindMobilePhone) )
+            if (true)
+            //if (CurrentUser.Client.GuideStep == 3 && string.IsNullOrEmpty( CurrentUser.BindMobilePhone) )
             {
                 return View();
             }
             else
-            {
-                
+            {                
                 return Redirect("/Default/Index");
             }
             
@@ -84,6 +84,17 @@ namespace YXERP.Controllers
 
 
         #region Ajax
+
+        public JsonResult FinishInitSetting()
+        {
+            bool bl = ClientBusiness.FinishInitSetting(CurrentUser.ClientID);
+            JsonDictionary.Add("result", bl);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
         public JsonResult AccountBindMobile(string BindMobile)
         {
