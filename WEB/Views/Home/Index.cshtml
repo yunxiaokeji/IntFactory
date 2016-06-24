@@ -17,7 +17,20 @@
     <div class="index-report-header">
         <div class="left">
             <span class="font14 report-title">我的订单</span>
-            <span class="mLeft20">@(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))</span>
+        </div>
+
+        <div class="left">
+            <ul class="search-item mLeft20" style="margin-top:0;line-height:20px;margin-top:12px;">
+                <li class="item" data-id="0">
+                    @(DateTime.Now.AddDays(-15).ToString("MM.dd"))—@(DateTime.Now.AddDays(-1).ToString("MM.dd"))
+                </li>
+                <li class="item hover" data-id="1">
+                    @(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))
+                </li>
+                <li class="item" data-id="2">
+                    @(DateTime.Now.AddDays(15).ToString("MM.dd"))—@(DateTime.Now.AddDays(29).ToString("MM.dd"))
+                </li>
+            </ul>
         </div>
         <div class="right order-type">
             <span class="hover" data-id="1">订单</span><span data-id="2">任务</span>

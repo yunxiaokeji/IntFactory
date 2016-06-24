@@ -16,7 +16,8 @@
         orderType: -1,
         pageSize: 5,
         pageIndex: 1,
-        preFinishStatus: -1
+        preFinishStatus: -1,
+        filterTimeType:1
     }
 
     var ObjectJS = {};
@@ -48,7 +49,21 @@
     };
 
     ObjectJS.bindEvent = function () {
-       
+        
+        //根据时间段查询
+        $(".search-item .item").click(function () {
+            if (IsLoadding && IsLoaddingTwo) {
+                var _this = $(this);
+                if (!_this.hasClass('hover')) {
+                    _this.addClass('hover').siblings().removeClass('hover');
+                    Paras.filterTimeType = _this.data('id');
+                    ObjectJS.getReportList();
+                }
+            }
+            else {
+                alert("数据加载中，请稍等 !");
+            }
+        })
 
         //订单进行状态筛选
         $(".sum-list li").click(function () {
@@ -202,12 +217,7 @@
                     $("#ExtendNow").click(function () {
                         window.open('/Auction/ExtendNow', '_target');
                     })
-                    //$("#IKnow").click(function () {
-                        //if ($(".author-lump").hasClass('hover')) {
-                        //    Global.setCookie('authorWarn', 'no');
-                        //}
-                    //    EasyDialog.close();
-                    //})
+
                     $('.no-hint').click(function () {
                         var _this = $(this);
                         if ($(".author-lump").hasClass('hover')) {
@@ -231,16 +241,16 @@
         var loadding = "<div class='data-loading'>";
         $(".report-guid").append(loadding);
 
-        var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "ReportList"];
+        var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.filterTimeType + "ReportList"];
 
         if (data == null) {
             IsLoadding = false;
-            var action = Paras.moduleType == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
-            Global.post("/Home/" + action, {orderType: Paras.orderType }, function (data) {
+            //var action = Paras.moduleType == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
+            Global.post("/Home/GetOrdersOrTasksByPlanTime", { orderType: Paras.orderType, filterTimeType: Paras.filterTimeType, moduleType: Paras.moduleType }, function (data) {
                 $(".report-guid").find('.data-loading').remove();
                 IsLoadding = true;
-
-                CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "ReportList"] = data;
+                
+                CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.filterTimeType + "ReportList"] = data;
                 OrderListCache = data.items;
                 ObjectJS.bindReport();
                 $("#totalSumCount").html(data.totalSumCount);
@@ -413,7 +423,7 @@
         }
         if (Paras.pageIndex == 1) {
             $(".order-layerbox .layer-lump").nextAll().remove();
-            data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.preFinishStatus + "DataList"];
+            data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.preFinishStatus + Paras.filterTimeType + "DataList"];
         }
         $(".order-layerbox").append("<div class='data-loading'></div>");
 
@@ -424,7 +434,7 @@
                 $('.data-loading').remove();
 
                 if (Paras.pageIndex == 1) {
-                    CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.preFinishStatus + "DataList"] = data;
+                    CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.preFinishStatus + Paras.filterTimeType + "DataList"] = data;
                 }
 
                 ObjectJS.createDataListHtml(data);
