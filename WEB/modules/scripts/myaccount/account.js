@@ -61,8 +61,7 @@
             }
             else {
                 location.href = location.href + "?" + (new Date().getMilliseconds());
-            }
-            location.href = location.href + "?" + (new Date().getMilliseconds());
+            }            
         });
 
         //获取手机验证码
