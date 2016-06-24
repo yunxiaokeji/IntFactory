@@ -53,13 +53,9 @@
         })
 
         //绑定手机
-        $("#saveLoginMobile").click(function () {
-            if ($(".bindloginmobile").val() != "" && $("#BindMobileCode")!="") {
-                _self.saveAccountBindMobile();            
-                location.href = location.href + "?" + (new Date().getMilliseconds());
-            } else {
-                alert("手机或验证码不能为空");
-            }            
+        $("#saveLoginMobile").click(function () {            
+            _self.saveAccountBindMobile();            
+            location.href = location.href + "?" + (new Date().getMilliseconds());                      
         });
 
         //获取手机验证码
@@ -194,6 +190,7 @@
         }
 
         var option = $("#S_BindMobile").html().trim() ? 2 : 1;
+        
         var BindMobile = $("#mobilePhone").val();
         var BindMobileCode = $("#BindMobileCode").val();
 
