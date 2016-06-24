@@ -275,6 +275,18 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
         }
 
+        public bool AccountBindMobile(string userid, string bindMobile,string pwd,string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@UserID",userid),
+                                       new SqlParameter("@BindMobile",bindMobile),
+                                       new SqlParameter("@Pwd",pwd),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+
+            return ExecuteNonQuery("P_AccountBindMobile", paras, CommandType.StoredProcedure) > 0;
+        }
+
         public bool BindAccountAliMember(string userid, string memberid)
         {
             string sql = "update users set AliMemberID=@AliMemberID where UserID=@UserID";
