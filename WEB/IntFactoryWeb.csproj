@@ -1097,6 +1097,7 @@
     <Content Include="Views\Orders\PlateMakingProcess.cshtml" />
     <Content Include="Views\Error\NoRoot.cshtml" />
     <Content Include="Views\Error\NoFindFile.cshtml" />
+    <Content Include="Views\Default\BindMobile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

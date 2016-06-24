@@ -29,10 +29,10 @@ namespace YXERP.Controllers
 
         public ActionResult SetProcess()
         {
-            if (CurrentUser.Client.GuideStep != 1)
-            {
-                return Redirect("/Default/Index");
-            }
+            //if (CurrentUser.Client.GuideStep != 1)
+            //{
+            //    return Redirect("/Default/Index");
+            //}
             return View();
         }
 
@@ -51,6 +51,15 @@ namespace YXERP.Controllers
                 }
             }
             ViewBag.Items = list;
+            return View();
+        }
+
+        public ActionResult BindMobile()
+        {
+            //if (CurrentUser.Client.GuideStep != 0)
+            //{
+            //    return Redirect("/Default/Index");
+            //}
             return View();
         }
 
