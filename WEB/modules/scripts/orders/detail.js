@@ -273,6 +273,8 @@
                         }, function (data) {
                             if (data.status) {
                                 alert("绑定客户成功！", location.href)
+                            } else {
+                                alert("订单已完成，不能更换客户");
                             }
                         });
                     }

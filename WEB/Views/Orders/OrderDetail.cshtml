@@ -177,7 +177,7 @@
                     <div id="createOrderCustomer" class="btn left mTop3 @(ExpandClass.IsLimits(HttpContext.Current, "101019001"))">创建客户</div>
                 }
 
-                @if (model.IsSelf && model.OrderStatus == 0)
+                @if (model.IsSelf && model.OrderStatus < 2)
                 {
                     <span title="更换客户" class="iconfont change-ico left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019033"))" data-customerid="@(model.CustomerID)" data-id="@(model.OrderID)" id="changeCustomer">&#xe60b;</span>
                 }
