@@ -131,7 +131,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult UploadFiles()
         {
-            
+
             string oldPath = "",
                    folder = CloudSalesTool.AppSettings.Settings["UploadTempPath"],
                    action = "";
