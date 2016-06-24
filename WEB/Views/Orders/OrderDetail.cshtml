@@ -104,13 +104,15 @@
         </li>
         @if (model.Status>0)
         {
-            <li class="sample-report" data-type="1">
-                <span class="iconfont  left">&#xe645;</span>
-                <span class="left mLeft5 blue">打样报价</span>
-            </li>
+            if (string.IsNullOrEmpty(ExpandClass.IsLimits(HttpContext.Current, "102019035")))
+            {
+                <li class="sample-report" data-type="1">
+                    <span class="iconfont  left">&#xe645;</span>
+                    <span class="left mLeft5 blue">打样报价</span>
+                </li>
+            }
         }
             
-        
     </ul>
 </div>
 

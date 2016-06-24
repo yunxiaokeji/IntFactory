@@ -23,5 +23,9 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult NoFindFile()
+        {
+            return View();
+        }
     }
 }

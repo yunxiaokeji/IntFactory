@@ -376,7 +376,7 @@ define(function (require, exports, module) {
 
         //选择海报图片
         PosterIco = Upload.createUpload({
-            element: "#Poster",
+            element: "Poster",
             buttonText: "选择活动海报图片",
             className: "",
             data: { folder: '/Content/tempfile/', action: 'add', oldPath: "" },

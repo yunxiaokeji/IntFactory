@@ -1,5 +1,5 @@
 ﻿{%
-	for(var i=0, j=$data.length; i < j; i++){
+	for(var i=0;i<$data.length; i++){
 	var item = $data[i];
     var attchment=item.Attachments;
 %}
@@ -12,14 +12,14 @@
             <div class="">
                 <div class="" >
                     <span style="color:#2f73b8;" class="reply-username">{%=item.CreateUser.Name%}{%=item.FromReplyUser!=null?" 回复 "+item.FromReplyUser.Name:""%}:</span>
-                    <span style="color:#777;" class="reply-content wordbreak">{%=decodeURI(item.Content)%}</span>
+                    <span style="color:#777; display:block;" class="reply-content wordbreak">{%=decodeURI(item.Content)%}</span>
                     {%if(attchment){%}
                     {%if(attchment.length>0){%}
                     <div class="width750 attchment-box">
                         <ul class="mTop10 upload-file">
                             {%
-                            for(var a=0;a<attchment.length;a++){   
-                                var attchmentItem=attchment[a];
+                            for(var j=0;j<attchment.length;j++){   
+                                var attchmentItem=attchment[j];
                                 var extension=attchmentItem.OriginalName.split('.');
                                 if(attchmentItem.Type==2)
                                 { 
@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="information-upload pLeft10 width100 borderEEE hight58">
                                         <div title="{%=attchmentItem.OriginalName%}" class="long filename width100">{%=attchmentItem.OriginalName%}</div>
-                                        <div title="{%=attchmentItem.Size%}">{%=attchmentItem.Size/1024/1024<1?(attchmentItem.Size/1024).toFixed(1)+"KB":(attchmentItem.Size/1024/1024).toFixed(2)+"MB"%}</div>
+                                        <div title='{%=attchmentItem.Size/1024/1024<1?(attchmentItem.Size/1024).toFixed(2)+"KB":(attchmentItem.Size/1024/1024).toFixed(2)+"MB"%}'>{%=attchmentItem.Size/1024/1024<1?(attchmentItem.Size/1024).toFixed(2)+"KB":(attchmentItem.Size/1024/1024).toFixed(2)+"MB"%}</div>
                                     </div> 
                                     <div class="popup-download download iconfont hide" data-url="/Plug/DownLoadFile?filePath={%=attchmentItem.FilePath%}&fileName={%=attchmentItem.FileName%}&originalName={%=attchmentItem.OriginalName%}">
                                         &#xe655;
@@ -51,8 +51,8 @@
                         <div class="clear"></div>
                         <ul id="Images-reply" class="accessory upload-img" style="display: block;">
                             {%
-                            for(var s=0;s<attchment.length;s++){   
-                                var attchmentItem=attchment[s];
+                            for(var k=0;k<attchment.length;k++){   
+                                var attchmentItem=attchment[k];
                                 if(attchmentItem.Type==1)
                                 { 
                             %}  
