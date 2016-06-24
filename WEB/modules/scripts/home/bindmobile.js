@@ -37,7 +37,7 @@
                             $(".validation").html("手机已存在").css("color", "red");
                         }
                         else {
-                            $(".validation").html("");
+                            $(".validation").html("（*密码初始为手机号）");
 
                             ObjectJS.sendMobileMessage("SendBindMobileCode", BindMobile);
                         }
@@ -58,7 +58,6 @@
 
         var BindMobile = $("#mobilePhone").val();
         var BindMobileCode = $("#BindMobileCode").val();
-
         
         if (BindMobile != '') {
             if (Global.validateMobilephone(BindMobile)) {
@@ -81,7 +80,7 @@
                                         if (data.result) {                                            
                                             window.location = "/Default/SettingHelp";
                                         } else {
-                                            alert("绑定失败");
+                                            alert("正在跳转中,请稍等");
                                         }
                                        
                                     });
@@ -122,7 +121,6 @@
                         $btnSendCode.val("获取验证码").css("background-color", "#4a98e7");
                         $btnSendCode.removeAttr("disabled");
                     }
-
                 }, 1000);
             }
             else {

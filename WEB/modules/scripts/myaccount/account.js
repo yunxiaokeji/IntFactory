@@ -58,7 +58,8 @@
             var BindMobileCode = $("#BindMobileCode").val();
             if (BindMobileCode=="") {
                 return;
-            } else {
+            }
+            else {
                 location.href = location.href + "?" + (new Date().getMilliseconds());
             }
             location.href = location.href + "?" + (new Date().getMilliseconds());
