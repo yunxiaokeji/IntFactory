@@ -102,18 +102,19 @@ namespace YXERP.Controllers
                 {
                     continue;
                 }
-                if (string.IsNullOrEmpty(oldPath) || oldPath == "/modules/images/default.png")
-                {
-                    string[] arr = file.FileName.Split('.');
-                    string fileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + i + "." + arr[arr.Length - 1];
-                    string filePath = uploadPath + fileName;
-                    file.SaveAs(filePath);
-                    list.Add(folder + fileName);
-                }
-                else
+                if (!string.IsNullOrEmpty(oldPath) && oldPath != "/modules/images/default.png" && new FileInfo(HttpContext.Server.MapPath(oldPath)).Exists)
                 {
                     file.SaveAs(HttpContext.Server.MapPath(oldPath));
                     list.Add(oldPath);
+
+                }
+                else
+                {
+                    string[] arr = file.FileName.Split('.');
+                    string fileName = DateTime.Now.ToString("yyyyMMddHHmmssms") + new Random().Next(1000, 9999).ToString() + "." + arr[arr.Length - 1];
+                    string filePath = uploadPath + fileName;
+                    file.SaveAs(filePath);
+                    list.Add(folder + fileName);
                 }
             }
 
