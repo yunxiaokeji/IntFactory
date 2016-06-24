@@ -629,31 +629,20 @@ namespace IntFactoryBusiness
         public static bool AccountBindMobile(string bindMobile, string userid, string agentid, string clientid)
         {
             string loginpwd = CloudSalesTool.Encrypt.GetEncryptPwd(bindMobile, bindMobile);
-            bool flag = OrganizationDAL.BaseProvider.AccountBindMobile(userid, bindMobile, bindMobile, clientid);
+            bool flag = OrganizationDAL.BaseProvider.AccountBindMobile(userid, bindMobile, loginpwd, clientid);
 
             //清除缓存
             if (flag)
             {
-                if (Users.ContainsKey(agentid))
-                {
-                    List<Users> users = Users[agentid];
-                    Users u = users.Find(m => m.UserID == userid);
-                    u.BindMobilePhone = bindMobile;
-                    u.MobilePhone = bindMobile;
-                }
+                Users u = OrganizationBusiness.GetUserByUserID(userid, agentid);
+                u.BindMobilePhone = bindMobile;
+                u.MobilePhone = bindMobile;
 
-                if (AgentsBusiness.Agents.ContainsKey(agentid))
-                {
-                    Agents agent = AgentsBusiness.Agents[agentid];
-                    agent.EndTime = agent.EndTime.AddMonths(2);
-                }
+                Agents agent = AgentsBusiness.GetAgentDetail(agentid);
+                agent.EndTime = agent.EndTime.AddMonths(2);
 
-                if (Manage.ClientBusiness.Clients.ContainsKey(clientid)) 
-                { 
-                     IntFactoryEntity.Manage.Clients client=Manage.ClientBusiness.Clients[clientid];
-                     client.MobilePhone = bindMobile;
-                }
-
+                IntFactoryEntity.Manage.Clients client = Manage.ClientBusiness.GetClientDetail(clientid);
+                client.MobilePhone = bindMobile;
             }
             return flag;
         }
