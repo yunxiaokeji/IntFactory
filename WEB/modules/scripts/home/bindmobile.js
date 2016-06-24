@@ -78,7 +78,6 @@
                                 }
                                 else {                                    
                                     Global.post("/Default/AccountBindMobile", { BindMobile: BindMobile }, function (data) {
-                                        console.log(data.result);
                                         if (data.result) {                                            
                                             window.location = "/Default/SettingHelp";
                                         } else {
