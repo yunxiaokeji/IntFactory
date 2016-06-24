@@ -87,10 +87,8 @@ namespace YXERP.Common
             //需要判断权限
             if (menu != null && menu.IsLimit == 1)
             {
-                IntFactoryEntity.Users user = (IntFactoryEntity.Users)filterContext.HttpContext.Session["ClientManager"];
-                if (user.Menus.Where(m => m.MenuCode == menu.MenuCode).Count() <= 0)
+                if (currentUser.Menus.Where(m => m.MenuCode == menu.MenuCode).Count() <= 0)
                 {
-
                     if (filterContext.RequestContext.HttpContext.Request.IsAjaxRequest())
                     {
                         Dictionary<string, string> result = new Dictionary<string, string>();
