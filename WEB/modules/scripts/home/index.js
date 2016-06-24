@@ -161,7 +161,7 @@
             });
         });
 
-        //获取需球订单或未接受任务
+        //获取需求订单或未接受任务
         $(".get-need").click(function () {
             if (IsLoadding && IsLoaddingTwo) {
                 if (Paras.filterTime != "" || Paras.filterType != -1) {

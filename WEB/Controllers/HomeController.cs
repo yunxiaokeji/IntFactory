@@ -891,6 +891,7 @@ namespace YXERP.Controllers
                     var finishCount = 0;
                     var totalCount = 0;
 
+                    //订单操作
                     if (moduleType == 1)
                     {
                         var orderList = orderItems.FindAll(m => m.PlanTime.Date == nextDate.Date);
@@ -912,6 +913,7 @@ namespace YXERP.Controllers
                         }
                         finishCount = orderList.FindAll(m => m.OrderStatus == 2).Count;
                     }
+                    //任务操作
                     else
                     {
                         var taskList = taskItems.FindAll(m => m.EndTime.Date == nextDate.Date);
