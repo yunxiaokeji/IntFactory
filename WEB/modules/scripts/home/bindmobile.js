@@ -78,7 +78,6 @@
                                 }
                                 else {                                    
                                     Global.post("/Default/AccountBindMobile", { BindMobile: BindMobile }, function (data) {
-                                        console.log(data.result);
                                         if (data.result) {                                            
                                             window.location = "/Default/SettingHelp";
                                         } else {
@@ -110,7 +109,7 @@
 
         Global.post("/Home/SendMobileMessage", { mobilePhone: mobilePhone }, function (data) {
             if (data.Result == 1) {
-                $("#BindMobileCode").foucs();
+                $("#BindMobileCode").focus();
                 $("#" + id).css("background-color", "#aaa");
                 interval = setInterval(function () {                    
                     timeCount--;

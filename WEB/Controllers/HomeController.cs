@@ -901,7 +901,7 @@ namespace YXERP.Controllers
                             var order = orderList[j];
                             if (order.PlanTime > DateTime.Now && order.OrderStatus == 1)
                             {
-                                if ((order.PlanTime - nowDate).TotalHours * 3 < (order.PlanTime - order.OrderTime).TotalHours)
+                                if ((order.PlanTime - DateTime.Now).TotalHours * 3 < (order.PlanTime - order.OrderTime).TotalHours)
                                 {
                                     warnCount++;
                                 }
@@ -923,7 +923,7 @@ namespace YXERP.Controllers
                             var task = taskList[j];
                             if (task.EndTime > DateTime.Now && task.FinishStatus == 1)
                             {
-                                if ((task.EndTime - nowDate).TotalHours * 3 < (task.EndTime - task.AcceptTime).TotalHours)
+                                if ((task.EndTime - DateTime.Now).TotalHours * 3 < (task.EndTime - task.AcceptTime).TotalHours)
                                 {
                                     warnCount++;
                                 }
