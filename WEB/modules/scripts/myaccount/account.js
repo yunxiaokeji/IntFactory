@@ -59,8 +59,7 @@
                 location.href = location.href + "?" + (new Date().getMilliseconds());
             } else {
                 alert("手机或验证码不能为空");
-            }
-            
+            }            
         });
 
         //获取手机验证码

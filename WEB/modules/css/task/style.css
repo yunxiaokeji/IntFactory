@@ -545,6 +545,8 @@
 
 .plate-show-ico img {
     max-width:60px;
+    max-height:60px;
+    width:60px;
 }
 
 /*上传*/

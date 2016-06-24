@@ -194,7 +194,7 @@
                 {
                     alert("每次最多允许上传5个");
                 }
-                else {                    
+                else {                   
                     var len = data.Items.length;
                     if (len > 0)
                     {
