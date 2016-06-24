@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "绑定手机";
+    Layout = "~/Views/Shared/_LayoutNoLeft.cshtml";
+}
+@section css{
+    <style type="text/css">
+        .main-content { margin-left:0px;}
+    </style>
+
+    <link href="/modules/css/default/guidestep.css" rel="stylesheet" />
+}
+@section scripts{
+    <script type="text/javascript">
+        //seajs.use(["scripts/home/guidestep"], function (ObjectJS) {
+        //    ObjectJS.initProcess();
+        //});
+    </script>
+}
+<div class="step-body">
+    <ul class="step-header">
+        <li class="step hover">1</li>
+        <li class="mLeft5 hover">初始化流程</li>
+        <li class="iconfont step-ico hover">&#xe656</li>
+
+        <li class="step hover">2</li>
+        <li class="mLeft5 hover">初始化品类</li>
+        <li class="iconfont step-ico hover">&#xe656</li>
+
+        <li class="step">3</li>
+        <li class="mLeft5">绑定手机</li>
+        <li class="iconfont step-ico">&#xe656</li>
+
+        <li class="step">4</li>
+        <li class="mLeft5">配置提示</li>
+    </ul>
+    <div class="step-content">
+
+        <h1 class="step-note">
+            <span>提示：</span>为了更好的使用系统，建议您绑定手机，绑定成功后，我们将再送您<span class="font18 blue">2个月</span>免费试用
+        </h1>
+        <div class="mTop20 mBottom10 mLeft20">
+            <ul class="table-add" style="border:none;">
+                 <li>
+                    <span class="width80">手机号：</span>
+                    <span><input type="text" id="" /></span>
+                     <span class="color333">（*密码初始为手机号）</span>
+                </li>
+                <li>
+                    <span class="width80">验证码：</span>
+                    <span><input type="text" id="" style="width:62px;" /></span>
+                    <span><input type="button" class="btn mLeft5" value="获取验证码"/></span>
+                </li>
+                <li>
+                    <span class="width80"></span>
+                    <span><input type="button" class="btn mLeft5" value="绑定"/></span>
+                </li>
+            </ul>
+        </div>
+        <div class="step-bottom">
+            <div class="btn right" id="btnSubmit">跳过</div>
+        </div>
+    </div>
+</div>
