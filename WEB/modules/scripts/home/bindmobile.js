@@ -15,8 +15,16 @@
             ObjectJS.saveAccountBindMobile();
         });
 
-        $("#btnSubmit").click(function () {
-            window.location="/Default/SettingHelp";
+        $("#btnSubmit").click(function () {            
+            Global.post("/Default/FinishInitSetting",{}, function (data) {               
+                if (data.result) {
+                    window.location = "/Default/SettingHelp";
+                }
+                else {
+                    alert("跳转中,请稍后");                    
+                }
+            })
+
         });
 
         //获取手机验证码
@@ -102,6 +110,7 @@
 
         Global.post("/Home/SendMobileMessage", { mobilePhone: mobilePhone }, function (data) {
             if (data.Result == 1) {
+                $("#BindMobileCode").foucs();
                 $("#" + id).css("background-color", "#aaa");
                 interval = setInterval(function () {                    
                     timeCount--;
