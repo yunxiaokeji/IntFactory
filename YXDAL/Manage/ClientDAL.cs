@@ -217,6 +217,14 @@ namespace IntFactoryDAL.Manage
             return Convert.ToInt32(parms[0].Value) == 1;
         }
 
+        public bool FinishInitSetting(string clientid)
+        {
+            SqlParameter[] parms = { 
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+
+          return  ExecuteNonQuery("Update Clients set GuideStep=0 where ClientID=@ClientID", parms, CommandType.Text)>0;
+        }
         #endregion
     }
 }

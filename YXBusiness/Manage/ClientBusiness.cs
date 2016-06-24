@@ -461,6 +461,20 @@ namespace IntFactoryBusiness.Manage
 
         }
 
+        public static bool FinishInitSetting(string clientid)
+        {
+            var model = GetClientDetail(clientid);
+            if (model.GuideStep != 2)
+            {
+                return false;
+            }
+            bool bl = ClientDAL.BaseProvider.FinishInitSetting(clientid);
+
+            model.GuideStep = 0;
+
+            return bl;
+
+        }
         #endregion
 
     }
