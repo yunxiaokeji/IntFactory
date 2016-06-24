@@ -55,8 +55,8 @@
             if (IsLoadding && IsLoaddingTwo) {
                 var _this = $(this);
                 if (!_this.hasClass('hover')) {
-                    _this.addClass('hover').siblings().removeClass('hover');
                     Paras.filterTimeType = _this.data('id');
+                    _this.addClass('hover').siblings().removeClass('hover');
                     ObjectJS.getReportList();
                     ObjectJS.getNeedOrderList();
                 }
