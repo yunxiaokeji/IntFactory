@@ -190,7 +190,7 @@
                     <div id="createOrderCustomer" class="btn left mTop3 @(ExpandClass.IsLimits(HttpContext.Current, "101019001"))">创建客户</div>
                 }
 
-                @if (model.IsSelf && model.OrderStatus == 0)
+                @if (model.IsSelf && model.OrderStatus < 2)
                 {
                     <span title="更换客户" class="iconfont change-ico left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019033"))" data-customerid="@(model.CustomerID)" data-id="@(model.OrderID)" id="changeCustomer">&#xe60b;</span>
                 }
@@ -222,7 +222,7 @@
 <div class="process-stages">
     <div class="process-info">
         <div class="left info">订单流程：@(model.OrderProcess.ProcessName)</div>
-        @if (model.IsSelf && (model.OrderStatus == 0 || model.Status==4) )
+        @if (model.IsSelf && (model.OrderStatus == 0 || model.Status == 4))
         {
             <span title="更换流程" class="change-ico iconfont left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess">&#xe60b;</span>
         }
@@ -249,7 +249,7 @@
     </div>
     <div class="clear"></div>
     <ul class="stage-items mTop20 @(ExpandClass.IsLimits(HttpContext.Current, "102010503"))">
-        @if (model.OrderStatus > 0)
+        @if (model.OrderStatus > 0 && model.Status != 4)
         {
             foreach (var stage in model.Tasts)
             { 
