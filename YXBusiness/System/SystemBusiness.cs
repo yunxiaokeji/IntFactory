@@ -958,15 +958,16 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool DeleteOrderProcess(string processid, string userid, string ip, string agentid, string clientid)
+        public bool DeleteOrderProcess(string processid, string userid, string ip, string agentid, string clientid,ref int result)
         {
             var model = GetOrderProcessByID(processid, agentid, clientid);
             //默认流程不能删除
             if (model.IsDefault == 1)
             {
+                result = 3;
                 return false;
             }
-            bool bl = SystemDAL.BaseProvider.DeleteOrderProcess(processid, clientid);
+            bool bl = SystemDAL.BaseProvider.DeleteOrderProcess(processid, clientid, ref result);
             if (bl)
             {
                 OrderProcess[clientid].Remove(model);

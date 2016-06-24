@@ -61,7 +61,9 @@
                     header: "打样单发货",
                     content: innerText,
                     yesFn: function () {
-                        if (!$("#expressid").data("id") || !$("#expressCode").val()) {
+
+                        if ((!$("#expressid").data("id") || !$("#expressCode").val())
+                             && $("#expressid").data('id') != 'fd090820-541a-4a7a-a2c5-00ed5e72f84f') {
                             alert("请完善快递信息!");
                             return false;
                         }
@@ -104,7 +106,6 @@
                     width: "180",
                     isposition: true,
                     onChange: function (data) {
-
                     }
                 });
             });

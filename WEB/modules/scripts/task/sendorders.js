@@ -72,7 +72,8 @@
                         });
 
                         if (details.length > 0) {
-                            if (!$("#expressid").data("id") || !$("#expressCode").val()) {
+                            if ((!$("#expressid").data("id") || !$("#expressCode").val())
+                             && $("#expressid").data('id') != 'fd090820-541a-4a7a-a2c5-00ed5e72f84f') {
                                 alert("请完善快递信息!");
                                 return false;
                             }
@@ -159,6 +160,7 @@
                 }
             });
         });
+
     };
 
     module.exports = ObjectJS;
