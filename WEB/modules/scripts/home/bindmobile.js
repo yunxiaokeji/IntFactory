@@ -32,7 +32,7 @@
             var BindMobile = $("#mobilePhone").val();
             if (BindMobile != '') {
                 if (Global.validateMobilephone(BindMobile)) {
-                    Global.post("/MyAccount/IsExistLoginName", { loginName: BindMobile }, function (data) {
+                    Global.post("/Default/IsExistLoginName", { loginName: BindMobile }, function (data) {
                         if (data.result) {
                             $(".validation").html("手机已存在").css("color", "red");
                         }
@@ -62,7 +62,7 @@
         
         if (BindMobile != '') {
             if (Global.validateMobilephone(BindMobile)) {
-                Global.post("/MyAccount/IsExistLoginName", { loginName: BindMobile }, function (data) {
+                Global.post("/Default/IsExistLoginName", { loginName: BindMobile }, function (data) {
                     if (data.result) {
                         $(".validation").html("手机已存在").css("color", "red");
                     }
