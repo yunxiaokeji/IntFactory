@@ -54,14 +54,9 @@
 
         //绑定手机
         $("#saveLoginMobile").click(function () {            
-            _self.saveAccountBindMobile();
-            var BindMobileCode = $("#BindMobileCode").val();
-            if (BindMobileCode=="") {
-                return;
-            }
-            else {
-                location.href = location.href + "?" + (new Date().getMilliseconds());
-            }            
+           
+                _self.saveAccountBindMobile();
+                //location.href = location.href + "?" + (new Date().getMilliseconds());          
         });
 
         //获取手机验证码
@@ -231,9 +226,10 @@
 
                                         Global.post("/MyAccount/SaveAccountBindMobile", Paras, function (data) {
                                             if (data.result == 1) {
-                                                $("#S_BindMobile").html(BindMobile);
-                                                $("#cancleLoginMobile").click();
-                                                $("#bindLoginMobile").val("解绑");
+                                                //$("#S_BindMobile").html(BindMobile);
+                                                //$("#cancleLoginMobile").click();
+                                                //$("#bindLoginMobile").val("解绑");
+                                                location.href = location.href + "?" + (new Date().getMilliseconds());
                                             }
                                             else if (data.result == 2) {
                                                 $("#BindMobileCodeError").html("验证码有误");
@@ -279,9 +275,10 @@
                         };
                         Global.post("/MyAccount/SaveAccountBindMobile", Paras, function (data) {
                             if (data.result == 1) {
-                                $("#S_BindMobile").html("");
-                                $("#cancleLoginMobile").click();
-                                $("#bindLoginMobile").val("绑定");
+                                //$("#S_BindMobile").html("");
+                                //$("#cancleLoginMobile").click();
+                                //$("#bindLoginMobile").val("绑定");
+                                location.href = location.href + "?" + (new Date().getMilliseconds());
                             }
                             else if (data.result == 2) {
                                 $("#BindMobileCodeError").html("验证码有误");
