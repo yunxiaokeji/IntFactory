@@ -626,6 +626,32 @@ namespace IntFactoryBusiness
             return flag;
         }
 
+        public static bool AccountBindMobile(string userid, string bindMobile, string agentid,string clientid)
+        {
+            string loginpwd = CloudSalesTool.Encrypt.GetEncryptPwd(bindMobile, bindMobile);
+            bool flag = OrganizationDAL.BaseProvider.AccountBindMobile(userid, bindMobile, bindMobile, clientid);
+
+            //清除缓存
+            if (flag)
+            {
+                if (Users.ContainsKey(agentid))
+                {
+                    List<Users> users = Users[agentid];
+                    Users u = users.Find(m => m.UserID == userid);
+                    u.BindMobilePhone = bindMobile;
+                    u.MobilePhone = bindMobile;
+                }
+
+                if (Manage.ClientBusiness.Clients.ContainsKey(clientid)) 
+                { 
+                     IntFactoryEntity.Manage.Clients client=Manage.ClientBusiness.Clients[clientid];
+                     client.MobilePhone = bindMobile;
+                }
+
+            }
+            return flag;
+        }
+
         public static bool UpdateAccountBindMobile(string userid, string bindMobile, string agentid)
         {
             bool flag = OrganizationDAL.BaseProvider.UpdateAccountBindMobile(userid, bindMobile);

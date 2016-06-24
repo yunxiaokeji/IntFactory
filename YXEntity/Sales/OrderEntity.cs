@@ -270,6 +270,7 @@ namespace IntFactoryEntity
 
         public string CategoryName { get; set; }
 
+        public int TurnTimes { get; set; }
         /// <summary>
         /// 填充数据
         /// </summary>
