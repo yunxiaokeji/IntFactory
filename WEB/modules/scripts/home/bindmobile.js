@@ -59,21 +59,20 @@
                         $(".validation").html("手机已存在").css("color", "red");
                     }
                     else {
-                        $(".validation").html("");
+                        $(".validation").html("（*密码初始为手机号）");
                         if (BindMobileCode == "") {
-                            alert("验证码不能为空");
+                            $(".validation").html("验证码不能为空").css("color", "red");
                         }
                         else {
                             Global.post("/Home/ValidateMobilePhoneCode", { mobilePhone: BindMobile, code: BindMobileCode }, function (data) {
                                 if (data.Result == 0) {
-                                    alert("验证码有误");
+                                    $(".validation").html("验证码有误").css("color", "red");
                                 }
                                 else {                                    
                                     Global.post("/Default/AccountBindMobile", { BindMobile: BindMobile }, function (data) {
                                         console.log(data.result);
-                                        if (data.result) {
-                                            alert("绑定成功");
-                                            //window.location = "/Default/SettingHelp";
+                                        if (data.result) {                                            
+                                            window.location = "/Default/SettingHelp";
                                         } else {
                                             alert("绑定失败");
                                         }
