@@ -28,7 +28,7 @@ namespace IntFactoryBusiness.Manage
         /// <summary>
         /// 缓存客户端信息
         /// </summary>
-        private static Dictionary<string, Clients> Clients
+        public static Dictionary<string, Clients> Clients
         {
             get
             {
