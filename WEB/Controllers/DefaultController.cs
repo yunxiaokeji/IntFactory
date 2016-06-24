@@ -135,6 +135,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult IsExistLoginName(string loginName)
+        {
+            bool bl = OrganizationBusiness.IsExistLoginName(loginName);
+            JsonDictionary.Add("result", bl);
+
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         #endregion
 
     }
