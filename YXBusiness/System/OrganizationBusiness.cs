@@ -643,6 +643,8 @@ namespace IntFactoryBusiness
 
                 IntFactoryEntity.Manage.Clients client = Manage.ClientBusiness.GetClientDetail(clientid);
                 client.MobilePhone = bindMobile;
+                client.GuideStep = 0;
+
             }
             return flag;
         }

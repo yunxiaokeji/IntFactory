@@ -23,7 +23,10 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Default/SetCategory");
             }
-
+            else if (CurrentUser.Client.GuideStep == 3)
+            {
+                return Redirect("/Default/BindMobile");
+            }
             return View();//
         }
 
@@ -56,13 +59,14 @@ namespace YXERP.Controllers
 
         public ActionResult BindMobile()
         {
-            if (CurrentUser.Client.GuideStep == 0 && string.IsNullOrEmpty( CurrentUser.BindMobilePhone) )
+            if (CurrentUser.Client.GuideStep == 3 && string.IsNullOrEmpty( CurrentUser.BindMobilePhone) )
             {
-                return Redirect("/Default/Index");
+                return View();
             }
             else
             {
-                return View();
+                
+                return Redirect("/Default/Index");
             }
             
             
@@ -89,6 +93,7 @@ namespace YXERP.Controllers
             if (bl) {
                 CurrentUser.BindMobilePhone = BindMobile;
                 CurrentUser.MobilePhone = BindMobile;
+                CurrentUser.Client.GuideStep = 0;
                 Session["ClientManager"] = CurrentUser;
                 Common.Common.ClearMobilePhoneCode(BindMobile);
             }
