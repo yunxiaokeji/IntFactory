@@ -222,7 +222,7 @@
 <div class="process-stages">
     <div class="process-info">
         <div class="left info">订单流程：@(model.OrderProcess.ProcessName)</div>
-        @if (model.IsSelf && model.OrderStatus == 0)
+        @if (model.IsSelf && (model.OrderStatus == 0 || model.Status==4) )
         {
             <span title="更换流程" class="change-ico iconfont left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess">&#xe60b;</span>
         }
