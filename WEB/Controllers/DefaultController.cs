@@ -75,6 +75,18 @@ namespace YXERP.Controllers
 
         #region Ajax
 
+        public JsonResult AccountBindMobile(string BindMobile)
+        {
+            bool bl = OrganizationBusiness.AccountBindMobile(BindMobile, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("result", bl);
+
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult SetClientProcess(int type)
         {
             int guideStep = ClientBusiness.SetClientProcess(type, CurrentUser.UserID, CurrentUser.ClientID);

@@ -82,17 +82,12 @@
                                 if (data.Result == 0) {
                                     alert("验证码有误");
                                 }
-                                else {
-                                    var Paras =
-                                    {
-                                        bindMobile: BindMobile,
-                                        code: $("#BindMobileCode").val(),
-                                        option: 1
-                                    };
-
-                                    Global.post("/MyAccount/SaveAccountBindMobile", Paras, function (data) {
-                                        if (data.result == 1) {
-                                            alert("ok");
+                                else {                                    
+                                    Global.post("/Default/AccountBindMobile", { BindMobile: BindMobile }, function (data) {
+                                        console.log(data.result);
+                                        if (data.result) {
+                                            alert("绑定成功");
+                                            //window.location = "/Default/SettingHelp";
                                         } else {
                                             alert("绑定失败");
                                         }

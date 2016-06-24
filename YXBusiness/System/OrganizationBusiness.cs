@@ -626,7 +626,7 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        public static bool AccountBindMobile(string userid, string bindMobile, string agentid,string clientid)
+        public static bool AccountBindMobile(string bindMobile, string userid, string agentid, string clientid)
         {
             string loginpwd = CloudSalesTool.Encrypt.GetEncryptPwd(bindMobile, bindMobile);
             bool flag = OrganizationDAL.BaseProvider.AccountBindMobile(userid, bindMobile, bindMobile, clientid);
@@ -640,6 +640,12 @@ namespace IntFactoryBusiness
                     Users u = users.Find(m => m.UserID == userid);
                     u.BindMobilePhone = bindMobile;
                     u.MobilePhone = bindMobile;
+                }
+
+                if (AgentsBusiness.Agents.ContainsKey(agentid))
+                {
+                    Agents agent = AgentsBusiness.Agents[agentid];
+                    agent.EndTime = agent.EndTime.AddMonths(2);
                 }
 
                 if (Manage.ClientBusiness.Clients.ContainsKey(clientid)) 
