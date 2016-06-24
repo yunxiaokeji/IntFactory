@@ -29,10 +29,10 @@ namespace YXERP.Controllers
 
         public ActionResult SetProcess()
         {
-            //if (CurrentUser.Client.GuideStep != 1)
-            //{
-            //    return Redirect("/Default/Index");
-            //}
+            if (CurrentUser.Client.GuideStep != 1)
+            {
+                return Redirect("/Default/Index");
+            }
             return View();
         }
 
@@ -56,11 +56,17 @@ namespace YXERP.Controllers
 
         public ActionResult BindMobile()
         {
-            //if (CurrentUser.Client.GuideStep != 0)
-            //{
-            //    return Redirect("/Default/Index");
-            //}
-            return View();
+            if (CurrentUser.Client.GuideStep == 0 && string.IsNullOrEmpty( CurrentUser.BindMobilePhone) )
+            {
+                return Redirect("/Default/Index");
+            }
+            else
+            {
+                return View();
+            }
+            
+            
+            
         }
 
         public ActionResult SettingHelp()
@@ -80,6 +86,12 @@ namespace YXERP.Controllers
             bool bl = OrganizationBusiness.AccountBindMobile(BindMobile, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("result", bl);
 
+            if (bl) {
+                CurrentUser.BindMobilePhone = BindMobile;
+                CurrentUser.MobilePhone = BindMobile;
+                Session["ClientManager"] = CurrentUser;
+                Common.Common.ClearMobilePhoneCode(BindMobile);
+            }
             return new JsonResult()
             {
                 Data = JsonDictionary,
