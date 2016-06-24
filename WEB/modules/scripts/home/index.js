@@ -58,6 +58,7 @@
                     _this.addClass('hover').siblings().removeClass('hover');
                     Paras.filterTimeType = _this.data('id');
                     ObjectJS.getReportList();
+                    ObjectJS.getNeedOrderList();
                 }
             }
             else {
