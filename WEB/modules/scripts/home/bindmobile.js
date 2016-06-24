@@ -10,27 +10,21 @@
 
     ObjectJS.bindEvent = function () {
 
-        //$("#mobilePhone").change(function () {
-        //    var mobilePhone = $("#mobilePhone").val();
-        //    if (mobilePhone != "") {
-        //        if (Global.validateMobilephone(mobilePhone)) {
-        //            $(".validation").html();
-        //        }
-        //        else {
-        //            $(".validation").html("手机号格式有误").css("color", "red");
-        //        }
-        //    } else {
-        //        $(".validation").html("手机号不能为空").css("color", "red");
-        //    }
-        //});  
-        
         //绑定手机
         $("#saveLoginMobile").click(function () {
             ObjectJS.saveAccountBindMobile();
         });
 
-        $("#btnSubmit").click(function () {
-            window.location="/Default/SettingHelp";
+        $("#btnSubmit").click(function () {            
+            Global.post("/Default/FinishInitSetting",{}, function (data) {               
+                if (data.result) {
+                    window.location = "/Default/SettingHelp";
+                }
+                else {
+                    alert("跳转中,请稍后");                    
+                }
+            })
+
         });
 
         //获取手机验证码
@@ -73,21 +67,20 @@
                         $(".validation").html("手机已存在").css("color", "red");
                     }
                     else {
-                        $(".validation").html("");
+                        $(".validation").html("（*密码初始为手机号）");
                         if (BindMobileCode == "") {
-                            alert("验证码不能为空");
+                            $(".validation").html("验证码不能为空").css("color", "red");
                         }
                         else {
                             Global.post("/Home/ValidateMobilePhoneCode", { mobilePhone: BindMobile, code: BindMobileCode }, function (data) {
                                 if (data.Result == 0) {
-                                    alert("验证码有误");
+                                    $(".validation").html("验证码有误").css("color", "red");
                                 }
                                 else {                                    
                                     Global.post("/Default/AccountBindMobile", { BindMobile: BindMobile }, function (data) {
                                         console.log(data.result);
-                                        if (data.result) {
-                                            alert("绑定成功");
-                                            //window.location = "/Default/SettingHelp";
+                                        if (data.result) {                                            
+                                            window.location = "/Default/SettingHelp";
                                         } else {
                                             alert("绑定失败");
                                         }
@@ -117,6 +110,7 @@
 
         Global.post("/Home/SendMobileMessage", { mobilePhone: mobilePhone }, function (data) {
             if (data.Result == 1) {
+                $("#BindMobileCode").foucs();
                 $("#" + id).css("background-color", "#aaa");
                 interval = setInterval(function () {                    
                     timeCount--;
