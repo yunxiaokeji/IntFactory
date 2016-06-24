@@ -821,7 +821,7 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public JsonResult GetOrdersOrTasksByPlanTime(int orderType, int filterTimeType, int moduleType)
+        public JsonResult GetOrdersOrTasksReportData(int orderType, int filterTimeType, int moduleType)
         {
             Dictionary<string, Object> resultObj = new Dictionary<string, object>();
             int result = 0;
@@ -966,115 +966,7 @@ namespace YXERP.Controllers
             };
         }
 
-        //public JsonResult GetTasksByEndTime(int orderType, int filterTimeType)
-        //{
-        //    Dictionary<string, Object> resultObj = new Dictionary<string, object>();
-        //    int result = 0;
-        //    if (Session["ClientManager"] != null)
-        //    {
-        //        var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-        //        var nowDate = DateTime.Now;
-        //        string beginTime = "";
-        //        string endTime = "";
-        //        if (filterTimeType == 0)
-        //        {
-        //            beginTime = nowDate.Date.AddDays(-15).ToString();
-        //            endTime = nowDate.Date.AddDays(-1).ToString();
-        //            nowDate = nowDate.Date.AddDays(-15);
-        //        }
-        //        else if (filterTimeType == 1)
-        //        {
-        //            beginTime = nowDate.Date.ToString();
-        //            endTime = nowDate.Date.AddDays(14).ToString();
-        //        }
-        //        else if (filterTimeType == 2)
-        //        {
-        //            beginTime = nowDate.Date.AddDays(15).ToString();
-        //            endTime = nowDate.Date.AddDays(29).ToString();
-        //            nowDate = nowDate.Date.AddDays(15);
-        //        }
-
-        //        int getTotalCount = 0;
-        //        int pageCount = 0;
-        //        string userID = string.Empty;
-        //        if (currentUser.Role.IsDefault == 0)
-        //        {
-        //            userID = currentUser.UserID;
-        //        }
-
-        //        var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(beginTime, endTime, 
-        //            orderType, -1, -1,-1,
-        //            userID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
-
-        //        var totalExceedCount = 0;
-        //        var totalWarnCount = 0;
-        //        var totalWorkCount = 0;
-        //        var totalFinishCount = 0;
-        //        var totalSumCount = 0;
-        //        var reportArr = new List<Dictionary<string, Object>>();
-        //        for (var i = 0; i < 15; i++)
-        //        {
-        //            var report = new Dictionary<string, Object>();
-        //            var nextDate = nowDate.AddDays(i);
-        //            var taskList = list.FindAll(m => m.EndTime.Date == nextDate.Date);
-
-        //            var exceedCount = 0;
-        //            var warnCount = 0;
-        //            var workCount = 0;
-        //            var finishCount = 0;
-        //            var totalCount = 0;
-        //            exceedCount = taskList.FindAll(m => m.EndTime < nowDate && m.FinishStatus == 1).Count;
-        //            for (var j = 0; j < taskList.Count; j++)
-        //            {
-        //                var task = taskList[j];
-        //                if (task.EndTime > nowDate && task.FinishStatus == 1)
-        //                {
-        //                    if ((task.EndTime - nowDate).TotalHours * 3 < (task.EndTime - task.AcceptTime).TotalHours)
-        //                    {
-        //                        warnCount++;
-        //                    }
-        //                    else
-        //                    {
-        //                        workCount++;
-        //                    }
-        //                }
-        //            }
-        //            finishCount = taskList.FindAll(m => m.FinishStatus == 2).Count;
-
-        //            report.Add("date", nextDate.Date.ToString("MM.dd"));
-        //            report.Add("warnCount", warnCount);
-        //            report.Add("finishCount", finishCount);
-        //            report.Add("workCount", workCount);
-        //            report.Add("exceedCount", exceedCount);
-        //            totalCount = warnCount + finishCount + workCount + exceedCount;
-        //            report.Add("totalCount", totalCount);
-
-        //            totalExceedCount += exceedCount;
-        //            totalFinishCount += finishCount;
-        //            totalWarnCount += warnCount;
-        //            totalWorkCount += workCount;
-        //            totalSumCount += totalCount;
-        //            reportArr.Add(report);
-        //        }
-
-        //        result = 1;
-        //        resultObj.Add("items", reportArr);
-        //        resultObj.Add("totalExceedCount", totalExceedCount);
-        //        resultObj.Add("totalFinishCount", totalFinishCount);
-        //        resultObj.Add("totalWarnCount", totalWarnCount);
-        //        resultObj.Add("totalWorkCount", totalWorkCount);
-        //        resultObj.Add("totalSumCount", totalSumCount);
-        //    }
-        //    resultObj.Add("result", result);
-
-        //    return new JsonResult()
-        //    {
-        //        Data = resultObj,
-        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-        //    };
-        //}
-
-        public JsonResult GetOrdersByTypeAndTime(int filterType, string filterTime, 
+        public JsonResult GetOrdersOrTasksDataList(int filterType, string filterTime, 
            int moduleType, int orderType,
            int pageSize, int pageIndex, int preFinishStatus) 
         {

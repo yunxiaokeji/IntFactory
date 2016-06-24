@@ -245,8 +245,7 @@
 
         if (data == null) {
             IsLoadding = false;
-            //var action = Paras.moduleType == 1 ? "GetOrdersByPlanTime" : "GetTasksByEndTime";
-            Global.post("/Home/GetOrdersOrTasksByPlanTime", { orderType: Paras.orderType, filterTimeType: Paras.filterTimeType, moduleType: Paras.moduleType }, function (data) {
+            Global.post("/Home/GetOrdersOrTasksReportData", { orderType: Paras.orderType, filterTimeType: Paras.filterTimeType, moduleType: Paras.moduleType }, function (data) {
                 $(".report-guid").find('.data-loading').remove();
                 IsLoadding = true;
                 
@@ -429,7 +428,7 @@
 
 
         if (data == null) {
-            Global.post("/Home/GetOrdersByTypeAndTime", Paras, function (data) {
+            Global.post("/Home/GetOrdersOrTasksDataList", Paras, function (data) {
                 IsLoaddingTwo = true;
                 $('.data-loading').remove();
 
