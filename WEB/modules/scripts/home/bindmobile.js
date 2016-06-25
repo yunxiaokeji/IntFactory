@@ -80,9 +80,8 @@
                                         if (data.result) {                                            
                                             window.location = "/Default/SettingHelp";
                                         } else {
-                                            alert("正在跳转中,请稍等");
-                                        }
-                                       
+                                            alert("网络出现异常,请稍后重试!");
+                                        }                                       
                                     });
                                 }
                             });

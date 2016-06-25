@@ -61,7 +61,7 @@ namespace IntFactoryBusiness
 
                 model.SourceTypeStr = CommonBusiness.GetEnumDesc((EnumOrderSourceType)model.SourceType);
 
-                if (model.OrderStatus == 1)
+                if (model.OrderStatus == 1 && model.Status != (int)EnumOrderStageStatus.DDH)
                 {
                     if (model.PlanTime <= DateTime.Now)
                     {

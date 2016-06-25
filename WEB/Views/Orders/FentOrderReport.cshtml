@@ -65,7 +65,7 @@
                     </tr>
                     <tr>
                         <td class="no-border-left">制版:</td>
-                        <td class="no-border-right">@(order.Tasts.Find(m=>m.Mark==12).Owner.Name)</td>
+                        <td class="no-border-right">@(order.Tasts.Find(m=>m.Mark==12)==null?"": order.Tasts.Find(m=>m.Mark==12).Owner.Name)</td>
                     </tr>                    
                     <tr>
                         <td class="no-border-left no-border-bottom">时间:</td>
