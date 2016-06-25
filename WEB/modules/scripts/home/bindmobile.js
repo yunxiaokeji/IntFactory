@@ -32,12 +32,12 @@
             var BindMobile = $("#mobilePhone").val();
             if (BindMobile != '') {
                 if (Global.validateMobilephone(BindMobile)) {
-                    Global.post("/MyAccount/IsExistLoginName", { loginName: BindMobile }, function (data) {
+                    Global.post("/Default/IsExistLoginName", { loginName: BindMobile }, function (data) {
                         if (data.result) {
                             $(".validation").html("手机已存在").css("color", "red");
                         }
                         else {
-                            $(".validation").html("");
+                            $(".validation").html("（*密码初始为手机号）");
 
                             ObjectJS.sendMobileMessage("SendBindMobileCode", BindMobile);
                         }
@@ -58,10 +58,10 @@
 
         var BindMobile = $("#mobilePhone").val();
         var BindMobileCode = $("#BindMobileCode").val();
-
+        
         if (BindMobile != '') {
             if (Global.validateMobilephone(BindMobile)) {
-                Global.post("/MyAccount/IsExistLoginName", { loginName: BindMobile }, function (data) {
+                Global.post("/Default/IsExistLoginName", { loginName: BindMobile }, function (data) {
 
                     if (data.result) {
                         $(".validation").html("手机已存在").css("color", "red");
@@ -80,11 +80,10 @@
                                 }
                                 else {                                    
                                     Global.post("/Default/AccountBindMobile", { BindMobile: BindMobile }, function (data) {
-                                        console.log(data.result);
                                         if (data.result) {                                            
                                             window.location = "/Default/SettingHelp";
                                         } else {
-                                            alert("绑定失败");
+                                            alert("正在跳转中,请稍等");
                                         }
                                        
                                     });
@@ -112,7 +111,7 @@
 
         Global.post("/Home/SendMobileMessage", { mobilePhone: mobilePhone }, function (data) {
             if (data.Result == 1) {
-                $("#BindMobileCode").foucs();
+                $("#BindMobileCode").focus();
                 $("#" + id).css("background-color", "#aaa");
                 interval = setInterval(function () {                    
                     timeCount--;
@@ -125,7 +124,6 @@
                         $btnSendCode.val("获取验证码").css("background-color", "#4a98e7");
                         $btnSendCode.removeAttr("disabled");
                     }
-
                 }, 1000);
             }
             else {

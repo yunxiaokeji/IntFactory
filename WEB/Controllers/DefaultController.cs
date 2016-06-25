@@ -59,8 +59,7 @@ namespace YXERP.Controllers
 
         public ActionResult BindMobile()
         {
-            //if (true)
-            if (CurrentUser.Client.GuideStep == 3 && string.IsNullOrEmpty( CurrentUser.BindMobilePhone) )
+            if (CurrentUser.Client.GuideStep == 3 && string.IsNullOrEmpty(CurrentUser.BindMobilePhone))
             {
                 return View();
             }
@@ -68,9 +67,6 @@ namespace YXERP.Controllers
             {                
                 return Redirect("/Default/Index");
             }
-            
-            
-            
         }
 
         public ActionResult SettingHelp()
@@ -139,6 +135,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult IsExistLoginName(string loginName)
+        {
+            bool bl = OrganizationBusiness.IsExistLoginName(loginName);
+            JsonDictionary.Add("result", bl);
+
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         #endregion
 
     }
