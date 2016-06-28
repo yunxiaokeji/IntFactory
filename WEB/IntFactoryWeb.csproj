@@ -461,6 +461,7 @@
     <Content Include="modules\plug\upload\jquery.form.js" />
     <Content Include="modules\plug\upload\upload.js" />
     <Content Include="modules\scripts\auction\buynow.js" />
+    <Content Include="modules\scripts\home\bindmobile.js" />
     <Content Include="modules\scripts\home\feedback.js" />
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\home\guidestep.js" />

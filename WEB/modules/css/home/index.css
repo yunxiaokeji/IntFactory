@@ -82,29 +82,22 @@ border-bottom:2px solid #4a98e7;
     font-size:16px;
     margin-top:-2px;
 }
+.sum-list .exceed, .sum-list .warn, .sum-list .work, .sum-list .finish { 
+    display:inline-block;
+    margin-left:7px;
+    min-width:21px;
+}
 .sum-list .exceed {
     background-color:#f35353;
-    width:21px;
-    display:inline-block;
-    margin-left:6px;
 }
 .sum-list .warn {
     background-color:#ffa200;
-    width:21px;
-    display:inline-block;
-    margin-left:6px;
 }
 .sum-list .work {
     background-color:#49b3f5;
-    width:21px;
-    display:inline-block;
-    margin-left:6px;
 }
 .sum-list .finish {
     background-color:#2F73B8;
-    width:21px;
-    display:inline-block;
-    margin-left:6px;
 }
 
 .index-report-sum .report-status li {
@@ -223,6 +216,7 @@ border-bottom:2px solid #4a98e7;
     height:50px;
     display:block;
     overflow:hidden;
+    z-index:10;
 }
 .order-item .hint-msg {
     width:80px;

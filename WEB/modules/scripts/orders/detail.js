@@ -254,6 +254,15 @@
             _self.createDHOrder(true);
         });
 
+        if ($(".repeatorder-times").length > 0) {
+            require.async("tip", function () {
+                $(".repeatorder-times").Tip({
+                    width: "100",
+                    msg: "翻单次数：" + $(".repeatorder-times").data('turntime') + "次"
+                });
+            })
+        }
+
         //任务详情
         require.async("showtaskdetail", function () {
             $(".task-item[data-limit='']").showtaskdetail();

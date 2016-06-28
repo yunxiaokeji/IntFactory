@@ -669,7 +669,7 @@ namespace YXERP.Controllers
             int code=rd.Next(100000, 1000000);
 
             bool flag = Common.MessageSend.SendMessage(mobilePhone, code);
-            JsonDictionary.Add("Result",flag?1:0);
+            JsonDictionary.Add("Result", flag ? 1 : 0);            
 
             if (flag) 
             {
@@ -891,6 +891,7 @@ namespace YXERP.Controllers
                     var finishCount = 0;
                     var totalCount = 0;
 
+                    //订单操作
                     if (moduleType == 1)
                     {
                         var orderList = orderItems.FindAll(m => m.PlanTime.Date == nextDate.Date);
@@ -912,16 +913,17 @@ namespace YXERP.Controllers
                         }
                         finishCount = orderList.FindAll(m => m.OrderStatus == 2).Count;
                     }
+                    //任务操作
                     else
                     {
                         var taskList = taskItems.FindAll(m => m.EndTime.Date == nextDate.Date);
-                        exceedCount = taskList.FindAll(m => m.EndTime < nowDate && m.FinishStatus == 1).Count;
+                        exceedCount = taskList.FindAll(m => m.EndTime < DateTime.Now && m.FinishStatus == 1).Count;
                         for (var j = 0; j < taskList.Count; j++)
                         {
                             var task = taskList[j];
-                            if (task.EndTime > nowDate && task.FinishStatus == 1)
+                            if (task.EndTime > DateTime.Now && task.FinishStatus == 1)
                             {
-                                if ((task.EndTime - nowDate).TotalHours * 3 < (task.EndTime - task.AcceptTime).TotalHours)
+                                if ((task.EndTime - DateTime.Now).TotalHours * 3 < (task.EndTime - task.AcceptTime).TotalHours)
                                 {
                                     warnCount++;
                                 }
@@ -933,6 +935,7 @@ namespace YXERP.Controllers
                         }
                         finishCount = taskList.FindAll(m => m.FinishStatus == 2).Count;
                     }
+                    report.Add("dateTime", nextDate.Date.ToString("yyyy.MM.dd"));
                     report.Add("date", nextDate.Date.ToString("MM.dd"));
                     report.Add("warnCount", warnCount);
                     report.Add("finishCount", finishCount);
@@ -983,7 +986,7 @@ namespace YXERP.Controllers
             int finishStatus = 0;
             if (!string.IsNullOrEmpty(filterTime))
             {
-                startTime = DateTime.Now.Year + "." + filterTime;
+                startTime = filterTime;
                 orderStatus = -1;
                 finishStatus = -1;
             }

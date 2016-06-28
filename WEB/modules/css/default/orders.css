@@ -196,3 +196,6 @@
 .sample-report { cursor:pointer;}
 .typetitle {background-color:#eee;color:#007aff; }
 .typetitle:first-child {height:46px;}
+
+/*翻单次数*/
+.repeatorder-times {width:20px;height:20px;border-radius:50%;border:1px solid #ccc;text-align:center;line-height:20px;margin-top:12px;color:#fff;background-color:#ccc;}

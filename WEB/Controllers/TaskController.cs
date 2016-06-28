@@ -694,7 +694,7 @@ namespace YXERP.Controllers
             model.Attachments = serializer.Deserialize<List<IntFactoryEntity.Attachment>>(attchmentEntity);
             string replyID = "";
             replyID = OrdersBusiness.CreateReply(model.GUID, model.StageID, model.Mark, model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
-
+            
             string movePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Tasks/" + DateTime.Now.ToString("yyyyMM") + "/";
             string uploadTempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
             DirectoryInfo directory = new DirectoryInfo(Server.MapPath(movePath));

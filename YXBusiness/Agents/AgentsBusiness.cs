@@ -17,7 +17,7 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 缓存代理商
         /// </summary>
-        private static Dictionary<string, Agents> Agents
+        public static Dictionary<string, Agents> Agents
         {
             get
             {

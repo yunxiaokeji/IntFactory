@@ -23,16 +23,19 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Default/SetCategory");
             }
-
+            else if (CurrentUser.Client.GuideStep == 3)
+            {
+                return Redirect("/Default/BindMobile");
+            }
             return View();//
         }
 
         public ActionResult SetProcess()
         {
-            //if (CurrentUser.Client.GuideStep != 1)
-            //{
-            //    return Redirect("/Default/Index");
-            //}
+            if (CurrentUser.Client.GuideStep != 1)
+            {
+                return Redirect("/Default/Index");
+            }
             return View();
         }
 
@@ -56,11 +59,14 @@ namespace YXERP.Controllers
 
         public ActionResult BindMobile()
         {
-            //if (CurrentUser.Client.GuideStep != 0)
-            //{
-            //    return Redirect("/Default/Index");
-            //}
-            return View();
+            if (CurrentUser.Client.GuideStep == 3 && string.IsNullOrEmpty(CurrentUser.BindMobilePhone))
+            {
+                return View();
+            }
+            else
+            {                
+                return Redirect("/Default/Index");
+            }
         }
 
         public ActionResult SettingHelp()
@@ -74,6 +80,36 @@ namespace YXERP.Controllers
 
 
         #region Ajax
+
+        public JsonResult FinishInitSetting()
+        {
+            bool bl = ClientBusiness.FinishInitSetting(CurrentUser.ClientID);
+            JsonDictionary.Add("result", bl);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult AccountBindMobile(string BindMobile)
+        {
+            bool bl = OrganizationBusiness.AccountBindMobile(BindMobile, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("result", bl);
+
+            if (bl) {
+                CurrentUser.BindMobilePhone = BindMobile;
+                CurrentUser.MobilePhone = BindMobile;
+                CurrentUser.Client.GuideStep = 0;
+                Session["ClientManager"] = CurrentUser;
+                Common.Common.ClearMobilePhoneCode(BindMobile);
+            }
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
         public JsonResult SetClientProcess(int type)
         {
@@ -99,6 +135,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult IsExistLoginName(string loginName)
+        {
+            bool bl = OrganizationBusiness.IsExistLoginName(loginName);
+            JsonDictionary.Add("result", bl);
+
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         #endregion
 
     }
