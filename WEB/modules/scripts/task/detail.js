@@ -1259,7 +1259,8 @@
         $(".tb-plates").html("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
       
         Global.post("/Task/GetPlateMakings", {
-            orderID:ObjectJS.mark==22?ObjectJS.originalID: ObjectJS.orderid
+            //orderID: ObjectJS.mark == 22 ? ObjectJS.originalID : ObjectJS.orderid
+            orderID:ObjectJS.orderid
         }, function (data) {
             $(".tb-plates").html('');
 

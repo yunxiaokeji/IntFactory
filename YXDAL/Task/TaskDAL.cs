@@ -418,8 +418,6 @@ namespace IntFactoryDAL
 
         public bool AddPlateMaking(string title,string remark,string icon,string taskID,int type,string orderID,string userID,string agentID)
         {
-            string sqltext = "insert into  PlateMaking(PlateID,Title,Remark,Icon,TaskID,OrderID,Type,CreateUserID,AgentID,CreateTime) values(NEWID(),@Title,@Remark,@Icon,@TaskID,@OrderID,@Type,@UserID,@AgentID,getdate())";
-
             SqlParameter[] paras = { 
                                      new SqlParameter("@Title",title),
                                      new SqlParameter("@Remark",remark),
@@ -430,13 +428,11 @@ namespace IntFactoryDAL
                                      new SqlParameter("@UserID",userID),
                                      new SqlParameter("@AgentID",agentID)
                                    };
-            return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+            return ExecuteNonQuery("P_AddPlateMaking", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool UpdatePlateMaking(string plateID, string title, string remark, string icon,int type)
         {
-            string sqltext = "update PlateMaking set Title=@Title,Remark=@Remark,Icon=@Icon,Type=@Type where PlateID=@PlateID ";
-
             SqlParameter[] paras = { 
                                      new SqlParameter("@PlateID",plateID),
                                      new SqlParameter("@Title",title),
@@ -445,17 +441,15 @@ namespace IntFactoryDAL
                                      new SqlParameter("@Type",type)
                                    };
 
-            return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+            return ExecuteNonQuery("P_UpdatePlateMaking", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool DeletePlateMaking(string plateID)
         {
-            string sqltext = "update PlateMaking set status=9 where PlateID=@PlateID ";
-
             SqlParameter[] paras = { 
                                      new SqlParameter("@PlateID",plateID)
                                    };
-           return ExecuteNonQuery(sqltext, paras, CommandType.Text)>0;
+            return ExecuteNonQuery("P_DeletePlateMaking", paras, CommandType.StoredProcedure) > 0;
         }
         #endregion
 
