@@ -18,7 +18,7 @@ define(function (require, exports, module) {
 
         $("#btnChooseProduct").click(function () {
             ChooseProduct.create({
-                title: "选择报损产品",
+                title: "选择报损材料",
                 type: 3, //1采购 2出库 3报损 4报溢 5调拨
                 wareid: wareid,
                 callback: function (products) {
@@ -49,7 +49,7 @@ define(function (require, exports, module) {
 
         //编辑数量
         $(".quantity").change(function () {
-            if ($(this).val().isInt() && $(this).val() > 0) {
+            if ($(this).val().isDouble() && $(this).val() > 0) {
                 _self.editQuantity($(this));
             } else {
                 $(this).val($(this).data("value"));
@@ -73,6 +73,10 @@ define(function (require, exports, module) {
 
         //提交订单
         $("#btnconfirm").click(function () {
+            if ($(".cart-item").length == 0) {
+                alert("请选择报损材料！");
+                return;
+            }
             confirm("报损单提交后不可编辑，确认提交吗？", function () {
                 _self.submitOrder();
             });
@@ -84,7 +88,8 @@ define(function (require, exports, module) {
         var _self = this;
         Global.post("/ShoppingCart/UpdateCartQuantity", {
             autoid: ele.data("id"),
-            quantity: ele.val().trim()
+            quantity: ele.val().trim(),
+            guid: _self.wareid
         }, function (data) {
             if (!data.Status) {
                 ele.val(ele.data("value"));
@@ -96,13 +101,10 @@ define(function (require, exports, module) {
     }
     //保存
     ObjectJS.submitOrder = function () {
-        var _self = this, bl = false;
+        var _self = this;
         //单据明细
-        $(".cart-item").each(function () {
-            bl = true;
-        });
-        if (!bl) {
-            alert("请选择报损产品！");
+        if ($(".cart-item").length == 0) {
+            alert("请选择报损材料！");
             return;
         }
         Global.post("/Stock/SubmitDamagedDoc", {

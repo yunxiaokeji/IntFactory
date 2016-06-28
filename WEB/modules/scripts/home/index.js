@@ -366,7 +366,6 @@
         var html = '';
         html += '<div class="report-item" style="left:' + (75 * ReportIndex) + 'px">';
         html += '    <ul>';
-        
         if(item.totalCount>0){
             for (var i = 0; i < 4; i++) {
                 var count = countArr[i];
@@ -375,8 +374,7 @@
                 if (count>0 && (ObjectJS.orderFilter == -1 || ObjectJS.orderFilter == type)) {
                     lineHeight = count * ReportAvgHeight;
                     lineHeight = lineHeight < 10 ? ReportMinHeight : lineHeight;
-
-                    html += '<li style="line-height:' + lineHeight + 'px;" class="' + classname + '" data-totalcount="' + item.totalCount + '" data-count="' + count + '" data-date="' + item.date + '" data-type="' + type + '">' + count + '</li>';
+                    html += '<li style="line-height:' + lineHeight + 'px;" class="' + classname + '" data-totalcount="' + item.totalCount + '" data-count="' + count + '" data-date="' + item.dateTime + '" data-type="' + type + '">' + count + '</li>';
                 }
             }
         }
