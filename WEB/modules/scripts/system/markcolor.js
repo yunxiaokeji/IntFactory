@@ -7,7 +7,7 @@
     require("switch");
     var $ = require('jquery');
     require("color");
-    require("colormark");
+    require("colormark");    
 
     var Model = {};
     var ColorModel = {};
@@ -17,7 +17,7 @@
         $('#createColor').hide();
         var _self = this;
         _self.bindEvent();
-        _self.getList();
+        _self.bindColorList();
     }
 
     //绑定事件
@@ -39,11 +39,11 @@
                 ColorModel.ColorName = "";
                 ColorModel.ColorValue = "";
                 _self.createColor();
-                //alert("customermark");
+                
             } else if (id == "ordermark-add") {
-                alert("ordermark");
+                _self.createColor();
             } else {
-                alert("taskmark");
+                _self.createColor();
             }
         });
 
@@ -89,6 +89,7 @@
             $("." + _this.data("id")).show().siblings().hide();      
         });
     }
+
     //添加/编辑弹出层
     ObjectJS.createColor = function () {
         var _self = this;
@@ -151,6 +152,7 @@
             });
         });
     }
+
     ObjectJS.saveColorModel = function (model) {
         var _self = this;
         Global.post("/System/SaveCustomerColor", { customercolor: JSON.stringify(model) }, function (data) {
@@ -165,102 +167,8 @@
                 return;
             }
         });
-    }
-    //添加/编辑弹出层
-    ObjectJS.createModel = function () {
-        var _self = this;
-
-        doT.exec("template/system/sources-detail.html", function (template) {
-            var html = template([]);
-            Easydialog.open({
-                container: {
-                    id: "show-model-detail",
-                    header: !Model.SourceID ? "新建客户来源" : "编辑客户来源",
-                    content: html,
-                    yesFn: function () {
-                        if (!VerifyObject.isPass()) {
-                            return false;
-                        }
-                        Model.SourceName = $("#modelName").val();
-                        Model.SourceCode = $("#modelCode").val();
-                        Model.IsChoose = $("#isChoose").prop("checked") ? 1 : 0;
-                        _self.saveModel(Model);
-                    },
-                    callback: function () {
-
-                    }
-                }
-            });
-            VerifyObject = Verify.createVerify({
-                element: ".verify",
-                emptyAttr: "data-empty",
-                verifyType: "data-type",
-                regText: "data-text"
-            });
-
-            if (Model.SourceID) {
-                $("#modelCode").attr("disabled", "disabled");
-            }
-
-            $("#modelName").focus();
-            $("#modelName").val(Model.SourceName);
-            $("#modelCode").val(Model.SourceCode);
-            $("#isChoose").prop("checked", true);
-            if (Model.SourceID) $('.red').hide();
-            // $("#isChoose").prop("checked", Model.IsChoose == 1);
-        });
-    }
-    //获取列表
-    ObjectJS.getList = function () {
-        var _self = this;
-        $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='6'><div class='data-loading' ><div></td></tr>");
-        Global.post("/System/GetCustomSources", {}, function (data) {
-            _self.bindList(data.items);
-        });
-    }
-    //加载列表
-    ObjectJS.bindList = function (items) {
-        var _self = this;
-        $(".tr-header").nextAll().remove();
-        if (items.length > 0) {
-            doT.exec("template/system/sources.html", function (template) {
-                var innerhtml = template(items);
-                innerhtml = $(innerhtml);
-
-                //下拉事件
-                innerhtml.find(".dropdown").click(function () {
-                    var _this = $(this);
-                    if (_this.data("type") == 1) {
-                        $("#deleteObject").hide();
-                    } else {
-                        $("#deleteObject").show();
-                    }
-                    var position = _this.find(".ico-dropdown").position();
-                    $(".dropdown-ul li").data("id", _this.data("id"));
-                    $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 55 }).show().mouseleave(function () {
-                        $(this).hide();
-                    });
-                });
-
-                //绑定启用插件
-                innerhtml.find(".status").switch({
-                    open_title: "点击启用",
-                    close_title: "点击禁用",
-                    value_key: "value",
-                    change: function (data, callback) {
-                        _self.editIsChoose(data, data.data("id"), data.data("value"), callback);
-                    }
-                });
-
-                $(".tr-header").after(innerhtml);
-            });
-        }
-        else {
-            $(".tr-header").after("<tr><td colspan='6'><div class='nodata-txt' >暂无数据!<div></td></tr>");
-        }
-    }
-
+    }    
+   
     //加载列表
     ObjectJS.bindColorList = function () {
         var _self = this;
@@ -284,45 +192,14 @@
             });
         });
     }
-    //更改类型
-    ObjectJS.editIsChoose = function (obj, id, status, callback) {
-        var _self = this;
-        var model = {};
-        model.SourceID = id;
-        model.IsChoose = status ? 0 : 1;
-        Global.post("/System/SaveCustomSource", {
-            entity: JSON.stringify(model)
-        }, function (data) {
-            if (data.result == "10001") {
-                alert("您没有此操作权限，请联系管理员帮您添加权限！");
-                return;
-            }
-            !!callback && callback(data.status);
-        });
-    }
-    //保存实体
-    ObjectJS.saveModel = function (model) {
-        var _self = this;
-        Global.post("/System/SaveCustomSource", { entity: JSON.stringify(model) }, function (data) {
-            if (data.status == 1) {
-                _self.getList();
-            } else if (data.status == 2) {
-                alert("保存失败,编码已存在!");
-            }
-        });
-    }
+
     //删除color
     ObjectJS.deleteColor = function (colorid, callback) {
         Global.post("/System/DeleteColor", { colorid: colorid }, function (data) {
             !!callback && callback(data.result);
         });
     }
-    //删除
-    ObjectJS.deleteModel = function (id, callback) {
-        Global.post("/System/DeleteCustomSource", { id: id }, function (data) {
-            !!callback && callback(data.status);
-        });
-    }
+
    
 
     module.exports = ObjectJS;
