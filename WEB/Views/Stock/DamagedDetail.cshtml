@@ -11,15 +11,12 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">审核报损单</span>
+    <span class="header-title left">报损单号：@(model.DocCode)</span>
     <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current,"103030304"))" id="btnDelete">删除</div>
     <div class="btn999 right mRight10 @(ExpandClass.IsLimits(HttpContext.Current,"103030303"))" id="btnInvalid">作废</div>
     <div class="btn right mRight10 @(ExpandClass.IsLimits(HttpContext.Current,"103030302"))" id="btnAudit">审核</div>
 </div>
 <div class="content-body mTop20">
-    <div class="content-title">
-        <div class="left titlename">报损单号：@(model.DocCode)</div>
-    </div>
     <ul class="content-info">
         <li>
             <span class="column-title">总金额：</span>
@@ -44,12 +41,12 @@
     </ul>
      <div class="tab-nav mTop30">
         <ul class="tab-nav-ul left">
-            <li class="hover" data-id="navRemark">产品明细</li>
+            <li class="hover" data-id="navRemark">材料明细</li>
         </ul>
     </div>
     <table class="table-list mTop20">
         <tr class="tr-header">
-            <td class="tLeft">产品名称</td>
+            <td class="tLeft">材料名称</td>
             <td class="tLeft">规格</td>
             <td class="center width80">单位</td>
             <td class="tLeft">批次</td>

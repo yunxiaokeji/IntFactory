@@ -29,13 +29,14 @@
     </ul>
     <div class="tab-nav mTop30">
         <ul class="tab-nav-ul left">
-            <li class="hover" data-id="navRemark">产品明细</li>
+            <li class="hover" data-id="navRemark">材料明细</li>
         </ul>
-        <div class="btn right" id="btnChooseProduct">添加报损产品</div>
+        <div class="btn right" id="btnChooseProduct">添加报损材料</div>
     </div>
     <table class="table-list">
         <tr class="tr-header">
-            <td class="tLeft">产品名称</td>
+            <td class="tLeft">材料名称</td>
+            <td class="tLeft">材料编码</td>
             <td class="tLeft">规格</td>
             <td class="center width80">货位</td>
             <td class="tLeft">批次</td>
@@ -45,11 +46,12 @@
         @foreach (var model in (List<IntFactoryEntity.ProductDetail>)ViewBag.Items)
         { 
             <tr class="item cart-item" data-autoid="@(model.AutoID)" data-id="@(model.ProductDetailID)" >
-                <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)&type=1" target="_blank">@(model.ProductName)</a></td>
+                <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
+                <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductCode)</a></td>
                 <td>@(model.Description)</td>
                 <td class="center">@(model.DepotCode)</td>
                 <td>@(model.BatchCode)</td>
-                <td class="center tr-quantity"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity)" /></td>
+                <td class="center tr-quantity"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f3"))" /></td>
                 <td class="center">
                     <a class="ico-del" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
                 </td>

@@ -8,8 +8,8 @@
         <span class="check ico-check mTop5" data-pid="{%=item.ProductID%}" data-did="{%=item.ProductDetailID%}" 
              data-batch="{%=item.BatchCode%}" data-depotid="{%=item.DepotID%}" data-remark="{%= item.Description %}"></span>
 		<span class="name long" title="{%=item.ProductName%}">{%=item.ProductName%}</span>
-        <span class="width200 long" title="{%= item.Description %}">{%= item.Description %}</span>
-        <span class="width100 long">{%= item.DepotCode %}</span>
+        <span class="width200 long" title="{%= item.Description %}">{%= item.Description||'--' %}</span>
+        <span class="width100 long">{%= item.DepotCode||"--" %}</span>
         <span class="width100 long">{%=item.BatchCode||"--"%}</span> 
         <span class="width50 long">{%=(item.StockIn-item.StockOut)%}</span> 
 	</li>

@@ -83,7 +83,7 @@ namespace IntFactoryBusiness
         /// <param name="autoid"></param>
         /// <param name="quantity"></param>
         /// <returns></returns>
-        public static bool UpdateCartQuantity(string autoid, int quantity, string userid)
+        public static bool UpdateCartQuantity(string autoid, double quantity, string userid)
         {
             return ShoppingCartDAL.UpdateCartQuantity(autoid, quantity, userid);
         }

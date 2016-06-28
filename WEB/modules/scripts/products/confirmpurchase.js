@@ -65,7 +65,7 @@ define(function (require, exports, module) {
 
         //编辑数量
         $(".quantity").change(function () {
-            if ($(this).val().isInt() && $(this).val() > 0) {
+            if ($(this).val().isDouble() && $(this).val() > 0) {
                 _self.editQuantity($(this));
             } else {
                 $(this).val($(this).data("value"));
@@ -143,7 +143,8 @@ define(function (require, exports, module) {
         var _self = this;
         Global.post("/ShoppingCart/UpdateCartQuantity", {
             autoid: ele.data("id"),
-            quantity: ele.val()
+            quantity: ele.val(),
+            guid: _self.wareid
         }, function (data) {
             if (!data.Status) {
                 ele.val(ele.data("value"));
