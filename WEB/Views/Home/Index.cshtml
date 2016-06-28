@@ -20,7 +20,7 @@
         </div>
 
         <div class="left">
-            <ul class="search-item mLeft20" style="margin-top:0;line-height:20px;margin-top:12px;">
+            <ul class="search-item mLeft20 mTop10" style="line-height:20px;">
                 <li class="item" data-id="0">
                     @(DateTime.Now.AddDays(-15).ToString("MM.dd"))—@(DateTime.Now.AddDays(-1).ToString("MM.dd"))
                 </li>
@@ -102,21 +102,4 @@
             <span class="font14 hand load-more">加载更多</span>
         </div>
     </div>
-
-  @*  <div class="right author-message">
-        <ul>
-            <li>
-                <p class="remain-day @(ViewBag.RemainDay<30?"red":"blue")">@(ViewBag.RemainDay)</p>
-                <p>剩余天数</p>
-            </li>
-            <li>
-                <p>@(ViewBag.BuyPeople)</p>
-                <p>购买人数</p>
-            </li>
-            <li>
-                <p>@(ViewBag.UsePeople)</p>
-                <p>使用人数</p>
-            </li>
-        </ul>
-    </div>*@
 </div>

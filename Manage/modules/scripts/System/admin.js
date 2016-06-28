@@ -1,5 +1,4 @@
 ﻿
-
 define(function (require, exports, module) {
 
     require("jquery");
@@ -70,35 +69,19 @@ define(function (require, exports, module) {
 
         //保存
         $("#saveAdmin").click(function () {
-
-            if (!Admin.validateData())
-                return;
-
-            Admin.saveAdmin();
+            Admin.validateData(function () {
+                Admin.saveAdmin();
+            });
         });
     };
 
-    Admin.validateData = function ()
+    Admin.validateData = function (callback)
     {
         if ($("#OldPwd").val() == '') {
             $("#OldPwdError").html('原密码不能为空');
             return false;
         }
-        else
-        {
-            Global.post("/System/ConfirmAdminPwd", { pwd: $("#OldPwd").val() }, function (data) {
-                if (data.Result == 1) {
-                    $("#OldPwdError").html('');
-                }
-                else {
-                    $("#OldPwdError").html('原密码有误');
-                    return false;
-                }
-
-
-            });
-        }
-
+        
         if ($("#NewPwd").val() == '') {
             $("#NewPwdError").html('新密码不能为空');
             return false;
@@ -111,8 +94,7 @@ define(function (require, exports, module) {
             $("#NewConfirmPwdError").html('确认密码不能为空');
             return false;
         }
-        else
-        {
+        else {
             if ($("#NewConfirmPwd").val() != $("#NewPwd").val()) {
                 $("#NewConfirmPwdError").html('确认密码有误');
                 return false;
@@ -122,32 +104,34 @@ define(function (require, exports, module) {
             }
         }
 
-        return true;
-
+        Global.post("/System/ConfirmAdminPwd", { pwd: $("#OldPwd").val() }, function (data) {
+            if (data.Result == 1) {
+                callback();
+                $("#OldPwdError").html('');
+            }
+            else {
+                $("#OldPwdError").html('原密码有误');
+                return false;
+            }
+        });
     };
 
     Admin.saveAdmin = function () {
         Global.post("/System/SetAdminAccount", { loginName: $("#LoginName").val(), newPwd: $("#NewPwd").val() }, function (data)
         {
-            if (data.Result == "1")
-            {
+            if (data.Result == "1") {
                 alert("保存成功");
             }
-
         });
     };
-
 
     //模块产品详情
     Admin.getAdminDetail = function () {
         Global.post("/System/GetAdminDetail", null, function (data) {
-
             var item = data;
             $("#LoginName").val(item.LoginName);
-
         });
     };
-
 
     module.exports = Admin;
 });

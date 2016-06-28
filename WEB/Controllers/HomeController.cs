@@ -881,7 +881,8 @@ namespace YXERP.Controllers
                 var totalFinishCount = 0;
                 var totalSumCount = 0;
                 var reportArr =new  List<Dictionary<string, Object>>();
-                for (var i = 0; i < 15; i++) {
+                for (var i = 0; i < 15; i++) 
+                {
                     var report = new Dictionary<string, Object>();
                     var nextDate = nowDate.AddDays(i);
                     
@@ -990,8 +991,10 @@ namespace YXERP.Controllers
                 orderStatus = -1;
                 finishStatus = -1;
             }
-            else {
-                if (filterType != -1) {
+            else 
+            {
+                if (filterType != -1)
+                {
                     orderStatus = -1;
                     finishStatus = -1;
                 }
