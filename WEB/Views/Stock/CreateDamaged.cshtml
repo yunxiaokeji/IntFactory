@@ -39,7 +39,6 @@
             <td class="tLeft">材料编码</td>
             <td class="tLeft">规格</td>
             <td class="center width80">货位</td>
-            <td class="tLeft">批次</td>
             <td class="center">数量</td>
             <td class="center width80">删除</td>
         </tr>
@@ -50,7 +49,6 @@
                 <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductCode)</a></td>
                 <td>@(model.Description)</td>
                 <td class="center">@(model.DepotCode)</td>
-                <td>@(model.BatchCode)</td>
                 <td class="center tr-quantity"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f3"))" /></td>
                 <td class="center">
                     <a class="ico-del" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
