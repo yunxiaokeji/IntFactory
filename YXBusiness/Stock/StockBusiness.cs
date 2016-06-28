@@ -30,6 +30,8 @@ namespace IntFactoryBusiness
 
                 model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
 
+                
+
                 model.Details = new List<StorageDetail>();
                 if (ds.Tables.Contains("Details"))
                 {

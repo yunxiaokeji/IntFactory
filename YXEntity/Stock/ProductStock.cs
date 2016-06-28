@@ -134,6 +134,8 @@ namespace IntFactoryEntity
 
         public string Description { get; set; }
 
+        public string Remark { get; set; }
+
         public void FillData(System.Data.DataRow dr)
         {
             dr.FillData(this);

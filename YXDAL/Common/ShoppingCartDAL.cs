@@ -69,7 +69,7 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_AddShoppingCartBatchIn", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public static bool UpdateCartQuantity(string autoid, int quantity, string guid)
+        public static bool UpdateCartQuantity(string autoid, double quantity, string guid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@AutoID",autoid),

@@ -154,8 +154,12 @@ namespace YXERP.Controllers
         /// <param name="autoid"></param>
         /// <param name="quantity"></param>
         /// <returns></returns>
-        public JsonResult UpdateCartQuantity(string autoid, int quantity)
+        public JsonResult UpdateCartQuantity(string autoid, double quantity, string guid)
         {
+            if (string.IsNullOrEmpty(guid))
+            {
+                guid = CurrentUser.UserID;
+            }
             var bl = ShoppingCartBusiness.UpdateCartQuantity(autoid, quantity, CurrentUser.UserID);
             JsonDictionary.Add("Status", bl);
             return new JsonResult

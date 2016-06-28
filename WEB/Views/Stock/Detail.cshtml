@@ -7,12 +7,9 @@
 
 }
 <div class="header-box">
-    <span class="header-title left">单据详情</span>
+    <span class="header-title left">单据编号：@(model.DocCode)</span>
 </div>
 <div class="content-body mTop20">
-    <div class="content-title">
-        <div class="left titlename">单据编号：@(model.DocCode)</div>
-    </div>
     <ul class="content-info">
         <li>
             <span class="column-title">总金额：</span>
@@ -45,13 +42,14 @@
     </ul>
      <div class="tab-nav mTop30">
         <ul class="tab-nav-ul left">
-            <li class="hover" data-id="navRemark">产品明细</li>
+            <li class="hover" data-id="navRemark">材料明细</li>
         </ul>
     </div>
     <table class="table-list mTop20">
         <tr class="tr-header">
-            <td class="tLeft">产品名称</td>
+            <td class="tLeft">材料名称</td>
             <td class="tLeft">规格</td>
+            <td class="">货位</td>
             <td class="center width80">单位</td>
             <td class="tLeft">批次</td>
             <td class="tRight">单价</td>
@@ -63,6 +61,7 @@
             <tr class="item" >
                 <td><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" target="_blank"> @(item.ProductName)</a></td>
                 <td>@(item.Remark)</td>
+                <td class="center">@(item.DepotCode)</td>
                 <td class="center">@(item.UnitName)</td>
                 <td>@(item.BatchCode)</td>
                 <td class=" tRight">@(item.Price.ToString("f2"))</td>
@@ -71,6 +70,7 @@
             </tr>
         }
         <tr class="amount-item">
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
