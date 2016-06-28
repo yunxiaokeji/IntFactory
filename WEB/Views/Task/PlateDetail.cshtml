@@ -53,10 +53,12 @@
     @{
         <div class="mTop30 plate">
             <div class="talk-title" >工艺说明
-                @{if (isRoot && task.Mark==12)
-                  {
-                <div class="btn-add right" id="btnAddPalte">工艺说明录入</div>
-                <div class="clear"></div>}
+                @{
+                    if (isRoot)
+                    {
+                    <div class="btn-add right" id="btnAddPalte">工艺说明录入</div>
+                    <div class="clear"></div>
+                    }
                 }
             </div>
             <table class="table-list mTop10 tb-plates">
