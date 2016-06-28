@@ -224,6 +224,7 @@
     <Content Include="modules\css\order\create.css" />
     <Content Include="modules\css\order\platemakingprocess.css" />
     <Content Include="modules\css\stock\stock.css" />
+    <Content Include="modules\css\system\markcolor.css" />
     <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\author-image.png" />
     <Content Include="modules\images\bg-loginBackground.png" />
@@ -313,6 +314,9 @@
     <Content Include="modules\images\word.png" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
     <Content Include="modules\plug\chooseproduct\productin.html" />
+    <Content Include="modules\plug\colormark\colormark.js" />
+    <Content Include="modules\plug\colormark\ico-ball.png" />
+    <Content Include="modules\plug\colormark\style.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.js" />
     <Content Include="modules\plug\daterangepicker\moment.js" />
@@ -478,6 +482,7 @@
     <Content Include="modules\scripts\orders\fentorderreport.js" />
     <Content Include="modules\scripts\orders\orderplans.js" />
     <Content Include="modules\scripts\orders\platemakingprocess.js" />
+    <Content Include="modules\scripts\system\markcolor.js" />
     <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
     <Content Include="modules\scripts\system\orderstages.js" />
@@ -1099,6 +1104,7 @@
     <Content Include="Views\Error\NoRoot.cshtml" />
     <Content Include="Views\Error\NoFindFile.cshtml" />
     <Content Include="Views\Default\BindMobile.cshtml" />
+    <Content Include="Views\System\MarkColor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

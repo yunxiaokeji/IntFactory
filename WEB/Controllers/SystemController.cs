@@ -21,6 +21,11 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult MarkColor()
+        {
+            return View();
+        }
+
         public ActionResult Sources()
         {
             return View();

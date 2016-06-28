@@ -1,0 +1,18 @@
+﻿
+.mark-color { display: inline-block; cursor:pointer; vertical-align:middle; width:14px; height:14px; border-radius:8px; }
+
+
+.mark-color-list {overflow-x:hidden;min-width:90px; height:197px;overflow-y:scroll; position:absolute; padding:10px 0; 
+                  background-color:#fff; border:solid 1px #eee; border-radius:2px; box-shadow:0 0 3px #999; }
+.mark-color-item {overflow:auto; cursor:pointer; padding:0 15px;line-height:25px;  }
+.mark-color-item:hover { background-color:#eee; }
+
+.mark-color-item span{ margin-top: 4px; float:left;width:16px; height:16px; display:inline-block; border-radius:8px;}
+
+.mark-color-all,.mark-color-item.all span {width:16px; height:16px; border-radius:8px; background:url(ico-ball.png) no-repeat; 
+                                           display: inline-block; background-size:cover;}
+.mark-color-item.first span {margin-top: 4px; width:16px; height:16px; border-radius:8px;  border:solid 1px #ccc; 
+                             display: inline-block;}
+.mark-color-all,.mark-color-item div { float:left;text-indent: 5px;}
+
+
