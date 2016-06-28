@@ -935,6 +935,7 @@ namespace YXERP.Controllers
                         }
                         finishCount = taskList.FindAll(m => m.FinishStatus == 2).Count;
                     }
+                    report.Add("dateTime", nextDate.Date.ToString("yyyy.MM.dd"));
                     report.Add("date", nextDate.Date.ToString("MM.dd"));
                     report.Add("warnCount", warnCount);
                     report.Add("finishCount", finishCount);
@@ -985,7 +986,7 @@ namespace YXERP.Controllers
             int finishStatus = 0;
             if (!string.IsNullOrEmpty(filterTime))
             {
-                startTime = DateTime.Now.Year + "." + filterTime;
+                startTime = filterTime;
                 orderStatus = -1;
                 finishStatus = -1;
             }
