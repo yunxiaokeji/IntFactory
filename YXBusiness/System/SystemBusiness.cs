@@ -19,7 +19,7 @@ namespace IntFactoryBusiness
 
         private static Dictionary<string, List<CustomSourceEntity>> _source;
         private static Dictionary<string, List<CustomStageEntity>> _stages;
-
+        private static Dictionary<string, List<CustomerColorEntity>> _color;
         private static Dictionary<string, List<OrderProcessEntity>> _orderprocess;
 
         private static Dictionary<string, List<OrderStageEntity>> _orderstages;
@@ -64,6 +64,25 @@ namespace IntFactoryBusiness
             set
             {
                 _stages = value;
+            }
+        }
+
+        /// <summary>
+        /// 客户标签
+        /// </summary>
+        private static Dictionary<string, List<CustomerColorEntity>> CustomColor
+        {
+            get
+            {
+                if (_color == null)
+                {
+                    _color = new Dictionary<string, List<CustomerColorEntity>>();
+                }
+                return _color;
+            }
+            set
+            {
+                _color = value;
             }
         }
 
@@ -184,6 +203,30 @@ namespace IntFactoryBusiness
 
             return list;
 
+        }
+
+        public List<CustomerColorEntity> GetCustomerColors(string clientid)
+        {
+            if (CustomColor.ContainsKey(clientid))
+            {
+                return CustomColor[clientid];
+            }
+            List<CustomerColorEntity> list = new List<CustomerColorEntity>();
+            DataTable dt = CustomerColorDAL.BaseProvider.GetCustomerColors(clientid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                CustomerColorEntity model = new CustomerColorEntity();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            CustomColor.Add(clientid, list);
+            return list;
+        }
+
+        public CustomerColorEntity GetCustomerColorsColorID(string clientid, int colorid = 0)
+        {
+            var list = GetCustomerColors(clientid);
+            return list.Where(x =>x.Status!=9 && x.ColorID == colorid).FirstOrDefault();
         }
 
         public CustomSourceEntity GetCustomSourcesByID(string sourceid, string agentid, string clientid)
@@ -680,6 +723,34 @@ namespace IntFactoryBusiness
             return "";
         }
 
+        public int CreateCustomerColor(string colorName, string colorValue, string agentid, string clientid, string userid, int status = 0)
+        {
+            int result = CustomerColorDAL.BaseProvider.InsertCustomerColor(colorName, colorValue, agentid,
+                clientid, userid, status);
+            if (result > 0)
+            {
+                if (!CustomColor.ContainsKey(clientid))
+                {
+                    GetCustomerColors(clientid);
+                }
+                else
+                {
+                    CustomColor[clientid].Add(new CustomerColorEntity()
+                    {
+                        AgentID = agentid,
+                        ColorID = result,
+                        ColorValue = colorValue,
+                        ColorName = colorName,
+                        ClientID = clientid,
+                        CreateUserID = userid,
+                        CreateTime = DateTime.Now,
+                        Status = 0
+                    });
+                }
+            }
+            return result;
+        }
+
         public string CreateOrderProcess(string name, int type, int categoryType, int days, int isdefault, string ownerid, string userid, string agentid, string clientid)
         {
             string id = Guid.NewGuid().ToString().ToLower();
@@ -884,6 +955,58 @@ namespace IntFactoryBusiness
                 CustomSources[clientid].Remove(model);
             }
             return bl;
+        }
+
+        public int UpdateCustomerColor(string agentid, string clientid, int colorid, string colorName, string colorValue, string updateuserid)
+        {
+            var model = GetCustomerColorsColorID(clientid, colorid);
+            if (model == null)
+            {
+                return -200;
+            }
+            bool result = CustomerColorDAL.BaseProvider.UpdateCustomerColor(agentid, clientid, colorid, colorName, colorValue, updateuserid);
+            if (result)
+            {
+                if (!CustomColor.ContainsKey(clientid))
+                {
+                    GetCustomerColors(clientid);
+                }
+                else
+                {
+                    //  CustomColor[clientid].Remove(model);
+                    model.ColorValue = colorValue;
+                    model.ColorName = colorName;
+                    model.UpdateTime = DateTime.Now;
+                    model.UpdateUserID = updateuserid;
+                    // CustomColor[clientid].Add(model);
+                }
+            }
+            return result ? 1 : 0;
+        }
+
+        public int DeleteCutomerColor(int status, int colorid, string agentid, string clientid, string updateuserid)
+        {
+            var model = GetCustomerColorsColorID(clientid, colorid);
+            if (model == null)
+            {
+                return -200;
+            }
+            if (CustomColor[clientid].Count == 1)
+            {
+                return -100;
+            }
+            bool result = CustomerColorDAL.BaseProvider.UpdateStatus(status, colorid, agentid, clientid, updateuserid);
+            if (result)
+            {
+                if (!CustomColor.ContainsKey(clientid))
+                {
+                    GetCustomerColors(clientid);
+                }
+                else
+                {
+                    CustomColor[clientid].Remove(model);
+                }
+            } return result ? 1 : 0;
         }
 
         public bool UpdateCustomStage(string stageid, string name, string userid, string ip, string agentid, string clientid)

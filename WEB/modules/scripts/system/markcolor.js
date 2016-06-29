@@ -6,7 +6,7 @@
 
     require("switch");
     var $ = require('jquery');
-    require("color");
+    require("color")($);
     require("colormark");    
 
     var Model = {};
@@ -106,6 +106,7 @@
                         }
                         ColorModel.ColorName = $("#colorName").val();
                         ColorModel.ColorValue = $("#colorName").data('value');
+                        console.log(ColorModel);
                         _self.saveColorModel(ColorModel);
                     },
                     callback: function () {
