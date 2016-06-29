@@ -11,6 +11,7 @@
     
     var ColorModel = {};
     var ObjectJS = {};
+
     //初始化
     ObjectJS.init = function () {
         $('#createColor').hide();
@@ -110,21 +111,22 @@
                         if (!VerifyObject.isPass()) {
                             return false;
                         }
-
                         ColorModel.ColorName = $("#colorName").val();
-                        ColorModel.ColorValue = $("#colorName").data('value');                        
+                        ColorModel.ColorValue = $("#colorName").data('value');
                         _self.saveColorModel(ColorModel);
                     },
                     callback: function () {
                     }
                 }
             });
+
             VerifyObject = Verify.createVerify({
                 element: ".verify",
                 emptyAttr: "data-empty",
                 verifyType: "data-type",
                 regText: "data-text"
             });
+
             ColorModel.ColorValue = ColorModel.ColorValue == "" ? "#d9d9d9" : ColorModel.ColorValue
             $("#colorName").data('value', ColorModel.ColorValue);
             $("#colorName").val(ColorModel.ColorName);
@@ -157,12 +159,11 @@
                     "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
                 ]
             });
-
             //if (ColorModel.ColorID == '') {
             //    $(".full-spectrum").click();
             //}
         });
-    }
+    };
 
     ObjectJS.saveColorModel = function (model) {
         var _self = this;
