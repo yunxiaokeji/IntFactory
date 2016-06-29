@@ -39,7 +39,7 @@
 .color-list li .ico-delete{ position:absolute; right:-9px; top:-9px; display:none; background-color:white; }
 .color-list li:hover .ico-delete{ display:inline-block; }
 .color-list .color-item:hover input{ border:solid 1px #318ae4; }
-.colordiv{overflow:auto;padding: 0px 10px;cursor: pointer;}
+.colordiv{overflow:auto;padding: 0px 10px;cursor: pointer;min-width:80px;}
 .color-leftzuoyou{width:0; height:0; border-top:15px solid transparent;border-bottom:15px solid transparent;cursor: pointer;}
 
 /*切换导航样式*/

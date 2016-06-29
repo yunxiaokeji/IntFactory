@@ -5,8 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 using IntFactoryEntity;
+
 using System.Data;
 using IntFactoryDAL;
+using IntFactoryDAL.Custom;
+using IntFactoryEntity.Custom;
 using IntFactoryEnum;
 
 namespace IntFactoryBusiness
@@ -205,14 +208,14 @@ namespace IntFactoryBusiness
 
         }
 
-        public List<CustomerColorEntity> GetCustomerColors(string clientid)
+        public List<CustomerColorEntity> GetCustomerColors(string tableName,string clientid)
         {
             if (CustomColor.ContainsKey(clientid))
             {
                 return CustomColor[clientid];
             }
             List<CustomerColorEntity> list = new List<CustomerColorEntity>();
-            DataTable dt = CustomerColorDAL.BaseProvider.GetCustomerColors(clientid);
+            DataTable dt = CustomerColorDAL.BaseProvider.GetCustomerColors(tableName,clientid);
             foreach (DataRow dr in dt.Rows)
             {
                 CustomerColorEntity model = new CustomerColorEntity();
@@ -223,9 +226,9 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public CustomerColorEntity GetCustomerColorsColorID(string clientid, int colorid = 0)
+        public CustomerColorEntity GetCustomerColorsColorID(string tableName,string clientid, int colorid = 0)
         {
-            var list = GetCustomerColors(clientid);
+            var list = GetCustomerColors(tableName,clientid);
             return list.Where(x =>x.Status!=9 && x.ColorID == colorid).FirstOrDefault();
         }
 
@@ -723,7 +726,7 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        public int CreateCustomerColor(string colorName, string colorValue, string agentid, string clientid, string userid, int status = 0)
+        public int CreateCustomerColor(string tableName,string colorName, string colorValue, string agentid, string clientid, string userid, int status = 0)
         {
             int result = CustomerColorDAL.BaseProvider.InsertCustomerColor(colorName, colorValue, agentid,
                 clientid, userid, status);
@@ -731,7 +734,7 @@ namespace IntFactoryBusiness
             {
                 if (!CustomColor.ContainsKey(clientid))
                 {
-                    GetCustomerColors(clientid);
+                    GetCustomerColors(tableName,clientid);
                 }
                 else
                 {
@@ -957,9 +960,9 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public int UpdateCustomerColor(string agentid, string clientid, int colorid, string colorName, string colorValue, string updateuserid)
+        public int UpdateCustomerColor(string tableName,string agentid, string clientid, int colorid, string colorName, string colorValue, string updateuserid)
         {
-            var model = GetCustomerColorsColorID(clientid, colorid);
+            var model = GetCustomerColorsColorID(tableName,clientid, colorid);
             if (model == null)
             {
                 return -200;
@@ -969,7 +972,7 @@ namespace IntFactoryBusiness
             {
                 if (!CustomColor.ContainsKey(clientid))
                 {
-                    GetCustomerColors(clientid);
+                    GetCustomerColors(tableName,clientid);
                 }
                 else
                 {
@@ -984,9 +987,9 @@ namespace IntFactoryBusiness
             return result ? 1 : 0;
         }
 
-        public int DeleteCutomerColor(int status, int colorid, string agentid, string clientid, string updateuserid)
+        public int DeleteCutomerColor(string tableName, int status, int colorid, string agentid, string clientid, string updateuserid)
         {
-            var model = GetCustomerColorsColorID(clientid, colorid);
+            var model = GetCustomerColorsColorID(tableName,clientid, colorid);
             if (model == null)
             {
                 return -200;
@@ -995,12 +998,12 @@ namespace IntFactoryBusiness
             {
                 return -100;
             }
-            bool result = CustomerColorDAL.BaseProvider.UpdateStatus(status, colorid, agentid, clientid, updateuserid);
+            bool result = CustomerColorDAL.BaseProvider.UpdateStatus(tableName,status, colorid, agentid, clientid, updateuserid);
             if (result)
             {
                 if (!CustomColor.ContainsKey(clientid))
                 {
-                    GetCustomerColors(clientid);
+                    GetCustomerColors(tableName,clientid);
                 }
                 else
                 {

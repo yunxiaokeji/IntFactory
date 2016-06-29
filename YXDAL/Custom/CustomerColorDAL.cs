@@ -12,9 +12,9 @@ namespace IntFactoryDAL.Custom
     {
         public static CustomerColorDAL BaseProvider = new CustomerColorDAL();
 
-        public DataTable GetCustomerColors(string clientid, int colorid = 0)
+        public DataTable GetCustomerColors(string tableName,string clientid, int colorid = 0)
         {
-            string sqlText = "select  *  from CustomerColor where status <>9 and ClientID=@ClientID ";
+            string sqlText = "select  *  from "+tableName+" where status <>9 and ClientID=@ClientID ";
             SqlParameter[] paras = { new SqlParameter("@ClientID", clientid), };
             if (colorid > 0)
             {
@@ -61,7 +61,7 @@ namespace IntFactoryDAL.Custom
             return ExecuteNonQuery(updateSql, paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateStatus(int status, int colorid, string agentid, string clientid, string updateuserid)
+        public bool UpdateStatus(string tableName, int status, int colorid, string agentid, string clientid, string updateuserid)
         {
             SqlParameter[] paras = {  
                                      new SqlParameter("@ColorID",colorid),
