@@ -12,7 +12,7 @@
 .list-card:hover{border:1px solid #007aff;}
 .list-card:hover .check{display:block;cursor:pointer;}
 .list-card .check{ float:right;width:20px;height:20px;border:1px solid #007aff;margin-top:-1px;margin-right:-1px;border-radius:0 3px 0 0;
-                    box-shadow:0 0 5px #4a98e7 inset;color:#fff;display:none;}
+                    box-shadow:0 0 2px #4a98e7 inset;color:#fff;display:none;}
 .list-card .icon-check{background-color:#4a98e7;color:#fff;font-size:18px;}
 
 .list-card .message{ height:25px; line-height:25px; margin:5px 0 10px 5px;}
