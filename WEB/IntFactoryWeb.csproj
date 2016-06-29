@@ -1106,7 +1106,7 @@
     <Content Include="Views\Error\NoRoot.cshtml" />
     <Content Include="Views\Error\NoFindFile.cshtml" />
     <Content Include="Views\Default\BindMobile.cshtml" />
-    <Content Include="Views\System\MarkColor.cshtml" />
+    <Content Include="Views\System\LabelSet.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

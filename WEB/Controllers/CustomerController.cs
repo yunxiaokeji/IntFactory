@@ -38,6 +38,7 @@ namespace YXERP.Controllers
             ViewBag.Title = "下属客户";
             ViewBag.Type = (int)EnumSearchType.Branch;
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
+            ViewBag.list = SystemBusiness.BaseBusiness.GetCustomerColors(CurrentUser.ClientID).ToList();
             return View("Customers");
         }
 

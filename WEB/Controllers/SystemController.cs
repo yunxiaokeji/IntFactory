@@ -22,7 +22,7 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult MarkColor()
+        public ActionResult LabelSet()
         {
             return View();
         }

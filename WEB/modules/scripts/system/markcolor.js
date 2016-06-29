@@ -110,6 +110,7 @@
                         if (!VerifyObject.isPass()) {
                             return false;
                         }
+
                         ColorModel.ColorName = $("#colorName").val();
                         ColorModel.ColorValue = $("#colorName").data('value');                        
                         _self.saveColorModel(ColorModel);
@@ -156,6 +157,10 @@
                     "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
                 ]
             });
+
+            //if (ColorModel.ColorID == '') {
+            //    $(".full-spectrum").click();
+            //}
         });
     }
 

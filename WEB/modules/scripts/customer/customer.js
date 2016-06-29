@@ -30,14 +30,15 @@
 
     var ObjectJS = {};
     ObjectJS.ColorList = [];
-
     ObjectJS.isLoading = true;
+
     //初始化
     ObjectJS.init = function (type,model) {
         var _self = this;
         Params.SearchType = type;
         _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
         Params.PageSize = ($(".list-customer").width() / 300).toFixed(0) * 3;
+
         _self.getList();
         _self.bindEvent(type);
     }
@@ -69,13 +70,13 @@
             Params.EndTime = end ? end.format("YYYY-MM-DD") : "";
             _self.getList();
         });
-        
+
         //选择客户来源类型
         $(".customer-source li").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
             }
-            var _this = $(this);            
+            var _this = $(this);
             if (!_this.hasClass("source-hover")) {
                 _this.siblings().removeClass("source-hover");
                 _this.addClass("source-hover");
@@ -97,22 +98,19 @@
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
                 Params.PageIndex = 1;
-                if (_this.data("id")=="") {
+                if (_this.data("id") == "") {
                     return;
                 }
                 Params.Mark = _this.data("id");
                 ObjectJS.getList();
-            }              
+            }
         });
 
-        $(".search-mark .item").hover(function () {
+        $(".search-mark .item:gt(0)").each(function () {
             var _this = $(this);
-            if (_this.data("id") == "" || _this.data("id") == "-1") {
-                return;
-            }
             _this.Tip({
-                width: 50,
-                msg:_this.data("name")
+                width: 80,
+                msg: _this.data("name")
             });
         });
 
@@ -122,7 +120,6 @@
                 return;
             }
             var _this = $(this);
-            
             $(".data-loading").remove();
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -132,7 +129,7 @@
                 if (datanum != "1") {
                     Params.FirstName = datanum;
                 } else {
-                    _this.css("font-size","14px");
+                    _this.css("font-size", "14px");
                     $(".search-letter li:eq(1)").addClass("hover");
                     Params.FirstName = "";
                 }
@@ -149,6 +146,7 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
+
                 Params.PageIndex = 1;
                 Params.Status = _this.data("id");
                 _self.getList();
@@ -181,8 +179,7 @@
                     }
                 });
             });
-        }
-        else if (type == 3) {
+        } else if (type == 3) {
             require.async("choosebranch", function () {
                 $("#chooseBranch").chooseBranch({
                     prevText: "人员-",
@@ -246,7 +243,6 @@
                 return;
             }
             var checks = $(".list-customer .icon-check");
-            
             if (checks.length > 0) {
                 ChooseUser.create({
                     title: "批量更换负责人",
@@ -259,7 +255,6 @@
                                 var _this = $(this);
                                 if (_this.data("userid") != userid) {
                                     ids += _this.data("id") + ",";
-                                    
                                 }
                             });
                             if (ids.length > 0) {
@@ -302,8 +297,7 @@
             Params.PageIndex = 1;
             _self.getList();
         });
-        
-    }
+    };
 
     //获取列表
     ObjectJS.getList = function () {
@@ -312,6 +306,7 @@
         $(".list-card").remove();
         $(".nodata-txt").remove();
         $(".list-customer").append("<div class='data-loading' ><div>");
+
         ObjectJS.isLoading = false;
         Global.post("/Customer/GetCustomers", { filter: JSON.stringify(Params) }, function (data) {
             _self.bindCardList(data);            
@@ -322,13 +317,12 @@
     //加载卡片式列表
     ObjectJS.bindCardList = function (data) {
         var _self = this;
-        //$(".list-card").remove();
 
         if (data.items.length > 0) {
             doT.exec("template/customer/customers-card.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
-                
+
                 innerhtml.find(".check").click(function () {
                     var _this = $(this);
                     if (!_this.hasClass("icon-check")) {
@@ -352,10 +346,8 @@
                 $(".data-loading").remove();
                 $(".nodata-txt").remove();
                 $(".list-customer").append(innerhtml);
-
             });
-        }
-        else {
+        } else {
             $(".nodata-txt").remove();
             $(".data-loading").remove();
             $(".list-customer").append("<div class='nodata-txt' >暂无数据!<div>");
@@ -381,7 +373,7 @@
                 _self.getList();
             }
         });
-    }
+    };
 
     //标记客户
     ObjectJS.markCustomer = function (ids, mark, callback) {
