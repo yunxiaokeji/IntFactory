@@ -5,7 +5,7 @@
         moment = require("moment");
     require("daterangepicker");
     require("pager");
-    require("mark");
+    require("colormark");
 
     var Params = {
         SearchType: 1,
@@ -28,12 +28,14 @@
     };
 
     var ObjectJS = {};
+    ObjectJS.ColorList = [];
 
     ObjectJS.isLoading = true;
     //初始化
-    ObjectJS.init = function (type) {
+    ObjectJS.init = function (type,model) {
         var _self = this;
         Params.SearchType = type;
+        _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
         Params.PageSize = ($(".list-customer").width() / 300).toFixed(0) * 3;
         _self.getList();
         _self.bindEvent(type);
@@ -265,16 +267,6 @@
             }
         });
 
-        //过滤标记
-        $("#filterMark").markColor({
-            isAll: true,
-            onChange: function (obj, callback) {
-                callback && callback(true);
-                Params.PageIndex = 1;
-                Params.Mark = obj.data("value");
-                _self.getList();
-            }
-        });
         //排序
         $(".sort-item").click(function () {
             var _this = $(this);
@@ -314,85 +306,8 @@
         $(".list-customer").append("<div class='data-loading' ><div>");
         ObjectJS.isLoading = false;
         Global.post("/Customer/GetCustomers", { filter: JSON.stringify(Params) }, function (data) {
-            _self.bindCardList(data);
-            _self.bindCustomerList(data);
+            _self.bindCardList(data);            
             ObjectJS.isLoading = true;
-        });
-    }
-
-    //加载列表
-    ObjectJS.bindCustomerList = function (data) {
-        var _self = this;
-        $(".tr-header").nextAll().remove();
-
-        if (data.items.length > 0) {
-            doT.exec("template/customer/customers.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
-
-                //下拉事件
-                innerhtml.find(".dropdown").click(function () {
-                    var _this = $(this);
-                    var position = _this.find(".ico-dropdown").position();
-                    $(".dropdown-ul li").data("id", _this.data("id")).data("userid", _this.data("userid"));
-                    $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 80 }).show().mouseleave(function () {
-                        $(this).hide();
-                    });
-                    return false;
-                });
-                innerhtml.find(".check").click(function () {
-                    var _this = $(this);
-                    if (!_this.hasClass("ico-checked")) {
-                        _this.addClass("ico-checked").removeClass("ico-check");
-                    } else {
-                        _this.addClass("ico-check").removeClass("ico-checked");
-                    }
-                    return false;
-                });
-
-                //innerhtml.click(function () {
-                //    var _this = $(this).find(".check");
-                //    if (!_this.hasClass("ico-checked")) {
-                //        _this.addClass("ico-checked").removeClass("ico-check");
-                //    } else {
-                //        _this.addClass("ico-check").removeClass("ico-checked");
-                //    }
-                //});
-
-                innerhtml.find(".mark").markColor({
-                    isAll: false,
-                    onChange: function (obj, callback) {
-                        _self.markCustomer(obj.data("id"), obj.data("value"), callback);
-                    }
-                });
-
-                $(".tr-header").after(innerhtml);
-
-            });
-        }
-        else {
-            $(".tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
-        }
-
-        $("#pager").paginate({
-            total_count: data.totalCount,
-            count: data.pageCount,
-            start: Params.PageIndex,
-            display: 5,
-            border: true,
-            border_color: '#fff',
-            text_color: '#333',
-            background_color: '#fff',
-            border_hover_color: '#ccc',
-            text_hover_color: '#000',
-            background_hover_color: '#efefef',
-            rotate: true,
-            images: false,
-            mouse: 'slide',
-            onChange: function (page) {
-                Params.PageIndex = page;
-                _self.getList();
-            }
         });
     }
 
@@ -420,10 +335,12 @@
 
                 innerhtml.find(".mark").markColor({
                     isAll: false,
+                    data: _self.ColorList,
                     onChange: function (obj, callback) {
                         _self.markCustomer(obj.data("id"), obj.data("value"), callback);
                     }
                 });
+
                 $(".data-loading").remove();
                 $(".nodata-txt").remove();
                 $(".list-customer").append(innerhtml);
@@ -434,7 +351,6 @@
             $(".nodata-txt").remove();
             $(".data-loading").remove();
             $(".list-customer").append("<div class='nodata-txt' >暂无数据!<div>");
-            
         }
 
         $("#pager").paginate({
