@@ -31,6 +31,7 @@
         <ul class="search-item-color search-mark">
             <li class="column-name">标&nbsp;&nbsp;&nbsp;记：</li>
             <li data-id="-1" class="item mark-all hover"></li>
+            <li data-id="0" class="item mark0" data-name="默认"></li>
             @foreach (var item in model)
             {
                 <li data-id="@item.ColorID" class="item" style="border:solid 1px @item.ColorValue;background-color:@item.ColorValue" data-name="@item.ColorName"></li>

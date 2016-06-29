@@ -97,10 +97,7 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-                Params.PageIndex = 1;
-                if (_this.data("id") == "") {
-                    return;
-                }
+                Params.PageIndex = 1;   
                 Params.Mark = _this.data("id");
                 ObjectJS.getList();
             }
