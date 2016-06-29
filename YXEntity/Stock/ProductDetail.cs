@@ -31,9 +31,7 @@ namespace IntFactoryEntity
 		private string _saleattr="";
 		private string _attrvalue="";
 		private string _saleattrvalue="";
-		private int? _salecount=0;
-        private int? _stockin = 0;
-        private int? _logicout = 0;
+
 		private string _imgs="";
 		private string _imgm="";
 		private int? _warncount=0;
@@ -110,27 +108,12 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-        public int? SaleCount
-		{
-			set{ _salecount=value;}
-			get{return _salecount;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-        public int? StockIn
-		{
-			set{ _stockin=value;}
-			get{return _stockin;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-        public int? LogicOut
-		{
-			set{ _logicout=value;}
-			get{return _logicout;}
-		}
+        public decimal StockOut { get; set; }
+
+        public decimal StockIn { get; set; }
+
+        public decimal LogicOut { get; set; }
+		
 		/// <summary>
 		/// 
 		/// </summary>

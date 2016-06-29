@@ -78,21 +78,9 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public ActionResult ProductDetail(string id)
         {
-            var model = new ProductsBusiness().GetProductByID(id);
+            var model = new ProductsBusiness().GetProductByID(id, CurrentUser.ClientID);
             ViewBag.Model = model;
             ViewBag.UnitList = new ProductsBusiness().GetUnits();
-            return View();
-        }
-
-        /// <summary>
-        /// 设置子产品
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public ActionResult ProductDetails(string id)
-        {
-            var model = new ProductsBusiness().GetProductByID(id);
-            ViewBag.Model = model;
             return View();
         }
 
@@ -127,7 +115,7 @@ namespace YXERP.Controllers
             {
                 return Redirect("ProductList");
             }
-            var model = new ProductsBusiness().GetProductByIDForDetails(pid);
+            var model = new ProductsBusiness().GetProductByIDForDetails(pid, CurrentUser.ClientID);
             if (model == null || string.IsNullOrEmpty(model.ProductID))
             {
                 return Redirect("ProductList");
@@ -517,7 +505,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult GetProductByID(string productid) 
         {
-            var model = new ProductsBusiness().GetProductByID(productid);
+            var model = new ProductsBusiness().GetProductByID(productid, CurrentUser.ClientID);
             JsonDictionary.Add("Item", model);
             return new JsonResult
             {
@@ -533,7 +521,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult GetProductByIDForDetails(string productid)
         {
-            var model = new ProductsBusiness().GetProductByIDForDetails(productid);
+            var model = new ProductsBusiness().GetProductByIDForDetails(productid, CurrentUser.ClientID);
             JsonDictionary.Add("Item", model);
             return new JsonResult
             {

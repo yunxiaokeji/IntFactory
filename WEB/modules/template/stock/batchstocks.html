@@ -3,14 +3,15 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td>{%=item.ProductCode%}</td>
-    <td>{%=item.ProductName%}</td>
+    <td>
+        <a href="/Products/ChooseDetail?pid={%=item.ProductID%}&did={%=item.ProductDetailID%}" target="_blank">{%=item.ProductCode%}</a>
+    </td>
+    <td>
+        <a href="/Products/ChooseDetail?pid={%=item.ProductID%}&did={%=item.ProductDetailID%}" target="_blank">{%=item.ProductName%}</a>
+    </td>
     <td>{%=item.DetailsCode%}</td>
     <td>{%=item.Description%}</td>
     <td>{%=item.DepotCode%}</td>
- <!--   <td>{%=item.WareName%}</td>
-    
-    <td>{%=item.BatchCode%}</td>-->
     <td class="center">{%=item.StockIn%}</td>
     <td class="center">{%=item.StockOut%}</td>
     <td class="center">{%=item.StockIn-item.StockOut%}</td>

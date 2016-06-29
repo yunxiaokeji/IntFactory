@@ -491,7 +491,7 @@ namespace IntFactoryDAL
         public DataSet GetProductByID(string productid)
         {
             SqlParameter[] paras = { new SqlParameter("@ProductID", productid) };
-            DataSet ds = GetDataSet("P_GetProductByID", paras, CommandType.StoredProcedure, "Product|Details|Unit");
+            DataSet ds = GetDataSet("P_GetProductByID", paras, CommandType.StoredProcedure, "Product|Details");
             return ds;
         }
 
@@ -527,9 +527,12 @@ namespace IntFactoryDAL
 
         }
 
-        public DataSet GetProductByIDForDetails(string productid)
+        public DataSet GetProductByIDForDetails(string productid, string clientid)
         {
-            SqlParameter[] paras = { new SqlParameter("@ProductID", productid) };
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@ProductID", productid),
+                                       new SqlParameter("@ClientID", clientid) 
+                                   };
             DataSet ds = GetDataSet("P_GetProductByIDForDetails", paras, CommandType.StoredProcedure, "Product|Details|Providers|Attrs|Values");
             return ds;
         }

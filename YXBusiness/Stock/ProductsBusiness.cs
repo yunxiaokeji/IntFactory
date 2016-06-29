@@ -811,7 +811,7 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public Products GetProductByID(string productid)
+        public Products GetProductByID(string productid, string clientid)
         {
             var dal = new ProductsDAL();
             DataSet ds = dal.GetProductByID(productid);
@@ -821,15 +821,12 @@ namespace IntFactoryBusiness
             {
                 model.FillData(ds.Tables["Product"].Rows[0]);
                 model.Category = GetCategoryDetailByID(model.CategoryID);
+                model.SmallUnit = GetUnitByID(model.SmallUnitID);
 
                 if (!string.IsNullOrEmpty(model.ProdiverID))
                 {
                     model.Providers = ProvidersBusiness.BaseBusiness.GetProviderByID(model.ProdiverID);
                 }
-                
-                var smallunit = new ProductUnit();
-                smallunit.FillData(ds.Tables["Unit"].Select("UnitID='" + model.SmallUnitID + "'").FirstOrDefault());
-                model.SmallUnit = smallunit;
 
                 model.ProductDetails = new List<ProductDetail>();
                 foreach (DataRow item in ds.Tables["Details"].Rows)
@@ -909,18 +906,15 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public Products GetProductByIDForDetails(string productid)
+        public Products GetProductByIDForDetails(string productid, string clientid)
         {
             var dal = new ProductsDAL();
-            DataSet ds = dal.GetProductByIDForDetails(productid);
+            DataSet ds = dal.GetProductByIDForDetails(productid, clientid);
 
             Products model = new Products();
             if (ds.Tables.Contains("Product") && ds.Tables["Product"].Rows.Count > 0)
             {
                 model.FillData(ds.Tables["Product"].Rows[0]);
-
-                //单位
-                model.BigUnit = GetUnitByID(model.BigUnitID);
 
                 model.SmallUnit = GetUnitByID(model.SmallUnitID);
 
@@ -1206,7 +1200,6 @@ namespace IntFactoryBusiness
                 return dal.UpdateProductDetails(detailid, productid, productCode, shapeCode, bigPrice, attrlist, valuelist, attrvaluelist, price, weight, description, remark, productImg);
             }
         }
-
 
         #endregion
 
