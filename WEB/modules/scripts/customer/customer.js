@@ -2,7 +2,8 @@
     var Global = require("global"),
         doT = require("dot"),
         ChooseUser = require("chooseuser"),
-        moment = require("moment");
+        moment = require("moment"),
+        Tip = require("tip");
     require("daterangepicker");
     require("pager");
     require("colormark");
@@ -87,7 +88,7 @@
         });
 
         //切换颜色标记
-        $(".search-item-color li").click(function () {
+        $(".search-mark .item").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
             }
@@ -95,17 +96,24 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-
-                Params.pageIndex = 1;
-                var dataid = _this.data("id");
-                if (dataid!="-2") {
-                    Params.Mark = dataid;
-                } else {
-                    $(".search-item-color li:eq(1)").addClass("hover");
-                    Params.Mark = "-1";
+                Params.PageIndex = 1;
+                if (_this.data("id")=="") {
+                    return;
                 }
+                Params.Mark = _this.data("id");
                 ObjectJS.getList();
+            }              
+        });
+
+        $(".search-mark .item").hover(function () {
+            var _this = $(this);
+            if (_this.data("id") == "" || _this.data("id") == "-1") {
+                return;
             }
+            _this.Tip({
+                width: 50,
+                msg:_this.data("name")
+            });
         });
 
         //选择字母
