@@ -365,6 +365,7 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
+        [ValidateInput(false)]
         public JsonResult SavaTaskReply(string reply, string userID, string agentID)
         {
             var model = JsonConvert.DeserializeObject<IntFactoryEntity.ReplyJson>(reply);
