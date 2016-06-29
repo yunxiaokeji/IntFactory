@@ -967,7 +967,7 @@ namespace IntFactoryBusiness
             {
                 return -200;
             }
-            bool result = CustomerColorDAL.BaseProvider.UpdateCustomerColor(agentid, clientid, colorid, colorName, colorValue, updateuserid);
+            bool result = CustomerColorDAL.BaseProvider.UpdateCustomerColor(tableName,agentid, clientid, colorid, colorName, colorValue, updateuserid);
             if (result)
             {
                 if (!CustomColor.ContainsKey(clientid))

@@ -6,10 +6,9 @@
 
     require("switch");
     var $ = require('jquery');
-    require("color")($);        
+    require("color")($);
 
     var tableName = "CustomerColor";
-    var Model = {};
     var ColorModel = {};
     var ObjectJS = {};
     //初始化
@@ -17,7 +16,7 @@
         $('#createColor').hide();
         var _self = this;
         _self.bindEvent();
-        _self.bindColorList("customermark");
+        //_self.bindColorList();
     }
 
     //绑定事件
@@ -30,23 +29,23 @@
                 $(".dropdown-ul").hide();
             }
         });
-        
-        //添加标记
+
+        /*添加标记颜色*/
         $(".addmark li div").click(function () {
             var id = $(this).parent().data("id");
-            if (id == "customermark") {
-                ColorModel.ColorID = 0;
-                ColorModel.ColorName = "";
-                ColorModel.ColorValue = "";
-                _self.createColor();                
-            } else if (id == "ordermark") {
+            ColorModel.ColorID = 0;
+            ColorModel.ColorName = "";
+            ColorModel.ColorValue = "";
+            if (id == "customermark") {                
                 _self.createColor();
-            } else {
+            } else if (id == "ordermark") {                
+                _self.createColor();
+            } else {                
                 _self.createColor();
             }
         });
 
-        //删除颜色
+        /*删除标记颜色*/
         $("#deleteColor").click(function () {
             var _this = $(this);
             confirm("标签删除后不可恢复,确认删除吗？", function () {
@@ -68,7 +67,7 @@
 
         });
 
-        //编辑颜色
+        /*编辑颜色*/
         $("#updateColor").click(function () {
             var _this = $(this);
             Global.post("/System/GetCustomerColorByColorID", {
@@ -85,21 +84,30 @@
 
         //切换模块
         $(".module-tab li").click(function () {
-            var _this = $(this), id=_this.data("id");
+            var _this = $(this), id = _this.data("id");
             _this.siblings().removeClass("hover");
-            _this.addClass("hover");                
-            $("#" +id).show().siblings().hide();
-            $("." +id).show().siblings().hide();
+            _this.addClass("hover");
+            $("#" + id).show().siblings().hide();
+            $("." + id).show().siblings().hide();
             if (id == "customermark") {
                 tableName = "CustomerColor";
-                _self.bindColorList(id);
+                /*_self.bindColorList(id);*/
             } else if (id == "ordermark") {
                 tableName = "OrderColor";
-                _self.bindColorList(id);
+                //_self.bindColorList(id);
             } else {
                 tableName = "TaskColor";
-                _self.bindColorList(id);
+                //_self.bindColorList(id);
             }
+        });
+
+        $("#ordermark").find(".color-item").click(function () {
+            var _this = $(this);
+            var position = _this.position();            
+            $(".colordrop li").data("id", _this.data("id"));
+            $(".colordrop").css({ "top": position.top + 45, "left": position.left + 30 }).show().mouseleave(function () {
+                $('.colordrop').hide();
+            });
         });
     }
 
@@ -118,8 +126,7 @@
                             return false;
                         }
                         ColorModel.ColorName = $("#colorName").val();
-                        ColorModel.ColorValue = $("#colorName").data('value');
-                        console.log(ColorModel);
+                        ColorModel.ColorValue = $("#colorName").data('value');                        
                         _self.saveColorModel(ColorModel);
                     },
                     callback: function () {
@@ -184,14 +191,14 @@
                 return;
             }
         });
-    }    
-   
+    }
+
     //加载列表
     ObjectJS.bindColorList = function (id) {
         var _self = this;
-        $("#"+id).html('');
-        var urlItem = ""; 
-        Global.post("/System/GetCustomColor", {tableName:tableName}, function (data) {
+        $("#" + id).html('');
+        var urlItem = "";
+        Global.post("/System/GetCustomColor", { tableName: tableName }, function (data) {
             if (data.items.length > 0) {
                 for (var i = 0; i < data.items.length; i++) {
                     var item = data.items[i];
@@ -213,12 +220,10 @@
 
     //删除color
     ObjectJS.deleteColor = function (colorid, callback) {
-        Global.post("/System/DeleteColor", { tableName:tableName,colorid: colorid }, function (data) {
+        Global.post("/System/DeleteColor", { tableName: tableName, colorid: colorid }, function (data) {
             !!callback && callback(data.result);
         });
     }
-
-   
 
     module.exports = ObjectJS;
 });

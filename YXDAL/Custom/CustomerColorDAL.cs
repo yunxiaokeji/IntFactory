@@ -44,7 +44,7 @@ namespace IntFactoryDAL.Custom
             return result;
         }
 
-        public bool UpdateCustomerColor(string agentid, string clientid, int colorid, string colorName, string colorValue, string updateUserId)
+        public bool UpdateCustomerColor(string tableName,string agentid, string clientid, int colorid, string colorName, string colorValue, string updateUserId)
         {
             SqlParameter[] paras = {  
                                      new SqlParameter("@ColorID",colorid),
@@ -56,8 +56,7 @@ namespace IntFactoryDAL.Custom
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             string updateSql =
-                @"update CustomerColor set ColorName=@ColorName,ColorValue=@ColorValue,UpdateUserID=@UpdateUserID,UpdateTime=@UpdateTime
-                   where  AgentID=@AgentID and ClientID=@ClientID and ColorID=@ColorID";
+                @"update '"+tableName+"' set ColorName=@ColorName,ColorValue=@ColorValue,UpdateUserID=@UpdateUserID,UpdateTime=@UpdateTime where  AgentID=@AgentID and ClientID=@ClientID and ColorID=@ColorID";
             return ExecuteNonQuery(updateSql, paras, CommandType.Text) > 0;
         }
 
@@ -72,8 +71,7 @@ namespace IntFactoryDAL.Custom
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             string updateSql =
-                @"update CustomerColor set Status=@Status,UpdateUserID=@UpdateUserID,UpdateTime=@UpdateTime
-                   where AgentID=@AgentID and ClientID=@ClientID and ColorID=@ColorID";
+                @"update '"+tableName+"'set Status=@Status,UpdateUserID=@UpdateUserID,UpdateTime=@UpdateTime where AgentID=@AgentID and ClientID=@ClientID and ColorID=@ColorID";
             return ExecuteNonQuery(updateSql, paras, CommandType.Text) > 0;
         }
     }
