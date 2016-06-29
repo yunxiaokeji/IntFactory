@@ -224,7 +224,6 @@
     <Content Include="modules\css\order\create.css" />
     <Content Include="modules\css\order\platemakingprocess.css" />
     <Content Include="modules\css\stock\stock.css" />
-    <Content Include="modules\css\system\markcolor.css" />
     <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\author-image.png" />
     <Content Include="modules\images\bg-loginBackground.png" />

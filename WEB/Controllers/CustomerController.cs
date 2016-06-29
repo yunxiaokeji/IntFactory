@@ -27,7 +27,8 @@ namespace YXERP.Controllers
         {
             ViewBag.Title = "我的客户";
             ViewBag.Type = (int)EnumSearchType.Myself;
-            ViewBag.FirstNames=new char[]{'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};            
+            ViewBag.FirstNames=new char[]{'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+            ViewBag.list = SystemBusiness.BaseBusiness.GetCustomerColors(CurrentUser.ClientID).ToList();
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
         }
