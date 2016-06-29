@@ -12,9 +12,9 @@ namespace IntFactoryDAL.Custom
     {
         public static CustomerColorDAL BaseProvider = new CustomerColorDAL();
 
-        public DataTable GetCustomerColors(string tableName,string clientid, int colorid = 0)
+        public DataTable GetCustomerColors(string clientid, int colorid = 0)
         {
-            string sqlText = "select  *  from "+tableName+" where status <>9 and ClientID=@ClientID ";
+            string sqlText = "select  *  from CustomerColor where status <>9 and ClientID=@ClientID ";
             SqlParameter[] paras = { new SqlParameter("@ClientID", clientid), };
             if (colorid > 0)
             {
@@ -44,7 +44,7 @@ namespace IntFactoryDAL.Custom
             return result;
         }
 
-        public bool UpdateCustomerColor(string tableName,string agentid, string clientid, int colorid, string colorName, string colorValue, string updateUserId)
+        public bool UpdateCustomerColor(string agentid, string clientid, int colorid, string colorName, string colorValue, string updateUserId)
         {
             SqlParameter[] paras = {  
                                      new SqlParameter("@ColorID",colorid),
@@ -56,11 +56,11 @@ namespace IntFactoryDAL.Custom
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             string updateSql =
-                @"update '"+tableName+"' set ColorName=@ColorName,ColorValue=@ColorValue,UpdateUserID=@UpdateUserID,UpdateTime=@UpdateTime where  AgentID=@AgentID and ClientID=@ClientID and ColorID=@ColorID";
+                @"update CustomerColor set ColorName=@ColorName,ColorValue=@ColorValue,UpdateUserID=@UpdateUserID,UpdateTime=@UpdateTime where  AgentID=@AgentID and ClientID=@ClientID and ColorID=@ColorID";
             return ExecuteNonQuery(updateSql, paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateStatus(string tableName, int status, int colorid, string agentid, string clientid, string updateuserid)
+        public bool UpdateStatus(int status, int colorid, string agentid, string clientid, string updateuserid)
         {
             SqlParameter[] paras = {  
                                      new SqlParameter("@ColorID",colorid),
@@ -71,7 +71,7 @@ namespace IntFactoryDAL.Custom
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             string updateSql =
-                @"update '"+tableName+"'set Status=@Status,UpdateUserID=@UpdateUserID,UpdateTime=@UpdateTime where AgentID=@AgentID and ClientID=@ClientID and ColorID=@ColorID";
+                @"update CustomerColor set Status=@Status,UpdateUserID=@UpdateUserID,UpdateTime=@UpdateTime where AgentID=@AgentID and ClientID=@ClientID and ColorID=@ColorID";
             return ExecuteNonQuery(updateSql, paras, CommandType.Text) > 0;
         }
     }
