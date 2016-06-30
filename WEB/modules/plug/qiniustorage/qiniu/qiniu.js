@@ -488,7 +488,7 @@ function QiniuJsSDK() {
                 domain: "zngc-intfactory", // bucket 域名，下载资源时用到，**必需*
                 uptoken_url: "/Plug/GetToken",// Ajax 请求 uptoken 的 Url，**强烈建议设置**（服务端提供）
             
-                max_file_size: '10mb', // 最大文件体积限制
+                max_file_size: '5mb', // 最大文件体积限制
                 chunk_size: '5mb', // 分块上传时，每块的体积
             
                 dragdrop: true, // 开启可拖曳上传
@@ -1035,7 +1035,8 @@ function QiniuJsSDK() {
         // bind 'Error' event
         // check the err.code and return the errTip
         uploader.bind('Error', (function(_Error_Handler) {
-            return function(up, err) {
+            return function (up, err) {
+
                 logger.error("Error event activated");
                 logger.error("err: ", err);
                 var errTip = '';
@@ -1127,6 +1128,7 @@ function QiniuJsSDK() {
                             }
                             break;
                     }
+                    alert(errTip);
                     if (_Error_Handler) {
                         _Error_Handler(up, err, errTip);
                     }
