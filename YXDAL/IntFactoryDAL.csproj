@@ -50,7 +50,7 @@
     <Compile Include="Common\ShoppingCartDAL.cs" />
     <Compile Include="Custom\ActivityDAL.cs" />
     <Compile Include="Custom\CustomDAL.cs" />
-    <Compile Include="Custom\CustomerColorDAL.cs" />
+    <Compile Include="Custom\LableColorDAL.cs" />
     <Compile Include="Finance\FinanceDAL.cs" />
     <Compile Include="Manage\ClientOrderAccountDAL.cs" />
     <Compile Include="Manage\ClientOrderDAL.cs" />
@@ -75,7 +75,12 @@
     <Compile Include="System\SystemDAL.cs" />
     <Compile Include="Task\TaskDAL.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\YXEntity\IntFactoryEntity.csproj">
+      <Project>{6e99de28-adb3-4c22-8de9-dea1e44c04bb}</Project>
+      <Name>IntFactoryEntity</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

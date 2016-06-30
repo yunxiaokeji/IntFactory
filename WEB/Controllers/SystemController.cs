@@ -199,9 +199,10 @@ namespace YXERP.Controllers
         /// 客户颜色标记
         /// </summary>
         /// <returns></returns>
-        public JsonResult GetCustomColor()
+        public JsonResult GetLableColor(int lableType)
         {
-            var list = SystemBusiness.BaseBusiness.GetCustomerColors(CurrentUser.ClientID).ToList();
+            var list = SystemBusiness.BaseBusiness.GetCustomerColors(CurrentUser.ClientID,lableType).ToList();
+            
             JsonDictionary.Add("items", list);
             return new JsonResult
             {
@@ -210,9 +211,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetCustomerColorByColorID(int colorid)
+        public JsonResult GetLableColorByColorID(int colorid, int lableType)
         {
-            var model = new SystemBusiness().GetCustomerColorsColorID(CurrentUser.ClientID, colorid);
+            var model = new SystemBusiness().GetCustomerColorsColorID(CurrentUser.ClientID, colorid,lableType);
             JsonDictionary.Add("model", model);
             return new JsonResult
             {
@@ -221,10 +222,10 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult SaveCustomerColor(string customercolor)
+        public JsonResult SaveLableColor(string lablecolor, int lableType)
         {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            CustomerColorEntity model = serializer.Deserialize<CustomerColorEntity>(customercolor);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();                        
+            CustomerColorEntity model = serializer.Deserialize<CustomerColorEntity>(lablecolor);
             model.CreateUserID = CurrentUser.UserID;
             model.ClientID = CurrentUser.ClientID;
             model.AgentID = CurrentUser.AgentID;
@@ -232,13 +233,13 @@ namespace YXERP.Controllers
             int ColorID = -1;
             if (model.ColorID == 0)
             {
-                ColorID = SystemBusiness.BaseBusiness.CreateCustomerColor(model.ColorName, model.ColorValue,
-                    model.AgentID, model.ClientID, model.CreateUserID, model.Status);
+                ColorID = SystemBusiness.BaseBusiness.CreateLableColor(model.ColorName, model.ColorValue,
+                    model.AgentID, model.ClientID, model.CreateUserID, model.Status,lableType);
             }
             else
             {
-                int bl = SystemBusiness.BaseBusiness.UpdateCustomerColor(model.AgentID, model.ClientID, model.ColorID,
-                    model.ColorName, model.ColorValue, CurrentUser.UserID);
+                int bl = SystemBusiness.BaseBusiness.UpdateLableColor(model.AgentID, model.ClientID, model.ColorID,
+                    model.ColorName, model.ColorValue, CurrentUser.UserID,lableType);
                 ColorID = bl > 0 ? model.ColorID : bl;
 
             }
@@ -250,9 +251,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult DeleteColor(int colorid)
+        public JsonResult DeleteColor(int colorid, int lableType)
         {
-            int result = SystemBusiness.BaseBusiness.DeleteCutomerColor(9, colorid, CurrentUser.AgentID, CurrentUser.ClientID,CurrentUser.UserID);
+            int result = SystemBusiness.BaseBusiness.DeleteLableColor(9, colorid, CurrentUser.AgentID, CurrentUser.ClientID, CurrentUser.UserID,lableType);
             JsonDictionary.Add("result", result);
             return new JsonResult
             {

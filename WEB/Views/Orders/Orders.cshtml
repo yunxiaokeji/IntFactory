@@ -1,5 +1,5 @@
 ﻿@{
-    
+    var list=(List<IntFactoryEntity.Custom.CustomerColorEntity>)ViewBag.list;
 }
 
 @section css{
@@ -11,7 +11,7 @@
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/orders/orders"], function (ObjectJS) {
-            ObjectJS.init('@ViewBag.Type','@(ViewBag.State)');
+            ObjectJS.init('@ViewBag.Type', '@(ViewBag.State)', '@Html.ToJSONString(list)');
         });
     </script>
 }
@@ -30,11 +30,7 @@
         <li data-id="-1" >全部订单</li>
     </ul>
     <div class="right btn" data-status="open" id="shrinkScreen"><span class="lump"></span><span class="colorfff shrink-text">收起筛选</span></div>
-    @*<ul class="search-tab-status search-entrustclientid">
-        <li data-id="" class="hover">全部</li>
-        <li data-id="1">本厂</li>
-        <li data-id="2">协助</li>
-    </ul>*@
+    
 </div>
 <div class="content-body">
     <div class="search-body">
@@ -79,12 +75,11 @@
         <ul class="search-item-color search-mark">
             <li class="column-name">标记：</li>
             <li data-id="-1" class="item mark-all hover"></li>
-            <li data-id="0" class="item mark0"></li>
-            <li data-id="1" class="item mark1"></li>
-            <li data-id="2" class="item mark2"></li>
-            <li data-id="3" class="item mark3"></li>
-            <li data-id="4" class="item mark4"></li>
-            <li data-id="5" class="item mark5"></li>
+            <li data-id="0" class="item mark0" data-name="默认"></li>
+            @foreach (var item in list)
+            {
+                <li data-id="@item.ColorID" class="item" style="border:solid 1px @item.ColorValue;background-color:@item.ColorValue" data-name="@item.ColorName"></li>
+            }   
         </ul>
         
     </div>

@@ -1,10 +1,11 @@
 ﻿define(function (require, exports, module) {
     var Global = require("global"),
         doT = require("dot"),
+        Tip = require("tip"),
         moment = require("moment");
         require("daterangepicker");
         require("pager");
-        require("mark");
+        require("colormark");
 
     var Params = {
         isMy: true,//是否获取我的任务
@@ -33,8 +34,11 @@
 
     var ObjectJS = {};
     ObjectJS.isLoading = true;
-  
-    ObjectJS.init = function (isMy, nowDate) {
+    ObjectJS.ColorList = [];
+
+    ObjectJS.init = function (isMy, nowDate, model) {
+        var _self = this;
+        ObjectJS.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
         Params.beginDate = nowDate;
         Params.endDate = nowDate;
         Params.pageSize = ($(".content-body").width() / 300).toFixed(0) * 3;
@@ -131,6 +135,14 @@
                 Params.colorMark = _this.data("id");
                 ObjectJS.getList();
             }
+        });
+
+        $(".search-mark .item:gt(0)").each(function () {
+            var _this = $(this);
+            _this.Tip({
+                width: 80,
+                msg: _this.data("name")
+            });
         });
 
         //切换订单类型
@@ -315,6 +327,7 @@
                     innerhtml = $(innerhtml);
                     innerhtml.find(".mark").markColor({
                         isAll: false,
+                        data: ObjectJS.ColorList,
                         onChange: function (obj, callback) {
                             ObjectJS.markTasks(obj.data("id"), obj.data("value"), callback);
                         }

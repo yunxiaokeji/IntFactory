@@ -1,13 +1,14 @@
 ﻿define(function (require, exports, module) {
     var Global = require("global"),
         doT = require("dot"),
+        Tip = require("tip"),
         Easydialog = require("easydialog"),
         ChooseCustomer = require("choosecustomer"),
         ChooseUser = require("chooseuser"),
         moment = require("moment");
     require("daterangepicker");
     require("pager");
-    require("mark");
+    require("colormark");
 
     var Params = {
         SearchType: 1,
@@ -33,8 +34,9 @@
 
     var ObjectJS = {};
     //初始化
-    ObjectJS.init = function (type, status) {
+    ObjectJS.init = function (type, status,model) {
         var _self = this;
+        _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));        
         Params.SearchType = type;
         if (status) {
             Params.OrderStatus = status;
@@ -120,7 +122,7 @@
                 Params.Status = _this.data("id");
                 _self.getList();
             }
-        });
+        });        
 
         //切换订单类型
         $(".search-ordertype .item").click(function () {
@@ -195,6 +197,15 @@
                 _self.getList();
             }
         });
+
+        $(".search-mark .item:gt(0)").each(function () {
+            var _this = $(this);
+            _this.Tip({
+                width: 80,
+                msg: _this.data("name")
+            });
+        });
+
         //预警
         $(".search-warning .item").click(function () {
             var _this = $(this);
@@ -602,6 +613,7 @@
 
                 innerhtml.find(".mark").markColor({
                     isAll: false,
+                    data: _self.ColorList,
                     onChange: function (obj, callback) {
                         _self.markOrders(obj.data("id"), obj.data("value"), callback);
                     }
