@@ -9,6 +9,10 @@ using System.IO;
 using System.Web.Script.Serialization;
 using System.Text;
 
+using Qiniu.Auth;
+using Qiniu.IO;
+using Qiniu.IO.Resumable;
+using Qiniu.RS;
 namespace YXERP.Controllers
 {
     public class PlugController : Controller
@@ -43,6 +47,24 @@ namespace YXERP.Controllers
         {
             var list = CommonBusiness.Citys.Where(c => c.PCode == cityCode);
             JsonDictionary.Add("Items", list);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetToken()
+        {
+            //设置上传的空间
+            String bucket = "zngc-intfactory";
+            //普通上传,只需要设置上传的空间名就可以了,第二个参数可以设定token过期时间
+            PutPolicy put = new PutPolicy(bucket, 3600);
+
+            //调用Token()方法生成上传的Token
+            string upToken = put.Token();
+            JsonDictionary.Add("uptoken", upToken);
+
             return new JsonResult()
             {
                 Data = JsonDictionary,

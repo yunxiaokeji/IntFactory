@@ -91,6 +91,29 @@
             width: 100,
             msg: "上传附件最多10个"
         });
+
+        var uploader = Qiniu.uploader({
+            browse_button: 'reply-attachment',
+            container: 'taskreply-box',
+            drop_element: 'taskreply-box',
+            file_path: "/Content/UploadFiles/Task/",
+            max_file_size: '50mb',
+            chunk_size: '5mb',
+            //auto_start: true,
+            init: {
+                'FilesAdded': function (up, files) {
+
+                },
+                'BeforeUpload': function (up, file) {
+                },
+                'FileUploaded': function (up, file, info) {
+                    var info = JSON.parse(info);
+                    console.log(file);
+                },
+                'UploadComplete': function () {
+                }
+            }
+        });
     }
 
     //获取任务讨论列表
@@ -177,84 +200,84 @@
 
     //上传附件
     ObjectJS.replyAttachment = function (replyid) {
-        Upload.createUpload({
-            element: "reply-attachment" + replyid,
-            buttonText: "&#xe65a;",
-            className: "left iconfont",
-            multiple: true,
-            fileType: 3,//附件类型 1:图片；2：文件；3图片和文件
-            maxSize: 5 * 1024,//附件最大大小
-            maxQuantity: 10,//最大上传文件个数
-            successItems: ".upload-files-" + replyid + " li",
-            url: "/Plug/UploadFiles",
-            data: { folder: '', action: 'add', oldPath: "" },
-            success: function (data, status)
-            {
-                if (data.Stage == false)
-                {
-                    alert("每次最多允许上传5个");
-                }
-                else {                   
-                    var len = data.Items.length;
-                    if (len > 0)
-                    {
-                        var templateUrl = "/template/task/task-file-upload.html";
-                        var fileBox = $("#reply-files" + replyid);
-                        if ($(".msg-" + replyid).val() == "") {
-                            $(".msg-" + replyid).val(data.Items[0].originalName.split('.')[0]);
-                        }
+        //Upload.createUpload({
+        //    element: "reply-attachment" + replyid,
+        //    buttonText: "&#xe65a;",
+        //    className: "left iconfont",
+        //    multiple: true,
+        //    fileType: 3,//附件类型 1:图片；2：文件；3图片和文件
+        //    maxSize: 5 * 1024,//附件最大大小
+        //    maxQuantity: 10,//最大上传文件个数
+        //    successItems: ".upload-files-" + replyid + " li",
+        //    url: "/Plug/UploadFiles",
+        //    data: { folder: '', action: 'add', oldPath: "" },
+        //    success: function (data, status)
+        //    {
+        //        if (data.Stage == false)
+        //        {
+        //            alert("每次最多允许上传5个");
+        //        }
+        //        else {                   
+        //            var len = data.Items.length;
+        //            if (len > 0)
+        //            {
+        //                var templateUrl = "/template/task/task-file-upload.html";
+        //                var fileBox = $("#reply-files" + replyid);
+        //                if ($(".msg-" + replyid).val() == "") {
+        //                    $(".msg-" + replyid).val(data.Items[0].originalName.split('.')[0]);
+        //                }
                         
-                        var fileArr = new Array();
-                        var picArr = new Array();
-                        for (var i = 0; i < len ; i++) {
-                            var item = data.Items[i];
+        //                var fileArr = new Array();
+        //                var picArr = new Array();
+        //                for (var i = 0; i < len ; i++) {
+        //                    var item = data.Items[i];
                             
-                            if (item.isImage == 1) {
-                                picArr.push(item);
-                            }
-                            else {
-                                fileArr.push(item);
-                            }
-                        }
+        //                    if (item.isImage == 1) {
+        //                        picArr.push(item);
+        //                    }
+        //                    else {
+        //                        fileArr.push(item);
+        //                    }
+        //                }
                         
-                        if (fileArr.length > 0) {
-                            doT.exec(templateUrl, function (template) {
-                                var innerhtml = template(fileArr);
-                                innerhtml = $(innerhtml);
-                                fileBox.append(innerhtml).fadeIn(300);
+        //                if (fileArr.length > 0) {
+        //                    doT.exec(templateUrl, function (template) {
+        //                        var innerhtml = template(fileArr);
+        //                        innerhtml = $(innerhtml);
+        //                        fileBox.append(innerhtml).fadeIn(300);
 
-                                innerhtml.find(".delete").click(function () {
-                                    $(this).parent().remove();
-                                    if (fileBox.find('li').length == 0) {
-                                        fileBox.hide();
-                                    }
-                                });
+        //                        innerhtml.find(".delete").click(function () {
+        //                            $(this).parent().remove();
+        //                            if (fileBox.find('li').length == 0) {
+        //                                fileBox.hide();
+        //                            }
+        //                        });
 
 
-                            });
-                        }
-                        if (picArr.length > 0) {
-                            doT.exec("/template/task/task-file-upload-img.html", function (template) {
-                                var innerhtml = template(picArr);
-                                innerhtml = $(innerhtml);
-                                $("#reply-imgs" + replyid).append(innerhtml).fadeIn(300);
+        //                    });
+        //                }
+        //                if (picArr.length > 0) {
+        //                    doT.exec("/template/task/task-file-upload-img.html", function (template) {
+        //                        var innerhtml = template(picArr);
+        //                        innerhtml = $(innerhtml);
+        //                        $("#reply-imgs" + replyid).append(innerhtml).fadeIn(300);
 
-                                innerhtml.find(".delete").click(function () {
-                                    $(this).parent().remove();
-                                    if ($("#reply-imgs" + replyid).find('li').length == 0) {
-                                        $("#reply-imgs" + replyid).hide();
-                                    }
-                                });
-                            });
-                        }
-                    }
-                    else {
-                        alert("上传文件格式不正确或有文件超过10M");
-                    }
+        //                        innerhtml.find(".delete").click(function () {
+        //                            $(this).parent().remove();
+        //                            if ($("#reply-imgs" + replyid).find('li').length == 0) {
+        //                                $("#reply-imgs" + replyid).hide();
+        //                            }
+        //                        });
+        //                    });
+        //                }
+        //            }
+        //            else {
+        //                alert("上传文件格式不正确或有文件超过10M");
+        //            }
 
-                }
-            }
-        });
+        //        }
+        //    }
+        //});
     }
 
     //绑定任务讨论操作
