@@ -477,25 +477,26 @@ function QiniuJsSDK() {
      */
     this.uploader = function(op) {
         var defaults = {
-                runtimes: 'html5,flash,html4',
-                browse_button: '',
-                container: '',
-                drop_element: '',
+            runtimes: 'html5,flash,html4', // 上传模式,依次退化
+            browse_button: '', // 上传选择的点选按钮，**必需**
+            container: '',// 上传区域 DOM ID，默认是 browser_but
+            drop_element: '',// 拖曳上传区域元素的 ID，拖曳文件或文件
                 flash_swf_url: '/modules/plug/qiniustorage/plupload/Moxie.swf',
-                file_path: "/Content/UploadFiles/",
+                file_path: "/Content/UploadFiles/",//引入 flash,相对路径
 
-                get_new_uptoken: false,
-                domain: "zngc-intfactory",
-                uptoken_url: "/Plug/GetToken",
+                get_new_uptoken: false, // 设置上传文件的时候是否每次都重新获取新的 uptoken
+                domain: "zngc-intfactory", // bucket 域名，下载资源时用到，**必需*
+                uptoken_url: "/Plug/GetToken",// Ajax 请求 uptoken 的 Url，**强烈建议设置**（服务端提供）
             
-                max_file_size: '50mb',
-                chunk_size: '5mb',
+                max_file_size: '10mb', // 最大文件体积限制
+                chunk_size: '5mb', // 分块上传时，每块的体积
             
-                dragdrop: true,
-                auto_start: true,
-                multi_selection: true,
-                unique_names: false,
+                dragdrop: true, // 开启可拖曳上传
+                auto_start: true, // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                multi_selection: true,//支持多选
+                unique_names: false, // 默认 false，key 为文件名。若开启该选项，JS-SDK 会为每个文件自动生成key（文件名）
                 init: {
+                    //文件添加进队列后,处理相关的事情
                     'FilesAdded': function (up, files) {
                         if ( (file.size / 1024 / 1024) > up.getOption("chunk_size")) {
                             alert(22222);
@@ -503,19 +504,29 @@ function QiniuJsSDK() {
                             return
                         }
                     },
+
+                    //每个文件上传前,处理相关的事情
                     'BeforeUpload': function (up, file) {
                         if ((file.size / 1024 / 1024) > up.getOption("chunk_size")) {
                             alert(22222);
                         }
                     },
+
+                    //每个文件上传时,处理相关的事情
                     'UploadProgress': function (up, file) {
 
                     },
+
+                    //每个文件上传成功后,处理相关的事情
                     'FileUploaded': function (up, file, info) {
 
                     },
+
+                    //队列文件处理完毕后,处理相关的事情
                     'UploadComplete': function () {
                     },
+
+                    //若想在前端对每个文件的key进行个性化处理，可以配置该函数
                     'Key': function(up, file) {
                         // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
                         // 该配置必须要在 unique_names: false , save_key: false 时才生效
@@ -525,6 +536,8 @@ function QiniuJsSDK() {
                         // do something with key here
                         return key
                     },
+
+                    //上传出错时,处理相关的事情
                     'Error': function (up, err, errTip) {
                         console.log(err);
                         console.log(errTip);
