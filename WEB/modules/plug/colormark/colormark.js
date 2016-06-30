@@ -33,6 +33,7 @@ define(function (require, exports, module) {
                 obj.css("background-color", $.fn.getColor(obj.data("value"), opts));
                 if (obj.data("value") == 0) {
                     obj.css("border", "solid 1px #ccc");
+                    obj.css("background-color", "#fff");
                 } else {
                     obj.css("border", "solid 1px " + $.fn.getColor(obj.data("value"), opts));
                 }
@@ -43,7 +44,7 @@ define(function (require, exports, module) {
             obj.click(function () {
                 $(".mark-color-list").hide();
                 var _this = $(this);
-                var position = _this.position();
+                var position = _this.offset();
                 var top = position.top + 20;
                 var left = position.left - 9, isBottom = $(document).height() - position.top < 197;
 

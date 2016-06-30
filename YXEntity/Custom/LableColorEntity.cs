@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IntFactoryEntity.Custom
 {
-    public class CustomerColorEntity
+    public class LableColorEntity
     {
         public int AutoID { get; set; }
         public int ColorID { get; set; }

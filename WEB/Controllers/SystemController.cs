@@ -201,7 +201,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult GetLableColor(int lableType)
         {
-            var list = SystemBusiness.BaseBusiness.GetCustomerColors(CurrentUser.ClientID,lableType).ToList();
+            var list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, lableType);
             
             JsonDictionary.Add("items", list);
             return new JsonResult
@@ -225,7 +225,7 @@ namespace YXERP.Controllers
         public JsonResult SaveLableColor(string lablecolor, int lableType)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();                        
-            CustomerColorEntity model = serializer.Deserialize<CustomerColorEntity>(lablecolor);
+            LableColorEntity model = serializer.Deserialize<LableColorEntity>(lablecolor);
             model.CreateUserID = CurrentUser.UserID;
             model.ClientID = CurrentUser.ClientID;
             model.AgentID = CurrentUser.AgentID;

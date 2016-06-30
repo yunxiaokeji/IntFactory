@@ -13,7 +13,7 @@ namespace IntFactoryDAL.Custom
         public static LableColorDAL BaseProvider = new LableColorDAL();
 
 
-        public DataTable GetCustomerColors(string tableName, string clientid, int colorid = 0)
+        public DataTable GetLableColor(string tableName, string clientid, int colorid = 0)
         {
             string sqlText = "select  *  from "+tableName+" where status <>9 and ClientID=@ClientID ";
             SqlParameter[] paras = { new SqlParameter("@ClientID", clientid), };
@@ -37,9 +37,7 @@ namespace IntFactoryDAL.Custom
                                      new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
-            paras[0].Direction = ParameterDirection.Output;
-            //            string insertSql = @"insert into CustomerColor( ColorName,ColorValue,Status,CustomerID,AgentID,ClientID,CreateTime,CreateUserID) 
-            //                                values( @ColorName,@ColorValue,@Status,@CustomerID,@AgentID,@ClientID,@CreateTime,@CreateUserID)";
+            paras[0].Direction = ParameterDirection.Output;            
             ExecuteNonQuery(procName, paras, CommandType.StoredProcedure);
             result = Convert.ToInt32(paras[0].Value);
             return result;

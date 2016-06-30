@@ -35,7 +35,7 @@ namespace YXERP.Controllers
                     State = 0;
                 }
             }
-            ViewBag.list = SystemBusiness.BaseBusiness.GetCustomerColors(CurrentUser.ClientID, 2).ToList();
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 2).ToList();
             ViewBag.State = State;
             return View("Orders");
         }
@@ -59,7 +59,7 @@ namespace YXERP.Controllers
                     State = 0;
                 }
             }
-            ViewBag.list = SystemBusiness.BaseBusiness.GetCustomerColors(CurrentUser.ClientID, 2).ToList();
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 2).ToList();
             ViewBag.State = State;
             return View();
         }
@@ -77,7 +77,7 @@ namespace YXERP.Controllers
                     State = 0;
                 }
             }
-            ViewBag.list = SystemBusiness.BaseBusiness.GetCustomerColors(CurrentUser.ClientID, 2).ToList();
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 2).ToList();
             ViewBag.State = State;
 
             return View();

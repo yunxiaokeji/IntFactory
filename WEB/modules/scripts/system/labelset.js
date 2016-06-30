@@ -75,10 +75,9 @@
 
         //切换模块
         $(".module-tab li").click(function () {
-            var _this = $(this), id = _this.data("id"), labelid = _this.data("labelid");
+            var _this = $(this), labelid = _this.data("labelid");
             _this.siblings().removeClass("hover");
-            _this.addClass("hover");
-            $("#" + id).show().siblings().hide();            
+            _this.addClass("hover");             
             tableID = labelid;
             _self.bindColorList();
         });        
@@ -92,7 +91,7 @@
             Easydialog.open({
                 container: {
                     id: "show-model-detail",
-                    header: !ColorModel.ColorID ? "新建客户标签" : "编辑客户标签",
+                    header: !ColorModel.ColorID ? "设置标签" : "编辑标签",
                     content: html,
                     yesFn: function () {
                         if (!VerifyObject.isPass()) {
@@ -145,9 +144,9 @@
                     "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
                 ]
             });
-            //if (ColorModel.ColorID == '') {
-            //    $(".full-spectrum").click();
-            //}
+            if (ColorModel.ColorID == '') {
+                $(".full-spectrum").click();
+            }
         });
     };
 
@@ -170,17 +169,8 @@
     //加载列表
     ObjectJS.bindColorList = function () {
         var _self = this;
-        $("#customermark").html('');
-        var urlItem = "";        
-        var _this = "";
-
-        if (tableID == 1) {
-            _this = $("#customermark");                    
-        } else if (tableID == 2) {
-            _this = $("#ordermark");
-        } else {
-            _this = $("#taskmark");
-        }
+        $("#colormark").html('');
+        var urlItem = "";   
 
         Global.post("/System/GetLableColor", { lableType: tableID }, function (data) {
             if (data.items.length > 0) {
@@ -189,9 +179,8 @@
                     urlItem += '<li data-id="' + item.ColorID + '" data-value="' + item.ColorValue + '" data-name="' + item.ColorName + '"  class="color-item"><div class="left color-leftzuoyou" style=" border-right:18px solid ' + item.ColorValue + '; "></div><div class="left colordiv" style="background-color:' + item.ColorValue + '";>' + item.ColorName + '</div></li>';
                 }
             }
-            _this.html(urlItem);
-
-            _this.find(".color-item").click(function () {
+            $("#colormark").html(urlItem);
+            $("#colormark").find(".color-item").click(function () {
                 var _this = $(this);
                 var position = _this.position();
                 $(".colordrop li").data("id", _this.data("id"));

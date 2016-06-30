@@ -22,11 +22,9 @@ namespace IntFactoryBusiness
 
         private static Dictionary<string, List<CustomSourceEntity>> _source;
         private static Dictionary<string, List<CustomStageEntity>> _stages;
-        private static Dictionary<string, List<CustomerColorEntity>> _color;
-
-        private static Dictionary<string, List<CustomerColorEntity>> _ordercolor;
-
-        private static Dictionary<string, List<CustomerColorEntity>> _taskcolor;       
+        private static Dictionary<string, List<LableColorEntity>> _customcolor;
+        private static Dictionary<string, List<LableColorEntity>> _ordercolor;
+        private static Dictionary<string, List<LableColorEntity>> _taskcolor;       
 
         private static Dictionary<string, List<OrderProcessEntity>> _orderprocess;
 
@@ -79,42 +77,42 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 客户标签
         /// </summary>
-        private static Dictionary<string, List<CustomerColorEntity>> CustomColor
+        private static Dictionary<string, List<LableColorEntity>> CustomColor
         {
             get
             {
-                if (_color == null)
+                if (_customcolor == null)
                 {
-                    _color = new Dictionary<string, List<CustomerColorEntity>>();
+                    _customcolor = new Dictionary<string, List<LableColorEntity>>();
                 }
-                return _color;
+                return _customcolor;
             }
             set
             {
-                _color = value;
+                _customcolor = value;
             }
         }
 
-        public static Dictionary<string, List<CustomerColorEntity>> Ordercolor
+        public static Dictionary<string, List<LableColorEntity>> OrderColor
         {
             get
             {
                 if (_ordercolor == null)
                 {
-                    _ordercolor = new Dictionary<string, List<CustomerColorEntity>>();
+                    _ordercolor = new Dictionary<string, List<LableColorEntity>>();
                 }
                 return _ordercolor;
             }
             set {_ordercolor = value; }
         }
 
-        public static Dictionary<string, List<CustomerColorEntity>> Taskcolor
+        public static Dictionary<string, List<LableColorEntity>> TaskColor
         {
             get
             {
                 if (_taskcolor == null)
                 {
-                    _taskcolor = new Dictionary<string, List<CustomerColorEntity>>();
+                    _taskcolor = new Dictionary<string, List<LableColorEntity>>();
                 }
                 return _taskcolor;
             }
@@ -240,61 +238,61 @@ namespace IntFactoryBusiness
 
         }
 
-        public List<CustomerColorEntity> GetCustomerColors(string clientid, int lableType=1)
+        public List<LableColorEntity> GetLableColor(string clientid, int lableType = 1)
         {            
             string tableName = "";
             if (lableType==1)
             {
                 tableName = "CustomerColor";
-                //if (CustomColor.ContainsKey(clientid))
-                //{
-                //    return CustomColor[clientid];
-                //}
+                if (CustomColor.ContainsKey(clientid))
+                {
+                    return CustomColor[clientid];
+                }
             }
             else if (lableType==2)
             {
                 tableName = "OrderColor";
-                //if (Ordercolor.ContainsKey(clientid))
-                //{
-                //    return Ordercolor[clientid];
-                //}
+                if (OrderColor.ContainsKey(clientid))
+                {
+                    return OrderColor[clientid];
+                }
             }
             else if (lableType==3)
             {
                 tableName = "TaskColor";
-                //if (Taskcolor.ContainsKey(clientid))
-                //{
-                //    return Taskcolor[clientid];
-                //}
+                if (TaskColor.ContainsKey(clientid))
+                {
+                    return TaskColor[clientid];
+                }
             }
 
-            List<CustomerColorEntity> list = new List<CustomerColorEntity>();
-            DataTable dt = LableColorDAL.BaseProvider.GetCustomerColors(tableName,clientid);
+            List<LableColorEntity> list = new List<LableColorEntity>();
+            DataTable dt = LableColorDAL.BaseProvider.GetLableColor(tableName, clientid);
             foreach (DataRow dr in dt.Rows)
             {
-                CustomerColorEntity model = new CustomerColorEntity();
+                LableColorEntity model = new LableColorEntity();
                 model.FillData(dr);
                 list.Add(model);
             }
 
-            //if (lableType==1)
-            //{
-            //    CustomColor.Add(clientid, list);
-            //}
-            //else if (lableType == 2)
-            //{
-            //    Ordercolor.Add(clientid, list);
-            //}
-            //else if (lableType == 3)
-            //{
-            //    Taskcolor.Add(clientid, list);
-            //}
+            if (lableType == 1)
+            {
+                CustomColor.Add(clientid, list);
+            }
+            else if (lableType == 2)
+            {
+                OrderColor.Add(clientid, list);
+            }
+            else if (lableType == 3)
+            {
+                TaskColor.Add(clientid, list);
+            }
             return list;
         }
 
-        public CustomerColorEntity GetCustomerColorsColorID(string clientid, int colorid = 0, int lableType=1)
+        public LableColorEntity GetCustomerColorsColorID(string clientid, int colorid = 0, int lableType=1)
         {
-            var list = GetCustomerColors(clientid,lableType);
+            var list = GetLableColor(clientid, lableType);
             return list.Where(x =>x.Status!=9 && x.ColorID == colorid).FirstOrDefault();
         }
 
@@ -811,21 +809,52 @@ namespace IntFactoryBusiness
             {
                 if (!CustomColor.ContainsKey(clientid))
                 {
-                    GetCustomerColors(clientid);
-                }
+                    GetLableColor(clientid,lableType);
+                }               
                 else
                 {
-                    CustomColor[clientid].Add(new CustomerColorEntity()
+                    if (lableType == 1)
                     {
-                        AgentID = agentid,
-                        ColorID = result,
-                        ColorValue = colorValue,
-                        ColorName = colorName,
-                        ClientID = clientid,
-                        CreateUserID = userid,
-                        CreateTime = DateTime.Now,
-                        Status = 0
-                    });
+                        CustomColor[clientid].Add(new LableColorEntity()
+                        {
+                            AgentID = agentid,
+                            ColorID = result,
+                            ColorValue = colorValue,
+                            ColorName = colorName,
+                            ClientID = clientid,
+                            CreateUserID = userid,
+                            CreateTime = DateTime.Now,
+                            Status = 0
+                        });
+                    }
+                    else if (lableType == 2)
+                    {
+                        OrderColor[clientid].Add(new LableColorEntity()
+                        {
+                            AgentID = agentid,
+                            ColorID = result,
+                            ColorValue = colorValue,
+                            ColorName = colorName,
+                            ClientID = clientid,
+                            CreateUserID = userid,
+                            CreateTime = DateTime.Now,
+                            Status = 0
+                        });
+                    }
+                    else if (lableType == 3)
+                    {
+                        TaskColor[clientid].Add(new LableColorEntity()
+                        {
+                            AgentID = agentid,
+                            ColorID = result,
+                            ColorValue = colorValue,
+                            ColorName = colorName,
+                            ClientID = clientid,
+                            CreateUserID = userid,
+                            CreateTime = DateTime.Now,
+                            Status = 0
+                        });
+                    }                    
                 }
             }
             return result;
@@ -1059,16 +1088,27 @@ namespace IntFactoryBusiness
             {
                 if (!CustomColor.ContainsKey(clientid))
                 {
-                    GetCustomerColors(clientid);
+                    GetLableColor(clientid, lableType);
                 }
                 else
-                {
-                    //  CustomColor[clientid].Remove(model);
+                {                    
                     model.ColorValue = colorValue;
                     model.ColorName = colorName;
                     model.UpdateTime = DateTime.Now;
                     model.UpdateUserID = updateuserid;
-                    // CustomColor[clientid].Add(model);
+                    if (lableType == 1)
+                    {
+                        CustomColor[clientid].Remove(model);
+                        CustomColor[clientid].Add(model);
+                    }
+                    else if (lableType == 3) {
+                        OrderColor[clientid].Remove(model);
+                        OrderColor[clientid].Add(model);
+                    }
+                    else if (lableType == 3) {
+                        TaskColor[clientid].Remove(model);
+                        TaskColor[clientid].Add(model);
+                    }
                 }
             }
             return result ? 1 : 0;
@@ -1081,10 +1121,10 @@ namespace IntFactoryBusiness
             {
                 return -200;
             }
-            //if (CustomColor[clientid].Count == 1)
-            //{
-            //    return -100;
-            //}
+            if (CustomColor[clientid].Count == 1)
+            {
+                return -100;
+            }
 
             string tableName = "CustomerColor";
             if (lableType == 2)
@@ -1100,11 +1140,21 @@ namespace IntFactoryBusiness
             {
                 if (!CustomColor.ContainsKey(clientid))
                 {
-                    GetCustomerColors(clientid);
+                    GetLableColor(clientid, lableType);
                 }
                 else
                 {
-                    CustomColor[clientid].Remove(model);
+                    if (lableType == 1)
+                    {
+                        CustomColor[clientid].Remove(model);
+                    }
+                    else if (lableType == 2) {
+                        OrderColor[clientid].Remove(model);
+                    }
+                    else if (lableType == 3)
+                    {
+                        TaskColor[clientid].Remove(model);
+                    }
                 }
             } return result ? 1 : 0;
         }

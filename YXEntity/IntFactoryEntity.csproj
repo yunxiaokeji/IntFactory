@@ -51,7 +51,7 @@
     <Compile Include="Custom\ActivityEntity.cs" />
     <Compile Include="Custom\ActivityReplyEntity.cs" />
     <Compile Include="Custom\ContactEntity.cs" />
-    <Compile Include="Custom\CustomerColorEntity.cs" />
+    <Compile Include="Custom\LableColorEntity.cs" />
     <Compile Include="Custom\CustomerEntity.cs" />
     <Compile Include="Custom\ExtentEntity.cs" />
     <Compile Include="Custom\ReplyEntity.cs" />
