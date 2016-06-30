@@ -290,7 +290,7 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public LableColorEntity GetCustomerColorsColorID(string clientid, int colorid = 0, int lableType=1)
+        public LableColorEntity GetLableColorColorID(string clientid, int colorid = 0, int lableType = 1)
         {
             var list = GetLableColor(clientid, lableType);
             return list.Where(x =>x.Status!=9 && x.ColorID == colorid).FirstOrDefault();
@@ -1068,7 +1068,7 @@ namespace IntFactoryBusiness
 
         public int UpdateLableColor(string agentid, string clientid, int colorid, string colorName, string colorValue, string updateuserid, int lableType = 1)
         {
-            var model = GetCustomerColorsColorID(clientid, colorid,lableType);
+            var model = GetLableColorColorID(clientid, colorid, lableType);
             if (model == null)
             {
                 return -200;
@@ -1101,7 +1101,7 @@ namespace IntFactoryBusiness
                         CustomColor[clientid].Remove(model);
                         CustomColor[clientid].Add(model);
                     }
-                    else if (lableType == 3) {
+                    else if (lableType == 2) {
                         OrderColor[clientid].Remove(model);
                         OrderColor[clientid].Add(model);
                     }
@@ -1116,7 +1116,7 @@ namespace IntFactoryBusiness
 
         public int DeleteLableColor(int status, int colorid, string agentid, string clientid, string updateuserid, int lableType=1)
         {
-            var model = GetCustomerColorsColorID(clientid, colorid,lableType);
+            var model = GetLableColorColorID(clientid, colorid, lableType);
             if (model == null)
             {
                 return -200;

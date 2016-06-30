@@ -213,7 +213,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetLableColorByColorID(int colorid, int lableType)
         {
-            var model = new SystemBusiness().GetCustomerColorsColorID(CurrentUser.ClientID, colorid,lableType);
+            var model = new SystemBusiness().GetLableColorColorID(CurrentUser.ClientID, colorid, lableType);
             JsonDictionary.Add("model", model);
             return new JsonResult
             {
