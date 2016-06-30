@@ -33,7 +33,7 @@
 .sourceul .active { background-color: #fff; }
 .header-mark{    overflow: auto;margin: 10px 20px 10px;}
 .movespan {position: absolute;top:94px;left: 10px; width:70px; border-bottom:solid 2px #4380BE;}
-
+.module-tab li span { color:#4a98e7;}
 .color-list li{ height:30px; line-height:30px; min-width:115px;  float:left; margin:10px 10px;  text-align:center; position:relative;  }
 .color-list li input{ height:28px; line-height:30px; width:70px; padding:0 5px; text-align:center; border:solid 1px #ccc; cursor:pointer; }
 .color-list li .ico-delete{ position:absolute; right:-9px; top:-9px; display:none; background-color:white; }

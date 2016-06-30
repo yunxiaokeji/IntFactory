@@ -33,7 +33,7 @@
         });
 
         /*添加标记颜色*/
-        $(".addmark li div").click(function () {
+        $(".btn-add").click(function () {
             ColorModel.ColorID = 0;
             ColorModel.ColorName = "";
             ColorModel.ColorValue = "";
@@ -91,7 +91,7 @@
             Easydialog.open({
                 container: {
                     id: "show-model-detail",
-                    header: !ColorModel.ColorID ? "设置标签" : "编辑标签",
+                    header: !ColorModel.ColorID ? "新建标签" : "编辑标签",
                     content: html,
                     yesFn: function () {
                         if (!VerifyObject.isPass()) {
@@ -171,7 +171,7 @@
         var _self = this;
         $("#colormark").html('');
         var urlItem = "";   
-
+        $("#colormark").append("<div class='data-loading'><div>");
         Global.post("/System/GetLableColor", { lableType: tableID }, function (data) {
             if (data.items.length > 0) {
                 for (var i = 0; i < data.items.length; i++) {
@@ -188,6 +188,7 @@
                     $('.colordrop').hide();
                 });
             });
+            $(".data-loading").remove();
         });
     }
 
