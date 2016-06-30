@@ -97,20 +97,22 @@
             container: 'taskreply-box',
             drop_element: 'taskreply-box',
             file_path: "/Content/UploadFiles/Task/",
-            max_file_size: '50mb',
-            chunk_size: '5mb',
+            maxQuantity: 2,
+            maxSize:5,
             //auto_start: true,
             init: {
-                'FilesAdded': function (up, files) {
-
-                },
-                'BeforeUpload': function (up, file) {
-                },
                 'FileUploaded': function (up, file, info) {
-                    var info = JSON.parse(info);
-                    console.log(file);
+                  
                 },
-                'UploadComplete': function () {
+                //若想在前端对每个文件的key进行个性化处理，可以配置该函数
+                'Key': function (up, file) {
+                    // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
+                    // 该配置必须要在 unique_names: false , save_key: false 时才生效
+                    var filename = file.name;
+                    var fileExtension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
+                    var key = up.getOption("file_path") + (new Date()).valueOf() + "." + fileExtension;
+                    // do something with key here
+                    return key
                 }
             }
         });

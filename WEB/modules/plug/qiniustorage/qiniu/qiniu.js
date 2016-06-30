@@ -495,21 +495,18 @@ function QiniuJsSDK() {
                 auto_start: true, // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
                 multi_selection: true,//支持多选
                 unique_names: false, // 默认 false，key 为文件名。若开启该选项，JS-SDK 会为每个文件自动生成key（文件名）
+                url: qiniuUploadUrl,
+                multipart_params: {
+                    token: ''
+                },
                 init: {
+                   
                     //文件添加进队列后,处理相关的事情
                     'FilesAdded': function (up, files) {
-                        if ( (file.size / 1024 / 1024) > up.getOption("chunk_size")) {
-                            alert(22222);
-
-                            return
-                        }
                     },
 
                     //每个文件上传前,处理相关的事情
                     'BeforeUpload': function (up, file) {
-                        if ((file.size / 1024 / 1024) > up.getOption("chunk_size")) {
-                            alert(22222);
-                        }
                     },
 
                     //每个文件上传时,处理相关的事情
@@ -527,15 +524,15 @@ function QiniuJsSDK() {
                     },
 
                     //若想在前端对每个文件的key进行个性化处理，可以配置该函数
-                    'Key': function(up, file) {
-                        // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
-                        // 该配置必须要在 unique_names: false , save_key: false 时才生效
-                        var filename = file.name;
-                        var fileExtension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
-                        var key = up.getOption("file_path") + (new Date()).valueOf() + "." + fileExtension;
-                        // do something with key here
-                        return key
-                    },
+                    //'Key': function(up, file) {
+                    //    // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
+                    //    // 该配置必须要在 unique_names: false , save_key: false 时才生效
+                    //    var filename = file.name;
+                    //    var fileExtension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
+                    //    var key = up.getOption("file_path") + (new Date()).valueOf() + "." + fileExtension;
+                    //    // do something with key here
+                    //    return key
+                    //},
 
                     //上传出错时,处理相关的事情
                     'Error': function (up, err, errTip) {
@@ -696,6 +693,8 @@ function QiniuJsSDK() {
         logger.debug("op.chunk_size: ", op.chunk_size);
 
         // compose options with user passed options and default setting
+        //plupload.extend(option, op, defaults);
+
         plupload.extend(option, op, {
             url: qiniuUploadUrl,
             multipart_params: {
@@ -728,7 +727,7 @@ function QiniuJsSDK() {
         // bind 'FilesAdded' event
         // when file be added and auto_start has set value
         // uploader will auto start upload the file
-        uploader.bind('FilesAdded', function(up, files) {
+        uploader.bind('FilesAdded', function (up, files) {
             logger.debug("FilesAdded event activated");
             var auto_start = up.getOption && up.getOption('auto_start');
             auto_start = auto_start || (up.settings && up.settings.auto_start);
@@ -736,36 +735,88 @@ function QiniuJsSDK() {
             logger.debug("files: ", files);
 
             // detect is iOS
-            var is_ios = function (){
-                if(mOxie.Env.OS.toLowerCase()==="ios") {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
+            //var is_ios = function (){
+            //    if(mOxie.Env.OS.toLowerCase()==="ios") {
+            //        return true;
+            //    } else {
+            //        return false;
+            //    }
+            //};
 
             // if current env os is iOS change file name to [time].[ext]
-            if (is_ios()) {
-                for (var i = 0; i < files.length; i++) {
-                    var file = files[i];
-                    var ext = that.getFileExtension(file.name);
-                    file.name = file.id + "." + ext;
+            var isContinue = false;
+            var maxSize = up.getOption("maxSize");
+            var maxQuantity = up.getOption("maxQuantity");
+            var successItems = up.getOption("successItems");
+            var fileType = up.getOption("fileType");
+            var pictypes = ["jpg", "png", "jpeg", "x-png", "x-tiff", "x-pjpeg"];
+            var filetypes = ["rar", "txt", "zip", "doc", "ppt", "xls", "pdf", "docx", "xlsx"];
+            var attachmenttypes = pictypes;
+            
+            if (fileType == 2) {
+                attachmenttypes = filetypes;
+            }
+            else if (fileType == 3) {
+                attachmenttypes = attachmenttypes.concat(filetypes);
+            }
+            
+            if (files.length < 1) {
+                return false;
+            }
+            if (successItems != '') {
+                if ($(successItems).length + files.length > maxQuantity) {
+                    alert("上传文件最多" + maxQuantity + "个");
+                    up.stop();
+                    up.splice(up.files.length - files.length, up.files.length);
+                    return false;
                 }
+            }
+            if (files.length > maxQuantity) {
+                alert("上传文件最多" + maxQuantity + "个");
+                up.stop();
+                up.splice(up.files.length - files.length, up.files.length);
+                return false;
+            }
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var ext = that.getFileExtension(file.name);
+                var fileSize = file.size;
+                file.name = file.id + "." + ext;
+
+                for (var j = 0; j < attachmenttypes.length; j++) {
+                    if (attachmenttypes[j] == ext) {
+                        isContinue = true;
+                        break;
+                    }
+                }
+
+                if (!isContinue) {
+                    alert("含有不支持的文件格式！");
+                    up.stop();
+                    up.splice(up.files.length - files.length, up.files.length);
+                    return false;
+                }
+                debugger
+                var fileSize = fileSize / 1024/1024;
+                if (fileSize > maxSize) {
+                    alert("附件大小不能大于" + maxSize + "M！");
+                    up.stop();
+                    up.splice(up.files.length - files.length, up.files.length);
+                    return false;
+                }
+
             }
 
             if (auto_start) {
-                setTimeout(function(){
+                setTimeout(function () {
                     up.start();
                     logger.debug("invoke up.start()");
                 }, 0);
-                // up.start();
-                // plupload.each(files, function(i, file) {
-                //     up.start();
-                //     logger.debug("invoke up.start()")
-                //     logger.debug("file: ", file);
-                // });
             }
             up.refresh(); // Reposition Flash/Silverlight
+
+
         });
 
         logger.debug("bind FilesAdded event");
