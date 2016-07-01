@@ -487,7 +487,6 @@ function QiniuJsSDK() {
                 get_new_uptoken: false, // 设置上传文件的时候是否每次都重新获取新的 uptoken
                 domain: "zngc-intfactory", // bucket 域名，下载资源时用到，**必需*
                 uptoken_url: "/Plug/GetToken",// Ajax 请求 uptoken 的 Url，**强烈建议设置**（服务端提供）
-            
                 max_file_size: '5mb', // 最大文件体积限制
                 chunk_size: '5mb', // 分块上传时，每块的体积
             
