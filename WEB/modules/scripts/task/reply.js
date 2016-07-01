@@ -174,11 +174,10 @@
     }
 
     //上传附件
-    ObjectJS.bindReplyAttachment = function (reply) {
-        var replyId = reply && reply.data('replyid');
+    ObjectJS.bindReplyAttachment = function (replyId) {
         var uploader = Upload.uploader({
             browse_button: 'reply-attachment'+replyId,
-            container:  'reply-box' + replyId,
+            container: 'reply-box' + replyId,
             drop_element:'reply-box' + replyId,
             file_path: "/Content/UploadFiles/Task/",
             picture_container: "reply-imgs"+replyId,
@@ -218,7 +217,7 @@
 
             if (_this.data('isget') != 1) {
                 _this.data('isget', 1);
-                ObjectJS.replyAttachment(reply);
+                ObjectJS.bindReplyAttachment(reply.data('replyid'));
             }
 
             //提示
