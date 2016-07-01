@@ -402,7 +402,7 @@ function QiniuJsSDK() {
             });
         }
 
-        // todo 使用一下判断,增加安全性
+        // todo 使用一下判�增加安全�
         //if (
         //    rx_one.test(
         //        text
@@ -477,56 +477,56 @@ function QiniuJsSDK() {
      */
     this.uploader = function(op) {
         var defaults = {
-            runtimes: 'html5,flash,html4', // 上传模式,依次退化
+            runtimes: 'html5,flash,html4', // 上传模式,依次退�
             browse_button: '', // 上传选择的点选按钮，**必需**
             container: '',// 上传区域 DOM ID，默认是 browser_but
-            drop_element: '',// 拖曳上传区域元素的 ID，拖曳文件或文件
+            drop_element: '',// 拖曳上传区域元素�ID，拖曳文件或文件
                 flash_swf_url: '/modules/plug/qiniustorage/plupload/Moxie.swf',
                 file_path: "/Content/UploadFiles/",//引入 flash,相对路径
 
                 get_new_uptoken: false, // 设置上传文件的时候是否每次都重新获取新的 uptoken
-                domain: "zngc-intfactory", // bucket 域名，下载资源时用到，**必需*
-                uptoken_url: "/Plug/GetToken",// Ajax 请求 uptoken 的 Url，**强烈建议设置**（服务端提供）
+                domain: "zngc-intfactory", // bucket 域名，下载资源时用到�*必需*
+                uptoken_url: "/Plug/GetToken",// Ajax 请求 uptoken �Url�*强烈建议设置**（服务端提供�
             
-                max_file_size: '5mb', // 最大文件体积限制
-                chunk_size: '5mb', // 分块上传时，每块的体积
+                max_file_size: '5mb', // 最大文件体积限�
+                chunk_size: '5mb', // 分块上传时，每块的体�
             
                 dragdrop: true, // 开启可拖曳上传
-                auto_start: true, // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
-                multi_selection: true,//支持多选
-                unique_names: false, // 默认 false，key 为文件名。若开启该选项，JS-SDK 会为每个文件自动生成key（文件名）
+                auto_start: true, // 选择文件后自动上传，若关闭需要自己绑定事件触发上�
+                multi_selection: true,//支持多�
+                unique_names: false, // 默认 false，key 为文件名。若开启该选项，JS-SDK 会为每个文件自动生成key（文件名�
                 url: qiniuUploadUrl,
                 multipart_params: {
                     token: ''
                 },
                 init: {
                    
-                    //文件添加进队列后,处理相关的事情
+                    //文件添加进队列后,处理相关的事�
                     'FilesAdded': function (up, files) {
                     },
 
-                    //每个文件上传前,处理相关的事情
+                    //每个文件上传�处理相关的事�
                     'BeforeUpload': function (up, file) {
                     },
 
-                    //每个文件上传时,处理相关的事情
+                    //每个文件上传�处理相关的事�
                     'UploadProgress': function (up, file) {
 
                     },
 
-                    //每个文件上传成功后,处理相关的事情
+                    //每个文件上传成功�处理相关的事�
                     'FileUploaded': function (up, file, info) {
 
                     },
 
-                    //队列文件处理完毕后,处理相关的事情
+                    //队列文件处理完毕�处理相关的事�
                     'UploadComplete': function () {
                     },
 
                     //若想在前端对每个文件的key进行个性化处理，可以配置该函数
                     //'Key': function(up, file) {
                     //    // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
-                    //    // 该配置必须要在 unique_names: false , save_key: false 时才生效
+                    //    // 该配置必须要�unique_names: false , save_key: false 时才生效
                     //    var filename = file.name;
                     //    var fileExtension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
                     //    var key = up.getOption("file_path") + (new Date()).valueOf() + "." + fileExtension;
@@ -534,7 +534,7 @@ function QiniuJsSDK() {
                     //    return key
                     //},
 
-                    //上传出错时,处理相关的事情
+                    //上传出错�处理相关的事�
                     'Error': function (up, err, errTip) {
                         console.log(err);
                         console.log(errTip);
@@ -765,14 +765,14 @@ function QiniuJsSDK() {
             }
             if (successItems != '') {
                 if ($(successItems).length + files.length > maxQuantity) {
-                    alert("上传文件最多" + maxQuantity + "个");
+                    alert("上传文件最� + maxQuantity + "�);
                     up.stop();
                     up.splice(up.files.length - files.length, up.files.length);
                     return false;
                 }
             }
             if (files.length > maxQuantity) {
-                alert("上传文件最多" + maxQuantity + "个");
+                alert("上传文件最� + maxQuantity + "�);
                 up.stop();
                 up.splice(up.files.length - files.length, up.files.length);
                 return false;
@@ -792,7 +792,7 @@ function QiniuJsSDK() {
                 }
 
                 if (!isContinue) {
-                    alert("含有不支持的文件格式！");
+                    alert("含有不支持的文件格式�);
                     up.stop();
                     up.splice(up.files.length - files.length, up.files.length);
                     return false;
@@ -800,7 +800,7 @@ function QiniuJsSDK() {
 
                 var fileSize = fileSize / 1024/1024;
                 if (fileSize > maxSize) {
-                    alert("附件大小不能大于" + maxSize + "M！");
+                    alert("附件大小不能大于" + maxSize + "M�);
                     up.stop();
                     up.splice(up.files.length - files.length, up.files.length);
                     return false;
@@ -1044,20 +1044,20 @@ function QiniuJsSDK() {
                 if (file) {
                     switch (err.code) {
                         case plupload.FAILED:
-                            errTip = '上传失败。请稍后再试。';
+                            errTip = '上传失败。请稍后再试�;
                             break;
                         case plupload.FILE_SIZE_ERROR:
                             var max_file_size = up.getOption && up.getOption('max_file_size');
                             max_file_size = max_file_size || (up.settings && up.settings.max_file_size);
-                            errTip = '浏览器最大可上传' + max_file_size + '。更大文件请使用命令行工具。';
+                            errTip = '浏览器最大可上传' + max_file_size + '。更大文件请使用命令行工具�;
                             break;
                         case plupload.FILE_EXTENSION_ERROR:
-                            errTip = '文件验证失败。请稍后重试。';
+                            errTip = '文件验证失败。请稍后重试�;
                             break;
                         case plupload.HTTP_ERROR:
                             if (err.response === '') {
                                 // Fix parseJSON error ,when http error is like net::ERR_ADDRESS_UNREACHABLE
-                                errTip = err.message || '未知网络错误。';
+                                errTip = err.message || '未知网络错误�;
                                 if (!unknow_error_retry(file)) {
                                     return;
                                 }
@@ -1067,25 +1067,25 @@ function QiniuJsSDK() {
                             var errorText = errorObj.error;
                             switch (err.status) {
                                 case 400:
-                                    errTip = "请求报文格式错误。";
+                                    errTip = "请求报文格式错误�;
                                     break;
                                 case 401:
-                                    errTip = "客户端认证授权失败。请重试或提交反馈。";
+                                    errTip = "客户端认证授权失败。请重试或提交反馈�;
                                     break;
                                 case 405:
-                                    errTip = "客户端请求错误。请重试或提交反馈。";
+                                    errTip = "客户端请求错误。请重试或提交反馈�;
                                     break;
                                 case 579:
-                                    errTip = "资源上传成功，但回调失败。";
+                                    errTip = "资源上传成功，但回调失败�;
                                     break;
                                 case 599:
-                                    errTip = "网络连接异常。请重试或提交反馈。";
+                                    errTip = "网络连接异常。请重试或提交反馈�;
                                     if (!unknow_error_retry(file)) {
                                         return;
                                     }
                                     break;
                                 case 614:
-                                    errTip = "文件已存在。";
+                                    errTip = "文件已存在�;
                                     try {
                                         errorObj = that.parseJSON(errorObj.error);
                                         errorText = errorObj.error || 'file exists';
@@ -1094,31 +1094,31 @@ function QiniuJsSDK() {
                                     }
                                     break;
                                 case 631:
-                                    errTip = "指定空间不存在。";
+                                    errTip = "指定空间不存在�;
                                     break;
                                 case 701:
-                                    errTip = "上传数据块校验出错。请重试或提交反馈。";
+                                    errTip = "上传数据块校验出错。请重试或提交反馈�;
                                     break;
                                 default:
-                                    errTip = "未知错误。";
+                                    errTip = "未知错误�;
                                     if (!unknow_error_retry(file)) {
                                         return;
                                     }
                                     break;
                             }
-                            errTip = errTip + '(' + err.status + '：' + errorText + ')';
+                            errTip = errTip + '(' + err.status + '� + errorText + ')';
                             break;
                         case plupload.SECURITY_ERROR:
-                            errTip = '安全配置错误。请联系网站管理员。';
+                            errTip = '安全配置错误。请联系网站管理员�;
                             break;
                         case plupload.GENERIC_ERROR:
-                            errTip = '上传失败。请稍后再试。';
+                            errTip = '上传失败。请稍后再试�;
                             break;
                         case plupload.IO_ERROR:
-                            errTip = '上传失败。请稍后再试。';
+                            errTip = '上传失败。请稍后再试�;
                             break;
                         case plupload.INIT_ERROR:
-                            errTip = '网站配置错误。请联系网站管理员。';
+                            errTip = '网站配置错误。请联系网站管理员�;
                             uploader.destroy();
                             break;
                         default:

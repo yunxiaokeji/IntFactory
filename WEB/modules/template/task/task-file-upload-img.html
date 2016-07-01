@@ -1,11 +1,4 @@
-﻿{%
-	for(var i=0, j=$data.length; i < j; i++)
-    {
-	    var item = $data[i];
-%}
- <li data-filepath="{%=item.filePath%}" data-filename="{%=item.fileName%}" data-filesize="{%=item.fileSize%}" data-originalname="{%=item.originalName%}" data-isimg="{%=item.isImage%}">
-    <img src="{%=item.filePath%}{%=item.fileName%}" />
+﻿<li>
+    <p class="center progress-number blue"></p>
     <span class="ico-delete delete"></span>
 </li>
-    
-{%}%}
