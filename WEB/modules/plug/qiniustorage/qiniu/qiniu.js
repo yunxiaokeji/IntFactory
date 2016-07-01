@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * qiniu-js-sdk v@VERSION
  *
  * Copyright 2015 by Qiniu
