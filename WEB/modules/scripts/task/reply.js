@@ -106,7 +106,7 @@
             maxSize: 5,
             fileType: 3,
             init: {                
-                'FilesAdded': function (up, files) {
+                'FilesAdded': function (up, files) {                    
                     var imgs = [];
                     var attachments = [];
                     var pictypes = ["jpg", "png", "jpeg", "x-png", "x-tiff", "x-pjpeg"];
@@ -153,10 +153,10 @@
                     $(" #li_" + file.id).find('.progress-number').html(file.percent + "%");
 
                 },
-                'FileUploaded': function (up, file, info) {
+                'FileUploaded': function (up, file, info) {                    
                     var InnerHtml = $("#li_" + file.id);
                     var itemInfo = JSON.parse(info);
-                    var itemFile = file;
+                    var itemFile = file;                  
 
                     InnerHtml.find('.progress-number').remove();
                     InnerHtml.find('.progress-file').remove();
