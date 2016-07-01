@@ -94,109 +94,17 @@
             msg: "上传附件最多10个"
         });
 
-        
-        var ReplyId = "";
-        //var ImageCheck = ["image/x-png", "image/png", "image/gif", "image/jpeg", "image/tiff", "application/x-MS-bmp", "image/pjpeg"];
-        var uploader = Qiniu.uploader({
+        var uploader = Upload.uploader({
             browse_button: 'reply-attachment',
             container: 'taskreply-box',
             drop_element: 'taskreply-box',
             file_path: "/Content/UploadFiles/Task/",
+            picture_container: "reply-imgs",
+            file_container: "reply-files",
             maxQuantity: 5,
             maxSize: 5,
             fileType: 3,
-            init: {                
-                'FilesAdded': function (up, files) {                    
-                    var imgs = [];
-                    var attachments = [];
-                    var pictypes = ["jpg", "png", "jpeg", "x-png", "x-tiff", "x-pjpeg"];
-                    for (var i = 0; i < files.length; i++) {
-                        var isImage = 2;
-
-                        var file = files[i];
-                        var filename = file.name;
-                        var fileExtension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
-                        for (var j = 0; j < pictypes.length; j++) {
-                            if (pictypes[j] == fileExtension) {
-                                isImage = 1;
-                                break;
-                            }
-                        }
-                        if (isImage == 1) {
-                            imgs.push(file);
-                        } else {
-                            attachments.push(file);
-                        }
-                    }
-                    
-                    var templateUrl = "/template/task/task-file-upload.html";
-                    var fileBox = $("#reply-files" + ReplyId);
-                    if (attachments.length > 0) {
-                        doT.exec(templateUrl, function (template) {
-                            var InnerHtml = template(attachments);
-                            InnerHtml = $(InnerHtml);
-                            fileBox.append(InnerHtml).fadeIn(300);
-                        });
-                    }
-
-                    if (imgs.length > 0) {
-                        templateUrl = "/template/task/task-file-upload-img.html";
-                        doT.exec(templateUrl, function (template) {
-                            var InnerHtml = template(imgs);
-                            InnerHtml = $(InnerHtml);
-                            $("#reply-imgs" + ReplyId).append(InnerHtml).fadeIn(300);
-                        });
-                    }
-                },
-                'UploadProgress': function (up, file) {
-                    $(" #li_" + file.id).find('.run-progress').css("width", file.percent + "%");
-                    $(" #li_" + file.id).find('.progress-number').html(file.percent + "%");
-
-                },
-                'FileUploaded': function (up, file, info) {                    
-                    var InnerHtml = $("#li_" + file.id);
-                    var itemInfo = JSON.parse(info);
-                    var itemFile = file;                  
-
-                    InnerHtml.find('.progress-number').remove();
-                    InnerHtml.find('.progress-file').remove();
-                    InnerHtml.find('.file-size').show();
-                    
-                    InnerHtml.find('.delete').data('key', itemInfo.key);
-                    InnerHtml.data({
-                        'filepath': '',
-                        'filename': itemInfo.key,
-                        'filesize': itemFile.size,
-                        'originalname': itemFile.name
-                    });
-                    var pictypes = ["jpg", "png", "jpeg", "x-png", "x-tiff", "x-pjpeg"];
-                    var filename = file.name;
-                    var fileExtension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
-                    for (var j = 0; j < pictypes.length; j++) {
-                        if (pictypes[j] == fileExtension) {
-                            var src = 'http://o9h6bx3r4.bkt.clouddn.com/' + itemInfo.key;
-                            var imageObj = $('<img src="' + src + '" />');
-                            InnerHtml.prepend(imageObj);
-                            break;
-                        }
-                    }
-                    
-                    InnerHtml.find(".delete").click(function () {
-                        InnerHtml.remove();
-                        Global.post("/Plug/DeleteAttachment", { key: $(this).data('key') }, function () { });
-                    }).show();
-                },
-                //若想在前端对每个文件的key进行个性化处理，可以配置该函数
-                'Key': function (up, file) {
-                    // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
-                    // 该配置必须要在 unique_names: false , save_key: false 时才生效
-                    var filename = file.name;
-                    var fileExtension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
-                    var key = up.getOption("file_path") + (new Date()).valueOf() + "." + fileExtension;
-                    // do something with key here
-                    return key
-                }
-            }
+            init: {}
         });
     }
 
