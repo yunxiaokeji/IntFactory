@@ -1068,11 +1068,11 @@ namespace IntFactoryBusiness
 
         public int UpdateLableColor(string agentid, string clientid, int colorid, string colorName, string colorValue, string updateuserid, int lableType = 1)
         {
-            var model = GetLableColorColorID(clientid, colorid, lableType);
-            if (model == null)
-            {
-                return -200;
-            }
+            //var model = GetLableColorColorID(clientid, colorid, lableType);
+            //if (model == null)
+            //{
+            //    return -200;
+            //}
 
             string tableName = "CustomerColor";
             if (lableType == 2)
@@ -1091,24 +1091,21 @@ namespace IntFactoryBusiness
                     GetLableColor(clientid, lableType);
                 }
                 else
-                {                    
+                {
+                    var model = CustomColor[clientid].Find(m => m.ColorID == colorid);
+                    if (lableType == 2)
+                    {
+                        model = OrderColor[clientid].Find(m => m.ColorID == colorid);
+                    }
+                    else if (lableType == 3)
+                    {
+                        model = TaskColor[clientid].Find(m => m.ColorID == colorid);
+                    }
+
                     model.ColorValue = colorValue;
                     model.ColorName = colorName;
                     model.UpdateTime = DateTime.Now;
-                    model.UpdateUserID = updateuserid;
-                    if (lableType == 1)
-                    {
-                        CustomColor[clientid].Remove(model);
-                        CustomColor[clientid].Add(model);
-                    }
-                    else if (lableType == 2) {
-                        OrderColor[clientid].Remove(model);
-                        OrderColor[clientid].Add(model);
-                    }
-                    else if (lableType == 3) {
-                        TaskColor[clientid].Remove(model);
-                        TaskColor[clientid].Add(model);
-                    }
+                    model.UpdateUserID = updateuserid;                    
                 }
             }
             return result ? 1 : 0;
