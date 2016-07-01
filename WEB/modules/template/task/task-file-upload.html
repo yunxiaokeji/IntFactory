@@ -1,15 +1,16 @@
 ﻿{%
+    for(var i=0, j=$data.length; i < j; i++){
 	    var item = $data[i];
-        var extension=attchmentItem.OriginalName.split('.');
+        var extension=item.name.split('.');
 %}
-        <li data-filepath="{%=item.filePath%}" data-filename="{%=item.fileName%}" data-filesize="{%=item.fileSize%}" data-originalname="{%=item.originalName%}" data-isimg="{%=item.isImage%}">
+        <li data-filepath="{%=item.filePath%}" data-filename="{%=item.name%}" data-filesize="{%=item.size%}" data-originalname="{%=item.name%}" data-isimg="2">
             <div class="upload-lump left mRight20" style="top:5px;"> 
             <div class="content long width35" title="{%=item.extensions%}">{%=extension[extension.length-1]%}</div>
                 <div class="lump"></div>
             </div>
             <div class="information mLeft10 width120">
-            <span title="{%=item.originalName%}" class="long width60">{%=item.originalName%}</span>
-            <span title='{%=item.fileSize/1024/1024<1?(item.fileSize/1024).toFixed(2)+"KB":(item.fileSize/1024/1024).toFixed(2)+"MB"%}'>{%=item.fileSize/1024/1024<1?(item.fileSize/1024).toFixed(2)+"KB":(item.fileSize/1024/1024).toFixed(2)+"MB"%}</span></div>
+            <span title="{%=item.originalName%}" class="long width60">{%=item.name%}</span>
+            <span title='{%=item.size/1024/1024<1?(item.size/1024).toFixed(2)+"KB":(item.size/1024/1024).toFixed(2)+"MB"%}'>{%=item.size/1024/1024<1?(item.size/1024).toFixed(2)+"KB":(item.size/1024/1024).toFixed(2)+"MB"%}</span></div>
             <span class="ico-delete-upload delete iconfont">&#xe628;</span>
         </li>
 {%}%}

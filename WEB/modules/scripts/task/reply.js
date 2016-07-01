@@ -61,7 +61,7 @@
                         "ServerUrl": "",
                         "ThumbnailName": ""
                     });
-                });
+                });                
                 ObjectJS.saveTaskReply(model, $(this), attchments);
 
                 txt.val("");
@@ -103,7 +103,8 @@
             maxQuantity: 5,
             maxSize: 5,
             fileType: 3,
-            init: {                
+            init: {
+                //文件添加进队列后,处理相关的事情
                 'FilesAdded': function (up, files) {                    
                     var imgs = [];
                     var attachments = [];
@@ -113,8 +114,8 @@
                         var file = files[i];
                         var filename = file.name;
                         var fileExtension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
-                        for (var i = 0; i < pictypes.length; i++) {
-                            if (pictypes[i] == fileExtension) {
+                        for (var j = 0; j < pictypes.length; j++) {
+                            if (pictypes[j] == fileExtension) {
                                 isImage = 1;
                                 break;
                             }
@@ -158,18 +159,19 @@
                             });
                         });
                     }
-
                 },
+                //每个文件上传时,处理相关的事情
                 'UploadProgress': function (up, file) {
                     $(" #li_"+file.id).find('.progress-number').html(file.percent + "%");
                     //InnerHtml.find('.progress-number').html(file.percent + "%");
                 },
+                //每个文件上传成功后,处理相关的事情
                 'FileUploaded': function (up, file, info) {                    
                     var InnerHtml = $("#li_" + file.id);
                     InnerHtml.find('.progress-number').remove();
                     var itemInfo = JSON.parse(info);
-                    var itemFile = file;                  
-
+                    var itemFile = file;
+                    
                     
                     InnerHtml.data({
                         'filepath': '',

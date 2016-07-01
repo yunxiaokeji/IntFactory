@@ -2,7 +2,7 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-<li id="li_{%=item.id%}" >
+<li id="li_{%=item.id%}" data-filepath="{%=item.filePath%}" data-filename="{%=item.name%}" data-filesize="{%=item.size%}" data-originalname="{%=item.name%}" data-isimg="1" >
     <p class="center progress-number blue"></p>
     <span class="ico-delete delete"></span>
 </li>
