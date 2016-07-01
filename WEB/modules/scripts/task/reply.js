@@ -39,6 +39,23 @@
         $("#btnSaveTalk").click(function () {            
             var txt = $("#txtContent");
             if (txt.val().trim()) {
+                if ($('.taskreply-box .task-file li').find('.mark-progress').length > 0) {
+                    alert("文件上传中，请稍等");
+                    return false;
+                }
+                var attchments = [];
+                
+                $('.taskreply-box .task-file li').each(function () {
+                    var _this = $(this);
+                    attchments.push({
+                        "Type": _this.data('isimg'),
+                        "FilePath": _this.data('filepath'),
+                        "FileName": _this.data('filename'),
+                        "OriginalName": _this.data('originalname'),
+                        "Size": _this.data("filesize"),
+                        "ThumbnailName": ""
+                    });
+                });
                 var model = {
                     GUID: Reply.guid,
                     StageID: Reply.stageid,
@@ -48,22 +65,7 @@
                     FromReplyUserID: "",
                     FromReplyAgentID: ""
                 };
-
-                var attchments = [];
-                $('.taskreply-box .task-file li').each(function () {
-                    var _this = $(this);
-                    attchments.push({
-                        "Type": _this.data('isimg'),
-                        "FilePath": _this.data('filepath'),
-                        "FileName": _this.data('filename'),
-                        "OriginalName": _this.data('originalname'),
-                        "Size": _this.data("filesize"),
-                        "ServerUrl": "",
-                        "ThumbnailName": ""
-                    });
-                });
                 ObjectJS.saveTaskReply(model, $(this), attchments);
-
                 txt.val("");
                 $('.taskreply-box .task-file').empty();
             }
@@ -108,13 +110,14 @@
                     var imgs = [];
                     var attachments = [];
                     var pictypes = ["jpg", "png", "jpeg", "x-png", "x-tiff", "x-pjpeg"];
-                    var isImage = 2;
                     for (var i = 0; i < files.length; i++) {
+                        var isImage = 2;
+
                         var file = files[i];
                         var filename = file.name;
                         var fileExtension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
-                        for (var i = 0; i < pictypes.length; i++) {
-                            if (pictypes[i] == fileExtension) {
+                        for (var j = 0; j < pictypes.length; j++) {
+                            if (pictypes[j] == fileExtension) {
                                 isImage = 1;
                                 break;
                             }
@@ -125,61 +128,63 @@
                             attachments.push(file);
                         }
                     }
-
+                    
                     var templateUrl = "/template/task/task-file-upload.html";
                     var fileBox = $("#reply-files" + ReplyId);
                     if (attachments.length > 0) {
                         doT.exec(templateUrl, function (template) {
-                            InnerHtml = template(attachments);
+                            var InnerHtml = template(attachments);
                             InnerHtml = $(InnerHtml);
                             fileBox.append(InnerHtml).fadeIn(300);
-
-                            InnerHtml.find(".delete").click(function () {
-                                $(this).parent().remove();
-                                if (fileBox.find('li').length == 0) {
-                                    fileBox.hide();
-                                }
-                            });
                         });
                     }
 
                     if (imgs.length > 0) {
                         templateUrl = "/template/task/task-file-upload-img.html";
                         doT.exec(templateUrl, function (template) {
-                            InnerHtml = template(imgs);
+                            var InnerHtml = template(imgs);
                             InnerHtml = $(InnerHtml);
                             $("#reply-imgs" + ReplyId).append(InnerHtml).fadeIn(300);
-
-                            InnerHtml.find(".delete").click(function () {
-                                $(this).parent().remove();
-                                if ($("#reply-imgs" + ReplyId).find('li').length == 0) {
-                                    $("#reply-imgs" + ReplyId).hide();
-                                }
-                            });
                         });
                     }
-
                 },
                 'UploadProgress': function (up, file) {
-                    $(" #li_"+file.id).find('.progress-number').html(file.percent + "%");
-                    //InnerHtml.find('.progress-number').html(file.percent + "%");
+                    $(" #li_" + file.id).find('.run-progress').css("width", file.percent + "%");
+                    $(" #li_" + file.id).find('.progress-number').html(file.percent + "%");
+
                 },
                 'FileUploaded': function (up, file, info) {
                     var InnerHtml = $("#li_" + file.id);
-                    InnerHtml.find('.progress-number').remove();
                     var itemInfo = JSON.parse(info);
                     var itemFile = file;
 
-
+                    InnerHtml.find('.progress-number').remove();
+                    InnerHtml.find('.progress-file').remove();
+                    InnerHtml.find('.file-size').show();
+                    
+                    InnerHtml.find('.delete').data('key', itemInfo.key);
                     InnerHtml.data({
                         'filepath': '',
                         'filename': itemInfo.key,
                         'filesize': itemFile.size,
                         'originalname': itemFile.name
                     });
-                    var src = 'http://o9h6bx3r4.bkt.clouddn.com/' + itemInfo.key;
-                    var imageObj = $('<img src="' + src + '" />');
-                    InnerHtml.prepend(imageObj);
+                    var pictypes = ["jpg", "png", "jpeg", "x-png", "x-tiff", "x-pjpeg"];
+                    var filename = file.name;
+                    var fileExtension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
+                    for (var j = 0; j < pictypes.length; j++) {
+                        if (pictypes[j] == fileExtension) {
+                            var src = 'http://o9h6bx3r4.bkt.clouddn.com/' + itemInfo.key;
+                            var imageObj = $('<img src="' + src + '" />');
+                            InnerHtml.prepend(imageObj);
+                            break;
+                        }
+                    }
+                    
+                    InnerHtml.find(".delete").click(function () {
+                        InnerHtml.remove();
+                        Global.post("/Plug/DeleteAttachment", { key: $(this).data('key') }, function () { });
+                    }).show();
                 },
                 //若想在前端对每个文件的key进行个性化处理，可以配置该函数
                 'Key': function (up, file) {
@@ -502,10 +507,10 @@
             $(this).find(".popup-download").stop(true).slideUp(300);
         });
 
-        //下载附件
-        $(".download").click(function () {
-            window.open($(this).data('url') + "&isIE=" + (!!window.ActiveXObject || "ActiveXObject" in window ? "1" : ""));
-        });
+        ////下载附件
+        //$(".download").click(function () {
+        //    window.open($(this).data('url') + "&isIE=" + (!!window.ActiveXObject || "ActiveXObject" in window ? "1" : ""));
+        //});
     }
 
     module.exports = ObjectJS;

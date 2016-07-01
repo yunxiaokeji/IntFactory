@@ -20,7 +20,7 @@ $(function() {
         domain: $('#domain').val(),
         get_new_uptoken: false,        
         log_level: 5,
-        unique_names:true,
+        unique_names:false,
         init: {
             'FilesAdded': function(up, files) {
                 $(".table").show();
