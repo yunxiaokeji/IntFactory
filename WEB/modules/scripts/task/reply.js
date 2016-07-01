@@ -21,7 +21,7 @@
             $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
         });
         
-        ObjectJS.replyAttachment("");
+        ObjectJS.bindReplyAttachment("");
 
         //任务讨论盒子隐藏
         $(document).click(function (e) {
@@ -31,7 +31,6 @@
                 !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload")&&
                 !$(e.target).parents().hasClass("alert") && !$(e.target).hasClass("alert")) {
                 $(".taskreply-box").removeClass("taskreply-box-hover");
-
             }
         });
 
@@ -54,9 +53,8 @@
                         "OriginalName": _this.data('originalname'),
                         "Size": _this.data("filesize"),
                         "ThumbnailName": ""
-                    });                    
+                    });
                 });
-                
                 var model = {
                     GUID: Reply.guid,
                     StageID: Reply.stageid,
@@ -94,117 +92,8 @@
             width: 100,
             msg: "上传附件最多10个"
         });
-
-        
-        var ReplyId = "";
-        //var ImageCheck = ["image/x-png", "image/png", "image/gif", "image/jpeg", "image/tiff", "application/x-MS-bmp", "image/pjpeg"];
-        var uploader = Qiniu.uploader({
-            browse_button: 'reply-attachment',
-            container: 'taskreply-box',
-            drop_element: 'taskreply-box',
-            file_path: "/Content/UploadFiles/Task/",
-            maxQuantity: 5,
-            maxSize: 5,
-            fileType: 3,
-            init: {
-                //文件添加进队列后,处理相关的事情
-                'FilesAdded': function (up, files) {                    
-                    var imgs = [];
-                    var attachments = [];
-                    var pictypes = ["jpg", "png", "jpeg", "x-png", "x-tiff", "x-pjpeg"];
-                    for (var i = 0; i < files.length; i++) {
-                        var isImage = 2;
-
-                        var file = files[i];
-                        var filename = file.name;
-                        var fileExtension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
-                        for (var j = 0; j < pictypes.length; j++) {
-                            if (pictypes[j] == fileExtension) {
-                                isImage = 1;
-                                break;
-                            }
-                        }
-                        if (isImage == 1) {
-                            imgs.push(file);
-                        } else {
-                            attachments.push(file);
-                        }
-                    }
-                    
-                    var templateUrl = "/template/task/task-file-upload.html";
-                    var fileBox = $("#reply-files" + ReplyId);
-                    if (attachments.length > 0) {
-                        doT.exec(templateUrl, function (template) {
-                            var InnerHtml = template(attachments);
-                            InnerHtml = $(InnerHtml);
-                            fileBox.append(InnerHtml).fadeIn(300);
-                        });
-                    }
-
-                    if (imgs.length > 0) {
-                        templateUrl = "/template/task/task-file-upload-img.html";
-                        doT.exec(templateUrl, function (template) {
-                            var InnerHtml = template(imgs);
-                            InnerHtml = $(InnerHtml);
-                            $("#reply-imgs" + ReplyId).append(InnerHtml).fadeIn(300);
-                        });
-                    }
-                },
-                //每个文件上传时,处理相关的事情
-                'UploadProgress': function (up, file) {
-                    $(" #li_" + file.id).find('.run-progress').css("width", file.percent + "%");
-                    $(" #li_" + file.id).find('.progress-number').html(file.percent + "%");
-
-                },
-                //每个文件上传成功后,处理相关的事情
-                'FileUploaded': function (up, file, info) {                    
-                    var InnerHtml = $("#li_" + file.id);
-                    var itemInfo = JSON.parse(info);
-                    var itemFile = file;
-                    
-                    InnerHtml.find('.progress-number').remove();
-                    InnerHtml.find('.progress-file').remove();
-                    InnerHtml.find('.file-size').show();
-                    
-                    InnerHtml.find('.delete').data('key', itemInfo.key);                    
-                    InnerHtml.data({
-                        'filepath': '',
-                        'filename': itemInfo.key,
-                        'filesize': itemFile.size,
-                        'originalname': itemFile.name
-                    });
-                    var pictypes = ["jpg", "png", "jpeg", "x-png", "x-tiff", "x-pjpeg"];
-                    var filename = file.name;
-                    var fileExtension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
-                    for (var j = 0; j < pictypes.length; j++) {
-                        if (pictypes[j] == fileExtension) {
-                            var src = 'http://o9h6bx3r4.bkt.clouddn.com/' + itemInfo.key;
-                            var imageObj = $('<img src="' + src + '" />');
-                            InnerHtml.prepend(imageObj);
-                            break;
-                        }
-                    }
-                    
-                    InnerHtml.find(".delete").click(function () {
-                        InnerHtml.remove();
-                        Global.post("/Plug/DeleteAttachment", { key: $(this).data('key') }, function () { });
-                    }).show();
-                },
-                //若想在前端对每个文件的key进行个性化处理，可以配置该函数
-                'Key': function (up, file) {
-                    // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
-                    // 该配置必须要在 unique_names: false , save_key: false 时才生效
-                    var filename = file.name;
-                    var fileExtension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
-                    var key = up.getOption("file_path") + (new Date()).valueOf() + "." + fileExtension;
-                    // do something with key here
-                    return key
-                }
-            }
-        });
     }
 
-    //获取任务讨论列表
     ObjectJS.getTaskReplys = function (page) {
         var _self = this;
         $("#replyList").empty();
@@ -224,11 +113,9 @@
                     innerhtml = $(innerhtml);
                     $("#replyList").html(innerhtml);
 
-                    ObjectJS.bindReplyOperate(innerhtml);  
+                    ObjectJS.bindReplyOperate(innerhtml);
                 });
-            }
-            else
-            {
+            } else {
                 $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
             }
 
@@ -286,85 +173,20 @@
     }
 
     //上传附件
-    ObjectJS.replyAttachment = function (replyid) {
-        //Upload.createUpload({
-        //    element: "reply-attachment" + replyid,
-        //    buttonText: "&#xe65a;",
-        //    className: "left iconfont",
-        //    multiple: true,
-        //    fileType: 3,//附件类型 1:图片；2：文件；3图片和文件
-        //    maxSize: 5 * 1024,//附件最大大小
-        //    maxQuantity: 10,//最大上传文件个数
-        //    successItems: ".upload-files-" + replyid + " li",
-        //    url: "/Plug/UploadFiles",
-        //    data: { folder: '', action: 'add', oldPath: "" },
-        //    success: function (data, status)
-        //    {
-        //        if (data.Stage == false)
-        //        {
-        //            alert("每次最多允许上传5个");
-        //        }
-        //        else {                   
-        //            var len = data.Items.length;
-        //            if (len > 0)
-        //            {
-        //                var templateUrl = "/template/task/task-file-upload.html";
-        //                var fileBox = $("#reply-files" + replyid);
-        //                if ($(".msg-" + replyid).val() == "") {
-        //                    $(".msg-" + replyid).val(data.Items[0].originalName.split('.')[0]);
-        //                }
-                        
-        //                var fileArr = new Array();
-        //                var picArr = new Array();
-        //                for (var i = 0; i < len ; i++) {
-        //                    var item = data.Items[i];
-                            
-        //                    if (item.isImage == 1) {
-        //                        picArr.push(item);
-        //                    }
-        //                    else {
-        //                        fileArr.push(item);
-        //                    }
-        //                }
-                        
-        //                if (fileArr.length > 0) {
-        //                    doT.exec(templateUrl, function (template) {
-        //                        var innerhtml = template(fileArr);
-        //                        innerhtml = $(innerhtml);
-        //                        fileBox.append(innerhtml).fadeIn(300);
-
-        //                        innerhtml.find(".delete").click(function () {
-        //                            $(this).parent().remove();
-        //                            if (fileBox.find('li').length == 0) {
-        //                                fileBox.hide();
-        //                            }
-        //                        });
-
-
-        //                    });
-        //                }
-        //                if (picArr.length > 0) {
-        //                    doT.exec("/template/task/task-file-upload-img.html", function (template) {
-        //                        var innerhtml = template(picArr);
-        //                        innerhtml = $(innerhtml);
-        //                        $("#reply-imgs" + replyid).append(innerhtml).fadeIn(300);
-
-        //                        innerhtml.find(".delete").click(function () {
-        //                            $(this).parent().remove();
-        //                            if ($("#reply-imgs" + replyid).find('li').length == 0) {
-        //                                $("#reply-imgs" + replyid).hide();
-        //                            }
-        //                        });
-        //                    });
-        //                }
-        //            }
-        //            else {
-        //                alert("上传文件格式不正确或有文件超过10M");
-        //            }
-
-        //        }
-        //    }
-        //});
+    ObjectJS.bindReplyAttachment = function (reply) {
+        var replyId = reply && reply.data('replyid');
+        var uploader = Upload.uploader({
+            browse_button: 'reply-attachment'+replyId,
+            container:  'reply-box' + replyId,
+            drop_element:'reply-box' + replyId,
+            file_path: "/Content/UploadFiles/Task/",
+            picture_container: "reply-imgs"+replyId,
+            file_container: "reply-files" + replyId,
+            maxQuantity: 5,
+            maxSize: 5,
+            fileType: 3,
+            init: {}
+        });
     }
 
     //绑定任务讨论操作
@@ -380,8 +202,6 @@
             var _this = $(this);
             var reply = _this.nextAll(".reply-box");
             
-            $("#reply-attachment" + _this.data("replyid")).empty();
-
             $("#replyList .reply-box").each(function () {
                 if ($(this).data("replyid") != reply.data("replyid")) {
                     $(this).hide();
@@ -389,15 +209,17 @@
             });
             if (reply.is(":visible")) {
                 reply.slideUp(300);                
-            }
-            else {
+            } else {
                 reply.slideDown(300);                
             }
-            
+
             reply.find("textarea").focus();
 
-            ObjectJS.replyAttachment(_this.data("replyid"));                        
-            
+            if (_this.data('isget') != 1) {
+                _this.data('isget', 1);
+                ObjectJS.replyAttachment(reply);
+            }
+
             //提示
             $("#reply-attachment" + _this.data("replyid")).Tip({
                 width: 100,
@@ -409,6 +231,11 @@
         replys.find(".save-reply").click(function () {
             var _this = $(this);
             if ($("#Msg_" + _this.data("replyid")).val().trim()) {
+                if ($('.upload-files-' + _this.data("replyid") + ' li').find('.mark-progress').length > 0) {
+                    alert("文件上传中，请稍等");
+                    return false;
+                }
+
                 var entity = {
                     GUID: _this.data("id"),
                     StageID: _this.data("stageid"),

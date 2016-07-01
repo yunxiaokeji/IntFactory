@@ -36,7 +36,8 @@ seajs.config({
         //城市地区
         "city": "plug/city.js",
         //上传
-        "upload": "plug/upload/upload.js",
+        //"upload": "plug/upload/upload.js",
+        "upload": "plug/qiniustorage/qiniu/qiniu.js",
         //开关插件
         "switch": "plug/switch/switch.js",
         //标签插件
