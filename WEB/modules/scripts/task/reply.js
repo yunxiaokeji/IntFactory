@@ -106,7 +106,7 @@
             fileType: 3,
             //auto_start: true,
             init: {                
-                'FilesAdded': function (up, files) {
+                'FilesAdded': function (up, files) {                    
                     for (var i = 0; i < files.length; i++) {
                         var item = files[i];
                         for (var i = 0; i < ImageCheck.length; i++) {
@@ -153,16 +153,11 @@
 
                     //progress.setProgress(file.percent + "%", file.speed, chunk_size);
                 },
-                'FileUploaded': function (up, file, info) {
+                'FileUploaded': function (up, file, info) {                    
                     InnerHtml.find('.progress-number').remove();
                     var itemInfo = JSON.parse(info);
-                    var itemFile = file;
-                    $("#reply-imgs").append('<li data-filename="' + file.name + '" data-filesize="' + file.size + 'kb" ><img src="' + sourceLink + '" /><span class="ico-delete delete"></span></li>');
-                    console.log(domain);
-                    console.log(sourceLink);
-                   // console.log(file);
-                    console.log(info);
-
+                    var itemFile = file;                  
+                    
                     InnerHtml.data({
                         'isimg': IsImage,
                         'filepath': '',
