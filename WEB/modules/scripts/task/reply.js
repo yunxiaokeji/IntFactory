@@ -53,9 +53,8 @@
                         "OriginalName": _this.data('originalname'),
                         "Size": _this.data("filesize"),
                         "ThumbnailName": ""
-                    });                    
+                    });
                 });
-                
                 var model = {
                     GUID: Reply.guid,
                     StageID: Reply.stageid,
@@ -177,6 +176,8 @@
     //上传附件
     ObjectJS.bindReplyAttachment = function (replyId) {
         var uploader = Upload.uploader({
+        var replyId = reply && reply.data('replyid');
+
             browse_button: 'reply-attachment'+replyId,
             container:  'reply-box' + replyId,
             drop_element:'reply-box' + replyId,
@@ -218,7 +219,7 @@
 
             if (_this.data('isget') != 1) {
                 _this.data('isget', 1);
-                ObjectJS.replyAttachment(_this.data("replyid"));
+                ObjectJS.replyAttachment(reply);
             }
 
             //提示
