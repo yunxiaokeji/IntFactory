@@ -97,12 +97,20 @@
             container: 'taskreply-box',
             drop_element: 'taskreply-box',
             file_path: "/Content/UploadFiles/Task/",
-            maxQuantity: 2,
+            maxQuantity: 5,
             maxSize:5,
             //auto_start: true,
-            init: {
+            init: {                
                 'FileUploaded': function (up, file, info) {
-                  
+                    var domain = up.getOption('domain');
+                    var res =JSON.parse(info);
+                    var sourceLink = domain + res.key; //获取上传成功后的文件的Url
+                    $("#reply-imgs").append('<li data-filename="' + file.name + '" data-filesize="' + file.size + 'kb" ><img src="' + sourceLink + '" /><span class="ico-delete delete"></span></li>');
+                    console.log(domain);
+                    console.log(sourceLink);
+                   // console.log(file);
+                    console.log(info);
+
                 },
                 //若想在前端对每个文件的key进行个性化处理，可以配置该函数
                 'Key': function (up, file) {
