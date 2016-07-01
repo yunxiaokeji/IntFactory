@@ -1,16 +1,24 @@
 ﻿{%
-    for(var i=0, j=$data.length; i < j; i++){
+for(var i=0;i<$data.length;i++)
+{
 	    var item = $data[i];
         var extension=item.name.split('.');
 %}
-        <li data-filepath="{%=item.filePath%}" data-filename="{%=item.name%}" data-filesize="{%=item.size%}" data-originalname="{%=item.name%}" data-isimg="2">
-            <div class="upload-lump left mRight20" style="top:5px;"> 
-            <div class="content long width35" title="{%=item.extensions%}">{%=extension[extension.length-1]%}</div>
+        <li id="li_{%=item.id%}" data-isimg="2">
+            <div class="upload-lump left" style="top:5px;"> 
+                <div class="content long width35">{%=extension[extension.length-1]%}</div>
                 <div class="lump"></div>
             </div>
-            <div class="information mLeft10 width120">
-            <span title="{%=item.originalName%}" class="long width60">{%=item.name%}</span>
-            <span title='{%=item.size/1024/1024<1?(item.size/1024).toFixed(2)+"KB":(item.size/1024/1024).toFixed(2)+"MB"%}'>{%=item.size/1024/1024<1?(item.size/1024).toFixed(2)+"KB":(item.size/1024/1024).toFixed(2)+"MB"%}</span></div>
-            <span class="ico-delete-upload delete iconfont">&#xe628;</span>
+            <div class="information left mLeft20 width120">
+                <span title="{%=item.originalName%}" class="long width100">{%=item.name%}</span>
+                <span class="progress-file center" style="overflow:hidden;width:100%;position:relative;border:1px solid #ccc;height:14px;line-height:14px;display:block;border-radius:3px;">
+                    <span class="run-progress mark-progress" style="display:block;background-color:#efefef;width:0;height:14px;position:absolute;left:0;top:0;"></span>
+                    <span class="progress-number mark-progress" style="position:relative;z-index:10;">0%</span>
+                </span>
+                <div class="clear"></div>
+                <span class="file-size hide">{%=item.size/1024/1024<1?(item.size/1024).toFixed(2)+"KB":(item.size/1024/1024).toFixed(2)+"MB"%}</span>
+            </div>
+            <div class="clear"></div>
+            <span class="ico-delete-upload delete iconfont hide">&#xe628;</span>
         </li>
 {%}%}

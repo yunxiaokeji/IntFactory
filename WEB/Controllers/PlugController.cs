@@ -13,6 +13,7 @@ using Qiniu.Auth;
 using Qiniu.IO;
 using Qiniu.IO.Resumable;
 using Qiniu.RS;
+using Qiniu.RPC;
 namespace YXERP.Controllers
 {
     public class PlugController : Controller
@@ -70,6 +71,16 @@ namespace YXERP.Controllers
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public int DeleteAttachment(string key)
+        {
+            String bucket = "zngc-intfactory";
+            //实例化一个RSClient对象，用于操作BucketManager里面的方法
+            RSClient client = new RSClient();
+            CallRet ret = client.Delete(new EntryPath(bucket, key));
+
+            return ret.OK ? 1 : 0;
         }
 
         /// <summary>
@@ -249,8 +260,7 @@ namespace YXERP.Controllers
 
         public ActionResult DownLoadFile(string filePath, string fileName, string originalName,string isIE)
         {
-           
-
+          
             string path = Server.MapPath(filePath + fileName);//服务器文件物理路径
             FileInfo fileInfo = new FileInfo(path);
             if (fileInfo.Exists)

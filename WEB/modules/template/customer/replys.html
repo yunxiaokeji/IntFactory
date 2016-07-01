@@ -37,11 +37,11 @@
                                         <div title="{%=attchmentItem.OriginalName%}" class="long filename width100">{%=attchmentItem.OriginalName%}</div>
                                         <div title='{%=attchmentItem.Size/1024/1024<1?(attchmentItem.Size/1024).toFixed(2)+"KB":(attchmentItem.Size/1024/1024).toFixed(2)+"MB"%}'>{%=attchmentItem.Size/1024/1024<1?(attchmentItem.Size/1024).toFixed(2)+"KB":(attchmentItem.Size/1024/1024).toFixed(2)+"MB"%}</div>
                                     </div> 
-                                    <div class="popup-download download iconfont hide" data-url="/Plug/DownLoadFile?filePath={%=attchmentItem.FilePath%}&fileName={%=attchmentItem.FileName%}&originalName={%=attchmentItem.OriginalName%}">
-                                        &#xe655;
-                                    </div>
-                                    
-
+                                    <a href="{%=attchmentItem.ServerUrl+attchmentItem.FilePath+attchmentItem.FileName+'?attname='+attchmentItem.OriginalName%}" target="_blank">
+                                        <div class="popup-download download iconfont hide">
+                                            &#xe655;
+                                        </div>
+                                    </a>
                                 </li>      
                             {%
                                 }
