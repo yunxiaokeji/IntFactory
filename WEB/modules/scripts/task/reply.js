@@ -53,9 +53,8 @@
                         "OriginalName": _this.data('originalname'),
                         "Size": _this.data("filesize"),
                         "ThumbnailName": ""
-                    });                    
+                    });
                 });
-                
                 var model = {
                     GUID: Reply.guid,
                     StageID: Reply.stageid,
@@ -176,17 +175,19 @@
     }
 
     //上传附件
-    ObjectJS.replyAttachment = function (replyId) {
+    ObjectJS.replyAttachment = function (reply) {
+
+        var replyId = reply && reply.data('replyid');
+
         var uploader = Qiniu.uploader({
             browse_button: 'reply-attachment'+replyId,
-            container: ($('.taskreply-box') ? 'taskreply-box' : 'reply-box' + replyId),
-            drop_element: ($('.taskreply-box') ? 'taskreply-box' : 'reply-box' + replyId),
+            container: (!reply ? 'taskreply-box' : 'reply-box' + replyId),
+            drop_element: (!reply ? 'taskreply-box' : 'reply-box' + replyId),
             file_path: "/Content/UploadFiles/Task/",
             maxQuantity: 5,
             maxSize: 5,
             fileType: 3,
             init: {
-                //文件添加进队列后,处理相关的事情
                 'FilesAdded': function (up, files) {
                     var imgs = [];
                     var attachments = [];
@@ -229,18 +230,16 @@
                         });
                     }
                 },
-                //每个文件上传时,处理相关的事情
                 'UploadProgress': function (up, file) {
                     $(" #li_" + file.id).find('.run-progress').css("width", file.percent + "%");
                     $(" #li_" + file.id).find('.progress-number').html(file.percent + "%");
 
                 },
-                //每个文件上传成功后,处理相关的事情
                 'FileUploaded': function (up, file, info) {
                     var InnerHtml = $("#li_" + file.id);
                     var itemInfo = JSON.parse(info);
                     var itemFile = file;
-                    
+
                     InnerHtml.find('.progress-number').remove();
                     InnerHtml.find('.progress-file').remove();
                     InnerHtml.find('.file-size').show();
@@ -312,7 +311,7 @@
 
             if (_this.data('isget') != 1) {
                 _this.data('isget', 1);
-                ObjectJS.replyAttachment(_this.data("replyid"));
+                ObjectJS.replyAttachment(reply);
             }
 
             //提示
