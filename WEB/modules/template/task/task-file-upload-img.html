@@ -1,4 +1,9 @@
-﻿<li>
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<li id="li_{%=item.id%}" >
     <p class="center progress-number blue"></p>
     <span class="ico-delete delete"></span>
 </li>
+{% } %}
