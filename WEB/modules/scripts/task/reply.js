@@ -174,10 +174,9 @@
     }
 
     //上传附件
-    ObjectJS.bindReplyAttachment = function (replyId) {
-        var uploader = Upload.uploader({
+    ObjectJS.bindReplyAttachment = function (reply) {
         var replyId = reply && reply.data('replyid');
-
+        var uploader = Upload.uploader({
             browse_button: 'reply-attachment'+replyId,
             container:  'reply-box' + replyId,
             drop_element:'reply-box' + replyId,
