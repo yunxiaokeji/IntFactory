@@ -67,7 +67,7 @@ namespace YXERP.Controllers
             ViewBag.Title = "委托订单列表";
             ViewBag.Type = (int)EnumSearchType.Entrust;
 
-            int State = -1;
+            int State = 1;
             if (!string.IsNullOrEmpty(id))
             {
                 if (id.Equals("need", StringComparison.OrdinalIgnoreCase))
