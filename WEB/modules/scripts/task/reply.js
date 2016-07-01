@@ -54,8 +54,9 @@
                         "OriginalName": _this.data('originalname'),
                         "Size": _this.data("filesize"),
                         "ThumbnailName": ""
-                    });
-                });                
+                    });                    
+                });
+                
                 var model = {
                     GUID: Reply.guid,
                     StageID: Reply.stageid,

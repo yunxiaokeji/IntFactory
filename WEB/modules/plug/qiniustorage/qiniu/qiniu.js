@@ -782,7 +782,7 @@ function QiniuJsSDK() {
                 var file = files[i];
                 var ext = that.getFileExtension(file.name);
                 var fileSize = file.size;
-                file.name = file.id + "." + ext;               
+                //file.name = file.id + "." + ext;               
                 for (var j = 0; j < attachmenttypes.length; j++) {
                     if (attachmenttypes[j] == ext) {
                         isContinue = true;
