@@ -311,8 +311,13 @@
     <Content Include="modules\images\wechat.jpg" />
     <Content Include="modules\images\ico-wechat.png" />
     <Content Include="modules\images\word.png" />
+    <Content Include="modules\plug\choosecolor\spectrum.css" />
+    <Content Include="modules\plug\choosecolor\spectrum.js" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
     <Content Include="modules\plug\chooseproduct\productin.html" />
+    <Content Include="modules\plug\colormark\colormark.js" />
+    <Content Include="modules\plug\colormark\ico-ball.png" />
+    <Content Include="modules\plug\colormark\style.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.js" />
     <Content Include="modules\plug\daterangepicker\moment.js" />
@@ -478,6 +483,7 @@
     <Content Include="modules\scripts\orders\fentorderreport.js" />
     <Content Include="modules\scripts\orders\orderplans.js" />
     <Content Include="modules\scripts\orders\platemakingprocess.js" />
+    <Content Include="modules\scripts\system\labelset.js" />
     <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
     <Content Include="modules\scripts\system\orderstages.js" />
@@ -530,6 +536,7 @@
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\system\orderstage-detail.html" />
+    <Content Include="modules\template\system\sources-color.html" />
     <Content Include="modules\template\task\platematring-orderdatail.html" />
     <Content Include="modules\template\task\task-costs.html" />
     <Content Include="modules\template\task\platemarting-add.html" />
@@ -1099,6 +1106,7 @@
     <Content Include="Views\Error\NoRoot.cshtml" />
     <Content Include="Views\Error\NoFindFile.cshtml" />
     <Content Include="Views\Default\BindMobile.cshtml" />
+    <Content Include="Views\System\LabelSet.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

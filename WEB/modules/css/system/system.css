@@ -26,6 +26,28 @@
 .easydialog-create .stage-item:hover{ border-color:#2F73B8; color:#2F73B8;}
 .easydialog-create .stage-item.hover{ border-color:#2F73B8; color:#fff; background-color:#2F73B8;}
 
+/*客户来源*/
+.sourceul { height:31px; }
+.sourceul li { line-height: 30px; width:100px; }
+.sourceul li a{ line-height: 30px;  width:100px; text-align:left; display:inline-block; color:#333; }
+.sourceul .active { background-color: #fff; }
+.header-mark{    overflow: auto;margin: 10px 20px 10px;}
+.movespan {position: absolute;top:94px;left: 10px; width:70px; border-bottom:solid 2px #4380BE;}
+
+.color-list li{ height:30px; line-height:30px; min-width:115px;  float:left; margin:10px 10px;  text-align:center; position:relative;  }
+.color-list li input{ height:28px; line-height:30px; width:70px; padding:0 5px; text-align:center; border:solid 1px #ccc; cursor:pointer; }
+.color-list li .ico-delete{ position:absolute; right:-9px; top:-9px; display:none; background-color:white; }
+.color-list li:hover .ico-delete{ display:inline-block; }
+.color-list .color-item:hover input{ border:solid 1px #318ae4; }
+.colordiv{overflow:auto;padding: 0px 10px;cursor: pointer;min-width:80px;color:#fff;}
+.color-leftzuoyou{width:0; height:0; border-top:15px solid transparent;border-bottom:15px solid transparent;cursor: pointer;}
+
+/*切换导航样式*/
+.tab-nav { margin:10px 20px; height:33px; line-height:33px; border-bottom: solid 1px #ccc; }
+.tab-nav ul { height: 32px; }
+.tab-nav ul li { height:32px; float:left; padding:0 20px; cursor:pointer; }
+.tab-nav ul li:hover { color:#318ae4; }
+.tab-nav ul li.hover { position: relative; height: 32px; line-height: 32px; border-bottom: 2px solid #4a98e7; color:#318ae4;}
 
 /*团队成员*/
 

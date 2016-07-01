@@ -251,7 +251,7 @@ namespace YXERP.Controllers
 
             ViewBag.NowDate = nowDate;
             ViewBag.IsMy = 1;
-
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 3).ToList();
             return View();
         }
         /// <summary>
@@ -260,7 +260,7 @@ namespace YXERP.Controllers
         public ActionResult Participate()
         {
             ViewBag.IsMy = 2;
-
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 3).ToList();
             return View("MyTask");
         }
 
@@ -271,7 +271,7 @@ namespace YXERP.Controllers
         {
 
             ViewBag.IsMy = 0;
-
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 3).ToList();
             return View("MyTask");
         }
 

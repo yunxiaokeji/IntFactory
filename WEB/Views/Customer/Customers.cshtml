@@ -1,5 +1,6 @@
 ﻿@{
-    var firstNames =(char[])ViewBag.FirstNames;   
+    var firstNames =(char[])ViewBag.FirstNames; 
+    var model=(List<IntFactoryEntity.Custom.LableColorEntity>)ViewBag.list;  
  }
 @section css{
      <link href="/modules/css/customer/customer.css" rel="stylesheet" />
@@ -9,7 +10,7 @@
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/customer/customer"], function (ObjectJS) {
-            ObjectJS.init('@ViewBag.Type');
+            ObjectJS.init('@ViewBag.Type', '@Html.ToJSONString(model)');
         });
     </script>
 }
@@ -28,14 +29,13 @@
             <li data-idsource="3">手工创建</li>
         </ul>
         <ul class="search-item-color search-mark">
-            <li class="column-name" data-id="-2">标&nbsp;&nbsp;&nbsp;记：</li>
+            <li class="column-name">标&nbsp;&nbsp;&nbsp;记：</li>
             <li data-id="-1" class="item mark-all hover"></li>
-            <li data-id="0" class="item mark0"></li>
-            <li data-id="1" class="item mark1"></li>
-            <li data-id="2" class="item mark2"></li>
-            <li data-id="3" class="item mark3"></li>
-            <li data-id="4" class="item mark4"></li>
-            <li data-id="5" class="item mark5"></li>
+            <li data-id="0" class="item mark0" data-name="默认"></li>
+            @foreach (var item in model)
+            {
+                <li data-id="@item.ColorID" class="item" style="border:solid 1px @item.ColorValue;background-color:@item.ColorValue" data-name="@item.ColorName"></li>
+            }            
         </ul>
         <ul class="search-letter hide">
             <div class="color999 pLeft5 left mRight20" data-letter="1">首字母：</div>

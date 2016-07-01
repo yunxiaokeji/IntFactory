@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "标签设置";
+}
+@section css{   
+    <link href="/modules/css/system/system.css" rel="stylesheet" />
+    <link href="/modules/plug/choosecolor/spectrum.css" rel="stylesheet" />
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/system/labelset"], function (ObjectJS) {@*'@Html.ToJSONString(colorData)'*@
+            ObjectJS.init('@ViewBag.Type'); 
+        });
+    </script>
+}
+<div class="module-header mTop20">
+    <ul class="module-tab left">
+        <li class="hover left" data-id="customermark" data-labelid="1">
+            客户标签设置
+        </li>         
+        <li class="left" data-id="ordermark" data-labelid="2">
+            订单标签设置
+        </li> 
+        <li class="left" data-id="taskmark" data-labelid="3">
+            任务标签设置
+        </li>                
+    </ul>    
+</div>
+
+<div class="btn-add right mRight10">新建标签</div>
+
+<div class="clear"></div>
+<div class="mLeft20 pTop10" style="height:500px;background-color:#fff">
+    <ul class="color-list mTop5" id="colormark"> 
+        
+    </ul>   
+</div>
+<ul class="colordrop dropdown-ul hide"  style="width:65px;">
+    <li  id="updateColor">编辑</li>
+    <li  id="deleteColor">删除</li>
+</ul>
