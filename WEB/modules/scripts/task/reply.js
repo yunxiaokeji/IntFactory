@@ -21,7 +21,7 @@
             $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
         });
         
-        ObjectJS.replyAttachment("");
+        ObjectJS.bindReplyAttachment("");
 
         //任务讨论盒子隐藏
         $(document).click(function (e) {
@@ -95,7 +95,6 @@
         });
     }
 
-        var uploader = Upload.uploader({
     ObjectJS.getTaskReplys = function (page) {
         var _self = this;
         $("#replyList").empty();
@@ -108,13 +107,16 @@
             pageIndex: page
         }, function (data) {
             $("#replyList").empty();
+
+            if (data.items.length > 0) {
+                doT.exec("template/customer/replys.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
                     $("#replyList").html(innerhtml);
 
-                    ObjectJS.bindReplyOperate(innerhtml);  
+                    ObjectJS.bindReplyOperate(innerhtml);
                 });
-            }else{
+            } else {
                 $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
             }
 
@@ -173,21 +175,18 @@
     }
 
     //上传附件
-    ObjectJS.replyAttachment = function (replyId) {
+    ObjectJS.bindReplyAttachment = function (replyId) {
+        var uploader = Upload.uploader({
             browse_button: 'reply-attachment'+replyId,
-            container: ($('.taskreply-box') ? 'taskreply-box' : 'reply-box' + replyId),
-            drop_element: ($('.taskreply-box') ? 'taskreply-box' : 'reply-box' + replyId),
+            container:  'reply-box' + replyId,
+            drop_element:'reply-box' + replyId,
             file_path: "/Content/UploadFiles/Task/",
-            picture_container: "reply-imgs",
-            file_container: "reply-files",
+            picture_container: "reply-imgs"+replyId,
+            file_container: "reply-files" + replyId,
             maxQuantity: 5,
             maxSize: 5,
             fileType: 3,
             init: {}
-                //文件添加进队列后,处理相关的事情
-                //每个文件上传时,处理相关的事情
-                //每个文件上传成功后,处理相关的事情
-                        Global.post("/Plug/DeleteAttachment", { key: $(this).data('key') }, function () {
         });
     }
 
