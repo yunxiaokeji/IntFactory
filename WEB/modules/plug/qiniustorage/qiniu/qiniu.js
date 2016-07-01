@@ -483,14 +483,14 @@ function QiniuJsSDK() {
             drop_element: '',// 拖曳上传区域元素的 ID，拖曳文件或文件
                 flash_swf_url: '/modules/plug/qiniustorage/plupload/Moxie.swf',
                 file_path: "/Content/UploadFiles/",//引入 flash,相对路径
-
+                
                 get_new_uptoken: false, // 设置上传文件的时候是否每次都重新获取新的 uptoken
                 domain: "zngc-intfactory", // bucket 域名，下载资源时用到，**必需*
                 uptoken_url: "/Plug/GetToken",// Ajax 请求 uptoken 的 Url，**强烈建议设置**（服务端提供）
-            
+                
                 max_file_size: '5mb', // 最大文件体积限制
                 chunk_size: '5mb', // 分块上传时，每块的体积
-            
+                
                 dragdrop: true, // 开启可拖曳上传
                 auto_start: true, // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
                 multi_selection: true,//支持多选

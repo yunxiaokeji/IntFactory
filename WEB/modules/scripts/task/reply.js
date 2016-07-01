@@ -166,7 +166,7 @@
                     InnerHtml.find('.progress-file').remove();
                     InnerHtml.find('.file-size').show();
                     
-                    InnerHtml.find('.delete').data('key', itemInfo.key);
+                    InnerHtml.find('.delete').data('key', itemInfo.key);                    
                     InnerHtml.data({
                         'filepath': '',
                         'filename': itemInfo.key,
@@ -270,8 +270,7 @@
         Global.post("/" + Controller + "/SavaReply", params, function (data) {
             if (btnObject) {
                 btnObject.html(btnName).removeAttr("disabled");
-            }
-
+            }           
             doT.exec("template/customer/replys.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
