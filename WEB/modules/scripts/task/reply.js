@@ -95,7 +95,7 @@
         var IsImage = 2;
         var ReplyId = "";
         var ImageCheck = ["image/x-png", "image/png", "image/gif", "image/jpeg", "image/tiff", "application/x-MS-bmp", "image/pjpeg"];
-        var InnerHtml = [];
+        var InnerHtml;
         var uploader = Qiniu.uploader({
             browse_button: 'reply-attachment',
             container: 'taskreply-box',
