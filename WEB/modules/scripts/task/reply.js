@@ -53,8 +53,9 @@
                         "OriginalName": _this.data('originalname'),
                         "Size": _this.data("filesize"),
                         "ThumbnailName": ""
-                    });
+                    });                    
                 });
+                
                 var model = {
                     GUID: Reply.guid,
                     StageID: Reply.stageid,
@@ -185,6 +186,7 @@
             maxSize: 5,
             fileType: 3,
             init: {
+                //文件添加进队列后,处理相关的事情
                 'FilesAdded': function (up, files) {
                     var imgs = [];
                     var attachments = [];
@@ -227,16 +229,18 @@
                         });
                     }
                 },
+                //每个文件上传时,处理相关的事情
                 'UploadProgress': function (up, file) {
                     $(" #li_" + file.id).find('.run-progress').css("width", file.percent + "%");
                     $(" #li_" + file.id).find('.progress-number').html(file.percent + "%");
 
                 },
+                //每个文件上传成功后,处理相关的事情
                 'FileUploaded': function (up, file, info) {
                     var InnerHtml = $("#li_" + file.id);
                     var itemInfo = JSON.parse(info);
                     var itemFile = file;
-
+                    
                     InnerHtml.find('.progress-number').remove();
                     InnerHtml.find('.progress-file').remove();
                     InnerHtml.find('.file-size').show();
