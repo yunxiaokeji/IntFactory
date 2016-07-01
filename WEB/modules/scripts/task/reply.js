@@ -31,7 +31,6 @@
                 !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload")&&
                 !$(e.target).parents().hasClass("alert") && !$(e.target).hasClass("alert")) {
                 $(".taskreply-box").removeClass("taskreply-box-hover");
-
             }
         });
 
@@ -54,8 +53,9 @@
                         "OriginalName": _this.data('originalname'),
                         "Size": _this.data("filesize"),
                         "ThumbnailName": ""
-                    });
+                    });                    
                 });
+                
                 var model = {
                     GUID: Reply.guid,
                     StageID: Reply.stageid,
@@ -93,22 +93,9 @@
             width: 100,
             msg: "上传附件最多10个"
         });
-
-        var uploader = Upload.uploader({
-            browse_button: 'reply-attachment',
-            container: 'taskreply-box',
-            drop_element: 'taskreply-box',
-            file_path: "/Content/UploadFiles/Task/",
-            picture_container: "reply-imgs",
-            file_container: "reply-files",
-            maxQuantity: 5,
-            maxSize: 5,
-            fileType: 3,
-            init: {}
-        });
     }
 
-    //获取任务讨论列表
+        var uploader = Upload.uploader({
     ObjectJS.getTaskReplys = function (page) {
         var _self = this;
         $("#replyList").empty();
@@ -121,18 +108,13 @@
             pageIndex: page
         }, function (data) {
             $("#replyList").empty();
-
-            if (data.items.length > 0) {
-                doT.exec("template/customer/replys.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
                     $("#replyList").html(innerhtml);
 
                     ObjectJS.bindReplyOperate(innerhtml);  
                 });
-            }
-            else
-            {
+            }else{
                 $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
             }
 
@@ -191,85 +173,22 @@
     }
 
     //上传附件
-    ObjectJS.replyAttachment = function (replyid) {
-        //Upload.createUpload({
-        //    element: "reply-attachment" + replyid,
-        //    buttonText: "&#xe65a;",
-        //    className: "left iconfont",
-        //    multiple: true,
-        //    fileType: 3,//附件类型 1:图片；2：文件；3图片和文件
-        //    maxSize: 5 * 1024,//附件最大大小
-        //    maxQuantity: 10,//最大上传文件个数
-        //    successItems: ".upload-files-" + replyid + " li",
-        //    url: "/Plug/UploadFiles",
-        //    data: { folder: '', action: 'add', oldPath: "" },
-        //    success: function (data, status)
-        //    {
-        //        if (data.Stage == false)
-        //        {
-        //            alert("每次最多允许上传5个");
-        //        }
-        //        else {                   
-        //            var len = data.Items.length;
-        //            if (len > 0)
-        //            {
-        //                var templateUrl = "/template/task/task-file-upload.html";
-        //                var fileBox = $("#reply-files" + replyid);
-        //                if ($(".msg-" + replyid).val() == "") {
-        //                    $(".msg-" + replyid).val(data.Items[0].originalName.split('.')[0]);
-        //                }
-                        
-        //                var fileArr = new Array();
-        //                var picArr = new Array();
-        //                for (var i = 0; i < len ; i++) {
-        //                    var item = data.Items[i];
-                            
-        //                    if (item.isImage == 1) {
-        //                        picArr.push(item);
-        //                    }
-        //                    else {
-        //                        fileArr.push(item);
-        //                    }
-        //                }
-                        
-        //                if (fileArr.length > 0) {
-        //                    doT.exec(templateUrl, function (template) {
-        //                        var innerhtml = template(fileArr);
-        //                        innerhtml = $(innerhtml);
-        //                        fileBox.append(innerhtml).fadeIn(300);
-
-        //                        innerhtml.find(".delete").click(function () {
-        //                            $(this).parent().remove();
-        //                            if (fileBox.find('li').length == 0) {
-        //                                fileBox.hide();
-        //                            }
-        //                        });
-
-
-        //                    });
-        //                }
-        //                if (picArr.length > 0) {
-        //                    doT.exec("/template/task/task-file-upload-img.html", function (template) {
-        //                        var innerhtml = template(picArr);
-        //                        innerhtml = $(innerhtml);
-        //                        $("#reply-imgs" + replyid).append(innerhtml).fadeIn(300);
-
-        //                        innerhtml.find(".delete").click(function () {
-        //                            $(this).parent().remove();
-        //                            if ($("#reply-imgs" + replyid).find('li').length == 0) {
-        //                                $("#reply-imgs" + replyid).hide();
-        //                            }
-        //                        });
-        //                    });
-        //                }
-        //            }
-        //            else {
-        //                alert("上传文件格式不正确或有文件超过10M");
-        //            }
-
-        //        }
-        //    }
-        //});
+    ObjectJS.replyAttachment = function (replyId) {
+            browse_button: 'reply-attachment'+replyId,
+            container: ($('.taskreply-box') ? 'taskreply-box' : 'reply-box' + replyId),
+            drop_element: ($('.taskreply-box') ? 'taskreply-box' : 'reply-box' + replyId),
+            file_path: "/Content/UploadFiles/Task/",
+            picture_container: "reply-imgs",
+            file_container: "reply-files",
+            maxQuantity: 5,
+            maxSize: 5,
+            fileType: 3,
+            init: {}
+                //文件添加进队列后,处理相关的事情
+                //每个文件上传时,处理相关的事情
+                //每个文件上传成功后,处理相关的事情
+                        Global.post("/Plug/DeleteAttachment", { key: $(this).data('key') }, function () {
+        });
     }
 
     //绑定任务讨论操作
@@ -285,8 +204,6 @@
             var _this = $(this);
             var reply = _this.nextAll(".reply-box");
             
-            $("#reply-attachment" + _this.data("replyid")).empty();
-
             $("#replyList .reply-box").each(function () {
                 if ($(this).data("replyid") != reply.data("replyid")) {
                     $(this).hide();
@@ -294,15 +211,17 @@
             });
             if (reply.is(":visible")) {
                 reply.slideUp(300);                
-            }
-            else {
+            } else {
                 reply.slideDown(300);                
             }
-            
+
             reply.find("textarea").focus();
 
-            ObjectJS.replyAttachment(_this.data("replyid"));                        
-            
+            if (_this.data('isget') != 1) {
+                _this.data('isget', 1);
+                ObjectJS.replyAttachment(_this.data("replyid"));
+            }
+
             //提示
             $("#reply-attachment" + _this.data("replyid")).Tip({
                 width: 100,
@@ -314,6 +233,11 @@
         replys.find(".save-reply").click(function () {
             var _this = $(this);
             if ($("#Msg_" + _this.data("replyid")).val().trim()) {
+                if ($('.upload-files-' + _this.data("replyid") + ' li').find('.mark-progress').length > 0) {
+                    alert("文件上传中，请稍等");
+                    return false;
+                }
+
                 var entity = {
                     GUID: _this.data("id"),
                     StageID: _this.data("stageid"),
