@@ -797,7 +797,7 @@ function QiniuJsSDK() {
                     up.splice(up.files.length - files.length, up.files.length);
                     return false;
                 }
-                debugger
+
                 var fileSize = fileSize / 1024/1024;
                 if (fileSize > maxSize) {
                     alert("附件大小不能大于" + maxSize + "M！");
