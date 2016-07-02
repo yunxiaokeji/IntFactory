@@ -56,7 +56,7 @@
                                 if(attchmentItem.Type==1)
                                 { 
                             %}  
-                            <li class="mTop5 hand"><img class="orderImage-repay" data-src="{%=attchmentItem.ServerUrl+attchmentItem.FilePath+attchmentItem.FileName%}" src="{%=attchmentItem.ServerUrl+attchmentItem.FilePath+(attchmentItem.ThumbnailName==""?attchmentItem.FileName:attchmentItem.ThumbnailName)%}"></li>
+                            <li class="mTop5 hand"><img class="orderImage-repay" data-src="{%=attchmentItem.ServerUrl+attchmentItem.FilePath+attchmentItem.FileName%}" src="{%=attchmentItem.ServerUrl+attchmentItem.FilePath+attchmentItem.FileName+'?imageView2/1/w/120/h/80'%}"></li>
                             {%
                                 }
                             }

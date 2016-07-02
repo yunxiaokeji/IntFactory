@@ -133,7 +133,6 @@
                     ObjectJS.getTaskReplys(page);
                 }
             });
-
         });
     }
 
@@ -175,7 +174,7 @@
     //上传附件
     ObjectJS.bindReplyAttachment = function (replyId) {
         var uploader = Upload.uploader({
-            browse_button: 'reply-attachment'+replyId,
+            browse_button: 'reply-attachment' + replyId,
             container: 'reply-box' + replyId,
             drop_element:'reply-box' + replyId,
             file_path: "/Content/UploadFiles/Task/",
@@ -183,6 +182,7 @@
             file_container: "reply-files" + replyId,
             maxQuantity: 5,
             maxSize: 5,
+            successItems: '.upload-files-'+replyId+' li',
             fileType: 3,
             init: {}
         });
@@ -197,7 +197,6 @@
 
         //打开讨论盒
         replys.find(".btn-reply").click(function () {
-
             var _this = $(this);
             var reply = _this.nextAll(".reply-box");
             

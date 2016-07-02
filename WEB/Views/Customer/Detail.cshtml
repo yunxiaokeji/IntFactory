@@ -11,8 +11,10 @@
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
-        seajs.use(["scripts/customer/detail"], function (ObjectJS) {
-            ObjectJS.init('@ViewBag.ID', '@ViewBag.MDToken', '@ViewBag.Nav');
+        $(function () {
+            seajs.use(["scripts/customer/detail"], function (ObjectJS) {
+                ObjectJS.init('@ViewBag.ID', '@ViewBag.MDToken', '@ViewBag.Nav');
+            });
         });
     </script>
 }
@@ -73,7 +75,7 @@
     <div class="mTop20 task-replys hide" id="taskReplys">
         <div class="taskreply-box">
             <textarea id="txtContent" class="reply-content msg-" placeholder="发表备忘"></textarea><br />
-            <div id="reply-attachment" style="width:25px;"></div>
+            <div id="reply-attachment" class="iconfont left" style="width:25px;">&#xe65a;</div>
             <div class="left iconfont btn-emotion mLeft10" id="btn-emotion" data-id="txtContent" title="表情">&#xe65b;</div>
                       
             <div class="btn right mTop5 mBottom10" id="btnSaveTalk">提交</div>
