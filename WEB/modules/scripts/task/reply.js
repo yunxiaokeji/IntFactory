@@ -178,12 +178,12 @@
             browse_button: 'reply-attachment' + replyId,
             container: 'reply-box' + replyId,
             drop_element:'reply-box' + replyId,
-            file_path: "/Content/UploadFiles/Task/",
             picture_container: "reply-imgs"+replyId,
             file_container: "reply-files" + replyId,
+            successItems: '.upload-files-' + replyId + ' li',
+            file_path: "/Content/UploadFiles/Task/",
             maxQuantity: 5,
             maxSize: 5,
-            successItems: '.upload-files-'+replyId+' li',
             fileType: 3,
             init: {}
         });
