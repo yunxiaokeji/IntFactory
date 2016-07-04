@@ -17,6 +17,7 @@
         var _self = this;
         _self.guid = customerid;
 
+
         var nav = $(".module-tab li[data-id='" + navid + "']");
         if (nav.length > 0) {
             nav.addClass("hover");

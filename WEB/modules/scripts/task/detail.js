@@ -96,7 +96,7 @@
         }
 
         TalkReply = require("scripts/task/reply");
-        TalkReply.initTalkReply(ObjectJS, 'task',0);
+        TalkReply.initTalkReply(ObjectJS, 'task',1);
 
         $(".part-btn").hide();
 

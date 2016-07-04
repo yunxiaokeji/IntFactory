@@ -25,7 +25,6 @@
             seajs.use(["scripts/task/detail"], function (obj) {
                 obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn?1:0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")');
             });
-
         });
     </script>
 }
