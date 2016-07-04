@@ -609,14 +609,24 @@
 
         //订单联系人新建客户
         $("#createOrderCustomer").click(function () {
+            if (!_self.model.MobileTele) {
+                alert("联系方式不能为空");
+                return;
+            }
             confirm("确认把订单联系人信息创建为新客户吗？", function () {
                 Global.post("/Orders/CreateOrderCustomer", {
                     orderid: _self.orderid 
                 }, function (data) {
                     if (data.status) {
-                        alert('客户创建成功！', location.href);
+                        alert('客户创建成功', location.href);
+                    } else if (data.result == 2) {
+                        alert('订单已绑定客户', location.href);
+                    } else if (data.result == 3) {
+                        alert('联系方式不能为空', location.href);
+                    } else if (data.result == 4) {
+                        alert('联系方式已存在客户，您可以选择绑定客户');
                     } else {
-                        alert("客户创建失败，请稍后重试!", location.href);
+                        alert("客户创建失败");
                     }
                 });
             });
