@@ -784,6 +784,7 @@
                                 $("#show-order-images img").each(function () {
                                     newimages += $(this).attr("src") + ",";
                                 });
+                                console.log(newimages);
                                 Global.post("/Orders/UpdateOrderImages", {
                                     orderid: _self.orderid,
                                     images: newimages
@@ -812,30 +813,49 @@
                             }
                         }
                     });
-                    Upload.createUpload({
-                        element: "addOrderImages",
-                        buttonText: "+",
-                        className: "edit-orderimages",
-                        multiple: true,
-                        data: { folder: '', action: 'add', oldPath: "" },
-                        successItems: ".order-imgs-box li:not(:last-child)",
-                        success: function (data, status) {
-                            if (data.Items.length > 0) {
-                                for (var i = 0; i < data.Items.length; i++) {
-                                    if ($("#show-order-images li").length < 11) {
-                                        var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
-                                        $("#addOrderImages").parent().before(img);
-                                        img.find(".ico-delete").click(function () {
-                                            $(this).parent().remove();
-                                        });
-                                    }
-                                }
-                                $("#show-order-images .order-imgs-list").sortable();
-                            } else {
-                                alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-                            }
+
+                    var uploader = Upload.uploader({
+                        browse_button: 'addOrderImages',
+                        container: 'order-imgs-box',
+                        drop_element: 'order-imgs-box',
+                        file_path: "/Content/UploadFiles/Task/",
+                        picture_container: "order-imgs-box",
+                        file_container: "reply-files",
+                        maxQuantity: 10,
+                        maxSize: 5,
+                        successItems: '.order-imgs-box li:not(:last-child)',
+                        fileType: 1,
+                        image_view: "?imageView2/1/w/48/h/48",
+                        dragdrop: false,
+                        init: {
+                            
                         }
                     });
+
+                    //Upload.createUpload({
+                    //    element: "addOrderImages",
+                    //    buttonText: "+",
+                    //    className: "edit-orderimages",
+                    //    multiple: true,
+                    //    data: { folder: '', action: 'add', oldPath: "" },
+                    //    successItems: ".order-imgs-box li:not(:last-child)",
+                    //    success: function (data, status) {
+                    //        if (data.Items.length > 0) {
+                    //            for (var i = 0; i < data.Items.length; i++) {
+                    //                if ($("#show-order-images li").length < 11) {
+                    //                    var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
+                    //                    $("#addOrderImages").parent().before(img);
+                    //                    img.find(".ico-delete").click(function () {
+                    //                        $(this).parent().remove();
+                    //                    });
+                    //                }
+                    //            }
+                    //            $("#show-order-images .order-imgs-list").sortable();
+                    //        } else {
+                    //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+                    //        }
+                    //    }
+                    //});
                     
                     $("#show-order-images .order-imgs-list").sortable();
 

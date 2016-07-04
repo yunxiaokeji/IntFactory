@@ -81,23 +81,33 @@
             $(".update-content-body").hide();
         });
 
-        //选择海报图片
-        PosterIco = Upload.createUpload({
-            element: "Logo",
-            buttonText: "选择LOGO",
-            className: "",
-            data: { folder: '/Content/tempfile/', action: 'add', oldPath: "" },
-            success: function (data, status) {
-                if (data.Items.length > 0) {
-                    $("#PosterDisImg").show();
-                    $("#PosterDisImg").attr("src", data.Items[0]);
-                    $("#PosterDisImgone").attr("src", data.Items[0]);
-                    //$("#CompanyLogo").val(data.Items[0]);
-                } else {
-                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-                }
-            }
+        uploader = Upload.uploader({
+            browse_button: "LOGO",
+            file_path: "/Content/UploadFiles/Task/",
+            picture_container: "PosterDisImg",
+            maxQuantity:1,
+            maxSize: 5,
+            multi_selection:false,
+            init: {}
         });
+
+        ////选择海报图片
+        //PosterIco = Upload.createUpload({
+        //    element: "Logo",
+        //    buttonText: "选择LOGO",
+        //    className: "",
+        //    data: { folder: '/Content/tempfile/', action: 'add', oldPath: "" },
+        //    success: function (data, status) {
+        //        if (data.Items.length > 0) {
+        //            $("#PosterDisImg").show();
+        //            $("#PosterDisImg").attr("src", data.Items[0]);
+        //            $("#PosterDisImgone").attr("src", data.Items[0]);
+        //            //$("#CompanyLogo").val(data.Items[0]);
+        //        } else {
+        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+        //        }
+        //    }
+        //});
 
         //城市插件
         CityObject = City.createCity({
