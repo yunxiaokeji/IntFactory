@@ -345,12 +345,11 @@
     max-height:80px;
     vertical-align:middle;
 }
-.accessory li .ico-delete{ 
+.accessory li .delete{ 
     background: url(/modules/images/ico-delete.png) no-repeat;
     height: 20px;
     min-width: 20px;
     line-height: 20px;
-    display: inline-block;
     cursor: pointer;
     position:absolute;
     right:-10px;    
