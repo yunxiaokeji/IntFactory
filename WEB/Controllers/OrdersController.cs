@@ -67,7 +67,7 @@ namespace YXERP.Controllers
             ViewBag.Title = "委托订单列表";
             ViewBag.Type = (int)EnumSearchType.Entrust;
 
-            int State = -1;
+            int State = 1;
             if (!string.IsNullOrEmpty(id))
             {
                 if (id.Equals("need", StringComparison.OrdinalIgnoreCase))
@@ -714,8 +714,10 @@ namespace YXERP.Controllers
 
         public JsonResult CreateOrderCustomer(string orderid)
         {
-            var bl = OrdersBusiness.BaseBusiness.CreateOrderCustomer(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            int result = 0;
+            var bl = OrdersBusiness.BaseBusiness.CreateOrderCustomer(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
             JsonDictionary.Add("status", bl);
+            JsonDictionary.Add("result", result);
             return new JsonResult
             {
                 Data = JsonDictionary,

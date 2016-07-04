@@ -109,7 +109,7 @@ define(function (require, exports, module) {
             return;
         }
         _self.getChildren(_self.city, province.val(), function () {
-            var city = _self.city.find("option[value*='" + _city + "']");
+            var city = _self.city.find("option[value^='" + _province + _city + "']");
             city.prop("selected", "selected");
             if (_county == "00") {
                 _self.city.change();

@@ -1133,10 +1133,10 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool CreateOrderCustomer(string orderid, string operateid, string ip, string agentid, string clientid)
+        public bool CreateOrderCustomer(string orderid, string operateid, string ip, string agentid, string clientid, out int result)
         {
             string id = "";
-            bool bl = OrdersDAL.BaseProvider.CreateOrderCustomer(orderid, operateid, agentid, clientid, out id);
+            bool bl = OrdersDAL.BaseProvider.CreateOrderCustomer(orderid, operateid, agentid, clientid, out id, out result);
             if (bl)
             {
                 string msg = "订单联系人创建新客户";
