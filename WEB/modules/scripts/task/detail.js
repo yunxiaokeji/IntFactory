@@ -1361,7 +1361,8 @@
             if (Upload == null) {
                 Upload = require("upload");
             }
-            //选择意见反馈附件
+
+            //工艺说明录入上传附件
             Upload.createUpload({
                 element: "selectPlateIcon",
                 buttonText: "选择图标",
