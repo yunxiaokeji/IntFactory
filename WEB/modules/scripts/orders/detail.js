@@ -741,9 +741,10 @@
 
     //绑定样式图
     ObjectJS.bindOrderImages = function (orderimages) {
-        var _self = this;
+        var _self = this;        
         var images = orderimages.split(",");
         _self.images = images;
+        
         for (var i = 0; i < images.length; i++) {
             if (images[i]) {
                 if (i == 0) {
@@ -751,6 +752,7 @@
                 }
                 var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
                 $(".order-imgs-list").append(img);
+                
             }
         }
         $(".order-imgs-list img").parent().click(function () {
@@ -782,9 +784,8 @@
                             yesFn: function () {
                                 var newimages = "";
                                 $("#show-order-images img").each(function () {
-                                    newimages += $(this).attr("src") + ",";
-                                });
-                                console.log(newimages);
+                                    newimages += $(this).attr("src") + ",";                                 
+                                });                                
                                 Global.post("/Orders/UpdateOrderImages", {
                                     orderid: _self.orderid,
                                     images: newimages

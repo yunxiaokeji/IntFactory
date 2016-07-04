@@ -404,39 +404,17 @@ namespace YXERP.Controllers
             string replyID = "";
             replyID = CustomBusiness.CreateReply(model.GUID, model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
 
-            string movePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Customers/" + DateTime.Now.ToString("yyyyMM") + "/";
-            string uploadTempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
-            DirectoryInfo directory = new DirectoryInfo(Server.MapPath(movePath));
-            if (!directory.Exists)
-            {
-                directory.Create();
-            }
+            //string movePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Customers/" + DateTime.Now.ToString("yyyyMM") + "/";
+            //string uploadTempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
+            //DirectoryInfo directory = new DirectoryInfo(Server.MapPath(movePath));
+            //if (!directory.Exists)
+            //{
+            //    directory.Create();
+            //}
 
             foreach (var attachments in model.Attachments)
             {
-                attachments.FilePath = movePath;
-                string fileUrl = movePath + attachments.FileName;
-                string tempFileUrl = uploadTempPath + attachments.FileName;
-                FileInfo tempFile = new FileInfo(Server.MapPath(tempFileUrl));
-
-                if (tempFile.Exists)
-                {
-                    tempFile.MoveTo(Server.MapPath(fileUrl));
-
-                    if (attachments.Type == 1)
-                    {
-                        FileInfo file = new FileInfo(Server.MapPath(fileUrl));
-                        if (file.Length / 1024 > 500)
-                        {
-                            if (file.Exists)
-                            {
-                                string smallImgUrl = Path.GetDirectoryName(fileUrl) + "\\small" + file.Name;
-                                attachments.ThumbnailName = "small" + file.Name;
-                                CommonBusiness.GetThumImage(Server.MapPath(fileUrl), 30, 250, Server.MapPath(smallImgUrl));
-                            }
-                        }
-                    }
-                }
+                attachments.ServerUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
             }
 
 

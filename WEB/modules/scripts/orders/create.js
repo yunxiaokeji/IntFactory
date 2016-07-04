@@ -78,7 +78,7 @@
             browse_button: 'productIco',
             container: 'orderImages',
             drop_element: 'orderImages',
-            file_path: "/Content/UploadFiles/Task/",
+            file_path: "/Content/UploadFiles/Order/",
             picture_container: "orderImages",
             maxQuantity: 5,
             maxSize: 5,
@@ -170,9 +170,10 @@
     //保存实体
     ObjectJS.saveModel = function () {
         var _self = this;
+        var domainUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
         var images = "";
-        $("#orderImages img").each(function () {
-            images += $(this).attr("src") + ",";
+        $("#orderImages li").each(function () {
+            images += domainUrl+$(this).data("filename") + ",";
         });
 
         var model = {
