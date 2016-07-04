@@ -70,54 +70,56 @@
                         </span>
                         &nbsp;大货
                     </div>
-                     <ul>
-                    <li class="form-row row">
-                    <div class="td">
-                     <div class="bigcategory">
+                  <ul>
+                     <li class="form-row row">
+                        <div class="td">
+                        <div class="bigcategory">
 
-                    </div>
-                    <div class="ordercategory">
+                        </div>
+                        <div class="ordercategory">
 
-                    </div>
-                    <div class="clear"></div>
-                    </div>
-                    </li>
+                        </div>
+                        <div class="clear"></div>
+                        </div>
+                        </li>
                 
-                    <li class="form-row row">
+                     <li class="form-row row">
                         <div class="td">
                     	    <input type="text" maxlength="5" id="planQuantity" placeholder="请输入数量"  data-empty="必填" data-type="int" class="inputbox verify"/>
                         </div>
-                    </li>
+                     </li>
                 
-                    <li class="form-row row">
+                     <li class="form-row row">
                         <div class="td">
                     	    <input type="text" maxlength="10" id="planPrice" placeholder="请输入期望价格" data-empty="必填" data-type="double"  class="inputbox verify"/>
                         </div>
-                    </li>
-                    <li class="form-row row">
+                     </li>
+                     <li class="form-row row">
                         <div class="td">
                             <input type="text" id="iptCreateTime" readonly="true" placeholder="期望交货日期"  class="ipt-date hand"  />
                         </div>
-                    </li>
-                    <li class="form-row row">
+                     </li>
+                     <li class="form-row row">
                         <div class="td">
                             <textarea id="remark" placeholder="如有详细需求请注明具体内容，以免制作时产品遗漏"  onpropertychange="this.style.height=this.value.split('\n').length*24 + 'px';this.style.height=this.scrollHeight + 'px';" oninput="this.style.height=this.value.split('\n').length*24 + 'px';this.style.height=this.scrollHeight + 'px';"class="textarea"></textarea>
                     	    @*<input type="text" id="remark" placeholder="如有详细需求请注明具体内容，以免制作时产品遗漏" class="textarea" />*@
                         </div>
-                    </li>
+                     </li>
                     <li class="row">
                         <div class="td">
                            <div class="img-box">
-                                    <ul  id="orderImages">
-                                        <li data-isone="1" id="productIco" class="left" ></li>
-                                    </ul>
+                                <ul  id="orderImages">
+                                    <li data-isone="1" id="productIco" class="left" >
+                                        <form id="productIco_postForm" enctype="multipart/form-data">
+                                            <input type="file" data-filequantity="0" class="productIco_fileUpLoad" accept="1" name="file" id="productIco_fileUpLoad" multiple="multiple" style="display:none;">
+                                            <input id="productIco_buttonSubmit" class="ico-upload" type="button" value="+">
+                                        </form>
+                                    </li>
+                                </ul>
                            </div>
                         </div>
-                    </li>
-
-                
-                
-                    </ul>
+                    </li>                                 
+                  </ul>
                 </li>
                  <li>
                     <div class="th pdall info-box  hand" data-type="2">
