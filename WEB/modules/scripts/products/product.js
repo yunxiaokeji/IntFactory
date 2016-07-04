@@ -23,6 +23,7 @@ define(function (require, exports, module) {
     var CacheCategorys = [];
     var CacheChildCategorys = [];
     var Product = {};
+    var QNDomianUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
     //添加页初始化
     Product.init = function (Editor, type, guid, tid) {
         var _self = this;
@@ -36,20 +37,33 @@ define(function (require, exports, module) {
     //绑定事件
     Product.bindEvent = function () {
         var _self = this;
-        ProductIco = Upload.createUpload({
-            element: "productIco",
-            buttonText: "选择图片",
-            className: "",
-            data: { folder: '', action: 'add', oldPath: "" },
-            success: function (data, status) {
-                if (data.Items.length > 0) {
-                    _self.ProductImage = data.Items[0];
-                    $("#productImg").attr("src", data.Items[0]);
-                } else {
-                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-                }
-            }
+        //ProductIco = Upload.createUpload({
+        //    element: "productIco",
+        //    buttonText: "选择图片",
+        //    className: "",
+        //    data: { folder: '', action: 'add', oldPath: "" },
+        //    success: function (data, status) {
+        //        if (data.Items.length > 0) {
+        //            _self.ProductImage = data.Items[0];
+        //            $("#productImg").attr("src", data.Items[0]);
+        //        } else {
+        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+        //        }
+        //    }
+        //});
+       
+        var uploader = Upload.uploader({
+            browse_button: 'selectProductIco',
+            container: 'product-add',
+            drop_element: 'product-add',
+            file_path: "/Content/UploadFiles/Product/",
+            picture_container: "product-img",
+            maxSize: 5,
+            multi_selection: false,
+            fileType: 1,
+            init: {}
         });
+
         $("#btnSaveProduct").on("click", function () {
 
             if (!VerifyObject.isPass()) {
@@ -220,19 +234,39 @@ define(function (require, exports, module) {
 
                     innerText.find(".upload-child-img").each(function () {
                         var _this = $(this);
-                        Upload.createUpload({
-                            element: _this.attr("id"),
-                            buttonText: "选择图片",
-                            className: "",
-                            data: { folder: '', action: 'add', oldPath: "" },
-                            success: function (data, status) {
-                                if (data.Items.length > 0) {
-                                    _this.siblings("img").attr("src", data.Items[0]);
-                                } else {
-                                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+                        //Upload.createUpload({
+                        //    element: _this.attr("id"),
+                        //    buttonText: "选择图片",
+                        //    className: "",
+                        //    data: { folder: '', action: 'add', oldPath: "" },
+                        //    success: function (data, status) {
+                        //        if (data.Items.length > 0) {
+                        //            _this.siblings("img").attr("src", data.Items[0]);
+                        //        } else {
+                        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+                        //        }
+                        //    }
+                        //});
+
+                        
+                        var uploader = Upload.uploader({
+                            //browse_button: 'selectProductIco',
+                            browse_button: _this.attr("id"),
+                            container: 'product-add',
+                            drop_element: 'product-add',
+                            file_path: "/Content/UploadFiles/Product/",
+                            multi_selection: false,
+                            auto_callback:false,
+                            fileType: 1,
+                            init: {
+                                "FileUploaded": function (up, file,info) {
+                                    var info=JSON.parse(info);
+                                    _this.siblings("img").attr("src",QNDomianUrl+ info.key);
                                 }
                             }
                         });
+
+
                     })
 
                     //价格必须大于0的数字
@@ -280,6 +314,11 @@ define(function (require, exports, module) {
             return false;
         }
 
+        if ($("#product-img img").length > 0) {
+            _self.ProductImage = $("#product-img img:first").attr("src");
+        } else {
+            _self.ProductImage = "";
+        }
         var Product = {
             ProductID: _self.ProductID,
             ProductCode: $("#productCode").val().trim(),
@@ -665,20 +704,34 @@ define(function (require, exports, module) {
             regText: "data-text"
         });
         //编辑图片
-        ProductIco = Upload.createUpload({
-            element: "productIco",
-            buttonText: "更换图片",
-            className: "",
-            data: { folder: '', action: 'add', oldPath: model.ProductImage },
-            success: function (data, status) {
-                if (data.Items.length > 0) {
-                    _self.ProductImage = data.Items[0];
-                    $("#productImg").attr("src", data.Items[0] + "?" + Global.guid());
-                } else {
-                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-                }
+        //ProductIco = Upload.createUpload({
+        //    element: "productIco",
+        //    buttonText: "更换图片",
+        //    className: "",
+        //    data: { folder: '', action: 'add', oldPath: model.ProductImage },
+        //    success: function (data, status) {
+        //        if (data.Items.length > 0) {
+        //            _self.ProductImage = data.Items[0];
+        //            $("#productImg").attr("src", data.Items[0] + "?" + Global.guid());
+        //        } else {
+        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+        //        }
+        //    }
+        //});
+
+        var uploader = Upload.uploader({
+            browse_button: 'productUpload',
+            container: 'productinfo',
+            drop_element: 'productinfo',
+            file_path: "/Content/UploadFiles/Product/",  
+            fileType: 1,
+            image_view: "?imageView2/1/w/100/h/100",
+            multi_selection:false,
+            init: {
+
             }
         });
+
         //切换内容
         $(".search-tab li").click(function () {
             var _this = $(this);
@@ -849,17 +902,35 @@ define(function (require, exports, module) {
 
             }
 
-            ImgsIco = Upload.createUpload({
-                element: "imgSIco",
-                buttonText: "选择图片",
-                className: "",
-                data: { folder: '/Content/tempfile/', action: 'add', oldPath: _self.ImgS },
-                success: function (data, status) {
-                    if (data.Items.length > 0) {
-                        _self.ImgS = data.Items[0];
-                        $("#imgS").attr("src", data.Items[0] + "?" + count++);
-                    } else {
-                        alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+            //ImgsIco = Upload.createUpload({
+            //    element: "imgSIco",
+            //    buttonText: "选择图片",
+            //    className: "",
+            //    data: { folder: '/Content/tempfile/', action: 'add', oldPath: _self.ImgS },
+            //    success: function (data, status) {
+            //        if (data.Items.length > 0) {
+            //            _self.ImgS = data.Items[0];
+            //            $("#imgS").attr("src", data.Items[0] + "?" + count++);
+            //        } else {
+            //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+            //        }
+            //    }
+            //});
+
+            var uploader = Upload.uploader({
+                browse_button: 'imgSIco',
+                container: 'imgSLurl',
+                drop_element: 'imgSLurl',
+                file_path: "/Content/UploadFiles/Product/", 
+                fileType: 1,
+                multi_selection: false,
+                auto_callback:false,
+                init: {
+                    "FileUploaded": function (up, file, info) {
+                        var info=JSON.parse(info);
+                        var src = QNDomianUrl + info.key;
+                        _self.ImgS = src;
+                        $("#imgS").attr("src", src + "?" + count++);
                     }
                 }
             });

@@ -21,24 +21,24 @@ namespace IntFactoryBusiness.Manage
         /// </summary>
         public static bool InsertFeedBack(FeedBack model)
         {
-            string temFilePath = model.FilePath;
-            string fileUrl = string.Empty;
-            if (!string.IsNullOrEmpty(temFilePath))
-            {
-                if (temFilePath.IndexOf("?") > 0)
-                {
-                    temFilePath = temFilePath.Substring(0, temFilePath.IndexOf("?"));
-                }
-                FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(temFilePath));
+            //string temFilePath = model.FilePath;
+            //string fileUrl = string.Empty;
+            //if (!string.IsNullOrEmpty(temFilePath))
+            //{
+            //    if (temFilePath.IndexOf("?") > 0)
+            //    {
+            //        temFilePath = temFilePath.Substring(0, temFilePath.IndexOf("?"));
+            //    }
+            //    FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(temFilePath));
 
 
-                fileUrl = FilePath + file.Name;
-                if (file.Exists)
-                {
-                    file.MoveTo(HttpContext.Current.Server.MapPath(fileUrl));
-                }
-            }
-            model.FilePath = fileUrl;
+            //    fileUrl = FilePath + file.Name;
+            //    if (file.Exists)
+            //    {
+            //        file.MoveTo(HttpContext.Current.Server.MapPath(fileUrl));
+            //    }
+            //}
+            //model.FilePath = fileUrl;
 
             return FeedBackDAL.BaseProvider.InsertFeedBack(model.Title, model.ContactName, model.MobilePhone,
                 model.Type, model.FilePath, model.Remark, model.CreateUserID);
