@@ -81,33 +81,24 @@
             $(".update-content-body").hide();
         });
 
-        uploader = Upload.uploader({
-            browse_button: "LOGO",
-            file_path: "/Content/UploadFiles/Task/",
-            picture_container: "PosterDisImg",
-            maxQuantity:1,
-            maxSize: 5,
-            multi_selection:false,
-            init: {}
+        var uploader = Upload.uploader({
+            browse_button: 'Logo-Img',
+            container: 'company',
+            drop_element: 'company',
+            file_path: "/Content/UploadFiles/company/",
+            fileType: 1,
+            multi_selection: false,
+            auto_callback: false,
+            init: {
+                "FileUploaded": function (up, file, info) {
+                    var info = JSON.parse(info);
+                    var QNDomianUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
+                    var src = QNDomianUrl + info.key;
+                    $("#PosterDisImgone").attr("src", src);
+                }
+            }
         });
-
-        ////选择海报图片
-        //PosterIco = Upload.createUpload({
-        //    element: "Logo",
-        //    buttonText: "选择LOGO",
-        //    className: "",
-        //    data: { folder: '/Content/tempfile/', action: 'add', oldPath: "" },
-        //    success: function (data, status) {
-        //        if (data.Items.length > 0) {
-        //            $("#PosterDisImg").show();
-        //            $("#PosterDisImg").attr("src", data.Items[0]);
-        //            $("#PosterDisImgone").attr("src", data.Items[0]);
-        //            //$("#CompanyLogo").val(data.Items[0]);
-        //        } else {
-        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-        //        }
-        //    }
-        //});
+        
 
         //城市插件
         CityObject = City.createCity({

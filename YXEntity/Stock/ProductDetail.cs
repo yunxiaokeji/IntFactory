@@ -133,11 +133,11 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? WarnCount
-		{
-			set{ _warncount=value;}
-			get{return _warncount;}
-		}
+        public decimal? WarnCount
+        {
+            set;
+            get;
+        }
 		/// <summary>
 		/// 
 		/// </summary>

@@ -749,17 +749,20 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOpportunityStage", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool CreateOrderCustomer(string orderid, string operateid, string agentid, string clientid, out string customerid)
+        public bool CreateOrderCustomer(string orderid, string operateid, string agentid, string clientid, out string customerid, out int result)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@CustomerID",SqlDbType.NVarChar,64),
+                                     new SqlParameter("@Result",SqlDbType.Int),
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             paras[0].Direction = ParameterDirection.Output;
+            paras[1].Direction = ParameterDirection.Output;
             ExecuteNonQuery("P_CreateOrderCustomer", paras, CommandType.StoredProcedure);
             customerid = paras[0].Value.ToString();
+            result = Convert.ToInt32(paras[1].Value);
             return !string.IsNullOrEmpty(customerid);
         }
 

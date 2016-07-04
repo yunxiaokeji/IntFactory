@@ -37,21 +37,7 @@ define(function (require, exports, module) {
     //绑定事件
     Product.bindEvent = function () {
         var _self = this;
-        //ProductIco = Upload.createUpload({
-        //    element: "productIco",
-        //    buttonText: "选择图片",
-        //    className: "",
-        //    data: { folder: '', action: 'add', oldPath: "" },
-        //    success: function (data, status) {
-        //        if (data.Items.length > 0) {
-        //            _self.ProductImage = data.Items[0];
-        //            $("#productImg").attr("src", data.Items[0]);
-        //        } else {
-        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-        //        }
-        //    }
-        //});
-       
+
         var uploader = Upload.uploader({
             browse_button: 'selectProductIco',
             container: 'product-add',
@@ -234,23 +220,7 @@ define(function (require, exports, module) {
 
                     innerText.find(".upload-child-img").each(function () {
                         var _this = $(this);
-                        //Upload.createUpload({
-                        //    element: _this.attr("id"),
-                        //    buttonText: "选择图片",
-                        //    className: "",
-                        //    data: { folder: '', action: 'add', oldPath: "" },
-                        //    success: function (data, status) {
-                        //        if (data.Items.length > 0) {
-                        //            _this.siblings("img").attr("src", data.Items[0]);
-                        //        } else {
-                        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-                        //        }
-                        //    }
-                        //});
-
-                        
                         var uploader = Upload.uploader({
-                            //browse_button: 'selectProductIco',
                             browse_button: _this.attr("id"),
                             container: 'product-add',
                             drop_element: 'product-add',
@@ -703,21 +673,6 @@ define(function (require, exports, module) {
             verifyType: "data-type",
             regText: "data-text"
         });
-        //编辑图片
-        //ProductIco = Upload.createUpload({
-        //    element: "productIco",
-        //    buttonText: "更换图片",
-        //    className: "",
-        //    data: { folder: '', action: 'add', oldPath: model.ProductImage },
-        //    success: function (data, status) {
-        //        if (data.Items.length > 0) {
-        //            _self.ProductImage = data.Items[0];
-        //            $("#productImg").attr("src", data.Items[0] + "?" + Global.guid());
-        //        } else {
-        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-        //        }
-        //    }
-        //});
 
         var uploader = Upload.uploader({
             browse_button: 'productUpload',
@@ -725,10 +680,14 @@ define(function (require, exports, module) {
             drop_element: 'productinfo',
             file_path: "/Content/UploadFiles/Product/",  
             fileType: 1,
-            image_view: "?imageView2/1/w/100/h/100",
-            multi_selection:false,
+            multi_selection: false,
+            auto_callback: false,
             init: {
-
+                "FileUploaded": function (up, file, info) {
+                    var info = JSON.parse(info);
+                    var src = QNDomianUrl + info.key;                    
+                    $("#productImg").attr("src", src);
+                }
             }
         });
 
@@ -901,21 +860,6 @@ define(function (require, exports, module) {
                 }
 
             }
-
-            //ImgsIco = Upload.createUpload({
-            //    element: "imgSIco",
-            //    buttonText: "选择图片",
-            //    className: "",
-            //    data: { folder: '/Content/tempfile/', action: 'add', oldPath: _self.ImgS },
-            //    success: function (data, status) {
-            //        if (data.Items.length > 0) {
-            //            _self.ImgS = data.Items[0];
-            //            $("#imgS").attr("src", data.Items[0] + "?" + count++);
-            //        } else {
-            //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-            //        }
-            //    }
-            //});
 
             var uploader = Upload.uploader({
                 browse_button: 'imgSIco',
