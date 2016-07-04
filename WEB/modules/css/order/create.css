@@ -1,6 +1,5 @@
 ﻿.order-imgs { width:400px; height:65px; margin-left:85px; }
-.order-imgs li:first-child { margin-left:10px;}
-.order-imgs li{ width:60px; height:60px; float:left; margin-left:20px; position:relative;}
+.order-imgs li{ width:60px; height:60px; float:left; margin-left:10px; position:relative;padding:1px;line-height:60px;border:1px solid #eee;}
 .order-imgs li img{ width:60px; height:60px; }
 .order-imgs .ico-delete { position:absolute; top:-9px; right:-7px;  }
 

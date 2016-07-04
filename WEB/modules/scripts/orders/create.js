@@ -74,33 +74,46 @@
             }
         });
 
-        Upload.createUpload({
-            element: "productIco",
-            buttonText: "选择图片",
-            className: "",
-            multiple: true,
+        var uploader = Upload.uploader({
+            browse_button: 'productIco',
+            container: 'orderImages',
+            drop_element: 'orderImages',
+            file_path: "/Content/UploadFiles/Task/",
+            picture_container: "orderImages",
             maxQuantity: 5,
-            successItems: "#orderImages li",
-            data: { folder: '', action: 'add', oldPath: "" },
-            success: function (data, status) {
-                if (data.Items.length > 0) {
-                    for (var i = 0; i < data.Items.length; i++) {
-                        if ($("#orderImages li").length < 5) {
-                            var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
-                            $("#orderImages").append(img).fadeIn(300);
-                            img.find(".ico-delete").click(function () {
-                                $(this).parent().remove();
-                                if ($("#orderImages li").length == 0) {
-                                    $("#orderImages").hide();
-                                }
-                            });
-                        }
-                    }
-                } else {
-                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-                }
-            }
+            maxSize: 5,
+            successItems: '#orderImages li',
+            fileType: 1,
+            init: {}
         });
+
+        //Upload.createUpload({
+        //    element: "productIco",
+        //    buttonText: "选择图片",
+        //    className: "",
+        //    multiple: true,
+        //    maxQuantity: 5,
+        //    successItems: "#orderImages li",
+        //    data: { folder: '', action: 'add', oldPath: "" },
+        //    success: function (data, status) {
+        //        if (data.Items.length > 0) {
+        //            for (var i = 0; i < data.Items.length; i++) {
+        //                if ($("#orderImages li").length < 5) {
+        //                    var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
+        //                    $("#orderImages").append(img).fadeIn(300);
+        //                    img.find(".ico-delete").click(function () {
+        //                        $(this).parent().remove();
+        //                        if ($("#orderImages li").length == 0) {
+        //                            $("#orderImages").hide();
+        //                        }
+        //                    });
+        //                }
+        //            }
+        //        } else {
+        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+        //        }
+        //    }
+        //});
 
         VerifyObject = Verify.createVerify({
             element: ".verify",
