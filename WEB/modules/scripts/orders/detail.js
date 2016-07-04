@@ -744,15 +744,13 @@
         var _self = this;        
         var images = orderimages.split(",");
         _self.images = images;
-        console.log(_self.images);
+        
         for (var i = 0; i < images.length; i++) {
-            
-            console.log(images[i]);
             if (images[i]) {
                 if (i == 0) {
                     $("#orderImage").attr("src", images[i]);
                 }
-                var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="http://o9h6bx3r4.bkt.clouddn.com/' + images[i] + '" /></li>');
+                var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
                 $(".order-imgs-list").append(img);
                 
             }
@@ -785,10 +783,8 @@
                             content: innerText,
                             yesFn: function () {
                                 var newimages = "";
-                                var orderimg = "";
                                 $("#show-order-images img").each(function () {
-                                    newimages += $(this).data("src") + ",";
-                                    orderimg += $(this).attr("src") + ",";                                    
+                                    newimages += $(this).attr("src") + ",";                                 
                                 });                                
                                 Global.post("/Orders/UpdateOrderImages", {
                                     orderid: _self.orderid,
@@ -799,7 +795,7 @@
                                         _self.images = newimages.split(",");
                                         for (var i = 0; i < _self.images.length; i++) {
                                             if (_self.images[i]) {
-                                                $(".edit-orderimages").before($('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="http://o9h6bx3r4.bkt.clouddn.com/' + _self.images[i] + '" /></li>'));
+                                                $(".edit-orderimages").before($('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + _self.images[i] + '" /></li>'));
                                             }
                                         }
                                         $(".order-imgs-list img").parent().click(function () {
