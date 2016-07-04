@@ -1,5 +1,6 @@
 ﻿define(function (require, exports, module) {
     var Global = require("global"),
+        Upload = require("upload"),
         Verify = require("verify"), VerifyObject;
 
     var ObjectJS = {};

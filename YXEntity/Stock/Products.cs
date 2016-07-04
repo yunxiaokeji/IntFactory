@@ -311,11 +311,11 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? SaleCount
-		{
-			set{ _salecount=value;}
-			get{return _salecount;}
-		}
+        public decimal? SaleCount
+        {
+            set;
+            get;
+        }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -446,9 +446,9 @@ namespace IntFactoryEntity
         [Property("Lower")] 
         public string SaleAttrValue { get; set; }
 
-        public int StockIn { get; set; }
+        public decimal StockIn { get; set; }
 
-        public int LogicOut { get; set; }
+        public decimal LogicOut { get; set; }
 
         public int IsPublic { get; set; }
 
