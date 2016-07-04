@@ -54,7 +54,7 @@ namespace IntFactoryEntity
 		private int? _isrecommend=0;
 		private int? _isdiscount=0;
 		private decimal? _discountvalue=1;
-		private int? _salecount=0;
+        private decimal _salecount = 0;
 		private decimal? _weight=0;
 		private string _productimage="";
 		private int? _effectivedays=0;
@@ -311,7 +311,7 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? SaleCount
+        public decimal SaleCount
 		{
 			set{ _salecount=value;}
 			get{return _salecount;}
@@ -446,9 +446,9 @@ namespace IntFactoryEntity
         [Property("Lower")] 
         public string SaleAttrValue { get; set; }
 
-        public int StockIn { get; set; }
+        public decimal StockIn { get; set; }
 
-        public int LogicOut { get; set; }
+        public decimal LogicOut { get; set; }
 
         public int IsPublic { get; set; }
 

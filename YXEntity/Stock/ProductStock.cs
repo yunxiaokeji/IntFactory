@@ -29,8 +29,8 @@ namespace IntFactoryEntity
 		private int _autoid;
 		private string _productid;
 		private string _produceddate;
-		private int _stockin=0;
-		private int _stockout=0;
+        private decimal _stockin = 0;
+        private decimal _stockout = 0;
 		private string _batchcode="";
 		private string _warecode="";
 		private string _depotcode="";
@@ -68,7 +68,7 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public int StockIn
+        public decimal StockIn
 		{
 			set{ _stockin=value;}
 			get{return _stockin;}
@@ -76,7 +76,7 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-        public int StockOut
+        public decimal StockOut
 		{
 			set{ _stockout=value;}
 			get{return _stockout;}
