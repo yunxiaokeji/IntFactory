@@ -41,7 +41,7 @@
     <input type="hidden" id="categoryID" value="@(model.CategoryID)" />
 </div>
 <div class="content-body mTop20">
-    <ul class="table-add product-add">
+    <ul class="table-add product-add" id="product-add">
         <li>
             <span class="column-name">材料名称：</span><input type="text" style="width:300px;" maxlength="50" id="productName" data-empty="必填" class="input verify" />
         </li>
@@ -83,7 +83,7 @@
             <span class="column-name">价格：</span><input type="text" maxlength="10" data-empty="必填" data-type="double" data-text="请输入数字!"  id="price" class="input verify width80" />
         </li>
         <li>
-            <span class="column-name">缩略图：</span><span id="productIco"></span>
+            <span class="column-name">缩略图：</span><span id="selectProductIco" class="btn">选择图片</span>
         </li>
         <li>
             <span class="column-name">是否启用：</span><label><input type="checkbox" checked="checked" id="status" />是</label> 
@@ -112,7 +112,10 @@
         </li>
 
     </ul>
-    <img class="product-img" id="productImg" alt="" src="/modules/images/default.png" />
+    <div class="product-img" id="product-img">
+        
+    </div>
+
     <div class="mTop20">
         <div  class="btn" id="btnSaveProduct">保存</div>
     </div>
