@@ -784,7 +784,6 @@
                                 $("#show-order-images img").each(function () {
                                     newimages += $(this).attr("src") + ",";
                                 });
-                                console.log(newimages);
                                 Global.post("/Orders/UpdateOrderImages", {
                                     orderid: _self.orderid,
                                     images: newimages
