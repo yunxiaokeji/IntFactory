@@ -63,36 +63,6 @@
             }
         });
 
-        //Upload.createUpload({
-        //    element: "upLoadOneImg",
-        //    buttonText: "&#xe60b;",
-        //    className: "iconfont ico-upload",
-        //    multiple: false,
-        //    data: { folder: '', action: 'add', oldPath: "" },
-        //    success: function (data, status) {
-        //        if (data.Items.length > 0) {
-        //            $("#upLoadOneImg").prev().attr('src', data.Items[0]);
-        //        } else {
-        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-        //        }
-        //    }
-        //});
-
-        //Upload.createUpload({
-        //    element: "upLoadTwoImg",
-        //    buttonText: "&#xe60b;",
-        //    className: "iconfont ico-upload",
-        //    multiple: false,
-        //    data: { folder: '', action: 'add', oldPath: "" },
-        //    success: function (data, status) {
-        //        if (data.Items.length > 0) {
-        //            $("#upLoadTwoImg").prev().attr('src', data.Items[0]);
-        //        } else {
-        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-        //        }
-        //    }
-        //});
-
         $(".change-owner").click(function () {
             var _this = $(this);
             ChooseUser.create({
