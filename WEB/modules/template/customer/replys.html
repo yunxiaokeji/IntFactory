@@ -37,11 +37,11 @@
                                         <div title="{%=attchmentItem.OriginalName%}" class="long filename width100">{%=attchmentItem.OriginalName%}</div>
                                         <div title='{%=attchmentItem.Size/1024/1024<1?(attchmentItem.Size/1024).toFixed(2)+"KB":(attchmentItem.Size/1024/1024).toFixed(2)+"MB"%}'>{%=attchmentItem.Size/1024/1024<1?(attchmentItem.Size/1024).toFixed(2)+"KB":(attchmentItem.Size/1024/1024).toFixed(2)+"MB"%}</div>
                                     </div> 
-                                    <div class="popup-download download iconfont hide" data-url="/Plug/DownLoadFile?filePath={%=attchmentItem.FilePath%}&fileName={%=attchmentItem.FileName%}&originalName={%=attchmentItem.OriginalName%}">
-                                        &#xe655;
-                                    </div>
-                                    
-
+                                    <a href="{%=attchmentItem.ServerUrl+attchmentItem.FilePath+attchmentItem.FileName+'?attname='+attchmentItem.OriginalName%}" target="_blank">
+                                        <div class="popup-download download iconfont hide">
+                                            &#xe655;
+                                        </div>
+                                    </a>
                                 </li>      
                             {%
                                 }
@@ -56,7 +56,7 @@
                                 if(attchmentItem.Type==1)
                                 { 
                             %}  
-                            <li class="mTop5 hand"><img class="orderImage-repay" data-src="{%=attchmentItem.FilePath+attchmentItem.FileName%}" src="{%=attchmentItem.FilePath+(attchmentItem.ThumbnailName==""?attchmentItem.FileName:attchmentItem.ThumbnailName)%}"></li>
+                            <li class="mTop5 hand"><img class="orderImage-repay" data-src="{%=attchmentItem.ServerUrl+attchmentItem.FilePath+attchmentItem.FileName%}" src="{%=attchmentItem.ServerUrl+attchmentItem.FilePath+attchmentItem.FileName+'?imageView2/1/w/120/h/80'%}"></li>
                             {%
                                 }
                             }
@@ -76,12 +76,12 @@
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
-                <div class="mTop10 hide reply-box" data-replyid="{%=item.ReplyID%}">
+                <div class="mTop10 hide reply-box" id="reply-box{%=item.ReplyID%}" data-replyid="{%=item.ReplyID%}">
                     <div>
                         <textarea placeholder="发表评论" class="msg-{%=item.ReplyID%}" id="Msg_{%=item.ReplyID%}" style="width:100%;"></textarea>
                     </div>
-                    <div id="reply-attachment{%=item.ReplyID%}" style="width:25px;"></div>
-                    <div class="btn-emotion left iconfont mLeft10" data-id="Msg_{%=item.ReplyID%}" title="表情">&#xe65b;</div>
+                    <div id="reply-attachment{%=item.ReplyID%}" style="width:25px;" class="iconfont left hand">&#xe65a;</div>
+                    <div class="btn-emotion left iconfont mLeft10 hand" data-id="Msg_{%=item.ReplyID%}" title="表情">&#xe65b;</div>
                 
                     <div class="right mTop5 btn save-reply" data-id="{%=item.GUID%}"  data-stageid="{%=item.StageID%}" data-replyid="{%=item.ReplyID%}" data-createuserid="{%=item.CreateUserID%}" data-agentid="{%=item.AgentID%}">
                         回复

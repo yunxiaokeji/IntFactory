@@ -312,10 +312,10 @@ namespace IntFactoryEntity
 		/// 
 		/// </summary>
         public decimal SaleCount
-		{
-			set{ _salecount=value;}
-			get{return _salecount;}
-		}
+        {
+            set;
+            get;
+        }
 		/// <summary>
 		/// 
 		/// </summary>

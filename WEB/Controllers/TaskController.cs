@@ -563,25 +563,25 @@ namespace YXERP.Controllers
             PlateMaking model = serializer.Deserialize<PlateMaking>(plate);
             bool flag = false;
 
-            string FilePath=CloudSalesTool.AppSettings.Settings["UploadFilePath"];
-            string temFilePath = model.Icon;
-            string fileUrl = string.Empty;
-            if (!string.IsNullOrEmpty(temFilePath))
-            {
-                if (temFilePath.IndexOf("?") > 0)
-                {
-                    temFilePath = temFilePath.Substring(0, temFilePath.IndexOf("?"));
-                }
-                FileInfo file = new FileInfo(Server.MapPath(temFilePath));
+            //string FilePath=CloudSalesTool.AppSettings.Settings["UploadFilePath"];
+            //string temFilePath = model.Icon;
+            //string fileUrl = string.Empty;
+            //if (!string.IsNullOrEmpty(temFilePath))
+            //{
+            //    if (temFilePath.IndexOf("?") > 0)
+            //    {
+            //        temFilePath = temFilePath.Substring(0, temFilePath.IndexOf("?"));
+            //    }
+            //    FileInfo file = new FileInfo(Server.MapPath(temFilePath));
 
 
-                fileUrl = FilePath + file.Name;
-                if (file.Exists)
-                {
-                    file.MoveTo(Server.MapPath(fileUrl));
-                }
-            }
-            model.Icon = fileUrl;
+            //    fileUrl = FilePath + file.Name;
+            //    if (file.Exists)
+            //    {
+            //        file.MoveTo(Server.MapPath(fileUrl));
+            //    }
+            //}
+            //model.Icon = fileUrl;
 
             if (string.IsNullOrEmpty(model.PlateID))
             {
@@ -695,41 +695,18 @@ namespace YXERP.Controllers
             string replyID = "";
             replyID = OrdersBusiness.CreateReply(model.GUID, model.StageID, model.Mark, model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
             
-            string movePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Tasks/" + DateTime.Now.ToString("yyyyMM") + "/";
-            string uploadTempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
-            DirectoryInfo directory = new DirectoryInfo(Server.MapPath(movePath));
-            if (!directory.Exists)
-            {
-                directory.Create();
-            }
+            //string movePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Tasks/" + DateTime.Now.ToString("yyyyMM") + "/";
+            //string uploadTempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
+            //DirectoryInfo directory = new DirectoryInfo(Server.MapPath(movePath));
+            //if (!directory.Exists)
+            //{
+            //    directory.Create();
+            //}
 
-            foreach (var attachments in model.Attachments)
-            {
-                attachments.FilePath = movePath;
-                string fileUrl = movePath + attachments.FileName;
-                string tempFileUrl = uploadTempPath + attachments.FileName;
-                FileInfo tempFile = new FileInfo(Server.MapPath(tempFileUrl));
-
-                if (tempFile.Exists)
-                {
-                    tempFile.MoveTo(Server.MapPath(fileUrl));
-
-                    if (attachments.Type == 1)
-                    {
-                        FileInfo file = new FileInfo(Server.MapPath(fileUrl));
-                        if (file.Length / 1024 > 500)
-                        {
-                            if (file.Exists)
-                            {
-                                string smallImgUrl = Path.GetDirectoryName(fileUrl) + "\\small" + file.Name;
-                                attachments.ThumbnailName = "small" + file.Name;
-                                CommonBusiness.GetThumImage(Server.MapPath(fileUrl), 30, 250, Server.MapPath(smallImgUrl));
-                            }
-                        }
-                    }
-                }
-            }
-
+            //foreach (var attachments in model.Attachments)
+            //{
+            //    attachments.ServerUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
+            //}
 
             TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);
 

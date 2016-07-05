@@ -1,5 +1,6 @@
 ﻿define(function (require, exports, module) {
     var Global = require("global"),
+        Upload = require("upload"),
         Verify = require("verify"), VerifyObject;
 
     var ObjectJS = {};
@@ -40,7 +41,6 @@
                 cropper = $('.imageBox').cropbox(options);
             }
             reader.readAsDataURL(this.files[0]);
-            this.files = [];
         })
 
         $('#btnZoomIn').on('click', function () {

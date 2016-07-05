@@ -628,48 +628,11 @@ namespace IntFactoryBusiness
             }
             else
             {
-                if (!string.IsNullOrEmpty(orderimgs))
+                orderimgs = orderimgs.Trim(',');
+                if (orderimgs.Length > 0)
                 {
-                    bool first = true;
-                    foreach (var img in orderimgs.Split(','))
-                    {
-                        string orderimg = img;
-                        if (!string.IsNullOrEmpty(orderimg))
-                        {
-                            if (orderimg.IndexOf("?") > 0)
-                            {
-                                orderimg = orderimg.Substring(0, orderimg.IndexOf("?"));
-                            }
-
-                            DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
-                            if (!directory.Exists)
-                            {
-                                directory.Create();
-                            }
-
-                            FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
-                            orderimg = FILEPATH + file.Name;
-                            if (first)
-                            {
-                                firstimg = FILEPATH + "small" + file.Name;
-                            }
-                            if (file.Exists)
-                            {
-                                file.MoveTo(HttpContext.Current.Server.MapPath(orderimg));
-                            }
-                        }
-                        if (first)
-                        {
-                            CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 250, HttpContext.Current.Server.MapPath(firstimg));
-
-                            first = false;
-                        }
-                        allimgs += orderimg + ",";
-                    }
-                }
-                if (allimgs.Length > 0)
-                {
-                    allimgs = allimgs.Substring(0, allimgs.Length - 1);
+                    allimgs = orderimgs;
+                    firstimg = allimgs.Split(',')[0];
                 }
             }
 
@@ -986,61 +949,64 @@ namespace IntFactoryBusiness
         public bool UpdateOrderImages(string orderid, string images,  string operateid, string ip, string agentid, string clientid)
         {
             string firstimg = "", allimgs = "";
-
+            images = images.Trim(',');
             if (!string.IsNullOrEmpty(images))
             {
-                bool first = true;
-                foreach (var img in images.Split(','))
-                {
-                    string orderimg = img;
-                    if (!string.IsNullOrEmpty(orderimg) && orderimg.IndexOf(TempPath) >= 0)
-                    {
-                        if (orderimg.IndexOf("?") > 0)
-                        {
-                            orderimg = orderimg.Substring(0, orderimg.IndexOf("?"));
-                        }
+                allimgs = images;
+                firstimg=allimgs.Split(',')[0];
+            //    bool first = true;
+            //    foreach (var img in images.Split(','))
+            //    {
+            //        string orderimg = img;
+            //        //if (!string.IsNullOrEmpty(orderimg) && orderimg.IndexOf(TempPath) >= 0)
+            //        //{
+            //        //    if (orderimg.IndexOf("?") > 0)
+            //        //    {
+            //        //        orderimg = orderimg.Substring(0, orderimg.IndexOf("?"));
+            //        //    }
 
-                        DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
-                        if (!directory.Exists)
-                        {
-                            directory.Create();
-                        }
+            //        //    DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
+            //        //    if (!directory.Exists)
+            //        //    {
+            //        //        directory.Create();
+            //        //    }
 
-                        FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
-                        orderimg = FILEPATH + file.Name;
-                        if (file.Exists)
-                        {
-                            file.MoveTo(HttpContext.Current.Server.MapPath(orderimg));
-                        }
-                    }
-                    if (first)
-                    {
-                        if (orderimg.ToLower().IndexOf("http://img.china.alibaba.com") < 0)
-                        {
-                            FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
+            //        //    FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
+            //        //    orderimg = FILEPATH + file.Name;
+            //        //    if (file.Exists)
+            //        //    {
+            //        //        file.MoveTo(HttpContext.Current.Server.MapPath(orderimg));
+            //        //    }
+            //        //}
+            //        if (first)
+            //        {
+            //            if (orderimg.ToLower().IndexOf("http://img.china.alibaba.com") < 0)
+            //            {
+            //                FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
 
-                            if (file.Exists)
-                            {
-                                firstimg = orderimg.Substring(0, orderimg.IndexOf(file.Name)) + "small" + file.Name;
-                                if (!new FileInfo(HttpContext.Current.Server.MapPath(firstimg)).Exists)
-                                {
-                                    CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 250, HttpContext.Current.Server.MapPath(firstimg));
-                                }
-                            }
-                        }
-                        else 
-                        {
-                            firstimg = orderimg;
-                        }
-                        first = false;
-                    }
-                    allimgs += orderimg + ",";
-                }
+            //                if (file.Exists)
+            //                {
+            //                    firstimg = orderimg.Substring(0, orderimg.IndexOf(file.Name)) + "small" + file.Name;
+            //                    if (!new FileInfo(HttpContext.Current.Server.MapPath(firstimg)).Exists)
+            //                    {
+            //                        CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 250, HttpContext.Current.Server.MapPath(firstimg));
+            //                    }
+            //                }
+            //            }
+            //            else 
+            //            {
+            //                firstimg = orderimg;
+            //            }
+            //            first = false;
+            //        }
+            //        allimgs += orderimg + ",";
+            //    }
             }
-            if (allimgs.Length > 0)
-            {
-                allimgs = allimgs.Substring(0, allimgs.Length - 1);
-            }
+            //if (allimgs.Length > 0)
+            //{
+            //    allimgs = allimgs.Substring(0, allimgs.Length - 1);
+            //}
+
             bool bl = OrdersDAL.BaseProvider.UpdateOrderImages(orderid, firstimg, allimgs, agentid, clientid);
             if (bl)
             {

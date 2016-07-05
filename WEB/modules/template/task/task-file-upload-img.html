@@ -1,11 +1,9 @@
 ﻿{%
-	for(var i=0, j=$data.length; i < j; i++)
-    {
-	    var item = $data[i];
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
 %}
- <li data-filepath="{%=item.filePath%}" data-filename="{%=item.fileName%}" data-filesize="{%=item.fileSize%}" data-originalname="{%=item.originalName%}" data-isimg="{%=item.isImage%}">
-    <img src="{%=item.filePath%}{%=item.fileName%}" />
-    <span class="ico-delete delete"></span>
+<li id="li_{%=item.id%}" data-isimg="1" >
+    <p class="center progress-number mark-progress blue">等待中...</p>
+    <span class="ico-delete qn-delete hide"></span>
 </li>
-    
 {%}%}

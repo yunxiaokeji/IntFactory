@@ -23,32 +23,42 @@
             img = "/modules/images/none-img.png";
         };
         
-        Upload.createUpload({
-            element: "upLoadOneImg",
-            buttonText: "&#xe60b;",
-            className: "iconfont ico-upload",
-            multiple: false,
-            data: { folder: '', action: 'add', oldPath: "" },
-            success: function (data, status) {
-                if (data.Items.length > 0) {
-                    $("#upLoadOneImg").prev().attr('src', data.Items[0]);
-                } else {
-                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+        //工艺说明录入上传附件
+        Upload.uploader({
+            browse_button: 'upLoadOneImg',
+            container: 'OneImgBox',
+            drop_element: 'OneImgBox',
+            file_path: "/Content/UploadFiles/Product/",
+            picture_container: "OneImgBox",
+            maxSize: 5,
+            multi_selection: false,
+            auto_callback: false,
+            fileType: 1,
+            init: {
+                "FileUploaded": function (up, file, info) {
+                    var info = JSON.parse(info);
+                    var src = file.server + info.key;
+                    $("#upLoadOneImg").prev().attr('src', src);
                 }
             }
         });
 
-        Upload.createUpload({
-            element: "upLoadTwoImg",
-            buttonText: "&#xe60b;",
-            className: "iconfont ico-upload",
-            multiple: false,
-            data: { folder: '', action: 'add', oldPath: "" },
-            success: function (data, status) {
-                if (data.Items.length > 0) {
-                    $("#upLoadTwoImg").prev().attr('src', data.Items[0]);
-                } else {
-                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+        //工艺说明录入上传附件
+        Upload.uploader({
+            browse_button: 'upLoadTwoImg',
+            container: 'TwoImgBox',
+            drop_element: 'TwoImgBox',
+            file_path: "/Content/UploadFiles/Product/",
+            picture_container: "TwoImgBox",
+            maxSize: 5,
+            multi_selection: false,
+            auto_callback: false,
+            fileType: 1,
+            init: {
+                "FileUploaded": function (up, file, info) {
+                    var info = JSON.parse(info);
+                    var src = file.server + info.key;
+                    $("#upLoadTwoImg").prev().attr('src', src);
                 }
             }
         });

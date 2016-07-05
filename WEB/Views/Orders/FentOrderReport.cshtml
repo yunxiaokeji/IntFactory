@@ -53,23 +53,23 @@
                     </tr>
                     <tr>
                         <td class="no-border-left">款号:</td>
-                        <td class="no-border-right">@(order.IntGoodsCode==""?"--":order.IntGoodsCode)</td>
+                        <td class="no-border-right font14">@(order.IntGoodsCode==""?"--":order.IntGoodsCode)</td>
                     </tr>            
                     <tr>
                         <td class="no-border-left">品名:</td>
-                        <td class="no-border-right">@(order.CategoryName==""?"--":order.CategoryName)</td>
+                        <td class="no-border-right font14">@(order.CategoryName==""?"--":order.CategoryName)</td>
                     </tr>
                     <tr>                        
                         <td class="no-border-left"><i class="iconfont icon-delete customer">&#xe613;</i>客户:</td>
-                        <td class="no-border-right">@(order.Customer.Name==""?"--":order.Customer.Name)</td>
+                        <td class="no-border-right font14">@(order.Customer.Name==""?"--":order.Customer.Name)</td>
                     </tr>
                     <tr>
                         <td class="no-border-left">制版:</td>
-                        <td class="no-border-right">@(order.Tasts.Find(m=>m.Mark==12)==null?"": order.Tasts.Find(m=>m.Mark==12).Owner.Name)</td>
+                        <td class="no-border-right font14">@(order.Tasts.Find(m=>m.Mark==12)==null?"": order.Tasts.Find(m=>m.Mark==12).Owner.Name)</td>
                     </tr>                    
                     <tr>
                         <td class="no-border-left no-border-bottom">时间:</td>
-                        <td class="no-border-bottom no-border-right">@(order.PlanTime.ToString("yyyy-MM-dd"))</td>
+                        <td class="no-border-bottom no-border-right font14">@(order.PlanTime.ToString("yyyy-MM-dd"))</td>
                         
                     </tr>
                     
@@ -96,7 +96,7 @@
             <td colspan="4">
                 <table class="no-border Processing">
                     <tr class="longtd">
-                        <td style="width:8%;font-size:16px;" class="no-border-top no-border-left">面料编码</td>       
+                        <td style="width:8%;font-size:16px;" class="no-border-top no-border-left">材料</td>       
                         <td style="width:10%;font-size:16px;" class="no-border-top providers" data-id="providers">
                             <i class="iconfont icon-delete information ">&#xe613;</i>
                             供应商
@@ -129,15 +129,15 @@
                         foreach (var detail in order.Details)
                         {
                             <tr>
-                                <td class="no-border-left">@(detail.ProductName==""?"--":detail.ProductName)</td>
-                                <td class="providers">@(detail.ProviderName==""?"--":detail.ProviderName)</td>
-                                <td class="phones">@(string.IsNullOrEmpty( detail.ProviderMobileTele)?"--":detail.ProviderMobileTele)</td>
-                                <td class="addresses">@(detail.ProviderAddress==""?"--":detail.ProviderAddress)</td>
+                                <td class="no-border-left font14">@(detail.ProductName==""?"--":detail.ProductName)</td>
+                                <td class="providers font14">@(detail.ProviderName==""?"--":detail.ProviderName)</td>
+                                <td class="phones font14">@(string.IsNullOrEmpty( detail.ProviderMobileTele)?"--":detail.ProviderMobileTele)</td>
+                                <td class="addresses font14">@(detail.ProviderAddress==""?"--":detail.ProviderAddress)</td>
                                 <td>@(detail.Remark==""?"--":detail.Remark)</td>
                                 <td>@(detail.Quantity.ToString("f3"))</td>
                                 <td>@(detail.UnitName)</td>
-                                <td class="price">@(detail.Price.ToString("f2"))</td>
-                                <td class="no-border-right cost">@((detail.TotalMoney).ToString("f3"))</td>         
+                                <td class="price font14">@(detail.Price.ToString("f2"))</td>
+                                <td class="no-border-right cost font14">@((detail.TotalMoney).ToString("f3"))</td>         
                             </tr>
                         }
                     }
@@ -165,8 +165,8 @@
 		                foreach (var item in list)
 	                    {
 		                    <tr>
-                                <td class="no-border-left no-border-bottom">@(item.Remark)</td>
-                                <td class="no-border-right no-border-bottom">@(item.Price)</td>
+                                <td class="font14 no-border-left no-border-bottom">@(item.Remark)</td>
+                                <td class="font14 no-border-right no-border-bottom">@(item.Price)</td>
                     
                             </tr>
 	                    }

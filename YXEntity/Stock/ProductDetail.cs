@@ -134,10 +134,10 @@ namespace IntFactoryEntity
 		/// 
 		/// </summary>
         public decimal WarnCount
-		{
-			set{ _warncount=value;}
-			get{return _warncount;}
-		}
+        {
+            set;
+            get;
+        }
 		/// <summary>
 		/// 
 		/// </summary>

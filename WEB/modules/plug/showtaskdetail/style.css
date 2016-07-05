@@ -31,7 +31,7 @@
 .taskContent .talk-body .reply-content { display:inline-block;white-space: pre-wrap;word-wrap: break-word; width:415px; }
 .attchment-box {width:415px !important;}
 
-.taskReplyBox { border: 1px solid #ddd; padding: 10px 10px 0px 10px; border-radius: 3px;  overflow:hidden;}
+.taskReplyBox { border: 1px solid #ddd; padding: 10px 10px 0px 10px; border-radius: 3px;  overflow:visible;position:initial !important;}
 
 .taskReplyBox .iconfont { font-size:22px;height:28px;line-height:30px;color:#999;cursor:pointer;
                           background-color:#fff;border:0;margin-top:5px;}
@@ -98,7 +98,7 @@
 .information-upload .filename{color:#222;margin-top:7px;}
 .popup-download { height:60px;background-color:rgba(204,204,204,0.9);width:111px;z-index:100;top:0;left:60px;position:absolute;
                   font-size:28px !important;text-align:center;color:#fff !important;line-height:60px !important;}
-.reply-box .iconfont { background-color:#fff;border:0;font-size:22px;margin-top:5px;color:#999;}
+.reply-box .iconfont { background-color:#fff;border:0;font-size:22px;margin-top:5px;color:#999;cursor:pointer;}
 .reply-box .iconfont:hover { color:#4a98e7;}
 .reply-box input:last-child { margin-top:8px;}
 .width-order-taskdetail { width:415px;}

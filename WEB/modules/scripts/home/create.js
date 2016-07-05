@@ -86,37 +86,22 @@
             if (!VerifyObject.isPass()) {
                 return false;
             }
-            $(this).attr("disabled", true).html("正在下单...");
+            //$(this).attr("disabled", true).html("正在下单...");
             
             _self.saveModel();
         });
 
-        ProductIco = Upload.createUpload({
-            element: "productIco",
-            buttonText: "+",
-            className: "",
-            multiple: true,
+        var uploader = Upload.uploader({
+            browse_button: 'productIco',
+            container: 'orderImages',
+            drop_element: 'orderImages',
+            file_path: "/Content/UploadFiles/Order/",
+            picture_container: "orderImages",
             maxQuantity: 5,
-            successItems: "#orderImages .is-img",
-            data: { folder: '', action: 'add', oldPath: "" },
-            success: function (data, status) {
-                if (data.Items.length > 0) {
-                    for (var i = 0; i < data.Items.length; i++) {
-
-                            if ($("#orderImages li.is-img").length < 5) {
-                                var img = $('<li class="is-img"><img src="' + data.Items[i] + '" /><span class="ico-delete"></span></li>');
-                                
-                                $("#orderImages li:first-child").before(img);
-
-                                img.find(".ico-delete").click(function () {
-                                    $(this).parent().remove();
-                                });
-                            }
-                    }
-                } else {
-                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-                }
-            }
+            maxSize: 5,
+            successItems: '#orderImages li',
+            fileType: 1,
+            init: {}
         });
 
         VerifyObject = Verify.createVerify({
@@ -179,11 +164,13 @@
     //保存实体
     ObjectJS.saveModel = function () {
         var _self = this;
+        var domainUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
         var images = "";
-        $("#orderImages img").each(function () {
-            images += $(this).attr("src") + ",";
+        $("#orderImages li").each(function () {
+            if ($(this).data("filename")) {
+                images += domainUrl + $(this).data("filename") + ",";
+            }
         });
-        
         var model = {
             CustomerID: "",
             PersonName: $("#name").val().trim(),
@@ -205,8 +192,7 @@
         Global.post("/Home/CreateOrder", { entity: JSON.stringify(model) }, function (data) {
             $("#btnSave").attr("disabled", false).html("确认下单");
             if (data.id) {
-                location.href = "/Home/OrderSuccess/" + data.id;
-                
+                location.href = "/Home/OrderSuccess/" + data.id;                
             } else {
                 alert("网络异常,请稍后重试!");
             }

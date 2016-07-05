@@ -4,7 +4,6 @@
         Verify = require("verify"), VerifyObject, VerifyContact,
         doT = require("dot"),
         ChooseUser = require("chooseuser"),
-        Upload = require("upload"),
         Easydialog = require("easydialog");
     var CustomerReply = require("scripts/task/reply");       
     require("pager");
@@ -16,6 +15,8 @@
     ObjectJS.init = function (customerid, MDToken, navid) {
         var _self = this;
         _self.guid = customerid;
+
+        var replyId = "";
 
         var nav = $(".module-tab li[data-id='" + navid + "']");
         if (nav.length > 0) {
@@ -77,8 +78,8 @@
 
     //绑定事件
     ObjectJS.bindEvent = function (model, navid) {
-        var _self = this;      
-               
+        var _self = this;
+
         $(document).click(function (e) {
             //隐藏下拉
             if (!$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown")) {
