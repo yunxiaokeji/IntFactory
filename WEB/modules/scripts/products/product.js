@@ -266,7 +266,7 @@ define(function (require, exports, module) {
         if (!$("#prodiver").data("id")) {
             alert("请选择材料供应商!");
             return;
-        };
+        }
        
         var bl = true;
         $(".product-attr").each(function () {
