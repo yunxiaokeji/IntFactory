@@ -6,8 +6,7 @@
     var Objects = {};
 
     Objects.init = function (plate, img, orderid, OriginalID,ordertype) {
-        Objects.bindEvent(plate,img);
-        Objects.removeTaskPlateOperate();
+        Objects.bindEvent(plate,img);        
         Objects.getAmount();
         Objects.imgOrderTable();
         Objects.processPlate(orderid, OriginalID, ordertype);
@@ -22,37 +21,34 @@
         if (img == "") {
             img = "/modules/images/none-img.png";
         };
+
+        Objects.removeTaskPlateOperate();
         
-        Upload.createUpload({
-            element: "upLoadOneImg",
-            buttonText: "&#xe60b;",
-            className: "iconfont ico-upload",
-            multiple: false,
-            data: { folder: '', action: 'add', oldPath: "" },
-            success: function (data, status) {
-                if (data.Items.length > 0) {
-                    $("#upLoadOneImg").prev().attr('src', data.Items[0]);
-                } else {
-                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-                }
-            }
+        var upload = Upload.uploader({
+            browse_button: 'upLoadOneImg',
+            container: 'img',
+            drop_element: 'img',
+            file_path: "/Content/UploadFiles/Order/",
+            picture_container: 'img-one',
+            maxSize: 1,
+            fileType: 1,
+            multi_selection: false,
+            init: {}
         });
 
-        Upload.createUpload({
-            element: "upLoadTwoImg",
-            buttonText: "&#xe60b;",
-            className: "iconfont ico-upload",
-            multiple: false,
-            data: { folder: '', action: 'add', oldPath: "" },
-            success: function (data, status) {
-                if (data.Items.length > 0) {
-                    $("#upLoadTwoImg").prev().attr('src', data.Items[0]);
-                } else {
-                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-                }
-            }
+        var upload = Upload.uploader({
+            browse_button: 'upLoadTwoImg',
+            container: 'img',
+            drop_element: 'img',
+            file_path: "/Content/UploadFiles/Order/",
+            successItems: '#feed-images li',
+            picture_container: 'img-two',
+            maxSize: 1,
+            fileType: 1,
+            multi_selection: false,
+            init: {}
         });
-
+       
         $(".change-owner").click(function () {
             var _this = $(this);
             ChooseUser.create({
@@ -141,6 +137,7 @@
         })
     };
 
+    
     //删除行操作按钮(制版工艺)
     Objects.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
