@@ -22,10 +22,10 @@
 .feed-type .dropdown-list option{font-size:14px;}
 .feed-annex .file-annex { line-height:40px;height:40px;width:150px;opacity:0;position:absolute;left:0;top:0;cursor:pointer;}
 
-.feed-annex ul { overflow:hidden;padding:6px;}
-.feed-annex ul img { width:60px;height:60px;}
-.feed-annex ul li { width:60px;height:60px;position:relative;margin-right:20px;float:left;}
-.feed-annex ul li .iconfont { color:#4a98e7;font-size:18px;position:absolute;top:-8px;right:-8px;background-color:#fff;border-radius:50%;cursor:pointer;}
+#feed-images {padding:6px;overflow:hidden;}
+#feed-images img { width:60px;height:60px;}
+#feed-images li { width:60px;height:60px;position:relative;margin-right:20px;float:left;padding:1px;border:1px solid #ccc;line-height:60px;}
+#feed-images li .iconfont { color:#4a98e7;font-size:18px;position:absolute;top:-8px;right:-8px;background-color:#fff;border-radius:50%;cursor:pointer;}
 
 .feed-annex a {cursor:pointer;height:40px;line-height:40px;display:inline-block;position:relative;color:#666;font-size:18px;text-align:center;border-radius:2px;transition:background-color 0.3s;}
 .feed-description div:first-child{ line-height:normal;}
