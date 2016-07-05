@@ -74,8 +74,9 @@ input[type="text"],#remark { border: 1px solid #ccc; border-radius: 2px; line-he
 /*图片*/
 .img-box { float:left;}
 .img-box #orderImages li {float:left;margin-right:10px;margin-top:4px;position:relative;}
+.img-box #orderImages li:not(:first-child) {width:60px;height:60px;line-height:60px;padding:1px;border:1px solid #ccc;}
 .img-box #orderImages .ico-delete { position:absolute;right:-6px;top:-11px;}
-.img-box img { width:60px;height:60px;border-radius:2px;}
+.img-box img { width:60px;height:60px;border-radius:2px;display:block;}
 
 
 .dropdown-module { float:left;}
