@@ -16,9 +16,9 @@
             file_path: "/Content/UploadFiles/FeedBack/",
             successItems: '#feed-images li',
             picture_container: 'feed-images',
-            maxQuantity: 1,
             maxSize: 5,
             fileType: 1,
+            multi_selection: false,
             init: {}
         });
 
