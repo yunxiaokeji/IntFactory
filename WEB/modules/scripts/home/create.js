@@ -93,8 +93,6 @@
 
         var uploader = Upload.uploader({
             browse_button: 'productIco',
-            container: 'orderImages',
-            drop_element: 'orderImages',
             file_path: "/Content/UploadFiles/Order/",
             picture_container: "orderImages",
             maxQuantity: 5,

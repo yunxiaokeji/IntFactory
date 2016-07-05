@@ -40,8 +40,6 @@ define(function (require, exports, module) {
 
         var uploader = Upload.uploader({
             browse_button: 'selectProductIco',
-            container: 'product-add',
-            drop_element: 'product-add',
             file_path: "/Content/UploadFiles/Product/",
             picture_container: "product-img",
             maxSize: 5,
@@ -229,8 +227,6 @@ define(function (require, exports, module) {
                         var _this = $(this);
                         var uploader = Upload.uploader({
                             browse_button: _this.attr("id"),
-                            container: 'product-add',
-                            drop_element: 'product-add',
                             file_path: "/Content/UploadFiles/Product/",
                             multi_selection: false,
                             auto_callback:false,

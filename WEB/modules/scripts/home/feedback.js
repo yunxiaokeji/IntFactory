@@ -9,9 +9,7 @@
 
     ObjectJS.bindEvent = function () {
         var upload = Upload.uploader({
-            browse_button: 'upload',
-            container: 'feedback-file',
-            drop_element: 'feedback-file',           
+            browse_button: 'upload',        
             file_path: "/Content/UploadFiles/FeedBack/",
             successItems: '#feed-images li',
             picture_container: 'feed-images',

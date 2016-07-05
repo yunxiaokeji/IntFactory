@@ -826,8 +826,6 @@
 
                     var uploader = Upload.uploader({
                         browse_button: 'addOrderImages',
-                        container: 'order-imgs-box',
-                        drop_element: 'order-imgs-box',
                         file_path: "/Content/UploadFiles/Task/",
                         picture_container: "order-imgs-box",
                         file_container: "reply-files",

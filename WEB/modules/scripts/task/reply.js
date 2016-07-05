@@ -178,8 +178,8 @@
     {
         var uploader = Upload.uploader({
             browse_button: 'reply-attachment' + replyId,
-            container: 'reply-box' + replyId,
-            drop_element:'reply-box' + replyId,
+            //container: 'reply-box' + replyId,
+            //drop_element:'reply-box' + replyId,
             picture_container: "reply-imgs"+replyId,
             file_container: "reply-files" + replyId,
             successItems: '.upload-files-' + replyId + ' li',

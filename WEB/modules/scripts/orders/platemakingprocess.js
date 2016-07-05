@@ -25,8 +25,6 @@
         //工艺说明录入上传附件
         Upload.uploader({
             browse_button: 'upLoadOneImg',
-            container: 'OneImgBox',
-            drop_element: 'OneImgBox',
             file_path: "/Content/UploadFiles/Product/",
             picture_container: "OneImgBox",
             maxSize: 5,
@@ -45,8 +43,6 @@
         //工艺说明录入上传附件
         Upload.uploader({
             browse_button: 'upLoadTwoImg',
-            container: 'TwoImgBox',
-            drop_element: 'TwoImgBox',
             file_path: "/Content/UploadFiles/Product/",
             picture_container: "TwoImgBox",
             maxSize: 5,

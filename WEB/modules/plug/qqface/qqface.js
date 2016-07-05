@@ -38,6 +38,7 @@ define(function (require, exports, module) {
                     strFace += '</tr></table></div>';
                 }
                 $(this).parent().append(strFace);
+ 
                 var position = $(this).position();
                 var top = position.top + $(this).outerHeight();
    
