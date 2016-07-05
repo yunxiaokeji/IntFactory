@@ -835,7 +835,6 @@
                         maxSize: 5,
                         successItems: '.order-imgs-box li:not(:last-child)',
                         fileType: 1,
-                        image_view: "?imageView2/1/w/48/h/48",
                         dragdrop: false,
                         init: {
                             
