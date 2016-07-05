@@ -38,6 +38,8 @@
                     var info = JSON.parse(info);
                     var src = file.server + info.key;
                     $("#upLoadOneImg").prev().attr('src', src);
+                }
+            }
         });
 
         //工艺说明录入上传附件
