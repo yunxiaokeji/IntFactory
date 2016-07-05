@@ -54,6 +54,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Qiniu.4.0, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Qiniu.4.0.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="Microsoft.CSharp" />
@@ -204,6 +208,8 @@
     <Content Include="Content\UploadFiles\bc6802e9-285c-471c-8172-3867c87803e2.png" />
     <Content Include="DLL\JsonObject.dll" />
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
+    <Content Include="DLL\Newtonsoft.Json.dll" />
+    <Content Include="DLL\Qiniu.4.0.dll" />
     <Content Include="modules\css\customer\customer.css" />
     <Content Include="modules\css\default\customer.css" />
     <Content Include="modules\css\default\guidestep.css" />
@@ -311,8 +317,13 @@
     <Content Include="modules\images\wechat.jpg" />
     <Content Include="modules\images\ico-wechat.png" />
     <Content Include="modules\images\word.png" />
+    <Content Include="modules\plug\choosecolor\spectrum.css" />
+    <Content Include="modules\plug\choosecolor\spectrum.js" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
     <Content Include="modules\plug\chooseproduct\productin.html" />
+    <Content Include="modules\plug\colormark\colormark.js" />
+    <Content Include="modules\plug\colormark\ico-ball.png" />
+    <Content Include="modules\plug\colormark\style.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.js" />
     <Content Include="modules\plug\daterangepicker\moment.js" />
@@ -354,6 +365,17 @@
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\yun_nan_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\zhe_jiang_geo.json" />
     <Content Include="modules\plug\jquery.form.js" />
+    <Content Include="modules\plug\qiniustorage\css\highlight.css" />
+    <Content Include="modules\plug\qiniustorage\css\main.css" />
+    <Content Include="modules\plug\qiniustorage\plupload\moxie.js" />
+    <Content Include="modules\plug\qiniustorage\plupload\moxie.min.js" />
+    <Content Include="modules\plug\qiniustorage\plupload\Moxie.swf" />
+    <Content Include="modules\plug\qiniustorage\plupload\plupload.dev.js" />
+    <Content Include="modules\plug\qiniustorage\plupload\plupload.full.min.js" />
+    <Content Include="modules\plug\qiniustorage\plupload\plupload.min.js" />
+    <Content Include="modules\plug\qiniustorage\qiniu\highlight.js" />
+    <Content Include="modules\plug\qiniustorage\qiniu\multiple.js" />
+    <Content Include="modules\plug\qiniustorage\qiniu\qiniu.js" />
     <Content Include="modules\plug\sortable.js" />
     <Content Include="modules\plug\qqface\arclist\1.gif" />
     <Content Include="modules\plug\qqface\arclist\10.gif" />
@@ -478,6 +500,7 @@
     <Content Include="modules\scripts\orders\fentorderreport.js" />
     <Content Include="modules\scripts\orders\orderplans.js" />
     <Content Include="modules\scripts\orders\platemakingprocess.js" />
+    <Content Include="modules\scripts\system\labelset.js" />
     <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
     <Content Include="modules\scripts\system\orderstages.js" />
@@ -530,6 +553,7 @@
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\system\orderstage-detail.html" />
+    <Content Include="modules\template\system\sources-color.html" />
     <Content Include="modules\template\task\platematring-orderdatail.html" />
     <Content Include="modules\template\task\task-costs.html" />
     <Content Include="modules\template\task\platemarting-add.html" />
@@ -1099,6 +1123,7 @@
     <Content Include="Views\Error\NoRoot.cshtml" />
     <Content Include="Views\Error\NoFindFile.cshtml" />
     <Content Include="Views\Default\BindMobile.cshtml" />
+    <Content Include="Views\System\LabelSet.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

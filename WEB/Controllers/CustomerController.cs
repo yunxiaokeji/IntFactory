@@ -27,7 +27,8 @@ namespace YXERP.Controllers
         {
             ViewBag.Title = "我的客户";
             ViewBag.Type = (int)EnumSearchType.Myself;
-            ViewBag.FirstNames=new char[]{'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};            
+            ViewBag.FirstNames=new char[]{'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 1).ToList();
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
         }
@@ -37,6 +38,7 @@ namespace YXERP.Controllers
             ViewBag.Title = "下属客户";
             ViewBag.Type = (int)EnumSearchType.Branch;
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID).ToList();
             return View("Customers");
         }
 
@@ -44,7 +46,8 @@ namespace YXERP.Controllers
         {
             ViewBag.Title = "客户列表";
             ViewBag.Type = (int)EnumSearchType.All;
-            ViewBag.FirstNames = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };     
+            ViewBag.FirstNames = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 1).ToList();
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
         }
@@ -404,40 +407,18 @@ namespace YXERP.Controllers
             string replyID = "";
             replyID = CustomBusiness.CreateReply(model.GUID, model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
 
-            string movePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Customers/" + DateTime.Now.ToString("yyyyMM") + "/";
-            string uploadTempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
-            DirectoryInfo directory = new DirectoryInfo(Server.MapPath(movePath));
-            if (!directory.Exists)
-            {
-                directory.Create();
-            }
+            //string movePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Customers/" + DateTime.Now.ToString("yyyyMM") + "/";
+            //string uploadTempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
+            //DirectoryInfo directory = new DirectoryInfo(Server.MapPath(movePath));
+            //if (!directory.Exists)
+            //{
+            //    directory.Create();
+            //}
 
-            foreach (var attachments in model.Attachments)
-            {
-                attachments.FilePath = movePath;
-                string fileUrl = movePath + attachments.FileName;
-                string tempFileUrl = uploadTempPath + attachments.FileName;
-                FileInfo tempFile = new FileInfo(Server.MapPath(tempFileUrl));
-
-                if (tempFile.Exists)
-                {
-                    tempFile.MoveTo(Server.MapPath(fileUrl));
-
-                    if (attachments.Type == 1)
-                    {
-                        FileInfo file = new FileInfo(Server.MapPath(fileUrl));
-                        if (file.Length / 1024 > 500)
-                        {
-                            if (file.Exists)
-                            {
-                                string smallImgUrl = Path.GetDirectoryName(fileUrl) + "\\small" + file.Name;
-                                attachments.ThumbnailName = "small" + file.Name;
-                                CommonBusiness.GetThumImage(Server.MapPath(fileUrl), 30, 250, Server.MapPath(smallImgUrl));
-                            }
-                        }
-                    }
-                }
-            }
+            //foreach (var attachments in model.Attachments)
+            //{
+            //    attachments.ServerUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
+            //}
 
 
             CustomBusiness.AddCustomerReplyAttachments(customerID, replyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);

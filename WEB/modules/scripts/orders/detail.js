@@ -609,14 +609,24 @@
 
         //订单联系人新建客户
         $("#createOrderCustomer").click(function () {
+            if (!_self.model.MobileTele) {
+                alert("联系方式不能为空");
+                return;
+            }
             confirm("确认把订单联系人信息创建为新客户吗？", function () {
                 Global.post("/Orders/CreateOrderCustomer", {
                     orderid: _self.orderid 
                 }, function (data) {
                     if (data.status) {
-                        alert('客户创建成功！', location.href);
+                        alert('客户创建成功', location.href);
+                    } else if (data.result == 2) {
+                        alert('订单已绑定客户', location.href);
+                    } else if (data.result == 3) {
+                        alert('联系方式不能为空', location.href);
+                    } else if (data.result == 4) {
+                        alert('联系方式已存在客户，您可以选择绑定客户');
                     } else {
-                        alert("客户创建失败，请稍后重试!", location.href);
+                        alert("客户创建失败");
                     }
                 });
             });
@@ -741,16 +751,17 @@
 
     //绑定样式图
     ObjectJS.bindOrderImages = function (orderimages) {
-        var _self = this;
+        var _self = this;        
         var images = orderimages.split(",");
         _self.images = images;
+        
         for (var i = 0; i < images.length; i++) {
             if (images[i]) {
                 if (i == 0) {
                     $("#orderImage").attr("src", images[i]);
                 }
                 var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
-                $(".order-imgs-list").append(img);
+                $(".order-imgs-list").append(img);                
             }
         }
         $(".order-imgs-list img").parent().click(function () {
@@ -782,8 +793,8 @@
                             yesFn: function () {
                                 var newimages = "";
                                 $("#show-order-images img").each(function () {
-                                    newimages += $(this).attr("src") + ",";
-                                });
+                                    newimages += $(this).attr("src") + ",";                                 
+                                });                                
                                 Global.post("/Orders/UpdateOrderImages", {
                                     orderid: _self.orderid,
                                     images: newimages
@@ -812,28 +823,21 @@
                             }
                         }
                     });
-                    Upload.createUpload({
-                        element: "addOrderImages",
-                        buttonText: "+",
-                        className: "edit-orderimages",
-                        multiple: true,
-                        data: { folder: '', action: 'add', oldPath: "" },
-                        successItems: ".order-imgs-box li:not(:last-child)",
-                        success: function (data, status) {
-                            if (data.Items.length > 0) {
-                                for (var i = 0; i < data.Items.length; i++) {
-                                    if ($("#show-order-images li").length < 11) {
-                                        var img = $('<li><img src="' + data.Items[i] + '" /><span class="ico-delete"></span> </li>');
-                                        $("#addOrderImages").parent().before(img);
-                                        img.find(".ico-delete").click(function () {
-                                            $(this).parent().remove();
-                                        });
-                                    }
-                                }
-                                $("#show-order-images .order-imgs-list").sortable();
-                            } else {
-                                alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-                            }
+
+                    var uploader = Upload.uploader({
+                        browse_button: 'addOrderImages',
+                        container: 'order-imgs-box',
+                        drop_element: 'order-imgs-box',
+                        file_path: "/Content/UploadFiles/Task/",
+                        picture_container: "order-imgs-box",
+                        file_container: "reply-files",
+                        maxQuantity: 10,
+                        maxSize: 5,
+                        successItems: '.order-imgs-box li:not(:last-child)',
+                        fileType: 1,
+                        dragdrop: false,
+                        init: {
+                            
                         }
                     });
                     

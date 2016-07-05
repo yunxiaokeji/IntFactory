@@ -2,10 +2,11 @@
     var Global = require("global"),
         doT = require("dot"),
         ChooseUser = require("chooseuser"),
-        moment = require("moment");
+        moment = require("moment"),
+        Tip = require("tip");
     require("daterangepicker");
     require("pager");
-    require("mark");
+    require("colormark");
 
     var Params = {
         SearchType: 1,
@@ -28,13 +29,16 @@
     };
 
     var ObjectJS = {};
-
+    ObjectJS.ColorList = [];
     ObjectJS.isLoading = true;
+
     //初始化
-    ObjectJS.init = function (type) {
+    ObjectJS.init = function (type,model) {
         var _self = this;
         Params.SearchType = type;
+        _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
         Params.PageSize = ($(".list-customer").width() / 300).toFixed(0) * 3;
+
         _self.getList();
         _self.bindEvent(type);
     }
@@ -66,13 +70,13 @@
             Params.EndTime = end ? end.format("YYYY-MM-DD") : "";
             _self.getList();
         });
-        
+
         //选择客户来源类型
         $(".customer-source li").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
             }
-            var _this = $(this);            
+            var _this = $(this);
             if (!_this.hasClass("source-hover")) {
                 _this.siblings().removeClass("source-hover");
                 _this.addClass("source-hover");
@@ -85,7 +89,7 @@
         });
 
         //切换颜色标记
-        $(".search-item-color li").click(function () {
+        $(".search-mark .item").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
             }
@@ -93,17 +97,18 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-
-                Params.pageIndex = 1;
-                var dataid = _this.data("id");
-                if (dataid!="-2") {
-                    Params.Mark = dataid;
-                } else {
-                    $(".search-item-color li:eq(1)").addClass("hover");
-                    Params.Mark = "-1";
-                }
+                Params.PageIndex = 1;   
+                Params.Mark = _this.data("id");
                 ObjectJS.getList();
             }
+        });
+
+        $(".search-mark .item:gt(0)").each(function () {
+            var _this = $(this);
+            _this.Tip({
+                width: 80,
+                msg: _this.data("name")
+            });
         });
 
         //选择字母
@@ -112,7 +117,6 @@
                 return;
             }
             var _this = $(this);
-            
             $(".data-loading").remove();
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -122,7 +126,7 @@
                 if (datanum != "1") {
                     Params.FirstName = datanum;
                 } else {
-                    _this.css("font-size","14px");
+                    _this.css("font-size", "14px");
                     $(".search-letter li:eq(1)").addClass("hover");
                     Params.FirstName = "";
                 }
@@ -139,6 +143,7 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
+
                 Params.PageIndex = 1;
                 Params.Status = _this.data("id");
                 _self.getList();
@@ -171,8 +176,7 @@
                     }
                 });
             });
-        }
-        else if (type == 3) {
+        } else if (type == 3) {
             require.async("choosebranch", function () {
                 $("#chooseBranch").chooseBranch({
                     prevText: "人员-",
@@ -236,7 +240,6 @@
                 return;
             }
             var checks = $(".list-customer .icon-check");
-            
             if (checks.length > 0) {
                 ChooseUser.create({
                     title: "批量更换负责人",
@@ -249,7 +252,6 @@
                                 var _this = $(this);
                                 if (_this.data("userid") != userid) {
                                     ids += _this.data("id") + ",";
-                                    
                                 }
                             });
                             if (ids.length > 0) {
@@ -265,16 +267,6 @@
             }
         });
 
-        //过滤标记
-        $("#filterMark").markColor({
-            isAll: true,
-            onChange: function (obj, callback) {
-                callback && callback(true);
-                Params.PageIndex = 1;
-                Params.Mark = obj.data("value");
-                _self.getList();
-            }
-        });
         //排序
         $(".sort-item").click(function () {
             var _this = $(this);
@@ -302,8 +294,7 @@
             Params.PageIndex = 1;
             _self.getList();
         });
-        
-    }
+    };
 
     //获取列表
     ObjectJS.getList = function () {
@@ -312,100 +303,23 @@
         $(".list-card").remove();
         $(".nodata-txt").remove();
         $(".list-customer").append("<div class='data-loading' ><div>");
+
         ObjectJS.isLoading = false;
         Global.post("/Customer/GetCustomers", { filter: JSON.stringify(Params) }, function (data) {
-            _self.bindCardList(data);
-            _self.bindCustomerList(data);
+            _self.bindCardList(data);            
             ObjectJS.isLoading = true;
-        });
-    }
-
-    //加载列表
-    ObjectJS.bindCustomerList = function (data) {
-        var _self = this;
-        $(".tr-header").nextAll().remove();
-
-        if (data.items.length > 0) {
-            doT.exec("template/customer/customers.html", function (template) {
-                var innerhtml = template(data.items);
-                innerhtml = $(innerhtml);
-
-                //下拉事件
-                innerhtml.find(".dropdown").click(function () {
-                    var _this = $(this);
-                    var position = _this.find(".ico-dropdown").position();
-                    $(".dropdown-ul li").data("id", _this.data("id")).data("userid", _this.data("userid"));
-                    $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 80 }).show().mouseleave(function () {
-                        $(this).hide();
-                    });
-                    return false;
-                });
-                innerhtml.find(".check").click(function () {
-                    var _this = $(this);
-                    if (!_this.hasClass("ico-checked")) {
-                        _this.addClass("ico-checked").removeClass("ico-check");
-                    } else {
-                        _this.addClass("ico-check").removeClass("ico-checked");
-                    }
-                    return false;
-                });
-
-                //innerhtml.click(function () {
-                //    var _this = $(this).find(".check");
-                //    if (!_this.hasClass("ico-checked")) {
-                //        _this.addClass("ico-checked").removeClass("ico-check");
-                //    } else {
-                //        _this.addClass("ico-check").removeClass("ico-checked");
-                //    }
-                //});
-
-                innerhtml.find(".mark").markColor({
-                    isAll: false,
-                    onChange: function (obj, callback) {
-                        _self.markCustomer(obj.data("id"), obj.data("value"), callback);
-                    }
-                });
-
-                $(".tr-header").after(innerhtml);
-
-            });
-        }
-        else {
-            $(".tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
-        }
-
-        $("#pager").paginate({
-            total_count: data.totalCount,
-            count: data.pageCount,
-            start: Params.PageIndex,
-            display: 5,
-            border: true,
-            border_color: '#fff',
-            text_color: '#333',
-            background_color: '#fff',
-            border_hover_color: '#ccc',
-            text_hover_color: '#000',
-            background_hover_color: '#efefef',
-            rotate: true,
-            images: false,
-            mouse: 'slide',
-            onChange: function (page) {
-                Params.PageIndex = page;
-                _self.getList();
-            }
         });
     }
 
     //加载卡片式列表
     ObjectJS.bindCardList = function (data) {
         var _self = this;
-        //$(".list-card").remove();
 
         if (data.items.length > 0) {
             doT.exec("template/customer/customers-card.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
-                
+
                 innerhtml.find(".check").click(function () {
                     var _this = $(this);
                     if (!_this.hasClass("icon-check")) {
@@ -420,21 +334,20 @@
 
                 innerhtml.find(".mark").markColor({
                     isAll: false,
+                    data: _self.ColorList,
                     onChange: function (obj, callback) {
                         _self.markCustomer(obj.data("id"), obj.data("value"), callback);
                     }
                 });
+
                 $(".data-loading").remove();
                 $(".nodata-txt").remove();
                 $(".list-customer").append(innerhtml);
-
             });
-        }
-        else {
+        } else {
             $(".nodata-txt").remove();
             $(".data-loading").remove();
             $(".list-customer").append("<div class='nodata-txt' >暂无数据!<div>");
-            
         }
 
         $("#pager").paginate({
@@ -457,7 +370,7 @@
                 _self.getList();
             }
         });
-    }
+    };
 
     //标记客户
     ObjectJS.markCustomer = function (ids, mark, callback) {

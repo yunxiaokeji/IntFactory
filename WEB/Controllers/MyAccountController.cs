@@ -10,6 +10,11 @@ using System.Web.Script.Serialization;
 
 using IntFactoryEntity.Manage;
 using IntFactoryBusiness.Manage;
+using Qiniu.Auth;
+using Qiniu.IO;
+using Qiniu.IO.Resumable;
+using Qiniu.RS;
+using Qiniu.RPC;
 namespace YXERP.Controllers
 {
     
@@ -144,18 +149,21 @@ namespace YXERP.Controllers
                 MemoryStream stream = new MemoryStream(Convert.FromBase64String(avatar));
                 Bitmap img = new Bitmap(stream);
 
-                avatar = FilePath + CurrentUser.UserID+".png";
+                var id = CurrentUser.UserID;
+                avatar = TempPath + id + ".png";
                 img.Save(Server.MapPath(avatar));
 
+                string key = TempPath + "User/" + id + ".png";
+                UploadAttachment(key, avatar);
+                
                 bool flag= OrganizationBusiness.UpdateAccountAvatar(CurrentUser.UserID, avatar, CurrentUser.AgentID);
-
                 if (flag)
                 {
+                    avatar = "http://o9h6bx3r4.bkt.clouddn.com/" + key;
                     result = 1;
                     CurrentUser.Avatar = avatar;
                     Session["ClientManager"] = CurrentUser;
                 }
-                    
             }
 
             JsonDictionary.Add("result",result);
@@ -165,6 +173,27 @@ namespace YXERP.Controllers
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public bool UploadAttachment(string key,string filePath)
+        {
+            IOClient target = new IOClient();
+            PutExtra extra = new PutExtra();
+            //设置上传的空间
+            String bucket = "zngc-intfactory";
+
+            //普通上传,只需要设置上传的空间名就可以了,第二个参数可以设定token过期时间
+            PutPolicy put = new PutPolicy(bucket + ":" + key, 3600);
+
+            //调用Token()方法生成上传的Token
+            string upToken = put.Token();
+
+            filePath = Server.MapPath(filePath);
+            //调用PutFile()方法上传
+            PutRet ret = target.PutFile(upToken, key, filePath, extra);
+
+
+            return ret.OK;
         }
         #endregion
 

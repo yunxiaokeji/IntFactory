@@ -81,23 +81,23 @@
             $(".update-content-body").hide();
         });
 
-        //选择海报图片
-        PosterIco = Upload.createUpload({
-            element: "Logo",
-            buttonText: "选择LOGO",
-            className: "",
-            data: { folder: '/Content/tempfile/', action: 'add', oldPath: "" },
-            success: function (data, status) {
-                if (data.Items.length > 0) {
-                    $("#PosterDisImg").show();
-                    $("#PosterDisImg").attr("src", data.Items[0]);
-                    $("#PosterDisImgone").attr("src", data.Items[0]);
-                    //$("#CompanyLogo").val(data.Items[0]);
-                } else {
-                    alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+        var uploader = Upload.uploader({
+            browse_button: 'Logo-Img',
+            container: 'company',
+            drop_element: 'company',
+            file_path: "/Content/UploadFiles/company/",
+            fileType: 1,
+            multi_selection: false,
+            auto_callback: false,
+            init: {
+                "FileUploaded": function (up, file, info) {
+                    var info = JSON.parse(info);
+                    var src = file.server + info.key;
+                    $("#PosterDisImgone").attr("src", src);
                 }
             }
         });
+        
 
         //城市插件
         CityObject = City.createCity({

@@ -96,7 +96,7 @@
         }
 
         TalkReply = require("scripts/task/reply");
-        TalkReply.initTalkReply(ObjectJS, 'task',0);
+        TalkReply.initTalkReply(ObjectJS, 'task',1);
 
         $(".part-btn").hide();
 
@@ -1361,16 +1361,24 @@
             if (Upload == null) {
                 Upload = require("upload");
             }
-            //选择意见反馈附件
-            Upload.createUpload({
-                element: "selectPlateIcon",
-                buttonText: "选择图标",
-                data: { folder: '/Content/tempfile/', action: 'add', oldPath: "" },
-                success: function (data, status) {
-                    if (data.Items.length > 0) {
-                        var icoUrl=data.Items[0];
-                        $(".plate-show-ico").show().find("img").attr("src",icoUrl) ;
-                        $("#plateIcon").val(icoUrl);
+
+            //工艺说明录入上传附件
+            Upload.uploader({
+                browse_button: 'selectPlateIcon',
+                container: 'plateBox',
+                drop_element: 'plateBox',
+                file_path: "/Content/UploadFiles/Product/",
+                picture_container: "plateBox",
+                maxSize: 5,
+                multi_selection: false,
+                auto_callback: false,
+                fileType: 1,
+                init: {
+                    "FileUploaded": function (up, file, info) {
+                        var info = JSON.parse(info);
+                        var src = file.server + info.key;
+                        $(".plate-show-ico").show().find("img").attr("src", src);
+                        $("#plateIcon").val(src);
                     }
                 }
             });

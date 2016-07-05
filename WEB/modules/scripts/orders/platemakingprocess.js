@@ -22,31 +22,40 @@
             img = "/modules/images/none-img.png";
         };
 
-        Objects.removeTaskPlateOperate();
-        
-        var upload = Upload.uploader({
+        //工艺说明录入上传附件
+        Upload.uploader({
             browse_button: 'upLoadOneImg',
-            container: 'img',
-            drop_element: 'img',
-            file_path: "/Content/UploadFiles/Order/",
-            picture_container: 'img-one',
-            maxSize: 1,
-            fileType: 1,
+            container: 'OneImgBox',
+            drop_element: 'OneImgBox',
+            file_path: "/Content/UploadFiles/Product/",
+            picture_container: "OneImgBox",
+            maxSize: 5,
             multi_selection: false,
-            init: {}
+            auto_callback: false,
+            fileType: 1,
+            init: {
+                "FileUploaded": function (up, file, info) {
+                    var info = JSON.parse(info);
+                    var src = file.server + info.key;
+                    $("#upLoadOneImg").prev().attr('src', src);
         });
 
-        var upload = Upload.uploader({
+        //工艺说明录入上传附件
+        Upload.uploader({
             browse_button: 'upLoadTwoImg',
-            container: 'img',
-            drop_element: 'img',
-            file_path: "/Content/UploadFiles/Order/",
-            successItems: '#feed-images li',
-            picture_container: 'img-two',
-            maxSize: 1,
-            fileType: 1,
+            container: 'TwoImgBox',
+            drop_element: 'TwoImgBox',
+            file_path: "/Content/UploadFiles/Product/",
+            picture_container: "TwoImgBox",
+            maxSize: 5,
             multi_selection: false,
-            init: {}
+            auto_callback: false,
+            fileType: 1,
+            init: {
+                "FileUploaded": function (up, file, info) {
+                    var info = JSON.parse(info);
+                    var src = file.server + info.key;
+                    $("#upLoadTwoImg").prev().attr('src', src);
         });
        
         $(".change-owner").click(function () {

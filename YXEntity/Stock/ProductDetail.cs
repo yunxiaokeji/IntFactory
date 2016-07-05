@@ -34,7 +34,7 @@ namespace IntFactoryEntity
 
 		private string _imgs="";
 		private string _imgm="";
-		private int? _warncount=0;
+        private decimal _warncount = 0;
 		private int? _status=1;
 		private string _description="";
 		private string _createuserid;
@@ -133,11 +133,11 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? WarnCount
-		{
-			set{ _warncount=value;}
-			get{return _warncount;}
-		}
+        public decimal WarnCount
+        {
+            set;
+            get;
+        }
 		/// <summary>
 		/// 
 		/// </summary>

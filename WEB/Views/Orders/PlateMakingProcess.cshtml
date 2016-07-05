@@ -146,10 +146,10 @@
                     <td class="no-border-top">后片图片</td>
                 </tr>
                 <tr id="img">
-                    <td class="no-border-left order-image">
+                    <td class="no-border-left order-image" id="OneImgBox">
                         <div id="img-one">
                             <img  src="@(string.IsNullOrEmpty(orderImages[0])?"/modules/images/none-img.png":orderImages[0])" />
-                        </div>
+                        <div id="upLoadOneImg" class="layer-upload iconfont btn">&#xe60b;</div>
                         <div id="upLoadOneImg" class="layer-upload">
                             <form id="upLoadOneImg_postForm" enctype="multipart/form-data">
                             <input type="file" data-filequantity="0" class="upLoadOneImg_fileUpLoad" accept="1" name="file" id="upLoadOneImg_fileUpLoad" style="display:none;">
@@ -158,10 +158,10 @@
 
                         </div>
                     </td>
-                    <td class="order-image">
+                    <td class="order-image" id="TwoImgBox">
                         <div id="img-two">
                             <img  src="@(string.IsNullOrEmpty(orderImages[1])?"/modules/images/none-img.png":orderImages[1])" />
-                        </div>
+                        <div id="upLoadTwoImg" class="layer-upload btn iconfont">&#xe60b;</div>
                         <div id="upLoadTwoImg" class="layer-upload">
                             <form id="upLoadTwoImg_postForm" enctype="multipart/form-data">
                                 <input type="file" data-filequantity="0" class="upLoadTwoImg_fileUpLoad" accept="1" name="file" id="upLoadTwoImg_fileUpLoad" style="display:none;">
