@@ -39,7 +39,7 @@
             file_path: "/Content/UploadFiles/FeedBack/",
             successItems: '#feed-images li',
             picture_container: 'feed-images',
-            maxQuantity: 5,
+            maxQuantity: 1,
             maxSize: 5,
             fileType: 1,
             init: {}
