@@ -356,7 +356,10 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
     border-radius: 10px;
 }
 .ico-delete-file{
-    font-size: 22px;
+    position: absolute;
+    top: -14px;
+    right: -8px;
+    font-size: 14px !important;
     height: 28px;
     line-height: 30px;
     color: #999;
