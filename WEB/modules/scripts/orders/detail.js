@@ -100,7 +100,7 @@
         $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Task/GetPlateMakings", {
-            orderID: _self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID,
+            orderID: _self.model.OrderType == 1 ? _self.orderid : _self.model.OrderID,
             taskID: ""
         }, function (data) {
             $(".tb-plates .tr-header").nextAll().remove();
