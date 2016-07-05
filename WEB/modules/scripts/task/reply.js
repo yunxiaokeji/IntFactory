@@ -28,7 +28,8 @@
             if (!$(e.target).parents().hasClass("taskreply-box") && !$(e.target).hasClass("taskreply-box") &&
                 !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace") &&
                 !$(e.target).parents().hasClass("ico-delete") && !$(e.target).hasClass("ico-delete") &&
-                !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload")&&
+                !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload") &&
+                !$(e.target).hasClass("qn-delete") &&
                 !$(e.target).parents().hasClass("alert") && !$(e.target).hasClass("alert")) {
                 $(".taskreply-box").removeClass("taskreply-box-hover");
             }
@@ -336,11 +337,6 @@
         },function () {
             $(this).find(".popup-download").stop(true).slideUp(300);
         });
-
-        ////下载附件
-        //$(".download").click(function () {
-        //    window.open($(this).data('url') + "&isIE=" + (!!window.ActiveXObject || "ActiveXObject" in window ? "1" : ""));
-        //});
     }
 
     module.exports = ObjectJS;
