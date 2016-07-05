@@ -41,7 +41,6 @@
                 cropper = $('.imageBox').cropbox(options);
             }
             reader.readAsDataURL(this.files[0]);
-            this.files = [];
         })
 
         $('#btnZoomIn').on('click', function () {

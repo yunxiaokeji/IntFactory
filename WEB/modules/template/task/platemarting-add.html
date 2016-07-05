@@ -2,7 +2,7 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-<ul class="easydialog-create">
+<ul class="easydialog-create" id="plateBox">
     <li>
         <span class="width80">名称：</span>
         <span>
@@ -22,7 +22,7 @@
     </li>
     <li>
         <span class="width80">图标：</span>
-        <span id="selectPlateIcon"></span>
+        <span id="selectPlateIcon" class="btn">选择图标</span>
         <div class="plate-show-ico hide"><img /></div>
             <input type="hidden" id="plateIcon" value="{%=item.Icon%}"/>
     </li>

@@ -563,25 +563,25 @@ namespace YXERP.Controllers
             PlateMaking model = serializer.Deserialize<PlateMaking>(plate);
             bool flag = false;
 
-            string FilePath=CloudSalesTool.AppSettings.Settings["UploadFilePath"];
-            string temFilePath = model.Icon;
-            string fileUrl = string.Empty;
-            if (!string.IsNullOrEmpty(temFilePath))
-            {
-                if (temFilePath.IndexOf("?") > 0)
-                {
-                    temFilePath = temFilePath.Substring(0, temFilePath.IndexOf("?"));
-                }
-                FileInfo file = new FileInfo(Server.MapPath(temFilePath));
+            //string FilePath=CloudSalesTool.AppSettings.Settings["UploadFilePath"];
+            //string temFilePath = model.Icon;
+            //string fileUrl = string.Empty;
+            //if (!string.IsNullOrEmpty(temFilePath))
+            //{
+            //    if (temFilePath.IndexOf("?") > 0)
+            //    {
+            //        temFilePath = temFilePath.Substring(0, temFilePath.IndexOf("?"));
+            //    }
+            //    FileInfo file = new FileInfo(Server.MapPath(temFilePath));
 
 
-                fileUrl = FilePath + file.Name;
-                if (file.Exists)
-                {
-                    file.MoveTo(Server.MapPath(fileUrl));
-                }
-            }
-            model.Icon = fileUrl;
+            //    fileUrl = FilePath + file.Name;
+            //    if (file.Exists)
+            //    {
+            //        file.MoveTo(Server.MapPath(fileUrl));
+            //    }
+            //}
+            //model.Icon = fileUrl;
 
             if (string.IsNullOrEmpty(model.PlateID))
             {
