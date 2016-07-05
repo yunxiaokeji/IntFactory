@@ -63,7 +63,7 @@
             $("#feed-images li").each(function(){
                 imgs += "http://o9h6bx3r4.bkt.clouddn.com/" + $(this).data("filename")+",";
             });
-            //imgs = imgs.substring(0,imgs.length-1);
+
             var entity = {
                 Title: $(".txt-title").val(),
                 ContactName: $(".txt-name").val(),
