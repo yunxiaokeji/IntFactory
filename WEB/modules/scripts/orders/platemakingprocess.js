@@ -18,9 +18,12 @@
         } else {
             $("#Platemak").html(decodeURI(plate));
         };
+
+        Objects.removeTaskPlateOperate();
+
         if (img == "") {
             img = "/modules/images/none-img.png";
-        };
+        };        
 
         //工艺说明录入上传附件
         Upload.uploader({
@@ -35,7 +38,7 @@
                 "FileUploaded": function (up, file, info) {
                     var info = JSON.parse(info);
                     var src = file.server + info.key;
-                    $("#upLoadOneImg").prev().attr('src', src);
+                    $("#upLoadOneImg").prev().find("img").attr('src', src);
                 }
             }
         });
@@ -53,7 +56,7 @@
                 "FileUploaded": function (up, file, info) {
                     var info = JSON.parse(info);
                     var src = file.server + info.key;
-                    $("#upLoadTwoImg").prev().attr('src', src);
+                    $("#upLoadTwoImg").prev().find("img").attr('src', src);
                 }
             }
         });

@@ -41,7 +41,7 @@
 
 .taskReplyBox:hover { border: 1px solid #666; }
 
-.reply-box { border: 1px solid #ddd; padding: 10px 10px 10px 10px; border-radius: 3px;}
+.reply-box { border: 1px solid #ddd; padding: 10px 10px 10px 10px; border-radius: 3px;position:initial !important;}
 
 .reply-box textarea { width: 100%; border: none; height: 40px; border-bottom: 1px solid #ddd; }
 
