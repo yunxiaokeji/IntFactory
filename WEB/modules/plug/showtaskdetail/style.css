@@ -31,7 +31,7 @@
 .taskContent .talk-body .reply-content { display:inline-block;white-space: pre-wrap;word-wrap: break-word; width:415px; }
 .attchment-box {width:415px !important;}
 
-.taskReplyBox { border: 1px solid #ddd; padding: 10px 10px 0px 10px; border-radius: 3px;  overflow:hidden;}
+.taskReplyBox { border: 1px solid #ddd; padding: 10px 10px 0px 10px; border-radius: 3px;  overflow:visible;}
 
 .taskReplyBox .iconfont { font-size:22px;height:28px;line-height:30px;color:#999;cursor:pointer;
                           background-color:#fff;border:0;margin-top:5px;}

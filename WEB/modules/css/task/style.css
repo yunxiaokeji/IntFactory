@@ -308,7 +308,7 @@
 /*.taskreply-box .iconfont:hover { 
     color:#4a98e7;
 }*/
-.reply-box .iconfont { 
+.reply-box .iconfont,.taskreply-box .iconfont { 
     font-size:22px;
     height:28px;
     line-height:30px;
@@ -318,7 +318,7 @@
     background-color:#fff;
     border:0;
 }
-.reply-box .iconfont:hover { 
+.reply-box .iconfont:hover,.taskreply-box .iconfont:hover { 
     color:#4a98e7;
 }
 .task-replys .content-list {
