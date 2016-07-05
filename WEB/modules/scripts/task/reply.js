@@ -92,7 +92,7 @@
         //tip提示
         $("#reply-attachment").Tip({
             width: 100,
-            msg: "上传附件最多5个"
+            msg: "上传附件最多10个"
         });
     }
 
@@ -224,7 +224,7 @@
             //提示
             $("#reply-attachment" + _this.data("replyid")).Tip({
                 width: 100,
-                msg: "上传附件最多5个"
+                msg: "上传附件最多10个"
             });
         });
 
