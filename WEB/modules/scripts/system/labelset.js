@@ -75,11 +75,13 @@
 
         //切换模块
         $(".module-tab li").click(function () {
-            var _this = $(this), labelid = _this.data("labelid");            
-            _this.siblings().removeClass("hover");
-            _this.addClass("hover");             
-            tableID = labelid;
-            _self.bindColorList();
+            var _this = $(this), labelid = _this.data("labelid");
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");                                    
+                tableID = labelid;
+                _self.bindColorList();
+            }
         });        
     }
 
