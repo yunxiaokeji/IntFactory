@@ -288,7 +288,7 @@ define(function (require, exports, module) {
         if ($("#product-img img").length > 0) {
             _self.ProductImage = $("#product-img img:first").attr("src");
         } else {
-            _self.ProductImage = "";
+            _self.ProductImage = $(".product-img").attr("src");
         }
         var Product = {
             ProductID: _self.ProductID,
