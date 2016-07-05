@@ -12,15 +12,16 @@
         Sortable = require("sortable"),
         Easydialog = require("easydialog");
     require("pager");
-    require("mark");
+    require("colormark");
 
     var ObjectJS = {};
 
-    ObjectJS.init = function (orderid, status, model) {
+    ObjectJS.init = function (orderid, status, model,list) {
         var _self = this;
         _self.orderid = orderid;
         _self.status = status;        
         _self.model = JSON.parse(model.replace(/&quot;/g, '"'));
+        _self.ColorList = JSON.parse(list.replace(/&quot;/g, '"'));
         _self.bindStyle(_self.model);
         _self.bindEvent();
         _self.getAmount();
@@ -1882,10 +1883,11 @@
             if (data.items.length > 0) {
                 doT.exec("template/orders/orders_originalid.html", function (template) {
                     var innerhtml = template(data.items);
-
+                    
                     innerhtml = $(innerhtml);
                     innerhtml.find(".mark").markColor({
                         isAll: false,
+                        data: _self.ColorList,
                         onChange: function (obj, callback) {
                             _self.markOrders(obj.data("id"), obj.data("value"), callback);
                         }
