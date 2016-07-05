@@ -761,8 +761,7 @@
                     $("#orderImage").attr("src", images[i]);
                 }
                 var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
-                $(".order-imgs-list").append(img);
-                
+                $(".order-imgs-list").append(img);                
             }
         }
         $(".order-imgs-list img").parent().click(function () {
