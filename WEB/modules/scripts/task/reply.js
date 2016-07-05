@@ -184,7 +184,7 @@
             file_container: "reply-files" + replyId,
             successItems: '.upload-files-' + replyId + ' li',
             file_path: "/Content/UploadFiles/Task/",
-            maxQuantity: 5,
+            maxQuantity: 10,
             maxSize: 5,
             fileType: 3,
             init: {}
