@@ -47,6 +47,7 @@
                 $('.taskreply-box .task-file li').each(function () {
                     var _this = $(this);
                     attchments.push({
+                        "ServerUrl": _this.data("server"),
                         "Type": _this.data('isimg'),
                         "FilePath": _this.data('filepath'),
                         "FileName": _this.data('filename'),
@@ -251,7 +252,7 @@
                     attchments.push({
                         "Size": _this.data("filesize"),
                         "Type": _this.data('isimg'),
-                        "ServerUrl": "",
+                        "ServerUrl": _this.data("server"),
                         "FilePath": _this.data('filepath'),
                         "FileName": _this.data('filename'),
                         "OriginalName": _this.data('originalname'),

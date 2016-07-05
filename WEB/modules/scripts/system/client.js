@@ -92,8 +92,7 @@
             init: {
                 "FileUploaded": function (up, file, info) {
                     var info = JSON.parse(info);
-                    var QNDomianUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
-                    var src = QNDomianUrl + info.key;
+                    var src = file.server + info.key;
                     $("#PosterDisImgone").attr("src", src);
                 }
             }
