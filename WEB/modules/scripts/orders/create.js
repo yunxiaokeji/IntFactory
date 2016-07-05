@@ -80,6 +80,7 @@
             drop_element: 'orderImages',
             file_path: "/Content/UploadFiles/Order/",
             picture_container: "orderImages",
+            image_view: "?imageView2/1/w/120/h/80",//缩略图大小
             maxQuantity: 5,
             maxSize: 5,
             successItems: '#orderImages li',
@@ -142,10 +143,11 @@
     //保存实体
     ObjectJS.saveModel = function () {
         var _self = this;
-        var domainUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
         var images = "";
         $("#orderImages li").each(function () {
-            images += domainUrl+$(this).data("filename") + ",";
+            var _this = $(this);
+            debugger
+            images += _this.data("server") + _this.data("filename") + ",";
         });
 
         var model = {

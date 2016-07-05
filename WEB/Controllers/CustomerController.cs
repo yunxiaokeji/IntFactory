@@ -412,10 +412,10 @@ namespace YXERP.Controllers
             //    directory.Create();
             //}
 
-            foreach (var attachments in model.Attachments)
-            {
-                attachments.ServerUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
-            }
+            //foreach (var attachments in model.Attachments)
+            //{
+            //    attachments.ServerUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
+            //}
 
 
             CustomBusiness.AddCustomerReplyAttachments(customerID, replyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);

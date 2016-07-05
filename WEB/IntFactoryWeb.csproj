@@ -369,10 +369,8 @@
     <Content Include="modules\plug\qiniustorage\plupload\plupload.full.min.js" />
     <Content Include="modules\plug\qiniustorage\plupload\plupload.min.js" />
     <Content Include="modules\plug\qiniustorage\qiniu\highlight.js" />
-    <Content Include="modules\plug\qiniustorage\qiniu\main.js" />
     <Content Include="modules\plug\qiniustorage\qiniu\multiple.js" />
     <Content Include="modules\plug\qiniustorage\qiniu\qiniu.js" />
-    <Content Include="modules\plug\qiniustorage\qiniu\ui.js" />
     <Content Include="modules\plug\sortable.js" />
     <Content Include="modules\plug\qqface\arclist\1.gif" />
     <Content Include="modules\plug\qqface\arclist\10.gif" />

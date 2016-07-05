@@ -24,7 +24,6 @@ define(function (require, exports, module) {
     var CacheChildCategorys = [];
     var Product = {};
 
-    var QNDomianUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
     //添加页初始化
     Product.init = function (Editor, type, guid, tid) {
         var _self = this;
@@ -45,6 +44,7 @@ define(function (require, exports, module) {
             drop_element: 'product-add',
             file_path: "/Content/UploadFiles/Product/",
             picture_container: "product-img",
+            image_view: "?imageView2/1/w/120/h/80",//缩略图大小
             maxSize: 5,
             multi_selection: false,
             fileType: 1,
@@ -232,7 +232,7 @@ define(function (require, exports, module) {
                             init: {
                                 "FileUploaded": function (up, file,info) {
                                     var info=JSON.parse(info);
-                                    _this.siblings("img").attr("src",QNDomianUrl+ info.key);
+                                    _this.siblings("img").attr("src",file.server+ info.key);
                                 }
                             }
                         });
@@ -686,7 +686,7 @@ define(function (require, exports, module) {
             init: {
                 "FileUploaded": function (up, file, info) {
                     var info = JSON.parse(info);
-                    var src = QNDomianUrl + info.key;                    
+                    var src = file.server + info.key;                    
                     $("#productImg").attr("src", src);
                 }
             }
@@ -873,7 +873,7 @@ define(function (require, exports, module) {
                 init: {
                     "FileUploaded": function (up, file, info) {
                         var info=JSON.parse(info);
-                        var src = QNDomianUrl + info.key;
+                        var src = file.server + info.key;
                         _self.ImgS = src;
                         $("#imgS").attr("src", src + "?" + count++);
                     }
