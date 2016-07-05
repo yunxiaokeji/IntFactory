@@ -23,6 +23,7 @@ define(function (require, exports, module) {
     var CacheCategorys = [];
     var CacheChildCategorys = [];
     var Product = {};
+
     //添加页初始化
     Product.init = function (Editor, type, guid, tid) {
         var _self = this;
@@ -43,11 +44,17 @@ define(function (require, exports, module) {
             drop_element: 'product-add',
             file_path: "/Content/UploadFiles/Product/",
             picture_container: "product-img",
-            image_view: "?imageView2/1/w/120/h/80",//缩略图大小
             maxSize: 5,
             multi_selection: false,
+            auto_callback: false,
             fileType: 1,
-            init: {}
+            init: {
+                "FileUploaded": function (up, file, info) {
+                    var info = JSON.parse(info);
+                    var src = file.server + info.key;
+                    $("#productImg").attr("src", src);
+                }
+            }
         });
 
         $("#btnSaveProduct").on("click", function () {
@@ -266,7 +273,7 @@ define(function (require, exports, module) {
         if (!$("#prodiver").data("id")) {
             alert("请选择材料供应商!");
             return;
-        };
+        }
        
         var bl = true;
         $(".product-attr").each(function () {
@@ -284,11 +291,7 @@ define(function (require, exports, module) {
             return false;
         }
 
-        if ($("#product-img img").length > 0) {
-            _self.ProductImage = $("#product-img img:first").attr("src");
-        } else {
-            _self.ProductImage = "";
-        }
+        _self.ProductImage = $("#productImg").attr("src");
         var Product = {
             ProductID: _self.ProductID,
             ProductCode: $("#productCode").val().trim(),
