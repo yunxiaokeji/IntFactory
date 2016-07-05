@@ -18,10 +18,13 @@
         } else {
             $("#Platemak").html(decodeURI(plate));
         };
+
+        Objects.removeTaskPlateOperate();
+
         if (img == "") {
             img = "/modules/images/none-img.png";
-        };
-        Objects.removeTaskPlateOperate();
+        };        
+
         //工艺说明录入上传附件
         Upload.uploader({
             browse_button: 'upLoadOneImg',
