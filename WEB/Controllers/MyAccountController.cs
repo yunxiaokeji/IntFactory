@@ -151,13 +151,14 @@ namespace YXERP.Controllers
                 var id = CurrentUser.UserID + new Random().Next(1000, 9999).ToString();
                 avatar = FilePath + id + ".png";
                 img.Save(Server.MapPath(avatar));
-                UploadAttachment(FilePath + "User/" + id + ".png", avatar);
 
-                avatar = "http://o9h6bx3r4.bkt.clouddn.com/" + FilePath + "User/" + id + ".png";
+                string key = FilePath + "User/" + id + ".png";
+                UploadAttachment(key, avatar);
+
                 bool flag= OrganizationBusiness.UpdateAccountAvatar(CurrentUser.UserID, avatar, CurrentUser.AgentID);
-
                 if (flag)
                 {
+                    avatar = "http://o9h6bx3r4.bkt.clouddn.com/" + key;
                     result = 1;
                     CurrentUser.Avatar = avatar;
                     Session["ClientManager"] = CurrentUser;
@@ -181,7 +182,7 @@ namespace YXERP.Controllers
             String bucket = "zngc-intfactory";
 
             //普通上传,只需要设置上传的空间名就可以了,第二个参数可以设定token过期时间
-            PutPolicy put = new PutPolicy(bucket, 3600);
+            PutPolicy put = new PutPolicy(bucket + ":" + key, 3600);
 
             //调用Token()方法生成上传的Token
             string upToken = put.Token();
