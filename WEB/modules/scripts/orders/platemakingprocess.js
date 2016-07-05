@@ -58,6 +58,8 @@
                     var info = JSON.parse(info);
                     var src = file.server + info.key;
                     $("#upLoadTwoImg").prev().attr('src', src);
+                }
+            }
         });
        
         $(".change-owner").click(function () {
