@@ -104,34 +104,6 @@
             init: {}
         });
 
-        //ProductIco = Upload.createUpload({
-        //    element: "productIco",
-        //    buttonText: "+",
-        //    className: "",
-        //    multiple: true,
-        //    maxQuantity: 5,
-        //    successItems: "#orderImages .is-img",
-        //    data: { folder: '', action: 'add', oldPath: "" },
-        //    success: function (data, status) {
-        //        if (data.Items.length > 0) {
-        //            for (var i = 0; i < data.Items.length; i++) {
-
-        //                    if ($("#orderImages li.is-img").length < 5) {
-        //                        var img = $('<li class="is-img"><img src="' + data.Items[i] + '" /><span class="ico-delete"></span></li>');
-                                
-        //                        $("#orderImages li:first-child").before(img);
-
-        //                        img.find(".ico-delete").click(function () {
-        //                            $(this).parent().remove();
-        //                        });
-        //                    }
-        //            }
-        //        } else {
-        //            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
-        //        }
-        //    }
-        //});
-
         VerifyObject = Verify.createVerify({
             element: ".verify",
             emptyAttr: "data-empty",
