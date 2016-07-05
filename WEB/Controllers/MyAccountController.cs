@@ -150,10 +150,10 @@ namespace YXERP.Controllers
                 Bitmap img = new Bitmap(stream);
 
                 var id = CurrentUser.UserID;
-                avatar = FilePath + id + ".png";
+                avatar = TempPath + id + ".png";
                 img.Save(Server.MapPath(avatar));
-                
-                string key = FilePath + "User/" + id + ".png";
+
+                string key = TempPath + "User/" + id + ".png";
                 UploadAttachment(key, avatar);
                 
                 bool flag= OrganizationBusiness.UpdateAccountAvatar(CurrentUser.UserID, avatar, CurrentUser.AgentID);
