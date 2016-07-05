@@ -23,6 +23,7 @@ define(function (require, exports, module) {
     var CacheCategorys = [];
     var CacheChildCategorys = [];
     var Product = {};
+
     var QNDomianUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
     //添加页初始化
     Product.init = function (Editor, type, guid, tid) {
@@ -347,20 +348,20 @@ define(function (require, exports, module) {
             if (data.ID.length > 0) {
                 if (_self.type == "11") {
                     confirm("材料添加成功，是否返回选择材料页面？", function () {
-                        location.href = "/Orders/ChooseMaterial?id=" + _self.guid + "&tid=" + _self.tid;
+                        //location.href = "/Orders/ChooseMaterial?id=" + _self.guid + "&tid=" + _self.tid;
                     }, function () {
-                        location.href = "/Products/ProductDetail/" + data.ID;
+                        //location.href = "/Products/ProductDetail/" + data.ID;
                     });
                     
                 } else if (_self.type == "1") {
                     confirm("材料添加成功，是否返回选择材料页面？", function () {
-                        location.href = "/Products/ChooseProducts?id=" + _self.guid;
+                        //location.href = "/Products/ChooseProducts?id=" + _self.guid;
                     }, function () {
-                        location.href = "/Products/ProductDetail/" + data.ID;
+                        //location.href = "/Products/ProductDetail/" + data.ID;
                     });
 
                 } else {
-                    location.href = "/Products/ProductDetail/" + data.ID;
+                    //location.href = "/Products/ProductDetail/" + data.ID;
                 }
             }
         });
