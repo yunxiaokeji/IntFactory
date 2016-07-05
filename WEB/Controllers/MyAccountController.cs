@@ -148,20 +148,27 @@ namespace YXERP.Controllers
                 avatar = avatar.Split(',')[1];             
                 MemoryStream stream = new MemoryStream(Convert.FromBase64String(avatar));
                 Bitmap img = new Bitmap(stream);
-                var id = CurrentUser.UserID + new Random().Next(1000, 9999).ToString();
+                 // + new Random().Next(1000, 9999).ToString()
+                var id = CurrentUser.UserID;
                 avatar = FilePath + id + ".png";
                 img.Save(Server.MapPath(avatar));
-                UploadAttachment(FilePath + "User/" + id + ".png", avatar);
-
-                avatar = "http://o9h6bx3r4.bkt.clouddn.com/" + FilePath + "User/" + id + ".png";
-                bool flag= OrganizationBusiness.UpdateAccountAvatar(CurrentUser.UserID, avatar, CurrentUser.AgentID);
-
-                if (flag)
+                bool status= UploadAttachment(FilePath + "User/" + id + ".png", avatar);
+                if (!status)
                 {
-                    result = 1;
-                    CurrentUser.Avatar = avatar;
-                    Session["ClientManager"] = CurrentUser;
-                }                    
+                    result = 0;                    
+                }
+                else
+                {
+                    avatar = "http://o9h6bx3r4.bkt.clouddn.com/" + FilePath + "User/" + id + ".png";
+                    bool flag = OrganizationBusiness.UpdateAccountAvatar(CurrentUser.UserID, avatar, CurrentUser.AgentID);
+
+                    if (flag)
+                    {
+                        result = 1;
+                        CurrentUser.Avatar = avatar;
+                        Session["ClientManager"] = CurrentUser;
+                    }
+                }
             }
 
             JsonDictionary.Add("result",result);
