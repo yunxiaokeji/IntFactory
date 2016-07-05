@@ -220,8 +220,7 @@
         Global.post("/Home/CreateOrder", { entity: JSON.stringify(model) }, function (data) {
             $("#btnSave").attr("disabled", false).html("确认下单");
             if (data.id) {
-                location.href = "/Home/OrderSuccess/" + data.id;
-                
+                location.href = "/Home/OrderSuccess/" + data.id;                
             } else {
                 alert("网络异常,请稍后重试!");
             }
