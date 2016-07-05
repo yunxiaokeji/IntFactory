@@ -86,7 +86,7 @@
             if (!VerifyObject.isPass()) {
                 return false;
             }
-            $(this).attr("disabled", true).html("正在下单...");
+            //$(this).attr("disabled", true).html("正在下单...");
             
             _self.saveModel();
         });
@@ -192,11 +192,13 @@
     //保存实体
     ObjectJS.saveModel = function () {
         var _self = this;
+        var domainUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
         var images = "";
-        $("#orderImages img").each(function () {
-            images += $(this).data("src") + ",";
+        $("#orderImages li").each(function () {
+            if ($(this).data("filename")) {
+                images += domainUrl + $(this).data("filename") + ",";
+            }
         });
-        
         var model = {
             CustomerID: "",
             PersonName: $("#name").val().trim(),
