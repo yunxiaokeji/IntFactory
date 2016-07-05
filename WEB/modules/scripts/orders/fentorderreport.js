@@ -73,7 +73,8 @@
         
         $("#Platemak table").find("tr:first").find("td").css({ "border-top": "0", "border-bottom": "1px solid", "font-size": "16px" });
         $("#Platemak table").find("tr").find("td").removeClass("tLeft");        
-        $("#Platemak table tr").each(function () {            
+        $("#Platemak table tr").each(function () {
+            $(this).find("td").find("span").css("font-size","14px");
             $(this).find("td:last").remove();            
             $(this).find("td:last").css("border-right", "0");
             $(this).find("td:first").css("border-left", "0");            
