@@ -28,6 +28,7 @@
 
 
 /*产品样式*/
+#productinfo {position: initial !important; }
 .product-add { overflow: auto; position: initial !important; }
 .product-add li { height:auto; }
 .product-add .column-name{ width:85px; float:left; }
