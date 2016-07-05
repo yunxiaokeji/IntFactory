@@ -675,8 +675,6 @@ define(function (require, exports, module) {
 
         var uploader = Upload.uploader({
             browse_button: 'productUpload',
-            container: 'productinfo',
-            drop_element: 'productinfo',
             file_path: "/Content/UploadFiles/Product/",  
             fileType: 1,
             multi_selection: false,

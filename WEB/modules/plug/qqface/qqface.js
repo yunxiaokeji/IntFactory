@@ -42,14 +42,14 @@ define(function (require, exports, module) {
                 var position = $(this).position();
                 var top = position.top + $(this).outerHeight();
    
-                if ($('.task-layer-box .taskContent ').length > 0)
-                {
-                    var scrollTop = $('.task-layer-box .taskContent')[0].scrollTop;
-                    if (scrollTop > 0)
-                    {
-                        top += scrollTop;
-                    }
-                }
+                //if ($('.task-layer-box .taskContent ').length > 0)
+                //{
+                //    var scrollTop = $('.task-layer-box .taskContent')[0].scrollTop;
+                //    if (scrollTop > 0)
+                //    {
+                //        //top += scrollTop;
+                //    }
+                //}
               
                 $('#' + id).css('top', top);
                 $('#' + id).css('left', position.left);
