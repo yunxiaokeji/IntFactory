@@ -37,7 +37,7 @@
                 "FileUploaded": function (up, file, info) {
                     var info = JSON.parse(info);
                     var src = file.server + info.key;
-                    $("#upLoadOneImg").prev().attr('src', src);
+                    $("#upLoadOneImg").prev().find("img").attr('src', src);
                 }
             }
         });
@@ -57,7 +57,7 @@
                 "FileUploaded": function (up, file, info) {
                     var info = JSON.parse(info);
                     var src = file.server + info.key;
-                    $("#upLoadTwoImg").prev().attr('src', src);
+                    $("#upLoadTwoImg").prev().find("img").attr('src', src);
                 }
             }
         });
