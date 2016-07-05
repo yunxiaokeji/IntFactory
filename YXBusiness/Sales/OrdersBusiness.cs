@@ -628,50 +628,11 @@ namespace IntFactoryBusiness
             }
             else
             {
-                //if (!string.IsNullOrEmpty(orderimgs))
-                //{
-                //    bool first = true;
-                //    foreach (var img in orderimgs.Split(','))
-                //    {
-                //        string orderimg = img;
-                //        if (!string.IsNullOrEmpty(orderimg))
-                //        {
-                //            if (orderimg.IndexOf("?") > 0)
-                //            {
-                //                orderimg = orderimg.Substring(0, orderimg.IndexOf("?"));
-                //            }
-
-                //            DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
-                //            if (!directory.Exists)
-                //            {
-                //                directory.Create();
-                //            }
-
-                //            FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(orderimg));
-                //            orderimg = FILEPATH + file.Name;
-                //            if (first)
-                //            {
-                //                firstimg = FILEPATH + "small" + file.Name;
-                //            }
-                //            if (file.Exists)
-                //            {
-                //                file.MoveTo(HttpContext.Current.Server.MapPath(orderimg));
-                //            }
-                //        }
-                //        if (first)
-                //        {
-                //            CommonBusiness.GetThumImage(HttpContext.Current.Server.MapPath(orderimg), 30, 250, HttpContext.Current.Server.MapPath(firstimg));
-
-                //            first = false;
-                //        }
-                //        allimgs += orderimg + ",";
-                //    }
-                //}
                 orderimgs = orderimgs.Trim(',');
                 if (orderimgs.Length > 0)
                 {
                     allimgs = orderimgs;
-                    firstimg=allimgs.Split(',')[0];
+                    firstimg = allimgs.Split(',')[0];
                 }
             }
 
