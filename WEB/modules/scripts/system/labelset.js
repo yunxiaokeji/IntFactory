@@ -54,7 +54,9 @@
                         alert("标签不能全部删除,操作失败");
                     } else if (result == -200) {
                         alert("标签已经被删除,请刷新查看");
-                    } else {
+                    } else if (result == 2) {
+                        alert("标签已有关联，请先移交");
+                    }else {
                         alert("删除失败");
                     }
                 });

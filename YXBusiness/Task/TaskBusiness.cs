@@ -576,7 +576,7 @@ namespace IntFactoryBusiness
 
             if (flag)
             {
-                string msg = "编辑工艺说明：" + plate.Title;
+                string msg = "编辑工艺说明为：" + plate.Title;
                 LogBusiness.AddLog(plate.TaskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
             }
 
