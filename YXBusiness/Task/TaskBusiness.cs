@@ -551,10 +551,18 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="plate"></param>
         /// <returns></returns>
-        public static bool AddPlateMaking(PlateMaking plate)
+        public static bool AddPlateMaking(PlateMaking plate, string operateid, string ip, string agentid, string clientid)
         {
-            return TaskDAL.BaseProvider.AddPlateMaking(plate.Title, plate.Remark, plate.Icon,
+            bool flag= TaskDAL.BaseProvider.AddPlateMaking(plate.Title, plate.Remark, plate.Icon,
                 plate.TaskID,plate.Type,plate.OrderID,plate.CreateUserID,plate.AgentID);
+
+            if (flag)
+            {
+                string msg = "新增工艺说明："+plate.Title;
+                LogBusiness.AddLog(plate.TaskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+            }
+
+            return flag;
         }
 
         /// <summary>
@@ -562,9 +570,17 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="plate"></param>
         /// <returns></returns>
-        public static bool UpdatePlateMaking(PlateMaking plate)
+        public static bool UpdatePlateMaking(PlateMaking plate, string operateid, string ip, string agentid, string clientid)
         {
-            return TaskDAL.BaseProvider.UpdatePlateMaking(plate.PlateID,plate.Title,plate.Remark,plate.Icon,plate.Type);
+            bool flag= TaskDAL.BaseProvider.UpdatePlateMaking(plate.PlateID,plate.Title,plate.Remark,plate.Icon,plate.Type);
+
+            if (flag)
+            {
+                string msg = "编辑工艺说明：" + plate.Title;
+                LogBusiness.AddLog(plate.TaskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+            }
+
+            return flag;
         }
 
         /// <summary>
@@ -572,9 +588,17 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="plateID"></param>
         /// <returns></returns>
-        public static bool DeletePlateMaking(string plateID)
+        public static bool DeletePlateMaking(string plateID,string taskid,string title, string operateid, string ip, string agentid, string clientid)
         {
-            return TaskDAL.BaseProvider.DeletePlateMaking(plateID);
+            bool flag= TaskDAL.BaseProvider.DeletePlateMaking(plateID);
+
+            if (flag)
+            {
+                string msg = "删除工艺说明：" + title;
+                LogBusiness.AddLog(taskid, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+            }
+
+            return flag;
         }
         #endregion
     }

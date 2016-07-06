@@ -116,10 +116,9 @@ namespace YXERP.Controllers
             }
             model.IsSelf = model.ClientID == CurrentUser.ClientID;
             ViewBag.Model = model;
-
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 2).ToList();
             if (model.OrderType == 1)
             {
-                ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 2).ToList();
                 return View();
             }
             else
