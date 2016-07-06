@@ -691,8 +691,10 @@ namespace YXERP.Controllers
             //{
             //    attachments.ServerUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
             //}
-
-            TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);
+            if (model.Attachments.Count > 0) 
+            {
+                TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);            
+            }
 
             List<ReplyEntity> list = new List<ReplyEntity>();
             if (!string.IsNullOrEmpty(replyID))
