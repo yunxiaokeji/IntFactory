@@ -165,10 +165,10 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 /*详情页模块切换样式*/
 .module-header { margin:0 20px; }
 .module-header .module-tab { height:35px; float:left; }
-.module-header .module-tab li{ padding:0 10px; cursor:pointer; min-width:70px; text-align:center; margin-right:5px;height:35px; line-height:35px; color:#666;
-                               float:left; background-color:#e6e6e6; border-radius:2px; }
+.module-header .module-tab li{ padding:0 10px; cursor:pointer; min-width:70px; text-align:center; margin-right:5px;height:35px; line-height:35px; color:#fff;height:30px;
+                               float:left; background-color:#B5C2CA; border-radius:2px; }
 .module-header .module-tab li:hover{ background-color:#fff; color:#4a98e7;}
-.module-header .module-tab li.hover{ background-color:#fff; color:#4a98e7; border-bottom-left-radius:0; border-bottom-right-radius:0;}
+.module-header .module-tab li.hover{ background-color:#fff; color:#4a98e7; border-bottom-left-radius:0; border-bottom-right-radius:0;height:35px;}
 
 /*表格样式*/
 .table-list { width: 100%; border-spacing: 0px;}
