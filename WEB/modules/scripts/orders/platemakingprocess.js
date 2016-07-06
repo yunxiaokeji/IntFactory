@@ -60,7 +60,7 @@
         $(".change-owner").click(function () {
             var _this = $(this);
             ChooseUser.create({
-                title: "批量更换负责人",
+                title: "编辑负责人",
                 type: 1,
                 single: true,
                 callback: function (items) {
@@ -149,7 +149,7 @@
     //删除行操作按钮(制版工艺)
     Objects.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
-        $("#Platemak table").find("tr:first").addClass("fontbold").addClass();
+        $("#Platemak table").find("tr:first").addClass("fontbold");
         $("#Platemak table").find("tr:first").find("td").css({ "border-top": "0", "border-bottom": "1px solid", "font-size": "16px" });
         $("#Platemak table").find("tr").find("td").removeClass("tLeft");
         $("#Platemak table tr").each(function () {
@@ -209,10 +209,7 @@
                         }
                     });
                 });
-            }
-            //else {
-            //    $(".processplate").prepend('<tr class="proplate"><td colspan="10" class="no-border-top"><div class="nodata-txt"></div></td></tr>');
-            //}
+            }            
         });    
     };
 
