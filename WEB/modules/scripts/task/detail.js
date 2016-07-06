@@ -1280,7 +1280,7 @@
                             var position = _this.find(".ico-dropdown").position();
                             $("#setPlateMaking li").data("id", _this.data("id")).data("index", _this.data("index"));
 
-                            $("#setPlateMaking").css({ "top": position.top + 20, "left": position.left - 80 }).show().mouseleave(function () {
+                            $("#setPlateMaking").css({ "top": position.top + 20, "left": position.left-40 }).show().mouseleave(function () {
                                 $(this).hide();
                             });
                         });
