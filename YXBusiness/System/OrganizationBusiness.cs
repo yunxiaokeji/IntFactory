@@ -639,7 +639,7 @@ namespace IntFactoryBusiness
                 u.MobilePhone = bindMobile;
 
                 Agents agent = AgentsBusiness.GetAgentDetail(agentid);
-                agent.EndTime = agent.EndTime.AddMonths(2);
+                agent.EndTime = agent.EndTime.AddMonths(1);
 
                 IntFactoryEntity.Manage.Clients client = Manage.ClientBusiness.GetClientDetail(clientid);
                 client.MobilePhone = bindMobile;
