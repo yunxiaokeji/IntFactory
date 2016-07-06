@@ -1201,17 +1201,16 @@
             $(this).attr("value", $(this).val()).hide().prev().html($(this).val()).show();
         });
 
-        var valueIDs = '';
-        $("#platemakingBody .tr-header td.columnHeadr").each(function () {
-            valueIDs += $(this).data("id") + '|';
-        });
+        //var valueIDs = '';
+        //$("#platemakingBody .tr-header td.columnHeadr").each(function () {
+        //    valueIDs += $(this).data("id") + '|';
+        //});
 
         ObjectJS.isLoading = false;
-        Global.post("/Task/UpdateOrderPlateAttr", {
+        Global.post("/Task/UpdateOrderPlateRemark", {
             orderID: ObjectJS.orderid,
             taskID: ObjectJS.taskid,
-            platehtml: encodeURI($("#platemakingBody").html()),
-            valueIDs: valueIDs
+            plateRemark: encodeURI($("#platemakingBody").html())
         }, function (data) {
             if (data.result == 1) {
                 alert("保存成功");
@@ -1248,8 +1247,8 @@
 
         $("#deleteObject").click(function () {
             var plateID = $(this).data("id");
-
-            ObjectJS.deletePlateMaking(plateID);
+            var title = $(this).data("title");
+            ObjectJS.deletePlateMaking(plateID, title);
         });
     }
 
@@ -1259,7 +1258,6 @@
         $(".tb-plates").html("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
       
         Global.post("/Task/GetPlateMakings", {
-            //orderID: ObjectJS.mark == 22 ? ObjectJS.originalID : ObjectJS.orderid
             orderID:ObjectJS.orderid
         }, function (data) {
             $(".tb-plates").html('');
@@ -1278,7 +1276,7 @@
                         html.find(".dropdown").click(function () {
                             var _this = $(this);
                             var position = _this.find(".ico-dropdown").position();
-                            $("#setPlateMaking li").data("id", _this.data("id")).data("index", _this.data("index"));
+                            $("#setPlateMaking li").data("id", _this.data("id")).data("index", _this.data("index")).data("title", _this.data("title"));
 
                             $("#setPlateMaking").css({ "top": position.top + 20, "left": position.left-40 }).show().mouseleave(function () {
                                 $(this).hide();
@@ -1387,9 +1385,13 @@
     }
 
     //删除工艺说明
-    ObjectJS.deletePlateMaking = function (plateID) {
+    ObjectJS.deletePlateMaking = function (plateID,title) {
         confirm("确认删除工艺说明？", function () {
-            Global.post("/Task/DeletePlateMaking", { plateID: plateID }, function (data) {
+            Global.post("/Task/DeletePlateMaking", {
+                plateID: plateID,
+                taskID: ObjectJS.taskid,
+                title: title
+            }, function (data) {
                 if (data.result == 0) {
                     alert("删除失败");
                 }

@@ -1021,9 +1021,15 @@ namespace IntFactoryBusiness
             return OrdersDAL.BaseProvider.UpdateOrderPlateAttr(orderid, taskID, valueIDS, platehtml, createUserID, agentID, clientID);
         }
 
-        public bool UpdateOrderPlateRemark(string orderid, string plateRemark)
+        public bool UpdateOrderPlateRemark(string orderid,string taskid, string plateRemark, string operateid, string ip, string agentid, string clientid)
         {
-            return OrdersDAL.BaseProvider.UpdateOrderPlateRemark(orderid, plateRemark);
+            bool bl= OrdersDAL.BaseProvider.UpdateOrderPlateRemark(orderid, plateRemark);
+            if (bl)
+            {
+                string msg = "编辑制版信息";
+                LogBusiness.AddLog(taskid, EnumLogObjectType.OrderTask, msg, operateid, ip, operateid, agentid, clientid);
+            }
+            return bl;
         }
 
         public bool EditOrder(string orderid, string goodsCode, string goodsName, string personName, string mobileTele, string cityCode, string address, 
