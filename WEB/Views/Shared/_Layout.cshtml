@@ -6,7 +6,7 @@
     IntFactoryEntity.Menu controllerMenu = ExpandClass.GetController(HttpContext.Current, controller);
     string logo = string.IsNullOrEmpty(CurrentUser.Client.Logo) ? "/modules/images/ico-home.png" : CurrentUser.Client.Logo;
     string companyName = string.IsNullOrEmpty(CurrentUser.Client.CompanyName) ? "" : CurrentUser.Client.CompanyName;
-    var version = "v1.6.14";
+    var version = YXERP.Common.Common.Version;
 }
 <html>
 <head>
