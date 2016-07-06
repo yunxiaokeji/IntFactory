@@ -1,6 +1,4 @@
-﻿<ul class="order-imgs-list pBottom20 minwidth300 order-imgs-box" id="order-imgs-box">
-
-       
+﻿<ul class="order-imgs-list pBottom20 order-imgs-box left" id="order-imgs-box" style="min-width:220px;">
 {%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
@@ -8,7 +6,6 @@
 %}
     <li><img src="{%=item%}" /><span class="ico-delete"></span></li>
 {% }} %}
-    <li title="添加图片" id="addOrderImages" class="edit-orderimages">
-        +
-    </li>
 </ul>
+<p title="添加图片" id="addOrderImages" class="edit-orderimages left mTop5">+</p>
+<div class="clear"></div>
