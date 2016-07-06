@@ -29,6 +29,6 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string fromReplyAgentID { get; set; }
 
-        public List<Attachment> Attachments { get; set; }
+        public List<Attachment> attachments { get; set; }
     }
 }
