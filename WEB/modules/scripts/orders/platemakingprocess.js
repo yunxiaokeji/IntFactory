@@ -5,25 +5,21 @@
     
     var Objects = {};
 
-    Objects.init = function (plate, img, orderid, OriginalID,ordertype) {
-        Objects.bindEvent(plate,img);        
+    Objects.init = function (plate, orderid, OriginalID,ordertype) {
+        Objects.bindEvent(plate);        
         Objects.getAmount();
         Objects.imgOrderTable();
         Objects.processPlate(orderid, OriginalID, ordertype);
     };
 
-    Objects.bindEvent = function (plate,img) {
+    Objects.bindEvent = function (plate) {
         if (plate == "") {
             $("#Platemak").html('<tr><td class="no-border" style="width:954px;font-size:15px;height:50px;"></td></tr>')
         } else {
             $("#Platemak").html(decodeURI(plate));
         };
 
-        Objects.removeTaskPlateOperate();
-
-        if (img == "") {
-            img = "/modules/images/none-img.png";
-        };        
+        Objects.removeTaskPlateOperate();             
 
         //工艺说明录入上传附件
         Upload.uploader({
