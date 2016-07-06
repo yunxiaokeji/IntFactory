@@ -250,6 +250,13 @@
     <Content Include="modules\images\ico-account-login.png" />
     <Content Include="modules\images\ico-ali-login.png" />
     <Content Include="modules\images\ico-alipay.png" />
+    <Content Include="modules\images\ico-attachment-excel.png" />
+    <Content Include="modules\images\ico-attachment-pdf.png" />
+    <Content Include="modules\images\ico-attachment-ppt.png" />
+    <Content Include="modules\images\ico-attachment-psd.png" />
+    <Content Include="modules\images\ico-attachment-rar.png" />
+    <Content Include="modules\images\ico-attachment-txt.png" />
+    <Content Include="modules\images\ico-attachment-word.png" />
     <Content Include="modules\images\ico-close-hover.png" />
     <Content Include="modules\images\ico-close.png" />
     <Content Include="modules\images\ico-company.png" />

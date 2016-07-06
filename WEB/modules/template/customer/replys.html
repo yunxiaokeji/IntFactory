@@ -21,17 +21,22 @@
                             for(var j=0;j<attchment.length;j++){   
                                 var attchmentItem=attchment[j];
                                 var extension=attchmentItem.OriginalName.split('.');
+
                                 if(attchmentItem.Type==2)
                                 { 
-                            %}  
+                                var extensionName=extension[extension.length-1];
+                                var attachmentUrl="/modules/images/"+(
+                                                                    extensionName=="pdf"?"ico-attachment-pdf.png":
+                                                                    extensionName=="ppt"?"ico-attachment-ppt.png":
+                                                                    extensionName=="psd"?"ico-attachment-psd.png":
+                                                                    extensionName=="txt"?"ico-attachment-txt.png":
+                                                                    extensionName=="xls"||extensionName=="xlsx"?"ico-attachment-excel.png":
+                                                                    extensionName=="rar"||extensionName=="zip"?"ico-attachment-rar.png":
+                                                                    extensionName=="doc"||extensionName=="docx"?"ico-attachment-word.png":""
+                                                                    );
+                                %}  
                                 <li class="mTop5">
-                                    <div class="left logo-upload">
-                                        <div class="upload-lump">
-                                            <div class="content width35 long" title="{%=extension[extension.length-1]%}">
-                                                {%=extension[extension.length-1]%}
-                                            </div>
-                                            <div class="lump"></div>
-                                        </div>
+                                    <div class="left logo-upload" style="background:url('{%=attachmentUrl%}') no-repeat 16px 14px;background-color:#efefef;">
                                     </div>
                                     <div class="information-upload pLeft10 width100 borderEEE hight58">
                                         <div title="{%=attchmentItem.OriginalName%}" class="long filename width100">{%=attchmentItem.OriginalName%}</div>
