@@ -617,9 +617,8 @@ namespace IntFactoryDAL
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@PlateRemark",plateRemark)
                                    };
-            string sqlText = " update orders set PlateRemark=@PlateRemark where OrderID=@OrderID";
 
-            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
+            return ExecuteNonQuery("P_UpdateOrderPlateRemark", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool DeleteOrder(string orderid, string operateid, string agentid, string clientid)

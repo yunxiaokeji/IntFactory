@@ -499,11 +499,12 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-
-        public JsonResult UpdateOrderPlateRemark(string orderID, string plateRemark)
+        [ValidateInput(false)]
+        public JsonResult UpdateOrderPlateRemark(string orderID,string taskID, string plateRemark)
         {
             int result = 0;
-            result = OrdersBusiness.BaseBusiness.UpdateOrderPlateRemark(orderID, plateRemark) ? 1 : 0;
+            result = OrdersBusiness.BaseBusiness.UpdateOrderPlateRemark(orderID, taskID, plateRemark, 
+                CurrentUser.UserID, string.Empty, CurrentUser.AgentID, CurrentUser.ClientID) ? 1 : 0;
             JsonDictionary.Add("result", result);
 
             return new JsonResult
@@ -563,35 +564,17 @@ namespace YXERP.Controllers
             PlateMaking model = serializer.Deserialize<PlateMaking>(plate);
             bool flag = false;
 
-            //string FilePath=CloudSalesTool.AppSettings.Settings["UploadFilePath"];
-            //string temFilePath = model.Icon;
-            //string fileUrl = string.Empty;
-            //if (!string.IsNullOrEmpty(temFilePath))
-            //{
-            //    if (temFilePath.IndexOf("?") > 0)
-            //    {
-            //        temFilePath = temFilePath.Substring(0, temFilePath.IndexOf("?"));
-            //    }
-            //    FileInfo file = new FileInfo(Server.MapPath(temFilePath));
-
-
-            //    fileUrl = FilePath + file.Name;
-            //    if (file.Exists)
-            //    {
-            //        file.MoveTo(Server.MapPath(fileUrl));
-            //    }
-            //}
-            //model.Icon = fileUrl;
-
             if (string.IsNullOrEmpty(model.PlateID))
             {
                 model.AgentID = CurrentUser.AgentID;
                 model.CreateUserID = CurrentUser.UserID;
-                flag= IntFactoryBusiness.TaskBusiness.AddPlateMaking(model);
+                flag= IntFactoryBusiness.TaskBusiness.AddPlateMaking(model,
+                    CurrentUser.UserID,string.Empty,CurrentUser.AgentID,CurrentUser.ClientID);
             }
             else
             {
-                flag=IntFactoryBusiness.TaskBusiness.UpdatePlateMaking(model);
+                flag = IntFactoryBusiness.TaskBusiness.UpdatePlateMaking(model,
+                    CurrentUser.UserID, string.Empty, CurrentUser.AgentID, CurrentUser.ClientID);
             }
 
             JsonDictionary.Add("result", flag ? 1 : 0);
@@ -603,9 +586,10 @@ namespace YXERP.Controllers
 
         }
 
-        public JsonResult DeletePlateMaking(string plateID)
+        public JsonResult DeletePlateMaking(string plateID,string taskID,string title)
         {
-            bool flag = IntFactoryBusiness.TaskBusiness.DeletePlateMaking(plateID);
+            bool flag = IntFactoryBusiness.TaskBusiness.DeletePlateMaking(plateID,taskID,title,
+                CurrentUser.UserID,string.Empty,CurrentUser.AgentID,CurrentUser.ClientID);
 
             JsonDictionary.Add("result", flag ? 1 : 0);
             return new JsonResult
