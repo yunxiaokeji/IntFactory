@@ -225,7 +225,7 @@ namespace YXERP.Areas.Api.Controllers
             {
                 int pageCount = 0;
                 int totalCount = 0;
-                var list = OrdersBusiness.GetReplys(orderID, stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
+                var list = TaskBusiness.GetTaskReplys(orderID, stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
                 List<Dictionary<string, object>> replys = new List<Dictionary<string, object>>();
 
                 foreach (var item in list)
@@ -239,7 +239,7 @@ namespace YXERP.Areas.Api.Controllers
                     reply.Add("createUser", GetUserBaseObj(item.CreateUser));
                     reply.Add("fromReplyUser", GetUserBaseObj(item.FromReplyUser));
                     reply.Add("createTime", item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"));
-
+                    reply.Add("attachments", item.Attachments);
                     replys.Add(reply);
                 }
 
@@ -308,7 +308,7 @@ namespace YXERP.Areas.Api.Controllers
                     foreach (var item in orderDetail.Details)
                     {
                         Dictionary<string, object> detail = new Dictionary<string, object>();
-                        detail.Add("code",string.IsNullOrEmpty( item.DetailsCode)?item.ProductCode:item.DetailsCode);
+                        detail.Add("code",string.IsNullOrEmpty(item.DetailsCode)?item.ProductCode:item.DetailsCode);
                         detail.Add("productImage", item.ProductImage);
                         detail.Add("productName", item.ProductName);
                         detail.Add("remark", item.Remark);
@@ -366,7 +366,7 @@ namespace YXERP.Areas.Api.Controllers
         }
 
         [ValidateInput(false)]
-        public JsonResult SavaTaskReply(string reply, string userID, string agentID)
+        public JsonResult SavaTaskReply(string reply, string userID, string agentID,string taskID)
         {
             var model = JsonConvert.DeserializeObject<IntFactoryEntity.ReplyJson>(reply);
 
@@ -374,6 +374,7 @@ namespace YXERP.Areas.Api.Controllers
                 model.content, userID, agentID, 
                 model.fromReplyID, model.fromReplyUserID, model.fromReplyAgentID);
 
+            TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.Attachments, userID, agentID);
             if (!string.IsNullOrEmpty(replyID))
             {
                 List<Dictionary<string, object>> replys = new List<Dictionary<string, object>>();
@@ -388,6 +389,7 @@ namespace YXERP.Areas.Api.Controllers
                 {
                     replyObj.Add("fromReplyUser", GetUserBaseObj(OrganizationBusiness.GetUserByUserID(model.fromReplyUserID, model.fromReplyAgentID)));
                 }
+                replyObj.Add("attachments", model.Attachments);
                 replyObj.Add("createTime", DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
                 replys.Add(replyObj);
 
