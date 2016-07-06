@@ -1,21 +1,23 @@
 ﻿define(function (require,exports,module) {
     var ObjectJS = {};
-    ObjectJS.init = function (plate,price,costprice) {
-        ObjectJS.bindEvent(plate, price, costprice);
+    ObjectJS.init = function (plate, price, costprice, finalPrice) {
+        ObjectJS.bindEvent(plate, price, costprice, finalPrice);
         ObjectJS.removeTaskPlateOperate();
         ObjectJS.addTaskPlateCss();
     };
 
-    ObjectJS.bindEvent = function (plate, price, costprice) {
+    ObjectJS.bindEvent = function (plate, price, costPrice, finalPrice) {
         if (plate != "") {
             $("#Platemak").html(decodeURI(plate));
         }
 
-        var conclusion = Number(price) + Number(costprice);
-
-        $(".conclusion").html(conclusion.toFixed(2));
-
-        $(".offer").val(conclusion.toFixed(2));
+        var conclusion = Number(price) + Number(costPrice);
+        var finalPrice = Number(finalPrice);        
+        if (finalPrice>0) {           
+            $(".offer").val(finalPrice.toFixed(2));
+        } else {
+            $(".offer").val(conclusion.toFixed(2));            
+        }
 
         if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {
             $(".style-information").parent().css("height","100%");
