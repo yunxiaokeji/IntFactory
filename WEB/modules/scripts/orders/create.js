@@ -143,8 +143,7 @@
         var _self = this;
         var images = "";
         $("#orderImages li").each(function () {
-            var _this = $(this);
-            debugger
+            var _this = $(this);            
             images += _this.data("server") + _this.data("filename") + ",";
         });
 
