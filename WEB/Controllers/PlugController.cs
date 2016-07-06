@@ -14,6 +14,7 @@ using Qiniu.IO;
 using Qiniu.IO.Resumable;
 using Qiniu.RS;
 using Qiniu.RPC;
+using Qiniu.Conf;
 namespace YXERP.Controllers
 {
     public class PlugController : Controller
@@ -57,8 +58,10 @@ namespace YXERP.Controllers
 
         public JsonResult GetToken()
         {
+            Config.Init();
             //设置上传的空间
-            String bucket = "zngc-intfactory";
+            String bucket = System.Configuration.ConfigurationManager.AppSettings["QN-Bucket"] ?? "zngc-intfactory"; 
+            
             //普通上传,只需要设置上传的空间名就可以了,第二个参数可以设定token过期时间
             PutPolicy put = new PutPolicy(bucket, 3600);
 
