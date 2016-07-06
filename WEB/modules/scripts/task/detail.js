@@ -1207,10 +1207,10 @@
         //});
 
         ObjectJS.isLoading = false;
-        Global.post("/Task/UpdateOrderPlateRemark", {
+        Global.post("/Task/UpdateOrderPlateAttr", {
             orderID: ObjectJS.orderid,
             taskID: ObjectJS.taskid,
-            plateRemark: encodeURI($("#platemakingBody").html())
+            platehtml: encodeURI($("#platemakingBody").html())
         }, function (data) {
             if (data.result == 1) {
                 alert("保存成功");

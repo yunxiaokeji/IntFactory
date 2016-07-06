@@ -484,26 +484,26 @@ namespace YXERP.Controllers
             };
         }
 
+        //[ValidateInput(false)]
+        //public JsonResult UpdateOrderPlateAttr(string orderID, string taskID, string valueIDs, string platehtml)
+        //{
+        //    int result = 0;
+        //    valueIDs = valueIDs.Trim('|');
+
+        //    result = OrdersBusiness.BaseBusiness.UpdateOrderPlateAttr(orderID, taskID, valueIDs, platehtml, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID) ? 1 : 0;
+        //    JsonDictionary.Add("result", result);
+
+        //    return new JsonResult
+        //    {
+        //        Data = JsonDictionary,
+        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+        //    };
+        //}
         [ValidateInput(false)]
-        public JsonResult UpdateOrderPlateAttr(string orderID, string taskID, string valueIDs, string platehtml)
+        public JsonResult UpdateOrderPlateAttr(string orderID, string taskID, string platehtml)
         {
             int result = 0;
-            valueIDs = valueIDs.Trim('|');
-
-            result = OrdersBusiness.BaseBusiness.UpdateOrderPlateAttr(orderID, taskID, valueIDs, platehtml, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID) ? 1 : 0;
-            JsonDictionary.Add("result", result);
-
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-        [ValidateInput(false)]
-        public JsonResult UpdateOrderPlateRemark(string orderID,string taskID, string plateRemark)
-        {
-            int result = 0;
-            result = OrdersBusiness.BaseBusiness.UpdateOrderPlateRemark(orderID, taskID, plateRemark, 
+            result = OrdersBusiness.BaseBusiness.UpdateOrderPlateAttr(orderID, taskID, platehtml, 
                 CurrentUser.UserID, string.Empty, CurrentUser.AgentID, CurrentUser.ClientID) ? 1 : 0;
             JsonDictionary.Add("result", result);
 
