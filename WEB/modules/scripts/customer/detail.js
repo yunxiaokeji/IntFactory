@@ -7,15 +7,15 @@
         Easydialog = require("easydialog");
     var CustomerReply = require("scripts/task/reply");       
     require("pager");
-    require("mark");
+    require("colormark");
     
     var ObjectJS = {}, CacheIems = [];
     
     //初始化
-    ObjectJS.init = function (customerid, MDToken, navid) {
+    ObjectJS.init = function (customerid, MDToken, navid,list) {
         var _self = this;
         _self.guid = customerid;
-
+        _self.ColorList = JSON.parse(list.replace(/&quot;/g, '"'));
         var replyId = "";
 
         var nav = $(".module-tab li[data-id='" + navid + "']");
@@ -381,6 +381,7 @@
 
                     innerhtml.find(".mark").markColor({
                         isAll: false,
+                        data:_self.ColorList,
                         onChange: function (obj, callback) {
                             _self.markOrders(obj.data("id"), obj.data("value"), callback);
                         }
@@ -436,6 +437,7 @@
                     innerhtml = $(innerhtml);
                     innerhtml.find(".mark").markColor({
                         isAll: false,
+                        data:_self.ColorList,
                         onChange: function (obj, callback) {
                             _self.markOrders(obj.data("id"), obj.data("value"), callback);
                         }
@@ -491,6 +493,7 @@
 
                     innerhtml.find(".mark").markColor({
                         isAll: false,
+                        data:_self.ColorList,
                         onChange: function (obj, callback) {
                             _self.markOrders(obj.data("id"), obj.data("value"), callback);
                         }

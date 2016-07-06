@@ -72,6 +72,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Nav = nav;
             ViewBag.ID = id;
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 1).ToList();
             return View();
         }
 
