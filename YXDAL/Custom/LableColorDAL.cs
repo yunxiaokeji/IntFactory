@@ -28,7 +28,16 @@ namespace IntFactoryDAL.Custom
 
         public bool ExistLableColor(string tableName, string clientid, int colorid)
         {
-            string sqlText = "select count(Mark)  from " + tableName + " where status <>9 and ClientID=@ClientID and Mark=@ColorID";
+            string sqlText = string.Empty;
+            if (tableName.ToLower() == "ordertask")
+            {
+                sqlText = "select count(ColorMark)  from " + tableName + " where status <>9 and ClientID=@ClientID and ColorMark=@ColorID";
+            }
+            else
+            { 
+                sqlText = "select count(Mark)  from " + tableName + " where status <>9 and ClientID=@ClientID and Mark=@ColorID";
+            }
+
             SqlParameter[] paras = { new SqlParameter("@ClientID", clientid),
                                    new SqlParameter("@ColorID", colorid)
                                    };

@@ -1,21 +1,22 @@
 ﻿<!DOCTYPE html>
  @{
     IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+    var version = YXERP.Common.Common.Version;
 }
 <html>
 <head>
     <title>@ViewBag.Title</title>
     <meta name="robots" content="noindex,nofollow">
-    <link href="/modules/css/base.css" rel="stylesheet" />
-    <link href="/modules/css/default/layout.css" rel="stylesheet" />
+    <link href="/modules/css/base.css?v=@version" rel="stylesheet" />
+    <link href="/modules/css/default/layout.css?v=@version" rel="stylesheet" />
     <link rel="shortcut icon" href="/modules/images/logo_login.png">
     @RenderSection("css", false)
 </head>
 <body>
    
     @RenderBody()
-    <script type="text/javascript" src="/Scripts/sea.js"></script>
-    <script type="text/javascript" src="/Scripts/sea-config.js"></script>
+    <script type="text/javascript" src="/Scripts/sea.js?v=@version"></script>
+    <script type="text/javascript" src="/Scripts/sea-config.js?v=@version"></script>
     <script type="text/javascript">
         seajs.use(["scripts/layout"], function (layout) {
             layout.init();

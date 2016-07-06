@@ -25,6 +25,9 @@ table .titlename{font-size:22px;}
 .img-order tr td { border:1px solid #000;text-align:center;height:30px;}
 .img-order { width:318px;}
 .process .input { border-color:#666;height:22px;line-height:22px !important;}
+.process table td {
+    font-size:14px;
+}
 
 
 
