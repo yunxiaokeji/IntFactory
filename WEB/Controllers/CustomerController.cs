@@ -71,8 +71,7 @@ namespace YXERP.Controllers
         public ActionResult Detail(string id, string nav = "")
         {
             ViewBag.Nav = nav;
-            ViewBag.ID = id;
-            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 1).ToList();
+            ViewBag.ID = id;            
             return View();
         }
 

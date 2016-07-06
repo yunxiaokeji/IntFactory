@@ -1,6 +1,5 @@
 ﻿@{
-    ViewBag.Title = "客户详情";
-    var list = (List<IntFactoryEntity.Custom.LableColorEntity>)ViewBag.list;
+    ViewBag.Title = "客户详情";    
 }
 @section css{
     <link href="/modules/css/default/customer.css" rel="stylesheet" />
@@ -14,7 +13,7 @@
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/customer/detail"], function (ObjectJS) {
-                ObjectJS.init('@ViewBag.ID', '@ViewBag.MDToken', '@ViewBag.Nav','@Html.ToJSONString(list)');
+                ObjectJS.init('@ViewBag.ID', '@ViewBag.MDToken', '@ViewBag.Nav');
             });
         });
     </script>
