@@ -290,6 +290,25 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public bool ExistLableColor(string clientid, int lableType = 1, int colorid = 0)
+        {
+            string tableName = "";
+            if (lableType == 1)
+            {
+                tableName = "Customer";
+            }
+            else if (lableType == 2)
+            {
+                tableName = "Orders";
+            }
+            else if (lableType == 3)
+            {
+                tableName = "OrderTask";
+            }
+
+            return LableColorDAL.BaseProvider.ExistLableColor(tableName, clientid, colorid);
+        }
+
         public LableColorEntity GetLableColorColorID(string clientid, int colorid = 0, int lableType = 1)
         {
             var list = GetLableColor(clientid, lableType);
@@ -1068,12 +1087,6 @@ namespace IntFactoryBusiness
 
         public int UpdateLableColor(string agentid, string clientid, int colorid, string colorName, string colorValue, string updateuserid, int lableType = 1)
         {
-            //var model = GetLableColorColorID(clientid, colorid, lableType);
-            //if (model == null)
-            //{
-            //    return -200;
-            //}
-
             string tableName = "CustomerColor";
             if (lableType == 2)
             {
@@ -1113,6 +1126,11 @@ namespace IntFactoryBusiness
 
         public int DeleteLableColor(int status, int colorid, string agentid, string clientid, string updateuserid, int lableType=1)
         {
+            if (ExistLableColor(clientid, lableType, colorid))
+            {
+                return 2;
+            }
+
             var model = GetLableColorColorID(clientid, colorid, lableType);
             if (model == null)
             {

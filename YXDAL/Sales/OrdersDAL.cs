@@ -611,14 +611,14 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderPlateAttr", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderPlateRemark(string orderid, string plateRemark)
+        public bool UpdateOrderPlateAttr(string orderid, string platehtml)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
-                                     new SqlParameter("@PlateRemark",plateRemark)
+                                     new SqlParameter("@Platehtml",platehtml)
                                    };
 
-            return ExecuteNonQuery("P_UpdateOrderPlateRemark", paras, CommandType.StoredProcedure) > 0;
+            return ExecuteNonQuery("P_UpdateOrderPlateAttr", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool DeleteOrder(string orderid, string operateid, string agentid, string clientid)

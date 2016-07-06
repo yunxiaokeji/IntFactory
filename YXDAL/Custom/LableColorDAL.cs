@@ -25,7 +25,17 @@ namespace IntFactoryDAL.Custom
             sqlText += "   order by ColorID asc ";
             return GetDataTable(sqlText, paras, CommandType.Text);
         }
-       
+
+        public bool ExistLableColor(string tableName, string clientid, int colorid)
+        {
+            string sqlText = "select count(Mark)  from " + tableName + " where status <>9 and ClientID=@ClientID and Mark=@ColorID";
+            SqlParameter[] paras = { new SqlParameter("@ClientID", clientid),
+                                   new SqlParameter("@ColorID", colorid)
+                                   };
+
+            return (int)ExecuteScalar(sqlText, paras, CommandType.Text)>0;
+        }
+
         public int InsertLableColor(string procName, string colorName, string colorValue, string agentid, string clientid, string userid, int status = 0)
         {
             int result = 0;

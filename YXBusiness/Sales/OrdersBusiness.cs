@@ -1016,14 +1016,14 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderPlateAttr(string orderid, string taskID, string valueIDS, string platehtml, string createUserID, string agentID, string clientID)
-        {
-            return OrdersDAL.BaseProvider.UpdateOrderPlateAttr(orderid, taskID, valueIDS, platehtml, createUserID, agentID, clientID);
-        }
+        //public bool UpdateOrderPlateAttr(string orderid, string taskID, string valueIDS, string platehtml, string createUserID, string agentID, string clientID)
+        //{
+        //    return OrdersDAL.BaseProvider.UpdateOrderPlateAttr(orderid, taskID, valueIDS, platehtml, createUserID, agentID, clientID);
+        //}
 
-        public bool UpdateOrderPlateRemark(string orderid,string taskid, string plateRemark, string operateid, string ip, string agentid, string clientid)
+        public bool UpdateOrderPlateAttr(string orderid, string taskid, string platehtml, string operateid, string ip, string agentid, string clientid)
         {
-            bool bl= OrdersDAL.BaseProvider.UpdateOrderPlateRemark(orderid, plateRemark);
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderPlateAttr(orderid, platehtml);
             if (bl)
             {
                 string msg = "编辑制版信息";
