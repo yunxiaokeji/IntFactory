@@ -118,7 +118,7 @@ namespace YXERP.Controllers
             ViewBag.Model = model;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 2).ToList();
             if (model.OrderType == 1)
-            {
+            {                
                 return View();
             }
             else

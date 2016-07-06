@@ -773,9 +773,9 @@
 
                 $("#orderImage").attr("src", _this.find("img").attr("src"));
                 if ($("#orderImage").width() > $("#orderImage").height()) {
-                    $("#orderImage").css("height", 350);
-                } else {
                     $("#orderImage").css("width", 350);
+                } else {
+                    $("#orderImage").css("height", 350);
                 }
             }
         });
@@ -908,9 +908,9 @@
 
         
         if ($("#orderImage").width() > $("#orderImage").height()) {
-            $("#orderImage").css("height", 350);
-        } else {
             $("#orderImage").css("width", 350);
+        } else {
+            $("#orderImage").css("height", 350);
         }
     }
 

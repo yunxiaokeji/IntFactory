@@ -197,10 +197,10 @@
 
     Objects.processPlate = function (orderid, OriginalID, ordertype) {        
         Global.post("/Task/GetPlateMakings", {
-            orderID: ordertype == 2 ? OriginalID : orderid
+            orderID: orderid
         }, function (data) {
             if (data.items.length > 0) {
-                doT.exec("template/orders/processplate.html", function (template) {                    
+                doT.exec("template/orders/processplate.html", function (template) {
                     var html = template(data.items);
                     html = $(html);
                     $(".processplate").prepend(html);
@@ -211,8 +211,7 @@
                         } else {
                             $(this).removeClass("hover");
                         }
-                    })
-
+                    });
                 });
             }
             //else {
