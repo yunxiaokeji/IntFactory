@@ -3,11 +3,20 @@ for(var i=0;i<$data.length;i++)
 {
 	    var item = $data[i];
         var extension=item.name.split('.');
+        var extensionName=extension[extension.length-1];
+    
+        var attachmentUrl="/modules/images/"+(
+                                             extensionName=="pdf"?"ico-attachment-pdf.png":
+                                             extensionName=="ppt"?"ico-attachment-ppt.png":
+                                             extensionName=="psd"?"ico-attachment-psd.png":
+                                             extensionName=="txt"?"ico-attachment-txt.png":
+                                             extensionName=="xls"||extensionName=="xlsx"?"ico-attachment-excel.png":
+                                             extensionName=="rar"||extensionName=="zip"?"ico-attachment-rar.png":
+                                             extensionName=="doc"||extensionName=="docx"?"ico-attachment-word.png":""
+                                             );
 %}
         <li id="li_{%=item.id%}" data-isimg="2">
-            <div class="upload-lump left" style="top:5px;"> 
-                <div class="content long width35">{%=extension[extension.length-1]%}</div>
-                <div class="lump"></div>
+            <div class="upload-lump left" style="top:5px;background:url('{%=attachmentUrl%}') no-repeat;"> 
             </div>
             <div class="information left mLeft20 width120">
                 <span title="{%=item.name%}" class="long width100">{%=item.name%}</span>
