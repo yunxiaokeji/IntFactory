@@ -12,10 +12,10 @@
     var ObjectJS = {}, CacheIems = [];
     
     //初始化
-    ObjectJS.init = function (customerid, MDToken, navid,list) {
+    ObjectJS.init = function (customerid, MDToken, navid) {
         var _self = this;
         _self.guid = customerid;
-        _self.ColorList = JSON.parse(list.replace(/&quot;/g, '"'));
+        _self.ColorList = "";
         var replyId = "";
 
         var nav = $(".module-tab li[data-id='" + navid + "']");
@@ -30,6 +30,12 @@
             if (data.model.CustomerID) {
                 _self.bindCustomerInfo(data.model);
                 _self.bindEvent(data.model, navid);
+            }
+        });
+
+        Global.post("/System/GetLableColor", { lableType: 2 }, function (data) {
+            if (data.items.length > 0) {
+                _self.ColorList = data.items;
             }
         });
         

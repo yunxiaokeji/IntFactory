@@ -374,7 +374,7 @@ namespace YXERP.Areas.Api.Controllers
                 model.content, userID, agentID, 
                 model.fromReplyID, model.fromReplyUserID, model.fromReplyAgentID);
 
-            TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.Attachments, userID, agentID);
+            TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.attachments, userID, agentID);
             if (!string.IsNullOrEmpty(replyID))
             {
                 List<Dictionary<string, object>> replys = new List<Dictionary<string, object>>();
@@ -389,7 +389,7 @@ namespace YXERP.Areas.Api.Controllers
                 {
                     replyObj.Add("fromReplyUser", GetUserBaseObj(OrganizationBusiness.GetUserByUserID(model.fromReplyUserID, model.fromReplyAgentID)));
                 }
-                replyObj.Add("attachments", model.Attachments);
+                replyObj.Add("attachments", model.attachments);
                 replyObj.Add("createTime", DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
                 replys.Add(replyObj);
 

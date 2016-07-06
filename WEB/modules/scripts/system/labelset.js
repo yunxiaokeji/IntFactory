@@ -196,7 +196,6 @@
         });
     }
 
-
     //删除color
     ObjectJS.deleteColor = function (colorid, callback) {
         Global.post("/System/DeleteColor", { colorid: colorid, lableType: tableID }, function (data) {
