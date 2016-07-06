@@ -1325,7 +1325,10 @@
                             alert("工艺不能为空");
                             return false;
                         }
-
+                        if ($("#plateRemark").val().length > 200) {
+                            alert("描述不能超过200字");
+                            return false;
+                        }
                         Plate = {
                             PlateID: item.PlateID,
                             Title: $("#plateTitle").val(),
