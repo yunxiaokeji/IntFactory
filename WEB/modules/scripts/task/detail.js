@@ -599,7 +599,7 @@
         for (var i = 0; i < images.length; i++) {
             if (images[i]) {
                 if (i == 0) {
-                    $("#orderImage").attr("src", images[i]);
+                    $("#orderImage").attr("src", images[i].split("?")[0]);
                 }
                 var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
                 $(".order-imgs-list").append(img);
@@ -611,7 +611,7 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-                $("#orderImage").attr("src", _this.find("img").attr("src"));
+                $("#orderImage").attr("src", _this.find("img").attr("src").split("?")[0]);
             }
         });
 
@@ -638,7 +638,7 @@
                         var _img = ele.find("img");
                         $(".order-imgs-list .hover").removeClass("hover");
                         ele.addClass("hover");
-                        $("#orderImage").attr("src", _img.attr("src"));
+                        $("#orderImage").attr("src", _img.attr("src").split("?")[0]);
                         $(".enlarge-image-item").empty();
                         $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
                         $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
@@ -654,7 +654,7 @@
                         var _img = ele.find("img");
                         $(".order-imgs-list .hover").removeClass("hover");
                         ele.addClass("hover");
-                        $("#orderImage").attr("src", _img.attr("src"));
+                        $("#orderImage").attr("src", _img.attr("src").split("?")[0]);
                         $(".enlarge-image-item").empty();
                         $(".enlarge-image-item").append('<img id="enlargeImage" src="' + _img.attr("src") + '"/>');
                         $('#enlargeImage').smartZoom({ 'containerClass': 'zoomableContainer' });
