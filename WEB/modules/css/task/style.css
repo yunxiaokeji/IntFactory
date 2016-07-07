@@ -335,7 +335,6 @@
    width:120px;
    height:80px;
    text-align:center;
-   font-size:0;
    line-height:80px;
    margin-bottom:20px;
    padding:1px;
@@ -343,7 +342,6 @@
 .accessory li img{ 
     max-width:120px;
     max-height:80px;
-    vertical-align:middle;
 }
 .accessory li .delete{ 
     background: url(/modules/images/ico-delete.png) no-repeat;
