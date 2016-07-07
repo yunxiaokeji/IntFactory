@@ -7,7 +7,9 @@
 <table class="table-list-order"  style="width:1080px">
 <tr class="list-item" style="border-bottom:1px solid #eee;">
     <td width="120px">
-        <img class="order-pic" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImg!=''?item.OrderImg:'/modules/images/img-noimg.png'%}" />
+        <a href="/Orders/OrderDetail/{%=item.OrderID%}">
+            <img class="order-pic" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImg!=''?item.OrderImg:'/modules/images/img-noimg.png'%}" />
+        </a>
     </td>
     <td width="380px">
         <ul class="order-ul-3 mLeft10">
