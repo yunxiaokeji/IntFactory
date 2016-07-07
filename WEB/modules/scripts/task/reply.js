@@ -178,10 +178,9 @@
     {
         var uploader = Upload.uploader({
             browse_button: 'reply-attachment' + replyId,
-            //container: 'reply-box' + replyId,
-            //drop_element:'reply-box' + replyId,
             picture_container: "reply-imgs"+replyId,
             file_container: "reply-files" + replyId,
+            image_view: "?imageView2/1/w/120/h/80",
             successItems: '.upload-files-' + replyId + ' li',
             file_path: "/Content/UploadFiles/Task/",
             maxQuantity: 10,

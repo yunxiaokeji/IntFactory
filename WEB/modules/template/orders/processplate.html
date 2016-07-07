@@ -10,13 +10,13 @@
     </tr>
     <tr class='proplate {%=item.Type==1?"tailor":item.Type==2?"adhesive":item.Type==3?"sewing-process":item.Type==4?"garment-finishing":item.Type==5?"garment-inspection":"product-packaging"%}'>       
         <td colspan="2" style="min-width:100px;">名称</td>
-        <td colspan="4">描述</td>
+        <td colspan="4" class="">描述</td>
     </tr>
     {% type=item.Type } %}
     <tr class='proplate {%=item.Type==1?"tailor":item.Type==2?"adhesive":item.Type==3?"sewing-process":item.Type==4?"garment-finishing":item.Type==5?"garment-inspection":"product-packaging"%}'>
         
-        <td colspan="2">{%=item.Title%}</td>
-        <td colspan="4" style="width:200px">{%=item.Remark%}</td>
+        <td colspan="2" class="pLeft5" style="max-width:150px;word-wrap:break-word;line-height:150%;">{%=item.Title%}</td>
+        <td colspan="4" class="tLeft pLeft5" style="max-width:781px; word-wrap:break-word;line-height:150%;width:700px;">{%=item.Remark%}</td>
         
     </tr>
 

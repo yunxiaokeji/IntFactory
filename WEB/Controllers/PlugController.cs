@@ -78,7 +78,8 @@ namespace YXERP.Controllers
 
         public int DeleteAttachment(string key)
         {
-            String bucket = "zngc-intfactory";
+            Config.Init();
+            String bucket = System.Configuration.ConfigurationManager.AppSettings["QN-Bucket"] ?? "zngc-intfactory";
             //实例化一个RSClient对象，用于操作BucketManager里面的方法
             RSClient client = new RSClient();
             CallRet ret = client.Delete(new EntryPath(bucket, key));
@@ -88,10 +89,11 @@ namespace YXERP.Controllers
 
         public bool UploadAttachment(string key)
         {
+            Config.Init();
             IOClient target = new IOClient();
             PutExtra extra = new PutExtra();
             //设置上传的空间
-            String bucket = "zngc-intfactory";
+            String bucket = System.Configuration.ConfigurationManager.AppSettings["QN-Bucket"] ?? "zngc-intfactory";
 
             //普通上传,只需要设置上传的空间名就可以了,第二个参数可以设定token过期时间
             PutPolicy put = new PutPolicy(bucket, 3600);

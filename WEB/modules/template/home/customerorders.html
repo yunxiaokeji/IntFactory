@@ -8,7 +8,9 @@
 <tr class="list-item" >
     <td width="120px">
         <div class="pic-box">
-        <img class="order-pic" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />
+            <a href="/Orders/OrderDetail/{%=item.OrderID%}">
+                <img class="order-pic" onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.OrderImage?item.OrderImage:'/modules/images/img-noimg.png'%}" />
+            </a>
         {% if(item.GoodsCode){ %}
               <span class="aliorder">
                   <i class="iconfont right">&#xe631;</i>

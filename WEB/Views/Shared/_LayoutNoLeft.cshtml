@@ -4,14 +4,15 @@
     string controller =  Url.RequestContext.RouteData.Values["controller"].ToString().ToUpper();
     string logo = string.IsNullOrEmpty(CurrentUser.Client.Logo) ? "/modules/images/ico-home.png" : CurrentUser.Client.Logo;
     string companyName = string.IsNullOrEmpty(CurrentUser.Client.CompanyName) ? "" : CurrentUser.Client.CompanyName;
+    var version = YXERP.Common.Common.Version;
 }
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>@ViewBag.Title @companyName</title>
-    <link href="/modules/css/base.css" rel="stylesheet" />
-    <link href="/modules/css/default/layout.css" rel="stylesheet" />
-    <link href="/modules/css/iconfont/iconfont.css" rel="stylesheet" />
+    <link href="/modules/css/base.css?v=@version" rel="stylesheet" />
+    <link href="/modules/css/default/layout.css?v=@version" rel="stylesheet" />
+    <link href="/modules/css/iconfont/iconfont.css?v=@version" rel="stylesheet" />
     <link rel="shortcut icon" href="/modules/images/logo_login.png">
     @RenderSection("css", false)
 </head>
@@ -92,8 +93,8 @@
         <span class="iconfont">&#xe643;</span>
     </div>
 
-    <script type="text/javascript" src="/Scripts/sea.js"></script>
-    <script type="text/javascript" src="/Scripts/sea-config.js"></script>
+    <script type="text/javascript" src="/Scripts/sea.js?v=@version"></script>
+    <script type="text/javascript" src="/Scripts/sea-config.js?v=@version"></script>
     <script type="text/javascript">
         seajs.use(["scripts/layout"], function (layout) {
             layout.init();

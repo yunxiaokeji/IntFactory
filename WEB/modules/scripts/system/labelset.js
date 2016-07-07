@@ -27,7 +27,7 @@
         $(document).click(function (e) {
             //隐藏下拉  
             if ((!$(e.target).parents().hasClass("dropdown-ul") && !$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown"))
-                && (!$(e.target).parents().hasClass("dropdown-ul") && !$(e.target).parents().hasClass("color-item") && !$(e.target).hasClass("color-item"))) {
+                && (!$(e.target).parents().hasClass("color-item") && !$(e.target).hasClass("color-item"))) {
                 $(".dropdown-ul").hide();
             }
         });
@@ -195,7 +195,6 @@
             $(".data-loading").remove();
         });
     }
-
 
     //删除color
     ObjectJS.deleteColor = function (colorid, callback) {
