@@ -984,7 +984,7 @@
             $(this).find('.tbContent').hide();
             $(this).find('.tbContentIpt').show().focus();
         });
-    }
+    }    
 
     //添加制版新列
     ObjectJS.bindAddColumn = function () {
@@ -995,7 +995,7 @@
             var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
             var noHaveLi = true;
             for (var i = 0; len = CacheAttrValues.length, i < len; i++) {
-                var item = CacheAttrValues[i];
+                var item = CacheAttrValues[i];                
                 if ($(".table-list td[data-columnname='columnname_" + item.ValueID + "']").length == 0) {
                     innerHtml += '<li class="role-item" data-id="' + item.ValueID + '">' + item.ValueName + '</li>';
                     noHaveLi = false;
@@ -1178,7 +1178,6 @@
                         $("#btn-addTaskPlate").hide();
                     }
                 }
-
             });
 
             $("#setTaskPlateAttrBox .role-item").click(function () {
