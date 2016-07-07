@@ -761,7 +761,7 @@
         for (var i = 0; i < images.length; i++) {
             if (images[i]) {
                 if (i == 0) {
-                    $("#orderImage").attr("src", images[i]);
+                    $("#orderImage").attr("src", images[i].split("?")[0]);
                 }
                 var img = $('<li class="' + (i == 0 ? 'hover' : "") + '"><img src="' + images[i] + '" /></li>');
                 $(".order-imgs-list").append(img);                
@@ -773,7 +773,8 @@
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
 
-                $("#orderImage").attr("src", _this.find("img").attr("src"));
+                $("#orderImage").attr("src", _this.find("img").attr("src").split("?")[0]);
+
                 if ($("#orderImage").width() > $("#orderImage").height()) {
                     $("#orderImage").css("width", 350);
                 } else {
@@ -815,7 +816,7 @@
                                             if (!_this.hasClass("hover")) {
                                                 _this.siblings().removeClass("hover");
                                                 _this.addClass("hover");
-                                                $("#orderImage").attr("src", _this.find("img").attr("src"));
+                                                $("#orderImage").attr("src", _this.find("img").attr("src").split("?")[0]);
                                             }
                                         });
                                     }
@@ -832,6 +833,7 @@
                         file_path: "/Content/UploadFiles/Task/",
                         picture_container: "order-imgs-box",
                         file_container: "reply-files",
+                        image_view: "?imageView2/1/w/120/h/80",
                         maxQuantity: 10,
                         maxSize: 5,
                         successItems: '.order-imgs-box li:not(:last-child)',
