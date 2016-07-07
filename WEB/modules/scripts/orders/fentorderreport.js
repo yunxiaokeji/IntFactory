@@ -1,17 +1,17 @@
 ﻿define(function (require,exports,module) {
     var ObjectJS = {};
-    ObjectJS.init = function (plate, price, costprice, finalPrice) {
-        ObjectJS.bindEvent(plate, price, costprice, finalPrice);
+    ObjectJS.init = function (plate, price, costprice, finalPrice, profitPrice) {
+        ObjectJS.bindEvent(plate, price, costprice, finalPrice, profitPrice);
         ObjectJS.removeTaskPlateOperate();
         ObjectJS.addTaskPlateCss();
     };
 
-    ObjectJS.bindEvent = function (plate, price, costPrice, finalPrice) {
+    ObjectJS.bindEvent = function (plate, price, costPrice, finalPrice, profitPrice) {
         if (plate != "") {
             $("#Platemak").html(decodeURI(plate));
         }
 
-        var conclusion = Number(price) + Number(costPrice);
+        var conclusion = (Number(price) + Number(costPrice)) * (profitPrice / 100 + 1);        
         var finalPrice = Number(finalPrice);        
         if (finalPrice>0) {           
             $(".offer").val(finalPrice.toFixed(2));
