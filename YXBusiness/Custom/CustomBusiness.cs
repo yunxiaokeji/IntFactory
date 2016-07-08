@@ -142,6 +142,18 @@ namespace IntFactoryBusiness
             return model;
         }
 
+        public CustomerEntity GetCustomerByMobilePhone(string mobilePhone, string clientid,string name)
+        {
+            DataSet ds = CustomDAL.BaseProvider.GetCustomerByMobilePhone(mobilePhone, clientid,name);
+            CustomerEntity model = new CustomerEntity();
+            if (ds.Tables["Customer"].Rows.Count > 0)
+            {
+                model.FillData(ds.Tables["Customer"].Rows[0]);
+            }
+            return model;
+        }
+
+
         public List<ContactEntity> GetContactsByCustomerID(string customerid, string agentid)
         {
             List<ContactEntity> list = new List<ContactEntity>();
@@ -329,6 +341,11 @@ namespace IntFactoryBusiness
             bool bl = CustomDAL.BaseProvider.UpdateContact(contactid, customerid, name, citycode, address, mobile, officephone, email, jobs, desc, operateid, agentid, clientid);
 
             return bl;
+        }
+
+        public bool SetCustomerYXinfo(string customerID, string clientID, string YXAgentID, string YXClientID, string YXClientCode)
+        {
+            return CustomDAL.BaseProvider.SetCustomerYXinfo(customerID, clientID, YXAgentID, YXClientID, YXClientCode);
         }
 
         public bool DeleteContact(string contactid, string ip, string userid, string agentid)

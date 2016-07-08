@@ -127,6 +127,7 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\BaseAPIController.cs" />
     <Compile Include="Areas\Api\Controllers\CacheController.cs" />
+    <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\TaskController.cs" />
     <Compile Include="Areas\Api\Controllers\UserController.cs" />
     <Compile Include="Common\Alipay\AlipayConfig.cs" />
@@ -380,7 +381,6 @@
     <Content Include="modules\plug\qiniustorage\plupload\plupload.dev.js" />
     <Content Include="modules\plug\qiniustorage\plupload\plupload.full.min.js" />
     <Content Include="modules\plug\qiniustorage\plupload\plupload.min.js" />
-    <Content Include="modules\plug\qiniustorage\qiniu\highlight.js" />
     <Content Include="modules\plug\qiniustorage\qiniu\multiple.js" />
     <Content Include="modules\plug\qiniustorage\qiniu\qiniu.js" />
     <Content Include="modules\plug\sortable.js" />

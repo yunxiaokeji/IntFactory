@@ -95,6 +95,15 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string ClientID { get; set; }
 
+        [Property("Lower")]
+        public string YXAgentID { get; set; }
+
+        [Property("Lower")]
+        public string YXClientID { get; set; }
+
+        [Property("Lower")]
+        public string YXClientCode { get; set; }
+
         public string FirstName
         {
             get;
