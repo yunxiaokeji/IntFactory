@@ -71,9 +71,9 @@ namespace YXERP.Areas.Api.Controllers
         }
         
         //关联客户与二当家联系
-        public JsonResult SetCustomerYXinfo(string customerID, string clientID, string yxAgentID, string yxClientID, string yxClientCode)
+        public JsonResult SetCustomerYXinfo(string customerID,string name, string mobilePhone, string clientID, string yxAgentID, string yxClientID, string yxClientCode)
         {
-            var flag = CustomBusiness.BaseBusiness.SetCustomerYXinfo(customerID, clientID, yxAgentID, yxClientID, yxClientCode);
+            var flag = CustomBusiness.BaseBusiness.SetCustomerYXinfo(customerID,name, mobilePhone, clientID, yxAgentID, yxClientID, yxClientCode);
             JsonDictionary.Add("result", flag?1:0);
 
             return new JsonResult
