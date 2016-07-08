@@ -50,27 +50,10 @@
                     <li class="attrValues">
                         <ul id="unit">
                             <li class="value hover" id="small" data-value="0" data-id="@(model.SmallUnit.UnitID)">@(model.SmallUnit.UnitName)</li>
-                            @if (model.SmallUnitID != model.BigUnitID)
-                            {
-                                <li class="value" id="big"  data-value="1" data-id="@(model.BigUnit.UnitID)">@(model.BigUnit.UnitName)</li>
-                            }
                         </ul>
                     </li>
                 </ul>
            </div>
-            <div class="choose-div">
-                <div class="choose-quantity left">
-                    <input type="text" value="1" id="quantity" />
-                    <span class="quantity-add" id="quantityadd">+</span>
-                    <span class="quantity-reduce" id="quantityreduce">-</span>
-                </div>
-                <div class="left mLeft10">
-                    <input type="button" class="addcart" id="addcart" value="加入清单" />
-                </div>
-                <div class="left mLeft10 stock">
-                    库存：<label id="productStockQuantity">0</label>
-                </div>
-            </div>
         </div>
     </div>
     <div class="show-nav">
@@ -82,6 +65,10 @@
     <ul class="product-attr">
         <li class="long">材料名称：@(model.ProductName)</li>
         <li class="long">材料编码：@(model.ProductCode)</li>
+        <li class="long">供应商：@(model.Providers.Name)</li>
+        <li class="long">联系人：@(model.Providers.Contact)</li>
+        <li class="long">联系电话：@(model.Providers.MobileTele)</li>
+        <li class="long">地址：@(model.Providers.Address)</li>
         <li class="long">添加日期：@(model.OnlineTime.ToString("yyyy-MM-dd"))</li>
         @foreach (var attr in model.AttrLists)
         { 
