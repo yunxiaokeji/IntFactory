@@ -821,7 +821,7 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public JsonResult GetOrdersOrTasksReportData(int orderType, int filterTimeType, int moduleType)
+        public JsonResult GetOrdersOrTasksReportData(int orderType, int filterTimeType, int moduleType,int taskStatus)
         {
             Dictionary<string, Object> resultObj = new Dictionary<string, object>();
             int result = 0;
@@ -871,7 +871,7 @@ namespace YXERP.Controllers
                 else 
                 {
                     taskItems = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(beginTime, endTime,
-                    orderType, -1, -1, -1,
+                    orderType, -1, taskStatus, -1,
                     userID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
                 }
 
