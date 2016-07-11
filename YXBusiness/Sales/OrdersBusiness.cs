@@ -145,6 +145,27 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        /// <summary>
+        /// 获取订单列表根据二当家客户端编码
+        /// </summary>
+        /// <param name="yxCode"></param>
+        /// <param name="clientid"></param>
+        /// <returns></returns>
+        public List<OrderEntity> GetOrdersByYXCode(string yxCode, string clientid) {
+            List<OrderEntity> list = new List<OrderEntity>();
+            DataSet ds = OrdersDAL.BaseProvider.GetOrdersByYXCode(yxCode, clientid);
+            DataTable dt = ds.Tables["Orders"];
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderEntity model = new OrderEntity();
+                model.FillData(dr);
+
+                list.Add(model);
+            }
+
+            return list;
+        }
+
         public List<OrderEntity> GetOrdersByPlanTime(string startPlanTime, string endPlanTime, 
             int orderType, int filterType, int orderStatus,
             string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
