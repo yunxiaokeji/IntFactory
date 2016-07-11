@@ -14,49 +14,52 @@
     line-height:45px;
     background-color:#f2f4f8;
     padding:0 15px;
-    
+    width:1120px;
+    margin:25px auto -34px auto;
 }
-.index-report-header span {
-    color:#666;
+
+.index-report-header .order-type{
+    margin-left:-15px;
 }
 
 .index-report-header .order-type span {
-    padding:0 6px;
+    padding:5px 10px;
     line-height:20px; 
     display:inline-block;
-    background-color:#fff;
-    border:1px solid #49b3f5;
+    background-color:#6699cc;
     cursor:pointer;
+    color:#fff;
+    margin-right:3px;
+    border:1px solid #6699cc;
+    border-bottom:0;
 }
 
-.index-report-header .order-type span:first-child.hover { 
-    border-right:none;
-    background-color:#49b3f5;
-    color:#fff;
+.index-report-header .order-type span:first-child.hover {     
+    background-color:#fff;
+    border:1px solid #ccc;
+    border-bottom:0;
+    color:#6699cc;
 }
 
-.index-report-header .order-type span:last-child.hover { 
-    border-left:none;
-    background-color:#49b3f5;
-    color:#fff;
+.index-report-header .order-type span:last-child.hover {     
+    background-color:#fff;
+    border:1px solid #ccc;
+    border-bottom:0;
+    color:#6699cc;
+}
+
+/*时间查询*/
+.select-time { 
+    line-height:20px;
+    border:1px solid #4a98e7;
+    color:#4a98e7;
+    cursor:pointer;
 }
 
 .index-report-sum {
     padding-top:10px;
     margin-left:27px;
     /*border-bottom:1px solid #eee;*/
-}
- .ordertotal {
-    line-height:26px;
-    font-size:12px;
-    text-align:center;
-    padding:0 8px;
-    border:1px solid #E1E8F5;
-    background-color:#ECF2FF;
-}
-  .ordertotal span{
-    font-size:12px;
-    color:#888;
 }
 .sum-list li{
     float:left;
@@ -171,6 +174,58 @@ border-bottom:2px solid #4a98e7;
 .index-report-content .item-exceed {
     background-color:#f35353;
 }
+
+/*订单任务数量显示*/
+.token-count { 
+    height:30px;
+    width:1148px;
+    margin:5px auto;
+    margin-bottom:-20px; 
+}
+.token-count .token-mark{
+    height:25px;
+    width:5px;
+    background-color:#6699cc;   
+}
+.token-count .ordertotal {
+    line-height:26px;
+    font-size:12px;    
+    padding:0 8px;
+    cursor:pointer;
+}
+.token-count .ordertotal span:hover{
+    color:#148BF0;      
+}
+.token-count .ordertotal span.hover{
+    color:#148BF0;      
+}
+.get-ecceed .total-ecceed { 
+    background-color:#f35353;
+    border:1px solid #f35353;
+    padding:2px 10px;
+}
+
+.get-need .total-need { 
+    border: 1px solid #E1E8F5;
+    background-color: #ECF2FF;
+    padding:2px 10px;
+}
+.token-count .task-status { 
+    float:right;
+    width:350px;
+    margin-top:-20px; 
+    margin-right:-50px;   
+}
+.token-count .task-status-ul li { 
+    float:left;
+    margin-right:10px;
+    cursor:pointer;
+    
+}
+.task-status-ul li.hover { 
+    color:#4a98e7;
+    border-bottom:1px solid #4a98e7;
+}
 .index-list {
     width:1150px;
     margin:20px auto;
@@ -242,21 +297,6 @@ border-bottom:2px solid #4a98e7;
     background-color: rgba(255, 165, 0, 0.7);
 }
 
-.index-list .list-header {
-    color:#666;
-}
-.owner-box { 
-    margin-left:100px;
-}
-.index-list .list-total {
-    display:inline-block;
-    width:40px;
-    color:#fff;
-    border-radius:3px;
-    background-color:#49b3f5;
-    text-align:center;
-    line-height:18px;
-}
 .order-item .order-img {
     width:120px;
     height:120px;
@@ -274,7 +314,66 @@ border-bottom:2px solid #4a98e7;
 }
 
 .order-item .iconfont {
-    color:#999;
+    color:#8b8b8b;
+}
+/*详情内容*/
+
+.colordiv{
+    overflow:auto;
+    padding: 0px 10px;
+    cursor: pointer;        
+}
+.color-leftzuoyou{
+    width:0; 
+    height:0; 
+    border-top:10px solid transparent;
+    border-bottom:10px solid transparent;
+    cursor: pointer;
+}
+.details { 
+   width:440px; 
+   margin-left:30px;   
+}
+.details li .customer{
+    
+    margin-top:10px; 
+    width:105px;   
+}
+.details .customer .iconfont{ 
+    margin-right:10px;
+    float:left;
+    color:#8b8b8b;
+}
+.details .customer span{
+    display:block;    
+}
+.details .progress { 
+    height:5px;
+    background-color:#ccc;
+    border-radius:3px;
+}
+
+.septal { 
+    height:80px;
+    background-color:#ccc;
+    width:1px;
+}
+
+
+.index-list .list-header {
+    color:#666;
+}
+.owner-box { 
+    margin-left:100px;
+}
+.index-list .list-total {
+    display:inline-block;
+    width:40px;
+    color:#fff;
+    border-radius:3px;
+    background-color:#49b3f5;
+    text-align:center;
+    line-height:18px;
 }
 
 .order-detail {
@@ -358,9 +457,14 @@ border-bottom:2px solid #4a98e7;
     border-radius:2px;
     color:#fff;
     position: absolute;
-    top: -29px;
+    top: -29px;    
 }
 
+.color-progress { 
+    height:4px;
+    width:160px;
+    background-color:#ccc;
+}
 .order-progress-use .top-lump {
     border-top-color:#49b3f5;
 }

@@ -76,7 +76,7 @@ define(function (require, exports, module) {
             } else {
                 var _branch = $("<div style='min-width:" + opts.width + "px;' class='choosebranch-items-modules' id='" + obj.data("itemid") + "'></div>");
 
-                var _search = $("<div data-width='" + (opts.width - 37) + "' class='search-branch'></div>").css("width", (opts.width));
+                var _search = $("<div data-width='" + (opts.width - 37) + "' style='line-height:20px;' class='search-branch'></div>").css("width", (opts.width));
                 
                 _branch.append(_search);
 

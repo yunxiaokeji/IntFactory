@@ -111,19 +111,30 @@ namespace IntFactoryBusiness
         }
 
         public static List<TaskEntity> GetTasksByEndTime(string startEndTime, string endEndTime, 
-            int orderType, int filterType, int finishStatus,int preFinishStatus,
+            int orderType, int filterType, int finishStatus,int preFinishStatus,int taskType,
             string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             List<TaskEntity> list = new List<TaskEntity>();
-            DataTable dt = TaskDAL.BaseProvider.GetTasksByEndTime(startEndTime, endEndTime, 
-                orderType, filterType, finishStatus,preFinishStatus,
+            DataSet ds = TaskDAL.BaseProvider.GetTasksByEndTime(startEndTime, endEndTime, 
+                orderType, filterType, finishStatus,preFinishStatus,taskType,
                 userID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
 
+            DataTable dt = ds.Tables["Tasks"];
+            DataTable orders = ds.Tables["Orders"];
             foreach (DataRow dr in dt.Rows)
             {
                 TaskEntity model = new TaskEntity();
                 model.FillData(dr);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                if (orders.Rows.Count > 0)
+                {
+                    foreach (DataRow dr2 in orders.Select(" OrderID='" + model.OrderID + "'"))
+                    {
+                        OrderEntity order = new OrderEntity();
+                        order.FillData(dr2);
+                        model.Order = order;
+                    }
+                }
 
                 if (model.FinishStatus == 1)
                 {

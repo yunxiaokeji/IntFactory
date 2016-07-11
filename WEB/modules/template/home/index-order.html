@@ -3,81 +3,100 @@
     {
         var item=$data[i];
         var totalDay=(item.UseDays==0?1:item.UseDays)+(item.WarningDays==0?1:item.WarningDays);
-        var classname=(item.GoodsCode==''?'mTop20':'mTop15');
+        var classname=(item.GoodsCode==''?'mTop20':'mTop15');       
 %}
     <div class="order-item">
         <a href="/Orders/OrderDetail/{%=item.OrderID%}">
             <div class="hint-layer">
                 <div class="hint-msg {%=item.WarningStatus==1?'warning':item.WarningStatus==2?'pass':'hide'%}">{%=item.WarningStatus==1?"快到期":item.WarningStatus==2?"已超期":""%}</div>
             </div>
-        </a>
+        </a>        
         <div class="left order-img pic-box">
-            <a href="/Orders/OrderDetail/{%=item.OrderID%}"><img src="{%=item.OrderImage==""?'/modules/images/img-noimg.png':item.OrderImage%}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" /></a>
-            {% if(item.GoodsCode){ %}
-              <span class="aliorder">
-                  <i class="iconfont right">&#xe631;</i>
-              </span>
-            {% } %}
+            <a href="/Orders/OrderDetail/{%=item.OrderID%}">
+                <img src="{%=item.OrderImage==""?'/modules/images/img-noimg.png':item.OrderImage%}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" />
+            </a>            
         </div>
-        <div class="left order-detail mLeft20 mTop10">
-            <div class="left">
-                <div class="order-title"><a href="/Orders/OrderDetail/{%=item.OrderID%}" class="long width250" >{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}</a></div>
-                 {%  if(item.GoodsCode){ %}
-                  <div class="mTop10">
-                      <span>阿里编码：</span>
-                      <span class="mLeft10">{%=item.GoodsCode%}</span>
-                  </div>
-                {%  }%}
 
-                <div class="mTop15">
-                    <span class="iconfont mRight5">&#xe624;</span><span>{%=item.CustomerName==""?item.PersonName:item.CustomerName%}</span>
-                    <span class="iconfont mLeft10 mRight5">&#xe60f;</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
-                    
-                </div>
-                <div class="{%=classname%}">
-                    <span class="">{%=item.StatusStr%}：</span><span>{%=(item.TaskCount>0?item.TaskOver/item.TaskCount*100:0).toFixed(0)+"%"%}</span>
-                </div>
-               
-
-            </div>
-            <div class="right mLeft30">
-                <div class="mTop40 left">
-                    <div class="order-progress left">
-                        <div class="layer-line"></div>
-                        <div class="order-progress-use order-progress-item" data-width="{%=(item.UseDays==0?1:item.UseDays)/totalDay*100+'%'%}">
-                            <div class="progress-tip">{%=item.UseDays==0?1:item.UseDays%}天</div>
-                            <div class="top-lump"></div>
+        <ul class="details left">
+            <li>
+                <div style="border-bottom:2px solid #5994e6">
+                    <div class='order-title'>
+                        <a href="/Orders/OrderDetail/{%=item.OrderID%}" title='{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}' class="long width250 font16 color333 {%=item.GoodsCode==""?"":left%}" >{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}</a>
+                    </div>
+                    {% if(item.GoodsCode){ %}
+                        <div class="hight20" style="margin-bottom:3px;">
+                            <div class="left color-leftzuoyou" style=" border-right:10px solid #ffa200; "></div>
+                            <div class="left colordiv hight20" style="background-color:#ffa200;">
+                                <i class="iconfont font18" style="color:#fff !important;">&#xe631;</i>
+                            </div>
                         </div>
-                        <div class="{%=item.WarningStatus==1?'order-progress-warn':item.WarningStatus==2?'order-progress-exceed':'order-progress-have'%} order-progress-item" data-width="{%=(item.WarningDays==0?1:item.WarningDays)/totalDay*100+'%'%}">
-                            <div class="progress-tip">{%=item.WarningStatus==2?"超期":"剩余"%}{%=item.WarningDays==0?1:item.WarningDays%}天</div>
-                            <div class="top-lump"></div>
+                    {% } %}
+                    {% if(item.PlanPrice!=""){ %}
+                        <div class="right color333" style="height:20px;margin-top:-20px;">
+                            期望报价:
+                            <span class="mLeft10 right color333" style="display:block;width:40px;" >{%=item.PlanPrice%}</span>
                         </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="left">
-                        {%=totalDay%}天
-                    </div>
-                    <div class="clear"></div>
+                    {% } %} 
+                </div>              
+            </li>
+            <li style="height:40px;">
+                <div class="left customer mRight30">
+                    <i class="iconfont">{%=item.OrderType==1?"&#xe612;":"&#xe60f;"%}</i>
+                    <span>{%=item.OrderType==1?"打样":"大货"%}</span>
                 </div>
+                <div class="mTop10 left mRight30">
+                    <i class="iconfont ">&#xe635;</i>
+                    <span class="mLeft10 right" style="width:40px;display:block;">{%=item.PlanQuantity%}</span>
+                </div>                
+                <span class="long right customer font14 width100 color333">{%=(item.Owner ? item.Owner.Name:"--")%}</span>  
+                <div class="right customer font14 color000">负责人:</div>
+                <div class="clear"></div>
+            </li>
+            <li style="height:30px;">
+                <div class="left">
+                    <i class="iconfont font16" style="margin-right:7px;">&#xe601;</i>
+                    <span class="font14">{%=item.PersonName%}</span>
+                </div>
+            </li>
+            <li>          
+                <div class="left width120">
+                    <i class="iconfont" style="margin-right:7px;">&#xe64f;</i>
+                    <span>{%=item.MobileTele%}</span>
+                </div>                      
+                <div class="right">
+                    <div class="left mRight5 font14 color000" style="margin-top:-2px;">进&nbsp;&nbsp;&nbsp;度:</div>
+                    <div class="width100 mRight5 mTop5 left progress">
+                        <div style='background-color:#5994e6;border-radius:3px;height:5px;width:{%=item.TaskCount==0?"0%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}'></div>
+                    </div>
+                    <span class="right width50" style="display:block">{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</span>
+                </div>               
+            </li>
+            <div class="clear"></div>
+        </ul>
+        
+        <div class="left center width200 mTop40">
+            <span class="font14 color333">交货日期</span>
+            <div class="font14 color333 mTop10">{%=item.PlanTime.toDate("yyyy-MM-dd")%}</div>
+        </div>
+        <div class="left septal mTop20"></div>
 
-                <div class="right owner-box">
-                     <div class="mTop30">
-                        <span>负责人：</span><span>{%=item.Owner.Name%}</span>
-                    </div>
+        <div class="mTop40 mLeft65 left">
+            <div class="order-progress left">
+                <div class="layer-line"></div>
+                <div class="order-progress-use order-progress-item" data-width="{%=(item.UseDays==0?1:item.UseDays)/totalDay*100+'%'%}">
+                    <div class="progress-tip">{%=item.UseDays==0?1:item.UseDays%}天</div>
+                    <div class="top-lump"></div>
                 </div>
-                <div class="right mLeft65">
-                    <div class="mTop15 tRight">
-                        <span>交货时间：</span><span>{%=item.PlanTime.toDate('yyyy-MM-dd')%}</span>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="mTop25 tRight">
-                        <span>开始时间：</span><span>{%=item.OrderTime.toDate('yyyy-MM-dd')%}</span>
-                    </div>
-                    <div class="clear"></div>
+                <div class="{%=item.WarningStatus==1?'order-progress-warn':item.WarningStatus==2?'order-progress-exceed':'order-progress-have'%} order-progress-item" data-width="{%=(item.WarningDays==0?1:item.WarningDays)/totalDay*100+'%'%}">
+                    <div class="progress-tip">{%=item.WarningStatus==2?"超期":"剩余"%}{%=item.WarningDays==0?1:item.WarningDays%}天</div>
+                    <div class="top-lump"></div>
                 </div>
-
                 <div class="clear"></div>
             </div>
+            <div class="center pTop20">
+                {%=totalDay%}天
+            </div>
+            <div class="mTop20">订单下单时间:<span>{%=item.OrderTime.toDate("yyyy-MM-dd")%}</span></div>
             <div class="clear"></div>
         </div>
         <div class="clear"></div>

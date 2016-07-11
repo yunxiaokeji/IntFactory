@@ -821,7 +821,7 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public JsonResult GetOrdersOrTasksReportData(int orderType, int filterTimeType, int moduleType)
+        public JsonResult GetOrdersOrTasksReportData(int orderType, int filterTimeType, int moduleType, int taskType)
         {
             Dictionary<string, Object> resultObj = new Dictionary<string, object>();
             int result = 0;
@@ -871,7 +871,7 @@ namespace YXERP.Controllers
                 else 
                 {
                     taskItems = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(beginTime, endTime,
-                    orderType, -1, -1, -1,
+                    orderType, -1, -1, -1, taskType,
                     userID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
                 }
 
@@ -971,12 +971,12 @@ namespace YXERP.Controllers
         }
 
         public JsonResult GetOrdersOrTasksDataList(int filterType, string filterTime, 
-           int moduleType, int orderType,
+           int moduleType, int orderType,string userID,
            int pageSize, int pageIndex, int preFinishStatus) 
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-            string userID = string.Empty;
+            //string userID = string.Empty;
             if (currentUser.Role.IsDefault == 0)
             {
                 userID = currentUser.UserID;
@@ -1012,7 +1012,7 @@ namespace YXERP.Controllers
             else
             {
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(startTime, startTime,
-                    orderType, filterType, finishStatus, preFinishStatus,
+                    orderType, filterType, finishStatus, preFinishStatus,-1,
                     userID, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
                 JsonDictionary.Add("items", list);
             }
