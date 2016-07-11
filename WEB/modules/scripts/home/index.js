@@ -188,7 +188,7 @@
 
         /*任务类型选择*/
         require.async("dropdown", function () {
-            var orderTypes = [{ ID: "1", Name: "未接受" }, { ID: "2", Name: "进行中" }, { ID: "3", Name: "已完成" }];
+            var orderTypes = [{ ID: "1", Name: "材料" }, { ID: "2", Name: "制版" }, { ID: "3", Name: "裁剪" }, { ID: "4", Name: "车缝" }, { ID: "5", Name: "发货" }, { ID: "6", Name: "手工成本" }, { ID: "0", Name: "其他" }];
             $("#taskType").dropdown({
                 prevText: "任务模块-",
                 defaultText: "全部",
