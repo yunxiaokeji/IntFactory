@@ -106,6 +106,19 @@ namespace IntFactoryDAL
             return ds;
         }
 
+
+        public DataSet GetOrdersByYXCode(string yxCode, string clientid) 
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@YXCode",yxCode),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+
+            DataSet ds = GetDataSet("P_GetOrdersByYXCode", paras, CommandType.StoredProcedure, "Orders");
+            return ds;
+        }
+
+
         public DataTable GetOrdersByPlanTime(string startPlanTime, string endPlanTime,
             int orderType, int filterType, int orderStatus,
             string userID, string clientID,int pageSize, int pageIndex, ref int totalCount, ref int pageCount)

@@ -127,7 +127,9 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\BaseAPIController.cs" />
     <Compile Include="Areas\Api\Controllers\CacheController.cs" />
+    <Compile Include="Areas\Api\Controllers\ClientController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Api\Controllers\OrderController.cs" />
     <Compile Include="Areas\Api\Controllers\TaskController.cs" />
     <Compile Include="Areas\Api\Controllers\UserController.cs" />
     <Compile Include="Common\Alipay\AlipayConfig.cs" />
