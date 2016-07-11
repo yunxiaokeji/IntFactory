@@ -871,7 +871,7 @@ namespace YXERP.Controllers
                 else 
                 {
                     taskItems = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(beginTime, endTime,
-                    orderType, taskType, -1, -1,-1,
+                    orderType, -1, -1, -1, taskType,
                     userID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
                 }
 
