@@ -10,61 +10,107 @@
             <div class="hint-layer">
                 <div class="hint-msg {%=item.WarningStatus==1?'warning':item.WarningStatus==2?'pass':'hide'%}">{%=item.WarningStatus==1?"快到期":item.WarningStatus==2?"已超期":""%}</div>
             </div>
-        </a>
-        <div class="left order-img"><a href="/Task/Detail/{%=item.TaskID%}"><img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="{%=item.OrderImg==""?'/modules/images/img-noimg.png':item.OrderImg%}" /></a></div>
-        <div class="left order-detail mLeft20">
-            <div class="left">
-                <div class="order-title"><a href="/Task/Detail/{%=item.TaskID%}">{%=item.Title%}</a></div>
-                <div class="mTop10">
-                    <span class="iconfont mRight5">&#xe60f;</span><span>{%=item.OrderType==1?"打样":"大货"%}</span>
-                </div>
-                <div class="mTop10">
-                    <span class="">任务进度：</span><span>{%=item.FinishStatus==0?"未接收":item.FinishStatus==1?"进行中":"已完成"%}</span>
-                </div>
-                 <div class="mTop10">
-                    <span>上级任务：<span class="{%=item.PreFinishStatus==-1?'':item.PreFinishStatus==1?'blue':item.PreFinishStatus==0?'red':''%}">{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'未接受':item.PreFinishStatus==2?'已完成':'进行中'%}</span></span>
-                </div>
-            </div>
-            <div class="right" style="margin-left:100px;">
-                <div class="mTop50 left">
-                    <div class="order-progress left">
-                        <div class="layer-line"></div>
-                        <div class="order-progress-use order-progress-item" data-width="{%=(item.UseDays==0?1:item.UseDays)/totalDay*100+'%'%}">
-                            <div class="progress-tip">{%=item.UseDays==0?1:item.UseDays%}天</div>
-                            <div class="top-lump"></div>
-                        </div>
-                        <div class="{%=item.WarningStatus==1?'order-progress-warn':item.WarningStatus==2?'order-progress-exceed':'order-progress-have'%} order-progress-item" data-width="{%=(item.WarningDays==0?1:item.WarningDays)/totalDay*100+'%'%}">
-                            <div class="progress-tip">{%=item.WarningStatus==2?"超期":"剩余"%}{%=item.WarningDays==0?1:item.WarningDays%}天</div>
-                            <div class="top-lump"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="left">
-                        {%=totalDay%}天
-                    </div>
-                    <div class="clear"></div>
-                </div>
-
-                <div class="right owner-box">
-                     <div class="mTop30">
-                        <span>负责人：</span><span>{%=item.Owner.Name%}</span>
-                    </div>
-                </div>
-                <div class="right" style="margin-left:100px;">
-                    <div class="mTop15 tRight">
-                        <span>到期时间：</span><span>{%=item.EndTime.toDate('yyyy-MM-dd')%}</span>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="mTop25 tRight">
-                        <span>接受时间：</span><span>{%=item.AcceptTime.toDate('yyyy-MM-dd')%}</span>
-                    </div>
-                    <div class="clear"></div>
-                </div>
-
-                <div class="clear"></div>
-            </div>
-            <div class="clear"></div>
+        </a>        
+        <div class="left order-img pic-box">
+            <a href="/Orders/OrderDetail/{%=item.OrderID%}"><img src="{%=item.OrderImage==""?'/modules/images/img-noimg.png':item.OrderImage%}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" /></a>
+            {% if(item.GoodsCode){ %}
+              <span class="aliorder">
+                  <i class="iconfont right">&#xe631;</i>
+              </span>
+            {% } %}
         </div>
+
+        <ul class="details left">
+            <li>
+                <div style="border-bottom:2px solid #6699cc">
+                    <div class='order-title'>
+                        <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="long width250 font16" >{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}</a>
+                    </div>                    
+                    <div class="right color000" style="height:20px;margin-top:-20px;">任务名称:
+                        <span class="mLeft10 right color000" style="display:block;width:60px;" >{%=item.Title==""?"--":item.Title%}</span>
+                    </div>                    
+                </div>              
+            </li>
+            <li style="height:40px;">               
+                <div class="left customer">
+                    <i class="iconfont">{%=item.OrderType==1?"&#xe612;":"&#xe60f;"%}</i>
+                    <span>{%=item.OrderType==1?"打样":"大货"%}</span>
+                </div>
+                <div class="mTop10 left mRight30">
+                    <i class="iconfont ">&#xe635;</i>
+                    <span class="mLeft10 right" style="width:40px;display:block;">--</span>
+                </div>
+                <div class="left customer font14 color333">负&nbsp;责&nbsp;人&nbsp;:</div>
+                <span class="long customer font14 width100 color333">{%=(item.Owner ? item.Owner.Name:"--")%}</span>  
+                <div class="clear"></div>                  
+            </li>
+            
+            <li>                           
+                <div class="mTop20">
+                    <div class="left color333 mRight5 font14">上级任务-:</div>
+                    <div class="color333 font14">{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'未接受':item.PreFinishStatus==2?'已完成':'进行中'%}</div>
+                </div>               
+            </li>
+            <div class="clear"></div>
+        </ul>
+        
+        <div class="left center width250 mTop40">
+            <span class="font14 color000">交货日期</span>
+            <div class="font14 color333 mTop10">--</div>
+        </div>
+        <div class="left septal mTop20"></div>
+        {% if(item.FinishStatus==0){%}
+            <div class="mTop40 mLeft80 left">
+                <div class="order-progress left">
+                    <div class="color-progress"></div>  
+                    <div class="center pTop20 red">
+                        未接受
+                    </div>                       
+                    <div class="mTop20">任务派发时间:<span>{%=item.CreateTime.toDate("yyyy-MM-dd")%}</span></div>
+                    <div class="clear"></div>
+                </div>
+            </div>        
+        {% }else if(item.FinishStatus==1){ %}
+            <div class="mTop40 mLeft80 left">
+                <div class="order-progress left">
+                    <div class="layer-line"></div>
+                    <div class="order-progress-use order-progress-item" data-width="{%=(item.UseDays==0?1:item.UseDays)/totalDay*100+'%'%}">
+                        <div class="progress-tip">{%=item.UseDays==0?1:item.UseDays%}天</div>
+                        <div class="top-lump"></div>
+                    </div>
+                    <div class="{%=item.WarningStatus==1?'order-progress-warn':item.WarningStatus==2?'order-progress-exceed':'order-progress-have'%} order-progress-item" data-width="{%=(item.WarningDays==0?1:item.WarningDays)/totalDay*100+'%'%}">
+                        <div class="progress-tip">{%=item.WarningStatus==2?"超期":"剩余"%}{%=item.WarningDays==0?1:item.WarningDays%}天</div>
+                        <div class="top-lump"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="center pTop20">
+                    {%=totalDay%}天
+                </div>
+                <div class="mTop20">任务结束时间:<span>{%=item.EndTime.toDate("yyyy-MM-dd")%}</span></div>
+                
+            </div>
+        {% }else{%}
+            <div class="mTop40 mLeft80 left">
+                <div class="order-progress left">
+                    <div class="layer-line"></div>
+                    <div class="order-progress-use order-progress-item" data-width="{%=(item.UseDays==0?1:item.UseDays)/totalDay*100+'%'%}">
+                        <div class="progress-tip">{%=item.UseDays==0?1:item.UseDays%}天</div>
+                        <div class="top-lump"></div>
+                    </div>
+                    <div class="{%=item.WarningStatus==1?'order-progress-warn':item.WarningStatus==2?'order-progress-exceed':'order-progress-have'%} order-progress-item" data-width="{%=(item.WarningDays==0?1:item.WarningDays)/totalDay*100+'%'%}">
+                        <div class="progress-tip">{%=item.WarningStatus==2?"超期":"剩余"%}{%=item.WarningDays==0?1:item.WarningDays%}天</div>
+                        <div class="top-lump"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="center pTop20">
+                    {%=totalDay%}天
+                </div>
+                <div class="mTop20">任务结束时间:<span>{%=item.EndTime.toDate("yyyy-MM-dd")%}</span></div>
+                
+            </div>
+        {% } %}
         <div class="clear"></div>
     </div>
 {%}%}

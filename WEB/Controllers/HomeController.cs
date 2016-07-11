@@ -971,12 +971,12 @@ namespace YXERP.Controllers
         }
 
         public JsonResult GetOrdersOrTasksDataList(int filterType, string filterTime, 
-           int moduleType, int orderType,
+           int moduleType, int orderType,string userID,
            int pageSize, int pageIndex, int preFinishStatus) 
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-            string userID = string.Empty;
+            //string userID = string.Empty;
             if (currentUser.Role.IsDefault == 0)
             {
                 userID = currentUser.UserID;

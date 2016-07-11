@@ -45,6 +45,7 @@
 /*字体加粗*/
 .fontbold { font-weight:bold;}
 
+.color000 { color:#000 !important; }
 .color333 { color:#333 !important; }
 .color555 { color:#555 !important; }
 .color666 { color:#666 !important; }
@@ -80,6 +81,7 @@
 .pTop30 {padding-top:30px;}
 .pTop50 {padding-top:50px;}
 
+.pBottom2 {padding-bottom:2px !important;}
 .pBottom5 {padding-bottom:5px !important;}
 .pBottom10 {padding-bottom:10px !important;}
 .pBottom20 {padding-bottom:20px !important;}
