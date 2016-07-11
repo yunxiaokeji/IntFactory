@@ -18,7 +18,7 @@
         pageIndex: 1,
         preFinishStatus: -1,//上级任务筛选
         filterTimeType: 1,//根据时间
-        taskStatus:-1,
+        taskType:-1,
         //UserID: "67eff7a2-58f0-484d-85a0-15046caba16c",
         UserID:"",
     }
@@ -198,9 +198,9 @@
                 dataText: "Name",
                 width: "110",
                 onChange: function (data) {
-                    if (Paras.taskStatus != data.value) {
+                    if (Paras.taskType != data.value) {
                         if (IsLoadding && IsLoaddingTwo) {
-                            Paras.taskStatus = data.value;
+                            Paras.taskType = data.value;
                             Paras.pageIndex = 1;
 
                             ObjectJS.getReportList();
@@ -301,7 +301,7 @@
                 orderType: Paras.orderType,
                 filterTimeType: Paras.filterTimeType,
                 moduleType: Paras.moduleType,
-                taskStatus: Paras.taskStatus
+                taskType: Paras.taskType
             }, function (data) {
                 $(".report-guid").find('.data-loading').remove();
                 IsLoadding = true;
