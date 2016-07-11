@@ -871,7 +871,7 @@ namespace YXERP.Controllers
                 else 
                 {
                     taskItems = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(beginTime, endTime,
-                    orderType, taskType, -1, -1,
+                    orderType, taskType, -1, -1,-1,
                     userID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
                 }
 
@@ -1012,7 +1012,7 @@ namespace YXERP.Controllers
             else
             {
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(startTime, startTime,
-                    orderType, filterType, finishStatus, preFinishStatus,
+                    orderType, filterType, finishStatus, preFinishStatus,-1,
                     userID, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
                 JsonDictionary.Add("items", list);
             }

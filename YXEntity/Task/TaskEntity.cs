@@ -19,6 +19,8 @@ namespace IntFactoryEntity.Task
         [Property("Lower")]
         public string OrderID { get; set; }
 
+        public OrderEntity Order { get; set; }
+
         public int OrderType { get; set; }
 
         public string ProductName { get; set; }
@@ -66,6 +68,8 @@ namespace IntFactoryEntity.Task
         public int FinishStatus { get; set; }
 
         public int PreFinishStatus { get; set; }
+
+        public string PreTitle { get; set; }
 
         public DateTime CreateTime { get; set; }
 
