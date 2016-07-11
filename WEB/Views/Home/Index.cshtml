@@ -20,15 +20,15 @@
     </div>
 
     <div class="right" style="margin-right:-30px;">
-        <div class="left" style="line-height:40px;">交货时间:</div>
-        <div class="mLeft10 mTop10 left font16 select-time select-time-left" style="line-height:20px;"><</div>
+        <div class="left font14" style="line-height:43px;">交货时间:</div>
+        <div class="mLeft10 left font16 select-time select-time-left" style="line-height:20px;margin-top:11px;"><</div>
         
-        <div class="mLeft15 mTop10 left time-now" data-before="@(DateTime.Now.AddDays(-15).ToString("MM.dd"))—@(DateTime.Now.AddDays(-1).ToString("MM.dd"))" data-after="@(DateTime.Now.AddDays(15).ToString("MM.dd"))—@(DateTime.Now.AddDays(29).ToString("MM.dd"))" data-now="@(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))" style="line-height:20px;">
+        <div class="mLeft15 left time-now" data-before="@(DateTime.Now.AddDays(-15).ToString("MM.dd"))—@(DateTime.Now.AddDays(-1).ToString("MM.dd"))" data-after="@(DateTime.Now.AddDays(15).ToString("MM.dd"))—@(DateTime.Now.AddDays(29).ToString("MM.dd"))" data-now="@(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))" style="line-height:20px;margin-top:12px;">
             @(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))
         </div>      
-        <div class="mLeft15 mTop10 left font16 mRight20 select-time select-time-right" style="line-height:20px;">></div>
+        <div class="mLeft15 left font16 mRight20 select-time select-time-right" style="line-height:20px;margin-top:11px;">></div>
         <div class="left mRight15 mTop5" id="orderType" style="background-color:#fff"></div>
-        <div class="right mRight20 mTop5" id="chooseBranch" style="background-color:#fff"></div>
+        <div class="right mRight15 mTop5" id="chooseBranch" style="background-color:#fff"></div>
     </div>   
     <div class="clear"></div>    
 </div>
@@ -82,11 +82,11 @@
     <div class="token-mark left"></div>    
     <div class="left ordertotal mRight15 get-ecceed" title="获取所有超期数据">
         <span class=" font14">超期订单总数:</span>
-        <span class="mLeft5 total-ecceed" style="color:#666;">0</span>
+        <span class="mLeft5 total-ecceed" style="color:#fff;">0</span>
     </div>
     <div class="left mRight20 mTop5" style="width:2px;height:15px;background-color:#ccc;"></div>
     <div class="ordertotal get-need" >
-        <span class=" font14">需求订单总数:</span>
+        <span class=" font14 hover">需求订单总数:</span>
         <span class="mLeft5 total-need" style="color:#666;">0</span>
     </div>
     

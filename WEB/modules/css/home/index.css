@@ -196,9 +196,12 @@ border-bottom:2px solid #4a98e7;
 .token-count .ordertotal span:hover{
     color:#148BF0;      
 }
+.token-count .ordertotal span.hover{
+    color:#148BF0;      
+}
 .get-ecceed .total-ecceed { 
-    background-color:#FFE2E1;
-    border:1px solid #fddddd;
+    background-color:#f35353;
+    border:1px solid #f35353;
     padding:2px 10px;
 }
 
@@ -314,6 +317,19 @@ border-bottom:2px solid #4a98e7;
     color:#8b8b8b;
 }
 /*详情内容*/
+
+.colordiv{
+    overflow:auto;
+    padding: 0px 10px;
+    cursor: pointer;        
+}
+.color-leftzuoyou{
+    width:0; 
+    height:0; 
+    border-top:10px solid transparent;
+    border-bottom:10px solid transparent;
+    cursor: pointer;
+}
 .details { 
    width:440px; 
    margin-left:30px;   

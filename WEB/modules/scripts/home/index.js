@@ -219,6 +219,8 @@
         $(".get-need").click(function () {
             if (IsLoadding && IsLoaddingTwo) {
                 if (Paras.filterTime != "" || Paras.filterType != -1) {
+                    $(this).find("span:first").addClass("hover");
+                    $(".get-ecceed").find("span:first").removeClass("hover");
                     ObjectJS.getNeedOrderList();
                 }
             }
@@ -230,7 +232,9 @@
         //获取所有已超期订单或任务
         $(".get-ecceed").click(function () {
             if (IsLoadding && IsLoaddingTwo) {
-                if (Paras.filterTime != "" || Paras.filterType!=1) {
+                if (Paras.filterTime != "" || Paras.filterType != 1) {
+                    $(this).find("span:first").addClass("hover");
+                    $(".get-need").find("span:first").removeClass("hover");
                     ObjectJS.getEcceedOrderList();
                 }
             }
@@ -372,6 +376,8 @@
 
             /*报表色块点击*/
             $(".report-item li").click(function () {
+                $(".get-need").find("span:first").removeClass("hover");
+                $(".get-ecceed").find("span:first").removeClass("hover");
                 var _this = $(this);
                 if ((Paras.filterType != _this.data('type') || Paras.filterTime != _this.data('date')) || !_this.hasClass('checked')) {
                     if (IsLoadding && IsLoaddingTwo) {
