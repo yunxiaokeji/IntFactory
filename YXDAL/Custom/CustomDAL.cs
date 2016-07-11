@@ -96,6 +96,16 @@ namespace IntFactoryDAL
             return GetDataSet("P_GetCustomerByID", paras, CommandType.StoredProcedure, "Customer");
         }
 
+        public DataSet GetCustomerByMobilePhone(string mobilePhone, string clientid,string name)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@MobilePhone",mobilePhone),
+                                        new SqlParameter("@Name",name),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+            return GetDataSet("P_GetCustomerByMobilePhone", paras, CommandType.StoredProcedure, "Customer");
+        }
+
         public DataTable GetContactsByCustomerID(string customerid)
         {
             SqlParameter[] paras = { 
@@ -293,6 +303,20 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateContact", paras, CommandType.StoredProcedure) > 0;
         }
 
+        public bool SetCustomerYXinfo(string customerID, string name, string mobilePhone, string clientID, string YXAgentID, string YXClientID, string YXClientCode)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@CustomerID",customerID),
+                                     new SqlParameter("@Name",name),
+                                     new SqlParameter("@MobilePhone" , mobilePhone),
+                                     new SqlParameter("@ClientID" , clientID),
+                                     new SqlParameter("@YXAgentID",YXAgentID),
+                                     new SqlParameter("@YXClientID",YXClientID),
+                                     new SqlParameter("@YXClientCode",YXClientCode)
+                                   };
+
+            return ExecuteNonQuery("P_SetCustomerYXinfo", paras, CommandType.StoredProcedure) > 0;
+        }
         #endregion
     }
 }
