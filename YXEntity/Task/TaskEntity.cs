@@ -69,7 +69,7 @@ namespace IntFactoryEntity.Task
 
         public int PreFinishStatus { get; set; }
 
-        public int PreTitle { get; set; }
+        public string PreTitle { get; set; }
 
         public DateTime CreateTime { get; set; }
 
