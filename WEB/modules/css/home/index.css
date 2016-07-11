@@ -51,10 +51,6 @@
 /*时间查询*/
 .select-time { 
     line-height:20px;
-    border:1px solid #bfbfbf;
-    color:#bfbfbf;
-}
-.select-time:hover{
     border:1px solid #4a98e7;
     color:#4a98e7;
     cursor:pointer;
@@ -195,6 +191,7 @@ border-bottom:2px solid #4a98e7;
     line-height:26px;
     font-size:12px;    
     padding:0 8px;
+    cursor:pointer;
 }
 .token-count .ordertotal span:hover{
     color:#148BF0;      
