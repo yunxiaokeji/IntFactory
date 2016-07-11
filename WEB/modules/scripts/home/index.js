@@ -132,12 +132,12 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-            }
-            Paras.preFinishStatus = id;            ;
-            Paras.pageIndex = 1;
 
-            ObjectJS.getDataList();
-            ObjectJS.getTaskOrOrderEcceedCount();
+                Paras.preFinishStatus = id;;
+                Paras.pageIndex = 1;
+                ObjectJS.getDataList();
+                ObjectJS.getTaskOrOrderEcceedCount();
+            }           
         });
 
         /*负责人筛选*/
@@ -153,7 +153,8 @@
                     Paras.UserID = data.userid;
 
                     ObjectJS.getReportList();
-                    ObjectJS.getDataList();
+                    ObjectJS.getNeedOrderList();
+                    ObjectJS.getTaskOrOrderEcceedCount();
                 }
             });
         });
@@ -293,8 +294,8 @@
         var loadding = "<div class='data-loading'>";
         $(".report-guid").append(loadding);
 
-        var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.filterTimeType + "ReportList"];
-
+        var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.filterTimeType+Paras.UserID + "ReportList"];
+        
         if (data == null) {
             IsLoadding = false;
             Global.post("/Home/GetOrdersOrTasksReportData", {
@@ -306,7 +307,7 @@
                 $(".report-guid").find('.data-loading').remove();
                 IsLoadding = true;
 
-                CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.filterTimeType + "ReportList"] = data;
+                CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.filterTimeType +Paras.UserID+ "ReportList"] = data;
                 OrderListCache = data.items;
                 ObjectJS.bindReport();
                 $("#totalSumCount").html(data.totalSumCount);
@@ -454,14 +455,16 @@
         var data = null;
         if (Paras.moduleType == 2) {
             $(".task-status").show();
+            $("#taskType").show();
         }
         else {
             Paras.preFinishStatus = -1;
             $(".task-status").hide();
+            $("#taskType").hide();
         }
         if (Paras.pageIndex == 1) {
             $(".order-layerbox .layer-lump").nextAll().remove();
-            data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.preFinishStatus + Paras.filterTimeType + "DataList"];
+            data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.UserID+Paras.preFinishStatus + Paras.filterTimeType + "DataList"];
         }
         $(".order-layerbox").append("<div class='data-loading'></div>");
 
@@ -472,7 +475,7 @@
                 $('.data-loading').remove();
 
                 if (Paras.pageIndex == 1) {
-                    CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.preFinishStatus + Paras.filterTimeType + "DataList"] = data;
+                    CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.UserID+Paras.preFinishStatus + Paras.filterTimeType + "DataList"] = data;
                 }
                 ObjectJS.createDataListHtml(data);
             })
@@ -497,6 +500,7 @@
         
         if (items.length == 0) {
             $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
+            $(".load-box").hide();
         }
         else {
             DoT.exec(url, function (template) {
@@ -584,10 +588,10 @@
 
     //获取超期总数
     ObjectJS.getTaskOrOrderEcceedCount = function () {
-        var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "TaskOrOrderCount"];
+        var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.UserID+"TaskOrOrderCount"];
         if (data == null) {
             Global.post("/Home/GetTaskOrOrderEcceedCount", Paras, function (data) {
-                CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + "TaskOrOrderCount"] = data;
+                CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType +Paras.UserID+ "TaskOrOrderCount"] = data;
 
                 var name = "超期订单总数:";
                 if (Paras.moduleType == 2) {
