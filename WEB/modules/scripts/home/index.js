@@ -60,10 +60,10 @@
             if (Paras.filterTimeType == 1) {
                 _this.html(_this.data("before"));
                 Paras.filterTimeType = 0;
-                $(".select-time-left").css("color", "#bdbdbd").css("border", "1px solid #bdbdbd");
-                $(".select-time-right").css("color", "#4a98e7").css("border", "1px solid #4a98e7");
+                $(".select-time-left").css("color", "#bdbdbd").css("border", "1px solid #bdbdbd");                
             } else if (Paras.filterTimeType == 2) {
                 _this.html(_this.data("now"));
+                $(".select-time-right").css("color", "#4a98e7").css("border", "1px solid #4a98e7");
                 Paras.filterTimeType = 1;                
             } else {    
                 return;                
@@ -76,10 +76,10 @@
             if (Paras.filterTimeType == 1) {
                 _this.html(_this.data("after"));
                 Paras.filterTimeType = 2;
-                $(".select-time-right").css("color", "#bdbdbd").css("border", "1px solid #bdbdbd");
-                $(".select-time-left").css("color", "#4a98e7").css("border", "1px solid #4a98e7");
+                $(".select-time-right").css("color", "#bdbdbd").css("border", "1px solid #bdbdbd");                
             } else if (Paras.filterTimeType == 0) {
                 _this.html(_this.data("now"));
+                $(".select-time-left").css("color", "#4a98e7").css("border", "1px solid #4a98e7");
                 Paras.filterTimeType = 1;                
             } else {
                 $(this).css("color", "#ccc !important");
@@ -140,7 +140,7 @@
             ObjectJS.getTaskOrOrderEcceedCount();
         });
 
-        /*人员筛选*/
+        /*负责人筛选*/
         require.async("choosebranch", function () {
             $("#chooseBranch").chooseBranch({
                 prevText: "人员-",
@@ -153,7 +153,7 @@
                     Paras.UserID = data.userid;
 
                     ObjectJS.getReportList();
-                    ObjectJS.getNeedOrderList();    
+                    ObjectJS.getDataList();
                 }
             });
         });
@@ -186,7 +186,7 @@
             });
         });
 
-        /*任务类型选择*/
+        /*任务模块选择*/
         require.async("dropdown", function () {
             var orderTypes = [{ ID: "1", Name: "材料" }, { ID: "2", Name: "制版" }, { ID: "3", Name: "裁剪" }, { ID: "4", Name: "车缝" }, { ID: "5", Name: "发货" }, { ID: "6", Name: "手工成本" }, { ID: "0", Name: "其他" }];
             $("#taskType").dropdown({
