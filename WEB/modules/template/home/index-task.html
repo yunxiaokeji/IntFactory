@@ -13,21 +13,24 @@
         </a>        
         <div class="left order-img pic-box">
             <a href="/Orders/OrderDetail/{%=item.OrderID%}">
-                <img src="{%=item.OrderImage==""?'/modules/images/img-noimg.png':item.OrderImage%}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" />
-            </a>
-            {% if(item.GoodsCode){ %}
-              <span class="aliorder">
-                  <i class="iconfont right">&#xe631;</i>
-              </span>
-            {% } %}
+                <img src="{%=item.OrderImg==""?'/modules/images/img-noimg.png':item.OrderImg%}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" />
+            </a>            
         </div>
 
         <ul class="details left">
             <li>
                 <div style="border-bottom:2px solid #5994e6">
                     <div class='order-title'>
-                        <a href="/Orders/OrderDetail/{%=item.OrderID%}" title='{%=item.Order.GoodsName + item.Order.IntGoodsCode==""? item.Order.OrderCode:item.Order.GoodsName+ "&nbsp;" + item.Order.IntGoodsCode%}' class="long width250 font16 color333" >{%=item.Order.GoodsName + item.Order.IntGoodsCode==""? item.Order.OrderCode:item.Order.GoodsName+ "&nbsp;" + item.Order.IntGoodsCode%}</a>
-                    </div>                    
+                        <a href="/Task/Detail/{%=item.TaskID%}" title='{%=item.Order.GoodsName + item.Order.IntGoodsCode==""? item.Order.OrderCode:item.Order.GoodsName+ "&nbsp;" + item.Order.IntGoodsCode%}' class='long width200 font16 color333 {%=item.Order.SourceType==3?"left":""%}'>{%=item.Order.GoodsName + item.Order.IntGoodsCode==""? item.Order.OrderCode:item.Order.GoodsName+ "&nbsp;" + item.Order.IntGoodsCode%}</a>
+                    </div>  
+                    {% if(item.Order.SourceType==3){ %}
+                        <div class="hight20 mBottom3">
+                            <div class="left color-leftzuoyou" style=" border-right:10px solid #ffa200; "></div>
+                            <div class="left colordiv hight20" style="background-color:#ffa200;">
+                                <i class="iconfont font18" style="color:#fff !important;">&#xe631;</i>
+                            </div>
+                        </div>
+                    {% } %}                 
                     <div class="right color000" style="height:20px;margin-top:-20px;">任务名称:
                         <span class="mLeft10 right color000 tRight long" style="display:block;width:70px;" >{%=item.Title==""?"--":item.Title%}</span>
                     </div>                    
@@ -51,7 +54,7 @@
             
             <li>                           
                 <div class="mTop20">
-                    <div class="left color333 mRight5 font14">上级任务{%=item.PreTitle==""?"":"-"+item.PreTitle%}:</div>
+                    <div class="left color333 mRight5 font14">上级任务{%=item.PreTitle==""?"":" 一 "+item.PreTitle%}:</div>
                     <div class="font14" style="color:{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'':item.PreFinishStatus==2?'#067BE4':'#02C969'%}">{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'未接受':item.PreFinishStatus==2?'已完成':'进行中'%}</div>
                 </div>               
             </li>
@@ -70,7 +73,7 @@
                     <div class="center pTop20 red">
                         未接受
                     </div>                       
-                    <div class="mTop20">任务派发时间:<span>{%=item.CreateTime.toDate("yyyy-MM-dd")%}</span></div>
+                    <div class="mTop20">任务派发时间:<span class="mLeft10">{%=item.CreateTime.toDate("yyyy-MM-dd")%}</span></div>
                     <div class="clear"></div>
                 </div>
             </div>        
@@ -91,7 +94,7 @@
                 <div class="center pTop20">
                     {%=totalDay%}天
                 </div>
-                <div class="mTop20">任务结束时间:<span>{%=item.EndTime.toDate("yyyy-MM-dd")%}</span></div>
+                <div class="mTop20">任务结束时间:<span class="mLeft10">{%=item.EndTime.toDate("yyyy-MM-dd")%}</span></div>
                 
             </div>
         {% }else{%}
@@ -111,7 +114,7 @@
                 <div class="center pTop20">
                     {%=totalDay%}天
                 </div>
-                <div class="mTop20">任务完成时间:<span>{%=item.CompleteTime.toDate("yyyy-MM-dd")%}</span></div>
+                <div class="mTop20">任务完成时间:<span class="mLeft10">{%=item.CompleteTime.toDate("yyyy-MM-dd")%}</span></div>
                 
             </div>
         {% } %}

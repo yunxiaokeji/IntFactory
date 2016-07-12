@@ -105,6 +105,7 @@
         /*模块筛选*/
         $(".order-type span").click(function () {
             var _this = $(this);
+
             if (!_this.hasClass("hover")) {
                 if (IsLoadding && IsLoaddingTwo) {                    
                     _this.addClass('hover').siblings().removeClass('hover');
@@ -130,8 +131,8 @@
                         }
                     }
 
-                    ObjectJS.getReportList();
-                    ObjectJS.getNeedOrderList();
+                    ObjectJS.getReportList();                    
+                    $(".get-need").click();
                     ObjectJS.getTaskOrOrderEcceedCount();
                 } else {
                     alert("数据加载中，请稍等 !");
@@ -147,7 +148,7 @@
                     defaultText: "全部",
                     defaultValue: "",
                     userid: "-1",
-                    isTeam: true,
+                    isTeam: false,
                     width: "130",
                     onChange: function (data) {
                         Paras.userID = data.userid;

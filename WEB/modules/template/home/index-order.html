@@ -21,9 +21,9 @@
             <li>
                 <div style="border-bottom:2px solid #5994e6">
                     <div class='order-title'>
-                        <a href="/Orders/OrderDetail/{%=item.OrderID%}" title='{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}' class='long width200 font16 color333 {%=item.GoodsCode==""?"":"left"%}' >{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}</a>
+                        <a href="/Orders/OrderDetail/{%=item.OrderID%}" title='{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}' class='long width200 font16 color333 {%=item.SourceType==3?"left":""%}' >{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}</a>
                     </div>
-                    {% if(item.GoodsCode){ %}
+                    {% if(item.SourceType==3){ %}
                         <div class="hight20 mBottom3">
                             <div class="left color-leftzuoyou" style=" border-right:10px solid #ffa200; "></div>
                             <div class="left colordiv hight20" style="background-color:#ffa200;">
@@ -34,7 +34,7 @@
                     {% if(item.PlanPrice!=""){ %}
                         <div class="right color333" style="height:20px;margin-top:-20px;">
                             期望报价:
-                            <span class="mLeft10 right color333 tRight" style="display:block;width:80px;" >{%=item.PlanPrice%}</span>
+                            <span class="mLeft10 right color333 tRight long" style="display:block;width:50px;" >{%=item.PlanPrice%}</span>
                         </div>
                     {% } %} 
                 </div>              
@@ -109,7 +109,7 @@
                 <div class="center pTop20">
                     {%=totalDay%}天
                 </div>
-                <div class="mTop20">订单下单时间:<span>{%=item.OrderTime.toDate("yyyy-MM-dd")%}</span></div>
+                <div class="mTop20">订单{%=item.WarningStatus==3?"完成":"下单"%}时间:<span class="mLeft10">{%=item.OrderTime.toDate("yyyy-MM-dd")%}</span></div>
                 <div class="clear"></div>
             </div>
         {% } %}        
