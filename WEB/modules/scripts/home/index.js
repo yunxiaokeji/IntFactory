@@ -131,8 +131,10 @@
                         }
                     }
 
-                    ObjectJS.getReportList();                    
-                    $(".get-need").click();
+                    $(".get-need").find("span:first").addClass("hover");
+                    $(".get-ecceed").find("span:first").removeClass("hover");
+                    ObjectJS.getReportList();
+                    ObjectJS.getNeedOrderList();
                     ObjectJS.getTaskOrOrderEcceedCount();
                 } else {
                     alert("数据加载中，请稍等 !");
@@ -328,7 +330,6 @@
         var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.filterTimeType+Paras.userID+Paras.taskType + "ReportList"];
         
         if (data == null) {
-            IsLoadding = false;
             Global.post("/Home/GetOrdersOrTasksReportData", {
                 orderType: Paras.orderType,
                 filterTimeType: Paras.filterTimeType,
@@ -337,7 +338,6 @@
                 userID:Paras.userID
             }, function (data) {
                 $(".report-guid").find('.data-loading').remove();
-                IsLoadding = true;
 
                 CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.filterTimeType + Paras.userID + Paras.taskType + "ReportList"] = data;
                 OrderListCache = data.items;
