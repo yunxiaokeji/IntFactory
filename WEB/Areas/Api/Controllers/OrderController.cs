@@ -26,6 +26,7 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("orderImages", item.OrderImages);
                 obj.Add("createTime", item.CreateTime);
                 obj.Add("endTime", item.EndTime);
+                obj.Add("clientID", item.ClientID);
 
                 objs.Add(obj);
             }
@@ -55,6 +56,7 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("platemaking", item.Platemaking);
             obj.Add("createTime", item.CreateTime);
             obj.Add("endTime", item.EndTime);
+            obj.Add("clientID", item.ClientID);
 
             var details = new List<Dictionary<string, object>>();
             foreach (var d in item.Details) {
