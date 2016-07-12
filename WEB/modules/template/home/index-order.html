@@ -21,7 +21,7 @@
             <li>
                 <div style="border-bottom:2px solid #5994e6">
                     <div class='order-title'>
-                        <a href="/Orders/OrderDetail/{%=item.OrderID%}" title='{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}' class="long width250 font16 color333 {%=item.GoodsCode==""?"":left%}" >{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}</a>
+                        <a href="/Orders/OrderDetail/{%=item.OrderID%}" title='{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}' class="long width200 font16 color333 {%=item.GoodsCode==""?"":left%}" >{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}</a>
                     </div>
                     {% if(item.GoodsCode){ %}
                         <div class="hight20 mBottom3">
