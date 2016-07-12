@@ -49,10 +49,19 @@
 }
 
 /*时间查询*/
+
+.disable { 
+    color:#bdbdbd;
+    border:1px solid #bdbdbd;
+}
+.usable { 
+    color:#4a98e7;
+    border:1px solid #4a98e7;
+}
 .select-time { 
     line-height:20px;
-    border:1px solid #4a98e7;
-    color:#4a98e7;
+    /*border:1px solid #4a98e7;
+    color:#4a98e7;*/
     cursor:pointer;
 }
 
@@ -212,13 +221,13 @@ border-bottom:2px solid #4a98e7;
 }
 .token-count .task-status { 
     float:right;
-    width:350px;
+    width:400px;
     margin-top:-20px; 
-    margin-right:-50px;   
+    margin-right:-30px;   
 }
 .token-count .task-status-ul li { 
     float:left;
-    margin-right:10px;
+    margin-right:20px;
     cursor:pointer;
     
 }

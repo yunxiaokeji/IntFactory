@@ -20,7 +20,7 @@
     </div>
 
     <div class="right" style="margin-right:-30px;">
-        <div class="left font14" style="line-height:43px;margin-top:-3px">交货时间:</div>
+        <div class="left font14" style="line-height:43px;margin-top:-4px">交货时间:</div>
 
         <div class="mLeft10 left mTop7 font16 select-time select-time-left" style="line-height:20px;"><</div>        
         <div class="mLeft15 left mTop8 time-now" data-before="@(DateTime.Now.AddDays(-15).ToString("MM.dd"))—@(DateTime.Now.AddDays(-1).ToString("MM.dd"))" data-after="@(DateTime.Now.AddDays(15).ToString("MM.dd"))—@(DateTime.Now.AddDays(29).ToString("MM.dd"))" data-now="@(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))" style="line-height:20px;">
@@ -80,18 +80,17 @@
 
 <div class="token-count">
     <div class="token-mark left"></div>    
-    <div class="left ordertotal mRight15 get-ecceed" title="获取所有超期数据">
-        <span class=" font14">超期订单总数:</span>
-        <span class="mLeft5 total-ecceed" style="color:#fff;">0</span>
-    </div>
-    <div class="left mRight20 mTop5" style="width:2px;height:15px;background-color:#ccc;"></div>
-    <div class="ordertotal get-need" >
+    <div class="left mRight15 ordertotal get-need" >
         <span class=" font14 hover">需求订单总数:</span>
         <span class="mLeft5 total-need" style="color:#666;">0</span>
-    </div>
-    
+    </div>    
+    <div class="left mRight20 mTop5" style="width:2px;height:15px;background-color:#ccc;"></div>
+    <div class="ordertotal  get-ecceed" title="获取所有超期数据">
+        <span class=" font14">超期订单总数:</span>
+        <span class="mLeft5 total-ecceed" style="color:#fff;">0</span>
+    </div>    
     <div class="task-status hide">
-        <div class="left mRight10">上级任务进度:</div>
+        <div class="left mRight30 font14" style="margin-top:-1px;">上级任务进度:</div>
         <ul class="task-status-ul">
             <li class="hover" data-taskstatusid="-1">全部</li>
             <li  data-taskstatusid="0">未接收</li>

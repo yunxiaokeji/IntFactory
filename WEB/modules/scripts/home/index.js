@@ -8,37 +8,36 @@
     var CacheArr = new Array();
     var IsLoadding = true;
     var IsLoaddingTwo = true;
+    var GuidLineHeight = 0;//报表网格线对应的份数
+    var ReportMinHeight = 10;//最低行高
+    var ReportIndex = 0;
+    var ReportAvgHeight = 0;//报表每一份对应的行高
 
     var Paras = {
         filterTime: '',
         filterType: -1,  //订单阶段-1全部 1已超期 2快到期 3进行中 4已完成
         moduleType: 1,//模块类型 1.订单  2.任务
         orderType: -1,
-        pageSize: 5,
-        pageIndex: 1,
+        taskType: -1,
         preFinishStatus: -1,//上级任务筛选
         filterTimeType: 1,//根据时间
-        taskType:-1,        
+        pageSize: 5,
+        pageIndex: 1,
         userID:"",
     }
 
     var ObjectJS = {};
-    
     ObjectJS.orderFilter = -1;
-    var GuidLineHeight = 0;//报表网格线对应的份数
-    var ReportMinHeight = 10;//最低行高
-    var ReportIndex = 0;
-    var ReportAvgHeight = 0;//报表每一份对应的行高
-
     ObjectJS.init = function (orderLevel, taskLevel, remainDay, remainDate) {
         ObjectJS.remainDay = remainDay;
+        ObjectJS.remainDate = remainDate;
         ObjectJS.orderLevel = orderLevel;
         ObjectJS.taskLevel = taskLevel;
-        ObjectJS.remainDate = remainDate;
+        
         if (orderLevel == 1) {
             $(".report-title").html('所有订单');
             $("#chooseBranch").show();
-        }
+        }        
         if (taskLevel == 1) {
             $(".report-title-task").html('所有任务');
         }
@@ -54,60 +53,56 @@
     };
 
     ObjectJS.bindEvent = function () {
+       
         $(document).click(function (e) {
             if (!$(e.target).parents().hasClass('dropdown-items-modules') && !$(e.target).parents().hasClass('dropdown-module')) {
                 $(".dropdown-items-modules").hide();
             }
-        })
+        });
 
         /*根据时间段查询*/
+        $(".select-time").addClass("usable");
         $(".select-time-left").click(function () {
             var _this = $(".time-now");
             if (Paras.filterTimeType == 1) {
                 _this.html(_this.data("before"));
+                $(".select-time-left").removeClass("usable").addClass("disable");
+
                 Paras.filterTimeType = 0;
-                $(".select-time-left").css("color", "#bdbdbd").css("border", "1px solid #bdbdbd");                
             } else if (Paras.filterTimeType == 2) {
                 _this.html(_this.data("now"));
-                $(".select-time-right").css("color", "#4a98e7").css("border", "1px solid #4a98e7");
+                $(".select-time-right").removeClass("disable").addClass("usable");
+
                 Paras.filterTimeType = 1;                
-            } else {    
+            } else { 
                 return;                
             }
             ObjectJS.getReportList();
-            ObjectJS.getNeedOrderList();
+            ObjectJS.getDataList();
         });
 
         $(".select-time-right").click(function () {
             var _this = $(".time-now");
             if (Paras.filterTimeType == 1) {
                 _this.html(_this.data("after"));
+                $(".select-time-right").removeClass("usable").addClass("disable");
+
                 Paras.filterTimeType = 2;
-                $(".select-time-right").css("color", "#bdbdbd").css("border", "1px solid #bdbdbd");                
             } else if (Paras.filterTimeType == 0) {
                 _this.html(_this.data("now"));
-                $(".select-time-left").css("color", "#4a98e7").css("border", "1px solid #4a98e7");
+                $(".select-time-left").removeClass("disable").addClass("usable");
+
                 Paras.filterTimeType = 1;                
             } else {
                 $(this).css("color", "#ccc !important");
                 return;
             }
+
             ObjectJS.getReportList();
-            ObjectJS.getNeedOrderList();
+            ObjectJS.getDataList();
         });
 
-        /*订单进行状态筛选*/
-        $(".sum-list li").click(function () {
-            var _this = $(this);
-            if (!_this.hasClass("active")) {
-                _this.addClass("active").siblings().removeClass("active");
-
-                ObjectJS.orderFilter = _this.data("orderfilter");
-                ObjectJS.bindReport();
-            }
-        });
-
-        /*订单模块筛选*/
+        /*模块筛选*/
         $(".order-type span").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
@@ -115,17 +110,23 @@
                     _this.addClass('hover').siblings().removeClass('hover');
                     Paras.moduleType = _this.data('id');
                     Paras.userID = '';
+                    $(".choosebranch-text").html("人员-全部");
+                    
                     if (Paras.moduleType == 2) {
                         $(".task-status").show();
-                        $("#taskType").show();
+                        $("#taskType").show();                        
 
                         if (ObjectJS.taskLevel == 1) {
-                            $("#chooseBranch").show();
+                            $("#chooseBranch").show();                            
+                        } else {
+                            $("#chooseBranch").hide();
                         }
                         
                     } else {
                         if (ObjectJS.orderLevel == 1) {
                             $("#chooseBranch").show();
+                        } else {
+                            $("#chooseBranch").hide();
                         }
                     }
                     ObjectJS.getReportList();
@@ -137,22 +138,8 @@
             }
         });
 
-        /*上级任务筛选*/
-        $(".task-status-ul li").click(function () {
-            var _this = $(this), id = _this.data("taskstatusid");
-            if (!_this.hasClass("hover")) {
-                _this.siblings().removeClass("hover");
-                _this.addClass("hover");
-
-                Paras.preFinishStatus = id;;
-                Paras.pageIndex = 1;
-                ObjectJS.getDataList();
-                ObjectJS.getTaskOrOrderEcceedCount();
-            }           
-        });
-
+        /*负责人筛选*/
         if (ObjectJS.orderLevel == 1 || ObjectJS.taskLevel == 1) {
-            /*负责人筛选*/
             require.async("choosebranch", function () {
                 $("#chooseBranch").chooseBranch({
                     prevText: "人员-",
@@ -163,9 +150,10 @@
                     width: "170",
                     onChange: function (data) {
                         Paras.userID = data.userid;
+                        Paras.pageIndex = 1;
 
                         ObjectJS.getReportList();
-                        ObjectJS.getNeedOrderList();
+                        ObjectJS.getDataList();
                         ObjectJS.getTaskOrOrderEcceedCount();
                     }
                 });
@@ -183,14 +171,14 @@
                 dataValue: "ID",
                 dataText: "Name",
                 width: "110",
-                onChange: function (data) {                    
+                onChange: function (data) {
                     if (Paras.orderType != data.value) {
                         if (IsLoadding && IsLoaddingTwo) {
                             Paras.orderType = data.value;
                             Paras.pageIndex = 1;
 
                             ObjectJS.getReportList();
-                            ObjectJS.getNeedOrderList();
+                            ObjectJS.getDataList();
                             ObjectJS.getTaskOrOrderEcceedCount();
                         } else {
                             alert("数据加载中，请稍等 !");
@@ -198,6 +186,31 @@
                     }
                 }
             });
+        });
+
+        /*订单进行状态筛选*/
+        $(".sum-list li").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("active")) {
+                _this.addClass("active").siblings().removeClass("active");
+
+                ObjectJS.orderFilter = _this.data("orderfilter");
+                ObjectJS.bindReport();
+            }
+        });
+
+        /*上级任务状态筛选*/
+        $(".task-status-ul li").click(function () {
+            var _this = $(this), id = _this.data("taskstatusid");
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+
+                Paras.preFinishStatus = id;;
+                Paras.pageIndex = 1;
+                ObjectJS.getDataList();
+                ObjectJS.getTaskOrOrderEcceedCount();
+            }           
         });
 
         /*任务模块选择*/
@@ -217,8 +230,7 @@
                             Paras.taskType = data.value;
                             Paras.pageIndex = 1;
 
-                            ObjectJS.getReportList();
-                            ObjectJS.getNeedOrderList();
+                            ObjectJS.getDataList();
                             ObjectJS.getTaskOrOrderEcceedCount();
                         } else {
                             alert("数据加载中，请稍等 !");
@@ -269,8 +281,8 @@
         });
     }
 
+    //授权快到期提示
     ObjectJS.authorWarn = function () {
-        //授权快到期提示
         if (ObjectJS.remainDay <= 20) {
             var authorWarn = Global.getCookie('authorWarn');
             if (authorWarn != "1") {
@@ -319,7 +331,8 @@
                 orderType: Paras.orderType,
                 filterTimeType: Paras.filterTimeType,
                 moduleType: Paras.moduleType,
-                taskType: Paras.taskType
+                taskType: Paras.taskType,
+                userID:Paras.userID
             }, function (data) {
                 $(".report-guid").find('.data-loading').remove();
                 IsLoadding = true;
@@ -327,6 +340,7 @@
                 CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.filterTimeType + Paras.userID + Paras.taskType + "ReportList"] = data;
                 OrderListCache = data.items;
                 ObjectJS.bindReport();
+
                 $("#totalSumCount").html(data.totalSumCount);
                 $("#totalExceedCount").html(data.totalExceedCount);
                 $("#totalFinishCount").html(data.totalFinishCount);
@@ -338,6 +352,7 @@
             $(".report-guid").find('.data-loading').remove();
             OrderListCache = data.items;
             ObjectJS.bindReport();
+
             $("#totalSumCount").html(data.totalSumCount);
             $("#totalExceedCount").html(data.totalExceedCount);
             $("#totalFinishCount").html(data.totalFinishCount);
@@ -557,20 +572,6 @@
                 totalEcceedTtitle = "未接收任务总数:";
             }
         }
-
-        //if (Paras.moduleType == 2) {
-        //    reportTitleTask = "我的任务";
-        //    if (ObjectJS.roleLevel == 1) {
-        //        reportTitleTask = "所有任务";
-        //    }
-        //    reportTotalTtitle = "全部任务";
-        //    totalEcceedTtitle = "未接收任务总数:";
-        //} else {
-        //    if (ObjectJS.roleLevel == 1) {
-        //        reportTitle = "所有订单";
-        //    }
-        //}
-
         $(".report-total-title").html(reportTotalTtitle);
         if (Paras.filterType == -1) {
             $(".ordertotal .total-need").prev().html(totalEcceedTtitle);
@@ -607,17 +608,23 @@
                 CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.userID + Paras.taskType + "TaskOrOrderCount"] = data;
 
                 var name = "超期订单总数:";
+                var needname = "需求订单总数:";
                 if (Paras.moduleType == 2) {
                     name = "超期任务总数:";
+                    needname = "需求任务总数:";
                 }
                 $(".total-ecceed").html(data.result).prev().html(name);
+                $(".get-need").find("span:first").html(needname);
             });
         } else {
             var name = "超期订单总数:";
+            var needname = "需求订单总数:";
             if (Paras.moduleType == 2) {
                 name = "超期任务总数:";
+                needname = "需求任务总数:";
             }
             $(".total-ecceed").html(data.result).prev().html(name);
+            $(".get-need").find("span:first").html(needname);
         }
     }
 
