@@ -15,8 +15,10 @@ namespace YXERP.Areas.Api.Controllers
         {
             var item= ClientBusiness.GetClientDetail(zngcClientID);
             Dictionary<string, object> obj = new Dictionary<string, object>();
+            
             if (!string.IsNullOrEmpty(item.ClientID)) {
                 obj.Add("clientID", item.ClientID);
+                obj.Add("clientCode", item.ClientCode);
                 obj.Add("companyName", item.CompanyName);
                 obj.Add("logo", item.Logo);
                 obj.Add("contactName", item.ContactName);
