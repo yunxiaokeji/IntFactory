@@ -8,7 +8,7 @@ namespace YXERP.Common
 {
     public class Common
     {
-        public static string Version = "2016-7-6-1";
+        public static string Version = "2016-7-12-2";
         //云销客户端的ClientID、AgentID
         public static string YXClientID = System.Configuration.ConfigurationManager.AppSettings["YXClientID"] ?? string.Empty;
         public static string YXAgentID = System.Configuration.ConfigurationManager.AppSettings["YXAgentID"] ?? string.Empty;

@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 
 using IntFactoryBusiness;
+using IntFactoryEntity;
+using Newtonsoft.Json;
 namespace YXERP.Areas.Api.Controllers
 {
     [YXERP.Common.ApiAuthorize]
@@ -83,7 +85,45 @@ namespace YXERP.Areas.Api.Controllers
 
                 plates.Add(plate);
             }
-            obj.Add("plateMakings", plateMakings);
+            obj.Add("plateMakings", plates);
+
+            var category = new ProductsBusiness().GetOrderCategoryDetailsByID(item.CategoryID, item.OrderID);
+            var attrLists = new List<Dictionary<string, object>>();
+            var saleAttrs = new List<Dictionary<string, object>>();
+            foreach (var attr in category.AttrLists) {
+                Dictionary<string, object> attrObj= new Dictionary<string, object>();
+                attrObj.Add("attrID", attr.AttrID);
+                attrObj.Add("attrName", attr.AttrName);
+                var attrValues = new List<Dictionary<string, object>>();
+                foreach (var value in attr.AttrValues) {
+                    Dictionary<string, object> valueObj = new Dictionary<string, object>();
+                    attrObj.Add("valueID", value.ValueID);
+                    attrObj.Add("valueName", value.ValueName);
+
+                    attrValues.Add(attrObj);
+                }
+                attrObj.Add("attrValues", attrValues);
+                attrLists.Add(attrObj);
+            }
+            foreach (var attr in category.SaleAttrs)
+            {
+                Dictionary<string, object> attrObj = new Dictionary<string, object>();
+                attrObj.Add("attrID", attr.AttrID);
+                attrObj.Add("attrName", attr.AttrName);
+                var attrValues = new List<Dictionary<string, object>>();
+                foreach (var value in attr.AttrValues)
+                {
+                    Dictionary<string, object> valueObj = new Dictionary<string, object>();
+                    attrObj.Add("valueID", value.ValueID);
+                    attrObj.Add("valueName", value.ValueName);
+
+                    attrValues.Add(attrObj);
+                }
+                attrObj.Add("attrValues", attrValues);
+                saleAttrs.Add(attrObj);
+            }
+            obj.Add("attrLists", attrLists);
+            obj.Add("saleAttrs", saleAttrs);
             JsonDictionary.Add("order",obj);
 
             return new JsonResult
@@ -92,6 +132,22 @@ namespace YXERP.Areas.Api.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
+        public JsonResult CreateDHOrder(string orderID, decimal price, string details, string clientID, string yxOrderID)
+        {
+            var productDetails = JsonConvert.DeserializeObject< List<IntFactoryEntity.ProductDetail > >(details);
+            string id = OrdersBusiness.BaseBusiness.CreateDHOrder(orderID, 2, 1, price, productDetails,
+                string.Empty, clientID, clientID);
+          JsonDictionary.Add("id",id);
+
+          return new JsonResult
+          {
+              Data = JsonDictionary,
+              JsonRequestBehavior = JsonRequestBehavior.AllowGet
+          };
+        }
+
+
 
     }
 }
