@@ -298,7 +298,7 @@
         var loadding = "<div class='data-loading'>";
         $(".report-guid").append(loadding);
 
-        var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.filterTimeType+Paras.UserID + "ReportList"];
+        var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.filterTimeType+Paras.UserID+Paras.taskType + "ReportList"];
         
         if (data == null) {
             IsLoadding = false;
@@ -311,7 +311,7 @@
                 $(".report-guid").find('.data-loading').remove();
                 IsLoadding = true;
 
-                CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.filterTimeType +Paras.UserID+ "ReportList"] = data;
+                CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.filterTimeType + Paras.UserID + Paras.taskType + "ReportList"] = data;
                 OrderListCache = data.items;
                 ObjectJS.bindReport();
                 $("#totalSumCount").html(data.totalSumCount);
@@ -470,7 +470,7 @@
         }
         if (Paras.pageIndex == 1) {
             $(".order-layerbox .layer-lump").nextAll().remove();
-            data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.UserID+Paras.preFinishStatus + Paras.filterTimeType + "DataList"];
+            data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.UserID + Paras.taskType + Paras.preFinishStatus + Paras.filterTimeType + "DataList"];
         }
         $(".order-layerbox").append("<div class='data-loading'></div>");
 
@@ -481,7 +481,7 @@
                 $('.data-loading').remove();
 
                 if (Paras.pageIndex == 1) {
-                    CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.UserID+Paras.preFinishStatus + Paras.filterTimeType + "DataList"] = data;
+                    CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.UserID + Paras.taskType + Paras.preFinishStatus + Paras.filterTimeType + "DataList"] = data;
                 }
                 ObjectJS.createDataListHtml(data);
             })
@@ -503,7 +503,7 @@
             url = "/template/home/index-order.html";
         }
         var items = data.items;
-        
+        console.log(items);
         if (items.length == 0) {
             $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
             $(".load-box").hide();
@@ -594,10 +594,10 @@
 
     //获取超期总数
     ObjectJS.getTaskOrOrderEcceedCount = function () {
-        var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.UserID+"TaskOrOrderCount"];
+        var data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.UserID + Paras.taskType + "TaskOrOrderCount"];
         if (data == null) {
             Global.post("/Home/GetTaskOrOrderEcceedCount", Paras, function (data) {
-                CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType +Paras.UserID+ "TaskOrOrderCount"] = data;
+                CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.UserID + Paras.taskType + "TaskOrOrderCount"] = data;
 
                 var name = "超期订单总数:";
                 if (Paras.moduleType == 2) {

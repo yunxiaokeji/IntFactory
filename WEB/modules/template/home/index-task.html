@@ -24,10 +24,10 @@
             <li>
                 <div style="border-bottom:2px solid #5994e6">
                     <div class='order-title'>
-                        <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="long width250 font16" >{%=item.GoodsName + item.IntGoodsCode==""? item.OrderCode:item.GoodsName+ "&nbsp;" + item.IntGoodsCode%}</a>
+                        <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="long width250 font16" >{%=item.Order.GoodsName + item.Order.IntGoodsCode==""? item.Order.OrderCode:item.Order.GoodsName+ "&nbsp;" + item.Order.IntGoodsCode%}</a>
                     </div>                    
                     <div class="right color000" style="height:20px;margin-top:-20px;">任务名称:
-                        <span class="mLeft10 right color000" style="display:block;width:70px;" >{%=item.Title==""?"--":item.Title%}</span>
+                        <span class="mLeft10 right color000 tRight" style="display:block;width:70px;" >{%=item.Title==""?"--":item.Title%}</span>
                     </div>                    
                 </div>              
             </li>
@@ -47,7 +47,7 @@
             
             <li>                           
                 <div class="mTop20">
-                    <div class="left color333 mRight5 font14">上级任务-:</div>
+                    <div class="left color333 mRight5 font14">上级任务-{%=item.PreTitle%}:</div>
                     <div class="color333 font14">{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'未接受':item.PreFinishStatus==2?'已完成':'进行中'%}</div>
                 </div>               
             </li>
@@ -56,7 +56,7 @@
         
         <div class="left center width250 mTop40">
             <span class="font14 color000">交货日期</span>
-            <div class="font14 color333 mTop10">--</div>
+            <div class="font14 color333 mTop10">{%=item.Order.PlanTime.toDate("yyyy-MM-dd")%}</div>
         </div>
         <div class="left septal mTop20"></div>
         {% if(item.FinishStatus==0){%}
