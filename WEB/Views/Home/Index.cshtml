@@ -8,7 +8,7 @@
 @section scripts{
     <script type="text/javascript">
        seajs.use(["scripts/home/index"], function (obj) {
-           obj.init('@ViewBag.orderLevel', '@ViewBag.roleLevel', '@ViewBag.RemainDay', '@ViewBag.RemainDate');
+           obj.init('@ViewBag.orderLevel', '@ViewBag.taskLevel', '@ViewBag.RemainDay', '@ViewBag.RemainDate');
        });
     </script>
 }
@@ -28,7 +28,7 @@
         </div>      
         <div class="mLeft15 left mTop7 font16 mRight20 select-time select-time-right" style="line-height:20px;">></div>
         <div class="left mRight15 mTop3" id="orderType" style="background-color:#fff"></div>
-        <div class="right mRight15 mTop3" id="chooseBranch" style="background-color:#fff"></div>
+        <div class="right mRight15 mTop3 hide" id="chooseBranch" style="background-color:#fff"></div>
     </div>   
     <div class="clear"></div>    
 </div>
