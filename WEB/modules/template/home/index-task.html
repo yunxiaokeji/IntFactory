@@ -29,7 +29,7 @@
                         <a href="/Orders/OrderDetail/{%=item.OrderID%}" title='{%=item.Order.GoodsName + item.Order.IntGoodsCode==""? item.Order.OrderCode:item.Order.GoodsName+ "&nbsp;" + item.Order.IntGoodsCode%}' class="long width250 font16 color333" >{%=item.Order.GoodsName + item.Order.IntGoodsCode==""? item.Order.OrderCode:item.Order.GoodsName+ "&nbsp;" + item.Order.IntGoodsCode%}</a>
                     </div>                    
                     <div class="right color000" style="height:20px;margin-top:-20px;">任务名称:
-                        <span class="mLeft10 right color000 tRight" style="display:block;width:70px;" >{%=item.Title==""?"--":item.Title%}</span>
+                        <span class="mLeft10 right color000 tRight long" style="display:block;width:70px;" >{%=item.Title==""?"--":item.Title%}</span>
                     </div>                    
                 </div>              
             </li>
@@ -38,11 +38,11 @@
                     <i class="iconfont {%=item.OrderType==1?'mLeft3':''%}">{%=item.OrderType==1?"&#xe612;":"&#xe60f;"%}</i>
                     <span>{%=item.OrderType==1?"打样":"大货"%}</span>
                 </div>
-                {% if(item.Order.PlanQuantity!=""){ %}
-                <div class="mTop10 left mRight30">
-                    <i class="iconfont ">&#xe635;</i>
-                    <span class="mLeft10 right" style="width:40px;display:block;">{%=item.Order.PlanQuantity%}</span>
-                </div>
+                {% if(item.OrderType==2){ %}
+                    <div class="mTop10 left mRight30">
+                        <i class="iconfont ">&#xe635;</i>
+                        <span class="mLeft10 right" style="width:40px;display:block;">{%=item.Order.PlanQuantity%}</span>
+                    </div>
                 {% } %} 
                 <span class="long right customer font14 width100 color333">{%=(item.Owner ? item.Owner.Name:"--")%}</span>  
                 <div class="right customer font14 color333">负责人:</div> 
@@ -60,7 +60,7 @@
         
         <div class="left center width250 mTop40">
             <span class="font14 color000">交货日期</span>
-            <div class="font14 {%=item.WarningStatus==2?'red':'color333'%} mTop10">{%=item.Order.PlanTime.toDate("yyyy-MM-dd")%}</div>
+            <div class="font14 {%=item.WarningStatus==2?'red':'color333'%} mTop10">{%=item.Order.PlanTime.toDate("yyyy-MM-dd")== "0001-01-01"||item.Order.PlanTime.toDate("yyyy-MM-dd")=="1900-01-01"||item.Order.PlanTime.toDate("yyyy-MM-dd")=="2040-01-01"?"未设置":item.Order.PlanTime.toDate("yyyy-MM-dd")%}</div>
         </div>
         <div class="left septal mTop20"></div>
         {% if(item.FinishStatus==0){ %}
