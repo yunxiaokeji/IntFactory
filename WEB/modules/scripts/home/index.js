@@ -110,7 +110,7 @@
                     _this.addClass('hover').siblings().removeClass('hover');
                     Paras.moduleType = _this.data('id');
                     Paras.userID = '';
-                    $(".choosebranch-text").html("人员-全部");
+                    $(".choosebranch-text").html("人员筛选-全部");
                     
                     if (Paras.moduleType == 2) {
                         $(".task-status").show();
@@ -142,12 +142,12 @@
         if (ObjectJS.orderLevel == 1 || ObjectJS.taskLevel == 1) {
             require.async("choosebranch", function () {
                 $("#chooseBranch").chooseBranch({
-                    prevText: "人员-",
+                    prevText: "人员筛选-",
                     defaultText: "全部",
                     defaultValue: "",
                     userid: "-1",
                     isTeam: true,
-                    width: "170",
+                    width: "130",
                     onChange: function (data) {
                         Paras.userID = data.userid;
                         Paras.pageIndex = 1;
