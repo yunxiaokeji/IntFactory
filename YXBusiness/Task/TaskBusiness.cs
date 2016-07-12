@@ -161,7 +161,9 @@ namespace IntFactoryBusiness
                 }
                 else
                 {
+                    model.WarningStatus = 3;
                     model.UseDays = (model.EndTime - model.AcceptTime).Days;
+                    model.UseDays = (DateTime.Now - model.CompleteTime).Days;
                 }
                 list.Add(model);
             }
