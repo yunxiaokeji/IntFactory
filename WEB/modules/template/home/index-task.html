@@ -24,7 +24,7 @@
             <li>
                 <div style="border-bottom:2px solid #5994e6">
                     <div class='order-title'>
-                        <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="long width250 font16" >{%=item.Order.GoodsName + item.Order.IntGoodsCode==""? item.Order.OrderCode:item.Order.GoodsName+ "&nbsp;" + item.Order.IntGoodsCode%}</a>
+                        <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="long width250 font16 color333" >{%=item.Order.GoodsName + item.Order.IntGoodsCode==""? item.Order.OrderCode:item.Order.GoodsName+ "&nbsp;" + item.Order.IntGoodsCode%}</a>
                     </div>                    
                     <div class="right color000" style="height:20px;margin-top:-20px;">任务名称:
                         <span class="mLeft10 right color000 tRight" style="display:block;width:70px;" >{%=item.Title==""?"--":item.Title%}</span>
