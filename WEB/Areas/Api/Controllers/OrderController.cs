@@ -28,6 +28,7 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("orderImages", item.OrderImages);
                 obj.Add("createTime", item.CreateTime);
                 obj.Add("endTime", item.EndTime);
+                obj.Add("clientID", item.ClientID);
 
                 objs.Add(obj);
             }
@@ -57,6 +58,7 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("platemaking", item.Platemaking);
             obj.Add("createTime", item.CreateTime);
             obj.Add("endTime", item.EndTime);
+            obj.Add("clientID", item.ClientID);
 
             var details = new List<Dictionary<string, object>>();
             foreach (var d in item.Details) {
@@ -97,10 +99,10 @@ namespace YXERP.Areas.Api.Controllers
                 var attrValues = new List<Dictionary<string, object>>();
                 foreach (var value in attr.AttrValues) {
                     Dictionary<string, object> valueObj = new Dictionary<string, object>();
-                    attrObj.Add("valueID", value.ValueID);
-                    attrObj.Add("valueName", value.ValueName);
+                    valueObj.Add("valueID", value.ValueID);
+                    valueObj.Add("valueName", value.ValueName);
 
-                    attrValues.Add(attrObj);
+                    attrValues.Add(valueObj);
                 }
                 attrObj.Add("attrValues", attrValues);
                 attrLists.Add(attrObj);
@@ -114,10 +116,10 @@ namespace YXERP.Areas.Api.Controllers
                 foreach (var value in attr.AttrValues)
                 {
                     Dictionary<string, object> valueObj = new Dictionary<string, object>();
-                    attrObj.Add("valueID", value.ValueID);
-                    attrObj.Add("valueName", value.ValueName);
+                    valueObj.Add("valueID", value.ValueID);
+                    valueObj.Add("valueName", value.ValueName);
 
-                    attrValues.Add(attrObj);
+                    attrValues.Add(valueObj);
                 }
                 attrObj.Add("attrValues", attrValues);
                 saleAttrs.Add(attrObj);
