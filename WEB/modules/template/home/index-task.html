@@ -48,7 +48,7 @@
             <li>                           
                 <div class="mTop20">
                     <div class="left color333 mRight5 font14">上级任务-{%=item.PreTitle%}:</div>
-                    <div class="color333 font14">{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'未接受':item.PreFinishStatus==2?'已完成':'进行中'%}</div>
+                    <div class="font14" style="color:{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'':item.PreFinishStatus==2?'#067BE4':'#02C969'%}">{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'未接受':item.PreFinishStatus==2?'已完成':'进行中'%}</div>
                 </div>               
             </li>
             <div class="clear"></div>
