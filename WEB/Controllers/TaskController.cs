@@ -398,7 +398,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetPlateMakings(string orderID, string taskID)
+        public JsonResult GetPlateMakings(string orderID)
         {
             var list = TaskBusiness.GetPlateMakings(orderID);
 

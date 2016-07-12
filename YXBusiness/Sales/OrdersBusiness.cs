@@ -400,6 +400,10 @@ namespace IntFactoryBusiness
                 model.FillData(ds.Tables["Order"].Rows[0]);
 
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+                if (!string.IsNullOrEmpty(model.CategoryID))
+                {
+                    model.CategoryName = ProductsBusiness.BaseBusiness.GetCategoryByID(model.BigCategoryID).CategoryName + ">" + ProductsBusiness.BaseBusiness.GetCategoryByID(model.CategoryID).CategoryName;
+                }
 
                 model.Details = new List<OrderDetail>();
                 if (ds.Tables["Details"].Rows.Count > 0)
