@@ -49,10 +49,19 @@
 }
 
 /*时间查询*/
+
+.disable { 
+    color:#bdbdbd;
+    border:1px solid #bdbdbd;
+}
+.usable { 
+    color:#4a98e7;
+    border:1px solid #4a98e7;
+}
 .select-time { 
     line-height:20px;
-    border:1px solid #4a98e7;
-    color:#4a98e7;
+    /*border:1px solid #4a98e7;
+    color:#4a98e7;*/
     cursor:pointer;
 }
 

@@ -42,7 +42,7 @@
         if (taskLevel == 1) {
             $(".report-title-task").html('所有任务');
         }
-        console.log(orderLevel, taskLevel);
+        
         ObjectJS.bindEvent();       
         ObjectJS.getReportList();
         ObjectJS.getNeedOrderList();
@@ -61,21 +61,22 @@
         })
 
         /*根据时间段查询*/
+        $(".select-time").addClass("usable");
         $(".select-time-left").click(function () {
             var _this = $(".time-now");
             if (Paras.filterTimeType == 1) {
                 _this.html(_this.data("before"));
                 Paras.filterTimeType = 0;
-                $(".select-time-left").css("color", "#bdbdbd").css("border", "1px solid #bdbdbd");                
+                $(".select-time-left").removeClass("usable").addClass("disable");
             } else if (Paras.filterTimeType == 2) {
                 _this.html(_this.data("now"));
-                $(".select-time-right").css("color", "#4a98e7").css("border", "1px solid #4a98e7");
+                $(".select-time-right").removeClass("disable").addClass("usable");
                 Paras.filterTimeType = 1;                
             } else {    
                 return;                
             }
             ObjectJS.getReportList();
-            ObjectJS.getNeedOrderList();
+            ObjectJS.getDataList();
         });
 
         $(".select-time-right").click(function () {
@@ -83,17 +84,17 @@
             if (Paras.filterTimeType == 1) {
                 _this.html(_this.data("after"));
                 Paras.filterTimeType = 2;
-                $(".select-time-right").css("color", "#bdbdbd").css("border", "1px solid #bdbdbd");                
+                $(".select-time-right").removeClass("usable").addClass("disable");
             } else if (Paras.filterTimeType == 0) {
                 _this.html(_this.data("now"));
-                $(".select-time-left").css("color", "#4a98e7").css("border", "1px solid #4a98e7");
+                $(".select-time-left").removeClass("disable").addClass("usable");
                 Paras.filterTimeType = 1;                
             } else {
                 $(this).css("color", "#ccc !important");
                 return;
             }
             ObjectJS.getReportList();
-            ObjectJS.getNeedOrderList();
+            ObjectJS.getDataList();
         });
 
         /*订单进行状态筛选*/
@@ -114,7 +115,9 @@
                 if (IsLoadding && IsLoaddingTwo) {                    
                     _this.addClass('hover').siblings().removeClass('hover');
                     Paras.moduleType = _this.data('id');
-                    Paras.userID = '';                    
+                    Paras.userID = '';
+                    $(".choosebranch-text").html("人员-全部");
+
                     if (Paras.moduleType == 2) {
                         $(".task-status").show();
                         $("#taskType").show();
@@ -155,8 +158,8 @@
             }           
         });
 
-        if (ObjectJS.orderLevel == 1 || ObjectJS.taskLevel == 1) {
-            /*负责人筛选*/
+        /*负责人筛选*/
+        if (ObjectJS.orderLevel == 1 || ObjectJS.taskLevel == 1) {            
             require.async("choosebranch", function () {
                 $("#chooseBranch").chooseBranch({
                     prevText: "人员-",
@@ -167,9 +170,10 @@
                     width: "170",
                     onChange: function (data) {
                         Paras.userID = data.userid;
+                        Paras.pageIndex = 1;
 
                         ObjectJS.getReportList();
-                        ObjectJS.getNeedOrderList();
+                        ObjectJS.getDataList();
                         ObjectJS.getTaskOrOrderEcceedCount();
                     }
                 });
@@ -222,7 +226,7 @@
                             Paras.pageIndex = 1;
 
                             ObjectJS.getReportList();
-                            ObjectJS.getNeedOrderList();
+                            ObjectJS.getDataList();
                             ObjectJS.getTaskOrOrderEcceedCount();
                         } else {
                             alert("数据加载中，请稍等 !");
