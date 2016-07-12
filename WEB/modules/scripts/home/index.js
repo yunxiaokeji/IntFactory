@@ -105,12 +105,13 @@
         /*模块筛选*/
         $(".order-type span").click(function () {
             var _this = $(this);
+
             if (!_this.hasClass("hover")) {
                 if (IsLoadding && IsLoaddingTwo) {                    
                     _this.addClass('hover').siblings().removeClass('hover');
                     Paras.moduleType = _this.data('id');
                     Paras.userID = '';
-                    $(".choosebranch-text").html("人员-全部");
+                    $(".choosebranch-text").html("人员筛选-全部");
                     
                     if (Paras.moduleType == 2) {
                         $(".task-status").show();
@@ -129,8 +130,9 @@
                             $("#chooseBranch").hide();
                         }
                     }
-                    ObjectJS.getReportList();
-                    ObjectJS.getNeedOrderList();
+
+                    ObjectJS.getReportList();                    
+                    $(".get-need").click();
                     ObjectJS.getTaskOrOrderEcceedCount();
                 } else {
                     alert("数据加载中，请稍等 !");
@@ -142,12 +144,12 @@
         if (ObjectJS.orderLevel == 1 || ObjectJS.taskLevel == 1) {
             require.async("choosebranch", function () {
                 $("#chooseBranch").chooseBranch({
-                    prevText: "人员-",
+                    prevText: "人员筛选-",
                     defaultText: "全部",
                     defaultValue: "",
                     userid: "-1",
-                    isTeam: true,
-                    width: "170",
+                    isTeam: false,
+                    width: "130",
                     onChange: function (data) {
                         Paras.userID = data.userid;
                         Paras.pageIndex = 1;
@@ -532,7 +534,7 @@
             url = "/template/home/index-order.html";
         }
         var items = data.items;
-
+        
         if (items.length == 0) {
             $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
             $(".load-box").hide();
@@ -573,10 +575,7 @@
                 totalEcceedTtitle = "未接收任务总数:";
             }
         }
-        $(".report-total-title").html(reportTotalTtitle);
-        if (Paras.filterType == -1) {
-            $(".ordertotal .total-need").prev().html(totalEcceedTtitle);
-        }
+        $(".report-total-title").html(reportTotalTtitle); 
         
         var $listTitle = $(".list-title");
         if (Paras.filterTime != '') {
@@ -607,13 +606,14 @@
         if (data == null) {
             Global.post("/Home/GetTaskOrOrderEcceedCount", Paras, function (data) {
                 CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.userID + Paras.taskType + "TaskOrOrderCount"] = data;
-
+                
                 var name = "超期订单总数:";
                 var needname = "需求订单总数:";
                 if (Paras.moduleType == 2) {
                     name = "超期任务总数:";
-                    needname = "需求任务总数:";
+                    needname = "未接受任务总数:";
                 }
+                
                 $(".total-ecceed").html(data.result).prev().html(name);
                 $(".get-need").find("span:first").html(needname);
             });
@@ -622,7 +622,7 @@
             var needname = "需求订单总数:";
             if (Paras.moduleType == 2) {
                 name = "超期任务总数:";
-                needname = "需求任务总数:";
+                needname = "未接收任务总数:";
             }
             $(".total-ecceed").html(data.result).prev().html(name);
             $(".get-need").find("span:first").html(needname);

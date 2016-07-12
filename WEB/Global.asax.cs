@@ -45,7 +45,6 @@ namespace YXERP
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            return;
             string urlReferrer=Request.UrlReferrer != null ? Request.UrlReferrer.AbsoluteUri : Request.Url.AbsoluteUri;
             Exception exception = Server.GetLastError();
             HttpException httpException = exception as HttpException;
@@ -64,15 +63,19 @@ namespace YXERP
                 switch (httpException.GetHttpCode())
                 {
                     case 404:
-                        routeData.Values.Add("action", "NotAccess");
-                        break;
+                        {
+                            routeData.Values.Add("action", "NotAccess");
+                            break;
+                        }
                     case 500:
                         routeData.Values.Add("action", "NotAccess");
                         break;
                     case 403:
-                        urlReferrer = exception.Message;
-                        routeData.Values.Add("action", "NoRoot");
-                        break;
+                        {
+                            urlReferrer = exception.Message;
+                            routeData.Values.Add("action", "NoRoot");
+                            break;
+                        }
                     default:
                         routeData.Values.Add("action", "NotAccess");
                         break;
