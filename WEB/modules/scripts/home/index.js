@@ -38,11 +38,11 @@
         if (orderLevel == 1) {
             $(".report-title").html('所有订单');
             $("#chooseBranch").show();
-        }
+        }        
         if (taskLevel == 1) {
             $(".report-title-task").html('所有任务');
         }
-
+        console.log(orderLevel, taskLevel);
         ObjectJS.bindEvent();       
         ObjectJS.getReportList();
         ObjectJS.getNeedOrderList();
@@ -107,25 +107,29 @@
             }
         });
 
-        /*订单模块筛选*/
+        /*订单任务模块筛选*/
         $(".order-type span").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 if (IsLoadding && IsLoaddingTwo) {                    
                     _this.addClass('hover').siblings().removeClass('hover');
                     Paras.moduleType = _this.data('id');
-                    Paras.userID = '';
+                    Paras.userID = '';                    
                     if (Paras.moduleType == 2) {
                         $(".task-status").show();
                         $("#taskType").show();
 
                         if (ObjectJS.taskLevel == 1) {
-                            $("#chooseBranch").show();
+                            $("#chooseBranch").show();                            
+                        } else {
+                            $("#chooseBranch").hide();
                         }
                         
                     } else {
                         if (ObjectJS.orderLevel == 1) {
                             $("#chooseBranch").show();
+                        } else {
+                            $("#chooseBranch").hide();
                         }
                     }
                     ObjectJS.getReportList();
@@ -319,7 +323,8 @@
                 orderType: Paras.orderType,
                 filterTimeType: Paras.filterTimeType,
                 moduleType: Paras.moduleType,
-                taskType: Paras.taskType
+                taskType: Paras.taskType,
+                userID:Paras.userID
             }, function (data) {
                 $(".report-guid").find('.data-loading').remove();
                 IsLoadding = true;
@@ -557,20 +562,6 @@
                 totalEcceedTtitle = "未接收任务总数:";
             }
         }
-
-        //if (Paras.moduleType == 2) {
-        //    reportTitleTask = "我的任务";
-        //    if (ObjectJS.roleLevel == 1) {
-        //        reportTitleTask = "所有任务";
-        //    }
-        //    reportTotalTtitle = "全部任务";
-        //    totalEcceedTtitle = "未接收任务总数:";
-        //} else {
-        //    if (ObjectJS.roleLevel == 1) {
-        //        reportTitle = "所有订单";
-        //    }
-        //}
-
         $(".report-total-title").html(reportTotalTtitle);
         if (Paras.filterType == -1) {
             $(".ordertotal .total-need").prev().html(totalEcceedTtitle);

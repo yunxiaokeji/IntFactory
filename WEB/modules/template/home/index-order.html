@@ -76,7 +76,7 @@
         
         <div class="left center width200 mTop40">
             <span class="font14 color333">交货日期</span>
-            <div class="font14 color333 mTop10">{%=item.PlanTime.toDate("yyyy-MM-dd")%}</div>
+            <div class="font14 mTop10 {%=item.WarningStatus==2?'red':'color333'%}">{%=item.PlanTime.toDate("yyyy-MM-dd")%}</div>
         </div>
         <div class="left septal mTop20"></div>
 
