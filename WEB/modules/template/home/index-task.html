@@ -12,7 +12,9 @@
             </div>
         </a>        
         <div class="left order-img pic-box">
-            <a href="/Orders/OrderDetail/{%=item.OrderID%}"><img src="{%=item.OrderImage==""?'/modules/images/img-noimg.png':item.OrderImage%}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" /></a>
+            <a href="/Orders/OrderDetail/{%=item.OrderID%}">
+                <img src="{%=item.OrderImage==""?'/modules/images/img-noimg.png':item.OrderImage%}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" />
+            </a>
             {% if(item.GoodsCode){ %}
               <span class="aliorder">
                   <i class="iconfont right">&#xe631;</i>
@@ -33,13 +35,15 @@
             </li>
             <li style="height:40px;">               
                 <div class="left customer">
-                    <i class="iconfont">{%=item.OrderType==1?"&#xe612;":"&#xe60f;"%}</i>
+                    <i class="iconfont {%=item.OrderType==1?'mLeft3':''%}">{%=item.OrderType==1?"&#xe612;":"&#xe60f;"%}</i>
                     <span>{%=item.OrderType==1?"打样":"大货"%}</span>
                 </div>
+                {% if(item.Order.PlanQuantity!=""){ %}
                 <div class="mTop10 left mRight30">
                     <i class="iconfont ">&#xe635;</i>
                     <span class="mLeft10 right" style="width:40px;display:block;">{%=item.Order.PlanQuantity%}</span>
                 </div>
+                {% } %} 
                 <span class="long right customer font14 width100 color333">{%=(item.Owner ? item.Owner.Name:"--")%}</span>  
                 <div class="right customer font14 color333">负责人:</div> 
                 <div class="clear"></div>                  
@@ -47,7 +51,7 @@
             
             <li>                           
                 <div class="mTop20">
-                    <div class="left color333 mRight5 font14">上级任务-{%=item.PreTitle%}:</div>
+                    <div class="left color333 mRight5 font14">上级任务{%=item.PreTitle==""?"":"-"+item.PreTitle%}:</div>
                     <div class="font14" style="color:{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'':item.PreFinishStatus==2?'#067BE4':'#02C969'%}">{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'未接受':item.PreFinishStatus==2?'已完成':'进行中'%}</div>
                 </div>               
             </li>
@@ -59,7 +63,7 @@
             <div class="font14 {%=item.WarningStatus==2?'red':'color333'%} mTop10">{%=item.Order.PlanTime.toDate("yyyy-MM-dd")%}</div>
         </div>
         <div class="left septal mTop20"></div>
-        {% if(item.FinishStatus==0){%}
+        {% if(item.FinishStatus==0){ %}
             <div class="mTop40 mLeft80 left">
                 <div class="order-progress left">
                     <div class="color-progress"></div>  

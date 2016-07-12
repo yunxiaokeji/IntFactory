@@ -41,7 +41,7 @@
             </li>
             <li style="height:40px;">
                 <div class="left customer mRight30">
-                    <i class="iconfont">{%=item.OrderType==1?"&#xe612;":"&#xe60f;"%}</i>
+                    <i class="iconfont {%=item.OrderType==1?'mLeft3':''%}">{%=item.OrderType==1?"&#xe612;":"&#xe60f;"%}</i>
                     <span>{%=item.OrderType==1?"打样":"大货"%}</span>
                 </div>
                 <div class="mTop10 left mRight30">
@@ -79,26 +79,38 @@
             <div class="font14 mTop10 {%=item.WarningStatus==2?'red':'color333'%}">{%=item.PlanTime.toDate("yyyy-MM-dd")%}</div>
         </div>
         <div class="left septal mTop20"></div>
-
-        <div class="mTop40 mLeft65 left">
-            <div class="order-progress left">
-                <div class="layer-line"></div>
-                <div class="order-progress-use order-progress-item" data-width="{%=(item.UseDays==0?1:item.UseDays)/totalDay*100+'%'%}">
-                    <div class="progress-tip">{%=item.UseDays==0?1:item.UseDays%}天</div>
-                    <div class="top-lump"></div>
+        {% if(item.OrderStatus==0){ %}
+            <div class="mTop20 mLeft80 left">
+                <div class="order-progress left">
+                    <div class="color-progress"></div>  
+                    <div class="center pTop20 red">
+                        未处理
+                    </div>                       
+                    <div class="mTop20">订单派发时间:<span class="mLeft10">{%=item.CreateTime.toDate("yyyy-MM-dd")%}</span></div>
+                    <div class="clear"></div>
                 </div>
-                <div class="{%=item.WarningStatus==1?'order-progress-warn':item.WarningStatus==2?'order-progress-exceed':item.WarningStatus==3?'order-progress-complete':'order-progress-have'%} order-progress-item" data-width="{%=(item.WarningDays==0?1:item.WarningDays)/totalDay*100+'%'%}">
-                    <div class="progress-tip">{%=item.WarningStatus==2?"超期":item.WarningStatus==0?"剩余":item.WarningStatus==1?"剩余":"完成"%}{%=item.WarningDays==0?1:item.WarningDays%}天</div>
-                    <div class="top-lump"></div>
+            </div>    
+        {% }else{ %}
+            <div class="mTop40 mLeft65 left">
+                <div class="order-progress left">
+                    <div class="layer-line"></div>
+                    <div class="order-progress-use order-progress-item" data-width="{%=(item.UseDays==0?1:item.UseDays)/totalDay*100+'%'%}">
+                        <div class="progress-tip">{%=item.UseDays==0?1:item.UseDays%}天</div>
+                        <div class="top-lump"></div>
+                    </div>
+                    <div class="{%=item.WarningStatus==1?'order-progress-warn':item.WarningStatus==2?'order-progress-exceed':item.WarningStatus==3?'order-progress-complete':'order-progress-have'%} order-progress-item" data-width="{%=(item.WarningDays==0?1:item.WarningDays)/totalDay*100+'%'%}">
+                        <div class="progress-tip">{%=item.WarningStatus==2?"超期":item.WarningStatus==0?"剩余":item.WarningStatus==1?"剩余":"完成"%}{%=item.WarningDays==0?1:item.WarningDays%}天</div>
+                        <div class="top-lump"></div>
+                    </div>
+                    <div class="clear"></div>
                 </div>
+                <div class="center pTop20">
+                    {%=totalDay%}天
+                </div>
+                <div class="mTop20">订单下单时间:<span>{%=item.OrderTime.toDate("yyyy-MM-dd")%}</span></div>
                 <div class="clear"></div>
             </div>
-            <div class="center pTop20">
-                {%=totalDay%}天
-            </div>
-            <div class="mTop20">订单下单时间:<span>{%=item.OrderTime.toDate("yyyy-MM-dd")%}</span></div>
-            <div class="clear"></div>
-        </div>
+        {% } %}        
         <div class="clear"></div>
     </div>
 {%}%}
