@@ -18,8 +18,7 @@
         pageIndex: 1,
         preFinishStatus: -1,//上级任务筛选
         filterTimeType: 1,//根据时间
-        taskType:-1,
-        //UserID: "67eff7a2-58f0-484d-85a0-15046caba16c",
+        taskType:-1,        
         UserID:"",
     }
 
@@ -382,6 +381,7 @@
                 if ((Paras.filterType != _this.data('type') || Paras.filterTime != _this.data('date')) || !_this.hasClass('checked')) {
                     if (IsLoadding && IsLoaddingTwo) {
                         var backgroundColor = _this.data('type') == 1 ? "#f35353" : _this.data('type') == 2 ? "#ffa200" : _this.data('type') == 3 ? "#49b3f5" : "#2F73B8";
+                        
                         $(".report-item li").removeClass('checked').css({ "box-shadow": "none" });
                         _this.addClass('checked').css({ "box-shadow": "2px 2px 10px " + backgroundColor });
                         $(".list-header .list-total").css("background-color", backgroundColor);

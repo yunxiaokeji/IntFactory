@@ -971,7 +971,7 @@ namespace YXERP.Controllers
         }
 
         public JsonResult GetOrdersOrTasksDataList(int filterType, string filterTime, 
-           int moduleType, int orderType,string userID,
+           int moduleType, int orderType,int taskType,string userID,
            int pageSize, int pageIndex, int preFinishStatus) 
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
@@ -1012,7 +1012,7 @@ namespace YXERP.Controllers
             else
             {
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(startTime, startTime,
-                    orderType, filterType, finishStatus, preFinishStatus,-1,
+                    orderType, filterType, finishStatus, preFinishStatus, taskType,
                     userID, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
                 JsonDictionary.Add("items", list);
             }
