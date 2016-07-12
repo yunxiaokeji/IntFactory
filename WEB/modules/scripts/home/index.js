@@ -80,6 +80,7 @@
             ObjectJS.getReportList();
             ObjectJS.getDataList();
         });
+
         $(".select-time-right").click(function () {
             var _this = $(".time-now");
             if (Paras.filterTimeType == 1) {
@@ -110,10 +111,10 @@
                     Paras.moduleType = _this.data('id');
                     Paras.userID = '';
                     $(".choosebranch-text").html("人员-全部");
-
+                    
                     if (Paras.moduleType == 2) {
                         $(".task-status").show();
-                        $("#taskType").show();
+                        $("#taskType").show();                        
 
                         if (ObjectJS.taskLevel == 1) {
                             $("#chooseBranch").show();                            
@@ -478,7 +479,6 @@
         ObjectJS.getDataList();
     }
 
-
     ObjectJS.getOrdersByTypeAndTime = function () {
         Paras.pageIndex = 1;
         ObjectJS.getDataList();
@@ -531,7 +531,8 @@
         } else {
             url = "/template/home/index-order.html";
         }
-        var items = data.items;        
+        var items = data.items;
+
         if (items.length == 0) {
             $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
             $(".load-box").hide();
@@ -608,17 +609,23 @@
                 CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.userID + Paras.taskType + "TaskOrOrderCount"] = data;
 
                 var name = "超期订单总数:";
+                var needname = "需求订单总数:";
                 if (Paras.moduleType == 2) {
                     name = "超期任务总数:";
+                    needname = "需求任务总数:";
                 }
                 $(".total-ecceed").html(data.result).prev().html(name);
+                $(".get-need").find("span:first").html(needname);
             });
         } else {
             var name = "超期订单总数:";
+            var needname = "需求订单总数:";
             if (Paras.moduleType == 2) {
                 name = "超期任务总数:";
+                needname = "需求任务总数:";
             }
             $(".total-ecceed").html(data.result).prev().html(name);
+            $(".get-need").find("span:first").html(needname);
         }
     }
 
