@@ -208,7 +208,9 @@ namespace IntFactoryBusiness
                 }
                 else if(model.OrderStatus==2)
                 {
+                    model.WarningStatus = 3;
                     model.UseDays = (model.PlanTime - model.OrderTime).Days;
+                    model.WarningDays = (DateTime.Now-model.EndTime).Days;
                 }
 
                 list.Add(model);

@@ -185,7 +185,7 @@ border-bottom:2px solid #4a98e7;
 .token-count .token-mark{
     height:25px;
     width:5px;
-    background-color:#6699cc;   
+    background-color:#5994e6;   
 }
 .token-count .ordertotal {
     line-height:26px;
@@ -196,9 +196,12 @@ border-bottom:2px solid #4a98e7;
 .token-count .ordertotal span:hover{
     color:#148BF0;      
 }
+.token-count .ordertotal span.hover{
+    color:#148BF0;      
+}
 .get-ecceed .total-ecceed { 
-    background-color:#FFE2E1;
-    border:1px solid #fddddd;
+    background-color:#f35353;
+    border:1px solid #f35353;
     padding:2px 10px;
 }
 
@@ -314,6 +317,19 @@ border-bottom:2px solid #4a98e7;
     color:#8b8b8b;
 }
 /*详情内容*/
+
+.colordiv{
+    overflow:auto;
+    padding: 0px 10px;
+    cursor: pointer;        
+}
+.color-leftzuoyou{
+    width:0; 
+    height:0; 
+    border-top:10px solid transparent;
+    border-bottom:10px solid transparent;
+    cursor: pointer;
+}
 .details { 
    width:440px; 
    margin-left:30px;   
@@ -321,7 +337,7 @@ border-bottom:2px solid #4a98e7;
 .details li .customer{
     
     margin-top:10px; 
-    width:91px;   
+    width:105px;   
 }
 .details .customer .iconfont{ 
     margin-right:10px;
@@ -422,6 +438,13 @@ border-bottom:2px solid #4a98e7;
    border-bottom-right-radius:2px;
 }
 
+.order-progress .order-progress-complete{
+   width:60px;
+   background-color:#2F73B8;
+   border-top-right-radius:2px;
+   border-bottom-right-radius:2px;
+}
+
 .order-progress .top-lump {
     border-top: solid 4px #49b3f5;
     border-left: solid 2px transparent;
@@ -477,6 +500,13 @@ border-bottom:2px solid #4a98e7;
 
 .order-progress-warn .progress-tip {
     background-color:#ffa200;
+}
+
+.order-progress-complete .top-lump { 
+    background-color:#2F73B8;
+}
+.order-progress-complete .progress-tip { 
+    background-color:#2F73B8;
 }
 
 .author-message { 

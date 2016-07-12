@@ -67,8 +67,8 @@ namespace IntFactoryDAL
             return ds.Tables[0];
         }
 
-        public DataTable GetTasksByEndTime(string startEndTime, string endEndTime,
-            int orderType, int filterType, int finishStatus, int preFinishStatus,
+        public DataSet GetTasksByEndTime(string startEndTime, string endEndTime,
+            int orderType, int filterType, int finishStatus, int preFinishStatus, int taskType,
             string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
@@ -82,6 +82,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@FilterType",filterType),
                                         new SqlParameter("@FinishStatus",finishStatus),
                                          new SqlParameter("@PreFinishStatus",preFinishStatus),
+                                        new SqlParameter("@TaskType",taskType),
                                        new SqlParameter("@UserID",userID),
                                        new SqlParameter("@ClientID",clientID)
    
@@ -91,10 +92,10 @@ namespace IntFactoryDAL
 
             paras[0].Direction = ParameterDirection.InputOutput;
             paras[1].Direction = ParameterDirection.InputOutput;
-            DataTable dt= GetDataTable("P_GetTasksByEndTime", paras, CommandType.StoredProcedure);
+            DataSet ds= GetDataSet("P_GetTasksByEndTime", paras, CommandType.StoredProcedure,"Tasks|Orders");
             totalCount = Convert.ToInt32(paras[0].Value);
             pageCount = Convert.ToInt32(paras[1].Value);
-            return dt;
+            return ds;
         }
 
         public DataSet GetTaskReplys(string guid, string stageid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
