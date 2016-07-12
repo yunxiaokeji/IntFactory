@@ -438,6 +438,13 @@ border-bottom:2px solid #4a98e7;
    border-bottom-right-radius:2px;
 }
 
+.order-progress .order-progress-complete{
+   width:60px;
+   background-color:#2F73B8;
+   border-top-right-radius:2px;
+   border-bottom-right-radius:2px;
+}
+
 .order-progress .top-lump {
     border-top: solid 4px #49b3f5;
     border-left: solid 2px transparent;
@@ -493,6 +500,13 @@ border-bottom:2px solid #4a98e7;
 
 .order-progress-warn .progress-tip {
     background-color:#ffa200;
+}
+
+.order-progress-complete .top-lump { 
+    background-color:#2F73B8;
+}
+.order-progress-complete .progress-tip { 
+    background-color:#2F73B8;
 }
 
 .author-message { 
