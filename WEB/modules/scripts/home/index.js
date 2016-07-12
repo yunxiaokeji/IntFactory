@@ -516,7 +516,7 @@
         } else {
             url = "/template/home/index-order.html";
         }
-        var items = data.items;
+        var items = data.items;        
         if (items.length == 0) {
             $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
             $(".load-box").hide();
