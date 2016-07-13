@@ -11,9 +11,9 @@ namespace YXERP.Areas.Api.Controllers
     public class ClientController :BaseAPIController
     {
        //获取客户端信息
-        public ActionResult GetClientInfo(string zngcClientID)
+        public ActionResult GetClientInfo(string clientID)
         {
-            var item= ClientBusiness.GetClientDetail(zngcClientID);
+            var item = ClientBusiness.GetClientDetail(clientID);
             Dictionary<string, object> obj = new Dictionary<string, object>();
             
             if (!string.IsNullOrEmpty(item.ClientID)) {
