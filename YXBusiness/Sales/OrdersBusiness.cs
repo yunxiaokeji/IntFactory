@@ -1152,5 +1152,55 @@ namespace IntFactoryBusiness
         }
 
         #endregion
+
+        #region 订单区间价位
+        /// <summary>
+        /// 获取订单区间价位
+        /// </summary>
+        public static List<OrderPriceRange> GetOrderPriceRanges(string orderID)
+        {
+            List<OrderPriceRange> list = new List<OrderPriceRange>();
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderPriceRanges(orderID);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderPriceRange item = new OrderPriceRange();
+                item.FillData(dr);
+                list.Add(item);
+            }
+            return list;
+        }
+
+
+        /// <summary>
+        /// 添加订单区间价位
+        /// </summary>
+        public static bool AddOrderPriceRange(OrderPriceRange range, string operateid, string ip, string agentid, string clientid)
+        {
+            bool flag = OrdersDAL.BaseProvider.AddOrderPriceRange(range.MinQuantity, range.MaxQuantity, range.Price, range.OrderID, operateid, clientid);
+
+            return flag;
+        }
+
+        /// <summary>
+        /// 修改订单区间价位
+        /// </summary>
+        public static bool UpdateOrderPriceRange(OrderPriceRange range, string operateid, string ip, string agentid, string clientid)
+        {
+            bool flag = OrdersDAL.BaseProvider.UpdateOrderPriceRange(range.RangeID, range.MinQuantity, range.MaxQuantity, range.Price);
+
+            return flag;
+        }
+
+        /// <summary>
+        /// 删除订单区间价位
+        /// </summary>
+        public static bool DeleteOrderPriceRange(string rangeid)
+        {
+            bool flag = OrdersDAL.BaseProvider.DeleteOrderPriceRange(rangeid);
+
+            return flag;
+        }
+        #endregion
     }
 }
