@@ -678,7 +678,7 @@ namespace IntFactoryBusiness
             return id;
         }
 
-        public string CreateDHOrder(string orderid, int ordertype, decimal discount, decimal price, List<ProductDetail> details, string operateid, string agentid, string clientid)
+        public string CreateDHOrder(string orderid, int ordertype, decimal discount, decimal price, List<ProductDetail> details, string operateid, string agentid, string clientid, string yxOrderID="")
         {
             var dal = new OrdersDAL();
             string id = Guid.NewGuid().ToString().ToLower();
@@ -702,7 +702,7 @@ namespace IntFactoryBusiness
                 //打样单
                 if (ordertype == (int)EnumOrderType.ProofOrder)
                 {
-                    bool bl = dal.CreateDHOrder(id, orderid, discount, price, operateid, clientid, tran);
+                    bool bl = dal.CreateDHOrder(id, orderid, discount, price, operateid, clientid,yxOrderID, tran);
                     //产品添加成功添加子产品
                     if (bl)
                     {

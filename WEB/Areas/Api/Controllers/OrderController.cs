@@ -13,10 +13,10 @@ namespace YXERP.Areas.Api.Controllers
     public class OrderController : BaseAPIController
     {
         //获取订单列表根据二当家客户端编码
-        public JsonResult GetOrdersByYXClientCode(string yxClientCode,int pageSize, int pageIndex, string zngcClientID = "")
+        public JsonResult GetOrdersByYXClientCode(string yxClientCode,int pageSize, int pageIndex, string clientID = "")
         {
             int totalCount=0, pageCount = 0;
-            var list = OrdersBusiness.BaseBusiness.GetOrdersByYXCode(yxClientCode, zngcClientID,pageSize, pageIndex, ref totalCount, ref pageCount);
+            var list = OrdersBusiness.BaseBusiness.GetOrdersByYXCode(yxClientCode, clientID,pageSize, pageIndex, ref totalCount, ref pageCount);
             var objs=new List<Dictionary<string, object>>();
             foreach (var item in list) {
                 Dictionary<string, object> obj = new Dictionary<string, object>();
@@ -43,6 +43,7 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
+        //获取订单详情
         public JsonResult GetOrderDetailByID(string orderID,string clientID)
         {
             var item = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(orderID, clientID, clientID);
@@ -60,6 +61,7 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("endTime", item.EndTime);
             obj.Add("clientID", item.ClientID);
 
+            //材料列表
             var details = new List<Dictionary<string, object>>();
             foreach (var d in item.Details) {
                 Dictionary<string, object> detail = new Dictionary<string, object>();
@@ -74,7 +76,7 @@ namespace YXERP.Areas.Api.Controllers
                 details.Add(detail);
             }
             obj.Add("details", details);
-
+            //制版工艺
             var plateMakings = TaskBusiness.GetPlateMakings(orderID);
             var plates = new List<Dictionary<string, object>>();
             foreach (var p in plateMakings) {
@@ -88,7 +90,7 @@ namespace YXERP.Areas.Api.Controllers
                 plates.Add(plate);
             }
             obj.Add("plateMakings", plates);
-
+            //订单品类
             var category = new ProductsBusiness().GetOrderCategoryDetailsByID(item.CategoryID, item.OrderID);
             var attrLists = new List<Dictionary<string, object>>();
             var saleAttrs = new List<Dictionary<string, object>>();
@@ -135,11 +137,12 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
+        //新建大货订单
         public JsonResult CreateDHOrder(string orderID, decimal price, string details, string clientID, string yxOrderID)
         {
             var productDetails = JsonConvert.DeserializeObject< List<IntFactoryEntity.ProductDetail > >(details);
-            string id = OrdersBusiness.BaseBusiness.CreateDHOrder(orderID, 2, 1, price, productDetails,
-                string.Empty, clientID, clientID);
+            string id = OrdersBusiness.BaseBusiness.CreateDHOrder(orderID, 1, 1, price, productDetails,
+                string.Empty, clientID, clientID, yxOrderID);
           JsonDictionary.Add("id",id);
 
           return new JsonResult
@@ -148,8 +151,6 @@ namespace YXERP.Areas.Api.Controllers
               JsonRequestBehavior = JsonRequestBehavior.AllowGet
           };
         }
-
-
 
     }
 }
