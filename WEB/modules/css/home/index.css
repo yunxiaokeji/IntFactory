@@ -360,11 +360,6 @@ border-bottom:2px solid #4a98e7;
 .details .customer span{
     display:block;    
 }
-.details .progress { 
-    height:5px;
-    background-color:#ccc;
-    border-radius:3px;
-}
 
 .septal { 
     height:80px;
