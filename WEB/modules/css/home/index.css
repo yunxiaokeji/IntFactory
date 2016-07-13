@@ -23,15 +23,16 @@
 }
 
 .index-report-header .order-type span {
-    padding:5px 10px;
-    line-height:20px; 
+    padding:0 10px;
+    height:30px;
+    line-height:30px; 
     display:inline-block;
     background-color:#6699cc;
     cursor:pointer;
     color:#fff;
     margin-right:3px;
     border:1px solid #6699cc;
-    border-bottom:0;
+    border-bottom:0;    
 }
 
 .index-report-header .order-type span:first-child.hover {     

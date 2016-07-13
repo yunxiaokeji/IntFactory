@@ -31,12 +31,25 @@
                             </div>
                         </div>
                     {% } %}
-                    {% if(item.PlanPrice!=""){ %}
-                        <div class="right color333" style="height:20px;margin-top:-20px;">
-                            {%=item.OrderType==1?"期望报价:":"单价:"%}
-                            <span class="mLeft10 right color333 tRight long" style="display:block;width:50px;" >{%=item.OrderType==1?item.PlanPrice:"单价:"%}</span>
+
+                    {% 
+                     if(item.PlanPrice!=0){
+                        if(item.OrderType==1){ %}
+                            <div class="right color333" style="height:20px;margin-top:-20px;">
+                            {%=item.OrderStatus==2?"最终报价:":"期望报价:"%}
+                            <span class="mLeft10 right color333 tRight long" style="display:block;width:50px;" title='{%=item.OrderType==1?item.PlanPrice:item.FinalPrice%}' >{%=item.OrderStatus==2?item.TotalMoney:item.PlanPrice%}</span>
                         </div>
-                    {% } %} 
+                     {% }else{ %} 
+                            <div class="right color333" style="height:20px;margin-top:-20px;">
+                                {%=item.OrderStatus==2?"最终报价:":item.OrderStatus==1?"单价:":"期望报价"%}
+                                <span class="mLeft10 right color333 tRight long" style="display:block;width:50px;" title='{%=item.OrderStatus==2?item.TotalMoney:item.OrderStatus==1?item.FinalPrice:item.PlanPrice%}' >
+                                    {%=item.OrderStatus==2?item.TotalMoney:item.OrderStatus==1?item.FinalPrice:item.PlanPrice%}
+                                </span>
+                            </div>
+                    {% 
+                        } 
+                      }
+                    %}
                 </div>              
             </li>
             <li style="height:40px;">
@@ -50,7 +63,7 @@
                         <span class="mLeft10 right" style="width:40px;display:block;">{%=item.PlanQuantity%}</span>
                     </div>     
                 {% } %}           
-                <span class="long right customer font14 width100 color333">{%=(item.Owner ? item.Owner.Name:"--")%}</span>  
+                <span class="long right customer font14 width100 color333" title='{%=(item.Owner ? item.Owner.Name:"--")%}'>{%=(item.Owner ? item.Owner.Name:"--")%}</span>  
                 <div class="right customer font14 color000">负责人:</div>
                 <div class="clear"></div>
             </li>
@@ -63,7 +76,7 @@
             <li>          
                 <div class="left width120">
                     <i class="iconfont" style="margin-right:7px;">&#xe64f;</i>
-                    <span>{%=item.MobileTele==""?"--":""%}</span>
+                    <span>{%=item.MobileTele==""?"--":item.MobileTele%}</span>
                 </div>                      
                 <div class="right">
                     <div class="left mRight5 font14 color000" style="margin-top:-2px;">进&nbsp;&nbsp;&nbsp;度:</div>

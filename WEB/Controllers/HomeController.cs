@@ -44,12 +44,20 @@ namespace YXERP.Controllers
                     {
                         orderLevel = 1;
                     }
+                    else if (currentUser.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0)
+                    {
+                        orderLevel = 2;
+                    }                                     
 
                     //所有任务
                     if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
                     {
                         taskLevel = 1;
                     }
+                    else if (currentUser.Menus.FindAll(m => m.MenuCode == "109010100").Count > 0)
+                    {
+                        taskLevel = 2;
+                    } 
                 }
 
                 ViewBag.UserID = currentUser.UserID;

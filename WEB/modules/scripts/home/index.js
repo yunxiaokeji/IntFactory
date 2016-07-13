@@ -34,14 +34,26 @@
         ObjectJS.orderLevel = orderLevel;
         ObjectJS.taskLevel = taskLevel;
         
+        if (orderLevel == 0 && taskLevel==0) {
+            return;
+        }
+
         if (orderLevel == 1) {
             $(".report-title").html('所有订单');
             $("#chooseBranch").show();
-        }        
+        }else if (orderLevel == 0) {
+            $(".report-title").hide();
+            $(".report-title-task").addClass("hover");
+            Paras.moduleType = 2;
+        } 
+
         if (taskLevel == 1) {
             $(".report-title-task").html('所有任务');
+            $("#chooseBranch").show();
+        }else if (taskLevel == 0) {
+            $(".report-title-task").hide();            
         }
-
+        
         ObjectJS.bindEvent();       
         ObjectJS.getReportList();
         ObjectJS.getNeedOrderList();
