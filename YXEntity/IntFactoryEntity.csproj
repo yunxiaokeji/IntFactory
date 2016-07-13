@@ -83,6 +83,7 @@
     <Compile Include="Sales\OrderEntity.cs" />
     <Compile Include="Sales\OrderDetail.cs" />
     <Compile Include="Sales\OrderGoodsEntity.cs" />
+    <Compile Include="Sales\OrderPriceRange.cs" />
     <Compile Include="Stock\ProductUseLogEntity.cs" />
     <Compile Include="Stock\ProvidersEntity.cs" />
     <Compile Include="Stock\GoodsDocDetail.cs" />
