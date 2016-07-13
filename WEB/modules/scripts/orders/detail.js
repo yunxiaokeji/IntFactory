@@ -252,6 +252,33 @@
             });
         });
 
+        //设置总金额
+        $("#updateOrderTotalMoney").click(function () {
+            doT.exec("template/orders/update_order_totalmoney.html", function (template) {
+                var innerText = template();
+                Easydialog.open({
+                    container: {
+                        id: "show-updateOrderTotalMoney",
+                        header: "设置订单总金额",
+                        content: innerText,
+                        yesFn: function () {
+                            var price = $("#newTotalMoney").val().trim();
+                            if (!price.isDouble() || price < 0) {
+                                alert("总金额必须为不小于0的数字！");
+                                return false;
+                            }
+                            _self.UpdateOrderTotalMoney($("#newTotalMoney").val().trim());
+                        },
+                        callback: function () {
+
+                        }
+                    }
+                });
+                $("#newTotalMoney").focus().val(_self.model.TotalMoney);
+
+            });
+        });
+
         //确认大货明细
         $("#confirmDHOrder").click(function () {
             _self.createDHOrder(true);
@@ -1450,6 +1477,21 @@
                 location.href = location.href;
             } else {
                 alert("折扣设置失败，可能因为订单状态已改变，请刷新页面后重试！");
+            }
+        });
+    }
+
+    //设置总金额
+    ObjectJS.UpdateOrderTotalMoney = function (totalMoney) {
+        var _self = this;
+        Global.post("/Orders/UpdateOrderTotalMoney", {
+            orderid: _self.orderid,
+            totalMoney: totalMoney
+        }, function (data) {
+            if (data.status) {
+                location.href = location.href;
+            } else {
+                alert("总金额设置失败，可能因为订单状态已改变，请刷新页面后重试！");
             }
         });
     }

@@ -941,6 +941,17 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateOrderTotalMoney(string orderid, decimal totalMoney, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderTotalMoney(orderid, totalMoney, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单总金额设置为：" + totalMoney;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
+            }
+            return bl;
+        }
+
         public bool UpdateOrderClient(string orderid, string newclientid, string name, string operateid, string ip, string agentid, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderClient(orderid, newclientid, operateid, agentid, clientid);
