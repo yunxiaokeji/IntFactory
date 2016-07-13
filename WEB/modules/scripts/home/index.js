@@ -35,7 +35,7 @@
         ObjectJS.taskLevel = taskLevel;
         
         if (orderLevel == 0 && taskLevel==0) {
-            return;
+            $(".main-content").hide();
         }
 
         if (orderLevel == 1) {
@@ -565,6 +565,14 @@
                     _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
                 });
                 innerText.find('.layer-line').css({ width: 0, left: "160px" });
+                innerText.find(".customermark").Tip({
+                    width: 60,
+                    msg: "客户"
+                });                
+                innerText.find(".orderquantity").Tip({
+                    width: 60,
+                    msg: "下单数量"
+                });
             });
         }
 
