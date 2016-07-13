@@ -34,17 +34,19 @@
 
                     {%  if(item.OrderType==1){ %}
                             <div class="right color333" style="height:20px;margin-top:-20px;">
-                            {%=item.OrderStatus==2?"最终报价:":"期望报价:"%}
-                            <span class="mLeft10 right color333 tRight long" style="display:block;width:50px;" title='{%=item.OrderType==1?item.PlanPrice:item.FinalPrice%}' >{%=item.OrderStatus==2?item.TotalMoney:item.PlanPrice!=""?item.PlanPrice:"0"%}</span>
-                        </div>
+                                <span class="left">{%=item.OrderStatus==2?"最终报价:":"期望报价:"%}</span>
+                                <span class="mLeft10 left color333 tRight long price" style="display:block;width:50px;" title='{%=item.OrderType==1?item.PlanPrice:item.FinalPrice%}' >{%=item.OrderStatus==2?item.TotalMoney:item.PlanPrice!=""?item.PlanPrice:"0"%}
+                                </span>
+                            </div>
                      {% }else{ %} 
                             <div class="right color333" style="height:20px;margin-top:-20px;">
-                                {%=item.OrderStatus==2?"最终报价:":item.OrderStatus==1?"单价:":"期望报价"%}
-                                <span class="mLeft10 right color333 tRight long" style="display:block;width:50px;" title='{%=item.OrderStatus==2?item.TotalMoney:item.OrderStatus==1?item.FinalPrice:item.PlanPrice%}' >
+                                <span class="left">{%=item.OrderStatus==2?"最终报价:":item.OrderStatus==1?"单价:":"期望报价:"%}</span>
+                                <span class="mLeft10 left color333 tRight long" style="display:block;width:50px;" title='{%=item.OrderStatus==2?item.TotalMoney:item.OrderStatus==1?item.FinalPrice:item.PlanPrice%}' >
                                     {%=item.OrderStatus==2?item.TotalMoney:item.OrderStatus==1?item.FinalPrice:item.PlanPrice!=""?item.PlanPrice:"--"%}
                                 </span>
                             </div>
                     {%  } %}
+                    <div class="clear"></div>
                 </div>              
             </li>
             <li style="height:40px;">
@@ -54,8 +56,8 @@
                 </div>
                 {% if(item.OrderType==2){ %}
                     <div class="mTop10 left mRight30 orderquantity">
-                        <i class="iconfont">&#xe635;</i>
-                        <span class="mLeft10 right" style="width:40px;display:block;">{%=item.PlanQuantity%}</span>
+                        <i class="iconfont left">&#xe635;</i>
+                        <span class="mLeft10 left" style="width:40px;display:block;">{%=item.PlanQuantity%}</span>
                     </div>     
                 {% } %}   
                 <div class='left customer font14 width60 color000 {%=item.OrderType==1?"mLeft100":"mLeft3"%}'>负责人:</div>  

@@ -38,14 +38,14 @@
 .index-report-header .order-type span:first-child.hover {     
     background-color:#fff;
     border:1px solid #ccc;
-    border-bottom:0;
+    border-bottom:1px solid #fff;
     color:#6699cc;
 }
 
 .index-report-header .order-type span:last-child.hover {     
     background-color:#fff;
     border:1px solid #ccc;
-    border-bottom:0;
+    border-bottom:1px solid #fff;
     color:#6699cc;
 }
 
@@ -331,9 +331,8 @@ border-bottom:2px solid #4a98e7;
 }
 /*详情内容*/
 
-.colordiv{
-    overflow:auto;
-    padding: 0px 10px;
+.colordiv{    
+    padding: 0px 5px;
     cursor: pointer;        
 }
 .color-leftzuoyou{
