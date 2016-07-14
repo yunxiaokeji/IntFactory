@@ -566,6 +566,19 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderDiscount", paras, CommandType.StoredProcedure) > 0;
         }
 
+        public bool UpdateOrderTotalMoney(string orderid, decimal totalMoney, string operateid, string agentid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@TotalMoney",totalMoney),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@AgentID" , agentid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            return ExecuteNonQuery("P_UpdateOrderTotalMoney", paras, CommandType.StoredProcedure) > 0;
+        }
+
         public bool UpdateOrderClient(string orderid, string  newclientid, string operateid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 

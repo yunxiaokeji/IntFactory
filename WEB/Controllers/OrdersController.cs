@@ -559,6 +559,18 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UpdateOrderTotalMoney(string orderid, decimal totalMoney)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderTotalMoney(orderid, totalMoney,
+                CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult UpdateOrderClient(string orderid, string clientid, string name)
         {
             var bl = OrdersBusiness.BaseBusiness.UpdateOrderClient(orderid, clientid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
@@ -695,7 +707,6 @@ namespace YXERP.Controllers
 
         public JsonResult GetGoodsDocByOrderID(string orderid, int type, string taskid="")
         {
-            
             var list = StockBusiness.GetGoodsDocByOrderID(orderid,taskid, (EnumDocType)type, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult

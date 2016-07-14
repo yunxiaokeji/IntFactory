@@ -161,7 +161,7 @@
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
                 <span class="column-title">单价：</span>
                 <label class="left">@(model.FinalPrice.ToString("f2"))</label>
-                @if (model.IsSelf && model.Status < 7)
+                @if (model.IsSelf && model.Status ==4)
                 { 
                     <div id="updateOrderDiscount" title="编辑订单折扣" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019023"))">&#xe607;</div>
                 }
@@ -172,7 +172,11 @@
             </li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016")) @(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
                 <span class="column-title">总金额：</span>
-                <label id="totalMoney">@(model.TotalMoney.ToString("f2"))</label>
+                <label id="totalMoney" class="left">@(model.TotalMoney.ToString("f2"))</label>
+                @if (model.IsSelf && model.Status < 7 && model.Status >4)
+                { 
+                    <div id="updateOrderTotalMoney" title="编辑订单总金额" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019023"))">&#xe607;</div>
+                }
             </li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">
                 <span class="column-title">付款金额：</span>
@@ -434,33 +438,38 @@
 
     <table id="navSendDoc" class="nav-partdiv table-list mTop20 hide">
         <tr class="tr-header">
-            <td class="tLeft">单号</td>
+            <td>规格</td>
             <td class="width200">数量</td>
             <td class="width200">快递单号</td>
             <td class="width200">快递公司</td>
             <td class="width200">发货人</td>
             <td class="width200">发货时间</td>
-            <td class="width50"></td>
+            <td>小计</td>
+            <td>操作</td>
         </tr>
     </table>
 
-    <table id="navCutoutDoc" class="nav-partdiv table-list mTop20 hide">
-        <tr class="tr-header">
-            <td class="tLeft">单号</td>
-            <td class="width200">数量</td>
-            <td class="width200">登记人</td>
-            <td class="width200">登记时间</td>
-            <td class="width50"></td>
-        </tr>
-    </table>
+    <div id="navCutoutDoc" class="nav-partdiv mTop20 hide">
+        <table class="table-list">
+            <tr class="tr-header">
+                <td>规格</td>
+                <td>小计</td>
+                <td>登记人</td>
+                <td>登记时间</td>
+                <td>数量</td>
+                <td>操作</td>
+            </tr>
+        </table>
+    </div>
 
     <table id="navSewnDoc" class="nav-partdiv table-list mTop20 hide">
         <tr class="tr-header">
-            <td class="tLeft">单号</td>
-            <td class="width200">数量</td>
-            <td class="width200">登记人</td>
-            <td class="width200">登记时间</td>
-            <td class="width50"></td>
+            <td>规格</td>
+            <td>小计</td>
+            <td>登记人</td>
+            <td>登记时间</td>
+            <td>数量</td>
+            <td>操作</td>
         </tr>
     </table>
 

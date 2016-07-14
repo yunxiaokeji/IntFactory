@@ -544,7 +544,6 @@
     <Content Include="modules\template\orders\edit-orderimages.html" />
     <Content Include="modules\template\orders\senddocs.html" />
     <Content Include="modules\template\orders\cutoutgoods.html" />
-    <Content Include="modules\template\orders\cutoutdoc.html" />
     <Content Include="modules\template\orders\downAliOrders.html" />
     <Content Include="modules\template\orders\sewn-goods.html" />
     <Content Include="modules\template\orders\add-order-cost.html" />
@@ -557,6 +556,8 @@
     <Content Include="modules\template\orders\send-details.html" />
     <Content Include="modules\template\orders\senddydocs.html" />
     <Content Include="modules\template\home\index-task.html" />
+    <Content Include="modules\template\orders\update_order_totalmoney.html" />
+    <Content Include="modules\template\orders\cutoutdoc.html" />
     <Content Include="modules\template\organization\staff-detail.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />
