@@ -67,6 +67,13 @@
                 innerText.find(".cancel-price-range").click(function () {
                     $(this).parent().parent().remove();
                 });
+
+                innerText.find(".update").click(function () {
+                    var _this = $(this).parent().parent();
+                    _this.find(".update,.delete,.txt").hide();
+                    _this.find(".save,.cancel,input").show();
+                });
+
             });
         });
 
@@ -111,7 +118,7 @@
                     });
 
                     html.find(".save").click(function () {
-                        var _this = $(this).parent().parent();                        
+                        var _this = $(this).parent().parent();
                         var rangeid = _this.data("rangeid");
                         var minnumber = _this.find(".min-number").val();
                         var maxnumber = _this.find(".max-number").val();
@@ -146,7 +153,7 @@
                                     _this.find(".price").next().html(price);
 
                                     _this.find(".update,.delete,.txt").show();
-                                    _this.find(".save,.cancel,input").hide();                                    
+                                    _this.find(".save,.cancel,input").hide();
                                 } else {
                                     alert("添加失败");
                                 }
@@ -165,6 +172,6 @@
             }
         })
     }
-
+    
     module.exports = ObjectJS;
 })
