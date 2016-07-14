@@ -68,12 +68,6 @@
                     $(this).parent().parent().remove();
                 });
 
-                innerText.find(".update").click(function () {
-                    var _this = $(this).parent().parent();
-                    _this.find(".update,.delete,.txt").hide();
-                    _this.find(".save,.cancel,input").show();
-                });
-
             });
         });
 
@@ -168,7 +162,7 @@
                     });
                 });
             } else {
-                $(".center-range").append('<div class="center no-data">暂无数据</div>');
+                $(".center-range").append('<div class="center no-data mTop50">暂无数据</div>');
             }
         })
     }
