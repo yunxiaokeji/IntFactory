@@ -54,15 +54,12 @@
 
                     $tr_header.after(innerhtml);
 
-                    $("#" + id + " .total-item td").each(function () {
-                        var _this = $(this), _total = 0;
-                        if (_this.data("class")) {
-                            $("#" + id + " ." + _this.data("class")).each(function () {
-                                _total += $(this).html() * 1;
-                            });
-                            _this.html(_total);
-                        }
+                    var total = 0;
+                    innerhtml.find('.cut1').each(function () {
+                        var _this = $(this);
+                        total += parseInt(_this.text());
                     });
+                    innerhtml.find('.total-count').html(total);
                 });
             }
             else {

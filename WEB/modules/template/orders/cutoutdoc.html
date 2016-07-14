@@ -1,19 +1,37 @@
 ﻿{%
-	for(var i=0, j=$data.length; i < j; i++){
-	var item = $data[i];
+    for(var i=0;i<$data.length;i++)
+    {
+        var item=$data[i];
 %}
-<tr class="list-item hover" data-id="{%=item.DocID%}">
-    <td class=""><a href="/Orders/DocDetail/{%=item.DocID%}" target="_blank">{%=item.DocCode%}</a> </td>
-    <td class="center cut1">{%=item.Quantity%}</td>
-    <td class='center'>{%=(item.CreateUser ? item.CreateUser.Name:"--")%}</td>
-    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
-    <td class='center'><span class="ico-dropdown"></span></td>
+<tr>
+    <td class="center">
+        {%
+        for(var j=0;j<item.Details.length;j++)
+        {
+        var detail=item.Details[j];
+        %}
+            <p>{%=detail.Remark%}</p>
+        {%}%}
+    </td>
+    <td class="center">
+        {%
+        for(var j=0;j<item.Details.length;j++)
+        {
+        var detail=item.Details[j];
+        %}
+            <p class="cut1">{%=detail.Quantity%}</p>
+        {%}%}
+    </td>
+    <td class="center">{%=item.CreateUser.Name%}</td>
+    <td class="center">{%=item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}</td>
+    <td class="center">
+        {%=item.Quantity%}
+    </td>
+    <td class="center"><a href="/Orders/DocDetail/{%=item.DocID%}">查看详情</a></td>
 </tr>
-{% } %}
-<tr class="total-item hover bold">
-    <td class="">合计：</td>
-    <td class="center" data-class="cut1"></td>
-    <td class='center'></td>
-    <td class='center'></td>
-    <td class='center'></td>
+{%}%}
+<tr>
+    <td colspan="4"></td>
+    <td class="center font16">合计：<span class="total-count font16"></span></td>
+    <td></td>
 </tr>

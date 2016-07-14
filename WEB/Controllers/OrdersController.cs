@@ -707,7 +707,6 @@ namespace YXERP.Controllers
 
         public JsonResult GetGoodsDocByOrderID(string orderid, int type, string taskid="")
         {
-            
             var list = StockBusiness.GetGoodsDocByOrderID(orderid,taskid, (EnumDocType)type, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult
