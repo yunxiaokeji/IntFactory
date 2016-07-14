@@ -12,7 +12,7 @@
             </div>
         </a>        
         <div class="left order-img pic-box">
-            <a href="/Orders/OrderDetail/{%=item.OrderID%}">
+            <a href="/Task/Detail/{%=item.TaskID%}">
                 <img src="{%=item.OrderImg==""?'/modules/images/img-noimg.png':item.OrderImg%}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" />
             </a>            
         </div>
@@ -37,17 +37,17 @@
                 </div>              
             </li>
             <li style="height:40px;">               
-                <div class="left customer">
+                <div class="left mTop10 ordertype-title">
                     <i class="iconfont {%=item.OrderType==1?'mLeft3':''%}">{%=item.OrderType==1?"&#xe612;":"&#xe60f;"%}</i>
                     <span>{%=item.OrderType==1?"打样":"大货"%}</span>
                 </div>
                 {% if(item.OrderType==2){ %}
-                    <div class="mTop10 left mRight30 orderquantity">
+                    <div class="mTop10 left mRight30 mLeft60 orderquantity">
                         <i class="iconfont ">&#xe635;</i>
                         <span class="mLeft10 right" style="width:40px;display:block;">{%=item.Order.PlanQuantity%}</span>
                     </div>
                 {% } %} 
-                <div class='left customer font14 width60 color000 {%=item.OrderType==1?"mLeft100":"mLeft3"%}'>负责人:</div>  
+                <div class='left customer font14 width60 color000 {%=item.OrderType==1?"mLeft160":"mLeft5"%}'>负责人:</div>  
                 <span class="long left customer font14 width100 color333" title='{%=(item.Owner ? item.Owner.Name:"--")%}'>{%=(item.Owner ? item.Owner.Name:"--")%}</span>
                 <div class="clear"></div>                  
             </li>

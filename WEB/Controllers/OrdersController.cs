@@ -896,6 +896,58 @@ namespace YXERP.Controllers
             };
         }
 
+        /*价格区间设置*/
+
+        public JsonResult GetOrderPriceRanges(string orderid)
+        {
+            var obj = IntFactoryBusiness.OrdersBusiness.GetOrderPriceRanges(orderid);
+            JsonDictionary.Add("items",obj);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult AddOrderPriceRange(string model)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            OrderPriceRange models = serializer.Deserialize<OrderPriceRange>(model);
+
+            var bl = IntFactoryBusiness.OrdersBusiness.AddOrderPriceRange(models, CurrentUser.UserID, OperateIP,CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status",bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateOrderPriceRange(string model)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            OrderPriceRange models = serializer.Deserialize<OrderPriceRange>(model);
+
+            var bl = IntFactoryBusiness.OrdersBusiness.UpdateOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult DeleteOrderPriceRange(string rangeid)
+        {
+            var status = IntFactoryBusiness.OrdersBusiness.DeleteOrderPriceRange(rangeid);
+            JsonDictionary.Add("status",status);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         #endregion
 
     }
