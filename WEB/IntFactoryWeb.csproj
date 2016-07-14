@@ -531,6 +531,7 @@
     <Content Include="modules\template\home\author-page.html" />
     <Content Include="modules\template\inquire\inquireorder.html" />
     <Content Include="modules\template\myaccount\feedbacklist.html" />
+    <Content Include="modules\template\orders\addpricerange.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />
     <Content Include="modules\template\home\index-order.html" />
     <Content Include="modules\template\orders\orders_child_list.html" />

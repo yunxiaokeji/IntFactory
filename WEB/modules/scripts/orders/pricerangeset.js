@@ -18,50 +18,55 @@
 
         $(".add-price-range").click(function () {
             $(".no-data").remove();
-            $(".center-range").append('<li><div class="li-range"><input class="min-number" type="text" maxlength="10" value="" /><span class="hide">22</span></div><div class="li-range"><input class="max-number" type="text" maxlength="10" value="" /><span class="hide">122</span></div><div class="li-range"><input class="price" type="text" maxlength="10" value="" /><span class="hide">3</span></div><div class="operation li-range"><div class="save-price-range btn mLeft10">保存</div><div class="cancel-price-range btn mLeft10">取消</div></div></li>');
-            $(".save-price-range").click(function () {
-                var _this = $(this).parent().parent();
-                var minnumber = _this.find(".min-number").val();
-                var maxnumber = _this.find(".max-number").val();
-                var price = _this.find(".price").val();
+            doT.exec("template/orders/addpricerange.html", function (template) {
+                var innerText = template({});
+                innerText = $(innerText);
+                $(".center-range").append(innerText);
 
-                if (!minnumber.isDouble()||minnumber<0) {
-                    alert("起始数量不能为非数字或者小于零");
-                    return;
-                }
-                if (!maxnumber.isDouble() || maxnumber < 0) {
-                    alert("终止数量不能为非数字或者小于零");
-                    return;
-                }
-                if (!price.isDouble() || price < 0) {
-                    alert("价格不能为非数字或者小于零");
-                    return;
-                }
+                innerText.find(".save-price-range").click(function () {
+                    var _this = $(this).parent().parent();
+                    var minnumber = _this.find(".min-number").val();
+                    var maxnumber = _this.find(".max-number").val();
+                    var price = _this.find(".price").val();
 
-                if (minnumber == "" || maxnumber == "" || price == "") {
-                    alert("内容不能为空");
-                } else {
-                    var model = {
-                        MinQuantity: minnumber,
-                        MaxQuantity: maxnumber,
-                        Price: price,
-                        OrderID: orderid
-                    };
-                    Global.post("/Orders/AddOrderPriceRange", {
-                        model: JSON.stringify(model)
-                    }, function (data) {
-                        if (data.status) {
-                            $(".center-head").nextAll().remove();
-                            ObjectJS.getPriceRange(orderid);
-                        } else {
-                            alert("添加失败");
-                        }
-                    });
-                }
-            });
+                    if (!minnumber.isDouble() || minnumber < 0) {
+                        alert("起始数量不能为非数字或者小于零");
+                        return;
+                    }
+                    if (!maxnumber.isDouble() || maxnumber < 0) {
+                        alert("终止数量不能为非数字或者小于零");
+                        return;
+                    }
+                    if (!price.isDouble() || price < 0) {
+                        alert("价格不能为非数字或者小于零");
+                        return;
+                    }
 
-            $(".cancel-price-range").click(function () {
-                $(this).parent().parent().remove();
+                    if (minnumber == "" || maxnumber == "" || price == "") {
+                        alert("内容不能为空");
+                    } else {
+                        var model = {
+                            MinQuantity: minnumber,
+                            MaxQuantity: maxnumber,
+                            Price: price,
+                            OrderID: orderid
+                        };
+                        Global.post("/Orders/OrderPriceRange", {
+                            model: JSON.stringify(model)
+                        }, function (data) {
+                            if (data.status) {
+                                $(".center-head").nextAll().remove();
+                                ObjectJS.getPriceRange(orderid);
+                            } else {
+                                alert("添加失败");
+                            }
+                        });
+                    }
+                });
+
+                innerText.find(".cancel-price-range").click(function () {
+                    $(this).parent().parent().remove();
+                });
             });
         });
 
@@ -132,7 +137,7 @@
                                 MaxQuantity: maxnumber,
                                 Price: price,
                             };
-                            Global.post("/Orders/UpdateOrderPriceRange", {
+                            Global.post("/Orders/OrderPriceRange", {
                                 model: JSON.stringify(model)
                             }, function (obj) {
                                 if (obj.status) {

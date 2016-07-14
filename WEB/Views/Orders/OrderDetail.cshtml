@@ -14,12 +14,13 @@
     <script src="/modules/scripts/orders/pricerangeset.js"></script>
     <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
-        seajs.use(["scripts/orders/detail"], function (obj) {
-            obj.init('@(model.OrderID)', '@(model.Status)', '@Html.ToJSONString(model)', '@Html.ToJSONString(list)');
-        });
         seajs.use(["scripts/orders/pricerangeset"], function (e) {
             e.init('@(model.OrderID)');
         });
+        seajs.use(["scripts/orders/detail"], function (obj) {
+            obj.init('@(model.OrderID)', '@(model.Status)', '@Html.ToJSONString(model)', '@Html.ToJSONString(list)');
+        });
+        
     </script>
 }
 

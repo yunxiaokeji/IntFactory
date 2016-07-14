@@ -909,26 +909,19 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult AddOrderPriceRange(string model)
+        public JsonResult OrderPriceRange(string model)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderPriceRange models = serializer.Deserialize<OrderPriceRange>(model);
-
-            var bl = IntFactoryBusiness.OrdersBusiness.AddOrderPriceRange(models, CurrentUser.UserID, OperateIP,CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("status",bl);
-            return new JsonResult
+            bool bl = false;
+            if (string.IsNullOrEmpty(models.RangeID))
             {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
+                bl = IntFactoryBusiness.OrdersBusiness.AddOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);                
+            }else
+            {
+                bl = IntFactoryBusiness.OrdersBusiness.UpdateOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            }
 
-        public JsonResult UpdateOrderPriceRange(string model)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            OrderPriceRange models = serializer.Deserialize<OrderPriceRange>(model);
-
-            var bl = IntFactoryBusiness.OrdersBusiness.UpdateOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -936,7 +929,7 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-
+        
         public JsonResult DeleteOrderPriceRange(string rangeid)
         {
             var status = IntFactoryBusiness.OrdersBusiness.DeleteOrderPriceRange(rangeid);
