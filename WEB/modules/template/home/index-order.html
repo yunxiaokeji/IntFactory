@@ -35,13 +35,13 @@
                     {%  if(item.OrderType==1){ %}
                             <div class="right color333" style="height:20px;margin-top:-20px;">
                                 <span class="left">{%=item.OrderStatus==2?"最终报价:":"期望报价:"%}</span>
-                                <span class="mLeft10 left color333 tRight long price" style="display:block;width:50px;" title='{%=item.OrderType==1?item.PlanPrice:item.FinalPrice%}' >{%=item.OrderStatus==2?item.TotalMoney:item.PlanPrice!=""?item.PlanPrice:"0"%}
+                                <span class="mLeft10 left color333 tLeft long price" style="display:block;width:50px;" title='{%=item.OrderType==1?item.PlanPrice:item.FinalPrice%}' >{%=item.OrderStatus==2?item.TotalMoney:item.PlanPrice!=""?item.PlanPrice:"0"%}
                                 </span>
                             </div>
                      {% }else{ %} 
                             <div class="right color333" style="height:20px;margin-top:-20px;">
                                 <span class="left">{%=item.OrderStatus==2?"最终报价:":item.OrderStatus==1?"单价:":"期望报价:"%}</span>
-                                <span class="mLeft10 left color333 tRight long" style="display:block;width:50px;" title='{%=item.OrderStatus==2?item.TotalMoney:item.OrderStatus==1?item.FinalPrice:item.PlanPrice%}' >
+                                <span class="mLeft10 left color333 tLeft long" style="display:block;width:50px;" title='{%=item.OrderStatus==2?item.TotalMoney:item.OrderStatus==1?item.FinalPrice:item.PlanPrice%}' >
                                     {%=item.OrderStatus==2?item.TotalMoney:item.OrderStatus==1?item.FinalPrice:item.PlanPrice!=""?item.PlanPrice:"--"%}
                                 </span>
                             </div>
@@ -50,17 +50,17 @@
                 </div>              
             </li>
             <li style="height:40px;">
-                <div class="left customer mRight30">
+                <div class="left mTop10 mRight30 ordertype-title">
                     <i class="iconfont {%=item.OrderType==1?'mLeft3':''%}">{%=item.OrderType==1?"&#xe612;":"&#xe60f;"%}</i>
                     <span>{%=item.OrderType==1?"打样":"大货"%}</span>
                 </div>
                 {% if(item.OrderType==2){ %}
-                    <div class="mTop10 left mRight30 orderquantity">
+                    <div class="mTop10 left mRight30 mLeft60 orderquantity">
                         <i class="iconfont left">&#xe635;</i>
                         <span class="mLeft10 left" style="width:40px;display:block;">{%=item.PlanQuantity%}</span>
                     </div>     
                 {% } %}   
-                <div class='left customer font14 width60 color000 {%=item.OrderType==1?"mLeft100":"mLeft3"%}'>负责人:</div>  
+                <div class='left customer font14 width60 color000 {%=item.OrderType==1?"mLeft160":"mLeft5"%}'>负责人:</div>  
                 <span class="long left customer font14 width100 color333" title='{%=(item.Owner ? item.Owner.Name:"--")%}'>{%=(item.Owner ? item.Owner.Name:"--")%}</span> 
                 <div class="clear"></div>
             </li>

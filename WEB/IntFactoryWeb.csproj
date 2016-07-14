@@ -509,6 +509,7 @@
     <Content Include="modules\scripts\orders\fentorderreport.js" />
     <Content Include="modules\scripts\orders\orderplans.js" />
     <Content Include="modules\scripts\orders\platemakingprocess.js" />
+    <Content Include="modules\scripts\orders\pricerangeset.js" />
     <Content Include="modules\scripts\system\labelset.js" />
     <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
@@ -530,9 +531,11 @@
     <Content Include="modules\template\home\author-page.html" />
     <Content Include="modules\template\inquire\inquireorder.html" />
     <Content Include="modules\template\myaccount\feedbacklist.html" />
+    <Content Include="modules\template\orders\addpricerange.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />
     <Content Include="modules\template\home\index-order.html" />
     <Content Include="modules\template\orders\orders_child_list.html" />
+    <Content Include="modules\template\orders\pricerangge.html" />
     <Content Include="modules\template\orders\processplate.html" />
     <Content Include="modules\template\orders\surequantity.html" />
     <Content Include="modules\template\orders\sureprice.html" />
@@ -542,7 +545,6 @@
     <Content Include="modules\template\orders\edit-orderimages.html" />
     <Content Include="modules\template\orders\senddocs.html" />
     <Content Include="modules\template\orders\cutoutgoods.html" />
-    <Content Include="modules\template\orders\cutoutdoc.html" />
     <Content Include="modules\template\orders\downAliOrders.html" />
     <Content Include="modules\template\orders\sewn-goods.html" />
     <Content Include="modules\template\orders\add-order-cost.html" />
@@ -556,6 +558,7 @@
     <Content Include="modules\template\orders\senddydocs.html" />
     <Content Include="modules\template\home\index-task.html" />
     <Content Include="modules\template\orders\update_order_totalmoney.html" />
+    <Content Include="modules\template\orders\cutoutdoc.html" />
     <Content Include="modules\template\organization\staff-detail.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />

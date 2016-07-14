@@ -573,6 +573,10 @@
                     width: 60,
                     msg: "下单数量"
                 });
+                innerText.find(".ordertype-title").Tip({
+                    width: 60,
+                    msg: "订单类型"
+                })
             });
         }
 

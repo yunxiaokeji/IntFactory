@@ -1,0 +1,28 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+
+     <li data-rangeid="{%=item.RangeID%}"  style="border-bottom:1px solid #ededed;line-height:25px;">
+        <div class="li-range">
+            <input class="hide min-number" type="text" maxlength="10" value="{%=item.MinQuantity%}" />
+            <span class="txt">{%=item.MinQuantity%}</span>
+        </div>
+        <div class="li-range">
+            <input class="hide max-number" type="text" maxlength="10" value="{%=item.MaxQuantity%}" />
+            <span class="txt">{%=item.MaxQuantity%}</span>
+        </div>
+        <div class="li-range">
+            <input class="hide price" type="text" maxlength="10" value="{%=item.Price%}" />
+            <span class="txt">{%=item.Price%}</span>
+        </div>
+        <div class="li-range center">            
+            <span class="iconfont update">&#xe607;</span>            
+            <span class="iconfont mLeft10 delete">&#xe651;</span>
+            <span class="btn save  mLeft10 hide" style="display:none">保存</span>
+            <span class="btn cancel hide mLeft10" style="display:none">取消</span>
+        </div>
+         
+    </li>    
+
+{% } %}

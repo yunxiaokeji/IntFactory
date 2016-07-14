@@ -709,7 +709,6 @@
                 _self.getDHOrders(_self.orderid, 1);
             }
         });
-
     }
 
     //加载缓存
@@ -1114,9 +1113,9 @@
     //裁剪录入
     ObjectJS.cutOutGoods = function () {
         var _self = this;
+        
         doT.exec("template/orders/cutoutgoods.html", function (template) {
             var innerText = template(_self.model.OrderGoods);
-
             Easydialog.open({
                 container: {
                     id: "showCutoutGoods",
@@ -1742,15 +1741,14 @@
 
                     $("#navSendDoc .tr-header").after(innerhtml);
 
-                    $("#navSendDoc .total-item td").each(function () {
-                        var _this = $(this), _total = 0;
-                        if (_this.data("class")) {
-                            $("#navSendDoc ." + _this.data("class")).each(function () {
-                                _total += $(this).html() * 1;
-                            });
-                            _this.html(_total);
-                        }
-                    });
+                    if (templateInner == "senddocs") {
+                        var total = 0;
+                        innerhtml.find('.cut1').each(function () {
+                            var _this = $(this);
+                            total += parseInt(_this.text());
+                        });
+                        innerhtml.find('.total-count').html(total);
+                    }
                 });
             } else {
                 $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
@@ -1774,23 +1772,13 @@
                 doT.exec("template/orders/cutoutdoc.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
-
-                    innerhtml.click(function () {
-                        _self.getGoodsDocDetail(this, 1);
-                    });
-
                     $("#navCutoutDoc .tr-header").after(innerhtml);
-
-                    $("#navCutoutDoc .total-item td").each(function () {
-                        var _this = $(this), _total = 0;
-                        if (_this.data("class")) {
-                            $("#navCutoutDoc ." + _this.data("class")).each(function () {
-                                _total += $(this).html() * 1;
-                            });
-                            _this.html(_total);
-                        }
+                    var total = 0;
+                    innerhtml.find('.cut1').each(function () {
+                        var _this = $(this);
+                        total += parseInt(_this.text());
                     });
-
+                    innerhtml.find('.total-count').html(total);
                 });
             } else {
                 $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
@@ -1820,16 +1808,12 @@
                     });
 
                     $("#navSewnDoc .tr-header").after(innerhtml);
-
-                    $("#navSewnDoc .total-item td").each(function () {
-                        var _this = $(this), _total = 0;
-                        if (_this.data("class")) {
-                            $("#navSewnDoc ." + _this.data("class")).each(function () {
-                                _total += $(this).html() * 1;
-                            });
-                            _this.html(_total);
-                        }
+                    var total = 0;
+                    innerhtml.find('.cut1').each(function () {
+                        var _this = $(this);
+                        total += parseInt(_this.text());
                     });
+                    innerhtml.find('.total-count').html(total);
                 });
             } else {
                 $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");

@@ -11,12 +11,16 @@
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
+    <script src="/modules/scripts/orders/pricerangeset.js"></script>
     <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
+        seajs.use(["scripts/orders/pricerangeset"], function (e) {
+            e.init('@(model.OrderID)');
+        });
         seajs.use(["scripts/orders/detail"], function (obj) {
             obj.init('@(model.OrderID)', '@(model.Status)', '@Html.ToJSONString(model)', '@Html.ToJSONString(list)');
         });
-
+        
     </script>
 }
 
@@ -111,9 +115,11 @@
                     <span class="iconfont  left">&#xe645;</span>
                     <span class="left mLeft5 blue">打样报价</span>
                 </li>
-            }
+            }           
         }
-            
+        <li>
+            <span class=" btn price-range-set">价格区间设置</span>
+        </li>  
     </ul>
 </div>
 
@@ -410,6 +416,27 @@
 
         </div>
     </div>
+</div>
+
+<div id="bfe_overlay" style="margin: 0px; padding: 0px; border: none; width: 100%; height: 100%; opacity: 0.8; z-index: 10000; position: fixed; top: 0px; left: 0px; background: rgb(51, 51, 51);display:none;"></div>
+<div class="price-range hide">
+    <div class="update-title">
+        <span>编辑价格区间</span>        
+        <a href="javascript:void(0)" title="关闭窗口" class="close_btn"></a>
+    </div>
+    
+    <ul class="center-range center">
+        <li>
+            <span class="add-price-range right btn-add">添加</span>
+        </li>        
+        <li class="center-head">
+            <div>起始数量</div>
+            <div>终止数量</div>
+            <div>价格</div>
+            <div class="iconfont color666">&#xe61d;</div>
+        </li> 
+    </ul>
+
 </div>
 
 @*图片放大*@

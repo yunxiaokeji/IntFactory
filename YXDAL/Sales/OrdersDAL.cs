@@ -832,7 +832,9 @@ namespace IntFactoryDAL
 
         public bool AddOrderPriceRange(int minQuantity, int maxQuantity, decimal price, string orderid, string userid, string clientid)
         {
+            var rangeID = Guid.NewGuid().ToString();
             SqlParameter[] paras = { 
+                                     new SqlParameter("@RangeID",rangeID),
                                      new SqlParameter("@MinQuantity",minQuantity),
                                      new SqlParameter("@MaxQuantity",maxQuantity),
                                      new SqlParameter("@Price",price),
@@ -841,7 +843,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@ClientID",clientid)
                                    };
 
-            string sql = "insert OrderPriceRange(MinQuantity,MaxQuantity,Price,OrderID,CreateUserID,ClientID,AgentID) values(@MinQuantity,@MaxQuantity,@Price,@OrderID,@UserID,@ClientID,@ClientID)";
+            string sql = "insert OrderPriceRange(RangeID,MinQuantity,MaxQuantity,Price,OrderID,CreateUserID,ClientID,AgentID) values(@RangeID,@MinQuantity,@MaxQuantity,@Price,@OrderID,@UserID,@ClientID,@ClientID)";
 
             return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
         }
