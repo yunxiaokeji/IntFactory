@@ -509,6 +509,7 @@
     <Content Include="modules\scripts\orders\fentorderreport.js" />
     <Content Include="modules\scripts\orders\orderplans.js" />
     <Content Include="modules\scripts\orders\platemakingprocess.js" />
+    <Content Include="modules\scripts\orders\pricerangeset.js" />
     <Content Include="modules\scripts\system\labelset.js" />
     <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
@@ -533,6 +534,7 @@
     <Content Include="modules\template\orders\choose-order-category.html" />
     <Content Include="modules\template\home\index-order.html" />
     <Content Include="modules\template\orders\orders_child_list.html" />
+    <Content Include="modules\template\orders\pricerangge.html" />
     <Content Include="modules\template\orders\processplate.html" />
     <Content Include="modules\template\orders\surequantity.html" />
     <Content Include="modules\template\orders\sureprice.html" />

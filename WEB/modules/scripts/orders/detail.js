@@ -682,7 +682,6 @@
                 _self.getDHOrders(_self.orderid, 1);
             }
         });
-
     }
 
     //加载缓存
