@@ -209,7 +209,6 @@
 /*价格区间设置*/
 .price-range { position:fixed;z-index:10001;background-color:#fff;top:20%;left:30%;padding:10px 20px;border-radius:5px;}
 .price-range .update-title{border-bottom:1px solid #eee;padding-bottom:7px;font-size:14px;}
-.price-range .update-title span{font-size:11pt;}
 .price-range .update-title .close_btn{background:#fff url(/modules/plug/easydialog/ico-close.png) no-repeat;                   
                                       height:16px;width:16px;float:right;margin-top:8px;}
 .price-range .update-title .close_btn:hover{background:#fff url(/modules/plug/easydialog/ico-close-hover.png) no-repeat;}
