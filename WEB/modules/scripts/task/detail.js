@@ -939,7 +939,9 @@
         ObjectJS.bindDropDown();
 
         ObjectJS.bindContentClick();
+        ObjectJS.bindSetVariation();
 
+        ObjectJS.bindSetVariationColumn();
         ObjectJS.bindAddColumn();
         ObjectJS.bindRemoveColumn();
 
@@ -980,10 +982,10 @@
 
     //制版的内容点击
     ObjectJS.bindContentClick = function () {
-        $("#platemakingBody .tr-content td").unbind().bind("click", function () {
-            $(this).find('.tbContent').hide();
-            $(this).find('.tbContentIpt').show().focus();
-        });
+        //$("#platemakingBody .tr-content td").unbind().bind("click", function () {
+        //    $(this).find('.tbContent').hide();
+        //    $(this).find('.tbContentIpt').show().focus();
+        //});
     }    
 
     //添加制版新列
@@ -992,17 +994,16 @@
             $("#setTaskPlateAttrBox").remove();
             ObjectJS.columnnameid = $(this).data("columnname");
 
-            var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
             var noHaveLi = true;
+            var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
             for (var i = 0; len = CacheAttrValues.length, i < len; i++) {
                 var item = CacheAttrValues[i];                
                 if ($(".table-list td[data-columnname='columnname_" + item.ValueID + "']").length == 0) {
-                    innerHtml += '<li class="role-item" data-id="' + item.ValueID + '">' + item.ValueName + '</li>';
+                    innerHtml += '<li class="role-item" data-id="' + item.ValueID + '" data-sort="' + item.Sort + '">' + item.ValueName + '</li>';
                     noHaveLi = false;
                 }
             }
             innerHtml += '</ul>';
-
             if (noHaveLi) {
                 innerHtml = '<div style="width:300px;">制版属性列已全部添加设置了</div>';
             }
@@ -1015,13 +1016,15 @@
                     yesFn: function () {
                         var $hovers = $("#setTaskPlateAttrBox li.hover");
                         if ($hovers.length == 0) return;
-                        var newColumnHeadr = '';
-                        var newColumn = '';
+
                         $hovers.each(function () {
+                            var newColumnHeadr = '';
+                            var newColumn = '';
                             var columnnameid = $(this).data("id");
+                            var sort = $(this).data("sort");
                             var columnnamename = $(this).html();
 
-                            newColumnHeadr += '<td class="width100 tLeft columnHeadr" data-columnname="columnname_' + columnnameid + '" data-id="' + columnnameid + '">';
+                            newColumnHeadr += '<td class="width100 tLeft columnHeadr" data-columnname="columnname_' + columnnameid + '" data-id="' + columnnameid + '" data-sort="' + sort + '">';
                             newColumnHeadr += '<span>' + columnnamename + '</span>';
                             newColumnHeadr += '<span class="ico-dropdown mRight10 right" data-columnname="columnname_' + columnnameid + '"></span>';
                             newColumnHeadr += '</td>';
@@ -1030,10 +1033,17 @@
                             newColumn += '<span class="tbContent"></span>';
                             newColumn += '<input class="tbContentIpt" value="" type="text"/>';
                             newColumn += '</td>';
-                        });
 
-                        $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']").eq(0).after(newColumnHeadr);
-                        $("#platemakingBody td[data-columnname='" + ObjectJS.columnnameid + "']:gt(0)").after(newColumn).find("tbContentIpt").show();
+                            var before = ObjectJS.getcolumnnameid(sort);
+                            if (before == 0) {
+                                $("#platemakingBody td[data-columnname='" + ObjectJS.columnname + "']").eq(0).after(newColumnHeadr);
+                                $("#platemakingBody td[data-columnname='" + ObjectJS.columnname + "']:gt(0)").after(newColumn).find("tbContentIpt").show();
+                            }
+                            else {
+                                $("#platemakingBody td[data-columnname='" + ObjectJS.columnname + "']").eq(0).before(newColumnHeadr);
+                                $("#platemakingBody td[data-columnname='" + ObjectJS.columnname + "']:gt(0)").before(newColumn).find("tbContentIpt").show();
+                            }
+                        });
 
                         ObjectJS.bindDropDown();
                         ObjectJS.bindContentClick();
@@ -1044,14 +1054,33 @@
 
             });
 
-            $("#setTaskPlateAttrBox .role-item").click(function () {
-                if (!$(this).hasClass("hover"))
-                    $(this).addClass("hover");
-                else
-                    $(this).removeClass("hover");
-            });
+            if (!noHaveLi) {
+                $("#setTaskPlateAttrBox .role-item").click(function () {
+                    if (!$(this).hasClass("hover"))
+                        $(this).addClass("hover");
+                    else
+                        $(this).removeClass("hover");
+                });
+            }
 
         });
+    }
+
+    //
+    ObjectJS.getcolumnnameid = function (slefsort) {
+        var before=0;
+        $(".tr-header .columnHeadr").each(function(){
+            ObjectJS.columnname = $(this).data("columnname");
+            var sort=$(this).data("sort");
+            if(sort){
+                if(slefsort<sort){
+                    before = 1;
+                    return false;
+                }
+            }
+        });
+
+        return before;
     }
 
     //删除制版列
@@ -1077,6 +1106,7 @@
             ObjectJS.bindContentClick();
             ObjectJS.bindAddRow();
             ObjectJS.bindRemoveRow();
+            ObjectJS.bindSetVariation();
         });
     }
 
@@ -1092,6 +1122,50 @@
         });
     }
 
+    //设置档差
+    ObjectJS.bindSetVariation = function () {
+        $(".normal-plate-ipt").unbind().bind('focus', function () {
+            //var value = $(this).parent().parent().find(".normal-plate .tbContentIpt").val();
+            //if (value == "") {
+            //    alert("标准值没有设置");
+            //}
+        }).bind("blur", function () {
+            var $td = $(this).parent().parent().find(".normal-plate");
+            var namrkvalue = $td.find(".tbContentIpt").val();
+            var marksort = $(".td-normal-plate").data("sort");
+            var variation = $(this).val();
+            if (namrkvalue == "") {
+                alert("没有标准值");
+                $(".normal-plate-ipt").val('');
+                return;
+            }
+
+            var $tbContentIpts = $td.parent().find(".tbContentIpt");
+            var $columnHeadrs=$(".tr-header .columnHeadr");
+            for (var i = 0; i < $columnHeadrs.length; i++) {
+                var sort = $columnHeadrs.eq(i).data("sort");
+                var value =parseInt( namrkvalue) +parseInt( (variation * (sort - marksort)) );
+                $tbContentIpts.eq(i + 1).val(value);
+            }
+
+        });
+    }
+
+    //设置标准列
+    ObjectJS.bindSetVariationColumn = function () {
+        $("#btn-setNormalColumn").unbind().bind("click", function () {
+            var  $tdnormalplate=$(".td-normal-plate").removeClass("td-normal-plate").find("span:first");
+            $tdnormalplate.html($tdnormalplate.html().replace("-档差标准",""));
+            $(".normal-plate").removeClass("normal-plate");
+
+            var columnname = $(this).data("columnname");
+            var $tdnormalplatenow = $("#platemakingBody td[data-columnname='" + columnname + "']").eq(0).addClass("td-normal-plate");
+            $tdnormalplatenow = $tdnormalplatenow.find("span:first");
+            $tdnormalplatenow.html($tdnormalplatenow.html() + "-档差标准");
+            $("#platemakingBody td[data-columnname='" + columnname + "']:gt(0)").addClass("normal-plate");
+        });
+    }
+
     //删除制版操作按钮
     ObjectJS.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
@@ -1102,18 +1176,18 @@
 
     //初始化制版属性行列
     ObjectJS.initAddTaskPlate = function () {
-        if ($("#btn-addTaskPlate").length == 0) return;
+        if ($("#btn-initAddTaskPlate").length == 0) return;
 
-        $("#btn-addTaskPlate").unbind().bind("click", function () {
+        $("#btn-initAddTaskPlate").unbind().bind("click", function () {
             var noHaveLi = false;
-            var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
-            for (var i = 0; len = CacheAttrValues.length, i < len; i++) {
-                var item = CacheAttrValues[i];
-                innerHtml += '<li class="role-item" data-id="' + item.ValueID + '">' + item.ValueName + '</li>';
-            }
-            innerHtml += '</ul>';
-
-            if (CacheAttrValues.length == 0) {
+            if (CacheAttrValues.length > 0) {
+                var innerHtml = '<ul id="setTaskPlateAttrBox" class="role-items">';
+                for (var i = 0; len = CacheAttrValues.length, i < len; i++) {
+                    var item = CacheAttrValues[i];
+                    innerHtml += '<li class="role-item" data-id="' + item.ValueID + '" data-sort="' + item.Sort + '">' + item.ValueName + '</li>';
+                }
+                innerHtml += '</ul>';
+            } else {
                 noHaveLi = true;
                 innerHtml = '<div style="width:300px;">制版属性没有配置,请联系后台管理员配置</div>';
             }
@@ -1137,24 +1211,40 @@
                         newColumn += '<input class="tbContentIpt" value="" type="text"/>';
                         newColumn += '</td>';
 
+                        var i = 0;
                         $hovers.each(function () {
                             var columnnameid = $(this).data("id");
+                            var sort = $(this).data("sort");
                             var columnnamename = $(this).html();
-
-                            newColumnHeadr += '<td class="width100 tLeft columnHeadr" data-columnname="columnname_' + columnnameid + '" data-id="' + columnnameid + '">';
-                            newColumnHeadr += '<span>' + columnnamename + '</span>';
+                            if (i == 0) {
+                                newColumnHeadr += '<td class="width100 tLeft columnHeadr td-normal-plate" data-columnname="columnname_' + columnnameid + '" data-id="' + columnnameid + '"  data-sort="' + sort + '">';
+                                newColumnHeadr += '<span>' + columnnamename + "-档差标准" + '</span>';
+                            } else {
+                                newColumnHeadr += '<td class="width100 tLeft columnHeadr" data-columnname="columnname_' + columnnameid + '" data-id="' + columnnameid + '" data-sort="' + sort + '">';
+                                newColumnHeadr += '<span>' + columnnamename + '</span>';
+                            }
                             newColumnHeadr += '<span class="ico-dropdown mRight10 right" data-columnname="columnname_' + columnnameid + '"></span>';
                             newColumnHeadr += '</td>';
 
-                            newColumn += '<td class="tLeft width100" data-columnname="columnname_' + columnnameid + '">';
+                            if (i == 0) {
+                                newColumn += '<td class="tLeft width100 normal-plate" data-columnname="columnname_' + columnnameid + '">';
+                            } else {
+                                newColumn += '<td class="tLeft width100" data-columnname="columnname_' + columnnameid + '">';
+                            }
                             newColumn += '<span class="tbContent"></span>';
                             newColumn += '<input class="tbContentIpt" value="" type="text"/>';
                             newColumn += '</td>';
+                            i++;
                         });
 
+                        newColumnHeadr += '<td class="width150 center">档差</td>';
                         newColumnHeadr += '<td class="width150 center">操作</td>';
                         newColumnHeadr += '</tr>';
 
+                        newColumn += '<td class="tLeft width100" >';
+                        newColumn += '<span class="tbContent"></span>';
+                        newColumn += '<input class="tbContentIpt normal-plate-ipt" value="" type="text"/>';
+                        newColumn += '</td>';
                         newColumn += '<td class="width150 center">';
                         newColumn += '    <div class="platemakingOperate">';
                         newColumn += '        <div class="btn-addRow btn-create left" title="添加新行"></div>';
@@ -1164,28 +1254,30 @@
                         newColumn += '</td>';
                         newColumn += '</tr>';
 
-                        tableHtml += newColumnHeadr + newColumn;
-                        tableHtml += '</table>';
+                        tableHtml += newColumnHeadr + newColumn+'</table>';
 
                         $("#platemakingBody").html(tableHtml).css({ "border-top": "1px solid #eee", "border-left": "1px solid #eee" }).show();
+                        $("#btn-initAddTaskPlate").hide();
+                        $("#btn-updateTaskRemark").show().html("保存制版");
+                        $("#btn-addColumn").show();
 
                         ObjectJS.bindDropDown();
                         ObjectJS.bindContentClick();
                         ObjectJS.bindAddRow();
                         ObjectJS.bindRemoveRow();
-
-                        $("#btn-updateTaskRemark").show();
-                        $("#btn-addTaskPlate").hide();
+                        ObjectJS.bindSetVariation();
                     }
                 }
             });
 
-            $("#setTaskPlateAttrBox .role-item").click(function () {
-                if (!$(this).hasClass("hover"))
-                    $(this).addClass("hover");
-                else
-                    $(this).removeClass("hover");
-            });
+            if (!noHaveLi) {
+                $("#setTaskPlateAttrBox .role-item").click(function () {
+                    if (!$(this).hasClass("hover"))
+                        $(this).addClass("hover");
+                    else
+                        $(this).removeClass("hover");
+                });
+            }
 
         });
     }
@@ -1194,17 +1286,19 @@
     ObjectJS.updateOrderPlatemaking = function () {
         if ($("#platemakingBody").html() == "") { return; }
 
-        //if ($(".tbContentIpt:visible").length == 0) { return; }
+        if ($(".tbContentIpt:visible").length == 0) {
+            $("#btn-updateTaskRemark").html("保存制版");
+            $(".tbContentIpt").each(function () {
+                $(this).html( $(this).prev().html() ).show().prev().hide();
+            });
+            return;
+        } else {
+            $(".tbContentIpt:visible").each(function () {
+                $(this).attr("value", $(this).val()).hide().prev().html($(this).val()).show();
+            });
 
-        $(".tbContentIpt:visible").each(function () {
-            $(this).attr("value", $(this).val()).hide().prev().html($(this).val()).show();
-        });
-
-        //var valueIDs = '';
-        //$("#platemakingBody .tr-header td.columnHeadr").each(function () {
-        //    valueIDs += $(this).data("id") + '|';
-        //});
-
+            $("#btn-updateTaskRemark").html("编辑制版");
+        }
         ObjectJS.isLoading = false;
         Global.post("/Task/UpdateOrderPlateAttr", {
             orderID: ObjectJS.orderid,
@@ -1222,7 +1316,7 @@
         });
     }
 
-    //制版工艺
+    //制版工艺说明
     ObjectJS.initPlateMaking = function () {
         $("#btnAddPalte").click(function () {
             ObjectJS.addPlateMaking();            
@@ -1268,9 +1362,9 @@
                     html = $(html);
                     $(".tb-plates").append(html);
 
-                    $(".typetitle").css({"background-color":"#eee","color":"#007aff"});
-                    $(".typetitle:first").css("height", "46px");
-
+                    
+                    $(".typetitle td").css({"background-color":"#eee","color":"#333","line-height":"30px"});
+                    $(".typetitle:first td").css("line-height", "40px");
                     if ($("#btnAddPalte").length == 1) {
                         html.find(".dropdown").click(function () {
                             var _this = $(this);
