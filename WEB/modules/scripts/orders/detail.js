@@ -667,6 +667,8 @@
             _self.addOtherCosts();
         })
 
+        $("#plateMarking").show();
+
         //切换模块
         $(".module-tab li").click(function () {
             var _this = $(this);
@@ -686,6 +688,9 @@
                 _self.getLogs(1);
             } else if (_this.data("id") == "navEngraving" || _this.data("id") == "navProducts") {
                 if (_this.data("mark")) {
+                    if (_this.data("id") == "navEngraving") {
+                        $("#plateMarking").show();
+                    }
                     $("#navOrderTalk").show();
                     _self.mark = _this.data("mark");
                 }

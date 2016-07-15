@@ -19,10 +19,8 @@
         $(".add-price-range").click(function () {
             $(".no-data").remove();
             doT.exec("template/orders/addpricerange.html", function (template) {
-                var innerText = template({});
-                
-                innerText = $(innerText);
-               
+                var innerText = template({});                
+                innerText = $(innerText);               
                 $(".center-range").append(innerText);
                 
                 ObjectJS.updateAndAddPriceRange(innerText, ".save-price-range", orderid);
@@ -30,7 +28,6 @@
                 innerText.find(".cancel-price-range").click(function () {
                     $(this).parent().parent().remove();
                 });
-
             });
         });
 
@@ -106,38 +103,34 @@
             if (!price.isDouble() || price < 0) {
                 alert("价格不能为非数字或者小于零");
                 return;
-            }
-            if (minnumber == "" || maxnumber == "" || price == "") {
-                alert("内容不能为空");
-            } else {
-                var model = {
-                    RangeID: rangeid,
-                    MinQuantity: minnumber,
-                    MaxQuantity: maxnumber,
-                    Price: price,
-                    OrderID: orderid
-                };               
-                Global.post("/Orders/OrderPriceRange", {
-                    model: JSON.stringify(model)
-                }, function (obj) {
-                    if (obj.status) {
-                        if (save ==".save") {
-                            _this.find(".min-number").next().html(minnumber);
-                            _this.find(".max-number").next().html(maxnumber);
-                            _this.find(".price").next().html(price);
+            }            
+            var model = {
+                RangeID: rangeid,
+                MinQuantity: minnumber,
+                MaxQuantity: maxnumber,
+                Price: price,
+                OrderID: orderid
+            };               
+            Global.post("/Orders/OrderPriceRange", {
+                model: JSON.stringify(model)
+            }, function (obj) {
+                if (obj.status) {
+                    if (save ==".save") {
+                        _this.find(".min-number").next().html(minnumber);
+                        _this.find(".max-number").next().html(maxnumber);
+                        _this.find(".price").next().html(price);
 
-                            _this.find(".update,.delete,.txt").show();
-                            _this.find(".save,.cancel,input").hide();
-                        } else {
-                            $(".center-head").nextAll().remove();
-                            ObjectJS.getPriceRange(orderid);
-                            
-                        }
+                        _this.find(".update,.delete,.txt").show();
+                        _this.find(".save,.cancel,input").hide();
                     } else {
-                        alert("添加失败");
+                        $(".center-head").nextAll().remove();
+                        ObjectJS.getPriceRange(orderid);
+                            
                     }
-                });
-            }
+                } else {
+                    alert("添加失败");
+                }
+            });            
         });
     };
 

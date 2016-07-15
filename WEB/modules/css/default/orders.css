@@ -212,7 +212,6 @@
 .price-range .update-title .close_btn{background:#fff url(/modules/plug/easydialog/ico-close.png) no-repeat;                   
                                       height:16px;width:16px;float:right;margin-top:8px;}
 .price-range .update-title .close_btn:hover{background:#fff url(/modules/plug/easydialog/ico-close-hover.png) no-repeat;}
-.center-range { height:200px;}
 .center-range li { height:30px;margin:5px;}
 .center-range .center-head { background-color:#ededed;line-height:30px;}
 .center-range .center-head div{float:left;width:150px;text-align:center;}
