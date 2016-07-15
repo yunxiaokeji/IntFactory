@@ -22,6 +22,9 @@
     margin-left:-15px;
 }
 
+.details .bottom-line { 
+    border-bottom:1px solid #edd;
+}
 .index-report-header .order-type span {
     padding:0 10px;
     height:30px;
@@ -123,7 +126,7 @@ border-bottom:2px solid #4a98e7;
 .index-report-content {
     position:relative;
     height:237px;
-    margin:20px 10px 20px 28px;
+    margin:20px 10px 20px 48px;
 }
 .index-report-content .report-guid {
     position:absolute;
@@ -249,8 +252,7 @@ border-bottom:2px solid #4a98e7;
     padding:10px 20px 20px 20px;
 }
 
-.order-list .order-layerbox { 
-    border-left:2px solid #ddd;
+.order-list .order-layerbox {     
     padding-left:10px;
     position:relative;
     padding-bottom:10px;
@@ -366,9 +368,11 @@ border-bottom:2px solid #4a98e7;
     width:1px;
 }
 
-
 .index-list .list-header {
     color:#666;
+    border-bottom:1px solid #ccc;
+    height:25px;
+    line-height:25px;
 }
 .owner-box { 
     margin-left:100px;

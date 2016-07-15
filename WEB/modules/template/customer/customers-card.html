@@ -9,7 +9,7 @@
             <a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%}</a>
         </div>
         {% if(item.SourceType==1){ %}
-            <div class="hight20 mBottom3 mLeft240" style="position:relative">
+            <div class="hight20 mBottom3 mLeft240 width50" style="position:relative">
                 <div class="left color-leftzuoyou" style=" border-right:10px solid #ffa200; "></div>
                 <div class="left hight20 center width35" style="background-color:#ffa200;border-radius:2px;">
                     <i class="iconfont font18" style="color:#fff !important;">&#xe631;</i>
@@ -18,7 +18,7 @@
             </div>
         {% } %}
     </div>
-    <ul class="info mTop5">     
+    <ul class="info mTop5 mBottom10">     
         <li>
             <span class="iconfont">&#xe64f;</span>{%=item.MobilePhone?item.MobilePhone:"--"%}            
         </li>   
@@ -33,7 +33,7 @@
     
     <ul class="order-count">       
         <li>
-            <div class="list-mark left mRight10 mTop8"><span class="mark" data-id="{%= item.CustomerID %}" data-value="{%= item.Mark%}"></span></div>
+            <div class="list-mark left mRight10 mTop12"><span class="mark" data-id="{%= item.CustomerID %}" data-value="{%= item.Mark%}"></span></div>
         </li> 
         <li class="{%=item.DemandCount==0||'red'%}">
             需求单：
