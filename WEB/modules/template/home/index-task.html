@@ -19,7 +19,7 @@
 
         <ul class="details left">
             <li>
-                <div style="border-bottom:2px solid #5994e6">
+                <div class="bottom-line">
                     <div class='order-title'>
                         <a href="/Task/Detail/{%=item.TaskID%}" title='{%=item.Order.GoodsName + item.Order.IntGoodsCode==""? item.Order.OrderCode:item.Order.GoodsName+ "&nbsp;" + item.Order.IntGoodsCode%}' class='long width200 font16 color333 {%=item.Order.SourceType==3?"left":""%}'>{%=item.Order.GoodsName + item.Order.IntGoodsCode==""? item.Order.OrderCode:item.Order.GoodsName+ "&nbsp;" + item.Order.IntGoodsCode%}</a>
                     </div>  

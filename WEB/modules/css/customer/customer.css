@@ -8,10 +8,10 @@
 .content-body hr {height:20px;background-color:#F2F4F8;border:0;margin-left:-10px;margin-right:-10px; }
 .list-customer .hover{border:1px solid #007aff;}
 .list-customer .hover .check {display:inline-block;}
-.list-card { width:328px;border-spacing:0px;border:1px solid #ddd;float:left;padding:10px 10px 0 10px;}
+.list-card { width:328px;height:148px;border-spacing:0px;border:1px solid #ddd;float:left;padding:10px 10px 0 10px;}
 .list-card:hover{border:1px solid #007aff;}
 .list-card:hover .check{display:block;cursor:pointer;}
-.list-card .check{ float:right;width:20px;height:20px;border:1px solid #007aff;margin-top:5px;margin-right:5px;border-radius:0 3px 0 0;
+.list-card .check{ float:right;width:20px;height:20px;border:1px solid #007aff;margin-top:5px;margin-right:5px;
                     box-shadow:0 0 2px #4a98e7 inset;color:#fff;display:none;}
 .list-card .icon-check{background-color:#4a98e7;color:#fff;font-size:18px;}
 
@@ -20,14 +20,14 @@
 .list-card .message-name a{ font-size:16px;line-height:26px;color:#2162A5; }
 .list-card .message .list-mark{ line-height:23px;margin-top:5px;}
 
-.list-card .info li{ margin-left:5px;height:25px; cursor:pointer; margin-top:5px;color:#999;}
+.list-card .info li{ margin-left:5px;height:25px; margin-top:5px;color:#999;}
 .list-card .info .iconfont { font-size:14px;color:#999;margin-right:10px;}
 .list-card .info .photo{width:20px;height:20px;border-radius:10px; float:left;}
 .list-card .info span { display:inline-block; line-height:25px;font-size:14px;}
 
-.list-card .order-count { border-top:solid 1px #bfbfbf;border-top-style:dashed; height:30px; 
+.list-card .order-count { border-top:solid 1px #bfbfbf;border-top-style:dashed; height:40px; 
                           margin-top:5px;margin-left:8px; }
-.list-card .order-count li:not(:first-child) { float:left;height:30px; line-height:30px; text-align:center;width:30%;}
+.list-card .order-count li:not(:first-child) { float:left;height:30px; line-height:40px; text-align:center;width:30%;}
 .list-card .order-count a {text-decoration:underline;}
 .list-card .order-count a:hover { color:red;}
 .color-leftzuoyou{width:0; height:0; border-top:10px solid transparent;border-bottom:10px solid transparent;cursor: pointer;}
