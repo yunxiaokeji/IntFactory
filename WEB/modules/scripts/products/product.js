@@ -842,15 +842,6 @@ define(function (require, exports, module) {
                 $("#iptRemark").prop("disabled", "disabled").css({ "background-color": "#fff", "border": "none" });
             }
 
-            $(".productattr select").change(function () {
-                var _this=$(this);
-                if (_this.val() == '|') {
-                    _this.next().show();
-                } else {
-                    _this.next().hide();
-                }
-            });
-
             //绑定单位
             $("#unitName").text(model.SmallUnit.UnitName)
             if (model.SmallUnitID != model.BigUnitID) {
@@ -899,8 +890,6 @@ define(function (require, exports, module) {
                         var star = detailsModel.Description.indexOf(_this.find(".attrname").html()) + _this.find(".attrname").html().length;
 
                         var len = 0;
-                        console.log(_this.find(".attrname").html());
-                        console.log(_this.find(".attrname").html().length);
                         if (_this.next().hasClass("productattr")) {
                             len = detailsModel.Description.indexOf(_this.next().find(".attrname").html()) - star - 2;
                         } else {
