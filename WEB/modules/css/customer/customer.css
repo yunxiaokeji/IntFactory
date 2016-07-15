@@ -11,7 +11,7 @@
 .list-card { width:328px;height:148px;border-spacing:0px;border:1px solid #ddd;float:left;padding:10px 10px 0 10px;}
 .list-card:hover{border:1px solid #007aff;}
 .list-card:hover .check{display:block;cursor:pointer;}
-.list-card .check{ float:right;width:20px;height:20px;border:1px solid #007aff;margin-top:5px;margin-right:5px;border-radius:0 3px 0 0;
+.list-card .check{ float:right;width:20px;height:20px;border:1px solid #007aff;margin-top:5px;margin-right:5px;
                     box-shadow:0 0 2px #4a98e7 inset;color:#fff;display:none;}
 .list-card .icon-check{background-color:#4a98e7;color:#fff;font-size:18px;}
 

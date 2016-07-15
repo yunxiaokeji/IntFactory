@@ -75,10 +75,10 @@
     /*border-bottom:1px solid #eee;*/
 }
 .sum-list li{
-    float:left;
-    margin-right:18px;
+    float:left;    
     padding-bottom:5px;
     cursor:pointer;
+    margin:2px 18px 2px 0;
 }
 .sum-list .active {
 border-bottom:2px solid #4a98e7;
@@ -126,7 +126,7 @@ border-bottom:2px solid #4a98e7;
 .index-report-content {
     position:relative;
     height:237px;
-    margin:20px 10px 20px 48px;
+    margin:18px 10px 20px 48px;
 }
 .index-report-content .report-guid {
     position:absolute;
