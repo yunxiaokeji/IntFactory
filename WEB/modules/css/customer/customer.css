@@ -31,6 +31,7 @@
 .list-card .order-count a {text-decoration:underline;}
 .list-card .order-count a:hover { color:red;}
 .color-leftzuoyou{width:0; height:0; border-top:10px solid transparent;border-bottom:10px solid transparent;cursor: pointer;}
+.point-white {  background-color: #fff;width: 4px;height: 4px;border-radius: 50%;top: 8px;position: absolute;left: 5px;}
 
 /*筛选项-标记筛选*/
 .search-item-color { clear:both; overflow:auto; margin:10px 0; }

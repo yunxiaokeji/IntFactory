@@ -5,13 +5,16 @@
 <div class="list-card mRight15 mTop20">
     <div class="check iconfont" data-id="{%=item.CustomerID%}" data-userid="{%=item.OwnerID%}">&#xe626;</div>
     <div class="message">        
-        <div class="message-name long left"><a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%}</a></div>
+        <div class="message-name long left">
+            <a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%}</a>
+        </div>
         {% if(item.SourceType==1){ %}
-            <div class="hight20 mBottom3 mLeft240">
+            <div class="hight20 mBottom3 mLeft240" style="position:relative">
                 <div class="left color-leftzuoyou" style=" border-right:10px solid #ffa200; "></div>
-                <div class="left hight20" style="background-color:#ffa200;border-radius:2px;">
+                <div class="left hight20 center width35" style="background-color:#ffa200;border-radius:2px;">
                     <i class="iconfont font18" style="color:#fff !important;">&#xe631;</i>
                 </div>
+                <div class="point-white"></div>
             </div>
         {% } %}
     </div>
