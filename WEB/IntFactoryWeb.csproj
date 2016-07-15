@@ -250,6 +250,7 @@
     <Content Include="modules\images\home\ico-cooperationorder.png" />
     <Content Include="modules\images\home\ico-delegateorder.png" />
     <Content Include="modules\images\home\ico-myorder.png" />
+    <Content Include="modules\images\home\wx_logo64.png" />
     <Content Include="modules\images\ico-account-login.png" />
     <Content Include="modules\images\ico-ali-login.png" />
     <Content Include="modules\images\ico-alipay.png" />
@@ -327,6 +328,7 @@
     <Content Include="modules\images\wechat.jpg" />
     <Content Include="modules\images\ico-wechat.png" />
     <Content Include="modules\images\word.png" />
+    <Content Include="modules\images\wx_logo64.png" />
     <Content Include="modules\plug\choosecolor\spectrum.css" />
     <Content Include="modules\plug\choosecolor\spectrum.js" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
@@ -1320,6 +1322,10 @@
     <ProjectReference Include="..\IntFactory.Service\IntFactory.Service.csproj">
       <Project>{313e5872-f99a-4b77-9987-a01dff27b758}</Project>
       <Name>IntFactory.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WeiXin.Sdk\WeiXin.Sdk.csproj">
+      <Project>{a01e43b8-fabf-4601-8894-4374026aa08c}</Project>
+      <Name>WeiXin.Sdk</Name>
     </ProjectReference>
     <ProjectReference Include="..\YXBusiness\IntFactoryBusiness.csproj">
       <Project>{6322cb56-2693-4600-922d-0dec06a8f59c}</Project>
