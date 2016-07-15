@@ -49,6 +49,16 @@ namespace IntFactoryDAL
 
         }
 
+        public DataSet GetUserByWeiXinID(string weiXinID)
+        {
+            SqlParameter[] paras = { 
+                                    new SqlParameter("@WeiXinID",weiXinID)
+                                   };
+            return GetDataSet("P_GetUserByWeiXinID", paras, CommandType.StoredProcedure, "User|Permission");//|Department|Role
+
+
+        }
+
         public DataTable GetUsers(string agentid)
         {
             string sql = "select * from Users where AgentID=@AgentID";
