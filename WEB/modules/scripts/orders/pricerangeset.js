@@ -9,6 +9,7 @@
     };
 
     ObjectJS.bindEvent = function (orderid) {
+
         $(".price-range-set").click(function () {            
             $(".center-head").nextAll().remove();
             $("#bfe_overlay").show();
@@ -31,7 +32,7 @@
             });
         });
 
-        $(".close_btn").click(function () {
+        $(".close_btn,#bfe_overlay").click(function () {
             $("#bfe_overlay").hide();
             $(".price-range").hide();
         });

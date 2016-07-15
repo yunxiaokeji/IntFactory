@@ -4,25 +4,34 @@
 %}
 <div class="list-card mRight15 mTop20">
     <div class="check iconfont" data-id="{%=item.CustomerID%}" data-userid="{%=item.OwnerID%}">&#xe626;</div>
-    <div class="message">
-        <div class="list-mark left mRight10"><span class="mark" data-id="{%= item.CustomerID %}" data-value="{%= item.Mark%}"></span></div>
-        <div class="message-name long"><a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%}</a></div>
+    <div class="message">        
+        <div class="message-name long left"><a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%}</a></div>
+        {% if(item.SourceType==1){ %}
+            <div class="hight20 mBottom3 mLeft240">
+                <div class="left color-leftzuoyou" style=" border-right:10px solid #ffa200; "></div>
+                <div class="left hight20" style="background-color:#ffa200;border-radius:2px;">
+                    <i class="iconfont font18" style="color:#fff !important;">&#xe631;</i>
+                </div>
+            </div>
+        {% } %}
     </div>
-    <ul class="info mTop5">
-        <li><span class="iconfont">&#xe64f;</span>{%=item.MobilePhone?item.MobilePhone:"--"%}</li>
-        <li><span class="iconfont">&#xe657;</span>{%=item.City?item.City.Description:"--"%}</li>
+    <ul class="info mTop5">     
         <li>
-            <div class="left" title="创建日期"><span class="iconfont">&#xe639;</span>{%=item.CreateTime.toDate("yyyy-MM-dd")%}</div>
+            <span class="iconfont">&#xe64f;</span>{%=item.MobilePhone?item.MobilePhone:"--"%}            
+        </li>   
+        <li>
+            <span class="iconfont">&#xe657;</span>{%=item.City?item.City.Description:"--"%}  
             <div class="right mRight10" title="负责人">
                 <img class="photo mTop2" onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="{%=item.Owner&&item.Owner.Avatar?item.Owner.Avatar:'/modules/images/defaultavatar.png'%}" />
-                <span class="left mLeft5">{%=(item.Owner ? item.Owner.Name:"--")%}</span>
-            </div>
-        </li>
-        <!--<li class="">
-            <div class="mRight10 right"> {%=item.SourceType==1?"阿里客户":item.SourceType==2?"自助下单":"手工创建"%}</div>
-        </li>-->
+                <span class="left mLeft20">{%=(item.Owner ? item.Owner.Name:"--")%}</span>
+            </div>          
+        </li>        
     </ul>
-    <ul class="order-count">
+    
+    <ul class="order-count">       
+        <li>
+            <div class="list-mark left mRight10 mTop8"><span class="mark" data-id="{%= item.CustomerID %}" data-value="{%= item.Mark%}"></span></div>
+        </li> 
         <li class="{%=item.DemandCount==0||'red'%}">
             需求单：
             {% if(item.DemandCount>0){%}
