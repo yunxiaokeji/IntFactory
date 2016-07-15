@@ -512,11 +512,10 @@
             $("#taskType").hide();
         }
         if (Paras.pageIndex == 1) {
-            $(".order-layerbox .layer-lump").nextAll().remove();
+            $(".order-layerbox").empty();
             data = CacheArr[Paras.filterTime + Paras.filterType + Paras.moduleType + Paras.orderType + Paras.userID + Paras.taskType + Paras.preFinishStatus + Paras.filterTimeType + "DataList"];
         }
         $(".order-layerbox").append("<div class='data-loading'></div>");
-
 
         if (data == null) {
             Global.post("/Home/GetOrdersOrTasksDataList", Paras, function (data) {
@@ -537,6 +536,7 @@
     /*拼接列表数据*/
     ObjectJS.createDataListHtml = function (data) {
         $('.data-loading').remove();
+       
         IsLoaddingTwo = true;
         
         var url = "";
@@ -551,7 +551,7 @@
             $(".order-layerbox").append("<div class='nodata-txt'>暂无数据!<div>");
             $(".load-box").hide();
         }
-        else {
+        else {            
             DoT.exec(url, function (template) {
                 var innerText = template(items);
                 innerText = $(innerText);               
