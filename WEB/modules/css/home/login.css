@@ -45,7 +45,7 @@ border:none; font-weight:bold; cursor:pointer; display:inline-block; border-radi
 
 .accounts .account-alibaba:hover {background:url(/modules/images/home/ico-ali.png) no-repeat;background-color:#4A98E7; }
 
-.accounts .account-weixin {background-color:#8FEA9B; }
+.accounts .account-weixin {background-color:#77D784; }
 .accounts .account-weixin:hover {background-color:#3eb94e; }
 
 .login-body .copyright{ position:fixed; bottom:20px; right:20px; color:#333; text-align:right}
