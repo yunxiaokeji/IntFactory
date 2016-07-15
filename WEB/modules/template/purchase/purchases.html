@@ -17,7 +17,12 @@ console.log(item);
     <td>编码</td>
     <td>数量</td>
     <td>总金额</td>
-    <td  class="bolder">{%=item.CreateTime.toDate('yyyy-MM-dd hh:ss:mm')%}</td>
+    <td class="bolder">
+        {%=item.CreateTime.toDate('yyyy-MM-dd hh:ss:mm')%}
+        <div class="right iconfont">
+            <span class="{%=item.Status < 2? 'ico-dropdown':''%}"></span>
+        </div>
+    </td>
 </tr>
     
 {%
@@ -44,7 +49,7 @@ console.log(item);
          <td rowspan="{%=kk%}" class="bBottom bLeft">{%=item.TotalMoney%}</td>
          <td rowspan="{%=kk%}" class="bBottom bRight bLeft">
              <div class="{%=item.Status<2?'red':''%} mBottom10">{%=item.StatusStr%}</div>
-             <a href="/Products/DocDetail/{%=item.DocID%}">查看详情</a>
+             <a href="/Products/DocDetail/{%=item.DocID%}" target="_blank">查看详情</a>
          </td>
          {%}%}
      </tr>
