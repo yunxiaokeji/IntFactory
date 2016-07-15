@@ -135,19 +135,19 @@ define(function (require, exports, module) {
     //获取单据列表
     ObjectJS.getList = function () {
         var _self = this;
-        $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='7'><div class='data-loading'><div></td></tr>");
+        $(".table-header").nextAll().remove();
+        $(".table-header").after("<tr><td colspan='7'><div class='data-loading'><div></td></tr>");
         var url = "/Purchase/GetPurchases",
             template = "template/purchase/purchases.html";
 
         Global.post(url, Params, function (data) {
-            $(".tr-header").nextAll().remove();
+            $(".table-header").nextAll().remove();
 
             if (data.items.length > 0) {
                 doT.exec(template, function (templateFun) {
                     var innerText = templateFun(data.items);
                     innerText = $(innerText);
-                    $(".tr-header").after(innerText);
+                    $(".table-header").after(innerText);
 
                     //下拉事件
                     $(".dropdown").click(function () {
@@ -168,7 +168,7 @@ define(function (require, exports, module) {
                 });
             }
             else {
-                $(".tr-header").after("<tr><td colspan='7'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                $(".table-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
 
             $("#pager").paginate({

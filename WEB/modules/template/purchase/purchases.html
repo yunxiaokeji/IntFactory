@@ -1,37 +1,52 @@
 ﻿{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
+console.log(item);
 %}
-<tr class="list-item">
-    <td class="width80">
-         <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.DocImage?item.DocImage:'/modules/images/img-noimg.png'%}" />
-    </td>
-    <td>
-        {%
-	        for(var ii=0, jj=item.Details.length; ii < jj; ii++){
-	        var detail = item.Details[ii];
-        %}
-        <ul class="purchase-detail">     
-             <li class="long name" title="{%=detail.ProductName%}{%=detail.Remark%}">
-                 {%=detail.ProductName%}{%=detail.Remark%}
-             </li>   
-             <li class="code width120 long" title="{%=detail.DetailsCode?detail.DetailsCode: detail.ProductCode%}">
-                 {%=detail.DetailsCode?detail.DetailsCode: detail.ProductCode%}
-             </li>   
-             <li class="width80">
-                 {%=detail.Quantity%}
-             </li> 
-        </ul>
-        {% } %}
-    </td>
-    <td>
-        <a href="DocDetail/{%=item.DocID%}" target="_blank">{%=item.DocCode%}</a>
-    </td>
-    <td class="center {%=item.Status<2?'red':''%}">{%=item.StatusStr%}</td>
-    <td class="tRight">{%=item.TotalMoney.toFixed(2)%}</td>
-    <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
-    <td class="center {%=item.Status < 2? 'dropdown':''%} " data-status="{%=item.Status%}" data-id="{%=item.DocID%}">
-        <span class="{%=item.Status < 2? 'ico-dropdown':''%}"></span>
-    </td>
+<tr class="line-item">
+    <td colspan="10"></td>
 </tr>
+<tr class="item-header">
+    <td class="tLeft bolder">
+        采购单号：{%=item.DocCode%}
+    </td>
+    <td class="tLeft">名称</td>
+    <td  class="tLeft">
+        规格
+    </td>
+    <td>编码</td>
+    <td>数量</td>
+    <td>总金额</td>
+    <td  class="bolder">{%=item.CreateTime.toDate('yyyy-MM-dd hh:ss:mm')%}</td>
+</tr>
+    
+{%
+    for(var k=0,kk=item.Details.length;k<kk;k++){
+        var detailItem=item.Details[k];
+ %}
+     <tr class="item {%=k==kk-1?'last':''%}">
+        {%
+            if(k==0)
+            {
+         %}
+         <td rowspan="{%=kk%}" class="tLeft bBottom bLeft bRight">
+             <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.DocImage?item.DocImage:'/modules/images/img-noimg.png'%}" />
+         </td>
+         {%}%}
+         <td class="bBottom tLeft">{%=detailItem.ProductName%}</td>
+         <td class="bBottom tLeft">{%=detailItem.Remark%}</td>
+         <td class="bBottom">{%=detailItem.DetailsCode?detailItem.DetailsCode: detailItem.ProductCode%}</td>
+         <td class="bBottom">{%=detailItem.Quantity%}</td>
+         {%
+            if(k==0)
+            {
+         %}
+         <td rowspan="{%=kk%}" class="bBottom bLeft">{%=item.TotalMoney%}</td>
+         <td rowspan="{%=kk%}" class="bBottom bRight bLeft">
+             <div class="{%=item.Status<2?'red':''%} mBottom10">{%=item.StatusStr%}</div>
+             <a href="/Products/DocDetail/{%=item.DocID%}">查看详情</a>
+         </td>
+         {%}%}
+     </tr>
+{%}%}
 {% } %}
