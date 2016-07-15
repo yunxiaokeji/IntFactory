@@ -356,6 +356,11 @@ namespace YXERP.Controllers
             }
         }
 
+        public ActionResult WeiXinLogin(string ReturnUrl)
+        {
+            return Redirect(WeiXin.Sdk.Token.GetAuthorizeUrl(Server.UrlEncode("http://localhost:9999/Home/WeiXinCallBack"), "", false));
+        }
+
         //明道登录回掉
         public ActionResult MDCallBack(string code, string state)
         {
@@ -400,6 +405,11 @@ namespace YXERP.Controllers
             }
 
             return Redirect("/Home/Login");
+        }
+
+        public ActionResult WeiXinCallBack(string code) {
+
+            return View();
         }
 
         /// <summary>

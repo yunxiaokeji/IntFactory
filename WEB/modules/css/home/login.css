@@ -39,11 +39,14 @@ border:none; font-weight:bold; cursor:pointer; display:inline-block; border-radi
 
 .other-account .accounts { height:40px; margin-top:20px; text-align:center; }
 
-.other-account .accounts a{ height:40px; width:40px;display:inline-block; border-radius:20px;}
+.other-account .accounts a,.other-account .accounts img{ height:40px; width:40px;display:inline-block; border-radius:20px;}
 
 .accounts .account-alibaba { background:url(/modules/images/home/ico-ali.png) no-repeat; background-color:#ccc; }
 
 .accounts .account-alibaba:hover {background:url(/modules/images/home/ico-ali.png) no-repeat;background-color:#4A98E7; }
+
+.accounts .account-weixin {background-color:#8FEA9B; }
+.accounts .account-weixin:hover {background-color:#3eb94e; }
 
 .login-body .copyright{ position:fixed; bottom:20px; right:20px; color:#333; text-align:right}
 
