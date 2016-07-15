@@ -1059,6 +1059,7 @@
                         $(".tbContentIpt").each(function () {
                             $(this).html($(this).prev().html()).show().prev().hide();
                         });
+                        $("#btn-updateTaskRemark").html("保存制版");
                         ObjectJS.bindSetMarkValue();
                         ObjectJS.bindDropDown();
                         ObjectJS.bindAddRow();
@@ -1095,6 +1096,10 @@
             }
 
             $column.remove();
+            $(".tbContentIpt").each(function () {
+                $(this).html($(this).prev().html()).show().prev().hide();
+            });
+            $("#btn-updateTaskRemark").html("保存制版");
         });
     }
 
@@ -1123,6 +1128,7 @@
             $newTR.find(".tbContent").empty();
             $(this).parent().parent().parent().after($newTR);
 
+            $("#btn-updateTaskRemark").html("保存制版");
             ObjectJS.bindAddRow();
             ObjectJS.bindRemoveRow();
             ObjectJS.bindSetMarkValue();
@@ -1139,6 +1145,7 @@
             }
 
             $(this).parent().parent().parent().remove();
+            $("#btn-updateTaskRemark").html("保存制版");
         });
     }
 
@@ -1154,6 +1161,20 @@
                 return;
             }
 
+            var markvalue = $(this).val();
+            var marksort = $(".td-normal-plate").data("sort");
+            var variation =$(this).parent().parent().find(".normal-plate-ipt").val();
+            if (variation=='' || !variation.isDouble()) {
+                return;
+            }
+            var $tbContentIpts = $(this).parent().parent().find(".tbContentIpt");
+            var $columnHeadrs = $(".tr-header .columnHeadr");
+            for (var i = 0; i < $columnHeadrs.length; i++) {
+                var sort = $columnHeadrs.eq(i).data("sort");
+                var value = parseInt(markvalue) + parseInt((variation * (sort - marksort)));
+
+                $tbContentIpts.eq(i + 1).val(value);
+            }
         });
     };
 
@@ -1329,7 +1350,7 @@
     ObjectJS.updateOrderPlatemaking = function () {
         if ($("#platemakingBody").html() == "") { return; }
 
-        if ($(".tbContentIpt:visible").length == 0) {
+        if ($("#btn-updateTaskRemark").html() == "编辑制版") {
             $("#btn-updateTaskRemark").html("保存制版");
             $(".tbContentIpt").each(function () {
                 $(this).html( $(this).prev().html() ).show().prev().hide();
