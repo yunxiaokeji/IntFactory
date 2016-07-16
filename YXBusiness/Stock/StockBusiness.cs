@@ -70,7 +70,7 @@ namespace IntFactoryBusiness
             DataSet ds = StockDAL.BaseProvider.GetGoodsDocByOrderID(orderid,taskid, (int)type, clientid);
 
             List<GoodsDoc> list = new List<GoodsDoc>();
-            foreach (DataRow dr in ds.Tables[0].Rows)
+            foreach (DataRow dr in ds.Tables["Doc"].Rows)
             {
                 GoodsDoc model = new GoodsDoc();
                 model.FillData(dr);
@@ -80,7 +80,16 @@ namespace IntFactoryBusiness
                 }
                 model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientid);
                 model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
-
+                model.Details = new List<GoodsDocDetail>();
+                if (ds.Tables.Contains("Details"))
+                {
+                    foreach (DataRow detail in ds.Tables["Details"].Select("DocID='" + model.DocID + "'"))
+                    {
+                        GoodsDocDetail goodsDetailModel = new GoodsDocDetail();
+                        goodsDetailModel.FillData(detail);
+                        model.Details.Add(goodsDetailModel);
+                    }
+                }
                 list.Add(model);
             }
             return list;

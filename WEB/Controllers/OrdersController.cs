@@ -707,7 +707,6 @@ namespace YXERP.Controllers
 
         public JsonResult GetGoodsDocByOrderID(string orderid, int type, string taskid="")
         {
-            
             var list = StockBusiness.GetGoodsDocByOrderID(orderid,taskid, (EnumDocType)type, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult
@@ -890,6 +889,51 @@ namespace YXERP.Controllers
                 bl = TaskBusiness.LockTask(taskid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
             }
             JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /*价格区间设置*/
+
+        public JsonResult GetOrderPriceRanges(string orderid)
+        {
+            var obj = IntFactoryBusiness.OrdersBusiness.GetOrderPriceRanges(orderid);
+            JsonDictionary.Add("items",obj);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult OrderPriceRange(string model)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            OrderPriceRange models = serializer.Deserialize<OrderPriceRange>(model);
+            bool bl = false;
+            if (string.IsNullOrEmpty(models.RangeID))
+            {
+                bl = IntFactoryBusiness.OrdersBusiness.AddOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);                
+            }else
+            {
+                bl = IntFactoryBusiness.OrdersBusiness.UpdateOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            }
+
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        
+        public JsonResult DeleteOrderPriceRange(string rangeid)
+        {
+            var status = IntFactoryBusiness.OrdersBusiness.DeleteOrderPriceRange(rangeid);
+            JsonDictionary.Add("status",status);
             return new JsonResult
             {
                 Data = JsonDictionary,

@@ -37,10 +37,10 @@
         var _self = this;
         Params.SearchType = type;
         _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
-        Params.PageSize = ($(".list-customer").width() / 300).toFixed(0) * 3;
+        Params.PageSize = ($(".list-customer").width() / 350).toFixed(0) * 3;
 
         _self.getList();
-        _self.bindEvent(type);
+        _self.bindEvent(type);        
     }
     
     //绑定事件
@@ -52,7 +52,7 @@
                 $(".dropdown-ul").hide();
             }
         });
-
+        
         //日期插件
         $("#iptCreateTime").daterangepicker({
             showDropdowns: true,

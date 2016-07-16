@@ -6,16 +6,12 @@
  }
 
 <div class="platemakingContent hide" id="platemakingContent">
-    @{
-        //if (!string.IsNullOrEmpty(order.Platemaking) && isRoot)
-        //{
-            <a class="right" href="/Orders/PlateMakingProcess/@order.OrderID" target="_blank" id="btn-platePrint" title="制版工艺">
-                <span class="iconfont">&#xe658;</span><span class="print-plate">制版工艺</span>
-            </a>
-            @*
-        }*@
-    }
-    <div class="clear"></div>
+    <div class="talk-title" >制版信息
+        <a class="right" href="/Orders/PlateMakingProcess/@order.OrderID" target="_blank" id="btn-platePrint">
+            <span class="iconfont">&#xe658;</span>
+        </a>
+        <div class="clear"></div>
+    </div>
 
     <div id="platemakingBody" class="mTop10 platemakingBody">
     @{
@@ -40,12 +36,15 @@
             var hasPlate = !string.IsNullOrEmpty(order.Platemaking);
             if (!hasPlate)
             {
-                <div class="create-first" id="btn-addTaskPlate">
+                <div class="create-first" id="btn-initAddTaskPlate">
                     <span class="plus">+</span>
                     添加制版
                 </div>
             }
-            <div class="btn right mTop10" style="display:@(hasPlate ? "block" : "none")" id="btn-updateTaskRemark">保存制版</div>
+            <div class="btn right mTop10" style="display:@(hasPlate?"block":"none")"  id="btn-updateTaskRemark">编辑制版</div>
+            <div class="left btn-add mTop10" style="display:@(hasPlate?"block":"none")" id="btn-addColumn">
+                添加制版
+            </div>
         }
     }
     <div class="clear"></div>
@@ -68,7 +67,8 @@
     }
 </div>
 
-@{if (isRoot){
+@{if (isRoot)
+  {
 <ul class="dropdown-ul hide" id="setPlateMaking" style="width:90px;">
     <li id="setObjectPlate">编辑</li>
     <li id="deleteObject">删除</li>

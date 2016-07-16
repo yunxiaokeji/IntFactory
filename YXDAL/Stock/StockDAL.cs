@@ -59,12 +59,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@DocType", doctype) ,
                                        new SqlParameter("@ClientID", clientid) 
                                    };
-            string sqlTxt = "select * from GoodsDoc where OriginalID=@OriginalID and ClientID=@ClientID and DocType=@DocType";
-            if(!string.IsNullOrEmpty(taskid)){
-                sqlTxt += " and TaskID=@TaskID";
-            }
-            sqlTxt += " order by AutoID desc";
-            DataSet ds = GetDataSet(sqlTxt, paras, CommandType.Text);
+            DataSet ds = GetDataSet("P_GetGoodsDocByOrderID", paras, CommandType.StoredProcedure, "Doc|Details");
             return ds;
         }
 

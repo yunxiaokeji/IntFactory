@@ -162,11 +162,11 @@
     //保存实体
     ObjectJS.saveModel = function () {
         var _self = this;
-        var domainUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
         var images = "";
         $("#orderImages li").each(function () {
+            var _this = $(this);
             if ($(this).data("filename")) {
-                images += domainUrl + $(this).data("filename") + ",";
+                images += _this.data("server") + _this.data("filename") + ",";
             }
         });
         var model = {
