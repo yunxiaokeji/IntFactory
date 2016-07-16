@@ -212,8 +212,6 @@ namespace IntFactoryDAL
 
         #region 编辑、删除
 
-
-
         public bool UpdateStorageDetailWare(string docid, string autoid, string wareid, string depotid)
         {
             string sql = "update StorageDetail set WareID=@WareID,DepotID=@DepotID where DocID=@DocID and AutoID=@AutoID and Status=0";
