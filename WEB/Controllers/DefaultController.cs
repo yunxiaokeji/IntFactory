@@ -86,6 +86,12 @@ namespace YXERP.Controllers
         {
             bool bl = ClientBusiness.FinishInitSetting(CurrentUser.ClientID);
             JsonDictionary.Add("result", bl);
+            if (bl) 
+            {
+                CurrentUser.Client.GuideStep = 0;
+                Session["ClientManager"] = CurrentUser;
+            }
+
             return new JsonResult()
             {
                 Data = JsonDictionary,
@@ -97,7 +103,6 @@ namespace YXERP.Controllers
         {
             bool bl = OrganizationBusiness.AccountBindMobile(BindMobile, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("result", bl);
-
             if (bl) {
                 CurrentUser.BindMobilePhone = BindMobile;
                 CurrentUser.MobilePhone = BindMobile;
@@ -105,6 +110,7 @@ namespace YXERP.Controllers
                 Session["ClientManager"] = CurrentUser;
                 Common.Common.ClearMobilePhoneCode(BindMobile);
             }
+
             return new JsonResult()
             {
                 Data = JsonDictionary,
