@@ -21,7 +21,7 @@
                     window.location = "/Default/SettingHelp";
                 }
                 else {
-                    alert("跳转中,请稍后");                    
+                    alert("网络出现异常,请稍后重试!");
                 }
             })
 
