@@ -32,7 +32,6 @@ namespace WeiXin.Sdk
 
         public static TokenEntity GetAccessToken(string code)
         {
-
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras.Add("appid",AppConfig.AppKey);
             paras.Add("secret", AppConfig.AppSecret);
