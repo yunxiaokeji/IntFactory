@@ -59,11 +59,11 @@ border:none; font-weight:bold; cursor:pointer; display:inline-block; border-radi
 .divRegister {padding:25px;float:right;}
 
 .btnRegister { height: 26px; line-height: 26px; padding: 0px 28px 0px 8px; background-color: #fff; color: #aaa; font-size: 14px; 
-               text-align: center; cursor: pointer; border-radius: 3px; opacity: 0.8; border: solid 1px #aaa; 
-               background: url(/modules/images/ico-goregister.png) no-repeat 40px center; }
+               text-align: center; cursor: pointer; border-radius: 3px; opacity: 0.8; border: solid 1px #4a98e7;color:#4a98e7; 
+               background: url(/modules/images/ico-goregister-hover.png) no-repeat 40px center;margin:5px 4px 0 0; }
 
-.btnRegister:hover { height: 26px; line-height: 26px; padding: 0px 28px 0px 8px; background-color: #fff; color: #4A98E7; font-size: 14px; 
-                     text-align: center; cursor: pointer; border-radius: 3px; opacity: 0.8; border: solid 1px #4A98E7; 
+.btnRegister:hover { height: 26px; line-height: 26px; padding: 0px 28px 0px 8px; background-color: #fff; color: #2F73B8; font-size: 14px; 
+                     text-align: center; cursor: pointer; border-radius: 3px; opacity: 0.8; border: solid 1px #2F73B8; 
                      background: url(/modules/images/ico-goregister-hover.png) no-repeat 40px center; }
 
 .error-body { display: none; }
