@@ -59,8 +59,19 @@ namespace YXERP.Controllers
 
         public ActionResult BindMobile()
         {
-            if (CurrentUser.Client.GuideStep == 3 && string.IsNullOrEmpty(CurrentUser.BindMobilePhone))
+            if (CurrentUser.Client.GuideStep == 3)
             {
+                if (!string.IsNullOrEmpty(CurrentUser.BindMobilePhone))
+                {
+                    bool bl = ClientBusiness.FinishInitSetting(CurrentUser.ClientID);
+                    if (bl)
+                    {
+                        CurrentUser.Client.GuideStep = 0;
+                        Session["ClientManager"] = CurrentUser;
+                        return Redirect("/Default/SettingHelp");
+                    }
+                }
+
                 return View();
             }
             else
