@@ -1103,7 +1103,7 @@
     <Content Include="Views\Task\CargoMaterialDetail.cshtml" />
     <Content Include="Views\Task\PlateDetail.cshtml" />
     <Content Include="Views\Home\BindAccount.cshtml" />
-    <Content Include="Views\Home\SelectLogin.cshtml" />
+    <Content Include="Views\Home\AliSelectLogin.cshtml" />
     <Content Include="Views\Task\PlatePrint.cshtml" />
     <Content Include="Views\Orders\Orders.cshtml" />
     <Content Include="Views\Orders\OrderSuccess.cshtml" />
@@ -1139,6 +1139,7 @@
     <Content Include="Views\Error\NoFindFile.cshtml" />
     <Content Include="Views\Default\BindMobile.cshtml" />
     <Content Include="Views\System\LabelSet.cshtml" />
+    <Content Include="Views\Home\WeiXinSelectLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -85,46 +85,6 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult SelectLogin()
-        {
-            if (Session["AliTokenInfo"] == null)
-            {
-                return Redirect("/Home/Login");
-            }
-
-            return View();
-        }
-
-        public ActionResult Login(string ReturnUrl, int Status = 0)
-        {
-            if (Session["ClientManager"] != null)
-            {
-                return Redirect("/Home/Index");
-            }
-            HttpCookie cook = Request.Cookies["cloudsales"];
-            if (cook != null)
-            {
-                if (cook["status"] == "1")
-                {
-                    string operateip = Common.Common.GetRequestIP();
-                    int result;
-                    IntFactoryEntity.Users model = IntFactoryBusiness.OrganizationBusiness.GetUserByUserName(cook["username"], cook["pwd"],out result, operateip);
-                    if (model != null)
-                    {
-                        Session["ClientManager"] = model;
-                        return Redirect("/Home/Index");
-                    }
-                }
-                else
-                {
-                    ViewBag.UserName = cook["username"];
-                }
-            }
-            ViewBag.Status = Status;
-            ViewBag.ReturnUrl = ReturnUrl ?? string.Empty;
-            return View();
-        }
-        
         public ActionResult Logout(int Status = 0)
         {
             HttpCookie cook = Request.Cookies["cloudsales"];
@@ -334,6 +294,49 @@ namespace YXERP.Controllers
             };
         }
 
+        public ActionResult Login(string ReturnUrl, int Status = 0, int BindAccountType=0)
+        {
+            if (Session["ClientManager"] != null)
+            {
+                return Redirect("/Home/Index");
+            }
+            HttpCookie cook = Request.Cookies["cloudsales"];
+            if (cook != null)
+            {
+                if (cook["status"] == "1")
+                {
+                    string operateip = Common.Common.GetRequestIP();
+                    int result;
+                    IntFactoryEntity.Users model = IntFactoryBusiness.OrganizationBusiness.GetUserByUserName(cook["username"], cook["pwd"], out result, operateip);
+                    if (model != null)
+                    {
+                        Session["ClientManager"] = model;
+                        return Redirect("/Home/Index");
+                    }
+                }
+                else
+                {
+                    ViewBag.UserName = cook["username"];
+                }
+            }
+            ViewBag.Status = Status;
+            ViewBag.ReturnUrl = ReturnUrl ?? string.Empty;
+            ViewBag.BindAccountType = BindAccountType;
+
+            return View();
+        }
+
+        //阿里账户选择进入方式
+        public ActionResult AliSelectLogin()
+        {
+            if (Session["AliTokenInfo"] == null)
+            {
+                return Redirect("/Home/Login");
+            }
+
+            return View();
+        }
+
        //阿里授权地址
         public ActionResult AlibabaLogin(string ReturnUrl)
         {
@@ -381,7 +384,7 @@ namespace YXERP.Controllers
                 else
                 {
                     Session["AliTokenInfo"] = userToken.access_token + "|" + userToken.refresh_token + "|" + userToken.memberId;
-                    return Redirect("/Home/SelectLogin");
+                    return Redirect("/Home/AliSelectLogin");
                 }
             }
 
@@ -391,7 +394,6 @@ namespace YXERP.Controllers
         //阿里账户注册
         public ActionResult AliRegisterMember()
         {
-
             string operateip = Common.Common.GetRequestIP();
             int result;
             if (Session["AliTokenInfo"] != null)
@@ -431,6 +433,17 @@ namespace YXERP.Controllers
             }
 
             return Redirect("/Home/Login");
+        }
+
+        //微信账户选择进入方式
+        public ActionResult WeiXinSelectLogin()
+        {
+            if (Session["WeiXinTokenInfo"] == null)
+            {
+                return Redirect("/Home/Login");
+            }
+
+            return View();
         }
 
         //微信授权地址
@@ -476,8 +489,8 @@ namespace YXERP.Controllers
                 }
                 else
                 {
-                    Session["WeiXinTokenInfo"] = userToken.access_token + "|" + userToken.openid;
-                    return Redirect("/Home/SelectLogin");
+                    Session["WeiXinTokenInfo"] = userToken.access_token + "|" + userToken.openid+"|"+userToken.unionid;
+                    return Redirect("/Home/WeiXinSelectLogin");
                 }
             }
 
@@ -493,11 +506,11 @@ namespace YXERP.Controllers
             {
                 string tokenInfo = Session["WeiXinTokenInfo"].ToString();
                 string[] tokenArr = tokenInfo.Split('|');
-                if (tokenArr.Length == 2)
+                if (tokenArr.Length == 3)
                 {
                     string access_token = tokenArr[0];
-                    string memberId = tokenArr[1];
-                    var memberResult = WeiXin.Sdk.Passport.GetUserInfo(access_token, memberId);
+                    string openid = tokenArr[1];
+                    var memberResult = WeiXin.Sdk.Passport.GetUserInfo(access_token, openid);
 
                     Clients clientModel = new Clients();
                     clientModel.CompanyName = memberResult.nickname;
@@ -505,7 +518,7 @@ namespace YXERP.Controllers
                     clientModel.MobilePhone = string.Empty;
 
                     var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result,
-                        "", string.Empty, string.Empty,string.Empty);
+                        "", string.Empty, string.Empty,string.Empty,memberResult.unionid);
 
                     if (!string.IsNullOrEmpty(clientid))
                     {
@@ -523,7 +536,7 @@ namespace YXERP.Controllers
         }
 
         //登录
-        public JsonResult UserLogin(string userName, string pwd, string remember, int fromBindAccount)
+        public JsonResult UserLogin(string userName, string pwd, string remember, int bindAccountType)
         {
             int result = 0;
             Dictionary<string, object> resultObj = new Dictionary<string, object>();
@@ -548,10 +561,13 @@ namespace YXERP.Controllers
                         cook.Expires = DateTime.Now.AddDays(7);
                         Response.Cookies.Add(cook);
 
-                        //将阿里账户绑定到现有账户
-                        if (fromBindAccount == 1)
-                        {
+                        //将阿里账户绑定到已有账户
+                        if (bindAccountType == 1) {
                             result=BindAliMember(model);
+                        }
+                        //将微信账户绑定到已有账户
+                        else if (bindAccountType == 2) {
+                            result = BindWeiXin(model);
                         }
                         else
                         {
@@ -563,8 +579,7 @@ namespace YXERP.Controllers
                     }
                     else
                     {
-                        if (model.Status.Value == 9)
-                        {
+                        if (model.Status.Value == 9){
                             result = 9;
                         }
                     }
@@ -607,14 +622,13 @@ namespace YXERP.Controllers
                 resultObj.Add("forbidTime", forbidTime);
                 result = -1;
             }
-
             resultObj.Add("result",result);
+
             return new JsonResult
             {
                 Data = resultObj,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-
         }
 
         //绑定阿里账户
@@ -654,14 +668,11 @@ namespace YXERP.Controllers
                         }
                     }
                 }
-                else
-                {
+                else{
                     result = 4;
                 }
-
             }
-            else
-            {
+            else {
                 result = 5;
             }
 
@@ -672,54 +683,29 @@ namespace YXERP.Controllers
         public int BindWeiXin(Users model)
         {
             int result = 0;
-            if (Session["AliTokenInfo"] != null)
+            if (Session["WeiXinTokenInfo"] != null)
             {
-                var client = ClientBusiness.GetClientDetail(model.ClientID);
-                if (string.IsNullOrEmpty(client.AliMemberID))
+                string tokenInfo = Session["WeiXinTokenInfo"].ToString();
+                string[] tokenArr = tokenInfo.Split('|');
+                if (tokenArr.Length == 3)
                 {
-
-                    string tokenInfo = Session["AliTokenInfo"].ToString();
-                    string[] tokenArr = tokenInfo.Split('|');
-                    if (tokenArr.Length == 3)
+                    string access_token = tokenArr[0];
+                    string unionid = tokenArr[2];
+                    bool flag = ClientBusiness.BindUserWeiXinID(model.ClientID, model.UserID, unionid);
+                    if (flag)
                     {
-                        string access_token = tokenArr[0];
-                        string refresh_token = tokenArr[1];
-                        string memberId = tokenArr[2];
-
-                        bool flag = AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(model.UserID, memberId, access_token, refresh_token, model.AgentID, model.ClientID);
-                        if (flag)
-                        {
-                            flag = ClientBusiness.BindClientAliMember(model.ClientID, model.UserID, memberId);
-                            if (flag)
-                            {
-                                model.AliToken = access_token;
-                                model.AliMemberID = memberId;
-                                Session["ClientManager"] = model;
-                                Session.Remove("AliTokenInfo");
-                                result = 1;
-                            }
-                        }
-                        else
-                        {
-                            AliOrderBusiness.BaseBusiness.DeleteAliOrderDownloadPlan(model.ClientID);
-                        }
+                        Session["ClientManager"] = model;
+                        Session.Remove("WeiXinTokenInfo");
+                        result = 1;
                     }
                 }
-                else
-                {
-                    result = 4;
-                }
-
             }
-            else
-            {
+            else{
                 result = 5;
             }
 
             return result;
         }
-
-        
 
         /// <summary>
         /// 账号是否存在

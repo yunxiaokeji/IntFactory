@@ -18,12 +18,10 @@ define(function (require, exports, module) {
 
     var Home = {};
     //登陆初始化
-    Home.initLogin = function (status, fromBindAccount, returnUrl) {
-        Home.fromBindAccount = 0;
-        if (fromBindAccount) {
-            if (fromBindAccount == 1) {
-                Home.fromBindAccount = 1;
-            }
+    Home.initLogin = function (status, bindAccountType, returnUrl) {
+        Home.bindAccountType = 0;
+        if (bindAccountType) {
+            Home.bindAccountType = bindAccountType;
         }
         if (returnUrl) {
             Home.returnUrl = returnUrl;
@@ -65,7 +63,7 @@ define(function (require, exports, module) {
                 userName: $("#iptUserName").val(),
                 pwd: $("#iptPwd").val(),
                 remember: $(".cb-remember-password").hasClass("ico-checked") ? 1 : 0,
-                fromBindAccount: Home.fromBindAccount
+                bindAccountType: Home.bindAccountType
             },
             function (data)
             {

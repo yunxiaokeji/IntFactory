@@ -45,6 +45,7 @@ namespace YXERP
 
         protected void Application_Error(object sender, EventArgs e)
         {
+            return;
             string urlReferrer=Request.UrlReferrer != null ? Request.UrlReferrer.AbsoluteUri : Request.Url.AbsoluteUri;
             Exception exception = Server.GetLastError();
             HttpException httpException = exception as HttpException;

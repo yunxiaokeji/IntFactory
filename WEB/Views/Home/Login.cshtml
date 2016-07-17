@@ -19,7 +19,7 @@
     <script type="text/javascript" src="/Scripts/sea-config.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/home"], function (home) {
-            home.initLogin('@(ViewBag.Status)', 0,'@ViewBag.ReturnUrl');
+            home.initLogin('@(ViewBag.Status)', '@ViewBag.BindAccountType', '@ViewBag.ReturnUrl');
         });
     </script>
 </head>

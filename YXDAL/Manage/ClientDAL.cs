@@ -70,7 +70,7 @@ namespace IntFactoryDAL.Manage
         #region 添加
 
         public string InsertClient(string companyName, string loginname, string contactName, string mobilePhone, string industry, string cityCode, string address,
-                                   string description, string bindMobilePhone, string loginPwd, string email, string mduserid, string mdprojectid, string userid, string aliMemberID, out int result)
+                                   string description, string bindMobilePhone, string loginPwd, string email, string mduserid, string mdprojectid, string userid, string aliMemberID,string weiXinID, out int result)
         {
             string clientid = Guid.NewGuid().ToString();
             result = 0;
@@ -92,6 +92,7 @@ namespace IntFactoryDAL.Manage
                                        new SqlParameter("@MDUserID",mduserid),
                                        new SqlParameter("@MDprojectID",mdprojectid),
                                        new SqlParameter("@AliMemberID",aliMemberID),
+                                       new SqlParameter("@WeiXinID",weiXinID),
                                        new SqlParameter("@CreateUserID",userid)
                                    };
             parms[0].Direction = ParameterDirection.Output;
@@ -113,6 +114,16 @@ namespace IntFactoryDAL.Manage
             return ExecuteNonQuery("M_BindClientAliMember", parms, CommandType.StoredProcedure) > 0;
         }
 
+        public bool BindUserWeiXinID(string clientID, string userID, string weiXinID)
+        {
+            SqlParameter[] parms = { 
+                                       new SqlParameter("@ClientiD",clientID),
+                                       new SqlParameter("@UserID",userID),
+                                       new SqlParameter("@WeiXinID",weiXinID)
+                                   };
+
+            return ExecuteNonQuery("M_BindUserWeiXinID", parms, CommandType.StoredProcedure) > 0;
+        }
         public bool InsertClientAuthorizeLog(string clientID, string agentID, string orderID, int userQuantity, DateTime? beginTime, DateTime? endTime, int type)
         {
             SqlParameter[] parms = { 
