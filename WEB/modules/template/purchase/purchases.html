@@ -1,7 +1,6 @@
 ﻿{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
-console.log(item);
 %}
 <tr class="line-item">
     <td colspan="10"></td>
@@ -19,7 +18,7 @@ console.log(item);
     <td>总金额</td>
     <td class="bolder">
         {%=item.CreateTime.toDate('yyyy-MM-dd hh:ss:mm')%}
-        <div class="right iconfont">
+        <div class="right iconfont dropdown" data-status="{%=item.Status%}" data-id="{%=item.DocID%}">
             <span class="{%=item.Status < 2? 'ico-dropdown':''%}"></span>
         </div>
     </td>
