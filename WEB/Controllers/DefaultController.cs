@@ -66,7 +66,7 @@ namespace YXERP.Controllers
             else
             {
                 return Redirect("/Default/Index");
-            }            
+            }               
         }
 
         public ActionResult SettingHelp()
