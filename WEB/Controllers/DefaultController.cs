@@ -59,14 +59,15 @@ namespace YXERP.Controllers
 
         public ActionResult BindMobile()
         {
-            if (CurrentUser.Client.GuideStep == 3 && string.IsNullOrEmpty(CurrentUser.BindMobilePhone))
-            {
-                return View();
-            }
-            else
-            {                
-                return Redirect("/Default/Index");
-            }
+            //if (CurrentUser.Client.GuideStep == 3 && string.IsNullOrEmpty(CurrentUser.BindMobilePhone))
+            //{
+            //    return View();
+            //}
+            //else
+            //{                
+            //    return Redirect("/Default/Index");
+            //}
+            return View();
         }
 
         public ActionResult SettingHelp()
