@@ -184,7 +184,7 @@ define(function (require, exports, module) {
                         model.ids = _attr.data("id") + ":" + _value.val();
                         model.saleAttr = _attr.data("id");
                         model.attrValue = _value.val();
-                        model.names = "[" + _attr.data("text") + ":" + _value.data("text") + "]";
+                        model.names = "[" + _attr.data("text") + "：" + _value.data("text") + "]";
                         model.layer = 1;
                         model.guid = Global.guid();
                         details.push(model);
@@ -195,7 +195,7 @@ define(function (require, exports, module) {
                                 model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
                                 model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
                                 model.attrValue = attrdetail[i].attrValue + "," + _value.val();
-                                model.names = attrdetail[i].names + "[" + _attr.data("text") + ":" + _value.data("text") + "]";
+                                model.names = attrdetail[i].names + "[" + _attr.data("text") + "：" + _value.data("text") + "]";
                                 model.layer = attrdetail[i].layer + 1;
                                 model.guid = Global.guid();
                                 details.push(model);
@@ -229,18 +229,18 @@ define(function (require, exports, module) {
                             browse_button: _this.attr("id"),
                             file_path: "/Content/UploadFiles/Product/",
                             multi_selection: false,
-                            auto_callback:false,
+                            auto_callback: false,
                             fileType: 1,
                             init: {
-                                "FileUploaded": function (up, file,info) {
-                                    var info=JSON.parse(info);
-                                    _this.siblings("img").attr("src",file.server+ info.key);
+                                "FileUploaded": function (up, file, info) {
+                                    var info = JSON.parse(info);
+                                    _this.siblings("img").attr("src", file.server + info.key);
                                 }
                             }
                         });
 
 
-                    })
+                    });
 
                     //价格必须大于0的数字
                     innerText.find(".price,.bigprice").change(function () {
@@ -782,15 +782,22 @@ define(function (require, exports, module) {
                             return false;
                         }
 
-                        var attrlist = "", valuelist = "", attrvaluelist = "", desc = "";
-
+                        var attrlist = "", valuelist = "", attrvaluelist = "", desc = $("#iptRemark").val().trim(), isNull = false;
                         $(".productattr").each(function () {
                             var _this = $(this);
                             attrlist += _this.data("id") + ",";
                             valuelist += _this.find("select").val() + ",";
                             attrvaluelist += _this.data("id") + ":" + _this.find("select").val() + ",";
-                            desc += "[" + _this.find("span").html() + _this.find("select option:selected").text() + "]";
+                            //desc += "[" + _this.find(".attrname").html() + _this.find("select option:selected").text() + "]";
+                            if (_this.find("select").val() == "|" && !_this.find("select").next().val()) {
+                                isNull = true;
+                                alert("请输入自定义规格");
+                                return false;
+                            }
                         });
+                        if (isNull) {
+                            return false;
+                        }
 
                         var Model = {
                             ProductDetailID: id,
@@ -808,6 +815,10 @@ define(function (require, exports, module) {
                             Remark: $("#detailsRemark").val(),
                             Description: desc
                         };
+                        if (!desc) {
+                            alert("规格不能为空！");
+                            return false;
+                        }
                         Global.post("/Products/SavaProductDetail", {
                             product: JSON.stringify(Model)
                         }, function (data) {
@@ -826,6 +837,11 @@ define(function (require, exports, module) {
                 }
             });
 
+            //有规格不能自动输入
+            if ($(".productattr").length > 0) {
+                $("#iptRemark").prop("disabled", "disabled").css({ "background-color": "#fff", "border": "none" });
+            }
+
             //绑定单位
             $("#unitName").text(model.SmallUnit.UnitName)
             if (model.SmallUnitID != model.BigUnitID) {
@@ -838,6 +854,12 @@ define(function (require, exports, module) {
             if (!id) {
                 $("#detailsPrice").val(model.Price);
                 $("#bigPrice").val(model.Price);
+                var _desc = "";
+                $(".productattr").each(function () {
+                    var _this = $(this);
+                    _desc += "[" + _this.find(".attrname").html() + _this.find("select option:selected").text() + "]";
+                });
+                $("#iptRemark").val(_desc);
             } else {
                 var detailsModel;
                 for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
@@ -845,6 +867,7 @@ define(function (require, exports, module) {
                         detailsModel = model.ProductDetails[i];
                     }
                 }
+
                 $("#detailsPrice").val(detailsModel.Price);
                 $("#bigPrice").val(detailsModel.BigPrice / model.BigSmallMultiple);
                 $("#detailsCode").val(detailsModel.DetailsCode);
@@ -852,11 +875,63 @@ define(function (require, exports, module) {
                 $("#imgS").attr("src", detailsModel.ImgS);
                 $("#detailsRemark").val(detailsModel.Remark);
                 var list = detailsModel.SaleAttrValue.split(',');
-                for (var i = 0, j = list.length; i < j; i++) {
-                    $("#" + list[i].split(':')[0]).val(list[i].split(':')[1]).prop("disabled", true);
-                }
+                
+                $(".productattr").each(function () {
+                    var _this = $(this), bl = false;
+                    for (var i = 0, j = list.length; i < j; i++) {
+                        if (_this.find("select").attr("id") == list[i].split(':')[0] && list[i].split(':')[1] && list[i].split(':')[1] != "|") {
+                            $("#" + list[i].split(':')[0]).val(list[i].split(':')[1]).prop("disabled", true);
+                            bl = true;
+                        }
+                    }
+                    if (!bl) {
+                        _this.find("select").val("|");
+                        _this.find("select").next().show();
+                        var star = detailsModel.Description.indexOf(_this.find(".attrname").html()) + _this.find(".attrname").html().length;
 
+                        var len = 0;
+                        if (_this.next().hasClass("productattr")) {
+                            len = detailsModel.Description.indexOf(_this.next().find(".attrname").html()) - star - 2;
+                        } else {
+                            len = detailsModel.Description.length - star - 1;
+                        }
+                        _this.find("select").next().val(detailsModel.Description.substr(star, len));
+                    }
+                });
+                $("#iptRemark").val(detailsModel.Description);
             }
+            //选择规格
+            $(".productattr select").change(function () {
+                if ($(this).val() != "|") {
+                    $(this).next().hide();
+                } else {
+                    $(this).next().show();
+                }
+                var _desc = "";
+                $(".productattr").each(function () {
+                    var _this = $(this);
+                    if (_this.find("select").val() != "|") {
+                        _desc += "[" + _this.find(".attrname").html() + _this.find("select option:selected").text() + "]";
+                    } else {
+                        _desc += "[" + _this.find(".attrname").html() + _this.find("select").next().val().trim() + "]";
+                    }
+                });
+                $("#iptRemark").val(_desc);
+            });
+
+            //自定义文本
+            $(".customize").keyup(function () {
+                var _desc = "";
+                $(".productattr").each(function () {
+                    var _this = $(this);
+                    if (_this.find("select").val() != "|") {
+                        _desc += "[" + _this.find(".attrname").html() + _this.find("select option:selected").text() + "]";
+                    } else {
+                        _desc += "[" + _this.find(".attrname").html() + _this.find("select").next().val().trim() + "]";
+                    }
+                });
+                $("#iptRemark").val(_desc);
+            });
 
             var uploader = Upload.uploader({
                 browse_button: 'imgSIco',
