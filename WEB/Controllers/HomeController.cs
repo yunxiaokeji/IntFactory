@@ -786,17 +786,16 @@ namespace YXERP.Controllers
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             Random rd = new Random();
-            int code=rd.Next(100000, 1000000);
+            int code = rd.Next(100000, 1000000);
 
             bool flag = Common.MessageSend.SendMessage(mobilePhone, code);
-            JsonDictionary.Add("Result", flag ? 1 : 0);            
+            JsonDictionary.Add("Result", flag ? 1 : 0);
 
-            if (flag) 
+            if (flag)
             {
                 Common.Common.SetCodeSession(mobilePhone, code.ToString());
 
                 Common.Common.WriteAlipayLog(mobilePhone + " : " + code.ToString());
-                
             }
 
             return new JsonResult()
@@ -817,7 +816,7 @@ namespace YXERP.Controllers
             bool bl = Common.Common.ValidateMobilePhoneCode(mobilePhone, code);
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             JsonDictionary.Add("Result", bl ? 1 : 0);
-
+            
             return new JsonResult()
             {
                 Data = JsonDictionary,
