@@ -116,8 +116,8 @@
                 </div>
                 <div class="center pTop20">
                     {%=totalDay%}天
-                </div>
-                <div class="mTop20">订单{%=item.WarningStatus==3?"完成":"下单"%}时间:<span class="mLeft10">{%=item.OrderTime.toDate("yyyy-MM-dd")%}</span></div>
+                </div>                
+                <div class="mTop20">订单{%=item.WarningStatus==3?"完成":"下单"%}时间:<span class="mLeft10">{%=item.WarningStatus==3?item.EndTime.toDate("yyyy-MM-dd"):item.OrderTime.toDate("yyyy-MM-dd")%}</span></div>
                 <div class="clear"></div>
             </div>
         {% } %}        
