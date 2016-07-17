@@ -16,9 +16,6 @@ namespace YXERP.Controllers
 {
     public class HomeController : Controller
     {
-        //
-        // GET: /Home/
-
         public ActionResult Index()
         {
             int orderLevel = 0;
@@ -68,13 +65,10 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult NewIndex() {
+        public ActionResult Register()
+        {
             return View();
         }
-        //public ActionResult Register()
-        //{
-        //    return View();
-        //}
 
         public ActionResult FindPassword()
         {
@@ -340,29 +334,14 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 阿里账户登录
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult MDLogin(string ReturnUrl)
+       //阿里授权地址
+        public ActionResult AlibabaLogin(string ReturnUrl)
         {
-            if (string.IsNullOrEmpty(ReturnUrl))
-            {
-                return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl() );
-            }
-            else
-            {
-                return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl(ReturnUrl) );
-            }
+            return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl(ReturnUrl??string.Empty));
         }
 
-        public ActionResult WeiXinLogin(string ReturnUrl)
-        {
-            return Redirect(WeiXin.Sdk.Token.GetAuthorizeUrl(Server.UrlEncode("http://localhost:9999/Home/WeiXinCallBack"), "", false));
-        }
-
-        //明道登录回掉
-        public ActionResult MDCallBack(string code, string state)
+        //阿里巴巴回调地址
+        public ActionResult AlibabaCallBack(string code, string state)
         {
             string operateip = Common.Common.GetRequestIP();
             var userToken = AlibabaSdk.OauthBusiness.GetUserToken(code);
@@ -370,7 +349,7 @@ namespace YXERP.Controllers
             if (userToken.error_code <= 0)
             {
                 var model = OrganizationBusiness.GetUserByAliMemberID(userToken.memberId, operateip);
-                //已注册云销账户
+                //已注册
                 if (model != null)
                 {
                     //未注销
@@ -380,21 +359,23 @@ namespace YXERP.Controllers
                         Session["ClientManager"] = model;
                         AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanToken(model.ClientID, userToken.access_token, userToken.refresh_token);
 
-                        if (string.IsNullOrEmpty(state))
+                        if (string.IsNullOrEmpty(state)){
                             return Redirect("/Home/Index");
-                        else
+                        }
+                        else {
                             return Redirect(state);
+                        }
                     }
-                    else {
+                    else
+                    {
                         if (model.Status.Value == 9)
                         {
                             Response.Write("<script>alert('您的账户已注销,请切换其他账户登录');location.href='/Home/login';</script>");
                             Response.End();
                         }
-                        else {
+                        else{
                             return Redirect("/Home/Login");
                         }
-
                     }
                 }
                 else
@@ -407,17 +388,141 @@ namespace YXERP.Controllers
             return Redirect("/Home/Login");
         }
 
-        public ActionResult WeiXinCallBack(string code) {
+        //阿里账户注册
+        public ActionResult AliRegisterMember()
+        {
 
-            return View();
+            string operateip = Common.Common.GetRequestIP();
+            int result;
+            if (Session["AliTokenInfo"] != null)
+            {
+                string tokenInfo = Session["AliTokenInfo"].ToString();
+                string[] tokenArr = tokenInfo.Split('|');
+                if (tokenArr.Length == 3)
+                {
+                    string access_token = tokenArr[0];
+                    string refresh_token = tokenArr[1];
+                    string memberId = tokenArr[2];
+
+                    var memberResult = AlibabaSdk.UserBusiness.GetMemberDetail(access_token, memberId);
+                    var member = memberResult.result.toReturn[0];
+
+                    Clients clientModel = new Clients();
+                    clientModel.CompanyName = member.companyName ?? string.Empty;
+                    clientModel.ContactName = member.sellerName ?? string.Empty;
+                    clientModel.MobilePhone = string.Empty;
+
+                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result,
+                        member.email, string.Empty, string.Empty,
+                        member.memberId);
+
+                    if (!string.IsNullOrEmpty(clientid))
+                    {
+                        var current = OrganizationBusiness.GetUserByAliMemberID(member.memberId, operateip);
+                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, access_token, refresh_token, current.AgentID, current.ClientID);
+
+                        current.MDToken = access_token;
+                        Session.Remove("AliTokenInfo");
+                        Session["ClientManager"] = current;
+
+                        return Redirect("/Home/Index");
+                    }
+                }
+            }
+
+            return Redirect("/Home/Login");
         }
 
-        /// <summary>
-        /// 员工登录
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="pwd"></param>
-        /// <returns></returns>
+        //微信授权地址
+        public ActionResult WeiXinLogin(string ReturnUrl)
+        {
+            return Redirect(WeiXin.Sdk.Token.GetAuthorizeUrl(Server.UrlEncode("http://localhost:9999/Home/WeiXinCallBack"), "", false));
+        }
+
+        //微信回调地址
+        public ActionResult WeiXinCallBack(string code, string state) {
+            string operateip = Common.Common.GetRequestIP();
+            var userToken = WeiXin.Sdk.Token.GetAccessToken(code);
+
+            if (string.IsNullOrEmpty( userToken.errcode) )
+            {
+                var model = OrganizationBusiness.GetUserByWeiXinID(userToken.unionid, operateip);
+                //已注册
+                if (model != null)
+                {
+                    //未注销
+                    if (model.Status.Value == 1)
+                    {
+                        Session["ClientManager"] = model;
+
+                        if (string.IsNullOrEmpty(state))
+                            return Redirect("/Home/Index");
+                        else
+                            return Redirect(state);
+                    }
+                    else
+                    {
+                        if (model.Status.Value == 9)
+                        {
+                            Response.Write("<script>alert('您的账户已注销,请切换其他账户登录');location.href='/Home/login';</script>");
+                            Response.End();
+                        }
+                        else
+                        {
+                            return Redirect("/Home/Login");
+                        }
+
+                    }
+                }
+                else
+                {
+                    Session["WeiXinTokenInfo"] = userToken.access_token + "|" + userToken.openid;
+                    return Redirect("/Home/SelectLogin");
+                }
+            }
+
+            return Redirect("/Home/Login");
+        }
+
+        //微信账户注册
+        public ActionResult WinXinRegisterMember()
+        {
+            string operateip = Common.Common.GetRequestIP();
+            int result;
+            if (Session["WeiXinTokenInfo"] != null)
+            {
+                string tokenInfo = Session["WeiXinTokenInfo"].ToString();
+                string[] tokenArr = tokenInfo.Split('|');
+                if (tokenArr.Length == 2)
+                {
+                    string access_token = tokenArr[0];
+                    string memberId = tokenArr[1];
+                    var memberResult = WeiXin.Sdk.Passport.GetUserInfo(access_token, memberId);
+
+                    Clients clientModel = new Clients();
+                    clientModel.CompanyName = memberResult.nickname;
+                    clientModel.ContactName = memberResult.nickname;
+                    clientModel.MobilePhone = string.Empty;
+
+                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result,
+                        "", string.Empty, string.Empty,string.Empty);
+
+                    if (!string.IsNullOrEmpty(clientid))
+                    {
+                        var current = OrganizationBusiness.GetUserByWeiXinID(memberResult.unionid, operateip);
+                        current.MDToken = access_token;
+                        Session.Remove("WeiXinTokenInfo");
+                        Session["ClientManager"] = current;
+
+                        return Redirect("/Home/Index");
+                    }
+                }
+            }
+
+            return Redirect("/Home/Login");
+        }
+
+        //登录
         public JsonResult UserLogin(string userName, string pwd, string remember, int fromBindAccount)
         {
             int result = 0;
@@ -512,6 +617,7 @@ namespace YXERP.Controllers
 
         }
 
+        //绑定阿里账户
         public int BindAliMember(Users model)
         {
             int result = 0;
@@ -562,48 +668,58 @@ namespace YXERP.Controllers
             return result;
         }
 
-        public ActionResult AliRegisterMember() {
-
-            string operateip = Common.Common.GetRequestIP();
-            int result;
+        //绑定微信账户
+        public int BindWeiXin(Users model)
+        {
+            int result = 0;
             if (Session["AliTokenInfo"] != null)
             {
-                string tokenInfo = Session["AliTokenInfo"].ToString();
-                string[] tokenArr = tokenInfo.Split('|');
-                if (tokenArr.Length == 3)
+                var client = ClientBusiness.GetClientDetail(model.ClientID);
+                if (string.IsNullOrEmpty(client.AliMemberID))
                 {
-                    string access_token = tokenArr[0];
-                    string refresh_token = tokenArr[1];
-                    string memberId = tokenArr[2];
 
-                    var memberResult = AlibabaSdk.UserBusiness.GetMemberDetail(access_token,memberId);
-                    var member = memberResult.result.toReturn[0];
-
-                    Clients clientModel = new Clients();
-                    clientModel.CompanyName = member.companyName??string.Empty;
-                    clientModel.ContactName = member.sellerName??string.Empty;
-                    clientModel.MobilePhone = string.Empty;
-
-                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result,
-                        member.email,string.Empty,string.Empty,
-                        member.memberId);
-
-                    if (!string.IsNullOrEmpty(clientid))
+                    string tokenInfo = Session["AliTokenInfo"].ToString();
+                    string[] tokenArr = tokenInfo.Split('|');
+                    if (tokenArr.Length == 3)
                     {
-                        var current = OrganizationBusiness.GetUserByAliMemberID(member.memberId, operateip);
-                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, access_token, refresh_token, current.AgentID, current.ClientID);
+                        string access_token = tokenArr[0];
+                        string refresh_token = tokenArr[1];
+                        string memberId = tokenArr[2];
 
-                        current.MDToken = access_token;
-                        Session.Remove("AliTokenInfo");
-                        Session["ClientManager"] = current;
-
-                        return Redirect("/Home/Index");
+                        bool flag = AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(model.UserID, memberId, access_token, refresh_token, model.AgentID, model.ClientID);
+                        if (flag)
+                        {
+                            flag = ClientBusiness.BindClientAliMember(model.ClientID, model.UserID, memberId);
+                            if (flag)
+                            {
+                                model.AliToken = access_token;
+                                model.AliMemberID = memberId;
+                                Session["ClientManager"] = model;
+                                Session.Remove("AliTokenInfo");
+                                result = 1;
+                            }
+                        }
+                        else
+                        {
+                            AliOrderBusiness.BaseBusiness.DeleteAliOrderDownloadPlan(model.ClientID);
+                        }
                     }
                 }
+                else
+                {
+                    result = 4;
+                }
+
+            }
+            else
+            {
+                result = 5;
             }
 
-            return Redirect("/Home/Login");
+            return result;
         }
+
+        
 
         /// <summary>
         /// 账号是否存在
