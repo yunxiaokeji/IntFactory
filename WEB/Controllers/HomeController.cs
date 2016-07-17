@@ -449,7 +449,7 @@ namespace YXERP.Controllers
         //微信授权地址
         public ActionResult WeiXinLogin(string ReturnUrl)
         {
-            return Redirect(WeiXin.Sdk.Token.GetAuthorizeUrl(Server.UrlEncode("http://localhost:9999/Home/WeiXinCallBack"), "", false));
+            return Redirect(WeiXin.Sdk.Token.GetAuthorizeUrl(Server.UrlEncode(WeiXin.Sdk.AppConfig.CallBackUrl), "", false));
         }
 
         //微信回调地址
