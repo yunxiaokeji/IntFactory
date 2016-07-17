@@ -694,6 +694,7 @@ namespace YXERP.Controllers
                     bool flag = ClientBusiness.BindUserWeiXinID(model.ClientID, model.UserID, unionid);
                     if (flag)
                     {
+                        model.WeiXinID = unionid;
                         Session["ClientManager"] = model;
                         Session.Remove("WeiXinTokenInfo");
                         result = 1;

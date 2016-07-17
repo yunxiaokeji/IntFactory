@@ -124,6 +124,17 @@ namespace IntFactoryDAL.Manage
 
             return ExecuteNonQuery("M_BindUserWeiXinID", parms, CommandType.StoredProcedure) > 0;
         }
+
+        public bool UnBindUserWeiXinID(string clientID, string userID)
+        {
+            SqlParameter[] parms = { 
+                                       new SqlParameter("@ClientiD",clientID),
+                                       new SqlParameter("@UserID",userID)
+                                   };
+
+            return ExecuteNonQuery("M_UnBindUserWeiXinID", parms, CommandType.StoredProcedure) > 0;
+        }
+
         public bool InsertClientAuthorizeLog(string clientID, string agentID, string orderID, int userQuantity, DateTime? beginTime, DateTime? endTime, int type)
         {
             SqlParameter[] parms = { 

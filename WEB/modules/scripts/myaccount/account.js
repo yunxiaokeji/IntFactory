@@ -25,7 +25,7 @@
 
         $("#bindLoginMobile").click(function () {
             if (!$("#S_LoginName").html()) {
-                alert("请先设置账号！");
+                alert("请先设置账号");
                 return;
             }
             var S_BindMobile = $("#S_BindMobile").html();
@@ -91,6 +91,23 @@
                 ObjectJS.sendMobileMessage("SendBindMobileCode", S_BindMobile);
             }
 
+        });
+
+        //取消微信绑定
+        $("#unBindWeiXin").click(function () {
+            if (!$("#S_LoginName").html()) {
+                alert("请先设置账号,然后取消绑定");
+                return;
+            }
+
+            Global.post("/MyAccount/UnBindWeiXin", null, function (data) {
+                if (data.result) {
+                    location.href = location.href + "?" + (new Date().getMilliseconds());
+                }
+                else {
+                    alert("取消绑定失败");
+                }
+            });
         });
     }
 

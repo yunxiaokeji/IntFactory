@@ -272,6 +272,21 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UnBindWeiXin()
+        {
+            bool bl = ClientBusiness.UnBindUserWeiXinID(CurrentUser.ClientID, CurrentUser.UserID);
+            JsonDictionary.Add("result", bl);
+            if (bl) {
+                CurrentUser.WeiXinID = string.Empty;
+                Session["ClientManager"] = CurrentUser;
+            }
+
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         #endregion
 
         #region 绑定手机

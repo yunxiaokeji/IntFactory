@@ -352,6 +352,13 @@ namespace IntFactoryBusiness.Manage
 
             return flag;
         }
+
+        public static bool UnBindUserWeiXinID(string clientID, string userID)
+        {
+            bool flag = ClientDAL.BaseProvider.UnBindUserWeiXinID(clientID, userID);
+
+            return flag;
+        }
         /// <summary>
         /// 添加客户授权日志
         /// </summary>
