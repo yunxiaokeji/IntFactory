@@ -31,8 +31,9 @@
                             </div>
                         </div>
                     {% } %}                 
-                    <div class="right color000" style="height:20px;margin-top:-20px;" title='{%=item.Title==""?"--":item.Title%}'>任务名称:
-                        <span class="mLeft10 right color000 tRight long" style="display:block;width:70px;" >{%=item.Title==""?"--":item.Title%}</span>
+                    <div class="right color000" style="height:20px;margin-top:-20px;" title='{%=item.Title==""?"--":item.Title%}'>
+                        <span class="left">任务名称:</span>
+                        <span class="mLeft10 left tRight long" style="display:block;width:70px;" >{%=item.Title==""?"--":item.Title%}</span>
                     </div>                    
                 </div>              
             </li>
@@ -43,9 +44,9 @@
                 </div>
                 {% if(item.OrderType==2){ %}
                     <div class="mTop10 left mRight30 mLeft60 orderquantity">
-                        <i class="iconfont ">&#xe635;</i>
-                        <span class="mLeft10 right" style="width:40px;display:block;">{%=item.Order.PlanQuantity%}</span>
-                    </div>
+                        <i class="iconfont left">&#xe635;</i>
+                        <span class="mLeft10 left" style="width:40px;display:block;">{%=item.Order.PlanQuantity%}</span>
+                    </div>                     
                 {% } %} 
                 <div class='left customer font14 width60 color000 {%=item.OrderType==1?"mLeft160":"mLeft5"%}'>负责人:</div>  
                 <span class="long left customer font14 width100 color333" title='{%=(item.Owner ? item.Owner.Name:"--")%}'>{%=(item.Owner ? item.Owner.Name:"--")%}</span>
@@ -55,7 +56,7 @@
             <li>                           
                 <div class="mTop20">
                     <div class="left color333 mRight5 font14">上级任务{%=item.PreTitle==""?"":" 一 "+item.PreTitle%}:</div>
-                    <div class="font14" style="color:{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'':item.PreFinishStatus==2?'#067BE4':'#02C969'%}">{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'未接受':item.PreFinishStatus==2?'已完成':'进行中'%}</div>
+                    <div class="font14" style="{%=item.PreFinishStatus==-1?'':item.PreFinishStatus==0?'':item.PreFinishStatus==2?'color:#067BE4':'color:#02C969'%}">{%=item.PreFinishStatus==-1?"--":item.PreFinishStatus==0?'未接受':item.PreFinishStatus==2?'已完成':'进行中'%}</div>
                 </div>               
             </li>
             <div class="clear"></div>
