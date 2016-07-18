@@ -16,7 +16,21 @@
 </div>
 <div class="content-title">
     <span class="titlename">单据编号：@(model.DocCode)</span>
+    @{
+        if(model.Status==0||model.Status==1)
+        {
+            <div class="btn right mLeft10 mTop10" id="btnOver">完成采购单</div>
+            if(model.Status==0)
+            {
+                <div class="btn999 right mTop10" id="delete">删除</div>
+            }
+        }
+    }
+    
+
+    <div class="clear"></div>
 </div>
+<div class="clear"></div>
 <div class="content-body">
     <ul class="content-info">
         <li><span class="column-title">总金额：</span>@(model.TotalMoney.ToString("f2"))</li>
@@ -29,13 +43,17 @@
     <div class="tab-nav mTop30">
         <ul class="tab-nav-ul left">
             <li class="hover" data-id="navRemark">材料明细</li>
+            @if (model.Status == 1 || model.Status == 2)
+            {
+              <li data-id="navStorageIn">入库明细</li>
+            }
         </ul>
          @if (model.Status < 2)
         {
             <input type="button" class="btn right" id="btnconfirm" value="审核入库" />
         }
     </div>
-    <table class="table-list mTop20">
+    <table class="table-list mTop20 nav-partdiv" id="navRemark">
         <tr class="tr-header">
             <td class="center"></td>
             <td class="tLeft">材料名称</td>
@@ -67,5 +85,13 @@
                 <td class="tRight">@(item.TotalMoney.ToString("f2"))</td>
             </tr>
         }
+    </table>
+    <table id="navStorageIn" class="nav-partdiv table-items-detail mTop20 hide">
+        <tr class="table-header">
+            <td class="tLeft">单号</td>
+            <td class="">总金额</td>
+            <td class="width150">操作人</td>
+            <td class="width200">操作日期</td>
+        </tr>
     </table>
 </div>

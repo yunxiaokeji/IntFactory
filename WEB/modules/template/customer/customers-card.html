@@ -6,7 +6,7 @@
     <div class="check iconfont" data-id="{%=item.CustomerID%}" data-userid="{%=item.OwnerID%}">&#xe626;</div>
     <div class="message">        
         <div class="message-name long left">
-            <a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%} ({%=item.Type==0?"个人":"企业"%})</a>            
+            <a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%}({%=item.Type==0?"个人":"企业"%})</a>            
         </div>
         {% if(item.SourceType==1){ %}
             <div class="hight20 mBottom3 mLeft235 width50" style="position:relative">

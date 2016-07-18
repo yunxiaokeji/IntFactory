@@ -16,7 +16,7 @@
 	    var item = $data[i];
     %}
         <li data-id="{%=item.AttrID%}" class="productattr">
-                <span class="width80">{%=item.AttrName%}：</span>
+                <span class="width80 attrname">{%=item.AttrName%}：</span>
                 <select id="{%=item.AttrID%}">
                     {%
 	                    for(var ii=0, jj=item.AttrValues.length; ii < jj; ii++){
@@ -24,9 +24,15 @@
                     %}
                         <option value="{%=value.ValueID%}">{%=value.ValueName%}</option> 
                     {% } %}
+                    <option value="|">自定义</option>
                 </select>
+                <input type="text" class="width100 hide customize" />               
         </li>
     {% } %}
+    <li class="specification">
+        <span class="width80">规格：</span>
+        <input type="text" maxlength="50" data-empty="*" id="iptRemark" class="input verify" />
+    </li>
     <li>
         <span class="width80">价格/<label id="unitName"></label>：</span>
         <input type="text" maxlength="10" data-empty="*" data-type="double" data-text="请输入数字!"  id="detailsPrice" class="input verify width80" />
