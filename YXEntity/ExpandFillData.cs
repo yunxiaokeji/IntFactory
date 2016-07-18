@@ -41,6 +41,13 @@ namespace IntFactoryEntity
                                 : -1,
                                 null);
                             break;
+                        case "Decimal":
+                            property.SetValue(entity,
+                                dr[property.Name] != null && dr[property.Name] != DBNull.Value
+                                ? Convert.ToDecimal(dr[property.Name])
+                                : 0,
+                                null);
+                            break;
                         case "String":
                             object[] objArray = property.GetCustomAttributes(false);
                             if (objArray.Length > 0)
@@ -61,7 +68,6 @@ namespace IntFactoryEntity
                                         : "",
                                         null);
                                 }
-
                             }
                             else
                             {
@@ -84,7 +90,6 @@ namespace IntFactoryEntity
                             break;
                     }
                 }
-
             }
         }
     }

@@ -60,14 +60,14 @@
         <nav>
             @foreach (IntFactoryEntity.Menu model in ExpandClass.GetChildMenuByCode(HttpContext.Current, controllerMenu.PCode))
             { 
-                <div class="controller @(model.Controller.ToUpper()==controller ? "select" : "")" data-code="@(model.MenuCode)">
+                <div class="controller select" data-code="@(model.MenuCode)">
                     <div class="controller-box">
                         <div class="controller-name">
                             <span class="open left @(model.Controller.ToUpper()==controller ? "rotate" : "")"></span>
                             <span class="name left">@(model.Name)</span>
                         </div>
                     </div>
-                    <ul class="action-box @(model.Controller.ToUpper()==controller ? "" : "hide")">
+                    <ul class="action-box">
                         @foreach (IntFactoryEntity.Menu view in ExpandClass.GetChildMenuByCode(HttpContext.Current, model.MenuCode))
                         {
                             <li class="action @(view.View.ToUpper()==action ? "select" : "")" data-code="@(view.MenuCode)">

@@ -64,7 +64,7 @@
                 <span class="long left customer font14 width100 color333" title='{%=(item.Owner ? item.Owner.Name:"--")%}'>{%=(item.Owner ? item.Owner.Name:"--")%}</span> 
                 <div class="clear"></div>
             </li>
-            <li style="height:30px;">
+            <li style="height:35px;">
                 <div class="left customermark">
                     <i class="iconfont font16" style="margin-right:7px;">&#xe601;</i>
                     <span class="font14">{%=item.PersonName%}</span>
@@ -78,7 +78,7 @@
                 <div class="right" style="margin-right:93px;">
                     <div class="left font14 color000 width60" style="margin-top:-2px;">进&nbsp;&nbsp;&nbsp;度:</div>
                     
-                    <span class="right width50" style="display:block">{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</span>
+                    <span class="right width50" style="color:#CAAB12;">{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</span>
                 </div>               
             </li>
             <div class="clear"></div>

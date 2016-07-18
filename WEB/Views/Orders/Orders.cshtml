@@ -15,12 +15,9 @@
         });
     </script>
 }
-<div class="header-box">
+@*<div class="header-box">
     <span class="header-title left">@ViewBag.Title</span>
-    
-    <a href="/Orders/Create" target="_blank" id="createOrder" class="btn-add right">新建订单</a>
-    <div class="btn right mRight10 nolimits" id="downAliOrders">同步阿里订单</div>
-</div>
+</div>*@
 <div class="search-header">
     <ul class="search-tab search-orderstatus">
         <li data-id="1" class="@(ViewBag.State==1?"hover":"")">进行中</li>
@@ -29,12 +26,13 @@
         <li data-id="8" class="">已终止</li>
         <li data-id="-1" >全部订单</li>
     </ul>
-    <div class="right btn" data-status="open" id="shrinkScreen"><span class="lump"></span><span class="colorfff shrink-text">收起筛选</span></div>
     
+    <a href="/Orders/Create" target="_blank" id="createOrder" class="btn-add right mRight10">新建订单</a>
+    <div class="btn right mRight10 nolimits" id="downAliOrders">同步阿里订单</div>
 </div>
-<div class="content-body">
-    <div class="search-body">
-        <ul class="search-item search-entrustclientid">
+<div class="content-body" style="padding-bottom:0;">
+    <div class="search-body left">
+        <ul class="search-item search-entrustclientid" style="margin-top:0;">
             <li class="column-name">分类：</li>
             <li class="item hover" data-id="">全部</li>
             <li class="item" data-id="1">本厂</li>
@@ -83,28 +81,33 @@
         </ul>
         
     </div>
-    <div class="search-items mTop10">
+    <div class="right btn" data-status="open" id="shrinkScreen"><span class="lump"></span><span class="colorfff shrink-text">收起筛选</span></div>
+    <div class="clear"></div>
+
+    <div class="search-items">
         <div class="left mRight20" id="chooseBranch"></div>
-        @*<div class="left" id="orderType"></div>*@
-        @*<div class="left" id="sourceType"></div>*@
         <div class="left">
             <input type="text" id="iptCreateTime" placeholder="交货日期"  class="ipt-date"  />
         </div>
-        <div class="right searth-module" data-text="关键字搜索..." data-width="260"> </div>
     </div>
-    <ul class="search-sort">
-        <li>排序</li>
-        <li class="sort-item hover" data-column="CreateTime">
-            下单日期
-            <span class="asc"></span>
-            <span class="desc hover"></span>
-        </li>
-        <li class="sort-item" data-column="PlanTime">
-            交货日期
-            <span class="asc"></span>
-            <span class="desc"></span>
-        </li>
-    </ul>
+
+    <div class="search-sort">
+        <ul >
+            <li>排序</li>
+            <li class="sort-item hover" data-column="CreateTime">
+                下单日期
+                <span class="asc"></span>
+                <span class="desc hover"></span>
+            </li>
+            <li class="sort-item" data-column="PlanTime">
+                交货日期
+                <span class="asc"></span>
+                <span class="desc"></span>
+            </li>
+        </ul>
+        <div class="right searth-module mTop5" data-text="关键字搜索..." data-width="260"> </div>
+    </div>
+    
 </div>
 <div class="content-body mTop20">
     <div class="object-items" id="orderItems">

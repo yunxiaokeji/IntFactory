@@ -22,11 +22,11 @@
     <div class="right" style="margin-right:-30px;">
         <div class="left font14" style="line-height:43px;margin-top:-4px">交货时间:</div>
 
-        <div class="mLeft10 left mTop8 font16 select-time select-time-left" style="line-height:18px;"><</div>        
+        <div class="mLeft10 left mTop8 font16 select-time select-time-left"><</div>        
         <div class="mLeft15 left mTop8 time-now" data-before="@(DateTime.Now.AddDays(-15).ToString("MM.dd"))—@(DateTime.Now.AddDays(-1).ToString("MM.dd"))" data-after="@(DateTime.Now.AddDays(15).ToString("MM.dd"))—@(DateTime.Now.AddDays(29).ToString("MM.dd"))" data-now="@(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))" style="line-height:20px;">
             @(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))
         </div>      
-        <div class="mLeft15 left mTop8 font16 mRight20 select-time select-time-right" style="line-height:18px;">></div>
+        <div class="mLeft15 left mTop8 font16 mRight20 select-time select-time-right">></div>
         <div class="left mRight15 mTop3" id="orderType" style="background-color:#fff"></div>
         <div class="right mRight15 mTop3 hide" id="chooseBranch" style="background-color:#fff"></div>
     </div>   
