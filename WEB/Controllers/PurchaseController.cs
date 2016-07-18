@@ -68,7 +68,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetPurchasesDetails(string docid)
         {
-            List<StorageDoc> list = StockBusiness.GetStorageDocDetails(docid);
+            List<StorageDoc> list = StockBusiness.GetStorageDocDetails(docid, CurrentUser.UserID);
             JsonDictionary.Add("items", list);
             return new JsonResult
             {

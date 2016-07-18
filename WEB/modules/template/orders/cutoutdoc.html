@@ -3,35 +3,51 @@
     {
         var item=$data[i];
 %}
-<tr>
-    <td class="tLeft">
-        {%
-        for(var j=0;j<item.Details.length;j++)
-        {
-        var detail=item.Details[j];
-        %}
-            <p>{%=detail.Remark%}</p>
-        {%}%}
+<tr class="line-item">
+    <td colspan="6"></td>
+</tr>
+<tr class="item-header">
+    <td class="tLeft">规格</td>
+    <td>数量</td>
+    <td>小计</td>
+    <td>登记时间</td>
+    <td>登记人</td>
+    <td>操作</td>
+</tr>
+{%
+for(var j=0;j<item.Details.length;j++)
+{
+var detail=item.Details[j];
+%}
+<tr class="item">
+    <td class="tLeft bBottom bLeft">
+        {%=detail.Remark%}
     </td>
-    <td class="center">
-        {%
-        for(var j=0;j<item.Details.length;j++)
-        {
-        var detail=item.Details[j];
-        %}
-            <p class="cut1">{%=detail.Quantity%}</p>
-        {%}%}
+    <td class="center bBottom">
+        {%=detail.Quantity%}
     </td>
-    <td class="center">{%=item.CreateUser.Name%}</td>
-    <td class="center">{%=item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}</td>
-    <td class="center">
+    {%
+    if(j==0)
+    {
+    %}
+    <td class="center bBottom bLeft cut1" rowspan="{%=item.Details.length%}">
         {%=item.Quantity%}
     </td>
-    <td class="center"><a href="/Orders/DocDetail/{%=item.DocID%}">查看详情</a></td>
+    <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
+        {%=item.CreateUser.Name%}
+    </td>
+    <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
+        {%=item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}
+    </td>
+    <td class="center bBottom bRight bLeft" rowspan="2"><a href="/Orders/DocDetail/{%=item.DocID%}">查看详情</a></td>
+    {%}%}
 </tr>
 {%}%}
-<tr>
-    <td colspan="4"></td>
+{%}%}
+<tr class="line-item">
+    <td colspan="6"></td>
+</tr>
+<tr class="item">
+    <td colspan="2"></td>
     <td class="center font16">合计：<span class="total-count font16"></span></td>
-    <td></td>
 </tr>

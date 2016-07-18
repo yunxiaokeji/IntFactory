@@ -77,7 +77,7 @@
         }
         if (ObjectJS.mark === 23) {
             CutoutDoc = require("scripts/task/cutoutdoc");
-            CutoutDoc.initCutoutDoc(ObjectJS.orderid,ObjectJS.taskid,Global,DoT,Easydialog);
+            CutoutDoc.initCutoutDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
         }
         else if (ObjectJS.mark === 24) {
             SewnDoc = require("scripts/task/sewndoc");
@@ -294,7 +294,7 @@
 
                 var myDate = new Date();
                 var minDate = myDate.toLocaleDateString();
-                minDate = minDate + " 00:00:00"
+                minDate = minDate + " 23:59:59"
                 //if (ObjectJS.planTime <= minDate) {
                 //    ObjectJS.planTime = '';
                 //}
@@ -1377,8 +1377,6 @@
             }
         });
     }
-
-
 
     //制版工艺说明
     ObjectJS.initPlateMaking = function () {
