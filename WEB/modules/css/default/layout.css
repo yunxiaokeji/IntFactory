@@ -133,7 +133,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .search-header .search-tab-status li.hover{ background-color:#4a98e7; color:#fff;}
 
 
-.content-body{ overflow:auto; background-color:#fff; clear:both; margin:0 20px; padding:10px; }
+.content-body{ overflow:auto; background-color:#fff; clear:both; margin:0 20px; padding:10px 10px 0 10px; }
 
 .content-items{ overflow:auto; clear:both; margin:0 20px; }
 
