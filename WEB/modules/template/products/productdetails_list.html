@@ -1,6 +1,7 @@
 ﻿{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
+    if(item.IsDefault==0){
 %}
 <tr class="list-item">
     <td class="width80">
@@ -13,4 +14,4 @@
     <td class='center'><div class="status" data-id="{%=item.ProductDetailID%}" data-value="{%=item.Status==1%}"></div></td>
     <td class="center"><a class="iconfont ico-edit" title="编辑" data-id="{%=item.ProductDetailID%}" href="javascript:void(0);">&#xe607;</a></td>
 </tr>
-{% } %}
+{% }} %}
