@@ -26,7 +26,7 @@
             <span class="iconfont">&#xe657;</span>{%=item.City?item.City.Description:"--"%}  
             <div class="right mRight10" title="负责人">
                 <img class="photo mTop2" onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="{%=item.Owner&&item.Owner.Avatar?item.Owner.Avatar:'/modules/images/defaultavatar.png'%}" />
-                <span class="left mLeft20">{%=(item.Owner ? item.Owner.Name:"--")%}</span>
+                <span class="left tRight width50 long">{%=(item.Owner ? item.Owner.Name:"--")%}</span>
             </div>          
         </li>        
     </ul>
