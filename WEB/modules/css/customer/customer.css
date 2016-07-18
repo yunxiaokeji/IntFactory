@@ -26,7 +26,7 @@
 .list-card .info span { display:inline-block; line-height:25px;font-size:14px;}
 
 .list-card .order-count { border-top:solid 1px #bfbfbf;border-top-style:dashed; height:40px; 
-                          margin-top:5px;}
+                          margin-top:5px;width:313px;margin-left:6px;}
 .list-card .order-count li:not(:first-child) { float:left;height:30px; line-height:40px; text-align:center;width:30%;}
 .list-card .order-count a {text-decoration:underline;}
 .list-card .order-count a:hover { color:red;}
