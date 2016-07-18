@@ -735,25 +735,25 @@ define(function (require, exports, module) {
     Product.getChildList = function (model) {
         var _self = this;
         $("#header-items").nextAll().remove();
-        doT.exec("template/products/productdetails_list.html", function (templateFun) {
-            var innerText = templateFun(model.ProductDetails);
-            innerText = $(innerText);
-            $("#header-items").after(innerText);
+            doT.exec("template/products/productdetails_list.html", function (templateFun) {
+                var innerText = templateFun(model.ProductDetails);
+                innerText = $(innerText);
+                $("#header-items").after(innerText);
 
-            //绑定启用插件
-            innerText.find(".status").switch({
-                open_title: "点击启用",
-                close_title: "点击禁用",
-                value_key: "value",
-                change: function (data, callback) {
-                    _self.editDetailsStatus(data, data.data("id"), data.data("value"), callback);
-                }
-            });
+                //绑定启用插件
+                innerText.find(".status").switch({
+                    open_title: "点击启用",
+                    close_title: "点击禁用",
+                    value_key: "value",
+                    change: function (data, callback) {
+                        _self.editDetailsStatus(data, data.data("id"), data.data("value"), callback);
+                    }
+                });
 
-            innerText.find(".ico-edit").click(function () {
-                _self.showTemplate(model, $(this).data("id"));
+                innerText.find(".ico-edit").click(function () {
+                    _self.showTemplate(model, $(this).data("id"));
+                });
             });
-        });
     }
     //更改子产品状态
     Product.editDetailsStatus = function (obj, id, status, callback) {
@@ -767,6 +767,7 @@ define(function (require, exports, module) {
     }
     //添加/编辑子产品
     Product.showTemplate = function (model, id) {
+        console.log(id);
         var _self = this, count = 1;
         doT.exec("template/products/productdetails_add.html", function (templateFun) {
 

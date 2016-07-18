@@ -47,7 +47,7 @@
                             <ul>
                                 @foreach (var detail in model.ProductDetails)
                                 {
-                                    if (model.ProductDetails.Count > 1 && string.IsNullOrEmpty(detail.Description) && (detail.LogicOut == 0 && detail.StockOut == 0 && detail.StockIn == 0))
+                                    if (model.ProductDetails.Count > 1 && detail.IsDefault==1 && (detail.LogicOut == 0 && detail.StockOut == 0 && detail.StockIn == 0))
                                     {
                                         continue;
                                     }
