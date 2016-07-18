@@ -25,8 +25,7 @@ define(function (require, exports, module) {
                 guid: guid,
                 tid:tid
             });
-        } else {
-            $(".choose-div").hide();
+            $(".choose-div").show();
         }
         $(".product-name").css("width", $(".content-body").width() - 500);
     }
