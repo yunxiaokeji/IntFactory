@@ -37,7 +37,7 @@
         var _self = this;
         Params.SearchType = type;
         _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
-        var count=($(".list-customer").width() / 365).toFixed(0);
+        var count = parseInt($(".list-customer").width() / 365);
         Params.PageSize = count * 3;
 
         _self.getList();
@@ -54,6 +54,10 @@
             }
         });
         
+        $(window).resize(function () {
+            ObjectJS.setListPosition();
+        });
+
         //日期插件
         $("#iptCreateTime").daterangepicker({
             showDropdowns: true,
@@ -344,19 +348,7 @@
                 $(".data-loading").remove();
                 $(".nodata-txt").remove();
                 $(".list-customer").append(innerhtml);
-
-                var count = ($(".list-customer").width() / 365).toFixed(0);
-                var moreWidth = $(".list-customer").width() - (365 * count);
-                var marginRight =( (moreWidth+15) / (count-1) )+ 15;
-                for (var i = 0; i < $(".list-customer .list-card").length; i++) {
-                    var _this= $(".list-customer .list-card").eq(i);
-                    if ((i + 1) % count == 0) {
-                        _this.css("margin-right", "0");
-                    }
-                    else {
-                        _this.css("margin-right", marginRight + "px");
-                    }
-                }
+                ObjectJS.setListPosition();
             });
         } else {
             $(".nodata-txt").remove();
@@ -385,6 +377,21 @@
             }
         });
     };
+
+    ObjectJS.setListPosition = function () {
+        var count = parseInt($(".list-customer").width() / 365)
+        var moreWidth = $(".list-customer").width() - (365 * count);
+        var marginRight = ((moreWidth + 15) / (count - 1)) + 15;
+        for (var i = 0; i < $(".list-customer .list-card").length; i++) {
+            var _this = $(".list-customer .list-card").eq(i);
+            if ((i + 1) % count == 0) {
+                _this.css("margin-right", "0");
+            }
+            else {
+                _this.css("margin-right", marginRight + "px");
+            }
+        }
+    }
 
     //标记客户
     ObjectJS.markCustomer = function (ids, mark, callback) {
