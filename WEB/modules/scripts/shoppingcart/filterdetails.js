@@ -144,11 +144,7 @@ define(function (require, exports, module) {
         //绑定子产品详情
         for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
             if (model.ProductDetails[i].ProductDetailID == _self.detailid) {
-                var list = model.ProductDetails[i].SaleAttrValue.split(",");
-                for (var ii = 0, jj = list.length; ii < jj; ii++) {
-                    var item = list[ii].split(":");
-                    $(".attr-item[data-id='" + item[0] + "']").find("li[data-id='" + item[1] + "']").addClass("hover");
-                }
+                $(".attr-item").find("li[data-id='" + model.ProductDetails[i].ProductDetailID + "']").addClass("hover");
                 $("#price").html("￥" + model.ProductDetails[i].Price.toFixed(2));
                 if (model.ProductDetails[i].ImgS) {
                     $("#productimg").attr("src", model.ProductDetails[i].ImgS);
