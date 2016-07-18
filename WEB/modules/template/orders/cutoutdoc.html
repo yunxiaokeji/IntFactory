@@ -37,10 +37,10 @@ var detail=item.Details[j];
         {%=item.Quantity%}
     </td>
     <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
-        {%=item.CreateUser.Name%}
+        {%=item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}
     </td>
     <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
-        {%=item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}
+        {%=item.CreateUser.Name%}
     </td>
     <td class="center bBottom bRight bLeft" rowspan="2"><a href="/Orders/DocDetail/{%=item.DocID%}">查看详情</a></td>
     {%}%}
