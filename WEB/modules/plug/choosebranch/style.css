@@ -1,7 +1,7 @@
 ﻿
 /*选择下属插件样式*/
-.choosebranch-module { position: relative; height:26px; border:solid 1px #ccc; border-radius:2px; cursor:pointer; }
-.choosebranch-module .choosebranch-text { height:26px; line-height:26px; margin-left:5px; color:#666; }
+.choosebranch-module { position: relative; height:28px; border:solid 1px #ccc; border-radius:2px; cursor:pointer; }
+.choosebranch-module .choosebranch-text { height:28px; line-height:28px; margin-left:5px; color:#666; }
 .choosebranch-module .choosebranch-ico { height:16px; width:16px; position:absolute; top:10px; right:5px; }
 
 .choosebranch-module .choosebranch-ico .top { border-top:solid 6px #ccc; border-left:solid 6px transparent ;border-right:solid 6px transparent;

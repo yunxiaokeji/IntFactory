@@ -567,7 +567,7 @@
                 innerText.find('.layer-line').css({ width: 0, left: "160px" });
                 innerText.find(".customermark").Tip({
                     width: 60,
-                    msg: "客户"
+                    msg: "客户名称"
                 });                
                 innerText.find(".orderquantity").Tip({
                     width: 60,
