@@ -8,15 +8,15 @@
 .content-body hr {height:20px;background-color:#F2F4F8;border:0;margin-left:-10px;margin-right:-10px; }
 .list-customer .hover{border:1px solid #007aff;}
 .list-customer .hover .check {display:inline-block;}
-.list-card { width:328px;height:148px;border-spacing:0px;border:1px solid #ddd;float:left;padding:10px 10px 0 10px;}
-.list-card:hover{border:1px solid #007aff;}
+.list-card { width:328px;height:148px;border-spacing:0px;background-color:#fff;float:left;padding:10px 10px 0 10px;}
+.list-card:hover{border:1px solid #007aff;height:146px;}
 .list-card:hover .check{display:block;cursor:pointer;border:1px solid #4a98e7;}
 .list-card .check{ float:right;width:20px;height:20px;border:1px solid #bfbfbf;margin-top:5px;margin-right:5px;
                     border-radius:2px; color:#fff;}
 .list-card .icon-check{background-color:#4a98e7;color:#fff;font-size:18px;border:1px solid #4a98e7;}
 
 .list-card .message{ height:25px; line-height:25px; margin:5px 0 10px 5px;}
-.list-card .message .message-name{ width:200px;margin-top:-3px; }
+.list-card .message .message-name{ width:205px;margin-top:-3px; }
 .list-card .message-name a{ font-size:16px;line-height:26px;color:#2162A5; }
 .list-card .message .list-mark{ line-height:23px;margin-top:5px;}
 
@@ -26,7 +26,7 @@
 .list-card .info span { display:inline-block; line-height:25px;font-size:14px;}
 
 .list-card .order-count { border-top:solid 1px #bfbfbf;border-top-style:dashed; height:40px; 
-                          margin-top:5px;margin-left:8px; }
+                          margin-top:5px;width:313px;margin-left:6px;}
 .list-card .order-count li:not(:first-child) { float:left;height:30px; line-height:40px; text-align:center;width:30%;}
 .list-card .order-count a {text-decoration:underline;}
 .list-card .order-count a:hover { color:red;}
