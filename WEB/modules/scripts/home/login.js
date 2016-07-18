@@ -1,7 +1,6 @@
 ﻿
 
 define(function (require, exports, module) {
-
     require("jquery");
     var Global = require("global"),
         doT = require("dot");
@@ -55,7 +54,7 @@ define(function (require, exports, module) {
                 $(".registerErr").html("请输入密码").slideDown();
                 return;
             }
-            if (Home.fromBindAccount==0)
+            if (Home.bindAccountType == 0)
                 $(this).html("登录中...").attr("disabled", "disabled");
             else
                 $(this).html("绑定中...").attr("disabled", "disabled");
@@ -67,7 +66,7 @@ define(function (require, exports, module) {
             },
             function (data)
             {
-                if (Home.fromBindAccount == 0) {
+                if (Home.bindAccountType == 0) {
                     $("#btnLogin").html("登录").removeAttr("disabled");
                 }
                 else {
