@@ -6,10 +6,10 @@
     <div class="check iconfont" data-id="{%=item.CustomerID%}" data-userid="{%=item.OwnerID%}">&#xe626;</div>
     <div class="message">        
         <div class="message-name long left">
-            <a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%}</a>
+            <a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%}--{%=item.Type==0?"个人":"企业"%}</a>            
         </div>
         {% if(item.SourceType==1){ %}
-            <div class="hight20 mBottom3 mLeft230 width50" style="position:relative">
+            <div class="hight20 mBottom3 mLeft235 width50" style="position:relative">
                 <div class="left color-leftzuoyou" style=" border-right:10px solid #ffa200; "></div>
                 <div class="left hight20 center width35" style="background-color:#ffa200;border-radius:2px;">
                     <i class="iconfont font18" style="color:#fff !important;">&#xe631;</i>
@@ -36,7 +36,7 @@
             <div class="list-mark left mRight10 mTop12"><span class="mark" data-id="{%= item.CustomerID %}" data-value="{%= item.Mark%}"></span></div>
         </li> 
         <li class="{%=item.DemandCount==0||'red'%}">
-            需求单：
+            <span class="font14">需求单：</span>
             {% if(item.DemandCount>0){%}
                 <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navOppor">{%=item.DemandCount%}</a>
             {% } else{ %}
@@ -44,7 +44,7 @@
             {% } %}
         </li>
         <li>
-            打样单：
+            <span class="font14">打样单：</span>
             {% if(item.DYCount>0){%}
                 <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navOrder">{%=item.DYCount%}</a>
             {% } else{ %}
@@ -52,7 +52,7 @@
             {% } %}
         </li>
         <li>
-            大货单：
+            <span class="font14">大货单：</span>
             {% if(item.DHCount>0){%}
                 <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navDHOrder">{%=item.DHCount%}</a>
             {% } else{ %}
