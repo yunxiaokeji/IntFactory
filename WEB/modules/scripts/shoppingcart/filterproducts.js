@@ -467,11 +467,7 @@
         //绑定子产品详情
         for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
             if (model.ProductDetails[i].ProductDetailID == did) {
-                var list = model.ProductDetails[i].SaleAttrValue.split(",");
-                for (var ii = 0, jj = list.length; ii < jj; ii++) {
-                    var item = list[ii].split(":");
-                    $(".cart-attr-item[data-id='" + item[0] + "']").find("li[data-id='" + item[1] + "']").addClass("hover");
-                }
+                $(".cart-attr-item").find("li[data-id='" + model.ProductDetails[i].ProductDetailID + "']").addClass("hover");
                 $("#price").html("￥" + model.ProductDetails[i].Price.toFixed(2));
                 $("#productimg").attr("src", model.ProductDetails[i].ImgS);
                 $("#productStockQuantity").text(model.ProductDetails[i].StockIn - model.ProductDetails[i].LogicOut);
