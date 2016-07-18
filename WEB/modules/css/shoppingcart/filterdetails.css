@@ -16,11 +16,14 @@
 
 .attrs { height:150px; }
 .attr-item { overflow:auto; }
-.attrkey{ width:15%; float:left; line-height:35px; text-indent:10px; max-width:150px; }
-.attrValues{ width:85%; float:left;line-height:35px; height:35px; height:auto;}
+.attrkey{min-width:60px; float:left; line-height:35px; text-indent:10px; max-width:150px; }
+.attrValues{float:left;line-height:35px; height:35px; height:auto;}
 .attrValues li { height:21px; line-height:21px; float:left; padding:0 20px; margin:5px 10px; border:solid 2px #ccc; cursor:pointer; display:inline-block; }
 .attrValues li:hover { border:solid 2px #B10000; color:#B10000; }
 .attrValues li.hover { border:solid 2px #B10000; color:#B10000; }
+
+#unit li {  border:none;padding:0;height:25px; line-height:25px;margin-left:20px;color:#333;}
+#unit li:hover { border: none; color: #333; }
 
 /*编辑数量/加入购物车*/
 .choose-quantity { width: 49px; height: 34px; overflow: hidden; border: 1px solid #CCC; position: relative; margin: 8px 10px 0px 0px; }
@@ -45,10 +48,10 @@
 .show-nav-ul .hover { position: relative; height: 35px; line-height: 35px; margin-top: -6px; margin-left: -1px; border-top: 2px solid #E4393C;
           border-left: 1px solid #DEDFDE; border-right: 1px solid #DEDFDE; background-color: #FFF; }
 
-.product-attr { padding:30px 50px; width:90%; border-style:solid ; border-width:0 1px 1px; border-color:#DEDFDE; margin-bottom:20px; box-sizing:padding-box; }
+.product-attr { padding:30px 0px; width:90%; border-style:solid ; border-width:0 1px 1px; border-color:#DEDFDE; margin-bottom:20px; box-sizing:padding-box; }
 .product-attr li{ width:22%; padding:5px 1%;}
 
-.product-uselog { padding:10px 20px; width:90%; border-style:solid ; border-width:0 1px 1px; border-color:#DEDFDE; margin-bottom:20px; box-sizing:padding-box;
+.product-uselog { padding:10px 0px; width:90%; border-style:solid ; border-width:0 1px 1px; border-color:#DEDFDE; margin-bottom:20px; box-sizing:padding-box;
                   overflow:auto;
 }
 

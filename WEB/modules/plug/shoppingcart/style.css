@@ -1,7 +1,7 @@
 ﻿
 .shopping-cart { position:fixed; right:0; bottom:0px; background-color:#333; z-index:1002; }
 
-.shopping-cart .cart-header { background:url('/modules/images/ico-gouwuche.png') no-repeat 10px 5px; height:33px; width:150px; line-height:33px; 
+.shopping-cart .cart-header { background:url('/modules/images/ico-gouwuche.png') no-repeat 10px 5px; height:33px; min-width:150px; line-height:33px; 
                               font-size:20px; text-indent:40px;  padding:3px 10px; cursor:pointer; color:#fff; box-shadow:0 0 2px #666; }
 .shopping-cart .cart-header .totalcount{ line-height:35px;  font-size:20px; color:#fff; margin-left:10px; }
 

@@ -51,6 +51,7 @@ define(function (require, exports, module) {
                     var info = JSON.parse(info);
                     var src = file.server + info.key;
                     $("#productImg").attr("src", src);
+                    $("#productImg").data("src", src);
                 }
             }
         });
@@ -287,7 +288,7 @@ define(function (require, exports, module) {
             return false;
         }
 
-        _self.ProductImage = $("#productImg").attr("src");
+        _self.ProductImage = $("#productImg").data("src") || '';
         var Product = {
             ProductID: _self.ProductID,
             ProductCode: $("#productCode").val().trim(),
@@ -797,7 +798,6 @@ define(function (require, exports, module) {
                         if (isNull) {
                             return false;
                         }
-
                         var Model = {
                             ProductDetailID: id,
                             ProductID: model.ProductID,
@@ -810,7 +810,7 @@ define(function (require, exports, module) {
                             Price: $("#detailsPrice").val(),
                             BigPrice: $("#detailsPrice").val(),//(model.SmallUnitID != model.BigUnitID ? $("#bigPrice").val() : $("#detailsPrice").val()) * model.BigSmallMultiple,
                             Weight: 0,
-                            ImgS: _self.ImgS,
+                            ImgS: $("#imgS").data('src') || '',
                             Remark: $("#detailsRemark").val(),
                             Description: desc
                         };
@@ -871,6 +871,7 @@ define(function (require, exports, module) {
                 $("#bigPrice").val(detailsModel.BigPrice / model.BigSmallMultiple);
                 $("#detailsCode").val(detailsModel.DetailsCode);
                 _self.ImgS = detailsModel.ImgS;
+                $("#imgS").data("src", detailsModel.ImgS);
                 $("#imgS").attr("src", detailsModel.ImgS);
                 $("#detailsRemark").val(detailsModel.Remark);
                 var list = detailsModel.SaleAttrValue.split(',');
@@ -946,6 +947,7 @@ define(function (require, exports, module) {
                         var src = file.server + info.key;
                         _self.ImgS = src;
                         $("#imgS").attr("src", src + "?" + count++);
+                        $("#imgS").data("src", src);
                     }
                 }
             });

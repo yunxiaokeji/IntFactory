@@ -26,12 +26,13 @@
 
 /*属性筛选*/
 .attr-item { overflow:auto; }
-.attrkey{ width:10%; float:left; line-height:35px; text-indent:20px; color:#999; }
+.attrkey{float:left; line-height:35px; text-indent:20px; }
 .attrValues{ width:90%; float:left;line-height:35px; height:37px;  }
 .attrValues li { height:25px; line-height:25px; float:left; padding:0 20px; margin:5px 0; cursor:pointer; display:inline-block; }
-.attrValues li:hover { color:#4A99E8; }
-
 .attrValues li.hover { border:solid 1px #4A99E8; color:#4A99E8; }
+
+#unit li {  border:none;padding:0;height:25px; line-height:25px;margin-left:20px;color:#333;}
+#unit li:hover { border: none; color: #333; }
 
 #beginprice, #endprice { width:60px; }
 
@@ -42,8 +43,9 @@
 .productlist { width:100%; overflow:auto;}
 .productlist li{ width:250px; height:350px; float:left; margin-top:20px; }
 
-.productlist .product-item{  width:230px; height:330px; padding:5px; border:solid 5px #eee; display:inline-block; position:relative; }
-.productlist li:hover .product-item{ border:solid 5px #B10000; }
+.productlist .product-item{  width:230px; height:320px; padding:3px; border:solid 3px #eee; display:inline-block; position:relative; }
+.productlist li:hover .product-item{ border:solid 3px #B10000; }
+.productlist li:hover .btnAddCart{display:block; }
 
 .product-item .productimg { width:230px; height:230px; overflow:hidden; display:inline-block; }
 .product-item .productimg img{ width:230px; height:230px;}
@@ -64,7 +66,7 @@
 .add-cart-div .image{ height:400px; width:400px; border:solid 1px #ccc; overflow:hidden;}
 .add-cart-div .image img{ height:400px; width:400px;}
 
-.add-cart-div .product-name { margin-left:50px; min-width:500px; overflow:auto; min-height:400px;}
+.add-cart-div .product-name { margin-left:50px; width:500px; overflow:auto; min-height:400px;}
 .add-cart-div .product-name h1{ font-size:16px;}
 
 .add-cart-div .product-name .price{ height:50px; margin:10px 0; padding:0 10px; background-color:#f3f3f3; }
@@ -74,7 +76,6 @@
 .product-name .price .commonprice { text-decoration:line-through; margin-left:10px; font-size:14px;}
 
 .cart-attrs { height:150px; }
-.cart-attr-item { overflow:auto; }
 .cart-attrkey{ width:15%; float:left; line-height:35px; text-indent:10px; max-width:150px; }
 .cart-attrValues{ width:85%; float:left;line-height:35px; height:35px; height:auto;}
 .cart-attrValues li { height:21px; line-height:21px; float:left; padding:0 20px; margin:5px 10px; border:solid 2px #ccc; cursor:pointer; display:inline-block; }
