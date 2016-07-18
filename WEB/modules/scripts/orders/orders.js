@@ -41,7 +41,7 @@
         if (status) {
             Params.OrderStatus = status;
         }
-        Params.PageSize = ($(".object-items").width() / 300).toFixed(0) * 3;
+        Params.PageSize =parseInt($(".object-items").width() / 267) * 3;
         _self.getList();
         _self.bindStyle();
         _self.bindEvent(type);
@@ -68,6 +68,10 @@
                 $(".order-layer").animate({ right: "-505px" }, 200);
                 $(".object-item").removeClass('looking-view');
             }
+        });
+
+        $(window).resize(function () {
+            ObjectJS.setListPosition();
         });
 
         //日期插件
@@ -627,6 +631,7 @@
                 });
 
                 $(".object-items").append(innerhtml);
+                ObjectJS.setListPosition();
             });
         }
         else
@@ -657,6 +662,21 @@
                 _self.getList();
             }
         });
+    }
+
+    ObjectJS.setListPosition = function () {
+        var count = parseInt($(".object-items").width() /267 )
+        var moreWidth = $(".object-items").width() - (267 * count);
+        var marginRight = ( (moreWidth + 15) / (count - 1) ) + 15;
+        for (var i = 0; i < $(".object-items .object-item").length; i++) {
+            var _this = $(".object-items .object-item").eq(i);
+            if ((i + 1) % count == 0) {
+                _this.css("margin-right", "0");
+            }
+            else {
+                _this.css("margin-right", marginRight + "px");
+            }
+        }
     }
 
     ObjectJS.getDetail = function (id,orderCode) {
