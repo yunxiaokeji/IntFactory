@@ -996,27 +996,6 @@ namespace IntFactoryBusiness
         {
             lock (SingleLock)
             {
-                //if (!string.IsNullOrEmpty(productImg))
-                //{
-                //    if (productImg.IndexOf("?") > 0)
-                //    {
-                //        productImg = productImg.Substring(0, productImg.IndexOf("?"));
-                //    }
-
-                //    DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
-                //    if (!directory.Exists)
-                //    {
-                //        directory.Create();
-                //    }
-
-                //    FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(productImg));
-                //    productImg = FILEPATH + file.Name;
-                //    if (file.Exists)
-                //    {
-                //        file.MoveTo(HttpContext.Current.Server.MapPath(productImg));
-                //    }
-                //}
-
                 var dal = new ProductsDAL();
                 string pid = dal.AddProduct(productCode, productName, generalName, iscombineproduct, prodiverid, brandid, bigunitid, smallunitid, bigSmallMultiple, categoryid, status, ispublic, attrlist,
                                         valuelist, attrvaluelist, commonprice, price, weight, isnew, isRecommend, isallow, isautosend, effectiveDays, discountValue, productImg, shapeCode, description, operateid, clientid);
@@ -1028,30 +1007,6 @@ namespace IntFactoryBusiness
 
                     foreach (var model in details) 
                     {
-                        //if (!string.IsNullOrEmpty(model.ImgS) && model.ImgS.ToLower().IndexOf("/modules/images/") < 0)
-                        //{
-                        //    if (model.ImgS.IndexOf("?") > 0)
-                        //    {
-                        //        model.ImgS = model.ImgS.Substring(0, model.ImgS.IndexOf("?"));
-                        //    }
-
-                        //    DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
-                        //    if (!directory.Exists)
-                        //    {
-                        //        directory.Create();
-                        //    }
-
-                        //    FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(model.ImgS));
-                        //    model.ImgS = FILEPATH + file.Name;
-                        //    if (file.Exists)
-                        //    {
-                        //        file.MoveTo(HttpContext.Current.Server.MapPath(model.ImgS));
-                        //    }
-                        //}
-                        //else if (model.ImgS.ToLower().IndexOf("/modules/images/") >= 0)
-                        //{
-                        //    model.ImgS = "";
-                        //}
                         dal.AddProductDetails(pid, model.DetailsCode, model.ShapeCode, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Price, model.Weight, model.BigPrice, model.ImgS, model.Description, model.Remark, operateid, clientid);
                     }
                 }
@@ -1063,30 +1018,6 @@ namespace IntFactoryBusiness
         {
             lock (SingleLock)
             {
-                //if (!string.IsNullOrEmpty(productImg) && productImg.IndexOf("/modules/images/") < 0)
-                //{
-                //    DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
-                //    if (!directory.Exists)
-                //    {
-                //        directory.Create();
-                //    }
-
-                //    if (productImg.IndexOf("?") > 0)
-                //    {
-                //        productImg = productImg.Substring(0, productImg.IndexOf("?"));
-                //    }
-                //    FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(productImg));
-                //    productImg = FILEPATH + file.Name;
-                //    if (file.Exists)
-                //    {
-                //        file.MoveTo(HttpContext.Current.Server.MapPath(productImg));
-                //    }
-                //}
-                //else if (productImg.IndexOf("/modules/images/") >= 0)
-                //{
-                //    productImg = "";
-                //}
-
                 var dal = new ProductsDAL();
                 return dal.AddProductDetails(productid, productCode, shapeCode, attrlist, valuelist, attrvaluelist, price, weight, bigprice, productImg, description, remark, operateid, clientid);
             }
@@ -1135,30 +1066,6 @@ namespace IntFactoryBusiness
                          bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid)
         {
 
-            //if (!string.IsNullOrEmpty(productImg) && productImg.IndexOf(TempPath) >= 0)
-            //{
-            //    DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
-            //    if (!directory.Exists)
-            //    {
-            //        directory.Create();
-            //    }
-
-            //    if (productImg.IndexOf("?") > 0)
-            //    {
-            //        productImg = productImg.Substring(0, productImg.IndexOf("?"));
-            //    }
-            //    FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(productImg));
-            //    productImg = FILEPATH + file.Name;
-            //    if (file.Exists)
-            //    {
-            //        file.MoveTo(HttpContext.Current.Server.MapPath(productImg));
-            //    }
-            //}
-            //else if (productImg.ToLower().IndexOf("/modules/images/") >= 0)
-            //{
-            //    productImg = "";
-            //}
-
             var dal = new ProductsDAL();
             return dal.UpdateProduct(productid, productCode, productName, generalName, iscombineproduct, prodiverid, brandid, bigunitid, smallunitid, bigSmallMultiple, status, ispublic, categoryid, attrlist,
                                     valuelist, attrvaluelist, commonprice, price, weight, isnew, isRecommend, isallow, isautosend, effectiveDays, discountValue, productImg, shapeCode, description, operateid, clientid);
@@ -1173,29 +1080,6 @@ namespace IntFactoryBusiness
         {
             lock (SingleLock)
             {
-                //if (!string.IsNullOrEmpty(productImg) && productImg.IndexOf(TempPath) >= 0)
-                //{
-                //    DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
-                //    if (!directory.Exists)
-                //    {
-                //        directory.Create();
-                //    }
-
-                //    if (productImg.IndexOf("?") > 0)
-                //    {
-                //        productImg = productImg.Substring(0, productImg.IndexOf("?"));
-                //    }
-                //    FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(productImg));
-                //    productImg = FILEPATH + file.Name;
-                //    if (file.Exists)
-                //    {
-                //        file.MoveTo(HttpContext.Current.Server.MapPath(productImg));
-                //    }
-                //}
-                //else if (productImg.ToLower().IndexOf("/modules/images/") >= 0)
-                //{
-                //    productImg = "";
-                //}
                 var dal = new ProductsDAL();
                 return dal.UpdateProductDetails(detailid, productid, productCode, shapeCode, bigPrice, attrlist, valuelist, attrvaluelist, price, weight, description, remark, productImg);
             }
