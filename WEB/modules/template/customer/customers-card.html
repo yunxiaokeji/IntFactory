@@ -2,7 +2,7 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-<div class="list-card mRight15 mTop20">
+<div class="list-card mRight15 mTop30">
     <div class="check iconfont" data-id="{%=item.CustomerID%}" data-userid="{%=item.OwnerID%}">&#xe626;</div>
     <div class="message">        
         <div class="message-name long left">
@@ -18,7 +18,7 @@
             </div>
         {% } %}
     </div>
-    <ul class="info mTop5 mBottom10">     
+    <ul class="info mTop5 mBottom15">     
         <li>
             <span class="iconfont">&#xe64f;</span>{%=item.MobilePhone?item.MobilePhone:"--"%}            
         </li>   
@@ -52,11 +52,11 @@
             {% } %}
         </li>
         <li>
-            <span class="font14">大货单：</span>
+            <span class="font14 mLeft5">大货单：</span>
             {% if(item.DHCount>0){%}
-                <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navDHOrder">{%=item.DHCount%}</a>
+                <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navDHOrder" class="right">{%=item.DHCount%}</a>
             {% } else{ %}
-                0
+                <span class="right">0</span>
             {% } %}
         </li>
     </ul>
