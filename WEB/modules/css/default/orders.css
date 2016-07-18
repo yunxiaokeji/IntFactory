@@ -201,11 +201,6 @@
 /*翻单次数*/
 .repeatorder-times {width:20px;height:20px;border-radius:50%;border:1px solid #ccc;text-align:center;line-height:20px;margin-top:12px;color:#fff;background-color:#ccc;}
 
-/*单据列表*/
-.doc-item { border:1px solid #ccc;min-height:100px;margin-bottom:10px;}
-.doc-main {padding:5px 0; }
-.doc-info { height:30px;line-height:30px;}
-
 /*价格区间设置*/
 .price-range { position:fixed;z-index:10001;background-color:#fff;top:20%;left:30%;padding:10px 20px;border-radius:5px;}
 .price-range .update-title{border-bottom:1px solid #eee;padding-bottom:7px;font-size:14px;}

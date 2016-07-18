@@ -7,7 +7,7 @@ define(function (require, exports, module) {
 
     //缓存货位
     var CacheDepot = [];
-
+    
     var Params = {
         keyWords: "",
         wareid: "",
@@ -135,19 +135,19 @@ define(function (require, exports, module) {
     //获取单据列表
     ObjectJS.getList = function () {
         var _self = this;
-        $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='7'><div class='data-loading'><div></td></tr>");
+        $(".table-header").nextAll().remove();
+        $(".table-header").after("<tr><td colspan='7'><div class='data-loading'><div></td></tr>");
         var url = "/Purchase/GetPurchases",
             template = "template/purchase/purchases.html";
 
         Global.post(url, Params, function (data) {
-            $(".tr-header").nextAll().remove();
+            $(".table-header").nextAll().remove();
 
             if (data.items.length > 0) {
                 doT.exec(template, function (templateFun) {
                     var innerText = templateFun(data.items);
                     innerText = $(innerText);
-                    $(".tr-header").after(innerText);
+                    $(".table-header").after(innerText);
 
                     //下拉事件
                     $(".dropdown").click(function () {
@@ -168,7 +168,14 @@ define(function (require, exports, module) {
                 });
             }
             else {
-                $(".tr-header").after("<tr><td colspan='7'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                $(".table-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+            }
+
+            /*有数据隐藏表头*/
+            if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
+                $(".table-header").hide();
+            } else {
+                $(".table-header").show();
             }
 
             $("#pager").paginate({
@@ -203,11 +210,113 @@ define(function (require, exports, module) {
         Global.post("/System/GetDepotSeatsByWareID", { wareid: _self.model.WareID }, function (data) {
             CacheDepot = data.Items;
         });        
-
         //审核入库
         $("#btnconfirm").click(function () {
             _self.auditStorageIn();
         })
+
+        $(".tab-nav-ul li").click(function () {
+            var _this = $(this);
+            _this.siblings().removeClass("hover");
+            _this.addClass("hover");
+            $(".nav-partdiv").hide();
+            $("#" + _this.data("id")).show();
+
+            if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getList();
+            } else if (_this.data("id") == "navStorageIn" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getDocList();
+            }
+        });
+
+        //删除单据
+        $("#delete").click(function () {
+            confirm("采购单删除后不可恢复,确认删除吗？", function () {
+                Global.post("/Purchase/DeletePurchase", { docid: _self.docid }, function (data) {
+                    if (data.Status) {
+                        alert("采购单删除成功");
+                        location.href = location.href;
+                    } else {
+                        alert("采购单删除失败");
+                        location.href = location.href
+                    }
+                });
+            });
+        });
+
+        //完成采购单
+        $("#btnOver").click(function () {
+            if (_self.model.Status == 0) {
+                confirm("您尚未登记入库产品，完成采购单后不能再登记入库，确认操作吗？", function () {
+                    Global.post("/Purchase/AuditPurchase", {
+                        docid: _self.docid,
+                        doctype: 101,
+                        isover: 1,
+                        details: "",
+                        remark: ""
+                    }, function (data) {
+                        if (data.status) {
+                            alert("操作成功!");
+                            location.href = location.href;
+                        } else if (data.result == "10001") {
+                            alert("您没有操作权限!")
+                        } else {
+                            alert("操作失败！");
+                        }
+                    });
+                });
+            } else {
+                confirm("完成采购单后不能再登记入库，确认操作吗？", function () {
+                    Global.post("/Purchase/AuditPurchase", {
+                        docid: _self.docid,
+                        doctype: 101,
+                        isover: 1,
+                        details: "",
+                        remark: ""
+                    }, function (data) {
+                        if (data.status) {
+                            alert("操作成功!");
+                            location.href = location.href;
+                        } else if (data.result == "10001") {
+                            alert("您没有操作权限!")
+                        } else {
+                            alert("操作失败！");
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    //获取入库明细
+    ObjectJS.getDocList = function () {
+        var _self = this;
+        $(".log-body").empty();
+        var url = "/Purchase/GetPurchasesDetails",
+            template = "template/purchase/audit_details.html";
+
+
+        Global.post(url, {
+            docid: _self.docid
+        }, function (data) {
+            doT.exec(template, function (templateFun) {
+                if (data.items.length > 0) {
+                    var innerText = templateFun(data.items);
+                    innerText = $(innerText);
+                } else {
+                    $(".table-header").after("<tr><td colspan='4'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                }
+                /*有数据隐藏表头*/
+                if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
+                    $(".table-header").hide();
+                } else {
+                    $(".table-header").show();
+                }
+                $("#navStorageIn").append(innerText);
+            });
+        });
     }
 
     //审核入库

@@ -306,6 +306,8 @@ namespace IntFactoryEntity
         [Property("Lower")] 
         public string WareID { get; set; }
 
+        public string UserName { get; set; }
+
         public WareHouse WareHouse { get; set; }
 
         public string DocImage { get; set; }
