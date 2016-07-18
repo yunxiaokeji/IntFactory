@@ -109,7 +109,8 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .main-content { margin-left:180px; padding-top:50px; padding-bottom:50px;}
 
 /*title样式*/
-.header-box { background-color:#fff; padding:10px 20px; min-height:28px; overflow:auto; margin-bottom:20px; }
+/*.header-box { background-color:#fff; padding:10px 20px; min-height:28px; overflow:auto; margin-bottom:20px; }*/
+.header-box { padding:10px 20px; }
 .header-box .header-title { color:#666; font-size:18px;}
 .header-box .back { font-size:14px; }
 .header-box .back .iconfont{ color:#4a98e7; }
@@ -137,7 +138,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .content-items{ overflow:auto; clear:both; margin:0 20px; }
 
 /*搜索*/
-.search-body { border:dashed 1px #ddd; padding:10px; min-height:35px; }
+.search-body { padding:10px; min-height:35px; }
 
 /*搜索项*/
 .search-item { clear:both; overflow:auto; margin-top:10px; }
@@ -146,11 +147,11 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .search-item .item:hover{ color:#4A99E8; }
 .search-item .item.hover{ border:solid 1px #4A99E8; color:#4A99E8; padding:1px 4px; }
 
-.search-items { clear:both;overflow:auto; height:35px; margin-bottom:10px;}
+.search-items { clear:both;overflow:auto; height:35px; margin-bottom:10px;margin-left:17px;}
 
 /*排序*/
-.search-sort { background-color:#f5f5f5; border:solid 1px #e8e8e8; height:45px; margin-top:10px; }
-.search-sort li{ float:left; padding:0 20px; line-height:45px; color:#666; }
+.search-sort {  border-top:dashed 1px #ddd; height:40px; margin-top:10px; }
+.search-sort li{ float:left; padding:0 20px; line-height:40px; color:#666; }
 .search-sort .sort-item { position:relative; cursor:pointer; }
 
 .search-sort .sort-item:hover { color:#4a98e7; }
