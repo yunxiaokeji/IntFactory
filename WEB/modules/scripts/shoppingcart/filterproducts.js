@@ -377,7 +377,7 @@
                 _this.siblings().removeClass("hover");
                 for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
 
-                    var bl = true, vales = model.ProductDetails[i].AttrValue, unitid = model.ProductDetails[i].UnitID;
+                    var bl = true, vales = model.ProductDetails[i].ProductDetailID, unitid = model.ProductDetails[i].UnitID;
                     $(".salesattr li.hover").each(function () {
                         if (vales.indexOf($(this).data("id")) < 0) {
                             bl = false;
