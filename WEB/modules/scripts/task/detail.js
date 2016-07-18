@@ -77,7 +77,7 @@
         }
         if (ObjectJS.mark === 23) {
             CutoutDoc = require("scripts/task/cutoutdoc");
-            CutoutDoc.initCutoutDoc(ObjectJS.orderid,ObjectJS.taskid,Global,DoT,Easydialog);
+            CutoutDoc.initCutoutDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
         }
         else if (ObjectJS.mark === 24) {
             SewnDoc = require("scripts/task/sewndoc");
@@ -1377,8 +1377,6 @@
             }
         });
     }
-
-
 
     //制版工艺说明
     ObjectJS.initPlateMaking = function () {

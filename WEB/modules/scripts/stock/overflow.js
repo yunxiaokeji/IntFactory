@@ -266,7 +266,6 @@ define(function (require, exports, module) {
                 wareid: wareid,
                 depotid: depot.val()
             }, function (data) {
-                console.log(data);
                 if (!data.Status) {
                     alert("操作失败,请刷新页面重新操作！");
                 };

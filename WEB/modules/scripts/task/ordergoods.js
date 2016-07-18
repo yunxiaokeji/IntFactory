@@ -65,6 +65,12 @@
             else {
                 $tr_header.after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
+            /*有数据隐藏表头*/
+            if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
+                $(".table-header").hide();
+            } else {
+                $(".table-header").show();
+            }
         });
     };
 

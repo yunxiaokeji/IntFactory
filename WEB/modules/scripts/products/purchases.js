@@ -297,10 +297,11 @@ define(function (require, exports, module) {
         var url = "/Purchase/GetPurchasesDetails",
             template = "template/purchase/audit_details.html";
 
-
+        $(".table-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post(url, {
             docid: _self.docid
         }, function (data) {
+            $(".table-header").nextAll().remove();
             doT.exec(template, function (templateFun) {
                 if (data.items.length > 0) {
                     var innerText = templateFun(data.items);

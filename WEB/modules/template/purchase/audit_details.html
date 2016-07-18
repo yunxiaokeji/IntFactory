@@ -1,7 +1,6 @@
 ﻿{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
-console.log(item);
 %}
 <tr class="line-item">
     <td colspan="4"></td>
@@ -17,7 +16,6 @@ console.log(item);
     for(var k=0,kk=item.Details.length;k<kk;k++)
         {
         var detail=item.Details[k];
-        console.log(detail);
 %}
         <tr class="item {%=k==kk-1?'last':''%}">
     <td class="tLeft bLeft bBottom">
