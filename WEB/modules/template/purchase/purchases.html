@@ -1,10 +1,13 @@
 ﻿{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
+    if(i>0){
+    %}
 %}
 <tr class="line-item">
     <td colspan="10"></td>
 </tr>
+{%}%}
 <tr class="item-header">
     <td class="tLeft bolder">
         {%=item.CreateTime.toDate('yyyy-MM-dd')%}

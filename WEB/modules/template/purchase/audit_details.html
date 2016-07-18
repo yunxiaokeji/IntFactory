@@ -1,10 +1,12 @@
 ﻿{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
-%}
+    if(i>0){
+    %}
 <tr class="line-item">
     <td colspan="4"></td>
 </tr>
+{%}%}
 <tr class="item-header">
     <td class="tLeft">单号：{%=item.DocCode%}</td>
     <td>总金额</td>
