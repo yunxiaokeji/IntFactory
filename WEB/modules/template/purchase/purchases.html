@@ -7,17 +7,15 @@
 </tr>
 <tr class="item-header">
     <td class="tLeft bolder">
-        采购单号：{%=item.DocCode%}
+        {%=item.CreateTime.toDate('yyyy-MM-dd')%}
     </td>
-    <td class="tLeft">名称</td>
-    <td  class="tLeft">
-        规格
-    </td>
+    <td class="tLeft">采购单号：{%=item.DocCode%}</td>
     <td>编码</td>
     <td>数量</td>
+    <td>采购价</td>
     <td>总金额</td>
-    <td class="bolder">
-        {%=item.CreateTime.toDate('yyyy-MM-dd hh:ss:mm')%}
+    <td class="">
+        <span class="{%=item.Status<2?'red':''%} mBottom10">{%=item.StatusStr%}</span>
         <div class="right iconfont dropdown" data-status="{%=item.Status%}" data-id="{%=item.DocID%}">
             <span class="{%=item.Status < 2? 'ico-dropdown':''%}"></span>
         </div>
@@ -37,18 +35,19 @@
              <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.DocImage?item.DocImage:'/modules/images/img-noimg.png'%}" />
          </td>
          {%}%}
-         <td class="bBottom tLeft">{%=detailItem.ProductName%}</td>
-         <td class="bBottom tLeft">{%=detailItem.Remark%}</td>
+         <td class="bBottom tLeft">{%=detailItem.ProductName+detailItem.Remark%}</td>
          <td class="bBottom">{%=detailItem.DetailsCode?detailItem.DetailsCode: detailItem.ProductCode%}</td>
-         <td class="bBottom">{%=detailItem.Quantity%}</td>
+         <td class="bBottom">{%=detailItem.Quantity.toFixed(2)%}</td>
+         <td class="bBottom">{%=detailItem.TotalMoney.toFixed(2)%}</td>
          {%
-            if(k==0)
-            {
+         if(k==0)
+         {
          %}
-         <td rowspan="{%=kk%}" class="bBottom bLeft">{%=item.TotalMoney%}</td>
+         <td rowspan="{%=kk%}" class="bBottom bLeft">{%=item.TotalMoney.toFixed(2)%}</td>
          <td rowspan="{%=kk%}" class="bBottom bRight bLeft">
-             <div class="{%=item.Status<2?'red':''%} mBottom10">{%=item.StatusStr%}</div>
-             <a href="/Products/DocDetail/{%=item.DocID%}" target="_blank">查看详情</a>
+             <a href="/Products/AuditDetail/{%=item.DocID%}" target="_blank">
+                 查看详情
+             </a>
          </td>
          {%}%}
      </tr>

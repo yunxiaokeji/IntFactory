@@ -15,33 +15,4 @@
 .purchase-detail-header .name { width:280px; padding-left:20px; }
 .purchase-detail-header .code { width:120px; }
 
-/*表格*/
-
-.table-items-detail { width:100%; border-spacing:0px; box-sizing:border-box;}
-.table-items-detail td{ text-align:center; padding:5px 10px; }
-
-.table-items-detail .table-header { background-color:#f1f1f1; height:35px; }
-.table-items-detail .table-header td{ border-top:solid 1px #ddd;  border-bottom:solid 1px #ddd; color:#333; }
-.table-items-detail .table-header td:first-child{ border-left:solid 1px #ddd;}
-.table-items-detail .table-header td:last-child{ border-right:solid 1px #ddd;}
-
-.table-items-detail .item-header { background-color:#f1f1f1; height:40px; }
-.table-items-detail .item-header td{ border-top:solid 1px #ddd;  border-bottom:solid 1px #ddd; color:#333; }
-.table-items-detail .item-header td:first-child{ border-left:solid 1px #ddd;}
-.table-items-detail .item-header td:last-child{ border-right:solid 1px #ddd;}
-
-.table-items-detail .item { height:50px; }
-.table-items-detail .item.last td {  border-bottom:solid 1px #ddd; }
-
-.table-items-detail .first-line-item{ height:50px; }
-.table-items-detail .line-item { height:20px; }
-
-.table-items-detail .bLeft { border-left:solid 1px #ddd; }
-.table-items-detail .bRight { border-right:solid 1px #ddd; }
-.table-items-detail .bBottom { border-bottom:solid 1px #ddd; }
-
-.table-items-detail a { color:#333; }
-.table-items-detail a:hover { color:red; }
-.table-items-detail td img { width:80px;height:80px;}
-
-.item-header td:first-child{max-width:90px; }
+.item-header td:first-child{width:40px; }

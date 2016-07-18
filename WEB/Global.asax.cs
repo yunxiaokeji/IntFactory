@@ -43,52 +43,52 @@ namespace YXERP
             RegisterRoutes(RouteTable.Routes);
         }
 
-        protected void Application_Error(object sender, EventArgs e)
-        {
-            string urlReferrer=Request.UrlReferrer != null ? Request.UrlReferrer.AbsoluteUri : Request.Url.AbsoluteUri;
-            Exception exception = Server.GetLastError();
-            HttpException httpException = exception as HttpException;
-            RouteData routeData = new RouteData();
-            routeData.Values.Add("controller", "Error");
-            if (exception == null)
-            {
-                routeData.Values.Add("action", "NotAccess");
-            }
-            else if (httpException == null)
-            {
-                routeData.Values.Add("action", "NotAccess");
-            }
-            else
-            {
-                switch (httpException.GetHttpCode())
-                {
-                    case 404:
-                        {
-                            routeData.Values.Add("action", "NotAccess");
-                            break;
-                        }
-                    case 500:
-                        routeData.Values.Add("action", "NotAccess");
-                        break;
-                    case 403:
-                        {
-                            urlReferrer = exception.Message;
-                            routeData.Values.Add("action", "NoRoot");
-                            break;
-                        }
-                    default:
-                        routeData.Values.Add("action", "NotAccess");
-                        break;
-                }
-            }
-            // Pass exception details to the target error View.  
-            routeData.Values.Add("urlReferrer", urlReferrer);
-            // Clear the error on server.  
-            Server.ClearError();
-            // Call target Controller and pass the routeData.  
-            IController errorController = new YXERP.Controllers.ErrorController();
-            errorController.Execute(new RequestContext(new HttpContextWrapper(Context), routeData));
-        }
+        //protected void Application_Error(object sender, EventArgs e)
+        //{
+        //    string urlReferrer=Request.UrlReferrer != null ? Request.UrlReferrer.AbsoluteUri : Request.Url.AbsoluteUri;
+        //    Exception exception = Server.GetLastError();
+        //    HttpException httpException = exception as HttpException;
+        //    RouteData routeData = new RouteData();
+        //    routeData.Values.Add("controller", "Error");
+        //    if (exception == null)
+        //    {
+        //        routeData.Values.Add("action", "NotAccess");
+        //    }
+        //    else if (httpException == null)
+        //    {
+        //        routeData.Values.Add("action", "NotAccess");
+        //    }
+        //    else
+        //    {
+        //        switch (httpException.GetHttpCode())
+        //        {
+        //            case 404:
+        //                {
+        //                    routeData.Values.Add("action", "NotAccess");
+        //                    break;
+        //                }
+        //            case 500:
+        //                routeData.Values.Add("action", "NotAccess");
+        //                break;
+        //            case 403:
+        //                {
+        //                    urlReferrer = exception.Message;
+        //                    routeData.Values.Add("action", "NoRoot");
+        //                    break;
+        //                }
+        //            default:
+        //                routeData.Values.Add("action", "NotAccess");
+        //                break;
+        //        }
+        //    }
+        //    // Pass exception details to the target error View.  
+        //    routeData.Values.Add("urlReferrer", urlReferrer);
+        //    // Clear the error on server.  
+        //    Server.ClearError();
+        //    // Call target Controller and pass the routeData.  
+        //    IController errorController = new YXERP.Controllers.ErrorController();
+        //    errorController.Execute(new RequestContext(new HttpContextWrapper(Context), routeData));
+        //}
 
     }
 }

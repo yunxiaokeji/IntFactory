@@ -294,7 +294,7 @@
 
                 var myDate = new Date();
                 var minDate = myDate.toLocaleDateString();
-                minDate = minDate + " 00:00:00"
+                minDate = minDate + " 23:59:59"
                 //if (ObjectJS.planTime <= minDate) {
                 //    ObjectJS.planTime = '';
                 //}

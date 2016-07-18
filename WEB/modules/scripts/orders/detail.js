@@ -1758,6 +1758,12 @@
             } else {
                 $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
+            /*有数据隐藏表头*/
+            if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
+                $(".table-header").hide();
+            } else {
+                $(".table-header").show();
+            }
         });
         
     }
@@ -1787,6 +1793,12 @@
                 });
             } else {
                 $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+            }
+            /*有数据隐藏表头*/
+            if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
+                $(".table-header").hide();
+            } else {
+                $(".table-header").show();
             }
         });
 
@@ -1824,7 +1836,12 @@
                 $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         });
-
+        /*有数据隐藏表头*/
+        if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
+            $(".table-header").hide();
+        } else {
+            $(".table-header").show();
+        }
     }
 
     //其他成本

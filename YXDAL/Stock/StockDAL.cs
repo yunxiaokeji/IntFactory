@@ -43,12 +43,12 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataTable GetStorageDocDetails(string docid)
+        public DataSet GetStorageDocDetails(string docid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@DocID",docid)
                                    };
-            return GetDataTable("select * from StorageDoc where OriginalID=@DocID and DocType=101 ", paras, CommandType.Text);
+            return GetDataSet("P_GetStorageDocDetails", paras, CommandType.StoredProcedure, "Doc|Details");
         }
 
         public DataSet GetGoodsDocByOrderID(string orderid,string taskid, int doctype, string clientid)

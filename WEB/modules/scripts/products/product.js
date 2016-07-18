@@ -777,7 +777,6 @@ define(function (require, exports, module) {
                     header: !id ? "添加材料子规格" : "编辑材料子规格",
                     content: html,
                     yesFn: function () {
-
                         if (!DetailsVerify.isPass()) {
                             return false;
                         }
@@ -875,7 +874,7 @@ define(function (require, exports, module) {
                 $("#imgS").attr("src", detailsModel.ImgS);
                 $("#detailsRemark").val(detailsModel.Remark);
                 var list = detailsModel.SaleAttrValue.split(',');
-                
+
                 $(".productattr").each(function () {
                     var _this = $(this), bl = false;
                     for (var i = 0, j = list.length; i < j; i++) {
