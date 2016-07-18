@@ -68,7 +68,6 @@ namespace IntFactoryEntity
                                         : "",
                                         null);
                                 }
-
                             }
                             else
                             {
@@ -91,7 +90,6 @@ namespace IntFactoryEntity
                             break;
                     }
                 }
-
             }
         }
     }
