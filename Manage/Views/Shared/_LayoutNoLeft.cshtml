@@ -4,7 +4,9 @@
         string controller =  Url.RequestContext.RouteData.Values["controller"].ToString().ToLower();
         string action = Url.RequestContext.RouteData.Values["action"].ToString().ToLower();
         IntFactoryEntity.Menu controllerMenu = ExpandClass.GetController(HttpContext.Current, controller);
+        var logo = "/modules/images/logo.png";
     }
+
 <html>
 <head>
     <title>@ViewBag.Title</title>
@@ -57,33 +59,6 @@
     </header>
 
     <div class="main-body">
-        <nav> 
-           
-            @if(controllerMenu!=null)
-            {
-                foreach (IntFactoryEntity.Menu model in ExpandClass.GetChildMenuByCode(HttpContext.Current, controllerMenu.PCode))
-                { 
-                    <div class="controller @(model.Controller.ToLower()==controller ? "select" : "")" data-code="@(model.MenuCode)">
-                        <div class="controller-box">
-                            <div class="controller-name">
-                                <span class="open left @(model.Controller.ToLower()==controller ? "rotate" : "")"></span>
-                                <span class="name left">@(model.Name)</span>
-                            </div>
-                        </div>
-                        <ul class="action-box @(model.Controller.ToLower()==controller ? "" : "hide")">
-                            @foreach (IntFactoryEntity.Menu view in ExpandClass.GetChildMenuByCode(HttpContext.Current, model.MenuCode))
-                            {
-                                <li class="action @(view.View.ToLower()==action ? "select" : "")" data-code="@(view.MenuCode)">
-                                    <a href="/@(view.Controller + "/" + view.View)" ><span class="name" style="font-size:12px;">@(view.Name)</span></a>
-                                </li>
-                            }
-                         </ul>
-                    </div>
-                }
-            }
-          
-        </nav>
-
         <div class="main-content">
             @RenderBody()
         </div>
