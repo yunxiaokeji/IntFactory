@@ -10,22 +10,20 @@
     }
 %}
 
-     <li data-rangeid="{%=item.RangeID%}"  style="border-bottom:1px solid #ededed;line-height:25px;">
-         <div class="li-range">
-             <span class="left">当产品数量在</span>
+     <li data-rangeid="{%=item.RangeID%}"  style="border-bottom:1px solid #ededed;line-height:25px;" data-id="{%=i%}">
+         <div class="left">
+             <span class="left">当订单数量在</span>
              <input class="min-number left" type="text" maxlength="10" value="{%=item.MinQuantity%}" />
              <span class="left">到</span>
-             <input class="min-number left" type="text" maxlength="10" value="{%=nextitem.MinQuantity%}" />
-             <span class="left">之间,可享受最低价</span>
+             <input class="max-number left" type="text" disabled="disabled" maxlength="10" value="{%=nextitem.MinQuantity%}" />
+             <span class="left">之间,价格</span>
              <input class="price left" type="text" maxlength="10" value="{%=item.Price%}" />
-             <span>元优惠</span>
+             <span>元/件</span>
          </div>
         
-        <div class="li-range center">            
-            <span class="iconfont update">&#xe607;</span>            
-            <span class="iconfont mLeft10 delete">&#xe651;</span>
-            <span class="btn save  mLeft10 hide" style="display:none">保存</span>
-            <span class="btn cancel hide mLeft10" style="display:none">取消</span>
+        <div class="right center">            
+            <span class="update iconfont font14">&#xe607;</span>            
+            <span class="mLeft10 mTop1 delete iconfont">&#xe651;</span>            
         </div>         
     </li>    
 

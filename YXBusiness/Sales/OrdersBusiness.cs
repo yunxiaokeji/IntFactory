@@ -1198,7 +1198,7 @@ namespace IntFactoryBusiness
         /// </summary>
         public static bool UpdateOrderPriceRange(OrderPriceRange range, string operateid, string ip, string agentid, string clientid)
         {
-            bool flag = OrdersDAL.BaseProvider.UpdateOrderPriceRange(range.RangeID, range.MaxQuantity, range.Price);
+            bool flag = OrdersDAL.BaseProvider.UpdateOrderPriceRange(range.RangeID, range.MinQuantity, range.Price);
 
             return flag;
         }
