@@ -87,7 +87,7 @@
                 $(this).find("td").last().remove();
             });
         } else {           
-            $(".talk-title").hide();            
+            $("#navEngravingInfo").html("<div class='nodata-txt'>暂无制版信息<div>");
         }
         //样图
         _self.bindOrderImages(model.OrderImages);
@@ -117,7 +117,7 @@
                 });
             }
             else {            
-                $(".tb-plates").append("<tr><td colspan='5'><div class='nodata-txt'>暂无数据!<div></td></tr>");
+                $(".tb-plates").append("<tr><td colspan='5'><div class='nodata-txt'>暂无工艺说明<div></td></tr>");
             }
         });
     }
