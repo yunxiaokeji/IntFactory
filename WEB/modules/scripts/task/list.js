@@ -41,12 +41,17 @@
         ObjectJS.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
         Params.beginDate = nowDate;
         Params.endDate = nowDate;        
-        var count = parseInt($(".task-items").width() / 265);
+        var count = parseInt($(".task-items").width() / 269);
         Params.pageSize = count * 3;        
 
         var taskListType = Global.getCookie('TaskListType');
         if (taskListType) {
             Params.listType = taskListType;
+            if (taskListType=="list") {
+                $(".center-task-list").addClass("content-body").addClass("mTop20").removeClass("content-list");
+            } else {
+                $(".center-task-list").addClass("content-list").removeClass("content-body");
+            }
         }
         $(".task-tabtype i[data-type=" + Params.listType + "]").addClass("checked").siblings().removeClass("checked");
         if (isMy == 2) {
@@ -216,7 +221,12 @@
             if (!_this.hasClass('checked')) {
                 _this.addClass('checked').siblings().removeClass('checked');
                 Params.listType = _this.data('type');
-                Global.setCookie('TaskListType',Params.listType);
+                Global.setCookie('TaskListType', Params.listType);
+                if (_this.data('type')=="list") {
+                    $(".center-task-list").addClass("content-body").addClass("mTop20").removeClass("content-list");
+                } else {
+                    $(".center-task-list").addClass("content-list").removeClass("content-body");
+                }
                 ObjectJS.getList();
             }
         });
@@ -320,9 +330,15 @@
             $(".task-items").show();
             $(".task-items").html("<div class='data-loading'><div>");
         }
-        $(".content-list").find('.nodata-txt').remove();
+        var classContent = "";
+        if (Params.listType=="list") {
+            classContent = ".content-body";
+        } else {
+            classContent = ".content-list";
+        }
+        $(classContent).find('.nodata-txt').remove();
         ObjectJS.isLoading = false;
-        console.log(Params.PageSize);
+        
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".tr-header").nextAll().remove();
 
@@ -398,8 +414,8 @@
     }
 
     ObjectJS.setListPosition = function () {        
-        var count = parseInt($(".task-items").width() / 265)
-        var moreWidth = $(".task-items").width() - (265 * count);
+        var count = parseInt($(".task-items").width() / 269)
+        var moreWidth = $(".task-items").width() - (269 * count);
         var marginRight = ((moreWidth + 15) / (count - 1)) + 15;
         
         for (var i = 0; i < $(".task-items .task-item").length; i++) {

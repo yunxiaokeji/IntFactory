@@ -470,7 +470,8 @@
 .search-sort li:last-child .iconfont:first-child { border-right:1px solid #ccc; padding-right:10px;}
 .search-sort li:last-child .checked {color:rgb(74, 152, 231);}
 
-.task-item { width:250px;border:1px solid #efefef;cursor:pointer;float:left;margin-top:20px;margin-right:15px;box-sizing:border-box;background-color:#f9f9f9;overflow:hidden;}
+.task-item { width:250px;border:1px solid #efefef;cursor:pointer;float:left;margin-top:20px;margin-right:15px;box-sizing:
+                 border-box;background-color:#f9f9f9;overflow:hidden;background-color:#fff;}
 .task-item:hover { border-color:#3F9BE8;}
 .task-item .task-imgtitlemark img {width:50px;height:50px;}
 .task-top .picbox {position:relative;height:248px; width:248px;}
