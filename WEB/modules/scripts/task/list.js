@@ -31,11 +31,10 @@
         pageIndex: 1,
         listType: "list"
     };
-
+    
     var ObjectJS = {};
-    ObjectJS.isLoading = true;
     ObjectJS.ColorList = [];
-
+    ObjectJS.isLoading = true;
     ObjectJS.init = function (isMy, nowDate, model) {
         var _self = this;
         ObjectJS.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
@@ -96,7 +95,6 @@
     }
 
     ObjectJS.bindEvent = function () {
-
         $(window).resize(function () {
             ObjectJS.setListPosition();
         });
@@ -116,10 +114,6 @@
                 ObjectJS.getList();
             }
         });
-
-        if (Params.isParticipate == 1) {
-            $(".search-stages li").eq(2).click();
-        }
 
         //关键字查询 任务编码、订单编码、任务标题
         require.async("search", function () {
@@ -198,7 +192,6 @@
                 ObjectJS.getList();
             };
         });
-
 
         //预警切换
         $(".search-warning .item").on("click", function () {
@@ -316,6 +309,10 @@
             ObjectJS.getList();
 
         });
+
+        if (Params.isParticipate == 1) {
+            $(".search-stages li").eq(2).click();
+        }
     }
 
     ObjectJS.getList = function () {
