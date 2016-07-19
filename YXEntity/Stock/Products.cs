@@ -1,4 +1,5 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿using IntFactoryEnum;
+/**  版本信息模板在安装目录下，可自行修改。
 * Products.cs
 *
 * 功 能： N/A
@@ -470,7 +471,7 @@ namespace IntFactoryEntity
     {
         public string AttrID { get; set; }
         public string ValueID { get; set; }
-        public IntFactoryEnum.EnumAttrType Type { get; set; }
+        public EnumAttrType Type { get; set; }
     }
 }
 
