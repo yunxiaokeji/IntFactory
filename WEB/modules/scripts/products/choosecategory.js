@@ -38,7 +38,6 @@ define(function (require, exports, module) {
         });
         _self.bindElementEvent($(".category-list li"));
         $("#productChange").changeMenu({
-            width:200,
             onChange: function () {
             }
         });

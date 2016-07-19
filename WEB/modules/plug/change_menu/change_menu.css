@@ -1,1 +1,6 @@
-﻿
+﻿.change-menu-body {background-color:#fff;padding:10px;}
+.change-menu-body li { font-size:14px;float:left;margin-right:30px;}
+.change-menu-body .change-menu-header { line-height:40px;height:40px;border-bottom:1px solid #808080;margin-bottom:20px;}
+.change-menu-body .change-menu-header li.hover { color:#4a98e7;}
+.change-menu-body .change-menu-content li {line-height:24px;height:24px;padding:3px 10px;border:1px solid #ccc;text-align:center;transition:background-color 0.2s; }
+.change-menu-body .change-menu-content li:hover { background-color:#cdcdcd;}
