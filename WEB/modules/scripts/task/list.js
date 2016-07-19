@@ -52,6 +52,8 @@
             } else {
                 $(".center-task-list").removeClass("content-body").addClass("content-list");                
             }
+        } else {
+            $(".center-task-list").addClass("content-body").removeClass("content-list");
         }
         $(".task-tabtype i[data-type=" + Params.listType + "]").addClass("checked").siblings().removeClass("checked");
         if (isMy == 2) {
