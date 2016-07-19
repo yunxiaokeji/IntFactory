@@ -57,7 +57,6 @@ define(function (require, exports, module) {
         });
 
         $("#btnSaveProduct").on("click", function () {
-
             if (!VerifyObject.isPass()) {
                 return;
             }
@@ -72,7 +71,7 @@ define(function (require, exports, module) {
         });
 
         //编码是否重复
-        $("#productCode").blur(function () {
+        $("#productCode").change(function () {
             var _this = $(this);
             if (_this.val().trim() != "") {
                 Global.post("/Products/IsExistsProductCode", {
@@ -85,7 +84,7 @@ define(function (require, exports, module) {
                     }
                 });
             }
-        })
+        });
 
         $("#productName").focus();
 
@@ -264,7 +263,6 @@ define(function (require, exports, module) {
     }
     //保存产品
     Product.savaProduct = function () {
-
         var _self = this, attrlist = "", valuelist = "", attrvaluelist = "";
 
         if (!$("#prodiver").data("id")) {
@@ -351,14 +349,12 @@ define(function (require, exports, module) {
                     }, function () {
                         location.href = "/Products/ProductDetail/" + data.ID;
                     });
-                    
                 } else if (_self.type == "1") {
                     confirm("材料添加成功，是否返回选择材料页面？", function () {
                         location.href = "/Products/ChooseProducts?id=" + _self.guid;
                     }, function () {
                         location.href = "/Products/ProductDetail/" + data.ID;
                     });
-
                 } else {
                     location.href = "/Products/ProductDetail/" + data.ID;
                 }
@@ -735,6 +731,7 @@ define(function (require, exports, module) {
     Product.getChildList = function (model) {
         var _self = this;
         $("#header-items").nextAll().remove();
+        if (model.ProductDetails[0].IsDefault == 0) {
             doT.exec("template/products/productdetails_list.html", function (templateFun) {
                 var innerText = templateFun(model.ProductDetails);
                 innerText = $(innerText);
@@ -754,6 +751,9 @@ define(function (require, exports, module) {
                     _self.showTemplate(model, $(this).data("id"));
                 });
             });
+        } else {
+            $("#header-items").after("<tr><td colspan='7'><div class='nodata-txt'>暂无数据</div></td></tr>");
+        }
     }
     //更改子产品状态
     Product.editDetailsStatus = function (obj, id, status, callback) {
