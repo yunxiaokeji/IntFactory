@@ -75,7 +75,7 @@
     ObjectJS.updateAndAddPriceRange = function (innerText,save,orderid) {
         innerText.find(save).click(function () {
             var _this = $(this).parent().parent();
-            debugger
+            
             var rangeid = _this.data("rangeid");
             
             if (!_this.data("id")=="0") {
@@ -110,14 +110,15 @@
             };               
             Global.post("/Orders/OrderPriceRange", {
                 model: JSON.stringify(model)
-            }, function (obj) {
-                if (obj.status) {
-                    if (save == ".update") {
+            }, function (obj) {               
+                if (obj.id!=""||obj.id!="2") {
+                    if (obj.id=="1") {
                         _this.find(".min-number").val(minnumber);
                         _this.find(".price").val(price);
                         _this.prev().find(".max-number").val(minnumber);
                         alert("编辑成功");                        
                     } else {
+                        _this.data("rangeid", obj.id);                        
                         _this.find(".min-number").val(minnumber);
                         _this.find(".price").val(price);
                         _this.find(".max-number").val("无上限").attr("disabled", "disabled");
