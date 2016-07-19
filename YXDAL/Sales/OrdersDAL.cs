@@ -820,7 +820,7 @@ namespace IntFactoryDAL
         #region OrderPriceRange
         public DataTable GetOrderPriceRanges(string orderid)
         {
-            string sqltext = "select * from OrderPriceRange where OrderID=@OrderID and status<>9  order by MaxQuantity asc";
+            string sqltext = "select * from OrderPriceRange where OrderID=@OrderID and status<>9  order by MinQuantity asc";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid)
@@ -830,33 +830,31 @@ namespace IntFactoryDAL
         }
 
 
-        public bool AddOrderPriceRange(int minQuantity, int maxQuantity, decimal price, string orderid, string userid, string clientid)
+        public bool AddOrderPriceRange(int minQuantity, decimal price, string orderid, string userid, string clientid)
         {
             var rangeID = Guid.NewGuid().ToString();
             SqlParameter[] paras = { 
                                      new SqlParameter("@RangeID",rangeID),
                                      new SqlParameter("@MinQuantity",minQuantity),
-                                     new SqlParameter("@MaxQuantity",maxQuantity),
                                      new SqlParameter("@Price",price),
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@UserID",userid),
                                      new SqlParameter("@ClientID",clientid)
                                    };
 
-            string sql = "insert OrderPriceRange(RangeID,MinQuantity,MaxQuantity,Price,OrderID,CreateUserID,ClientID,AgentID) values(@RangeID,@MinQuantity,@MaxQuantity,@Price,@OrderID,@UserID,@ClientID,@ClientID)";
+            string sql = "insert OrderPriceRange(RangeID,MinQuantity,Price,OrderID,CreateUserID,ClientID,AgentID) values(@RangeID,@MinQuantity,@Price,@OrderID,@UserID,@ClientID,@ClientID)";
 
             return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateOrderPriceRange(string rangeid, int minQuantity, int maxQuantity, decimal price)
+        public bool UpdateOrderPriceRange(string rangeid, int minQuantity, decimal price)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@RangeID",rangeid),
                                      new SqlParameter("@MinQuantity",minQuantity),
-                                     new SqlParameter("@MaxQuantity",maxQuantity),
                                      new SqlParameter("@Price",price)
                                    };
-            string sql = "update OrderPriceRange set MinQuantity=@MinQuantity,MaxQuantity=@MaxQuantity,Price=@Price where RangeID=@RangeID";
+            string sql = "update OrderPriceRange set MinQuantity=@MinQuantity,Price=@Price where RangeID=@RangeID";
 
             return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
         }
