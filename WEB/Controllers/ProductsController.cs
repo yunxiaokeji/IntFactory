@@ -52,7 +52,8 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public ActionResult ProductAdd(string id, string type = "", string guid = "", string tid = "") 
         {
-            if (string.IsNullOrEmpty(type)) {
+            if (string.IsNullOrEmpty(type)) 
+            {
                 type = "0";
             }
             ViewBag.Type = type;

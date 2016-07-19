@@ -5,7 +5,7 @@
 <li>
     <div class="product-item" >
         <a target="_blank" href="/Products/ChooseDetail?pid={%=item.ProductID%}&did={%=item.ProductDetailID%}" class="productimg">
-            <img src="{%=item.ImgS %}" alt="" />
+            <img src="{%=(item.ImgS==''?'/modules/images/none-img.png':item.ImgS)%}" alt="" />
         </a>
         <h2 class="price">
             ￥{%=item.Price.toFixed(2)%}

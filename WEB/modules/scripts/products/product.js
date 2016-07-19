@@ -681,6 +681,7 @@ define(function (require, exports, module) {
                     var info = JSON.parse(info);
                     var src = file.server + info.key;                    
                     $("#productImg").attr("src", src);
+                    $("#productImg").data("src", src);
                 }
             }
         });
