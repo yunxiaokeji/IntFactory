@@ -99,14 +99,14 @@ namespace IntFactoryDAL
 
         public DataTable GetUnits()
         {
-            DataTable dt = GetDataTable("select * from ProductUnit where Status<>9");
+            DataTable dt = GetDataTable("select UnitID,UnitName from ProductUnit where Status<>9");
             return dt;
         }
 
         public DataTable GetUnitByID(string unitid)
         {
             SqlParameter[] paras = { new SqlParameter("@UnitID", unitid) };
-            DataTable dt = GetDataTable("select * from ProductUnit where UnitID=@UnitID and Status<>9", paras, CommandType.Text);
+            DataTable dt = GetDataTable("select UnitID,UnitName from ProductUnit where UnitID=@UnitID and Status<>9", paras, CommandType.Text);
             return dt;
         }
 
