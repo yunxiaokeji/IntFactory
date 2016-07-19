@@ -1,14 +1,11 @@
 ﻿@{
     var list=(List<IntFactoryEntity.Custom.LableColorEntity>)ViewBag.list;
 }
-
 @section css{
     <link href="/modules/css/default/orders.css" rel="stylesheet" />
     <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
 }
 @section scripts{
-    <script src="/Scripts/jquery-1.11.1.js"></script>
-    <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/orders/orders"], function (ObjectJS) {
             ObjectJS.init('@ViewBag.Type', '@(ViewBag.State)', '@Html.ToJSONString(list)');
@@ -101,7 +98,7 @@
                 <span class="desc"></span>
             </li>
         </ul>
-        <div class="right searth-module mTop5" data-text="关键字搜索..." data-width="260"> </div>
+        <div class="right searth-module mTop5" data-text="输入订单编码/联系人/手机号/款式编码/款式名称..." data-width="280"> </div>
     </div>
 </div>
 <div class="content-list">

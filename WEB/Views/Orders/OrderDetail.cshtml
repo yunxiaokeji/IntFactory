@@ -117,12 +117,12 @@
                 </li>
             }           
         }
-        @if (model.OrderStatus==2)
+       @* @if (model.OrderStatus==2)
         {
             <li>
                 <span class=" btn price-range-set">优惠设置</span>
             </li>  
-        }
+        }*@
     </ul>
 </div>
 
@@ -374,11 +374,10 @@
     </table>
 
     <div class="nav-partdiv  mTop10" id="navEngraving">
+        <div class="table-title">制版信息</div>
         <div id="navEngravingInfo"></div>
-        <div class="mTop20" style="font-size:14px; color:#666; margin-left:5px;">工艺</div>
-        <table class="table-list mTop10 tb-plates">
-            
-        </table>
+        <div class="mTop20 table-title">工艺说明</div>
+        <table class="table-list mTop10 tb-plates"></table>
     </div>
 
     <table id="navPays" class="nav-partdiv table-list mTop20 hide">
@@ -413,12 +412,8 @@
     </div>
     @*日志*@
     <div class="nav-partdiv hide" id="navLog">
-        <div class="log-body" id="orderLog">
-
-        </div>
-        <div id="pagerLogs" class="mTop10">
-
-        </div>
+        <div class="log-body" id="orderLog"></div>
+        <div id="pagerLogs" class="mTop10"></div>
     </div>
 </div>
 @* 优惠设置 *@

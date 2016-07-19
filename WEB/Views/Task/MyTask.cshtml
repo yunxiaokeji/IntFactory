@@ -3,15 +3,11 @@
     var NowDate = ViewBag.NowDate;
     var model=(List<IntFactoryEntity.Custom.LableColorEntity>)ViewBag.list;
 }
-
 @section css{
     <link href="/modules/css/task/style.css" rel="stylesheet" />
     <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
 }
-
 @section scripts{
-    <script src="/Scripts/jquery-1.11.1.js"></script>
-    <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
        seajs.use(["scripts/task/list"], function (obj) {
            obj.init('@ViewBag.IsMy', '@NowDate','@Html.ToJSONString(model)');
@@ -80,7 +76,7 @@
         <div class="left">
             <input type="text" id="iptExpireTime" placeholder="到期日期"  class="ipt-date"  />
         </div>
-        <div class="right searth-module" data-text="关键字搜索..." data-width="260"> </div>
+        <div class="right searth-module" data-text="输入任务标题/任务编码/订单编码..." data-width="260"> </div>
     </div>
     <ul class="search-sort">
         <li>排序</li>
@@ -102,8 +98,7 @@
     <div class="clear"></div>
 </div>
 
-
-<div class="content-list center-task-list mBottom20">
+<div class="content-list center-task-list mBottom20 mTop20" style="overflow:hidden;">
     <table class="table-list tb-task-list">
         <tr class="tr-header">
             <td class="width30"><span id="filterMark"></span></td> 
@@ -124,10 +119,7 @@
         </tr>
     </table>
     
-    <div class="task-items">
-
-        </div>
-    
+    <div class="task-items"></div>
     <div class="clear"></div>
     
     <div class="pager-bgcolor"></div>
