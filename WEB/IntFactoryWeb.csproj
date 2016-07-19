@@ -331,6 +331,8 @@
     <Content Include="modules\images\ico-wechat.png" />
     <Content Include="modules\images\word.png" />
     <Content Include="modules\images\wx_logo64.png" />
+    <Content Include="modules\plug\change_menu\change_menu.css" />
+    <Content Include="modules\plug\change_menu\change_menu.js" />
     <Content Include="modules\plug\choosecolor\spectrum.css" />
     <Content Include="modules\plug\choosecolor\spectrum.js" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />

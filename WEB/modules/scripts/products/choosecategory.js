@@ -5,6 +5,8 @@ define(function (require, exports, module) {
     var $ = require("jquery"),
         Global = require("global"),
         doT = require("dot");
+        require("menu");
+
     var Category = {
         CategoryID: "",
         PID: ""
@@ -35,7 +37,11 @@ define(function (require, exports, module) {
             ObjectJS.bindStyle();
         });
         _self.bindElementEvent($(".category-list li"));
-        
+        $("#productChange").changeMenu({
+            width:200,
+            onChange: function () {
+            }
+        });
     }
     //元素绑定事件
     ObjectJS.bindElementEvent = function (element) {
