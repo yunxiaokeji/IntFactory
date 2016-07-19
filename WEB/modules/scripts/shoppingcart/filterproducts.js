@@ -251,72 +251,75 @@
             IsAsc: Params.IsAsc,
             Attrs: attrs
         }, params);
-
+        $("#productlist").empty();
+        $("#productlist").append("<div class='data-loading'></div>");
         Global.post("/ShoppingCart/GetProductListForShopping", { filter: JSON.stringify(opt) }, function (data) {
-            $("#productlist").empty();
+                $("#productlist").empty();
+                if (data.Items.length > 0) {
+                    doT.exec("template/shoppingcart/filter-products.html", function (templateFun) {
+                        var html = templateFun(data.Items);
+                        html = $(html);
 
-            doT.exec("template/shoppingcart/filter-products.html", function (templateFun) {
+                        //打开产品详情页
+                        html.find(".productimg,.name").each(function () {
+                            $(this).attr("href", $(this).attr("href") + "&type=" + _self.type + "&guid=" + _self.guid + "&tid=" + _self.tid);
+                        });
+                        //加入购物车
+                        html.find(".btnAddCart").click(function () {
+                            var _this = $(this);
+                            _self.showDetail(_this.data("pid"), _this.data("did"));
+                        });
 
-                var html = templateFun(data.Items);
-                html = $(html);
+                        $("#productlist").append(html);
 
-                //打开产品详情页
-                html.find(".productimg,.name").each(function () {
-                    $(this).attr("href", $(this).attr("href") + "&type=" + _self.type + "&guid=" + _self.guid + "&tid=" + _self.tid);
-                });
-                //加入购物车
-                html.find(".btnAddCart").click(function () {
-                    var _this = $(this);
-                    _self.showDetail(_this.data("pid"), _this.data("did"));
-                });
+                    });
 
-                $("#productlist").append(html);
-
-            });
-
-            $("#pager").paginate({
-                total_count: data.TotalCount,
-                count: data.PageCount,
-                start: Params.PageIndex,
-                display: 5,
-                border: true,
-                border_color: '#fff',
-                text_color: '#333',
-                background_color: '#fff',
-                border_hover_color: '#ccc',
-                text_hover_color: '#000',
-                background_hover_color: '#efefef',
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                float: "normal",
-                onChange: function (page) {
-                    Params.PageIndex = page;
-                    ObjectJS.getProducts();
+                    $("#pager").paginate({
+                        total_count: data.TotalCount,
+                        count: data.PageCount,
+                        start: Params.PageIndex,
+                        display: 5,
+                        border: true,
+                        border_color: '#fff',
+                        text_color: '#333',
+                        background_color: '#fff',
+                        border_hover_color: '#ccc',
+                        text_hover_color: '#000',
+                        background_hover_color: '#efefef',
+                        rotate: true,
+                        images: false,
+                        mouse: 'slide',
+                        float: "normal",
+                        onChange: function (page) {
+                            Params.PageIndex = page;
+                            ObjectJS.getProducts();
+                        }
+                    });
+                } else {
+                    $("#productlist").append("<div class='nodata-txt'>暂无数据</div>");
                 }
+                //$("#toppager").paginate({
+                //    total_count: data.TotalCount,
+                //    count: data.PageCount,
+                //    start: Params.PageIndex,
+                //    display: 5,
+                //    border: true,
+                //    border_color: '#fff',
+                //    text_color: '#333',
+                //    background_color: '#fff',
+                //    border_hover_color: '#ccc',
+                //    text_hover_color: '#000',
+                //    background_hover_color: '#efefef',
+                //    rotate: true,
+                //    images: false,
+                //    mouse: 'slide',
+                //    float: "left",
+                //    onChange: function (page) {
+                //        Params.PageIndex = page;
+                //        ObjectJS.getProducts();
+                //    }
+                //});
             });
-            //$("#toppager").paginate({
-            //    total_count: data.TotalCount,
-            //    count: data.PageCount,
-            //    start: Params.PageIndex,
-            //    display: 5,
-            //    border: true,
-            //    border_color: '#fff',
-            //    text_color: '#333',
-            //    background_color: '#fff',
-            //    border_hover_color: '#ccc',
-            //    text_hover_color: '#000',
-            //    background_hover_color: '#efefef',
-            //    rotate: true,
-            //    images: false,
-            //    mouse: 'slide',
-            //    float: "left",
-            //    onChange: function (page) {
-            //        Params.PageIndex = page;
-            //        ObjectJS.getProducts();
-            //    }
-            //});
-        });
     }
 
     //加入购物车
