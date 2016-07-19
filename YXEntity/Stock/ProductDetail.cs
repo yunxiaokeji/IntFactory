@@ -34,7 +34,6 @@ namespace IntFactoryEntity
 
 		private string _imgs="";
 		private string _imgm="";
-        private decimal _warncount = 0;
 		private int? _status=1;
 		private string _description="";
 		private string _createuserid;
