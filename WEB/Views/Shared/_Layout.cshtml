@@ -6,14 +6,15 @@
     IntFactoryEntity.Menu controllerMenu = ExpandClass.GetController(HttpContext.Current, controller);
     string logo = string.IsNullOrEmpty(CurrentUser.Client.Logo) ? "/modules/images/ico-home.png" : CurrentUser.Client.Logo;
     string companyName = string.IsNullOrEmpty(CurrentUser.Client.CompanyName) ? "" : CurrentUser.Client.CompanyName;
+    var version = "v1.6.14";
 }
 <html>
 <head>
     <title>@ViewBag.Title @companyName</title>
     <meta name="robots" content="noindex,nofollow">
-    <link href="/modules/css/base.css" rel="stylesheet" />
-    <link href="/modules/css/default/layout.css" rel="stylesheet" />
-    <link href="/modules/css/iconfont/iconfont.css" rel="stylesheet" />
+    <link href="/modules/css/base.css?v=@version" rel="stylesheet" />
+    <link href="/modules/css/default/layout.css?v=@version" rel="stylesheet" />
+    <link href="/modules/css/iconfont/iconfont.css?v=@version" rel="stylesheet" />
     <link rel="shortcut icon" href="/modules/images/logo_login.png">
     @RenderSection("css", false)
 </head>
@@ -102,13 +103,21 @@
     </div>
 
     <ul class="help-feedback">
-        <li class="ico-help" title="帮助"><a target="_blank" href="javascript:void(0)"></a></li>
+        <li class="ico-help" title="厂盟智能微信公众号"></li>
         <li class="ico-feedback"  title="意见反馈"><a target="_blank" href="/Home/FeedBack"></a></li>
         <li class="ico-open" title="展开"></li>
     </ul>
 
-    <script type="text/javascript" src="/Scripts/sea.js"></script>
-    <script type="text/javascript" src="/Scripts/sea-config.js?v=20160525"></script>
+    <div class="wechat">
+        <div class="lump"></div>
+        <img src="/modules/images/wechat.jpg" />
+    </div>
+
+    <div class="back-top" title="返回顶部">
+        <span class="iconfont">&#xe643;</span>
+    </div>
+    <script type="text/javascript" src="/Scripts/sea.js?v=@version"></script>
+    <script type="text/javascript" src="/Scripts/sea-config.js?v=@version"></script>
     <script type="text/javascript">
         seajs.use(["scripts/layout"], function (layout) {
             layout.init();

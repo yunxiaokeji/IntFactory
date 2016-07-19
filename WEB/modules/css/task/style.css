@@ -164,7 +164,7 @@
     margin:10px 0px;
 }
 .platemakingContent .iconfont{
-    color:#4a98e7;
+    color:#666;
     font-size:24px;
 }
 .platemakingContent .print-plate {
@@ -371,6 +371,7 @@
 .search-item-color .mark-all {
      background:url('/modules/plug/mark/ico-ball.png') no-repeat; 
      background-size:cover; 
+     border:solid 1px #fff;
 }
 .search-item-color .mark0 { 
     background-color:#FFF; 
@@ -417,22 +418,21 @@
 .search-sort li:last-child .iconfont:first-child { border-right:1px solid #ccc; padding-right:10px;}
 .search-sort li:last-child .checked {color:rgb(74, 152, 231);}
 
-.task-item { width:250px;border:1px solid #efefef;cursor:pointer;float:left;margin-top:20px;margin-right:15px;box-sizing:border-box;background-color:#f0f0f0;}
+.task-item { width:250px;border:1px solid #efefef;cursor:pointer;float:left;margin-top:20px;margin-right:15px;box-sizing:border-box;background-color:#f9f9f9;overflow:hidden;}
 .task-item:hover { border-color:#3F9BE8;}
 .task-item .task-imgtitlemark img {width:50px;height:50px;}
 .task-top .picbox {position:relative;height:248px; width:248px;}
-.task-item .image-box { text-align: center; display: block; height: 248px; }
+.task-item .image-box { text-align: center; display: table-cell; height: 248px; width:248px;vertical-align:middle;text-align:center;}
 
 .task-top .picbox img{ max-width:248px;max-height:248px;}
 
-.task-top .picbox .hint-layer { position:absolute;left:0;top:0;width:50px;height:50px;display:block;overflow:hidden;}
-.task-top .picbox .hint-msg {width:80px;height:24px;background:red;color:#fff;line-height:24px;margin-left:-23px;margin-top:5px;text-align:center;transform: rotate(-45deg);-webkit-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-o-transform:rotate(-45deg);background-color:red;}
-
-
 
 .list-pic-box {position:relative;}
-.list-pic-box .hint-layer { position:absolute;left:0;top:0;width:50px;height:50px;display:block;overflow:hidden;}
-.list-pic-box .hint-msg {width:80px;height:24px;background:red;color:#fff;line-height:24px;margin-left:-23px;margin-top:5px;text-align:center;transform: rotate(-45deg);-webkit-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-o-transform:rotate(-45deg);background-color:red;}
+.task-top .picbox .hint-layer,.list-pic-box .hint-layer { position:absolute;left:0;top:0;width:50px;height:50px;display:block;overflow:hidden;}
+.task-top .picbox .hint-msg,.list-pic-box .hint-msg {width:80px;height:24px;background:red;color:#fff;line-height:24px;margin-left:-23px;margin-top:5px;text-align:center;transform: rotate(-45deg);-webkit-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-o-transform:rotate(-45deg);}
+
+.task-top .picbox .hint-msg.warning,.list-pic-box .hint-msg.warning { background-color:rgba(255,165,0,0.7); }
+.task-top .picbox .hint-msg.excced,.list-pic-box .hint-msg.excced { background-color:rgba(237,0,0,0.7);}
 
 .task-layer {position:absolute;left:0;bottom:0;width: 248px;background: rgba(119,119,119,0.6);padding:5px 0;}
 .task-imgtitlemark li:first-child {width:210px;}
@@ -460,11 +460,20 @@
 
 /*成员列表样式*/
 /*暂无成员*/
-.memberlist .member-title {line-height:30px;height:30px;width:380px;margin-bottom:5px;padding-bottom:5px;}
+.memberlist .member-title {line-height:30px;height:30px;margin-bottom:5px;padding-bottom:5px;}
 
-.memberlist .member-boxs { max-height:320px;overflow-y:auto;}
+/*.memberlist .member-boxs { max-height:320px;overflow-y:auto;}*/
+
+/*设置表格宽度*/
+.member-items tr td:first-child{width:166px;}
+.member-items tr td:nth-child(2),.member-items tr td:nth-child(3) { width:82px;}
+.member-items tr td:last-child { width:50px;}
+.member-items .member-nodata-txt td { width:380px !important;}
+
 .memberlist .member-items {width:100%;border:1px solid #ededed;border-collapse:collapse;}
-.memberlist .member-items tr { text-align:center;width:25%;line-height:34px;}
+.memberlist .member-items tbody { display:block;max-height:238px;overflow-y:auto;width:380px;}
+.memberlist .member-items tr { text-align:center;line-height:34px;}
+.memberlist thead tr { display:block;width:380px;}
 .member-items tr:first-child td:first-child .iconfont { line-height:1;}
 .memberlist .member-items tr:last-child td { padding-bottom:5px;}
 .memberlist .member-items tbody tr td:last-child { font-size:20px;padding-top:4px;}

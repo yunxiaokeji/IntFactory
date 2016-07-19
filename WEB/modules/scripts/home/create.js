@@ -3,24 +3,20 @@
         Global = require("global"),
         City = require("city"), CityObject,
         Verify = require("verify"), VerifyObject;
-
-
+        
     var ObjectJS = {}, CacheCategory = [];
     //初始化
     ObjectJS.init = function (clientid, agentid, customerid, categoryitem) {
         var _self = this;
         _self.clientid = clientid;
         _self.agentid = agentid;
-        var categoryitems = JSON.parse(categoryitem.replace(/&quot;/g, '"'));
-
         if (categoryitem!=null)
         {
+            var categoryitems = JSON.parse(categoryitem.replace(/&quot;/g, '"'));
             ObjectJS.categoryitems = categoryitems;
+            _self.bigCategoryValue = _self.categoryitems[0].CategoryID;
+            _self.categoryValue = "";
         }
-
-        _self.bigCategoryValue = _self.categoryitems[0].CategoryID;
-
-        _self.categoryValue = "";
 
         if (customerid) {
             Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
@@ -139,29 +135,11 @@
                 $(".ico-radiobox").removeClass("hover");
                 _this.addClass("hover");
             }
+            
+            console.log(!!_self.endTime?_self.endTime:"");
+            
         });
-
-        $("#bigcategory").change(function () {
-            var _this = $(this);
-            $("#ordercategory").empty();
-            if (CacheCategory[_this.val()]) {
-                for (var i = 0; i < CacheCategory[_this.val()].length; i++) {
-                    $("#ordercategory").append("<option value=" + CacheCategory[_this.val()][i].CategoryID + ">" + CacheCategory[_this.val()][i].CategoryName + "</option>")
-                }
-            } else {
-                Global.post("/Home/GetChildOrderCategorysByID", { categoryid: _this.val(), clientid: _self.clientid }, function (data) {
-                    CacheCategory[_this.val()] = data.Items;
-                    for (var i = 0; i < CacheCategory[_this.val()].length; i++) {
-                        $("#ordercategory").append("<option value=" + CacheCategory[_this.val()][i].CategoryID + ">" + CacheCategory[_this.val()][i].CategoryName + "</option>")
-                    }
-                });
-            }
-        });
-
-        $("#bigcategory").change();
     }
-
-    //
 
     //绑定小品类
     ObjectJS.bindCategory = function (item, dropDownWidth) {
@@ -203,10 +181,11 @@
         $("#orderImages img").each(function () {
             images += $(this).attr("src") + ",";
         });
-
+        
         var model = {
             CustomerID: "",
             PersonName: $("#name").val().trim(),
+            PlanTime: $("#iptCreateTime").val() == null ? "" : $("#iptCreateTime").val(),
             OrderType: $(".ico-radiobox.hover").data('type'),
             BigCategoryID: _self.bigCategoryValue.trim(),
             CategoryID: _self.categoryValue.trim(),

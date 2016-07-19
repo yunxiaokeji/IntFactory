@@ -284,10 +284,11 @@ namespace YXERP.Controllers
         #endregion
 
         #region ajax
-        public JsonResult GetTasks(string keyWords, bool isMy, int isParticipate, string userID, int taskType, int colorMark, int status, int finishStatus, string beginDate, string endDate, int orderType, string orderProcessID, string orderStageID, int taskOrderColumn, int isAsc, int pageSize, int pageIndex, string listType)
+        public JsonResult GetTasks(string keyWords, bool isMy, int isParticipate, string userID, int taskType, int colorMark, int status, int finishStatus,int invoiceStatus,int preFinishStatus,
+            string beginDate, string endDate,string beginEndDate,string endEndDate,
+            int orderType, string orderProcessID, string orderStageID, 
+            int taskOrderColumn, int isAsc, int pageSize, int pageIndex, string listType)
         {
-
-
             int pageCount = 0;
             int totalCount = 0;
             //所有任务
@@ -303,9 +304,9 @@ namespace YXERP.Controllers
                     ownerID = userID;
                 }
             }
-
-            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, isParticipate,status, finishStatus, 
-                colorMark,taskType,beginDate,endDate,
+            
+            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, isParticipate,status, finishStatus,invoiceStatus,preFinishStatus,
+                colorMark, taskType, beginDate, endDate, beginEndDate,endEndDate,
                 orderType, orderProcessID, orderStageID,
                  (EnumTaskOrderColumn)taskOrderColumn, isAsc, CurrentUser.ClientID,
                 pageSize, pageIndex, ref totalCount, ref pageCount);
@@ -313,29 +314,6 @@ namespace YXERP.Controllers
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
-            List<int> isWarnItems = new List<int>();
-            List<string> endTime = new List<string>();
-            for (int i = 0; i < list.Count; i++)
-            {
-                int IsWarn = 0;
-                if (list[i].FinishStatus == 1)
-                {
-                    if (list[i].EndTime > DateTime.Now)
-                    {
-                        var totalHour = (list[i].EndTime - list[i].AcceptTime).TotalHours;
-                        var residueHour = (list[i].EndTime - DateTime.Now).TotalHours;
-
-                        var residue = residueHour / totalHour;
-                        if (residue < 0.333)
-                        {
-                            IsWarn = 1;
-                        }
-                    }
-                    isWarnItems.Add(IsWarn);
-                }
-            }
-            JsonDictionary.Add("endTimes",endTime);
-            JsonDictionary.Add("isWarns", isWarnItems);
 
             return new JsonResult
             {

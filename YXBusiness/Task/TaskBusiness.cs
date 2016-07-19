@@ -31,11 +31,15 @@ namespace IntFactoryBusiness
         /// <param name="TotalCount"></param>
         /// <param name="PageCount"></param>
         /// <returns></returns>
-        public static List<TaskEntity> GetTasks(string keyWords, string ownerID,int isParticipate, int status, int finishStatus, int colorMark, int taskType, string beginDate, string endDate, int orderType, string orderProcessID, string orderStageID,EnumTaskOrderColumn taskOrderColumn,int isAsc, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
+        public static List<TaskEntity> GetTasks(string keyWords, string ownerID, int isParticipate, int status, int finishStatus, int invoiceStatus,int preFinishStatus,
+            int colorMark, int taskType, string beginDate, string endDate, string beginEndDate, string endEndDate,
+            int orderType, string orderProcessID, string orderStageID,
+            EnumTaskOrderColumn taskOrderColumn,int isAsc, string clientID,
+            int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
         {
             List<TaskEntity> list = new List<TaskEntity>();
-            DataTable dt = TaskDAL.BaseProvider.GetTasks(keyWords, ownerID,isParticipate, status, finishStatus, 
-                colorMark, taskType, beginDate, endDate, 
+            DataTable dt = TaskDAL.BaseProvider.GetTasks(keyWords, ownerID,isParticipate, status, finishStatus, invoiceStatus,preFinishStatus,
+                colorMark, taskType, beginDate, endDate, beginEndDate,endEndDate,
                 orderType, orderProcessID, orderStageID,
                 (int)taskOrderColumn, isAsc, clientID, 
                 pageSize, pageIndex, ref totalCount, ref pageCount);
@@ -47,12 +51,96 @@ namespace IntFactoryBusiness
                 //model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
+                if (model.FinishStatus == 1)
+                {
+                    if (model.EndTime <= DateTime.Now)
+                    {
+                        model.WarningStatus = 2;
+                        model.WarningTime = "超期：" + (DateTime.Now - model.EndTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.EndTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.EndTime).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (DateTime.Now - model.EndTime).Days;
+                        model.UseDays = (model.EndTime - model.AcceptTime).Days;
+                    }
+                    else if ((model.EndTime - DateTime.Now).TotalHours * 3 < (model.EndTime - model.AcceptTime).TotalHours)
+                    {
+                        model.WarningStatus = 1;
+                        model.WarningTime = "剩余：" + (model.EndTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.EndTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.EndTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (model.EndTime - DateTime.Now).Days;
+                        model.UseDays = (DateTime.Now - model.AcceptTime).Days;
+                    }
+                    else
+                    {
+                        model.WarningTime = "剩余：" + (model.EndTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.EndTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.EndTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (model.EndTime - DateTime.Now).Days;
+                        model.UseDays = (DateTime.Now - model.AcceptTime).Days;
+                    }
+                }
+                else
+                {
+                    model.UseDays = (model.EndTime - model.AcceptTime).Days;
+                }
                 list.Add(model);
             }
 
             return list;
         }
 
+        public static List<TaskEntity> GetTasksByEndTime(string startEndTime, string endEndTime, 
+            int orderType, int filterType, int finishStatus,int preFinishStatus,
+            string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            List<TaskEntity> list = new List<TaskEntity>();
+            DataTable dt = TaskDAL.BaseProvider.GetTasksByEndTime(startEndTime, endEndTime, 
+                orderType, filterType, finishStatus,preFinishStatus,
+                userID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                TaskEntity model = new TaskEntity();
+                model.FillData(dr);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+
+                if (model.FinishStatus == 1)
+                {
+                    if (model.EndTime <= DateTime.Now)
+                    {
+                        model.WarningStatus = 2;
+                        model.WarningTime = "超期：" + (DateTime.Now - model.EndTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.EndTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.EndTime).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (DateTime.Now - model.EndTime).Days;
+                        model.UseDays = (model.EndTime - model.AcceptTime).Days;
+                    }
+                    else if ((model.EndTime - DateTime.Now).TotalHours * 3 < (model.EndTime - model.AcceptTime).TotalHours)
+                    {
+                        model.WarningStatus = 1;
+                        model.WarningTime = "剩余：" + (model.EndTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.EndTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.EndTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (model.EndTime - DateTime.Now).Days;
+                        model.UseDays = (DateTime.Now - model.AcceptTime).Days;
+                    }
+                    else
+                    {
+                        model.WarningTime = "剩余：" + (model.EndTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.EndTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.EndTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                        model.WarningDays = (model.EndTime - DateTime.Now).Days;
+                        model.UseDays = (DateTime.Now - model.AcceptTime).Days;
+                    }
+                }
+                else
+                {
+                    model.UseDays = (model.EndTime - model.AcceptTime).Days;
+                }
+                list.Add(model);
+            }
+
+            return list;
+        }
+
+        public static int GetNoAcceptTaskCount(string ownerID,int orderType, string clientID)
+        {
+            return TaskDAL.BaseProvider.GetNoAcceptTaskCount(ownerID, orderType, clientID);
+        }
+
+        public static int GetexceedTaskCount(string ownerID, int orderType, string clientID)
+        {
+            return TaskDAL.BaseProvider.GetexceedTaskCount(ownerID, orderType, clientID);
+        }
         /// <summary>
         /// 获取任务详情
         /// </summary>
@@ -402,7 +490,7 @@ namespace IntFactoryBusiness
         public static bool AddPlateMaking(PlateMaking plate)
         {
             return TaskDAL.BaseProvider.AddPlateMaking(plate.Title, plate.Remark, plate.Icon,
-                plate.TaskID,plate.OrderID,plate.CreateUserID,plate.AgentID);
+                plate.TaskID,plate.Type,plate.OrderID,plate.CreateUserID,plate.AgentID);
         }
 
         /// <summary>
@@ -412,7 +500,7 @@ namespace IntFactoryBusiness
         /// <returns></returns>
         public static bool UpdatePlateMaking(PlateMaking plate)
         {
-            return TaskDAL.BaseProvider.UpdatePlateMaking(plate.PlateID,plate.Title,plate.Remark,plate.Icon);
+            return TaskDAL.BaseProvider.UpdatePlateMaking(plate.PlateID,plate.Title,plate.Remark,plate.Icon,plate.Type);
         }
 
         /// <summary>

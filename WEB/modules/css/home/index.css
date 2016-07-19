@@ -1,0 +1,447 @@
+﻿
+/*全局样式*/
+* { padding: 0; margin: 0; font-size:12px; color:#666; font-family:'Microsoft YaHei' !important; }/*033d91*/
+.main-content {
+    margin-left:0;
+}
+.index-report {
+    width:1148px;
+    margin:25px auto;
+    background-color:#fff;
+    border:1px solid #ddd;
+}
+.index-report-header {
+    line-height:45px;
+    background-color:#f2f4f8;
+    padding:0 15px;
+    
+}
+.index-report-header span {
+    color:#666;
+}
+
+.index-report-header .order-type span {
+    padding:0 6px;
+    line-height:20px; 
+    display:inline-block;
+    background-color:#fff;
+    border:1px solid #49b3f5;
+    cursor:pointer;
+}
+
+.index-report-header .order-type span:first-child.hover { 
+    border-right:none;
+    background-color:#49b3f5;
+    color:#fff;
+}
+
+.index-report-header .order-type span:last-child.hover { 
+    border-left:none;
+    background-color:#49b3f5;
+    color:#fff;
+}
+
+.index-report-sum {
+    padding-top:10px;
+    margin-left:27px;
+    /*border-bottom:1px solid #eee;*/
+}
+ .ordertotal {
+    line-height:26px;
+    font-size:12px;
+    text-align:center;
+    padding:0 8px;
+    border:1px solid #E1E8F5;
+    background-color:#ECF2FF;
+}
+  .ordertotal span{
+    font-size:12px;
+    color:#888;
+}
+.sum-list li{
+    float:left;
+    margin-right:18px;
+    padding-bottom:5px;
+    cursor:pointer;
+}
+.sum-list .active {
+border-bottom:2px solid #4a98e7;
+}
+.sum-list li div,.sum-list li span{
+    color:#888;
+    text-align:center;
+}
+.sum-list .sun-count {
+    color:#fff;
+    font-size:14px;
+    /*font-weight:bold;*/
+    
+}
+.sum-list .total {
+    color:#333;
+    font-size:16px;
+    margin-top:-2px;
+}
+.sum-list .exceed {
+    background-color:#f35353;
+    width:21px;
+    display:inline-block;
+    margin-left:6px;
+}
+.sum-list .warn {
+    background-color:#ffa200;
+    width:21px;
+    display:inline-block;
+    margin-left:6px;
+}
+.sum-list .work {
+    background-color:#49b3f5;
+    width:21px;
+    display:inline-block;
+    margin-left:6px;
+}
+.sum-list .finish {
+    background-color:#2F73B8;
+    width:21px;
+    display:inline-block;
+    margin-left:6px;
+}
+
+.index-report-sum .report-status li {
+    float: left;
+    padding: 0 6px;
+    margin: 5px 15px 10px 0;
+    border-left: solid 1px #ccc;
+    border-left-width: 15px;
+}
+.index-report-content {
+    position:relative;
+    height:237px;
+    margin:20px 10px 20px 28px;
+}
+.index-report-content .report-guid {
+    position:absolute;
+    left:0px;
+    bottom:15px;
+    width:100%;
+    height:220px;
+    
+}
+.report-guid ul{
+    position:absolute;
+    left:0px;
+    bottom:0px;
+    width:100%;
+}
+.report-guid ul li {
+    border-top:1px solid #f2eded;
+    position:relative;
+    height:43px;
+}
+.report-guid .guid-count {
+    position:absolute;
+    left:-20px;
+    top:-10px;
+    color:#666;
+}
+.index-report-content .report-item {
+    display:none;
+    width:50px;
+    position:absolute;
+    bottom:0px;
+    z-index:100;
+}
+
+.index-report-content .report-item li {
+    vertical-align:middle;
+    text-align:center;
+    color:#fff;
+    cursor:pointer;
+}
+
+.report-item .item-date {
+    text-align:center;
+    color:#666;
+}
+.index-report-content .item-warn {
+    background-color:#ffa200;
+}
+
+.index-report-content .item-finish {
+    background-color:#2F73B8;
+}
+
+.index-report-content .item-work {
+    background-color:#49b3f5;
+}
+
+.index-report-content .item-exceed {
+    background-color:#f35353;
+}
+.index-list {
+    width:1150px;
+    margin:20px auto;
+}
+.order-list {
+    border:1px solid #cecece;
+    background-color:#fff;
+    padding:10px 20px 20px 20px;
+}
+
+.order-list .order-layerbox { 
+    border-left:2px solid #ddd;
+    padding-left:10px;
+    position:relative;
+    padding-bottom:10px;
+}
+
+.order-layerbox table,.order-layerbox table span { 
+    color:#333;
+}
+
+.order-list .order-layerbox .layer-lump { 
+    position:absolute;
+    left:-7px;
+    top:-10px;
+    width:8px;
+    height:8px;
+    border:2px solid #aaa;
+    border-radius:50%;
+}
+
+.order-item {
+    position:relative;
+    margin-top:10px;
+    padding-bottom:10px;
+    border-bottom:1px solid #eee;
+}
+.order-item .hint-layer { 
+    position:absolute;
+    left:0;
+    top:0;
+    width:50px;
+    height:50px;
+    display:block;
+    overflow:hidden;
+}
+.order-item .hint-msg {
+    width:80px;
+    height:24px;
+    color:#fff;
+    line-height:24px;
+    margin-left:-23px;
+    margin-top:5px;
+    text-align:center;
+    transform: rotate(-45deg);
+    -webkit-transform:rotate(-45deg);
+    -ms-transform:rotate(-45deg);
+    -moz-transform:rotate(-45deg);
+    -o-transform:rotate(-45deg);
+    background-color:background;
+}
+
+.order-item .hint-msg.pass { 
+    background-color:rgba(237,0,0,0.7);
+}
+
+.order-item .hint-msg.warning { 
+    background-color: rgba(255, 165, 0, 0.7);
+}
+
+.index-list .list-header {
+    color:#666;
+}
+.owner-box { 
+    margin-left:100px;
+}
+.index-list .list-total {
+    display:inline-block;
+    width:40px;
+    color:#fff;
+    border-radius:3px;
+    background-color:#49b3f5;
+    text-align:center;
+    line-height:18px;
+}
+.order-item .order-img {
+    width:120px;
+    height:120px;
+    background-color:#f9f9f9;
+    
+}
+.order-item .order-img img{
+    width:120px;
+    height:120px;
+}
+
+.order-item .order-title {
+    color:#333;
+    font-size:14px;
+}
+
+.order-item .iconfont {
+    color:#999;
+}
+
+.order-detail {
+    /*width:480px;*/
+    height:105px;
+    
+}
+.order-detail span {
+    color:#999;
+}
+.order-progress {
+    margin-top: 6px;
+    width:160px;
+    position:relative;
+}
+.order-progress .layer-line { 
+    width:160px;
+    height:4px;
+    left:0;
+    top:0;
+    z-index:9999;
+    transition:3.5s;
+    -webkit-transition:3.5s;
+    -moz-transition:3.5s;
+    position:absolute;
+    background-color:rgba(255,255,255,0.8);
+}
+.order-progress .order-progress-item {
+    width:80px;
+    height:4px;
+    min-width:5px;
+    max-width:155px;
+    background-color:#5994e6;
+    float:left;
+    position:relative;
+}
+.order-progress .order-progress-use {
+   width:100px;
+   background-color:#5994e6;
+   border-top-left-radius:2px;
+   border-bottom-left-radius:2px;
+}
+
+.order-progress .order-progress-have {
+   width:60px;
+   background-color:#ccc; 
+   border-top-right-radius:2px;
+   border-bottom-right-radius:2px;
+}
+
+.order-progress .order-progress-exceed {
+   width:60px;
+   background-color:#f35353;
+   border-top-right-radius:2px;
+   border-bottom-right-radius:2px;
+}
+
+.order-progress .order-progress-warn {
+   width:60px;
+   background-color:#ffa200;
+   border-top-right-radius:2px;
+   border-bottom-right-radius:2px;
+}
+
+.order-progress .top-lump {
+    border-top: solid 4px #49b3f5;
+    border-left: solid 2px transparent;
+    border-right: solid 2px transparent;
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 40px;
+    top: -10px;
+}
+.order-progress .progress-tip {
+    background-color:#49b3f5;
+    padding:2px 0;
+    min-width:54px;
+    text-align:center;
+    white-space:nowrap;
+    border-radius:2px;
+    color:#fff;
+    position: absolute;
+    top: -29px;
+}
+
+.order-progress-use .top-lump {
+    border-top-color:#49b3f5;
+}
+
+.order-progress-use .progress-tip {
+    background-color:#49b3f5;
+}
+
+.order-progress-have .top-lump {
+    border-top-color:#ddd;
+}
+
+.order-progress-have .progress-tip {
+    background-color:#ddd;
+}
+.order-progress-exceed .top-lump {
+    border-top-color:#f35353;
+}
+
+.order-progress-exceed .progress-tip {
+    background-color:#f35353;
+}
+.order-progress-warn .top-lump {
+    border-top-color:#ffa200;
+}
+
+.order-progress-warn .progress-tip {
+    background-color:#ffa200;
+}
+
+.author-message { 
+    width:430px;
+    background-color:#fff;
+    border:1px solid #cecece;
+}
+.author-message .author-head {
+     line-height:50px;
+     height:50px;
+     font-size:18px;
+     border-bottom:1px solid #cecece;
+     color:#888;
+}
+.author-message ul li {
+     width:33.3333%;
+     float:left;
+     text-align:center;
+     box-sizing:border-box;
+     padding:30px 0;
+}
+.author-message ul p {
+    font-size:14px;
+    color:#555;
+    line-height:24px;
+}
+.author-message ul p:first-child { 
+    font-size:20px;
+}
+
+.table-list-order td {
+    border-bottom:1px solid #eee;
+}
+.order-ul li{
+    line-height:28px;
+}
+.order-ul, .order-ul-3 { 
+    padding:10px 0;
+}
+.order-ul-3 li{
+    line-height:40px;
+}
+.order-pic { 
+    max-height:120px;
+    max-width:120px;
+}
+
+
+
+

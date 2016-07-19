@@ -199,6 +199,8 @@
     <Content Include="bin\YXERP.dll" />
     <Content Include="bin\YXERP.pdb" />
     <Content Include="Content\menuico\saleshover.png" />
+    <Content Include="Content\menuico\task.png" />
+    <Content Include="Content\menuico\taskhover.png" />
     <Content Include="Content\UploadFiles\bc6802e9-285c-471c-8172-3867c87803e2.png" />
     <Content Include="DLL\JsonObject.dll" />
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
@@ -210,6 +212,7 @@
     <Content Include="modules\css\default\fentorderreport.css" />
     <Content Include="modules\css\error\error.css" />
     <Content Include="modules\css\home\feedback.css" />
+    <Content Include="modules\css\home\index.css" />
     <Content Include="modules\css\home\selectlogin.css" />
     <Content Include="modules\css\iconfont\demo.css" />
     <Content Include="modules\css\iconfont\demo.html" />
@@ -219,6 +222,7 @@
     <Content Include="modules\css\inquire\online-pay.css" />
     <Content Include="modules\css\myaccount\feedbacklist.css" />
     <Content Include="modules\css\order\create.css" />
+    <Content Include="modules\css\order\platemakingprocess.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task\style.css" />
     <Content Include="modules\images\bg-loginBackground.png" />
@@ -302,6 +306,8 @@
     <Content Include="modules\images\selforder\success.png" />
     <Content Include="modules\images\selforder\title-img.png" />
     <Content Include="modules\images\selforder\title-logo.png" />
+    <Content Include="modules\images\wechat.jpg" />
+    <Content Include="modules\images\ico-wechat.png" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
     <Content Include="modules\plug\chooseproduct\productin.html" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
@@ -445,10 +451,13 @@
     <Content Include="modules\plug\autocomplete\autocomplete.js" />
     <Content Include="modules\plug\autocomplete\style.css" />
     <Content Include="modules\plug\e-smart-zoom-jquery.min.js" />
+    <Content Include="modules\plug\tip\style.css" />
+    <Content Include="modules\plug\tip\tip.js" />
     <Content Include="modules\scripts\auction\buynow.js" />
     <Content Include="modules\scripts\home\feedback.js" />
     <Content Include="modules\scripts\home\create.js" />
     <Content Include="modules\scripts\home\guidestep.js" />
+    <Content Include="modules\scripts\home\index.js" />
     <Content Include="modules\scripts\inquire\inquireorder.js" />
     <Content Include="modules\scripts\myaccount\feedbacklist.js" />
     <Content Include="modules\scripts\orders\create.js" />
@@ -460,6 +469,7 @@
     <Content Include="modules\plug\fullcalendar\lib\moment.min.js" />
     <Content Include="modules\scripts\orders\fentorderreport.js" />
     <Content Include="modules\scripts\orders\orderplans.js" />
+    <Content Include="modules\scripts\orders\platemakingprocess.js" />
     <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
     <Content Include="modules\scripts\system\orderstages.js" />
@@ -475,10 +485,14 @@
     <Content Include="modules\scripts\task\senddyorders.js" />
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />
+    <Content Include="modules\template\home\customerorders.html" />
+    <Content Include="modules\template\home\task-list.html" />
     <Content Include="modules\template\inquire\inquireorder.html" />
     <Content Include="modules\template\myaccount\feedbacklist.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />
+    <Content Include="modules\template\home\index-order.html" />
     <Content Include="modules\template\orders\orders_child_list.html" />
+    <Content Include="modules\template\orders\processplate.html" />
     <Content Include="modules\template\orders\surequantity.html" />
     <Content Include="modules\template\orders\sureprice.html" />
     <Content Include="modules\template\orders\updateProfitPrice.html" />
@@ -499,18 +513,22 @@
     <Content Include="modules\template\orders\cutout-details.html" />
     <Content Include="modules\template\orders\send-details.html" />
     <Content Include="modules\template\orders\senddydocs.html" />
+    <Content Include="modules\template\home\index-task.html" />
+    <Content Include="modules\template\organization\staff-detail.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />
     <Content Include="modules\template\purchase\audit_details.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\system\orderstage-detail.html" />
+    <Content Include="modules\template\task\platematring-orderdatail.html" />
     <Content Include="modules\template\task\task-costs.html" />
     <Content Include="modules\template\task\platemarting-add.html" />
     <Content Include="modules\template\task\task-card.html" />
     <Content Include="modules\template\task\task-list.html" />
     <Content Include="modules\plug\showtaskdetail\task-detail.html" />
     <Content Include="modules\template\task\platemarting-list.html" />
+    <Content Include="modules\template\task\set-endtime.html" />
     <Content Include="Views\System\OrderProcess.cshtml" />
     <Content Include="Areas\Api\Views\Web.config" />
     <Content Include="modules\css\iconfont\iconfont.eot" />
@@ -1065,7 +1083,9 @@
     <Content Include="Views\MyAccount\FeedBackList.cshtml" />
     <Content Include="Views\Task\SendDYDoc.cshtml" />
     <Content Include="Views\Task\ProcessCostDoc.cshtml" />
+    <Content Include="Views\Home\OldIndex.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Orders\PlateMakingProcess.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

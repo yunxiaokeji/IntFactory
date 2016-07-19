@@ -23,8 +23,8 @@ seajs.config({
     },
     map: [
         //可配置版本号
-        ['.css', '.css?v=20160525'],
-        ['.js', '.js?v=20160525']
+        ['.css', '.css?v=20160527'],
+        ['.js', '.js?v=20160527']
     ]
 });
 
@@ -74,7 +74,9 @@ seajs.config({
         //显示任务详情
         "showtaskdetail": "plug/showtaskdetail/showtaskdetail.js",
         //显示讨论表情插件
-        "qqface": "plug/qqface/qqface.js"
+        "qqface": "plug/qqface/qqface.js",
+        //显示讨论表情插件
+        "tip": "plug/tip/tip.js"
     }
 });
 

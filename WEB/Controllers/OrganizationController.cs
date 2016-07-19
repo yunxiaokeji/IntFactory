@@ -250,6 +250,73 @@ namespace YXERP.Controllers
         }
 
         /// <summary>
+        /// 重置手机号
+        /// </summary>
+        /// <param name="bindMobile"></param>
+        /// <param name="option"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public JsonResult UpdateMobilePhone(string userID)
+        {
+            bool flag = false;
+            int  result = 0;
+            if (!string.IsNullOrEmpty(CurrentUser.LoginName))
+            {
+                Users item = IntFactoryBusiness.OrganizationBusiness.GetUserByUserID(userID, CurrentUser.AgentID);
+                if (!string.IsNullOrEmpty(item.BindMobilePhone))
+                {
+                    flag = OrganizationBusiness.ClearAccountBindMobile(userID, CurrentUser.AgentID);
+                    if (flag)
+                    {
+                        result = 1;
+                        if (!string.IsNullOrEmpty(item.MobilePhone))
+                        {
+                            result = 2;
+                        }
+                    }
+                }
+                else 
+                {
+                    result = 3;
+                }
+            }
+
+            JsonDictionary.Add("result", result);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 修改员工基本信息
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        public JsonResult UpdateUserBaseInfo(string entity, string userID)
+        {
+            int result = 0;
+            if (!string.IsNullOrEmpty(userID))
+            {
+                bool flag = false;
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                IntFactoryEntity.Users newItem = serializer.Deserialize<IntFactoryEntity.Users>(entity);
+                IntFactoryEntity.Users item = OrganizationBusiness.GetUserByUserID(userID, CurrentUser.AgentID);
+                flag = OrganizationBusiness.UpdateUserInfo(userID, newItem.Name, item.Jobs, item.Birthday, item.Age.Value, newItem.DepartID,
+                                                            newItem.Email, newItem.MobilePhone, item.OfficePhone, CurrentUser.AgentID);
+                result = flag ? 1 : 0;
+            }
+            JsonDictionary.Add("result", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
         /// 保存角色权限
         /// </summary>
         /// <param name="roleid"></param>

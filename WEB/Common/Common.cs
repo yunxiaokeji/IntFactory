@@ -94,6 +94,22 @@ namespace YXERP.Common
                  HttpContext.Current.Session.Remove(mobilePhone);
             }
         }
+
+        /// <summary>
+        /// 获取今天是星期几
+        /// </summary>
+        /// <param name="msg">显示周日还是星期日</param>
+        /// <returns></returns>
+        public static string Week(string msg, int day)
+        {
+            if (string.IsNullOrEmpty(msg)) {
+                msg = "星期";
+            }
+            string[] weekdays = { "" + msg + "日", "" + msg + "一", "" + msg + "二", "" + msg + "三", "" + msg + "四", "" + msg + "五", "" + msg + "六" };
+            string week = weekdays[day];
+            return week;
+        }
+
         #region 缓存
 
         #region 用户登录密码错误缓存

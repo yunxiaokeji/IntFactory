@@ -90,10 +90,10 @@
     <div class="left titlename">款式编码：@(model.IntGoodsCode)</div>
     <ul class="right">
         <li title="订单品类">
-            <i class="iconfont">&#xe64e;</i>@(model.CategoryName)
+            订单品类：@(model.CategoryName)
         </li>
         <li title="交货日期">
-            <i class="iconfont">&#xe62b;</i>@(model.PlanTime.ToString("yyyy-MM-dd"))
+            交货日期：@(model.PlanTime.ToString("yyyy-MM-dd") == "0001-01-01"||model.PlanTime.ToString("yyyy-MM-dd")=="1900-01-01" ? "未设置" : model.PlanTime.ToString("yyyy-MM-dd"))
         </li>
         <li>
             <span class="left"> 负责人：</span><label class="left" id="lblOwner">@(model.Owner != null ? model.Owner.Name : "--")</label>
@@ -102,13 +102,13 @@
                 <span title="更换负责人" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner">&#xe60b;</span>
             }
         </li>
-        @*@if (model.Status>0)
+        @if (model.Status>0)
         {
-            <li class="sample-report">
+            <li class="sample-report" data-type="1">
                 <span class="iconfont  left">&#xe645;</span>
                 <span class="left mLeft5 blue">打样报价</span>
             </li>
-        }*@
+        }
             
         
     </ul>
@@ -281,7 +281,7 @@
         {
             <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019024"))" id="btnSendDYOrder">订单发货</div>
                 
-            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" id="addOtherCost">添加加工成本</div>
+            <div class="btn-add part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" id="addOtherCost">添加加工成本</div>
         }
     }
 </div>
@@ -307,7 +307,7 @@
                 <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
                     <td class="width80">
                         <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">
-                            <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
+                            <img src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
                         </a>
                     </td>
                     <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
@@ -364,12 +364,7 @@
         <div id="navEngravingInfo"></div>
         <div class="mTop20" style="font-size:14px; color:#666; margin-left:5px;">工艺</div>
         <table class="table-list mTop10 tb-plates">
-            <tr class="tr-header">
-                <td class="width50 tLeft">图标</td>
-                <td class="width200">名称</td>
-                <td class="">描述</td>
-                <td class="width200">创建时间</td>
-            </tr>
+            
         </table>
     </div>
 

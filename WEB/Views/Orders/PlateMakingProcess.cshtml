@@ -1,0 +1,242 @@
+﻿@{
+    var order = (IntFactoryEntity.OrderEntity)ViewBag.Model;
+    var goods = (List<IntFactoryEntity.GoodsDoc>)ViewBag.List;
+    var currentUser=(IntFactoryEntity.Users)Session["ClientManager"];
+    string[] orderImages = order.OrderImages.Trim(',').Split(',');
+    if(orderImages.Length==1){
+        orderImages = new string[] { orderImages[0], string.Empty };
+    }
+    if(orderImages.Length==0){
+        orderImages = new string[] { string.Empty, string.Empty };
+    }
+    
+    ViewBag.title = "制版工艺单";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="content-language" content="zh-CN" />
+	<meta name="author" content="zuroke" />
+    <title>@ViewBag.title</title>
+    <link href="/modules/css/default/layout.css" rel="stylesheet" />
+    <link href="/modules/css/base.css" rel="stylesheet" />
+    <link href="/modules/css/order/platemakingprocess.css" rel="stylesheet" />
+    <link href="/modules/css/iconfont/iconfont.css" rel="stylesheet" />
+
+    <script src="/modules/plug/doT.js"></script>
+    <script src="/Scripts/jquery-1.11.1.js"></script>    
+    <script src="/Scripts/sea.js"></script>
+    <script src="/Scripts/sea-config.js"></script>
+    
+    <script type="text/javascript">
+        seajs.use(["scripts/orders/platemakingprocess"], function (obj) {
+            obj.init('@(order.Platemaking)', '@(order.OrderImage)', "@(order.OrderID)", "@(order.OriginalID)", "@(order.OrderType)");
+        })
+    </script>
+</head>
+<body>
+    <div class="report">
+                
+        <div class="process left mBottom30">
+            <table style="width:955px;">
+                <tr class="head" style="height:50px">
+                   
+                    <td class="no-border-left" colspan="6">
+                        <div class="titlename">
+                            @(currentUser.Client.CompanyName)生产工艺单                            
+                        </div>
+                    </td>                
+                </tr>
+                <tr>
+                    <td>款号：</td>
+                    <td>@(order.IntGoodsCode==""?order.OrderCode:order.IntGoodsCode)</td>
+                    <td>采购负责人：</td>
+                    <td>
+                        <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
+                        <span class="span hide"></span>
+                    </td>
+                    <td>下单日期：</td>
+                    <td>@(order.OrderTime.ToString("yyyy-MM-dd"))</td>
+                </tr>
+                <tr>
+                    <td>销售负责人：</td>
+                    <td>
+                        <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
+                        <span class="span hide"></span>
+                    </td>
+                    <td>纸样师负责人：</td>
+                    <td>
+                        <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
+                        <span class="span hide"></span>
+                    </td>
+                    <td>合同货期：</td>
+                    <td>@(order.PlanTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : order.PlanTime.ToString("yyyy-MM-dd"))</td>
+                </tr>
+                <tr>
+                    <td>理单负责人：</td>
+                    <td>
+                        <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
+                        <span class="span hide"></span>
+                    </td>
+                    <td>QC负责人：</td>
+                    <td>
+                        <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
+                        <span class="span hide"></span>
+                    </td>
+                    <td class="no-border-right">准确资料签章：</td>       
+                    <td class="no-border-left"></td>         
+                </tr>
+            </table>   
+            @if (order.OrderType==2)
+            {
+                <table class="navgoods no-border left">
+                    <tr>
+                        <td colspan="7" class="no-border-top">
+                            <table class="no-border goosddoc" style="width:635px;height:100%;">
+                                <tr>
+                                    <td colspan="7" class="font18 no-border-top head no-border-top no-border-left no-border-right pLeft10" style="height:51px;"><i class="iconfont icon-delete goods">&#xe613;</i>下单明细</td>
+                                </tr>
+                                <tr>
+                                    <td class="head no-border-left">规格</td>
+                                    <td class="head no-border-right">下单数量</td>   
+                                </tr>
+                                @if (order.OrderGoods.Count > 0)
+                                {
+                                    foreach (var detail in order.OrderGoods)
+                                    { 
+                                    <tr class="item cart-item" >
+                                        <td class="no-border-left">@(detail.Remark)</td>
+                                        <td class="center good1 no-border-right">@(detail.Quantity)</td>
+                                    </tr>                
+                                    }
+                                    <tr class="total-items bold" >
+                                        <td class="no-border-left no-border-bottom" >合计：</td>                                    
+                                        <td class="center no-border-bottom no-border-right" data-class="good1"></td>  
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr><td class="no-border-bottom no-border-left" colspan="7"><div class="nodata-txt"></div></td></tr>
+                                }   
+                   
+                            </table>
+                        </td>  
+                    </tr>        
+
+                </table>
+                
+                <table class="no-border img-order">
+                <tr>
+                    <td class="no-border-top no-border-left">前片图片</td>
+                    <td class="no-border-top">后片图片</td>
+                </tr>
+                <tr>
+                    <td class="no-border-left order-image">
+                        <img src="@(string.IsNullOrEmpty(orderImages[0])?"/modules/images/none-img.png":orderImages[0])" />
+                        <div id="upLoadOneImg" class="layer-upload"></div>
+                    </td>
+                    <td class="order-image">
+                        <img src="@(string.IsNullOrEmpty(orderImages[1])?"/modules/images/none-img.png":orderImages[1])" />
+                        <div id="upLoadTwoImg" class="layer-upload"></div>
+                    </td>
+                </tr>
+            </table>
+            }
+            
+            <div class="clear"></div>
+
+            <table class="navproducts no-border">
+                <tr>
+                    <td colspan="11" class="font18  no-border-top tLeft head hight40 pLeft10"><i class="iconfont icon-delete products">&#xe613;</i>物料信息</td>
+                </tr>
+                <tr class="head " style="height:30px;">
+                    <td class="width80">材料名称</td>
+                    <td class="width80">编码</td>
+                    <td class="width70" colspan="2">规格</td>
+                    <td class="width70">单位</td>
+                    <td class="width80">消耗量</td>
+                    <td class="width80">损耗量</td>
+                    <td class="width100">采购量</td>
+                    <td>材料使用说明</td>
+                </tr>
+                @if (order.Details.Count>0)
+                {
+                    foreach (var detail in order.Details)
+                    {
+                        <tr class="products">
+                            <td>@(detail.ProductName)</td>
+                            <td>@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
+                            <td colspan="2">@(detail.Remark==""?"--":detail.Remark)</td>
+                            <td>@(detail.UnitName)</td>
+                            <td>@((detail.Quantity * order.PlanQuantity).ToString("f3"))</td>
+                            <td>@((detail.Loss * order.PlanQuantity).ToString("f3"))</td>
+                            <td>@(((detail.Quantity * order.PlanQuantity)+(detail.Loss * order.PlanQuantity)).ToString("f3"))</td>
+                            <td class="center" style="max-width:300px;padding:4px 0;">
+                                <textarea class="input" onpropertychange="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" oninput="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" class="textarea" style="width:90%;min-height:20px;height:24px;line-height:20px;vertical-align:middle;"></textarea>                                
+                                <span class="span hide"></span>
+                            </td>
+                        </tr>
+                    }
+                    
+                }
+                else
+                {
+                    <tr><td colspan="11"><div class="nodata-txt"></div></td></tr>
+                }           
+            </table>    
+                              
+            <table class="navengraving no-border" style="width:955px;">
+                <tr>
+                    <td colspan="10" class="font18  no-border-top tLeft head hight40 pLeft10"><i class="iconfont icon-delete raving ">&#xe613;</i>尺寸信息</td>
+                </tr>
+                <tr>
+                    <td id="Platemak" colspan="10">
+                    </td>
+                </tr>
+            </table>  
+           
+            <table class="processplate no-border" style="width:955px">
+                
+             </table>  
+            <table style="width:955px" class="navengraving no-border">
+                <tr>
+                    <td colspan="10"  class="font18 no-border-top tLeft head hight40 pLeft10">备注</td>
+                </tr>
+                <tr>
+                    <td colspan="10" style="padding:5px;">
+                        <textarea class="input" onpropertychange="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" oninput="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" class="textarea" style="width:90%;min-height:20px;height:24px;line-height:20px;min-height:100px;vertical-align:middle;padding:5px;box-sizing:border-box;"></textarea>                                
+                        <span class="span hide"></span>
+                    </td>
+                </tr>
+            </table> 
+        </div>
+
+        <div class="btn-ok" style="cursor:pointer;width:1100px;" title="预览">
+            <i class="iconfont font22 mLeft20">&#xe605;</i>
+            <span class="mTop22 font14">预览</span>
+        </div>
+
+        <div class="operation hide">
+            <span class="iconfont font24 mLeft20 color666 left printico" style="cursor:pointer;">&#xe658;</span>
+            <span class="iconfont font18 mLeft20 color666 get-back" style="cursor:pointer;position:absolute"><i class="iconfont mRight5">&#xe62d;</i><span class="font14">返回</span></span>
+        </div>
+        
+
+    </div>
+</body>
+</html>

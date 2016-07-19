@@ -264,6 +264,9 @@ namespace IntFactoryEntity
 
         public string WarningTime { get; set; }
 
+        public int WarningDays{get;set;}
+
+        public int UseDays { get; set; }
 
         public string CategoryName { get; set; }
 

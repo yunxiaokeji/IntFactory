@@ -23,7 +23,7 @@
 <div class="content-title">
     <div id="spCustomerName" class="left titlename"></div>
     <div id="updateCustomer" class="left ico-edit iconfont mLeft20">&#xe607;</div>
-    <a class="btn right mTop10" target="_blank" href="/Orders/Create?cid=@ViewBag.ID">新建订单</a>
+    <a class="btn-add right mTop10" target="_blank" href="/Orders/Create?cid=@ViewBag.ID">新建订单</a>
 </div>
 <div class="content-body">
     <ul class="content-info">
@@ -53,7 +53,8 @@
         <li data-id="navContact">联系人</li>
         <li data-id="navLog">日志</li>
     </ul>
-    <div id="addContact" class="btn right @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))">添加联系人</div>
+    <div id="addContact" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))">添加联系人</div>
+    
 </div>
 <div class="content-body pBottom50">
     <table id="navContact" class="nav-partdiv table-list mTop20 hide">
@@ -91,59 +92,31 @@
         </div>
     </div>
     <div class="nav-partdiv hide" id="navOppor">
-         <table class="table-list mTop10">
+        <table class="table-list-order mTop10">
             <tr class="tr-header">
-                <td class="width30"></td>
-                <td class="tLeft width80">样图</td>
-                <td class="tLeft width150">单据编号</td>
-                <td class="width100">订单类型</td>
-                <td class="width100">加工数量</td>
-                <td class="width100">期望价格</td>
-                <td class="width100">联系人</td>
-                <td class="width100">联系电话</td>     
-                <td class="width100">负责人</td>
-                <td class="width150">创建时间</td>
+                <div class="right mBottom10 searth-module hide  @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" data-text="关键字搜索..." data-width="260" style="margin-bottom:-20px;"> </div>
             </tr>
-        </table>
+               
+        </table>         
         <div id="pagerOppors" class="mTop10"></div>
     </div>
     <div class="nav-partdiv hide" id="navOrder">
-         <table class="table-list mTop10">
-            <tr class="tr-header">
-                <td class="width30"></td>
-                <td class="tLeft width50">样图</td>
-                <td class="tLeft width150">订单编号</td>
-                <td class="width80">状态</td>
-                <td class="width80">进度</td>
-                <td class="width100">加工数量</td>
-                <td class="width100">单价</td>
-                <td class="width80 tRight">总金额</td>
-                <td class="width100">联系人</td> 
-                <td class="width100">联系电话</td>     
-                <td class="width100">负责人</td>
-                <td class="width150">创建时间</td>
-            </tr>
+         <table class="table-list-order mTop10">
+             <tr class="tr-header">
+                 <div class="right searth-module hide  @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" data-text="关键字搜索..." data-width="260" style="margin-bottom:-20px;"> </div>
+             </tr>
+            
         </table>
         <div id="pagerOrders" class="mTop10"></div>
     </div>
     <div class="nav-partdiv hide" id="navDHOrder">
-         <table class="table-list mTop10">
-            <tr class="tr-header">
-                <td class="width30"></td>
-                <td class="tLeft width50">样图</td>
-                <td class="tLeft width150">订单编号</td>
-                <td class="width80">状态</td>
-                <td class="width80">进度</td>
-                <td class="width100">加工数量</td>
-                <td class="width100">单价</td>
-                <td class="width80 tRight">总金额</td>
-                <td class="width100">联系人</td> 
-                <td class="width100">联系电话</td>     
-                <td class="width100">负责人</td>
-                <td class="width150">创建时间</td>
-            </tr>
-        </table>
-        <div id="pagerDHOrders" class="mTop10"></div>
+         <table class="table-list-order mTop10">
+             <tr class="tr-header">
+                <div class="right searth-module hide  @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" data-text="关键字搜索..." data-width="260" style="margin-bottom:-20px;"> </div>
+             </tr>
+             
+         </table>
+         <div id="pagerDHOrders" class="mTop10"></div>
     </div>
 </div>
 <ul class="dropdown-ul hide" style="width:65px;">

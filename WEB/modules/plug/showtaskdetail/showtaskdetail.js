@@ -97,11 +97,13 @@ define(function (require, exports, module) {
                                             status: 2
                                         }, function (result) {
                                             if (result.status) {
-                                                alert("任务重启成功");
+                                                //alert("任务重启成功");
+                                                window.location = window.location;
                                                 _this.data("lock", 2).html("锁定任务");
                                             } else {
                                                 alert("任务重启失败");
                                             }
+                                            
                                         });
                                     });
                                 } else {
@@ -111,7 +113,8 @@ define(function (require, exports, module) {
                                             status: 1
                                         }, function (result) {
                                             if (result.status) {
-                                                alert("任务锁定成功");
+                                                //alert("任务锁定成功");
+                                                window.location = window.location;
                                                 _this.data("lock", 1).html("重启任务");
                                             } else {
                                                 alert("任务锁定失败");

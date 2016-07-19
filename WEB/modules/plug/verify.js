@@ -31,7 +31,7 @@ define(function (require, exports, module) {
         _this.setting.type = [];
         _this.setting.type["word"] = /^[\w\d]+$/;
         _this.setting.type["mobilephone"] = /^1[3|5|6|8]\d{9}$/;
-        _this.setting.type["mobile"] =/^(?:\(?[0\+]?\d{1,3}\)?)[\s-]?(?:0|\d{1,4})[\s-]?(?:(?:13\d{9})|(?:\d{7,8}))$/;
+        _this.setting.type["mobile"] = /^(?:\(?[0\+]?\d{1,3}\)?)[\s-]?(?:0|\d{1,4})[\s-]?(?:(?:13\d{9})|(?:\d{7,8}))$/;
         _this.setting.type["email"] = /^\w+(.\w+)+@(\w-?)+.\w+$/;
         _this.setting.type["double"] = /^-?\d+(.\d+)?$/;
         _this.setting.type["int"] = /^(0|([1-9]\d*))$/;

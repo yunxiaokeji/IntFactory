@@ -1,6 +1,6 @@
 ﻿
 /*全局样式*/
-* { padding: 0; margin: 0; font-size:9pt; color:#333; font-family:'Microsoft YaHei' !important; }/*033d91*/
+* { padding: 0; margin: 0; font-size:12px; color:#333; font-family:'Microsoft YaHei' !important; }/*033d91*/
 body { background-color:#f2f4f8; }
 li{ list-style-type:none;}
 a { color: #4a98e7; text-decoration: none;}
@@ -36,7 +36,6 @@ header .logo {margin-top:13px; margin-left:10px; }
 header .logo img{ height:26px; }
 
 header .companyname { width: 150px; font-size: 14px; padding: 16px 0 0 5px; color: #BFD2F2; cursor: pointer; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
-
 header .companyname:hover { color: #fff; }
 
 /*公司名称下拉列表*/
@@ -97,7 +96,6 @@ nav .controller-box .point { width:6px; height:6px; border-radius:3px; backgroun
 nav .controller .rotate { transform:rotate(90deg); }
 
 /*nav .controller.select { background-color:#f8f8f8; }*/
-
 nav .action-box {}
 nav .action-box .action {  height:40px; line-height:40px;}
 nav .action-box a { width:100%; display:inline-block; color:#666; text-align:center; height:40px;}
@@ -196,6 +194,36 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
     white-space:normal !important;
 }
 
+
+/*客户表格卡片样式*/
+.table-list-order .createimg { margin-left:-20px;width:30px;}
+.order-information { margin-top:15px;}
+.order-information li {line-height:25px;margin-bottom:8px;height:20px;}
+.order-information-a { margin-top:10px;}
+.order-information-a li { line-height:25px;margin-bottom:8px;height:30px;}
+.table-list-order { width: 100%; border-spacing: 0px;}
+
+.table-list-order .tr-header{ height:35px;  }
+.table-list-order .tr-header td{ height:35px; border-bottom:solid 2px #eee; font-size:13px; color:#999; padding:0 5px;
+                           white-space:nowrap; overflow: hidden; text-overflow:ellipsis; }
+
+.table-list-order tr:not(:first-child){ height:35px; cursor:pointer; }
+.table-list-order tr:not(:first-child):hover { background-color: #f6f6f6; }
+.table-list-order tr:not(:first-child) td{ padding:5px; line-height:35px; border-bottom:solid 1px #eee; color:#333; 
+                                    white-space:nowrap; overflow: hidden; text-overflow:ellipsis;  }
+           
+.table-list-order td a{ color:#4a98e7;  vertical-align:middle;}
+.table-list-order td a:hover{ color:red; text-decoration:underline; }
+           
+.table-list-order tr .order-img{ width:120px;height:120px;display:inline-block;  vertical-align:middle;margin:10px 15px 10px 0;}
+           
+.table-list-order .ico-check { vertical-align:middle; }
+.table-list-order .ico-checked { vertical-align:middle; }
+.table-list-order .show-all-txt {
+    word-wrap: break-word;
+    white-space:normal !important;
+}
+
 /*批量操作*/
 .batch-operate { padding-left:5px; height:20px; line-height:20px; }
 .batch-operate li{ float:left;}
@@ -264,7 +292,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .btn {  padding:5px 10px; background-color:#4a98e7; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; line-height:18px;
         -moz-transition:all 0.3s;
         -webkit-transition:all 0.3s;
-        -o-transition:all 0.3s;
+        -o-transition:all 0.3s;        
 }
 .btn:hover { background-color:#2F73B8; }
 
@@ -283,7 +311,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .btn999:hover { background-color:#666; color:#fff; }
 
 /*日期*/
-.ipt-date{ background:url(/modules/images/icondate.png) no-repeat 4px 4px; height:25px;line-height:25px; text-indent:20px; width:180px;}
+.ipt-date{ background:url(/modules/images/icondate.png) no-repeat 4px 4px; height:28px !important;line-height:28px; text-indent:20px; width:180px;margin-right:20px;}
 
 /*替换*/
 .change-ico{ display:inline-block; cursor:pointer; color:#4a98e7; font-size:20px !important;}
@@ -357,7 +385,6 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 
 
 /*alert 弹出层样式*/
-
 .alert-layer {position: fixed; z-index:99998; top:0; left:0;right:0; bottom:0; background-color:#666; opacity:0.6;}
 
 .alert { border: 1px solid #2F73B8; background-color: #fff; font-size: 13px; position: fixed; top:35%; z-index: 99999; 
@@ -389,19 +416,24 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .verify-fail-err { height:20px; line-height:20px; padding-left:10px; padding-top:2px;}
 
 /*帮助-意见浮层*/
-
 .help-feedback { width:40px; height:45px; position:fixed; bottom:20px; left:10px; overflow:hidden;}
-.help-feedback li { height:40px; width:40px; cursor:pointer; margin-top:5px; position:absolute;}
+.help-feedback li { height:40px; width:40px; cursor:pointer; margin-top:5px; position:absolute;border-radius:50%;}
 .help-feedback li a{ height:40px; width:40px; display:inline-block; }
 
 .help-feedback .ico-feedback { background:url('/modules/images/ico-feedback.png') no-repeat; background-size:cover; bottom:90px;}
 .help-feedback .ico-feedback:hover { background:url('/modules/images/ico-feedback-hover.png') no-repeat; background-size:cover;}
 
-.help-feedback .ico-help { background:url('/modules/images/ico-help.png') no-repeat; background-size:cover; bottom:45px; }
-.help-feedback .ico-help:hover { background:url('/modules/images/ico-help-hover.png') no-repeat; background-size:cover;}
+.help-feedback .ico-help { background:url('/modules/images/ico-wechat.png') no-repeat center center; background-size:22px 22px; bottom:45px; background-color:#4a98e7;}
+.help-feedback .ico-help:hover {background-color:#2F73B8;}
 
-.help-feedback .ico-open { background:url('/modules/images/ico-operate-open.png') no-repeat; background-size:cover;  bottom:0;  }
+
+.help-feedback .ico-open { background:url('/modules/images/ico-operate-open.png') no-repeat; background-size:cover;  bottom:0; }
 .help-feedback .ico-open:hover { background:url('/modules/images/ico-operate-open-hover.png') no-repeat; background-size:cover;}
+
+/*bottom:105px;left:100px;*/
+.wechat { position:fixed;bottom:70px;left:44px;transition:0.7s;-webkit-transition:0.7s;-moz-transition:0.7s;}
+/*.wechat .lump { position:absolute;left:-8px;top:70px;width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-right:8px solid #ddd;}*/
+.wechat img { width:0;height:0;transition:0.7s;-webkit-transition:0.7s;-moz-transition:0.7s;}
 
 /*图片loading*/
 .data-loading { padding: 80px 0px; font-size: 16px;text-align: center; color: #666; background:url(/modules/images/ico-loading.gif) no-repeat center center;background-size:45px 45px; }
@@ -409,4 +441,20 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 /*暂无数据*/
 .nodata-txt { padding: 60px 0px; font-size: 16px; text-align: center; color: #666; }
 
+/*置顶*/
+.back-top {
+    position:fixed;
+    display:none;
+    right:5px;
+    bottom:20px;
+    cursor:pointer;
+}
+.back-top .iconfont {
+    color:#4a98e7;
+    font-size:38px;
+}
+.back-top .iconfont:hover {
+    color:#2F73B8;
+    font-size:40px;
+}
 

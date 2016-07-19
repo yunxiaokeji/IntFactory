@@ -40,13 +40,30 @@
             <li data-id="1" class="item">打样单</li>
             <li data-id="2" class="item">大货单</li>
         </ul>
-
+                
         <ul class="search-item search-process">
-            <li class="column-name">流程：</li>
+            <li class="column-name">模块：</li>
+            <li data-id="-1" class='item hover'>全部</li>
+            <li data-id="1" class='item'>材料</li>
+            <li data-id="2" class='item'>制版</li>
+            <li data-id="3" class='item itemDH'>裁剪</li>
+            <li data-id="4" class='item itemDH'>车缝</li>
+            <li data-id="5" class='item'>发货</li>
+            <li data-id="6" class='item itemDY'>手工成本</li>
+            <li data-id="0" class='item'>其他</li>
         </ul>
-        <ul class="search-item search-stage hide">
-            <li class="column-name">阶段：</li>
-            <li class="item hover">全部</li>
+        <ul class="search-item search-warning">
+            <li class="column-name">预警：</li>
+            <li data-id="-1" class="item hover">全部</li>
+            <li data-id="1" class="item">快到期</li>
+            <li data-id="2" class="item">已超期</li>
+        </ul>
+         <ul class="search-item search-prefinishstatus">
+            <li class="column-name">上级任务：</li>
+            <li data-id="-1" class="item hover">全部</li>
+            <li data-id="0" class="item">未接收</li>
+            <li data-id="1" class="item">进行中</li>
+            <li data-id="2" class="item">已完成</li>
         </ul>
         <ul class="search-item-color search-mark">
             <li class="column-name">标记：</li>
@@ -63,6 +80,9 @@
         <div class="left mRight20" id="chooseBranch"></div>
         <div class="left">
             <input type="text" id="iptCreateTime" placeholder="创建日期"  class="ipt-date"  />
+        </div>
+        <div class="left">
+            <input type="text" id="iptExpireTime" placeholder="到期日期"  class="ipt-date"  />
         </div>
         <div class="right searth-module" data-text="关键字搜索..." data-width="260"> </div>
     </div>
@@ -97,6 +117,7 @@
             <td class="width150">任务编号</td>
             <td class="width150">订单编号</td>
             <td class="width150">订单类型</td>
+            <td class="width100">上级任务</td>
             <td class="width100">任务进度</td>
             <td class="width150">负责人</td>
             <td class="width150" >

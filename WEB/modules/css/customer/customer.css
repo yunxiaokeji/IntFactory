@@ -12,19 +12,15 @@
 .list-card:hover{border:1px solid #007aff;}
 .list-card:hover .check{display:block;cursor:pointer;}
 .list-card .check{ float:right;width:20px;height:20px;border:1px solid #007aff;margin-top:-1px;margin-right:-1px;border-radius:0 3px 0 0;
-                   box-shadow:0 0 5px #4a98e7 inset;color:#fff;display:none;}
+                    box-shadow:0 0 5px #4a98e7 inset;color:#fff;display:none;}
 .list-card .icon-check{background-color:#4a98e7;color:#fff;font-size:18px;}
-.list-card li{margin-left:5px;height:25px;cursor:pointer;}
+.list-card li{margin-left:5px;height:25px;cursor:pointer;margin-top:5px;}
 .list-card li .photo{width:24px;height:24px;border-radius:50%;background-color:#ccc;color:#fff;float:left;text-align:center;line-height:24px;font-size:14px;}
 .list-card li .message{height:20px;line-height:25px;}
 .list-card li .message-name{width:180px;}
-.list-card .message-name a{font-size:15px;line-height:26px;}
+.list-card .message-name a{font-size:15px;line-height:26px;color:#2162A5;}
 .list-card li .list-mark{line-height:23px;}
-.list-card li .iconfont {
-    font-size:14px;
-    color:#999;
-    margin-right:10px;
-}
+.list-card li .iconfont { font-size:14px;color:#888;margin-right:10px;}
 
 /*筛选项-标记筛选*/
 .search-item-color { clear:both; overflow:auto; margin:10px 0; }
@@ -33,7 +29,7 @@
 .search-item-color .item{ width:12px; height:12px;  border-radius:7px; margin-top:5px;}
 .search-item-color .item.hover{ width:20px; height:20px;border-radius:11px; margin-top:2px;}
 
-.search-item-color .mark-all { background:url('/modules/plug/mark/ico-ball.png') no-repeat; background-size:cover; }
+.search-item-color .mark-all { background:url('/modules/plug/mark/ico-ball.png') no-repeat; background-size:cover;border:solid 1px #fff; }
 .search-item-color .mark0 { background-color:#FFF; border:solid 1px #ccc; }
 .search-item-color .mark1 { background-color:#FF7C7C; border:solid 1px #FF7C7C; }
 .search-item-color .mark2 { background-color:#3BB3FF; border:solid 1px #3BB3FF; }
@@ -45,3 +41,5 @@
 .search-body .search-letter {clear:both; overflow:auto; margin:10px 0; }
 .search-body .search-letter li{float:left; margin-right:15px; cursor:pointer;font-size:12px;color:#5F6D6C;padding:2px 5px;}
 .search-body .search-letter .hover{border:1px solid #4A99E8;padding:1px 4px;color:#4A99E8;}
+
+

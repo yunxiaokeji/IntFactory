@@ -1,16 +1,33 @@
 ﻿@{
     ViewBag.Title = "新建订单";
+    var model = (IntFactoryEntity.Users)Session["ClientManager"];    
+    var categoryItems = (List<IntFactoryEntity.Category>)ViewBag.Items;
 }
 @section css{
     <link href="/modules/css/order/create.css" rel="stylesheet" />
+    <link href="/modules/plug/laydate/need/laydate.css" rel="stylesheet" />
 }
 
 
 @section scripts{
-    <script type="text/javascript">
+    <script src="/modules/plug/laydate/laydate.js"></script>
+        <script type="text/javascript">
         seajs.use(["scripts/orders/create"], function (ObjectJS) {
-            ObjectJS.init('@ViewBag.CID');
+            ObjectJS.init('@ViewBag.CID', '@(model.ClientID)', '@Html.ToJSONString(categoryItems)');
         });
+        var myDate = new Date();
+        var minDate = myDate.toLocaleDateString();
+        minDate = minDate + " 23:59:59"
+        //期望交货日期
+        var taskEndTime = {
+            elem: '#iptCreateTime',
+            format: 'YYYY-MM-DD',
+            min: minDate,
+            max: '2099-06-16',
+            istime: false,
+            istoday: false
+        };
+        laydate(taskEndTime);
     </script>
 }
 <div class="header-box">
@@ -44,14 +61,20 @@
         </li>
         <li>
             <span class="column-title">订单品类：</span>
-            <select id="bigcategory">
+            <span class="bigcategory">
+
+            </span>
+            <span class="ordercategory">
+
+            </span>
+@*            <select id="bigcategory">
             @foreach (IntFactoryEntity.Category model in (List<IntFactoryEntity.Category>)ViewBag.Items)
             {
                 <option value="@(model.CategoryID)">@(model.CategoryName)</option> 
             }
             </select>
             <select id="ordercategory">
-            </select>
+            </select>*@
         </li>
         <li>
             <span class="column-title">数量：</span>
@@ -60,6 +83,10 @@
         <li>
             <span class="column-title">期望价格：</span>
             <span><input type="text" maxlength="10" id="planPrice"  data-empty="必填" data-type="double" class="input verify" /></span>
+        </li>
+        <li>
+            <span class="column-title">交货日期：</span>
+            <span><input type="text" id="iptCreateTime" readonly="true" placeholder="期望交货日期"  class="ipt-date hand" style="width:150px"  /></span>
         </li>
         <li>
             <span class="column-title">快递单号：</span> 

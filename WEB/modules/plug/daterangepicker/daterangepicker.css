@@ -39,7 +39,7 @@
     .daterangepicker th.month { width: auto; }
     .daterangepicker td.disabled, .daterangepicker option.disabled { color: #999; cursor: not-allowed; text-decoration: line-through; }
     .daterangepicker select.monthselect, .daterangepicker select.yearselect { font-size: 12px; padding: 1px; height: auto; margin: 0; cursor: default; }
-    .daterangepicker select.monthselect { margin-right: 2%; width: 56%; }
+    .daterangepicker select.monthselect { margin-left: 2%; width: 56%; }
     .daterangepicker select.yearselect { width: 40%; }
     .daterangepicker select.hourselect, .daterangepicker select.minuteselect, .daterangepicker select.secondselect, .daterangepicker select.ampmselect { width: 50px; margin-bottom: 0; }
     .daterangepicker .input-mini { border: 1px solid #ccc; border-radius: 4px; color: #555; height: 30px; line-height: 30px; display: block; vertical-align: middle; margin: 0 0 5px 0; padding: 0 6px 0 28px; width: 100%; }
