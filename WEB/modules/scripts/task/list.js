@@ -48,10 +48,12 @@
         if (taskListType) {
             Params.listType = taskListType;
             if (taskListType=="list") {
-                $(".center-task-list").addClass("content-body").addClass("mTop20").removeClass("content-list");
+                $(".center-task-list").addClass("content-body").removeClass("content-list");
             } else {
-                $(".center-task-list").addClass("content-list").removeClass("content-body");
+                $(".center-task-list").removeClass("content-body").addClass("content-list");                
             }
+        } else {
+            $(".center-task-list").addClass("content-body").removeClass("content-list");
         }
         $(".task-tabtype i[data-type=" + Params.listType + "]").addClass("checked").siblings().removeClass("checked");
         if (isMy == 2) {
@@ -225,7 +227,7 @@
                 if (_this.data('type')=="list") {
                     $(".center-task-list").addClass("content-body").addClass("mTop20").removeClass("content-list");
                 } else {
-                    $(".center-task-list").addClass("content-list").removeClass("content-body");
+                    $(".center-task-list").addClass("content-list").removeClass("content-body").removeClass("mTop20");
                 }
                 ObjectJS.getList();
             }
@@ -360,7 +362,8 @@
                     }
                     else {
                         $(".task-items").html(innerhtml);
-                    }
+                    };
+                    
                     ObjectJS.setListPosition();
                 });
             }

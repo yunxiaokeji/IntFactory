@@ -35,14 +35,14 @@
                     {%  if(item.OrderType==1){ %}
                             <div class="right color333" style="height:20px;margin-top:-20px;">
                                 <span class="left">{%=item.OrderStatus==2?"最终报价:":"期望报价:"%}</span>
-                                <span class=" left color333 tLeft long price" style="display:block;width:60px;" title='{%=item.OrderStatus==2?item.FinalPrice.toFixed(2):item.PlanPrice==""?"0":item.PlanPrice%}' >{%=item.OrderStatus==2?item.TotalMoney.toFixed(2):item.PlanPrice==""?"--":item.PlanPrice%}
+                                <span class=" left color333 tLeft long price" style="display:block;width:60px;" title='{%=item.OrderStatus==2?item.FinalPrice.toFixed(2):item.PlanPrice==""?"0":parseInt(item.PlanPrice).toFixed(2)%}' >{%=item.OrderStatus==2?item.TotalMoney.toFixed(2):item.PlanPrice==""?"--":parseInt(item.PlanPrice).toFixed(2)%}
                                 </span>
                             </div>
                      {% }else{ %} 
                             <div class="right color333" style="height:20px;margin-top:-20px;">
                                 <span class="left">{%=item.OrderStatus==2?"最终报价:":item.OrderStatus==1?"单价:":"期望报价:"%}</span>
-                                <span class="left color333 tLeft long" style="display:block;width:60px;" title='{%=item.OrderStatus==2?item.TotalMoney.toFixed(2):item.OrderStatus==1?item.FinalPrice.toFixed(2):item.PlanPrice%}' >
-                                    {%=item.OrderStatus==2?item.TotalMoney.toFixed(2):item.OrderStatus==1?item.FinalPrice.toFixed(2):item.PlanPrice==""?"--":item.PlanPrice%}
+                                <span class="left color333 tLeft long" style="display:block;width:60px;" title='{%=item.OrderStatus==2?item.TotalMoney.toFixed(2):item.OrderStatus==1?item.FinalPrice.toFixed(2):parseInt(item.PlanPrice).toFixed(2)%}' >
+                                    {%=item.OrderStatus==2?item.TotalMoney.toFixed(2):item.OrderStatus==1?item.FinalPrice.toFixed(2):item.PlanPrice==""?"--":parseInt(item.PlanPrice).toFixed(2)%}
                                 </span>
                             </div>
                     {%  } %}
