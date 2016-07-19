@@ -40,8 +40,10 @@
         var _self = this;
         ObjectJS.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
         Params.beginDate = nowDate;
-        Params.endDate = nowDate;
-        Params.pageSize = ($(".content-body").width() / 300).toFixed(0) * 3;
+        Params.endDate = nowDate;        
+        var count = parseInt($(".task-items").width() / 265);
+        Params.pageSize = count * 3;        
+
         var taskListType = Global.getCookie('TaskListType');
         if (taskListType) {
             Params.listType = taskListType;
@@ -87,6 +89,10 @@
     }
 
     ObjectJS.bindEvent = function () {
+
+        $(window).resize(function () {
+            ObjectJS.setListPosition();
+        });
 
         //切换任务阶段
         $(".search-stages li").click(function () {
@@ -314,9 +320,9 @@
             $(".task-items").show();
             $(".task-items").html("<div class='data-loading'><div>");
         }
-        $(".content-body").find('.nodata-txt').remove();
+        $(".content-list").find('.nodata-txt').remove();
         ObjectJS.isLoading = false;
-
+        console.log(Params.PageSize);
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".tr-header").nextAll().remove();
 
@@ -331,7 +337,6 @@
                         onChange: function (obj, callback) {
                             ObjectJS.markTasks(obj.data("id"), obj.data("value"), callback);
                         }
-
                     });
 
                     if (showtype == "list") {
@@ -340,6 +345,7 @@
                     else {
                         $(".task-items").html(innerhtml);
                     }
+                    ObjectJS.setListPosition();
                 });
             }
             else {
@@ -389,6 +395,23 @@
             }
             ObjectJS.isLoading = true;
         });
+    }
+
+    ObjectJS.setListPosition = function () {        
+        var count = parseInt($(".task-items").width() / 265)
+        var moreWidth = $(".task-items").width() - (265 * count);
+        var marginRight = ((moreWidth + 15) / (count - 1)) + 15;
+        
+        for (var i = 0; i < $(".task-items .task-item").length; i++) {
+            var _this = $(".task-items .task-item").eq(i);
+            if ((i+1) % count == 0) {
+                _this.css("margin-right", "0");
+            }
+            else {
+                _this.css("margin-right", marginRight + "px");
+            }            
+        }
+       
     }
 
     module.exports = ObjectJS;
