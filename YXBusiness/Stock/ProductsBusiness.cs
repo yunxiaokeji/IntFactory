@@ -210,7 +210,6 @@ namespace IntFactoryBusiness
             {
                 model.FillData(dt.Rows[0]);
                 list.Add(model);
-                CacheUnits.Add(model);
             }
             return model;
         }

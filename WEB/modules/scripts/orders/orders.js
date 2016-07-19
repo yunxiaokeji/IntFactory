@@ -41,7 +41,7 @@
         if (status) {
             Params.OrderStatus = status;
         }
-        Params.PageSize =parseInt($(".object-items").width() / 267) * 3;
+        Params.PageSize =parseInt($(".object-items").width() / 269) * 3;
         _self.getList();
         _self.bindStyle();
         _self.bindEvent(type);
@@ -665,8 +665,9 @@
     }
 
     ObjectJS.setListPosition = function () {
-        var count = parseInt($(".object-items").width() /267 )
-        var moreWidth = $(".object-items").width() - (267 * count);
+        
+        var count = parseInt($(".object-items").width() /269 )
+        var moreWidth = $(".object-items").width() - (269 * count);
         var marginRight = ( (moreWidth + 15) / (count - 1) ) + 15;
         for (var i = 0; i < $(".object-items .object-item").length; i++) {
             var _this = $(".object-items .object-item").eq(i);
