@@ -51,6 +51,7 @@ define(function (require, exports, module) {
                     var info = JSON.parse(info);
                     var src = file.server + info.key;
                     $("#productImg").attr("src", src);
+                    $("#productImg").data("src", src);
                 }
             }
         });
@@ -287,7 +288,7 @@ define(function (require, exports, module) {
             return false;
         }
 
-        _self.ProductImage = $("#productImg").attr("src");
+        _self.ProductImage = $("#productImg").data("src") || '';
         var Product = {
             ProductID: _self.ProductID,
             ProductCode: $("#productCode").val().trim(),
@@ -734,25 +735,25 @@ define(function (require, exports, module) {
     Product.getChildList = function (model) {
         var _self = this;
         $("#header-items").nextAll().remove();
-        doT.exec("template/products/productdetails_list.html", function (templateFun) {
-            var innerText = templateFun(model.ProductDetails);
-            innerText = $(innerText);
-            $("#header-items").after(innerText);
+            doT.exec("template/products/productdetails_list.html", function (templateFun) {
+                var innerText = templateFun(model.ProductDetails);
+                innerText = $(innerText);
+                $("#header-items").after(innerText);
 
-            //绑定启用插件
-            innerText.find(".status").switch({
-                open_title: "点击启用",
-                close_title: "点击禁用",
-                value_key: "value",
-                change: function (data, callback) {
-                    _self.editDetailsStatus(data, data.data("id"), data.data("value"), callback);
-                }
-            });
+                //绑定启用插件
+                innerText.find(".status").switch({
+                    open_title: "点击启用",
+                    close_title: "点击禁用",
+                    value_key: "value",
+                    change: function (data, callback) {
+                        _self.editDetailsStatus(data, data.data("id"), data.data("value"), callback);
+                    }
+                });
 
-            innerText.find(".ico-edit").click(function () {
-                _self.showTemplate(model, $(this).data("id"));
+                innerText.find(".ico-edit").click(function () {
+                    _self.showTemplate(model, $(this).data("id"));
+                });
             });
-        });
     }
     //更改子产品状态
     Product.editDetailsStatus = function (obj, id, status, callback) {
@@ -766,6 +767,7 @@ define(function (require, exports, module) {
     }
     //添加/编辑子产品
     Product.showTemplate = function (model, id) {
+        console.log(id);
         var _self = this, count = 1;
         doT.exec("template/products/productdetails_add.html", function (templateFun) {
 
@@ -797,7 +799,6 @@ define(function (require, exports, module) {
                         if (isNull) {
                             return false;
                         }
-
                         var Model = {
                             ProductDetailID: id,
                             ProductID: model.ProductID,
@@ -810,7 +811,7 @@ define(function (require, exports, module) {
                             Price: $("#detailsPrice").val(),
                             BigPrice: $("#detailsPrice").val(),//(model.SmallUnitID != model.BigUnitID ? $("#bigPrice").val() : $("#detailsPrice").val()) * model.BigSmallMultiple,
                             Weight: 0,
-                            ImgS: _self.ImgS,
+                            ImgS: $("#imgS").data('src') || '',
                             Remark: $("#detailsRemark").val(),
                             Description: desc
                         };
@@ -871,6 +872,7 @@ define(function (require, exports, module) {
                 $("#bigPrice").val(detailsModel.BigPrice / model.BigSmallMultiple);
                 $("#detailsCode").val(detailsModel.DetailsCode);
                 _self.ImgS = detailsModel.ImgS;
+                $("#imgS").data("src", detailsModel.ImgS);
                 $("#imgS").attr("src", detailsModel.ImgS);
                 $("#detailsRemark").val(detailsModel.Remark);
                 var list = detailsModel.SaleAttrValue.split(',');
@@ -946,6 +948,7 @@ define(function (require, exports, module) {
                         var src = file.server + info.key;
                         _self.ImgS = src;
                         $("#imgS").attr("src", src + "?" + count++);
+                        $("#imgS").data("src", src);
                     }
                 }
             });

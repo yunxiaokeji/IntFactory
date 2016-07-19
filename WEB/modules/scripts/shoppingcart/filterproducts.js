@@ -377,7 +377,7 @@
                 _this.siblings().removeClass("hover");
                 for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
 
-                    var bl = true, vales = model.ProductDetails[i].AttrValue, unitid = model.ProductDetails[i].UnitID;
+                    var bl = true, vales = model.ProductDetails[i].ProductDetailID, unitid = model.ProductDetails[i].UnitID;
                     $(".salesattr li.hover").each(function () {
                         if (vales.indexOf($(this).data("id")) < 0) {
                             bl = false;
@@ -467,11 +467,7 @@
         //绑定子产品详情
         for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
             if (model.ProductDetails[i].ProductDetailID == did) {
-                var list = model.ProductDetails[i].SaleAttrValue.split(",");
-                for (var ii = 0, jj = list.length; ii < jj; ii++) {
-                    var item = list[ii].split(":");
-                    $(".cart-attr-item[data-id='" + item[0] + "']").find("li[data-id='" + item[1] + "']").addClass("hover");
-                }
+                $(".cart-attr-item").find("li[data-id='" + model.ProductDetails[i].ProductDetailID + "']").addClass("hover");
                 $("#price").html("￥" + model.ProductDetails[i].Price.toFixed(2));
                 $("#productimg").attr("src", model.ProductDetails[i].ImgS);
                 $("#productStockQuantity").text(model.ProductDetails[i].StockIn - model.ProductDetails[i].LogicOut);

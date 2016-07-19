@@ -113,7 +113,9 @@ namespace IntFactoryEntity
         public decimal StockIn { get; set; }
 
         public decimal LogicOut { get; set; }
-		
+
+        public int IsDefault { get; set; }
+
 		/// <summary>
 		/// 
 		/// </summary>

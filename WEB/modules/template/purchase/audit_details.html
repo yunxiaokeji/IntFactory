@@ -1,12 +1,15 @@
 ﻿{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
-%}
+    if(i>0){
+    %}
 <tr class="line-item">
     <td colspan="4"></td>
 </tr>
+{%}%}
 <tr class="item-header">
     <td class="tLeft">单号：{%=item.DocCode%}</td>
+    <td>入库数</td>
     <td>总金额</td>
     <td>操作人</td>
     <td>操作日期</td>
@@ -19,14 +22,17 @@
 %}
         <tr class="item {%=k==kk-1?'last':''%}">
     <td class="tLeft bLeft bBottom">
-        <a href="/Products/DocDetail/{%=item.DocID%}" target="_blank">
-            {%=detail.ProductName%}
+        <a href="/Products/ChooseDetail?pid={%=detail.ProductID%}&did={%=detail.ProductDetailID%}%}" target="_blank">
+            {%=detail.ProductName+"&nbsp;&nbsp;"%}<span class="color999">{%=detail.Remark%}</span>
         </a>
+    </td>
+    <td class="bBottom">
+        {%=detail.Quantity%}
     </td>
     {%
     if(k==0)
     {%}
-        <td class="center bBottom bLeft" rowspan="{%=kk%}">{%=item.TotalMoney.toFixed(2)%}</td>
+        <td class="center bBottom bLeft" rowspan="{%=kk%}">{%=detail.TotalMoney.toFixed(2)%}</td>
         <td class='center bBottom bLeft' rowspan="{%=kk%}">{%=(item.UserName ? item.UserName:"--")%}</td>
         <td class='center bBottom bLeft bRight' rowspan="{%=kk%}">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     {%}%}

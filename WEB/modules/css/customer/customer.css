@@ -6,10 +6,10 @@
 .customer-source .source-hover{padding:1px 4px;border:1px solid #4A99E8;color:#4A99E8;}
 /*客户列表卡片样式*/
 .content-body hr {height:20px;background-color:#F2F4F8;border:0;margin-left:-10px;margin-right:-10px; }
-.list-customer .hover{border:1px solid #007aff;}
+.list-customer .hover{border:1px solid #007aff;height:146px;}
 .list-customer .hover .check {display:inline-block;}
-.list-card { width:328px;height:148px;border-spacing:0px;background-color:#fff;float:left;padding:10px 10px 0 10px;}
-.list-card:hover{border:1px solid #007aff;height:146px;}
+.list-card { width:326px;height:146px;border:1px solid #fff; border-spacing:0px;background-color:#fff;float:left;padding:10px 10px 0 10px;}
+.list-card:hover{border:1px solid #007aff;}
 .list-card:hover .check{display:block;cursor:pointer;border:1px solid #4a98e7;}
 .list-card .check{ float:right;width:20px;height:20px;border:1px solid #bfbfbf;margin-top:5px;margin-right:5px;
                     border-radius:2px; color:#fff;}
@@ -20,7 +20,7 @@
 .list-card .message-name a{ font-size:16px;line-height:26px;color:#2162A5; }
 .list-card .message .list-mark{ line-height:23px;margin-top:5px;}
 
-.list-card .info li{ margin-left:5px;height:25px; margin-top:5px;color:#999;}
+.list-card .info li{ margin-left:5px;height:20px; margin-top:5px;color:#898989;}
 .list-card .info .iconfont { font-size:14px;color:#999;margin-right:10px;}
 .list-card .info .photo{width:20px;height:20px;border-radius:10px; float:left;}
 .list-card .info span { display:inline-block; line-height:25px;font-size:14px;}

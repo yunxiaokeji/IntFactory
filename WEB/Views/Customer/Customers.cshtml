@@ -14,17 +14,7 @@
         });
     </script>
 }
-@*<div class="header-box">
-    <span class="header-title left">@ViewBag.Title</span>
-    <a href="Create"  id="createCustomer" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current, "101019001"))">新建客户</a>
-</div>*@
-@*<div class="header-box">
-    <span class="header-title left">@ViewBag.Title</span>
-    <a href="Create"  id="createCustomer" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current, "101019001"))">新建客户</a>
-    <div class="clear"></div>
-</div>*@
-
-<div class="content-body mTop20">
+<div class="content-body mTop20" style="padding-bottom:0;">
     <div class="search-body left">
         <ul class="customer-source">
             <div>来&nbsp;&nbsp;&nbsp;源：</div>
@@ -95,23 +85,12 @@
     </div>
 </div>
 
-<div style="margin:0 20px;">
- @* 卡片式显示 *@
-    <div class="list-customer"></div>
+<div  class="content-list">
+    <div class="list-customer" style="margin-top:-15px;"></div>
     <div class="clear"></div>
-
-@*    <ul class="left batch-operate mTop20">
-        <li class="width100">
-            <span class="ico-check pLeft5 mTop5" id="checkAll">批量操作</span>
-        </li>
-        <li>
-            <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"101019002"))" id="batchChangeOwner">更换负责人</a>
-        </li>
-    </ul>
-    <div id="pager" class="mTop20"></div>*@
 </div>
 
-<div class="content-body" style="margin:0;padding:0;margin:20px;padding:10px;">
+<div  class="content-pager">
     <ul class="left batch-operate">
         <li class="width100">
             <span class="ico-check pLeft5 mTop5" id="checkAll">批量操作</span>
@@ -120,6 +99,7 @@
             <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"101019002"))" id="batchChangeOwner">更换负责人</a>
         </li>
     </ul>
-    <div id="pager" class=""></div>
+    <div id="pager"></div>
+    <div class="clear"></div>
 </div>
 

@@ -15,9 +15,6 @@
         });
     </script>
 }
-@*<div class="header-box">
-    <span class="header-title left">@ViewBag.Title</span>
-</div>*@
 <div class="search-header">
     <ul class="search-tab search-orderstatus">
         <li data-id="1" class="@(ViewBag.State==1?"hover":"")">进行中</li>
@@ -26,11 +23,10 @@
         <li data-id="8" class="">已终止</li>
         <li data-id="-1" >全部订单</li>
     </ul>
-    
     <a href="/Orders/Create" target="_blank" id="createOrder" class="btn-add right mRight10">新建订单</a>
     <div class="btn right mRight10 nolimits" id="downAliOrders">同步阿里订单</div>
 </div>
-<div class="content-body">
+<div class="content-body" style="padding-bottom:0;">
     <div class="search-body left">
         <ul class="search-item search-entrustclientid" style="margin-top:0;">
             <li class="column-name">分类：</li>
@@ -107,22 +103,22 @@
         </ul>
         <div class="right searth-module mTop5" data-text="关键字搜索..." data-width="260"> </div>
     </div>
-    
 </div>
-<div class="content-body mTop20">
-    <div class="object-items" id="orderItems">
-
-    </div>
+<div class="content-list">
+    <div class="object-items"  style="margin-top:-10px;" id="orderItems"></div>
     <div class="clear"></div>
-    <ul class="left batch-operate mTop20">
-        <li class="width100 mTop5">
-            <span class="ico-check pLeft5" id="checkAll">批量操作</span>
+</div>
+<div  class="content-pager">
+    <ul class="left batch-operate">
+        <li class="width100">
+            <span class="ico-check pLeft5 mTop5" id="checkAll">批量操作</span>
         </li>
         <li>
             <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" id="batchChangeOwner">更换负责人</a>
         </li>
     </ul>
-    <div id="pager" class="mTop20"></div>
+    <div id="pager"></div>
+    <div class="clear"></div>
 </div>
 <div class="order-layer">
     <div class="layer-header">

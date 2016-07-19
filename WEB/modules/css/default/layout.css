@@ -109,8 +109,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .main-content { margin-left:180px; padding-top:50px; padding-bottom:50px;}
 
 /*title样式*/
-/*.header-box { background-color:#fff; padding:10px 20px; min-height:28px; overflow:auto; margin-bottom:20px; }*/
-.header-box { padding:10px 20px; }
+.header-box { background-color:#fff; padding:10px 20px; min-height:28px; overflow:auto; margin-bottom:20px; }
 .header-box .header-title { color:#666; font-size:18px;}
 .header-box .back { font-size:14px; }
 .header-box .back .iconfont{ color:#4a98e7; }
@@ -133,10 +132,11 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .search-header .search-tab-status li.hover{ background-color:#4a98e7; color:#fff;}
 
 
-.content-body{ overflow:auto; background-color:#fff; clear:both; margin:0 20px; padding:10px 10px 0 10px; }
+.content-body{ overflow:auto; background-color:#fff; clear:both; margin:0 20px; padding:10px 10px 10px 10px; }
 
 .content-items{ overflow:auto; clear:both; margin:0 20px; }
-
+.content-list {margin:0 20px;}
+.content-pager {margin:20px;background-color:#fff;padding:10px;}
 /*搜索*/
 .search-body { padding:10px; min-height:35px; }
 

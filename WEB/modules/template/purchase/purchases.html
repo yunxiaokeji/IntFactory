@@ -1,10 +1,13 @@
 ﻿{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
+    if(i>0){
+    %}
 %}
 <tr class="line-item">
     <td colspan="10"></td>
 </tr>
+{%}%}
 <tr class="item-header">
     <td class="tLeft bolder">
         {%=item.CreateTime.toDate('yyyy-MM-dd')%}
@@ -35,7 +38,7 @@
              <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.DocImage?item.DocImage:'/modules/images/img-noimg.png'%}" />
          </td>
          {%}%}
-         <td class="bBottom tLeft">{%=detailItem.ProductName+detailItem.Remark%}</td>
+         <td class="bBottom tLeft">{%=detailItem.ProductName+"&nbsp;&nbsp;"%}<span class="color999">{%=detailItem.Remark%}</span></td>
          <td class="bBottom">{%=detailItem.DetailsCode?detailItem.DetailsCode: detailItem.ProductCode%}</td>
          <td class="bBottom">{%=detailItem.Quantity.toFixed(2)%}</td>
          <td class="bBottom">{%=detailItem.TotalMoney.toFixed(2)%}</td>

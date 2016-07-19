@@ -909,8 +909,9 @@ namespace IntFactoryBusiness
         {
             var dal = new ProductsDAL();
             DataSet ds = dal.GetProductByIDForDetails(productid, clientid);
-
+           
             Products model = new Products();
+            
             if (ds.Tables.Contains("Product") && ds.Tables["Product"].Rows.Count > 0)
             {
                 model.FillData(ds.Tables["Product"].Rows[0]);
@@ -961,27 +962,8 @@ namespace IntFactoryBusiness
                 model.ProductDetails = new List<ProductDetail>();
                 foreach (DataRow item in ds.Tables["Details"].Rows)
                 {
-
                     ProductDetail detail = new ProductDetail();
                     detail.FillData(item);
-
-                    //填充存在的规格
-                    foreach (var attrModel in model.SaleAttrs)
-                    {
-                        foreach (DataRow valuetr in ds.Tables["Values"].Select("AttrID='" + attrModel.AttrID + "'"))
-                        {
-                            AttrValue valueModel = new AttrValue();
-                            valueModel.FillData(valuetr);
-                            if (detail.AttrValue.IndexOf(valueModel.ValueID) >= 0)
-                            {
-                                if (attrModel.AttrValues.Where(v => v.ValueID == valueModel.ValueID).Count() == 0)
-                                {
-                                    attrModel.AttrValues.Add(valueModel);
-                                }
-                                break;
-                            }
-                        }
-                    }
                     model.ProductDetails.Add(detail);
                 }
             }

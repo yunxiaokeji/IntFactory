@@ -2,10 +2,13 @@
     for(var i=0;i<$data.length;i++)
     {
         var item=$data[i];
+    if(i>0){
+    %}
 %}
 <tr class="line-item">
-    <td colspan="6"></td>
+    <td></td>
 </tr>
+{%}%}
 <tr class="item-header">
     <td class="tLeft">规格</td>
     <td>数量</td>
@@ -34,12 +37,12 @@ var detail=item.Details[j];
         {%=item.Quantity%}
     </td>
     <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
-        {%=item.CreateUser.Name%}
-    </td>
-    <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
         {%=item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}
     </td>
-    <td class="center bBottom bRight bLeft" rowspan="2"><a href="/Orders/DocDetail/{%=item.DocID%}">查看详情</a></td>
+    <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
+        {%=item.CreateUser.Name%}
+    </td>
+    <td class="center bBottom bRight bLeft" rowspan="2"><a href="/Orders/DocDetail/{%=item.DocID%}" target="_blank">查看详情</a></td>
     {%}%}
 </tr>
 {%}%}
