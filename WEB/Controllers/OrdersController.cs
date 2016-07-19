@@ -913,21 +913,22 @@ namespace YXERP.Controllers
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderPriceRange models = serializer.Deserialize<OrderPriceRange>(model);
-            bool bl = false;
+            
             if (string.IsNullOrEmpty(models.RangeID))
             {
-                bl = IntFactoryBusiness.OrdersBusiness.AddOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);                
+                string id = IntFactoryBusiness.OrdersBusiness.AddOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                JsonDictionary.Add("id", id);                
             }else
-            {
-                bl = IntFactoryBusiness.OrdersBusiness.UpdateOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            { 
+               bool bl = IntFactoryBusiness.OrdersBusiness.UpdateOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                JsonDictionary.Add("id", bl?"1":"2");                
             }
 
-            JsonDictionary.Add("status", bl);
             return new JsonResult
             {
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
+            };            
         }
         
         public JsonResult DeleteOrderPriceRange(string rangeid)
