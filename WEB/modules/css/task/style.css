@@ -50,6 +50,8 @@
     font-weight:bold;
 }
 
+.pager-bgcolor {height:40px;background-color:#fff;margin-top:20px;margin-bottom:-55px; }
+
 /*任务样图信息*/
 .order-imgs-div {
     cursor:pointer;
@@ -509,7 +511,6 @@
 .task-item .task-footer .task-noaccept {border-color:red;color:red;}
 .task-item .task-footer .task-underway { border-color:#1CC362;color:#1CC362;}
 .task-item .task-footer .task-finish { border-color:#3F9BE8;color:#3F9BE8;}
-
 
 /*成员列表样式*/
 /*暂无成员*/
