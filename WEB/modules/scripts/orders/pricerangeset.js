@@ -13,7 +13,7 @@
     ObjectJS.bindEvent = function (orderid) {
 
         $(".price-range-set").click(function () {            
-            $(".center-head").nextAll().remove();
+            $(".center-range").empty();
             $("#bfe_overlay").show();
             $(".price-range").show();
             ObjectJS.getPriceRange(orderid);
@@ -27,9 +27,6 @@
             doT.exec("template/orders/addpricerange.html", function (template) {
                 var innerText = template({});                
                 innerText = $(innerText);
-
-                var num= $(".center-range li:last").find(".max-number").val();
-                innerText.find(".min-number").val(Number(num) + 1);
 
                 $(".center-range").append(innerText);
                 
@@ -141,7 +138,7 @@
                         _this.find(".update,.delete,.txt").show();
                         _this.find(".save,.cancel,input").hide();
                     } else {
-                        $(".center-head").nextAll().remove();
+                        $(".center-range").empty();
                         ObjectJS.getPriceRange(orderid);
                             
                     }
