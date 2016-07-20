@@ -23,9 +23,8 @@
         $(".center-range").append('<div class="data-loading"><div>');
         Global.post("/Orders/GetOrderPriceRanges", { orderid: ObjectJS.orderID }, function (data) {
             $(".data-loading").remove();
-                
                 doT.exec("template/orders/pricerangge.html", function (template) {
-                    var innerText = template(data.items);                    
+                    var innerText = template(data.items);
                     Easydialog.open({
                         container: {
                             id: "show-model-detail",
@@ -33,6 +32,7 @@
                             content: innerText
                         }
                     });
+                    
                     ObjectJS.addPriceRange();
                     ObjectJS.bindUpdatePriceRange(".update");
                     ObjectJS.deletePriceRange();                    
@@ -85,8 +85,8 @@
             if (!pri.isDouble() || Number(pri) < 0) {
                 alert("价格不正确");
                 $(this).val($(this).data("num"));
-            }            
-        })
+            }
+        });
         
         $(save).click(function () {   
             var _this = $(this).parent().parent();
@@ -148,7 +148,7 @@
         if (!_parentlist.data("id") == "0") {
             beforenum = _parentlist.prev().find(".min-number").val();
         }
-        debugger
+        
         var num = "";
         if (save==".update") {
             num = _parentlist.find(".min-number").val();
@@ -177,7 +177,7 @@
         $(".delete").click(function () {
             var _this = $(this).parent().parent();
             var rangeid = _this.data("rangeid");
-            
+            console.log("a")
             var confirmMsg = "确定删除此价格区间?";
             confirm(confirmMsg, function () {
                 Global.post("/Orders/DeleteOrderPriceRange", { rangeid: rangeid }, function (data) {
