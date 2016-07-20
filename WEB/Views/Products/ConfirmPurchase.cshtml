@@ -51,7 +51,7 @@
             { 
             <tr class="item cart-item" data-autoid="@(model.AutoID)" data-id="@(model.ProductDetailID)" >
                 <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">
-                    <img onerror="$(this).attr('src','/modules/images/img-noimg.png')"  src="@(string.IsNullOrEmpty(model.ImgS) ? model.ProductImage : model.ImgS)" />
+                    <img src="@(string.IsNullOrEmpty(model.ImgS) ? model.ProductImage : model.ImgS)" />
                     </a>
                 </td>
                 <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
