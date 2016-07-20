@@ -404,7 +404,8 @@
                         istime: false,
                         istoday: true
                     });
-                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : _self.model.PlanTime.toDate("yyyy-MM-dd"));
+                    var date = (new Date(_self.model.PlanTime.toDate("yyyy-MM-dd")).getTime() - new Date().getTime()) < 0 ? new Date().toString('yyyy-MM-dd') : _self.model.PlanTime.toDate("yyyy-MM-dd");
+                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : date);
                 });
             } //开始大货(无)
             else if (_self.model.OrderType == 2 && _self.status == 0) {
@@ -467,7 +468,8 @@
                         istime: false,
                         istoday: true
                     });
-                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : _self.model.PlanTime.toDate("yyyy-MM-dd"));
+                    var date = (new Date(_self.model.PlanTime.toDate("yyyy-MM-dd")).getTime() - new Date().getTime()) < 0 ? new Date().toString('yyyy-MM-dd') : _self.model.PlanTime.toDate("yyyy-MM-dd");
+                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : date);
                 });
             }//发货
             else if (_self.status == 5) {
