@@ -1207,7 +1207,7 @@
             var $columnHeadrs=$(".tr-header .columnHeadr");
             for (var i = 0; i < $columnHeadrs.length; i++) {
                 var sort = $columnHeadrs.eq(i).data("sort");
-                var value = parseInt(markvalue) + parseInt((variation * (sort - marksort)));
+                var value = Number(markvalue) + Number((variation * (sort - marksort)));
 
                 $tbContentIpts.eq(i + 1).val(value);
             }
