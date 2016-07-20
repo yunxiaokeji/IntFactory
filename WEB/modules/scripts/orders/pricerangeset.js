@@ -32,6 +32,10 @@
                 innerText.find(".min-number").val(Number(num)+1);
                 $(".center-range").append(innerText);
                 
+                innerText.find(".min-number").keyup(function () {
+                    
+                });
+
                 ObjectJS.updateAndAddPriceRange(innerText, ".save-price-range", orderid);
 
                 ObjectJS.updateAndAddPriceRange(innerText, ".update", orderid);
