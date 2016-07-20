@@ -2,17 +2,17 @@
     require("plug/change_menu/change_menu.css");
     (function () {
         var menuData = [];
-
         $.fn.changeMenu = function (option) {
             return this.each(function () {
                 var _this = $(this);
                 var options = $.extend({}, $.fn.changeMenu.default, option);
                 for (var i = 1; i <= options.layer; i++) {
                     var data = {
-                        "layer": "layer" + i
-                        
-                    };
-
+                        layer:  i,
+                        id: "",
+                        name: ""
+                    }
+                    menuData.push(data);
                 }
                 $.fn.changeMenu.bindMenu(_this, options);
             });
@@ -21,6 +21,7 @@
             width: 400,
             data: "",
             layer: 3,
+            className:"product-change",
             defaults: {
                 headerText: "全部分类",
                 headerID: ""
@@ -34,40 +35,40 @@
             }, function (data) {
                 obj.click(function () {
                     var _this = $(this);
+                    var offset = obj.offset();
                     if ($(".change-menu-body").length == 0) {
-                        var _menuBody = $("<div class='change-menu-body' style='width:" + opts.width + "px;'></div>"),
+                        var _closeMenu = $("<div title='关闭' class='close-layer iconfont right mRight10 hand color999'>&#xe606;</div>");
+                        var _menuBody = $("<div class='change-menu-body' style='width:" + opts.width + "px;left:" + offset.left + "px;top:" + (offset.top + 27) + "px;'></div>"),
                             _menuHeader = $("<div class='change-menu-header'><ul></ul></div>"),
                             _menuContent = $("<div class='change-menu-content'><ul></ul></div>");
                         var _clearFloat = "<div class='clear'></div>";
-                        _menuHeader.append(_clearFloat);
+                        _menuHeader.append(_closeMenu).append(_clearFloat);
                         _menuContent.append(_clearFloat);
                         _menuBody.append(_menuHeader).append(_menuContent);
-                        _this.after(_menuBody);
+                        $('body').append(_menuBody);
                         bindObj(data.Items, _menuContent, obj, _menuHeader, opts.defaults);
+                        _closeMenu.click(function () {
+                            _menuBody.hide();
+                        });
                         opts.onChange && opts.onChange();
                     } else {
                         $(".change-menu-body").show();
                     }
+                    return false;
                 });
             });
-
         };
 
         var bindObj = function (data, _contentEle, obj, _headerEle, _headerData) {
             if (_headerData.headerText) {
                 _headerEle.find('li').removeClass('hover');
-                var _headerMenu = $('<li class="hand hover" data-id=' + _headerData.headerID + '>' + _headerData.headerText + '</li>');
+                var _headerMenu = $('<li class="hand hover" data-id="' + _headerData.headerID + '" data-layer="' + (_headerData.headerLayer || 0) + '" >' + _headerData.headerText + '</li>');
                 _headerEle.find('ul').append(_headerMenu);
                 _headerMenu.click(function () {
                     if (!$(this).hasClass('hover')) {
                         $(this).siblings().removeClass('hover');
                         $(this).addClass('hover');
                         var id = $(this).data("id");
-                        if (id) {
-                            obj.data('layer1', '');
-                            obj.data('layer2', '');
-                            obj.data('layer3', '');
-                        }
                         $.post("/Products/GetChildCategorysByID", {
                             categoryid: id
                         }, function (callBackData) {
@@ -96,25 +97,49 @@
                         }, function (callBackData) {
                             var headerData = {
                                 headerText: _this.text(),
-                                headerID: _this.data("id")
+                                headerID: _this.data("id"),
+                                headerLayer: _this.data("layer")
                             };
                             _contentEle.find('ul').empty();
                             bindObj(callBackData.Items, _contentEle, obj, _headerEle, headerData);
                         });
+                    } else {
+                        $(".change-menu-body").hide();
                     }
 
-                    if (_this.data('id')) {
-                        var _layer = 'layer' + _this.data('layer');
-                        obj.data(_layer, _this.data('id'));
-                        var val = (obj.val() || '');
-                        if (_this.data('layer') > 1) {
-                            val += '/';
+                    var _layer = _this.data('layer');
+                    menuData[_layer - 1].id = _this.data('id');
+                    menuData[_layer - 1].name = _this.data('name');
+                    for (var k = 0; k < menuData.length; k++) {
+                        var itemMD = menuData[k];
+                        if (itemMD.layer <= _layer) {
+                            continue;
                         }
-                        val += _this.data('name');
-                        obj.val(val);
+                        itemMD.id = '';
+                        itemMD.name = '';
                     }
+
+                    var _desc = "";
+                    for (var j = 0; j < menuData.length; j++) {
+                        var itemMD = menuData[j];
+                        if (!itemMD.id) {
+                            continue;
+                        }
+                        if (_desc) {
+                            _desc += "/";
+                        }
+                        _desc += itemMD.name;
+                    }
+                    obj.val(_desc);
                 });
             }
         };
+
+        $(document).click(function (e) {
+            var ele=$(e.target);
+            if (!ele.parents().hasClass('change-menu-body')) {
+                $(".change-menu-body").hide();
+            }
+        });
     })(jQuery);
 });
