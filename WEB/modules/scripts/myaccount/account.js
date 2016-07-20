@@ -124,10 +124,14 @@
                     header: "设置账号",
                     content: html,
                     yesFn: function () {
-
                         if (!VerifyObject.isPass("#setloginname-add-div")) {
                             return false;
                         }
+                        var _this = $("#LoginName");
+                        if (  !(_this.val() && _this.val().length > 5 ) ) {
+                            alert("账号长度不能低于6位！");
+                            return false;
+                        } 
 
                         if (!$("#S_BindMobile").html().trim()) {
                             if ($("#LoginPWD").val() == "") {
@@ -146,18 +150,26 @@
                                 return false;
                             }
                         }
-                        Global.post("/MyAccount/UpdateUserAccount", {
-                            loginName: $("#LoginName").val(),
-                            loginPwd: $("#LoginPWD").val()
-                        }, function (data) {
-                            if (data.result) {
-                                alert("账号设置成功！");
 
-                                $("#S_LoginName").html($("#LoginName").val());
-                                $("#bindLogioName").hide();
-                            }
-                            else {
-                                alert("账号设置失败！");
+                        Global.post("/MyAccount/IsExistLoginName", { loginName: $("#LoginName").val() }, function (data) {
+                            if (data.result) {
+                                alert("账号已存在，请重新输入！");
+                                $("#LoginName").val("");
+                            } else {
+                                Global.post("/MyAccount/UpdateUserAccount", {
+                                    loginName: $("#LoginName").val(),
+                                    loginPwd: $("#LoginPWD").val()
+                                }, function (data) {
+                                    if (data.result) {
+                                        alert("账号设置成功！");
+
+                                        $("#S_LoginName").html($("#LoginName").val());
+                                        $("#bindLogioName").hide();
+                                    }
+                                    else {
+                                        alert("账号设置失败！");
+                                    }
+                                });
                             }
                         });
                         
