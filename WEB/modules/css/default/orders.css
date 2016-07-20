@@ -202,14 +202,8 @@
 .repeatorder-times {width:20px;height:20px;border-radius:50%;border:1px solid #ccc;text-align:center;line-height:20px;margin-top:12px;color:#fff;background-color:#ccc;}
 
 /*价格区间设置*/
-.price-range { position:fixed;z-index:10001;background-color:#fff;top:20%;left:30%;padding:10px 20px;border-radius:5px;}
-.price-range .update-title{border-bottom:1px solid #eee;padding-bottom:7px;font-size:14px;}
-.price-range .update-title .close_btn{background:#fff url(/modules/plug/easydialog/ico-close.png) no-repeat;                   
-                                      height:16px;width:16px;float:right;margin-top:8px;}
-.price-range .update-title .close_btn:hover{background:#fff url(/modules/plug/easydialog/ico-close-hover.png) no-repeat;}
-.price-range .close{cursor:pointer;padding:5px 10px;background-color:#ccc;border-radius:2px;}
-.price-range .close:hover{background-color:#aaa;}
-.center-range { width:457px;}
+.price-range-set { color:#4a98e7;}
+.center-range { width:457px;margin-top:-15px;}
 .center-range li { height:30px;margin-top:2px;padding:10px 0px 10px 0px;}
 .center-range li input { width:50px;margin:0 5px;}
 .center-range li div:last-child span{ color:#777;cursor:pointer;display:block;float:left;}
