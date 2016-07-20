@@ -391,6 +391,56 @@ namespace YXERP.Controllers
             return Redirect("/Home/Login");
         }
 
+        public ActionResult MDCallBack(string code, string state)
+        {
+            string operateip = Common.Common.GetRequestIP();
+            var userToken = AlibabaSdk.OauthBusiness.GetUserToken(code);
+
+            if (userToken.error_code <= 0)
+            {
+                var model = OrganizationBusiness.GetUserByAliMemberID(userToken.memberId, operateip);
+                //已注册
+                if (model != null)
+                {
+                    //未注销
+                    if (model.Status.Value == 1)
+                    {
+                        model.AliToken = userToken.access_token;
+                        Session["ClientManager"] = model;
+                        AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanToken(model.ClientID, userToken.access_token, userToken.refresh_token);
+
+                        if (string.IsNullOrEmpty(state))
+                        {
+                            return Redirect("/Home/Index");
+                        }
+                        else
+                        {
+                            return Redirect(state);
+                        }
+                    }
+                    else
+                    {
+                        if (model.Status.Value == 9)
+                        {
+                            Response.Write("<script>alert('您的账户已注销,请切换其他账户登录');location.href='/Home/login';</script>");
+                            Response.End();
+                        }
+                        else
+                        {
+                            return Redirect("/Home/Login");
+                        }
+                    }
+                }
+                else
+                {
+                    Session["AliTokenInfo"] = userToken.access_token + "|" + userToken.refresh_token + "|" + userToken.memberId;
+                    return Redirect("/Home/AliSelectLogin");
+                }
+            }
+
+            return Redirect("/Home/Login");
+        }
+
         //阿里账户注册
         public ActionResult AliRegisterMember()
         {

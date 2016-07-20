@@ -56,12 +56,8 @@
                 @{
                     if(!string.IsNullOrEmpty( CurrentUser.WeiXinID)){
                     <li>
-                        <span class="width80">绑定微信：</span>
-                        <span>已绑定 (微信ID为@(CurrentUser.WeiXinID)的帐号)</span>
-                    </li>
-                    <li>
-                        <span class="width80"></span>
-                        <input type="button" id="unBindWeiXin" class="btn" value="取消绑定" />
+                        <span class="width80">微信：</span>
+                        <label  id="unBindWeiXin" class="font14 blue hand" >取消绑定</label>
                     </li>
                     }
                 }
