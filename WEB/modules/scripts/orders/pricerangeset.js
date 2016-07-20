@@ -56,8 +56,10 @@
                 
                 $(".center-range").append(innerText);
                 $(".center-range li:last").find(".min-number").val(Number(minNumber) + 1);
+                
+                ObjectJS.bindUpdatePriceRange(".update");
 
-                ObjectJS.bindUpdatePriceRange(".update,.save-price-range");
+                ObjectJS.bindUpdatePriceRange(".save-price-range");
 
                 ObjectJS.deletePriceRange();
 
@@ -97,8 +99,9 @@
                 alert("数字不能为空");
                 return;
             }
+            
             var quantity = maxNumber;
-            if ($(".center-range li").length == 1||save==".update") {
+            if ($(".center-range li").length == 1 || save == ".update") {
                 quantity = minNumber;
             }
             var model = {
@@ -145,7 +148,7 @@
         if (!_parentlist.data("id") == "0") {
             beforenum = _parentlist.prev().find(".min-number").val();
         }
-
+        debugger
         var num = "";
         if (save==".update") {
             num = _parentlist.find(".min-number").val();
@@ -174,7 +177,7 @@
         $(".delete").click(function () {
             var _this = $(this).parent().parent();
             var rangeid = _this.data("rangeid");
-
+            
             var confirmMsg = "确定删除此价格区间?";
             confirm(confirmMsg, function () {
                 Global.post("/Orders/DeleteOrderPriceRange", { rangeid: rangeid }, function (data) {
