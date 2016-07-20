@@ -61,7 +61,7 @@
                     </tr>
                     <tr>                        
                         <td class="no-border-left"><i class="iconfont icon-delete customer">&#xe613;</i>客户:</td>
-                        <td class="no-border-right font14">@(order.Customer.Name==""?"--":order.Customer.Name)</td>
+                        <td class="no-border-right font14">@(order.Customer!=null?"--":order.Customer.Name)</td>
                     </tr>
                     <tr>
                         <td class="no-border-left">制版:</td>
