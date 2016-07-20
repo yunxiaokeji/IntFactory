@@ -1186,11 +1186,9 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 添加订单区间价位
         /// </summary>
-        public static bool AddOrderPriceRange(OrderPriceRange range, string operateid, string ip, string agentid, string clientid)
+        public static string AddOrderPriceRange(OrderPriceRange range, string operateid, string ip, string agentid, string clientid)
         {
-            bool flag = OrdersDAL.BaseProvider.AddOrderPriceRange(range.MinQuantity, range.Price, range.OrderID, operateid, clientid);
-
-            return flag;
+            return OrdersDAL.BaseProvider.AddOrderPriceRange(range.MinQuantity, range.Price, range.OrderID, operateid, clientid);
         }
 
         /// <summary>
@@ -1198,7 +1196,7 @@ namespace IntFactoryBusiness
         /// </summary>
         public static bool UpdateOrderPriceRange(OrderPriceRange range, string operateid, string ip, string agentid, string clientid)
         {
-            bool flag = OrdersDAL.BaseProvider.UpdateOrderPriceRange(range.RangeID, range.MaxQuantity, range.Price);
+            bool flag = OrdersDAL.BaseProvider.UpdateOrderPriceRange(range.RangeID, range.MinQuantity, range.Price);
 
             return flag;
         }
