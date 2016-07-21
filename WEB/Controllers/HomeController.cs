@@ -16,13 +16,10 @@ namespace YXERP.Controllers
 {
     public class HomeController : Controller
     {
-        //
-        // GET: /Home/
-
         public ActionResult Index()
         {
             int orderLevel = 0;
-            int roleLevel = 0;
+            int taskLevel = 0;
             if (Session["ClientManager"] == null)
             {
                 return Redirect("/Home/Login");
@@ -39,35 +36,39 @@ namespace YXERP.Controllers
 
                 if (currentUser.Role != null)
                 {
-                    //我的订单
-                    if (currentUser.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0)
+                    //所有订单
+                    if (currentUser.Menus.FindAll(m => m.MenuCode == "102010300").Count > 0)
                     {
                         orderLevel = 1;
                     }
-
-                    //系统管理员
-                     if (currentUser.Role.IsDefault==1)
+                    else if (currentUser.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0)
                     {
-                        roleLevel = 1;
+                        orderLevel = 2;
+                    }                                     
+
+                    //所有任务
+                    if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
+                    {
+                        taskLevel = 1;
                     }
-                    
+                    else if (currentUser.Menus.FindAll(m => m.MenuCode == "109010100").Count > 0)
+                    {
+                        taskLevel = 2;
+                    } 
                 }
 
                 ViewBag.UserID = currentUser.UserID;
                 ViewBag.orderLevel = orderLevel;
-                ViewBag.roleLevel = roleLevel;
+                ViewBag.taskLevel = taskLevel;
             }
 
             return View();
         }
 
-        public ActionResult NewIndex() {
+        public ActionResult Register()
+        {
             return View();
         }
-        //public ActionResult Register()
-        //{
-        //    return View();
-        //}
 
         public ActionResult FindPassword()
         {
@@ -84,46 +85,6 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult SelectLogin()
-        {
-            if (Session["AliTokenInfo"] == null)
-            {
-                return Redirect("/Home/Login");
-            }
-
-            return View();
-        }
-
-        public ActionResult Login(string ReturnUrl, int Status = 0)
-        {
-            if (Session["ClientManager"] != null)
-            {
-                return Redirect("/Home/Index");
-            }
-            HttpCookie cook = Request.Cookies["cloudsales"];
-            if (cook != null)
-            {
-                if (cook["status"] == "1")
-                {
-                    string operateip = Common.Common.GetRequestIP();
-                    int result;
-                    IntFactoryEntity.Users model = IntFactoryBusiness.OrganizationBusiness.GetUserByUserName(cook["username"], cook["pwd"],out result, operateip);
-                    if (model != null)
-                    {
-                        Session["ClientManager"] = model;
-                        return Redirect("/Home/Index");
-                    }
-                }
-                else
-                {
-                    ViewBag.UserName = cook["username"];
-                }
-            }
-            ViewBag.Status = Status;
-            ViewBag.ReturnUrl = ReturnUrl ?? string.Empty;
-            return View();
-        }
-        
         public ActionResult Logout(int Status = 0)
         {
             HttpCookie cook = Request.Cookies["cloudsales"];
@@ -333,24 +294,57 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 阿里账户登录
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult MDLogin(string ReturnUrl)
+        public ActionResult Login(string ReturnUrl, int Status = 0, int BindAccountType=0)
         {
-            if (string.IsNullOrEmpty(ReturnUrl))
+            if (Session["ClientManager"] != null)
             {
-                return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl() );
+                return Redirect("/Home/Index");
             }
-            else
+            HttpCookie cook = Request.Cookies["cloudsales"];
+            if (cook != null)
             {
-                return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl(ReturnUrl) );
+                if (cook["status"] == "1")
+                {
+                    string operateip = Common.Common.GetRequestIP();
+                    int result;
+                    IntFactoryEntity.Users model = IntFactoryBusiness.OrganizationBusiness.GetUserByUserName(cook["username"], cook["pwd"], out result, operateip);
+                    if (model != null)
+                    {
+                        Session["ClientManager"] = model;
+                        return Redirect("/Home/Index");
+                    }
+                }
+                else
+                {
+                    ViewBag.UserName = cook["username"];
+                }
             }
+            ViewBag.Status = Status;
+            ViewBag.ReturnUrl = ReturnUrl ?? string.Empty;
+            ViewBag.BindAccountType = BindAccountType;
+
+            return View();
         }
 
-        //明道登录回掉
-        public ActionResult MDCallBack(string code, string state)
+        //阿里账户选择进入方式
+        public ActionResult AliSelectLogin()
+        {
+            if (Session["AliTokenInfo"] == null)
+            {
+                return Redirect("/Home/Login");
+            }
+
+            return View();
+        }
+
+       //阿里授权地址
+        public ActionResult AlibabaLogin(string ReturnUrl)
+        {
+            return Redirect(AlibabaSdk.OauthBusiness.GetAuthorizeUrl(ReturnUrl??string.Empty));
+        }
+
+        //阿里巴巴回调地址
+        public ActionResult AlibabaCallBack(string code, string state)
         {
             string operateip = Common.Common.GetRequestIP();
             var userToken = AlibabaSdk.OauthBusiness.GetUserToken(code);
@@ -358,7 +352,7 @@ namespace YXERP.Controllers
             if (userToken.error_code <= 0)
             {
                 var model = OrganizationBusiness.GetUserByAliMemberID(userToken.memberId, operateip);
-                //已注册云销账户
+                //已注册
                 if (model != null)
                 {
                     //未注销
@@ -368,18 +362,176 @@ namespace YXERP.Controllers
                         Session["ClientManager"] = model;
                         AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanToken(model.ClientID, userToken.access_token, userToken.refresh_token);
 
-                        if (string.IsNullOrEmpty(state))
+                        if (string.IsNullOrEmpty(state)){
                             return Redirect("/Home/Index");
-                        else
+                        }
+                        else {
                             return Redirect(state);
+                        }
                     }
-                    else {
+                    else
+                    {
                         if (model.Status.Value == 9)
                         {
                             Response.Write("<script>alert('您的账户已注销,请切换其他账户登录');location.href='/Home/login';</script>");
                             Response.End();
                         }
-                        else {
+                        else{
+                            return Redirect("/Home/Login");
+                        }
+                    }
+                }
+                else
+                {
+                    Session["AliTokenInfo"] = userToken.access_token + "|" + userToken.refresh_token + "|" + userToken.memberId;
+                    return Redirect("/Home/AliSelectLogin");
+                }
+            }
+
+            return Redirect("/Home/Login");
+        }
+
+        public ActionResult MDCallBack(string code, string state)
+        {
+            string operateip = Common.Common.GetRequestIP();
+            var userToken = AlibabaSdk.OauthBusiness.GetUserToken(code);
+
+            if (userToken.error_code <= 0)
+            {
+                var model = OrganizationBusiness.GetUserByAliMemberID(userToken.memberId, operateip);
+                //已注册
+                if (model != null)
+                {
+                    //未注销
+                    if (model.Status.Value == 1)
+                    {
+                        model.AliToken = userToken.access_token;
+                        Session["ClientManager"] = model;
+                        AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanToken(model.ClientID, userToken.access_token, userToken.refresh_token);
+
+                        if (string.IsNullOrEmpty(state))
+                        {
+                            return Redirect("/Home/Index");
+                        }
+                        else
+                        {
+                            return Redirect(state);
+                        }
+                    }
+                    else
+                    {
+                        if (model.Status.Value == 9)
+                        {
+                            Response.Write("<script>alert('您的账户已注销,请切换其他账户登录');location.href='/Home/login';</script>");
+                            Response.End();
+                        }
+                        else
+                        {
+                            return Redirect("/Home/Login");
+                        }
+                    }
+                }
+                else
+                {
+                    Session["AliTokenInfo"] = userToken.access_token + "|" + userToken.refresh_token + "|" + userToken.memberId;
+                    return Redirect("/Home/AliSelectLogin");
+                }
+            }
+
+            return Redirect("/Home/Login");
+        }
+
+        //阿里账户注册
+        public ActionResult AliRegisterMember()
+        {
+            string operateip = Common.Common.GetRequestIP();
+            int result;
+            if (Session["AliTokenInfo"] != null)
+            {
+                string tokenInfo = Session["AliTokenInfo"].ToString();
+                string[] tokenArr = tokenInfo.Split('|');
+                if (tokenArr.Length == 3)
+                {
+                    string access_token = tokenArr[0];
+                    string refresh_token = tokenArr[1];
+                    string memberId = tokenArr[2];
+
+                    var memberResult = AlibabaSdk.UserBusiness.GetMemberDetail(access_token, memberId);
+                    var member = memberResult.result.toReturn[0];
+
+                    Clients clientModel = new Clients();
+                    clientModel.CompanyName = member.companyName ?? string.Empty;
+                    clientModel.ContactName = member.sellerName ?? string.Empty;
+                    clientModel.MobilePhone = string.Empty;
+
+                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result,
+                        member.email, string.Empty, string.Empty,
+                        member.memberId);
+
+                    if (!string.IsNullOrEmpty(clientid))
+                    {
+                        var current = OrganizationBusiness.GetUserByAliMemberID(member.memberId, operateip);
+                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, access_token, refresh_token, current.AgentID, current.ClientID);
+
+                        current.MDToken = access_token;
+                        Session.Remove("AliTokenInfo");
+                        Session["ClientManager"] = current;
+
+                        return Redirect("/Home/Index");
+                    }
+                }
+            }
+
+            return Redirect("/Home/Login");
+        }
+
+        //微信账户选择进入方式
+        public ActionResult WeiXinSelectLogin()
+        {
+            if (Session["WeiXinTokenInfo"] == null)
+            {
+                return Redirect("/Home/Login");
+            }
+
+            return View();
+        }
+
+        //微信授权地址
+        public ActionResult WeiXinLogin(string ReturnUrl)
+        {
+            return Redirect(WeiXin.Sdk.Token.GetAuthorizeUrl(Server.UrlEncode(WeiXin.Sdk.AppConfig.CallBackUrl), "", false));
+        }
+
+        //微信回调地址
+        public ActionResult WeiXinCallBack(string code, string state) {
+            string operateip = Common.Common.GetRequestIP();
+            var userToken = WeiXin.Sdk.Token.GetAccessToken(code);
+
+            if (string.IsNullOrEmpty( userToken.errcode) )
+            {
+                var model = OrganizationBusiness.GetUserByWeiXinID(userToken.unionid, operateip);
+                //已注册
+                if (model != null)
+                {
+                    //未注销
+                    if (model.Status.Value == 1)
+                    {
+                        Session["ClientManager"] = model;
+
+                        if (string.IsNullOrEmpty(state))
+                            return Redirect("/Home/Index");
+                        else
+                            return Redirect(state);
+                    }
+                    else
+                    {
+                        if (model.Status.Value == 9)
+                        {
+                            Response.Write("<script>alert('您的账户已注销,请切换其他账户登录');location.href='/Home/login';</script>");
+                            Response.End();
+                        }
+                        else
+                        {
                             return Redirect("/Home/Login");
                         }
 
@@ -387,21 +539,54 @@ namespace YXERP.Controllers
                 }
                 else
                 {
-                    Session["AliTokenInfo"] = userToken.access_token + "|" + userToken.refresh_token + "|" + userToken.memberId;
-                    return Redirect("/Home/SelectLogin");
+                    Session["WeiXinTokenInfo"] = userToken.access_token + "|" + userToken.openid+"|"+userToken.unionid;
+                    return Redirect("/Home/WeiXinSelectLogin");
                 }
             }
 
             return Redirect("/Home/Login");
         }
 
-        /// <summary>
-        /// 员工登录
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="pwd"></param>
-        /// <returns></returns>
-        public JsonResult UserLogin(string userName, string pwd, string remember, int fromBindAccount)
+        //微信账户注册
+        public ActionResult WinXinRegisterMember()
+        {
+            string operateip = Common.Common.GetRequestIP();
+            int result;
+            if (Session["WeiXinTokenInfo"] != null)
+            {
+                string tokenInfo = Session["WeiXinTokenInfo"].ToString();
+                string[] tokenArr = tokenInfo.Split('|');
+                if (tokenArr.Length == 3)
+                {
+                    string access_token = tokenArr[0];
+                    string openid = tokenArr[1];
+                    var memberResult = WeiXin.Sdk.Passport.GetUserInfo(access_token, openid);
+
+                    Clients clientModel = new Clients();
+                    clientModel.CompanyName = memberResult.nickname;
+                    clientModel.ContactName = memberResult.nickname;
+                    clientModel.MobilePhone = string.Empty;
+
+                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result,
+                        "", string.Empty, string.Empty,string.Empty,memberResult.unionid);
+
+                    if (!string.IsNullOrEmpty(clientid))
+                    {
+                        var current = OrganizationBusiness.GetUserByWeiXinID(memberResult.unionid, operateip);
+                        current.MDToken = access_token;
+                        Session.Remove("WeiXinTokenInfo");
+                        Session["ClientManager"] = current;
+
+                        return Redirect("/Home/Index");
+                    }
+                }
+            }
+
+            return Redirect("/Home/Login");
+        }
+
+        //登录
+        public JsonResult UserLogin(string userName, string pwd, string remember, int bindAccountType)
         {
             int result = 0;
             Dictionary<string, object> resultObj = new Dictionary<string, object>();
@@ -426,10 +611,13 @@ namespace YXERP.Controllers
                         cook.Expires = DateTime.Now.AddDays(7);
                         Response.Cookies.Add(cook);
 
-                        //将阿里账户绑定到现有账户
-                        if (fromBindAccount == 1)
-                        {
+                        //将阿里账户绑定到已有账户
+                        if (bindAccountType == 1) {
                             result=BindAliMember(model);
+                        }
+                        //将微信账户绑定到已有账户
+                        else if (bindAccountType == 2) {
+                            result = BindWeiXin(model);
                         }
                         else
                         {
@@ -441,8 +629,7 @@ namespace YXERP.Controllers
                     }
                     else
                     {
-                        if (model.Status.Value == 9)
-                        {
+                        if (model.Status.Value == 9){
                             result = 9;
                         }
                     }
@@ -485,16 +672,16 @@ namespace YXERP.Controllers
                 resultObj.Add("forbidTime", forbidTime);
                 result = -1;
             }
-
             resultObj.Add("result",result);
+
             return new JsonResult
             {
                 Data = resultObj,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-
         }
 
+        //绑定阿里账户
         public int BindAliMember(Users model)
         {
             int result = 0;
@@ -531,62 +718,46 @@ namespace YXERP.Controllers
                         }
                     }
                 }
-                else
-                {
+                else{
                     result = 4;
                 }
-
             }
-            else
-            {
+            else {
                 result = 5;
             }
 
             return result;
         }
 
-        public ActionResult AliRegisterMember() {
-
-            string operateip = Common.Common.GetRequestIP();
-            int result;
-            if (Session["AliTokenInfo"] != null)
+        //绑定微信账户
+        public int BindWeiXin(Users model)
+        {
+            int result = 0;
+            if (Session["WeiXinTokenInfo"] != null)
             {
-                string tokenInfo = Session["AliTokenInfo"].ToString();
+                string tokenInfo = Session["WeiXinTokenInfo"].ToString();
                 string[] tokenArr = tokenInfo.Split('|');
                 if (tokenArr.Length == 3)
                 {
                     string access_token = tokenArr[0];
-                    string refresh_token = tokenArr[1];
-                    string memberId = tokenArr[2];
-
-                    var memberResult = AlibabaSdk.UserBusiness.GetMemberDetail(access_token,memberId);
-                    var member = memberResult.result.toReturn[0];
-
-                    Clients clientModel = new Clients();
-                    clientModel.CompanyName = member.companyName??string.Empty;
-                    clientModel.ContactName = member.sellerName??string.Empty;
-                    clientModel.MobilePhone = string.Empty;
-
-                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result,
-                        member.email,string.Empty,string.Empty,
-                        member.memberId);
-
-                    if (!string.IsNullOrEmpty(clientid))
+                    string unionid = tokenArr[2];
+                    bool flag = ClientBusiness.BindUserWeiXinID(model.ClientID, model.UserID, unionid);
+                    if (flag)
                     {
-                        var current = OrganizationBusiness.GetUserByAliMemberID(member.memberId, operateip);
-                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, access_token, refresh_token, current.AgentID, current.ClientID);
-
-                        current.MDToken = access_token;
-                        Session.Remove("AliTokenInfo");
-                        Session["ClientManager"] = current;
-
-                        return Redirect("/Home/Index");
+                        model.WeiXinID = unionid;
+                        Session["ClientManager"] = model;
+                        Session.Remove("WeiXinTokenInfo");
+                        result = 1;
                     }
                 }
             }
+            else{
+                result = 5;
+            }
 
-            return Redirect("/Home/Login");
+            return result;
         }
+
         /// <summary>
         /// 账号是否存在
         /// </summary>
@@ -666,17 +837,16 @@ namespace YXERP.Controllers
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             Random rd = new Random();
-            int code=rd.Next(100000, 1000000);
+            int code = rd.Next(100000, 1000000);
 
             bool flag = Common.MessageSend.SendMessage(mobilePhone, code);
-            JsonDictionary.Add("Result", flag ? 1 : 0);            
+            JsonDictionary.Add("Result", flag ? 1 : 0);
 
-            if (flag) 
+            if (flag)
             {
                 Common.Common.SetCodeSession(mobilePhone, code.ToString());
 
                 Common.Common.WriteAlipayLog(mobilePhone + " : " + code.ToString());
-                
             }
 
             return new JsonResult()
@@ -697,7 +867,7 @@ namespace YXERP.Controllers
             bool bl = Common.Common.ValidateMobilePhoneCode(mobilePhone, code);
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             JsonDictionary.Add("Result", bl ? 1 : 0);
-
+            
             return new JsonResult()
             {
                 Data = JsonDictionary,
@@ -821,7 +991,7 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public JsonResult GetOrdersOrTasksReportData(int orderType, int filterTimeType, int moduleType)
+        public JsonResult GetOrdersOrTasksReportData(int orderType, int filterTimeType, int moduleType, int taskType,string userID)
         {
             Dictionary<string, Object> resultObj = new Dictionary<string, object>();
             int result = 0;
@@ -853,10 +1023,25 @@ namespace YXERP.Controllers
 
                 int getTotalCount=0;
                 int pageCount = 0;
-                string userID = string.Empty;
-                if (currentUser.Role.IsDefault == 0)
+                string userid= currentUser.UserID;
+                if (moduleType == 1)
                 {
-                    userID = currentUser.UserID;
+                    //所有订单
+                    if (currentUser.Menus.FindAll(m => m.MenuCode == "102010300").Count > 0)
+                    {
+                        userid = string.Empty;
+                    }
+                }
+                else
+                {
+                    //所有任务
+                    if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
+                    {
+                        userid = string.Empty;
+                    }
+                }
+                if (!string.IsNullOrEmpty(userID)) {
+                    userid = userID;
                 }
 
                 List<OrderEntity> orderItems=new List<OrderEntity>();
@@ -866,13 +1051,13 @@ namespace YXERP.Controllers
                 {
                     orderItems = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(beginTime, endTime,
                                         orderType, -1, -1,
-                                        userID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
+                                        userid, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
                 }
                 else 
                 {
                     taskItems = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(beginTime, endTime,
-                    orderType, -1, -1, -1,
-                    userID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
+                    orderType, -1, -1, -1, taskType,
+                    userid, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
                 }
 
                 var totalExceedCount = 0;
@@ -971,15 +1156,31 @@ namespace YXERP.Controllers
         }
 
         public JsonResult GetOrdersOrTasksDataList(int filterType, string filterTime, 
-           int moduleType, int orderType,
+           int moduleType, int orderType,int taskType,string userID,
            int pageSize, int pageIndex, int preFinishStatus) 
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-            string userID = string.Empty;
-            if (currentUser.Role.IsDefault == 0)
+            string userid = currentUser.UserID;
+            if (moduleType == 1)
             {
-                userID = currentUser.UserID;
+                //所有订单
+                if (currentUser.Menus.FindAll(m => m.MenuCode == "102010300").Count > 0)
+                {
+                    userid = string.Empty;
+                }
+            }
+            else
+            {
+                //所有任务
+                if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
+                {
+                    userid = string.Empty;
+                }
+            }
+            if (!string.IsNullOrEmpty(userID))
+            {
+                userid = userID;
             }
 
             string startTime = string.Empty;
@@ -1006,14 +1207,14 @@ namespace YXERP.Controllers
             {
                 var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(startTime, startTime,
                     orderType, filterType, orderStatus,
-                    userID, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
+                    userid, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
                 JsonDictionary.Add("items", list);
             }
             else
             {
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(startTime, startTime,
-                    orderType, filterType, finishStatus, preFinishStatus,
-                    userID, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
+                    orderType, filterType, finishStatus, preFinishStatus, taskType,
+                    userid, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
                 JsonDictionary.Add("items", list);
             }
             JsonDictionary.Add("getNeedTotalCount", getTotalCount);
@@ -1030,24 +1231,40 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetTaskOrOrderEcceedCount(int moduleType, int orderType)
+        public JsonResult GetTaskOrOrderEcceedCount(int moduleType, int orderType, string userID)
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
             var total = 0;
-            string userID=string.Empty;
-            if (currentUser.Role.IsDefault==0) 
+            string userid = currentUser.UserID;
+            if (moduleType == 1)
             {
-                userID = currentUser.UserID;
+                //所有订单
+                if (currentUser.Menus.FindAll(m => m.MenuCode == "102010300").Count > 0)
+                {
+                    userid = string.Empty;
+                }
+            }
+            else
+            {
+                //所有任务
+                if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
+                {
+                    userid = string.Empty;
+                }
+            }
+            if (!string.IsNullOrEmpty(userID))
+            {
+                userid = userID;
             }
 
             if (moduleType == 1)
             {
-                total = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetexceedOrderCount(userID, orderType, currentUser.ClientID);   
+                total = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetexceedOrderCount(userid, orderType, currentUser.ClientID);   
             }
             else
             {
-                total = IntFactoryBusiness.TaskBusiness.GetexceedTaskCount(userID, orderType, currentUser.ClientID);
+                total = IntFactoryBusiness.TaskBusiness.GetexceedTaskCount(userid, orderType, currentUser.ClientID);
             }
             JsonDictionary.Add("result", total);
 

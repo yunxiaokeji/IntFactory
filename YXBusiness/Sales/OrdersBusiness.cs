@@ -145,6 +145,28 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        /// <summary>
+        /// 获取订单列表根据二当家客户端编码
+        /// </summary>
+        /// <param name="yxCode"></param>
+        /// <param name="clientid"></param>
+        /// <returns></returns>
+        public List<OrderEntity> GetOrdersByYXCode(string yxCode, string clientid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            List<OrderEntity> list = new List<OrderEntity>();
+            DataSet ds = OrdersDAL.BaseProvider.GetOrdersByYXCode(yxCode, clientid, pageSize,pageIndex,ref totalCount,ref pageCount);
+            DataTable dt = ds.Tables["Orders"];
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderEntity model = new OrderEntity();
+                model.FillData(dr);
+
+                list.Add(model);
+            }
+
+            return list;
+        }
+
         public List<OrderEntity> GetOrdersByPlanTime(string startPlanTime, string endPlanTime, 
             int orderType, int filterType, int orderStatus,
             string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
@@ -186,7 +208,9 @@ namespace IntFactoryBusiness
                 }
                 else if(model.OrderStatus==2)
                 {
+                    model.WarningStatus = 3;
                     model.UseDays = (model.PlanTime - model.OrderTime).Days;
+                    model.WarningDays = (DateTime.Now-model.EndTime).Days;
                 }
 
                 list.Add(model);
@@ -376,6 +400,10 @@ namespace IntFactoryBusiness
                 model.FillData(ds.Tables["Order"].Rows[0]);
 
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+                if (!string.IsNullOrEmpty(model.CategoryID))
+                {
+                    model.CategoryName = ProductsBusiness.BaseBusiness.GetCategoryByID(model.BigCategoryID).CategoryName + ">" + ProductsBusiness.BaseBusiness.GetCategoryByID(model.CategoryID).CategoryName;
+                }
 
                 model.Details = new List<OrderDetail>();
                 if (ds.Tables["Details"].Rows.Count > 0)
@@ -650,7 +678,7 @@ namespace IntFactoryBusiness
             return id;
         }
 
-        public string CreateDHOrder(string orderid, int ordertype, decimal discount, decimal price, List<ProductDetail> details, string operateid, string agentid, string clientid)
+        public string CreateDHOrder(string orderid, int ordertype, decimal discount, decimal price, List<ProductDetail> details, string operateid, string agentid, string clientid, string yxOrderID="")
         {
             var dal = new OrdersDAL();
             string id = Guid.NewGuid().ToString().ToLower();
@@ -674,7 +702,7 @@ namespace IntFactoryBusiness
                 //打样单
                 if (ordertype == (int)EnumOrderType.ProofOrder)
                 {
-                    bool bl = dal.CreateDHOrder(id, orderid, discount, price, operateid, clientid, tran);
+                    bool bl = dal.CreateDHOrder(id, orderid, discount, price, operateid, clientid,yxOrderID, tran);
                     //产品添加成功添加子产品
                     if (bl)
                     {
@@ -913,6 +941,17 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateOrderTotalMoney(string orderid, decimal totalMoney, string operateid, string ip, string agentid, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderTotalMoney(orderid, totalMoney, operateid, agentid, clientid);
+            if (bl)
+            {
+                string msg = "订单总金额设置为：" + totalMoney;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", agentid, clientid);
+            }
+            return bl;
+        }
+
         public bool UpdateOrderClient(string orderid, string newclientid, string name, string operateid, string ip, string agentid, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderClient(orderid, newclientid, operateid, agentid, clientid);
@@ -1123,6 +1162,54 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        #endregion
+
+        #region 订单区间价位
+        /// <summary>
+        /// 获取订单区间价位
+        /// </summary>
+        public static List<OrderPriceRange> GetOrderPriceRanges(string orderID)
+        {
+            List<OrderPriceRange> list = new List<OrderPriceRange>();
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderPriceRanges(orderID);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderPriceRange item = new OrderPriceRange();
+                item.FillData(dr);
+                list.Add(item);
+            }
+            return list;
+        }
+
+
+        /// <summary>
+        /// 添加订单区间价位
+        /// </summary>
+        public static string AddOrderPriceRange(OrderPriceRange range, string operateid, string ip, string agentid, string clientid)
+        {
+            return OrdersDAL.BaseProvider.AddOrderPriceRange(range.MinQuantity, range.Price, range.OrderID, operateid, clientid);
+        }
+
+        /// <summary>
+        /// 修改订单区间价位
+        /// </summary>
+        public static bool UpdateOrderPriceRange(OrderPriceRange range, string operateid, string ip, string agentid, string clientid)
+        {
+            bool flag = OrdersDAL.BaseProvider.UpdateOrderPriceRange(range.RangeID, range.MinQuantity, range.Price);
+
+            return flag;
+        }
+
+        /// <summary>
+        /// 删除订单区间价位
+        /// </summary>
+        public static bool DeleteOrderPriceRange(string rangeid)
+        {
+            bool flag = OrdersDAL.BaseProvider.DeleteOrderPriceRange(rangeid);
+
+            return flag;
+        }
         #endregion
     }
 }

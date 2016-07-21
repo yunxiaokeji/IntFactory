@@ -18,8 +18,8 @@
     <script type="text/javascript" src="/Scripts/sea.js"></script>
     <script type="text/javascript" src="/Scripts/sea-config.js"></script>
     <script type="text/javascript">
-        seajs.use(["scripts/home"], function (home) {
-            home.initLogin('@(ViewBag.Status)', 0,'@ViewBag.ReturnUrl');
+        seajs.use(["scripts/home/login"], function (home) {
+            home.initLogin('@(ViewBag.Status)', '@ViewBag.BindAccountType', '@ViewBag.ReturnUrl');
         });
     </script>
 </head>
@@ -31,7 +31,7 @@
                 <div class="left headerTitle">厂盟智能</div>
                 <div class="clear"></div>
             </div>
-            @*<a class="btnRegister right" href="/Home/Register">注册</a>*@
+            <a class="btnRegister right" href="/Home/Register">注册</a>
        </div>
 
         <div class="main">
@@ -60,7 +60,10 @@
                 <div class="other-account">
                     <div class="other-text">使用其他账号登录</div>
                     <div class="accounts">
-                       <a class="account-alibaba" href="/Home/MDLogin?ReturnUrl=@ViewBag.ReturnUrl"></a>
+                       <a class="account-alibaba" href="/Home/AlibabaLogin?ReturnUrl=@ViewBag.ReturnUrl" title="阿里账号登录"></a>
+                      @*  <a class="account-weixin mLeft10" href="/Home/WeiXinLogin?ReturnUrl=@ViewBag.ReturnUrl" title="微信账号登录">
+                            <img src="/modules/images/home/logo-weixin.png" />
+                        </a>*@
                     </div>
                 </div>
              

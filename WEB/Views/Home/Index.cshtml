@@ -8,36 +8,32 @@
 @section scripts{
     <script type="text/javascript">
        seajs.use(["scripts/home/index"], function (obj) {
-           obj.init('@ViewBag.orderLevel', '@ViewBag.roleLevel', '@ViewBag.RemainDay', '@ViewBag.RemainDate');
+           obj.init('@ViewBag.orderLevel', '@ViewBag.taskLevel', '@ViewBag.RemainDay', '@ViewBag.RemainDate');
        });
     </script>
 }
 
-<div class="index-report">
-    <div class="index-report-header">
-        <div class="left">
-            <span class="font14 report-title">我的订单</span>
-        </div>
-
-        <div class="left">
-            <ul class="search-item mLeft20 mTop10" style="line-height:20px;">
-                <li class="item" data-id="0">
-                    @(DateTime.Now.AddDays(-15).ToString("MM.dd"))—@(DateTime.Now.AddDays(-1).ToString("MM.dd"))
-                </li>
-                <li class="item hover" data-id="1">
-                    @(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))
-                </li>
-                <li class="item" data-id="2">
-                    @(DateTime.Now.AddDays(15).ToString("MM.dd"))—@(DateTime.Now.AddDays(29).ToString("MM.dd"))
-                </li>
-            </ul>
-        </div>
-        <div class="right order-type">
-            <span class="hover" data-id="1">订单</span><span data-id="2">任务</span>
-        </div>
-        <div class="clear"></div>
+<div class="index-report-header">
+    <div class="left order-type">
+        <span class="font14 report-title hover" data-id="1">我的订单</span>
+        <span class="font14 report-title-task " data-id="2">我的任务</span>
     </div>
 
+    <div class="right" style="margin-right:-30px;">
+        <div class="left font14" style="line-height:43px;margin-top:-4px">交货时间:</div>
+
+        <div class="mLeft10 left mTop8 font16 select-time select-time-left"><</div>        
+        <div class="mLeft15 left mTop8 time-now" data-before="@(DateTime.Now.AddDays(-15).ToString("MM.dd"))—@(DateTime.Now.AddDays(-1).ToString("MM.dd"))" data-after="@(DateTime.Now.AddDays(15).ToString("MM.dd"))—@(DateTime.Now.AddDays(29).ToString("MM.dd"))" data-now="@(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))" style="line-height:20px;">
+            @(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))
+        </div>      
+        <div class="mLeft15 left mTop8 font16 mRight20 select-time select-time-right">></div>
+        <div class="left mRight15 mTop3" id="orderType" style="background-color:#fff"></div>
+        <div class="right mRight15 mTop3 hide" id="chooseBranch" style="background-color:#fff"></div>
+    </div>   
+    <div class="clear"></div>    
+</div>
+
+<div class="index-report">  
     <div class="index-report-sum">
         <div class="left">
             <ul class="sum-list">
@@ -63,12 +59,7 @@
                 </li>
             </ul>
             <div class="clear"></div>
-        </div>
-        <div class="right">
-            <div class="right mRight15" id="orderType"></div>
-            <div class="right mRight30 ordertotal hand get-need" ><span>需求订单总数:</span><span class="mLeft5 total-need" style="color:#666;">0</span></div>
-            <div class="right mRight15 ordertotal hand get-ecceed" style="background-color:#ffebeb;border:1px solid #fddddd ;" title="获取所有超期数据"><span>超期订单总数:</span><span class="mLeft5 total-ecceed" style="color:#666;">0</span></div>
-        </div>
+        </div>        
         <div class="clear"></div>
     </div>
 
@@ -87,16 +78,38 @@
     </div>
 </div>
 
+<div class="token-count">
+    <div class="token-mark left"></div>    
+    <div class="left mRight15 ordertotal get-need" >
+        <span class=" font14 hover">需求订单总数:</span>
+        <span class="mLeft5 total-need color666">0</span>
+    </div>    
+    <div class="left mRight20 mTop5" style="width:2px;height:15px;background-color:#ccc;"></div>
+    <div class="ordertotal  get-ecceed width350" title="获取所有超期数据">
+        <span class=" font14">超期订单总数:</span>
+        <span class="mLeft5 total-ecceed colorfff">0</span>
+    </div>    
+    <div class="task-status hide">
+        <div class="left mRight30 font14" style="margin-top:-1px;">上级任务进度:</div>
+        <ul class="task-status-ul">
+            <li class="hover" data-taskstatusid="-1">全部</li>
+            <li  data-taskstatusid="0">未接收</li>
+            <li  data-taskstatusid="1">进行中</li>
+            <li  data-taskstatusid="2">已完成</li>
+            <li  data-taskstatusid="9">无上级</li>
+        </ul>
+    </div>
+</div>
+
 <div class="index-list">
     <div class="order-list">
-        <div class="list-header">
-            <span class="list-title">需求单</span>
-            <span class="mLeft15 list-total ">0</span>
-            <span id="taskType" class="right hide"></span>
+        <div class="list-header center pBottom5">
+            <span class="list-title">需求订单总数</span>
+            <span class="mLeft15 list-total ">0</span>            
             <div class="clear"></div>
         </div>
-        <div class="order-layerbox mTop20">
-            <div class="layer-lump"></div>
+        <div class="right mTop5 hide" id="taskType" style="background-color:#fff;margin-top:-35px;"></div>
+        <div class="order-layerbox mTop20">            
        </div>
         <div class="center load-box hide">
             <span class="font14 hand load-more">加载更多</span>

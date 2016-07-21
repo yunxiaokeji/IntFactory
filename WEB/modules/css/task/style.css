@@ -50,6 +50,8 @@
     font-weight:bold;
 }
 
+.pager-bgcolor {height:50px;background-color:#fff;margin-top:20px;margin-bottom:-60px; }
+
 /*任务样图信息*/
 .order-imgs-div {
     cursor:pointer;
@@ -182,6 +184,11 @@
     border-bottom:1px solid #eee;
     border-right:1px solid #eee;
 }
+
+.platemakingContent .td-normal-plate {
+    background-color:#eee;
+}
+
 .platemakingContent .tbContent {
     cursor:pointer;
 }
@@ -465,7 +472,8 @@
 .search-sort li:last-child .iconfont:first-child { border-right:1px solid #ccc; padding-right:10px;}
 .search-sort li:last-child .checked {color:rgb(74, 152, 231);}
 
-.task-item { width:250px;border:1px solid #efefef;cursor:pointer;float:left;margin-top:20px;margin-right:15px;box-sizing:border-box;background-color:#f9f9f9;overflow:hidden;}
+.task-item { width:250px;border:1px solid #efefef;cursor:pointer;float:left;margin-top:20px;margin-right:15px;box-sizing:
+                 border-box;background-color:#f9f9f9;overflow:hidden;background-color:#fff;}
 .task-item:hover { border-color:#3F9BE8;}
 .task-item .task-imgtitlemark img {width:50px;height:50px;}
 .task-top .picbox {position:relative;height:248px; width:248px;}
@@ -503,7 +511,6 @@
 .task-item .task-footer .task-noaccept {border-color:red;color:red;}
 .task-item .task-footer .task-underway { border-color:#1CC362;color:#1CC362;}
 .task-item .task-footer .task-finish { border-color:#3F9BE8;color:#3F9BE8;}
-
 
 /*成员列表样式*/
 /*暂无成员*/

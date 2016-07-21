@@ -36,15 +36,33 @@
                 @*<li class="commonprice">￥@(model.CommonPrice.Value.ToString("f2"))</li>*@
             </ul>
             <div class="attrs" id="saleattr">
+                
                 @foreach (var attr in model.SaleAttrs)
                 { 
                     <ul class="attr-item salesattr" data-id="@attr.AttrID">
-                        <li class="attrkey">@attr.AttrName：</li>
+                        <li class="attrkey">
+                            @(model.SaleAttrs.Count == 1?attr.AttrName+"：":"规格：")                      
+                         </li> 
                         <li class="attrValues">
                             <ul>
-                                @foreach (var value in attr.AttrValues)
-                                { 
-                                    <li class="value" data-id="@value.ValueID">@value.ValueName</li>
+                                @foreach (var detail in model.ProductDetails)
+                                {
+                                    if (model.ProductDetails.Count > 1 && detail.IsDefault==1 && (detail.LogicOut == 0 && detail.StockOut == 0 && detail.StockIn == 0))
+                                    {
+                                        continue;
+                                    }
+                                    <li class="value" data-id="@detail.ProductDetailID">
+                                        @{
+                                            if (model.SaleAttrs.Count == 1)
+                                            {
+                                                @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('[', ' ').Replace(']', ' ').Replace(attr.AttrName+"：",string.Empty) )
+                                            }
+                                            else
+                                            {
+                                                @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('[', ' ').Replace(']', ' '))
+                                            }
+                                        }
+                                    </li>
                                 }
                             </ul>
                         </li>
@@ -54,7 +72,7 @@
                     <li class="attrkey">单位：</li>
                     <li class="attrValues">
                         <ul id="unit">
-                            <li class="value hover" id="small" data-value="0" data-id="@(model.SmallUnit.UnitID)">@(model.SmallUnit.UnitName)</li>
+                            <li class="hover" id="small" data-value="0" data-id="@(model.SmallUnit.UnitID)">@(model.SmallUnit.UnitName)</li>
                         </ul>
                     </li>
                 </ul>
@@ -65,7 +83,7 @@
                     </li>
                 </ul>
            </div>
-            <div class="choose-div">
+            <div class="choose-div hide">
                 <div class="choose-quantity left">
                     <input type="text" value="1" id="quantity" />
                     <span class="quantity-add" id="quantityadd">+</span>
@@ -101,8 +119,8 @@
         <table class="use-table-list mTop10">
             <tr class="tr-header">
                 <td class="tLeft width150">客户</td>
-                <td class="width100">订单编号</td>
-                <td class="width100">规格</td>
+                <td class="">订单编号</td>
+                <td class="">规格</td>
                 <td class="width100">数量</td>
                 <td class="width150">采购日期</td>
             </tr>

@@ -53,6 +53,14 @@
                     <input type="button" id="saveLoginMobile" class="btn" value="保存" />
                     <input type="button" id="cancleLoginMobile" class="btn bindloginmobile mLeft5" value="取消" />
                 </li>
+                @{
+                    if(!string.IsNullOrEmpty( CurrentUser.WeiXinID)){
+                    <li>
+                        <span class="width80">微信：</span>
+                        <label  id="unBindWeiXin" class="font14 blue hand" >取消绑定</label>
+                    </li>
+                    }
+                }
             </ul>
         </div>
     </div>

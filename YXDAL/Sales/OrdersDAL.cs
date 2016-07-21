@@ -106,6 +106,29 @@ namespace IntFactoryDAL
             return ds;
         }
 
+
+        public DataSet GetOrdersByYXCode(string yxCode, string clientid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@totalCount",SqlDbType.Int),
+                                       new SqlParameter("@pageCount",SqlDbType.Int),
+                                       new SqlParameter("@YXCode",yxCode),
+                                       new SqlParameter("@ClientID",clientid),
+                                        new SqlParameter("@pageSize",pageSize),
+                                       new SqlParameter("@pageIndex",pageIndex)
+                                   };
+            paras[0].Value = totalCount;
+            paras[1].Value = pageCount;
+            paras[0].Direction = ParameterDirection.InputOutput;
+            paras[1].Direction = ParameterDirection.InputOutput;
+            DataSet ds = GetDataSet("P_GetOrdersByYXCode", paras, CommandType.StoredProcedure, "Orders");
+            totalCount = Convert.ToInt32(paras[0].Value);
+            pageCount = Convert.ToInt32(paras[1].Value);
+
+            return ds;
+        }
+
+
         public DataTable GetOrdersByPlanTime(string startPlanTime, string endPlanTime,
             int orderType, int filterType, int orderStatus,
             string userID, string clientID,int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
@@ -301,7 +324,7 @@ namespace IntFactoryDAL
             return result > 0;
         }
 
-        public bool CreateDHOrder(string orderid, string originalid, decimal discount, decimal price, string operateid, string clientid, SqlTransaction tran)
+        public bool CreateDHOrder(string orderid, string originalid, decimal discount, decimal price, string operateid, string clientid,string yxOrderID, SqlTransaction tran)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
@@ -310,7 +333,8 @@ namespace IntFactoryDAL
                                      new SqlParameter("@Price",price),
                                      new SqlParameter("@OrderCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@ClientID" , clientid)
+                                     new SqlParameter("@ClientID" , clientid),
+                                     new SqlParameter("@YXOrderID" , yxOrderID)
                                    };
 
             bool bl = ExecuteNonQuery(tran, "P_CreateDHOrder", paras, CommandType.StoredProcedure) > 0;
@@ -540,6 +564,19 @@ namespace IntFactoryDAL
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderDiscount", paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool UpdateOrderTotalMoney(string orderid, decimal totalMoney, string operateid, string agentid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@TotalMoney",totalMoney),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@AgentID" , agentid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            return ExecuteNonQuery("P_UpdateOrderTotalMoney", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool UpdateOrderClient(string orderid, string  newclientid, string operateid, string agentid, string clientid)
@@ -780,5 +817,57 @@ namespace IntFactoryDAL
 
         #endregion
 
+        #region OrderPriceRange
+        public DataTable GetOrderPriceRanges(string orderid)
+        {
+            string sqltext = "select * from OrderPriceRange where OrderID=@OrderID and status<>9  order by MinQuantity asc";
+
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid)
+                                   };
+
+            return GetDataTable(sqltext, paras, CommandType.Text);
+        }
+
+
+        public string AddOrderPriceRange(int minQuantity, decimal price, string orderid, string userid, string clientid)
+        {
+            var rangeID = Guid.NewGuid().ToString();
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@RangeID",rangeID),
+                                     new SqlParameter("@MinQuantity",minQuantity),
+                                     new SqlParameter("@Price",price),
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@UserID",userid),
+                                     new SqlParameter("@ClientID",clientid)
+                                   };
+
+            string sql = "insert OrderPriceRange(RangeID,MinQuantity,Price,OrderID,CreateUserID,ClientID,AgentID) values(@RangeID,@MinQuantity,@Price,@OrderID,@UserID,@ClientID,@ClientID)";
+
+            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0?rangeID:string.Empty;
+        }
+
+        public bool UpdateOrderPriceRange(string rangeid, int minQuantity, decimal price)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@RangeID",rangeid),
+                                     new SqlParameter("@MinQuantity",minQuantity),
+                                     new SqlParameter("@Price",price)
+                                   };
+            string sql = "update OrderPriceRange set MinQuantity=@MinQuantity,Price=@Price where RangeID=@RangeID";
+
+            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
+        }
+
+        public bool DeleteOrderPriceRange(string rangeid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@RangeID",rangeid)
+                                   };
+            string sql = "update OrderPriceRange set status=9 where RangeID=@RangeID";
+
+            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
+        }
+        #endregion
     }
 }

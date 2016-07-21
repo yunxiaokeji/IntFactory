@@ -311,6 +311,8 @@ namespace IntFactoryEntity
 
         public string AliMemberID { get; set; }
 
+        public string WeiXinID { get; set; }
+
         [Property("Lower")] 
         public string AgentID { get; set; }
 

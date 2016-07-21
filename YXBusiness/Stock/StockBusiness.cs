@@ -48,17 +48,26 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public static List<StorageDoc> GetStorageDocDetails(string docid)
+        public static List<StorageDoc> GetStorageDocDetails(string docid,string clientid)
         {
-            DataTable dt = StockDAL.BaseProvider.GetStorageDocDetails(docid);
+            DataSet ds = StockDAL.BaseProvider.GetStorageDocDetails(docid);
 
             List<StorageDoc> list = new List<StorageDoc>();
-            foreach (DataRow dr in dt.Rows)
+            foreach (DataRow dr in ds.Tables["Doc"].Rows)
             {
                 StorageDoc model = new StorageDoc();
                 model.FillData(dr);
 
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
+                List<StorageDetail> details = new List<StorageDetail>();
+                foreach (DataRow detailDR in ds.Tables["Details"].Select("DocID = '" + model.DocID + "'"))
+                {
+                    StorageDetail detail = new StorageDetail();
+                    detail.FillData(detailDR);
+                    details.Add(detail);
+                }
+                model.Details = details;
+                var user = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientid);
+                model.UserName = user != null ? user.Name : "";
 
                 list.Add(model);
             }
@@ -70,7 +79,7 @@ namespace IntFactoryBusiness
             DataSet ds = StockDAL.BaseProvider.GetGoodsDocByOrderID(orderid,taskid, (int)type, clientid);
 
             List<GoodsDoc> list = new List<GoodsDoc>();
-            foreach (DataRow dr in ds.Tables[0].Rows)
+            foreach (DataRow dr in ds.Tables["Doc"].Rows)
             {
                 GoodsDoc model = new GoodsDoc();
                 model.FillData(dr);
@@ -80,7 +89,16 @@ namespace IntFactoryBusiness
                 }
                 model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientid);
                 model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
-
+                model.Details = new List<GoodsDocDetail>();
+                if (ds.Tables.Contains("Details"))
+                {
+                    foreach (DataRow detail in ds.Tables["Details"].Select("DocID='" + model.DocID + "'"))
+                    {
+                        GoodsDocDetail goodsDetailModel = new GoodsDocDetail();
+                        goodsDetailModel.FillData(detail);
+                        model.Details.Add(goodsDetailModel);
+                    }
+                }
                 list.Add(model);
             }
             return list;

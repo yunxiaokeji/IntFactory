@@ -16,14 +16,17 @@ namespace YXERP.Areas.Api.Controllers
             var item = CustomBusiness.BaseBusiness.GetCustomerByID(customerID, clientID, clientID);
             if (item != null)
             {
-                JsonDictionary.Add("customerID", item.CustomerID);
-                JsonDictionary.Add("name", item.Name);
-                JsonDictionary.Add("mobilePhone", item.MobilePhone);
-                JsonDictionary.Add("agentID", item.AgentID);
-                JsonDictionary.Add("clientID", item.ClientID);
-                JsonDictionary.Add("yxAgentID", item.YXAgentID);
-                JsonDictionary.Add("yxClientID", item.YXClientID);
-                JsonDictionary.Add("yxClientCode", item.YXClientCode);
+                Dictionary<string, object> customer = new Dictionary<string, object>();
+                customer.Add("customerID", item.CustomerID);
+                customer.Add("name", item.Name);
+                customer.Add("mobilePhone", item.MobilePhone);
+                customer.Add("agentID", item.AgentID);
+                customer.Add("clientID", item.ClientID);
+                customer.Add("yxAgentID", item.YXAgentID);
+                customer.Add("yxClientID", item.YXClientID);
+                customer.Add("yxClientCode", item.YXClientCode);
+
+                JsonDictionary.Add("customer", customer);
             }
             else
             {
@@ -43,14 +46,17 @@ namespace YXERP.Areas.Api.Controllers
             var item = CustomBusiness.BaseBusiness.GetCustomerByMobilePhone(mobilePhone, clientID,name);
             if (item != null)
             {
-                JsonDictionary.Add("customerID", item.CustomerID);
-                JsonDictionary.Add("name", item.Name);
-                JsonDictionary.Add("mobilePhone", item.MobilePhone);
-                JsonDictionary.Add("agentID", item.AgentID);
-                JsonDictionary.Add("clientID", item.ClientID);
-                JsonDictionary.Add("yxAgentID", item.YXAgentID);
-                JsonDictionary.Add("yxClientID", item.YXClientID);
-                JsonDictionary.Add("yxClientCode", item.YXClientCode);
+                Dictionary<string, object> customer = new Dictionary<string, object>();
+                customer.Add("customerID", item.CustomerID);
+                customer.Add("name", item.Name);
+                customer.Add("mobilePhone", item.MobilePhone);
+                customer.Add("agentID", item.AgentID);
+                customer.Add("clientID", item.ClientID);
+                customer.Add("yxAgentID", item.YXAgentID);
+                customer.Add("yxClientID", item.YXClientID);
+                customer.Add("yxClientCode", item.YXClientCode);
+
+                JsonDictionary.Add("customer", customer);
             }
             else
             {
@@ -65,9 +71,9 @@ namespace YXERP.Areas.Api.Controllers
         }
         
         //关联客户与二当家联系
-        public JsonResult SetCustomerYXinfo(string customerID, string clientID, string yxAgentID, string yxClientID, string yxClientCode)
+        public JsonResult SetCustomerYXinfo(string customerID,string name, string mobilePhone, string clientID, string yxAgentID, string yxClientID, string yxClientCode)
         {
-            var flag = CustomBusiness.BaseBusiness.SetCustomerYXinfo(customerID, clientID, yxAgentID, yxClientID, yxClientCode);
+            var flag = CustomBusiness.BaseBusiness.SetCustomerYXinfo(customerID,name, mobilePhone, clientID, yxAgentID, yxClientID, yxClientCode);
             JsonDictionary.Add("result", flag?1:0);
 
             return new JsonResult

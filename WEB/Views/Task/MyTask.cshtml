@@ -3,25 +3,17 @@
     var NowDate = ViewBag.NowDate;
     var model=(List<IntFactoryEntity.Custom.LableColorEntity>)ViewBag.list;
 }
-
 @section css{
     <link href="/modules/css/task/style.css" rel="stylesheet" />
     <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
 }
-
 @section scripts{
-    <script src="/Scripts/jquery-1.11.1.js"></script>
-    <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
        seajs.use(["scripts/task/list"], function (obj) {
            obj.init('@ViewBag.IsMy', '@NowDate','@Html.ToJSONString(model)');
        });
     </script>
 }
-<div class="header-box">
-    <span class="header-title left" >我的任务</span>
-</div>
-
 <div class="search-box">
     <div class="search-header">
         <ul class="search-tab search-stages">
@@ -33,7 +25,7 @@
     </div>
 </div>
 
-<div class="content-body">
+<div class="content-body" style="padding-bottom:0;">
     <div class="search-body">
         <ul class="search-item search-ordertype">
             <li class="column-name">类型：</li>
@@ -76,7 +68,7 @@
             }   
         </ul>
     </div>
-    <div class="search-items mTop10">
+    <div class="search-items">
         <div class="left mRight20" id="chooseBranch"></div>
         <div class="left">
             <input type="text" id="iptCreateTime" placeholder="创建日期"  class="ipt-date"  />
@@ -84,7 +76,7 @@
         <div class="left">
             <input type="text" id="iptExpireTime" placeholder="到期日期"  class="ipt-date"  />
         </div>
-        <div class="right searth-module" data-text="关键字搜索..." data-width="260"> </div>
+        <div class="right searth-module" data-text="输入任务标题/任务编码/订单编码..." data-width="260"> </div>
     </div>
     <ul class="search-sort">
         <li>排序</li>
@@ -106,9 +98,7 @@
     <div class="clear"></div>
 </div>
 
-
-<div class="content-body">
-
+<div class="content-list center-task-list mBottom20 mTop20" style="overflow:hidden;">
     <table class="table-list tb-task-list">
         <tr class="tr-header">
             <td class="width30"><span id="filterMark"></span></td> 
@@ -128,13 +118,11 @@
             </td>
         </tr>
     </table>
-
-    <div class="task-items">
-
-    </div>
-
+    
+    <div class="task-items"></div>
     <div class="clear"></div>
-
-    <div id="pager" class="mTop20"></div>
+    
+    <div class="pager-bgcolor"></div>
+    <div id="pager" class="mTop20 mBottom20 mRight10"></div>
 </div>
 

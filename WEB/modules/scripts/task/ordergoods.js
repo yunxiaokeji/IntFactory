@@ -54,19 +54,22 @@
 
                     $tr_header.after(innerhtml);
 
-                    $("#" + id + " .total-item td").each(function () {
-                        var _this = $(this), _total = 0;
-                        if (_this.data("class")) {
-                            $("#" + id + " ." + _this.data("class")).each(function () {
-                                _total += $(this).html() * 1;
-                            });
-                            _this.html(_total);
-                        }
+                    var total = 0;
+                    innerhtml.find('.cut1').each(function () {
+                        var _this = $(this);
+                        total += parseInt(_this.text());
                     });
+                    innerhtml.find('.total-count').html(total);
                 });
             }
             else {
                 $tr_header.after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+            }
+            /*有数据隐藏表头*/
+            if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
+                $(".table-header").hide();
+            } else {
+                $(".table-header").show();
             }
         });
     };

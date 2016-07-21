@@ -158,7 +158,8 @@
         Global.post("/" + Controller + "/SavaReply", params, function (data) {
             if (btnObject) {
                 btnObject.html(btnName).removeAttr("disabled");
-            }           
+            }
+            
             doT.exec("template/customer/replys.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);

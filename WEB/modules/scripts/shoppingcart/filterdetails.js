@@ -25,10 +25,9 @@ define(function (require, exports, module) {
                 guid: guid,
                 tid:tid
             });
-        } else {
-            $(".choose-div").hide();
+            $(".choose-div").show();
         }
-        
+        $(".product-name").css("width", $(".content-body").width() - 500);
     }
     //绑定事件
     ObjectJS.bindEvent = function (model) {
@@ -42,7 +41,7 @@ define(function (require, exports, module) {
                 _this.siblings().removeClass("hover");
                 for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
 
-                    var bl = true, vales = model.ProductDetails[i].AttrValue, unitid = model.ProductDetails[i].UnitID;
+                    var bl = true, vales = model.ProductDetails[i].ProductDetailID, unitid = model.ProductDetails[i].UnitID;
                     $(".salesattr li.hover").each(function () {
                         if (vales.indexOf($(this).data("id")) < 0) {
                             bl = false;
@@ -144,11 +143,7 @@ define(function (require, exports, module) {
         //绑定子产品详情
         for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
             if (model.ProductDetails[i].ProductDetailID == _self.detailid) {
-                var list = model.ProductDetails[i].SaleAttrValue.split(",");
-                for (var ii = 0, jj = list.length; ii < jj; ii++) {
-                    var item = list[ii].split(":");
-                    $(".attr-item[data-id='" + item[0] + "']").find("li[data-id='" + item[1] + "']").addClass("hover");
-                }
+                $(".attr-item").find("li[data-id='" + model.ProductDetails[i].ProductDetailID + "']").addClass("hover");
                 $("#price").html("￥" + model.ProductDetails[i].Price.toFixed(2));
                 if (model.ProductDetails[i].ImgS) {
                     $("#productimg").attr("src", model.ProductDetails[i].ImgS);
@@ -164,10 +159,12 @@ define(function (require, exports, module) {
     ObjectJS.getUseLogs = function (pages) {
         var _self = this;
         $(".use-table-list .tr-header").nextAll().remove();
+        $(".use-table-list .tr-header").after("<tr class='list-item'><td colspan='5'><div class='data-loading'></div><td></tr>");
         Global.post("/Products/GetProductUseLogs", {
             productid: _self.productid,
             pageindex: pages
         }, function (data) {
+            $(".data-loading").parents('tr').remove();
             if (data.items.length > 0) {
                 doT.exec("template/products/uselogs.html", function (template) {
                     var innerhtml = template(data.items);

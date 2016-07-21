@@ -31,20 +31,28 @@
         pageIndex: 1,
         listType: "list"
     };
-
+    
     var ObjectJS = {};
-    ObjectJS.isLoading = true;
     ObjectJS.ColorList = [];
-
+    ObjectJS.isLoading = true;
     ObjectJS.init = function (isMy, nowDate, model) {
         var _self = this;
         ObjectJS.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
         Params.beginDate = nowDate;
-        Params.endDate = nowDate;
-        Params.pageSize = ($(".content-body").width() / 300).toFixed(0) * 3;
+        Params.endDate = nowDate;        
+        var count = parseInt($(".task-items").width() / 269);
+        Params.pageSize = count * 3;        
+
         var taskListType = Global.getCookie('TaskListType');
         if (taskListType) {
             Params.listType = taskListType;
+            if (taskListType=="list") {
+                $(".center-task-list").addClass("content-body").removeClass("content-list");
+            } else {
+                $(".center-task-list").removeClass("content-body").addClass("content-list");                
+            }
+        } else {
+            $(".center-task-list").addClass("content-body").removeClass("content-list");
         }
         $(".task-tabtype i[data-type=" + Params.listType + "]").addClass("checked").siblings().removeClass("checked");
         if (isMy == 2) {
@@ -87,6 +95,9 @@
     }
 
     ObjectJS.bindEvent = function () {
+        $(window).resize(function () {
+            ObjectJS.setListPosition();
+        });
 
         //切换任务阶段
         $(".search-stages li").click(function () {
@@ -103,10 +114,6 @@
                 ObjectJS.getList();
             }
         });
-
-        if (Params.isParticipate == 1) {
-            $(".search-stages li").eq(2).click();
-        }
 
         //关键字查询 任务编码、订单编码、任务标题
         require.async("search", function () {
@@ -186,7 +193,6 @@
             };
         });
 
-
         //预警切换
         $(".search-warning .item").on("click", function () {
             var _this = $(this);
@@ -210,7 +216,12 @@
             if (!_this.hasClass('checked')) {
                 _this.addClass('checked').siblings().removeClass('checked');
                 Params.listType = _this.data('type');
-                Global.setCookie('TaskListType',Params.listType);
+                Global.setCookie('TaskListType', Params.listType);
+                if (_this.data('type')=="list") {
+                    $(".center-task-list").addClass("content-body").addClass("mTop20").removeClass("content-list");
+                } else {
+                    $(".center-task-list").addClass("content-list").removeClass("content-body").removeClass("mTop20");
+                }
                 ObjectJS.getList();
             }
         });
@@ -298,6 +309,10 @@
             ObjectJS.getList();
 
         });
+
+        if (Params.isParticipate == 1) {
+            $(".search-stages li").eq(2).click();
+        }
     }
 
     ObjectJS.getList = function () {
@@ -314,9 +329,15 @@
             $(".task-items").show();
             $(".task-items").html("<div class='data-loading'><div>");
         }
-        $(".content-body").find('.nodata-txt').remove();
+        var classContent = "";
+        if (Params.listType=="list") {
+            classContent = ".content-body";
+        } else {
+            classContent = ".content-list";
+        }
+        $(classContent).find('.nodata-txt').remove();
         ObjectJS.isLoading = false;
-
+        
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".tr-header").nextAll().remove();
 
@@ -331,7 +352,6 @@
                         onChange: function (obj, callback) {
                             ObjectJS.markTasks(obj.data("id"), obj.data("value"), callback);
                         }
-
                     });
 
                     if (showtype == "list") {
@@ -339,7 +359,9 @@
                     }
                     else {
                         $(".task-items").html(innerhtml);
-                    }
+                    };
+                    
+                    ObjectJS.setListPosition();
                 });
             }
             else {
@@ -389,6 +411,23 @@
             }
             ObjectJS.isLoading = true;
         });
+    }
+
+    ObjectJS.setListPosition = function () {        
+        var count = parseInt($(".task-items").width() / 269)
+        var moreWidth = $(".task-items").width() - (269 * count);
+        var marginRight = ((moreWidth + 15) / (count - 1)) + 15;
+        
+        for (var i = 0; i < $(".task-items .task-item").length; i++) {
+            var _this = $(".task-items .task-item").eq(i);
+            if ((i+1) % count == 0) {
+                _this.css("margin-right", "0");
+            }
+            else {
+                _this.css("margin-right", marginRight + "px");
+            }            
+        }
+       
     }
 
     module.exports = ObjectJS;

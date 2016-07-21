@@ -99,12 +99,10 @@ namespace YXERP.Common
                             JsonRequestBehavior = JsonRequestBehavior.AllowGet
                         };
                     }
-
+                    else
                     {
                         var urlRequest = filterContext.RequestContext.HttpContext.Request;
                         throw new HttpException(403, urlRequest.UrlReferrer != null ? urlRequest.UrlReferrer.AbsoluteUri : urlRequest.Url.AbsoluteUri);
-                        //filterContext.RequestContext.HttpContext.Response.Write("<script>alert('您没有权限访问此页面');history.back();</script>");
-                        //filterContext.RequestContext.HttpContext.Response.End();
                     }
                 }
             }

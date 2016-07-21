@@ -26,18 +26,21 @@
             $("#taskReplys").show();
             CustomerReply.initTalkReply(_self, "customer");
         }
-        Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
-            if (data.model.CustomerID) {
-                _self.bindCustomerInfo(data.model);
-                _self.bindEvent(data.model, navid);
-            }
-        });
 
         Global.post("/System/GetLableColor", { lableType: 2 }, function (data) {
             if (data.items.length > 0) {
                 _self.ColorList = data.items;
             }
         });
+
+        Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
+            if (data.model.CustomerID) {
+                _self.bindCustomerInfo(data.model);
+                _self.bindEvent(data.model, navid);
+            }
+        });
+        
+        
         
         $("#addContact").hide();       
 

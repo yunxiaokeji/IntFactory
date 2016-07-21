@@ -303,10 +303,12 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateContact", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool SetCustomerYXinfo(string customerID, string clientID, string YXAgentID, string YXClientID, string YXClientCode)
+        public bool SetCustomerYXinfo(string customerID, string name, string mobilePhone, string clientID, string YXAgentID, string YXClientID, string YXClientCode)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@CustomerID",customerID),
+                                     new SqlParameter("@Name",name),
+                                     new SqlParameter("@MobilePhone" , mobilePhone),
                                      new SqlParameter("@ClientID" , clientID),
                                      new SqlParameter("@YXAgentID",YXAgentID),
                                      new SqlParameter("@YXClientID",YXClientID),

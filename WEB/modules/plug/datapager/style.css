@@ -1,5 +1,5 @@
 .jPaginate{
-    height:34px;
+    height:31px;
     position:relative;
     color:#a5a5a5;
     font-size:small;   
@@ -94,8 +94,8 @@ ul.jPag-pages li span.jPag-next-img { background: transparent url(../images/next
 span.jPag-sprevious-img { background: transparent url(../images/sprevious.png) no-repeat center right; }
 span.jPag-snext-img { background: transparent url(../images/snext.png) no-repeat center left; }
 
-.jPag-count {color:#333; height:33px; line-height:33px; display:inline-block; position:absolute; top:0; right:0; text-align:right; font-size:13px;}
-.jPag-count input{width:20px; border:solid 1px #ccc; text-align:center;}
+.jPag-count {color:#333; height:31px; line-height:31px; display:inline-block; position:absolute; top:0; right:0; text-align:right; font-size:13px;}
+.jPag-count input{width:20px; border:solid 1px #ccc; text-align:center;vertical-align:text-top;}
 
 .jPag-first { padding: 4px 5px; }
 

@@ -559,6 +559,18 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UpdateOrderTotalMoney(string orderid, decimal totalMoney)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderTotalMoney(orderid, totalMoney,
+                CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult UpdateOrderClient(string orderid, string clientid, string name)
         {
             var bl = OrdersBusiness.BaseBusiness.UpdateOrderClient(orderid, clientid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
@@ -695,7 +707,6 @@ namespace YXERP.Controllers
 
         public JsonResult GetGoodsDocByOrderID(string orderid, int type, string taskid="")
         {
-            
             var list = StockBusiness.GetGoodsDocByOrderID(orderid,taskid, (EnumDocType)type, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult
@@ -878,6 +889,52 @@ namespace YXERP.Controllers
                 bl = TaskBusiness.LockTask(taskid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
             }
             JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /*价格区间设置*/
+
+        public JsonResult GetOrderPriceRanges(string orderid)
+        {
+            var obj = IntFactoryBusiness.OrdersBusiness.GetOrderPriceRanges(orderid);
+            JsonDictionary.Add("items",obj);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SavePriceRange(string model)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            OrderPriceRange models = serializer.Deserialize<OrderPriceRange>(model);
+            
+            if (string.IsNullOrEmpty(models.RangeID))
+            {
+                string id = IntFactoryBusiness.OrdersBusiness.AddOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                JsonDictionary.Add("id", id);                
+            }else
+            { 
+               bool bl = IntFactoryBusiness.OrdersBusiness.UpdateOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                JsonDictionary.Add("id", bl?"1":"");                
+            }
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };            
+        }
+        
+        public JsonResult DeleteOrderPriceRange(string rangeid)
+        {
+            var status = IntFactoryBusiness.OrdersBusiness.DeleteOrderPriceRange(rangeid);
+            JsonDictionary.Add("status",status);
             return new JsonResult
             {
                 Data = JsonDictionary,

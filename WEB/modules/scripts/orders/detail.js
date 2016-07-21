@@ -87,7 +87,7 @@
                 $(this).find("td").last().remove();
             });
         } else {           
-            $(".talk-title").hide();            
+            $("#navEngravingInfo").html("<div class='nodata-txt'>暂无制版信息<div>");
         }
         //样图
         _self.bindOrderImages(model.OrderImages);
@@ -117,7 +117,7 @@
                 });
             }
             else {            
-                $(".tb-plates").append("<tr><td colspan='5'><div class='nodata-txt'>暂无数据!<div></td></tr>");
+                $(".tb-plates").append("<tr><td colspan='5'><div class='nodata-txt'>暂无工艺说明<div></td></tr>");
             }
         });
     }
@@ -252,6 +252,33 @@
             });
         });
 
+        //设置总金额
+        $("#updateOrderTotalMoney").click(function () {
+            doT.exec("template/orders/update_order_totalmoney.html", function (template) {
+                var innerText = template();
+                Easydialog.open({
+                    container: {
+                        id: "show-updateOrderTotalMoney",
+                        header: "设置订单总金额",
+                        content: innerText,
+                        yesFn: function () {
+                            var price = $("#newTotalMoney").val().trim();
+                            if (!price.isDouble() || price < 0) {
+                                alert("总金额必须为不小于0的数字！");
+                                return false;
+                            }
+                            _self.UpdateOrderTotalMoney($("#newTotalMoney").val().trim());
+                        },
+                        callback: function () {
+
+                        }
+                    }
+                });
+                $("#newTotalMoney").focus().val(_self.model.TotalMoney);
+
+            });
+        });
+
         //确认大货明细
         $("#confirmDHOrder").click(function () {
             _self.createDHOrder(true);
@@ -377,7 +404,8 @@
                         istime: false,
                         istoday: true
                     });
-                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : _self.model.PlanTime.toDate("yyyy-MM-dd"));
+                    var date = (new Date(_self.model.PlanTime.toDate("yyyy-MM-dd")).getTime() - new Date().getTime()) < 0 ? new Date().toString('yyyy-MM-dd') : _self.model.PlanTime.toDate("yyyy-MM-dd");
+                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : date);
                 });
             } //开始大货(无)
             else if (_self.model.OrderType == 2 && _self.status == 0) {
@@ -440,7 +468,8 @@
                         istime: false,
                         istoday: true
                     });
-                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : _self.model.PlanTime.toDate("yyyy-MM-dd"));
+                    var date = (new Date(_self.model.PlanTime.toDate("yyyy-MM-dd")).getTime() - new Date().getTime()) < 0 ? new Date().toString('yyyy-MM-dd') : _self.model.PlanTime.toDate("yyyy-MM-dd");
+                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : date);
                 });
             }//发货
             else if (_self.status == 5) {
@@ -640,6 +669,8 @@
             _self.addOtherCosts();
         })
 
+        $("#plateMarking").show();
+
         //切换模块
         $(".module-tab li").click(function () {
             var _this = $(this);
@@ -659,6 +690,9 @@
                 _self.getLogs(1);
             } else if (_this.data("id") == "navEngraving" || _this.data("id") == "navProducts") {
                 if (_this.data("mark")) {
+                    if (_this.data("id") == "navEngraving") {
+                        $("#plateMarking").show();
+                    }
                     $("#navOrderTalk").show();
                     _self.mark = _this.data("mark");
                 }
@@ -682,7 +716,6 @@
                 _self.getDHOrders(_self.orderid, 1);
             }
         });
-
     }
 
     //加载缓存
@@ -1087,9 +1120,9 @@
     //裁剪录入
     ObjectJS.cutOutGoods = function () {
         var _self = this;
+        
         doT.exec("template/orders/cutoutgoods.html", function (template) {
             var innerText = template(_self.model.OrderGoods);
-
             Easydialog.open({
                 container: {
                     id: "showCutoutGoods",
@@ -1454,6 +1487,21 @@
         });
     }
 
+    //设置总金额
+    ObjectJS.UpdateOrderTotalMoney = function (totalMoney) {
+        var _self = this;
+        Global.post("/Orders/UpdateOrderTotalMoney", {
+            orderid: _self.orderid,
+            totalMoney: totalMoney
+        }, function (data) {
+            if (data.status) {
+                location.href = location.href;
+            } else {
+                alert("总金额设置失败，可能因为订单状态已改变，请刷新页面后重试！");
+            }
+        });
+    }
+
     //汇总
     ObjectJS.getAmount = function () {
         //订单明细汇总
@@ -1700,18 +1748,23 @@
 
                     $("#navSendDoc .tr-header").after(innerhtml);
 
-                    $("#navSendDoc .total-item td").each(function () {
-                        var _this = $(this), _total = 0;
-                        if (_this.data("class")) {
-                            $("#navSendDoc ." + _this.data("class")).each(function () {
-                                _total += $(this).html() * 1;
-                            });
-                            _this.html(_total);
-                        }
-                    });
+                    if (templateInner == "senddocs") {
+                        var total = 0;
+                        innerhtml.find('.cut1').each(function () {
+                            var _this = $(this);
+                            total += parseInt(_this.text());
+                        });
+                        innerhtml.find('.total-count').html(total);
+                    }
                 });
             } else {
                 $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+            }
+            /*有数据隐藏表头*/
+            if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
+                $(".table-header").hide();
+            } else {
+                $(".table-header").show();
             }
         });
         
@@ -1732,26 +1785,22 @@
                 doT.exec("template/orders/cutoutdoc.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
-
-                    innerhtml.click(function () {
-                        _self.getGoodsDocDetail(this, 1);
-                    });
-
                     $("#navCutoutDoc .tr-header").after(innerhtml);
-
-                    $("#navCutoutDoc .total-item td").each(function () {
-                        var _this = $(this), _total = 0;
-                        if (_this.data("class")) {
-                            $("#navCutoutDoc ." + _this.data("class")).each(function () {
-                                _total += $(this).html() * 1;
-                            });
-                            _this.html(_total);
-                        }
+                    var total = 0;
+                    innerhtml.find('.cut1').each(function () {
+                        var _this = $(this);
+                        total += parseInt(_this.text());
                     });
-
+                    innerhtml.find('.total-count').html(total);
                 });
             } else {
                 $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+            }
+            /*有数据隐藏表头*/
+            if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
+                $(".table-header").hide();
+            } else {
+                $(".table-header").show();
             }
         });
 
@@ -1778,22 +1827,23 @@
                     });
 
                     $("#navSewnDoc .tr-header").after(innerhtml);
-
-                    $("#navSewnDoc .total-item td").each(function () {
-                        var _this = $(this), _total = 0;
-                        if (_this.data("class")) {
-                            $("#navSewnDoc ." + _this.data("class")).each(function () {
-                                _total += $(this).html() * 1;
-                            });
-                            _this.html(_total);
-                        }
+                    var total = 0;
+                    innerhtml.find('.cut1').each(function () {
+                        var _this = $(this);
+                        total += parseInt(_this.text());
                     });
+                    innerhtml.find('.total-count').html(total);
                 });
             } else {
                 $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         });
-
+        /*有数据隐藏表头*/
+        if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
+            $(".table-header").hide();
+        } else {
+            $(".table-header").show();
+        }
     }
 
     //其他成本

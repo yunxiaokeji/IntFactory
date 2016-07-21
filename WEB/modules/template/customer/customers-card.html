@@ -2,29 +2,41 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-<div class="list-card mRight15 mTop20">
+<div class="list-card mRight15 mTop30">
     <div class="check iconfont" data-id="{%=item.CustomerID%}" data-userid="{%=item.OwnerID%}">&#xe626;</div>
-    <div class="message">
-        <div class="list-mark left mRight10"><span class="mark" data-id="{%= item.CustomerID %}" data-value="{%= item.Mark%}"></span></div>
-        <div class="message-name long"><a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%}</a></div>
-    </div>
-    <ul class="info mTop5">
-        <li><span class="iconfont">&#xe64f;</span>{%=item.MobilePhone?item.MobilePhone:"--"%}</li>
-        <li><span class="iconfont">&#xe657;</span>{%=item.City?item.City.Description:"--"%}</li>
-        <li>
-            <div class="left" title="创建日期"><span class="iconfont">&#xe639;</span>{%=item.CreateTime.toDate("yyyy-MM-dd")%}</div>
-            <div class="right mRight10" title="负责人">
-                <img class="photo mTop2" onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="{%=item.Owner&&item.Owner.Avatar?item.Owner.Avatar:'/modules/images/defaultavatar.png'%}" />
-                <span class="left mLeft5">{%=(item.Owner ? item.Owner.Name:"--")%}</span>
+    <div class="message">        
+        <div class="message-name long left">
+            <a href="/Customer/Detail/{%=item.CustomerID%}" title="{%=item.Name%}">{%=item.Name%}</a>            
+        </div>
+        {% if(item.SourceType==1){ %}
+            <div class="hight20 mBottom3 mLeft235 width50" style="position:relative">
+                <div class="left color-leftzuoyou" style=" border-right:10px solid #ffa200; "></div>
+                <div class="left hight20 center width35" style="background-color:#ffa200;border-radius:2px;">
+                    <i class="iconfont font18" style="color:#fff !important;">&#xe631;</i>
+                </div>
+                <div class="point-white"></div>
             </div>
-        </li>
-        <!--<li class="">
-            <div class="mRight10 right"> {%=item.SourceType==1?"阿里客户":item.SourceType==2?"自助下单":"手工创建"%}</div>
-        </li>-->
+        {% } %}
+    </div>
+    <ul class="info mTop5 mBottom15">     
+        <li>
+            <span class="iconfont">&#xe64f;</span>{%=item.MobilePhone?item.MobilePhone:"--"%}            
+        </li>   
+        <li>
+            <span class="iconfont">&#xe657;</span>{%=item.City?item.City.Description:"--"%}  
+            <div class="right mRight10">
+                <img class="photo mTop2" title="负责人" onerror="$(this).attr('src','/modules/images/defaultavatar.png');" src="{%=item.Owner&&item.Owner.Avatar?item.Owner.Avatar:'/modules/images/defaultavatar.png'%}" />
+                <span class="left tRight width50 long" title="{%=(item.Owner ? item.Owner.Name:"--")%}">{%=(item.Owner ? item.Owner.Name:"--")%}</span>
+            </div>          
+        </li>        
     </ul>
-    <ul class="order-count">
+    
+    <ul class="order-count">       
+        <li>
+            <div class="list-mark left mRight10 mTop12"><span class="mark" data-id="{%= item.CustomerID %}" data-value="{%= item.Mark%}"></span></div>
+        </li> 
         <li class="{%=item.DemandCount==0||'red'%}">
-            需求单：
+            <span class="font14">需求单：</span>
             {% if(item.DemandCount>0){%}
                 <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navOppor">{%=item.DemandCount%}</a>
             {% } else{ %}
@@ -32,7 +44,7 @@
             {% } %}
         </li>
         <li>
-            打样单：
+            <span class="font14">打样单：</span>
             {% if(item.DYCount>0){%}
                 <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navOrder">{%=item.DYCount%}</a>
             {% } else{ %}
@@ -40,11 +52,11 @@
             {% } %}
         </li>
         <li>
-            大货单：
+            <span class="font14 mLeft5">大货单：</span>
             {% if(item.DHCount>0){%}
-                <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navDHOrder">{%=item.DHCount%}</a>
+                <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navDHOrder" class="right">{%=item.DHCount%}</a>
             {% } else{ %}
-                0
+                <span class="right">0</span>
             {% } %}
         </li>
     </ul>

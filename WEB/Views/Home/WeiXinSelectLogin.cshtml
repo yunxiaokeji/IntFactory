@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "请选择绑定已有帐户，或直接进入使用";
+
+    Layout = null;
+}
+<title>请选择绑定已有帐户，或直接进入使用</title>
+<link href="/modules/css/base.css" rel="stylesheet" />
+<link href="/modules/css/default/layout.css" rel="stylesheet" />
+<link href="/modules/css/home/selectlogin.css" rel="stylesheet" />
+
+<div class="header">
+    <span class="left">厂盟智能</span>
+    <span class="right"><a href="/Home/Login">登录</a></span>
+    <div class="clear"></div>
+</div>
+<div class="select-login">
+    <div class="left ali-login">
+        <div><img src="/modules/images/home/wx_logo64.png" /></div>
+        <div class="des">使用微信账户直接登录</div>
+        <div onclick="location.href='/Home/WinXinRegisterMember'" class="btn">直接登录</div>
+    </div>
+
+    <div class="left bind-account">
+        <div><img style="height:64px;" src="/modules/images/ico-account-login.png" /></div>
+        <div class="des">将微信账户与已有账户进行绑定</div>
+        <div class="btn" onclick="location.href='/Home/Login?BindAccountType=2'" >绑定已有账户</div>
+    </div>
+    <div class="clear"></div>
+</div>
+

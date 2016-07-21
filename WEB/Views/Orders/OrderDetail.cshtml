@@ -11,12 +11,16 @@
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
+    <script src="/modules/scripts/orders/pricerangeset.js"></script>
     <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
+        seajs.use(["scripts/orders/pricerangeset"], function (e) {
+            e.init('@(model.OrderID)');
+        });
         seajs.use(["scripts/orders/detail"], function (obj) {
             obj.init('@(model.OrderID)', '@(model.Status)', '@Html.ToJSONString(model)', '@Html.ToJSONString(list)');
         });
-
+        
     </script>
 }
 
@@ -111,9 +115,14 @@
                     <span class="iconfont  left">&#xe645;</span>
                     <span class="left mLeft5 blue">打样报价</span>
                 </li>
-            }
+            }           
         }
-            
+        @if (model.OrderStatus==2)
+        {
+            <li>
+                <span class="hand price-range-set" id="set-price-range">优惠设置</span>
+            </li>  
+        }
     </ul>
 </div>
 
@@ -287,6 +296,7 @@
             <div class="btn-add part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" id="addOtherCost">添加加工成本</div>
         }
     }
+    <a id="plateMarking" href="/Orders/PlateMakingProcess/@(model.OrderID)" target="_blank" class="btn part-btn right mLeft20">制版打印</a>
 </div>
 
 <div class="content-body pBottom50">
@@ -364,11 +374,10 @@
     </table>
 
     <div class="nav-partdiv  mTop10" id="navEngraving">
+        <div class="table-title">制版信息</div>
         <div id="navEngravingInfo"></div>
-        <div class="mTop20" style="font-size:14px; color:#666; margin-left:5px;">工艺</div>
-        <table class="table-list mTop10 tb-plates">
-            
-        </table>
+        <div class="mTop20 table-title">工艺说明</div>
+        <table class="table-list mTop10 tb-plates"></table>
     </div>
 
     <table id="navPays" class="nav-partdiv table-list mTop20 hide">
@@ -403,12 +412,8 @@
     </div>
     @*日志*@
     <div class="nav-partdiv hide" id="navLog">
-        <div class="log-body" id="orderLog">
-
-        </div>
-        <div id="pagerLogs" class="mTop10">
-
-        </div>
+        <div class="log-body" id="orderLog"></div>
+        <div id="pagerLogs" class="mTop10"></div>
     </div>
 </div>
 

@@ -59,14 +59,25 @@ namespace YXERP.Controllers
 
         public ActionResult BindMobile()
         {
-            if (CurrentUser.Client.GuideStep == 3 && string.IsNullOrEmpty(CurrentUser.BindMobilePhone))
+            if (CurrentUser.Client.GuideStep == 3)
             {
+                if (!string.IsNullOrEmpty(CurrentUser.BindMobilePhone))
+                {
+                    bool bl = ClientBusiness.FinishInitSetting(CurrentUser.ClientID);
+                    if (bl)
+                    {
+                        CurrentUser.Client.GuideStep = 0;
+                        Session["ClientManager"] = CurrentUser;
+                        return Redirect("/Default/SettingHelp");
+                    }
+                }
+
                 return View();
             }
             else
-            {                
+            {
                 return Redirect("/Default/Index");
-            }
+            }               
         }
 
         public ActionResult SettingHelp()
@@ -85,6 +96,12 @@ namespace YXERP.Controllers
         {
             bool bl = ClientBusiness.FinishInitSetting(CurrentUser.ClientID);
             JsonDictionary.Add("result", bl);
+            if (bl) 
+            {
+                CurrentUser.Client.GuideStep = 0;
+                Session["ClientManager"] = CurrentUser;
+            }
+
             return new JsonResult()
             {
                 Data = JsonDictionary,
@@ -96,7 +113,6 @@ namespace YXERP.Controllers
         {
             bool bl = OrganizationBusiness.AccountBindMobile(BindMobile, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("result", bl);
-
             if (bl) {
                 CurrentUser.BindMobilePhone = BindMobile;
                 CurrentUser.MobilePhone = BindMobile;
@@ -104,6 +120,7 @@ namespace YXERP.Controllers
                 Session["ClientManager"] = CurrentUser;
                 Common.Common.ClearMobilePhoneCode(BindMobile);
             }
+
             return new JsonResult()
             {
                 Data = JsonDictionary,

@@ -343,9 +343,9 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool SetCustomerYXinfo(string customerID, string clientID, string YXAgentID, string YXClientID, string YXClientCode)
+        public bool SetCustomerYXinfo(string customerID, string name, string mobilePhone, string clientID, string YXAgentID, string YXClientID, string YXClientCode)
         {
-            return CustomDAL.BaseProvider.SetCustomerYXinfo(customerID, clientID, YXAgentID, YXClientID, YXClientCode);
+            return CustomDAL.BaseProvider.SetCustomerYXinfo(customerID, name, mobilePhone, clientID, YXAgentID, YXClientID, YXClientCode);
         }
 
         public bool DeleteContact(string contactid, string ip, string userid, string agentid)

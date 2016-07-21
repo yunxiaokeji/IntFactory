@@ -43,12 +43,12 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataTable GetStorageDocDetails(string docid)
+        public DataSet GetStorageDocDetails(string docid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@DocID",docid)
                                    };
-            return GetDataTable("select * from StorageDoc where OriginalID=@DocID and DocType=101 ", paras, CommandType.Text);
+            return GetDataSet("P_GetStorageDocDetails", paras, CommandType.StoredProcedure, "Doc|Details");
         }
 
         public DataSet GetGoodsDocByOrderID(string orderid,string taskid, int doctype, string clientid)
@@ -59,12 +59,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@DocType", doctype) ,
                                        new SqlParameter("@ClientID", clientid) 
                                    };
-            string sqlTxt = "select * from GoodsDoc where OriginalID=@OriginalID and ClientID=@ClientID and DocType=@DocType";
-            if(!string.IsNullOrEmpty(taskid)){
-                sqlTxt += " and TaskID=@TaskID";
-            }
-            sqlTxt += " order by AutoID desc";
-            DataSet ds = GetDataSet(sqlTxt, paras, CommandType.Text);
+            DataSet ds = GetDataSet("P_GetGoodsDocByOrderID", paras, CommandType.StoredProcedure, "Doc|Details");
             return ds;
         }
 
@@ -211,8 +206,6 @@ namespace IntFactoryDAL
         #endregion
 
         #region 编辑、删除
-
-
 
         public bool UpdateStorageDetailWare(string docid, string autoid, string wareid, string depotid)
         {

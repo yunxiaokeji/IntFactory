@@ -1,7 +1,6 @@
 ﻿
 
 define(function (require, exports, module) {
-
     require("jquery");
     var Global = require("global"),
         doT = require("dot");
@@ -18,12 +17,10 @@ define(function (require, exports, module) {
 
     var Home = {};
     //登陆初始化
-    Home.initLogin = function (status, fromBindAccount, returnUrl) {
-        Home.fromBindAccount = 0;
-        if (fromBindAccount) {
-            if (fromBindAccount == 1) {
-                Home.fromBindAccount = 1;
-            }
+    Home.initLogin = function (status, bindAccountType, returnUrl) {
+        Home.bindAccountType = 0;
+        if (bindAccountType) {
+            Home.bindAccountType = bindAccountType;
         }
         if (returnUrl) {
             Home.returnUrl = returnUrl;
@@ -57,7 +54,7 @@ define(function (require, exports, module) {
                 $(".registerErr").html("请输入密码").slideDown();
                 return;
             }
-            if (Home.fromBindAccount==0)
+            if (Home.bindAccountType == 0)
                 $(this).html("登录中...").attr("disabled", "disabled");
             else
                 $(this).html("绑定中...").attr("disabled", "disabled");
@@ -65,11 +62,11 @@ define(function (require, exports, module) {
                 userName: $("#iptUserName").val(),
                 pwd: $("#iptPwd").val(),
                 remember: $(".cb-remember-password").hasClass("ico-checked") ? 1 : 0,
-                fromBindAccount: Home.fromBindAccount
+                bindAccountType: Home.bindAccountType
             },
             function (data)
             {
-                if (Home.fromBindAccount == 0) {
+                if (Home.bindAccountType == 0) {
                     $("#btnLogin").html("登录").removeAttr("disabled");
                 }
                 else {

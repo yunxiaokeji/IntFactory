@@ -127,7 +127,9 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\BaseAPIController.cs" />
     <Compile Include="Areas\Api\Controllers\CacheController.cs" />
+    <Compile Include="Areas\Api\Controllers\ClientController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Api\Controllers\OrderController.cs" />
     <Compile Include="Areas\Api\Controllers\TaskController.cs" />
     <Compile Include="Areas\Api\Controllers\UserController.cs" />
     <Compile Include="Common\Alipay\AlipayConfig.cs" />
@@ -172,21 +174,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\FilterProduct.cs" />
-    <Content Include="bin\AlibabaSdk.dll" />
-    <Content Include="bin\AlibabaSdk.pdb" />
-    <Content Include="bin\CloudSalesTool.dll" />
-    <Content Include="bin\CloudSalesTool.pdb" />
     <Content Include="bin\EntityFramework.dll" />
-    <Content Include="bin\IntFactory.Service.exe" />
-    <Content Include="bin\IntFactory.Service.pdb" />
-    <Content Include="bin\IntFactoryBusiness.dll" />
-    <Content Include="bin\IntFactoryBusiness.pdb" />
-    <Content Include="bin\IntFactoryDAL.dll" />
-    <Content Include="bin\IntFactoryDAL.pdb" />
-    <Content Include="bin\IntFactoryEntity.dll" />
-    <Content Include="bin\IntFactoryEntity.pdb" />
-    <Content Include="bin\IntFactoryEnum.dll" />
-    <Content Include="bin\IntFactoryEnum.pdb" />
     <Content Include="bin\JsonObject.dll" />
     <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
     <Content Include="bin\Net.Sourceforge.Pinyin4j.dll" />
@@ -201,8 +189,6 @@
     <Content Include="bin\System.Web.WebPages.Deployment.dll" />
     <Content Include="bin\System.Web.WebPages.dll" />
     <Content Include="bin\System.Web.WebPages.Razor.dll" />
-    <Content Include="bin\YXERP.dll" />
-    <Content Include="bin\YXERP.pdb" />
     <Content Include="Content\menuico\saleshover.png" />
     <Content Include="Content\menuico\task.png" />
     <Content Include="Content\menuico\taskhover.png" />
@@ -248,6 +234,8 @@
     <Content Include="modules\images\home\ico-cooperationorder.png" />
     <Content Include="modules\images\home\ico-delegateorder.png" />
     <Content Include="modules\images\home\ico-myorder.png" />
+    <Content Include="modules\images\home\logo-weixin.png" />
+    <Content Include="modules\images\home\wx_logo64.png" />
     <Content Include="modules\images\ico-account-login.png" />
     <Content Include="modules\images\ico-ali-login.png" />
     <Content Include="modules\images\ico-alipay.png" />
@@ -310,6 +298,7 @@
     <Content Include="modules\images\loginBackground.png" />
     <Content Include="modules\images\loginMainBackground.png" />
     <Content Include="modules\images\home\ico-ali.png" />
+    <Content Include="modules\images\logo-weixin.png" />
     <Content Include="modules\images\none-img.png" />
     <Content Include="modules\images\selforder\bg-map.png" />
     <Content Include="modules\images\selforder\bottom-bg.png" />
@@ -325,6 +314,7 @@
     <Content Include="modules\images\wechat.jpg" />
     <Content Include="modules\images\ico-wechat.png" />
     <Content Include="modules\images\word.png" />
+    <Content Include="modules\images\wx_logo64.png" />
     <Content Include="modules\plug\choosecolor\spectrum.css" />
     <Content Include="modules\plug\choosecolor\spectrum.js" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
@@ -507,6 +497,7 @@
     <Content Include="modules\scripts\orders\fentorderreport.js" />
     <Content Include="modules\scripts\orders\orderplans.js" />
     <Content Include="modules\scripts\orders\platemakingprocess.js" />
+    <Content Include="modules\scripts\orders\pricerangeset.js" />
     <Content Include="modules\scripts\system\labelset.js" />
     <Content Include="modules\scripts\system\opportunitystage.js" />
     <Content Include="modules\scripts\system\orderprocess.js" />
@@ -528,9 +519,11 @@
     <Content Include="modules\template\home\author-page.html" />
     <Content Include="modules\template\inquire\inquireorder.html" />
     <Content Include="modules\template\myaccount\feedbacklist.html" />
+    <Content Include="modules\template\orders\addpricerange.html" />
     <Content Include="modules\template\orders\choose-order-category.html" />
     <Content Include="modules\template\home\index-order.html" />
     <Content Include="modules\template\orders\orders_child_list.html" />
+    <Content Include="modules\template\orders\pricerangge.html" />
     <Content Include="modules\template\orders\processplate.html" />
     <Content Include="modules\template\orders\surequantity.html" />
     <Content Include="modules\template\orders\sureprice.html" />
@@ -540,7 +533,6 @@
     <Content Include="modules\template\orders\edit-orderimages.html" />
     <Content Include="modules\template\orders\senddocs.html" />
     <Content Include="modules\template\orders\cutoutgoods.html" />
-    <Content Include="modules\template\orders\cutoutdoc.html" />
     <Content Include="modules\template\orders\downAliOrders.html" />
     <Content Include="modules\template\orders\sewn-goods.html" />
     <Content Include="modules\template\orders\add-order-cost.html" />
@@ -553,6 +545,8 @@
     <Content Include="modules\template\orders\send-details.html" />
     <Content Include="modules\template\orders\senddydocs.html" />
     <Content Include="modules\template\home\index-task.html" />
+    <Content Include="modules\template\orders\update_order_totalmoney.html" />
+    <Content Include="modules\template\orders\cutoutdoc.html" />
     <Content Include="modules\template\organization\staff-detail.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />
@@ -1095,7 +1089,7 @@
     <Content Include="Views\Task\CargoMaterialDetail.cshtml" />
     <Content Include="Views\Task\PlateDetail.cshtml" />
     <Content Include="Views\Home\BindAccount.cshtml" />
-    <Content Include="Views\Home\SelectLogin.cshtml" />
+    <Content Include="Views\Home\AliSelectLogin.cshtml" />
     <Content Include="Views\Task\PlatePrint.cshtml" />
     <Content Include="Views\Orders\Orders.cshtml" />
     <Content Include="Views\Orders\OrderSuccess.cshtml" />
@@ -1131,6 +1125,7 @@
     <Content Include="Views\Error\NoFindFile.cshtml" />
     <Content Include="Views\Default\BindMobile.cshtml" />
     <Content Include="Views\System\LabelSet.cshtml" />
+    <Content Include="Views\Home\WeiXinSelectLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1266,7 +1261,7 @@
     <Content Include="modules\plug\shoppingcart\shoppingcart.js" />
     <Content Include="modules\plug\shoppingcart\style.css" />
     <Content Include="modules\scripts\global.js" />
-    <Content Include="modules\scripts\home.js" />
+    <Content Include="modules\scripts\home\login.js" />
     <Content Include="modules\scripts\layout.js" />
     <Content Include="modules\scripts\organization\department.js" />
     <Content Include="modules\scripts\products\brand.js" />
@@ -1314,6 +1309,10 @@
     <ProjectReference Include="..\IntFactory.Service\IntFactory.Service.csproj">
       <Project>{313e5872-f99a-4b77-9987-a01dff27b758}</Project>
       <Name>IntFactory.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WeiXin.Sdk\WeiXin.Sdk.csproj">
+      <Project>{a01e43b8-fabf-4601-8894-4374026aa08c}</Project>
+      <Name>WeiXin.Sdk</Name>
     </ProjectReference>
     <ProjectReference Include="..\YXBusiness\IntFactoryBusiness.csproj">
       <Project>{6322cb56-2693-4600-922d-0dec06a8f59c}</Project>

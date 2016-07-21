@@ -19,18 +19,37 @@
 	            var attr = model.SaleAttrs[i];
             %}
                 <ul class="cart-attr-item salesattr" data-id="{%= attr.AttrID%}">
-                    <li class="cart-attrkey">{%= attr.AttrName%}：</li>
+                    <li class="attrkey">
+                        {%=(model.SaleAttrs.Count == 1?attr.AttrName+"：":"规格：")%}
+                    </li> 
                     <li class="cart-attrValues">
-                        <ul>
+                        <ul style="height:200px;overflow-y:auto;">
                             {%
-                            for(var ii=0, jj=attr.AttrValues.length; ii < jj; ii++){
-	                            var value = attr.AttrValues[ii];
+                            for(var ii=0, jj=model.ProductDetails.length; ii < jj; ii++){
+	                            var detail = model.ProductDetails[ii];
+                                if (model.ProductDetails.length > 1 &&detail.Description=="" && (detail.LogicOut == 0 && detail.StockOut == 0 && detail.StockIn == 0))
+                                {
+                                    continue;
+                                }
                             %}
-                             <li class="cart-value" data-id="{%=value.ValueID%}">{%=value.ValueName%}</li>  
-                            {% } %}
+                                    {%
+                                    if (model.SaleAttrs.length == 1)
+                                    {
+                                    %}
+                                        <li class="cart-value" data-id="{%=detail.ProductDetailID%}">
+                                        {%=(detail.Description=="" ? "默认规格" : detail.Description.replace('[', ' ').replace(']', ' ').replace(attr.AttrName+":",' ').replace(attr.AttrName+"：",' '))%}
+                                        </li>
+                                    {%}else{
+                                    %}
+                                        <li class="cart-value" data-id="{%=detail.ProductDetailID%}">
+                                       </li>
+                                    {%}%}
+                             </li>  
+                            {%}%}
                         </ul>
                     </li>
                 </ul>
+            <div class="clear"></div>
             {% } %}
             <ul class="cart-attr-item">
                 <li class="cart-attrkey">单位：</li>
@@ -40,7 +59,9 @@
                     </ul>
                 </li>
             </ul>
+            <div class="clear"></div>
         </div>
+        <div class="clear"></div>
         <div class="choose-div">
             <div class="choose-quantity left">
                 <input type="text" value="1" id="quantity" />
@@ -53,6 +74,7 @@
             <div class="left mLeft10 stock">
                     库存：<label id="productStockQuantity">0</label>
             </div>
+            <div class="clear"></div>
         </div>
     </div>
 </div>
