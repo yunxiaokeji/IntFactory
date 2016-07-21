@@ -59,7 +59,6 @@ define(function (require, exports, module) {
             }
         });
 
-
         $("#btnSearch").click(function () {
             Params.pageIndex = 1;
             Params.begintime = $("#BeginTime").val().trim();

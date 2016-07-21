@@ -21,7 +21,6 @@
             width: 400,
             data: "",
             layer: 3,
-            className:"product-change",
             defaults: {
                 headerText: "全部分类",
                 headerID: ""
@@ -30,6 +29,11 @@
             }
         };
         $.fn.changeMenu.bindMenu = function (obj, opts) {
+            //绑定样式
+            obj.css({
+                "background": "url('/modules/images/ico-dropdown.png') no-repeat right 5px center"
+            });
+
             $.post("/Products/GetChildCategorysByID", {
                 categoryid: ''
             }, function (data) {
