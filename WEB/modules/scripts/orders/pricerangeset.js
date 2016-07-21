@@ -35,7 +35,7 @@
                     
                     ObjectJS.addPriceRange();
                     ObjectJS.bindUpdatePriceRange(".update");
-                    ObjectJS.deletePriceRange(this);
+                    ObjectJS.deletePriceRange();
                 });
             ObjectJS.isLoading = true;
         })
@@ -61,7 +61,7 @@
 
                 ObjectJS.bindUpdatePriceRange(".save-price-range");
 
-                ObjectJS.deletePriceRange(this);                              
+                ObjectJS.deletePriceRange();                              
 
                 $(".cancel-price-range").click(function () {
                     $(this).parent().parent().remove();
@@ -83,7 +83,7 @@
         $(".price").change(function () {
             var pri = $(this).val();
             if (!pri.isDouble() || Number(pri) < 0) {
-                alert("价格不正确");
+                alert("价格格式不正确");
                 $(this).val($(this).data("num"));
                 return;
             }
@@ -164,21 +164,20 @@
         }
 
         if (Number(beforenum) >= Number(num)) {
-            alert("数量不能小于其上一个");
+            alert("不能小于其上一个数量");
             $(obj).val($(obj).data("num"));
             return false;
         }
 
         if (Number(num) >= Number(afternum)) {
-            alert("数量不能大于其下一个");
+            alert("不能大于其下一个数量");
             $(obj).val($(obj).data("num"));
             return false;
         }
     }
 
     ObjectJS.deletePriceRange = function () {
-        $(".delete").unbind().click(function () {
-            
+        $(".delete").unbind().click(function () {            
             var _this = $(this).parent().parent();
             var rangeid = _this.data("rangeid");
 
