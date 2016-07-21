@@ -9,6 +9,7 @@ define(function (require, exports, module) {
     require("pager");
     require("switch");
     require("autocomplete");
+    require("menu");
     var Params = {
         PageIndex: 1,
         keyWords: "",
@@ -55,7 +56,11 @@ define(function (require, exports, module) {
                 }
             }
         });
-
+        $("#productMenuChange").changeMenu({
+            onChange: function (data) {
+                console.log(data);
+            }
+        });
         $("#btnSaveProduct").on("click", function () {
             if (!VerifyObject.isPass()) {
                 return;

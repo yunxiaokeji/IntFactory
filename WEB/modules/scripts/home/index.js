@@ -315,7 +315,7 @@
                     });
                     $("#ExtendNow").click(function () {
                         window.open('/Auction/ExtendNow', '_target');
-                    })
+                    });
 
                     $('.no-hint').click(function () {
                         var _this = $(this);
@@ -327,7 +327,7 @@
                             $(".author-lump").addClass('hover');
                             Global.setCookie('authorWarn', '1');
                         }
-                    })
+                    });
                 })
             }
         }

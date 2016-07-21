@@ -5,6 +5,7 @@ define(function (require, exports, module) {
     var $ = require("jquery"),
         Global = require("global"),
         doT = require("dot");
+
     var Category = {
         CategoryID: "",
         PID: ""
@@ -23,9 +24,8 @@ define(function (require, exports, module) {
     //绑定元素定位和样式
     ObjectJS.bindStyle = function () {
         var _height = document.documentElement.clientHeight - 270;
-
         $(".category-all").css("height", _height);
-        $(".category-list").css("max-height", _height-100);
+        $(".category-list").css("max-height", _height - 100);
     }
     //绑定事件
     ObjectJS.bindEvent = function () {
@@ -35,7 +35,6 @@ define(function (require, exports, module) {
             ObjectJS.bindStyle();
         });
         _self.bindElementEvent($(".category-list li"));
-        
     }
     //元素绑定事件
     ObjectJS.bindElementEvent = function (element) {
