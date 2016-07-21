@@ -50,7 +50,6 @@
                         _closeMenu.click(function () {
                             _menuBody.hide();
                         });
-                        opts.onChange && opts.onChange();
                     } else {
                         $(".change-menu-body").show();
                     }
@@ -60,6 +59,7 @@
         };
 
         var bindObj = function (data, _contentEle, obj, _headerEle, _headerData) {
+            /*头部数据处理*/
             if (_headerData.headerText) {
                 _headerEle.find('li').removeClass('hover');
                 var _headerMenu = $('<li class="hand hover" data-id="' + _headerData.headerID + '" data-layer="' + (_headerData.headerLayer || 0) + '" >' + _headerData.headerText + '</li>');
@@ -84,6 +84,7 @@
                 });
             }
 
+            /*子菜单数据处理*/
             for (var i = 0; i < data.length; i++) {
                 var item = data[i];
                 var _childMenu = $('<li class="hand" data-layer="' + item.Layers + '" data-name="' + item.CategoryName + '" data-id="' + item.CategoryID + '">' + item.CategoryName + '</li>');
@@ -107,6 +108,7 @@
                         $(".change-menu-body").hide();
                     }
 
+                    /*保存文本框中填入值的层级、id、name*/
                     var _layer = _this.data('layer');
                     menuData[_layer - 1].id = _this.data('id');
                     menuData[_layer - 1].name = _this.data('name');
@@ -119,6 +121,7 @@
                         itemMD.name = '';
                     }
 
+                    /*拼接文本框中的值*/
                     var _desc = "";
                     for (var j = 0; j < menuData.length; j++) {
                         var itemMD = menuData[j];

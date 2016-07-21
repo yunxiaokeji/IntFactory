@@ -56,7 +56,11 @@ define(function (require, exports, module) {
                 }
             }
         });
-        $("#productMenuChange").changeMenu();
+        $("#productMenuChange").changeMenu({
+            onChange: function (data) {
+                console.log(data);
+            }
+        });
         $("#btnSaveProduct").on("click", function () {
             if (!VerifyObject.isPass()) {
                 return;
