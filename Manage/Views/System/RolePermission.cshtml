@@ -15,14 +15,11 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">权限设置</span>
-      <a class="back right color333" href="javascript:if(history.length>1){ history.go(-1);} else{}">
-        <i class="iconfont">&#xe62d;</i> 返回
-    </a> 
+    <span class="header-title left">@(model.Name)-权限设置</span>
+     <a class="btn-back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a> 
 </div>
 <div class="content-body">
-    <h1 class="font16">@(model.Name)-权限设置</h1>
-    <div id="rolePermission" class="menulist mTop10">
+    <div id="rolePermission" class="menulist">
 
     </div>
     <div class="mTop20">

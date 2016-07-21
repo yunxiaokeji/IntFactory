@@ -17,22 +17,14 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">客户详情页</span>
-     <a class="back right color333" href="javascript:if(history.length>1){ history.go(-1);} else{}">
-        <i class="iconfont">&#xe62d;</i> 返回
-    </a> 
+    <span class="header-title left" id="customerName">客户详情页</span>
+    <div id="updateClient" class="left ico-edit iconfont mTop5 mLeft20  @(ExpandClass.IsLimits(HttpContext.Current,"201010101"))">&#xe607;</div>
+
+    <div id="delClient" class="btnccc right mLeft10  @(ExpandClass.IsLimits(HttpContext.Current,"201010102"))">删除</div>
+    <a class="btn-back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回 </a> 
 </div>
-
-
-<div class="content-body mTop20">
-    <div class="content-title">
-        <div id="customerName" class="left titlename bolder"></div>
-        <div id="updateClient" class="left ico-edit iconfont mLeft20  @(ExpandClass.IsLimits(HttpContext.Current,"201010101"))">&#xe607;</div>
-        <div id="delClient" class="btn delClient right  @(ExpandClass.IsLimits(HttpContext.Current,"201010102"))">删除</div>
-         <div class="clear"></div>
-    </div>
+<div class="content-body">
      <ul class="content-info">
-        <li><span class="column-title">公司名称：</span><label id="lblName"></label></li>
         <li><span class="column-title">联系人：</span><label id="lblContact"></label></li>
         <li><span class="column-title">联系电话：</span><label id="lblMobile"></label> </li>
         <li><span class="column-title">办公电话：</span><label id="lblOfficePhone"></label> </li>
@@ -51,10 +43,9 @@
         </select>
         </li>
     </ul>   
-   
 </div>
-<div class="search-header mTop20">
-    <ul class="search-tab search-status">
+<div class="tab-nav">
+    <ul class="tab-nav-ul left search-status">
         <li class="hover"  data-index="0">订单</li>
         <li data-index="1">授权记录</li>            
         <li  data-index="2">统计</li>
@@ -93,7 +84,6 @@
         <div id="pager2" class="mTop20"></div>
     </div>
     <div class="contentnew hide" name="navContent" style="border-bottom:none;">
-        
         <table class="table-list" id="tb-clientLog">
             <tr class="tr-header" id="client-header">
                 <td class="">授权类型</td>
@@ -109,13 +99,6 @@
     <div name="navContent" class="hide">
         <div class="search-box">
             <div class="search-header">
-              @*   <div class="left">
-                    <ul class="search-tab search-type">
-                        <li data-id="clientdetailVitalityRPT" data-type="1" class="hover">按日统计</li>                        
-                        <li data-id="clientdetailVitalityRPT" data-type="2">按周统计</li>
-                       <li data-id="clientdetailVitalityRPT" data-type="3" >按月统计</li>
-                    </ul>
-                </div>*@
                  <div class="left search-body">
                       <input type="text" id="rptBeginTime" placeholder="请选择时间段"  class="ipt-date" />  
                 </div>

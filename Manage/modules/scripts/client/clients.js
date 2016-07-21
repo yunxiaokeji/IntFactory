@@ -118,14 +118,8 @@ define(function (require, exports, module) {
     };
     require.async("dropdown", function () {
         var ClientType = [
-            {
-                ID: "0",
-                Name: "手动创建"
-            },
-            {
-                ID: "1",
-                Name: "阿里授权"
-            }
+            { ID: "0", Name: "手动创建" },
+            { ID: "1", Name: "阿里" }
         ];
         $("#ClientType").dropdown({
             prevText: "客户来源-",
@@ -172,13 +166,18 @@ define(function (require, exports, module) {
     Clients.bindData = function () {
         var _self = this;
         $("#client-header").nextAll().remove();
-
+        $("#client-header").after("<tr><td colspan='10'><div class='data-loading'><div></td></tr>");
         Global.post("/Client/GetClients", Clients.Params, function (data) {
-            doT.exec("template/client/client-list.html?3", function (templateFun) {
-                var innerText = templateFun(data.Items);
-                innerText = $(innerText);
-                $("#client-header").after(innerText);
-            });
+            $("#client-header").nextAll().remove();
+            if (data.Items.length > 0) {
+                doT.exec("template/client/client-list.html", function (templateFun) {
+                    var innerText = templateFun(data.Items);
+                    innerText = $(innerText);
+                    $("#client-header").after(innerText);
+                });
+            } else {
+                $("#client-header").after("<tr><td colspan='10'><div class='nodata-txt'>暂无数据<div></td></tr>");
+            }
 
             $("#pager").paginate({
                 total_count: data.TotalCount,

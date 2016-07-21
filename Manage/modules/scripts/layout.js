@@ -22,26 +22,8 @@ define(function (require, exports, module) {
         });
 
         $(document).click(function (e) {
-
             if (!$(e.target).parents().hasClass("currentuser") && !$(e.target).hasClass("currentuser")) {
                 $(".dropdown-userinfo").fadeOut("1000");
-            }
-
-            if (!$(e.target).parents().hasClass("companyname") && !$(e.target).hasClass("companyname")) {
-                $(".dropdown-companyinfo").fadeOut("1000");
-            }
-        });
-
-        $(".controller-box").click(function () {
-            var _this = $(this);
-            if (!_this.hasClass("select")) {
-                _self.setRotateR(_this.find(".open"), 0, 90);
-                _this.addClass("select");
-                $(this).next().slideUp(200);
-            } else {
-                _self.setRotateL(_this.find(".open"), 90, 0);
-                _this.removeClass("select");
-                $(this).next().slideDown(200);
             }
         });
 

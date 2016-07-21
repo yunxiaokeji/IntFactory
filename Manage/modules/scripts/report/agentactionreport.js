@@ -120,7 +120,7 @@ define(function (require, exports, module) {
             doT.exec("template/report/agentactionreport-list.html?3", function (templateFun) {
                 var innerText = "";
                 if (data.Items.length == 0) {
-                    innerText='<tr><td colspan="11" style="text-align:center;font-size:18px;color:#333;"> 暂无数据 </td></tr>';
+                    innerText='<tr><td colspan="11"> <div class="nodata-txt">暂无数据<div> </td></tr>';
                 } else {
                     innerText=templateFun(data.Items);
                     innerText = $(innerText);
