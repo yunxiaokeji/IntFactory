@@ -82,7 +82,9 @@ seajs.config({
         //显示讨论表情插件
         "qqface": "plug/qqface/qqface.js",
         //显示提示插件
-        "tip": "plug/tip/tip.js"
+        "tip": "plug/tip/tip.js",
+        //选择菜单插件
+        "menu": "plug/change_menu/change_menu.js"
     }
 });
 

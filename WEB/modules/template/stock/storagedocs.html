@@ -2,8 +2,31 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-<tr class="list-item">
-    <td>
+<tr class="line-item">
+    <td></td>
+</tr>
+<tr class="item-header">
+    <td class="tLeft">
+        <ul class="purchase-detail-header">      
+                <li class="long name">
+                    名称
+                </li>   
+                <li class="code width120">
+                    编码
+                </li>   
+                <li class="width80">
+                    数量
+                </li> 
+        </ul>
+    </td>
+    <td class="tLeft">报损单号</td>
+    <td class="width100">状态</td>
+    <td class="tRight width100">总金额</td>
+    <td class="width200">报损日期</td>
+    <td class="width80">操作</td>
+</tr>
+<tr class="item">
+    <td class=" bBottom bLeft">
         {%
 	        for(var ii=0, jj=item.Details.length; ii < jj; ii++){
 	        var detail = item.Details[ii];

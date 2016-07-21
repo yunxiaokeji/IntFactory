@@ -9,6 +9,7 @@ define(function (require, exports, module) {
     require("pager");
     require("switch");
     require("autocomplete");
+    require("menu");
     var Params = {
         PageIndex: 1,
         keyWords: "",
@@ -55,7 +56,11 @@ define(function (require, exports, module) {
                 }
             }
         });
-
+        $("#productMenuChange").changeMenu({
+            onChange: function (data) {
+                console.log(data);
+            }
+        });
         $("#btnSaveProduct").on("click", function () {
             if (!VerifyObject.isPass()) {
                 return;
@@ -168,6 +173,120 @@ define(function (require, exports, module) {
             });
         });
 
+        //监听输入自定义规格
+        $("#attrLayout").change(function () {
+            var _this = $(this);
+            if (_this.val()) {
+                var b1 = false;
+                $(".productsalesattr input[type=checkbox]").each(function () {
+                    if (_this.val() == $(this).data('text')) {
+                        b1 = true;
+                        return false;
+                    }
+                });
+                if (!b1) {
+                    var html = $('<label class="mRight10"><input type="checkbox" class="attritem" data-id="attr.AttrID" data-text="' + _this.val() + '" value="|" />' + _this.val() + '</label> ');
+                    html.find('.attritem').click(function () {
+                        var bl = false, details = [], isFirst = true;
+                        $(".productsalesattr").each(function () {
+                            bl = false;
+                            var _attr = $(this), attrdetail = details;
+                            //组合规格
+                            _attr.find("input:checked").each(function () {
+                                bl = true;
+                                var _value = $(this);
+                                //首个规格
+                                if (isFirst) {
+                                    var model = {};
+                                    model.ids = _attr.data("id") + ":" + _value.val();
+                                    model.saleAttr = _attr.data("id");
+                                    model.attrValue = _value.val();
+                                    model.names = "[" + _attr.data("text") + "：" + _value.data("text") + "]";
+                                    model.layer = 1;
+                                    model.guid = Global.guid();
+                                    details.push(model);
+                                } else {
+                                    for (var i = 0, j = attrdetail.length; i < j; i++) {
+                                        if (attrdetail[i].ids.indexOf(_value.data("id")) < 0) {
+                                            var model = {};
+                                            model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
+                                            model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
+                                            model.attrValue = attrdetail[i].attrValue + "," + _value.val();
+                                            model.names = attrdetail[i].names + "[" + _attr.data("text") + "：" + _value.data("text") + "]";
+                                            model.layer = attrdetail[i].layer + 1;
+                                            model.guid = Global.guid();
+                                            details.push(model);
+                                        }
+                                    }
+                                }
+                            });
+                            isFirst = false;
+                        });
+                        //选择所有属性
+                        if (bl) {
+                            var layer = $(".productsalesattr").length, items = [];
+                            for (var i = 0, j = details.length; i < j; i++) {
+                                var model = details[i];
+                                if (model.layer == layer) {
+                                    items.push(model);
+                                }
+                            }
+                            $(".child-product-li").empty();
+                            //加载子产品
+                            doT.exec("template/products/product_child_add_list.html", function (templateFun) {
+                                var innerText = templateFun(items);
+                                innerText = $(innerText);
+                                $(".child-product-li").append(innerText);
+
+                                innerText.find(".price,.bigprice").val($("#price").val());
+
+                                innerText.find(".upload-child-img").each(function () {
+                                    var _this = $(this);
+                                    var uploader = Upload.uploader({
+                                        browse_button: _this.attr("id"),
+                                        file_path: "/Content/UploadFiles/Product/",
+                                        multi_selection: false,
+                                        auto_callback: false,
+                                        fileType: 1,
+                                        init: {
+                                            "FileUploaded": function (up, file, info) {
+                                                var info = JSON.parse(info);
+                                                _this.siblings("img").attr("src", file.server + info.key);
+                                                _this.siblings("img").attr("data", file.server + info.key);
+                                            }
+                                        }
+                                    });
+
+
+                                });
+
+                                //价格必须大于0的数字
+                                innerText.find(".price,.bigprice").change(function () {
+                                    var _this = $(this);
+                                    if (!_this.val().isDouble() || _this.val() <= 0) {
+                                        _this.val($("#price").val());
+                                    }
+                                });
+
+                                //绑定启用插件
+                                innerText.find(".ico-del").click(function () {
+                                    var _this = $(this);
+                                    confirm("确认删除此规格吗？", function () {
+                                        _this.parents("tr.list-item").remove();
+                                    })
+                                });
+                            });
+                        }
+                    });
+                    _this.parent().before(html);
+                    html.find('.attritem').click();
+                } else {
+                    alert("该规格已存在");
+                }
+                _this.val("");
+            }
+        });
+
         //组合子产品
         $(".productsalesattr .attritem").click(function () {
             var bl = false, details = [], isFirst = true;
@@ -235,6 +354,7 @@ define(function (require, exports, module) {
                                 "FileUploaded": function (up, file, info) {
                                     var info = JSON.parse(info);
                                     _this.siblings("img").attr("src", file.server + info.key);
+                                    _this.siblings("img").attr("data", file.server + info.key);
                                 }
                             }
                         });
@@ -325,7 +445,7 @@ define(function (require, exports, module) {
                 var modelDetail = {
                     DetailsCode: _this.find(".code").val(),
                     ShapeCode: "",
-                    ImgS: _this.find("img").attr("src"),
+                    ImgS: _this.find("img").data("src"),
                     SaleAttr: _this.data("attr"),
                     AttrValue: _this.data("value"),
                     SaleAttrValue: _this.data("attrvalue"),
