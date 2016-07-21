@@ -50,7 +50,7 @@ namespace YXERP.Controllers
         /// 添加产品
         /// </summary>
         /// <returns></returns>
-        public ActionResult ProductAdd(string id, string type = "", string guid = "", string tid = "") 
+        public ActionResult ProductAdd(string type = "", string guid = "", string tid = "") 
         {
             if (string.IsNullOrEmpty(type)) 
             {
@@ -60,14 +60,6 @@ namespace YXERP.Controllers
             ViewBag.GUID = guid;
             ViewBag.TID = tid;
 
-            if (string.IsNullOrEmpty(id))
-            {
-                var list = new ProductsBusiness().GetChildCategorysByID("", EnumCategoryType.Product);
-                ViewBag.Items = list;
-                return View("ChooseCategory");
-            }
-            
-            ViewBag.Model = new ProductsBusiness().GetCategoryDetailByID(id);
             ViewBag.UnitList = new ProductsBusiness().GetUnits();
             return View();
         }

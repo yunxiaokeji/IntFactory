@@ -1,6 +1,5 @@
 ﻿@{
     ViewBag.Title = "添加新材料";
-    var model = (IntFactoryEntity.Category)ViewBag.Model;
 }
 <link href="/modules/css/stock/products.css" rel="stylesheet" />
 <link href="/modules/plug/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet" />
@@ -18,7 +17,7 @@
 }
 
 <div class="header-box">
-    <span class="header-title left">添加材料 >> @(model.CategoryName)</span>
+    <span class="header-title left">添加材料</span>
     @if (Convert.ToInt32(ViewBag.Type) == 11)
     { 
         <a class="back right" href="/Orders/ChooseMaterial?id=@(ViewBag.GUID)&tid=@(ViewBag.TID)">
@@ -38,7 +37,7 @@
         </a>
     }
     
-    <input type="hidden" id="categoryID" value="@(model.CategoryID)" />
+    <input type="hidden" id="categoryID" />
 </div>
 <div class="content-body mTop20">
     <ul class="table-add product-add" id="product-add">
@@ -49,7 +48,7 @@
             <span class="column-name">材料编码：</span><input type="text" maxlength="50" id="productCode" class="input" />
         </li>
         <li>
-            <span class="column-name">材料类别：</span><input type="text" id="productMenuChange" class="input hand" readonly="true" />
+            <span class="column-name">材料类别：</span><input type="text" id="productMenuChange" placeholder="请选择类别" class="input hand" readonly="true" />
         </li>
         <li>
             <span class="column-name">条形码：</span><input type="text" maxlength="50" id="shapeCode" class="input" />
@@ -59,7 +58,7 @@
             <span id="prodiver"></span>
             <div class="btn" id="createProdiver">添加供应商</div>
         </li>
-        
+@*        
         @foreach (IntFactoryEntity.ProductAttr attr in model.AttrLists)
         {
             <li data-id="@attr.AttrID" class="product-attr">
@@ -71,7 +70,7 @@
                     }
                 </select>
             </li>
-        }
+        }*@
         <li>
             <span class="column-name">单位：</span>
 
@@ -97,7 +96,7 @@
         <li class="color666">
             组合设置子产品
         </li>
-        @foreach (IntFactoryEntity.ProductAttr attr in model.SaleAttrs)
+@*        @foreach (IntFactoryEntity.ProductAttr attr in model.SaleAttrs)
         {
             <li data-id="@attr.AttrID" data-text="@attr.AttrName" class="productsalesattr">
                 <span class="column-name">@attr.AttrName：</span>
@@ -107,7 +106,7 @@
                 }
                 <label class="mLeft10"><input type="text" id="attrLayout" placeholder="自定义" style="width:50px;text-align:center;" /></label>
             </li>
-        }
+        }*@
         <li class="child-product-li">
          
         </li>

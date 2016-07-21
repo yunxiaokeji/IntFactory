@@ -40,7 +40,20 @@
     <div id="productinfo">
         <ul class="table-add product-add">
             <li>
-                <span class="column-name">分类名称：</span><label>@(model.Category.CategoryName)</label>
+                <span class="column-name">分类名称：</span>
+                <label>
+                    @{
+                        if (string.IsNullOrEmpty(model.Category.CategoryName))
+                        {
+                            <input type="text" id="productMenuChange" placeholder="请选择类别" class="input hand" readonly="true" />
+                        }
+                        else
+                        {
+                            @(model.Category.CategoryName)
+                        }
+                     }
+
+                </label>
                 <input type="hidden" id="categoryID" value="@(model.CategoryID)" />
             </li>
             
@@ -58,17 +71,22 @@
                 <span id="prodiver"></span>
             </li>
         
-            @foreach (IntFactoryEntity.ProductAttr attr in model.Category.AttrLists)
-            {
-                <li data-id="@attr.AttrID" class="product-attr">
-                    <span class="column-name">@attr.AttrName：</span>
-                    <select id="@attr.AttrID">
-                        @foreach (IntFactoryEntity.AttrValue value in attr.AttrValues)
-                        {
-                            <option value="@value.ValueID">@value.ValueName</option> 
-                        }
-                    </select>
-                </li>
+            @{
+                if (model.Category.AttrLists != null)
+                {
+                    foreach (IntFactoryEntity.ProductAttr attr in model.Category.AttrLists)
+                    {
+                    <li data-id="@attr.AttrID" class="product-attr">
+                        <span class="column-name">@attr.AttrName：</span>
+                        <select id="@attr.AttrID">
+                            @foreach (IntFactoryEntity.AttrValue value in attr.AttrValues)
+                            {
+                                <option value="@value.ValueID">@value.ValueName</option> 
+                            }
+                        </select>
+                    </li>
+                    }
+                }
             }
             <li>
                 <span class="column-name">单位：</span>

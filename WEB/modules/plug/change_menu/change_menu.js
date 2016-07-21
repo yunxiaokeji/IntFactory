@@ -2,6 +2,8 @@
     require("plug/change_menu/change_menu.css");
     (function () {
         var menuData = [];
+        var cacheData = [];
+
         $.fn.changeMenu = function (option) {
             return this.each(function () {
                 var _this = $(this);
@@ -17,17 +19,22 @@
                 $.fn.changeMenu.bindMenu(_this, options);
             });
         };
+
         $.fn.changeMenu.default = {
             width: 400,
             data: "",
             layer: 3,
             defaults: {
-                headerText: "全部分类",
+                headerText: "请选择",
                 headerID: ""
             },
-            onChange: function () {
+            onHeaderChange: function () {
+
+            },
+            onCategroyChange: function () {
             }
         };
+
         $.fn.changeMenu.bindMenu = function (obj, opts) {
             //绑定样式
             obj.css({
@@ -50,7 +57,9 @@
                         _menuContent.append(_clearFloat);
                         _menuBody.append(_menuHeader).append(_menuContent);
                         $('body').append(_menuBody);
-                        bindObj(data.Items, _menuContent, obj, _menuHeader, opts.defaults);
+                        bindObj(data.Items, _menuContent, obj, _menuHeader, opts.defaults, opts);
+
+
                         _closeMenu.click(function () {
                             _menuBody.hide();
                         });
@@ -62,53 +71,71 @@
             });
         };
 
-        var bindObj = function (data, _contentEle, obj, _headerEle, _headerData) {
+        var bindObj = function (data, _contentEle, obj, _headerEle, _headerData,opts) {
             /*头部数据处理*/
             if (_headerData.headerText) {
                 _headerEle.find('li').removeClass('hover');
-                var _headerMenu = $('<li class="hand hover" data-id="' + _headerData.headerID + '" data-layer="' + (_headerData.headerLayer || 0) + '" >' + _headerData.headerText + '</li>');
+                _headerEle.find('li:last-child').html(_headerData.headerText);
+                var _headerMenu = $('<li class="hand hover" data-id="' + _headerData.headerID + '" data-layer="' + (_headerData.headerLayer || 0) + '" >请选择</li>');
                 _headerEle.find('ul').append(_headerMenu);
                 _headerMenu.click(function () {
                     if (!$(this).hasClass('hover')) {
                         $(this).siblings().removeClass('hover');
                         $(this).addClass('hover');
                         var id = $(this).data("id");
-                        $.post("/Products/GetChildCategorysByID", {
-                            categoryid: id
-                        }, function (callBackData) {
-                            _headerMenu.nextAll().remove();
-                            var headerData = {
-                                headerText: '',
-                                headerID: ''
-                            };
-                            _contentEle.find('ul').empty();
-                            bindObj(callBackData.Items, _contentEle, obj, _headerEle, headerData);
-                        });
+                        var item = cacheData[id];
+                        _headerMenu.nextAll().remove();
+                        var headerData = {
+                            headerText: '',
+                            headerID: ''
+                        };
+                        $(this).html("请选择");
+                        _contentEle.find('ul').empty();
+                        if (!item) {
+                            $.post("/Products/GetChildCategorysByID", {
+                                categoryid: id
+                            }, function (callBackData) {
+                                cacheData[id] = callBackData.Items;
+                                bindObj(callBackData.Items, _contentEle, obj, _headerEle, headerData, opts);
+                                !opts.onHeaderChange || opts.onHeaderChange(menuData);
+                            });
+                        } else {
+                            bindObj(item, _contentEle, obj, _headerEle, headerData, opts);
+                            !opts.onHeaderChange || opts.onHeaderChange(menuData);
+                        }
                     }
                 });
             }
 
-            /*子菜单数据处理*/
+            /*子分类数据处理*/
             for (var i = 0; i < data.length; i++) {
                 var item = data[i];
-                var _childMenu = $('<li class="hand" data-layer="' + item.Layers + '" data-name="' + item.CategoryName + '" data-id="' + item.CategoryID + '">' + item.CategoryName + '</li>');
-
+                var _childMenu = $('<li class="hand gategory-item" data-layer="' + item.Layers + '" data-name="' + item.CategoryName + '" data-id="' + item.CategoryID + '">' + item.CategoryName + '</li>');
                 _contentEle.find('ul').append(_childMenu);
                 _childMenu.click(function () {
                     var _this = $(this);
                     if (_this.data('layer') < 3) {
-                        $.post("/Products/GetChildCategorysByID", {
-                            categoryid: _this.data("id")
-                        }, function (callBackData) {
-                            var headerData = {
-                                headerText: _this.text(),
-                                headerID: _this.data("id"),
-                                headerLayer: _this.data("layer")
-                            };
-                            _contentEle.find('ul').empty();
-                            bindObj(callBackData.Items, _contentEle, obj, _headerEle, headerData);
-                        });
+                        var id = $(this).data("id");
+                        var item = cacheData[id];
+                        var headerData = {
+                            headerText: _this.text(),
+                            headerID: _this.data("id"),
+                            headerLayer: _this.data("layer")
+                        };
+                        _contentEle.find('ul').empty();
+
+                        if (!item) {
+                            $.post("/Products/GetChildCategorysByID", {
+                                categoryid: _this.data("id")
+                            }, function (callBackData) {
+                                cacheData[id] = callBackData.Items;
+                                bindObj(callBackData.Items, _contentEle, obj, _headerEle, headerData, opts);
+                            });
+                        } else {
+                            bindObj(item, _contentEle, obj, _headerEle, headerData, opts);
+                        }
                     } else {
+                        _headerEle.find('li:last-child').html(_this.text());
                         $(".change-menu-body").hide();
                     }
 
@@ -138,13 +165,19 @@
                         _desc += itemMD.name;
                     }
                     obj.val(_desc);
+                    !opts.onCategroyChange || opts.onCategroyChange(menuData);
                 });
             }
         };
 
         $(document).click(function (e) {
-            var ele=$(e.target);
-            if (!ele.parents().hasClass('change-menu-body')) {
+            var ele = $(e.target);
+            if (
+                   !ele.parents().hasClass('change-menu-body') 
+                && !ele.hasClass('change-menu-body')
+                && !ele.parents().hasClass('change-menu-content')
+                && !ele.hasClass('gategory-item')
+                ) {
                 $(".change-menu-body").hide();
             }
         });
