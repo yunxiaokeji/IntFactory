@@ -1,4 +1,5 @@
-﻿{%
+﻿<ul class="center-range center mBottom10"> 
+{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
     var nextitem=[];
@@ -9,15 +10,14 @@
         nextitem.MinQuantity=$data[i+1].MinQuantity;
     }
 %}
-
      <li data-rangeid="{%=item.RangeID%}"  style="border-bottom:1px solid #ededed;line-height:25px;" data-id="{%=i%}">
          <div class="left">
              <span class="left">当订单数量在</span>
-             <input class="min-number left" type="text" maxlength="10" value="{%=item.MinQuantity%}" />
+             <input class="min-number left" data-num="{%=item.MinQuantity%}" type="text" maxlength="10" value="{%=item.MinQuantity%}" />
              <span class="left">到</span>
-             <input class="max-number left" type="text" disabled="disabled" maxlength="10" value="{%=nextitem.MinQuantity%}" />
+             <input class="max-number left" type="text" data--num="{%=nextitem.MinQuantity%}" disabled="disabled" maxlength="10" value="{%=nextitem.MinQuantity%}" />
              <span class="left">之间,价格</span>
-             <input class="price left" type="text" maxlength="10" value="{%=item.Price%}" />
+             <input class="price left" data-num="{%=item.Price%}" type="text" maxlength="10" value="{%=item.Price%}" />
              <span>元/件</span>
          </div>
         
@@ -26,5 +26,12 @@
             <span class="mLeft10 mTop1 delete iconfont">&#xe651;</span>            
         </div>         
     </li>    
-
-{% } %}
+    
+{% } %}    
+    {%if($data.length==0){%}
+    <li class="center no-data mTop30">暂无数据</li>
+    {%}%}
+</ul>
+<div class="tLeft">
+    <div class="btn-add add-range">新增</div>
+</div>
