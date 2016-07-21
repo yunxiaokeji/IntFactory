@@ -6,13 +6,10 @@
 <tr class="list-item">
     <td>{%=item.ValueName%}</td>
     <td class="center">{%=item.Sort%}</td>
-    <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
-    <td class="center" >
-       <a href="javascript:void(0);" class="btn-setSort">设置排序</a> 
-        <div class="hide">
-            <input type="text" value="{%=item.Sort%}" class="width80" />
-            <span class="btn-saveSort btn" data-id="{%=item.ValueID%}" data-attrid="{%=item.AttrID%}">保存</span>
-        </div>
+    <td class="" >
+        
+        <span class="ico-del iconfont right mTop1" style="font-size:20px;" title="删除" data-id="{%=item.ValueID%}"></span>
+        <span class="iconfont ico-edit right mRight10" title="编辑" data-id="{%=item.ValueID%}" data-name="{%=item.ValueName%}" data-sort="{%=item.Sort%}"></span>
     </td>
 </tr>
 {% } %}

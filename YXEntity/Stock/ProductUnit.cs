@@ -25,101 +25,11 @@ namespace IntFactoryEntity
 	{
 		public ProductUnit()
 		{}
-		#region Model
-		private int _autoid;
-		private string _unitid;
-		private string _unitname="";
-		private int? _status=1;
-		private string _description="";
-		private string _createuserid;
-		private DateTime? _createtime= DateTime.Now;
-		private DateTime? _updatetime= DateTime.Now;
-		private string _operateip="";
-		private string _clientid;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-		public string UnitID
-		{
-			set{ _unitid=value;}
-			get{return _unitid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string UnitName
-		{
-			set{ _unitname=value;}
-			get{return _unitname;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Status
-		{
-			set{ _status=value;}
-			get{return _status;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Description
-		{
-			set{ _description=value;}
-			get{return _description;}
-		}
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-		public string CreateUserID
-		{
-			set{ _createuserid=value;}
-			get{return _createuserid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? UpdateTime
-		{
-			set{ _updatetime=value;}
-			get{return _updatetime;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string OperateIP
-		{
-			set{ _operateip=value;}
-			get{return _operateip;}
-		}
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-		#endregion Model
+
+        [Property("Lower")]
+        public string UnitID { get; set; }
+
+        public string UnitName { get; set; }
 
         public void FillData(System.Data.DataRow dr)
         {

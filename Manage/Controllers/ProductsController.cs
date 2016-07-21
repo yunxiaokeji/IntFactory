@@ -102,11 +102,11 @@ namespace YXManage.Controllers
             string UnitID = "";
             if (string.IsNullOrEmpty(model.UnitID))
             {
-                UnitID = new ProductsBusiness().AddUnit(model.UnitName, model.Description, CurrentUser.UserID);
+                UnitID = new ProductsBusiness().AddUnit(model.UnitName, "", CurrentUser.UserID);
             }
             else
             {
-                bool bl = new ProductsBusiness().UpdateUnit(model.UnitID, model.UnitName, model.Description, CurrentUser.UserID);
+                bool bl = new ProductsBusiness().UpdateUnit(model.UnitID, model.UnitName, "", CurrentUser.UserID);
                 if (bl)
                 {
                     UnitID = model.UnitID;
@@ -149,7 +149,7 @@ namespace YXManage.Controllers
             List<ProductAttr> list = new List<ProductAttr>();
 
             int totalCount = 0, pageCount = 0;
-            list = new ProductsBusiness().GetAttrList("", keyWorks, PageSize, index, ref totalCount, ref pageCount);
+            list = new ProductsBusiness().GetAttrList(keyWorks, PageSize, index, ref totalCount, ref pageCount);
 
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
@@ -190,7 +190,7 @@ namespace YXManage.Controllers
             string attrID = string.Empty;
             if (string.IsNullOrEmpty(model.AttrID))
             {
-                attrID = new ProductsBusiness().AddAttr(model.AttrName, model.Description, model.CategoryID, model.Type, CurrentUser.UserID);
+                attrID = new ProductsBusiness().AddAttr(model.AttrName, model.Description, "", model.Type, CurrentUser.UserID);
             }
             else if (new ProductsBusiness().UpdateProductAttr(model.AttrID, model.AttrName, model.Description, OperateIP, CurrentUser.UserID))
             {
@@ -244,9 +244,9 @@ namespace YXManage.Controllers
             {
                 if (string.IsNullOrEmpty(model.ValueID))
                 {
-                    valueID = new ProductsBusiness().AddAttrValue(model.ValueName, model.AttrID, CurrentUser.UserID);
+                    valueID = new ProductsBusiness().AddAttrValue(model.ValueName, model.Sort, model.AttrID, CurrentUser.UserID);
                 }
-                else if (new ProductsBusiness().UpdateAttrValue(model.ValueID, model.AttrID, model.ValueName, OperateIP, CurrentUser.UserID))
+                else if (new ProductsBusiness().UpdateAttrValue(model.ValueID, model.AttrID, model.ValueName, model.Sort, OperateIP, CurrentUser.UserID))
                 {
                     valueID = model.ValueID.ToString();
                 }
@@ -302,7 +302,7 @@ namespace YXManage.Controllers
         /// <returns></returns>
         public JsonResult DeleteProductAttr(string attrid)
         {
-            bool bl = new ProductsBusiness().UpdateProductAttrStatus(attrid, EnumStatus.Delete, OperateIP, CurrentUser.UserID);
+            bool bl = ProductsBusiness.BaseBusiness.DeleteProductAttr(attrid, OperateIP, CurrentUser.UserID);
             JsonDictionary.Add("Status", bl);
             return new JsonResult
             {
@@ -327,23 +327,6 @@ namespace YXManage.Controllers
             };
         }
 
-        /// <summary>
-        /// 更新属性值排序
-        /// </summary>
-        /// <param name="valueid"></param>
-        /// <param name="attrid"></param>
-        /// <param name="sort"></param>
-        /// <returns></returns>
-        public JsonResult UpdateAttrValueSort(string valueid, string attrid,int sort)
-        {
-            bool bl = new ProductsBusiness().UpdateAttrValueSort(valueid, attrid,sort);
-            JsonDictionary.Add("Status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
         #endregion
 
         #region 分类
