@@ -82,7 +82,7 @@
 
         $(".price").change(function () {
             var pri = $(this).val();
-            if (!pri.isDouble() || Number(pri) < 0) {
+            if (!pri.isMoneyNumber()) {
                 alert("价格格式不正确");
                 $(this).val($(this).data("num"));
                 return;

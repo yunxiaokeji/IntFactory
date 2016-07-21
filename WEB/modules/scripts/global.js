@@ -65,6 +65,10 @@
     String.prototype.isDouble = function () {
         return this.match(/^\d+(.\d+)?$/);
     }
+    //判断字符串是否只有数字和小数点【金钱数】
+    String.prototype.isMoneyNumber = function () {
+        return this.match(/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/);
+    }
 
     /*重写alert*/
     window.alert = function (msg, url) {
