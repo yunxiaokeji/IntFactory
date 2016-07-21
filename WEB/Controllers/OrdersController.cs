@@ -909,7 +909,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult OrderPriceRange(string model)
+        public JsonResult SavePriceRange(string model)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderPriceRange models = serializer.Deserialize<OrderPriceRange>(model);
@@ -921,7 +921,7 @@ namespace YXERP.Controllers
             }else
             { 
                bool bl = IntFactoryBusiness.OrdersBusiness.UpdateOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
-                JsonDictionary.Add("id", bl?"1":"2");                
+                JsonDictionary.Add("id", bl?"1":"");                
             }
 
             return new JsonResult
