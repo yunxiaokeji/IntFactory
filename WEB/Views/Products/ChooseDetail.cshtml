@@ -55,7 +55,7 @@
                                         @{
                                             if (model.SaleAttrs.Count == 1)
                                             {
-                                                @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('[', ' ').Replace(']', ' ').Replace(attr.AttrName+":",string.Empty).Replace(attr.AttrName+"：",string.Empty))
+                                                @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('[', ' ').Replace(']', ' ').Replace(attr.AttrName+"：",string.Empty) )
                                             }
                                             else
                                             {
