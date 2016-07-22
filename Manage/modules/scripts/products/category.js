@@ -295,7 +295,6 @@ define(function (require, exports, module) {
         Global.post("/Products/GetAttrsByCategoryID", {
             categoryid: obj.data("id")
         }, function (data) {
-            console.log(data.Items);
             doT.exec("template/products/category-attrs.html", function (templateFun) {
                 var html = templateFun(data.Items);
                 html = $(html);

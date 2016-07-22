@@ -238,7 +238,7 @@ namespace YXManage.Controllers
 
         public JsonResult DeleteCategoryAttr(string categoryid, string attrid, int type)
         {
-            bool bl = new ProductsBusiness().UpdateCategoryAttrStatus(categoryid, attrid, EnumStatus.Delete, type, OperateIP, CurrentUser.UserID);
+            bool bl = new ProductsBusiness().DeleteCategoryAttr(categoryid, attrid, type, OperateIP, CurrentUser.UserID);
             JsonDictionary.Add("Status", bl);
             return new JsonResult
             {
