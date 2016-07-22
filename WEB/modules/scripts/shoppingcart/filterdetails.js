@@ -33,6 +33,12 @@ define(function (require, exports, module) {
     ObjectJS.bindEvent = function (model) {
         var _self = this;
 
+        //$(".create-doc").click(function () {
+        //    Global.post("/Products/GetWareHouses", "", function (data) {
+        //        doT.exec("template/")
+        //    });
+        //});
+
         //选择规格
         $("#saleattr li.value").click(function () {
             var _this = $(this);
