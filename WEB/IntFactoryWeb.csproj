@@ -555,7 +555,6 @@
     <Content Include="modules\template\products\product-property.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />
     <Content Include="modules\template\purchase\audit_details.html" />
-    <Content Include="modules\template\shoppingcart\add-doc.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\system\orderstage-detail.html" />
