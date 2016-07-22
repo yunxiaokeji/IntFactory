@@ -159,7 +159,7 @@ define(function (require, exports, module) {
         Global.post("/ShoppingCart/UpdateCartQuantity", {
             autoid: ele.data("id"),
             quantity: ele.val(),
-            wareid: _self.guid
+            guid: _self.guid
         }, function (data) {
             if (!data.Status) {
                 ele.val(ele.data("value"));
@@ -185,7 +185,7 @@ define(function (require, exports, module) {
             return;
         }
         Global.post("/Purchase/SubmitPurchase", {
-            wareid: _self.guid,
+            wareid: _self.wareid,
             remark: $("#remark").val().trim()
         }, function (data) {
             if (data.status) {

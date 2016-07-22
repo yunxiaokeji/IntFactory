@@ -82,33 +82,34 @@ define(function (require, exports, module) {
         //新建报溢
         $("#btnCreate").click(function () {
             var _this = $(this);
-            doT.exec("template/stock/chooseware.html", function (template) {
-                var innerHtml = template(wares);
-                Easydialog.open({
-                    container: {
-                        id: "show-model-chooseware",
-                        header: "选择报溢仓库",
-                        content: innerHtml,
-                        yesFn: function () {
-                            var wareid = $(".ware-items .hover").data("id");
-                            if (!wareid) {
-                                alert("请选择报溢仓库！");
-                                return false;
-                            } else {
-                                location.href = "/Stock/CreateOverflow/" + wareid;
-                            }
-                        },
-                        callback: function () {
+            location.href = "/Stock/CreateOverflow";
+            //doT.exec("template/stock/chooseware.html", function (template) {
+            //    var innerHtml = template(wares);
+            //    Easydialog.open({
+            //        container: {
+            //            id: "show-model-chooseware",
+            //            header: "选择报溢仓库",
+            //            content: innerHtml,
+            //            yesFn: function () {
+            //                var wareid = $(".ware-items .hover").data("id");
+            //                if (!wareid) {
+            //                    alert("请选择报溢仓库！");
+            //                    return false;
+            //                } else {
+            //                    location.href = "/Stock/CreateOverflow/" + wareid;
+            //                }
+            //            },
+            //            callback: function () {
 
-                        }
-                    }
-                });
+            //            }
+            //        }
+            //    });
 
-                $(".ware-items .ware-item").click(function () {
-                    $(this).siblings().removeClass("hover");
-                    $(this).addClass("hover");
-                });
-            });
+            //    $(".ware-items .ware-item").click(function () {
+            //        $(this).siblings().removeClass("hover");
+            //        $(this).addClass("hover");
+            //    });
+            ////});
         });
 
         //审核

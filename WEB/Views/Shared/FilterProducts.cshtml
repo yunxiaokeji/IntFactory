@@ -20,7 +20,12 @@
     }
     else if (Convert.ToInt32(ViewBag.Type) == 1)
     {
-        <a class="btn right mLeft20" href="/Products/ConfirmPurchase/@(ViewBag.GUID)">返回采购单</a>
+        <a class="btn right mLeft20" href="/Products/ConfirmPurchase">返回采购单</a>
+        <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
+    }
+    else if (Convert.ToInt32(ViewBag.Type) == 4)
+    {
+        <a class="btn right mLeft20" href="/Stock/CreateOverflow">返回报溢单</a>
         <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
     }
     else

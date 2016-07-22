@@ -1,12 +1,12 @@
 ﻿@{
     ViewBag.Title = "新建报溢单";
-    var ware = (IntFactoryEntity.WareHouse)ViewBag.Ware;
+    var ware = (List<IntFactoryEntity.WareHouse>)ViewBag.Ware;
 }
 
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/stock/createoverflow"], function (obj) {
-            obj.init('@(ware.WareID)');
+            obj.init('@(ViewBag.guid)', '@(Html.ToJSONString(ware))');
         });
     </script>
 }
@@ -15,10 +15,6 @@
 </div>
 <div class="content-body mTop20">
      <ul class="table-add">
-        <li>
-            <span class="column-title">仓库：</span>
-            @ware.Name
-        </li>
         <li>
             <span class="column-title">备注：</span> 
             <span">
@@ -31,7 +27,9 @@
         <ul class="tab-nav-ul left">
             <li class="hover" data-id="navRemark">材料明细</li>
         </ul>
-        <div class="btn right" id="btnChooseProduct">添加报溢材料</div>
+        <div class="right mLeft20" id="chooseWare"></div>
+        <div class="btn right mLeft20" id="addChooseProduct">添加报溢材料</div>
+        <div class="btnccc right" id="btnChooseProduct">快捷添加材料</div>
     </div>
     <table class="table-list">
         <tr class="tr-header">

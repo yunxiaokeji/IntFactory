@@ -89,7 +89,7 @@ namespace YXERP.Controllers
         public ActionResult ChooseProducts(string id)
         {
             ViewBag.Type = (int)EnumDocType.RK;
-            ViewBag.GUID = id;
+            ViewBag.GUID = CurrentUser.UserID;
             ViewBag.TID = "";
             ViewBag.Title = "选择材料";
             return View("FilterProducts");
@@ -137,7 +137,7 @@ namespace YXERP.Controllers
         {
             var wares = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
             ViewBag.Ware = wares;
-            ViewBag.Items = ShoppingCartBusiness.GetShoppingCart(EnumDocType.RK, CurrentUser.UserID, CurrentUser.UserID);
+            ViewBag.Items = ShoppingCartBusiness.GetShoppingCart(EnumDocType.RK, id, CurrentUser.UserID);
             ViewBag.guid = CurrentUser.UserID;
             return View();
         }

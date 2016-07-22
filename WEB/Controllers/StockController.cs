@@ -77,17 +77,10 @@ namespace YXERP.Controllers
 
         public ActionResult CreateDamaged(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return Redirect("/Stock/Damaged");
-            }
-            var ware = SystemBusiness.BaseBusiness.GetWareByID(id, CurrentUser.ClientID);
-            if (ware == null || string.IsNullOrEmpty(ware.WareID))
-            {
-                return Redirect("/Stock/Damaged");
-            }
+            var ware = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
+            ViewBag.guid = CurrentUser.UserID;            
             ViewBag.Ware = ware;
-            ViewBag.Items = ShoppingCartBusiness.GetShoppingCart(EnumDocType.BS, ware.WareID, CurrentUser.UserID);
+            ViewBag.Items = ShoppingCartBusiness.GetShoppingCart(EnumDocType.BS, CurrentUser.UserID, CurrentUser.UserID);
             return View();
         }
 
@@ -118,17 +111,10 @@ namespace YXERP.Controllers
 
         public ActionResult CreateOverflow(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return Redirect("/Stock/Overflow");
-            }
-            var ware = SystemBusiness.BaseBusiness.GetWareByID(id, CurrentUser.ClientID);
-            if (ware == null || string.IsNullOrEmpty(ware.WareID))
-            {
-                return Redirect("/Stock/Overflow");
-            }
-            ViewBag.Ware = ware;
-            ViewBag.Items = ShoppingCartBusiness.GetShoppingCart(EnumDocType.BY, ware.WareID, CurrentUser.UserID);
+            var wares = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
+            ViewBag.Ware = wares;
+            ViewBag.guid = CurrentUser.UserID;
+            ViewBag.Items = ShoppingCartBusiness.GetShoppingCart(EnumDocType.BY, CurrentUser.UserID, CurrentUser.UserID);
             return View();
         }
 
@@ -190,6 +176,14 @@ namespace YXERP.Controllers
             }
             ViewBag.Model = model;
             return View();
+        }
+
+        public ActionResult ChooseBYProducts()
+        {
+            ViewBag.Type = (int)EnumDocType.BY;
+            ViewBag.GUID = CurrentUser.UserID;
+            ViewBag.Title = "选择报溢产品";
+            return View("FilterProducts");
         }
 
         #region Ajax
