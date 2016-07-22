@@ -524,6 +524,21 @@ namespace YXERP.Controllers
         }
 
         /// <summary>
+        /// 获取仓库、货位信息(2016-7-22)
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetWareHouses()
+        {
+            List<WareHouse> items = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
+            JsonDictionary.Add("items", items);
+            return new JsonResult
+            {
+                Data = items,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
         /// 编辑产品状态
         /// </summary>
         /// <param name="productid"></param>
