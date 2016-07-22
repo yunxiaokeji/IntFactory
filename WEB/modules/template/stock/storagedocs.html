@@ -17,7 +17,7 @@ if(i>0)
     <td class="{%=item.Status<2?'red':''%}">
         {%=item.StatusStr%}
         <div class="right iconfont dropdown" data-status="{%=item.Status%}" data-id="{%=item.DocID%}"> 
-            <span class="ico-dropdown"></span>
+            <span class="{%=item.Status < 2? 'ico-dropdown':''%}"></span>
         </div>
     </td>
 </tr>
