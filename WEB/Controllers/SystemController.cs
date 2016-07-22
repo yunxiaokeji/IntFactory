@@ -37,6 +37,7 @@ namespace YXERP.Controllers
             ViewBag.Items = new SystemBusiness().GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View();
         }
+
         public ActionResult OrderProcess()
         {
             return View();

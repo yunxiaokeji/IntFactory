@@ -109,6 +109,7 @@ define(function (require, exports, module) {
                 _self.getList();
             });
         });
+
         //添加
         $(".btn-add").on("click", function () {
             EntityModel.DepotID = "";
