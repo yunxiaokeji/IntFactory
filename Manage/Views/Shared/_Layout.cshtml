@@ -10,9 +10,7 @@
     <title>@ViewBag.Title</title>
     <link href="/modules/css/base.css" rel="stylesheet" />
     <link href="/modules/css/layout.css" rel="stylesheet" />
-    <link href="/modules/css/default/detail.css" rel="stylesheet" />
-     <link href="/modules/css/iconfont/iconfont.css" rel="stylesheet" />
-    <link href="/modules/css/default/list.css" rel="stylesheet" />
+    <link href="/modules/css/iconfont/iconfont.css" rel="stylesheet" />
     @RenderSection("css", false)
 </head>
 
@@ -26,18 +24,16 @@
             智能工厂管理后台
         </div>
         <ul id="modulesMenu" class="menu left">
-             <li class="left">
+             <li  class="@(controller=="home" ? "select left" : "left")">
                 <a href="/home/index" >
-                    <span class="name">首页</span>
-                    <span class="cursor"></span>
+                    首页
                 </a> 
              </li>          
             @foreach (IntFactoryEntity.Menu model in ExpandClass.GetChildMenuByCode(HttpContext.Current, ExpandClass.CLIENT_TOP_CODE))
             {                   
-                <li class="@(model.MenuCode.ToUpper()==(controllerMenu!=null?controllerMenu.PCode.ToUpper():"") ? "select left" : "left")"  BindController="@(model.Controller)"  data-code="@(model.MenuCode)">            
+                <li class="@(model.MenuCode.ToUpper()==(controllerMenu!=null?controllerMenu.PCode.ToUpper():"") ? "select left" : "left")"  data-code="@(model.MenuCode)">            
                     <a  href="/@(model.Controller)/@(model.View)">
-                        <span class="name">@(model.Name)</span>
-                        <span class="cursor"></span>
+                        @(model.Name)
                     </a> 
                 </li> 
             }
@@ -66,15 +62,14 @@
                     <div class="controller @(model.Controller.ToLower()==controller ? "select" : "")" data-code="@(model.MenuCode)">
                         <div class="controller-box">
                             <div class="controller-name">
-                                <span class="open left @(model.Controller.ToLower()==controller ? "rotate" : "")"></span>
-                                <span class="name left">@(model.Name)</span>
+                               @(model.Name)
                             </div>
                         </div>
                         <ul class="action-box @(model.Controller.ToLower()==controller ? "" : "hide")">
                             @foreach (IntFactoryEntity.Menu view in ExpandClass.GetChildMenuByCode(HttpContext.Current, model.MenuCode))
                             {
                                 <li class="action @(view.View.ToLower()==action ? "select" : "")" data-code="@(view.MenuCode)">
-                                    <a href="/@(view.Controller + "/" + view.View)" ><span class="name" style="font-size:12px;">@(view.Name)</span></a>
+                                    <a href="/@(view.Controller + "/" + view.View)" >@(view.Name)</a>
                                 </li>
                             }
                          </ul>
@@ -103,8 +98,7 @@
     <script type="text/javascript" src="/Scripts/sea.js"></script>
     <script type="text/javascript" src="/Scripts/sea-config.js"></script>
     <script type="text/javascript">
-        seajs.use(["scripts/layout"], function (layout)
-        {
+        seajs.use(["scripts/layout"], function (layout) {
             layout.init();
         });
     </script>

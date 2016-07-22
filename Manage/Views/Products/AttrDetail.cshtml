@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "通用属性（规格）详情";
+    ViewBag.Title = "属性（规格）详情";
 }
 
 <link href="/modules/css/products.css" rel="stylesheet" />
@@ -14,14 +14,14 @@
 <div class="header-box">
     <span class="header-title left">属性（规格)</span>
     <a href="javascript:void(0)" id="addAttrValue" class="btn-add right">新建属性值</a>
+    <a class="btn-back right mRight10" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回 </a> 
 </div>
 <div class="content-body mTop10">
     <table class="table-list">
         <tr class="tr-header" id="attrItems">
-            <td class="width300 tLeft">属性值名称</td>
-            <td class="width200">序号</td>
-            <td class="width150">创建时间</td>
-            <td class="width150">操作</td>
+            <td class="tLeft">属性值名称</td>
+            <td class="width150">排序</td>
+            <td class="width60 tRight">操作</td>
         </tr>
     </table>
 </div>

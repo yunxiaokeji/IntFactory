@@ -14,12 +14,10 @@
 <div class="header-box">
     <span class="header-title">添加快递公司</span>
     @*<a class="btn right" href="javascript:history.go(-1);">返回</a>*@
-     <a class="back right color333" href="javascript:if(history.length>1){ history.go(-1);} else{}">
-        <i class="iconfont">&#xe62d;</i> 返回
-     </a> 
+     <a class="btn-back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a> 
 </div>
 
-<div class="content-body mTop20">
+<div class="content-body">
     <ul class="contentnew" style="display:block;">
         <li>
             <span class="columnname">名称：</span>
@@ -32,8 +30,8 @@
     </ul>
 
     <div class="mTop20">
-        <input type="button" id="saveExpressCompany" class="btn" value="添加" />
-        <input type="button @(ExpandClass.IsLimits(HttpContext.Current,"204010303"))" id="delExpressCompany" class="btn" style="display:none" value="删除" />
+        <div id="saveExpressCompany" class="btn">添加</div>
+        <div @(ExpandClass.IsLimits(HttpContext.Current,"204010303"))" id="delExpressCompany" class="btn" style="display:none">删除</div>
     </div>
 </div>
     

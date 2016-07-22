@@ -170,6 +170,10 @@ select option{ padding:2px; }
 .btn999 {  padding:5px 10px; background-color:#999; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; line-height:18px; }
 .btn999:hover { background-color:#666; color:#fff; }
 
+/*返回*/
+.btn-back { background: url(/modules/images/iconback.png) no-repeat 5px 7px; line-height: 18px; padding: 5px 10px; border-radius: 2px; display: inline-block; cursor: pointer; padding-left: 23px; color: #fff; background-color: #4a98e7; 
+           -moz-transition: all 0.3s; -webkit-transition: all 0.3s; -o-transition: all 0.3s; }
+.btn-back:hover{ background-color:#2F73B8;}
 
 /*替换*/
 .change-ico{ display:inline-block; cursor:pointer; color:#4a98e7; font-size:20px !important;}
@@ -191,18 +195,14 @@ select option{ padding:2px; }
 .ico-change:hover{ background:url(../images/ico-changehover.png) no-repeat; color:#4a98e7; }
 
 /*编辑*/
-/*.ico-edit{ background:url(../images/ico-edit-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
-          display:inline-block; cursor:pointer;  color:#666; }
-.ico-edit:hover{ background:url(../images/ico-edit-deep.png) no-repeat;}*/
-.ico-edit{ height:24px; min-width:24px; line-height:24px; 
-          display:inline-block; cursor:pointer;  color:#999; }
-.ico-edit:hover{ color:#000;}
-
+.ico-edit:before{ content:"\e607"; }
+.ico-edit{ display:inline-block; cursor:pointer;  color:#4a98e7; }
+.ico-edit:hover{ color:#2F73B8;}
 
 /*删除-垃圾箱*/
-.ico-del{ background:url(../images/ico-del-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
-          display:inline-block; cursor:pointer; color:#666; }
-.ico-del:hover{ background:url(../images/ico-del-deep.png) no-repeat;}
+.ico-del:before{  content:"\e651";}
+.ico-del{ display:inline-block; cursor:pointer; color:#4a98e7;  }
+.ico-del:hover { color: #2F73B8; }
 
 /*删除 叉*/
 .ico-delete{ background:url(../images/ico-delete.png) no-repeat; height:20px; min-width:20px; line-height:20px; 

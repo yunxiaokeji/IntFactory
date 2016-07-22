@@ -121,13 +121,11 @@
     <Content Include="Global.asax" />
     <Content Include="modules\css\category.css" />
     <Content Include="modules\css\clients.css" />
-    <Content Include="modules\css\default\detail.css" />
     <Content Include="modules\css\iconfont\demo.css" />
     <Content Include="modules\css\iconfont\demo.html" />
     <Content Include="modules\css\iconfont\iconfont.css" />
     <Content Include="modules\css\iconfont\iconfont.svg" />
     <Content Include="modules\css\products\filterdetails.css" />
-    <Content Include="modules\css\default\list.css" />
     <Content Include="modules\css\home.css" />
     <Content Include="modules\css\base.css" />
     <Content Include="modules\css\layout.css" />
@@ -199,6 +197,7 @@
     <Content Include="modules\images\ico-tree-open.png" />
     <Content Include="modules\images\ico-tree-pull.png" />
     <Content Include="modules\images\ico-username.png" />
+    <Content Include="modules\images\iconback.png" />
     <Content Include="modules\images\icondate.png" />
     <Content Include="modules\images\ico_search.png" />
     <Content Include="modules\images\ico_searchhover.png" />
@@ -488,6 +487,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="modules\css\default\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -624,7 +624,6 @@
     <Content Include="Web.config" />
     <Content Include="Views\Client\OrderDetail.cshtml" />
     <Content Include="Views\Report\ClientsVitalityReport.cshtml" />
-    <Content Include="Views\Shared\_LayoutNoLeft.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

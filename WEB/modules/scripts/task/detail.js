@@ -1050,7 +1050,7 @@
                                 var markvalue = $td.find(".tbContentIpt").val();
                                 var variation = _self.parent().find(".normal-plate-ipt").val();
                                 if (markvalue != "" && variation != "") {
-                                    var value = parseInt(markvalue) + parseInt((variation * (sort - marksort)));
+                                    var value = (markvalue*1) + ((variation * (sort - marksort))*1);
                                     _self.find(".tbContentIpt").val(value);
                                 }
                             }
@@ -1171,7 +1171,7 @@
             var $columnHeadrs = $(".tr-header .columnHeadr");
             for (var i = 0; i < $columnHeadrs.length; i++) {
                 var sort = $columnHeadrs.eq(i).data("sort");
-                var value = parseInt(markvalue) + parseInt((variation * (sort - marksort)));
+                var value = (markvalue*1) + ((variation * (sort - marksort))*1);
 
                 $tbContentIpts.eq(i + 1).val(value);
             }
@@ -1207,7 +1207,7 @@
             var $columnHeadrs=$(".tr-header .columnHeadr");
             for (var i = 0; i < $columnHeadrs.length; i++) {
                 var sort = $columnHeadrs.eq(i).data("sort");
-                var value = parseInt(markvalue) + parseInt((variation * (sort - marksort)));
+                var value = (markvalue*1) + ((variation * (sort - marksort))*1);
 
                 $tbContentIpts.eq(i + 1).val(value);
             }

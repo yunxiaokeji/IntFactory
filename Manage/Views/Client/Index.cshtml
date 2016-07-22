@@ -11,25 +11,22 @@
 }
 
 <div class="header-box">
-    <span class="left header-title">客户端列表</span>
-    <a href="Create" class="btn right  @(ExpandClass.IsLimits(HttpContext.Current,"201010101"))">新建客户端</a>
+    <span class="left header-title">客户列表</span>
+    <a href="Create" class="btn right  @(ExpandClass.IsLimits(HttpContext.Current,"201010101"))">新建客户</a>
 </div>
 
-<div class="content-body mTop20">
+<div class="content-body">
     <div id="ClientType" class="left"></div>
     <div class="right searth-module"> </div>
     <div class="clear"></div>
-    <table class="table-list">
+    <table class="table-list mTop10">
         <tr class="tr-header" id="client-header">    
-            <td class="tLeft">公司编码</td>        
-            <td class="tLeft">公司名称</td>
+            <td class="tLeft">工厂编码</td>        
+            <td class="tLeft">工厂名称</td>
             <td class="tLeft">阿里ID</td>
-            <td class="">联系人</td>
-            <td class="">移动电话</td>
-            @*<td class="tLeft">行业</td>*@
-            <td class="">省份城市</td>
-            @*<td class="">详细地址</td>*@
-            @*<td class="">备注</td>*@
+            <td class="tLeft">联系人</td>
+            <td class="tLeft">移动电话</td>
+            <td class="tLeft">省份城市</td>
             <td class="">
                  <span class="td-span" data-column="a.CreateTime"> 注册日期
                     <span class="asc"></span>
@@ -48,7 +45,6 @@
                     <span class="desc"></span>
                </span>
              </td>
-            <td class="" width="10%">操作</td>
         </tr>
     </table>
 

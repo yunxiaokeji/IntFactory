@@ -3,12 +3,12 @@
 	var item = $data[i];
 %}
 <tr class="list-item">  
-    <td class="tLeft">{%=item.Name%}</td>
-    <td class="center">{%=item.Description%}</td>
+    <td class="">{%=item.Name%}</td>
+    <td class="">{%=item.Description%}</td>
     <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     <td class="center">
         <a href="/System/IndustryDetail/{%=item.IndustryID%}"  title="设置" data-id="{%=item.IndustryID%}">
-            <div class="ico-edit iconfont">&#xe607;</div>
+            <div class="ico-edit iconfont"></div>
         </a>
     </td>
 </tr>

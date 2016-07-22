@@ -207,18 +207,7 @@ define(function (require, exports, module) {
             }
         });
     };
-    //$(".search-type li").click(function () {
-    //    var _this = $(this);
-    //    if (!_this.hasClass("hover")) {
-    //        _this.siblings().removeClass("hover");
-    //        _this.addClass("hover"); 
-    //        Clients.ReportParams.dateType = _this.data("type"); 
-    //        if (!Clients.clientsChart) {
-    //            Clients.clientsChart = ec.init(document.getElementById('clientdetailVitalityRPT'));
-    //        } 
-            
-    //    }
-    //});
+
     //编辑信息
     Clients.editClient = function (model) {
         var _self = this;
@@ -314,11 +303,8 @@ define(function (require, exports, module) {
 
         Global.post("/Client/SaveClient", { client: JSON.stringify(model), loginName: $("#loginName").val() }, function (data) {
             if (data.Result == "1") {
-                location.href = "/Client/Index";
-            } else if (data.Result == "2") {
-                alert("登陆账号已存在!");
-                $("#loginName").val("");
-            }
+                location.href = location.href;
+            } 
         });
     }
     Clients.editAuthorize = function (model,type) {
@@ -481,7 +467,7 @@ define(function (require, exports, module) {
             doT.exec("template/client/client-orders.html?3", function (templateFun) { 
                 var innerText ="";
                 if (data.Items.length == 0) {
-                    innerText='<tr><td colspan="11" style="text-align:center;font-size:18px;color:#333;"> 暂无数据 </td></tr>';
+                    innerText = '<tr><td colspan="11"><div class="nodata-txt">暂无数据<div></td></tr>';
                 } else {
                     innerText=templateFun(data.Items);
                     innerText = $(innerText);

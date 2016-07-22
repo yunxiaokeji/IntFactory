@@ -7,11 +7,11 @@
     <td class="tLeft">{%=item.PeriodQuantity%}/{%=item.Period==1?"月":"年"%}</td>
     <td class="center">{%=item.UserQuantity%}</td>
     <td class="center">{%=item.Price%}</td>
-    <td class="center">{%=item.Description%}</td>
+    <td class="">{%=item.Description%}</td>
     <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     <td class="center">
         <a href="/system/Detail/{%=item.AutoID%}" title="设置" data-id="{%=item.AutoID%}">
-            <div class="ico-edit iconfont">&#xe607;</div>
+            <div class="ico-edit iconfont"></div>
         </a>
         <!--<a  class="ico-del mLeft10" href="javascript:void(0)" title="删除" data-id="{%=item.AutoID%}"></a>-->
     </td>

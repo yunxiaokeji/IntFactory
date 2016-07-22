@@ -2,6 +2,7 @@
     var Global = require("global"),
         Verify = require("verify"), VerifyObject,
         doT = require("dot"),
+        Easydialog = require("easydialog");
         AttrPlug = require("scripts/products/attrplug");
     require("pager");
     var Value = {
@@ -26,12 +27,6 @@
     //绑定事件
     ObjectJS.bindEvent = function () {
         var _self = this;
-
-        $(document).click(function (e) {
-            if (!$(e.target).hasClass("attr-values") && !$(e.target).parents().hasClass("attr-values") && !$(e.target).hasClass("attr-value-box") && !$(e.target).parents().hasClass("attr-value-box")) {
-                _self.hideValues();
-            }
-        });
 
         $("#addAttr").click(function () {
             AttrPlug.init({
@@ -58,6 +53,8 @@
                 Global.post("/Products/DeleteProductAttr", { attrid: _this.data("id") }, function (data) {
                     if (data.Status) {
                         _self.getList();
+                    } else {
+                        alert("属性（规格）存在关联分类，不能删除");
                     }
                 });
             }
@@ -93,6 +90,7 @@
             }
         });
     }
+
     //获取属性列表
     ObjectJS.getList = function () {
         var _self = this;
@@ -124,6 +122,7 @@
             });
         });
     }
+
     //加载属性数据
     ObjectJS.innerItems = function (items, clear) {
         var _self = this;
@@ -147,11 +146,6 @@
                         $(this).hide();
                     });
                 });
-
-                inner.find(".attr-values").click(function () {
-                    var _this = $(this);
-                    _self.showValues(_this.data("id"));
-                });
             })
         }
         else {
@@ -159,108 +153,6 @@
         }
 
     }
-    //显示属性值悬浮层
-    ObjectJS.showValues = function (attrID) {
-        $("#attrValueBox").animate({ right: "0px" }, "fast");
-        Value.AttrID = attrID;
-        ObjectJS.getAttrDetail();
-    }
-    //获取属性明细
-    ObjectJS.getAttrDetail = function () {
-        Global.post("/Products/GetAttrByID", { attrID: Value.AttrID }, function (data) {
-            $("#attrValueBox").find(".header-title").html(data.Item.AttrName);
-            ObjectJS.innerValuesItems(data.Item.AttrValues, true);
-            
-        });
-    }
-    //隐藏属性值悬浮层
-    ObjectJS.hideValues = function () {
-        $("#attrValueBox").animate({ right: "-302px" }, "fast");
-    }
-    //加载值数据
-    ObjectJS.innerValuesItems = function (items, clear) {
-        var _self = this;
-        if (clear) {
-            $("#attrValues").empty();
-        }
-        for (var i = 0, j = items.length; i < j; i++) {
-            var item = $('<li data-id="' + items[i].ValueID + '" class="item">' +
-                               '<input type="text" data-id="' + items[i].ValueID + '" data-value="' + items[i].ValueName + '" value="' + items[i].ValueName + '" />' +
-                               '<span data-id="' + items[i].ValueID + '" class="ico-delete"></span>' +
-                         '</li>');
-            _self.bindElementEvent(item);
-            $("#attrValues").prepend(item);
-        }
-    }
-    //元素绑定事件
-    ObjectJS.bindElementEvent = function (elments) {
-        var _self = this;
-        elments.find("input").focus(function () {
-            var _this = $(this);
-            _this.select();
-        });
-        elments.find("input").blur(function () {
-            var _this = $(this);
-            //为空
-            if (_this.val() == "") {
-                if (_this.data("id") == "") {
-                    _this.parent().remove();
-                } else {
-                    _this.val(_this.data("value"));
-                }
-            } else if (_this.val() != _this.data("value")) {
-
-                Value.ValueID = _this.data("id");
-                Value.ValueName = _this.val();
-                //保存属性值
-                _self.saveValue(function () {
-                    _this.data("value", Value.ValueName);
-                });
-            }
-        });
-        elments.find(".ico-delete").click(function () {
-            var _this = $(this);
-            if (_this.data("id") != "") {
-                if (confirm("删除后不可恢复,确认删除吗？")) {
-                    _self.deleteValue(_this.data("id"), function (status) {
-                        status && _this.parent().remove();
-                    });
-                }
-            } else {
-                _this.parent().remove();
-            }
-        })
-    }
-    //保存属性值
-    ObjectJS.saveValue = function (editback) {
-        var _self = this;
-        Global.post("/Products/SaveAttrValue", { value: JSON.stringify(Value) }, function (data) {
-            if (data.result == "10001") {
-                alert("您没有此操作权限，请联系管理员帮您添加权限！");
-                return;
-            }
-            if (data.ID.length > 0) {
-                if (Value.ValueID == "") {
-                    Value.ValueID = data.ID;
-                    _self.innerValuesItems([Value], false);
-                }
-                !!editback && editback();
-            } else {
-                alert("操作失败,请稍后重试!");
-            }
-        });
-    }
-    //删除属性值
-    ObjectJS.deleteValue = function (valueid, callback) {
-        Global.post("/Products/DeleteAttrValue", { valueid: valueid, attrid: Value.AttrID }, function (data) {
-            if (data.result == "10001") {
-                alert("您没有此操作权限，请联系管理员帮您添加权限！");
-                return;
-            }
-            !!callback && callback(data.Status);
-        });
-    }
-
 
     ObjectJS.initDetail = function (attrID) {
         Value.AttrID = attrID;
@@ -270,47 +162,49 @@
     }
 
     ObjectJS.bindDetailEvent = function () {
-        var Easydialog = require("easydialog");
-       
-
+        var _self = this;
         $("#addAttrValue").click(function () {
-            var html = '<ul class="create-attr">' +
-                        '<li><span class="width80 left">属性值：</span><input type="text" id="valueName" maxlength="10" value="" class="input verify " data-empty="必填" /></li>';
-            html += '<li><span class="width80 left">排序：</span><input type="text" class="width80 verify" value="0" data-type="number" data-text="格式不对" data-empty="必填"id=valueSort ></li></ul>';
-
-            Easydialog.open({
-                container: {
-                    id: "show-add-attrvalue",
-                    header: "新增属性值",
-                    content: html,
-                    yesFn: function () {
-                        //验证插件
-                        VerifyObject = Verify.createVerify({
-                            element: ".create-attr .verify",
-                            emptyAttr: "data-empty",
-                            verifyType: "data-type",
-                            regText: "data-text"
-                        });
-
-                        if (!VerifyObject.isPass()) {
-                            return false;
-                        };
-
-                        Value.ValueName = $("#valueName").val();
-                        Value.ValueID = "";
-                        Value.Sort = $("#valueSort").val();
-                        ObjectJS.saveAttrValue();
-                    },
-                    callback: function () {
-
-                    }
-                }
-            });
+            _self.showValue("", "", 1);
         });
     }
 
+    ObjectJS.showValue = function (valuesid, name, sort) {
+        var html = '<ul class="create-attr">' +
+                        '<li><span class="width80 left">名称：</span><input type="text" id="valueName" maxlength="10" value="' + name + '" class="input verify " data-empty="必填" /></li>';
+        html += '<li><span class="width80 left">排序：</span><input type="text" class="width80 verify" value="' + sort + '" data-type="number" data-text="格式不对" data-empty="必填" id="valueSort" ></li></ul>';
+
+        Easydialog.open({
+            container: {
+                id: "show-add-attrvalue",
+                header: "新增属性值",
+                content: html,
+                yesFn: function () {
+                    //验证插件
+                    VerifyObject = Verify.createVerify({
+                        element: ".create-attr .verify",
+                        emptyAttr: "data-empty",
+                        verifyType: "data-type",
+                        regText: "data-text"
+                    });
+
+                    if (!VerifyObject.isPass()) {
+                        return false;
+                    };
+
+                    Value.ValueName = $("#valueName").val();
+                    Value.ValueID = valuesid;
+                    Value.Sort = $("#valueSort").val();
+                    ObjectJS.saveAttrValue();
+                },
+                callback: function () {
+
+                }
+            }
+        });
+    }
 
     ObjectJS.getAttrItems = function (attrID) {
+        var _self = this;
         Global.post("/Products/GetAttrByID", { attrID: attrID }, function (data) {
             $(".header-title").html(data.Item.AttrName + " 属性(规格)");
             document.title = data.Item.AttrName + " 属性(规格)详情";
@@ -321,32 +215,20 @@
                 inner = $(inner);
                 $("#attrItems").after(inner);
 
-                inner.find(".btn-setSort").click(function () {
-                    $(this).hide().next().show();
+                inner.find(".ico-del").click(function () {
+                    var _this = $(this);
+                    if (confirm("删除后不可恢复，确认删除此属性值吗？")) {
+                        _self.deleteValue(_this.data("id"), function () {
+                            location.href = location.href;
+                        });
+                    }
                 });
 
-                inner.find(".btn-saveSort").click(function () {
-                    $(this).parent().hide().prev().show();
-
-                    var attrid = $(this).data("attrid");
-                    var valueid = $(this).data("id");
-                    var sort = $(this).prev().val();
-                    ObjectJS.updateAttrValueSort(attrid, valueid, sort);
+                inner.find(".ico-edit").click(function () {
+                    var _this = $(this);
+                    _self.showValue(_this.data("id"), _this.data("name"), _this.data("sort"));
                 });
-
-            })
-
-
-        });
-    }
-
-    ObjectJS.updateAttrValueSort = function (attrid,valueid,sort) {
-        Global.post("/Products/UpdateAttrValueSort", { attrid: attrid, valueid: valueid, sort: sort }, function (data) {
-        
-            if(data.Status)
-            {
-                location.href=location.href;
-            }
+            });
         });
     }
 
@@ -363,5 +245,17 @@
             }
         });
     }
+
+    //删除属性值
+    ObjectJS.deleteValue = function (valueid, callback) {
+        Global.post("/Products/DeleteAttrValue", { valueid: valueid, attrid: Value.AttrID }, function (data) {
+            if (data.result == "10001") {
+                alert("您没有此操作权限，请联系管理员帮您添加权限！");
+                return;
+            }
+            !!callback && callback(data.Status);
+        });
+    }
+
     module.exports = ObjectJS;
 });

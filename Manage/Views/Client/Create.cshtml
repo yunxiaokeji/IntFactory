@@ -15,7 +15,7 @@
     <span class="header-title">新建客户端</span>
 </div>
 
-<div class="content-body mTop20">
+<div class="content-body">
     <ul class="contentnew">
         <li>
             <span class="columnname">公司名称：</span>
@@ -59,39 +59,13 @@
             <span class="columnname"></span>
             <span><input type="text" placeholder="详细地址..." class="width300" id="address" /></span>
         </li>
-       @*  <li>
-            <span class="columnname">授权模式：</span>
-            <span>
-                <select id="authorizeType">
-                    <option value="0">试用</option>
-                    <option value="1">付费</option>
-                </select>
-            </span>
-        </li>
-        <li class="hide" name="authorizeType">
-            <span class="columnname">人数：</span>
-            <span>
-                <span><input type="text" id="Quantity" value="20"/></span>
-            </span>
-        </li>
-        <li class="hide" name="authorizeType">
-            <span class="columnname">年数：</span>
-            <span>
-                <select id="Years">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-
-                </select>
-            </span>
-        </li>*@
         <li>
             <span class="columnname">备注：</span>
             <span><textarea id="description"></textarea></span>
         </li>
     </ul>
 
-    <div class="mTop20 mLeft20">
+    <div class="mTop20">
         <input type="button" id="saveClient" class="btn  @(ExpandClass.IsLimits(HttpContext.Current,"201010101"))" value="保存" />
     </div>
 </div>

@@ -3,21 +3,16 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-   <td class="tLeft">{%=item.ClientCode%}</td>
+    <td class="">{%=item.ClientCode%}</td>
     <td><a href="/Client/Detail/{%=item.ClientID%}">{%=item.CompanyName%}</a></td>
-    <td class="tLeft">{%=item.AliMemberID%}</td>
-    <td class="center">{%=item.ContactName%}</td>
-    <td class="center">{%=item.MobilePhone%}</td>
-    <!--<td>{%=!item.IndustryEntity?"":item.IndustryEntity.Name%}</td>-->
-    <td class="center">{%=!item.City?"":(item.City.Province+item.City.City+item.City.Counties)%}</td>
+    <td class="">{%=item.AliMemberID%}</td>
+    <td class="">{%=item.ContactName%}</td>
+    <td class="">{%=item.MobilePhone%}</td>
+    <td class="">{%=!item.City ?"--":item.City.Description%}</td>
     <!--<td>{%=item.Address%}</td>-->
     <!--<td title="{%=item.Description%}">{%=item.Description.subString(50)%}</td>-->
     <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd")%}</td>
     <td class="center">{%=item.UserQuantity%}</td>
     <td class="center">{%=item.EndTime.toDate("yyyy-MM-dd")%}</td>
-    <td class="center">
-        <a href="/Client/Detail/{%=item.ClientID%}"  title="设置" data-id="{%=item.ClientID%}"><div class="ico-edit iconfont">&#xe607;</div></a>
-<!--        <a  class="ico-del mLeft10" href="javascript:void(0)" title="删除" data-id="{%=item.ClientID%}"></a>-->
-    </td>
 </tr>
 {% } %}

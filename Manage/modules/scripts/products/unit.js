@@ -7,12 +7,14 @@
         _self.bindEvent();
         _self.bindElementEvent($(".unit-item"));
     }
+
     //删除单位
     Unit.deleteUnit = function (unitid, callback) {
         Global.post("/Products/DeleteUnit", { unitID: unitid }, function (data) {
             !!callback && callback(data.Status);
         })
     }
+
     //绑定事件
     Unit.bindEvent = function () {
         var _self = this;
@@ -24,6 +26,7 @@
             _ele.find("input").focus();
         });
     }
+
     //附加元素事件
     Unit.bindElementEvent = function (elments) {
         var _self = this;
@@ -64,7 +67,11 @@
             if (_this.data("id") != "") {
                 if (confirm("单位删除后不可恢复,确认删除吗？")) {
                     _self.deleteUnit(_this.data("id"), function (status) {
-                        status && _this.parent().remove();
+                        if (status) {
+                            _this.parent().remove();
+                        } else {
+                            alert("单位已被使用，不能删除")
+                        }
                     });
                 }
             } else {
@@ -72,5 +79,6 @@
             }
         })
     }
+
     module.exports = Unit;
 });
