@@ -36,9 +36,6 @@ namespace IntFactoryBusiness
 
         private static Dictionary<string, List<WareHouse>> _wares;
 
-        /// <summary>
-        /// 客户来源
-        /// </summary>
         private static Dictionary<string, List<CustomSourceEntity>> CustomSources
         {
             get
@@ -55,9 +52,6 @@ namespace IntFactoryBusiness
             }
         }
 
-        /// <summary>
-        /// 客户阶段
-        /// </summary>
         private static Dictionary<string, List<CustomStageEntity>> CustomStages
         {
             get
@@ -74,9 +68,6 @@ namespace IntFactoryBusiness
             }
         }
 
-        /// <summary>
-        /// 客户标签
-        /// </summary>
         private static Dictionary<string, List<LableColorEntity>> CustomColor
         {
             get
@@ -136,9 +127,6 @@ namespace IntFactoryBusiness
             }
         }
 
-        /// <summary>
-        /// 订单阶段
-        /// </summary>
         private static Dictionary<string, List<OrderStageEntity>> OrderStages
         {
             get
@@ -155,9 +143,6 @@ namespace IntFactoryBusiness
             }
         }
 
-        /// <summary>
-        /// 订单类型
-        /// </summary>
         private static Dictionary<string, List<OrderTypeEntity>> OrderTypes
         {
             get
@@ -174,9 +159,6 @@ namespace IntFactoryBusiness
             }
         }
 
-        /// <summary>
-        /// 销售团队
-        /// </summary>
         private static Dictionary<string, List<TeamEntity>> Teams
         {
             get
@@ -193,9 +175,6 @@ namespace IntFactoryBusiness
             }
         }
 
-        /// <summary>
-        /// 仓库
-        /// </summary>
         private static Dictionary<string, List<WareHouse>> WareHouses
         {
             get
@@ -608,9 +587,14 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public List<WareHouse> GetWareHouses(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
+        public List<WareHouse> GetWareHouses(string clientid)
         {
-            DataSet ds = SystemDAL.BaseProvider.GetWareHouses(keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, clientID);
+            if (WareHouses.ContainsKey(clientid))
+            {
+                return WareHouses[clientid];
+            }
+
+            DataSet ds = SystemDAL.BaseProvider.GetWareHouses(clientid);
 
             List<WareHouse> list = new List<WareHouse>();
             foreach (DataRow dr in ds.Tables[0].Rows)
@@ -618,28 +602,16 @@ namespace IntFactoryBusiness
                 WareHouse model = new WareHouse();
                 model.FillData(dr);
                 model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
+                model.DepotSeats = new List<DepotSeat>();
+                foreach (var item in ds.Tables[1].Select("WareID='" + model.WareID + "'"))
+                {
+                    DepotSeat depot = new DepotSeat();
+                    depot.FillData(item);
+                    model.DepotSeats.Add(depot);
+                }
                 list.Add(model);
             }
-            return list;
-        }
-
-        public List<WareHouse> GetWareHouses(string clientID)
-        {
-            if (WareHouses.ContainsKey(clientID))
-            {
-                return WareHouses[clientID];
-            }
-
-            DataTable dt = SystemDAL.BaseProvider.GetWareHouses(clientID);
-
-            List<WareHouse> list = new List<WareHouse>();
-            foreach (DataRow dr in dt.Rows)
-            {
-                WareHouse model = new WareHouse();
-                model.FillData(dr);
-                list.Add(model);
-            }
-            WareHouses.Add(clientID, list);
+            WareHouses.Add(clientid, list);
             return list;
         }
 
@@ -657,17 +629,23 @@ namespace IntFactoryBusiness
                 return list.Where(m => m.WareID == wareid).FirstOrDefault();
             }
 
-            DataTable dt = SystemDAL.BaseProvider.GetWareByID(wareid);
+            DataSet ds = SystemDAL.BaseProvider.GetWareByID(wareid);
 
             WareHouse model = new WareHouse();
-            if (dt.Rows.Count > 0)
+            if (ds.Tables[0].Rows.Count > 0)
             {
-                model.FillData(dt.Rows[0]);
+                model.FillData(ds.Tables[0].Rows[0]);
                 model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
+                model.DepotSeats = new List<DepotSeat>();
+                foreach (DataRow item in ds.Tables[1].Rows)
+                {
+                    DepotSeat depot = new DepotSeat();
+                    depot.FillData(item);
+                    model.DepotSeats.Add(depot);
+                }
                 WareHouses[clientid].Add(model);
             }
 
-           
             return model;
         }
 
@@ -687,28 +665,14 @@ namespace IntFactoryBusiness
 
         public List<DepotSeat> GetDepotSeatsByWareID(string wareid, string clientid)
         {
-            DataTable dt = SystemDAL.BaseProvider.GetDepotSeatsByWareID(wareid);
-
-            List<DepotSeat> list = new List<DepotSeat>();
-            foreach (DataRow dr in dt.Rows)
-            {
-                DepotSeat model = new DepotSeat();
-                model.FillData(dr);
-                list.Add(model);
-            }
-            return list;
+            var model = GetWareByID(wareid, clientid);
+            return model.DepotSeats;
         }
 
-        public DepotSeat GetDepotByID(string depotid)
+        public DepotSeat GetDepotByID(string depotid, string wareid, string clientid)
         {
-            DataTable dt = SystemDAL.BaseProvider.GetDepotByID(depotid);
-
-            DepotSeat model = new DepotSeat();
-            if (dt.Rows.Count > 0)
-            {
-                model.FillData(dt.Rows[0]);
-            }
-            return model;
+            var ware = GetWareByID(wareid, clientid);
+            return ware.DepotSeats.Where(m => m.DepotID.ToLower() == depotid.ToLower()).FirstOrDefault();
         }
 
         #endregion
@@ -1026,9 +990,8 @@ namespace IntFactoryBusiness
                     CityCode = citycode,
                     Status = status,
                     Description = description,
-                    CreateUserID = operateid,
                     ClientID = clientid,
-                    CreateTime = DateTime.Now
+                    DepotSeats = new List<DepotSeat>()
                 };
                 WareHouses[clientid].Add(model);
                 return id.ToString();
@@ -1042,8 +1005,11 @@ namespace IntFactoryBusiness
         public string AddDepotSeat(string depotcode, string wareid, string name, int status, string description, string operateid, string clientid)
         {
             var id = Guid.NewGuid().ToString();
-            if (SystemDAL.BaseProvider.AddDepotSeat(id, depotcode, wareid, name, status, description, operateid, clientid))
+            var bl = SystemDAL.BaseProvider.AddDepotSeat(id, depotcode, wareid, name, status, description, operateid, clientid);
+            if (bl)
             {
+                var model = GetWareByID(wareid, clientid);
+                model.DepotSeats.Add(new DepotSeat() { DepotID = id, DepotCode = depotcode, Name = name, ClientID = clientid, Status = 1, WareID = wareid, Description = description });
                 return id.ToString();
             }
             return string.Empty;
@@ -1478,9 +1444,18 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateDepotSeat(string id, string depotcode, string name, int status, string description, string operateid, string clientid)
+        public bool UpdateDepotSeat(string id, string wareid, string depotcode, string name, int status, string description, string operateid, string clientid)
         {
-            return SystemDAL.BaseProvider.UpdateDepotSeat(id, depotcode, name, status, description);
+            bool bl = SystemDAL.BaseProvider.UpdateDepotSeat(id, depotcode, name, status, description);
+            if (bl)
+            {
+                var model = GetDepotByID(id, wareid, clientid);
+                model.DepotCode = depotcode;
+                model.Name = name;
+                model.Status = status;
+                model.Description = description;
+            }
+            return bl;
         }
 
         public bool UpdateDepotSeatStatus(string id, EnumStatus status, string operateid, string clientid)
@@ -1488,9 +1463,16 @@ namespace IntFactoryBusiness
             return CommonBusiness.Update("DepotSeat", "Status", (int)status, " DepotID='" + id + "'");
         }
 
-        public bool DeleteDepotSeat(string depotid, string operateid, string clientid)
+        public bool DeleteDepotSeat(string depotid, string wareid, string operateid, string clientid)
         {
-            return SystemDAL.BaseProvider.DeleteDepotSeat(depotid, clientid);
+            bool bl = SystemDAL.BaseProvider.DeleteDepotSeat(depotid, clientid);
+            if (bl)
+            {
+                var ware = GetWareByID(wareid, clientid);
+                var depot = GetDepotByID(depotid, wareid, clientid);
+                ware.DepotSeats.Remove(depot);
+            }
+            return bl;
         }
 
         public bool UpdateDepotSeatSort(string depotid, string wareid, int type)

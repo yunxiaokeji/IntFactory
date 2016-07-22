@@ -37,6 +37,7 @@ namespace YXERP.Controllers
             ViewBag.Items = new SystemBusiness().GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View();
         }
+
         public ActionResult OrderProcess()
         {
             return View();
@@ -684,28 +685,17 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取仓库列表
-        /// </summary>
-        /// <returns></returns>
         public JsonResult GetWareHouses(string keyWords, int pageSize, int pageIndex, int totalCount)
         {
-            int pageCount = 0;
-            List<WareHouse> list = new SystemBusiness().GetWareHouses(keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
+            List<WareHouse> list = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
             JsonDictionary.Add("Items", list);
-            JsonDictionary.Add("TotalCount", totalCount);
-            JsonDictionary.Add("PageCount", pageCount);
             return new JsonResult
             {
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-        /// <summary>
-        /// 根据ID获取仓库
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+
         public JsonResult GetWareHouseByID(string id)
         {
             WareHouse model = new SystemBusiness().GetWareByID(id, CurrentUser.ClientID);
@@ -717,11 +707,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 保存仓库
-        /// </summary>
-        /// <param name="ware"></param>
-        /// <returns></returns>
         public JsonResult SaveWareHouse(string ware)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -730,9 +715,9 @@ namespace YXERP.Controllers
             string id = string.Empty;
             if (string.IsNullOrEmpty(model.WareID))
             {
-                id = new SystemBusiness().AddWareHouse(model.WareCode, model.Name, model.ShortName, model.CityCode, model.Status.Value, model.DepotCode, model.DepotName, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
+                id = new SystemBusiness().AddWareHouse(model.WareCode, model.Name, model.ShortName, model.CityCode, model.Status, model.DepotCode, model.DepotName, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
             }
-            else if (new SystemBusiness().UpdateWareHouse(model.WareID, model.WareCode, model.Name, model.ShortName, model.CityCode, model.Status.Value, model.Description, CurrentUser.UserID, CurrentUser.ClientID))
+            else if (new SystemBusiness().UpdateWareHouse(model.WareID, model.WareCode, model.Name, model.ShortName, model.CityCode, model.Status, model.Description, CurrentUser.UserID, CurrentUser.ClientID))
             {
                 id = model.WareID;
             }
@@ -746,12 +731,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 编辑仓库状态
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="status"></param>
-        /// <returns></returns>
         public JsonResult UpdateWareHouseStatus(string id, int status)
         {
             bool bl = new SystemBusiness().UpdateWareHouseStatus(id, (IntFactoryEnum.EnumStatus)status, CurrentUser.UserID, CurrentUser.ClientID);
@@ -762,11 +741,7 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-        /// <summary>
-        /// 删除仓库
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+
         public JsonResult DeleteWareHouse(string id)
         {
             bool bl = new SystemBusiness().UpdateWareHouseStatus(id, IntFactoryEnum.EnumStatus.Delete, CurrentUser.UserID, CurrentUser.ClientID);
@@ -777,11 +752,7 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-        /// <summary>
-        /// 保存货位
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+
         public JsonResult SaveDepotSeat(string obj)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -790,9 +761,9 @@ namespace YXERP.Controllers
             string id = string.Empty;
             if (string.IsNullOrEmpty(model.DepotID))
             {
-                id = new SystemBusiness().AddDepotSeat(model.DepotCode, model.WareID, model.Name, model.Status.Value, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
+                id = new SystemBusiness().AddDepotSeat(model.DepotCode, model.WareID, model.Name, model.Status, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
             }
-            else if (new SystemBusiness().UpdateDepotSeat(model.DepotID, model.DepotCode, model.Name, model.Status.Value, model.Description, CurrentUser.UserID, CurrentUser.ClientID))
+            else if (new SystemBusiness().UpdateDepotSeat(model.DepotID, model.WareID, model.DepotCode, model.Name, model.Status, model.Description, CurrentUser.UserID, CurrentUser.ClientID))
             {
                 id = model.WareID;
             }
@@ -806,14 +777,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取货位列表
-        /// </summary>
-        /// <param name="keyWords"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="totalCount"></param>
-        /// <returns></returns>
         public JsonResult GetDepotSeats(string wareid, string keyWords, int pageSize, int pageIndex, int totalCount)
         {
             int pageCount = 0;
@@ -828,11 +791,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 根据仓库获取货位
-        /// </summary>
-        /// <param name="wareid"></param>
-        /// <returns></returns>
         public JsonResult GetDepotSeatsByWareID(string wareid)
         {
             List<DepotSeat> list = new SystemBusiness().GetDepotSeatsByWareID(wareid, CurrentUser.ClientID);
@@ -844,14 +802,9 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取货位详情
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public JsonResult GetDepotByID(string id = "")
+        public JsonResult GetDepotByID(string id, string wareid)
         {
-            var model = new SystemBusiness().GetDepotByID(id);
+            var model = new SystemBusiness().GetDepotByID(id, wareid, CurrentUser.ClientID);
             JsonDictionary.Add("Item", model);
 
             return new JsonResult
@@ -861,14 +814,9 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 删除货位
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public JsonResult DeleteDepotSeat(string id)
+        public JsonResult DeleteDepotSeat(string id, string wareid)
         {
-            bool bl = new SystemBusiness().DeleteDepotSeat(id, CurrentUser.UserID, CurrentUser.ClientID);
+            bool bl = new SystemBusiness().DeleteDepotSeat(id, wareid, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("Status", bl);
             return new JsonResult
             {
@@ -877,12 +825,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 编辑货位状态
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="status"></param>
-        /// <returns></returns>
         public JsonResult UpdateDepotSeatStatus(string id, int status)
         {
             bool bl = new SystemBusiness().UpdateDepotSeatStatus(id, (IntFactoryEnum.EnumStatus)status, CurrentUser.UserID, CurrentUser.ClientID);

@@ -146,41 +146,24 @@ namespace IntFactoryDAL
             return GetDataTable(sqlText, paras, CommandType.Text);
         }
 
-        public DataSet GetWareHouses(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
+        public DataSet GetWareHouses(string clientid)
         {
-            SqlParameter[] paras = { 
-                                       new SqlParameter("@totalCount",SqlDbType.Int),
-                                       new SqlParameter("@pageCount",SqlDbType.Int),
-                                       new SqlParameter("@keyWords",keyWords),
-                                       new SqlParameter("@pageSize",pageSize),
-                                       new SqlParameter("@pageIndex",pageIndex),
-                                       new SqlParameter("@ClientID",clientID)
-                                       
-                                   };
-            paras[0].Value = totalCount;
-            paras[1].Value = pageCount;
+            string sql = " select * from WareHouse where Status<>9 and ClientID=@ClientID; " +
+                         " select * from DepotSeat where Status<>9 and ClientID=@ClientID";
 
-            paras[0].Direction = ParameterDirection.InputOutput;
-            paras[1].Direction = ParameterDirection.InputOutput;
-            DataSet ds = GetDataSet("P_GetWareHouses", paras, CommandType.StoredProcedure);
-            totalCount = Convert.ToInt32(paras[0].Value);
-            pageCount = Convert.ToInt32(paras[1].Value);
-            return ds;
+            SqlParameter[] paras = { new SqlParameter("@ClientID", clientid) };
 
+            return GetDataSet(sql, paras, CommandType.Text, "Ware|Depot");
         }
 
-        public DataTable GetWareHouses(string clientID)
+        public DataSet GetWareByID(string wareid)
         {
-            SqlParameter[] paras = { new SqlParameter("@ClientID", clientID) };
-            DataTable dt = GetDataTable("select * from WareHouse where Status<>9 and ClientID=@ClientID", paras, CommandType.Text);
-            return dt;
-        }
-
-        public DataTable GetWareByID(string wareid)
-        {
+            string sql = " select * from WareHouse where WareID=@WareID; " +
+                         " select * from DepotSeat where WareID=@WareID";
             SqlParameter[] paras = { new SqlParameter("@WareID", wareid) };
-            DataTable dt = GetDataTable("select * from WareHouse where WareID=@WareID", paras, CommandType.Text);
-            return dt;
+
+            return GetDataSet(sql, paras, CommandType.Text);
+
         }
 
         public DataSet GetDepotSeats(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID, string wareid = "")
@@ -206,21 +189,6 @@ namespace IntFactoryDAL
             return ds;
 
         }
-
-        public DataTable GetDepotByID(string depotid)
-        {
-            SqlParameter[] paras = { new SqlParameter("@DepotID", depotid) };
-            DataTable dt = GetDataTable("select * from DepotSeat where DepotID=@DepotID", paras, CommandType.Text);
-            return dt;
-        }
-
-        public DataTable GetDepotSeatsByWareID(string wareid)
-        {
-            SqlParameter[] paras = { new SqlParameter("@WareID", wareid) };
-            DataTable dt = GetDataTable("select * from DepotSeat where WareID=@WareID and Status<>9 order by Sort ", paras, CommandType.Text);
-            return dt;
-        }
-
         #endregion
 
         #region 添加

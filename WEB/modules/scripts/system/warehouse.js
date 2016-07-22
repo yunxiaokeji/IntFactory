@@ -31,12 +31,12 @@ define(function (require, exports, module) {
                 $(".dropdown-ul").hide();
             }
         });
-        require.async("search", function () {
-            $(".searth-module").searchKeys(function (keyWords) {
-                Params.keyWords = keyWords;
-                _self.getList();
-            });
-        });
+        //require.async("search", function () {
+        //    $(".searth-module").searchKeys(function (keyWords) {
+        //        Params.keyWords = keyWords;
+        //        _self.getList();
+        //    });
+        //});
         //添加仓库
         $("#addWarehouse").click(function () {
             _self.createModel();
@@ -186,27 +186,6 @@ define(function (require, exports, module) {
             else {
                 $(".tr-header").after("<tr><td colspan='8'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
-
-            $("#pager").paginate({
-                total_count: data.TotalCount,
-                count: data.PageCount,
-                start: Params.pageIndex,
-                display: 5,
-                border: true,
-                border_color: '#fff',
-                text_color: '#333',
-                background_color: '#fff',
-                border_hover_color: '#ccc',
-                text_hover_color: '#000',
-                background_hover_color: '#efefef',
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                onChange: function (page) {
-                    Params.pageIndex = page;
-                    Brand.getList();
-                }
-            });
         });
     }
     //更改仓库状态

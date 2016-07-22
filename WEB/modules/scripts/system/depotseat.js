@@ -80,6 +80,7 @@ define(function (require, exports, module) {
             });
         });
     }
+
     //保存
     ObjectJS.savaEntity = function (entity) {
         var _self = this;
@@ -108,6 +109,7 @@ define(function (require, exports, module) {
                 _self.getList();
             });
         });
+
         //添加
         $(".btn-add").on("click", function () {
             EntityModel.DepotID = "";
@@ -118,7 +120,10 @@ define(function (require, exports, module) {
         $("#deleteObject").click(function () {
             var _this = $(this);
             confirm("货位删除后不可恢复,确认删除吗？", function () {
-                Global.post("/System/DeleteDepotSeat", { id: _this.data("id") }, function (data) {
+                Global.post("/System/DeleteDepotSeat", {
+                    id: _this.data("id"),
+                    wareid: Params.wareid
+                }, function (data) {
                     if (data.Status) {
                         _self.getList();
                     } else {
@@ -127,15 +132,20 @@ define(function (require, exports, module) {
                 });
             });
         });
+
         //编辑
         $("#updateObject").click(function () {
             var _this = $(this);
-            Global.post("/System/GetDepotByID", { id: _this.data("id") }, function (data) {
+            Global.post("/System/GetDepotByID", {
+                id: _this.data("id"),
+                wareid: Params.wareid
+            }, function (data) {
                 EntityModel = data.Item;
                 _self.showCreate();
             });
         });
     }
+
     //获取列表
     ObjectJS.getList = function () {
         var _self = this;
