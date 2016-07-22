@@ -66,8 +66,8 @@ namespace YXERP.Controllers
                 ViewBag.Items = list;
                 return View("ChooseCategory");
             }
-            
-            ViewBag.Model = new ProductsBusiness().GetCategoryDetailByID(id);
+
+            ViewBag.Model = new ProductsBusiness().GetCategoryByID(id);
             ViewBag.UnitList = new ProductsBusiness().GetUnits();
             return View();
         }
@@ -402,7 +402,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult GetCategoryDetailsByID(string categoryid)
         {
-            var model = new ProductsBusiness().GetCategoryDetailByID(categoryid);
+            var model = new ProductsBusiness().GetCategoryByID(categoryid);
             JsonDictionary.Add("Model", model);
             return new JsonResult
             {

@@ -282,20 +282,22 @@ namespace IntFactoryDAL
 
         #region 分类
 
-        public DataTable GetCategorys()
+        public DataSet GetCategorys()
         {
-            DataTable dt = GetDataTable("select * from Category where Status<>9 Order by CreateTime");
-            return dt;
+            string sql=" select * from Category where Status<>9 Order by CreateTime; "+
+                       " select CategoryID,AttrID,Type from CategoryAttr where Status<>9 ";
+
+            return GetDataSet(sql, null, CommandType.Text, "Category|Attr");
         }
 
-        public DataTable GetChildCategorysByID(string categoryid, int type)
+        public DataSet GetCategoryByID(string categoryid)
         {
-            SqlParameter[] paras = { 
-                                       new SqlParameter("@PID", categoryid), 
-                                       new SqlParameter("@Type", type)
-                                   };
-            DataTable dt = GetDataTable("select * from Category where PID=@PID and CategoryType=@Type and Status<>9 Order by CreateTime", paras, CommandType.Text);
-            return dt;
+            string sql = " select * from Category where CategoryID=@CategoryID ; " +
+                         " select CategoryID,AttrID,Type from CategoryAttr where CategoryID=@CategoryID and Status<>9 ";
+
+            SqlParameter[] paras = { new SqlParameter("@CategoryID", categoryid) };
+
+            return GetDataSet(sql, paras, CommandType.Text, "Category|Attr");
         }
 
         public DataTable GetAttrsByCategoryID(string categoryid)
@@ -308,13 +310,6 @@ namespace IntFactoryDAL
 
         }
 
-        public DataSet GetTaskPlateAttrByCategoryID(string categoryid)
-        {
-            SqlParameter[] paras = { new SqlParameter("@CategoryID", categoryid) };
-            DataSet ds = GetDataSet("P_GetTaskPlateAttrByCategoryID", paras, CommandType.StoredProcedure, "Attrs|Values");
-            return ds;
-        }
-
         public DataTable GetClientCategorysByPID(string categoryid, int type, string clientid)
         {
             SqlParameter[] paras = { 
@@ -323,13 +318,6 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ClientID", clientid)
                                    };
             DataTable dt = GetDataTable("select c.* from OrderCategory o join Category c on o.CategoryID=c.CategoryID where c.PID=@PID and c.CategoryType=@Type and o.ClientID=@ClientID and Status<>9 Order by CreateTime", paras, CommandType.Text);
-            return dt;
-        }
-
-        public DataTable GetCategoryByID(string categoryid)
-        {
-            SqlParameter[] paras = { new SqlParameter("@CategoryID", categoryid) };
-            DataTable dt = GetDataTable("select * from Category where CategoryID=@CategoryID", paras, CommandType.Text);
             return dt;
         }
 
@@ -354,13 +342,6 @@ namespace IntFactoryDAL
             ExecuteNonQuery("P_AddCategory", paras, CommandType.StoredProcedure);
             id = paras[0].Value.ToString();
             return id;
-        }
-
-        public DataSet GetCategoryDetailByID(string categoryid)
-        {
-            SqlParameter[] paras = { new SqlParameter("@CategoryID", categoryid) };
-            DataSet ds = GetDataSet("P_GetCategoryDetailByID", paras, CommandType.StoredProcedure, "Category|Attrs|Values");
-            return ds;
         }
 
         public DataSet GetOrderCategoryDetailsByID(string categoryid, string orderid)

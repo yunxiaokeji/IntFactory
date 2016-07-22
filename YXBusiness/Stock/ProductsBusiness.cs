@@ -425,82 +425,107 @@ namespace IntFactoryBusiness
                 return CacheCategory;
             }
 
-            DataTable dt = ProductsDAL.BaseProvider.GetCategorys();
+            DataSet ds = ProductsDAL.BaseProvider.GetCategorys();
 
-            List<Category> list = new List<Category>();
-
-            foreach (DataRow dr in dt.Rows)
+            foreach (DataRow dr in ds.Tables["Category"].Rows)
             {
                 Category model = new Category();
                 model.FillData(dr);
                 model.ChildCategory = new List<Category>();
-                list.Add(model);
-
+                model.AttrLists = new List<ProductAttr>();
+                model.SaleAttrs = new List<ProductAttr>();
+                foreach (DataRow item in ds.Tables["Attr"].Select(" CategoryID='" + model.CategoryID + "' "))
+                {
+                    ProductAttr attr = new ProductAttr();
+                    attr.FillData(item);
+                    if (attr.Type == 1)
+                    {
+                        model.AttrLists.Add(GetAttrByID(attr.AttrID));
+                    }
+                    else
+                    {
+                        model.SaleAttrs.Add(GetAttrByID(attr.AttrID));
+                    }
+                }
                 CacheCategory.Add(model);
             }
-            return list;
+            foreach (var model in CacheCategory)
+            {
+                model.ChildCategory = CacheCategory.Where(m => m.PID == model.CategoryID).ToList();
+            }
+            return CacheCategory;
 
         }
 
         public List<Category> GetChildCategorysByID(string categoryid, EnumCategoryType type)
         {
+            var list = GetCategorys();
+            if (list.Where(m => m.PID.ToLower() == categoryid.ToLower() && m.CategoryType == (int)type).Count() > 0)
+            {
+                return list.Where(m => m.PID.ToLower() == categoryid.ToLower() && m.CategoryType == (int)type).ToList();
+            }
+            return new List<Category>();
+        }
+
+        public Category GetCategoryByID(string categoryid)
+        {
             var cacheList = GetCategorys();
-            if (cacheList.Where(m => m.PID.ToLower() == categoryid.ToLower() && m.CategoryType == (int)type).Count() > 0)
+            if (cacheList.Where(m => m.CategoryID.ToLower() == categoryid.ToLower()).Count() > 0)
             {
-                return cacheList.Where(m => m.PID.ToLower() == categoryid.ToLower() && m.CategoryType == (int)type).ToList();
+                return cacheList.Where(m => m.CategoryID.ToLower() == categoryid.ToLower()).FirstOrDefault();
             }
 
-            DataTable dt = ProductsDAL.BaseProvider.GetChildCategorysByID(categoryid, (int)type);
+            DataSet ds = ProductsDAL.BaseProvider.GetCategoryByID(categoryid);
 
-            List<Category> list = new List<Category>();
-
-            foreach (DataRow dr in dt.Rows)
+            Category model = new Category();
+            if (ds.Tables[0].Rows.Count > 0)
             {
-                Category model = new Category();
-                model.FillData(dr);
+                model.FillData(ds.Tables[0].Rows[0]);
                 model.ChildCategory = new List<Category>();
-                list.Add(model);
-
+                model.AttrLists = new List<ProductAttr>();
+                model.SaleAttrs = new List<ProductAttr>();
+                foreach (DataRow item in ds.Tables["Attr"].Rows)
+                {
+                    ProductAttr attr = new ProductAttr();
+                    attr.FillData(item);
+                    if (attr.Type == 1)
+                    {
+                        model.AttrLists.Add(GetAttrByID(attr.AttrID));
+                    }
+                    else
+                    {
+                        model.SaleAttrs.Add(GetAttrByID(attr.AttrID));
+                    }
+                }
                 CacheCategory.Add(model);
-                
             }
-            return list;
+
+            return model;
         }
 
         public List<ProductAttr> GetAttrsByCategoryID(string categoryid)
         {
-            var dal = new ProductsDAL();
-            DataTable dt = dal.GetAttrsByCategoryID(categoryid);
+            if (string.IsNullOrEmpty(categoryid))
+            {
+                return GetAttrs();
+            }
+            var model = GetCategoryByID(categoryid);
 
             List<ProductAttr> list = new List<ProductAttr>();
-            foreach (DataRow dr in dt.Rows)
-            {
-                ProductAttr model = new ProductAttr();
-                model.FillData(dr);
-                list.Add(model);
-            }
+            list.AddRange(model.AttrLists);
+            list.AddRange(model.SaleAttrs);
+
             return list;
         }
 
         public ProductAttr GetTaskPlateAttrByCategoryID(string categoryid)
         {
-            var dal = new ProductsDAL();
-            DataSet ds = dal.GetTaskPlateAttrByCategoryID(categoryid);
-
-            ProductAttr model = new ProductAttr();
-            if (ds.Tables.Contains("Attrs") && ds.Tables["Attrs"].Rows.Count > 0)
+            var model = GetCategoryByID(categoryid);
+            if (model.AttrLists.Count > 0)
             {
-                model.FillData(ds.Tables["Attrs"].Rows[0]);
-                model.AttrValues = new List<AttrValue>();
-                foreach (DataRow item in ds.Tables["Values"].Rows)
-                {
-                    AttrValue attrValue = new AttrValue();
-                    attrValue.FillData(item);
-                    model.AttrValues.Add(attrValue);
-                }
+                return model.AttrLists[0];
             }
-
-            return model;
+            return null;
         }
 
         public bool UpdateCategoryAttrStatus(string categoryid, string attrid, EnumStatus status, int type, string operateIP, string operateID)
@@ -524,69 +549,6 @@ namespace IntFactoryBusiness
 
             }
             return list;
-        }
-
-        public Category GetCategoryByID(string categoryid)
-        {
-            var cacheList = GetCategorys();
-            if (cacheList.Where(m => m.CategoryID.ToLower() == categoryid.ToLower()).Count() > 0)
-            {
-                return cacheList.Where(m => m.CategoryID.ToLower() == categoryid.ToLower()).FirstOrDefault();
-            }
-
-            var dal = new ProductsDAL();
-            DataTable dt = dal.GetCategoryByID(categoryid);
-
-            Category model = new Category();
-            if (dt.Rows.Count > 0)
-            {
-                model.FillData(dt.Rows[0]);
-                model.ChildCategory = new List<Category>();
-                CacheCategory.Add(model);
-            }
-
-            return model;
-        }
-
-        public Category GetCategoryDetailByID(string categoryid)
-        {
-            var dal = new ProductsDAL();
-            DataSet ds = dal.GetCategoryDetailByID(categoryid);
-
-            Category model = new Category();
-            if (ds.Tables.Contains("Category") && ds.Tables["Category"].Rows.Count > 0)
-            {
-                model.FillData(ds.Tables["Category"].Rows[0]);
-                List<ProductAttr> salelist = new List<ProductAttr>();
-                List<ProductAttr> attrlist = new List<ProductAttr>();
-
-                foreach (DataRow attr in ds.Tables["Attrs"].Rows)
-                {
-
-                    ProductAttr modelattr = new ProductAttr();
-                    modelattr.FillData(attr);
-                    if (modelattr.Type == 1)
-                    {
-                        attrlist.Add(modelattr);
-                    }
-                    else if (modelattr.Type == 2)
-                    {
-                        salelist.Add(modelattr);
-                    }
-                    modelattr.AttrValues = new List<AttrValue>();
-                    foreach (DataRow value in ds.Tables["Values"].Select("AttrID='" + modelattr.AttrID + "'"))
-                    {
-                        AttrValue valuemodel = new AttrValue();
-                        valuemodel.FillData(value);
-                        modelattr.AttrValues.Add(valuemodel);
-                    }
-                }
-
-                model.SaleAttrs = salelist;
-                model.AttrLists = attrlist;
-            }
-
-            return model;
         }
 
         public Category GetOrderCategoryDetailsByID(string categoryid, string orderid)
@@ -772,7 +734,7 @@ namespace IntFactoryBusiness
             if (ds.Tables.Contains("Product") && ds.Tables["Product"].Rows.Count > 0)
             {
                 model.FillData(ds.Tables["Product"].Rows[0]);
-                model.Category = GetCategoryDetailByID(model.CategoryID);
+                model.Category = GetCategoryByID(model.CategoryID);
                 model.SmallUnit = GetUnitByID(model.SmallUnitID);
 
                 if (!string.IsNullOrEmpty(model.ProdiverID))

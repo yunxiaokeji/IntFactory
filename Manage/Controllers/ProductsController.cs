@@ -138,12 +138,6 @@ namespace YXManage.Controllers
 
         #region 属性
 
-        /// <summary>
-        /// 获取属性列表
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="keyWorks"></param>
-        /// <returns></returns>
         public JsonResult GetAttrList(int index, string keyWorks)
         {
             List<ProductAttr> list = new List<ProductAttr>();
@@ -160,10 +154,7 @@ namespace YXManage.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-        /// <summary>
-        /// 获取所有属性
-        /// </summary>
-        /// <returns></returns>
+
         public JsonResult GetAttrsByCategoryID(string categoryid)
         {
             List<ProductAttr> list = new List<ProductAttr>();
@@ -177,11 +168,6 @@ namespace YXManage.Controllers
             };
         }
 
-        /// <summary>
-        /// 保存属性
-        /// </summary>
-        /// <param name="attr"></param>
-        /// <returns></returns>
         public JsonResult SaveAttr(string attr)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -206,11 +192,6 @@ namespace YXManage.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取属性详情
-        /// </summary>
-        /// <param name="attr"></param>
-        /// <returns></returns>
         public JsonResult GetAttrByID(string attrID = "")
         {
             if (string.IsNullOrEmpty(attrID))
@@ -229,11 +210,6 @@ namespace YXManage.Controllers
             };
         }
 
-        /// <summary>
-        /// 保存属性值
-        /// </summary>
-        /// <param name="attr"></param>
-        /// <returns></returns>
         public JsonResult SaveAttrValue(string value)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -260,12 +236,6 @@ namespace YXManage.Controllers
             };
         }
 
-        /// <summary>
-        /// 删除分类属性
-        /// </summary>
-        /// <param name="categoryid"></param>
-        /// <param name="attrid"></param>
-        /// <returns></returns>
         public JsonResult DeleteCategoryAttr(string categoryid, string attrid, int type)
         {
             bool bl = new ProductsBusiness().UpdateCategoryAttrStatus(categoryid, attrid, EnumStatus.Delete, type, OperateIP, CurrentUser.UserID);
@@ -277,13 +247,6 @@ namespace YXManage.Controllers
             };
         }
 
-        /// <summary>
-        /// 添加分类通用属性
-        /// </summary>
-        /// <param name="categoryid"></param>
-        /// <param name="attrid"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
         public JsonResult AddCategoryAttr(string categoryid, string attrid, int type)
         {
             bool bl = new ProductsBusiness().AddCategoryAttr(categoryid, attrid, type, OperateIP, CurrentUser.UserID);
@@ -295,11 +258,6 @@ namespace YXManage.Controllers
             };
         }
 
-        /// <summary>
-        /// 删除属性
-        /// </summary>
-        /// <param name="attrid"></param>
-        /// <returns></returns>
         public JsonResult DeleteProductAttr(string attrid)
         {
             bool bl = ProductsBusiness.BaseBusiness.DeleteProductAttr(attrid, OperateIP, CurrentUser.UserID);
@@ -311,11 +269,6 @@ namespace YXManage.Controllers
             };
         }
 
-        /// <summary>
-        /// 删除属性值
-        /// </summary>
-        /// <param name="valueid"></param>
-        /// <returns></returns>
         public JsonResult DeleteAttrValue(string valueid,string attrid)
         {
             bool bl = new ProductsBusiness().UpdateAttrValueStatus(valueid, attrid, EnumStatus.Delete, OperateIP, CurrentUser.UserID);
@@ -331,12 +284,6 @@ namespace YXManage.Controllers
 
         #region 分类
 
-        /// <summary>
-        /// 保存分类
-        /// </summary>
-        /// <param name="category"></param>
-        /// <param name="attrlist"></param>
-        /// <returns></returns>
         public JsonResult SavaCategory(string category, string attrlist, string saleattr)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -354,11 +301,11 @@ namespace YXManage.Controllers
             string caregoryid = "";
             if (string.IsNullOrEmpty(model.CategoryID))
             {
-                caregoryid = new ProductsBusiness().AddCategory(model.CategoryCode, model.CategoryName, model.PID, model.CategoryType, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID);
+                caregoryid = new ProductsBusiness().AddCategory(model.CategoryCode, model.CategoryName, model.PID, model.CategoryType, model.Status, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID);
             }
             else
             {
-                bool bl = new ProductsBusiness().UpdateCategory(model.CategoryID, model.CategoryName, model.Status.Value, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID);
+                bool bl = new ProductsBusiness().UpdateCategory(model.CategoryID, model.CategoryName, model.Status, attrlist.Split(',').ToList(), saleattr.Split(',').ToList(), model.Description, CurrentUser.UserID);
                 if (bl)
                 {
                     caregoryid = model.CategoryID;
@@ -372,11 +319,6 @@ namespace YXManage.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取下级分类
-        /// </summary>
-        /// <param name="categoryid"></param>
-        /// <returns></returns>
         public JsonResult GetChildCategorysByID(string categoryid, int type = 1)
         {
             var list = new ProductsBusiness().GetChildCategorysByID(categoryid, (EnumCategoryType)type);
@@ -388,11 +330,6 @@ namespace YXManage.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取分类详情
-        /// </summary>
-        /// <param name="categoryid"></param>
-        /// <returns></returns>
         public JsonResult GetCategoryByID(string categoryid)
         {
             var model = new ProductsBusiness().GetCategoryByID(categoryid);
@@ -403,14 +340,10 @@ namespace YXManage.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-        /// <summary>
-        /// 获取分类详情(带属性)
-        /// </summary>
-        /// <param name="categoryid"></param>
-        /// <returns></returns>
+
         public JsonResult GetCategoryDetailsByID(string categoryid)
         {
-            var model = new ProductsBusiness().GetCategoryDetailByID(categoryid);
+            var model = new ProductsBusiness().GetCategoryByID(categoryid);
             JsonDictionary.Add("Model", model);
             return new JsonResult
             {
