@@ -1,13 +1,13 @@
 ﻿@{
     ViewBag.Title = "提交采购单";
-    var ware = (IntFactoryEntity.WareHouse)ViewBag.Ware;
+    var wares = (List<IntFactoryEntity.WareHouse>)ViewBag.Ware;
     var product = (List<IntFactoryEntity.ProductDetail>)ViewBag.Items;
 }
 
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/products/confirmpurchase"], function (obj) {
-            obj.init('@(ware.WareID)');
+            obj.init('@(ViewBag.guid)', '@(Html.ToJSONString(wares))');
         });
     </script>
 }
@@ -16,10 +16,6 @@
 </div>
 <div class="content-body mTop20">
      <ul class="table-add">
-        <li>
-            <span class="column-title">仓库：</span>
-             @ware.Name
-        </li>
         <li>
             <span class="column-title">备注：</span> 
             <span">
@@ -32,7 +28,8 @@
         <ul class="tab-nav-ul left">
             <li class="hover" data-id="navRemark">材料明细</li>
         </ul>
-        <a class="btn right" href="/Products/ChooseProducts?id=@(ware.WareID)" id="btnChooseProduct">选择采购材料</a>
+        <div class="right mLeft20" id="chooseWare"></div>
+        <a class="btn right" href="/Products/ChooseProducts" id="btnChooseProduct">选择采购材料</a>
     </div>
     <table class="table-list">
         <tr class="tr-header">

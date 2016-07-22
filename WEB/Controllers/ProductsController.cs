@@ -135,17 +135,10 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public ActionResult ConfirmPurchase(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return Redirect("/Products/Purchases");
-            }
-            var ware = SystemBusiness.BaseBusiness.GetWareByID(id, CurrentUser.ClientID);
-            if (ware == null || string.IsNullOrEmpty(ware.WareID))
-            {
-                return Redirect("/Products/Purchases");
-            }
-            ViewBag.Ware = ware;
-            ViewBag.Items = ShoppingCartBusiness.GetShoppingCart(EnumDocType.RK, ware.WareID, CurrentUser.UserID);
+            var wares = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
+            ViewBag.Ware = wares;
+            ViewBag.Items = ShoppingCartBusiness.GetShoppingCart(EnumDocType.RK, CurrentUser.UserID, CurrentUser.UserID);
+            ViewBag.guid = CurrentUser.UserID;
             return View();
         }
 
