@@ -512,9 +512,14 @@ namespace IntFactoryBusiness
             var model = GetCategoryByID(categoryid);
 
             List<ProductAttr> list = new List<ProductAttr>();
-            list.AddRange(model.AttrLists);
-            list.AddRange(model.SaleAttrs);
-
+            foreach (var attr in model.AttrLists)
+            {
+                list.Add(new ProductAttr() { AttrID = attr.AttrID, AttrName = attr.AttrName, Description = attr.Description, Type = 1, CategoryID = categoryid });
+            }
+            foreach (var attr in model.SaleAttrs)
+            {
+                list.Add(new ProductAttr() { AttrID = attr.AttrID, AttrName = attr.AttrName, Description = attr.Description, Type = 2, CategoryID = categoryid });
+            }
             return list;
         }
 
@@ -526,12 +531,6 @@ namespace IntFactoryBusiness
                 return model.AttrLists[0];
             }
             return null;
-        }
-
-        public bool UpdateCategoryAttrStatus(string categoryid, string attrid, EnumStatus status, int type, string operateIP, string operateID)
-        {
-            var dal = new ProductsDAL();
-            return dal.UpdateCategoryAttrStatus(categoryid, attrid, (int)status, type);
         }
 
         public List<Category> GetClientCategorysByPID(string categoryid, EnumCategoryType type, string clientid)
@@ -553,43 +552,7 @@ namespace IntFactoryBusiness
 
         public Category GetOrderCategoryDetailsByID(string categoryid, string orderid)
         {
-            var dal = new ProductsDAL();
-            DataSet ds = dal.GetOrderCategoryDetailsByID(categoryid, orderid);
-
-            Category model = new Category();
-            if (ds.Tables.Contains("Category") && ds.Tables["Category"].Rows.Count > 0)
-            {
-                model.FillData(ds.Tables["Category"].Rows[0]);
-                List<ProductAttr> salelist = new List<ProductAttr>();
-                List<ProductAttr> attrlist = new List<ProductAttr>();
-
-                foreach (DataRow attr in ds.Tables["Attrs"].Rows)
-                {
-
-                    ProductAttr modelattr = new ProductAttr();
-                    modelattr.FillData(attr);
-                    if (modelattr.Type == 1)
-                    {
-                        attrlist.Add(modelattr);
-                    }
-                    else if (modelattr.Type == 2)
-                    {
-                        salelist.Add(modelattr);
-                    }
-                    modelattr.AttrValues = new List<AttrValue>();
-                    foreach (DataRow value in ds.Tables["Values"].Select("AttrID='" + modelattr.AttrID + "'"))
-                    {
-                        AttrValue valuemodel = new AttrValue();
-                        valuemodel.FillData(value);
-                        modelattr.AttrValues.Add(valuemodel);
-                    }
-                }
-
-                model.SaleAttrs = salelist;
-                model.AttrLists = attrlist;
-            }
-
-            return model;
+            return GetCategoryByID(categoryid);
         }
 
         public string AddCategory(string categoryCode, string categoryName, string pid, int type, int status, List<string> attrlist, List<string> saleattr, string description, string operateid)
@@ -610,7 +573,9 @@ namespace IntFactoryBusiness
                         PID = pid,
                         Status = status,
                         Description = description,
-                        ChildCategory = new List<Category>()
+                        ChildCategory = new List<Category>(),
+                        AttrLists = new List<ProductAttr>(),
+                        SaleAttrs = new List<ProductAttr>()
                     });
                 }
                 else
@@ -625,7 +590,10 @@ namespace IntFactoryBusiness
                         Layers = PModel.Layers + 1,
                         PID = pid,
                         Status = status,
-                        Description = description
+                        Description = description,
+                        ChildCategory = new List<Category>(),
+                        AttrLists = new List<ProductAttr>(),
+                        SaleAttrs = new List<ProductAttr>()
                     };
                     CacheCategory.Add(model);
                     PModel.ChildCategory.Add(model);
@@ -650,8 +618,42 @@ namespace IntFactoryBusiness
 
         public bool AddCategoryAttr(string categoryid, string attrid, int type, string operateIP, string operateID)
         {
-            var dal = new ProductsDAL();
-            return dal.AddCategoryAttr(categoryid, attrid, type, operateID);
+            var bl = ProductsDAL.BaseProvider.AddCategoryAttr(categoryid, attrid, type, operateID);
+            if (bl)
+            {
+                var model = GetCategoryByID(categoryid);
+                if (type == 1 && model.AttrLists.Where(m => m.AttrID.ToLower() == attrid.ToLower()).Count()<=0)
+                {
+                    var attr = GetAttrByID(attrid);
+                    model.AttrLists.Add(attr);
+                }
+                else if (type == 2 && model.SaleAttrs.Where(m => m.AttrID.ToLower() == attrid.ToLower()).Count() <= 0)
+                {
+                    var attr = GetAttrByID(attrid);
+                    model.SaleAttrs.Add(attr);
+                }
+            }
+            return bl;
+        }
+
+        public bool DeleteCategoryAttr(string categoryid, string attrid, int type, string operateIP, string operateID)
+        {
+            var bl = ProductsDAL.BaseProvider.UpdateCategoryAttrStatus(categoryid, attrid, type);
+            if (bl)
+            {
+                var model = GetCategoryByID(categoryid);
+                if (type == 1)
+                {
+                    var attr = model.AttrLists.Where(m => m.AttrID.ToLower() == attrid.ToLower()).FirstOrDefault();
+                    model.AttrLists.Remove(attr);
+                }
+                else
+                {
+                    var attr = model.SaleAttrs.Where(m => m.AttrID.ToLower() == attrid.ToLower()).FirstOrDefault();
+                    model.SaleAttrs.Remove(attr);
+                }
+            }
+            return bl;
         }
 
         public bool DeleteCategory(string categoryid, string operateid, string ip, out int result)
@@ -678,6 +680,7 @@ namespace IntFactoryBusiness
         {
             CacheCategory = null;
         }
+
         #endregion
 
         #region 产品

@@ -22,6 +22,8 @@ namespace IntFactoryEntity
         /// </summary>
         public List<AttrValue> AttrValues { get; set; }
 
+        public string CategoryID { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

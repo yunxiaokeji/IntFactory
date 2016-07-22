@@ -317,7 +317,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@Type", type), 
                                        new SqlParameter("@ClientID", clientid)
                                    };
-            DataTable dt = GetDataTable("select c.* from OrderCategory o join Category c on o.CategoryID=c.CategoryID where c.PID=@PID and c.CategoryType=@Type and o.ClientID=@ClientID and Status<>9 Order by CreateTime", paras, CommandType.Text);
+            DataTable dt = GetDataTable("select c.CategoryID,c.CategoryName,c.PID from OrderCategory o join Category c on o.CategoryID=c.CategoryID where c.PID=@PID and c.CategoryType=@Type and o.ClientID=@ClientID and Status<>9 Order by CreateTime", paras, CommandType.Text);
             return dt;
         }
 
@@ -365,13 +365,12 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_AddCategoryAttr", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateCategoryAttrStatus(string categoryid, string attrid, int status, int type)
+        public bool UpdateCategoryAttrStatus(string categoryid, string attrid,  int type)
         {
-            string sqlText = "Update CategoryAttr set Status=@Status,UpdateTime=getdate()  where [AttrID]=@AttrID and CategoryID=@CategoryID and Type=@Type";
+            string sqlText = "Update CategoryAttr set Status=9,UpdateTime=getdate() where [AttrID]=@AttrID and CategoryID=@CategoryID and Type=@Type";
             SqlParameter[] paras = { 
                                      new SqlParameter("@CategoryID",categoryid),
                                      new SqlParameter("@AttrID",attrid),
-                                     new SqlParameter("@Status" , status),
                                      new SqlParameter("@Type" , type)
                                    };
             return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
