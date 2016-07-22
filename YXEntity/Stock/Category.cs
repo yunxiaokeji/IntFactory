@@ -26,171 +26,36 @@ namespace IntFactoryEntity
     {
         public Category()
         { }
-        #region Model
-        private int _autoid;
-        private string _categorycode;
-        private string _categoryname = "";
-        private string _pcode = "";
-        private string _pcodelist = "";
-        private int? _layers = 1;
-        private string _saleattr = "";
-        private string _attrlist = "";
-        private string _brandlist = "";
-        private int? _status = 1;
-        private string _description = "";
-        private string _createuserid;
-        private DateTime? _createtime = DateTime.Now;
-        private DateTime? _updatetime = DateTime.Now;
-        private string _operateip = "";
-        private string _clientid;
-        /// <summary>
-        /// 
-        /// </summary>
-        public int AutoID
-        {
-            set { _autoid = value; }
-            get { return _autoid; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
+
         [Property("Lower")] 
         public string CategoryID { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string CategoryCode
-        {
-            set { _categorycode = value; }
-            get { return _categorycode; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string CategoryName
-        {
-            set { _categoryname = value; }
-            get { return _categoryname; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-        public string PID
-        {
-            set { _pcode = value; }
-            get { return _pcode; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-        public string PIDList
-        {
-            set { _pcodelist = value; }
-            get { return _pcodelist; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int? Layers
-        {
-            set { _layers = value; }
-            get { return _layers; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-        public string SaleAttr
-        {
-            set { _saleattr = value; }
-            get { return _saleattr; }
-        }
+
+        public string CategoryCode { get; set; }
+
+        public string CategoryName { get; set; }
+
+        [Property("Lower")]
+        public string PID { get; set; }
+
+        [Property("Lower")]
+        public string PIDList { get; set; }
+
+        public int Layers { get; set; }
+
+        public string SaleAttr { get; set; }
 
         public List<ProductAttr> SaleAttrs { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-        public string AttrList
-        {
-            set { _attrlist = value; }
-            get { return _attrlist; }
-        }
+        [Property("Lower")]
+        public string AttrList { get; set; }
 
         public List<ProductAttr> AttrLists { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-        public string BrandList
-        {
-            set { _brandlist = value; }
-            get { return _brandlist; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int? Status
-        {
-            set { _status = value; }
-            get { return _status; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Description
-        {
-            set { _description = value; }
-            get { return _description; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-        public string CreateUserID
-        {
-            set { _createuserid = value; }
-            get { return _createuserid; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public DateTime? CreateTime
-        {
-            set { _createtime = value; }
-            get { return _createtime; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public DateTime? UpdateTime
-        {
-            set { _updatetime = value; }
-            get { return _updatetime; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string OperateIP
-        {
-            set { _operateip = value; }
-            get { return _operateip; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-        public string ClientID
-        {
-            set { _clientid = value; }
-            get { return _clientid; }
-        }
-        #endregion Model
+
+        public int Status { get; set; }
+
+        public string Description { get; set; }
 
         public int CategoryType { get; set; }
 

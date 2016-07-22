@@ -60,6 +60,17 @@ namespace YXERP.Controllers
             ViewBag.GUID = guid;
             ViewBag.TID = tid;
 
+<<<<<<< HEAD
+            if (string.IsNullOrEmpty(id))
+            {
+                var list = new ProductsBusiness().GetChildCategorysByID("", EnumCategoryType.Product);
+                ViewBag.Items = list;
+                return View("ChooseCategory");
+            }
+
+            ViewBag.Model = new ProductsBusiness().GetCategoryByID(id);
+=======
+>>>>>>> 3154a2369901f702a3c1f0384cb6d8d0172195b7
             ViewBag.UnitList = new ProductsBusiness().GetUnits();
             return View();
         }
@@ -519,21 +530,6 @@ namespace YXERP.Controllers
             return new JsonResult
             {
                 Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
-        /// 获取仓库、货位信息(2016-7-22)
-        /// </summary>
-        /// <returns></returns>
-        public JsonResult GetWareHouses()
-        {
-            List<WareHouse> items = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
-            JsonDictionary.Add("items", items);
-            return new JsonResult
-            {
-                Data = items,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }

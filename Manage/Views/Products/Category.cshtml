@@ -22,7 +22,7 @@
                 @foreach (IntFactoryEntity.Category model in (List<IntFactoryEntity.Category>)ViewBag.Items)
                 { 
                     <li data-id="@(model.CategoryID)" title="@(model.Description)" data-layer="@(model.Layers)">
-                        <span class="category-name width150 long left @(model.Status.Value==1?"":"color999")">@(model.CategoryName)</span>
+                        <span class="category-name width150 long left @(model.Status==1?"":"color999")">@(model.CategoryName)</span>
                         <span data-id="@(model.CategoryID)" class="ddlcategory ico-dropdown right"></span>
                     </li>
                 }
