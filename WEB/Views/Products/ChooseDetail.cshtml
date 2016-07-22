@@ -28,8 +28,13 @@
             <img id="productimg" src="@(model.ProductImage)" />
         </div>
         <div class="product-name left">
-            <h1>@(model.ProductName)</h1>
-
+            <h1 class="left">@(model.ProductName)</h1>
+            <div class="right mRight5 create-doc">
+                <span class="btn-add">添加采购</span>
+                <span class="btn-add">添加报损</span>
+                <span class="btn-add">添加报溢</span>
+            </div>
+            <div class="clear"></div>
             <ul class="price">
                 <li class="column">价&nbsp;&nbsp;格：</li>
                 <li id="price" class="salesprice">￥@(model.Price.ToString("f2"))</li>
@@ -72,7 +77,7 @@
                     <li class="attrkey">单位：</li>
                     <li class="attrValues">
                         <ul id="unit">
-                            <li class="hover" id="small" data-value="0" data-id="@(model.SmallUnit.UnitID)">@(model.SmallUnit.UnitName)</li>
+                            <li class="hover" style="cursor:text;" id="small" data-value="0" data-id="@(model.SmallUnit.UnitID)">@(model.SmallUnit.UnitName)</li>
                         </ul>
                     </li>
                 </ul>

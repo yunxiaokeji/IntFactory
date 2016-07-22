@@ -59,7 +59,6 @@ define(function (require, exports, module) {
             }
         });
 
-
         $("#btnSearch").click(function () {
             Params.pageIndex = 1;
             Params.begintime = $("#BeginTime").val().trim();
@@ -268,7 +267,18 @@ define(function (require, exports, module) {
                     });
                 });
             } else {
-                confirm("完成采购单后不能再登记入库，确认操作吗？", function () {
+                var completeCount = 0;
+                var docTotalCount = 0;
+                var showMsg = "";
+                for (var i = 0; i < _self.model.Details.length; i++) {
+                    var item = _self.model.Details[i];
+                    if ((item.Quantity * 1 - item.Complete * 1) > 0) {
+                        showMsg += "有材料入库量小于单据采购数量，";
+                        break;
+                    }
+                }
+                showMsg += "完成采购单后不能再登记入库，确认操作吗？";
+                confirm(showMsg, function () {
                     Global.post("/Purchase/AuditPurchase", {
                         docid: _self.docid,
                         doctype: 101,
@@ -381,6 +391,12 @@ define(function (require, exports, module) {
                 var _this = $(this);
                 if (!_this.val().isDouble() || _this.val() < 0) {
                     _this.val("0");
+                }
+                if (_this.val() == 0) {
+                    return false;
+                }
+                if ((_this.parents('.list-item').find('.total').html()) * 1 - ((_this.parents('.list-item').find('.complete-count').html()) * 1 + _this.val() * 1) < 0) {
+                    alert("该材料入库数已超出单据数量");
                 }
             });
 

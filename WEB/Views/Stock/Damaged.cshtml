@@ -50,7 +50,6 @@
             <li data-id="-1" class="hover">全部</li>
             <li data-id="0" class="">待审核</li>
             <li data-id="2" class="">已审核</li>
-            <li data-id="4" class="">已作废</li>
         </ul>
         
     </div>
@@ -67,30 +66,17 @@
     </div>
     <table class="table-items-detail">
        <tr class="table-header tr-header">
-            <td class="tLeft">
-                <ul class="purchase-detail-header">      
-                     <li class="long name">
-                         名称
-                     </li>   
-                     <li class="code width120">
-                         编码
-                     </li>   
-                     <li class="width80">
-                         数量
-                     </li> 
-                </ul>
-            </td>
             <td class="tLeft">报损单号</td>
-            <td class="width100">状态</td>
-            <td class="tRight width100">总金额</td>
-            <td class="width200">报损日期</td>
-            <td class="width80">操作</td>
+            <td>编码</td>
+            <td>数量</td>
+            <td class="">总金额</td>
+            <td class="">报损日期</td>
+            <td class="">状态</td>
         </tr>
     </table>
     <div class="mTop20" id="pager"></div>
 </div>
 <ul class="dropdown-ul hide" style="width:65px;">
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"103030302"))" id="audit">审核</li>
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"103030303"))" id="invalid">作废</li>
     <li class="@(ExpandClass.IsLimits(HttpContext.Current,"103030304"))" id="delete">删除</li>
 </ul>

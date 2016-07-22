@@ -1,5 +1,4 @@
-﻿
-define(function (require, exports, module) {
+﻿define(function (require, exports, module) {
     var City = require("city"), CityObject,
         Upload = require("upload"), ProductIco, ImgsIco,
         Global = require("global"),
@@ -56,16 +55,253 @@ define(function (require, exports, module) {
                 }
             }
         });
+
+        //绑定设置类别控件
         $("#productMenuChange").changeMenu({
-            onChange: function (data) {
-                console.log(data);
+            onHeaderChange: function (items) {
+
+            },
+            onCategroyChange: function (items) {
+                $(".productsalesattr").remove();
+                $(".product-attr").remove();
+                $(".child-product-li .tr-header").nextAll().remove();
+                var id = items[items.length - 1].id;
+                if (id) {
+                    _self.categoryID = id;
+                    Global.post("/Products/GetCategoryDetailsByID", { categoryid: id }, function (data) {
+                        doT.exec("template/products/product-property.html", function (template) {
+                            var innerHtml = template(data.Model.AttrLists);
+                            innerHtml = $(innerHtml);
+                            $("#smallUnit").parent().before(innerHtml);
+                        });
+
+                        doT.exec("template/products/sales-and-attr.html", function (template) {
+                            var innerHtml = template(data.Model.SaleAttrs);
+                            innerHtml = $(innerHtml);
+                            //监听输入自定义规格
+                            innerHtml.find("#attrLayout").change(function () {
+                                var _this = $(this);
+                                if (_this.val()) {
+                                    var b1 = false;
+                                    $(".productsalesattr input[type=checkbox]").each(function () {
+                                        if (_this.val() == $(this).data('text')) {
+                                            b1 = true;
+                                            return false;
+                                        }
+                                    });
+                                    if (!b1) {
+                                        var html = $('<label class="mRight10"><input type="checkbox" class="attritem" data-id="attr.AttrID" data-text="' + _this.val() + '" value="|" />' + _this.val() + '</label> ');
+                                        html.find('.attritem').click(function () {
+                                            var bl = false, details = [], isFirst = true;
+                                            $(".productsalesattr").each(function () {
+                                                bl = false;
+                                                var _attr = $(this), attrdetail = details;
+                                                //组合规格
+                                                _attr.find("input:checked").each(function () {
+                                                    bl = true;
+                                                    var _value = $(this);
+                                                    //首个规格
+                                                    if (isFirst) {
+                                                        var model = {};
+                                                        model.ids = _attr.data("id") + ":" + _value.val();
+                                                        model.saleAttr = _attr.data("id");
+                                                        model.attrValue = _value.val();
+                                                        model.names = "[" + _attr.data("text") + "：" + _value.data("text") + "]";
+                                                        model.layer = 1;
+                                                        model.guid = Global.guid();
+                                                        details.push(model);
+                                                    } else {
+                                                        for (var i = 0, j = attrdetail.length; i < j; i++) {
+                                                            if (attrdetail[i].ids.indexOf(_value.data("id")) < 0) {
+                                                                var model = {};
+                                                                model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
+                                                                model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
+                                                                model.attrValue = attrdetail[i].attrValue + "," + _value.val();
+                                                                model.names = attrdetail[i].names + "[" + _attr.data("text") + "：" + _value.data("text") + "]";
+                                                                model.layer = attrdetail[i].layer + 1;
+                                                                model.guid = Global.guid();
+                                                                details.push(model);
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                                isFirst = false;
+                                            });
+                                            //选择所有属性
+                                            if (bl) {
+                                                var layer = $(".productsalesattr").length, items = [];
+                                                for (var i = 0, j = details.length; i < j; i++) {
+                                                    var model = details[i];
+                                                    if (model.layer == layer) {
+                                                        items.push(model);
+                                                    }
+                                                }
+                                                $(".child-product-li").empty();
+                                                //加载子产品
+                                                doT.exec("template/products/product_child_add_list.html", function (templateFun) {
+                                                    var innerText = templateFun(items);
+                                                    innerText = $(innerText);
+                                                    $(".child-product-li").append(innerText);
+
+                                                    innerText.find(".price,.bigprice").val($("#price").val());
+
+                                                    innerText.find(".upload-child-img").each(function () {
+                                                        var _this = $(this);
+                                                        var uploader = Upload.uploader({
+                                                            browse_button: _this.attr("id"),
+                                                            file_path: "/Content/UploadFiles/Product/",
+                                                            multi_selection: false,
+                                                            auto_callback: false,
+                                                            fileType: 1,
+                                                            init: {
+                                                                "FileUploaded": function (up, file, info) {
+                                                                    var info = JSON.parse(info);
+                                                                    _this.siblings("img").attr("src", file.server + info.key);
+                                                                    _this.siblings("img").attr("data", file.server + info.key);
+                                                                }
+                                                            }
+                                                        });
+
+
+                                                    });
+
+                                                    //价格必须大于0的数字
+                                                    innerText.find(".price,.bigprice").change(function () {
+                                                        var _this = $(this);
+                                                        if (!_this.val().isDouble() || _this.val() <= 0) {
+                                                            _this.val($("#price").val());
+                                                        }
+                                                    });
+
+                                                    //绑定启用插件
+                                                    innerText.find(".ico-del").click(function () {
+                                                        var _this = $(this);
+                                                        confirm("确认删除此规格吗？", function () {
+                                                            _this.parents("tr.list-item").remove();
+                                                        })
+                                                    });
+                                                });
+                                            }
+                                        });
+                                        _this.parent().before(html);
+                                        html.find('.attritem').click();
+                                    } else {
+                                        alert("该规格已存在");
+                                    }
+                                    _this.val("");
+                                }
+                            });
+                            //组合子产品
+                            innerHtml.find(".attritem").click(function () {
+                                var bl = false, details = [], isFirst = true;
+                                $(".productsalesattr").each(function () {
+                                    bl = false;
+                                    var _attr = $(this), attrdetail = details;
+                                    //组合规格
+                                    _attr.find("input:checked").each(function () {
+                                        bl = true;
+                                        var _value = $(this);
+                                        //首个规格
+                                        if (isFirst) {
+                                            var model = {};
+                                            model.ids = _attr.data("id") + ":" + _value.val();
+                                            model.saleAttr = _attr.data("id");
+                                            model.attrValue = _value.val();
+                                            model.names = "[" + _attr.data("text") + "：" + _value.data("text") + "]";
+                                            model.layer = 1;
+                                            model.guid = Global.guid();
+                                            details.push(model);
+                                        } else {
+                                            for (var i = 0, j = attrdetail.length; i < j; i++) {
+                                                if (attrdetail[i].ids.indexOf(_value.data("id")) < 0) {
+                                                    var model = {};
+                                                    model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
+                                                    model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
+                                                    model.attrValue = attrdetail[i].attrValue + "," + _value.val();
+                                                    model.names = attrdetail[i].names + "[" + _attr.data("text") + "：" + _value.data("text") + "]";
+                                                    model.layer = attrdetail[i].layer + 1;
+                                                    model.guid = Global.guid();
+                                                    details.push(model);
+                                                }
+                                            }
+                                        }
+                                    });
+                                    isFirst = false;
+                                });
+                                //选择所有属性
+                                if (bl) {
+                                    var layer = $(".productsalesattr").length, items = [];
+                                    for (var i = 0, j = details.length; i < j; i++) {
+                                        var model = details[i];
+                                        if (model.layer == layer) {
+                                            items.push(model);
+                                        }
+                                    }
+                                    $(".child-product-li").empty();
+                                    //加载子产品
+                                    doT.exec("template/products/product_child_add_list.html", function (templateFun) {
+                                        var innerText = templateFun(items);
+                                        innerText = $(innerText);
+                                        $(".child-product-li").append(innerText);
+
+                                        innerText.find(".price,.bigprice").val($("#price").val());
+
+                                        innerText.find(".upload-child-img").each(function () {
+                                            var _this = $(this);
+                                            var uploader = Upload.uploader({
+                                                browse_button: _this.attr("id"),
+                                                file_path: "/Content/UploadFiles/Product/",
+                                                multi_selection: false,
+                                                auto_callback: false,
+                                                fileType: 1,
+                                                init: {
+                                                    "FileUploaded": function (up, file, info) {
+                                                        var info = JSON.parse(info);
+                                                        _this.siblings("img").attr("src", file.server + info.key);
+                                                        _this.siblings("img").attr("data", file.server + info.key);
+                                                    }
+                                                }
+                                            });
+
+
+                                        });
+
+                                        //价格必须大于0的数字
+                                        innerText.find(".price,.bigprice").change(function () {
+                                            var _this = $(this);
+                                            if (!_this.val().isDouble() || _this.val() <= 0) {
+                                                _this.val($("#price").val());
+                                            }
+                                        });
+
+                                        //绑定启用插件
+                                        innerText.find(".ico-del").click(function () {
+                                            var _this = $(this);
+                                            confirm("确认删除此规格吗？", function () {
+                                                _this.parents("tr.list-item").remove();
+                                            })
+                                        });
+                                    });
+                                }
+                            });
+                            $(".child-product-li").before(innerHtml);
+                        });
+                    });
+                }
             }
         });
+
         $("#btnSaveProduct").on("click", function () {
             if (!VerifyObject.isPass()) {
                 return;
             }
-            Product.savaProduct();
+            if (!_self.categoryID) {
+                confirm("选择材料类别有误,确定要继续?", function () {
+                    Product.savaProduct();
+                });
+            } else {
+                Product.savaProduct();
+            }
         });
 
         VerifyObject = Verify.createVerify({
@@ -172,214 +408,6 @@ define(function (require, exports, module) {
                 });
             });
         });
-
-        //监听输入自定义规格
-        $("#attrLayout").change(function () {
-            var _this = $(this);
-            if (_this.val()) {
-                var b1 = false;
-                $(".productsalesattr input[type=checkbox]").each(function () {
-                    if (_this.val() == $(this).data('text')) {
-                        b1 = true;
-                        return false;
-                    }
-                });
-                if (!b1) {
-                    var html = $('<label class="mRight10"><input type="checkbox" class="attritem" data-id="attr.AttrID" data-text="' + _this.val() + '" value="|" />' + _this.val() + '</label> ');
-                    html.find('.attritem').click(function () {
-                        var bl = false, details = [], isFirst = true;
-                        $(".productsalesattr").each(function () {
-                            bl = false;
-                            var _attr = $(this), attrdetail = details;
-                            //组合规格
-                            _attr.find("input:checked").each(function () {
-                                bl = true;
-                                var _value = $(this);
-                                //首个规格
-                                if (isFirst) {
-                                    var model = {};
-                                    model.ids = _attr.data("id") + ":" + _value.val();
-                                    model.saleAttr = _attr.data("id");
-                                    model.attrValue = _value.val();
-                                    model.names = "[" + _attr.data("text") + "：" + _value.data("text") + "]";
-                                    model.layer = 1;
-                                    model.guid = Global.guid();
-                                    details.push(model);
-                                } else {
-                                    for (var i = 0, j = attrdetail.length; i < j; i++) {
-                                        if (attrdetail[i].ids.indexOf(_value.data("id")) < 0) {
-                                            var model = {};
-                                            model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
-                                            model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
-                                            model.attrValue = attrdetail[i].attrValue + "," + _value.val();
-                                            model.names = attrdetail[i].names + "[" + _attr.data("text") + "：" + _value.data("text") + "]";
-                                            model.layer = attrdetail[i].layer + 1;
-                                            model.guid = Global.guid();
-                                            details.push(model);
-                                        }
-                                    }
-                                }
-                            });
-                            isFirst = false;
-                        });
-                        //选择所有属性
-                        if (bl) {
-                            var layer = $(".productsalesattr").length, items = [];
-                            for (var i = 0, j = details.length; i < j; i++) {
-                                var model = details[i];
-                                if (model.layer == layer) {
-                                    items.push(model);
-                                }
-                            }
-                            $(".child-product-li").empty();
-                            //加载子产品
-                            doT.exec("template/products/product_child_add_list.html", function (templateFun) {
-                                var innerText = templateFun(items);
-                                innerText = $(innerText);
-                                $(".child-product-li").append(innerText);
-
-                                innerText.find(".price,.bigprice").val($("#price").val());
-
-                                innerText.find(".upload-child-img").each(function () {
-                                    var _this = $(this);
-                                    var uploader = Upload.uploader({
-                                        browse_button: _this.attr("id"),
-                                        file_path: "/Content/UploadFiles/Product/",
-                                        multi_selection: false,
-                                        auto_callback: false,
-                                        fileType: 1,
-                                        init: {
-                                            "FileUploaded": function (up, file, info) {
-                                                var info = JSON.parse(info);
-                                                _this.siblings("img").attr("src", file.server + info.key);
-                                                _this.siblings("img").attr("data", file.server + info.key);
-                                            }
-                                        }
-                                    });
-
-
-                                });
-
-                                //价格必须大于0的数字
-                                innerText.find(".price,.bigprice").change(function () {
-                                    var _this = $(this);
-                                    if (!_this.val().isDouble() || _this.val() <= 0) {
-                                        _this.val($("#price").val());
-                                    }
-                                });
-
-                                //绑定启用插件
-                                innerText.find(".ico-del").click(function () {
-                                    var _this = $(this);
-                                    confirm("确认删除此规格吗？", function () {
-                                        _this.parents("tr.list-item").remove();
-                                    })
-                                });
-                            });
-                        }
-                    });
-                    _this.parent().before(html);
-                    html.find('.attritem').click();
-                } else {
-                    alert("该规格已存在");
-                }
-                _this.val("");
-            }
-        });
-
-        //组合子产品
-        $(".productsalesattr .attritem").click(function () {
-            var bl = false, details = [], isFirst = true;
-            $(".productsalesattr").each(function () {
-                bl = false;
-                var _attr = $(this), attrdetail = details;
-                //组合规格
-                _attr.find("input:checked").each(function () {
-                    bl = true;
-                    var _value = $(this);
-                    //首个规格
-                    if (isFirst) {
-                        var model = {};
-                        model.ids = _attr.data("id") + ":" + _value.val();
-                        model.saleAttr = _attr.data("id");
-                        model.attrValue = _value.val();
-                        model.names = "[" + _attr.data("text") + "：" + _value.data("text") + "]";
-                        model.layer = 1;
-                        model.guid = Global.guid();
-                        details.push(model);
-                    }else {
-                        for (var i = 0, j = attrdetail.length; i < j; i++) {
-                            if (attrdetail[i].ids.indexOf(_value.data("id")) < 0) {
-                                var model = {};
-                                model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
-                                model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
-                                model.attrValue = attrdetail[i].attrValue + "," + _value.val();
-                                model.names = attrdetail[i].names + "[" + _attr.data("text") + "：" + _value.data("text") + "]";
-                                model.layer = attrdetail[i].layer + 1;
-                                model.guid = Global.guid();
-                                details.push(model);
-                            }
-                        }
-                    }
-                });
-                isFirst = false;
-            });
-            //选择所有属性
-            if (bl) {
-                var layer = $(".productsalesattr").length, items = [];
-                for (var i = 0, j = details.length; i < j; i++) {
-                    var model = details[i];
-                    if (model.layer == layer) {
-                        items.push(model);
-                    }
-                }
-                $(".child-product-li").empty();
-                //加载子产品
-                doT.exec("template/products/product_child_add_list.html", function (templateFun) {
-                    var innerText = templateFun(items);
-                    innerText = $(innerText);
-                    $(".child-product-li").append(innerText);
-
-                    innerText.find(".price,.bigprice").val($("#price").val());
-
-                    innerText.find(".upload-child-img").each(function () {
-                        var _this = $(this);
-                        var uploader = Upload.uploader({
-                            browse_button: _this.attr("id"),
-                            file_path: "/Content/UploadFiles/Product/",
-                            multi_selection: false,
-                            auto_callback: false,
-                            fileType: 1,
-                            init: {
-                                "FileUploaded": function (up, file, info) {
-                                    var info = JSON.parse(info);
-                                    _this.siblings("img").attr("src", file.server + info.key);
-                                    _this.siblings("img").attr("data", file.server + info.key);
-                                }
-                            }
-                        });
-
-
-                    });
-
-                    //价格必须大于0的数字
-                    innerText.find(".price,.bigprice").change(function () {
-                        var _this = $(this);
-                        if (!_this.val().isDouble() || _this.val() <= 0) {
-                            _this.val($("#price").val());
-                        }
-                    });
-
-                    //绑定启用插件
-                    innerText.find(".ico-del").click(function () {
-                        var _this = $(this);
-                        confirm("确认删除此规格吗？", function () {
-                            _this.parents("tr.list-item").remove();
-                        })
-                    });
-                });
-            }
-        });
     }
     //保存产品
     Product.savaProduct = function () {
@@ -417,7 +445,7 @@ define(function (require, exports, module) {
             BigUnitID: $("#smallUnit").val().trim(),//$("#bigUnit").val().trim(),
             SmallUnitID: $("#smallUnit").val().trim(),
             BigSmallMultiple: 1,
-            CategoryID: $("#categoryID").val(),
+            CategoryID: _self.categoryID ? _self.categoryID : "",
             Status: $("#status").prop("checked") ? 1 : 0,
             IsPublic: $("#isPublic").prop("checked") ? 1 : 0,
             AttrList: attrlist,
@@ -431,7 +459,7 @@ define(function (require, exports, module) {
             IsAllow: 1,//$("#isAllow").prop("checked") ? 1 : 0,
             IsAutoSend: 0, //$("#isAutoSend").prop("checked") ? 1 : 0,
             EffectiveDays: 0,//$("#effectiveDays").val(),
-            DiscountValue:1,
+            DiscountValue: 1,
             ProductImage: _self.ProductImage,
             ShapeCode: $("#shapeCode").val(),
             Description: encodeURI(editor.getContent())
@@ -775,6 +803,238 @@ define(function (require, exports, module) {
     Product.bindDetailEvent = function (model) {
         var _self = this;
 
+        //绑定选择类别插件
+        $("#productMenuChange").changeMenu({
+            onCategroyChange: function (items) {
+                $(".productsalesattr").remove();
+                $(".product-attr").remove();
+                $(".child-product-li .tr-header").nextAll().remove();
+                var id = items[items.length - 1].id;
+                if (id) {
+                    _self.categoryID = id;
+                    Global.post("/Products/GetCategoryDetailsByID", { categoryid: id }, function (data) {
+                        doT.exec("template/products/product-property.html", function (template) {
+                            var innerHtml = template(data.Model.AttrLists);
+                            innerHtml = $(innerHtml);
+                            $("#smallUnit").parent().before(innerHtml);
+                        });
+
+                        doT.exec("template/products/sales-and-attr.html", function (template) {
+                            var innerHtml = template(data.Model.SaleAttrs);
+                            innerHtml = $(innerHtml);
+                            //监听输入自定义规格
+                            innerHtml.find("#attrLayout").change(function () {
+                                var _this = $(this);
+                                if (_this.val()) {
+                                    var b1 = false;
+                                    $(".productsalesattr input[type=checkbox]").each(function () {
+                                        if (_this.val() == $(this).data('text')) {
+                                            b1 = true;
+                                            return false;
+                                        }
+                                    });
+                                    if (!b1) {
+                                        var html = $('<label class="mRight10"><input type="checkbox" class="attritem" data-id="attr.AttrID" data-text="' + _this.val() + '" value="|" />' + _this.val() + '</label> ');
+                                        html.find('.attritem').click(function () {
+                                            var bl = false, details = [], isFirst = true;
+                                            $(".productsalesattr").each(function () {
+                                                bl = false;
+                                                var _attr = $(this), attrdetail = details;
+                                                //组合规格
+                                                _attr.find("input:checked").each(function () {
+                                                    bl = true;
+                                                    var _value = $(this);
+                                                    //首个规格
+                                                    if (isFirst) {
+                                                        var model = {};
+                                                        model.ids = _attr.data("id") + ":" + _value.val();
+                                                        model.saleAttr = _attr.data("id");
+                                                        model.attrValue = _value.val();
+                                                        model.names = "[" + _attr.data("text") + "：" + _value.data("text") + "]";
+                                                        model.layer = 1;
+                                                        model.guid = Global.guid();
+                                                        details.push(model);
+                                                    } else {
+                                                        for (var i = 0, j = attrdetail.length; i < j; i++) {
+                                                            if (attrdetail[i].ids.indexOf(_value.data("id")) < 0) {
+                                                                var model = {};
+                                                                model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
+                                                                model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
+                                                                model.attrValue = attrdetail[i].attrValue + "," + _value.val();
+                                                                model.names = attrdetail[i].names + "[" + _attr.data("text") + "：" + _value.data("text") + "]";
+                                                                model.layer = attrdetail[i].layer + 1;
+                                                                model.guid = Global.guid();
+                                                                details.push(model);
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                                isFirst = false;
+                                            });
+                                            //选择所有属性
+                                            if (bl) {
+                                                var layer = $(".productsalesattr").length, items = [];
+                                                for (var i = 0, j = details.length; i < j; i++) {
+                                                    var model = details[i];
+                                                    if (model.layer == layer) {
+                                                        items.push(model);
+                                                    }
+                                                }
+                                                $(".child-product-li").empty();
+                                                //加载子产品
+                                                doT.exec("template/products/product_child_add_list.html", function (templateFun) {
+                                                    var innerText = templateFun(items);
+                                                    innerText = $(innerText);
+                                                    $(".child-product-li").append(innerText);
+
+                                                    innerText.find(".price,.bigprice").val($("#price").val());
+
+                                                    innerText.find(".upload-child-img").each(function () {
+                                                        var _this = $(this);
+                                                        var uploader = Upload.uploader({
+                                                            browse_button: _this.attr("id"),
+                                                            file_path: "/Content/UploadFiles/Product/",
+                                                            multi_selection: false,
+                                                            auto_callback: false,
+                                                            fileType: 1,
+                                                            init: {
+                                                                "FileUploaded": function (up, file, info) {
+                                                                    var info = JSON.parse(info);
+                                                                    _this.siblings("img").attr("src", file.server + info.key);
+                                                                    _this.siblings("img").attr("data", file.server + info.key);
+                                                                }
+                                                            }
+                                                        });
+
+
+                                                    });
+
+                                                    //价格必须大于0的数字
+                                                    innerText.find(".price,.bigprice").change(function () {
+                                                        var _this = $(this);
+                                                        if (!_this.val().isDouble() || _this.val() <= 0) {
+                                                            _this.val($("#price").val());
+                                                        }
+                                                    });
+
+                                                    //绑定启用插件
+                                                    innerText.find(".ico-del").click(function () {
+                                                        var _this = $(this);
+                                                        confirm("确认删除此规格吗？", function () {
+                                                            _this.parents("tr.list-item").remove();
+                                                        })
+                                                    });
+                                                });
+                                            }
+                                        });
+                                        _this.parent().before(html);
+                                        html.find('.attritem').click();
+                                    } else {
+                                        alert("该规格已存在");
+                                    }
+                                    _this.val("");
+                                }
+                            });
+                            //组合子产品
+                            innerHtml.find(".attritem").click(function () {
+                                var bl = false, details = [], isFirst = true;
+                                $(".productsalesattr").each(function () {
+                                    bl = false;
+                                    var _attr = $(this), attrdetail = details;
+                                    //组合规格
+                                    _attr.find("input:checked").each(function () {
+                                        bl = true;
+                                        var _value = $(this);
+                                        //首个规格
+                                        if (isFirst) {
+                                            var model = {};
+                                            model.ids = _attr.data("id") + ":" + _value.val();
+                                            model.saleAttr = _attr.data("id");
+                                            model.attrValue = _value.val();
+                                            model.names = "[" + _attr.data("text") + "：" + _value.data("text") + "]";
+                                            model.layer = 1;
+                                            model.guid = Global.guid();
+                                            details.push(model);
+                                        } else {
+                                            for (var i = 0, j = attrdetail.length; i < j; i++) {
+                                                if (attrdetail[i].ids.indexOf(_value.data("id")) < 0) {
+                                                    var model = {};
+                                                    model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
+                                                    model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
+                                                    model.attrValue = attrdetail[i].attrValue + "," + _value.val();
+                                                    model.names = attrdetail[i].names + "[" + _attr.data("text") + "：" + _value.data("text") + "]";
+                                                    model.layer = attrdetail[i].layer + 1;
+                                                    model.guid = Global.guid();
+                                                    details.push(model);
+                                                }
+                                            }
+                                        }
+                                    });
+                                    isFirst = false;
+                                });
+                                //选择所有属性
+                                if (bl) {
+                                    var layer = $(".productsalesattr").length, items = [];
+                                    for (var i = 0, j = details.length; i < j; i++) {
+                                        var model = details[i];
+                                        if (model.layer == layer) {
+                                            items.push(model);
+                                        }
+                                    }
+                                    $(".child-product-li").empty();
+                                    //加载子产品
+                                    doT.exec("template/products/product_child_add_list.html", function (templateFun) {
+                                        var innerText = templateFun(items);
+                                        innerText = $(innerText);
+                                        $(".child-product-li").append(innerText);
+
+                                        innerText.find(".price,.bigprice").val($("#price").val());
+
+                                        innerText.find(".upload-child-img").each(function () {
+                                            var _this = $(this);
+                                            var uploader = Upload.uploader({
+                                                browse_button: _this.attr("id"),
+                                                file_path: "/Content/UploadFiles/Product/",
+                                                multi_selection: false,
+                                                auto_callback: false,
+                                                fileType: 1,
+                                                init: {
+                                                    "FileUploaded": function (up, file, info) {
+                                                        var info = JSON.parse(info);
+                                                        _this.siblings("img").attr("src", file.server + info.key);
+                                                        _this.siblings("img").attr("data", file.server + info.key);
+                                                    }
+                                                }
+                                            });
+
+
+                                        });
+
+                                        //价格必须大于0的数字
+                                        innerText.find(".price,.bigprice").change(function () {
+                                            var _this = $(this);
+                                            if (!_this.val().isDouble() || _this.val() <= 0) {
+                                                _this.val($("#price").val());
+                                            }
+                                        });
+
+                                        //绑定启用插件
+                                        innerText.find(".ico-del").click(function () {
+                                            var _this = $(this);
+                                            confirm("确认删除此规格吗？", function () {
+                                                _this.parents("tr.list-item").remove();
+                                            })
+                                        });
+                                    });
+                                }
+                            });
+                            $(".child-product-li").before(innerHtml);
+                        });
+                    });
+                }
+            }
+        });
+
         //保存产品信息
         $("#btnSaveProduct").on("click", function () {
             if (!VerifyObject.isPass()) {
@@ -888,10 +1148,8 @@ define(function (require, exports, module) {
     }
     //添加/编辑子产品
     Product.showTemplate = function (model, id) {
-        console.log(id);
         var _self = this, count = 1;
         doT.exec("template/products/productdetails_add.html", function (templateFun) {
-
             var html = templateFun(model.Category.SaleAttrs);
 
             Easydialog.open({

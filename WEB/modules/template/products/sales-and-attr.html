@@ -1,0 +1,16 @@
+﻿{%
+    for(var i=0,ii=$data.length;i<ii;i++){
+        var attr=$data[i];
+%}
+<li data-id="{%=attr.AttrID%}" data-text="{%=attr.AttrName%}" class="productsalesattr">
+    <span class="column-name">{%=attr.AttrName+'：'%}</span>
+    {%
+        for(var j=0,jj=attr.AttrValues.length;j<jj;j++)
+       {
+            var value=attr.AttrValues[j];
+    %}
+        <label class="mRight10"><input type="checkbox" class="attritem" data-id="{%=attr.AttrID%}" data-text="{%=value.ValueName%}" value="{%=value.ValueID%}" />{%=value.ValueName%}</label> 
+    {%}%}
+    <label class="mLeft10"><input type="text" id="attrLayout" placeholder="自定义" style="width:50px;text-align:center;" /></label>
+</li>
+{%}%}

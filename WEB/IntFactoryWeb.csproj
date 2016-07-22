@@ -551,6 +551,8 @@
     <Content Include="modules\template\orders\cutoutdoc.html" />
     <Content Include="modules\template\organization\staff-detail.html" />
     <Content Include="modules\template\products\uselogs.html" />
+    <Content Include="modules\template\products\sales-and-attr.html" />
+    <Content Include="modules\template\products\product-property.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />
     <Content Include="modules\template\purchase\audit_details.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />

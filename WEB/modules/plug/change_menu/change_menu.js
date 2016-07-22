@@ -2,10 +2,15 @@
     require("plug/change_menu/change_menu.css");
     (function () {
         var menuData = [];
+        var cacheData = [];
+        var options;
+        var _eleHeader;
+        var _menuContent;
+
         $.fn.changeMenu = function (option) {
             return this.each(function () {
                 var _this = $(this);
-                var options = $.extend({}, $.fn.changeMenu.default, option);
+                options = $.extend({}, $.fn.changeMenu.default, option);
                 for (var i = 1; i <= options.layer; i++) {
                     var data = {
                         layer:  i,
@@ -14,22 +19,31 @@
                     }
                     menuData.push(data);
                 }
-                $.fn.changeMenu.bindMenu(_this, options);
+                $.fn.changeMenu.bindMenu(_this);
             });
         };
+
         $.fn.changeMenu.default = {
             width: 400,
             data: "",
             layer: 3,
-            className:"product-change",
             defaults: {
-                headerText: "全部分类",
+                headerText: "请选择",
                 headerID: ""
             },
-            onChange: function () {
+            onHeaderChange: function () {
+
+            },
+            onCategroyChange: function () {
             }
         };
-        $.fn.changeMenu.bindMenu = function (obj, opts) {
+
+        $.fn.changeMenu.bindMenu = function (obj) {
+            //绑定样式
+            obj.css({
+                "background": "url('/modules/images/ico-dropdown.png') no-repeat right 5px center"
+            });
+
             $.post("/Products/GetChildCategorysByID", {
                 categoryid: ''
             }, function (data) {
@@ -38,15 +52,16 @@
                     var offset = obj.offset();
                     if ($(".change-menu-body").length == 0) {
                         var _closeMenu = $("<div title='关闭' class='close-layer iconfont right mRight10 hand color999'>&#xe606;</div>");
-                        var _menuBody = $("<div class='change-menu-body' style='width:" + opts.width + "px;left:" + offset.left + "px;top:" + (offset.top + 27) + "px;'></div>"),
-                            _menuHeader = $("<div class='change-menu-header'><ul></ul></div>"),
+                        var _menuBody = $("<div class='change-menu-body' style='width:" + options.width + "px;left:" + offset.left + "px;top:" + (offset.top + 27) + "px;'></div>");
+                            _eleHeader = $("<div class='change-menu-header'><ul></ul></div>");
                             _menuContent = $("<div class='change-menu-content'><ul></ul></div>");
                         var _clearFloat = "<div class='clear'></div>";
-                        _menuHeader.append(_closeMenu).append(_clearFloat);
+                        _eleHeader.append(_closeMenu).append(_clearFloat);
                         _menuContent.append(_clearFloat);
-                        _menuBody.append(_menuHeader).append(_menuContent);
+                        _menuBody.append(_eleHeader).append(_menuContent);
                         $('body').append(_menuBody);
-                        bindObj(data.Items, _menuContent, obj, _menuHeader, opts.defaults);
+                        bindObj(data.Items, obj, options.defaults);
+
                         _closeMenu.click(function () {
                             _menuBody.hide();
                         });
@@ -58,53 +73,72 @@
             });
         };
 
-        var bindObj = function (data, _contentEle, obj, _headerEle, _headerData) {
+        var bindObj = function (data, obj, _headerData) {
             /*头部数据处理*/
             if (_headerData.headerText) {
-                _headerEle.find('li').removeClass('hover');
-                var _headerMenu = $('<li class="hand hover" data-id="' + _headerData.headerID + '" data-layer="' + (_headerData.headerLayer || 0) + '" >' + _headerData.headerText + '</li>');
-                _headerEle.find('ul').append(_headerMenu);
+                _eleHeader.find('li').removeClass('hover');
+                _eleHeader.find('li:last-child').html(_headerData.headerText);
+                var _headerMenu = $('<li class="hand hover" data-id="' + _headerData.headerID + '" data-layer="' + (_headerData.headerLayer || 0) + '" >请选择</li>');
+                _eleHeader.find('ul').append(_headerMenu);
                 _headerMenu.click(function () {
                     if (!$(this).hasClass('hover')) {
                         $(this).siblings().removeClass('hover');
                         $(this).addClass('hover');
+                        _headerMenu.nextAll().remove();
+
+                        var headerData = {
+                            headerText: '',
+                            headerID: ''
+                        };
+                        $(this).html("请选择");
+                        _menuContent.find('ul').empty();
+                        var item = cacheData[id];
                         var id = $(this).data("id");
-                        $.post("/Products/GetChildCategorysByID", {
-                            categoryid: id
-                        }, function (callBackData) {
-                            _headerMenu.nextAll().remove();
-                            var headerData = {
-                                headerText: '',
-                                headerID: ''
-                            };
-                            _contentEle.find('ul').empty();
-                            bindObj(callBackData.Items, _contentEle, obj, _headerEle, headerData);
-                        });
+                        if (!item) {
+                            $.post("/Products/GetChildCategorysByID", {
+                                categoryid: id
+                            }, function (callBackData) {
+                                cacheData[id] = callBackData.Items;
+                                bindObj(callBackData.Items, obj, headerData);
+                                !options.onHeaderChange || options.onHeaderChange(menuData);
+                            });
+                        } else {
+                            bindObj(item, obj, headerData);
+                            !options.onHeaderChange || options.onHeaderChange(menuData);
+                        }
                     }
                 });
             }
 
-            /*子菜单数据处理*/
+            /*子分类数据处理*/
             for (var i = 0; i < data.length; i++) {
                 var item = data[i];
-                var _childMenu = $('<li class="hand" data-layer="' + item.Layers + '" data-name="' + item.CategoryName + '" data-id="' + item.CategoryID + '">' + item.CategoryName + '</li>');
-
-                _contentEle.find('ul').append(_childMenu);
+                var _childMenu = $('<li class="hand gategory-item" data-layer="' + item.Layers + '" data-name="' + item.CategoryName + '" data-id="' + item.CategoryID + '">' + item.CategoryName + '</li>');
+                _menuContent.find('ul').append(_childMenu);
                 _childMenu.click(function () {
                     var _this = $(this);
                     if (_this.data('layer') < 3) {
-                        $.post("/Products/GetChildCategorysByID", {
-                            categoryid: _this.data("id")
-                        }, function (callBackData) {
-                            var headerData = {
-                                headerText: _this.text(),
-                                headerID: _this.data("id"),
-                                headerLayer: _this.data("layer")
-                            };
-                            _contentEle.find('ul').empty();
-                            bindObj(callBackData.Items, _contentEle, obj, _headerEle, headerData);
-                        });
+                        var id = $(this).data("id");
+                        var item = cacheData[id];
+                        var headerData = {
+                            headerText: _this.text(),
+                            headerID: _this.data("id"),
+                            headerLayer: _this.data("layer")
+                        };
+                        _menuContent.find('ul').empty();
+
+                        if (!item) {
+                            $.post("/Products/GetChildCategorysByID", {
+                                categoryid: _this.data("id")
+                            }, function (callBackData) {
+                                cacheData[id] = callBackData.Items;
+                                bindObj(callBackData.Items, obj, headerData);
+                            });
+                        } else {
+                            bindObj(item, obj, headerData);
+                        }
                     } else {
+                        _eleHeader.find('li:last-child').html(_this.text());
                         $(".change-menu-body").hide();
                     }
 
@@ -134,13 +168,19 @@
                         _desc += itemMD.name;
                     }
                     obj.val(_desc);
+                    !options.onCategroyChange || options.onCategroyChange(menuData);
                 });
             }
         };
 
         $(document).click(function (e) {
-            var ele=$(e.target);
-            if (!ele.parents().hasClass('change-menu-body')) {
+            var ele = $(e.target);
+            if (
+                   !ele.parents().hasClass('change-menu-body') 
+                && !ele.hasClass('change-menu-body')
+                && !ele.parents().hasClass('change-menu-content')
+                && !ele.hasClass('gategory-item')
+                ) {
                 $(".change-menu-body").hide();
             }
         });

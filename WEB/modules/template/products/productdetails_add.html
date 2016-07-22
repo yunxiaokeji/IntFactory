@@ -1,5 +1,4 @@
-﻿
-<ul class="easydialog-create product-details-add" id="imgSLurl">
+﻿<ul class="easydialog-create product-details-add" id="imgSLurl">
     <li>
         <span class="width80">编码：</span>
         <input type="text" maxlength="50" id="detailsCode" data-empty="* 必填" class="input" />
@@ -12,6 +11,7 @@
         <span class="column-name">条形码：</span><input type="text" maxlength="50" id="shapeCode" class="input" />
     </li>-->
     {%
+        if(!!$data){
 	    for(var i=0, j=$data.length; i < j; i++){
 	    var item = $data[i];
     %}
@@ -19,16 +19,18 @@
                 <span class="width80 attrname">{%=item.AttrName%}：</span>
                 <select id="{%=item.AttrID%}">
                     {%
+                        if(item.AttrValues!="")
+                        {
 	                    for(var ii=0, jj=item.AttrValues.length; ii < jj; ii++){
 	                    var value = item.AttrValues[ii];
                     %}
                         <option value="{%=value.ValueID%}">{%=value.ValueName%}</option> 
-                    {% } %}
+                    {% }} %}
                     <option value="|">自定义</option>
                 </select>
                 <input type="text" class="width100 hide customize" />               
         </li>
-    {% } %}
+    {% }} %}
     <li class="specification">
         <span class="width80">规格：</span>
         <input type="text" maxlength="50" data-empty="*" id="iptRemark" class="input verify" />

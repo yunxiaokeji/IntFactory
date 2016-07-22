@@ -163,7 +163,12 @@ define(function (require, exports, module) {
             else {
                 $(".tr-header").after("<tr><td colspan='7'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
-
+            /*有数据隐藏表头*/
+            if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
+                $(".table-header").hide();
+            } else {
+                $(".table-header").show();
+            }
             $("#pager").paginate({
                 total_count: data.TotalCount,
                 count: data.PageCount,

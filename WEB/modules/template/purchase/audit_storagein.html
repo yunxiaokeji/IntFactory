@@ -16,8 +16,8 @@
 <tr data-id="{%=item.AutoID%}" class="list-item">
     <td class="">{%=item.ProductName%}</td>
     <td class="">{%=item.Remark%}</td>
-    <td class="center">{%=item.Quantity.toFixed(2)%}</td>
-    <td class="center">{%=item.Complete.toFixed(2)%}</td>
+    <td class="center total">{%=item.Quantity.toFixed(2)%}</td>
+    <td class="center complete-count">{%=item.Complete.toFixed(2)%}</td>
     <td class="center"><input class="width60 quantity" type="text"  value="" /></td>
     <td class="center">
         <select data-id="{%=item.DepotID%}"></select>
