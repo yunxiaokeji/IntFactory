@@ -13,24 +13,9 @@
 }
 <div class="header-box">
     <span class="header-title left">提交采购单</span>
+    <a class="btn right" href="/Products/ChooseProducts" id="btnChooseProduct">选择采购材料</a>
 </div>
 <div class="content-body mTop20">
-     <ul class="table-add">
-        <li>
-            <span class="column-title">备注：</span> 
-            <span">
-                 <textarea id="remark" class="width310"></textarea>
-            </span>
-           
-        </li>
-    </ul>
-    <div class="tab-nav mTop30">
-        <ul class="tab-nav-ul left">
-            <li class="hover" data-id="navRemark">材料明细</li>
-        </ul>
-        <div class="right mLeft20" id="chooseWare"></div>
-        <a class="btn right" href="/Products/ChooseProducts" id="btnChooseProduct">选择采购材料</a>
-    </div>
     <table class="table-items-detail">
         <tr class="table-header tr-header">
             <td class="tLeft width50"></td>
@@ -82,7 +67,13 @@
         
         
     </table>
-    <div class="mTop20">
+    <div>
+        <div class="right" id="chooseWare"></div>
+        <div class="clear"></div>
+        <input type="text" placeholder="备注" id="remark" class="width500 mTop10 right">
+        <div class="clear"></div>
+        <div class="mTop20">
         <div class="btn right" id="btnconfirm">提交采购单</div>
+        </div>
     </div>
 </div>
