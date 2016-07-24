@@ -149,6 +149,14 @@ namespace IntFactoryDAL
             return ds;
         }
 
+        public DataTable GetProductByDetailID(string detailid)
+        {
+            SqlParameter[] paras = { 
+                                   new SqlParameter("@ProductDetailID",detailid)
+                                   };
+            return GetDataTable("select * from ProductStock where ProductDetailID=@ProductDetailID", paras, CommandType.Text);
+        }
+        
         #endregion
 
         #region 添加

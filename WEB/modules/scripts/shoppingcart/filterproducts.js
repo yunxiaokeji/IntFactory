@@ -325,9 +325,14 @@
     //加入购物车
     ObjectJS.showDetail = function (pid, did) {
         var _self = this;
+        var objCache = {};
         //缓存产品信息
         if (!CacheProduct[pid]) {
-            Global.post("/Products/GetProductByIDForDetails", { productid: pid }, function (data) {
+            Global.post("/Products/GetProductByIDForDetails", {
+                productid: pid,
+                did: did,
+                type: _self.type
+            }, function (data) {
                 CacheProduct[pid] = data.Item;
                 doT.exec("template/shoppingcart/product-detail.html", function (templateFun) {
                     var html = templateFun(CacheProduct[pid]);
@@ -336,12 +341,32 @@
                             id: "product-add-div",
                             header: "选择材料",
                             content: html,
-
                             callback: function () {
 
                             }
                         }
                     });
+                    if (CacheProduct[pid].Depots) {
+                        if (CacheProduct[pid].Depots.length > 0) {
+                            _self.depotid = CacheProduct[pid].Depots[0].DepotID;
+                            require.async("dropdown", function () {
+                                $(".depot-dropdown").dropdown({
+                                    prevText: "货位-",
+                                    defaultText: CacheProduct[pid].Depots[0].DepotCode,
+                                    defaultValue: CacheProduct[pid].Depots[0].DepotID,
+                                    data: CacheProduct[pid].Depots,
+                                    dataText: "DepotCode",
+                                    dataValue: "DepotID",
+                                    width: 120,
+                                    isposition:true,
+                                    onChange: function (dataValue) {
+                                        _self.depotid = dataValue.DepotID;
+                                    }
+                                    //defaultText:data.Depots[0].
+                                });
+                            });
+                        }
+                    }
                     Easydialog.toPosition();
                     _self.bindDetail(CacheProduct[pid], did);
                     _self.bindDetailEvent(CacheProduct[pid], pid, did)
@@ -361,6 +386,25 @@
                         }
                     }
                 });
+                if (CacheProduct[pid].Depots) {
+                    if (CacheProduct[pid].Depots.length > 0) {
+                        require.async("dropdown", function () {
+                            $(".depot-dropdown").dropdown({
+                                prevText: "货位-",
+                                defaultText: CacheProduct[pid].Depots[0].DepotCode,
+                                defaultValue: CacheProduct[pid].Depots[0].DepotID,
+                                data: CacheProduct[pid].Depots,
+                                dataText: "DepotCode",
+                                dataValue: "DepotID",
+                                width: 120,
+                                isposition: true,
+                                onChange: function (dataValue) {
+                                    _self.depotid = dataValue.DepotID;
+                                }
+                            });
+                        });
+                    }
+                }
                 Easydialog.toPosition();
                 _self.bindDetail(CacheProduct[pid], did);
                 _self.bindDetailEvent(CacheProduct[pid], pid, did)
@@ -455,7 +499,6 @@
                     if (data.Status) {
                         Easydialog.close();
                         $("#shopping-cart .totalcount").html($("#shopping-cart .totalcount").html() * 1 + 1);
-
                     }
                 });
             });

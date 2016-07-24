@@ -1,5 +1,5 @@
 ﻿@{
-    
+    var wares = (List<IntFactoryEntity.WareHouse>)ViewBag.Wares;
 }
 @section css{
     <link href="/modules/css/stock/stock.css" rel="stylesheet" />
@@ -9,7 +9,7 @@
     <script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/products/purchases"], function (obj) {
-            obj.init('@ViewBag.Type', '@Html.ToJSONString((List<IntFactoryEntity.WareHouse>)ViewBag.Wares)');
+            obj.init('@ViewBag.Type', '@Html.ToJSONString(wares)');
         });
         $(function () {
             var begin = {
@@ -41,7 +41,8 @@
 }
 <div class="header-box">
     <span class="header-title left">@ViewBag.Title</span>
-    <div id="btnCreate" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"103029001"))">新建采购</div>
+    <div id="btnCreate" class="btn-add right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current,"103029001"))">提交采购单（@(ViewBag.PurchasesCount)）</div>
+    <a class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current,"103029001")) " href="/Products/ChooseProducts">选择采购材料</a>
 </div>
 <div class="search-header">
     <ul class="search-tab search-status">

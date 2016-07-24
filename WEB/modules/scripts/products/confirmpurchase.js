@@ -3,29 +3,44 @@ define(function (require, exports, module) {
     var Global = require("global"),
         Easydialog = require("easydialog"),
         ChooseProduct = require("chooseproduct");
-
+    require("dropdown");
     var ObjectJS = {};
     //添加页初始化
-    ObjectJS.init = function (wareid) {
+    ObjectJS.init = function (guid, wares) {
         var _self = this;
-        _self.wareid = wareid;
-        _self.bindEvent(wareid);
+        _self.guid = guid;
+        _self.wares = JSON.parse(wares.replace(/&quot;/g, '"'));
+        _self.wareid = _self.wares[0].WareID;
+        _self.bindEvent(guid);
         _self.getAmount();
     }
     //绑定事件
-    ObjectJS.bindEvent = function (wareid) {
+    ObjectJS.bindEvent = function (guid) {
         var _self = this;
+
+        $("#chooseWare").dropdown({
+            prevText: "全部-",//文本前缀
+            defaultText: _self.wares[0].Name,
+            defaultValue: _self.wares[0].WareID,
+            data: _self.wares,
+            dataValue: "WareID",
+            dataText: "Name",
+            width: "180",
+            onChange: function (data) {
+                _self.wareid = data.value;
+            }
+        });
 
         //添加产品
         $("#btnChooseProduct").click(function () {
             ChooseProduct.create({
                 title: "选择采购材料",
                 type: 1, //1采购 2出库 3报损 4报溢 5调拨
-                wareid: wareid,
+                wareid: guid,
                 callback: function (products) {
                     if (products.length > 0) {
                         var entity = {}, items = [];
-                        entity.guid = wareid;
+                        entity.guid = guid;
                         entity.type = 1;
                         for (var i = 0; i < products.length; i++) {
                             items.push({
@@ -144,7 +159,7 @@ define(function (require, exports, module) {
         Global.post("/ShoppingCart/UpdateCartQuantity", {
             autoid: ele.data("id"),
             quantity: ele.val(),
-            guid: _self.wareid
+            guid: _self.guid
         }, function (data) {
             if (!data.Status) {
                 ele.val(ele.data("value"));

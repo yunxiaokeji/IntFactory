@@ -88,8 +88,9 @@ namespace YXERP.Controllers
 
         public ActionResult ChooseProducts(string id)
         {
+            
             ViewBag.Type = (int)EnumDocType.RK;
-            ViewBag.GUID = id;
+            ViewBag.GUID = CurrentUser.UserID;
             ViewBag.TID = "";
             ViewBag.Title = "选择材料";
             return View("FilterProducts");
@@ -108,11 +109,12 @@ namespace YXERP.Controllers
             {
                 return Redirect("ProductList");
             }
-            var model = new ProductsBusiness().GetProductByIDForDetails(pid, CurrentUser.ClientID);
+            var model = new ProductsBusiness().GetProductByIDForDetails(type, did, pid, CurrentUser.ClientID);
             if (model == null || string.IsNullOrEmpty(model.ProductID))
             {
                 return Redirect("ProductList");
             }
+            ViewBag.Depots = model.Depots;
             ViewBag.Model = model;
             ViewBag.DetailID = did;
             ViewBag.OrderType = type;
@@ -126,6 +128,8 @@ namespace YXERP.Controllers
             ViewBag.Title = "采购管理";
             ViewBag.Type = (int)EnumSearchType.All;
             ViewBag.Wares = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
+            int purchasesCount = ShoppingCartBusiness.GetShoppingCartCount(EnumDocType.RK, CurrentUser.UserID);
+            ViewBag.PurchasesCount = purchasesCount;
             return View("Purchases");
         }
 
@@ -135,17 +139,10 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public ActionResult ConfirmPurchase(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return Redirect("/Products/Purchases");
-            }
-            var ware = SystemBusiness.BaseBusiness.GetWareByID(id, CurrentUser.ClientID);
-            if (ware == null || string.IsNullOrEmpty(ware.WareID))
-            {
-                return Redirect("/Products/Purchases");
-            }
-            ViewBag.Ware = ware;
-            ViewBag.Items = ShoppingCartBusiness.GetShoppingCart(EnumDocType.RK, ware.WareID, CurrentUser.UserID);
+            var wares = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
+            ViewBag.Ware = wares;
+            ViewBag.Items = ShoppingCartBusiness.GetShoppingCart(EnumDocType.RK, CurrentUser.UserID, CurrentUser.UserID);
+            ViewBag.guid = CurrentUser.UserID;
             return View();
         }
 
@@ -512,9 +509,9 @@ namespace YXERP.Controllers
         /// </summary>
         /// <param name="productid"></param>
         /// <returns></returns>
-        public JsonResult GetProductByIDForDetails(string productid)
+        public JsonResult GetProductByIDForDetails(int type, string did, string productid)
         {
-            var model = new ProductsBusiness().GetProductByIDForDetails(productid, CurrentUser.ClientID);
+            var model = new ProductsBusiness().GetProductByIDForDetails(type, did, productid, CurrentUser.ClientID);
             JsonDictionary.Add("Item", model);
             return new JsonResult
             {

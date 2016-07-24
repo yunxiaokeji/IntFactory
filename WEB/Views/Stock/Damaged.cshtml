@@ -41,8 +41,7 @@
 }
 <div class="header-box">
     <span class="header-title left">报损单列表</span>
-    <a href="javascript:void(0);" id="btnCreate" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"103030301"))">新建报损</a>
-   
+    <a href="javascript:void(0);" id="btnCreate" class="btn-add mLeft20 right @(ExpandClass.IsLimits(HttpContext.Current,"103030301"))">新建报损（@(ViewBag.DamagedCount )）</a>
 </div>
 <div class="search-box">
     <div class="search-header">

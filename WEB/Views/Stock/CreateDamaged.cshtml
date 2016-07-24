@@ -1,43 +1,27 @@
 ﻿@{
     ViewBag.Title = "新建报损单";
-    var ware = (IntFactoryEntity.WareHouse)ViewBag.Ware;
+    var ware = (List<IntFactoryEntity.WareHouse>)ViewBag.Ware;
 }
 
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/stock/createdamaged"], function (obj) {
-            obj.init('@(ware.WareID)');
+            obj.init('@(ViewBag.guid)', '@(Html.ToJSONString(ware))');
         });
     </script>
 }
 <div class="header-box">
     <span class="header-title left">新建报损单</span>
+    <a href="/Stock/ChooseBSProducts" class="btn-add right mLeft20" id="addChooseProduct">添加报损材料</a>
+    <div class="btnccc right" id="btnChooseProduct">快捷添加材料</div>
+    <div class="clear"></div>
 </div>
 <div class="content-body mTop20">
-     <ul class="table-add">
-        <li>
-            <span class="column-title">仓库：</span>
-            @ware.Name
-        </li>
-        <li>
-            <span class="column-title">备注：</span> 
-            <span">
-                 <textarea id="remark" class="width310"></textarea>
-            </span>
-           
-        </li>
-    </ul>
-    <div class="tab-nav mTop30">
-        <ul class="tab-nav-ul left">
-            <li class="hover" data-id="navRemark">材料明细</li>
-        </ul>
-        <div class="btn right" id="btnChooseProduct">添加报损材料</div>
-    </div>
-    <table class="table-list">
-        <tr class="tr-header">
+    <table class="table-items-detail">
+        <tr class="table-header tr-header">
             <td class="tLeft">材料名称</td>
-            <td class="tLeft">材料编码</td>
-            <td class="tLeft">规格</td>
+            <td class="">材料编码</td>
+            <td class="">规格</td>
             <td class="center width80">货位</td>
             <td class="center">数量</td>
             <td class="center width80">删除</td>
@@ -45,18 +29,24 @@
         @foreach (var model in (List<IntFactoryEntity.ProductDetail>)ViewBag.Items)
         { 
             <tr class="item cart-item" data-autoid="@(model.AutoID)" data-id="@(model.ProductDetailID)" >
-                <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
-                <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductCode)</a></td>
-                <td>@(model.Description)</td>
-                <td class="center">@(model.DepotCode)</td>
-                <td class="center tr-quantity"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f3"))" /></td>
-                <td class="center">
+                <td class="tLeft bLeft bBottom"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
+                <td class="bBottom"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductCode)</a></td>
+                <td class="bBottom">@(model.Description)</td>
+                <td class="center bBottom">@(model.DepotCode)</td>
+                <td class="center bBottom tr-quantity"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f3"))" /></td>
+                <td class="center bBottom bRight">
                     <a class="ico-del" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
                 </td>
             </tr>
         }
     </table>
     <div class="mTop20">
-        <div class="btn right" id="btnconfirm">提交报损单</div>
+        <div class="right" id="chooseWare"></div>
+        <div class="clear"></div>
+        <input type="text" placeholder="备注" id="remark" class="width500 mTop10 right">
+        <div class="clear"></div>
+        <div class="mTop20">
+            <div class="btn right" id="btnconfirm">提交报损单</div>
+        </div>
     </div>
 </div>

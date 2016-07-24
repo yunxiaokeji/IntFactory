@@ -455,6 +455,7 @@ namespace IntFactoryEntity
 
         public string IsPublicStr { get; set; }
 
+        public List<DepotSeat> Depots { get; set; }
         /// <summary>
         /// 填充数据
         /// </summary>

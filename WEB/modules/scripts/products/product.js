@@ -66,8 +66,8 @@
                 $(".product-attr").remove();
                 $(".child-product-li .tr-header").nextAll().remove();
                 var id = items[items.length - 1].id;
+                _self.categoryID = id;
                 if (id) {
-                    _self.categoryID = id;
                     Global.post("/Products/GetCategoryDetailsByID", { categoryid: id }, function (data) {
                         doT.exec("template/products/product-property.html", function (template) {
                             var innerHtml = template(data.Model.AttrLists);
@@ -464,7 +464,6 @@
             ShapeCode: $("#shapeCode").val(),
             Description: encodeURI(editor.getContent())
         };
-
         //快捷添加子产品
         if (!_self.ProductID) {
             var details = [];

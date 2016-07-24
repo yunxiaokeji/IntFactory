@@ -102,6 +102,9 @@ namespace IntFactoryEntity
         [Property("Lower")] 
         public string DepotID { get; set; }
 
+        [Property("Lower")]
+        public string WareID { get; set; }
+
 		/// <summary>
 		/// 
 		/// </summary>

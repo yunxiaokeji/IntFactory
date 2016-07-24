@@ -48,7 +48,6 @@ define(function (require, exports, module) {
             
             //处理事件
             obj.unbind().click(function () {
-
                 var _this = $(this);
                 
                 if (_this.hasClass("hover")) {

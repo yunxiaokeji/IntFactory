@@ -1,78 +1,63 @@
 ﻿@{
     ViewBag.Title = "提交采购单";
-    var ware = (IntFactoryEntity.WareHouse)ViewBag.Ware;
+    var wares = (List<IntFactoryEntity.WareHouse>)ViewBag.Ware;
     var product = (List<IntFactoryEntity.ProductDetail>)ViewBag.Items;
 }
 
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/products/confirmpurchase"], function (obj) {
-            obj.init('@(ware.WareID)');
+            obj.init('@(ViewBag.guid)', '@(Html.ToJSONString(wares))');
         });
     </script>
 }
 <div class="header-box">
     <span class="header-title left">提交采购单</span>
+    <a class="btn-add right mLeft20" href="/Products/ChooseProducts" id="addChooseProduct">选择采购材料</a>
+    <div class="btnccc right" id="btnChooseProduct">快捷添加材料</div>
 </div>
 <div class="content-body mTop20">
-     <ul class="table-add">
-        <li>
-            <span class="column-title">仓库：</span>
-             @ware.Name
-        </li>
-        <li>
-            <span class="column-title">备注：</span> 
-            <span">
-                 <textarea id="remark" class="width310"></textarea>
-            </span>
-           
-        </li>
-    </ul>
-    <div class="tab-nav mTop30">
-        <ul class="tab-nav-ul left">
-            <li class="hover" data-id="navRemark">材料明细</li>
-        </ul>
-        <a class="btn right" href="/Products/ChooseProducts?id=@(ware.WareID)" id="btnChooseProduct">选择采购材料</a>
-    </div>
-    <table class="table-list">
-        <tr class="tr-header">
+    <table class="table-items-detail">
+        <tr class="table-header tr-header">
             <td class="tLeft width50"></td>
             <td class="tLeft">材料名称</td>
-            <td class="tLeft">规格</td>
-            <td class="tLeft">供应商</td>
-            <td class="tLeft">采购价</td>
-            <td class="center">数量</td>
-            <td class="tRight">小计</td>
+            <td class="">规格</td>
+            <td class="">供应商</td>
+            <td class="">采购价</td>
+            <td class="width50 ">数量</td>
+            <td class="">小计</td>
             <td class="center width80">删除</td>
         </tr>
         @if (product.Count > 0)
         {
+
             foreach (var model in product)
             { 
             <tr class="item cart-item" data-autoid="@(model.AutoID)" data-id="@(model.ProductDetailID)" >
-                <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">
-                    <img src="@(string.IsNullOrEmpty(model.ImgS) ? model.ProductImage : model.ImgS)" />
+                <td class=" bBottom bLeft" style="padding:5px;">
+                    <a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">
+                        <img src="@(string.IsNullOrEmpty(model.ImgS) ? model.ProductImage : model.ImgS)" />
                     </a>
                 </td>
-                <td><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
-                <td>@(model.Description)</td>
-                <td>@(model.ProviderName)</td>
-                <td class="tr-price"><input type="text" data-id="@(model.AutoID)" data-value="@(model.Price.ToString("f2"))" class="price width80" value="@(model.Price.ToString("f2"))" /></td>
-                <td class="center tr-quantity"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f2"))" /></td>
-                <td class="tRight amount">@((model.Price * model.Quantity).ToString("f2"))</td>
-                <td class="center">
+                <td class="tLeft bBottom"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
+                <td class=" bBottom">@(model.Description)</td>
+                <td class=" bBottom">@(model.ProviderName)</td>
+                <td class="tr-price  bBottom"><input type="text" data-id="@(model.AutoID)" data-value="@(model.Price.ToString("f2"))" class="price width80" value="@(model.Price.ToString("f2"))" /></td>
+                <td class="tr-quantity  bBottom"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f2"))" /></td>
+                <td class="amount bBottom">@((model.Price * model.Quantity).ToString("f2"))</td>
+                <td class="center bRight  bBottom">
                     <a class="ico-del" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
                 </td>
             </tr>
             }
-            <tr class="amount-item">
+            <tr class="item amount-item">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="tRight">合计：</td>
-                <td class="tRight"><label id="amount"></label></td>
+                <td class="">合计：</td>
+                <td class=""><label id="amount"></label></td>
                 <td></td>
             </tr>
         }
@@ -84,6 +69,12 @@
         
     </table>
     <div class="mTop20">
+        <div class="right" id="chooseWare"></div>
+        <div class="clear"></div>
+        <input type="text" placeholder="备注" id="remark" class="width500 mTop10 right">
+        <div class="clear"></div>
+        <div class="mTop20">
         <div class="btn right" id="btnconfirm">提交采购单</div>
+        </div>
     </div>
 </div>

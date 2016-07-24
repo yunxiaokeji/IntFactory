@@ -6,10 +6,10 @@
         <img id="productimg" src="{%=model.ProductImage%}" />
     </div>
     <div class="product-name left">
-        <h1>{%=model.ProductName%}</h1>
+        <h1 class="color999">{%=model.ProductName%}</h1>
 
         <ul class="price">
-            <li class="column">促&nbsp;&nbsp;销&nbsp;&nbsp;价：</li>
+            <li class="column">单&nbsp;&nbsp;&nbsp;&nbsp;价：</li>
             <li id="price" class="salesprice">￥{%=model.Price.toFixed(2)%}</li>
             <!--<li class="commonprice">￥{%=model.CommonPrice.toFixed(2)%}</li>-->
         </ul>
@@ -62,7 +62,16 @@
             <div class="clear"></div>
         </div>
         <div class="clear"></div>
+
         <div class="choose-div">
+            {%
+           if(model.Depots)
+            {
+            if(model.Depots.length>0){
+            %}
+            <div class="left mTop10 mRight10">
+                <div class="depot-dropdown"></div>
+            </div>
             <div class="choose-quantity left">
                 <input type="text" value="1" id="quantity" />
                 <span class="quantity-add" id="quantityadd">+</span>
@@ -71,11 +80,13 @@
             <div class="left mLeft10">
                 <input type="button" class="addcart" id="addcart" value="加入清单" />
             </div>
-            <div class="left mLeft10 stock">
-                    库存：<label id="productStockQuantity">0</label>
+            {%}}%}
+            <div class="left mLeft10 stock font16">
+                    库存：<label id="productStockQuantity" class="font16">0</label>
             </div>
             <div class="clear"></div>
         </div>
+        
     </div>
 </div>
 {% %}

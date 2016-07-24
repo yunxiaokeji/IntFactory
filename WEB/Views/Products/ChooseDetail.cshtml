@@ -1,6 +1,13 @@
 ﻿@{
     IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
     var model = (IntFactoryEntity.Products)ViewBag.Model;
+    var depots=new List<IntFactoryEntity.DepotSeat>();
+    var type = ViewBag.OrderType;
+    var allDepots = ViewBag.Depots;
+    if (type==1||type == 3 || type == 4 || type == 11)
+    {
+        depots = (List<IntFactoryEntity.DepotSeat>)ViewBag.Depots;
+    }
     ViewBag.Title = model.ProductName;
 }
 @section css{
@@ -11,7 +18,7 @@
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/shoppingcart/filterdetails"], function (obj) {
-            obj.init('@Html.ToJSONString(model)', '@ViewBag.DetailID', '@ViewBag.OrderType', '@ViewBag.GUID','@ViewBag.TID');
+            obj.init('@Html.ToJSONString(model)', '@ViewBag.DetailID', '@type', '@ViewBag.GUID', '@ViewBag.TID', '@(Html.ToJSONString(depots))');
         });
     </script>
 }
@@ -89,14 +96,20 @@
                 </ul>
            </div>
             <div class="choose-div hide">
-                <div class="choose-quantity left">
-                    <input type="text" value="1" id="quantity" />
-                    <span class="quantity-add" id="quantityadd">+</span>
-                    <span class="quantity-reduce" id="quantityreduce">-</span>
-                </div>
-                <div class="left mLeft10">
-                    <input type="button" class="addcart" id="addcart" value="加入清单" />
-                </div>
+                @{
+                if ((type == 3 && depots.Count > 0)||type==4||type==1||type==11)
+                {
+                    <div class="depot-dropdown left mTop10 mRight10"></div>
+                    <div class="choose-quantity left">
+                        <input type="text" value="1" id="quantity" />
+                        <span class="quantity-add" id="quantityadd">+</span>
+                        <span class="quantity-reduce" id="quantityreduce">-</span>
+                    </div>
+                    <div class="left mLeft10">
+                        <input type="button" class="addcart" id="addcart" value="加入清单" />
+                    </div>
+                }
+                }
             </div>
         </div>
     </div>
