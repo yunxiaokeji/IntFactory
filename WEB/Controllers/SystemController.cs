@@ -10,6 +10,7 @@ using IntFactoryEntity;
 using IntFactoryBusiness.Manage;
 using IntFactoryEntity.Manage;
 using IntFactoryEntity.Custom;
+using IntFactoryEnum;
 namespace YXERP.Controllers
 {
     public class SystemController : BaseController
@@ -214,7 +215,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetLableColorByColorID(int colorid, int lableType)
         {
-            var model = new SystemBusiness().GetLableColorColorID(CurrentUser.ClientID, colorid, lableType);
+            var model = new SystemBusiness().GetLableColorColorID(CurrentUser.ClientID, colorid, (EnumMarkType)lableType);
             JsonDictionary.Add("model", model);
             return new JsonResult
             {
@@ -254,7 +255,7 @@ namespace YXERP.Controllers
 
         public JsonResult DeleteColor(int colorid, int lableType)
         {
-            int result = SystemBusiness.BaseBusiness.DeleteLableColor(9, colorid, CurrentUser.AgentID, CurrentUser.ClientID, CurrentUser.UserID,lableType);
+            int result = SystemBusiness.BaseBusiness.DeleteLableColor(9, colorid, CurrentUser.AgentID, CurrentUser.ClientID, CurrentUser.UserID, (EnumMarkType)lableType);
             JsonDictionary.Add("result", result);
             return new JsonResult
             {

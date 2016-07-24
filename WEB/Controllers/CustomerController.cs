@@ -44,7 +44,7 @@ namespace YXERP.Controllers
 
         public ActionResult Customers()
         {
-            ViewBag.Title = "客户列表";
+            ViewBag.Title = "所有客户";
             ViewBag.Type = (int)EnumSearchType.All;
             ViewBag.FirstNames = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 1).ToList();
@@ -54,17 +54,6 @@ namespace YXERP.Controllers
 
         public ActionResult Create(string id)
         {
-            //if (string.IsNullOrEmpty(id))
-            //{
-            //    ViewBag.Sources = new SystemBusiness().GetCustomSources(CurrentUser.AgentID, CurrentUser.ClientID).Where(m => m.IsChoose == 1).ToList();
-            //}
-            //else
-            //{
-            //    ViewBag.Sources = new SystemBusiness().GetCustomSources(CurrentUser.AgentID, CurrentUser.ClientID);
-            //}
-            //ViewBag.ActivityID = id;
-            //ViewBag.Industrys = IntFactoryBusiness.Manage.IndustryBusiness.GetIndustrys();
-            //ViewBag.Extents = CustomBusiness.GetExtents();
             return View();
         }
 

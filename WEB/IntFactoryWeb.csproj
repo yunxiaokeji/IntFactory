@@ -197,15 +197,14 @@
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
     <Content Include="DLL\Newtonsoft.Json.dll" />
     <Content Include="DLL\Qiniu.4.0.dll" />
-    <Content Include="modules\css\customer\customer.css" />
-    <Content Include="modules\css\default\customer.css" />
+    <Content Include="modules\css\customer.css" />
     <Content Include="modules\css\default\guidestep.css" />
     <Content Include="modules\css\default\orders.css" />
     <Content Include="modules\css\default\order_create.css" />
     <Content Include="modules\css\default\fentorderreport.css" />
     <Content Include="modules\css\error\error.css" />
     <Content Include="modules\css\home\feedback.css" />
-    <Content Include="modules\css\home\index.css" />
+    <Content Include="modules\css\home.css" />
     <Content Include="modules\css\home\selectlogin.css" />
     <Content Include="modules\css\iconfont\demo.css" />
     <Content Include="modules\css\iconfont\demo.html" />
@@ -217,7 +216,7 @@
     <Content Include="modules\css\order\create.css" />
     <Content Include="modules\css\order\platemakingprocess.css" />
     <Content Include="modules\css\stock\stock.css" />
-    <Content Include="modules\css\task\style.css" />
+    <Content Include="modules\css\task.css" />
     <Content Include="modules\images\author-image.png" />
     <Content Include="modules\images\bg-loginBackground.png" />
     <Content Include="modules\images\btn-add.png" />
@@ -275,6 +274,7 @@
     <Content Include="modules\images\ico-task.png" />
     <Content Include="modules\images\ico-unlock.png" />
     <Content Include="modules\images\ico-username.png" />
+    <Content Include="modules\images\iconback.png" />
     <Content Include="modules\images\icondate.png" />
     <Content Include="modules\images\img-noaccess.png" />
     <Content Include="modules\images\img-noimg.jpg" />
@@ -603,8 +603,6 @@
     <Content Include="Content\menuico\customhover.png" />
     <Content Include="Content\menuico\custom.png" />
     <Content Include="modules\css\auction\buynow.css" />
-    <Content Include="modules\css\customer\activity.css" />
-    <Content Include="modules\css\home\home.css" />
     <Content Include="modules\css\myaccount\myaccount.css" />
     <Content Include="modules\css\myaccount\cropbox.css" />
     <Content Include="modules\css\shoppingcart\confirmcart.css" />
@@ -1011,7 +1009,7 @@
     <Content Include="Views\Security\Index.cshtml" />
     <Content Include="Views\System\Target.cshtml" />
     <Content Include="Views\Activity\Detail.cshtml" />
-    <Content Include="Views\Customer\Customers.cshtml" />
+    <Content Include="Views\Customer\Customers-Card.cshtml" />
     <Content Include="Views\Customer\Create.cshtml" />
     <Content Include="Views\Auction\BuyNow.cshtml" />
     <Content Include="Views\Customer\Detail.cshtml" />
@@ -1102,7 +1100,7 @@
     <Content Include="Views\Task\DetailBase.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Task\TaskReply.cshtml" />
-    <Content Include="Views\Customer\Customers-list.cshtml" />
+    <Content Include="Views\Customer\Customers.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1147,7 +1145,6 @@
     <Content Include="modules\css\shoppingcart\filterproducts.css" />
     <Content Include="modules\css\shoppingcart\filterdetails.css" />
     <Content Include="modules\images\ico-add.png" />
-    <Content Include="modules\images\ico-back.png" />
     <Content Include="modules\images\ico-del-deep.png" />
     <Content Include="modules\images\ico-del-light.png" />
     <Content Include="modules\images\ico-delete.png" />

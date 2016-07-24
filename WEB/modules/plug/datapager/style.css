@@ -4,6 +4,7 @@
     color:#a5a5a5;
     font-size:small;   
 	width:100%;
+    margin:0 10px;
 }
 .jPaginate a{
     cursor:pointer;

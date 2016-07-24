@@ -279,12 +279,14 @@
     bottom:0px; 
 }
  .talk-title { 
+    margin-left:20px;
     border-bottom: solid 1px #ccc; 
     height:40px; 
     line-height:40px; 
     color:#666; 
 }
 .taskreply-box {
+    margin-left:20px;
     height:30px;
     overflow:hidden;
     border:1px solid  #ddd;

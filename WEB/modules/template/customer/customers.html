@@ -4,16 +4,33 @@
 %}
 <tr class="list-item">
     <td class='center'><span class="mark" data-id="{%= item.CustomerID %}" data-value="{%= item.Mark %}"></span> </td>
-    <td class=""><span data-id="{%=item.CustomerID%}" data-userid="{%=item.OwnerID%}" class="ico-check check"></span></td>
-    <td class=""> <a href="/Customer/Detail/{%=item.CustomerID%}">{%=item.Name%}</a> </td>
-    <td class="center">{%=item.MobilePhone%}</td>
-    <td class="center">{%=item.City?item.City.Description:"--"%}</td>
+    <td class=""><span data-id="{%=item.CustomerID%}" data-userid="{%=item.OwnerID%}" class="checkbox iconfont"></span></td>
+    <td> <a href="/Customer/Detail/{%=item.CustomerID%}">{%=item.Name%}</a> </td>
+    <td>{%=item.MobilePhone%}</td>
+    <td class="">{%=item.City?item.City.Description:"--"%}</td>
     <td class="center">{%=item.SourceType==1?"阿里客户":item.SourceType==2?"自助下单":"手工创建"%}</td>
-    <td class="center">{%=item.ReplyTimes%}</td>
+    <td class="center">
+        {% if(item.DemandCount>0){%}
+            <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navOppor">{%=item.DemandCount%}</a>
+        {% } else{ %}
+            0
+        {% } %}
+    </td>
+    <td class="center">
+        {% if(item.DYCount>0){%}
+            <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navOrder">{%=item.DYCount%}</a>
+        {% } else{ %}
+            0
+        {% } %}
+    </td>
+    <td class="center">
+        {% if(item.DHCount>0){%}
+            <a href="/Customer/Detail?id={%=item.CustomerID%}&nav=navDHOrder">{%=item.DHCount%}</a>
+        {% } else{ %}
+           0
+        {% } %}
+    </td>
     <td class='center'>{%=(item.Owner ? item.Owner.Name:"--")%}</td>
     <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd")%}</td>
-    <td class="center dropdown" data-id="{%=item.CustomerID%}" data-userid="{%=item.OwnerID%}">
-        <span class="ico-dropdown"></span>
-    </td>
 </tr>
 {% } %}

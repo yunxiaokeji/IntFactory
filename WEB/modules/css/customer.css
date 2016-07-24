@@ -1,9 +1,4 @@
-﻿/*客户来源筛选*/
-.customer-source { width:100%;padding:2px 5px;height:20px;}
-.customer-source div{float:left;color:#999;font-size:12px;margin-right:25px;}
-.customer-source li { float:left;margin-right:15px;padding:2px 5px;color:#666;cursor:pointer;}
-.customer-source li:hover{color:#4A99E8;}
-.customer-source .source-hover{padding:1px 4px;border:1px solid #4A99E8;color:#4A99E8;}
+﻿
 /*客户列表卡片样式*/
 .content-body hr {height:20px;background-color:#F2F4F8;border:0;margin-left:-10px;margin-right:-10px; }
 .list-customer .hover{border:1px solid #007aff;height:146px;}
@@ -53,4 +48,32 @@
 .search-body .search-letter li{float:left; margin-right:15px; cursor:pointer;font-size:12px;color:#5F6D6C;padding:2px 5px;}
 .search-body .search-letter .hover{border:1px solid #4A99E8;padding:1px 4px;color:#4A99E8;}
 
+/*客户表格卡片样式*/
+.table-list-order .createimg { margin-left:-20px;width:30px;}
+.order-information { margin-top:15px;}
+.order-information li {line-height:25px;margin-bottom:8px;height:20px;}
+.order-information-a { margin-top:10px;}
+.order-information-a li { line-height:25px;margin-bottom:8px;height:30px;}
+.table-list-order { width: 100%; border-spacing: 0px;}
+
+.table-list-order .tr-header{ height:35px;  }
+.table-list-order .tr-header td{ height:35px; border-bottom:solid 2px #eee; font-size:13px; color:#999; padding:0 5px;
+                           white-space:nowrap; overflow: hidden; text-overflow:ellipsis; }
+
+.table-list-order tr:not(:first-child){ height:35px; cursor:pointer; }
+.table-list-order tr:not(:first-child):hover { background-color: #f6f6f6; }
+.table-list-order tr:not(:first-child) td{ padding:5px; line-height:35px; border-bottom:solid 1px #eee; color:#333; 
+                                    white-space:nowrap; overflow: hidden; text-overflow:ellipsis;  }
+           
+.table-list-order td a{ color:#4a98e7;  vertical-align:middle;}
+.table-list-order td a:hover{ color:red; text-decoration:underline; }
+           
+.table-list-order tr .order-img{ width:120px;height:120px;display:inline-block;  vertical-align:middle;margin:10px 15px 10px 0;}
+           
+.table-list-order .ico-check { vertical-align:middle; }
+.table-list-order .ico-checked { vertical-align:middle; }
+.table-list-order .show-all-txt {
+    word-wrap: break-word;
+    white-space:normal !important;
+}
 

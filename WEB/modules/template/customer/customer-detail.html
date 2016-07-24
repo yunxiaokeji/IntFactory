@@ -4,15 +4,15 @@
 <ul class="easydialog-create">
     <li>
         <span class="width80">客户名称：</span>
-        <span><input type="text" maxlength="50" id="name" style="width:300px;" data-empty="必填" class="input verify" value="{%=item.Name%}" /></span> 
+        <span><input type="text" maxlength="50" id="name" data-empty="必填" class="input verify" value="{%=item.Name||''%}" /></span> 
     </li>
     <li>
         <span class="width80">联系电话：</span> 
-        <span><input type="text" maxlength="13" id="contactMobile" data-type="mobile" data-empty="必填" class="input verify" value="{%=item.MobilePhone%}" /></span>
+        <span><input type="text" maxlength="13" id="contactMobile" data-type="mobile" data-empty="必填" class="input verify" value="{%=item.MobilePhone||''%}" /></span>
     </li>
     <li>
         <span class="width80">邮箱：</span>
-        <span><input type="text" maxlength="200" id="email" data-type="email" class="input verify" value="{%=item.Email%}" /></span>
+        <span><input type="text" maxlength="200" id="email" data-type="email" class="input verify" value="{%=item.Email||''%}" /></span>
     </li>
     <li>
         <span class="width80">省份城市：</span> 
@@ -20,12 +20,12 @@
     </li>
     <li>
         <span class="width80">详细地址：</span> 
-        <span><input type="text" maxlength="200" style="width:300px;" id="address" class="input"  value="{%=item.Address%}" /></span>
+        <span><input type="text" maxlength="200" style="width:250px;" id="address" class="input"  value="{%=item.Address||''%}" /></span>
     </li>
     <li>
         <span class="width80">备注：</span>
         <textarea id="remark">
-            {%=item.Description%}
+            {%=item.Description||''%}
         </textarea>
     </li>
 
