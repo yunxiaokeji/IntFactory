@@ -464,7 +464,6 @@
             ShapeCode: $("#shapeCode").val(),
             Description: encodeURI(editor.getContent())
         };
-
         //快捷添加子产品
         if (!_self.ProductID) {
             var details = [];
