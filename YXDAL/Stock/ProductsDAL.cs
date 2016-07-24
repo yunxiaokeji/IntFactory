@@ -470,7 +470,6 @@ namespace IntFactoryDAL
 
         }
 
-
         public DataSet GetProductByID(string productid)
         {
             SqlParameter[] paras = { new SqlParameter("@ProductID", productid) };
@@ -601,8 +600,6 @@ namespace IntFactoryDAL
             result = Convert.ToInt32(paras[1].Value);
             return id;
         }
-
-
 
         public string AddProductDetails(string productid, string productCode, string shapeCode, string attrlist, string valuelist, string attrvaluelist, decimal price, decimal weight, decimal bigprice, string productImg, string description, string remark, string operateid, string clientid)
         {
