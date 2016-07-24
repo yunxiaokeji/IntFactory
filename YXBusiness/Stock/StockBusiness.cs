@@ -277,6 +277,18 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<ProductStock> GetProductByDetailID(string detailid)
+        {
+            DataTable dt = StockDAL.BaseProvider.GetProductByDetailID(detailid);
+            List<ProductStock> list = new List<ProductStock>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                ProductStock model = new ProductStock();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
         #endregion
 
         #region 添加

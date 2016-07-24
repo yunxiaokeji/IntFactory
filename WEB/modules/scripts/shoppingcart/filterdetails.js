@@ -4,10 +4,11 @@ define(function (require, exports, module) {
         doT = require("dot");
     require("pager");
     require("cart");
+    require("dropdown");
 
     var ObjectJS = {};
     //添加页初始化
-    ObjectJS.init = function (model, detailid, ordertype, guid,tid) {
+    ObjectJS.init = function (model, detailid, ordertype, guid,tid,depotItem) {
         var _self = this;
         _self.detailid = detailid;
         _self.ordertype = ordertype;
@@ -26,6 +27,24 @@ define(function (require, exports, module) {
                 tid:tid
             });
             $(".choose-div").show();
+        }
+        if (ordertype == 1 || ordertype == 3 || ordertype == 4 || ordertype == 11) {
+            var depots = JSON.parse(depotItem.replace(/&quot;/g, '"'));
+            if (depots.length > 0) {
+                _self.depotID = depots[0].DepotID;
+                $(".depot-dropdown").dropdown({
+                    prevText: "货位－",
+                    defaultText: depots[0].DepotCode,
+                    defaultValue: depots[0].DepotID,
+                    data: depots,
+                    dataText: "DepotCode",
+                    dataValue: "DepotID",
+                    width: 120,
+                    onChange: function (data) {
+                        _self.depotID = data.value;
+                    }
+                });
+            }
         }
         $(".product-name").css("width", $(".content-body").width() - 500);
     }
@@ -117,7 +136,8 @@ define(function (require, exports, module) {
                     isBigUnit: $("#unit li.hover").data("value"),
                     ordertype: _self.ordertype,
                     guid: _self.guid,
-                    remark: remark
+                    remark: remark,
+                    depotid: _self.depotID ? _self.depotID : ""
                 }, function (data) {
                     if (data.Status) {
                         $("#quantity").val("1");

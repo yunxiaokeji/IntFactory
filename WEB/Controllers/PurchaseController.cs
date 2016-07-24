@@ -34,7 +34,6 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult SubmitPurchase(string wareid, string remark)
         {
-
             var bl = StockBusiness.CreateStorageDoc(wareid, remark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult

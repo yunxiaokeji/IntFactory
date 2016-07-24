@@ -37,7 +37,7 @@ define(function (require, exports, module) {
             ChooseProduct.create({
                 title: "选择报溢材料",
                 type: 4, //1采购 2出库 3报损 4报溢 5调拨
-                wareid: guid,
+                wareid: _self.wareid,
                 callback: function (products) {
                     if (products.length > 0) {
                         var entity = {}, items = [];
@@ -62,11 +62,6 @@ define(function (require, exports, module) {
                     }
                 }   
             });
-        });
-
-        //添加材料
-        $("#addChooseProduct").click(function () {
-            location.href = "/Stock/ChooseBYProducts";
         });
 
         //编辑数量

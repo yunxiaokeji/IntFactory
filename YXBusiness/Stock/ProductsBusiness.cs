@@ -823,13 +823,37 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public Products GetProductByIDForDetails(string productid, string clientid)
+        public Products GetProductByIDForDetails(int type,string did,string productid, string clientid)
         {
             var dal = new ProductsDAL();
             DataSet ds = dal.GetProductByIDForDetails(productid, clientid);
            
             Products model = new Products();
-            
+
+            List<DepotSeat> items = new List<DepotSeat>();
+            //获取货位信息
+            if (type == 3)
+            {
+                List<ProductStock> stockItems = StockBusiness.BaseBusiness.GetProductByDetailID(did);
+                foreach (var item in stockItems)
+                {
+                    DepotSeat depot = SystemBusiness.BaseBusiness.GetDepotByID(item.DepotID, item.WareID, clientid);
+                    items.Add(depot);
+                }
+            }
+            else if (type == 4 || type == 1 || type == 11)
+            {
+                List<WareHouse> wares = SystemBusiness.BaseBusiness.GetWareHouses(clientid);
+                foreach (var item in wares)
+                {
+                    List<DepotSeat> depotItems = SystemBusiness.BaseBusiness.GetDepotSeatsByWareID(item.WareID, clientid);
+                    foreach (var depotModel in depotItems)
+                    {
+                        items.Add(depotModel);
+                    }
+                }
+            }
+            model.Depots = items;
             if (ds.Tables.Contains("Product") && ds.Tables["Product"].Rows.Count > 0)
             {
                 model.FillData(ds.Tables["Product"].Rows[0]);

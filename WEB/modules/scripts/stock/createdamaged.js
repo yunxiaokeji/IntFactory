@@ -35,7 +35,7 @@ define(function (require, exports, module) {
             ChooseProduct.create({
                 title: "选择报损材料",
                 type: 3, //1采购 2出库 3报损 4报溢 5调拨
-                wareid: guid,
+                wareid: _self.wareid,
                 callback: function (products) {
                     if (products.length > 0) {
                         var entity = {}, items = [];

@@ -88,6 +88,7 @@ namespace YXERP.Controllers
 
         public ActionResult ChooseProducts(string id)
         {
+            
             ViewBag.Type = (int)EnumDocType.RK;
             ViewBag.GUID = CurrentUser.UserID;
             ViewBag.TID = "";
@@ -108,11 +109,12 @@ namespace YXERP.Controllers
             {
                 return Redirect("ProductList");
             }
-            var model = new ProductsBusiness().GetProductByIDForDetails(pid, CurrentUser.ClientID);
+            var model = new ProductsBusiness().GetProductByIDForDetails(type, did, pid, CurrentUser.ClientID);
             if (model == null || string.IsNullOrEmpty(model.ProductID))
             {
                 return Redirect("ProductList");
             }
+            ViewBag.Depots = model.Depots;
             ViewBag.Model = model;
             ViewBag.DetailID = did;
             ViewBag.OrderType = type;
@@ -126,6 +128,8 @@ namespace YXERP.Controllers
             ViewBag.Title = "采购管理";
             ViewBag.Type = (int)EnumSearchType.All;
             ViewBag.Wares = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
+            int purchasesCount = ShoppingCartBusiness.GetShoppingCartCount(EnumDocType.RK, CurrentUser.UserID);
+            ViewBag.PurchasesCount = purchasesCount;
             return View("Purchases");
         }
 
@@ -137,7 +141,7 @@ namespace YXERP.Controllers
         {
             var wares = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
             ViewBag.Ware = wares;
-            ViewBag.Items = ShoppingCartBusiness.GetShoppingCart(EnumDocType.RK, id, CurrentUser.UserID);
+            ViewBag.Items = ShoppingCartBusiness.GetShoppingCart(EnumDocType.RK, CurrentUser.UserID, CurrentUser.UserID);
             ViewBag.guid = CurrentUser.UserID;
             return View();
         }
@@ -505,9 +509,9 @@ namespace YXERP.Controllers
         /// </summary>
         /// <param name="productid"></param>
         /// <returns></returns>
-        public JsonResult GetProductByIDForDetails(string productid)
+        public JsonResult GetProductByIDForDetails(int type, string did, string productid)
         {
-            var model = new ProductsBusiness().GetProductByIDForDetails(productid, CurrentUser.ClientID);
+            var model = new ProductsBusiness().GetProductByIDForDetails(type, did, productid, CurrentUser.ClientID);
             JsonDictionary.Add("Item", model);
             return new JsonResult
             {

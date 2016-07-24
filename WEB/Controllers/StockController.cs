@@ -72,6 +72,8 @@ namespace YXERP.Controllers
         public ActionResult Damaged()
         {
             ViewBag.Wares = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
+            ViewBag.DamagedCount = ShoppingCartBusiness.GetShoppingCartCount(EnumDocType.BS, CurrentUser.UserID);
+
             return View();
         }
 
@@ -106,6 +108,8 @@ namespace YXERP.Controllers
         public ActionResult Overflow()
         {
             ViewBag.Wares = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
+            ViewBag.OverFlowCount = ShoppingCartBusiness.GetShoppingCartCount(EnumDocType.BY, CurrentUser.UserID);
+
             return View();
         }
 
@@ -183,6 +187,15 @@ namespace YXERP.Controllers
             ViewBag.Type = (int)EnumDocType.BY;
             ViewBag.GUID = CurrentUser.UserID;
             ViewBag.Title = "选择报溢产品";
+            return View("FilterProducts");
+        }
+
+        public ActionResult ChooseBSProducts()
+        {
+            ViewBag.Type = (int)EnumDocType.BS;
+            ViewBag.GUID = CurrentUser.UserID;
+            ViewBag.Title = "选择报损产品";
+
             return View("FilterProducts");
         }
 

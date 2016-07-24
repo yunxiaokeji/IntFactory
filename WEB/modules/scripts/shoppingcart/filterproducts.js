@@ -325,9 +325,19 @@
     //加入购物车
     ObjectJS.showDetail = function (pid, did) {
         var _self = this;
+        var objCache = {};
         //缓存产品信息
         if (!CacheProduct[pid]) {
+            if (_self.type == 3 || _self.type == 1 || _self.type == 4 || _self.type == 11) {
+                Global.post("/Products/GetDepotByDetailID", {
+                    type: _self.type,
+                    did: did
+                }, function (data) {
+                    objCache.depot = data;
+                });
+            }
             Global.post("/Products/GetProductByIDForDetails", { productid: pid }, function (data) {
+                obj.Cache
                 CacheProduct[pid] = data.Item;
                 doT.exec("template/shoppingcart/product-detail.html", function (templateFun) {
                     var html = templateFun(CacheProduct[pid]);

@@ -71,13 +71,13 @@ namespace YXManage.Controllers
             return View();
         }
 
-        public ActionResult ChooseDetail(string pid)
+        public ActionResult ChooseDetail(int type, string did, string pid)
         {
             if (string.IsNullOrEmpty(pid))
             {
                 return Redirect("ProductList");
             }
-            var model = new ProductsBusiness().GetProductByIDForDetails(pid, "");
+            var model = new ProductsBusiness().GetProductByIDForDetails(type, did, pid, "");
             if (model == null || string.IsNullOrEmpty(model.ProductID))
             {
                 return Redirect("ProductList");
