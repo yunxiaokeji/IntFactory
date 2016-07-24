@@ -45,7 +45,7 @@
             {
                  <div class="ordercategory-item">
                      <div class="items-header">
-                         <span class="iconfont ico-checkbox" data-id="@(model.CategoryID)"></span>
+                         <span class="iconfont checkbox" data-id="@(model.CategoryID)"></span>
                          @(model.CategoryName)：
                      </div>
                      <ul class="child-items-div" id="@(model.CategoryID)">
@@ -54,7 +54,7 @@
                              if (item.Status == 1)
                              {
                                <li class="child-item" >
-                                  <span class="iconfont ico-checkbox" data-pid="@(item.PID)" data-id="@(item.CategoryID)"></span>
+                                  <span class="iconfont checkbox" data-pid="@(item.PID)" data-id="@(item.CategoryID)"></span>
                                    @(item.CategoryName)
                                </li>
                              }

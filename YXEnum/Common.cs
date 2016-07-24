@@ -87,4 +87,11 @@ namespace IntFactoryEnum
         Entrust = 4
     }
 
+    public enum EnumMarkType
+    {
+        Customer = 1,
+        Orders = 2,
+        Tasks = 3
+    }
+
 }

@@ -27,7 +27,7 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Default/BindMobile");
             }
-            return View();//
+            return Redirect("/Home/Index");
         }
 
         public ActionResult SetProcess()

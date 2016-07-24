@@ -1,5 +1,5 @@
 ﻿
-.mark-color { display: inline-block; cursor:pointer; width:14px; height:14px; border-radius:8px; border:1px solid #ccc;}
+.mark-color { display: inline-block; cursor:pointer; width:14px; height:14px; border-radius:8px; vertical-align:middle;}
 
 
 .mark-color-list {overflow-x:hidden;min-width:90px; max-height:200px; position:absolute; padding:10px 0; background-color:#fff;

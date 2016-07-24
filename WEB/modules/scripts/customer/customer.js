@@ -1,8 +1,11 @@
 ﻿define(function (require, exports, module) {
     var Global = require("global"),
         doT = require("dot"),
+        City = require("city"), CityObject, CityContact,
+        Verify = require("verify"), VerifyObject, VerifyContact,
         ChooseUser = require("chooseuser"),
         moment = require("moment"),
+        Easydialog = require("easydialog");
         Tip = require("tip");
     require("daterangepicker");
     require("pager");
@@ -30,6 +33,7 @@
 
     var ObjectJS = {};
     ObjectJS.ColorList = [];
+
     ObjectJS.isLoading = true;
 
     //初始化
@@ -37,8 +41,6 @@
         var _self = this;
         Params.SearchType = type;
         _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
-        var count = parseInt($(".list-customer").width() / 365);
-        Params.PageSize = count * 3;
 
         _self.getList();
         _self.bindEvent(type);        
@@ -52,10 +54,6 @@
             if (!$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown")) {
                 $(".dropdown-ul").hide();
             }
-        });
-        
-        $(window).resize(function () {
-            ObjectJS.setListPosition();
         });
 
         //日期插件
@@ -77,14 +75,14 @@
         });
 
         //选择客户来源类型
-        $(".customer-source li").click(function () {
+        $(".customer-source .item").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
             }
             var _this = $(this);
-            if (!_this.hasClass("source-hover")) {
-                _this.siblings().removeClass("source-hover");
-                _this.addClass("source-hover");
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
 
                 Params.SourceType = -1;
                 var dataid = _this.data("idsource");
@@ -93,18 +91,16 @@
             }
         });
 
-        //切换颜色标记
-        $(".search-mark .item").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
-            }
-            var _this = $(this);
-            if (!_this.hasClass("hover")) {
-                _this.siblings().removeClass("hover");
-                _this.addClass("hover");
-                Params.PageIndex = 1;   
-                Params.Mark = _this.data("id");
-                ObjectJS.getList();
+        $("#filterMark").markColor({
+            isAll: true,
+            top: 30,
+            left: 5,
+            data: _self.ColorList,
+            onChange: function (obj, callback) {
+                callback && callback(true);
+                Params.PageIndex = 1;
+                Params.Mark = obj.data("value");
+                _self.getList();
             }
         });
 
@@ -200,20 +196,41 @@
             });
         }
 
+        $("#batchMark").markColor({
+            isAll: true,
+            left: 10,
+            data: _self.ColorList,
+            onChange: function (obj, callback) {
+                var checks = $(".table-list .checkbox.hover");
+                if (checks.length > 0) {
+                    var ids = "";
+                    checks.each(function () {
+                        var _this = $(this);
+                        ids += _this.data("id") + ",";
+                    });
+                    _self.markCustomer(ids, obj.data("value"), function (status) {
+                        _self.getList();
+                        callback && callback(status);
+                    });
+
+                } else {
+                    alert("您尚未选择客户");
+                }
+            }
+        });
+
         //全部选中
         $("#checkAll").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
             }
-            var _this = $(this);
-            if (!_this.hasClass("ico-checked")) {
-                $(".list-card").addClass("hover");
-                _this.addClass("ico-checked").removeClass("ico-check");
-                $(".check").addClass("icon-check");
+            var _this = $(this).find(".checkbox");
+            if (!_this.hasClass("hover")) {
+                _this.addClass("hover");
+                $(".checkbox").addClass("hover");
             } else {
-                $(".list-card").removeClass("hover");
-                _this.addClass("ico-check").removeClass("ico-checked");
-                $(".check").removeClass("icon-check");
+                _this.removeClass("hover");
+                $(".checkbox").removeClass("hover");
             }
         });
 
@@ -244,7 +261,7 @@
             if (!ObjectJS.isLoading) {
                 return;
             }
-            var checks = $(".list-customer .icon-check");
+            var checks = $(".table-list .checkbox.hover");
             if (checks.length > 0) {
                 ChooseUser.create({
                     title: "批量更换负责人",
@@ -299,18 +316,22 @@
             Params.PageIndex = 1;
             _self.getList();
         });
+
+        $("#createCustomer").click(function () {
+            _self.createCustomer();
+        });
     };
 
     //获取列表
     ObjectJS.getList = function () {
         var _self = this;
-        $("#checkAll").removeClass("ico-checked").addClass("ico-check");
-        $(".list-card").remove();
-        $(".nodata-txt").remove();
-        $(".list-customer").append("<div class='data-loading' ><div>");
+        $("#checkAll").removeClass("hover");
+        $(".tr-header").nextAll().remove();
+        $(".tr-header").after("<tr><td colspan='15'><div class='data-loading'><div></td></tr>");
 
         ObjectJS.isLoading = false;
         Global.post("/Customer/GetCustomers", { filter: JSON.stringify(Params) }, function (data) {
+            $(".tr-header").nextAll().remove();
             _self.bindCardList(data);            
             ObjectJS.isLoading = true;
         });
@@ -321,18 +342,16 @@
         var _self = this;
 
         if (data.items.length > 0) {
-            doT.exec("template/customer/customers-card.html", function (template) {
+            doT.exec("template/customer/customers.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
 
-                innerhtml.find(".check").click(function () {
+                innerhtml.find(".checkbox").click(function () {
                     var _this = $(this);
-                    if (!_this.hasClass("icon-check")) {
-                        _this.parent().addClass("hover");
-                        _this.addClass("icon-check");
+                    if (!_this.hasClass("hover")) {
+                        _this.addClass("hover");
                     } else {
-                        _this.parent().removeClass("hover");
-                        _this.removeClass("icon-check");
+                        this.removeClass("hover");
                     }
                     return false;
                 });
@@ -345,15 +364,10 @@
                     }
                 });
 
-                $(".data-loading").remove();
-                $(".nodata-txt").remove();
-                $(".list-customer").append(innerhtml);
-                ObjectJS.setListPosition();
+                $(".tr-header").after(innerhtml);
             });
         } else {
-            $(".nodata-txt").remove();
-            $(".data-loading").remove();
-            $(".list-customer").append("<div class='nodata-txt' >暂无数据!<div>");
+            $(".tr-header").after("<tr><td colspan='15'><div class='nodata-txt'>暂无数据<div></td></tr>");
         }
 
         $("#pager").paginate({
@@ -378,21 +392,64 @@
         });
     };
 
-    ObjectJS.setListPosition = function () {
-        var count = parseInt($(".list-customer").width() / 365)
-        var moreWidth = $(".list-customer").width() - (365 * count);
-        var marginRight = ((moreWidth + 15) / (count - 1)) + 15;
-        for (var i = 0; i < $(".list-customer .list-card").length; i++) {
-            var _this = $(".list-customer .list-card").eq(i);
-            if ((i + 1) % count == 0) {
-                _this.css("margin-right", "0");
-            }
-            else {
-                _this.css("margin-right", marginRight + "px");
-            }
-        }
+    ObjectJS.createCustomer = function () {
+        var _self = this;
+        doT.exec("template/customer/customer-detail.html", function (template) {
+            var innerText = template([]);
+            Easydialog.open({
+                container: {
+                    id: "show-model-detail",
+                    header: "新建客户",
+                    content: innerText,
+                    yesFn: function () {
+                        if (!VerifyObject.isPass()) {
+                            return false;
+                        }
+                        var entity = {
+                            CustomerID: "",
+                            Name: $("#name").val().trim(),
+                            Type: 0,
+                            IndustryID: "",
+                            Extent: 0,
+                            CityCode: CityObject.getCityCode(),
+                            Address: $("#address").val().trim(),
+                            MobilePhone: $("#contactMobile").val().trim(),
+                            Email: $("#email").val().trim(),
+                            Description: $("#remark").val().trim()
+                        };
+                        _self.saveModel(entity);
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+
+            CityObject = City.createCity({
+                cityCode: "",
+                elementID: "city"
+            });
+            VerifyObject = Verify.createVerify({
+                element: ".verify",
+                emptyAttr: "data-empty",
+                verifyType: "data-type",
+                regText: "data-text"
+            });
+        });
     }
 
+    ObjectJS.saveModel = function (entity) {
+        var _self = this;
+
+        Global.post("/Customer/SaveCustomer", { entity: JSON.stringify(entity) }, function (data) {
+            if (data.model.CustomerID) {
+                _self.getList();
+
+            } else {
+                alert("客户创建失败,联系电话已存在!");
+            }
+        });
+    }
     //标记客户
     ObjectJS.markCustomer = function (ids, mark, callback) {
         if (mark < 0) {

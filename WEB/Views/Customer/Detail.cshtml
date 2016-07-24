@@ -2,8 +2,8 @@
     ViewBag.Title = "客户详情";    
 }
 @section css{
-    <link href="/modules/css/default/customer.css" rel="stylesheet" />
-    <link href="/modules/css/task/style.css" rel="stylesheet" />
+    <link href="/modules/css/customer.css" rel="stylesheet" />
+    <link href="/modules/css/task.css" rel="stylesheet" />
 }
 
 @section scripts{
@@ -20,9 +20,7 @@
 }
 <div class="header-box">
     <span class="header-title left">客户详情</span>
-    <a class="back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">
-        <i class="iconfont">&#xe62d;</i> 返回 
-    </a>
+    <a class="btn-back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a>
 </div>
 <div class="content-title">
     <div id="spCustomerName" class="left titlename"></div>
@@ -109,7 +107,9 @@
     <div class="nav-partdiv hide" id="navOppor">
         <table class="table-list-order mTop10">
             <tr class="tr-header">
-                <div class="right mBottom10 searth-module hide  @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" data-text="关键字搜索..." data-width="260" style="margin-bottom:-20px;"> </div>
+                <td colspan="15">
+                    <div class="right mBottom10 searth-module hide  @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" data-text="关键字搜索..." data-width="260"> </div>
+                </td>
             </tr>
                
         </table>         
@@ -118,7 +118,9 @@
     <div class="nav-partdiv hide" id="navOrder">
          <table class="table-list-order mTop10">
              <tr class="tr-header">
-                 <div class="right searth-module hide  @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" data-text="关键字搜索..." data-width="260" style="margin-bottom:-20px;"> </div>
+                 <td colspan="15">
+                    <div class="right mBottom10 searth-module hide  @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" data-text="关键字搜索..." data-width="260"> </div>
+                </td>
              </tr>
             
         </table>
@@ -127,7 +129,9 @@
     <div class="nav-partdiv hide" id="navDHOrder">
          <table class="table-list-order mTop10">
              <tr class="tr-header">
-                <div class="right searth-module hide  @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" data-text="关键字搜索..." data-width="260" style="margin-bottom:-20px;"> </div>
+                <td colspan="15">
+                    <div class="right mBottom10 searth-module hide  @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" data-text="关键字搜索..." data-width="260"> </div>
+                </td>
              </tr>
              
          </table>

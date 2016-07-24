@@ -288,9 +288,9 @@ namespace IntFactoryBusiness
             return LableColorDAL.BaseProvider.ExistLableColor(tableName, clientid, colorid);
         }
 
-        public LableColorEntity GetLableColorColorID(string clientid, int colorid = 0, int lableType = 1)
+        public LableColorEntity GetLableColorColorID(string clientid, int colorid, EnumMarkType markType)
         {
-            var list = GetLableColor(clientid, lableType);
+            var list = GetLableColor(clientid, (int)markType);
             return list.Where(x =>x.Status!=9 && x.ColorID == colorid).FirstOrDefault();
         }
 
@@ -1090,9 +1090,9 @@ namespace IntFactoryBusiness
             return result ? 1 : 0;
         }
 
-        public int DeleteLableColor(int status, int colorid, string agentid, string clientid, string updateuserid, int lableType=1)
+        public int DeleteLableColor(int status, int colorid, string agentid, string clientid, string updateuserid, EnumMarkType lableType)
         {
-            if (ExistLableColor(clientid, lableType, colorid))
+            if (ExistLableColor(clientid, (int)lableType, colorid))
             {
                 return 2;
             }
@@ -1108,11 +1108,11 @@ namespace IntFactoryBusiness
             }
 
             string tableName = "CustomerColor";
-            if (lableType == 2)
+            if (lableType == EnumMarkType.Orders)
             {
                 tableName = "OrderColor";
             }
-            else if (lableType == 3)
+            else if (lableType == EnumMarkType.Tasks)
             {
                 tableName = "TaskColor";
             }
@@ -1121,18 +1121,19 @@ namespace IntFactoryBusiness
             {
                 if (!CustomColor.ContainsKey(clientid))
                 {
-                    GetLableColor(clientid, lableType);
+                    GetLableColor(clientid, (int)lableType);
                 }
                 else
                 {
-                    if (lableType == 1)
+                    if (lableType == EnumMarkType.Customer)
                     {
                         CustomColor[clientid].Remove(model);
                     }
-                    else if (lableType == 2) {
+                    else if (lableType == EnumMarkType.Orders)
+                    {
                         OrderColor[clientid].Remove(model);
                     }
-                    else if (lableType == 3)
+                    else if (lableType == EnumMarkType.Tasks)
                     {
                         TaskColor[clientid].Remove(model);
                     }

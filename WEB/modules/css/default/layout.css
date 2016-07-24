@@ -132,25 +132,26 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .search-header .search-tab-status li.hover{ background-color:#4a98e7; color:#fff;}
 
 
-.content-body{ overflow:auto; background-color:#fff; clear:both; margin:0 20px; padding:10px 0; box-shadow:0 0 10px #ddd; }
+.content-body{ overflow:auto; background-color:#fff; clear:both; margin:0 20px; padding:10px 0; box-shadow:0px 10px 10px #ddd; }
 
 .content-items{ overflow:auto; clear:both; margin:0 20px; }
-.content-list {margin:0 20px;}
-.content-pager {margin:20px;background-color:#fff;padding:10px;}
+.content-list { margin:0 20px;}
+.content-pager { margin:20px;background-color:#fff;padding:10px;}
 /*搜索*/
-.search-body { padding:10px; min-height:35px; }
+.search-body { margin:0 20px; min-height:35px; }
 
 /*搜索项*/
-.search-item { clear:both; overflow:auto; margin-top:10px; }
-.search-item li{ float:left; font-size:12px; color:#666; margin-right:20px; padding:2px 5px; cursor:pointer;}
+.search-item { clear:both; overflow:auto; margin-bottom:10px; }
+.search-item li{ float:left; height:23px; line-height:23px; border:solid 1px #fff; margin-right:10px; }
+.search-item li.item{ color:#666; cursor:pointer; padding:0 10px;}
 .search-item .column-name{ width:60px; color:#999; }
 .search-item .item:hover{ color:#4A99E8; }
-.search-item .item.hover{ border:solid 1px #4A99E8; color:#4A99E8; padding:1px 4px; }
+.search-item .item.hover{ border:solid 1px #4A99E8; color:#4A99E8;}
 
-.search-items { clear:both;overflow:auto; height:35px; margin-bottom:10px;margin-left:17px;}
+.search-items { clear:both;overflow:auto; height:35px; margin:10px 20px;}
 
 /*排序*/
-.search-sort {  border-top:dashed 1px #ddd; height:40px; margin-top:10px; }
+.search-sort {  border-top:dashed 1px #ccc;  border-bottom:dashed 1px #ccc; background-color:#f9f9f9; height:40px; margin-top:10px; }
 .search-sort li{ float:left; padding:0 20px; line-height:40px; color:#666; }
 .search-sort .sort-item { position:relative; cursor:pointer; }
 
@@ -190,46 +191,8 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 
 .table-list .ico-check { vertical-align:middle; }
 .table-list .ico-checked { vertical-align:middle; }
-.table-list .show-all-txt {
-    word-wrap: break-word;
-    white-space:normal !important;
-}
- .table-title { 
-     font-size:14px;
-    border-bottom: solid 1px #ccc; 
-    height:40px; 
-    line-height:40px; 
-    color:#666; 
-}
-
-/*客户表格卡片样式*/
-.table-list-order .createimg { margin-left:-20px;width:30px;}
-.order-information { margin-top:15px;}
-.order-information li {line-height:25px;margin-bottom:8px;height:20px;}
-.order-information-a { margin-top:10px;}
-.order-information-a li { line-height:25px;margin-bottom:8px;height:30px;}
-.table-list-order { width: 100%; border-spacing: 0px;}
-
-.table-list-order .tr-header{ height:35px;  }
-.table-list-order .tr-header td{ height:35px; border-bottom:solid 2px #eee; font-size:13px; color:#999; padding:0 5px;
-                           white-space:nowrap; overflow: hidden; text-overflow:ellipsis; }
-
-.table-list-order tr:not(:first-child){ height:35px; cursor:pointer; }
-.table-list-order tr:not(:first-child):hover { background-color: #f6f6f6; }
-.table-list-order tr:not(:first-child) td{ padding:5px; line-height:35px; border-bottom:solid 1px #eee; color:#333; 
-                                    white-space:nowrap; overflow: hidden; text-overflow:ellipsis;  }
-           
-.table-list-order td a{ color:#4a98e7;  vertical-align:middle;}
-.table-list-order td a:hover{ color:red; text-decoration:underline; }
-           
-.table-list-order tr .order-img{ width:120px;height:120px;display:inline-block;  vertical-align:middle;margin:10px 15px 10px 0;}
-           
-.table-list-order .ico-check { vertical-align:middle; }
-.table-list-order .ico-checked { vertical-align:middle; }
-.table-list-order .show-all-txt {
-    word-wrap: break-word;
-    white-space:normal !important;
-}
+.table-list .show-all-txt { word-wrap: break-word; white-space: normal !important; }
+.table-title { font-size: 14px; border-bottom: solid 1px #ccc; height: 40px; line-height: 40px; color: #666; }
 
 /*批量操作*/
 .batch-operate { padding-left:5px; height:20px; line-height:20px; }
@@ -265,13 +228,13 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .easydialog-create li label input{ line-height:20px; height:20px; }
 
 /*详情页-信息*/
-.content-info { width:80%; min-width:600px; overflow:auto; }
+.content-info { width:80%; min-width:600px; overflow:auto; margin-left:20px; }
 .content-info li{ width:50%; float:left;  line-height:35px; }
 .content-info li .column-title{ width:100px; float:left; color:#999; }
 .content-info li .column-value{ max-width:300px; float:left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:#666;}
 
 /*新建样式*/
-.table-add {  border-bottom:solid 1px #eee; padding-bottom:20px; }
+.table-add {  border-bottom:solid 1px #eee; padding:0 20px 20px 20px; }
 .table-add li{ line-height:25px; margin-top:5px;  padding: 2px 0px;}
 .table-add li input[type="text"],.table-add li input[type="password"]{ height:20px; line-height:20px; padding:2px 5px; width:150px; }
 .table-add li textarea {resize:none; height:80px; line-height:20px; padding:1px 5px; border:solid 1px #ccc; width:300px; border-radius:2px;}
@@ -287,7 +250,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .tab-nav-ul .hover { position: relative; height: 32px; line-height: 35px; border-bottom: 3px solid #4a98e7; color:#318ae4;  }
 
 /*日志样式*/
-.log-body { width:99%; }
+.log-body { margin:0 20px; }
 .log-body .log-item {width:99%; line-height:30px; overflow:auto; border-bottom:dashed 1px #eee; margin-top:10px; }
 .log-body .createuser { vertical-align:middle; }
 .log-body .createuser img { float:left; height:30px; width:30px; border-radius:15px; margin-top:15px; }
@@ -317,6 +280,11 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .btn999 {  padding:5px 10px; background-color:#999; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; line-height:18px; }
 .btn999:hover { background-color:#666; color:#fff; }
 
+/*返回*/
+.btn-back { background: url(/modules/images/iconback.png) no-repeat 5px 7px; line-height: 18px; padding: 5px 10px; border-radius: 2px; display: inline-block; cursor: pointer; padding-left: 23px; color: #fff; background-color: #4a98e7; 
+           -moz-transition: all 0.3s; -webkit-transition: all 0.3s; -o-transition: all 0.3s; }
+.btn-back:hover{ background-color:#2F73B8;}
+
 /*日期*/
 .ipt-date{ background:url(/modules/images/icondate.png) no-repeat 4px 4px; height:28px !important;line-height:28px; text-indent:20px; width:180px;margin-right:20px;}
 
@@ -328,11 +296,6 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .ico-add{ background:url(/modules/images/ico-add.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
           display:inline-block; cursor:pointer; padding-left:28px; color:#666; font-size:13px; }
 .ico-add:hover{ background:url(/modules/images/ico-addhover.png) no-repeat; color:#4a98e7; }
-
-/*返回*/
-.ico-back{ background:url(/modules/images/ico-back.png) no-repeat 0px -1px; height:24px; min-width:24px; line-height:24px; 
-          display:inline-block; cursor:pointer; color:#4a98e7; padding-left:28px; font-size:13px;  }
-.ico-back:hover{ color:#2F73B8; }
 
 /*替换*/
 .ico-change{ background:url(/modules/images/ico-change.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
@@ -402,10 +365,10 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
           display:inline-block; cursor:pointer;}
 
 /*复选框*/
-.ico-checkbox:before { content:"\e626"}
-.ico-checkbox { width:16px; height:16px; display:inline-block; background-color:#fff; color:#fff; border:solid 1px #ccc; text-align:center; border-radius:2px; 
-                cursor:pointer; box-shadow:0 0 1px #ccc inset; font-size:14px !important; line-height:16px !important; }
-.ico-checkbox.hover {border:solid 1px #4a98e7; background-color:#4a98e7; }
+.checkbox:before { content:"\e626"}
+.checkbox { width:16px; height:16px; display:inline-block; background-color:#fff; color:#fff; border:solid 1px #ccc; text-align:center; border-radius:2px; 
+                cursor:pointer; box-shadow:0 0 1px #ccc inset; font-size:14px !important; line-height:16px !important;vertical-align:middle; }
+.checkbox.hover {border:solid 1px #4a98e7; background-color:#4a98e7; }
 
 /*单选框*/
 .ico-radiobox { width:20px; height:20px; display:inline-block; background-color:#fff; border:solid 1px #4a98e7; text-align:center; border-radius:11px;

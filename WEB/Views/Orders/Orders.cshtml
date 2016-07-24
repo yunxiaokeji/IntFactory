@@ -12,6 +12,11 @@
         });
     </script>
 }
+<div class="header-box">
+    <span class="header-title left">@ViewBag.Title</span>
+    <a href="/Orders/Create" target="_blank" id="createOrder" class="btn-add right">新建订单</a>
+    <div class="btn right mRight10 nolimits" id="downAliOrders">同步阿里订单</div>
+</div>
 <div class="search-header">
     <ul class="search-tab search-orderstatus">
         <li data-id="1" class="@(ViewBag.State==1?"hover":"")">进行中</li>
@@ -20,8 +25,6 @@
         <li data-id="8" class="">已终止</li>
         <li data-id="-1" >全部订单</li>
     </ul>
-    <a href="/Orders/Create" target="_blank" id="createOrder" class="btn-add right mRight10">新建订单</a>
-    <div class="btn right mRight10 nolimits" id="downAliOrders">同步阿里订单</div>
 </div>
 <div class="content-body" style="padding-bottom:0;">
     <div class="search-body left">
@@ -74,7 +77,7 @@
         </ul>
         
     </div>
-    <div class="right btn" data-status="open" id="shrinkScreen"><span class="lump"></span><span class="colorfff shrink-text">收起筛选</span></div>
+    <div class="right btn mRight20" data-status="open" id="shrinkScreen"><span class="lump"></span><span class="colorfff shrink-text">收起筛选</span></div>
     <div class="clear"></div>
 
     <div class="search-items">
@@ -82,6 +85,7 @@
         <div class="left">
             <input type="text" id="iptCreateTime" placeholder="交货日期"  class="ipt-date"  />
         </div>
+        <div class="right searth-module" data-text="输入订单编码/联系人/手机号/款式编码/款式名称..." data-width="280"> </div>
     </div>
 
     <div class="search-sort">
@@ -98,7 +102,7 @@
                 <span class="desc"></span>
             </li>
         </ul>
-        <div class="right searth-module mTop5" data-text="输入订单编码/联系人/手机号/款式编码/款式名称..." data-width="280"> </div>
+        
     </div>
 </div>
 <div class="content-list">

@@ -46,19 +46,19 @@
         var _self = this;
 
         //选择大分类
-        $(".items-header .ico-checkbox").click(function () {
+        $(".items-header .checkbox").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.addClass("hover");
-                $("#" + _this.data("id") + " .ico-checkbox").addClass("hover");
+                $("#" + _this.data("id") + " .checkbox").addClass("hover");
             } else {
                 _this.removeClass("hover");
-                $("#" + _this.data("id") + " .ico-checkbox").removeClass("hover");
+                $("#" + _this.data("id") + " .checkbox").removeClass("hover");
             }
         });
         //选择分类
-        $(".child-item .ico-checkbox").click(function () {
-            var _this = $(this), pEle = $(".items-header .ico-checkbox[data-id='" + _this.data("pid") + "']");
+        $(".child-item .checkbox").click(function () {
+            var _this = $(this), pEle = $(".items-header .checkbox[data-id='" + _this.data("pid") + "']");
             if (!_this.hasClass("hover")) {
                 _this.addClass("hover");
 
@@ -79,7 +79,7 @@
                 return;
             }
             var ids = "";
-            $(".ico-checkbox.hover").each(function () {
+            $(".checkbox.hover").each(function () {
                 ids += $(this).data("id") + ",";
             });
             if (ids.length == 0) {

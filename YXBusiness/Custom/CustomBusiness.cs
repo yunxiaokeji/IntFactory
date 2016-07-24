@@ -36,7 +36,6 @@ namespace IntFactoryBusiness
             return list;
         }
 
-
         public List<CustomerEntity> GetCustomers(EnumSearchType searchtype, int type, int sourcetype, string sourceid, string stageid, int status, int mark, string activityid, string searchuserid, string searchteamid, string searchagentid,
                                                  string begintime, string endtime, string firstname, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
@@ -152,7 +151,6 @@ namespace IntFactoryBusiness
             }
             return model;
         }
-
 
         public List<ContactEntity> GetContactsByCustomerID(string customerid, string agentid)
         {
@@ -330,7 +328,8 @@ namespace IntFactoryBusiness
             bool bl = CommonBusiness.Update("Customer", "Mark", mark, "CustomerID='" + customerid + "'");
             if (bl)
             {
-                string msg = "标记客户颜色";
+                var color = SystemBusiness.BaseBusiness.GetLableColorColorID(clientid, mark, EnumMarkType.Customer);
+                string msg = color != null ? "客户更换标签：" + color.ColorName : "标记客户标签";
                 LogBusiness.AddLog(customerid, EnumLogObjectType.Customer, msg, operateid, ip, mark.ToString(), agentid, clientid);
             }
             return bl;

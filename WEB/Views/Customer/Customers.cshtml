@@ -3,9 +3,8 @@
     var model=(List<IntFactoryEntity.Custom.LableColorEntity>)ViewBag.list;  
  }
 @section css{
-     <link href="/modules/css/customer/customer.css" rel="stylesheet" />
      <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
-}
+}  
 
 @section scripts{
     <script type="text/javascript">
@@ -14,47 +13,26 @@
         });
     </script>
 }
-<div class="content-body mTop20" style="padding-bottom:0;">
-    <div class="search-body left">
-        <ul class="customer-source">
-            <div>来&nbsp;&nbsp;&nbsp;源：</div>
-            <li data-idsource="-1"class="source-hover">全部</li>
-            <li data-idsource="1">阿里客户</li>
-            <li data-idsource="2">自助下单</li>
-            <li data-idsource="3">手工创建</li>
-        </ul>
-
-        <ul class="search-item-color search-mark">
-            <li class="column-name">标&nbsp;&nbsp;&nbsp;记：</li>
-            <li data-id="-1" class="item mark-all hover"></li>
-            <li data-id="0" class="item mark0" data-name="默认"></li>
-            @foreach (var item in model)
-            {
-                <li data-id="@item.ColorID" class="item" style="border:solid 1px @item.ColorValue;background-color:@item.ColorValue" data-name="@item.ColorName"></li>
-            }            
-        </ul>
-
-        <ul class="search-letter hide">
-            <div class="color999 pLeft5 left mRight20" data-letter="1">首字母：</div>
-            <li class="all-letter hover" data-letter="">全部</li>
-            @{                
-                for (int i = 0; i < @firstNames.Length; i++)
-                {
-                    <li data-letter="@firstNames[i]">@firstNames[i]</li>
-                }
-             
-             }
+<div class="header-box">
+    <span class="header-title left">@ViewBag.Title</span>
+    <a href="javascript:void(0)"  id="createCustomer" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current, "101019001"))">新建客户</a>
+</div>
+<div class="content-body pBottom50">
+   <div class="search-body mTop10">
+        <ul class="search-item customer-source">
+            <li class="column-name">客户来源：</li>
+            <li data-idsource="-1"class="item hover">全部</li>
+            <li data-idsource="1" class="item">阿里客户</li>
+            <li data-idsource="2" class="item">自助下单</li>
+            <li data-idsource="3" class="item">手工创建</li>
         </ul>
     </div>
-    <a href="Create"  id="createCustomer" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current, "101019001"))">新建客户</a>
-    <div class="clear"></div>
-
-    <div class="search-items">
+    <div class="search-items mTop20">
         <div class="left mRight20" id="chooseBranch"></div>
         <div class="left">
             <input type="text" id="iptCreateTime" placeholder="创建时间"  class="ipt-date"  />
         </div>
-        
+        <div class="right searth-module mTop5" data-text="输入客户名称/电话..." data-width="200"></div>
     </div>
     <div class="search-sort">
         <ul class=" left">
@@ -80,26 +58,36 @@
                 <span class="desc"></span>
             </li>
         </ul>
-        <div class="right searth-module mTop5" data-text="输入客户名称/电话..." data-width="200"></div>
+        
         <div class="clear"></div>
     </div>
-</div>
-
-<div class="content-list">
-    <div class="list-customer" style="margin-top:-15px;"></div>
-    <div class="clear"></div>
-</div>
-
-<div  class="content-pager">
-    <ul class="left batch-operate">
-        <li class="width100">
-            <span class="ico-check pLeft5 mTop5" id="checkAll">批量操作</span>
+    <table class="table-list mTop10">
+        <tr class="tr-header">
+            <td class="width30"><span id="filterMark" class=""></span></td>  
+            <td class="width30"></td>
+            <td class="tLeft width200">客户名称</td>
+            <td class="tLeft width150">联系电话</td>
+            <td class="tLeft width200">地区</td>  
+            <td class="width150">来源</td>
+            <td class="width80">需求单</td>   
+            <td class="width80">打样单</td>  
+            <td class="width80">大货单</td>    
+            <td class="width100">负责人</td>
+            <td class="width100">创建时间</td>
+        </tr>
+    </table>
+    <ul class="left batch-operate mTop20">
+        <li class="width30 center">
+            <span data-value="-1" class="mTop5" id="batchMark"></span>
         </li>
-        <li>
-            <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"101019002"))" id="batchChangeOwner">更换负责人</a>
+        <li class="mLeft10 pLeft5 hand lineHeight25" id="checkAll">
+            <span class="checkbox iconfont mRight10"></span>批量操作
         </li>
+        <li class="mLeft20">
+            <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current, "101019002"))" id="batchChangeOwner">更换负责人</a>
+        </li>
+         
     </ul>
-    <div id="pager"></div>
-    <div class="clear"></div>
+    <div id="pager" class="mTop20 mRight10"></div>
 </div>
 

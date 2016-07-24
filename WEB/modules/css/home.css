@@ -8,13 +8,14 @@
     width:1148px;
     margin:25px auto;
     background-color:#fff;
-    border:1px solid #ddd;
+    padding-bottom:5px;
+    /*border:1px solid #B5C2CA;*/
 }
 .index-report-header {
-    line-height:45px;
+    height:45px;
     background-color:#f2f4f8;
     padding:0 15px;
-    width:1120px;
+    width:1118px;
     margin:25px auto -34px auto;
 }
 
@@ -26,30 +27,24 @@
     border-bottom:3px solid #c8dbf0;
 }
 .index-report-header .order-type span {
-    padding:0 10px;
+    width:80px;
+    text-align:center;
     height:30px;
     line-height:30px; 
     display:inline-block;
-    background-color:#6699cc;
+    background-color:#B5C2CA;
     cursor:pointer;
     color:#fff;
     margin-right:3px;
-    border:1px solid #6699cc;
-    border-bottom:0;    
+    border-radius:2px;  
 }
 
-.index-report-header .order-type span:first-child.hover {     
+.index-report-header .order-type span.hover {
+    height:36px;     
     background-color:#fff;
-    border:1px solid #ccc;
-    border-bottom:1px solid #fff;
-    color:#6699cc;
-}
-
-.index-report-header .order-type span:last-child.hover {     
-    background-color:#fff;
-    border:1px solid #ccc;
-    border-bottom:1px solid #fff;
-    color:#6699cc;
+    color:#4a98e7;
+    border-bottom-left-radius:0; 
+    border-bottom-right-radius:0;
 }
 
 /*时间查询*/
