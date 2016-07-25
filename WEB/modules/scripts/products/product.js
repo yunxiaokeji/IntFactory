@@ -414,7 +414,7 @@
         var _self = this, attrlist = "", valuelist = "", attrvaluelist = "";
 
         if (!$("#prodiver").data("id")) {
-            alert("请选择材料供应商!");
+            alert("请重新选择材料供应商!");
             return;
         }
        
@@ -665,6 +665,21 @@
                     innerText = $(innerText);
                     $("#product-items").after(innerText);
 
+                    //删除材料
+                    innerText.find(".delete-product").click(function () {
+                        var _this = $(this);
+                        confirm("删除材料后不可回复，确定要删除?", function () {
+                            Global.post("/Products/DeleteProductByID", {
+                                pid: _this.data('id')
+                            }, function (data) {
+                                if (data.result == 1) {
+                                    _this.parents('tr').remove();
+                                } else {
+                                    alert("删除失败");
+                                }
+                            });
+                        });
+                    });
                     //绑定启用插件
                     innerText.find(".status").switch({
                         open_title: "点击上架",
@@ -1121,6 +1136,22 @@
                 var innerText = templateFun(model.ProductDetails);
                 innerText = $(innerText);
                 $("#header-items").after(innerText);
+
+                innerText.find(".delete-product").click(function () {
+                    var _this = $(this);
+                    confirm("删除材料后不可回复，确定要删除?", function () {
+                        Global.post("/Products/DeleteProductDetailByID", {
+                            pid: _this.data('pid'),
+                            did: _this.data('did')
+                        }, function (data) {
+                            if (data.result == 1) {
+                                _this.parents('tr').remove();
+                            } else {
+                                alert("删除失败");
+                            }
+                        });
+                    });
+                });
 
                 //绑定启用插件
                 innerText.find(".status").switch({

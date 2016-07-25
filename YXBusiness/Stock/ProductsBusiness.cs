@@ -695,6 +695,11 @@ namespace IntFactoryBusiness
             {
                 Products model = new Products();
                 model.FillData(dr);
+                if (!string.IsNullOrEmpty(model.CategoryID))
+                {
+                    model.CategoryName = GetCategoryByID(model.CategoryID).CategoryName;
+                }
+
                 if (!string.IsNullOrEmpty(model.SmallUnitID))
                 {
                     model.UnitName = GetUnitByID(model.SmallUnitID).UnitName;
@@ -1009,6 +1014,17 @@ namespace IntFactoryBusiness
             }
         }
 
+        public bool DeleteProductByID(string pid, string clientID)
+        {
+            var dal = new ProductsDAL();
+            return dal.DeleteProductByID(pid, clientID);
+        }
+
+        public bool DeleteProductDetailByID(string pid, string did, string clientID)
+        {
+            var dal = new ProductsDAL();
+            return dal.DeleteProductDetailByID(pid, did, clientID);
+        }
         #endregion
 
     }

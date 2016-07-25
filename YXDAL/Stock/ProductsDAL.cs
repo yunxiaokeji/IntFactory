@@ -703,6 +703,25 @@ namespace IntFactoryDAL
             return result == 1;
         }
 
+        public bool DeleteProductByID(string pid, string clientID)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@ProductID",pid),
+                                       new SqlParameter("@ClientID",clientID)
+                                   };
+            return ExecuteNonQuery("P_DeleteProductByID", paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool DeleteProductDetailByID(string pid,string did, string clientID)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@ProductID",pid),
+                                       new SqlParameter("@ProductDetailID",did),
+                                       new SqlParameter("@ClientID",clientID)
+                                   };
+            return ExecuteNonQuery("P_DeleteProducDeletetByID", paras, CommandType.StoredProcedure) > 0;
+        }
+
         #endregion
     }
 }

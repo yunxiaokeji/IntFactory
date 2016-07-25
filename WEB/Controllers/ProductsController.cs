@@ -260,6 +260,7 @@ namespace YXERP.Controllers
             };
         }
 
+
         #endregion
 
         #region 品牌
@@ -674,7 +675,6 @@ namespace YXERP.Controllers
             };
         }
 
-
         public JsonResult GetProductUseLogs(string productid,int pageindex)
         {
             int totalCount = 0;
@@ -684,6 +684,34 @@ namespace YXERP.Controllers
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 删除产品
+        /// </summary>
+        public JsonResult DeleteProductByID(string pid) 
+        {
+            bool flag = ProductsBusiness.BaseBusiness.DeleteProductByID(pid, CurrentUser.ClientID);
+            JsonDictionary.Add("result", flag ? "1" : "0");
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 删除子产品
+        /// </summary>
+        public JsonResult DeleteProductDetailByID(string pid,string did)
+        {
+            bool flag = ProductsBusiness.BaseBusiness.DeleteProductDetailByID(pid, did, CurrentUser.ClientID);
+            JsonDictionary.Add("result", flag ? "1" : "0");
             return new JsonResult
             {
                 Data = JsonDictionary,

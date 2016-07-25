@@ -24,6 +24,9 @@
 .green { color:#74D07D !important;}
 .blue { color:#4a98e7 !important;}
 .red { color:red !important;}
+.hGreen:hover { color:#74D07D !important;text-decoration:none !important;}
+.hBlue:hover { color:#4a98e7 !important;text-decoration:none !important;}
+.hRed:hover { color:red !important;text-decoration:none !important;}
 .orange { color:rgba(255,165,0,0.7) !important;}
 .bRed { border-color:red !important; }
 
