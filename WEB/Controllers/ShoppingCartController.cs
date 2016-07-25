@@ -54,9 +54,9 @@ namespace YXERP.Controllers
         /// <param name="quantity"></param>
         /// <param name="ordertype"></param>
         /// <returns></returns>
-        public JsonResult AddShoppingCart(string productid, string detailsid, decimal quantity, string unitid, int isBigUnit, EnumDocType ordertype, string depotid, string remark = "", string guid = "")
+        public JsonResult AddShoppingCart(EnumDocType ordertype, string productid, string detailsid, decimal quantity, string unitid, string depotid, string remark = "", string guid = "")
         {
-            var bl = ShoppingCartBusiness.AddShoppingCart(productid, detailsid, quantity, unitid, isBigUnit, ordertype, remark, guid, CurrentUser.UserID, OperateIP);
+            var bl = ShoppingCartBusiness.AddShoppingCart(ordertype, productid, detailsid, quantity, unitid, depotid, remark, guid, CurrentUser.UserID, OperateIP);
             JsonDictionary.Add("Status", bl);
             return new JsonResult
             {
@@ -74,7 +74,7 @@ namespace YXERP.Controllers
             var bl = false;
             foreach (var product in model.Products)
             {
-                if (ShoppingCartBusiness.AddShoppingCartBatchOut(product.ProductID, product.ProductDetailID, 1, product.BatchCode, product.DepotID, model.type, product.Description, model.guid, CurrentUser.UserID, OperateIP))
+                if (ShoppingCartBusiness.AddShoppingCart(model.type, product.ProductID, product.ProductDetailID, 1, "", product.DepotID, product.Description, model.guid, CurrentUser.UserID, OperateIP))
                 {
                     bl = true;
                 }
@@ -95,7 +95,7 @@ namespace YXERP.Controllers
             var bl = false;
             foreach (var product in model.Products)
             {
-                if (ShoppingCartBusiness.AddShoppingCartBatchIn(product.ProductID, product.ProductDetailID, 1, model.type, product.Description, model.guid, CurrentUser.UserID, OperateIP))
+                if (ShoppingCartBusiness.AddShoppingCart(model.type, product.ProductID, product.ProductDetailID, 1, "", product.DepotID, product.Description, model.guid, CurrentUser.UserID, OperateIP))
                 {
                     bl = true;
                 }
