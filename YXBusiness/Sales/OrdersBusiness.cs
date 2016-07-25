@@ -27,23 +27,6 @@ namespace IntFactoryBusiness
 
         #region 查询
 
-        public List<OrderEntity> GetOpportunitys(EnumSearchType searchtype, string typeid, string stageid, string searchuserid, string searchteamid, string searchagentid,
-                                  string begintime, string endtime, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
-        {
-            List<OrderEntity> list = new List<OrderEntity>();
-            DataSet ds = OrdersDAL.BaseProvider.GetOpportunitys((int)searchtype, typeid, stageid, searchuserid, searchteamid, searchagentid, begintime, endtime, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
-            foreach (DataRow dr in ds.Tables[0].Rows)
-            {
-                OrderEntity model = new OrderEntity();
-                model.FillData(dr);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
-
-                list.Add(model);
-            }
-            return list;
-        }
-
-
         public List<OrderEntity> GetOrders(EnumSearchType searchtype, string entrustClientID, string typeid, int status, EnumOrderSourceType sourceType, int orderStatus, int mark, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid,
                                                 string begintime, string endtime, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
         {
@@ -78,7 +61,6 @@ namespace IntFactoryBusiness
                         model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
                     }
                 }
-
 
                 list.Add(model);
             }
@@ -210,7 +192,7 @@ namespace IntFactoryBusiness
                 {
                     model.WarningStatus = 3;
                     model.UseDays = (model.PlanTime - model.OrderTime).Days;
-                    model.WarningDays = (DateTime.Now-model.EndTime).Days;
+                    model.WarningDays = (DateTime.Now - model.EndTime).Days;
                 }
 
                 list.Add(model);
@@ -639,7 +621,7 @@ namespace IntFactoryBusiness
         #region 添加
 
         public string CreateOrder(string customerid, string goodscode, string title, string name, string mobile, EnumOrderSourceType sourceType, EnumOrderType ordertype,
-                                  string bigcategoryid, string categoryid, string price, int quantity, DateTime planTime, string orderimgs, string citycode, 
+                                  string bigcategoryid, string categoryid, decimal price, int quantity, DateTime planTime, string orderimgs, string citycode, 
                                   string address, string expressCode, string remark, string operateid, string agentid, string clientid, string aliOrderCode = "")
         {
             string id = Guid.NewGuid().ToString();

@@ -71,6 +71,10 @@ namespace IntFactoryEntity.Task
 
         public string PreTitle { get; set; }
 
+        public DateTime PEndTime { get; set; }
+
+        public DateTime PCompleteTime { get; set; }
+
         public DateTime CreateTime { get; set; }
 
         [Property("Lower")]

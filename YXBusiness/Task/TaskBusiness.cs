@@ -126,6 +126,7 @@ namespace IntFactoryBusiness
                 TaskEntity model = new TaskEntity();
                 model.FillData(dr);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+
                 if (orders.Rows.Count > 0)
                 {
                     foreach (DataRow dr2 in orders.Select(" OrderID='" + model.OrderID + "'"))
@@ -180,11 +181,7 @@ namespace IntFactoryBusiness
         {
             return TaskDAL.BaseProvider.GetexceedTaskCount(ownerID, orderType, clientID);
         }
-        /// <summary>
-        /// 获取任务详情
-        /// </summary>
-        /// <param name="taskID"></param>
-        /// <returns></returns>
+
         public static TaskEntity GetTaskDetail(string taskID)
         {
             TaskEntity model = null;

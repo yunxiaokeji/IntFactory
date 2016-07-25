@@ -28,6 +28,7 @@
 
     var ObjectJS = {};
     ObjectJS.orderFilter = -1;
+
     ObjectJS.init = function (orderLevel, taskLevel, remainDay, remainDate) {
         ObjectJS.remainDay = remainDay;
         ObjectJS.remainDate = remainDate;
@@ -567,16 +568,12 @@
                 innerText.find('.layer-line').css({ width: 0, left: "160px" });
                 innerText.find(".customermark").Tip({
                     width: 60,
-                    msg: "客户名称"
+                    msg: "联系人"
                 });                
                 innerText.find(".orderquantity").Tip({
                     width: 60,
                     msg: "下单数量"
                 });
-                innerText.find(".ordertype-title").Tip({
-                    width: 60,
-                    msg: "订单类型"
-                })
             });
         }
 

@@ -168,7 +168,6 @@
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\StorageOutController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
-    <Compile Include="Controllers\OpportunitysController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -516,9 +515,9 @@
     <Content Include="modules\scripts\task\senddyorders.js" />
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />
-    <Content Include="modules\template\home\customerorders.html" />
-    <Content Include="modules\template\home\task-list.html" />
     <Content Include="modules\template\home\author-page.html" />
+    <Content Include="modules\template\home\副本 index-order.html" />
+    <Content Include="modules\template\home\副本 index-task.html" />
     <Content Include="modules\template\inquire\inquireorder.html" />
     <Content Include="modules\template\myaccount\feedbacklist.html" />
     <Content Include="modules\template\orders\addpricerange.html" />

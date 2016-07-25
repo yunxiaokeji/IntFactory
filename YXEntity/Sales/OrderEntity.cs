@@ -39,7 +39,7 @@ namespace IntFactoryEntity
 
         public int OrderType { get; set; }
 
-        public string PlanPrice { get; set; }
+        public decimal PlanPrice { get; set; }
 
         public decimal FinalPrice { get; set; }
 
