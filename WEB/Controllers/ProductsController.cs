@@ -260,6 +260,7 @@ namespace YXERP.Controllers
             };
         }
 
+
         #endregion
 
         #region 品牌
@@ -424,7 +425,7 @@ namespace YXERP.Controllers
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             Products model = serializer.Deserialize<Products>(product);
-
+            int result = 0;
             if (!string.IsNullOrEmpty(model.AttrList))
             {
                 model.AttrList = model.AttrList.Substring(0, model.AttrList.Length - 1);
@@ -451,13 +452,14 @@ namespace YXERP.Controllers
                 bool bl = new ProductsBusiness().UpdateProduct(model.ProductID, model.ProductCode, model.ProductName, model.GeneralName, model.IsCombineProduct.Value == 1, model.ProdiverID, model.BrandID, model.BigUnitID, model.SmallUnitID,
                                                         model.BigSmallMultiple.Value, model.Status.Value, model.IsPublic, model.CategoryID, model.AttrList, model.ValueList, model.AttrValueList,
                                                         model.CommonPrice.Value, model.Price, model.Weight.Value, model.IsNew.Value == 1, model.IsRecommend.Value == 1, model.IsAllow, model.IsAutoSend, model.EffectiveDays.Value,
-                                                        model.DiscountValue.Value, model.ProductImage, model.ShapeCode, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
+                                                        model.DiscountValue.Value, model.ProductImage, model.ShapeCode, model.Description, CurrentUser.UserID, CurrentUser.ClientID,ref result);
                 if (bl)
                 {
                     id = model.ProductID;
                 }
             }
             JsonDictionary.Add("ID", id);
+            JsonDictionary.Add("result", result);
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -674,7 +676,6 @@ namespace YXERP.Controllers
             };
         }
 
-
         public JsonResult GetProductUseLogs(string productid,int pageindex)
         {
             int totalCount = 0;
@@ -684,6 +685,34 @@ namespace YXERP.Controllers
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 删除产品
+        /// </summary>
+        public JsonResult DeleteProductByID(string pid) 
+        {
+            bool flag = ProductsBusiness.BaseBusiness.DeleteProductByID(pid, CurrentUser.ClientID);
+            JsonDictionary.Add("result", flag ? "1" : "0");
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 删除子产品
+        /// </summary>
+        public JsonResult DeleteProductDetailByID(string pid,string did)
+        {
+            bool flag = ProductsBusiness.BaseBusiness.DeleteProductDetailByID(pid, did, CurrentUser.ClientID);
+            JsonDictionary.Add("result", flag ? "1" : "0");
             return new JsonResult
             {
                 Data = JsonDictionary,

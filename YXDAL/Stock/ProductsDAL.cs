@@ -636,9 +636,10 @@ namespace IntFactoryDAL
 
         public bool UpdateProduct(string productid, string productCode, string productName, string generalName, bool iscombineproduct, string prodiverid, string brandid, string bigunitid, string smallunitid, int bigSmallMultiple,
                             int status, int ispublic, string categoryid, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price,
-                            decimal weight, bool isnew, bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid)
+                            decimal weight, bool isnew, bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid,ref int result)
         {
             SqlParameter[] paras = { 
+                                       new SqlParameter("@Result",SqlDbType.Int),
                                        new SqlParameter("@ProductID",productid),
                                        new SqlParameter("@ProductCode",productCode),
                                        new SqlParameter("@ProductName",productName),
@@ -670,8 +671,11 @@ namespace IntFactoryDAL
                                        new SqlParameter("@CreateUserID",operateid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
-
-            return ExecuteNonQuery("P_UpdateProduct", paras, CommandType.StoredProcedure) > 0;
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
+            ExecuteNonQuery("P_UpdateProduct", paras, CommandType.StoredProcedure);
+            result = Convert.ToInt32(paras[0].Value);
+            return result == 1;
 
         }
 
@@ -701,6 +705,25 @@ namespace IntFactoryDAL
             ExecuteNonQuery("P_UpdateProductDetail", paras, CommandType.StoredProcedure);
             result = Convert.ToInt32(paras[0].Value);
             return result == 1;
+        }
+
+        public bool DeleteProductByID(string pid, string clientID)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@ProductID",pid),
+                                       new SqlParameter("@ClientID",clientID)
+                                   };
+            return ExecuteNonQuery("P_DeleteProductByID", paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool DeleteProductDetailByID(string pid,string did, string clientID)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@ProductID",pid),
+                                       new SqlParameter("@ProductDetailID",did),
+                                       new SqlParameter("@ClientID",clientID)
+                                   };
+            return ExecuteNonQuery("P_DeleteProducDeletetByID", paras, CommandType.StoredProcedure) > 0;
         }
 
         #endregion

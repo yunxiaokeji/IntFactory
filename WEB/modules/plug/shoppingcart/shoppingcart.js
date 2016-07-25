@@ -13,6 +13,7 @@ define(function (require, exports, module) {
     (function ($) {
         $.fn.createCart = function (options) {
             var opts = $.extend({}, $.fn.createCart.defaults, options);
+            console.log(opts);
             return this.each(function () {
                 var _this = $(this);
                 $.fn.drawCart(_this, opts);
@@ -74,16 +75,32 @@ define(function (require, exports, module) {
                         innerText.find(".ico-del").click(function () {
                             var _this = $(this);
                             confirm("确认从清单中移除此材料吗？", function () {
-                                Global.post("/ShoppingCart/DeleteCart", {
-                                    autoid: _this.data("id")
-                                }, function (data) {
-                                    if (!data.Status) {
-                                        alert("系统异常，请重新操作！");
-                                    } else {
-                                        _this.parents("tr.item").remove();
-                                        obj.find(".totalcount").html(obj.find(".totalcount").html() - 1);
-                                    }
-                                });
+                                if (opts.ordertype == 11) {
+                                    Global.post("/Orders/DeleteProduct", {
+                                        orderid: opts.guid,
+                                        autoid: _this.data("id"),
+                                        name: _this.parents('tr').find('.productname').text()
+                                    }, function (data) {
+                                        if (!data.status) {
+                                            alert("系统异常，请重新操作！");
+                                        }
+                                        else {
+                                            _this.parents("tr.item").remove();
+                                            ObjectJS.getProductAmount();
+                                        }
+                                    });
+                                } else {
+                                    Global.post("/ShoppingCart/DeleteCart", {
+                                        autoid: _this.data("id")
+                                    }, function (data) {
+                                        if (!data.Status) {
+                                            alert("系统异常，请重新操作！");
+                                        } else {
+                                            _this.parents("tr.item").remove();
+                                            obj.find(".totalcount").html(obj.find(".totalcount").html() - 1);
+                                        }
+                                    });
+                                }
                             });
                         });
 

@@ -414,11 +414,12 @@
         var _self = this, attrlist = "", valuelist = "", attrvaluelist = "";
 
         if (!$("#prodiver").data("id")) {
-            alert("请选择材料供应商!");
+            alert("请重新选择材料供应商!");
             return;
         }
        
         var bl = true;
+
         $(".product-attr").each(function () {
             var _this = $(this);
             attrlist += _this.data("id") + ",";
@@ -428,12 +429,10 @@
                 bl = false;
             }
         });
-
         if (!bl) {
             alert("属性尚未设置值!");
             return false;
         }
-
         _self.ProductImage = $("#productImg").data("src") || '';
         var Product = {
             ProductID: _self.ProductID,
@@ -489,22 +488,29 @@
         Global.post("/Products/SavaProduct", {
             product: JSON.stringify(Product)
         }, function (data) {
-            if (data.ID.length > 0) {
-                if (_self.type == "11") {
-                    confirm("材料添加成功，是否返回选择材料页面？", function () {
-                        location.href = "/Orders/ChooseMaterial?id=" + _self.guid + "&tid=" + _self.tid;
-                    }, function () {
+            if (data.result == 1) {
+                if (data.ID.length > 0) {
+                    if (_self.type == "11") {
+                        confirm("材料添加成功，是否返回选择材料页面？", function () {
+                            location.href = "/Orders/ChooseMaterial?id=" + _self.guid + "&tid=" + _self.tid;
+                        }, function () {
+                            location.href = "/Products/ProductDetail/" + data.ID;
+                        });
+                    } else if (_self.type == "1") {
+                        confirm("材料添加成功，是否返回选择材料页面？", function () {
+                            location.href = "/Products/ChooseProducts?id=" + _self.guid;
+                        }, function () {
+                            location.href = "/Products/ProductDetail/" + data.ID;
+                        });
+                    } else {
                         location.href = "/Products/ProductDetail/" + data.ID;
-                    });
-                } else if (_self.type == "1") {
-                    confirm("材料添加成功，是否返回选择材料页面？", function () {
-                        location.href = "/Products/ChooseProducts?id=" + _self.guid;
-                    }, function () {
-                        location.href = "/Products/ProductDetail/" + data.ID;
-                    });
-                } else {
-                    location.href = "/Products/ProductDetail/" + data.ID;
+                    }
+
                 }
+            } else if (data.result == 2) {
+                alert("材料编码已存在,修改失败");
+            } else {
+                alert("网络异常,修改失败");
             }
         });
     }
@@ -665,6 +671,21 @@
                     innerText = $(innerText);
                     $("#product-items").after(innerText);
 
+                    //删除材料
+                    innerText.find(".delete-product").click(function () {
+                        var _this = $(this);
+                        confirm("删除材料后不可回复，确定要删除?", function () {
+                            Global.post("/Products/DeleteProductByID", {
+                                pid: _this.data('id')
+                            }, function (data) {
+                                if (data.result == 1) {
+                                    _this.parents('tr').remove();
+                                } else {
+                                    alert("删除失败");
+                                }
+                            });
+                        });
+                    });
                     //绑定启用插件
                     innerText.find(".status").switch({
                         open_title: "点击上架",
@@ -755,6 +776,7 @@
         var _self = this;
         editor = Editor;
         model = JSON.parse(model.replace(/&quot;/g, '"'));
+        _self.productCode = model.ProductCode;
         _self.categoryID = model.Category.CategoryID;
         _self.bindDetailEvent(model);
         _self.bindDetail(model);
@@ -802,6 +824,23 @@
     //详情页事件
     Product.bindDetailEvent = function (model) {
         var _self = this;
+        //编码是否重复
+        $("#productCode").change(function () {
+            var _this = $(this);
+            if (_this.val().trim() != "") {
+                if (_self.productCode != _this.val()) {
+                    Global.post("/Products/IsExistsProductCode", {
+                        code: _this.val()
+                    }, function (data) {
+                        if (data.Status) {
+                            _this.val("");
+                            alert("材料编码已存在,请重新输入!");
+                            _this.focus();
+                        }
+                    });
+                }
+            }
+        });
 
         //绑定选择类别插件
         $("#productMenuChange").changeMenu({
@@ -1121,6 +1160,22 @@
                 var innerText = templateFun(model.ProductDetails);
                 innerText = $(innerText);
                 $("#header-items").after(innerText);
+
+                innerText.find(".delete-product").click(function () {
+                    var _this = $(this);
+                    confirm("删除材料后不可回复，确定要删除?", function () {
+                        Global.post("/Products/DeleteProductDetailByID", {
+                            pid: _this.data('pid'),
+                            did: _this.data('did')
+                        }, function (data) {
+                            if (data.result == 1) {
+                                _this.parents('tr').remove();
+                            } else {
+                                alert("删除失败");
+                            }
+                        });
+                    });
+                });
 
                 //绑定启用插件
                 innerText.find(".status").switch({

@@ -286,7 +286,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .btn-back:hover{ background-color:#2F73B8;}
 
 /*日期*/
-.ipt-date{ background:url(/modules/images/icondate.png) no-repeat 4px 4px; height:28px !important;line-height:28px; text-indent:20px; width:180px;margin-right:20px;}
+.ipt-date{ background:url(/modules/images/icondate.png) no-repeat left 4px center; height:28px !important;line-height:28px; text-indent:20px; width:180px;margin-right:20px;}
 
 /*替换*/
 .change-ico{ display:inline-block; cursor:pointer; color:#4a98e7; font-size:20px !important;}

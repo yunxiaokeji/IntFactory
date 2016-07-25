@@ -4,7 +4,8 @@ define(function (require, exports, module) {
         Easydialog = require("easydialog"),
         doT = require("dot");
     require("pager");
-
+    var moment = require("moment");
+    require("daterangepicker");
     //缓存货位
     var CacheDepot = [];
     
@@ -59,10 +60,21 @@ define(function (require, exports, module) {
             }
         });
 
-        $("#btnSearch").click(function () {
+        //日期插件
+        $("#iptCreateTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
+            }
+        }, function (start, end, label) {
             Params.pageIndex = 1;
-            Params.begintime = $("#BeginTime").val().trim();
-            Params.endtime = $("#EndTime").val().trim();
+            Params.begintime = start ? start.format("YYYY-MM-DD") : "";
+            Params.endtime = end ? end.format("YYYY-MM-DD") : "";
             _self.getList();
         });
 

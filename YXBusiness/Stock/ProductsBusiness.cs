@@ -695,6 +695,11 @@ namespace IntFactoryBusiness
             {
                 Products model = new Products();
                 model.FillData(dr);
+                if (!string.IsNullOrEmpty(model.CategoryID))
+                {
+                    model.CategoryName = GetCategoryByID(model.CategoryID).CategoryName;
+                }
+
                 if (!string.IsNullOrEmpty(model.SmallUnitID))
                 {
                     model.UnitName = GetUnitByID(model.SmallUnitID).UnitName;
@@ -854,6 +859,7 @@ namespace IntFactoryBusiness
                 }
             }
             model.Depots = items;
+
             if (ds.Tables.Contains("Product") && ds.Tables["Product"].Rows.Count > 0)
             {
                 model.FillData(ds.Tables["Product"].Rows[0]);
@@ -986,12 +992,12 @@ namespace IntFactoryBusiness
 
         public bool UpdateProduct(string productid, string productCode, string productName, string generalName, bool iscombineproduct, string prodiverid, string brandid, string bigunitid, string smallunitid, int bigSmallMultiple,
                          int status, int ispublic, string categoryid, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price, decimal weight, bool isnew,
-                         bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid)
+                         bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid,ref int result)
         {
 
             var dal = new ProductsDAL();
             return dal.UpdateProduct(productid, productCode, productName, generalName, iscombineproduct, prodiverid, brandid, bigunitid, smallunitid, bigSmallMultiple, status, ispublic, categoryid, attrlist,
-                                    valuelist, attrvaluelist, commonprice, price, weight, isnew, isRecommend, isallow, isautosend, effectiveDays, discountValue, productImg, shapeCode, description, operateid, clientid);
+                                    valuelist, attrvaluelist, commonprice, price, weight, isnew, isRecommend, isallow, isautosend, effectiveDays, discountValue, productImg, shapeCode, description, operateid, clientid,ref result);
         }
 
         public bool UpdateProductDetailsStatus(string productdetailid, EnumStatus status, string operateIP, string operateID)
@@ -1008,6 +1014,17 @@ namespace IntFactoryBusiness
             }
         }
 
+        public bool DeleteProductByID(string pid, string clientID)
+        {
+            var dal = new ProductsDAL();
+            return dal.DeleteProductByID(pid, clientID);
+        }
+
+        public bool DeleteProductDetailByID(string pid, string did, string clientID)
+        {
+            var dal = new ProductsDAL();
+            return dal.DeleteProductDetailByID(pid, did, clientID);
+        }
         #endregion
 
     }

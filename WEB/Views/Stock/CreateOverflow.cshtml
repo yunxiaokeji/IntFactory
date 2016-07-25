@@ -17,7 +17,7 @@
     <div class="btnccc right" id="btnChooseProduct">快捷添加材料</div>
     <div class="clear"></div>
 </div>
-<div class="content-body mTop20">
+<div class="content-body mTop20" style="padding:20px;">
     <table class="table-items-detail">
         <tr class="table-header tr-header">
             <td class="tLeft">材料名称</td>
@@ -26,8 +26,10 @@
             <td class="">数量</td>
             <td class=" width80">删除</td>
         </tr>
-        @foreach (var model in product)
-        { 
+        @if (product.Count > 0)
+        {
+            foreach (var model in product)
+            { 
             <tr class="item cart-item" data-autoid="@(model.AutoID)" data-id="@(model.ProductDetailID)" >
                 <td class="tLeft bBottom bLeft"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
                 <td class="bBottom"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductCode)</a></td>
@@ -37,6 +39,11 @@
                     <a class="ico-del" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
                 </td>
             </tr>
+            }
+        }
+        else
+        {
+            <tr><td colspan="5"><div class="nodata-txt">暂无材料</div></td></tr>            
         }
     </table>
     <div class="mTop20">

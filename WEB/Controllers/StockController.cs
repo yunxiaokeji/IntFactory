@@ -245,6 +245,23 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetDeoptByProductDetailID(string did)
+        {
+            List<DepotSeat> items = new List<DepotSeat>();
+            List<ProductStock> stockItems = StockBusiness.BaseBusiness.GetProductByDetailID(did);
+            foreach (var item in stockItems)
+            {
+                DepotSeat depot = SystemBusiness.BaseBusiness.GetDepotByID(item.DepotID, item.WareID, CurrentUser.ClientID);
+                items.Add(depot);
+            }
+            JsonDictionary.Add("depots", items);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult GetStorageDocs(string keyWords, int pageIndex, int totalCount, int status = -1, int type = -1, string begintime = "", string endtime = "", string wareid = "")
         {
             int pageCount = 0;
