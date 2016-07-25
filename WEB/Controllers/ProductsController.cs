@@ -425,7 +425,7 @@ namespace YXERP.Controllers
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             Products model = serializer.Deserialize<Products>(product);
-
+            int result = 0;
             if (!string.IsNullOrEmpty(model.AttrList))
             {
                 model.AttrList = model.AttrList.Substring(0, model.AttrList.Length - 1);
@@ -452,13 +452,14 @@ namespace YXERP.Controllers
                 bool bl = new ProductsBusiness().UpdateProduct(model.ProductID, model.ProductCode, model.ProductName, model.GeneralName, model.IsCombineProduct.Value == 1, model.ProdiverID, model.BrandID, model.BigUnitID, model.SmallUnitID,
                                                         model.BigSmallMultiple.Value, model.Status.Value, model.IsPublic, model.CategoryID, model.AttrList, model.ValueList, model.AttrValueList,
                                                         model.CommonPrice.Value, model.Price, model.Weight.Value, model.IsNew.Value == 1, model.IsRecommend.Value == 1, model.IsAllow, model.IsAutoSend, model.EffectiveDays.Value,
-                                                        model.DiscountValue.Value, model.ProductImage, model.ShapeCode, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
+                                                        model.DiscountValue.Value, model.ProductImage, model.ShapeCode, model.Description, CurrentUser.UserID, CurrentUser.ClientID,ref result);
                 if (bl)
                 {
                     id = model.ProductID;
                 }
             }
             JsonDictionary.Add("ID", id);
+            JsonDictionary.Add("result", result);
             return new JsonResult
             {
                 Data = JsonDictionary,
