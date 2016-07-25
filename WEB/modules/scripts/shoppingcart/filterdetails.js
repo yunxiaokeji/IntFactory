@@ -51,17 +51,13 @@ define(function (require, exports, module) {
     //绑定事件
     ObjectJS.bindEvent = function (model) {
         var _self = this;
-
-        //$(".create-doc").click(function () {
-        //    Global.post("/Products/GetWareHouses", "", function (data) {
-        //        doT.exec("template/")
-        //    });
-        //});
-
         //选择规格
         $("#saleattr li.value").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
+                if (!(_self.ordertype*1)) {
+                    $(".purchase,.overflow").show();
+                }
                 _this.addClass("hover");
                 _this.siblings().removeClass("hover");
                 for (var i = 0, j = model.ProductDetails.length; i < j; i++) {

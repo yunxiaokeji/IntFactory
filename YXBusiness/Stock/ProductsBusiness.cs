@@ -854,6 +854,7 @@ namespace IntFactoryBusiness
                 }
             }
             model.Depots = items;
+
             if (ds.Tables.Contains("Product") && ds.Tables["Product"].Rows.Count > 0)
             {
                 model.FillData(ds.Tables["Product"].Rows[0]);

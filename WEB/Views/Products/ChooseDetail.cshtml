@@ -36,12 +36,6 @@
         </div>
         <div class="product-name left">
             <h1 class="left">@(model.ProductName)</h1>
-            <div class="right mRight5">
-                <span id="sortAddStockDepot"></span>
-                <span class="btn-add create-doc">添加采购</span>
-                <span class="btn-add">添加报损</span>
-                <span class="btn-add">添加报溢</span>
-            </div>
             <div class="clear"></div>
             <ul class="price">
                 <li class="column">价&nbsp;&nbsp;格：</li>
@@ -95,6 +89,25 @@
                         <label class="mLeft20" id="productStockQuantity">0</label>
                     </li>
                 </ul>
+                @{
+                    if(type==0)
+                    {
+                        <div class="mRight5">
+                            <ul class="quickly-add-stock">
+                                <li class="mBottom10 hide purchase">
+                                    <span class="btn" id="addPurchase">加入采购</span>
+                                </li>
+                                <li class="mBottom10 hide overflow">
+                                    <span class="btn999" id="addOverflow">加入报溢</span>
+                                </li>
+                                <li class="mBottom10 hide damaged">
+                                    <span class="btnccc" id="addDamaged">加入报损</span>
+                                </li>
+                            </ul>
+                            <span id="sortAddStockDepot"></span>
+                        </div>
+                    }
+                }
            </div>
             <div class="choose-div hide">
                 @{
