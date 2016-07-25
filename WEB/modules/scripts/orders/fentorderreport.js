@@ -1,9 +1,15 @@
 ﻿define(function (require,exports,module) {
     var ObjectJS = {};
-    ObjectJS.init = function (plate, price, costprice, finalPrice, profitPrice) {
+    ObjectJS.init = function (plate, price, costprice, finalPrice, profitPrice,img) {
         ObjectJS.bindEvent(plate, price, costprice, finalPrice, profitPrice);
         ObjectJS.removeTaskPlateOperate();
         ObjectJS.addTaskPlateCss();
+        if (img!="") {
+            var img = img.split("?")[0];
+            $("#tabletoexcel tr td img").attr("src",img);
+        } else {
+            $("#tabletoexcel tr td img").attr("src", "/modules/images/none-img.png");
+        }
     };
 
     ObjectJS.bindEvent = function (plate, price, costPrice, finalPrice, profitPrice) {
