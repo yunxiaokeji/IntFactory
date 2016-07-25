@@ -24,7 +24,7 @@ define(function (require, exports, module) {
             $(".content-body").createCart({
                 ordertype: ordertype,
                 guid: guid,
-                tid:tid
+                tid: tid
             });
             $(".choose-div").show();
         }
@@ -135,9 +135,9 @@ define(function (require, exports, module) {
                     unitid: $("#unit li.hover").data("id"),
                     isBigUnit: $("#unit li.hover").data("value"),
                     ordertype: _self.ordertype,
+                    depotid: _self.depotID ? _self.depotID : "",
                     guid: _self.guid,
-                    remark: remark,
-                    depotid: _self.depotID ? _self.depotID : ""
+                    remark: remark
                 }, function (data) {
                     if (data.Status) {
                         $("#quantity").val("1");

@@ -40,7 +40,7 @@
 
 
 /*产品列表样式*/
-.productlist { width:100%; overflow:auto;}
+.productlist { width:100%; overflow:auto;padding:0 10px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}
 .productlist li{ width:250px; height:350px; float:left; margin-top:20px; }
 
 .productlist .product-item{  width:230px; height:320px; padding:3px; border:solid 3px #eee; display:inline-block; position:relative; }

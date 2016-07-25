@@ -54,7 +54,7 @@ namespace YXERP.Controllers
         /// <param name="quantity"></param>
         /// <param name="ordertype"></param>
         /// <returns></returns>
-        public JsonResult AddShoppingCart(string productid, string detailsid, decimal quantity, string unitid, int isBigUnit, EnumDocType ordertype, string remark = "", string guid = "")
+        public JsonResult AddShoppingCart(string productid, string detailsid, decimal quantity, string unitid, int isBigUnit, EnumDocType ordertype, string depotid, string remark = "", string guid = "")
         {
             var bl = ShoppingCartBusiness.AddShoppingCart(productid, detailsid, quantity, unitid, isBigUnit, ordertype, remark, guid, CurrentUser.UserID, OperateIP);
             JsonDictionary.Add("Status", bl);

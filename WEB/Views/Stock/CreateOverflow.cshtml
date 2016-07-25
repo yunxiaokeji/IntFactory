@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "新建报溢单";
     var ware = (List<IntFactoryEntity.WareHouse>)ViewBag.Ware;
+    var product= (List<IntFactoryEntity.ProductDetail>)ViewBag.Items;
 }
 
 @section scripts{
@@ -25,7 +26,7 @@
             <td class="">数量</td>
             <td class=" width80">删除</td>
         </tr>
-        @foreach (var model in (List<IntFactoryEntity.ProductDetail>)ViewBag.Items)
+        @foreach (var model in product)
         { 
             <tr class="item cart-item" data-autoid="@(model.AutoID)" data-id="@(model.ProductDetailID)" >
                 <td class="tLeft bBottom bLeft"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>

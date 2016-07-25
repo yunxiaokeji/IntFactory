@@ -755,6 +755,7 @@
         var _self = this;
         editor = Editor;
         model = JSON.parse(model.replace(/&quot;/g, '"'));
+        _self.categoryID = model.Category.CategoryID;
         _self.bindDetailEvent(model);
         _self.bindDetail(model);
         _self.getChildList(model);
@@ -809,8 +810,8 @@
                 $(".product-attr").remove();
                 $(".child-product-li .tr-header").nextAll().remove();
                 var id = items[items.length - 1].id;
+                _self.categoryID = id;
                 if (id) {
-                    _self.categoryID = id;
                     Global.post("/Products/GetCategoryDetailsByID", { categoryid: id }, function (data) {
                         doT.exec("template/products/product-property.html", function (template) {
                             var innerHtml = template(data.Model.AttrLists);
@@ -1038,6 +1039,10 @@
         $("#btnSaveProduct").on("click", function () {
             if (!VerifyObject.isPass()) {
                 return;
+            }
+            if (!_self.categoryID) {
+                alert("分类选择有误！");
+                return false;
             }
             Product.savaProduct();
         });
