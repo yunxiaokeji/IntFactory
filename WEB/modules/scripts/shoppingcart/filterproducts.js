@@ -327,15 +327,15 @@
         var _self = this;
         var objCache = {};
         //缓存产品信息
-        if (!CacheProduct[pid]) {
+        if (!CacheProduct[did]) {
             Global.post("/Products/GetProductByIDForDetails", {
                 productid: pid,
                 did: did,
                 type: _self.type
             }, function (data) {
-                CacheProduct[pid] = data.Item;
+                CacheProduct[did] = data.Item;
                 doT.exec("template/shoppingcart/product-detail.html", function (templateFun) {
-                    var html = templateFun(CacheProduct[pid]);
+                    var html = templateFun(CacheProduct[did]);
                     Easydialog.open({
                         container: {
                             id: "product-add-div",
@@ -346,21 +346,21 @@
                             }
                         }
                     });
-                    if (CacheProduct[pid].Depots) {
-                        if (CacheProduct[pid].Depots.length > 0) {
-                            _self.depotid = CacheProduct[pid].Depots[0].DepotID;
+                    if (CacheProduct[did].Depots) {
+                        if (CacheProduct[did].Depots.length > 0) {
+                            _self.depotid = CacheProduct[did].Depots[0].DepotID;
                             require.async("dropdown", function () {
                                 $(".depot-dropdown").dropdown({
                                     prevText: "货位-",
-                                    defaultText: CacheProduct[pid].Depots[0].DepotCode,
-                                    defaultValue: CacheProduct[pid].Depots[0].DepotID,
-                                    data: CacheProduct[pid].Depots,
+                                    defaultText: CacheProduct[did].Depots[0].DepotCode,
+                                    defaultValue: CacheProduct[did].Depots[0].DepotID,
+                                    data: CacheProduct[did].Depots,
                                     dataText: "DepotCode",
                                     dataValue: "DepotID",
                                     width: 120,
                                     isposition:true,
                                     onChange: function (dataValue) {
-                                        _self.depotid = dataValue.DepotID;
+                                        _self.depotid = dataValue.value;
                                     }
                                     //defaultText:data.Depots[0].
                                 });
@@ -368,13 +368,13 @@
                         }
                     }
                     Easydialog.toPosition();
-                    _self.bindDetail(CacheProduct[pid], did);
-                    _self.bindDetailEvent(CacheProduct[pid], pid, did)
+                    _self.bindDetail(CacheProduct[did], did);
+                    _self.bindDetailEvent(CacheProduct[did], pid, did)
                 });
             });
         } else {
             doT.exec("template/shoppingcart/product-detail.html", function (templateFun) {
-                var html = templateFun(CacheProduct[pid]);
+                var html = templateFun(CacheProduct[did]);
                 Easydialog.open({
                     container: {
                         id: "product-add-div",
@@ -386,28 +386,29 @@
                         }
                     }
                 });
-                if (CacheProduct[pid].Depots) {
-                    if (CacheProduct[pid].Depots.length > 0) {
+                if (CacheProduct[did].Depots) {
+                    if (CacheProduct[did].Depots.length > 0) {
+                        _self.depotid = CacheProduct[did].Depots[0].DepotID;
                         require.async("dropdown", function () {
                             $(".depot-dropdown").dropdown({
                                 prevText: "货位-",
-                                defaultText: CacheProduct[pid].Depots[0].DepotCode,
-                                defaultValue: CacheProduct[pid].Depots[0].DepotID,
-                                data: CacheProduct[pid].Depots,
+                                defaultText: CacheProduct[did].Depots[0].DepotCode,
+                                defaultValue: CacheProduct[did].Depots[0].DepotID,
+                                data: CacheProduct[did].Depots,
                                 dataText: "DepotCode",
                                 dataValue: "DepotID",
                                 width: 120,
                                 isposition: true,
                                 onChange: function (dataValue) {
-                                    _self.depotid = dataValue.DepotID;
+                                    _self.depotid = dataValue.value;
                                 }
                             });
                         });
                     }
                 }
                 Easydialog.toPosition();
-                _self.bindDetail(CacheProduct[pid], did);
-                _self.bindDetailEvent(CacheProduct[pid], pid, did)
+                _self.bindDetail(CacheProduct[did], did);
+                _self.bindDetailEvent(CacheProduct[did], pid, did)
             });
         }
     }
@@ -493,6 +494,7 @@
                     unitid: $("#unit li.hover").data("id"),
                     isBigUnit: $("#unit li.hover").data("value"),
                     ordertype: _self.type,
+                    depotid: _self.depotid ? _self.depotid : "",
                     guid: _self.guid,
                     remark: remark
                 }, function (data) {

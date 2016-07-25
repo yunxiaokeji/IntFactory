@@ -56,6 +56,10 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult AddShoppingCart(EnumDocType ordertype, string productid, string detailsid, decimal quantity, string unitid, string depotid, string remark = "", string guid = "")
         {
+            if (string.IsNullOrEmpty(guid))
+            {
+                guid = CurrentUser.UserID;
+            }
             var bl = ShoppingCartBusiness.AddShoppingCart(ordertype, productid, detailsid, quantity, unitid, depotid, remark, guid, CurrentUser.UserID, OperateIP);
             JsonDictionary.Add("Status", bl);
             return new JsonResult

@@ -29,7 +29,7 @@
          <a href="/Products/ProductDetail/@(model.ProductID)" class="btn right">编辑材料</a>
     }
 </div>
-<div class="content-body mTop20">
+<div class="content-body mTop20" style="padding:15px;">
     <div class="top-div">
         <div class="image left">
             <img id="productimg" src="@(model.ProductImage)" />
@@ -51,7 +51,7 @@
                             @(model.SaleAttrs.Count == 1?attr.AttrName+"：":"规格：")                      
                          </li> 
                         <li class="attrValues">
-                            <ul>
+                            <ul class="sales-item">
                                 @foreach (var detail in model.ProductDetails)
                                 {
                                     if (model.ProductDetails.Count > 1 && detail.IsDefault==1 && (detail.LogicOut == 0 && detail.StockOut == 0 && detail.StockIn == 0))
@@ -94,14 +94,18 @@
                     {
                         <div class="mRight5">
                             <ul class="quickly-add-stock">
-                                <li class="mBottom10 hide purchase">
-                                    <span class="btn" id="addPurchase">加入采购</span>
+                                <li class="mBottom10 purchase">
+                                    <input type="text" class="width50 stock-count" value="0" />
+                                    <span class="btn mLeft10" id="addPurchase" data-type="1">加入采购</span>
                                 </li>
-                                <li class="mBottom10 hide overflow">
-                                    <span class="btn999" id="addOverflow">加入报溢</span>
+                                <li class="mBottom10 overflow">
+                                    <input type="text" class="width50 stock-count" value="0" />
+                                    <span class="btn999 mLeft10" id="addOverflow" data-type="4">加入报溢</span>
                                 </li>
                                 <li class="mBottom10 hide damaged">
-                                    <span class="btnccc" id="addDamaged">加入报损</span>
+                                    <span class="damaged-dropdown left mRight10"></span>
+                                    <input type="text" class="width50 stock-count" value="0" />
+                                    <span class="btnccc mLeft10" id="addDamaged" data-type="3">加入报损</span>
                                 </li>
                             </ul>
                             <span id="sortAddStockDepot"></span>

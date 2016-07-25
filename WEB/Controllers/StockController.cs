@@ -254,9 +254,11 @@ namespace YXERP.Controllers
                 DepotSeat depot = SystemBusiness.BaseBusiness.GetDepotByID(item.DepotID, item.WareID, CurrentUser.ClientID);
                 items.Add(depot);
             }
-            return new JsonResult 
-            { 
-            
+            JsonDictionary.Add("depots", items);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
 

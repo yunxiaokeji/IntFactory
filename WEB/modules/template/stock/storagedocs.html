@@ -21,13 +21,15 @@ if(i>0)
         </div>
     </td>
 </tr>
-     {%
-	        for(var ii=0, jj=item.Details.length; ii < jj; ii++){
-	        var detail = item.Details[ii];
-        %}
+{%
+	for(var ii=0, jj=item.Details.length; ii < jj; ii++){
+	var detail = item.Details[ii];
+%}
 <tr class="item">
     <td class=" bBottom bLeft tLeft">
-         {%=detail.ProductName+"&nbsp;&nbsp;"%}<span class="color999">{%=detail.Remark%}</span>
+        <a href="/Products/ChooseDetail?pid={%=detail.ProductID%}&did={%=detail.ProductDetailID%}" target="_blank">
+            {%=detail.ProductName+"&nbsp;&nbsp;"%}<span class="color999">{%=detail.Remark%}</span>
+        </a>
     </td>
     <td class=" bBottom">
             {%=detail.DetailsCode?detail.DetailsCode: detail.ProductCode%}
