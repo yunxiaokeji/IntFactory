@@ -869,6 +869,7 @@
                         image_view: "?imageView2/1/w/120/h/80",
                         maxQuantity: 10,
                         maxSize: 5,
+                        draggable:true,
                         successItems: '.order-imgs-box li:not(:last-child)',
                         fileType: 1,
                         dragdrop: false,

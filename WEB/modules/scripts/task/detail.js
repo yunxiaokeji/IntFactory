@@ -1050,9 +1050,13 @@
                                 var markvalue = $td.find(".tbContentIpt").val();
                                 var variation = _self.parent().find(".normal-plate-ipt").val();
                                 if (markvalue != "" && variation != "") {
-                                    var value = (markvalue*1) + ((variation * (sort - marksort))*1);
+                                    var value = (markvalue * 1) + ((variation * (sort - marksort)) * 1);
+                                    if (!(value + "").isInt()) {
+                                        value = value.toFixed(2);
+                                    }
                                     _self.find(".tbContentIpt").val(value);
                                 }
+
                             }
                         });
 
@@ -1152,27 +1156,25 @@
     //设置标码
     ObjectJS.bindSetMarkValue = function () {
         $(".normal-plate .tbContentIpt").unbind().bind("blur", function () {
-            if ($(this).val() == '') {
-                return;
-            }
-            var variation = $(this).val();
-            if (!variation.isDouble()) {
-                $(this).val('');
-                return;
-            }
-
             var markvalue = $(this).val();
-            var marksort = $(".td-normal-plate").data("sort");
+            if (markvalue== '' || !markvalue.isDouble()) {
+                return;
+            }
+            
             var variation =$(this).parent().parent().find(".normal-plate-ipt").val();
             if (variation=='' || !variation.isDouble()) {
                 return;
             }
+
+            var marksort = $(".td-normal-plate").data("sort");
             var $tbContentIpts = $(this).parent().parent().find(".tbContentIpt");
             var $columnHeadrs = $(".tr-header .columnHeadr");
             for (var i = 0; i < $columnHeadrs.length; i++) {
                 var sort = $columnHeadrs.eq(i).data("sort");
-                var value = (markvalue*1) + ((variation * (sort - marksort))*1);
-
+                var value = (markvalue * 1) + ((variation * (sort - marksort)) * 1);
+                if (!(value + "").isInt()) {
+                    value = value.toFixed(2);
+                }
                 $tbContentIpts.eq(i + 1).val(value);
             }
         });
@@ -1180,35 +1182,30 @@
 
     //设置档差
     ObjectJS.bindSetVariation = function () {
-        $(".normal-plate-ipt").unbind().bind('focus', function () {
-            //var value = $(this).parent().parent().find(".normal-plate .tbContentIpt").val();
-            //if (value == "") {
-            //    alert("标准值没有设置");
-            //}
-        }).bind("blur", function () {
-            if ($(this).val() == '') {
-                return;
-            }
-            var $td = $(this).parent().parent().find(".normal-plate");
-            var markvalue = $td.find(".tbContentIpt").val();
-            var marksort = $(".td-normal-plate").data("sort");
+        $(".normal-plate-ipt").unbind().bind("blur", function () {
             var variation = $(this).val();
-            if (!variation.isDouble()) {
-                $(this).val('');
-                return;
-            }
-            if (markvalue == "") {
-                alert("没有标准值");
+            if (variation == '' || !variation.isDouble()) {
                 $(this).val('');
                 return;
             }
 
+            var $td = $(this).parent().parent().find(".normal-plate");
+            var markvalue = $td.find(".tbContentIpt").val();
+            if (markvalue == "" || !markvalue.isDouble() ) {
+                alert("标码值有误");
+                $(this).val('');
+                return;
+            }
+
+            var marksort = $(".td-normal-plate").data("sort");
             var $tbContentIpts = $td.parent().find(".tbContentIpt");
             var $columnHeadrs=$(".tr-header .columnHeadr");
             for (var i = 0; i < $columnHeadrs.length; i++) {
                 var sort = $columnHeadrs.eq(i).data("sort");
                 var value = (markvalue*1) + ((variation * (sort - marksort))*1);
-
+                if (!(value + "").isInt()) {
+                    value = value.toFixed(2);
+                }
                 $tbContentIpts.eq(i + 1).val(value);
             }
 

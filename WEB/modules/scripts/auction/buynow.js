@@ -171,7 +171,7 @@
         if (_self.actionType == 1 || _self.actionType == 3) {
             userYear = $("#UserYear").val();
         }
-
+        
         Global.post("/Auction/GetBestWay",
             {
                 quantity: userCount,
