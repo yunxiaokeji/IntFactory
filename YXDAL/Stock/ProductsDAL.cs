@@ -553,10 +553,9 @@ namespace IntFactoryDAL
 
         public string AddProduct(string productCode, string productName, string generalName, bool iscombineproduct, string prodiverid, string brandid, string bigunitid, string smallunitid, int bigSmallMultiple,
                          string categoryid, int status, int ispublic, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price,
-                         decimal weight, bool isnew, bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid)
+                         decimal weight, bool isnew, bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid,ref int result)
         {
             string id = "";
-            int result = 0;
             SqlParameter[] paras = { 
                                        new SqlParameter("@ProductID",SqlDbType.NVarChar,64),
                                        new SqlParameter("@Result",SqlDbType.Int),

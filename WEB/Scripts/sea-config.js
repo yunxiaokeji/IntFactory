@@ -83,8 +83,8 @@ seajs.config({
         "qqface": "plug/qqface/qqface.js",
         //显示提示插件
         "tip": "plug/tip/tip.js",
-        //选择菜单插件
-        "menu": "plug/change_menu/change_menu.js"
+        //选择材料分类插件
+        "menu": "plug/choosemenu/choosemenu.js"
     }
 });
 
