@@ -235,8 +235,6 @@ border-bottom:2px solid #4a98e7;
 .order-item .order-info div{ height:35px; line-height:35px; color:#333; }
 .order-item .order-info .column-title { display:inline-block; height:35px; line-height:35px; width:80px; color:#666; }
 
-.order-item .order-time { width:200px; margin:0 10px; padding-left:55px; border-left:solid 1px #ddd; }
-
 .order-item .order-customer { width: 270px; padding-left:10px; border-left:solid 1px #ddd;}
 .order-item .order-customer div{ height:45px; line-height:45px; color:#333; }
 .order-item .order-customer a,.order-item .order-customer span{ display:inline-block; height:45px; line-height:45px; float:left;}
@@ -244,6 +242,8 @@ border-bottom:2px solid #4a98e7;
 
 .colordiv { padding: 0px 5px; cursor: pointer; }
 .color-leftzuoyou { width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; cursor: pointer; }
+
+.order-item .order-time { width:200px; margin:0 10px; padding-left:55px; border-left:solid 1px #ddd; }
 
 .order-progress {
     margin-top: 15px;

@@ -91,6 +91,7 @@
             }
         });
 
+        /*标签过滤*/
         $("#filterMark").markColor({
             isAll: true,
             top: 30,
