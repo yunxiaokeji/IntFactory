@@ -20,20 +20,20 @@
     <span class="header-title left">添加材料</span>
     @if (Convert.ToInt32(ViewBag.Type) == 11)
     { 
-        <a class="back right" href="/Orders/ChooseMaterial?id=@(ViewBag.GUID)&tid=@(ViewBag.TID)">
-           <i class="iconfont">&#xe62d;</i> 返回 
+        <a class="back btn-back right" href="/Orders/ChooseMaterial?id=@(ViewBag.GUID)&tid=@(ViewBag.TID)">
+           返回 
         </a>
     }
     else if (Convert.ToInt32(ViewBag.Type) == 1)
     { 
-        <a class="back right" href="/Products/ChooseProducts?id=@(ViewBag.GUID)">
-           <i class="iconfont">&#xe62d;</i> 返回 
+        <a class="back btn-back right" href="/Products/ChooseProducts?id=@(ViewBag.GUID)">
+           返回 
         </a>
     }
     else
     {
-        <a class="back right" href="/Products/ProductList">
-           <i class="iconfont">&#xe62d;</i> 返回 
+        <a class="back btn-back right" href="/Products/ProductList">
+           返回 
         </a>
     }
     
@@ -118,6 +118,7 @@
     <img class="product-img" id="productImg" alt="" src="/modules/images/default.png" />
 
     <div class="mTop20">
-        <div  class="btn mLeft20" id="btnSaveProduct">保存</div>
+        <div  class="btn mLeft20 btn-save-product" id="btnSaveProduct" data-id="1">保存</div>
+        <div class="btnccc mLeft20 btn-save-product" data-id="2">保存并继续</div>
     </div>
 </div>

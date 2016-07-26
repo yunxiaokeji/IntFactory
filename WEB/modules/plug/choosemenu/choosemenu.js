@@ -1,5 +1,5 @@
 ﻿define(function (require, exports, module) {
-    require("plug/change_menu/change_menu.css");
+    require("plug/choosemenu/choosemenu.css");
     (function () {
         var menuData = [];
         var cacheData = [];
@@ -7,10 +7,10 @@
         var _eleHeader;
         var _menuContent;
 
-        $.fn.changeMenu = function (option) {
+        $.fn.chooseMenu = function (option) {
             return this.each(function () {
                 var _this = $(this);
-                options = $.extend({}, $.fn.changeMenu.default, option);
+                options = $.extend({}, $.fn.chooseMenu.default, option);
                 for (var i = 1; i <= options.layer; i++) {
                     var data = {
                         layer:  i,
@@ -19,11 +19,11 @@
                     }
                     menuData.push(data);
                 }
-                $.fn.changeMenu.bindMenu(_this);
+                $.fn.chooseMenu.bindMenu(_this);
             });
         };
 
-        $.fn.changeMenu.default = {
+        $.fn.chooseMenu.default = {
             width: 400,
             data: "",
             layer: 3,
@@ -38,7 +38,7 @@
             }
         };
 
-        $.fn.changeMenu.bindMenu = function (obj) {
+        $.fn.chooseMenu.bindMenu = function (obj) {
             //绑定样式
             obj.css({
                 "background": "url('/modules/images/ico-dropdown.png') no-repeat right 5px center"

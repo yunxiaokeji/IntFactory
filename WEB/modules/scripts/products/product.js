@@ -57,7 +57,7 @@
         });
 
         //绑定设置类别控件
-        $("#productMenuChange").changeMenu({
+        $("#productMenuChange").chooseMenu({
             onHeaderChange: function (items) {
 
             },
@@ -291,12 +291,16 @@
             }
         });
 
-        $("#btnSaveProduct").on("click", function () {
+        $(".btn-save-product").on("click", function () {
             if (!VerifyObject.isPass()) {
                 return;
             }
-            if (!_self.categoryID) {
-                confirm("选择材料类别有误,确定要继续?", function () {
+            _self.saveType = $(this).data('id');
+            if (!_self.categoryID && $("#productMenuChange").val()) {
+                alert("材料类别选择有误，请重新选择");
+            }
+            else if (!_self.categoryID) {
+                confirm("材料类别为空，确定要继续?", function () {
                     Product.savaProduct();
                 });
             } else {
@@ -490,27 +494,31 @@
         }, function (data) {
             if (data.result == 1) {
                 if (data.ID.length > 0) {
+                    console.log(_self.type);
                     if (_self.type == "11") {
-                        confirm("材料添加成功，是否返回选择材料页面？", function () {
+                        if (_self.saveType == 1) {
                             location.href = "/Orders/ChooseMaterial?id=" + _self.guid + "&tid=" + _self.tid;
-                        }, function () {
-                            location.href = "/Products/ProductDetail/" + data.ID;
-                        });
+                        } else {
+                            location.href = "/Products/ProductAdd";
+                        }
                     } else if (_self.type == "1") {
-                        confirm("材料添加成功，是否返回选择材料页面？", function () {
+                        if (_self.saveType == 1) {
                             location.href = "/Products/ChooseProducts?id=" + _self.guid;
-                        }, function () {
-                            location.href = "/Products/ProductDetail/" + data.ID;
-                        });
+                        } else {
+                            location.href = "/Products/ProductAdd";
+                        }
                     } else {
-                        location.href = "/Products/ProductDetail/" + data.ID;
+                        if (_self.saveType == 1) {
+                            location.href = "/Products/ProductDetail/" + data.ID;
+                        } else {
+                            location.href = "/Products/ProductAdd";
+                        }
                     }
-
                 }
             } else if (data.result == 2) {
-                alert("材料编码已存在,修改失败");
+                alert("材料编码已存在");
             } else {
-                alert("网络异常,修改失败");
+                alert("保存失败,请稍后再试");
             }
         });
     }
@@ -843,7 +851,7 @@
         });
 
         //绑定选择类别插件
-        $("#productMenuChange").changeMenu({
+        $("#productMenuChange").chooseMenu({
             onCategroyChange: function (items) {
                 $(".productsalesattr").remove();
                 $(".product-attr").remove();
