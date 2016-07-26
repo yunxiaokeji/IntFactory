@@ -29,7 +29,6 @@
                 负责人：{%=(item.Owner ? item.Owner.Name:"--")%}
             </li>
         </ul>
-        <div class="clear"></div>
         <ul class="order-detail">
             <li class="order-image">
                 <a href="/Task/Detail/{%=item.TaskID%}" >
@@ -61,7 +60,7 @@
                             <div class="center pTop20 red">
                                 未接受
                             </div>                       
-                            <div class="center mTop20">结束日期：{%=item.EndTime.toDate("yyyy-MM-dd")== "0001-01-01"||item.EndTime.toDate("yyyy-MM-dd")=="1900-01-01"||item.EndTime.toDate("yyyy-MM-dd")>="2040-01-01"?"未设置":item.EndTime.toDate("yyyy-MM-dd")%}</div>
+                            <div class="center mTop20">结束日期：未设置</div>
                             <div class="clear"></div>
                         </div>
                     </div>    
@@ -135,7 +134,7 @@
                     </div>
                     <div>
                         <span class="column-title">结束日期：</span>
-                        {%=item.PEndTime.toDate("yyyy-MM-dd")== "0001-01-01"||item.PEndTime.toDate("yyyy-MM-dd")=="1900-01-01"||item.PEndTime.toDate("yyyy-MM-dd")>="2040-01-01"?"未设置":item.PEndTime.toDate("yyyy-MM-dd")%}
+                        {%=item.PEndTime.toDate("yyyy-MM-dd")<="1900-01-01"||item.PEndTime.toDate("yyyy-MM-dd")>="2040-01-01"?"未设置":item.PEndTime.toDate("yyyy-MM-dd")%}
                     </div>   
                  {% }else{%}
                     <div style="color:red">
@@ -149,6 +148,5 @@
                 {% }%}  
             </li>   
         </ul>
-        <div class="clear"></div>
     </div>
 {%}%}

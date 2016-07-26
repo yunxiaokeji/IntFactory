@@ -19,6 +19,11 @@
     border-radius:2px;  
 }
 
+.index-report-header .order-type span:hover {
+    background-color:#fff;
+    color:#4a98e7;
+}
+
 .index-report-header .order-type span.hover {
     height:36px;     
     background-color:#fff;
@@ -26,6 +31,7 @@
     border-bottom-left-radius:0; 
     border-bottom-right-radius:0;
 }
+
 .disable { color: #bdbdbd; border: 1px solid #bdbdbd; }
 .usable { color: #4a98e7; border: 1px solid #4a98e7; }
 .select-time { line-height: 18px; padding-bottom: 3px; cursor: pointer; }
@@ -136,8 +142,7 @@ border-bottom:2px solid #4a98e7;
 .token-count { 
     height:30px;
     width:1148px;
-    margin:5px auto;
-    margin-bottom:-20px; 
+    margin:5px auto; 
 }
 .token-count .token-mark{
     height:25px;
@@ -208,17 +213,17 @@ border-bottom:2px solid #4a98e7;
     border-radius:50%;
 }
 
-.order-item { overflow:auto; border:1px solid #ddd; margin-bottom:20px; }
-.order-item span{ color:#333; }
+.order-item { overflow:auto; border-top:1px solid #ddd; border-bottom:1px solid #ddd;  margin-bottom:20px; }
+.order-item span{ color:#333; display:inline-block; }
 .order-item .iconfont { color: #8b8b8b; }
 
-.order-item .order-header { float:left; width:1148px; height:25px; background-color:#f6f6f6; padding:5px 0; }
-.order-item .order-header li{ float:left; line-height:25px; margin:0 10px; font-weight:bold; color:#333; font-size:13px;}
+.order-item .order-header { height:25px; background-color:#f6f6f6; padding:5px 0; }
+.order-item .order-header li{ display:inline-block; line-height:25px; margin:0 10px; font-weight:bold; color:#333; font-size:13px;}
 
 .order-item .order-header a ,.order-item .order-header span { font-weight:bold; display:inline-block; line-height:25px; color:#333; font-size:13px;}
 .order-item .order-header a:hover { color:#4a98e7; }
 
-.order-item .order-detail {float:left; width:1148px; height:140px; }
+.order-item .order-detail { height:140px; }
 .order-item .order-detail li{ float:left; height:140px; }
 
 .order-item .order-detail .order-image { width:120px; height:120px; padding:10px; }
@@ -226,7 +231,7 @@ border-bottom:2px solid #4a98e7;
                              vertical-align:middle; text-align:center; display:table-cell; border-spacing:0; }
 .order-item .order-image img{ max-width:120px; max-height:120px; }
 
-.order-item .order-info { width:200px; margin-left:20px; }
+.order-item .order-info { width:400px; margin-left:20px; }
 .order-item .order-info div{ height:35px; line-height:35px; color:#333; }
 .order-item .order-info .column-title { display:inline-block; height:35px; line-height:35px; width:80px; color:#666; }
 
