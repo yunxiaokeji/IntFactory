@@ -28,7 +28,7 @@ namespace YXERP.Controllers
             ViewBag.Title = "我的客户";
             ViewBag.Type = (int)EnumSearchType.Myself;
             ViewBag.FirstNames=new char[]{'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
-            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 1).ToList();
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Customer).ToList();
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
         }
@@ -38,7 +38,7 @@ namespace YXERP.Controllers
             ViewBag.Title = "下属客户";
             ViewBag.Type = (int)EnumSearchType.Branch;
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
-            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID).ToList();
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Customer).ToList();
             return View("Customers");
         }
 
@@ -47,7 +47,7 @@ namespace YXERP.Controllers
             ViewBag.Title = "所有客户";
             ViewBag.Type = (int)EnumSearchType.All;
             ViewBag.FirstNames = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 1).ToList();
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Customer).ToList();
             //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
         }

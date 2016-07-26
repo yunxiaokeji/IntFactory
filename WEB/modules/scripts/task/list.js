@@ -407,7 +407,7 @@
                 callback && callback(false);
             }
             else {
-                callback && callback(data.result);
+                callback && callback(data.status);
             }
             ObjectJS.isLoading = true;
         });

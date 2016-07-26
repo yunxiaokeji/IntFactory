@@ -34,7 +34,7 @@
 
     var ObjectJS = {};
     //初始化
-    ObjectJS.init = function (type, status,model) {
+    ObjectJS.init = function (type, status, model) {
         var _self = this;
         _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));        
         Params.SearchType = type;

@@ -151,10 +151,7 @@ namespace YXERP.Controllers
         }
 
         #region view
-        /// <summary>
-        /// 任务详情
-        /// </summary>
-        /// <param name="id"></param>
+
         public ActionResult Detail(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -235,10 +232,6 @@ namespace YXERP.Controllers
             return View();
         }
 
-
-        /// <summary>
-        /// 我的任务 
-        /// </summary>
         public ActionResult MyTask(string id)
         {
             string nowDate = string.Empty;
@@ -251,27 +244,21 @@ namespace YXERP.Controllers
 
             ViewBag.NowDate = nowDate;
             ViewBag.IsMy = 1;
-            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 3).ToList();
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
             return View();
         }
-        /// <summary>
-        /// 参与任务
-        /// </summary>
+
         public ActionResult Participate()
         {
             ViewBag.IsMy = 2;
-            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 3).ToList();
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
             return View("MyTask");
         }
 
-        /// <summary>
-        /// 所有任务
-        /// </summary>
         public ActionResult Tasks()
         {
-
             ViewBag.IsMy = 0;
-            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, 3).ToList();
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
             return View("MyTask");
         }
 
@@ -279,7 +266,6 @@ namespace YXERP.Controllers
         {
             var order = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
             ViewBag.Order = order;
-
             return View();
         }
         #endregion
@@ -476,7 +462,7 @@ namespace YXERP.Controllers
                 }
             }
 
-            JsonDictionary.Add("result", bl);
+            JsonDictionary.Add("status", bl);
             return new JsonResult
             {
                 Data = JsonDictionary,

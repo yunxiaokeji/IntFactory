@@ -56,7 +56,8 @@ namespace YXERP.Controllers
                         taskLevel = 2;
                     } 
                 }
-
+                ViewBag.OrderMarks = SystemBusiness.BaseBusiness.GetLableColor(currentUser.ClientID, EnumMarkType.Orders);
+                ViewBag.TaskMarks = SystemBusiness.BaseBusiness.GetLableColor(currentUser.ClientID, EnumMarkType.Tasks);
                 ViewBag.UserID = currentUser.UserID;
                 ViewBag.orderLevel = orderLevel;
                 ViewBag.taskLevel = taskLevel;
@@ -758,11 +759,6 @@ namespace YXERP.Controllers
             return result;
         }
 
-        /// <summary>
-        /// 账号是否存在
-        /// </summary>
-        /// <param name="loginName"></param>
-        /// <returns></returns>
         public JsonResult IsExistLoginName(string loginName)
         {
             bool bl = OrganizationBusiness.IsExistLoginName(loginName);
@@ -776,14 +772,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 主动注册客户端
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="companyName"></param>
-        /// <param name="loginName"></param>
-        /// <param name="loginPWD"></param>
-        /// <returns></returns>
         public JsonResult RegisterClient(string name, string companyName, string loginName, string loginPWD,string code)
         {
             int result = 0;
@@ -875,12 +863,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 重置用户密码
-        /// </summary>
-        /// <param name="loginName"></param>
-        /// <param name="loginPwd"></param>
-        /// <returns></returns>
         public JsonResult UpdateUserPwd(string loginName, string loginPwd, string code)
         {
             int result = 0;
