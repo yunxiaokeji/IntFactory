@@ -303,13 +303,14 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .ico-change:hover{ background:url(/modules/images/ico-changehover.png) no-repeat; color:#4a98e7; }
 
 /*编辑*/
-.ico-edit{ display:inline-block; cursor:pointer;  color:#4a98e7; }
+.ico-edit:before{ content:"\e607"}
+.ico-edit{ display:inline-block; cursor:pointer;  color:#4a98e7; vertical-align:middle; }
 .ico-edit:hover{ color:#2F73B8; }
 
 /*删除-垃圾箱*/
-.ico-del{ background:url(/modules/images/ico-del-light.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
-          display:inline-block; cursor:pointer; color:#666; }
-.ico-del:hover{ background:url(/modules/images/ico-del-deep.png) no-repeat;}
+.ico-del:before { content:"\e651"}
+.ico-del { display:inline-block; color:#4a98e7; cursor:pointer; vertical-align:middle; }
+.ico-del.hover { color:#2F73B8; }
 
 /*关闭*/
 .ico-close{ background:url(/modules/images/ico-close.png) no-repeat; height:24px; min-width:24px; line-height:24px; 

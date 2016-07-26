@@ -566,14 +566,6 @@
                     _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
                 });
                 innerText.find('.layer-line').css({ width: 0, left: "160px" });
-                innerText.find(".customermark").Tip({
-                    width: 60,
-                    msg: "联系人"
-                });                
-                innerText.find(".orderquantity").Tip({
-                    width: 60,
-                    msg: "下单数量"
-                });
             });
         }
 

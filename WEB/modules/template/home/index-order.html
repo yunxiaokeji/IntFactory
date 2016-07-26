@@ -29,7 +29,6 @@
                 负责人：{%=(item.Owner ? item.Owner.Name:"--")%}
             </li>
         </ul>
-        <div class="clear"></div>
         <ul class="order-detail">
             <li class="order-image">
                 <a href="/Orders/OrderDetail/{%=item.OrderID%}" >
@@ -39,25 +38,37 @@
             <li class="order-info">
                 <div>
                     {% if(item.OrderStatus==0){ %}
-                        <span class="column-title">期望报价：</span>{%= item.PlanPrice.toFixed(2)%}
+                        <span class="column-title">期望报价：</span>
+                        {%= item.PlanPrice.toFixed(2)%}
                     {% } else if(item.OrderType==1 && item.OrderStatus ==1) { %}
-                        <span class="column-title">成本价：</span>{%= (item.Price+item.CostPrice).toFixed(2)%}
+                        <span class="column-title">成本价：</span>
+                        {%= (item.Price+item.CostPrice).toFixed(2)%}
                     {% } else if(item.OrderType==1 && item.OrderStatus ==2) { %}
-                        <span class="column-title">最终报价：</span>{%= item.FinalPrice.toFixed(2)%}
+                        <span class="column-title">最终报价：</span>
+                        {%= item.FinalPrice.toFixed(2)%}
                     {% } else if(item.OrderType==2 ) { %}
-                        <span class="column-title">单价：</span>{%= item.FinalPrice.toFixed(2) %}
+                        <span class="column-title">单价：</span>
+                        {%= item.FinalPrice.toFixed(2) %}
                     {% } else { %}
-                        <span class="column-title">单价：</span>{%= item.FinalPrice.toFixed(2) %}
+                        <span class="column-title">单价：</span>
+                        {%= item.FinalPrice.toFixed(2) %}
                     {% } %}
                 </div>
                 <div>
-                    <span class="column-title">订单类型：</span>{%=item.OrderType==1?"打样":"大货"%}
+                    <span class="column-title">订单类型：</span>
+                    {%if(item.OrderType==2){%}
+                        大货&nbsp;（下单量：{%=item.PlanQuantity%}）
+                    {% }else{ %}
+                        打样
+                    {% } %}
                 </div>
                 <div>
-                    <span class="column-title">状态：</span><span class="{%=item.Status==0?'red':''%}">{%=item.StatusStr%}</span>
+                    <span class="column-title">状态：</span>
+                    <span class="{%=item.Status==0?'red':''%}">{%=item.StatusStr%}</span>
                 </div>
                 <div>
-                    <span class="column-title">进度：</span><span style="color:#49b3f5;">{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</span>
+                    <span class="column-title">进度：</span>
+                    <span style="color:#49b3f5;">{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</span>
                 </div>
             </li>  
             <li class="order-time right">
@@ -67,7 +78,7 @@
                             <div class="center pTop20 red">
                                 未处理
                             </div>                       
-                            <div class="center mTop20">交货日期：{%=item.PlanTime.toDate("yyyy-MM-dd")== "0001-01-01"||item.PlanTime.toDate("yyyy-MM-dd")=="1900-01-01"||item.PlanTime.toDate("yyyy-MM-dd")=="2040-01-01"?"未设置":item.PlanTime.toDate("yyyy-MM-dd")%}</div>
+                            <div class="center mTop20">交货日期：{%=item.PlanTime.toDate("yyyy-MM-dd")<="1900-01-01"||item.PlanTime.toDate("yyyy-MM-dd")=="2040-01-01"?"未设置":item.PlanTime.toDate("yyyy-MM-dd")%}</div>
                             <div class="clear"></div>
                         </div>
                     </div>    
@@ -112,6 +123,5 @@
                 </div>     
             </li>   
         </ul>
-        <div class="clear"></div>
     </div>
 {%}%}

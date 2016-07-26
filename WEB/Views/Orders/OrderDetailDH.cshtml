@@ -27,7 +27,7 @@
         <div class="left titlename">订单编号：@(model.OrderCode)</div>
         @if (model.IsSelf && model.OrderStatus < 2)
         {
-             <div id="updateOrderInfo" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019026"))">&#xe607;</div>
+             <div id="updateOrderInfo" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019026"))"></div>
         }
 
         @if (model.IsSelf)
@@ -163,7 +163,7 @@
                 <label class="left">@(model.FinalPrice.ToString("f2"))</label>
                 @if (model.IsSelf && model.Status ==4)
                 { 
-                    <div id="updateOrderDiscount" title="编辑订单折扣" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019023"))">&#xe607;</div>
+                    <div id="updateOrderDiscount" title="编辑订单折扣" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019023"))"></div>
                 }
             </li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016"))">
@@ -175,7 +175,7 @@
                 <label id="totalMoney" class="left">@(model.TotalMoney.ToString("f2"))</label>
                 @if (model.IsSelf && model.Status < 7 && model.Status >4)
                 { 
-                    <div id="updateOrderTotalMoney" title="编辑订单总金额" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019023"))">&#xe607;</div>
+                    <div id="updateOrderTotalMoney" title="编辑订单总金额" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019023"))"></div>
                 }
             </li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">
