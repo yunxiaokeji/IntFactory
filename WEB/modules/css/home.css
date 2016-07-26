@@ -183,9 +183,10 @@ border-bottom:2px solid #4a98e7;
 /*首页列表样式*/
 .index-list { width: 1150px; margin: 5px auto; }
 .index-list .list-header {
+    background-color:#fff;
     color:#666;
-    height:25px;
-    line-height:25px;
+    height:40px;
+    line-height:40px;
 }
 .index-list .list-total {
     display:inline-block;
@@ -198,9 +199,7 @@ border-bottom:2px solid #4a98e7;
 }
 
 .order-list {
-    box-shadow:0 0 5px #ddd;
-    background-color:#fff;
-    padding:10px 0 20px 0;
+    padding:0 0 20px 0;
 }
 .order-list .order-layerbox { position: relative; }
 .order-list .order-layerbox .layer-lump { 
@@ -213,11 +212,11 @@ border-bottom:2px solid #4a98e7;
     border-radius:50%;
 }
 
-.order-item { overflow:auto; border-top:1px solid #ddd; border-bottom:1px solid #ddd;  margin-bottom:20px; }
+.order-item { overflow:auto; border-top:1px solid #ddd; border-bottom:1px solid #ddd;  margin-bottom:20px; background-color:#fff; box-shadow:0 5px 3px #ddd; }
 .order-item span{ color:#333; display:inline-block; }
 .order-item .iconfont { color: #8b8b8b; }
 
-.order-item .order-header { height:25px; background-color:#f6f6f6; padding:5px 0; }
+.order-item .order-header { height:25px; background-color:#f3f3f3; padding:5px 0; }
 .order-item .order-header li{ display:inline-block; line-height:25px; margin:0 10px; font-weight:bold; color:#333; font-size:13px;}
 
 .order-item .order-header a ,.order-item .order-header span { font-weight:bold; display:inline-block; line-height:25px; color:#333; font-size:13px;}
@@ -346,6 +345,7 @@ border-bottom:2px solid #4a98e7;
 .order-progress-complete .top-lump { border-top-color: #2F73B8; }
 .order-progress-complete .progress-tip { background-color: #2F73B8; }
 
+.load-box { background-color:#fff; height:40px; line-height:40px; }
 .load-more:hover { color:#4a98e7; }
 
 /*授权到期页面*/

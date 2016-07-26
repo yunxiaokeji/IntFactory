@@ -380,65 +380,6 @@
     border-bottom:1px solid #ddd;  
 }
 
-/*标记筛选*/
-.search-item-color { 
-    clear:both; 
-    overflow:auto; 
-    margin:10px 0; 
-}
-.search-item-color li{ 
-    float:left; 
-    margin-right:20px; 
-    cursor:pointer;
-}
-.search-item-color .column-name{ 
-    width:60px; 
-    padding:2px 5px; 
-    color:#999; 
-    font-size:12px; 
-}
-.search-item-color .item{ 
-    width:12px; 
-    height:12px;  
-    border-radius:7px; 
-    margin-top:5px;
-}
-.search-item-color .item.hover{ 
-    width:20px; 
-    height:20px;
-    border-radius:11px; 
-    margin-top:2px;
-}
-.search-item-color .mark-all {
-     background:url('/modules/plug/mark/ico-ball.png') no-repeat; 
-     background-size:cover; 
-     border:solid 1px #fff;
-}
-.search-item-color .mark0 { 
-    background-color:#FFF; 
-    border:solid 1px #ccc; 
-}
-.search-item-color .mark1 { 
-    background-color:#FF7C7C; 
-    border:solid 1px #FF7C7C; 
-}
-.search-item-color .mark2 { 
-    background-color:#3BB3FF; 
-    border:solid 1px #3BB3FF; 
-}
-.search-item-color .mark3 { 
-    background-color:#9F74FF; 
-    border:solid 1px #9F74FF; 
-}
-.search-item-color .mark4 { 
-    background-color:#FFC85D; 
-    border:solid 1px #FFC85D; 
-}
-.search-item-color .mark5 { 
-    background-color:#FFF65F; 
-    border:solid 1px #FFF65F; 
-}
-
 /*title*/
 .content-title ul li { 
     float:left; 
@@ -455,16 +396,12 @@
 .list-item .title-layer { text-overflow: inherit !important;}
 .list-item .list-hint-info { padding:2px 8px;background-color:red;color:#fff;border-radius:5px;height:18px;line-height:18px;margin-right:10px;}
 
-/*切换任务列表(列表、卡片式)显示图标*/
-.search-sort li:last-child .iconfont{font-size:19px;cursor:pointer; color:#aaa;vertical-align:middle;}
-.search-sort li:last-child .iconfont:first-child { border-right:1px solid #ccc; padding-right:10px;}
-.search-sort li:last-child .checked {color:rgb(74, 152, 231);}
 
 /*任务列表样式*/
-.table-items-detail .item { height:140px; }
-.table-items-detail .item td{ border-bottom:solid 1px #ddd; }
-.table-items-detail .item .order-image{ width:120px; }
-.table-items-detail .item .order-image a { width:120px; height:120px;}
+.table-items-detail .taskitem { height:140px; }
+.table-items-detail .taskitem td{ border-bottom:solid 1px #ddd; }
+.table-items-detail .order-image{ width:120px; }
+.table-items-detail .order-image img{ max-width:120px; max-height:120px; vertical-align:middle; }
 
 .table-items-detail .task-info { padding-left:20px; }
 .table-items-detail .task-info div{ height:35px; line-height:35px; color:#333; }
@@ -472,7 +409,7 @@
 
 .table-items-detail .pre-task { width: 270px; padding-left:10px; border-left:solid 1px #ddd;}
 .table-items-detail .pre-task div{ height:45px; line-height:45px; color:#333; }
-.table-items-detail .pre-task a,.order-item .order-customer span{ display:inline-block; height:45px; line-height:45px; float:left;}
+.table-items-detail .pre-task a,.table-items-detail .pre-task span{ display:inline-block; height:45px; line-height:45px; float:left;}
 .table-items-detail .pre-task .column-title {  width:60px; margin-left:5px;}
 
 .table-items-detail .order-time { width:160px; padding:0 50px; border-left:solid 1px #ddd; }
@@ -513,45 +450,6 @@
 
 .order-progress-complete .top-lump { border-top-color: #2F73B8; }
 .order-progress-complete .progress-tip { background-color: #2F73B8; }
-
-/*任务卡片样式*/
-.task-item { width:250px;border:1px solid #efefef;cursor:pointer;float:left;margin-top:20px;margin-right:15px;box-sizing:
-                 border-box;background-color:#f9f9f9;overflow:hidden;background-color:#fff;}
-.task-item:hover { border-color:#3F9BE8;}
-.task-item .task-imgtitlemark img {width:50px;height:50px;}
-.task-top .picbox {position:relative;height:248px; width:248px;}
-.task-item .image-box { text-align: center; display: table-cell; height: 248px; width:248px;vertical-align:middle;text-align:center;}
-
-.task-top .picbox img{ max-width:248px;max-height:248px;}
-
-.list-pic-box {position:relative;}
-.task-top .picbox .hint-layer,.list-pic-box .hint-layer { position:absolute;left:0;top:0;width:50px;height:50px;display:block;overflow:hidden;}
-.task-top .picbox .hint-msg,.list-pic-box .hint-msg {width:80px;height:24px;background:red;color:#fff;line-height:24px;margin-left:-23px;margin-top:5px;text-align:center;transform: rotate(-45deg);-webkit-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-o-transform:rotate(-45deg);}
-
-.task-top .picbox .hint-msg.warning,.list-pic-box .hint-msg.warning { background-color:rgba(255,165,0,0.7); }
-.task-top .picbox .hint-msg.excced,.list-pic-box .hint-msg.excced { background-color:rgba(237,0,0,0.7);}
-
-.task-layer {position:absolute;left:0;bottom:0;width: 248px;background: rgba(119,119,119,0.6);padding:5px 0;}
-.task-imgtitlemark li:first-child {width:210px;}
-.task-imgtitlemark li:last-child span{display:inline-block; width:14px;height:14px;margin-right:10px;}
-.task-item div {color:#999;}
-.task-item div span {color:#999;}
-.task-item .remain-time, .task-item .remain-time span { color:#fff;}
-
-.task-item .task-footer { overflow:hidden;height:40px;padding:5px 10px;background: #f9f9f9;}
-.task-item .task-footer div { float:left;line-height:20px;height:20px;margin-top:10px;}
-.task-item .task-footer div:first-child { margin-top:8px;}
-.task-item .task-footer div:last-child {text-align:right;min-width:80px;}
-.task-footer div:last-child span {display:inline-block;vertical-align:top;height:20px;}
-.task-footer .task-type .iconfont { font-size:20px;}
-.task-item .task-footer .task-status {border-left:5px solid;padding-left:10px;margin-left:30px;}
-
-.task-item .task-owner img { width:20px;height:20px;border-radius:50%;}
-.task-item .task-owner{white-space:nowrap;text-overflow:ellipsis;}
-
-.task-item .task-footer .task-noaccept {border-color:red;color:red;}
-.task-item .task-footer .task-underway { border-color:#1CC362;color:#1CC362;}
-.task-item .task-footer .task-finish { border-color:#3F9BE8;color:#3F9BE8;}
 
 /*成员列表样式*/
 .memberlist .member-title {line-height:30px;height:30px;margin-bottom:5px;padding-bottom:5px;}

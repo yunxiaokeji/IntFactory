@@ -82,7 +82,6 @@
     }
 
     ObjectJS.bindEvent = function () {
-
         var _self = this;
 
         //切换任务阶段
@@ -270,7 +269,6 @@
         ObjectJS.isLoading = false;
 
         $(".table-header").nextAll().remove();
-
         $(".table-header").after("<tr><td colspan='11'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Task/GetTasks", Params, function (data) {
@@ -302,7 +300,7 @@
                 });
             }
             else {
-                $(".table-header").after("<div class='nodata-txt' >暂无数据!<div>");
+                $(".table-header").after("<tr><td colspan='11'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
 
             $("#pager").paginate({

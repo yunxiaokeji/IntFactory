@@ -198,7 +198,7 @@
     <Content Include="DLL\Qiniu.4.0.dll" />
     <Content Include="modules\css\customer.css" />
     <Content Include="modules\css\default\guidestep.css" />
-    <Content Include="modules\css\default\orders.css" />
+    <Content Include="modules\css\orders.css" />
     <Content Include="modules\css\default\order_create.css" />
     <Content Include="modules\css\default\fentorderreport.css" />
     <Content Include="modules\css\error\error.css" />
@@ -516,8 +516,6 @@
     <Content Include="modules\template\auction\product-list.html" />
     <Content Include="modules\template\customer\customers.html" />
     <Content Include="modules\template\home\author-page.html" />
-    <Content Include="modules\template\home\副本 index-order.html" />
-    <Content Include="modules\template\home\副本 index-task.html" />
     <Content Include="modules\template\inquire\inquireorder.html" />
     <Content Include="modules\template\myaccount\feedbacklist.html" />
     <Content Include="modules\template\orders\addpricerange.html" />
@@ -529,7 +527,6 @@
     <Content Include="modules\template\orders\surequantity.html" />
     <Content Include="modules\template\orders\sureprice.html" />
     <Content Include="modules\template\orders\updateProfitPrice.html" />
-    <Content Include="modules\template\orders\entrustorders.html" />
     <Content Include="modules\template\orders\sendordergoods.html" />
     <Content Include="modules\template\orders\edit-orderimages.html" />
     <Content Include="modules\template\orders\senddocs.html" />
@@ -548,6 +545,7 @@
     <Content Include="modules\template\home\index-task.html" />
     <Content Include="modules\template\orders\update_order_totalmoney.html" />
     <Content Include="modules\template\orders\cutoutdoc.html" />
+    <Content Include="modules\template\orders\副本 orders.html" />
     <Content Include="modules\template\organization\staff-detail.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\products\sales-and-attr.html" />
@@ -561,7 +559,6 @@
     <Content Include="modules\template\task\platematring-orderdatail.html" />
     <Content Include="modules\template\task\task-costs.html" />
     <Content Include="modules\template\task\platemarting-add.html" />
-    <Content Include="modules\template\task\task-card.html" />
     <Content Include="modules\template\task\task-file-upload-img.html" />
     <Content Include="modules\template\task\task-file-upload.html" />
     <Content Include="modules\template\task\task-list.html" />
@@ -919,7 +916,6 @@
     <Content Include="modules\template\activity\activity_customers.html" />
     <Content Include="modules\template\common\choosemodules.html" />
     <Content Include="modules\template\customer\replys.html" />
-    <Content Include="modules\template\customer\customers-card.html" />
     <Content Include="modules\template\customer\customer-detail.html" />
     <Content Include="modules\template\common\logs.html" />
     <Content Include="modules\template\customer\contacts.html" />
@@ -1008,7 +1004,6 @@
     <Content Include="Views\Security\Index.cshtml" />
     <Content Include="Views\System\Target.cshtml" />
     <Content Include="Views\Activity\Detail.cshtml" />
-    <Content Include="Views\Customer\Customers-Card.cshtml" />
     <Content Include="Views\Customer\Create.cshtml" />
     <Content Include="Views\Auction\BuyNow.cshtml" />
     <Content Include="Views\Customer\Detail.cshtml" />
@@ -1119,7 +1114,6 @@
     <Content Include="Views\MyAccount\FeedBackList.cshtml" />
     <Content Include="Views\Task\SendDYDoc.cshtml" />
     <Content Include="Views\Task\ProcessCostDoc.cshtml" />
-    <Content Include="Views\Home\OldIndex.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Orders\PlateMakingProcess.cshtml" />
     <Content Include="Views\Error\NoRoot.cshtml" />

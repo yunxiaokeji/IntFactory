@@ -4,8 +4,11 @@
 %}
 <div class="object-item">
     <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="orderimg">
+        <span data-id="{%=item.OrderID%}" data-userid="{%=item.OwnerID%}" class="check">
+            <i class="iconfont">&#xe626;</i>
+        </span>
         {% if(item.OrderImage){ %}
-              <img src="{%=item.OrderImage%}" />
+              <img src="{%=item.OrderImage.split("?")[0]%}" />
         {% } %}
         {% if(item.GoodsCode){ %}
               <span class="aliorder">
@@ -13,29 +16,31 @@
                   <i class="iconfont right">&#xe631;</i>
               </span>
         {% } %}
-       <div class='warning-layer'>
+        <div class='warning-layer'>
             <div class='warning-msg {%=item.WarningStatus==1?"warning":item.WarningStatus==2?"pass":""%}'>{%=item.WarningStatus==1?"快到期":item.WarningStatus==2?"已超期":""%}</div>
         </div>
+        
     </a>
     <ul>
         <li>
             <i class="iconfont left">&#xe624;</i>
             <a href="/Customer/Detail/{%=item.CustomerID%}" class="customer left long mLeft5" target="_blank">{%=item.CustomerName%}</a> 
+            <span class="mark right mTop7" data-id="{%=item.OrderID%}" data-value="{%= item.Mark %}"></span>
         </li>
         <li>
             <a class="font14 goodsname long" href="/Orders/OrderDetail/{%=item.OrderID%}">{%=(item.GoodsName + item.IntGoodsCode) || item.OrderCode%}</a>
         </li>
         <li>
-            <!--<span>{%= item.PlanTime.toDate("yyyy-MM-dd") %}</span>-->
+           <!-- <span>{%= item.PlanTime.toDate("yyyy-MM-dd") %}</span>-->
             <span title='{%= item.OrderStatus==2? item.EndTime.toDate("yyyy-MM-dd") : item.PlanTime.toDate("yyyy-MM-dd") %}' class='{%=item.WarningStatus==1?"orange":item.WarningStatus==2?"red":""%}'>
                 {%= item.WarningTime || (item.OrderStatus==2? item.EndTime.toDate("yyyy-MM-dd") : item.PlanTime.toDate("yyyy-MM-dd")) %}
             </span>
-            <i class="iconfont view-detail right" data-code="{%=item.OrderCode%}" data-id="{%=item.OrderID%}">&#xe627;</i>
+            <i class="iconfont view-detail right" data-id="{%=item.OrderID%}" data-code="{%=item.OrderCode%}">&#xe627;</i>
         </li>
         <li>
             <span><i class="iconfont">{%=item.OrderType==1?"&#xe612;":"&#xe60f;" %}</i> {%=item.OrderType==1?"打样":"大货" %}</span>
             <span class="{%=item.Status==0?'red':''%}">{%=item.StatusStr%}</span>
-            <span>{%=(item.TaskCount>0?item.TaskOver/item.TaskCount*100:0)+"%"%}</span>
+            <span>{%=(item.TaskCount>0?item.TaskOver/item.TaskCount*100:0).toFixed(0)+"%"%}</span>
             <span class="right owner long" title="{%=(item.Owner ? item.Owner.Name:"--")%}">负责人：{%=(item.Owner ? item.Owner.Name:"--")%}</span>
         </li>
     </ul>

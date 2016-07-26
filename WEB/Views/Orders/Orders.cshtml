@@ -2,7 +2,7 @@
     var list=(List<IntFactoryEntity.LableColorEntity>)ViewBag.list;
 }
 @section css{
-    <link href="/modules/css/default/orders.css" rel="stylesheet" />
+    <link href="/modules/css/orders.css" rel="stylesheet" />
     <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
 }
 @section scripts{
@@ -25,8 +25,13 @@
         <li data-id="8" class="">已终止</li>
         <li data-id="-1" >全部订单</li>
     </ul>
+    <ul class="search-tab-status search-warning">
+        <li data-id="-1" class="item hover">全部</li>
+        <li data-id="1" class="item">快到期</li>
+        <li data-id="2" class="item">已超期</li>
+    </ul>
 </div>
-<div class="content-body" style="padding-bottom:0;">
+<div class="content-body pBottom50">
     <div class="search-body left">
         <ul class="search-item search-entrustclientid" style="margin-top:0;">
             <li class="column-name">分类：</li>
@@ -59,27 +64,9 @@
             <li data-id="1" class="item">工厂</li>
             <li data-id="2" class="item">自助</li>
             <li data-id="3" class="item">阿里</li>
-        </ul>
-        <ul class="search-item search-warning">
-            <li class="column-name">预警：</li>
-            <li data-id="-1" class="item hover">全部</li>
-            <li data-id="1" class="item">快到期</li>
-            <li data-id="2" class="item">已超期</li>
-        </ul>
-        <ul class="search-item-color search-mark">
-            <li class="column-name">标记：</li>
-            <li data-id="-1" class="item mark-all hover"></li>
-            <li data-id="0" class="item mark0" data-name="默认"></li>
-            @foreach (var item in list)
-            {
-                <li data-id="@item.ColorID" class="item" style="border:solid 1px @item.ColorValue;background-color:@item.ColorValue" data-name="@item.ColorName"></li>
-            }   
-        </ul>
-        
+        </ul> 
     </div>
-    <div class="right btn mRight20" data-status="open" id="shrinkScreen"><span class="lump"></span><span class="colorfff shrink-text">收起筛选</span></div>
     <div class="clear"></div>
-
     <div class="search-items">
         <div class="left mRight20" id="chooseBranch"></div>
         <div class="left">
@@ -90,7 +77,9 @@
 
     <div class="search-sort">
         <ul >
-            <li>排序</li>
+            <li>
+                <span id="filterMark" class=""></span>
+            </li>
             <li class="sort-item hover" data-column="CreateTime">
                 下单日期
                 <span class="asc"></span>
@@ -102,15 +91,16 @@
                 <span class="desc"></span>
             </li>
         </ul>
-        
     </div>
-</div>
-<div class="content-list">
-    <div class="object-items"  style="margin-top:-5px;" id="orderItems"></div>
-    <div class="clear"></div>
-</div>
-<div  class="content-pager">
-    <ul class="left batch-operate">
+    <table class="table-items-detail">
+        <tr class="hide table-header">
+            <td class="tLeft">款式</td>
+            <td>成本</td>
+            <td>客户</td>
+            <td>到期日期</td>
+        </tr>
+    </table>
+    <ul class="batch-operate mTop20 left">
         <li class="width100">
             <span class="ico-check pLeft5 mTop5" id="checkAll">批量操作</span>
         </li>
@@ -118,8 +108,7 @@
             <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" id="batchChangeOwner">更换负责人</a>
         </li>
     </ul>
-    <div id="pager"></div>
-    <div class="clear"></div>
+    <div id="pager" class="mTop20"></div>
 </div>
 <div class="order-layer">
     <div class="layer-header">

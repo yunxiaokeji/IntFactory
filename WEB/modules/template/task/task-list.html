@@ -20,7 +20,7 @@
             任务派发日期：{%=item.CreateTime.toDate("yyyy-MM-dd")%}
         </td>
     </tr>
-    <tr class="item">
+    <tr class="item taskitem">
         <td class="order-image">
             <a href="/Task/Detail/{%=item.TaskID%}" >
                 <img src="{%= item.OrderImg||'/modules/images/img-noimg.png' %}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" />
