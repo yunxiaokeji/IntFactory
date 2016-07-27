@@ -13,8 +13,8 @@
 }
 <div class="header-box">
     <span class="header-title left">新建报损单</span>
-    <a href="/Stock/ChooseBSProducts" class="btn-add right mLeft20" id="addChooseProduct">添加报损材料</a>
-    <div class="btnccc right" id="btnChooseProduct">快捷添加材料</div>
+    <a href="/Stock/ChooseBSProducts" class="btn-add right mLeft20" id="addChooseProduct">选择报损材料</a>
+    <div class="btnccc right" id="btnChooseProduct">快捷选择材料</div>
     <div class="clear"></div>
 </div>
 <div class="content-body mTop20" style="padding:20px;">
@@ -38,7 +38,7 @@
                     <td class="center bBottom">@(model.DepotCode)</td>
                     <td class="center bBottom tr-quantity"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f3"))" /></td>
                     <td class="center bBottom bRight">
-                        <a class="ico-del" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
+                        <a class="ico-del iconfont font20" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
                     </td>
                 </tr>
             }

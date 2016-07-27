@@ -1014,16 +1014,16 @@ namespace IntFactoryBusiness
             }
         }
 
-        public bool DeleteProductByID(string pid, string clientID)
+        public bool DeleteProductByID(string pid, string operateid,out int result)
         {
             var dal = new ProductsDAL();
-            return dal.DeleteProductByID(pid, clientID);
+            return dal.DeleteProductByID(pid, operateid, out result);
         }
 
-        public bool DeleteProductDetailByID(string pid, string did, string clientID)
+        public bool DeleteProductDetailByID(string did, string operateid, out int result)
         {
             var dal = new ProductsDAL();
-            return dal.DeleteProductDetailByID(pid, did, clientID);
+            return dal.DeleteProductDetailByID(did, operateid, out result);
         }
         #endregion
 

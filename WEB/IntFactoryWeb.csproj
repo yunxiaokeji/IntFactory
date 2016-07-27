@@ -371,6 +371,7 @@
     <Content Include="modules\plug\qiniustorage\plupload\plupload.min.js" />
     <Content Include="modules\plug\qiniustorage\qiniu\multiple.js" />
     <Content Include="modules\plug\qiniustorage\qiniu\qiniu.js" />
+    <Content Include="modules\plug\quicklyaddproduct\quickaddproduct.js" />
     <Content Include="modules\plug\sortable.js" />
     <Content Include="modules\plug\qqface\arclist\1.gif" />
     <Content Include="modules\plug\qqface\arclist\10.gif" />
@@ -546,6 +547,7 @@
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\products\sales-and-attr.html" />
     <Content Include="modules\template\products\product-property.html" />
+    <Content Include="modules\plug\quicklyaddproduct\product_qulickly_add.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />
     <Content Include="modules\template\purchase\audit_details.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />

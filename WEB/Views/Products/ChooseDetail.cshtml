@@ -44,11 +44,9 @@
             </ul>
             <div class="attrs" id="saleattr">
                 
-                @foreach (var attr in model.SaleAttrs)
-                { 
-                    <ul class="attr-item salesattr" data-id="@attr.AttrID">
+                    <ul class="attr-item salesattr">
                         <li class="attrkey">
-                            @(model.SaleAttrs.Count == 1?attr.AttrName+"：":"规格：")                      
+                            @(model.SaleAttrs.Count == 1?model.SaleAttrs[0].AttrName+"：":"规格：")                      
                          </li> 
                         <li class="attrValues">
                             <ul class="sales-item">
@@ -62,7 +60,7 @@
                                         @{
                                             if (model.SaleAttrs.Count == 1)
                                             {
-                                                @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('[', ' ').Replace(']', ' ').Replace(attr.AttrName+"：",string.Empty) )
+                                                @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('[', ' ').Replace(']', ' ').Replace(model.SaleAttrs[0].AttrName+":",string.Empty).Replace(model.SaleAttrs[0].AttrName+"：",string.Empty))
                                             }
                                             else
                                             {
@@ -74,7 +72,6 @@
                             </ul>
                         </li>
                     </ul>
-                }
                 <ul class="attr-item">
                     <li class="attrkey">单位：</li>
                     <li class="attrValues">

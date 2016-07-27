@@ -52,9 +52,9 @@
             <td class="">货位</td>
             <td class="center width80">单位</td>
 @*            <td class="tLeft">批次</td>*@
-            <td class="tRight">单价</td>
+            @*<td class="tRight">单价</td>*@
             <td class="center">数量</td>
-            <td class="tRight">小计</td>
+            @*<td class="tRight">小计</td>*@
         </tr>
         @foreach (var item in model.Details)
         { 
@@ -64,20 +64,20 @@
                 <td class="center">@(item.DepotCode)</td>
                 <td class="center">@(item.UnitName)</td>
 @*                <td>@(item.BatchCode)</td>*@
-                <td class="tRight">@(item.Price.ToString("f2"))</td>
+                @*<td class="tRight">@(item.Price.ToString("f2"))</td>*@
                 <td class="center">@(item.Quantity)</td>
-                <td class="tRight">@(item.TotalMoney.ToString("f2"))</td>
+                @*<td class="tRight">@(item.TotalMoney.ToString("f2"))</td>*@
             </tr>
         }
-        <tr class="amount-item">
+@*        <tr class="amount-item">
             <td></td>
             <td></td>
             <td></td>
-   @*         <td></td>*@
+            <td></td>
             <td></td>
             <td></td>
             <td class="tRight">合计：</td>
             <td class="tRight">@(model.TotalMoney.ToString("f2"))</td>
-        </tr>
+        </tr>*@
     </table>
 </div>

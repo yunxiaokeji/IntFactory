@@ -34,7 +34,7 @@
                             <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" /></td>
                             <td class="tRight amount">@((detail.TotalMoney).ToString("f3"))</td>
                             <td class="center">
-                                <a class="ico-del" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
+                                <a class="ico-del iconfont font20" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
                             </td>
                         }
                         else
@@ -67,7 +67,8 @@
     @{
         if (isRoot)
         {            
-            <a href="/Orders/ChooseMaterial?id=@(order.OrderID)&tid=@(task.TaskID)" id="btn-addMaterial" class="btn-add right mTop10">添加材料</a>
+            <a href="/Orders/ChooseMaterial?id=@(order.OrderID)&tid=@(task.TaskID)" id="btn-addMaterial" class="btn-add right mTop10">选择材料</a>
+            <div id="btnChooseProduct" class="btn-add right mTop10 mRight10">快捷添加材料</div>  
         }
     }
     <div class="clear"></div>
