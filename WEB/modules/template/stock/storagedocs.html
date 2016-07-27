@@ -26,7 +26,7 @@ if(i>0)
 	var detail = item.Details[ii];
 %}
 <tr class="item">
-    <td class=" bBottom bLeft tLeft">
+    <td class=" bBottom tLeft">
         <a href="/Products/ChooseDetail?pid={%=detail.ProductID%}&did={%=detail.ProductDetailID%}" target="_blank">
             {%=detail.ProductName+"&nbsp;&nbsp;"%}<span class="color999">{%=detail.Remark%}</span>
         </a>
@@ -43,7 +43,7 @@ if(i>0)
     %}
     <td rowspan="{%=jj%}" class=" bBottom bRight">{%=item.TotalMoney.toFixed(2)%}</td>
     <td rowspan="{%=jj%}" class=" bBottom bRight">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
-    <td rowspan="{%=jj%}" class=" bBottom bRight">
+    <td rowspan="{%=jj%}" class=" bBottom">
         <a href="/Stock/Detail/{%=item.DocID%}" target="_blank">查看详情</a>
     </td>
     {%}%}
