@@ -423,6 +423,7 @@
     <Content Include="modules\scripts\home.js" />
     <Content Include="modules\scripts\layout.js" />
     <Content Include="modules\scripts\client\clients.js" />
+    <Content Include="modules\scripts\products\processcategory.js" />
     <Content Include="modules\scripts\report\clientsgrowreport.js" />
     <Content Include="modules\scripts\report\clientsloginreport.js" />
     <Content Include="modules\scripts\report\clientsagentactionreport.js" />
@@ -452,6 +453,8 @@
     <Content Include="modules\template\client\clientauthorizelog-list.html" />
     <Content Include="modules\template\client\order-account.html" />
     <Content Include="modules\template\client\order-accountedit.html" />
+    <Content Include="modules\template\products\category-process.html" />
+    <Content Include="modules\template\products\category-items.html" />
     <Content Include="modules\template\system\modulesproduct-list.html" />
     <Content Include="modules\template\system\expresscompany-list.html" />
     <Content Include="modules\template\system\industry-list.html" />
@@ -459,16 +462,12 @@
     <Content Include="modules\template\report\agentactionreport-list.html" />
     <Content Include="modules\template\client\agent-orders.html" />
     <Content Include="modules\template\products\attrs.html" />
-    <Content Include="modules\template\products\brand-detail.html" />
     <Content Include="modules\template\products\category-attrs.html" />
     <Content Include="modules\template\products\categorys.html" />
     <Content Include="modules\template\products\category_add.html" />
     <Content Include="modules\template\products\choose_category.html" />
     <Content Include="modules\template\products\common-attrs.html" />
-    <Content Include="modules\template\products\productdetails_add.html" />
-    <Content Include="modules\template\products\productdetails_list.html" />
     <Content Include="modules\template\products\products.html" />
-    <Content Include="modules\template\products\product_child_add_list.html" />
     <Content Include="modules\template\products\ordercategory-attrs.html" />
     <Content Include="modules\template\products\ordercommon-attrs.html" />
     <Content Include="modules\template\products\attr-detail.html" />
@@ -625,6 +624,7 @@
     <Content Include="Views\Client\OrderDetail.cshtml" />
     <Content Include="Views\Report\ClientsVitalityReport.cshtml" />
     <Content Include="Views\Products\ProcessCategory.cshtml" />
+    <Content Include="Views\Products\CategoryItems.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

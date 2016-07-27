@@ -30,6 +30,8 @@ namespace IntFactoryBusiness
 
         private static Dictionary<string, List<WareHouse>> _wares;
 
+        private static List<ProcessCategoryEntity> _processCategory;
+
         private static Dictionary<string, List<LableColorEntity>> CustomColor
         {
             get
@@ -72,7 +74,6 @@ namespace IntFactoryBusiness
             set { _taskcolor = value; }
         }
 
-        //订单流程
         private static Dictionary<string, List<OrderProcessEntity>> OrderProcess
         {
             get
@@ -134,6 +135,22 @@ namespace IntFactoryBusiness
             set
             {
                 _wares = value;
+            }
+        }
+
+        private static List<ProcessCategoryEntity> ProcessCategorys
+        {
+            get
+            {
+                if (_processCategory == null)
+                {
+                    _processCategory = new List<ProcessCategoryEntity>();
+                }
+                return _processCategory;
+            }
+            set
+            {
+                _processCategory = value;
             }
         }
 
@@ -1062,6 +1079,162 @@ namespace IntFactoryBusiness
         public bool UpdateDepotSeatSort(string depotid, string wareid, int type)
         {
             return SystemDAL.BaseProvider.UpdateDepotSeatSort(depotid, wareid, type);
+        }
+
+        #endregion
+
+        #region 订单品类
+
+        public List<ProcessCategoryEntity> GetProcessCategorys()
+        {
+            if (ProcessCategorys.Count > 0)
+            {
+                return ProcessCategorys;
+            }
+            List<ProcessCategoryEntity> list = new List<ProcessCategoryEntity>();
+
+            DataSet ds = SystemDAL.BaseProvider.GetProcessCategory();
+            foreach (DataRow tr in ds.Tables[0].Rows)
+            {
+                ProcessCategoryEntity model = new ProcessCategoryEntity();
+                model.FillData(tr);
+                model.CategoryItems = new List<CategoryItemsEntity>();
+                foreach (DataRow itemtr in ds.Tables[1].Select("CategoryID='" + model.CategoryID + "'"))
+                {
+                    CategoryItemsEntity item = new CategoryItemsEntity();
+                    item.FillData(itemtr);
+                    switch (item.Mark % 10) 
+                    {
+                        case 1:
+                            item.Remark = "材料";
+                            break;
+                        case 2:
+                            item.Remark = "制版";
+                            break;
+                        case 3:
+                            item.Remark = "裁片";
+                            break;
+                        case 4:
+                            item.Remark = "车缝";
+                            break;
+                        case 5:
+                            item.Remark = "发货";
+                            break;
+                        case 6:
+                            item.Remark = "加工成本";
+                            break;
+                        default:
+                            item.Remark = "";
+                            break;
+                    }
+                    model.CategoryItems.Add(item);
+                }
+                list.Add(model);
+            }
+
+            ProcessCategorys = list;
+
+            return ProcessCategorys;
+        }
+
+        public ProcessCategoryEntity GetProcessCategoryByID(string categoryid)
+        {
+            var list = GetProcessCategorys();
+            if (list.Where(m => m.CategoryID.ToLower() == categoryid.ToLower()).Count() > 0)
+            {
+                return list.Where(m => m.CategoryID.ToLower() == categoryid.ToLower()).FirstOrDefault();
+            }
+            ProcessCategoryEntity model = new ProcessCategoryEntity();
+
+            DataSet ds = SystemDAL.BaseProvider.GetProcessCategoryByID(categoryid);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                model.FillData(ds.Tables[0].Rows[0]);
+                model.CategoryItems = new List<CategoryItemsEntity>();
+                foreach (DataRow itemtr in ds.Tables[1].Rows)
+                {
+                    CategoryItemsEntity item = new CategoryItemsEntity();
+                    item.FillData(itemtr);
+                    switch (item.Mark % 10)
+                    {
+                        case 1:
+                            item.Remark = "材料";
+                            break;
+                        case 2:
+                            item.Remark = "制版";
+                            break;
+                        case 3:
+                            item.Remark = "裁片";
+                            break;
+                        case 4:
+                            item.Remark = "车缝";
+                            break;
+                        case 5:
+                            item.Remark = "发货";
+                            break;
+                        case 6:
+                            item.Remark = "加工成本";
+                            break;
+                        default:
+                            item.Remark = "";
+                            break;
+                    }
+                    model.CategoryItems.Add(item);
+                }
+                list.Add(model);
+            }
+            return model;
+        }
+
+        public string CreateProcessCategory(string name, string remark, string userid)
+        {
+            string id = Guid.NewGuid().ToString().ToLower();
+            bool bl = SystemDAL.BaseProvider.CreateProcessCategory(id, name, remark, userid);
+            if (bl)
+            {
+                //添加缓存
+                GetProcessCategoryByID(id);
+
+                return id;
+            }
+            return "";
+        }
+
+        public bool UpdateProcessCategory(string categoryid,string name, string remark)
+        {
+            bool bl = SystemDAL.BaseProvider.UpdateProcessCategory(categoryid, name, remark);
+            if (bl)
+            {
+                var model =GetProcessCategoryByID(categoryid);
+                model.Name = name;
+                model.Remark = remark;
+            }
+            return bl;
+        }
+
+        public bool DeleteProcessCategory(string categoryid, string userid)
+        {
+            bool bl = SystemDAL.BaseProvider.DeleteProcessCategory(categoryid, userid);
+            if (bl)
+            {
+                var list = GetProcessCategorys();
+                var model = GetProcessCategoryByID(categoryid);
+                list.Remove(model);
+            }
+            return bl;
+        }
+
+        public bool UpdateCategoryItem(string categoryid, string itemid, string name, int sort)
+        {
+            bool bl = SystemDAL.BaseProvider.UpdateCategoryItems(itemid, name, sort);
+            if (bl)
+            {
+                var model = GetProcessCategoryByID(categoryid);
+                var item = model.CategoryItems.Where(m => m.ItemID.ToLower() == itemid.ToLower()).FirstOrDefault();
+                item.Name = name;
+                item.Sort = sort;
+            }
+            return bl;
         }
 
         #endregion

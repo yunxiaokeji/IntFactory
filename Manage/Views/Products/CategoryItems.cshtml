@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "品类模块设置";
+    var model = (IntFactoryEntity.ProcessCategoryEntity)ViewBag.Model;
+}
+
+<style>
+    .module-header { height:50px; line-height:50px; font-size:16px; color:#333; }
+
+    .module-item { }
+    .module-item li { height:30px; line-height:30px; text-align:center; cursor:pointer; margin-right:20px; padding:5px 40px; 
+                      border:solid 1px #ccc; float:left; position:relative; }
+    .module-item li:hover { border:solid 1px #2F74B9; }
+
+    .module-item li .sort { position:absolute; left:5px; top:10px; display:inline-block; height:20px; width:20px; border-radius:10px; text-align:center; 
+                            line-height:20px; background-color:#ccc; color:#333; font-weight:bold; }
+    .module-item li .ico-dropdown { position:absolute; right:5px; top:14px; }
+</style>
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/products/processcategory"], function (attr) {
+            attr.initDetail('@(model.CategoryID)');
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">@(model.Name)-模块配置</span>
+    <a class="btn-back right" href="/Products/ProcessCategory">返回</a>
+</div>
+<div class="content-body">
+    <div class="search-header">
+        <ul class="search-tab">
+            <li data-type="1" class="hover">打样订单</li>           
+        </ul>
+    </div>
+    <h1 class="module-header">订单详情页标签：</h1>
+    <ul class="module-item">
+        @foreach (var item in model.CategoryItems.Where(m => m.OrderType == 1 && m.Type == 1).OrderBy(m => m.Sort))
+        {
+             <li title="操作模块：@(item.Remark)" data-id="@(item.ItemID)" data-name="@(item.Name)" data-sort="@(item.Sort)">
+                 <span class="sort">@(item.Sort)</span>
+                  @(item.Name)
+                 <span class="ico-dropdown"></span>
+             </li>
+        }
+    </ul>
+    <div class="clear"></div>
+    <h1 class="module-header">默认流程：</h1>
+    <ul class="module-item">
+        @foreach (var item in model.CategoryItems.Where(m => m.OrderType == 1 && m.Type == 2).OrderBy(m => m.Sort))
+        {
+             <li title="操作模块：@(item.Remark)" data-id="@(item.ItemID)" data-name="@(item.Name)" data-sort="@(item.Sort)">
+                 <span class="sort">@(item.Sort)</span>
+                  @(item.Name)
+                 <span class="ico-dropdown"></span>
+             </li>
+        }
+    </ul>
+    <div class="clear"></div>
+    <h1 class="module-header">模块名称：</h1>
+    <ul class="module-item">
+        @foreach (var item in model.CategoryItems.Where(m => m.OrderType == 1 && m.Type == 3).OrderBy(m => m.Sort))
+        {
+             <li title="操作模块：@(item.Remark)" data-id="@(item.ItemID)" data-name="@(item.Name)" data-sort="@(item.Sort)">
+                 <span class="sort">@(item.Sort)</span>
+                  @(item.Name)
+                 <span class="ico-dropdown"></span>
+             </li>
+        }
+    </ul>
+     <div class="clear"></div>
+    <div class="search-header mTop20">
+        <ul class="search-tab">
+            <li data-type="1" class="hover">大货订单</li>           
+        </ul>
+    </div>
+    <h1 class="module-header">订单详情页标签：</h1>
+    <ul class="module-item">
+        @foreach (var item in model.CategoryItems.Where(m => m.OrderType == 2 && m.Type == 1).OrderBy(m => m.Sort))
+        {
+             <li title="操作模块：@(item.Remark)" data-id="@(item.ItemID)" data-name="@(item.Name)" data-sort="@(item.Sort)">
+                 <span class="sort">@(item.Sort)</span>
+                  @(item.Name)
+                 <span class="ico-dropdown"></span>
+             </li>
+        }
+    </ul>
+     <div class="clear"></div>
+    <h1 class="module-header">默认流程：</h1>
+    <ul class="module-item">
+        @foreach (var item in model.CategoryItems.Where(m => m.OrderType == 2 && m.Type == 2).OrderBy(m => m.Sort))
+        {
+             <li title="操作模块：@(item.Remark)" data-id="@(item.ItemID)" data-name="@(item.Name)" data-sort="@(item.Sort)">
+                 <span class="sort">@(item.Sort)</span>
+                  @(item.Name)
+                 <span class="ico-dropdown"></span>
+             </li>
+        }
+    </ul>
+     <div class="clear"></div>
+    <h1 class="module-header">模块名称：</h1>
+    <ul class="module-item">
+        @foreach (var item in model.CategoryItems.Where(m => m.OrderType == 2 && m.Type == 3).OrderBy(m => m.Sort))
+        {
+             <li title="操作模块：@(item.Remark)" data-id="@(item.ItemID)" data-name="@(item.Name)" data-sort="@(item.Sort)">
+                 <span class="sort">@(item.Sort)</span>
+                  @(item.Name)
+                 <span class="ico-dropdown"></span>
+             </li>
+        }
+    </ul>
+</div>
+<ul class="dropdown-ul hide"  style="width:65px;">
+    <li class="" id="updateObject">编辑</li>
+</ul>
