@@ -49,8 +49,6 @@
     <Compile Include="AliOrder\AliOrderDownloadPlan.cs" />
     <Compile Include="AliOrder\AliOrderUpdateLog.cs" />
     <Compile Include="Common\AttachmentJson.cs" />
-    <Compile Include="Custom\ActivityEntity.cs" />
-    <Compile Include="Custom\ActivityReplyEntity.cs" />
     <Compile Include="Custom\ContactEntity.cs" />
     <Compile Include="Custom\LableColorEntity.cs" />
     <Compile Include="Custom\CustomerEntity.cs" />
@@ -75,10 +73,6 @@
     <Compile Include="Manage\Report\ClientsDateEntity.cs" />
     <Compile Include="Open\ApiDetailEntity.cs" />
     <Compile Include="Open\ApiModuleEntity.cs" />
-    <Compile Include="Report\CustomerSourceRPT.cs" />
-    <Compile Include="Report\CustomerStageRPT.cs" />
-    <Compile Include="Report\OrderTypeRPT.cs" />
-    <Compile Include="Report\OrderMapRPT.cs" />
     <Compile Include="Sales\OrderCostEntity.cs" />
     <Compile Include="Sales\OrderEntity.cs" />
     <Compile Include="Sales\OrderDetail.cs" />
@@ -88,8 +82,6 @@
     <Compile Include="Stock\ProvidersEntity.cs" />
     <Compile Include="Stock\GoodsDocDetail.cs" />
     <Compile Include="Stock\GoodsDoc.cs" />
-    <Compile Include="System\CustomSourceEntity.cs" />
-    <Compile Include="System\CustomStageEntity.cs" />
     <Compile Include="Manage\ClientAuthorizeLog.cs" />
     <Compile Include="Manage\ExpressCompany.cs" />
     <Compile Include="Stock\StorageDocAction.cs" />
@@ -130,7 +122,6 @@
     <Compile Include="Manage\M_Users.cs" />
     <Compile Include="Common\Permission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="System\OrderTypeEntity.cs" />
     <Compile Include="System\TeamEntity.cs" />
     <Compile Include="System\OrderStageEntity.cs" />
     <Compile Include="System\OrderProcessEntity.cs" />

@@ -243,19 +243,6 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateCustomer", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateCustomerStage(string customerid, string stageid, string operateid, string agentid, string clientid)
-        {
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@CustomerID",customerid),
-                                     new SqlParameter("@StageID",stageid),
-                                     new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-
-            return ExecuteNonQuery("P_UpdateCustomerStage", paras, CommandType.StoredProcedure) > 0;
-        }
-
         public bool UpdateCustomerOwner(string customerid, string userid, string operateid, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
@@ -317,6 +304,7 @@ namespace IntFactoryDAL
 
             return ExecuteNonQuery("P_SetCustomerYXinfo", paras, CommandType.StoredProcedure) > 0;
         }
+        
         #endregion
     }
 }

@@ -10,16 +10,12 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string CustomerID { get; set; }
 
-
-
         public string Name { get; set; }
 
         public int Type { get; set; }
 
         [Property("Lower")]
         public string IndustryID { get; set; }
-
-        public Industry Industry { get; set; }
 
         public int Extent { get; set; }
         public string ExtentStr { get; set; }
@@ -51,21 +47,9 @@ namespace IntFactoryEntity
         public string Description { get; set; }
 
         public int SourceType { get; set; }
-             
 
         [Property("Lower")]
         public string SourceID { get; set; }
-        public CustomSourceEntity Source { get; set; }
-
-        [Property("Lower")]
-        public string ActivityID { get; set; }
-
-        public ActivityEntity Activity { get; set; }
-
-        [Property("Lower")]
-        public string StageID { get; set; }
-
-        public CustomStageEntity Stage { get; set; }
 
         [Property("Lower")]
         public string OwnerID { get; set; }

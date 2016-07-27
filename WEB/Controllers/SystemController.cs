@@ -32,12 +32,6 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult Stages()
-        {
-            ViewBag.Items = new SystemBusiness().GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
-            return View();
-        }
-
         public ActionResult OrderProcess()
         {
             return View();
@@ -56,11 +50,6 @@ namespace YXERP.Controllers
         }
 
         public ActionResult Teams()
-        {
-            return View();
-        }
-
-        public ActionResult OrderType()
         {
             return View();
         }
@@ -113,88 +102,7 @@ namespace YXERP.Controllers
 
         #region Ajax
 
-        #region 客户来源
-
-        /// <summary>
-        /// 获取客户来源列表
-        /// </summary>
-        /// <returns></returns>
-        public JsonResult GetCustomSources()
-        {
-
-            var list = new SystemBusiness().GetCustomSources(CurrentUser.AgentID, CurrentUser.ClientID).Where(m => m.Status == 1).ToList();
-            JsonDictionary.Add("items", list);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
-        /// 获取客户来源实体
-        /// </summary>
-        /// <returns></returns>
-        public JsonResult GetCustomSourceByID(string id)
-        {
-
-            var model = new SystemBusiness().GetCustomSourcesByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("model", model);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
-        /// 保存客户来源
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public JsonResult SaveCustomSource(string entity)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            CustomSourceEntity model = serializer.Deserialize<CustomSourceEntity>(entity);
-
-            int result = 0;
-
-            if (string.IsNullOrEmpty(model.SourceID))
-            {
-                model.SourceID = new SystemBusiness().CreateCustomSource(model.SourceCode, model.SourceName, model.IsChoose, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, out result);
-            }
-            else
-            {
-                bool bl = new SystemBusiness().UpdateCustomSource(model.SourceID, model.SourceName, model.IsChoose, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
-                if (bl)
-                {
-                    result = 1;
-                }
-            }
-            JsonDictionary.Add("status", result);
-            JsonDictionary.Add("model", model);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
-        /// 删除客户来源
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public JsonResult DeleteCustomSource(string id)
-        {
-            bool bl = new SystemBusiness().DeleteCustomSource(id, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
+        #region 客户颜色标记
 
         /// <summary>
         /// 客户颜色标记
@@ -262,85 +170,6 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-
-        #endregion
-
-        #region 客户阶段配置
-
-        public JsonResult SaveCustomStage(string entity)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            CustomStageEntity model = serializer.Deserialize<CustomStageEntity>(entity);
-
-            int result = 0;
-
-            if (string.IsNullOrEmpty(model.StageID))
-            {
-                model.StageID = new SystemBusiness().CreateCustomStage(model.StageName, model.Sort, "", CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, out result);
-            }
-            else
-            {
-                bool bl = new SystemBusiness().UpdateCustomStage(model.StageID, model.StageName, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
-                if (bl)
-                {
-                    result = 1;
-                }
-            }
-            JsonDictionary.Add("status", result);
-            JsonDictionary.Add("model", model);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult SaveStageItem(string entity)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            StageItemEntity model = serializer.Deserialize<StageItemEntity>(entity);
-
-            if (string.IsNullOrEmpty(model.ItemID))
-            {
-                model.ItemID = new SystemBusiness().CreateStageItem(model.ItemName, model.StageID, model.ProcessID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
-            }
-            else
-            {
-                bool bl = new SystemBusiness().UpdateStageItem(model.ItemID, model.ItemName, model.StageID, model.ProcessID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
-                if (!bl)
-                {
-                    model.ItemID = "";
-                }
-            }
-            JsonDictionary.Add("model", model);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult DeleteCustomStage(string id)
-        {
-            bool bl = new SystemBusiness().DeleteCustomStage(id, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult DeleteStageItem(string id, string stageid,string processid)
-        {
-            bool bl = new SystemBusiness().DeleteStageItem(id, stageid, processid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        } 
 
         #endregion
 
@@ -482,111 +311,6 @@ namespace YXERP.Controllers
         {
             bool bl = new SystemBusiness().UpdateOrderStageOwner(id, processid, userid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        #endregion
-
-        #region 订单类型
-
-        public JsonResult GetOrderTypes()
-        {
-
-            var list = new SystemBusiness().GetOrderTypes(CurrentUser.AgentID, CurrentUser.ClientID).ToList();
-            JsonDictionary.Add("items", list);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult GetOrderTypeByID(string id)
-        {
-
-            var model = new SystemBusiness().GetOrderTypeByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("model", model);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult SaveOrderType(string entity)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            OrderTypeEntity model = serializer.Deserialize<OrderTypeEntity>(entity);
-
-            if (string.IsNullOrEmpty(model.TypeID))
-            {
-                model.TypeID = new SystemBusiness().CreateOrderType(model.TypeName, model.TypeCode, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
-            }
-            else
-            {
-                bool bl = new SystemBusiness().UpdateOrderType(model.TypeID, model.TypeName, model.TypeCode, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
-                if (!bl)
-                {
-                    model.TypeID = "";
-                }
-            }
-            JsonDictionary.Add("model", model);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult DeleteOrderType(string id)
-        {
-            bool bl = new SystemBusiness().DeleteOrderType(id, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult UpdateOrderCategory(string categoryid, string pid, int status)
-        {
-            bool bl = new SystemBusiness().UpdateOrderCategory(categoryid, pid, status, CurrentUser.ClientID);
-            JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult GetOrderCategorys()
-        {
-
-            var list = new SystemBusiness().GetOrderCategorys(CurrentUser.ClientID);
-            JsonDictionary.Add("items", list);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult GetClientOrderCategorys()
-        {
-            var list = new ProductsBusiness().GetClientCategorysByPID("", IntFactoryEnum.EnumCategoryType.Order, CurrentUser.ClientID).Where(m => m.Status == 1).ToList();
-            foreach (var item in list)
-            {
-                if (item.ChildCategory == null || item.ChildCategory.Count == 0)
-                {
-                    item.ChildCategory = new ProductsBusiness().GetClientCategorysByPID(item.CategoryID, IntFactoryEnum.EnumCategoryType.Order, CurrentUser.ClientID).Where(m => m.Status == 1).ToList();
-                }
-            }
-            JsonDictionary.Add("items", list);
             return new JsonResult
             {
                 Data = JsonDictionary,

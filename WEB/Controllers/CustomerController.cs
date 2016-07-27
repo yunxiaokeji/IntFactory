@@ -66,17 +66,6 @@ namespace YXERP.Controllers
 
         #region Ajax
 
-        public JsonResult GetCustomerSources()
-        {
-            var list = new SystemBusiness().GetCustomSources(CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("items", list);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
         public JsonResult SaveCustomer(string entity)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -84,7 +73,7 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.CustomerID))
             {
-                model.CustomerID = new CustomBusiness().CreateCustomer(model.Name, model.Type, model.SourceID, model.ActivityID, model.IndustryID, model.Extent, model.CityCode,
+                model.CustomerID = new CustomBusiness().CreateCustomer(model.Name, model.Type, model.SourceID, "", model.IndustryID, model.Extent, model.CityCode,
                                                                        model.Address, model.ContactName, model.MobilePhone, model.OfficePhone, model.Email, model.Jobs, model.Description, CurrentUser.UserID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             }
             else
@@ -152,17 +141,6 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetActivityBaseInfoByID(string activityid)
-        {
-            var model = ActivityBusiness.GetActivityBaseInfoByID(activityid, CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("model", model);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
         public JsonResult UpdateCustomMark(string ids, int mark)
         {
             bool bl = false;
@@ -197,38 +175,6 @@ namespace YXERP.Controllers
 
 
             JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult UpdateCustomStage(string ids, string stageid)
-        {
-            bool bl = false;
-            string[] list = ids.Split(',');
-            foreach (var id in list)
-            {
-                if (!string.IsNullOrEmpty(id) && CustomBusiness.BaseBusiness.UpdateCustomerStage(id, stageid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID))
-                {
-                    bl = true;
-                }
-            }
-
-
-            JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult GetStageItems(string stageid)
-        {
-            var list = new SystemBusiness().GetCustomStageByID(stageid, CurrentUser.AgentID, CurrentUser.ClientID).StageItem;
-            JsonDictionary.Add("items", list);
             return new JsonResult
             {
                 Data = JsonDictionary,

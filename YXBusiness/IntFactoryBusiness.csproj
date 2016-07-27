@@ -47,7 +47,6 @@
     <Compile Include="Agents\AgentsBusiness.cs" />
     <Compile Include="AliOrder\AliOrderBusiness.cs" />
     <Compile Include="Common\LogBusiness.cs" />
-    <Compile Include="Custom\ActivityBusiness.cs" />
     <Compile Include="Custom\CustomBusiness.cs" />
     <Compile Include="Finance\FinanceBusiness.cs" />
     <Compile Include="Manage\ClientOrderAccountBusiness.cs" />
@@ -57,8 +56,6 @@
     <Compile Include="Manage\ModulesProductBusiness.cs" />
     <Compile Include="Manage\ManageSystemBusiness.cs" />
     <Compile Include="Open\ApiModuleBusiness.cs" />
-    <Compile Include="Report\CustomerRPTBusiness.cs" />
-    <Compile Include="Report\SalesRPTBusiness.cs" />
     <Compile Include="Sales\OrdersBusiness.cs" />
     <Compile Include="Manage\IndustryBusiness.cs" />
     <Compile Include="Stock\AgentOrderBusiness.cs" />

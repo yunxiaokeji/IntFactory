@@ -89,25 +89,6 @@ namespace IntFactoryBusiness
 
         }
 
-        public List<CustomerEntity> GetCustomersByActivityID(string activityid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
-        {
-            List<CustomerEntity> list = new List<CustomerEntity>();
-            string sqlWhere = " ActivityID='" + activityid + "' and status<>9";
-
-            DataTable dt = CommonBusiness.GetPagerData("Customer", "*", sqlWhere, "CustomerID", pageSize, pageIndex, out totalCount, out pageCount);
-            foreach (DataRow dr in dt.Rows)
-            {
-                CustomerEntity model = new CustomerEntity();
-                model.FillData(dr);
-
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
-                model.Source = SystemBusiness.BaseBusiness.GetCustomSourcesByID(model.SourceID, model.AgentID, model.ClientID);
-                model.Stage = SystemBusiness.BaseBusiness.GetCustomStageByID(model.StageID, model.AgentID, model.ClientID);
-                list.Add(model);
-            }
-            return list;
-        }
-
         public List<CustomerEntity> GetCustomersByKeywords(string keywords, string userid, string agentid, string clientid)
         {
             List<CustomerEntity> list = new List<CustomerEntity>();
@@ -117,8 +98,6 @@ namespace IntFactoryBusiness
                 CustomerEntity model = new CustomerEntity();
                 model.FillData(dr);
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
-                model.Source = SystemBusiness.BaseBusiness.GetCustomSourcesByID(model.SourceID, model.AgentID, model.ClientID);
-                //model.Stage = SystemBusiness.BaseBusiness.GetCustomStageByID(model.StageID, model.AgentID, model.ClientID);
                 list.Add(model);
             }
             return list;
@@ -276,18 +255,6 @@ namespace IntFactoryBusiness
             {
                 string msg = "编辑客户信息";
                 LogBusiness.AddLog(customerid, EnumLogObjectType.Customer, msg, operateid, ip, "", agentid, clientid);
-            }
-            return bl;
-        }
-
-        public bool UpdateCustomerStage(string customerid, string stageid, string operateid, string ip,string agentid, string clientid)
-        {
-            bool bl = CustomDAL.BaseProvider.UpdateCustomerStage(customerid, stageid, operateid, agentid, clientid);
-            if (bl)
-            {
-                var model = SystemBusiness.BaseBusiness.GetCustomStageByID(stageid, agentid, clientid);
-                string msg = "客户阶段更换为：" + model.StageName;
-                LogBusiness.AddLog(customerid, EnumLogObjectType.Customer, msg, operateid, ip, stageid, agentid, clientid);
             }
             return bl;
         }

@@ -12,12 +12,12 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">订单品类设置</span>
+    <span class="header-title left">订单类别设置</span>
 </div>
 <div class="content-body">
     <ul id="category-all" class="category-all">
         <li class="category-layer">
-            <div class="category-header">全部品类</div>
+            <div class="category-header">全部类别</div>
             <ul class="category-list">
                 @foreach (IntFactoryEntity.Category model in (List<IntFactoryEntity.Category>)ViewBag.Items)
                 { 
@@ -27,7 +27,7 @@
                     </li>
                 }
             </ul>
-            <div class="create-child" data-id="" data-layer="1">+ 新建品类</div>
+            <div class="create-child" data-id="" data-layer="1">+ 新建类别</div>
         </li>
     </ul>
 </div>

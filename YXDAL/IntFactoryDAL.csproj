@@ -48,7 +48,6 @@
     <Compile Include="BaseDAL.cs" />
     <Compile Include="Common\LogDAL.cs" />
     <Compile Include="Common\ShoppingCartDAL.cs" />
-    <Compile Include="Custom\ActivityDAL.cs" />
     <Compile Include="Custom\CustomDAL.cs" />
     <Compile Include="Custom\LableColorDAL.cs" />
     <Compile Include="Finance\FinanceDAL.cs" />
