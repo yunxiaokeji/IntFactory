@@ -14,7 +14,7 @@
 <div class="header-box">
     <span class="header-title left">提交采购单</span>
     <a class="btn-add right mLeft20" href="/Products/ChooseProducts" id="addChooseProduct">选择采购材料</a>
-    <div class="btnccc right" id="btnChooseProduct">快捷添加材料</div>
+    <div class="btnccc right" id="btnChooseProduct">快捷选择材料</div>
 </div>
 <div class="content-body mTop20" style="padding:20px;">
     <table class="table-items-detail">
@@ -46,7 +46,7 @@
                 <td class="tr-quantity  bBottom"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f2"))" /></td>
                 <td class="amount bBottom">@((model.Price * model.Quantity).ToString("f2"))</td>
                 <td class="center bRight  bBottom">
-                    <a class="ico-del" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
+                    <a class="ico-del iconfont font20" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
                 </td>
             </tr>
             }

@@ -103,7 +103,8 @@ define(function (require, exports, module) {
                     $("#" + obj.data("itemid")).hide();
                     opts.onChange({
                         value: $(this).data("id"),
-                        text: $(this).html()
+                        text: $(this).html(),
+                        element: obj
                     });
                 });
                 _items.css({ "top": offset.top + 27, "left": offset.left });

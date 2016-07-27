@@ -1,0 +1,31 @@
+﻿<ul class="easydialog-create" style="min-width:320px;">
+    <li>
+        <span class="width80">材料名称：</span>
+        <input type="text" maxlength="50" id="productName" data-empty="必填" class="input verify">
+    </li>
+    <li>
+        <span class="width80">材料编码：</span>
+        <input type="text" maxlength="50" data-empty="必填" id="productCode" class="input verify">
+    </li>
+    <li>
+        <span class="width80">材料类别：</span>
+        <input type="text" readonly="true" class="hand" placeholder="请选择分类" id="chooseCategory" />
+    </li>
+    <li>
+        <span class="width80">供应商：</span>
+        <span id="prodiver" class="autocomplete-module">
+        </span>
+    </li>
+    <li>
+        <span class="width80">价格：</span>
+        <input type="text" maxlength="10" data-empty="必填" data-type="double" data-text="请输入数字!" id="layerPrice" class="input verify" style="width:90px;">
+    </li>
+    <li>
+        <span class="width80">单位：</span>
+        <span id="Units"></span>
+    </li>
+    <li class="remark-box">
+        <span class="width80">规格：</span>
+        <input type="text" maxlength="50" id="iptRemark" class="input" />
+    </li>
+</ul>

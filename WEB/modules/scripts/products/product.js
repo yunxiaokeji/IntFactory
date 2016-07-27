@@ -164,7 +164,6 @@
 
 
                                                     });
-
                                                     //价格必须大于0的数字
                                                     innerText.find(".price,.bigprice").change(function () {
                                                         var _this = $(this);
@@ -262,8 +261,6 @@
                                                     }
                                                 }
                                             });
-
-
                                         });
 
                                         //价格必须大于0的数字
@@ -295,11 +292,14 @@
             if (!VerifyObject.isPass()) {
                 return;
             }
+            if ($(".autocomplete-text").val() && !$("#prodiver").data("id")) {
+                alert("请重新选择材料供应商!");
+                return;
+            }
             _self.saveType = $(this).data('id');
             if (!_self.categoryID && $("#productMenuChange").val()) {
                 alert("材料类别选择有误，请重新选择");
-            }
-            else if (!_self.categoryID) {
+            } else if (!_self.categoryID) {
                 confirm("材料类别为空，确定要继续?", function () {
                     Product.savaProduct();
                 });
@@ -417,11 +417,6 @@
     Product.savaProduct = function () {
         var _self = this, attrlist = "", valuelist = "", attrvaluelist = "";
 
-        if (!$("#prodiver").data("id")) {
-            alert("请重新选择材料供应商!");
-            return;
-        }
-       
         var bl = true;
 
         $(".product-attr").each(function () {
@@ -494,7 +489,6 @@
         }, function (data) {
             if (data.result == 1) {
                 if (data.ID.length > 0) {
-                    console.log(_self.type);
                     if (_self.type == "11") {
                         if (_self.saveType == 1) {
                             location.href = "/Orders/ChooseMaterial?id=" + _self.guid + "&tid=" + _self.tid;
@@ -688,6 +682,8 @@
                             }, function (data) {
                                 if (data.result == 1) {
                                     _this.parents('tr').remove();
+                                } else if (data.result == 10002) {
+                                    alert("该材料存在入库信息");
                                 } else {
                                     alert("删除失败");
                                 }
@@ -1091,7 +1087,14 @@
                 alert("分类选择有误！");
                 return false;
             }
-            Product.savaProduct();
+            _self.saveType = $(this).data('id');
+            if ($(".autocomplete-text").val() && !$("#prodiver").data("id")) {
+                alert("请重新选择材料供应商!");
+                return;
+            } else {
+                Product.savaProduct();
+            }
+
         });
 
         VerifyObject = Verify.createVerify({
@@ -1173,11 +1176,12 @@
                     var _this = $(this);
                     confirm("删除材料后不可回复，确定要删除?", function () {
                         Global.post("/Products/DeleteProductDetailByID", {
-                            pid: _this.data('pid'),
                             did: _this.data('did')
                         }, function (data) {
                             if (data.result == 1) {
                                 _this.parents('tr').remove();
+                            } else if (data.result == 10002) {
+                                alert("该材料存在入库信息");
                             } else {
                                 alert("删除失败");
                             }

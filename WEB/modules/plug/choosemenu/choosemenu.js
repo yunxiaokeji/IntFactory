@@ -11,6 +11,10 @@
             return this.each(function () {
                 var _this = $(this);
                 options = $.extend({}, $.fn.chooseMenu.default, option);
+                if (options.isInit) {
+                    $(".change-menu-body").remove();
+                    menuData = [];
+                }
                 for (var i = 1; i <= options.layer; i++) {
                     var data = {
                         layer:  i,
@@ -27,6 +31,7 @@
             width: 400,
             data: "",
             layer: 3,
+            isInit:false,/*是否初始化控件*/
             defaults: {
                 headerText: "请选择",
                 headerID: ""
@@ -53,8 +58,8 @@
                     if ($(".change-menu-body").length == 0) {
                         var _closeMenu = $("<div title='关闭' class='close-layer iconfont right mRight10 hand color999'>&#xe606;</div>");
                         var _menuBody = $("<div class='change-menu-body' style='width:" + options.width + "px;left:" + offset.left + "px;top:" + (offset.top + 27) + "px;'></div>");
-                            _eleHeader = $("<div class='change-menu-header'><ul></ul></div>");
-                            _menuContent = $("<div class='change-menu-content'><ul></ul></div>");
+                        _eleHeader = $("<div class='change-menu-header'><ul></ul></div>");
+                        _menuContent = $("<div class='change-menu-content'><ul></ul></div>");
                         var _clearFloat = "<div class='clear'></div>";
                         _eleHeader.append(_closeMenu).append(_clearFloat);
                         _menuContent.append(_clearFloat);
@@ -66,7 +71,7 @@
                             _menuBody.hide();
                         });
                     } else {
-                        $(".change-menu-body").show();
+                        $(".change-menu-body").css({ "left": offset.left + "px", "top": (offset.top + 27) + "px" }).show();
                     }
                     return false;
                 });

@@ -706,23 +706,34 @@ namespace IntFactoryDAL
             return result == 1;
         }
 
-        public bool DeleteProductByID(string pid, string clientID)
+        public bool DeleteProductByID(string pid, string operateid,out int result)
         {
+            result = 0;
             SqlParameter[] paras = { 
+                                       new SqlParameter("@Result",SqlDbType.Int),
                                        new SqlParameter("@ProductID",pid),
-                                       new SqlParameter("@ClientID",clientID)
+                                       new SqlParameter("@OperateID",operateid)
                                    };
-            return ExecuteNonQuery("P_DeleteProductByID", paras, CommandType.StoredProcedure) > 0;
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
+            ExecuteNonQuery("P_DeleteProduct", paras, CommandType.StoredProcedure);
+            result = Convert.ToInt32(paras[0].Value);
+            return result == 1;
         }
 
-        public bool DeleteProductDetailByID(string pid,string did, string clientID)
+        public bool DeleteProductDetailByID(string did, string operateid, out int result)
         {
+            result = 0;
             SqlParameter[] paras = { 
-                                       new SqlParameter("@ProductID",pid),
+                                       new SqlParameter("@Result",SqlDbType.Int),
                                        new SqlParameter("@ProductDetailID",did),
-                                       new SqlParameter("@ClientID",clientID)
+                                       new SqlParameter("@OperateID",operateid)
                                    };
-            return ExecuteNonQuery("P_DeleteProducDeletetByID", paras, CommandType.StoredProcedure) > 0;
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
+            ExecuteNonQuery("P_DeleteProductDetail", paras, CommandType.StoredProcedure);
+            result = Convert.ToInt32(paras[0].Value);
+            return result == 1;
         }
 
         #endregion

@@ -16,7 +16,7 @@
     var CacheAttrValues = [];//订单品类属性缓存
     var PlateMakings = [];//制版工艺说明
     var ObjectJS = {};
-
+    var ChooseProduct = null;
     ///taskid：任务id
     ///orderid:订单id
     ///stageid：订单阶段id
@@ -46,6 +46,7 @@
         ObjectJS.mark = task.Mark;//任务标记 用于做标记任务完成的限制条件
         ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
         ObjectJS.isLoading = true;
+
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
             ObjectJS.materialMark = 1;
@@ -60,7 +61,6 @@
             ObjectJS.initPlateMaking();
         }
         else {
-          
             if (ObjectJS.mark == 12 || ObjectJS.mark == 22) {
                 ObjectJS.removeTaskPlateOperate();
             }
@@ -115,6 +115,39 @@
         //绑定任务样式图
         ObjectJS.bindOrderImages();
 
+        if ($("#btnChooseProduct").length == 1) {
+            ChooseProduct = require("chooseproduct");
+            //快捷添加产品
+            $("#btnChooseProduct").click(function () {
+                ChooseProduct.create({
+                    title: "选择采购材料",
+                    type: 11, //1采购 2出库 3报损 4报溢 5调拨
+                    wareid: ObjectJS.guid,
+                    callback: function (products) {
+                        if (products.length > 0) {
+                            var entity = {}, items = [];
+                            entity.guid = ObjectJS.guid;
+                            entity.type = 11;
+                            for (var i = 0; i < products.length; i++) {
+                                items.push({
+                                    ProductID: products[i].pid,
+                                    ProductDetailID: products[i].did,
+                                    BatchCode: products[i].batch,
+                                    DepotID: products[i].depotid,
+                                    Description: products[i].remark,
+                                });
+                            }
+                            entity.Products = items;
+                            Global.post("/ShoppingCart/AddShoppingCartBatchIn", { entity: JSON.stringify(entity) }, function (data) {
+                                if (data.status) {
+                                    location.href = location.href;
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        }
         //任务模块切换
         $(".module-tab li").click(function () {
             var _this = $(this);

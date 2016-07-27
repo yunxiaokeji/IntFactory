@@ -13,7 +13,6 @@ define(function (require, exports, module) {
     (function ($) {
         $.fn.createCart = function (options) {
             var opts = $.extend({}, $.fn.createCart.defaults, options);
-            console.log(opts);
             return this.each(function () {
                 var _this = $(this);
                 $.fn.drawCart(_this, opts);

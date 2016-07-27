@@ -1,7 +1,8 @@
 ﻿define(function (require, exports, module) {
     var Global = require("global"),
-        Easydialog = require("easydialog");
-        doT = require("dot");
+        Easydialog = require("easydialog"),
+        doT = require("dot"),
+        quicklyAdd = require("quicklyproduct");
     require("cart");
     require("pager");
 
@@ -22,6 +23,7 @@
     }
 
     var ObjectJS = {};
+    var isLoadding = false;
     //初始化
     ObjectJS.init = function (type, guid, tid) {
         var _self = this;
@@ -140,12 +142,23 @@
     //绑定事件
     ObjectJS.bindEvent = function () {
         var _self = this;
-
         $(".category-map li").click(function () {
             $(this).nextAll().remove();
             _self.getChildCategory($(this).data("id"));
         });
 
+        //绑定快捷添加材料
+        $("#btnQulicklyAddMaterial").click(function () {
+            quicklyAdd.create({
+                callback: function (data) {
+                    if (data.result) {
+                        location.href = location.href;
+                    } else {
+                        alert("添加失败");
+                    }
+                }
+            });
+        });
         //搜索
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
@@ -324,15 +337,21 @@
 
     //加入购物车
     ObjectJS.showDetail = function (pid, did) {
+        if (isLoadding) {
+            alert("数据加载中,请稍候");
+            return false;
+        }
         var _self = this;
         var objCache = {};
         //缓存产品信息
         if (!CacheProduct[did]) {
+            isLoadding = true;
             Global.post("/Products/GetProductByIDForDetails", {
                 productid: pid,
                 did: did,
                 type: _self.type
             }, function (data) {
+                isLoadding = false;
                 CacheProduct[did] = data.Item;
                 doT.exec("template/shoppingcart/product-detail.html", function (templateFun) {
                     var html = templateFun(CacheProduct[did]);

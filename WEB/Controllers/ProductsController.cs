@@ -537,6 +537,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetUnits()
+        {
+            var items = new ProductsBusiness().GetUnits();
+            JsonDictionary.Add("items", items);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         /// <summary>
         /// 编辑产品状态
         /// </summary>
@@ -697,8 +708,9 @@ namespace YXERP.Controllers
         /// </summary>
         public JsonResult DeleteProductByID(string pid) 
         {
-            bool flag = ProductsBusiness.BaseBusiness.DeleteProductByID(pid, CurrentUser.ClientID);
-            JsonDictionary.Add("result", flag ? "1" : "0");
+            int result;
+            ProductsBusiness.BaseBusiness.DeleteProductByID(pid, CurrentUser.UserID, out result);
+            JsonDictionary.Add("result", result);
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -709,10 +721,11 @@ namespace YXERP.Controllers
         /// <summary>
         /// 删除子产品
         /// </summary>
-        public JsonResult DeleteProductDetailByID(string pid,string did)
+        public JsonResult DeleteProductDetailByID(string did)
         {
-            bool flag = ProductsBusiness.BaseBusiness.DeleteProductDetailByID(pid, did, CurrentUser.ClientID);
-            JsonDictionary.Add("result", flag ? "1" : "0");
+            int result;
+            ProductsBusiness.BaseBusiness.DeleteProductDetailByID(did, CurrentUser.UserID, out result);
+            JsonDictionary.Add("result", result);
             return new JsonResult
             {
                 Data = JsonDictionary,

@@ -14,13 +14,9 @@
             <!--<li class="commonprice">￥{%=model.CommonPrice.toFixed(2)%}</li>-->
         </ul>
         <div class="cart-attrs" id="saleattr">
-            {%
-            for(var i=0, j=model.SaleAttrs.length; i < j; i++){
-	            var attr = model.SaleAttrs[i];
-            %}
-                <ul class="cart-attr-item salesattr" data-id="{%= attr.AttrID%}">
+                <ul class="cart-attr-item salesattr">
                     <li class="attrkey">
-                        {%=(model.SaleAttrs.Count == 1?attr.AttrName+"：":"规格：")%}
+                        {%=(model.SaleAttrs.Count == 1?model.SaleAttrs[0].AttrName+"：":"规格：")%}
                     </li> 
                     <li class="cart-attrValues">
                         <ul style="height:200px;overflow-y:auto;">
@@ -37,11 +33,12 @@
                                     {
                                     %}
                                         <li class="cart-value" data-id="{%=detail.ProductDetailID%}">
-                                        {%=(detail.Description=="" ? "默认规格" : detail.Description.replace('[', ' ').replace(']', ' ').replace(attr.AttrName+":",' ').replace(attr.AttrName+"：",' '))%}
+                                        {%=(detail.Description=="" ? "默认规格" : detail.Description.replace('[', ' ').replace(']', ' ').replace(model.SaleAttrs[0].AttrName+":",' ').replace(model.SaleAttrs[0].AttrName+"：",' '))%}
                                         </li>
                                     {%}else{
                                     %}
                                         <li class="cart-value" data-id="{%=detail.ProductDetailID%}">
+                                            {%=(detail.Description=="" ? "默认规格" : detail.Description.replace('[', ' ').replace(']', ' '))%}
                                        </li>
                                     {%}%}
                              </li>  
@@ -50,7 +47,6 @@
                     </li>
                 </ul>
             <div class="clear"></div>
-            {% } %}
             <ul class="cart-attr-item">
                 <li class="cart-attrkey">单位：</li>
                 <li class="cart-attrValues">
