@@ -155,9 +155,9 @@ define(function (require, exports, module) {
 
         Global.post(url, Params, function (data) {
             $(".tr-header").nextAll().remove();
-
             if (data.items.length > 0) {
                 doT.exec(template, function (templateFun) {
+                    
                     var innerText = templateFun(data.items);
                     innerText = $(innerText);
                     $(".tr-header").after(innerText);

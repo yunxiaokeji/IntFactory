@@ -31,7 +31,7 @@
 .attrValues li { height:25px; line-height:25px; float:left; padding:0 20px; margin:5px 0; cursor:pointer; display:inline-block; }
 .attrValues li.hover { border:solid 1px #4A99E8; color:#4A99E8; }
 
-#unit li {  border:none;padding:0;height:25px; line-height:25px;margin-left:20px;color:#333;}
+#unit li {  border:none;padding:0;height:25px; line-height:25px;color:#333;}
 #unit li:hover { border: none; color: #333; }
 
 #beginprice, #endprice { width:60px; }
@@ -69,10 +69,8 @@
 .add-cart-div .product-name { margin-left:50px; width:500px; overflow:auto; min-height:400px;}
 .add-cart-div .product-name h1{ font-size:16px;}
 
-.add-cart-div .product-name .price{ height:50px; margin:10px 0; padding:0 10px; background-color:#f3f3f3; }
 .product-name .price li { height:50px; float:left; line-height:50px;}
 .product-name .price .column { width:60px;color:#333;}
-.product-name .price .salesprice { font-size:26px; color:#B10000; font-weight:bold; }
 .product-name .price .commonprice { text-decoration:line-through; margin-left:10px; font-size:14px;}
 
 .cart-attrs { height:150px; }

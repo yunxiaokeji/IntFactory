@@ -13,10 +13,10 @@
 }
 <div class="header-box">
     <span class="header-title left">提交采购单</span>
-    <a class="btn-add right mLeft20" href="/Products/ChooseProducts" id="addChooseProduct">选择采购材料</a>
-    <div class="btnccc right" id="btnChooseProduct">快捷选择材料</div>
+    <div class="btn-add right mLeft20" id="btnChooseProduct">快捷选择材料</div>
+    <a class="right font14 mTop4 hRed" href="/Products/ChooseProducts" id="addChooseProduct">选择采购材料</a>
 </div>
-<div class="content-body mTop20" style="padding:20px;">
+<div class="content-body mTop20">
     <table class="table-items-detail">
         <tr class="table-header tr-header">
             <td class="tLeft width50"></td>
@@ -34,7 +34,7 @@
             foreach (var model in product)
             { 
             <tr class="item cart-item" data-autoid="@(model.AutoID)" data-id="@(model.ProductDetailID)" >
-                <td class=" bBottom bLeft" style="padding:5px;">
+                <td class=" bBottom" style="padding:5px;">
                     <a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">
                         <img style="width:80px;height:80px;" src="@(string.IsNullOrEmpty(model.ImgS) ? model.ProductImage : model.ImgS)" />
                     </a>
@@ -45,7 +45,7 @@
                 <td class="tr-price  bBottom"><input type="text" data-id="@(model.AutoID)" data-value="@(model.Price.ToString("f2"))" class="price width80" value="@(model.Price.ToString("f2"))" /></td>
                 <td class="tr-quantity  bBottom"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f2"))" /></td>
                 <td class="amount bBottom">@((model.Price * model.Quantity).ToString("f2"))</td>
-                <td class="center bRight  bBottom">
+                <td class="center  bBottom">
                     <a class="ico-del iconfont font20" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
                 </td>
             </tr>
@@ -68,7 +68,7 @@
         
         
     </table>
-    <div class="mTop20">
+    <div class="mTop20" style="padding:0 20px;">
         <div class="right" id="chooseWare"></div>
         <div class="clear"></div>
         <input type="text" placeholder="备注" id="remark" class="width500 mTop10 right">

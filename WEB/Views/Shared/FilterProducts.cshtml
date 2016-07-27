@@ -16,37 +16,41 @@
     @if (Convert.ToInt32(ViewBag.Type) == 11)
     {
         <a class="btn-back right mLeft20" href="/Task/Detail/@(ViewBag.TID)">返回任务详情</a>
-        <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)&tid=@(ViewBag.TID)">添加材料</a>
+        <span class="btn-add right mLeft20" id="btnQulicklyAddMaterial">快捷添加材料</span> 
+        <a class="btn999 right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)&tid=@(ViewBag.TID)">添加材料</a>
     }
     else if (Convert.ToInt32(ViewBag.Type) == 1)
     {
         <a class="btn-back right mLeft20" href="/Products/ConfirmPurchase">返回采购单</a>
-        <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
+        <span class="btn-add right mLeft20" id="btnQulicklyAddMaterial">快捷添加材料</span> 
+        <a class="btn999 right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
     }
         else if (Convert.ToInt32(ViewBag.Type) == 3)
     {
         <a class="btn-back right mLeft20" href="/Stock/CreateDamaged">返回报损单</a>
-        <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
+        <span class="btn-add right mLeft20" id="btnQulicklyAddMaterial">快捷添加材料</span> 
+        <a class="btn999 right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
     }
     else if (Convert.ToInt32(ViewBag.Type) == 4)
     {
         <a class="btn-back right mLeft20" href="/Stock/CreateOverflow">返回报溢单</a>
-        <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
+        <span class="btn-add right mLeft20" id="btnQulicklyAddMaterial">快捷添加材料</span> 
+        <a class="btn999 right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
     }
     else
     {
-        <a class="btn right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
+        <span class="btn-add right mRight20" id="btnQulicklyAddMaterial">快捷添加材料</span>   
+        <a class="btn999 right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
     }
-    <span class="btn999 right mRight20" id="btnQulicklyAddMaterial">快捷添加材料</span>   
 </div>
 <div class="content-body mTop20">
     <div class="top-div">
         <ul class="category-map">
             <li data-id=""><a href="javascript:void(0);">全部分类</a></li>
         </ul>
-        <div class="right searth-module" data-text="输入产品编码/名称/助记码" data-width="300"> </div>
+        <div class="right searth-module mRight10" data-text="输入产品编码/名称/助记码" data-width="300"> </div>
     </div>
-    <div class="attr-filter">
+    <div class="search-body">
         <ul class="category-child attr-item">
             <li class="attrkey">分类：</li>
             <li class="attrValues">

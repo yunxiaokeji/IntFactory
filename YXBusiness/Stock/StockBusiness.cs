@@ -27,10 +27,8 @@ namespace IntFactoryBusiness
             {
                 StorageDoc model = new StorageDoc();
                 model.FillData(dr);
-
+                model.UserName = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientID).Name;
                 model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
-
-                
 
                 model.Details = new List<StorageDetail>();
                 if (ds.Tables.Contains("Details"))
@@ -39,6 +37,13 @@ namespace IntFactoryBusiness
                     {
                         StorageDetail dModel = new StorageDetail();
                         dModel.FillData(detail);
+                        if ((int)type == 3 || (int)type == 4)
+                        {
+                            if (!string.IsNullOrEmpty(dModel.DepotID) && !string.IsNullOrEmpty(dModel.WareID))
+                            {
+                                dModel.DepotCode = SystemBusiness.BaseBusiness.GetDepotByID(dModel.DepotID, dModel.WareID, clientID).DepotCode;
+                            }
+                        }
                         model.Details.Add(dModel);
                     }
                 }

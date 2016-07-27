@@ -112,9 +112,14 @@
            </div>
             <div class="choose-div hide">
                 @{
-                if ((type == 3 && depots.Count > 0)||type==4||type==1||type==11)
+                if ((type == 3 && depots.Count > 0))
                 {
-                    <div class="depot-dropdown left mTop10 mRight10"></div>
+                    <div class="mTop10 left">
+                        <div class="depot-dropdown mRight10"></div>                
+                    </div>
+                }
+                if ((type == 3 && depots.Count > 0) || type == 4 || type == 1 || type == 11)
+                {
                     <div class="choose-quantity left">
                         <input type="text" value="1" id="quantity" />
                         <span class="quantity-add" id="quantityadd">+</span>

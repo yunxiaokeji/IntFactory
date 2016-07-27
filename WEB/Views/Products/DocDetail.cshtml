@@ -92,10 +92,8 @@
             <td></td>
             <td></td>
             <td></td>
-            @if(model.DocType==1)
-            {
-              <td></td>
-            }
+            <td></td>
+            <td></td>
             <td></td>
             <td class="tRight">合计：</td>
             <td class="tRight">@(model.TotalMoney.ToString("f2"))</td>
@@ -108,12 +106,13 @@
         <div class="mTop20" id="pager"></div>
     </div>
 
-    <table id="navStorageIn" class="nav-partdiv table-list mTop20 hide">
-        <tr class="tr-header">
+    <table id="navStorageIn" class="nav-partdiv table-items-detail mTop20 hide">
+        <tr class="table-header">
             <td class="tLeft">单号</td>
             <td class="">总金额</td>
-            <td class="width150">操作人</td>
-            <td class="width200">操作日期</td>
+            <td class="">入库数</td>
+            <td class="">操作人</td>
+            <td class="">操作日期</td>
         </tr>
     </table>
     

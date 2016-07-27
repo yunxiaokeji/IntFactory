@@ -13,16 +13,16 @@
 }
 <div class="header-box">
     <span class="header-title left">新建报损单</span>
-    <a href="/Stock/ChooseBSProducts" class="btn-add right mLeft20" id="addChooseProduct">选择报损材料</a>
-    <div class="btnccc right" id="btnChooseProduct">快捷选择材料</div>
+    <div class="btn-add right mLeft20" id="btnChooseProduct">快捷选择材料</div>
+    <a href="/Stock/ChooseBSProducts" class="right font14 mTop4 hRed" id="addChooseProduct">选择报损材料</a>
     <div class="clear"></div>
 </div>
-<div class="content-body mTop20" style="padding:20px;">
+<div class="content-body mTop20">
     <table class="table-items-detail">
         <tr class="table-header tr-header">
             <td class="tLeft">材料名称</td>
-            <td class="">材料编码</td>
-            <td class="">规格</td>
+            <td class="tLeft">材料编码</td>
+            <td class="tLeft">规格</td>
             <td class="center width80">货位</td>
             <td class="center">数量</td>
             <td class="center width80">删除</td>
@@ -32,12 +32,12 @@
             foreach (var model in product)
             { 
                 <tr class="item cart-item" data-autoid="@(model.AutoID)" data-id="@(model.ProductDetailID)" >
-                    <td class="tLeft bLeft bBottom"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
-                    <td class="bBottom"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductCode)</a></td>
-                    <td class="bBottom">@(model.Description)</td>
+                    <td class="tLeft bBottom"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
+                    <td class="bBottom tLeft"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductCode)</a></td>
+                    <td class="bBottom tLeft">@(model.Description)</td>
                     <td class="center bBottom">@(model.DepotCode)</td>
                     <td class="center bBottom tr-quantity"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f3"))" /></td>
-                    <td class="center bBottom bRight">
+                    <td class="center bBottom">
                         <a class="ico-del iconfont font20" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
                     </td>
                 </tr>
@@ -48,7 +48,7 @@
             <tr><td colspan="6"><div class="nodata-txt">暂无材料</div></td></tr>
         }
     </table>
-    <div class="mTop20">
+    <div class="mTop20" style="padding:20px;">
         <div class="right" id="chooseWare"></div>
         <div class="clear"></div>
         <input type="text" placeholder="备注" id="remark" class="width500 mTop10 right">
