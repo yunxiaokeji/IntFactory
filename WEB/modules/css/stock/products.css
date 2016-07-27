@@ -38,7 +38,7 @@
 
 .edui-container { min-width:700px; width:80%; float:left; }
 
-.product-img { position:absolute; top:140px; right:50px; width:150px;max-height:150px;}
+.product-img { position:absolute; top:30px; right:50px; width:150px;max-height:150px;}
 .product-img img{ width:150px;}
 
 .salesattr .salesattr-values span{ min-width:80px;}
