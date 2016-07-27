@@ -35,7 +35,7 @@
             {
          %}
          <td rowspan="{%=kk%}" class="tLeft bBottom bRight">
-             <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.DocImage?item.DocImage:'/modules/images/img-noimg.png'%}" />
+             <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.DocImage?item.DocImage:'/modules/images/img-noimg.png'%}" style="width:80px;height:80px;" />
          </td>
          {%}%}
          <td class="bBottom tLeft"><a href="/Products/ChooseDetail?pid={%=detailItem.ProductID%}&did={%=detailItem.ProductDetailID%}" target="_blank">{%=detailItem.ProductName+"&nbsp;&nbsp;"%}<span class="color999">{%=detailItem.Remark%}</span></a></td>
