@@ -189,7 +189,7 @@ define(function (require, exports, module) {
             Easydialog.open({
                 container: {
                     id: "category-add-div",
-                    header: Category.CategoryID == "" ? "添加品类" : "编辑品类",
+                    header: Category.CategoryID == "" ? "添加类别" : "编辑类别",
                     content: html,
                     yesFn: function () {
 
@@ -355,7 +355,7 @@ define(function (require, exports, module) {
         var _self = this;
         var _attrlist = $(".category-attr-layer").find("ul[data-type=" + ele.data("type") + "]");
         if (ele.data("type") == 1 && _attrlist.find("li").length > 1) {
-            alert("品类已设置制版属性!");
+            alert("分类已设置制版属性!");
             return;
         };
         if (_attrlist.find(".category-attr-layer li[data-id=" + ele.data("id") + "]").length === 0) {
@@ -375,7 +375,7 @@ define(function (require, exports, module) {
                     }
                     _self.innerAttr(_attrlist, _model);
                 } else if (ele.data("type") == 1) {
-                    alert("品类已设置制版属性！");
+                    alert("分类已设置制版属性！");
                 }
             });
             

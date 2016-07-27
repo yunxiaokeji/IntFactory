@@ -87,6 +87,11 @@ namespace YXManage.Controllers
             return View();
         }
 
+        public ActionResult ProcessCategory()
+        {
+            return View();
+        }
+
         #region 单位
 
         /// <summary>
@@ -365,6 +370,8 @@ namespace YXManage.Controllers
         }
 
         #endregion
+
+
 
         public JsonResult GetProductList(string filter)
         {

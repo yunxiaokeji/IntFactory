@@ -18,8 +18,6 @@ namespace IntFactoryBusiness
 
         #region Cache
 
-        private static Dictionary<string, List<CustomSourceEntity>> _source;
-        private static Dictionary<string, List<CustomStageEntity>> _stages;
         private static Dictionary<string, List<LableColorEntity>> _customcolor;
         private static Dictionary<string, List<LableColorEntity>> _ordercolor;
         private static Dictionary<string, List<LableColorEntity>> _taskcolor;       
@@ -28,43 +26,9 @@ namespace IntFactoryBusiness
 
         private static Dictionary<string, List<OrderStageEntity>> _orderstages;
 
-        private static Dictionary<string, List<OrderTypeEntity>> _ordertypes;
-
         private static Dictionary<string, List<TeamEntity>> _teams;
 
         private static Dictionary<string, List<WareHouse>> _wares;
-
-        private static Dictionary<string, List<CustomSourceEntity>> CustomSources
-        {
-            get
-            {
-                if (_source == null)
-                {
-                    _source = new Dictionary<string, List<CustomSourceEntity>>();
-                }
-                return _source;
-            }
-            set 
-            {
-                _source = value;
-            }
-        }
-
-        private static Dictionary<string, List<CustomStageEntity>> CustomStages
-        {
-            get
-            {
-                if (_stages == null)
-                {
-                    _stages = new Dictionary<string, List<CustomStageEntity>>();
-                }
-                return _stages;
-            }
-            set
-            {
-                _stages = value;
-            }
-        }
 
         private static Dictionary<string, List<LableColorEntity>> CustomColor
         {
@@ -141,22 +105,6 @@ namespace IntFactoryBusiness
             }
         }
 
-        private static Dictionary<string, List<OrderTypeEntity>> OrderTypes
-        {
-            get
-            {
-                if (_ordertypes == null)
-                {
-                    _ordertypes = new Dictionary<string, List<OrderTypeEntity>>();
-                }
-                return _ordertypes;
-            }
-            set
-            {
-                _ordertypes = value;
-            }
-        }
-
         private static Dictionary<string, List<TeamEntity>> Teams
         {
             get
@@ -192,28 +140,6 @@ namespace IntFactoryBusiness
         #endregion
 
         #region 查询
-
-        public List<CustomSourceEntity> GetCustomSources(string agentid,string clientid)
-        {
-            if (CustomSources.ContainsKey(clientid)) 
-            {
-                return CustomSources[clientid];
-            }
-
-            List<CustomSourceEntity> list = new List<CustomSourceEntity>();
-            DataTable dt = SystemDAL.BaseProvider.GetCustomSources(clientid);
-            foreach (DataRow dr in dt.Rows)
-            {
-                CustomSourceEntity model = new CustomSourceEntity();
-                model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, agentid);
-                list.Add(model);
-            }
-            CustomSources.Add(clientid, list);
-
-            return list;
-
-        }
 
         public List<LableColorEntity> GetLableColor(string clientid, EnumMarkType lableType)
         {            
@@ -290,87 +216,6 @@ namespace IntFactoryBusiness
         {
             var list = GetLableColor(clientid, markType);
             return list.Where(x =>x.Status!=9 && x.ColorID == colorid).FirstOrDefault();
-        }
-
-        public CustomSourceEntity GetCustomSourcesByID(string sourceid, string agentid, string clientid)
-        {
-            if (string.IsNullOrEmpty(sourceid))
-            {
-                return null;
-            }
-            var list = GetCustomSources(agentid, clientid);
-            if (list.Where(m => m.SourceID == sourceid).Count() > 0)
-            {
-                return list.Where(m => m.SourceID == sourceid).FirstOrDefault();
-            }
-
-            CustomSourceEntity model = new CustomSourceEntity();
-            DataTable dt = SystemDAL.BaseProvider.GetCustomSourceByID(sourceid);
-            if (dt.Rows.Count > 0)
-            {
-                model.FillData(dt.Rows[0]);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, agentid);
-                CustomSources[clientid].Add(model);
-            }
-           
-            return model;
-        }
-
-        public List<CustomStageEntity> GetCustomStages(string agentid, string clientid)
-        {
-            if (CustomStages.ContainsKey(clientid))
-            {
-                return CustomStages[clientid].OrderBy(m => m.Sort).ToList();
-            }
-
-            List<CustomStageEntity> list = new List<CustomStageEntity>();
-            DataSet ds = SystemDAL.BaseProvider.GetCustomStages(clientid);
-            foreach (DataRow dr in ds.Tables["Stages"].Rows)
-            {
-                CustomStageEntity model = new CustomStageEntity();
-                model.FillData(dr);
-                model.StageItem = new List<StageItemEntity>();
-                foreach (DataRow itemdr in ds.Tables["Items"].Select("StageID='" + model.StageID + "'"))
-                {
-                    StageItemEntity item = new StageItemEntity();
-                    item.FillData(itemdr);
-                    model.StageItem.Add(item);
-                }
-
-                list.Add(model);
-            }
-            CustomStages.Add(clientid, list);
-
-            return list;
-        }
-
-        public CustomStageEntity GetCustomStageByID(string stageid, string agentid, string clientid)
-        {
-            if (string.IsNullOrEmpty(stageid))
-            {
-                return null;
-            }
-            var list = GetCustomStages(agentid, clientid);
-            if (list.Where(m => m.StageID == stageid).Count() > 0)
-            {
-                return list.Where(m => m.StageID == stageid).FirstOrDefault();
-            }
-
-            CustomStageEntity model = new CustomStageEntity();
-            DataSet ds = SystemDAL.BaseProvider.GetCustomStageByID(stageid);
-            if (ds.Tables["Stages"].Rows.Count > 0)
-            {
-                model.FillData(ds.Tables["Stages"].Rows[0]);
-                model.StageItem = new List<StageItemEntity>();
-                foreach (DataRow itemdr in ds.Tables["Items"].Rows)
-                {
-                    StageItemEntity item = new StageItemEntity();
-                    item.FillData(itemdr);
-                    model.StageItem.Add(item);
-                }
-                CustomStages[clientid].Add(model);
-            }
-            return model;
         }
 
         public List<OrderProcessEntity> GetOrderProcess(string agentid, string clientid)
@@ -474,52 +319,6 @@ namespace IntFactoryBusiness
                 OrderStages[clientid].Add(model);
             }
 
-            return model;
-        }
-
-        public List<OrderTypeEntity> GetOrderTypes(string agentid, string clientid)
-        {
-            if (OrderTypes.ContainsKey(clientid))
-            {
-                return OrderTypes[clientid].ToList();
-            }
-
-            List<OrderTypeEntity> list = new List<OrderTypeEntity>();
-            DataSet ds = SystemDAL.BaseProvider.GetOrderTypes(clientid);
-            foreach (DataRow dr in ds.Tables[0].Rows)
-            {
-                OrderTypeEntity model = new OrderTypeEntity();
-                model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, agentid);
-                list.Add(model);
-            }
-
-            OrderTypes.Add(clientid, list);
-
-            return list;
-        }
-
-        public OrderTypeEntity GetOrderTypeByID(string typeid, string agentid, string clientid)
-        {
-            if (string.IsNullOrEmpty(typeid))
-            {
-                return null;
-            }
-            var list = GetOrderTypes(agentid, clientid);
-            if (list.Where(m => m.TypeID == typeid).Count() > 0)
-            {
-                return list.Where(m => m.TypeID == typeid).FirstOrDefault();
-            }
-
-            OrderTypeEntity model = new OrderTypeEntity();
-            DataTable dt = SystemDAL.BaseProvider.GetOrderTypeByID(typeid);
-            if (dt.Rows.Count > 0)
-            {
-                model.FillData(dt.Rows[0]);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, agentid);
-                OrderTypes[clientid].Add(model);
-            }
-            
             return model;
         }
 
@@ -676,74 +475,6 @@ namespace IntFactoryBusiness
         #endregion
 
         #region 添加
-
-        public string CreateCustomSource(string sourcecode, string sourcename, int ischoose, string userid, string agentid, string clientid,out int result)
-        {
-            string sourceid = Guid.NewGuid().ToString();
-
-            bool bl = SystemDAL.BaseProvider.CreateCustomSource(sourceid, sourcecode, sourcename, ischoose , userid, clientid, out result);
-            if (bl)
-            {
-                if (!CustomSources.ContainsKey(clientid)) 
-                {
-                    GetCustomSources(agentid, clientid);
-                }
-
-                CustomSources[clientid].Add(new CustomSourceEntity()
-                {
-                    SourceID = sourceid.ToLower(),
-                    SourceName = sourcename,
-                    SourceCode = sourcecode,
-                    IsChoose = ischoose,
-                    IsSystem = 0,
-                    Status = 1,
-                    CreateTime = DateTime.Now,
-                    CreateUserID = userid,
-                    CreateUser = OrganizationBusiness.GetUserByUserID(userid, agentid),
-                    ClientID = clientid
-                });
-
-                return sourceid;
-            }
-            return "";
-        }
-
-        public string CreateCustomStage(string name, int sort, string pid, string userid, string agentid, string clientid, out int result)
-        {
-            string stageid = Guid.NewGuid().ToString();
-
-            bool bl = SystemDAL.BaseProvider.CreateCustomStage(stageid, name, sort, pid, userid, clientid, out result);
-            if (bl)
-            {
-                if (!CustomStages.ContainsKey(clientid))
-                {
-                    GetCustomStages(agentid, clientid);
-                }
-
-                var list = CustomStages[clientid].Where(m => m.Sort >= sort && m.Status == 1).ToList();
-                foreach (var model in list)
-                {
-                    model.Sort += 1;
-                }
-
-                CustomStages[clientid].Add(new CustomStageEntity()
-                {
-                    StageID = stageid.ToLower(),
-                    StageName = name,
-                    Sort = sort,
-                    PID = pid,
-                    Mark = 0,
-                    Status = 1,
-                    CreateTime = DateTime.Now,
-                    CreateUserID = userid,
-                    ClientID = clientid,
-                    StageItem = new List<StageItemEntity>()
-                });
-
-                return stageid;
-            }
-            return "";
-        }
 
         public string CreateStageItem(string name, string stageid, string processid, string userid, string agentid, string clientid)
         {
@@ -913,35 +644,6 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        public string CreateOrderType(string typename, string typecode, string userid, string agentid, string clientid)
-        {
-            string typeid = Guid.NewGuid().ToString();
-
-            bool bl = SystemDAL.BaseProvider.CreateOrderType(typeid, typename, typecode, userid, clientid);
-            if (bl)
-            {
-                if (!OrderTypes.ContainsKey(clientid))
-                {
-                    GetOrderTypes(agentid, clientid);
-                }
-
-                OrderTypes[clientid].Add(new OrderTypeEntity()
-                {
-                    TypeID = typeid.ToLower(),
-                    TypeName = typename,
-                    TypeCode = typecode,
-                    Status = 1,
-                    CreateTime = DateTime.Now,
-                    CreateUserID = userid,
-                    CreateUser = OrganizationBusiness.GetUserByUserID(userid, agentid),
-                    ClientID = clientid
-                });
-
-                return typeid;
-            }
-            return "";
-        }
-
         public string CreateTeam(string teamname, string userid, string agentid, string clientid)
         {
             string teamid = Guid.NewGuid().ToString();
@@ -1016,38 +718,6 @@ namespace IntFactoryBusiness
         #endregion
 
         #region 编辑/删除
-
-        public bool UpdateCustomSource(string sourceid, string sourcename, int ischoose, string userid,string ip, string agentid, string clientid)
-        {
-            var model = GetCustomSourcesByID(sourceid, agentid, clientid);
-            if (string.IsNullOrEmpty(sourcename))
-            {
-                sourcename = model.SourceName;
-            }
-            bool bl = SystemDAL.BaseProvider.UpdateCustomSource(sourceid, sourcename, ischoose, clientid);
-            if (bl)
-            {
-                model.SourceName = sourcename;
-                model.IsChoose = ischoose;
-            }
-            return bl;
-        }
-
-        public bool DeleteCustomSource(string sourceid, string userid, string ip, string agentid, string clientid)
-        {
-            var model = GetCustomSourcesByID(sourceid, agentid, clientid);
-            //系统默认来源不能删除
-            if (model.IsSystem == 1)
-            {
-                return false;
-            }
-            bool bl = SystemDAL.BaseProvider.DeleteCustomSource(sourceid, clientid);
-            if (bl)
-            {
-                CustomSources[clientid].Remove(model);
-            }
-            return bl;
-        }
 
         public int UpdateLableColor(string agentid, string clientid, int colorid, string colorName, string colorValue, string updateuserid, EnumMarkType lableType)
         {
@@ -1137,66 +807,6 @@ namespace IntFactoryBusiness
                     }
                 }
             } return result ? 1 : 0;
-        }
-
-        public bool UpdateCustomStage(string stageid, string name, string userid, string ip, string agentid, string clientid)
-        {
-            var model = GetCustomStageByID(stageid, agentid, clientid);
-
-            bool bl = SystemDAL.BaseProvider.UpdateCustomStage(stageid, name, clientid);
-            if (bl)
-            {
-                model.StageName = name;
-            }
-            return bl;
-        }
-
-        public bool DeleteCustomStage(string stageid, string userid, string ip, string agentid, string clientid)
-        {
-            var model = GetCustomStageByID(stageid, agentid, clientid);
-            //新客户和成交客户不能删除
-            if (model.Mark != 0)
-            {
-                return false;
-            }
-            bool bl = SystemDAL.BaseProvider.DeleteCustomStage(stageid, userid, clientid);
-            if (bl)
-            {
-                CustomStages[clientid].Remove(model);
-
-                var list = CustomStages[clientid].Where(m => m.Sort > model.Sort && m.Status == 1).ToList();
-                foreach (var stage in list)
-                {
-                    stage.Sort -= 1;
-                }
-            }
-            return bl;
-        }
-
-        public bool UpdateStageItem(string itemid, string name, string stageid, string processid, string userid, string ip, string agentid, string clientid)
-        {
-            var model = GetOrderStageByID(stageid, processid, agentid, clientid);
-
-            bool bl = CommonBusiness.Update("StageItem", "ItemName", name, "ItemID='" + itemid + "'");
-            if (bl)
-            {
-                var item = model.StageItem.Where(m => m.ItemID == itemid).FirstOrDefault();
-                item.ItemName = name;
-            }
-            return bl;
-        }
-
-        public bool DeleteStageItem(string itemid, string stageid, string processid, string userid, string ip, string agentid, string clientid)
-        {
-            var model = GetOrderStageByID(stageid, processid, agentid, clientid);
-
-            bool bl = CommonBusiness.Update("StageItem", "Status", "9", "ItemID='" + itemid + "'");
-            if (bl)
-            {
-                var item = model.StageItem.Where(m => m.ItemID == itemid).FirstOrDefault();
-                model.StageItem.Remove(item);
-            }
-            return bl;
         }
 
         public bool UpdateOrderProcess(string processid, string name, int days, string userid, string ip, string agentid, string clientid)
@@ -1320,31 +930,6 @@ namespace IntFactoryBusiness
             {
                 model.OwnerID = ownerid;
                 model.Owner = OrganizationBusiness.GetUserByUserID(ownerid, agentid);
-            }
-            return bl;
-        }
-
-        public bool UpdateOrderType(string typeid, string typename, string typecode, string userid, string ip, string agentid, string clientid)
-        {
-            var model = GetOrderTypeByID(typeid, agentid, clientid);
-
-            bool bl = SystemDAL.BaseProvider.UpdateOrderType(typeid, typename, typecode, clientid);
-            if (bl)
-            {
-                model.TypeName = typename;
-                model.TypeCode = typecode;
-            }
-            return bl;
-        }
-
-        public bool DeleteOrderType(string typeid, string userid, string ip, string agentid, string clientid)
-        {
-            var model = GetOrderTypeByID(typeid, agentid, clientid);
-
-            bool bl = CommonBusiness.Update("OrderType", "Status", "9", "TypeID='" + typeid + "'");
-            if (bl)
-            {
-                OrderTypes[clientid].Remove(model);
             }
             return bl;
         }

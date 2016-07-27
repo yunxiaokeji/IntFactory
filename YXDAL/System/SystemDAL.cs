@@ -14,47 +14,6 @@ namespace IntFactoryDAL
 
         #region 查询
 
-        public DataTable GetCustomSources(string clientid)
-        {
-            SqlParameter[] paras = { 
-                                       new SqlParameter("@ClientID",clientid)
-                                   };
-
-            DataTable dt = GetDataTable("select * from CustomSource where ClientID=@ClientID and Status=1 ", paras, CommandType.Text);
-
-            return dt;
-        }
-
-        public DataTable GetCustomSourceByID(string sourceid)
-        {
-            string sqlText = "select * from CustomSource where SourceID=@SourceID and Status=1";
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@SourceID",sourceid)
-                                   };
-
-            return GetDataTable(sqlText, paras, CommandType.Text);
-        }
-
-        public DataSet GetCustomStages(string clientid)
-        {
-            SqlParameter[] paras = { 
-                                       new SqlParameter("@ClientID",clientid)
-                                   };
-
-            return GetDataSet("select * from CustomStage where ClientID=@ClientID and Status=1 Order by Sort; select * from StageItem where ClientID=@ClientID and Status=1;", paras, CommandType.Text, "Stages|Items");
-
-        }
-
-        public DataSet GetCustomStageByID(string stageid)
-        {
-            string sqlText = "select * from CustomStage where StageID=@StageID and Status=1; select * from StageItem where StageID=@StageID and Status=1;";
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@StageID",stageid)
-                                   };
-
-            return GetDataSet(sqlText, paras, CommandType.Text, "Stages|Items");
-        }
-
         public DataSet GetOrderProcess(string clientid)
         {
             SqlParameter[] paras = { 
@@ -93,26 +52,6 @@ namespace IntFactoryDAL
                                    };
 
             return GetDataSet(sqlText, paras, CommandType.Text, "Stages|Items");
-        }
-
-        public DataSet GetOrderTypes(string clientid)
-        {
-            SqlParameter[] paras = { 
-                                       new SqlParameter("@ClientID",clientid)
-                                   };
-
-            return GetDataSet("select * from OrderType where ClientID=@ClientID and Status=1 ", paras, CommandType.Text);
-
-        }
-
-        public DataTable GetOrderTypeByID(string typeid)
-        {
-            string sqlText = "select * from OrderType where TypeID=@TypeID and Status=1";
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@TypeID",typeid)
-                                   };
-
-            return GetDataTable(sqlText, paras, CommandType.Text);
         }
 
         public DataTable GetOrderCategorys(string clientid)
@@ -193,42 +132,6 @@ namespace IntFactoryDAL
 
         #region 添加
 
-        public bool CreateCustomSource(string sourceid, string sourcecode, string sourcename, int ischoose, string userid, string clientid,out int result)
-        {
-            result = 0;
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@Result",result),
-                                     new SqlParameter("@SourceID",sourceid),
-                                     new SqlParameter("@SourceName",sourcename),
-                                     new SqlParameter("@SourceCode",sourcecode),
-                                     new SqlParameter("@IsChoose",ischoose),
-                                     new SqlParameter("@CreateUserID" , userid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-            paras[0].Direction = ParameterDirection.Output;
-            bool bl = ExecuteNonQuery("P_InsertCustomSource", paras, CommandType.StoredProcedure) > 0;
-            result = Convert.ToInt32(paras[0].Value);
-            return bl;
-        }
-
-        public bool CreateCustomStage(string stageid, string name, int sort, string pid, string userid, string clientid, out int result)
-        {
-            result = 0;
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@Result",result),
-                                     new SqlParameter("@StageID",stageid),
-                                     new SqlParameter("@StageName",name),
-                                     new SqlParameter("@Sort",sort),
-                                     new SqlParameter("@PID",pid),
-                                     new SqlParameter("@CreateUserID" , userid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-            paras[0].Direction = ParameterDirection.Output;
-            bool bl = ExecuteNonQuery("P_InsertCustomStage", paras, CommandType.StoredProcedure) > 0;
-            result = Convert.ToInt32(paras[0].Value);
-            return bl;
-        }
-
         public bool CreateStageItem(string itemid, string name, string stageid, string processid, string userid, string clientid)
         {
             string sqlText = "insert into StageItem(ItemID,ItemName,StageID,ProcessID,CreateUserID,ClientID) " +
@@ -280,20 +183,6 @@ namespace IntFactoryDAL
             bool bl = ExecuteNonQuery("P_InsertOrderStage", paras, CommandType.StoredProcedure) > 0;
             result = Convert.ToInt32(paras[0].Value);
             return bl;
-        }
-
-        public bool CreateOrderType(string typeid, string typename, string typecode, string userid, string clientid)
-        {
-            string sqlText = "insert into OrderType(TypeID,TypeName,TypeCode,CreateUserID,ClientID) " +
-                                           " values(@TypeID,@TypeName,@TypeCode,@CreateUserID,@ClientID) ";
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@TypeID" , typeid),
-                                     new SqlParameter("@TypeName" , typename),
-                                     new SqlParameter("@TypeCode" , typecode),
-                                     new SqlParameter("@CreateUserID" , userid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
         }
 
         public bool CreateTeam(string teamid, string teamname, string userid, string agentid,string clientid)
@@ -348,44 +237,6 @@ namespace IntFactoryDAL
 
         #region 编辑/删除
 
-        public bool UpdateCustomSource(string sourceid, string sourcename, int ischoose, string clientid)
-        {
-            string sqltext = "update CustomSource set SourceName=@SourceName,IsChoose=@IsChoose where SourceID=@SourceID and clientid=@ClientID";
-
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@SourceID",sourceid),
-                                     new SqlParameter("@SourceName",sourcename),
-                                     new SqlParameter("@IsChoose",ischoose),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
-            return bl;
-        }
-
-        public bool DeleteCustomSource(string sourceid, string clientid)
-        {
-            string sqltext = "update CustomSource set Status=9 where SourceID=@SourceID and clientid=@ClientID";
-
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@SourceID",sourceid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
-            return bl;
-        }
-
-        public bool UpdateCustomStage(string stageid, string stagename, string clientid)
-        {
-            string sqltext = "update CustomStage set StageName=@StageName where StageID=@StageID and ClientID=@ClientID";
-
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@StageID",stageid),
-                                     new SqlParameter("@StageName",stagename),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
-            return bl;
-        }
 
         public bool UpdateOrderProcess(string processid, string name, int days)
         {
@@ -492,19 +343,6 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool UpdateOrderType(string typeid, string typename, string typecode, string clientid)
-        {
-            string sqltext = "update OrderType set TypeName=@TypeName,TypeCode=@TypeCode where TypeID=@TypeID and ClientID=@ClientID";
-
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@TypeID",typeid),
-                                     new SqlParameter("@TypeName",typename),
-                                     new SqlParameter("@TypeCode",typecode),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
-            return bl;
-        }
 
         public bool UpdateOrderCategory(string categoryid, string pid, int status, string clientid)
         {
