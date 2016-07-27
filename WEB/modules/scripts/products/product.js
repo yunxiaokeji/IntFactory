@@ -817,7 +817,12 @@
         //$("#isRecommend").prop("checked", model.IsRecommend == 1);
         //$("#isAllow").prop("checked", model.IsAllow == 1);
         //$("#isAutoSend").prop("checked", model.IsAutoSend == 1);
-        $("#productImg").attr("src", model.ProductImage);
+        if (!model.ProductImage.trim()) {
+            $("#productImg").attr("src", "/modules/images/default.png");
+        } else {
+            $("#productImg").attr("src", model.ProductImage);
+            $("#productImg").data("src", model.ProductImage);
+        }
         
         _self.ProductImage = model.ProductImage;
         

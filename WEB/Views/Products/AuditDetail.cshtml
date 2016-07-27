@@ -50,7 +50,7 @@
         </ul>
          @if (model.Status < 2)
         {
-            <input type="button" class="btn right" id="btnconfirm" value="审核入库" />
+            <input type="button" class="btn right mRight10" id="btnconfirm" value="审核入库" />
         }
     </div>
     <table class="table-list mTop20 nav-partdiv" id="navRemark">
@@ -65,7 +65,7 @@
             <td class="tRight">采购价</td>
             <td class="center">数量</td>
             <td class="center">已入库</td>
-            <td class="tRight">小计</td>
+            <td class="tRight" style="padding-right:20px;">小计</td>
         </tr>
         @foreach (var item in model.Details)
         { 
@@ -82,7 +82,7 @@
                 <td class=" tRight">@(item.Price.ToString("f2"))</td>
                 <td class="center">@(item.Quantity.ToString("f2"))</td>
                 <td class="center">@(item.Complete.ToString("f2"))</td>
-                <td class="tRight">@(item.TotalMoney.ToString("f2"))</td>
+                <td class="tRight" style="padding-right:20px;">@(item.TotalMoney.ToString("f2"))</td>
             </tr>
         }
     </table>
