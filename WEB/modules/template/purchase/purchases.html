@@ -9,7 +9,7 @@
 </tr>
 {%}%}
 <tr class="item-header">
-    <td class="tLeft bolder width50">
+    <td class="bolder width50">
         {%=item.CreateTime.toDate('yyyy-MM-dd')%}
     </td>
     <td class="tLeft">采购单号：{%=item.DocCode%}</td>
@@ -34,7 +34,7 @@
             if(k==0)
             {
          %}
-         <td rowspan="{%=kk%}" class="tLeft bBottom bLeft bRight">
+         <td rowspan="{%=kk%}" class="tLeft bBottom bRight">
              <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="样图" src="{%=item.DocImage?item.DocImage:'/modules/images/img-noimg.png'%}" />
          </td>
          {%}%}
@@ -47,7 +47,7 @@
          {
          %}
          <td rowspan="{%=kk%}" class="bBottom bLeft">{%=item.TotalMoney.toFixed(2)%}</td>
-         <td rowspan="{%=kk%}" class="bBottom bRight bLeft">
+         <td rowspan="{%=kk%}" class="bBottom bLeft">
              <a href="/Products/AuditDetail/{%=item.DocID%}" target="_blank">
                  查看详情
              </a>

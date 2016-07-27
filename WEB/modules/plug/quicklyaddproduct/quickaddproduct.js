@@ -21,7 +21,7 @@
 
     PlugJS.prototype.init = function () {
         var _self = this;
-        dot.exec("template/products/product_qulickly_add.html", function (template) {
+        dot.exec("plug/quicklyaddproduct/product_qulickly_add.html", function (template) {
             var innerHtml = template();
             Easydialog.open({
                 container: {
