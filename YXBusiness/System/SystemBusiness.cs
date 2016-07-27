@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using IntFactoryEntity;
-
-using System.Data;
 using IntFactoryDAL;
 using IntFactoryDAL.Custom;
-using IntFactoryEntity.Custom;
 using IntFactoryEnum;
 
 namespace IntFactoryBusiness
@@ -84,7 +82,7 @@ namespace IntFactoryBusiness
             }
         }
 
-        public static Dictionary<string, List<LableColorEntity>> OrderColor
+        private static Dictionary<string, List<LableColorEntity>> OrderColor
         {
             get
             {
@@ -97,7 +95,7 @@ namespace IntFactoryBusiness
             set {_ordercolor = value; }
         }
 
-        public static Dictionary<string, List<LableColorEntity>> TaskColor
+        private static Dictionary<string, List<LableColorEntity>> TaskColor
         {
             get
             {
@@ -217,10 +215,10 @@ namespace IntFactoryBusiness
 
         }
 
-        public List<LableColorEntity> GetLableColor(string clientid, int lableType = 1)
+        public List<LableColorEntity> GetLableColor(string clientid, EnumMarkType lableType)
         {            
             string tableName = "";
-            if (lableType==1)
+            if (lableType == EnumMarkType.Customer)
             {
                 tableName = "CustomerColor";
                 if (CustomColor.ContainsKey(clientid))
@@ -228,7 +226,7 @@ namespace IntFactoryBusiness
                     return CustomColor[clientid];
                 }
             }
-            else if (lableType==2)
+            else if (lableType == EnumMarkType.Orders)
             {
                 tableName = "OrderColor";
                 if (OrderColor.ContainsKey(clientid))
@@ -236,7 +234,7 @@ namespace IntFactoryBusiness
                     return OrderColor[clientid];
                 }
             }
-            else if (lableType==3)
+            else if (lableType == EnumMarkType.Tasks)
             {
                 tableName = "TaskColor";
                 if (TaskColor.ContainsKey(clientid))
@@ -254,15 +252,15 @@ namespace IntFactoryBusiness
                 list.Add(model);
             }
 
-            if (lableType == 1)
+            if (lableType == EnumMarkType.Customer)
             {
                 CustomColor.Add(clientid, list);
             }
-            else if (lableType == 2)
+            else if (lableType == EnumMarkType.Orders)
             {
                 OrderColor.Add(clientid, list);
             }
-            else if (lableType == 3)
+            else if (lableType == EnumMarkType.Tasks)
             {
                 TaskColor.Add(clientid, list);
             }
@@ -290,7 +288,7 @@ namespace IntFactoryBusiness
 
         public LableColorEntity GetLableColorColorID(string clientid, int colorid, EnumMarkType markType)
         {
-            var list = GetLableColor(clientid, (int)markType);
+            var list = GetLableColor(clientid, markType);
             return list.Where(x =>x.Status!=9 && x.ColorID == colorid).FirstOrDefault();
         }
 
@@ -775,14 +773,14 @@ namespace IntFactoryBusiness
 
         public int CreateLableColor(string colorName, string colorValue, 
             string agentid, string clientid, string userid,
-            int status = 0, int lableType=1)
+            int status = 0, EnumMarkType lableType = EnumMarkType.Customer)
         {
             string procName = "P_InsertCustomerColor";
-            if (lableType == 2)
+            if (lableType == EnumMarkType.Orders)
             {
                 procName = "P_InsertOrderColor";
             }
-            else if (lableType == 3)
+            else if (lableType == EnumMarkType.Tasks)
             {
                 procName = "P_InsertTaskColor";
             }
@@ -796,7 +794,7 @@ namespace IntFactoryBusiness
                 }               
                 else
                 {
-                    if (lableType == 1)
+                    if (lableType == EnumMarkType.Customer)
                     {
                         CustomColor[clientid].Add(new LableColorEntity()
                         {
@@ -810,7 +808,7 @@ namespace IntFactoryBusiness
                             Status = 0
                         });
                     }
-                    else if (lableType == 2)
+                    else if (lableType == EnumMarkType.Orders)
                     {
                         OrderColor[clientid].Add(new LableColorEntity()
                         {
@@ -824,7 +822,7 @@ namespace IntFactoryBusiness
                             Status = 0
                         });
                     }
-                    else if (lableType == 3)
+                    else if (lableType == EnumMarkType.Tasks)
                     {
                         TaskColor[clientid].Add(new LableColorEntity()
                         {
@@ -1051,14 +1049,14 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public int UpdateLableColor(string agentid, string clientid, int colorid, string colorName, string colorValue, string updateuserid, int lableType = 1)
+        public int UpdateLableColor(string agentid, string clientid, int colorid, string colorName, string colorValue, string updateuserid, EnumMarkType lableType)
         {
             string tableName = "CustomerColor";
-            if (lableType == 2)
+            if (lableType == EnumMarkType.Orders)
             {
                 tableName = "OrderColor";
             }
-            else if (lableType == 3)
+            else if (lableType == EnumMarkType.Tasks)
             {
                 tableName = "TaskColor";
             }
@@ -1072,11 +1070,11 @@ namespace IntFactoryBusiness
                 else
                 {
                     var model = CustomColor[clientid].Find(m => m.ColorID == colorid);
-                    if (lableType == 2)
+                    if (lableType == EnumMarkType.Orders)
                     {
                         model = OrderColor[clientid].Find(m => m.ColorID == colorid);
                     }
-                    else if (lableType == 3)
+                    else if (lableType == EnumMarkType.Tasks)
                     {
                         model = TaskColor[clientid].Find(m => m.ColorID == colorid);
                     }
@@ -1121,7 +1119,7 @@ namespace IntFactoryBusiness
             {
                 if (!CustomColor.ContainsKey(clientid))
                 {
-                    GetLableColor(clientid, (int)lableType);
+                    GetLableColor(clientid, lableType);
                 }
                 else
                 {

@@ -430,10 +430,10 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .wechat img { width:0;height:0;transition:0.7s;-webkit-transition:0.7s;-moz-transition:0.7s;}
 
 /*图片loading*/
-.data-loading { padding: 80px 0px; font-size: 16px;text-align: center; color: #666; background:url(/modules/images/ico-loading.gif) no-repeat center center;background-size:45px 45px; }
+.data-loading { padding: 80px 0px; font-size: 16px;text-align: center; color: #666; background:url(/modules/images/ico-loading.gif) no-repeat center center;background-size:45px 45px; background-color:#fff; }
 
 /*暂无数据*/
-.nodata-txt { padding: 60px 0px; font-size: 16px; text-align: center; color: #666; }
+.nodata-txt { padding: 60px 0px; font-size: 16px; text-align: center; color: #666; background-color:#fff; }
 
 /*置顶*/
 .back-top {
@@ -458,13 +458,13 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 
 .table-items-detail .table-header { background-color:#f1f1f1; height:35px; }
 .table-items-detail .table-header td{ border-top:solid 1px #ddd;  border-bottom:solid 1px #ddd; color:#333; }
-.table-items-detail .table-header td:first-child{ border-left:solid 1px #ddd;}
-.table-items-detail .table-header td:last-child{ border-right:solid 1px #ddd;}
+/*.table-items-detail .table-header td:first-child{ border-left:solid 1px #ddd;}
+.table-items-detail .table-header td:last-child{ border-right:solid 1px #ddd;}*/
 
 .table-items-detail .item-header { background-color:#f1f1f1; height:40px; }
 .table-items-detail .item-header td{ border-top:solid 1px #ddd;  border-bottom:solid 1px #ddd; color:#333; }
-.table-items-detail .item-header td:first-child{ border-left:solid 1px #ddd;}
-.table-items-detail .item-header td:last-child{ border-right:solid 1px #ddd;}
+/*.table-items-detail .item-header td:first-child{ border-left:solid 1px #ddd;}
+.table-items-detail .item-header td:last-child{ border-right:solid 1px #ddd;}*/
 
 .table-items-detail .item { height:50px;}
 .table-items-detail .item.last td {  border-bottom:solid 1px #ddd; }
@@ -478,4 +478,4 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 
 .table-items-detail a { color:#333; }
 .table-items-detail a:hover { color:red; }
-.table-items-detail td img { width:80px;height:80px;}
+.table-items-detail td img { max-width:120px;max-height:120px;}

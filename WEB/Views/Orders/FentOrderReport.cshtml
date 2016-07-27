@@ -24,7 +24,7 @@
     <script src="/Scripts/sea-config.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/orders/fentorderreport"], function (obj) {
-            obj.init('@order.Platemaking', '@order.Price.ToString("f2")', '@(order.CostPrice.ToString("f2"))', '@(order.FinalPrice.ToString("f2"))', '@((order.ProfitPrice * 100).ToString("f2"))');
+            obj.init('@order.Platemaking', '@order.Price.ToString("f2")', '@(order.CostPrice.ToString("f2"))', '@(order.FinalPrice.ToString("f2"))', '@((order.ProfitPrice * 100).ToString("f2"))','@(order.OrderImage)');
         });
 
     </script>
@@ -61,7 +61,7 @@
                     </tr>
                     <tr>                        
                         <td class="no-border-left"><i class="iconfont icon-delete customer">&#xe613;</i>客户:</td>
-                        <td class="no-border-right font14">@(order.Customer.Name==""?"--":order.Customer.Name)</td>
+                        <td class="no-border-right font14">@(order.Customer!=null?"--":order.Customer.Name)</td>
                     </tr>
                     <tr>
                         <td class="no-border-left">制版:</td>
@@ -76,7 +76,7 @@
                 </table>
             </td>
             <td>
-                <img src='@(order.OrderImage==""?"/modules/images/none-img.png":order.OrderImage)' />
+                <img src='' />
             </td>
             <td>
                 <table class="no-border" style="height:100%">

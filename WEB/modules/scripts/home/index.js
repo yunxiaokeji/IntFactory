@@ -3,6 +3,7 @@
     var Tip = require("tip");
     var DoT = require("dot");
     var EasyDialog = null;
+    require("colormark");
 
     var OrderListCache = null;
     var CacheArr = new Array();
@@ -29,12 +30,15 @@
     var ObjectJS = {};
     ObjectJS.orderFilter = -1;
 
-    ObjectJS.init = function (orderLevel, taskLevel, remainDay, remainDate) {
+    ObjectJS.init = function (orderLevel, taskLevel, remainDay, remainDate, orderMarks, tastMarks) {
         ObjectJS.remainDay = remainDay;
         ObjectJS.remainDate = remainDate;
         ObjectJS.orderLevel = orderLevel;
         ObjectJS.taskLevel = taskLevel;
         
+        ObjectJS.orderMarks = JSON.parse(orderMarks.replace(/&quot;/g, '"'));
+        ObjectJS.tastMarks = JSON.parse(tastMarks.replace(/&quot;/g, '"'));
+
         if (orderLevel == 0 && taskLevel==0) {
             $(".main-content").hide();
         }
@@ -536,8 +540,9 @@
 
     /*拼接列表数据*/
     ObjectJS.createDataListHtml = function (data) {
+        var _self = this;
+
         $('.data-loading').remove();
-       
         IsLoaddingTwo = true;
         
         var url = "";
@@ -566,6 +571,15 @@
                     _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
                 });
                 innerText.find('.layer-line').css({ width: 0, left: "160px" });
+
+                innerText.find(".mark").markColor({
+                    isAll: false,
+                    data: Paras.moduleType == 2 ? _self.tastMarks : _self.orderMarks,
+                    onChange: function (obj, callback) {
+                        _self.markOrdersOrTasks(obj.data("id"), obj.data("value"), callback, Paras.moduleType);
+                    }
+                });
+
             });
         }
 
@@ -640,6 +654,25 @@
             $(".total-ecceed").html(data.result).prev().html(name);
             $(".get-need").find("span:first").html(needname);
         }
+    }
+
+    ObjectJS.markOrdersOrTasks = function (ids, mark, callback, type) {
+        if (mark < 0) {
+            alert("不能标记此选项!");
+            return false;
+        }
+        var url = type == 2 ? "/Task/UpdateTaskColorMark" : "/Orders/UpdateOrderMark";
+        Global.post(url, {
+            ids: ids,
+            mark: mark
+        }, function (data) {
+            if (data.result == "10001") {
+                alert("您没有标记权限！");
+                callback && callback(false);
+            } else {
+                callback && callback(data.status);
+            }
+        });
     }
 
     module.exports= ObjectJS;

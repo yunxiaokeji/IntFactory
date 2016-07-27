@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "我的任务";
     var NowDate = ViewBag.NowDate;
-    var model=(List<IntFactoryEntity.Custom.LableColorEntity>)ViewBag.list;
+    var model=(List<IntFactoryEntity.LableColorEntity>)ViewBag.list;
 }
 @section css{
     <link href="/modules/css/task.css" rel="stylesheet" />
@@ -22,10 +22,15 @@
             <li data-id="1">进行中</li>
             <li data-id="2">已完成</li>
         </ul>
+        <ul class="search-tab-status search-warning">
+            <li data-id="-1" class="item hover">全部</li>
+            <li data-id="1" class="item">快到期</li>
+            <li data-id="2" class="item">已超期</li>
+        </ul>
     </div>
 </div>
 
-<div class="content-body" style="padding-bottom:0;">
+<div class="content-body pBottom50">
     <div class="search-body">
         <ul class="search-item search-ordertype">
             <li class="column-name">类型：</li>
@@ -45,27 +50,12 @@
             <li data-id="6" class='item itemDY'>手工成本</li>
             <li data-id="0" class='item'>其他</li>
         </ul>
-        <ul class="search-item search-warning">
-            <li class="column-name">预警：</li>
-            <li data-id="-1" class="item hover">全部</li>
-            <li data-id="1" class="item">快到期</li>
-            <li data-id="2" class="item">已超期</li>
-        </ul>
          <ul class="search-item search-prefinishstatus">
             <li class="column-name">上级任务：</li>
             <li data-id="-1" class="item hover">全部</li>
             <li data-id="0" class="item">未接收</li>
             <li data-id="1" class="item">进行中</li>
             <li data-id="2" class="item">已完成</li>
-        </ul>
-        <ul class="search-item-color search-mark">
-            <li class="column-name">标记：</li>
-            <li data-id="-1" class="item mark-all hover"></li>
-            <li data-id="0" class="item mark0" data-name="默认"></li>
-            @foreach (var item in model)
-            {
-                <li data-id="@item.ColorID" class="item" style="border:solid 1px @item.ColorValue;background-color:@item.ColorValue" data-name="@item.ColorName"></li>
-            }   
         </ul>
     </div>
     <div class="search-items">
@@ -79,7 +69,9 @@
         <div class="right searth-module" data-text="输入任务标题/任务编码/订单编码..." data-width="260"> </div>
     </div>
     <ul class="search-sort">
-        <li>排序</li>
+        <li>
+            <span id="filterMark" class=""></span>
+        </li>
         <li class="sort-item hover"  data-isasc="0" data-isactive="1" data-orderbycloumn="0">
             创建时间
             <span class="asc"></span>
@@ -90,39 +82,21 @@
             <span class="asc"></span>
             <span class="desc"></span>
         </li>
-        <li class="right task-tabtype">
+       @* <li class="right task-tabtype">
             <i class="iconfont mRight5" data-type="list" title="列表">&#xe64c;</i>
             <i class="iconfont" data-type="card" title="卡片">&#xe64b;</i>
-        </li>
+        </li>*@
     </ul>
     <div class="clear"></div>
-</div>
-
-<div class="content-list center-task-list mBottom20" style="overflow:hidden;">
-    <table class="table-list tb-task-list">
-        <tr class="tr-header">
-            <td class="width30"><span id="filterMark"></span></td> 
-            <td class="width50 tLeft">订单样图</td>
-            <td class="width200">任务标题</td>
-            <td class="width150">任务编号</td>
-            <td class="width150">订单编号</td>
-            <td class="width150">订单类型</td>
-            <td class="width100">上级任务</td>
-            <td class="width100">任务进度</td>
-            <td class="width150">负责人</td>
-            <td class="width150" >
-                到期时间
-            </td>
-            <td class="width150" >
-                创建时间
-            </td>
+    <table class="table-items-detail">
+        <tr class="hide table-header">
+            <td class="tLeft">款式</td>
+            <td>任务</td>
+            <td>上级任务</td>
+            <td>到期日期</td>
         </tr>
     </table>
-    
-    <div class="task-items"></div>
-    <div class="clear"></div>
-    
-    <div class="pager-bgcolor"></div>
-    <div id="pager" class="mTop20 pBottom20 mRight10"></div>
+    <div id="pager" class="mTop10"></div>
 </div>
+
 

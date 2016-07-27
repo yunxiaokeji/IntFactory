@@ -34,14 +34,14 @@
 
     var ObjectJS = {};
     //初始化
-    ObjectJS.init = function (type, status,model) {
+    ObjectJS.init = function (type, status, model) {
         var _self = this;
         _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));        
         Params.SearchType = type;
         if (status) {
             Params.OrderStatus = status;
         }
-        Params.PageSize =parseInt($(".object-items").width() / 269) * 3;
+
         _self.getList();
         _self.bindStyle();
         _self.bindEvent(type);
@@ -70,10 +70,6 @@
             }
         });
 
-        $(window).resize(function () {
-            ObjectJS.setListPosition();
-        });
-
         //日期插件
         $("#iptCreateTime").daterangepicker({
             showDropdowns: true,
@@ -91,24 +87,6 @@
             Params.EndTime = end ? end.format("YYYY-MM-DD") : "";
             _self.getList();
         });
-
-        //收缩订单筛选项
-        $("#shrinkScreen").click(function () {
-            var _this = $(this);
-            if (!$(".search-body").is(":animated")) {
-                if (_this.data('id') == 'open') {
-                    _this.find('.shrink-text').html('收起筛选');
-                    _this.find('.lump').css({ "border-bottom": "none", "border-top": "6px solid #fff" });
-                    _this.data('id', 'close');
-                } else {
-                    _this.find('.shrink-text').html('展开筛选');
-                    _this.find('.lump').css({ "border-top": "none", "border-bottom": "6px solid #fff" });
-                    _this.data('id', 'open');
-                }
-                $(".search-body").slideToggle(250);
-
-            }
-        })
 
         //切换订单状态
         $(".search-status .item").click(function () {
@@ -184,30 +162,18 @@
             }
         });
 
-        //来源类型
-        $(".search-mark .item").click(function () {
-            var _this = $(this);
-
-            //快速点击屏蔽
-            if (_self.isLoading) {
-                return false;
-            }
-
-            if (!_this.hasClass("hover")) {
-                _this.siblings().removeClass("hover");
-                _this.addClass("hover");
+        /*标签过滤*/
+        $("#filterMark").markColor({
+            isAll: true,
+            top: 30,
+            left: 5,
+            data: _self.ColorList,
+            onChange: function (obj, callback) {
+                callback && callback(true);
                 Params.PageIndex = 1;
-                Params.Mark = _this.data("id");
-                _self.getList();
+                Params.Mark = obj.data("value");
+                ObjectJS.getList();
             }
-        });
-
-        $(".search-mark .item:gt(0)").each(function () {
-            var _this = $(this);
-            _this.Tip({
-                width: 80,
-                msg: _this.data("name")
-            });
         });
 
         //预警
@@ -282,24 +248,6 @@
             }
         });
 
-        ////切换订单来源类型
-        //$(".search-entrustclientid li").click(function () {
-        //    var _this = $(this);
-
-        //    //快速点击屏蔽
-        //    if (_self.isLoading) {
-        //        return false;
-        //    }
-
-        //    if (!_this.hasClass("hover")) {
-        //        _this.siblings().removeClass("hover");
-        //        _this.addClass("hover");
-        //        Params.PageIndex = 1;
-        //        Params.EntrustClientID = _this.data("id");
-        //        _self.getList();
-        //    }
-        //});
-
         //关键字搜索
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
@@ -373,16 +321,16 @@
             var _this = $(this);
             if (!_this.hasClass("ico-checked")) {
                 _this.addClass("ico-checked").removeClass("ico-check");
-                $(".object-items .object-item").addClass("hover");
+                $(".table-items-detail .checkbox").addClass("hover");
             } else {
                 _this.addClass("ico-check").removeClass("ico-checked");
-                $(".object-items .object-item").removeClass("hover");
+                $(".table-items-detail .checkbox").removeClass("hover");
             }
         });
 
         //批量转移
         $("#batchChangeOwner").click(function () {
-            var checks = $(".object-items .object-item.hover").find(".check");
+            var checks = $(".table-items-detail .checkbox.hover");
             if (checks.length > 0) {
                 ChooseUser.create({
                     title: "批量更换负责人",
@@ -408,7 +356,7 @@
                     }
                 });
             } else {
-                alert("请先选择需要更换负责人的订单!")
+                alert("您尚未选择需要更换的订单")
             }
         });
 
@@ -581,8 +529,8 @@
         _self.isLoading = true;
 
         $("#checkAll").addClass("ico-check").removeClass("ico-checked");
-        $(".object-items").empty();
-        $(".object-items").append("<div class='data-loading'><div>");
+        $(".table-header").nextAll().remove();
+        $(".table-header").after("<tr><td colspan='11'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Orders/GetOrders", { filter: JSON.stringify(Params) }, function (data) {
             _self.bindList(data);
@@ -593,20 +541,15 @@
     ObjectJS.bindList = function (data) {
         
         var _self = this;
-        $(".object-items").empty();
+        $(".table-header").nextAll().remove();
 
-        if (data.items.length > 0) {
-            var url = "template/orders/orders.html";
-            if (Params.SearchType == 4) {
-                url = "template/orders/entrustorders.html";
-            }
-            
-            doT.exec(url, function (template) {
+        if (data.items.length > 0) {           
+            doT.exec("template/orders/orders.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
 
-                innerhtml.find(".check").click(function () {
-                    var _this = $(this).parents(".object-item");
+                innerhtml.find(".checkbox").click(function () {
+                    var _this = $(this);
                     if (_this.hasClass("hover")) {
                         _this.removeClass("hover");
                     } else {
@@ -630,13 +573,22 @@
                     return false;
                 });
 
-                $(".object-items").append(innerhtml);
-                ObjectJS.setListPosition();
+                innerhtml.find('.order-progress-item').each(function () {
+                    var _this = $(this);
+                    _this.css({ "width": _this.data('width') });
+                });
+                innerhtml.find('.progress-tip,.top-lump').each(function () {
+                    var _this = $(this);
+                    _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
+                });
+                innerhtml.find('.layer-line').css({ width: 0, left: "160px" });
+
+                $(".table-header").after(innerhtml);
             });
         }
         else
         {
-            $(".object-items").append("<div class='nodata-txt' >暂无数据!<div>");
+            $(".table-header").after("<tr><td colspan='11'><div class='nodata-txt' >暂无数据!<div></td></tr>");
         }
 
         //加载完成
@@ -664,23 +616,7 @@
         });
     }
 
-    ObjectJS.setListPosition = function () {
-        
-        var count = parseInt($(".object-items").width() /269 )
-        var moreWidth = $(".object-items").width() - (269 * count);
-        var marginRight = ( (moreWidth + 15) / (count - 1) ) + 15;
-        for (var i = 0; i < $(".object-items .object-item").length; i++) {
-            var _this = $(".object-items .object-item").eq(i);
-            if ((i + 1) % count == 0) {
-                _this.css("margin-right", "0");
-            }
-            else {
-                _this.css("margin-right", marginRight + "px");
-            }
-        }
-    }
-
-    ObjectJS.getDetail = function (id,orderCode) {
+    ObjectJS.getDetail = function (id, orderCode) {
 
         $(".order-layer-item").hide();
         if ($(".order-layer").css("right") == "-505px" || $(".order-layer").css("right") == "-505") {

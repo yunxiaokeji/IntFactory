@@ -8,7 +8,8 @@
 @section scripts{
     <script type="text/javascript">
        seajs.use(["scripts/home/index"], function (obj) {
-           obj.init('@ViewBag.orderLevel', '@ViewBag.taskLevel', '@ViewBag.RemainDay', '@ViewBag.RemainDate');
+           obj.init('@ViewBag.orderLevel', '@ViewBag.taskLevel', '@ViewBag.RemainDay', '@ViewBag.RemainDate',
+               '@(Html.ToJSONString((List<IntFactoryEntity.LableColorEntity>)ViewBag.OrderMarks))', '@(Html.ToJSONString((List<IntFactoryEntity.LableColorEntity>)ViewBag.TaskMarks))');
        });
     </script>
 }

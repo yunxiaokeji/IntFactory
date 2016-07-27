@@ -33,28 +33,14 @@
     };
     
     var ObjectJS = {};
-    ObjectJS.ColorList = [];
-    ObjectJS.isLoading = true;
+
     ObjectJS.init = function (isMy, nowDate, model) {
         var _self = this;
+        ObjectJS.isLoading = true;
         ObjectJS.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
         Params.beginDate = nowDate;
         Params.endDate = nowDate;        
-        var count = parseInt($(".task-items").width() / 269);
-        Params.pageSize = count * 3;        
 
-        var taskListType = Global.getCookie('TaskListType');
-        if (taskListType) {
-            Params.listType = taskListType;
-            if (taskListType=="list") {
-                $(".center-task-list").addClass("content-body").removeClass("content-list");
-            } else {
-                $(".center-task-list").removeClass("content-body").addClass("content-list");                
-            }
-        } else {
-            $(".center-task-list").addClass("content-body").removeClass("content-list");
-        }
-        $(".task-tabtype i[data-type=" + Params.listType + "]").addClass("checked").siblings().removeClass("checked");
         if (isMy == 2) {
             Params.isParticipate = 1;
             document.title = "参与任务";
@@ -83,21 +69,20 @@
                 });
             });
         }
-        
-        
+
         ObjectJS.bindEvent();
 
         //获取任务列表
-        if (Params.isParticipate != 1) {
-            ObjectJS.getList();
+        if (Params.isParticipate == 1) {
+            Params.finishStatus = 1;
+            $(".search-stages li").removeClass("hover");
+            $(".search-stages li[data-id='1']").addClass("hover");
         }
-
+        ObjectJS.getList();
     }
 
     ObjectJS.bindEvent = function () {
-        $(window).resize(function () {
-            ObjectJS.setListPosition();
-        });
+        var _self = this;
 
         //切换任务阶段
         $(".search-stages li").click(function () {
@@ -126,30 +111,19 @@
                 ObjectJS.getList();
             });
         });
-        
-        //切换颜色标记
-        $(".search-item-color li").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
-            }
-            
-            var _this = $(this);
-            if (!_this.hasClass("hover")) {
-                _this.siblings().removeClass("hover");
-                _this.addClass("hover");
 
+        /*标签过滤*/
+        $("#filterMark").markColor({
+            isAll: true,
+            top: 30,
+            left: 5,
+            data: _self.ColorList,
+            onChange: function (obj, callback) {
+                callback && callback(true);
                 Params.pageIndex = 1;
-                Params.colorMark = _this.data("id");
+                Params.colorMark = obj.data("value");
                 ObjectJS.getList();
             }
-        });
-
-        $(".search-mark .item:gt(0)").each(function () {
-            var _this = $(this);
-            _this.Tip({
-                width: 80,
-                msg: _this.data("name")
-            });
         });
 
         //切换订单类型
@@ -206,26 +180,6 @@
             };
         });
 
-        //切换任务显示方式(列表或者卡片式)
-        $(".search-sort .task-tabtype i").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
-            }
-
-            var _this = $(this);
-            if (!_this.hasClass('checked')) {
-                _this.addClass('checked').siblings().removeClass('checked');
-                Params.listType = _this.data('type');
-                Global.setCookie('TaskListType', Params.listType);
-                if (_this.data('type')=="list") {
-                    $(".center-task-list").addClass("content-body").addClass("mTop20").removeClass("content-list");
-                } else {
-                    $(".center-task-list").addClass("content-list").removeClass("content-body").removeClass("mTop20");
-                }
-                ObjectJS.getList();
-            }
-        });
-
         //日期插件
         $("#iptCreateTime").daterangepicker({
             showDropdowns: true,
@@ -261,7 +215,6 @@
             Params.endEndDate = end ? end.format("YYYY-MM-DD") : "";            
             ObjectJS.getList();
         });
-
 
         //列表排序
         $(".sort-item").click(function () {
@@ -309,40 +262,20 @@
             ObjectJS.getList();
 
         });
-
-        if (Params.isParticipate == 1) {
-            $(".search-stages li").eq(2).click();
-        }
     }
 
     ObjectJS.getList = function () {
-        var showtype = Params.listType;
-        $(".tr-header").nextAll().remove();
 
-        if (showtype == "list") {
-            $(".task-items").hide();
-            $(".table-list").show();
-            $(".tr-header").after("<tr><td colspan='11'><div class='data-loading'><div></td></tr>");
-        }
-        else {
-            $(".table-list").hide();
-            $(".task-items").show();
-            $(".task-items").html("<div class='data-loading'><div>");
-        }
-        var classContent = "";
-        if (Params.listType=="list") {
-            classContent = ".content-body";
-        } else {
-            classContent = ".content-list";
-        }
-        $(classContent).find('.nodata-txt').remove();
         ObjectJS.isLoading = false;
-        
+
+        $(".table-header").nextAll().remove();
+        $(".table-header").after("<tr><td colspan='11'><div class='data-loading'><div></td></tr>");
+
         Global.post("/Task/GetTasks", Params, function (data) {
-            $(".tr-header").nextAll().remove();
+            $(".table-header").nextAll().remove();
 
             if (data.items.length > 0) {
-                doT.exec("template/task/task-"+showtype+".html", function (template) {
+                doT.exec("template/task/task-list.html", function (template) {
                     var innerhtml = template(data.items);
 
                     innerhtml = $(innerhtml);
@@ -353,24 +286,21 @@
                             ObjectJS.markTasks(obj.data("id"), obj.data("value"), callback);
                         }
                     });
+                    innerhtml.find('.order-progress-item').each(function () {
+                        var _this = $(this);
+                        _this.css({ "width": _this.data('width') });
+                    });
+                    innerhtml.find('.progress-tip,.top-lump').each(function () {
+                        var _this = $(this);
+                        _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
+                    });
+                    innerhtml.find('.layer-line').css({ width: 0, left: "160px" });
 
-                    if (showtype == "list") {
-                        $(".table-list").append(innerhtml);
-                    }
-                    else {
-                        $(".task-items").html(innerhtml);
-                    };
-                    
-                    ObjectJS.setListPosition();
+                    $(".table-header").after(innerhtml);
                 });
             }
             else {
-                if (showtype == "list") {
-                    $(".table-list").after("<div class='nodata-txt' >暂无数据!<div>");
-                }
-                else {
-                    $(".task-items").html("<div class='nodata-txt' >暂无数据!<div>");
-                }
+                $(".table-header").after("<tr><td colspan='11'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
 
             $("#pager").paginate({
@@ -381,7 +311,6 @@
                 images: false,
                 mouse: 'slide',
                 onChange: function (page) {
-                   $(".tr-header").nextAll().remove();
                    Params.pageIndex = page;
                    ObjectJS.getList();
                 }
@@ -407,7 +336,7 @@
                 callback && callback(false);
             }
             else {
-                callback && callback(data.result);
+                callback && callback(data.status);
             }
             ObjectJS.isLoading = true;
         });
