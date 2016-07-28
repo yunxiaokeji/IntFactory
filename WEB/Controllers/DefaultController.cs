@@ -94,7 +94,7 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Default/Index");
             }
-            return View();
+            return Redirect("/Home/Index");
         }
 
 

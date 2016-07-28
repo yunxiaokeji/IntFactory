@@ -536,10 +536,10 @@ namespace YXERP.Controllers
                 }
                 else
                 {
-                    Response.Write("<script>alert('您的账户还没绑定微信,请在账户设置里绑定微信后登录');location.href='/Home/login';</script>");
-                    Response.End();
-                    //Session["WeiXinTokenInfo"] = userToken.access_token + "|" + userToken.openid+"|"+userToken.unionid;
-                    //return Redirect("/Home/WeiXinSelectLogin");
+                    //Response.Write("<script>alert('您的账户还没绑定微信,请在账户设置里绑定微信后登录');location.href='/Home/login';</script>");
+                    //Response.End();
+                    Session["WeiXinTokenInfo"] = userToken.access_token + "|" + userToken.openid + "|" + userToken.unionid;
+                    return Redirect("/Home/WeiXinSelectLogin");
 
                 }
             }
@@ -591,7 +591,7 @@ namespace YXERP.Controllers
                 //未绑定
                 if (model == null)
                 {
-                    model =(Users)Session["ClientManager"];
+                    model = (Users)Session["ClientManager"];
                     bool flag = OrganizationBusiness.BindOtherAccount(EnumAccountType.WeiXin, model.UserID, userToken.unionid, model.AgentID, model.ClientID);
                 }
                 else
@@ -601,11 +601,9 @@ namespace YXERP.Controllers
                         Session["ClientManager"] = model;
                         Response.Write("<script>alert('您的账户已绑定过微信');location.href='/Home/login';</script>");
                         Response.End();
-                        {
-                        }
-                        {
-                        }
-                    else {
+                    }
+                    else
+                    {
                         if (model.Status.Value == 9)
                         {
                             Response.Write("<script>alert('您的账户已注销,请切换其他账户登录');location.href='/Home/login';</script>");
