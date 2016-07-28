@@ -30,6 +30,9 @@
         if(type==0)
         {
             <span class="drop-operate right mRight10"></span>
+            <div class="dropdown right mRight10 btn">
+                <span style="color:#fff;">操作</span><span class="ico-dropdown-white mLeft10"></span>
+            </div>
         }
     }
     <div class="clear"></div>
@@ -98,7 +101,8 @@
                             <ul class="quickly-add-stock hide">
                                 <li class="mBottom10">
                                     <input type="text" class="width50 stock-count" value="1" />
-                                    <span class="btn mLeft10" id="addDoc" data-type="0">加入采购</span>
+                                    <span class="btn mLeft10" id="addDoc" data-type="1">--</span>
+                                    <span id="addDocAndBack" class="btnccc mLeft10" data-type="2">--</span>
                                     <span class="damaged-dropdown left mRight10"></span>
                                 </li>
                             </ul>
@@ -163,3 +167,8 @@
     </div>
     
 </div>
+<ul class="dropdown-ul hide" style="width:65px;">
+    <li id="purchases" data-type="1">采购</li>
+    <li id="damaged" data-type="3">报损</li>
+    <li id="overflow" data-type="4">报溢</li>
+</ul>

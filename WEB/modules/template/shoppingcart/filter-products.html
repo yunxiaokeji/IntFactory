@@ -13,7 +13,7 @@
         <a target="_blank" href="/Products/ChooseDetail?pid={%=item.ProductID%}&did={%=item.ProductDetailID%}" class="name font16">
             {%=item.ProductName%}
         </a>
-        <div class="mTop10 color999">
+        <div class="mTop10 color999 long" style="width:100%;">
             {%=item.Description==""?item.Remark==""?"默认规格":item.Remark+"&nbsp;&nbsp;"+"默认规格":item.Remark==""?item.Description:item.Remark+"&nbsp;&nbsp;"+item.Description%}
         </div>
         <div class="btnAddCart hide" data-pid="{%=item.ProductID%}" data-did="{%=item.ProductDetailID%}">
