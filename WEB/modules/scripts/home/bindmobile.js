@@ -18,7 +18,7 @@
         $("#btnSubmit").click(function () {            
             Global.post("/Default/FinishInitSetting",{}, function (data) {               
                 if (data.result) {
-                    window.location = "/Default/SettingHelp";
+                    window.location = "/Home/Index";
                 }
                 else {
                     alert("网络出现异常,请稍后重试!");
@@ -61,6 +61,7 @@
                 $("#validationPwd").html("");
             }
         });
+
         $("#confirmPwd").blur(function () {
             if (!$(this).val().trim()) {
                 $("#validationConfirmPwd").html("确认密码不能为空");
