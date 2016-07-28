@@ -289,7 +289,7 @@
         });
 
         $(".btn-save-product").on("click", function () {
-            if (!VerifyObject.isPass()) {
+            if (!VerifyObject.isPass('#productinfo')) {
                 return;
             }
             if ($(".autocomplete-text").val() && !$("#prodiver").data("id")) {
@@ -1103,7 +1103,7 @@
 
         //保存产品信息
         $("#btnSaveProduct").on("click", function () {
-            if (!VerifyObject.isPass()) {
+            if (!VerifyObject.isPass('#productinfo')) {
                 return;
             }
             if (!_self.categoryID && $("#productMenuChange").val()) {
@@ -1261,7 +1261,7 @@
                     header: !id ? "添加材料子规格" : "编辑材料子规格",
                     content: html,
                     yesFn: function () {
-                        if (!DetailsVerify.isPass()) {
+                        if (!DetailsVerify.isPass('#imgSLurl')) {
                             return false;
                         }
 
@@ -1353,8 +1353,8 @@
                 $("#bigPrice").val(detailsModel.BigPrice / model.BigSmallMultiple);
                 $("#detailsCode").val(detailsModel.DetailsCode);
                 _self.ImgS = detailsModel.ImgS;
-                $("#imgS").data("src", detailsModel.ImgS);
-                $("#imgS").attr("src", detailsModel.ImgS);
+                $("#imgS").data("src", detailsModel.ImgS ? detailsModel.ImgS : "");
+                $("#imgS").attr("src", detailsModel.ImgS ? detailsModel.ImgS : "/modules/images/default.png");
                 $("#detailsRemark").val(detailsModel.Remark);
                 var list = detailsModel.SaleAttrValue.split(',');
 
