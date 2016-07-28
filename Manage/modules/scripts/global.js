@@ -87,6 +87,17 @@
         };
         return (guid = S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
     }
-
+    //判断字符串是否整数
+    String.prototype.isInt = function () {
+        return this.match(/^(0|([1-9]\d*))$/);
+    }
+    //判断字符串是否数字
+    String.prototype.isDouble = function () {
+        return this.match(/^\d+(.\d+)?$/);
+    }
+    //判断字符串是否只有数字和小数点【金钱数】
+    String.prototype.isMoneyNumber = function () {
+        return this.match(/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/);
+    }
     module.exports = Global;
 });

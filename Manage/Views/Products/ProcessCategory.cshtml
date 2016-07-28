@@ -2,4 +2,42 @@
     ViewBag.Title = "加工品类设置";
 }
 
-<h2>ProcessCategory</h2>
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/products/processcategory"], function (attr) {
+            attr.init();
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">加工品类设置</span>
+    <a href="javascript:void(0)" id="addCategory" class="btn-add right">新建品类</a>
+    
+</div>
+<div class="content-body">
+    <table class="table-list">
+        <tr class="tr-header" id="attrList">
+            <td class="width200 tLeft">品类名称</td>
+            <td class="tLeft">描述</td>
+            <td class="width200">品类配置</td>
+            <td class="width80">操作</td>
+        </tr>
+        @foreach (var model in (List<IntFactoryEntity.ProcessCategoryEntity>)ViewBag.Items)
+        {
+             <tr>
+                <td class="tLeft">@(model.Name)</td>
+                <td class="tLeft">@(model.Remark)</td>
+                <td class="center">
+                    <a href="/Products/CategoryItems/@(model.CategoryID)">品类配置</a>
+                </td>
+                <td class="center dropdown" data-id="@(model.CategoryID)" data-name="@(model.Name)" data-desc="@(model.Remark)">
+                    <span class="ico-dropdown"></span>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<ul class="dropdown-ul hide"  style="width:65px;">
+    <li class="" id="updateObject">编辑</li>
+    <li class="" id="deleteObject">删除</li>
+</ul>

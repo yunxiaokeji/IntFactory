@@ -429,5 +429,68 @@ namespace IntFactoryDAL
         }
 
         #endregion
+
+        #region 订单品类
+
+        public DataSet GetProcessCategory()
+        {
+            string sql = "select * from ProcessCategory where Status=1 ;select * from CategoryItems order by Sort";
+            return GetDataSet(sql);
+        }
+
+        public DataSet GetProcessCategoryByID(string categoryid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@CategoryID",categoryid)
+                                   };
+            string sql = "select * from ProcessCategory where Status=1 and CategoryID=@CategoryID ;select * from CategoryItems where CategoryID=@CategoryID  order by Sort";
+            return GetDataSet(sql, paras, CommandType.Text);
+        }
+
+        public bool CreateProcessCategory(string id, string name, string remark, string userid)
+        {
+            string sqlText = "P_CreateProcessCategory";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@CategoryID" , id),
+                                     new SqlParameter("@Name" , name),
+                                     new SqlParameter("@Remark" , remark),
+                                     new SqlParameter("@UserID" , userid)
+                                   };
+            return ExecuteNonQuery(sqlText, paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool DeleteProcessCategory(string id, string userid)
+        {
+            string sqlText = "P_DeleteProcessCategory";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@CategoryID" , id),
+                                     new SqlParameter("@UserID" , userid)
+                                   };
+            return ExecuteNonQuery(sqlText, paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool UpdateProcessCategory(string id, string name, string remark)
+        {
+            string sqlText = "update ProcessCategory set Name=@Name,Remark=@Remark where CategoryID=@CategoryID";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@CategoryID" , id),
+                                     new SqlParameter("@Name" , name),
+                                     new SqlParameter("@Remark" , remark)
+                                   };
+            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
+        }
+
+        public bool UpdateCategoryItems(string itemid, string name, int sort)
+        {
+            string sqlText = "update CategoryItems set Name=@Name,Sort=@Sort where ItemID=@ItemID";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@ItemID" , itemid),
+                                     new SqlParameter("@Name" , name),
+                                     new SqlParameter("@Sort" , sort)
+                                   };
+            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
+        }
+
+        #endregion
     }
 }

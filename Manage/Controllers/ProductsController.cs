@@ -89,6 +89,13 @@ namespace YXManage.Controllers
 
         public ActionResult ProcessCategory()
         {
+            ViewBag.Items = SystemBusiness.BaseBusiness.GetProcessCategorys();
+            return View();
+        }
+
+        public ActionResult CategoryItems(string id)
+        {
+            ViewBag.Model = SystemBusiness.BaseBusiness.GetProcessCategoryByID(id);
             return View();
         }
 
@@ -371,7 +378,52 @@ namespace YXManage.Controllers
 
         #endregion
 
+        #region 品类
 
+        public JsonResult SaveProcessCategory(string categoryid, string name, string desc)
+        {
+            if (string.IsNullOrEmpty(categoryid))
+            {
+                categoryid = SystemBusiness.BaseBusiness.CreateProcessCategory(name, desc, CurrentUser.UserID);
+            }
+            else
+            {
+                if (!SystemBusiness.BaseBusiness.UpdateProcessCategory(categoryid, name, desc))
+                {
+                    categoryid = "";
+                }
+            }
+            JsonDictionary.Add("ID", categoryid);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult DeleteProcessCategory(string categoryid)
+        {
+            var bl = SystemBusiness.BaseBusiness.DeleteProcessCategory(categoryid, CurrentUser.UserID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateCategoryItem(string categoryid, string itemid, string name, int sort)
+        {
+            var bl = SystemBusiness.BaseBusiness.UpdateCategoryItem(categoryid, itemid, name, sort);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        } 
+
+        #endregion
 
         public JsonResult GetProductList(string filter)
         {
