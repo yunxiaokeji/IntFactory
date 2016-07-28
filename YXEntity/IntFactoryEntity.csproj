@@ -91,6 +91,7 @@
     <Compile Include="Common\Industry.cs" />
     <Compile Include="System\Role.cs" />
     <Compile Include="System\RolePermission.cs" />
+    <Compile Include="System\UserAccounts.cs" />
     <Compile Include="System\UserDepart.cs" />
     <Compile Include="System\UserRole.cs" />
     <Compile Include="System\Users.cs" />

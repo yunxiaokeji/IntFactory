@@ -67,29 +67,33 @@ define(function (require, exports, module) {
         //搜索
         require.async("search", function () {
             $("#choosecustomerSearch").searchKeys(function (keyWords) {
+                $(".customerlist-all .customerlist-items").empty();
+                $(".customerlist-all .customerlist-items").append("<div class='data-loading' ><div>");
                 if (keyWords) {
-                    $(".customerlist-all .customerlist-items").empty();
                     Global.post("/Customer/GetClientByKeywords", {
                         keywords: keyWords
                     }, function (data) {
+                        $("#choosecustomerSearch .search-ipt").focus();
                         $(".customerlist-all .customerlist-items").empty();
 
-                        doT.exec("/plug/choosefactory/factory.html", function (template) {
-                            var innerHtml = template(data.items);
-                            innerHtml = $(innerHtml);
-                            innerHtml.click(function () {
-                                var _this = $(this);
-                                if (!_this.hasClass("ico-checked")) {
-                                    _this.siblings().find(".check").removeClass("ico-checked").addClass("ico-check");
-                                    _this.find(".check").removeClass("ico-check").addClass("ico-checked");
-                                }
+                        if (data.items.length > 0) {
+                            doT.exec("/plug/choosefactory/factory.html", function (template) {
+                                var innerHtml = template(data.items);
+                                innerHtml = $(innerHtml);
+                                innerHtml.click(function () {
+                                    var _this = $(this);
+                                    if (!_this.hasClass("ico-checked")) {
+                                        _this.siblings().find(".check").removeClass("ico-checked").addClass("ico-check");
+                                        _this.find(".check").removeClass("ico-check").addClass("ico-checked");
+                                    }
+                                });
+                                $(".customerlist-all .customerlist-items").append(innerHtml);
                             });
-                            $(".customerlist-all .customerlist-items").append(innerHtml);
-                        });
+                        } else {
+                            $(".customerlist-all .customerlist-items").append("<div class='nodata-txt' >暂无工厂!<div>");
+                        }
+
                     });
-                    
-                } else {
-                    $(".customerlist-items").empty();
                 }
             });
         });

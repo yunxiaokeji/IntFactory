@@ -40,6 +40,17 @@ namespace IntFactoryDAL
 
         }
 
+        public DataTable GetUserAccountsByUserID(string userid, string agentid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@userid",userid),
+                                       new SqlParameter("@agentid",agentid)
+                                   };
+            string sql = "select * from UserAccounts where userid=@userid and agentid=@agentid ";
+
+            return GetDataTable(sql, paras, CommandType.Text);
+        }
+
         public DataTable GetUsers(string agentid)
         {
             string sql = "select * from Users where AgentID=@AgentID";

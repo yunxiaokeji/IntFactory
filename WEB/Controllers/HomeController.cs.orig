@@ -599,12 +599,21 @@ namespace YXERP.Controllers
                     if (model.Status.Value == 1)
                     {
                         Session["ClientManager"] = model;
+<<<<<<< HEAD
+
+                        if (string.IsNullOrEmpty(state))
+                        {
+                            return Redirect("/Home/Index");
+                        }
+                        else
+                        {
+                            return Redirect(state);
+                        }
+=======
                         Response.Write("<script>alert('您的账户已绑定过微信');location.href='/Home/login';</script>");
                         Response.End();
-                        {
-                        }
-                        {
-                        }
+>>>>>>> 1f7d6f32758cb14e301cda3c85ee85876f452e6c
+                    }
                     else {
                         if (model.Status.Value == 9)
                         {

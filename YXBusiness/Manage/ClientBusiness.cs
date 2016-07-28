@@ -56,7 +56,11 @@ namespace IntFactoryBusiness.Manage
             string sqlWhere = "a.Status<>9";
             if (!string.IsNullOrEmpty(keyWords))
             {
-                sqlWhere += " and ( a.CompanyName like '%" + keyWords + "%' or a.AliMemberID like '%" + keyWords + "%'  or  a.MobilePhone like '%" + keyWords + "%' or  a.ClientCode like '%" + keyWords + "%')";
+                sqlWhere += " and (  a.MobilePhone = '" + keyWords + "' or  a.ClientCode = '" + keyWords + "' ";
+                if (keyWords.Length > 3) {
+                    sqlWhere += " or  a.CompanyName like '%" + keyWords + "%'  ";
+                }
+                sqlWhere += ")";
             }
             if (type > -1) {
                 if (type == 0) { 

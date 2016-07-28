@@ -289,11 +289,11 @@ namespace IntFactoryEntity
 
         public Role Role { get; set; }
 
-        public string MDToken { get; set; }
+        //public string MDToken { get; set; }
 
-        public string AliToken { get; set; }
+        //public string AliToken { get; set; }
 
-        public string AliMemberID { get; set; }
+        //public string AliMemberID { get; set; }
 
         [Property("Lower")] 
         public string AgentID { get; set; }

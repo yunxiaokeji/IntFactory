@@ -525,7 +525,7 @@ namespace YXERP.Controllers
             model.Amount = way.TotalMoney;
 
             decimal discount = 1M;
-            if (!string.IsNullOrEmpty(CurrentUser.AliMemberID))
+            if (!string.IsNullOrEmpty(CurrentUser.Client.AliMemberID))
             {
                 if (type == 1 || type == 2)
                 {

@@ -40,7 +40,7 @@ namespace YXERP.Controllers
 
         public ActionResult Users()
         {
-            ViewBag.MDToken = CurrentUser.MDToken;
+            ViewBag.MDToken = string.Empty;
             ViewBag.Roles = OrganizationBusiness.GetRoles(CurrentUser.AgentID);
             ViewBag.Departments = OrganizationBusiness.GetDepartments(CurrentUser.AgentID);
 

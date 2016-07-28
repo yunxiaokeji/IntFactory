@@ -15,6 +15,7 @@ using Qiniu.IO;
 using Qiniu.IO.Resumable;
 using Qiniu.RS;
 using Qiniu.RPC;
+using IntFactoryEnum;
 namespace YXERP.Controllers
 {
     
@@ -45,6 +46,23 @@ namespace YXERP.Controllers
         }
         public ActionResult Account()
         {
+            var BindMobilePhone = string.Empty;
+            var UserAccounts = OrganizationBusiness.GetUserAccountsByUserID(CurrentUser.UserID, CurrentUser.AgentID);
+            var UserAccount = UserAccounts.Find(m => m.AccountType ==(int) EnumAccountType.Mobile);
+            if (UserAccount != null)
+            {
+                BindMobilePhone = UserAccount.AccountName;
+            }
+            ViewBag.BindMobilePhone = BindMobilePhone;
+
+            var WeiXinID = string.Empty;
+            UserAccount = UserAccounts.Find(m => m.AccountType == (int)EnumAccountType.WeiXin);
+            if (UserAccount != null)
+            {
+                WeiXinID = UserAccount.AccountName;
+            }
+            ViewBag.WeiXinID = WeiXinID;
+
             return View();
         }
         public ActionResult FeedBackList()
