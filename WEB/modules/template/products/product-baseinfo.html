@@ -1,0 +1,42 @@
+﻿{%
+    var model=$data;
+%}
+<ul>
+    <li class="mTop10">
+        <span class="width80">材料名称：</span>
+        <span>{%=model.productName%}</span>
+    </li>
+    <li class="mTop10">
+        <span class="width80">材料编码：</span>
+        <span class="{%=model.productCode?'':'red'%}">{%=model.productCode?model.productCode:"未设置"%}</span>
+    </li>
+    <li class="mTop10">
+        <span class="width80">材料类别：</span>
+        <span class="{%=model.productCatoryName?'':'red'%}">
+            {%if(model.productCatoryName)
+              {
+            %}
+                {%=model.productCatoryName%}
+                {%if(!model.hideTip)
+                {
+                %}
+                （<span class="red font12">设置后不能更改!</span>）
+                {%}%}
+            {%}else{%}
+                未设置
+            {%}%}
+        </span>
+    </li>
+    <li class="mTop10">
+        <span class="width80">供应商：</span>
+        <span class="{%=model.prodiverName?'':'red'%}">{%=model.prodiverName?model.prodiverName:"未设置"%}</span>
+    </li>
+    <li class="mTop10">
+        <span class="width80">单位：</span>
+        <span>{%=model.smallUnit%}</span>
+    </li>
+    <li class="mTop10">
+        <span class="width80">价格：</span>
+        <span>{%=model.price%}</span>
+    </li>
+</ul>

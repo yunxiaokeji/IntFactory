@@ -321,9 +321,13 @@
     <Content Include="modules\plug\colormark\colormark.js" />
     <Content Include="modules\plug\colormark\ico-ball.png" />
     <Content Include="modules\plug\colormark\style.css" />
+    <Content Include="modules\plug\detaillayer\detaillayer.html" />
+    <Content Include="modules\plug\detaillayer\detaillayer.js" />
+    <Content Include="modules\template\products\product-baseinfo.html" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.js" />
     <Content Include="modules\plug\daterangepicker\moment.js" />
+    <Content Include="modules\plug\detaillayer\detaillayer.css" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\an_hui_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\ao_men_geo.json" />
     <Content Include="modules\plug\echarts\util\mapData\rawData\geoJson\bei_jing_geo.json" />

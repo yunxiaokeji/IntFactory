@@ -5,6 +5,7 @@
         Verify = require("verify"), VerifyObject, DetailsVerify, editor, VerifyProdiver,
         doT = require("dot"),
         Easydialog = require("easydialog");
+    var DetailLayer = require("detaillayer");
     require("pager");
     require("switch");
     require("autocomplete");
@@ -288,8 +289,16 @@
             }
         });
 
+
+        VerifyObject = Verify.createVerify({
+            element: ".verify",
+            emptyAttr: "data-empty",
+            verifyType: "data-type",
+            regText: "data-text"
+        });
+
         $(".btn-save-product").on("click", function () {
-            if (!VerifyObject.isPass('#productinfo')) {
+            if (!VerifyObject.isPass()) {
                 return;
             }
             if ($(".autocomplete-text").val() && !$("#prodiver").data("id")) {
@@ -299,23 +308,27 @@
             _self.saveType = $(this).data('id');
             if (!_self.categoryID && $("#productMenuChange").val()) {
                 alert("材料类别选择有误，请重新选择");
-            } else if (!_self.categoryID) {
-                confirm("材料类别为空，确定要继续?", function () {
-                    Product.savaProduct();
-                });
             } else {
-                confirm("材料分类：" + $("#productMenuChange").val() + "，选择后不能更改!", function () {
-                    Product.savaProduct();
+                var model = {};
+                model.productName = $("#productName").val().trim();
+                model.productCode = $("#productCode").val().trim();
+                model.productCatoryName = _self.categoryID ? $("#productMenuChange").val() : "";
+                model.prodiverName = $("#prodiver").data("id") ? $(".autocomplete-text").val() : "";
+                model.smallUnit = $("#smallUnit option:selected").text();
+                model.price = $("#price").val();
+                doT.exec("template/products/product-baseinfo.html", function (template) {
+                    var innerHtml = template(model);
+                    innerHtml = $(innerHtml);
+                    DetailLayer.create({
+                        content: innerHtml,
+                        yesFn: function () {
+                            Product.savaProduct();
+                        }
+                    });
                 });
             }
         });
 
-        VerifyObject = Verify.createVerify({
-            element: ".verify",
-            emptyAttr: "data-empty",
-            verifyType: "data-type",
-            regText: "data-text"
-        });
 
         //编码是否重复
         $("#productCode").change(function () {
@@ -358,20 +371,11 @@
             }
         });
 
-        //$(".autocomplete-text").focus(function () {
-        //    if ($("#prodiver").data('id')) {
-        //        _self.prodiverName = $(this).val();
-        //    }
-        //    console.log(_self.prodiverName);
-        //});
-
-        //$(".autocomplete-text").change(function () {
-        //    console.log($("#prodiver").data('id'));
-        //    if (_self.prodiverName != $(this).val()) {
-        //        $("#prodiver").data('id', '');
-        //        _self.prodiverName = '';
-        //    }
-        //});
+        $(".autocomplete-text").change(function () {
+            if ($(this).val().trim() == "") {
+                $("#prodiver").data('id', '');
+            }
+        });
 
         //更改价格同步子产品
         $("#price").change(function () {
@@ -527,6 +531,7 @@
                         }
                     }
                 }
+                $(".confim-dialog").remove();
             } else if (data.result == 2) {
                 alert("材料编码已存在");
             } else {
@@ -1106,25 +1111,36 @@
             if (!VerifyObject.isPass('#productinfo')) {
                 return;
             }
-            if (!_self.categoryID && $("#productMenuChange").val()) {
-                alert("材料类别选择有误，请重新选择");
-            } else if (!_self.categoryID) {
-                confirm("材料类别为空，确定要继续?", function () {
-                    Product.savaProduct();
-                });
-            } else {
-                if ($("#productMenuChange").length > 0) {
-                    confirm("材料分类：" + $("#productMenuChange").val() + "，选择后不能更改!", function () {
-                        Product.savaProduct();
-                    });
-                } else {
-                    Product.savaProduct();
-                }
-            }
             _self.saveType = $(this).data('id');
             if ($(".autocomplete-text").val() && !$("#prodiver").data("id")) {
                 alert("请重新选择材料供应商!");
-                return;
+                return false;
+            }
+            if (!_self.categoryID && $("#productMenuChange").val()) {
+                alert("材料类别选择有误，请重新选择");
+            } else {
+                var model = {};
+                model.productName = $("#productName").val().trim();
+                model.productCode = $("#productCode").val().trim();
+                if ($("#productMenuChange").length > 0) {
+                    model.productCatoryName = _self.categoryID ? $("#productMenuChange").val() : "";
+                } else {
+                    model.hideTip = 1;
+                    model.productCatoryName = $(".category-name").text().trim();
+                }
+                model.prodiverName = $("#prodiver").data("id") ? $(".autocomplete-text").val() : "";
+                model.smallUnit = $("#smallUnit option:selected").text();
+                model.price = $("#price").val();
+                doT.exec("template/products/product-baseinfo.html", function (template) {
+                    var innerHtml = template(model);
+                    innerHtml = $(innerHtml);
+                    DetailLayer.create({
+                        content: innerHtml,
+                        yesFn: function () {
+                            Product.savaProduct();
+                        }
+                    });
+                });
             }
         });
 
@@ -1191,6 +1207,12 @@
             },
             select: function (item) {
 
+            }
+        });
+
+        $(".autocomplete-text").change(function () {
+            if ($(this).val().trim() == "") {
+                $("#prodiver").data('id', '');
             }
         });
     }
