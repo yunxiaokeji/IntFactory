@@ -30,7 +30,7 @@ define(function (require, exports, module) {
             });
             $(".choose-div").show();
         }
-        if (ordertype == 1 || ordertype == 3 || ordertype == 4 || ordertype == 11) {
+        if (ordertype == 3) {
             var depots = JSON.parse(depotItem.replace(/&quot;/g, '"'));
             if (depots.length > 0) {
                 _self.depotID = depots[0].DepotID;
@@ -46,6 +46,9 @@ define(function (require, exports, module) {
                         _self.depotID = data.value;
                     }
                 });
+                $(".choose-div").show();
+            } else {
+                $(".choose-div").hide();
             }
         }
         $(".product-name").css("width", $(".content-body").width() - 500);
@@ -57,7 +60,9 @@ define(function (require, exports, module) {
         $("#saleattr li.value").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
-                if (!(_self.ordertype*1)) {
+
+                //不带type进入材料详情可直接添加报损、报溢、采购单
+                if (!(_self.ordertype * 1)) {
                     $(".purchase,.overflow").show();
                     if (!cacheDepot[_this.data('id')]) {
                         Global.post("/Stock/GetDeoptByProductDetailID", { did: _this.data('id') }, function (data) {
@@ -104,8 +109,59 @@ define(function (require, exports, module) {
                         }
                     }
                 }
+
                 _this.addClass("hover");
                 _this.siblings().removeClass("hover");
+
+                if (_self.ordertype == 3) {
+                    if (!cacheDepot[_this.data('id')]) {
+                        Global.post("/Stock/GetDeoptByProductDetailID", { did: _this.data('id') }, function (data) {
+                            var depots = data.depots;
+                            cacheDepot[_this.data('id')] = depots;
+                            if (depots.length > 0) {
+                                _self.depotID = depots[0].DepotID;
+                                $(".depot-dropdown").dropdown({
+                                    prevText: "货位－",
+                                    defaultText: depots[0].DepotCode,
+                                    defaultValue: depots[0].DepotID,
+                                    data: depots,
+                                    dataText: "DepotCode",
+                                    dataValue: "DepotID",
+                                    width: 120,
+                                    isposition: true,
+                                    onChange: function (data) {
+                                        _self.depotid = data.value;
+                                    }
+                                });
+                                $(".choose-div").show();
+                            } else {
+                                $(".choose-div").hide();
+                            }
+                        });
+                    } else {
+                        var depots = cacheDepot[_this.data('id')];
+                        if (depots.length > 0) {
+                            _self.depotID = depots[0].DepotID;
+                            $(".depot-dropdown").dropdown({
+                                prevText: "货位－",
+                                defaultText: depots[0].DepotCode,
+                                defaultValue: depots[0].DepotID,
+                                data: depots,
+                                dataText: "DepotCode",
+                                dataValue: "DepotID",
+                                width: 120,
+                                isposition: true,
+                                onChange: function (data) {
+                                    _self.depotid = data.value;
+                                }
+                            });
+                            $(".choose-div").show();
+                        } else {
+                            $(".choose-div").hide();
+                        }
+                    }
+                }
+
                 for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
 
                     var bl = true, vales = model.ProductDetails[i].ProductDetailID, unitid = model.ProductDetails[i].UnitID;
@@ -329,6 +385,9 @@ define(function (require, exports, module) {
                         } else {
                             $(".damaged").hide();
                         }
+
+
+
                     }
                 }
                 $("#price").html("￥" + model.ProductDetails[i].Price.toFixed(2));

@@ -304,7 +304,9 @@
                     Product.savaProduct();
                 });
             } else {
-                Product.savaProduct();
+                confirm("材料分类：" + $("#productMenuChange").val() + "，选择后不能更改!", function () {
+                    Product.savaProduct();
+                });
             }
         });
 
@@ -341,6 +343,7 @@
                 pageSize: 5
             },
             width: "180",
+            isposition: true,
             asyncCallback: function (data, response) {
                 response($.map(data.items, function (item) {
                     return {
@@ -354,6 +357,21 @@
 
             }
         });
+
+        //$(".autocomplete-text").focus(function () {
+        //    if ($("#prodiver").data('id')) {
+        //        _self.prodiverName = $(this).val();
+        //    }
+        //    console.log(_self.prodiverName);
+        //});
+
+        //$(".autocomplete-text").change(function () {
+        //    console.log($("#prodiver").data('id'));
+        //    if (_self.prodiverName != $(this).val()) {
+        //        $("#prodiver").data('id', '');
+        //        _self.prodiverName = '';
+        //    }
+        //});
 
         //更改价格同步子产品
         $("#price").change(function () {
@@ -1088,16 +1106,21 @@
             if (!VerifyObject.isPass()) {
                 return;
             }
-            if (!_self.categoryID) {
-                alert("分类选择有误！");
-                return false;
+            if (!_self.categoryID && $("#productMenuChange").val()) {
+                alert("材料类别选择有误，请重新选择");
+            } else if (!_self.categoryID) {
+                confirm("材料类别为空，确定要继续?", function () {
+                    Product.savaProduct();
+                });
+            } else {
+                confirm("材料分类：" + $("#productMenuChange").val() + "，选择后不能更改!", function () {
+                    Product.savaProduct();
+                });
             }
             _self.saveType = $(this).data('id');
             if ($(".autocomplete-text").val() && !$("#prodiver").data("id")) {
                 alert("请重新选择材料供应商!");
                 return;
-            } else {
-                Product.savaProduct();
             }
 
         });
@@ -1153,6 +1176,7 @@
                 pageSize: 5
             },
             width: "180",
+            isposition: true,
             asyncCallback: function (data, response) {
                 response($.map(data.items, function (item) {
                     return {

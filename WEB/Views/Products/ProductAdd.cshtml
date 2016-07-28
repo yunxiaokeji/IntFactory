@@ -24,7 +24,7 @@
            返回 
         </a>
     }
-    else if (Convert.ToInt32(ViewBag.Type) == 1)
+    else if (Convert.ToInt32(ViewBag.Type) == 1||Convert.ToInt32(ViewBag.Type) == 3||Convert.ToInt32(ViewBag.Type) == 4)
     { 
         <a class="back btn-back right" href="/Products/ChooseProducts?id=@(ViewBag.GUID)">
            返回 

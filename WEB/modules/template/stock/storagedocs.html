@@ -1,6 +1,7 @@
 ﻿{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
+    console.log(item);
 if(i>0)
 {
 %}
@@ -9,11 +10,12 @@ if(i>0)
 </tr>
 {%}%}
 <tr class="item-header">
-    <td class="tLeft">报损单号：{%=item.DocCode%}</td>
+    <td class="tLeft">{%=item.DocType==4?"报溢":"报损"%}单号：{%=item.DocCode%}</td>
     <td>编码</td>
+    <td>货位</td>
     <td>数量</td>
-    <td class="">总金额</td>
-    <td class="">报损日期</td>
+    <td class="">操作人</td>
+    <td class="">{%=item.DocType==4?"报溢":"报损"%}日期</td>
     <td class="{%=item.Status<2?'red':''%}">
         {%=item.StatusStr%}
         <div class="right iconfont dropdown" data-status="{%=item.Status%}" data-id="{%=item.DocID%}"> 
@@ -26,23 +28,26 @@ if(i>0)
 	var detail = item.Details[ii];
 %}
 <tr class="item">
-    <td class=" bBottom tLeft">
+    <td class="bBottom tLeft">
         <a href="/Products/ChooseDetail?pid={%=detail.ProductID%}&did={%=detail.ProductDetailID%}" target="_blank">
             {%=detail.ProductName+"&nbsp;&nbsp;"%}<span class="color999">{%=detail.Remark%}</span>
         </a>
     </td>
-    <td class=" bBottom">
+    <td class="bBottom">
             {%=detail.DetailsCode?detail.DetailsCode: detail.ProductCode%}
     </td>
+    <td class="bBottom">
+        {%=!detail.DepotCode?"--":detail.DepotCode%}
+    </td>
     <td class=" bBottom bRight">
-            {%=detail.Quantity%}
+        {%=detail.Quantity%}
     </td>
    
     {%if(ii==0)
     {
     %}
-    <td rowspan="{%=jj%}" class=" bBottom bRight">{%=item.TotalMoney.toFixed(2)%}</td>
-    <td rowspan="{%=jj%}" class=" bBottom bRight">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td rowspan="{%=jj%}" class=" bBottom bRight">{%=item.UserName%}</td>
+    <td rowspan="{%=jj%}" class=" bBottom bRight">{%=item.CreateTime.toDate("yyyy-MM-dd")%}</td>
     <td rowspan="{%=jj%}" class=" bBottom">
         <a href="/Stock/Detail/{%=item.DocID%}" target="_blank">查看详情</a>
     </td>

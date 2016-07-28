@@ -846,18 +846,6 @@ namespace IntFactoryBusiness
                     items.Add(depot);
                 }
             }
-            else if (type == 4 || type == 1 || type == 11)
-            {
-                List<WareHouse> wares = SystemBusiness.BaseBusiness.GetWareHouses(clientid);
-                foreach (var item in wares)
-                {
-                    List<DepotSeat> depotItems = SystemBusiness.BaseBusiness.GetDepotSeatsByWareID(item.WareID, clientid);
-                    foreach (var depotModel in depotItems)
-                    {
-                        items.Add(depotModel);
-                    }
-                }
-            }
             model.Depots = items;
 
             if (ds.Tables.Contains("Product") && ds.Tables["Product"].Rows.Count > 0)

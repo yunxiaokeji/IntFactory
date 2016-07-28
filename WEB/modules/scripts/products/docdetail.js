@@ -43,16 +43,21 @@ define(function (require, exports, module) {
         $(".log-body").empty();
         var url = "/Purchase/GetPurchasesDetails",
             template = "template/purchase/audit_details.html";
-
-
+        $(".table-header").after("<tr><td colspan='5'><div class='data-loading'></div></td></tr>");
         Global.post(url, {
             docid: _self.docid
         }, function (data) {
-            doT.exec(template, function (templateFun) {
-                var innerText = templateFun(data.items);
-                innerText = $(innerText);
-                $("#navStorageIn").append(innerText);
-            });
+            $(".table-header").nextAll().remove();
+            if (data.items.length > 0) {
+                $(".table-header").hide();
+                doT.exec(template, function (templateFun) {
+                    var innerText = templateFun(data.items);
+                    innerText = $(innerText);
+                    $("#navStorageIn").append(innerText);
+                });
+            } else {
+                $(".table-header").after("<tr><td colspan='5'><div class='nodata-txt'>暂无数据</div></td></tr>");
+            }
         });
     }
 

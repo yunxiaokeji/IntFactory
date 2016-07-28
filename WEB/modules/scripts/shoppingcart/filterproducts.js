@@ -9,7 +9,7 @@
     var CacheCategorys = [];
     var CacheChildCategorys = [];
     var CacheProduct = [];
-
+    var cacheDepot = [];
     var Params = {
         CategoryID: "",
         BeginPrice: "",
@@ -365,25 +365,29 @@
                             }
                         }
                     });
-                    if (CacheProduct[did].Depots) {
-                        if (CacheProduct[did].Depots.length > 0) {
-                            _self.depotid = CacheProduct[did].Depots[0].DepotID;
-                            require.async("dropdown", function () {
-                                $(".depot-dropdown").dropdown({
-                                    prevText: "货位-",
-                                    defaultText: CacheProduct[did].Depots[0].DepotCode,
-                                    defaultValue: CacheProduct[did].Depots[0].DepotID,
-                                    data: CacheProduct[did].Depots,
-                                    dataText: "DepotCode",
-                                    dataValue: "DepotID",
-                                    width: 120,
-                                    isposition:true,
-                                    onChange: function (dataValue) {
-                                        _self.depotid = dataValue.value;
-                                    }
-                                    //defaultText:data.Depots[0].
+                    if (_self.type == 3) {
+                        if (CacheProduct[did].Depots) {
+                            if (CacheProduct[did].Depots.length > 0) {
+                                _self.depotid = CacheProduct[did].Depots[0].DepotID;
+                                require.async("dropdown", function () {
+                                    $(".depot-dropdown").dropdown({
+                                        prevText: "货位-",
+                                        defaultText: CacheProduct[did].Depots[0].DepotCode,
+                                        defaultValue: CacheProduct[did].Depots[0].DepotID,
+                                        data: CacheProduct[did].Depots,
+                                        dataText: "DepotCode",
+                                        dataValue: "DepotID",
+                                        width: 120,
+                                        isposition: true,
+                                        onChange: function (dataValue) {
+                                            _self.depotid = dataValue.value;
+                                        }
+                                        //defaultText:data.Depots[0].
+                                    });
                                 });
-                            });
+                            } else {
+                                $(".add-product-list").hide();
+                            }
                         }
                     }
                     Easydialog.toPosition();
@@ -405,24 +409,34 @@
                         }
                     }
                 });
-                if (CacheProduct[did].Depots) {
-                    if (CacheProduct[did].Depots.length > 0) {
-                        _self.depotid = CacheProduct[did].Depots[0].DepotID;
-                        require.async("dropdown", function () {
-                            $(".depot-dropdown").dropdown({
-                                prevText: "货位-",
-                                defaultText: CacheProduct[did].Depots[0].DepotCode,
-                                defaultValue: CacheProduct[did].Depots[0].DepotID,
-                                data: CacheProduct[did].Depots,
-                                dataText: "DepotCode",
-                                dataValue: "DepotID",
-                                width: 120,
-                                isposition: true,
-                                onChange: function (dataValue) {
-                                    _self.depotid = dataValue.value;
-                                }
+                if (_self.type == 3) {
+                    if (CacheProduct[did].Depots) {
+                        if (CacheProduct[did].Depots.length > 0) {
+                            _self.depotid = CacheProduct[did].Depots[0].DepotID;
+                            require.async("dropdown", function () {
+                                $(".depot-dropdown").dropdown({
+                                    prevText: "货位-",
+                                    defaultText: CacheProduct[did].Depots[0].DepotCode,
+                                    defaultValue: CacheProduct[did].Depots[0].DepotID,
+                                    data: CacheProduct[did].Depots,
+                                    dataText: "DepotCode",
+                                    dataValue: "DepotID",
+                                    width: 120,
+                                    isposition: true,
+                                    onChange: function (dataValue) {
+                                        _self.depotid = dataValue.value;
+                                    }
+                                });
                             });
-                        });
+                            $(".depot-dropdown").show();
+                            $(".add-product-list").show();
+                        } else {
+                            $(".depot-dropdown").hide();
+                            $(".add-product-list").hide();
+                        }
+                    } else {
+                        $(".depot-dropdown").hide();
+                        $(".add-product-list").hide();
                     }
                 }
                 Easydialog.toPosition();
@@ -442,8 +456,59 @@
             if (!_this.hasClass("hover")) {
                 _this.addClass("hover");
                 _this.siblings().removeClass("hover");
+                if (_self.type == 3) {
+                    if (!cacheDepot[_this.data('id')]) {
+                        Global.post("/Stock/GetDeoptByProductDetailID", { did: _this.data('id') }, function (data) {
+                            var depots = data.depots;
+                            cacheDepot[_this.data('id')] = depots;
+                            if (depots.length > 0) {
+                                _self.depotID = depots[0].DepotID;
+                                $(".depot-dropdown").dropdown({
+                                    prevText: "货位－",
+                                    defaultText: depots[0].DepotCode,
+                                    defaultValue: depots[0].DepotID,
+                                    data: depots,
+                                    dataText: "DepotCode",
+                                    dataValue: "DepotID",
+                                    width: 120,
+                                    isposition: true,
+                                    onChange: function (data) {
+                                        _self.depotid = data.value;
+                                    }
+                                });
+                                $(".depot-dropdown").show();
+                                $(".add-product-list").show();
+                            } else {
+                                $(".depot-dropdown").hide();
+                                $(".add-product-list").hide();
+                            }
+                        });
+                    } else {
+                        var depots = cacheDepot[_this.data('id')];
+                        if (depots.length > 0) {
+                            _self.depotID = depots[0].DepotID;
+                            $(".depot-dropdown").dropdown({
+                                prevText: "货位－",
+                                defaultText: depots[0].DepotCode,
+                                defaultValue: depots[0].DepotID,
+                                data: depots,
+                                dataText: "DepotCode",
+                                dataValue: "DepotID",
+                                width: 120,
+                                isposition: true,
+                                onChange: function (data) {
+                                    _self.depotid = data.value;
+                                }
+                            });
+                            $(".depot-dropdown").show();
+                            $(".add-product-list").show();
+                        } else {
+                            $(".depot-dropdown").hide();
+                            $(".add-product-list").hide();
+                        }
+                    }
+                }
                 for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
-
                     var bl = true, vales = model.ProductDetails[i].ProductDetailID, unitid = model.ProductDetails[i].UnitID;
                     $(".salesattr li.hover").each(function () {
                         if (vales.indexOf($(this).data("id")) < 0) {

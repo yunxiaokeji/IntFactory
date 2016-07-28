@@ -13,11 +13,11 @@
 }
 <div class="header-box">
     <span class="header-title left">新建报溢单</span>
-    <a class="btn-add right mLeft20" href="/Stock/ChooseBYProducts" id="addChooseProduct">选择报溢材料</a>
-    <div class="btnccc right" id="btnChooseProduct">快捷选择材料</div>
+    <div class="btn-add right mLeft20" id="btnChooseProduct">快捷选择材料</div>
+    <a class="right font14 mTop4 hRed" href="/Stock/ChooseBYProducts" id="addChooseProduct">选择报溢材料</a>
     <div class="clear"></div>
 </div>
-<div class="content-body mTop20" style="padding:20px;">
+<div class="content-body mTop20">
     <table class="table-items-detail">
         <tr class="table-header tr-header">
             <td class="tLeft">材料名称</td>
@@ -31,11 +31,11 @@
             foreach (var model in product)
             { 
             <tr class="item cart-item" data-autoid="@(model.AutoID)" data-id="@(model.ProductDetailID)" >
-                <td class="tLeft bBottom bLeft"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
+                <td class="tLeft bBottom"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
                 <td class="bBottom"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductCode)</a></td>
                 <td class="bBottom">@(model.Description)</td>
                 <td class="tr-quantity bBottom"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity)" /></td>
-                <td class="bRight bBottom">
+                <td class="bBottom">
                     <a class="ico-del iconfont font20" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
                 </td>
             </tr>
@@ -46,7 +46,7 @@
             <tr><td colspan="5"><div class="nodata-txt">暂无材料</div></td></tr>            
         }
     </table>
-    <div class="mTop20">
+    <div class="mTop20" style="padding:20px;">
         <div class="right" id="chooseWare"></div>
         <div class="clear"></div>
         <input type="text" placeholder="备注" id="remark" class="width500 mTop10 right">

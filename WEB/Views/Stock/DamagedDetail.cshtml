@@ -12,6 +12,7 @@
 }
 <div class="header-box">
     <span class="header-title left">报损单号：@(model.DocCode)</span>
+    <a class="btn-back right mLeft10" href="/Stock/Damaged">返回</a>
     <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current,"103030304"))" id="btnDelete">删除</div>
     <div class="btn right mRight10 @(ExpandClass.IsLimits(HttpContext.Current,"103030302"))" id="btnAudit">审核</div>
 </div>
@@ -48,11 +49,10 @@
             <td class="tLeft">材料名称</td>
             <td class="tLeft">编码</td>
             <td class="tLeft">规格</td>
+            <td class="center">货位</td>
             <td class="center width80">单位</td>
            @* <td class="tLeft">批次</td>*@
-            <td class="tRight">单价</td>
             <td class="center">数量</td>
-            <td class="tRight">小计</td>
         </tr>
         @foreach (var item in model.Details)
         { 
@@ -60,21 +60,11 @@
                 <td><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" target="_blank"> @(item.ProductName)</a></td>
                 <td><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" target="_blank"> @(item.ProductCode)</a></td>
                 <td>@(item.Remark)</td>
+                <td class="center">@(item.DepotCode)</td>
                 <td class="center">@(item.UnitName)</td>
                 @*<td>@(item.BatchCode)</td>*@
-                <td class=" tRight">@(item.Price.ToString("f2"))</td>
                 <td class="center">@(item.Quantity)</td>
-                <td class="tRight">@(item.TotalMoney.ToString("f2"))</td>
             </tr>
         }
-        <tr class="amount-item">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="tRight">合计：</td>
-            <td class="tRight">@(model.TotalMoney.ToString("f2"))</td>
-        </tr>
     </table>
 </div>

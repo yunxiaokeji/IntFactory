@@ -16,8 +16,8 @@
 }
 <div class="header-box">
     <span class="header-title left">报损单列表</span>
-    <a href="javascript:void(0);" id="btnCreate" class="btn-add mLeft20 mRight20 right">新建报损（@(ViewBag.DamagedCount )）</a>
-    <a class="btnccc right" href="/Stock/ChooseBSProducts">选择采购材料</a>
+    <a href="javascript:void(0);" id="btnCreate" class="btn-add mLeft20 mRight20 right">提交报损单（@(ViewBag.DamagedCount )）</a>
+    <a class="btnccc right" href="/Stock/ChooseBSProducts">选择报损材料</a>
 </div>
 <div class="search-box">
     <div class="search-header">
@@ -31,8 +31,8 @@
 </div>
 <div class="content-body">
     <div class="search-items">
-        <div id="wares" class="left"></div>
-        <div class="left mLeft20">
+        @*<div id="wares" class="left"></div>*@
+        <div class="left">
             <input placeholder="报损日期" type="text" id="iptCreateTime" class="ipt-date hand" readonly="true" />
         </div>
         <div class="right searth-module" data-text="关键字搜索..." data-width="160"> </div> 
@@ -41,8 +41,9 @@
        <tr class="table-header tr-header">
             <td class="tLeft">报损单号</td>
             <td>编码</td>
+            <td>货位</td>
             <td>数量</td>
-            <td class="">总金额</td>
+            <td class="">操作人</td>
             <td class="">报损日期</td>
             <td class="">状态</td>
         </tr>
