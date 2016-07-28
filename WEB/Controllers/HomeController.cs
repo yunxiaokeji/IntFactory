@@ -585,7 +585,7 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(userToken.errcode))
             {
-                var model = OrganizationBusiness.GetUserByWeiXinID(userToken.unionid, operateip);
+                var model = OrganizationBusiness.GetUserByOtherAccount(EnumAccountType.WeiXin, userToken.unionid, operateip);
                 //已注册
                 if (model != null)
                 {
