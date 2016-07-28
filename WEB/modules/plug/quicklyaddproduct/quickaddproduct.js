@@ -101,17 +101,20 @@
                         };
                         details.push(modelDetail);
                         Product.ProductDetails = details;
-
-                        Global.post("/Products/SavaProduct", {
-                            product: JSON.stringify(Product)
-                        }, function (data) {
-                            if (data.result == 1) {
-                                alert("添加成功");
-                            } else {
-                                alert("网络异常，请稍后再试");
-                            }
-                            _self.setting.callback && _self.setting.callback((data));
+                        confirm("材料分类：" + $("#chooseCategory").val() + "，选择后不能更改！", function () {
+                            Global.post("/Products/SavaProduct", {
+                                product: JSON.stringify(Product)
+                            }, function (data) {
+                                if (data.result == 1) {
+                                    alert("添加成功");
+                                    Easydialog.close();
+                                } else {
+                                    alert("网络异常，请重试");
+                                }
+                                _self.setting.callback && _self.setting.callback((data));
+                            });
                         });
+                        return false;
                     }
                 }
             });

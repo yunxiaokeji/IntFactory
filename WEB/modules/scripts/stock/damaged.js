@@ -134,10 +134,6 @@ define(function (require, exports, module) {
         $("#audit").click(function () {
             location.href = "/Stock/DamagedDetail/" + _self.docid;
         });
-        //作废
-        $("#invalid").click(function () {
-            location.href = "/Stock/DamagedDetail/" + _self.docid;
-        });
         //删除
         $("#delete").click(function () {
             location.href = "/Stock/DamagedDetail/" + _self.docid;

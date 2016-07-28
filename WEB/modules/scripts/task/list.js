@@ -279,13 +279,7 @@
                     var innerhtml = template(data.items);
 
                     innerhtml = $(innerhtml);
-                    innerhtml.find(".mark").markColor({
-                        isAll: false,
-                        data: ObjectJS.ColorList,
-                        onChange: function (obj, callback) {
-                            ObjectJS.markTasks(obj.data("id"), obj.data("value"), callback);
-                        }
-                    });
+                    $(".table-header").after(innerhtml);
                     innerhtml.find('.order-progress-item').each(function () {
                         var _this = $(this);
                         _this.css({ "width": _this.data('width') });
@@ -295,8 +289,13 @@
                         _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
                     });
                     innerhtml.find('.layer-line').css({ width: 0, left: "160px" });
-
-                    $(".table-header").after(innerhtml);
+                    innerhtml.find(".mark").markColor({
+                        isAll: false,
+                        data: ObjectJS.ColorList,
+                        onChange: function (obj, callback) {
+                            ObjectJS.markTasks(obj.data("id"), obj.data("value"), callback);
+                        }
+                    });
                 });
             }
             else {

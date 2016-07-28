@@ -52,6 +52,11 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult WXLogin()
+        {
+            return View();
+        }
+
         public JsonResult GetFeedBacks(string keyWords, string beginDate, string endDate, int type, int status, int pageSize, int pageIndex)
         {
             int totalCount = 0;

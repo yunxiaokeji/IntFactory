@@ -577,6 +577,53 @@ namespace YXERP.Controllers
             return Redirect("/Home/Login");
         }
 
+        //微信绑定回调地址
+        public ActionResult WeiXinLoginCallBack(string code, string state)
+        {
+            string operateip = Common.Common.GetRequestIP();
+            var userToken = WeiXin.Sdk.Token.GetAccessToken(code);
+
+            if (string.IsNullOrEmpty(userToken.errcode))
+            {
+                var model = OrganizationBusiness.GetUserByWeiXinID(userToken.unionid, operateip);
+                //已注册
+                if (model != null)
+                {
+                    //未注销
+                    if (model.Status.Value == 1)
+                    {
+                        Session["ClientManager"] = model;
+
+                        if (string.IsNullOrEmpty(state))
+                            return Redirect("/Home/Index");
+                        else
+                            return Redirect(state);
+                    }
+                    else
+                    {
+                        if (model.Status.Value == 9)
+                        {
+                            Response.Write("<script>alert('您的账户已注销,请切换其他账户登录');location.href='/Home/login';</script>");
+                            Response.End();
+                        }
+                        else
+                        {
+                            return Redirect("/Home/Login");
+                        }
+
+                    }
+                }
+                else
+                {
+                    Response.Write("<script>alert('您的账户未绑定微信,请先到账户设置中绑定微信');location.href='/Home/login';</script>");
+                    Response.End();
+                }
+            }
+
+            return Redirect("/Home/Login");
+        }
+
+
         //登录
         public JsonResult UserLogin(string userName, string pwd, string remember, int bindAccountType)
         {

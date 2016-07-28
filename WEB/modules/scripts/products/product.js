@@ -1113,16 +1113,19 @@
                     Product.savaProduct();
                 });
             } else {
-                confirm("材料分类：" + $("#productMenuChange").val() + "，选择后不能更改!", function () {
+                if ($("#productMenuChange").length > 0) {
+                    confirm("材料分类：" + $("#productMenuChange").val() + "，选择后不能更改!", function () {
+                        Product.savaProduct();
+                    });
+                } else {
                     Product.savaProduct();
-                });
+                }
             }
             _self.saveType = $(this).data('id');
             if ($(".autocomplete-text").val() && !$("#prodiver").data("id")) {
                 alert("请重新选择材料供应商!");
                 return;
             }
-
         });
 
         VerifyObject = Verify.createVerify({
@@ -1329,7 +1332,6 @@
             } else {
                 $("#bigpriceli").hide();
             }
-
             if (!id) {
                 $("#detailsPrice").val(model.Price);
                 $("#bigPrice").val(model.Price);
@@ -1380,6 +1382,7 @@
                 });
                 $("#iptRemark").val(detailsModel.Description);
             }
+
             //选择规格
             $(".productattr select").change(function () {
                 if ($(this).val() != "|") {

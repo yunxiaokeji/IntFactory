@@ -30,7 +30,10 @@ define(function (require, exports, module) {
             });
             $(".choose-div").show();
         }
+
+        //通过报损单进入初始化数据
         if (ordertype == 3) {
+            //初始化货位数据
             var depots = JSON.parse(depotItem.replace(/&quot;/g, '"'));
             if (depots.length > 0) {
                 _self.depotID = depots[0].DepotID;
@@ -62,57 +65,14 @@ define(function (require, exports, module) {
             if (!_this.hasClass("hover")) {
 
                 //不带type进入材料详情可直接添加报损、报溢、采购单
-                if (!(_self.ordertype * 1)) {
-                    $(".purchase,.overflow").show();
-                    if (!cacheDepot[_this.data('id')]) {
-                        Global.post("/Stock/GetDeoptByProductDetailID", { did: _this.data('id') }, function (data) {
-                            var depots = data.depots;
-                            cacheDepot[_this.data('id')] = depots;
-                            if (depots.length > 0) {
-                                _self.depotID = depots[0].DepotID;
-                                $(".damaged-dropdown").dropdown({
-                                    prevText: "货位－",
-                                    defaultText: depots[0].DepotCode,
-                                    defaultValue: depots[0].DepotID,
-                                    data: depots,
-                                    dataText: "DepotCode",
-                                    dataValue: "DepotID",
-                                    width: 120,
-                                    onChange: function (data) {
-                                        _self.depotID = data.value;
-                                    }
-                                });
-                                $(".damaged").show();
-                            } else {
-                                $(".damaged").hide();
-                            }
-                        });
-                    } else {
-                        var depots = cacheDepot[_this.data('id')];
-                        if (depots.length > 0) {
-                            _self.depotID = depots[0].DepotID;
-                            $(".damaged-dropdown").dropdown({
-                                prevText: "货位－",
-                                defaultText: depots[0].DepotCode,
-                                defaultValue: depots[0].DepotID,
-                                data: depots,
-                                dataText: "DepotCode",
-                                dataValue: "DepotID",
-                                width: 120,
-                                onChange: function (data) {
-                                    _self.depotID = data.value;
-                                }
-                            });
-                            $(".damaged").show();
-                        } else {
-                            $(".damaged").hide();
-                        }
-                    }
+                if (_self.ordertype == 0 && _self.saveType == 3) {
+                    ObjectJS.getDepotsByID(_this.data('id'));
                 }
 
                 _this.addClass("hover");
                 _this.siblings().removeClass("hover");
 
+                //通过报损单进入，切换规格显示不同货位
                 if (_self.ordertype == 3) {
                     if (!cacheDepot[_this.data('id')]) {
                         Global.post("/Stock/GetDeoptByProductDetailID", { did: _this.data('id') }, function (data) {
@@ -190,6 +150,13 @@ define(function (require, exports, module) {
                         $("#addcart").prop("disabled", true).addClass("addcartun");
                     }
                 }
+            }
+        });
+
+        $(document).click(function (e) {
+            //隐藏下拉
+            if (!$(e.target).parents().hasClass("dropdown-ul") && !$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown")) {
+                $(".dropdown-ul").hide();
             }
         });
 
@@ -277,59 +244,172 @@ define(function (require, exports, module) {
             }
         });
 
-        if(!(_self.ordertype*1)){
-            //加入采购单
-            $("#addPurchase,#addOverflow,#addDamaged").click(function () {
+        //单据类型为0可进行报损、报溢、加入采购单操作
+        if (_self.ordertype == 0) {
+            //下拉事件
+            $(".dropdown").click(function () {
+                var _this = $(this);
+                var position = _this.position();
+                $(".dropdown-ul").css({ "top": position.top+28, "left": position.left-2 }).show().mouseleave(function () {
+                    $(this).hide();
+                });
+                _self.docid = _this.data("id");
+            });
+
+            //采购
+            $("#purchases").click(function () {
+                $("#addDoc").html("加入" + $(this).text().trim());
+                $("#addDocAndBack").html("加入" + $(this).text().trim() + "并返回");
+                $(".damaged-dropdown").hide();
+                $(".quickly-add-stock").show();
+                $(".dropdown-ul").hide();
+                _self.saveType = $(this).data('type');
+            });
+
+            //报损
+            $("#damaged").click(function () {
+                $("#addDoc").html("加入" + $(this).text().trim());
+                $("#addDocAndBack").html("加入" + $(this).text().trim() + "并返回");
+
+                if ($("#productStockQuantity").text() * 1 <= 0) {
+                    $(".quickly-add-stock").hide();
+                } else {
+                    if ($(".sales-item li.hover").data('id')) {
+                        ObjectJS.getDepotsByID($(".sales-item li.hover").data('id'));
+                    }
+                    $(".quickly-add-stock").show();
+                }
+                $(".damaged-dropdown").show();
+                $(".dropdown-ul").hide();
+                _self.saveType = $(this).data('type');
+            });
+
+            //报溢
+            $("#overflow").click(function () {
+                $("#addDoc").html("加入" + $(this).text().trim());
+                $("#addDocAndBack").html("加入" + $(this).text().trim() + "并返回");
+                $(".damaged-dropdown").hide();
+                $(".quickly-add-stock").show();
+                $(".dropdown-ul").hide();
+                _self.saveType = $(this).data('type');
+            });
+            //加入单据
+            $("#addDoc").click(function () {
                 var _this = $(this);
                 if ($(".sales-item li").hasClass('hover')) {
-                    if ((_this.prev().val() * 1) <= 0) {
+                    if (($(".stock-count").val() * 1) <= 0) {
                         alert("数量必须大于0");
                         return false;
                     }
-                    var remark = "";
-                    $("#saleattr ul.salesattr").each(function () {
-                        var _this = $(this);
-                        remark += "[" + _this.find(".attrkey").html() + _this.find("li.hover").html() + "]";
-                    });
-                    Global.post("/ShoppingCart/AddShoppingCart", {
-                        productid: _self.productid,
-                        detailsid: _self.detailid,
-                        quantity: _this.prev().val()*1,
-                        unitid: $("#unit li.hover").data("id"),
-                        isBigUnit: $("#unit li.hover").data("value"),
-                        ordertype: _this.data('type'),
-                        depotid: _this.data('type') == 3 ? _self.depotID : "",
-                        guid: '',
-                        remark: remark
-                    }, function (data) {
-                        if (data.Status) {
-                            var msg = ""
-                            var href = "";
-                            if (_this.data('type') == 1) {
-                                msg = "采购单";
-                                href = "/Products/ConfirmPurchase";
-                            } else if (_this.data('type') == 3) {
-                                msg = "报损单";
-                                href = "/Stock/CreateDamaged";
-                            } else if (_this.data('type') == 4) {
-                                msg = "采溢单";
-                                href = "/Stock/CreateOverflow";
-                            }
-                            confirm("添加成功，是否返回" + msg + ""
-                            , function () {
-                                location.href = href;
-                            }, function () {
-
-                            });
-                        }
-                    });
+                    ObjectJS.addDoc(_this.data('type'));
                 } else {
-                    alert("请选择材料属性");
+                    alert("请选择材料规格");
+                }
+            });
+
+            //加入并返回单据详情
+            $("#addDocAndBack").click(function () {
+                var _this = $(this);
+                if ($(".sales-item li").hasClass('hover')) {
+                    if (($(".stock-count").val() * 1) <= 0) {
+                        alert("数量必须大于0");
+                        return false;
+                    }
+                    ObjectJS.addDoc(_this.data('type'));
+                } else {
+                    alert("请选择材料规格");
                 }
             });
         }
-
     }
+
+    ObjectJS.getDepotsByID = function (id) {
+        var _self = ObjectJS;
+        if (!cacheDepot[id]) {
+            Global.post("/Stock/GetDeoptByProductDetailID", { did: id }, function (data) {
+                var depots = data.depots;
+                cacheDepot[id] = depots;
+                if (depots.length > 0) {
+                    _self.depotID = depots[0].DepotID;
+                    $(".damaged-dropdown").dropdown({
+                        prevText: "货位－",
+                        defaultText: depots[0].DepotCode,
+                        defaultValue: depots[0].DepotID,
+                        data: depots,
+                        dataText: "DepotCode",
+                        dataValue: "DepotID",
+                        width: 120,
+                        onChange: function (data) {
+                            _self.depotID = data.value;
+                        }
+                    });
+                    $(".quickly-add-stock").show();
+                } else {
+                    $(".quickly-add-stock").hide();
+                }
+            });
+        } else {
+            var depots = cacheDepot[id];
+            if (depots.length > 0) {
+                _self.depotID = depots[0].DepotID;
+                $(".damaged-dropdown").dropdown({
+                    prevText: "货位－",
+                    defaultText: depots[0].DepotCode,
+                    defaultValue: depots[0].DepotID,
+                    data: depots,
+                    dataText: "DepotCode",
+                    dataValue: "DepotID",
+                    width: 120,
+                    onChange: function (data) {
+                        _self.depotID = data.value;
+                    }
+                });
+                $(".quickly-add-stock").show();
+            } else {
+                $(".quickly-add-stock").hide();
+            }
+        }
+    };
+
+    //快捷添加单据（ordertype为0时才会有）
+    ObjectJS.addDoc = function (type) {
+        var _self = ObjectJS;
+        var remark = "";
+        $("#saleattr ul.salesattr").each(function () {
+            var _this = $(this);
+            remark += "[" + _this.find(".attrkey").html() + _this.find("li.hover").html() + "]";
+        });
+        Global.post("/ShoppingCart/AddShoppingCart", {
+            productid: _self.productid,
+            detailsid: _self.detailid,
+            quantity: $(".stock-count").val() * 1,
+            unitid: $("#unit li.hover").data("id"),
+            isBigUnit: $("#unit li.hover").data("value"),
+            ordertype: _self.saveType,
+            depotid: _self.saveType == 3 ? _self.depotID : "",
+            guid: '',
+            remark: remark
+        }, function (data) {
+            if (data.Status) {
+                if (type == 1) {
+                    alert("添加成功");
+                } else {
+                    var href = "";
+                    if (_self.saveType == 1) {
+                        href = "/Products/ConfirmPurchase";
+                    } else if (_self.saveType == 3) {
+                        href = "/Stock/CreateDamaged";
+                    } else if (_self.saveType == 4) {
+                        href = "/Stock/CreateOverflow";
+                    }
+                    location.href = href;
+                }
+            } else {
+                alert("网络异常，请重试");
+            }
+        });
+    };
+
     //绑定信息
     ObjectJS.bindDetail = function (model) {
         var _self = this;
@@ -340,8 +420,8 @@ define(function (require, exports, module) {
             if (model.ProductDetails[i].ProductDetailID == _self.detailid) {
                 var productdetailid = model.ProductDetails[i].ProductDetailID;
                 $(".attr-item").find("li[data-id='" + productdetailid + "']").addClass("hover");
-                if (!(_self.ordertype * 1)) {
-                    $(".purchase,.overflow").show();
+
+                if (_self.ordertype == 0) {
                     if (!cacheDepot[productdetailid]) {
                         Global.post("/Stock/GetDeoptByProductDetailID", { did: productdetailid }, function (data) {
                             var depots = data.depots;
@@ -385,11 +465,9 @@ define(function (require, exports, module) {
                         } else {
                             $(".damaged").hide();
                         }
-
-
-
                     }
                 }
+
                 $("#price").html("￥" + model.ProductDetails[i].Price.toFixed(2));
                 if (model.ProductDetails[i].ImgS) {
                     $("#productimg").attr("src", model.ProductDetails[i].ImgS);
@@ -442,6 +520,7 @@ define(function (require, exports, module) {
             });
         });
     }
+
 
     module.exports = ObjectJS;
 })
