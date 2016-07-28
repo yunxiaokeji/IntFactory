@@ -27,7 +27,12 @@
     @if (CurrentUser.ClientID == model.ClientID)
     {
          <a href="/Products/ProductDetail/@(model.ProductID)" class="btn right">编辑材料</a>
+        if(type==0)
+        {
+            <span class="drop-operate right mRight10"></span>
+        }
     }
+    <div class="clear"></div>
 </div>
 <div class="content-body mTop20" style="padding:15px;">
     <div class="top-div">
@@ -46,27 +51,27 @@
                 
                     <ul class="attr-item salesattr">
                         <li class="attrkey">
-                            @(model.SaleAttrs.Count == 1?model.SaleAttrs[0].AttrName+"：":"规格：")                      
+                            @(model.SaleAttrs.Count == 1 ? model.SaleAttrs[0].AttrName + "：" : "规格：")                      
                          </li> 
                         <li class="attrValues">
                             <ul class="sales-item">
                                 @foreach (var detail in model.ProductDetails)
                                 {
-                                    if (model.ProductDetails.Count > 1 && detail.IsDefault==1 && (detail.LogicOut == 0 && detail.StockOut == 0 && detail.StockIn == 0))
+                                    if (model.ProductDetails.Count > 1 && detail.IsDefault == 1 && (detail.LogicOut == 0 && detail.StockOut == 0 && detail.StockIn == 0))
                                     {
                                         continue;
                                     }
                                     <li class="value" data-id="@detail.ProductDetailID">
-                                        @{
-                                            if (model.SaleAttrs.Count == 1)
-                                            {
-                                                @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('[', ' ').Replace(']', ' ').Replace(model.SaleAttrs[0].AttrName+":",string.Empty).Replace(model.SaleAttrs[0].AttrName+"：",string.Empty))
-                                            }
-                                            else
-                                            {
-                                                @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('[', ' ').Replace(']', ' '))
-                                            }
-                                        }
+                                    @{
+                                    if (model.SaleAttrs.Count == 1)
+                                    {
+                                         @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('[', ' ').Replace(']', ' ').Replace(model.SaleAttrs[0].AttrName + ":", string.Empty).Replace(model.SaleAttrs[0].AttrName + "：", string.Empty))
+                                    }
+                                    else
+                                    {
+                                        @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('[', ' ').Replace(']', ' '))
+                                    }
+                                    }
                                     </li>
                                 }
                             </ul>
@@ -87,22 +92,14 @@
                     </li>
                 </ul>
                 @{
-                    if(type==0)
+                    if (type == 0)
                     {
                         <div class="mRight5">
-                            <ul class="quickly-add-stock">
-                                <li class="mBottom10 purchase">
-                                    <input type="text" class="width50 stock-count" value="0" />
-                                    <span class="btn mLeft10" id="addPurchase" data-type="1">加入采购</span>
-                                </li>
-                                <li class="mBottom10 overflow">
-                                    <input type="text" class="width50 stock-count" value="0" />
-                                    <span class="btn999 mLeft10" id="addOverflow" data-type="4">加入报溢</span>
-                                </li>
-                                <li class="mBottom10 hide damaged">
+                            <ul class="quickly-add-stock hide">
+                                <li class="mBottom10">
+                                    <input type="text" class="width50 stock-count" value="1" />
+                                    <span class="btn mLeft10" id="addDoc" data-type="0">加入采购</span>
                                     <span class="damaged-dropdown left mRight10"></span>
-                                    <input type="text" class="width50 stock-count" value="0" />
-                                    <span class="btnccc mLeft10" id="addDamaged" data-type="3">加入报损</span>
                                 </li>
                             </ul>
                             <span id="sortAddStockDepot"></span>
@@ -111,25 +108,17 @@
                 }
            </div>
             <div class="choose-div hide">
-                @{
-                if ((type == 3 && depots.Count > 0))
-                {
-                    <div class="mTop10 left">
-                        <div class="depot-dropdown mRight10"></div>                
-                    </div>
-                }
-                if ((type == 3 && depots.Count > 0) || type == 4 || type == 1 || type == 11)
-                {
-                    <div class="choose-quantity left">
-                        <input type="text" value="1" id="quantity" />
-                        <span class="quantity-add" id="quantityadd">+</span>
-                        <span class="quantity-reduce" id="quantityreduce">-</span>
-                    </div>
-                    <div class="left mLeft10">
-                        <input type="button" class="addcart" id="addcart" value="加入清单" />
-                    </div>
-                }
-                }
+                <div class="mTop10 left">
+                    <div class="depot-dropdown mRight10"></div>                
+                </div>
+                <div class="choose-quantity left">
+                    <input type="text" value="1" id="quantity" />
+                    <span class="quantity-add" id="quantityadd">+</span>
+                    <span class="quantity-reduce" id="quantityreduce">-</span>
+                </div>
+                <div class="left mLeft10">
+                    <input type="button" class="addcart" id="addcart" value="加入清单" />
+                </div>
             </div>
         </div>
     </div>
