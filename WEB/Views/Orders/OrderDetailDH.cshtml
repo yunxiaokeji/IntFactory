@@ -288,7 +288,7 @@
         <li data-id="navEngraving" class="hover" data-mark="2">制版工艺</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016"))" data-id="navGoods">订单明细</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))" data-id="navProducts" data-mark="3">材料成本</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" data-id="navCosts">加工成本</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" data-id="navCosts" data-btn="addOtherCost">加工成本</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁片</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" data-btn="btnSewnOrder" data-id="navSewnDoc">车缝</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" data-btn="btnSendOrder" data-id="navSendDoc">发货</li>
@@ -303,6 +303,7 @@
             <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" id="btnSendOrder">订单发货</div>
             <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" id="btnSewnOrder">车缝录入</div>
             <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" id="btnCutoutOrder">裁片录入</div>
+            <div class="btn-add part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" id="addOtherCost">添加加工成本</div>
         }
     }
     <a id="plateMarking" href="/Orders/PlateMakingProcess/@(model.OrderID)" target="_blank" class="btn part-btn right mLeft20">制版打印</a>

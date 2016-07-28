@@ -195,6 +195,7 @@
     <Content Include="DLL\Qiniu.4.0.dll" />
     <Content Include="modules\css\customer.css" />
     <Content Include="modules\css\default\guidestep.css" />
+    <Content Include="modules\css\myaccount\weixin.css" />
     <Content Include="modules\css\orders.css" />
     <Content Include="modules\css\default\order_create.css" />
     <Content Include="modules\css\default\fentorderreport.css" />
@@ -1091,6 +1092,7 @@
     <Content Include="Views\Default\BindMobile.cshtml" />
     <Content Include="Views\System\LabelSet.cshtml" />
     <Content Include="Views\Home\WeiXinSelectLogin.cshtml" />
+    <Content Include="Views\MyAccount\WXLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
