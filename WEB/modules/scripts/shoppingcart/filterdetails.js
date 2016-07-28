@@ -363,7 +363,6 @@ define(function (require, exports, module) {
                 }
             });
         }
-
     }
     //绑定信息
     ObjectJS.bindDetail = function (model) {
