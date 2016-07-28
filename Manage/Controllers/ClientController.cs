@@ -11,6 +11,7 @@ using CloudSalesTool;
 using IntFactoryEntity.Manage;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using IntFactoryEnum;
 namespace YXManage.Controllers
 {
     [YXManage.Common.UserAuthorize]
@@ -119,10 +120,11 @@ namespace YXManage.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             Clients model = serializer.Deserialize<Clients>(client);
             int result;
-
+            string userid = "";
             if (string.IsNullOrEmpty(model.ClientID))
             {
-                string clientid = ClientBusiness.InsertClient(model, loginName, "", loginName, CurrentUser.UserID, out result);
+                string clientid = ClientBusiness.InsertClient(EnumRegisterType.Manage, EnumAccountType.UserName, loginName, loginName, model.CompanyName, model.ContactName, model.MobilePhone, "", "", 
+                                                              model.CityCode, model.Address, model.Description, "", CurrentUser.UserID, out result, out userid);
                 JsonDictionary.Add("Result", result);
                 JsonDictionary.Add("ClientID", clientid);
             }
@@ -373,7 +375,7 @@ namespace YXManage.Controllers
             ClientOrder order=ClientOrderBusiness.GetClientOrderInfo(id);
             if (order.Status == 0)
             {
-                bool flag = ClientOrderBusiness.PayOrderAndAuthorizeClient(id, CurrentUser.UserID,-1);
+                bool flag = ClientOrderBusiness.PayOrderAndAuthorizeClient(id, CurrentUser.UserID, -1, EnumOrderPayType.Cash);
                 JsonDictionary.Add("Result", flag ? 1 : 0);
 
                 if (flag)
@@ -392,6 +394,7 @@ namespace YXManage.Controllers
 
             };
         } 
+
         public JsonResult PayClientOrder(string id)
         {
             
@@ -422,6 +425,7 @@ namespace YXManage.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         public JsonResult GetClientOrderAccount(string keyWords, string orderID, string clientID, int payType,int status, int type, int pageSize, int pageIndex)
         {
             int totalCount = 0, pageCount = 0;
@@ -435,6 +439,7 @@ namespace YXManage.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+        
         public JsonResult CheckOrderAccount(string id) 
         { 
             int flag = ClientOrderAccountBusiness.UpdateClientOrderAccountStatus(id, (int)IntFactoryEnum.EnumClientOrderStatus.Pay);
@@ -445,6 +450,7 @@ namespace YXManage.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         public JsonResult CloseOrderAccount(string id)
         {
             int flag = ClientOrderAccountBusiness.UpdateClientOrderAccountStatus(id, (int)IntFactoryEnum.EnumClientOrderStatus.Delete);
@@ -455,6 +461,7 @@ namespace YXManage.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         } 
+
         public JsonResult AddOrderAccount(string orderAccount)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -469,6 +476,7 @@ namespace YXManage.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         #endregion
 
     }

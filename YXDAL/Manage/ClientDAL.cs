@@ -69,70 +69,46 @@ namespace IntFactoryDAL.Manage
 
         #region 添加
 
-        public string InsertClient(string companyName, string loginname, string contactName, string mobilePhone, string industry, string cityCode, string address,
-                                   string description, string bindMobilePhone, string loginPwd, string email, string mduserid, string mdprojectid, string userid, string aliMemberID,string weiXinID, out int result)
+        public string InsertClient(int registerType, int accountType, string account, string loginPwd, string companyName, string contactName, string mobile, string email, string industry, string cityCode, string address, string remark,
+                                    string companyid, string operateid, out int result, out string userid)
         {
-            string clientid = Guid.NewGuid().ToString();
+            string clientid = Guid.NewGuid().ToString().ToLower();
+            userid = Guid.NewGuid().ToString().ToLower();
             result = 0;
             SqlParameter[] parms = { 
                                        new SqlParameter("@Result",result),
+                                       new SqlParameter("@UserID",userid),
                                        new SqlParameter("@ClientID",clientid),
-                                       new SqlParameter("@LoginName",loginname),
                                        new SqlParameter("@ClientCode",GetCode(6)),
+                                       new SqlParameter("@RegisterType",registerType),
+                                       new SqlParameter("@AccountType",accountType),
+                                       new SqlParameter("@Account",account),
+                                       new SqlParameter("@LoginPWD",loginPwd),
                                        new SqlParameter("@CompanyName",companyName),
-                                       new SqlParameter("@MobilePhone",mobilePhone),
+                                       new SqlParameter("@ContactName",contactName),
+                                       new SqlParameter("@MobilePhone",mobile),
+                                       new SqlParameter("@Email",email),
                                        new SqlParameter("@Industry",industry),
                                        new SqlParameter("@CityCode",cityCode),
                                        new SqlParameter("@Address",address),
-                                       new SqlParameter("@Description",description),
-                                       new SqlParameter("@ContactName",contactName),
-                                       new SqlParameter("@BindMobilePhone",bindMobilePhone),
-                                       new SqlParameter("@LoginPWD",loginPwd),
-                                       new SqlParameter("@Email",email),
-                                       new SqlParameter("@MDUserID",mduserid),
-                                       new SqlParameter("@MDprojectID",mdprojectid),
-                                       new SqlParameter("@AliMemberID",aliMemberID),
-                                       new SqlParameter("@WeiXinID",weiXinID),
-                                       new SqlParameter("@CreateUserID",userid)
+                                       new SqlParameter("@CompanyID",companyid),
+                                       new SqlParameter("@Description",remark),
+                                       new SqlParameter("@CreateUserID",operateid)
                                    };
             parms[0].Direction = ParameterDirection.Output;
-
             ExecuteNonQuery("M_InsertClient", parms, CommandType.StoredProcedure);
 
             result = Convert.ToInt32(parms[0].Value);
-            return clientid;
-        }
+            if (result == 1)
+            {
+                return clientid;
+            }
+            else
+            {
+                userid = "";
+                return "";
+            }
 
-        public bool BindClientAliMember(string clientID,string userID, string memberID)
-        {
-            SqlParameter[] parms = { 
-                                       new SqlParameter("@ClientiD",clientID),
-                                       new SqlParameter("@UserID",userID),
-                                       new SqlParameter("@AliMemberID",memberID)
-                                   };
-
-            return ExecuteNonQuery("M_BindClientAliMember", parms, CommandType.StoredProcedure) > 0;
-        }
-
-        public bool BindUserWeiXinID(string clientID, string userID, string weiXinID)
-        {
-            SqlParameter[] parms = { 
-                                       new SqlParameter("@ClientiD",clientID),
-                                       new SqlParameter("@UserID",userID),
-                                       new SqlParameter("@WeiXinID",weiXinID)
-                                   };
-
-            return ExecuteNonQuery("M_BindUserWeiXinID", parms, CommandType.StoredProcedure) > 0;
-        }
-
-        public bool UnBindUserWeiXinID(string clientID, string userID)
-        {
-            SqlParameter[] parms = { 
-                                       new SqlParameter("@ClientiD",clientID),
-                                       new SqlParameter("@UserID",userID)
-                                   };
-
-            return ExecuteNonQuery("M_UnBindUserWeiXinID", parms, CommandType.StoredProcedure) > 0;
         }
 
         public bool InsertClientAuthorizeLog(string clientID, string agentID, string orderID, int userQuantity, DateTime? beginTime, DateTime? endTime, int type)
@@ -150,6 +126,7 @@ namespace IntFactoryDAL.Manage
 
             return ExecuteNonQuery(cmdTxt, parms, CommandType.Text) > 0;
         }
+        
         #endregion
 
         #region 编辑

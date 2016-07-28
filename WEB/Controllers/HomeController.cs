@@ -352,7 +352,7 @@ namespace YXERP.Controllers
 
             if (userToken.error_code <= 0)
             {
-                var model = OrganizationBusiness.GetUserByAliMemberID(userToken.memberId, operateip);
+                var model = OrganizationBusiness.GetUserByOtherAccount(EnumAccountType.Ali, userToken.memberId, operateip);
                 //已注册
                 if (model != null)
                 {
@@ -399,7 +399,7 @@ namespace YXERP.Controllers
 
             if (userToken.error_code <= 0)
             {
-                var model = OrganizationBusiness.GetUserByAliMemberID(userToken.memberId, operateip);
+                var model = OrganizationBusiness.GetUserByOtherAccount(EnumAccountType.Ali, userToken.memberId, operateip);
                 //已注册
                 if (model != null)
                 {
@@ -460,18 +460,13 @@ namespace YXERP.Controllers
                     var memberResult = AlibabaSdk.UserBusiness.GetMemberDetail(access_token, memberId);
                     var member = memberResult.result.toReturn[0];
 
-                    Clients clientModel = new Clients();
-                    clientModel.CompanyName = member.companyName ?? string.Empty;
-                    clientModel.ContactName = member.sellerName ?? string.Empty;
-                    clientModel.MobilePhone = string.Empty;
+                    string userid = "";
 
-                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result,
-                        member.email, string.Empty, string.Empty,
-                        member.memberId);
+                    string clientid = ClientBusiness.InsertClient(EnumRegisterType.Ali, EnumAccountType.Ali, memberId, "", member.companyName, member.sellerName, member.mobilePhone, member.email, "", "", "", "", "", "", out result, out userid);
 
                     if (!string.IsNullOrEmpty(clientid))
                     {
-                        var current = OrganizationBusiness.GetUserByAliMemberID(member.memberId, operateip);
+                        var current = OrganizationBusiness.GetUserByOtherAccount(EnumAccountType.Ali, member.memberId, operateip);
                         AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, access_token, refresh_token, current.AgentID, current.ClientID);
 
                         current.MDToken = access_token;
@@ -510,7 +505,7 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty( userToken.errcode) )
             {
-                var model = OrganizationBusiness.GetUserByWeiXinID(userToken.unionid, operateip);
+                var model = OrganizationBusiness.GetUserByOtherAccount(EnumAccountType.WeiXin, userToken.unionid, operateip);
                 //已注册
                 if (model != null)
                 {
@@ -563,17 +558,13 @@ namespace YXERP.Controllers
                     string openid = tokenArr[1];
                     var memberResult = WeiXin.Sdk.Passport.GetUserInfo(access_token, openid);
 
-                    Clients clientModel = new Clients();
-                    clientModel.CompanyName = memberResult.nickname;
-                    clientModel.ContactName = memberResult.nickname;
-                    clientModel.MobilePhone = string.Empty;
-
-                    var clientid = ClientBusiness.InsertClient(clientModel, "", "", "", "", out result,
-                        "", string.Empty, string.Empty,string.Empty,memberResult.unionid);
+                    string userid = "";
+                    var clientid = ClientBusiness.InsertClient(EnumRegisterType.WeiXin, EnumAccountType.WeiXin, memberResult.unionid, "", memberResult.nickname, memberResult.nickname, 
+                                                                "", "", "", "", "", "", "", "", out result, out userid);
 
                     if (!string.IsNullOrEmpty(clientid))
                     {
-                        var current = OrganizationBusiness.GetUserByWeiXinID(memberResult.unionid, operateip);
+                        var current = OrganizationBusiness.GetUserByOtherAccount(EnumAccountType.WeiXin, memberResult.unionid, operateip);
                         current.MDToken = access_token;
                         Session.Remove("WeiXinTokenInfo");
                         Session["ClientManager"] = current;
@@ -703,7 +694,7 @@ namespace YXERP.Controllers
                         bool flag = AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(model.UserID, memberId, access_token, refresh_token, model.AgentID, model.ClientID);
                         if (flag)
                         {
-                            flag = ClientBusiness.BindClientAliMember(model.ClientID, model.UserID, memberId);
+                            flag = OrganizationBusiness.BindOtherAccount(EnumAccountType.Ali, model.UserID, memberId, model.AgentID, model.ClientID);
                             if (flag)
                             {
                                 model.AliToken = access_token;
@@ -742,10 +733,9 @@ namespace YXERP.Controllers
                 {
                     string access_token = tokenArr[0];
                     string unionid = tokenArr[2];
-                    bool flag = ClientBusiness.BindUserWeiXinID(model.ClientID, model.UserID, unionid);
+                    bool flag = OrganizationBusiness.BindOtherAccount(EnumAccountType.WeiXin, model.UserID, unionid, model.AgentID, model.ClientID);
                     if (flag)
                     {
-                        model.WeiXinID = unionid;
                         Session["ClientManager"] = model;
                         Session.Remove("WeiXinTokenInfo");
                         result = 1;
@@ -789,8 +779,8 @@ namespace YXERP.Controllers
                 }
                 else
                 {
-                    Clients client = new Clients() { CompanyName = companyName, ContactName = name, MobilePhone = loginName };
-                    ClientBusiness.InsertClient(client, "", loginName, loginPWD, string.Empty, out result);
+                    string userid = "";
+                    ClientBusiness.InsertClient(EnumRegisterType.Self, EnumAccountType.Mobile, loginName, loginPWD, companyName, name, loginName, "", "", "", "", "", "", string.Empty, out result, out userid);
 
                     if (result == 1)
                     {

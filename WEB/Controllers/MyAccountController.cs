@@ -87,7 +87,6 @@ namespace YXERP.Controllers
             JsonDictionary.Add("MobilePhone", CurrentUser.MobilePhone);
             JsonDictionary.Add("OfficePhone", CurrentUser.OfficePhone);
             JsonDictionary.Add("Email", CurrentUser.Email);
-            JsonDictionary.Add("BindMobilePhone", CurrentUser.BindMobilePhone);
 
             return new JsonResult
             {
@@ -227,7 +226,7 @@ namespace YXERP.Controllers
                 loginName = CurrentUser.LoginName;
             }
 
-            bool bl = OrganizationBusiness.ConfirmLoginPwd(loginName, loginPwd);
+            bool bl = OrganizationBusiness.ConfirmLoginPwd(CurrentUser.UserID, loginName, loginPwd);
             JsonDictionary.Add("result", bl);
 
             return new JsonResult()
@@ -245,7 +244,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult UpdateUserAccount(string loginName, string loginPwd)
         {
-            bool bl = OrganizationBusiness.UpdateUserAccount(CurrentUser.UserID, loginName, loginPwd, CurrentUser.AgentID);
+            bool bl = OrganizationBusiness.UpdateUserAccount(CurrentUser.UserID, loginName, loginPwd, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("result", bl);
 
             if (bl) {
@@ -274,10 +273,10 @@ namespace YXERP.Controllers
 
         public JsonResult UnBindWeiXin()
         {
-            bool bl = ClientBusiness.UnBindUserWeiXinID(CurrentUser.ClientID, CurrentUser.UserID);
+            bool bl = OrganizationBusiness.UnBindOtherAccount(IntFactoryEnum.EnumAccountType.WeiXin, CurrentUser.UserID, "", CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("result", bl);
-            if (bl) {
-                CurrentUser.WeiXinID = string.Empty;
+            if (bl) 
+            {
                 Session["ClientManager"] = CurrentUser;
             }
 
@@ -303,7 +302,7 @@ namespace YXERP.Controllers
                 else
                 {
                     if (option == 1){
-                        flag = OrganizationBusiness.UpdateAccountBindMobile(CurrentUser.UserID, bindMobile, CurrentUser.AgentID);
+                        flag = OrganizationBusiness.UpdateAccountBindMobile(CurrentUser.UserID, bindMobile, CurrentUser.AgentID, CurrentUser.ClientID);
                     }
                     else{
                         flag = OrganizationBusiness.ClearAccountBindMobile(CurrentUser.UserID, CurrentUser.AgentID);
@@ -311,15 +310,6 @@ namespace YXERP.Controllers
 
                     if (flag)
                     {
-                        if (option == 1)
-                        {
-                            CurrentUser.BindMobilePhone = bindMobile;
-                        }
-                        else
-                        {
-                            CurrentUser.BindMobilePhone = string.Empty;
-                        }
-
                         Session["ClientManager"] = CurrentUser;
                         Common.Common.ClearMobilePhoneCode(bindMobile);
                         result = 1;

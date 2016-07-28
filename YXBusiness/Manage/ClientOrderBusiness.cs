@@ -67,9 +67,9 @@ namespace IntFactoryBusiness.Manage
        /// <param name="checkUserID"></param>
        /// <param name="payStatus">-1:不修改状态 0未付款 1全额付款 2部分付款</param>
        /// <returns></returns>      
-        public static bool PayOrderAndAuthorizeClient(string orderID,string checkUserID,int payStatus)
+        public static bool PayOrderAndAuthorizeClient(string orderID, string checkUserID, int payStatus, EnumOrderPayType payType)
         {
-            return ClientOrderDAL.BaseProvider.PayOrderAndAuthorizeClient(orderID, checkUserID, payStatus);
+            return ClientOrderDAL.BaseProvider.PayOrderAndAuthorizeClient(orderID, checkUserID, payStatus, (int)payType);
         }
         public static bool PayClientOrder (string orderID ,int payStatus)
         {

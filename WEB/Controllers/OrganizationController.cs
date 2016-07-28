@@ -1,5 +1,6 @@
 ﻿using IntFactoryBusiness;
 using IntFactoryEntity;
+using IntFactoryEnum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -263,7 +264,7 @@ namespace YXERP.Controllers
             if (!string.IsNullOrEmpty(CurrentUser.LoginName))
             {
                 Users item = IntFactoryBusiness.OrganizationBusiness.GetUserByUserID(userID, CurrentUser.AgentID);
-                if (!string.IsNullOrEmpty(item.BindMobilePhone))
+                if (OrganizationBusiness.IsExistAccountType(EnumAccountType.Mobile, CurrentUser.UserID))
                 {
                     flag = OrganizationBusiness.ClearAccountBindMobile(userID, CurrentUser.AgentID);
                     if (flag)
@@ -338,70 +339,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取明道用户列表
-        /// </summary>
-        /// <returns></returns>
-        //public JsonResult GetMDUsers()
-        //{
-        //    if (!string.IsNullOrEmpty(CurrentUser.MDToken))
-        //    {
-        //        var list = AlibabaSdk.UserBusiness.GetUserAll(CurrentUser.MDToken, "", 0, 1000).users;
-        //        JsonDictionary.Add("status", true);
-        //        JsonDictionary.Add("items", list.OrderBy(u => u.name));
-        //    }
-        //    else 
-        //    {
-        //        JsonDictionary.Add("status", false);
-        //    }
-        //    return new JsonResult()
-        //    {
-        //        Data = JsonDictionary,
-        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-        //    };
-        //}
-
-        /// <summary>
-        /// 添加明道用户
-        /// </summary>
-        /// <param name="parentid">上级ID</param>
-        /// <param name="mduserids">明道Id列表</param>
-        /// <returns></returns>
-        //public JsonResult SaveMDUser(string parentid, string mduserids)
-        //{
-        //    bool bl = false;
-
-        //    string[] list = mduserids.Split(',');
-        //    foreach (string mduserid in list)
-        //    {
-        //        if (!string.IsNullOrEmpty(mduserid) && !string.IsNullOrEmpty(CurrentUser.MDToken))
-        //        {
-        //            var model = AlibabaSdk.UserBusiness.GetUserDetail(CurrentUser.MDToken, mduserid);
-        //            if (model.error_code <= 0)
-        //            {
-        //                var user = model.user;
-        //                int result = 0;
-
-        //                bool isAdmin = false;//AlibabaSdk.Entity.App.AppBusiness.IsAppAdmin(CurrentUser.MDToken, user.id, out error);
-
-        //                OrganizationBusiness.CreateUser("", "", user.name, user.mobilePhone, user.email, "", "", "", "", "", parentid, CurrentUser.AgentID, CurrentUser.ClientID, user.id, user.project.id, isAdmin ? 1 : 0, CurrentUser.UserID, out result);
-        //                //添加成功
-        //                if (result == 1)
-        //                {
-        //                    bl = true;
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    JsonDictionary.Add("status", bl);
-        //    return new JsonResult()
-        //    {
-        //        Data = JsonDictionary,
-        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-        //    };
-        //}
-
         public JsonResult SaveUser(string entity)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -409,8 +346,8 @@ namespace YXERP.Controllers
 
             int result = 0;
 
-            var user = OrganizationBusiness.CreateUser(model.LoginName, model.LoginName, model.Name, model.MobilePhone, model.Email,model.CityCode,model.Address,model.Jobs,model.RoleID,model.DepartID, "",
-                CurrentUser.AgentID, CurrentUser.ClientID, "", "", 0, CurrentUser.UserID, out result);
+            var user = OrganizationBusiness.CreateUser(EnumAccountType.UserName, model.LoginName, model.LoginName, model.Name, model.MobilePhone, model.Email, model.CityCode, model.Address, model.Jobs, model.RoleID, model.DepartID, "",
+                CurrentUser.AgentID, CurrentUser.ClientID, CurrentUser.UserID, out result);
 
             JsonDictionary.Add("model", user);
             JsonDictionary.Add("result", result);

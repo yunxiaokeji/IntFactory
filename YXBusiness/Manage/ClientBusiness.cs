@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using System.IO;
+using System.Web;
 
 using IntFactoryEntity.Manage;
 using IntFactoryDAL.Manage;
 using CloudSalesTool;
-using System.IO;
-using System.Web;
 using IntFactoryEntity.Manage.Report;
+using IntFactoryEnum;
 
 
 namespace IntFactoryBusiness.Manage
@@ -96,11 +97,11 @@ namespace IntFactoryBusiness.Manage
         /// <summary>
         /// 获取客户端详情
         /// </summary>
-        public static Clients GetClientDetail(string clientID)
+        public static Clients GetClientDetail(string clientid)
         {
-            if (!Clients.ContainsKey(clientID))
+            if (!Clients.ContainsKey(clientid))
             {
-                Clients model = GetClientDetailBase(clientID);
+                Clients model = GetClientDetailBase(clientid);
                 if (model != null)
                 {
                     Clients.Add(model.ClientID, model);
@@ -111,7 +112,7 @@ namespace IntFactoryBusiness.Manage
                 }
             }
 
-            return Clients[clientID];
+            return Clients[clientid];
         }
 
         public static Clients GetClientDetailBase(string clientID)
@@ -309,56 +310,46 @@ namespace IntFactoryBusiness.Manage
         /// <param name="clientID"></param>
         /// <param name="client"></param>
         /// <returns></returns>
-        public static bool UpdateClientCache(string clientID,Clients client) {
-            if (Clients.ContainsKey(clientID)) {
-                Clients[clientID] = client;
+        public static bool UpdateClientCache(string clientid,Clients client) {
+            if (Clients.ContainsKey(clientid)) 
+            {
+                Clients[clientid] = client;
             }
 
             return true;
         }
 
-        /// <summary>
-        /// 添加客户端
-        /// </summary>
-        /// <param name="model">Clients 对象</param>
-        /// <param name="loginName">账号</param>
-        /// <param name="loginPwd">密码</param>
-        /// <param name="userid">操作人</param>
-        /// <param name="result">0：失败 1：成功 2：账号已存在 3：模块未选择</param>
-        public static string InsertClient(Clients model, string loginname, string bindMobilePhone, string loginPwd, string userid, out int result, string email = "", string mduserid = "", string mdprojectid = "", string aliMemberID = "", string weiXinID = "")
-        {
-            loginPwd = CloudSalesTool.Encrypt.GetEncryptPwd(loginPwd, bindMobilePhone);
 
-            string clientid = ClientDAL.BaseProvider.InsertClient(model.CompanyName, loginname, model.ContactName, model.MobilePhone, model.Industry, model.CityCode,
-                                                             model.Address, model.Description, bindMobilePhone, loginPwd, email, mduserid, mdprojectid, userid,aliMemberID,weiXinID, out result);
+        /// <summary>
+        /// 注册智能工厂
+        /// </summary>
+        /// <param name="registerType">来源类型</param>
+        /// <param name="accountType">账号类型</param>
+        /// <param name="account">账号</param>
+        /// <param name="loginPwd">密码</param>
+        /// <param name="clientName">客户名称</param>
+        /// <param name="contactName">联系人</param>
+        /// <param name="mobile">联系方式</param>
+        /// <param name="email">邮箱</param>
+        /// <param name="industry">行业</param>
+        /// <param name="citycode">城市</param>
+        /// <param name="address">地址</param>
+        /// <param name="remark">备注</param>
+        /// <param name="companyid">第三方公司ID</param>
+        /// <param name="operateid">操作人</param>
+        /// <param name="result">返回结果 0失败 1成功 2账号已存在</param>
+        /// <returns>客户端ID</returns>
+        public static string InsertClient(EnumRegisterType registerType, EnumAccountType accountType, string account, string loginPwd, string clientName, string contactName, string mobile, string email, string industry, string citycode, string address, string remark,
+                                          string companyid, string operateid, out int result, out string userid)
+        {
+            loginPwd = CloudSalesTool.Encrypt.GetEncryptPwd(loginPwd, account);
+
+            string clientid = ClientDAL.BaseProvider.InsertClient((int)registerType, (int)accountType, account, loginPwd, clientName, contactName, mobile, email, industry, citycode, address, remark, companyid, operateid, out result, out userid);
 
             return clientid;
         }
 
-        public static bool BindClientAliMember(string clientID,string userID, string memberID) {
 
-            bool flag= ClientDAL.BaseProvider.BindClientAliMember(clientID,userID, memberID);
-
-            if (flag) {
-                if (Clients.ContainsKey(clientID))
-                    Clients[clientID].AliMemberID = memberID;
-            }
-            return flag;
-        }
-
-        public static bool BindUserWeiXinID(string clientID, string userID, string weiXinID)
-        {
-            bool flag = ClientDAL.BaseProvider.BindUserWeiXinID(clientID, userID, weiXinID);
-
-            return flag;
-        }
-
-        public static bool UnBindUserWeiXinID(string clientID, string userID)
-        {
-            bool flag = ClientDAL.BaseProvider.UnBindUserWeiXinID(clientID, userID);
-
-            return flag;
-        }
         /// <summary>
         /// 添加客户授权日志
         /// </summary>

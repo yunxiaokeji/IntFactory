@@ -84,13 +84,37 @@ namespace IntFactoryBusiness
 
         public static bool IsExistLoginName(string loginName)
         {
-            if (string.IsNullOrEmpty(loginName)) return false;
+            if (string.IsNullOrEmpty(loginName))
+            {
+                return false;
+            }
 
-            object count = CommonBusiness.Select("Users", "count(0)", " Status=1 and (LoginName='" + loginName + "'  or BindMobilePhone='" + loginName + "')");
+            object count = CommonBusiness.Select("UserAccounts", "count(0)", " AccountName='" + loginName + "' and AccountType in(1,2) ");
             return Convert.ToInt32(count) > 0;
         }
 
-        public static Users GetUserByUserName(string loginname, string pwd,out int result, string operateip)
+        public static bool IsExistOtherAccount(EnumAccountType type, string account, string companyid)
+        {
+            if (string.IsNullOrEmpty(account))
+            {
+                return false;
+            }
+
+            string where = " AccountName='" + account + "' and AccountType =" + (int)type;
+
+            object count = CommonBusiness.Select("UserAccounts", "count(0)", where);
+            return Convert.ToInt32(count) > 0;
+        }
+
+        public static bool IsExistAccountType(EnumAccountType type, string userid)
+        {
+            string where = " UserID='" + userid + "' and AccountType =" + (int)type;
+
+            object count = CommonBusiness.Select("UserAccounts", "count(0)", where);
+            return Convert.ToInt32(count) > 0;
+        }
+
+        public static Users GetUserByUserName(string loginname, string pwd, out int result, string operateip)
         {
             pwd = CloudSalesTool.Encrypt.GetEncryptPwd(pwd, loginname);
             DataSet ds = new OrganizationDAL().GetUserByUserName(loginname, pwd, out result);
@@ -152,23 +176,18 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public static bool ConfirmLoginPwd(string loginname, string pwd)
+        public static bool ConfirmLoginPwd(string userid, string loginname, string pwd)
         {
             pwd = CloudSalesTool.Encrypt.GetEncryptPwd(pwd, loginname);
-            int result;
-            DataSet ds = new OrganizationDAL().GetUserByUserName(loginname, pwd,out result);
 
-            if (ds.Tables.Contains("User") && ds.Tables["User"].Rows.Count > 0)
-            {
-                return true;
-            }
+            object obj = CommonBusiness.Select("Users", "Count(0)", " UserID='" + userid + "' and LoginPWD='" + pwd + "' ");
 
-            return false;
+            return Convert.ToInt32(obj) > 0;
         }
 
-        public static Users GetUserByMDUserID(string mduserid, string operateip)
+        public static Users GetUserByOtherAccount(EnumAccountType accountType, string account, string operateip)
         {
-            DataSet ds = new OrganizationDAL().GetUserByMDUserID(mduserid);
+            DataSet ds = new OrganizationDAL().GetUserByOtherAccount((int)accountType, account);
             Users model = null;
             if (ds.Tables.Contains("User") && ds.Tables["User"].Rows.Count > 0)
             {
@@ -219,143 +238,17 @@ namespace IntFactoryBusiness
             //记录登录日志
             if (model != null)
             {
-                LogBusiness.AddLoginLog(mduserid, true, Manage.ClientBusiness.GetClientDetail(model.ClientID).AgentID == model.AgentID ? IntFactoryEnum.EnumSystemType.Client : IntFactoryEnum.EnumSystemType.Agent, operateip, model.UserID, model.AgentID, model.ClientID);
+                LogBusiness.AddLoginLog(account, true, Manage.ClientBusiness.GetClientDetail(model.ClientID).AgentID == model.AgentID ? IntFactoryEnum.EnumSystemType.Client : IntFactoryEnum.EnumSystemType.Agent, operateip, model.UserID, model.AgentID, model.ClientID);
             }
             else
             {
-                LogBusiness.AddLoginLog(mduserid, false, IntFactoryEnum.EnumSystemType.Client, operateip, "", "", "");
+                LogBusiness.AddLoginLog(account, false, IntFactoryEnum.EnumSystemType.Client, operateip, "", "", "");
             }
             return model;
         }
-
-        public static Users GetUserByAliMemberID(string aliMemberID, string operateip)
-        {
-            DataSet ds = new OrganizationDAL().GetUserByAliMemberID(aliMemberID);
-            Users model = null;
-            if (ds.Tables.Contains("User") && ds.Tables["User"].Rows.Count > 0)
-            {
-                model = new Users();
-                model.FillData(ds.Tables["User"].Rows[0]);
-
-                model.LogGUID = Guid.NewGuid().ToString();
-
-                model.Department = GetDepartmentByID(model.DepartID, model.AgentID);
-                model.Role = GetRoleByIDCache(model.RoleID, model.AgentID);
-                model.Client = Manage.ClientBusiness.GetClientDetail(model.ClientID);
-                //处理缓存
-                if (!Users.ContainsKey(model.AgentID))
-                {
-                    GetUsers(model.AgentID);
-                }
-                if (Users[model.AgentID].Where(u => u.UserID == model.UserID).Count() == 0)
-                {
-                    Users[model.AgentID].Add(model);
-                }
-                else
-                {
-                    var user = Users[model.AgentID].Where(u => u.UserID == model.UserID).FirstOrDefault();
-                    user.LogGUID = model.LogGUID;
-                }
-
-                //权限
-                if (model.Role != null && model.Role.IsDefault == 1)
-                {
-                    model.Menus = CommonBusiness.ClientMenus;
-                }
-                else
-                {
-                    model.Menus = new List<Menu>();
-                    foreach (DataRow dr in ds.Tables["Permission"].Rows)
-                    {
-                        Menu menu = new Menu();
-                        menu.FillData(dr);
-                        model.Menus.Add(menu);
-                    }
-                }
-            }
-            if (string.IsNullOrEmpty(operateip))
-            {
-                operateip = "";
-            }
-
-            //记录登录日志
-            if (model != null)
-            {
-                LogBusiness.AddLoginLog(aliMemberID, true, Manage.ClientBusiness.GetClientDetail(model.ClientID).AgentID == model.AgentID ? IntFactoryEnum.EnumSystemType.Client : IntFactoryEnum.EnumSystemType.Agent, operateip, model.UserID, model.AgentID, model.ClientID);
-            }
-            else
-            {
-                LogBusiness.AddLoginLog(aliMemberID, false, IntFactoryEnum.EnumSystemType.Client, operateip, "", "", "");
-            }
-            return model;
-        }
-
-        public static Users GetUserByWeiXinID(string weiXinID, string operateip)
-        {
-            DataSet ds = new OrganizationDAL().GetUserByWeiXinID(weiXinID);
-            Users model = null;
-            if (ds.Tables.Contains("User") && ds.Tables["User"].Rows.Count > 0)
-            {
-                model = new Users();
-                model.FillData(ds.Tables["User"].Rows[0]);
-
-                model.LogGUID = Guid.NewGuid().ToString();
-
-                model.Department = GetDepartmentByID(model.DepartID, model.AgentID);
-                model.Role = GetRoleByIDCache(model.RoleID, model.AgentID);
-                model.Client = Manage.ClientBusiness.GetClientDetail(model.ClientID);
-                //处理缓存
-                if (!Users.ContainsKey(model.AgentID))
-                {
-                    GetUsers(model.AgentID);
-                }
-                if (Users[model.AgentID].Where(u => u.UserID == model.UserID).Count() == 0)
-                {
-                    Users[model.AgentID].Add(model);
-                }
-                else
-                {
-                    var user = Users[model.AgentID].Where(u => u.UserID == model.UserID).FirstOrDefault();
-                    user.LogGUID = model.LogGUID;
-                }
-
-                //权限
-                if (model.Role != null && model.Role.IsDefault == 1)
-                {
-                    model.Menus = CommonBusiness.ClientMenus;
-                }
-                else
-                {
-                    model.Menus = new List<Menu>();
-                    foreach (DataRow dr in ds.Tables["Permission"].Rows)
-                    {
-                        Menu menu = new Menu();
-                        menu.FillData(dr);
-                        model.Menus.Add(menu);
-                    }
-                }
-            }
-            if (string.IsNullOrEmpty(operateip))
-            {
-                operateip = "";
-            }
-
-            //记录登录日志
-            if (model != null)
-            {
-                LogBusiness.AddLoginLog(weiXinID, true, Manage.ClientBusiness.GetClientDetail(model.ClientID).AgentID == model.AgentID ? IntFactoryEnum.EnumSystemType.Client : IntFactoryEnum.EnumSystemType.Agent, operateip, model.UserID, model.AgentID, model.ClientID);
-            }
-            else
-            {
-                LogBusiness.AddLoginLog(weiXinID, false, IntFactoryEnum.EnumSystemType.Client, operateip, "", "", "");
-            }
-            return model;
-        }
-
 
         public static Users GetUserByUserID(string userid, string agentid)
         {
-            
             if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(agentid))
             {
                 return null;
@@ -578,8 +471,8 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        public static Users CreateUser(string loginname, string loginpwd, string name, string mobile, string email, string citycode, string address, string jobs,
-                               string roleid, string departid, string parentid, string agentid, string clientid, string mduserid, string mdprojectid, int isAppAdmin, string operateid, out int result)
+        public static Users CreateUser(EnumAccountType accountType, string loginname, string loginpwd, string name, string mobile, string email, string citycode, string address, string jobs,
+                               string roleid, string departid, string parentid, string agentid, string clientid, string operateid, out int result)
         {
             string userid = Guid.NewGuid().ToString();
 
@@ -587,7 +480,7 @@ namespace IntFactoryBusiness
 
             Users user = null;
 
-            DataTable dt = OrganizationDAL.BaseProvider.CreateUser(userid, loginname, loginpwd, name, mobile, email, citycode, address, jobs, roleid, departid, parentid, agentid, clientid, mduserid, mdprojectid, isAppAdmin, operateid, out result);
+            DataTable dt = OrganizationDAL.BaseProvider.CreateUser((int)accountType, userid, loginname, loginpwd, name, mobile, email, citycode, address, jobs, roleid, departid, parentid, agentid, clientid, operateid, out result);
             if (dt.Rows.Count > 0)
             {
                 user = new Users();
@@ -615,10 +508,10 @@ namespace IntFactoryBusiness
 
         #region 编辑/删除
 
-        public static bool UpdateUserAccount(string userid, string loginName, string loginPwd, string agentid)
+        public static bool UpdateUserAccount(string userid, string loginName, string loginPwd, string agentid, string clientid)
         {
             loginPwd = CloudSalesTool.Encrypt.GetEncryptPwd(loginPwd, loginName);
-            bool flag = OrganizationDAL.BaseProvider.UpdateUserAccount(userid, loginName, loginPwd);
+            bool flag = OrganizationDAL.BaseProvider.UpdateUserAccount(userid, loginName, loginPwd, agentid, clientid);
 
             if (flag)
             {
@@ -692,17 +585,14 @@ namespace IntFactoryBusiness
         public static bool AccountBindMobile(string bindMobile, string userid, string agentid, string clientid)
         {
             string loginpwd = CloudSalesTool.Encrypt.GetEncryptPwd(bindMobile, bindMobile);
-            bool flag = OrganizationDAL.BaseProvider.AccountBindMobile(userid, bindMobile, loginpwd, clientid);
+            bool flag = OrganizationDAL.BaseProvider.AccountBindMobile(userid, bindMobile, loginpwd, agentid, clientid);
 
             //清除缓存
             if (flag)
             {
                 Users u = OrganizationBusiness.GetUserByUserID(userid, agentid);
-                u.BindMobilePhone = bindMobile;
                 u.MobilePhone = bindMobile;
 
-                Agents agent = AgentsBusiness.GetAgentDetail(agentid);
-                agent.EndTime = agent.EndTime.AddMonths(1);
 
                 IntFactoryEntity.Manage.Clients client = Manage.ClientBusiness.GetClientDetail(clientid);
                 client.MobilePhone = bindMobile;
@@ -712,37 +602,40 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        public static bool UpdateAccountBindMobile(string userid, string bindMobile, string agentid)
+        public static bool UpdateAccountBindMobile(string userid, string bindMobile, string agentid, string clientid)
         {
-            bool flag = OrganizationDAL.BaseProvider.UpdateAccountBindMobile(userid, bindMobile);
+            bool flag = OrganizationDAL.BaseProvider.UpdateAccountBindMobile(userid, bindMobile, agentid, clientid);
 
             //清除缓存
             if (flag)
             {
-                if (Users.ContainsKey(agentid))
+            }
+            return flag;
+        }
+
+        public static bool BindOtherAccount(EnumAccountType accountType, string userid, string account, string agentid, string clientid)
+        {
+            bool flag = OrganizationDAL.BaseProvider.BindOtherAccount((int)accountType, userid, account, agentid, clientid);
+
+            //清除缓存
+            if (flag)
+            {
+                if (accountType == EnumAccountType.Ali)
                 {
-                    List<Users> users = Users[agentid];
-                    Users u = users.Find(m => m.UserID == userid);
-                    u.BindMobilePhone = bindMobile;
+                    var client = Manage.ClientBusiness.GetClientDetail(clientid);
+                    client.AliMemberID = account;
                 }
             }
             return flag;
         }
 
-        public static bool BindAccountAliMember(string userid, string memberid, string agentid)
+        public static bool UnBindOtherAccount(EnumAccountType accountType, string userid, string account, string agentid, string clientid)
         {
-
-            bool flag = OrganizationDAL.BaseProvider.BindAccountAliMember(userid, memberid);
+            bool flag = OrganizationDAL.BaseProvider.UnBindOtherAccount((int)accountType, userid, account, agentid, clientid);
 
             //清除缓存
             if (flag)
             {
-                if (Users.ContainsKey(agentid))
-                {
-                    List<Users> users = Users[agentid];
-                    Users u = users.Find(m => m.UserID == userid);
-                    u.AliMemberID = memberid;
-                }
             }
             return flag;
         }
@@ -751,16 +644,6 @@ namespace IntFactoryBusiness
         {
             bool flag = OrganizationDAL.BaseProvider.ClearAccountBindMobile(userid);
 
-            //清除缓存
-            if (flag)
-            {
-                if (Users.ContainsKey(agentid))
-                {
-                    List<Users> users = Users[agentid];
-                    Users u = users.Find(m => m.UserID == userid);
-                    u.BindMobilePhone = string.Empty;
-                }
-            }
             return flag;
         }
 

@@ -390,7 +390,7 @@ namespace YXERP.Controllers
                             if (order.RealAmount == total_fee)
                             {
                                 //订单支付及后台客户授权
-                                bool flag = ClientOrderBusiness.PayOrderAndAuthorizeClient(order.OrderID, string.Empty,1);
+                                bool flag = ClientOrderBusiness.PayOrderAndAuthorizeClient(order.OrderID, string.Empty, 1, IntFactoryEnum.EnumOrderPayType.AliPay);
 
                                 if (flag)
                                 {
@@ -475,25 +475,15 @@ namespace YXERP.Controllers
                 JsonDictionary.Add("Amount", (float.Parse(way.TotalMoney.ToString()) * remainderYears).ToString("f2"));
             }
 
-            if (!string.IsNullOrEmpty(CurrentUser.MDUserID))
+            if (type == 1 || type == 2)
             {
-                if (type == 1 || type == 2)
-                {
-                    discount = 0.5F;
-                }
-                else
-                {
-                    discount = 0.88F;
-                }
-
+                discount = 0.5F;
             }
             else
             {
-                if (type == 1 || type == 2)
-                {
-                    discount = 0.5F;
-                }
+                discount = 0.88F;
             }
+
             JsonDictionary.Add("Discount", discount);
 
             return new JsonResult

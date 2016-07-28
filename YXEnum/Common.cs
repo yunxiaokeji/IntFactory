@@ -86,12 +86,60 @@ namespace IntFactoryEnum
         /// </summary>
         Entrust = 4
     }
-
+    /// <summary>
+    /// 标签类型
+    /// </summary>
     public enum EnumMarkType
     {
         Customer = 1,
         Orders = 2,
         Tasks = 3
+    }
+
+    /// <summary>
+    /// 账号类型
+    /// </summary>
+    public enum EnumAccountType
+    {
+        /// <summary>
+        /// 账号
+        /// </summary>
+        UserName = 1,
+        /// <summary>
+        /// 手机
+        /// </summary>
+        Mobile = 2,
+        /// <summary>
+        /// 阿里
+        /// </summary>
+        Ali = 3,
+        /// <summary>
+        /// 微信
+        /// </summary>
+        WeiXin = 4,
+    }
+
+    /// <summary>
+    /// 注册来源
+    /// </summary>
+    public enum EnumRegisterType
+    {
+        /// <summary>
+        /// 后台添加
+        /// </summary>
+        Manage = 1,
+        /// <summary>
+        /// 自助注册
+        /// </summary>
+        Self = 2,
+        /// <summary>
+        /// 阿里
+        /// </summary>
+        Ali = 3,
+        /// <summary>
+        /// 微信
+        /// </summary>
+        WeiXin = 4
     }
 
 }

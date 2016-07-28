@@ -29,32 +29,13 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataSet GetUserByMDUserID(string userid)
+        public DataSet GetUserByOtherAccount(int accountType, string account)
         {
             SqlParameter[] paras = { 
-                                    new SqlParameter("@MDUserID",userid)
+                                       new SqlParameter("@AccountType",accountType),
+                                       new SqlParameter("@Account",account)
                                    };
-            return GetDataSet("GetUserByMDUserID", paras, CommandType.StoredProcedure, "User|Permission");//|Department|Role
-
-
-        }
-
-        public DataSet GetUserByAliMemberID(string aliMemberID)
-        {
-            SqlParameter[] paras = { 
-                                    new SqlParameter("@AliMemberID",aliMemberID)
-                                   };
-            return GetDataSet("P_GetUserByAliMemberID", paras, CommandType.StoredProcedure, "User|Permission");//|Department|Role
-
-
-        }
-
-        public DataSet GetUserByWeiXinID(string weiXinID)
-        {
-            SqlParameter[] paras = { 
-                                    new SqlParameter("@WeiXinID",weiXinID)
-                                   };
-            return GetDataSet("P_GetUserByWeiXinID", paras, CommandType.StoredProcedure, "User|Permission");//|Department|Role
+            return GetDataSet("P_GetUserByOtherAccount", paras, CommandType.StoredProcedure, "User|Permission");//|Department|Role
 
 
         }
@@ -155,13 +136,14 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
         }
 
-        public DataTable CreateUser(string userid, string loginname, string loginpwd, string name, string mobile, string email, string citycode, string address, string jobs,
-                               string roleid, string departid, string parentid, string agentid, string clientid, string mduserid, string mdprojectid, int isAppAdmin, string operateid, out int result)
+        public DataTable CreateUser(int accountType, string userid, string loginname, string loginpwd, string name, string mobile, string email, string citycode, string address, string jobs,
+                               string roleid, string departid, string parentid, string agentid, string clientid, string operateid, out int result)
         {
             result = 0;
             SqlParameter[] paras = { 
                                        new SqlParameter("@Result",result),
                                        new SqlParameter("@UserID",userid),
+                                       new SqlParameter("@AccountType",accountType),
                                        new SqlParameter("@LoginName",loginname),
                                        new SqlParameter("@LoginPwd",loginpwd),
                                        new SqlParameter("@Name",name),
@@ -174,9 +156,6 @@ namespace IntFactoryDAL
                                        new SqlParameter("@DepartID",departid),
                                        new SqlParameter("@ParentID",parentid),
                                        new SqlParameter("@AgentID",agentid),
-                                       new SqlParameter("@MDUserID",mduserid),
-                                       new SqlParameter("@MDProjectID",mdprojectid),
-                                       new SqlParameter("@IsAppAdmin",isAppAdmin),
                                        new SqlParameter("@CreateUserID",operateid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
@@ -192,31 +171,18 @@ namespace IntFactoryDAL
         #endregion
 
         #region 编辑/删除
-        public bool UpdateUserAccount(string userid, string loginName, string loginPwd)
+
+        public bool UpdateUserAccount(string userid, string loginName, string loginPwd, string agentid, string clientid)
         {
-            if (string.IsNullOrEmpty(loginPwd))
-            {
-                string sql = "update users set LoginName=@LoginName where UserID=@UserID";
-
-                SqlParameter[] paras = { 
-                                       new SqlParameter("@UserID",userid),
-                                       new SqlParameter("@LoginName",loginName)
-                                   };
-
-                return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
-            }
-            else
-            {
-                string sql = "update users set LoginName=@LoginName,LoginPwd=@LoginPwd where UserID=@UserID";
-
-                SqlParameter[] paras = { 
+            SqlParameter[] paras = { 
                                        new SqlParameter("@UserID",userid),
                                        new SqlParameter("@LoginName",loginName),
-                                       new SqlParameter("@LoginPwd",loginPwd)
+                                       new SqlParameter("@LoginPwd",loginPwd),
+                                       new SqlParameter("@AgentID",agentid),
+                                       new SqlParameter("@ClientID",clientid)
                                    };
 
-                return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
-            }
+            return ExecuteNonQuery("P_UpdateUserAccount", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool UpdateUserPass(string userid, string loginPwd)
@@ -233,14 +199,12 @@ namespace IntFactoryDAL
 
         public bool UpdateUserAccountPwd(string loginName, string loginPwd)
         {
-            string sql = "update users set LoginPwd=@LoginPwd where BindMobilePhone=@LoginName and Status<>9 ";
-
             SqlParameter[] paras = { 
                                        new SqlParameter("@LoginName",loginName),
                                        new SqlParameter("@LoginPwd",loginPwd)
                                    };
 
-            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
+            return ExecuteNonQuery("P_UpdateUserAccountPwd", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool UpdateUserInfo(string userid, string name, string jobs, DateTime birthday, int age, string departID, string email, string mobilePhone, string officePhone)
@@ -273,45 +237,60 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateAccountBindMobile(string userid, string bindMobile)
+        public bool UpdateAccountBindMobile(string userid, string bindMobile, string agentid, string clientid)
         {
-            string sql = "update users set BindMobilePhone=@BindMobile where UserID=@UserID";
-
             SqlParameter[] paras = { 
                                        new SqlParameter("@UserID",userid),
-                                       new SqlParameter("@BindMobile",bindMobile)
+                                       new SqlParameter("@LoginName",bindMobile),
+                                       new SqlParameter("@AgentID",agentid),
+                                       new SqlParameter("@ClientID",clientid)
                                    };
 
-            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
+            return ExecuteNonQuery("P_UpdateAccountBindMobile", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool AccountBindMobile(string userid, string bindMobile,string pwd,string clientid)
+        public bool AccountBindMobile(string userid, string bindMobile, string pwd, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@UserID",userid),
                                        new SqlParameter("@BindMobile",bindMobile),
                                        new SqlParameter("@Pwd",pwd),
+                                       new SqlParameter("@AgentID",agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
 
             return ExecuteNonQuery("P_AccountBindMobile", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool BindAccountAliMember(string userid, string memberid)
+        public bool BindOtherAccount(int accountType, string userid, string account, string agentid, string clientid)
         {
-            string sql = "update users set AliMemberID=@AliMemberID where UserID=@UserID";
-
             SqlParameter[] paras = { 
+                                       new SqlParameter("@AccountType",accountType),
                                        new SqlParameter("@UserID",userid),
-                                       new SqlParameter("@AliMemberID",memberid)
+                                       new SqlParameter("@Account",account),
+                                       new SqlParameter("@AgentID",agentid),
+                                       new SqlParameter("@ClientID",clientid)
                                    };
 
-            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
+            return ExecuteNonQuery("P_BindOtherAccount", paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool UnBindOtherAccount(int accountType, string userid, string account, string agentid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@AccountType",accountType),
+                                       new SqlParameter("@UserID",userid),
+                                       new SqlParameter("@Account",account),
+                                       new SqlParameter("@AgentID",agentid),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+
+            return ExecuteNonQuery("P_UnBindOtherAccount", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool ClearAccountBindMobile(string userid)
         {
-            string sql = "update users set BindMobilePhone='' where UserID=@UserID";
+            string sql = "Delete from UserAccounts where UserID=@UserID and AccountType=2 ";
 
             SqlParameter[] paras = { 
                                        new SqlParameter("@UserID",userid)

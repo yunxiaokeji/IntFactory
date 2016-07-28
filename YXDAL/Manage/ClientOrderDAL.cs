@@ -49,12 +49,13 @@ namespace IntFactoryDAL.Manage
 
         }
 
-        public bool PayOrderAndAuthorizeClient(string orderID,string checkUserID,int payStatus)
+        public bool PayOrderAndAuthorizeClient(string orderID, string checkUserID, int payStatus, int payType)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@M_OrderID",orderID),
                                      new SqlParameter("@M_CheckUserID",checkUserID),
-                                    new SqlParameter("@M_PayStatus",payStatus)
+                                     new SqlParameter("@M_PayStatus",payStatus),
+                                     new SqlParameter("@M_PayType",payType)
                                    };
 
 

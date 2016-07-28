@@ -86,14 +86,14 @@ namespace YXERP.Controllers
 
             string ownerUserID = paras["ownerUserID"];
             ownerUserID = ownerUserID.Trim('|');
-            string ownerID = OrganizationBusiness.GetUserByUserID(ownerUserID, CurrentUser.AgentID).MDUserID;
+            string ownerID = "";//OrganizationBusiness.GetUserByUserID(ownerUserID, CurrentUser.AgentID).MDUserID;
 
             string memberIDs = paras["memberIDs"];
             memberIDs = memberIDs.Trim('|');
             List<string> members = new List<string>();
             foreach (var m in memberIDs.Split('|'))
             {
-                members.Add(OrganizationBusiness.GetUserByUserID(m, CurrentUser.AgentID).MDUserID);
+                //members.Add(OrganizationBusiness.GetUserByUserID(m, CurrentUser.AgentID).MDUserID);
             }
 
             string des = paras["des"];
@@ -128,7 +128,7 @@ namespace YXERP.Controllers
             List<string> members = new List<string>();
             foreach (var m in memberIDs.Split('|'))
             {
-                members.Add(OrganizationBusiness.GetUserByUserID(m, CurrentUser.AgentID).MDUserID);
+                //members.Add(OrganizationBusiness.GetUserByUserID(m, CurrentUser.AgentID).MDUserID);
             }
 
             string des = paras["des"];

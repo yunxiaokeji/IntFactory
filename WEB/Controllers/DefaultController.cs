@@ -1,5 +1,6 @@
 ﻿using IntFactoryBusiness;
 using IntFactoryBusiness.Manage;
+using IntFactoryEnum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +62,7 @@ namespace YXERP.Controllers
         {
             if (CurrentUser.Client.GuideStep == 3)
             {
-                if (!string.IsNullOrEmpty(CurrentUser.BindMobilePhone))
+                if (OrganizationBusiness.IsExistAccountType(EnumAccountType.Mobile, CurrentUser.UserID))
                 {
                     bool bl = ClientBusiness.FinishInitSetting(CurrentUser.ClientID);
                     if (bl)
@@ -114,7 +115,6 @@ namespace YXERP.Controllers
             bool bl = OrganizationBusiness.AccountBindMobile(BindMobile, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("result", bl);
             if (bl) {
-                CurrentUser.BindMobilePhone = BindMobile;
                 CurrentUser.MobilePhone = BindMobile;
                 CurrentUser.Client.GuideStep = 0;
                 Session["ClientManager"] = CurrentUser;

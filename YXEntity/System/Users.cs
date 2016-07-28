@@ -82,15 +82,6 @@ namespace IntFactoryEntity
 			get{return _loginname;}
 		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string BindMobilePhone
-        {
-            set;
-            get;
-        }
-
 		/// <summary>
 		/// 
 		/// </summary>
@@ -298,20 +289,11 @@ namespace IntFactoryEntity
 
         public Role Role { get; set; }
 
-
-        [Property("Lower")] 
-        public string MDUserID { get; set; }
-
-        [Property("Lower")] 
-        public string MDProjectID { get; set; }
-
         public string MDToken { get; set; }
 
         public string AliToken { get; set; }
 
         public string AliMemberID { get; set; }
-
-        public string WeiXinID { get; set; }
 
         [Property("Lower")] 
         public string AgentID { get; set; }
