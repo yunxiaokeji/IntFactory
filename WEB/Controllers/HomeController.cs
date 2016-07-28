@@ -537,7 +537,7 @@ namespace YXERP.Controllers
                 }
                 else
                 {
-                    Response.Write("<script>alert('您的账户还没绑定微信,在账户设置里绑定微信后登录');location.href='/Home/login';</script>");
+                    Response.Write("<script>alert('您的账户还没绑定微信,请在账户设置里绑定微信后登录');location.href='/Home/login';</script>");
                     Response.End();
                     //Session["WeiXinTokenInfo"] = userToken.access_token + "|" + userToken.openid+"|"+userToken.unionid;
                     //return Redirect("/Home/WeiXinSelectLogin");
