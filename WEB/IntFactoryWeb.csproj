@@ -1093,6 +1093,7 @@
     <Content Include="Views\System\LabelSet.cshtml" />
     <Content Include="Views\Home\WeiXinSelectLogin.cshtml" />
     <Content Include="Views\MyAccount\WXLogin.cshtml" />
+    <Content Include="Views\Home\WeiXinLoginCallBack.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

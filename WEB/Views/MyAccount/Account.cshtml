@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "个人中心";
     Layout = "/Views/Shared/_LayoutUserCenter.cshtml";
-    IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];    
+    IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+    var BindMobilePhone=ViewBag.BindMobilePhone;
+    var WeiXinID = ViewBag.WeiXinID;
 }
 
 @section css{
@@ -35,9 +37,9 @@
                 </li>
                 <li>
                     <span class="width80">手机：</span>
-                    <span id="S_BindMobile">@(CurrentUser.BindMobilePhone)</span>
-                    <input type="text" id="mobilePhone" class="input bindloginmobile hide" value="@(CurrentUser.BindMobilePhone)" />
-                    <label id="bindLoginMobile" class="font14 blue hand @(string.IsNullOrEmpty(CurrentUser.BindMobilePhone)?"":"mLeft10")">@(CurrentUser.BindMobilePhone==""?"绑定":"解绑")</label>
+                    <span id="S_BindMobile">@(BindMobilePhone)</span>
+                    <input type="text" id="mobilePhone" class="input bindloginmobile hide" value="@(BindMobilePhone)" />
+                    <label id="bindLoginMobile" class="font14 blue hand @(string.IsNullOrEmpty(BindMobilePhone)?"":"mLeft10")">@(BindMobilePhone==""?"绑定":"解绑")</label>
                     <span class="mLeft10 red loginError"  id="BindMobileError"></span>
                 </li>
                 <li class="bindloginmobile hide">
@@ -54,7 +56,8 @@
                     <input type="button" id="cancleLoginMobile" class="btn bindloginmobile mLeft5" value="取消" />
                 </li>
                 @{
-                    if(!string.IsNullOrEmpty( CurrentUser.WeiXinID)){
+                    if (!string.IsNullOrEmpty(WeiXinID))
+                    {
                     <li>
                         <span class="width80">微信：</span>
                         <label  id="unBindWeiXin" class="font14 blue hand" >取消绑定</label>

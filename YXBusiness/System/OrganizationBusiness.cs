@@ -269,6 +269,27 @@ namespace IntFactoryBusiness
             }
         }
 
+        public static List<UserAccounts> GetUserAccountsByUserID(string userid, string agentid)
+        {
+            if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(agentid))
+            {
+                return null;
+            }
+
+            DataTable dt = new OrganizationDAL().GetUserAccountsByUserID(userid, agentid);
+            List <UserAccounts > list = new List<UserAccounts>();
+            UserAccounts model;
+            foreach (DataRow item in dt.Rows)
+            {
+                model = new UserAccounts();
+                model.FillData(item);
+
+                list.Add(model);
+            }
+
+            return list;
+        }
+
         public static bool ConfirmLoginPwd(string userid, string loginname, string pwd)
         {
             pwd = CloudSalesTool.Encrypt.GetEncryptPwd(pwd, loginname);

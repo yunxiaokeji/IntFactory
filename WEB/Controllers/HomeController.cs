@@ -365,7 +365,6 @@ namespace YXERP.Controllers
                     //未注销
                     if (model.Status.Value ==1)
                     {
-                        model.AliToken = userToken.access_token;
                         Session["ClientManager"] = model;
                         AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanToken(model.ClientID, userToken.access_token, userToken.refresh_token);
 
@@ -412,7 +411,6 @@ namespace YXERP.Controllers
                     //未注销
                     if (model.Status.Value == 1)
                     {
-                        model.AliToken = userToken.access_token;
                         Session["ClientManager"] = model;
                         AliOrderBusiness.BaseBusiness.UpdateAliOrderDownloadPlanToken(model.ClientID, userToken.access_token, userToken.refresh_token);
 
@@ -475,7 +473,6 @@ namespace YXERP.Controllers
                         var current = OrganizationBusiness.GetUserByOtherAccount(EnumAccountType.Ali, member.memberId, operateip);
                         AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, access_token, refresh_token, current.AgentID, current.ClientID);
 
-                        current.MDToken = access_token;
                         Session.Remove("AliTokenInfo");
                         Session["ClientManager"] = current;
 
@@ -536,13 +533,15 @@ namespace YXERP.Controllers
                         {
                             return Redirect("/Home/Login");
                         }
-
                     }
                 }
                 else
                 {
-                    Session["WeiXinTokenInfo"] = userToken.access_token + "|" + userToken.openid+"|"+userToken.unionid;
-                    return Redirect("/Home/WeiXinSelectLogin");
+                    Response.Write("<script>alert('您的账户还没绑定微信,在账户设置里绑定微信后登录');location.href='/Home/login';</script>");
+                    Response.End();
+                    //Session["WeiXinTokenInfo"] = userToken.access_token + "|" + userToken.openid+"|"+userToken.unionid;
+                    //return Redirect("/Home/WeiXinSelectLogin");
+
                 }
             }
 
@@ -571,7 +570,6 @@ namespace YXERP.Controllers
                     if (!string.IsNullOrEmpty(clientid))
                     {
                         var current = OrganizationBusiness.GetUserByOtherAccount(EnumAccountType.WeiXin, memberResult.unionid, operateip);
-                        current.MDToken = access_token;
                         Session.Remove("WeiXinTokenInfo");
                         Session["ClientManager"] = current;
 
@@ -592,21 +590,21 @@ namespace YXERP.Controllers
             if (string.IsNullOrEmpty(userToken.errcode))
             {
                 var model = OrganizationBusiness.GetUserByOtherAccount(EnumAccountType.WeiXin, userToken.unionid, operateip);
-                //已注册
-                if (model != null)
+                //未绑定
+                if (model == null)
                 {
-                    //未注销
+                    model =(Users)Session["ClientManager"];
+                    bool flag = OrganizationBusiness.BindOtherAccount(EnumAccountType.WeiXin, model.UserID, userToken.unionid, model.AgentID, model.ClientID);
+                }
+                else
+                {
                     if (model.Status.Value == 1)
                     {
                         Session["ClientManager"] = model;
-
-                        if (string.IsNullOrEmpty(state))
-                            return Redirect("/Home/Index");
-                        else
-                            return Redirect(state);
+                        Response.Write("<script>alert('您的账户已绑定过微信');location.href='/Home/login';</script>");
+                        Response.End();
                     }
-                    else
-                    {
+                    else {
                         if (model.Status.Value == 9)
                         {
                             Response.Write("<script>alert('您的账户已注销,请切换其他账户登录');location.href='/Home/login';</script>");
@@ -616,17 +614,11 @@ namespace YXERP.Controllers
                         {
                             return Redirect("/Home/Login");
                         }
-
                     }
-                }
-                else
-                {
-                    Response.Write("<script>alert('您的账户未绑定微信,请先到账户设置中绑定微信');location.href='/Home/login';</script>");
-                    Response.End();
                 }
             }
 
-            return Redirect("/Home/Login");
+            return View();
         }
 
 
@@ -750,8 +742,6 @@ namespace YXERP.Controllers
                             flag = OrganizationBusiness.BindOtherAccount(EnumAccountType.Ali, model.UserID, memberId, model.AgentID, model.ClientID);
                             if (flag)
                             {
-                                model.AliToken = access_token;
-                                model.AliMemberID = memberId;
                                 Session["ClientManager"] = model;
                                 Session.Remove("AliTokenInfo");
                                 result = 1;
