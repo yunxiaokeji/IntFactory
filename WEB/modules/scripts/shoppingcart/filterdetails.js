@@ -30,7 +30,10 @@ define(function (require, exports, module) {
             });
             $(".choose-div").show();
         }
+
+        //通过报损单进入初始化数据
         if (ordertype == 3) {
+            //初始化货位数据
             var depots = JSON.parse(depotItem.replace(/&quot;/g, '"'));
             if (depots.length > 0) {
                 _self.depotID = depots[0].DepotID;
@@ -62,7 +65,7 @@ define(function (require, exports, module) {
             if (!_this.hasClass("hover")) {
 
                 //不带type进入材料详情可直接添加报损、报溢、采购单
-                if (!(_self.ordertype * 1)) {
+                if (_self.ordertype == 0 && $("#addDoc").data('type') == 3) {
                     $(".purchase,.overflow").show();
                     if (!cacheDepot[_this.data('id')]) {
                         Global.post("/Stock/GetDeoptByProductDetailID", { did: _this.data('id') }, function (data) {
@@ -82,9 +85,9 @@ define(function (require, exports, module) {
                                         _self.depotID = data.value;
                                     }
                                 });
-                                $(".damaged").show();
+                                $(".damaged-dropdown").show();
                             } else {
-                                $(".damaged").hide();
+                                $(".damaged-dropdown").hide();
                             }
                         });
                     } else {
@@ -103,9 +106,9 @@ define(function (require, exports, module) {
                                     _self.depotID = data.value;
                                 }
                             });
-                            $(".damaged").show();
+                            $(".damaged-dropdown").show();
                         } else {
-                            $(".damaged").hide();
+                            $(".damaged-dropdown").hide();
                         }
                     }
                 }
@@ -113,6 +116,7 @@ define(function (require, exports, module) {
                 _this.addClass("hover");
                 _this.siblings().removeClass("hover");
 
+                //通过报损单进入，切换规格显示不同货位
                 if (_self.ordertype == 3) {
                     if (!cacheDepot[_this.data('id')]) {
                         Global.post("/Stock/GetDeoptByProductDetailID", { did: _this.data('id') }, function (data) {
@@ -277,9 +281,36 @@ define(function (require, exports, module) {
             }
         });
 
-        if(!(_self.ordertype*1)){
+        //单据类型为0可进行报损、报溢、加入采购单操作
+        if (_self.ordertype == 0) {
+            //初始化加入单据下拉操作
+            if ($(".drop-operate").length > 0) {
+                var models = [{ Name: "采购", ID: 1 }, { Name: "报损", ID: 3 }, { Name: "报溢", ID: 4 }];
+                $(".drop-operate").dropdown({
+                    prevText: "快捷添加单据-",
+                    defaultText: "请选择",
+                    defaultValue: 0,
+                    data: models,
+                    dataText: "Name",
+                    dataValue: "ID",
+                    onChange: function (data) {
+                        if (data.value == 0) {
+                            $(".quickly-add-stock").hide();
+                        } else {
+                            if (data.value == 3) {
+                                $(".damaged-dropdown").show();
+                            } else {
+                                $(".damaged-dropdown").hide();
+                            }
+                            $("#addDoc").html("加入" + data.text);
+                            $(".quickly-add-stock").show();
+                        }
+                        $("#addDoc").data('type', data.value);
+                    }
+                });
+            }
             //加入采购单
-            $("#addPurchase,#addOverflow,#addDamaged").click(function () {
+            $("#addDoc").click(function () {
                 var _this = $(this);
                 if ($(".sales-item li").hasClass('hover')) {
                     if ((_this.prev().val() * 1) <= 0) {
@@ -294,7 +325,7 @@ define(function (require, exports, module) {
                     Global.post("/ShoppingCart/AddShoppingCart", {
                         productid: _self.productid,
                         detailsid: _self.detailid,
-                        quantity: _this.prev().val()*1,
+                        quantity: _this.prev().val() * 1,
                         unitid: $("#unit li.hover").data("id"),
                         isBigUnit: $("#unit li.hover").data("value"),
                         ordertype: _this.data('type'),
@@ -305,6 +336,7 @@ define(function (require, exports, module) {
                         if (data.Status) {
                             var msg = ""
                             var href = "";
+                            var isContinue = true;
                             if (_this.data('type') == 1) {
                                 msg = "采购单";
                                 href = "/Products/ConfirmPurchase";
@@ -314,21 +346,23 @@ define(function (require, exports, module) {
                             } else if (_this.data('type') == 4) {
                                 msg = "采溢单";
                                 href = "/Stock/CreateOverflow";
+                            } else {
+                                isContinue = false;
+                            }
+                            if (!isContinue) {
+                                return false;
                             }
                             confirm("添加成功，是否返回" + msg + ""
                             , function () {
                                 location.href = href;
-                            }, function () {
-
                             });
                         }
                     });
                 } else {
-                    alert("请选择材料属性");
+                    alert("请选择材料规格");
                 }
             });
         }
-
     }
     //绑定信息
     ObjectJS.bindDetail = function (model) {
@@ -340,7 +374,7 @@ define(function (require, exports, module) {
             if (model.ProductDetails[i].ProductDetailID == _self.detailid) {
                 var productdetailid = model.ProductDetails[i].ProductDetailID;
                 $(".attr-item").find("li[data-id='" + productdetailid + "']").addClass("hover");
-                if (!(_self.ordertype * 1)) {
+                if (_self.ordertype == 0) {
                     $(".purchase,.overflow").show();
                     if (!cacheDepot[productdetailid]) {
                         Global.post("/Stock/GetDeoptByProductDetailID", { did: productdetailid }, function (data) {
@@ -385,9 +419,6 @@ define(function (require, exports, module) {
                         } else {
                             $(".damaged").hide();
                         }
-
-
-
                     }
                 }
                 $("#price").html("￥" + model.ProductDetails[i].Price.toFixed(2));
