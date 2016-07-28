@@ -756,7 +756,7 @@
                             return false;
                         };
                         Global.post("/Orders/CreateOrderCost", {
-                            orderid: _self.orderid,
+                            orderid: _self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID,
                             price: $("#iptCostPrice").val(),
                             remark: $("#iptCostDescription").val()
                         }, function (data) {
@@ -1866,25 +1866,21 @@
                     });
 
                     $("#navCosts .tr-header").after(innerhtml);
-
-                    if (_self.model.OrderType == 1) {
-                        innerhtml.find(".ico-del").click(function () {
-                            var _this = $(this);
-                            confirm("删除后不可恢复，确认删除吗？", function () {
-                                Global.post("/Orders/DeleteOrderCost", {
-                                    orderid: _self.orderid,
-                                    autoid: _this.data("id")
-                                }, function (data) {
-                                    if (data.status) {
-                                        $("#lblCostMoney").text(($("#lblCostMoney").text() - _this.parents("tr").find(".cost-price").text()).toFixed(2));
-                                        _this.parents("tr").first().remove();
-                                    }
-                                });
+                    innerhtml.find(".ico-del").click(function () {
+                        var _this = $(this);
+                        confirm("删除后不可恢复，确认删除吗？", function () {
+                            Global.post("/Orders/DeleteOrderCost", {
+                                orderid: _self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID,
+                                autoid: _this.data("id")
+                            }, function (data) {
+                                if (data.status) {
+                                    $("#lblCostMoney").text(($("#lblCostMoney").text() - _this.parents("tr").find(".cost-price").text()).toFixed(2));
+                                    _this.parents("tr").first().remove();
+                                }
                             });
                         });
-                    } else {
-                        innerhtml.find(".ico-del").remove();
-                    }
+                    });
+
                 });
             } else {
                 $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!</div></td></tr>");

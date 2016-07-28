@@ -109,6 +109,11 @@
                 }
             });
         });
+
+        //微信绑定
+        $("#bindWeiXin").click(function () {
+            window.open("WXLogin", "", "height=500,width=500,left=" +(  ($(document).width()-500)/2 )+ ",toolbar=no,menubar=no,scrollbars=no, resizable=no,location=yes, status=no");
+        });
     }
 
     //弹出层
