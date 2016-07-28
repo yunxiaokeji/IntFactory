@@ -9,7 +9,6 @@
 		<span class="name long">{%=item.CompanyName%}</span>
         <span class="width100 long">{%=item.ClientCode%}</span>
         <span class="width100 long">{%=item.MobilePhone==""?"--":item.MobilePhone%}</span>
-        <span class="width150 center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
-        
+        <span class="width150 center">{%=item.ContactName==""?"--":item.ContactName%}</span>
 	</li>
 {% } %}
