@@ -69,7 +69,13 @@ define(function (require, exports, module) {
         $("#saveClient").click(function () {
             if (!VerifyObject.isPass()) {
                 return false;
-            }; 
+            };
+
+            if ($("#loginName").val().length < 6)
+            {
+                alert("登录账号不能低于六位");
+                return;
+            }
             var modules = [];
             $(".modules-item").each(function () {
                 var _this = $(this);

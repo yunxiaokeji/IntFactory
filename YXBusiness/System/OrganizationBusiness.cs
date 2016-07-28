@@ -82,6 +82,14 @@ namespace IntFactoryBusiness
 
         #region 查询
 
+        public static bool IsExistAccountType(EnumAccountType type, string userid)
+        {
+            string where = " UserID='" + userid + "' and AccountType =" + (int)type;
+
+            object count = CommonBusiness.Select("UserAccounts", "count(0)", where);
+            return Convert.ToInt32(count) > 0;
+        }
+
         public static bool IsExistLoginName(string loginName)
         {
             if (string.IsNullOrEmpty(loginName))
@@ -101,14 +109,6 @@ namespace IntFactoryBusiness
             }
 
             string where = " AccountName='" + account + "' and AccountType =" + (int)type;
-
-            object count = CommonBusiness.Select("UserAccounts", "count(0)", where);
-            return Convert.ToInt32(count) > 0;
-        }
-
-        public static bool IsExistAccountType(EnumAccountType type, string userid)
-        {
-            string where = " UserID='" + userid + "' and AccountType =" + (int)type;
 
             object count = CommonBusiness.Select("UserAccounts", "count(0)", where);
             return Convert.ToInt32(count) > 0;
@@ -166,7 +166,7 @@ namespace IntFactoryBusiness
             //记录登录日志
             if (model != null)
             {
-                LogBusiness.AddLoginLog(loginname, true,Manage.ClientBusiness.GetClientDetail(model.ClientID).AgentID == model.AgentID ? IntFactoryEnum.EnumSystemType.Client : IntFactoryEnum.EnumSystemType.Agent, operateip, model.UserID, model.AgentID, model.ClientID);
+                LogBusiness.AddLoginLog(loginname, true, model.Client.AgentID == model.AgentID ? IntFactoryEnum.EnumSystemType.Client : IntFactoryEnum.EnumSystemType.Agent, operateip, model.UserID, model.AgentID, model.ClientID);
             }
             else
             {
@@ -174,15 +174,6 @@ namespace IntFactoryBusiness
             }
 
             return model;
-        }
-
-        public static bool ConfirmLoginPwd(string userid, string loginname, string pwd)
-        {
-            pwd = CloudSalesTool.Encrypt.GetEncryptPwd(pwd, loginname);
-
-            object obj = CommonBusiness.Select("Users", "Count(0)", " UserID='" + userid + "' and LoginPWD='" + pwd + "' ");
-
-            return Convert.ToInt32(obj) > 0;
         }
 
         public static Users GetUserByOtherAccount(EnumAccountType accountType, string account, string operateip)
@@ -276,6 +267,15 @@ namespace IntFactoryBusiness
                 }
                 return model;
             }
+        }
+
+        public static bool ConfirmLoginPwd(string userid, string loginname, string pwd)
+        {
+            pwd = CloudSalesTool.Encrypt.GetEncryptPwd(pwd, loginname);
+
+            object obj = CommonBusiness.Select("Users", "Count(0)", " UserID='" + userid + "' and LoginPWD='" + pwd + "' ");
+
+            return Convert.ToInt32(obj) > 0;
         }
 
         public static List<Users> GetUsers(string keyWords, string departID, string roleID, string agentid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
