@@ -186,13 +186,13 @@ namespace IntFactoryDAL.Manage
             return ExecuteNonQuery(cmdText, parms, CommandType.Text) > 0;
         }
 
-        public bool SetClientProcess(int type, string userid, string clientid)
+        public bool SetClientProcess(string ids, string userid, string clientid)
         {
             int result = 0;
             SqlParameter[] parms = { 
                                        new SqlParameter("@Result",result),
                                        new SqlParameter("@ClientID",clientid),
-                                       new SqlParameter("@Type",type),
+                                       new SqlParameter("@IDS",ids),
                                        new SqlParameter("@UserID",userid)
                                    };
 

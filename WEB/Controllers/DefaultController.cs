@@ -37,6 +37,11 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Default/Index");
             }
+            
+            ViewBag.Categorys = SystemBusiness.BaseBusiness.GetProcessCategorys();
+
+            var mobile = OrganizationBusiness.IsExistAccountType(EnumAccountType.Mobile, CurrentUser.UserID);
+            ViewBag.IsExists = mobile ? 1 : 0;
             return View();
         }
 
@@ -73,6 +78,8 @@ namespace YXERP.Controllers
                     }
                 }
 
+                var existName = OrganizationBusiness.IsExistAccountType(EnumAccountType.UserName, CurrentUser.UserID);
+                ViewBag.IsShow = existName ? 1 : 0;
                 return View();
             }
             else
@@ -110,11 +117,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult AccountBindMobile(string BindMobile)
+        public JsonResult AccountBindMobile(string BindMobile,string pwd)
         {
-            bool bl = OrganizationBusiness.AccountBindMobile(BindMobile, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            bool bl = OrganizationBusiness.UpdateAccountBindMobile(BindMobile, pwd, true, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("result", bl);
-            if (bl) {
+            if (bl)
+            {
                 CurrentUser.MobilePhone = BindMobile;
                 CurrentUser.Client.GuideStep = 0;
                 Session["ClientManager"] = CurrentUser;
@@ -128,9 +136,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult SetClientProcess(int type)
+        public JsonResult SetClientProcess(string ids)
         {
-            int guideStep = ClientBusiness.SetClientProcess(type, CurrentUser.UserID, CurrentUser.ClientID);
+            int guideStep = ClientBusiness.SetClientProcess(ids, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("value", guideStep);
             CurrentUser.Client.GuideStep = guideStep;
             return new JsonResult()

@@ -582,33 +582,24 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        public static bool AccountBindMobile(string bindMobile, string userid, string agentid, string clientid)
+        public static bool UpdateAccountBindMobile(string mobile, string pwd, bool isFirst, string userid, string agentid, string clientid)
         {
-            string loginpwd = CloudSalesTool.Encrypt.GetEncryptPwd(bindMobile, bindMobile);
-            bool flag = OrganizationDAL.BaseProvider.AccountBindMobile(userid, bindMobile, loginpwd, agentid, clientid);
+            string loginpwd = CloudSalesTool.Encrypt.GetEncryptPwd(pwd, pwd);
+            bool flag = OrganizationDAL.BaseProvider.AccountBindMobile(userid, mobile, isFirst, loginpwd, agentid, clientid);
 
             //清除缓存
             if (flag)
             {
                 Users u = OrganizationBusiness.GetUserByUserID(userid, agentid);
-                u.MobilePhone = bindMobile;
+                u.MobilePhone = mobile;
 
+                if (isFirst)
+                {
+                    var client = Manage.ClientBusiness.GetClientDetail(clientid);
+                    client.MobilePhone = mobile;
+                    client.GuideStep = 0;
+                }
 
-                IntFactoryEntity.Manage.Clients client = Manage.ClientBusiness.GetClientDetail(clientid);
-                client.MobilePhone = bindMobile;
-                client.GuideStep = 0;
-
-            }
-            return flag;
-        }
-
-        public static bool UpdateAccountBindMobile(string userid, string bindMobile, string agentid, string clientid)
-        {
-            bool flag = OrganizationDAL.BaseProvider.UpdateAccountBindMobile(userid, bindMobile, agentid, clientid);
-
-            //清除缓存
-            if (flag)
-            {
             }
             return flag;
         }

@@ -12,14 +12,14 @@
         _self.isPost = false;
 
         //选择流程
-        $(".radiobox").click(function () {
+        $(".check-category").click(function () {
             var _this = $(this);
-            if (_this.find(".hover").length == 0) {
-                _this.find(".ico-radiobox").addClass("hover");
-                _this.siblings().find(".ico-radiobox").removeClass("hover");
-
-                $(".process-items").hide();
-                $(".process-items[data-id='" + _this.find(".ico-radiobox").data("value") + "']").show();
+            if (_this.find(".checkbox.hover").length == 0) {
+                _this.find(".checkbox").addClass("hover");
+                _this.parents(".process-box").addClass("hover");
+            } else {
+                _this.find(".checkbox").removeClass("hover");
+                _this.parents(".process-box").removeClass("hover");
             }
         });
         //下一步
@@ -29,9 +29,19 @@
                 return;
             }
             _self.isPost = true;
-            var _this = $(".ico-radiobox.hover");
-            confirm("您初始化流程选择的是“" + _this.data("name") + "”，确认下一步吗？", function () {
-                Global.post("/Default/SetClientProcess", { type: _this.data("value") }, function (data) {
+            if ($(".checkbox.hover").length == 0) {
+                alert("请至少选择一种品类");
+                return;
+            }
+            var ids = "", names = "";
+            $(".checkbox.hover").each(function () {
+                var _this = $(this);
+                ids += _this.data("id") + "，";
+                names += _this.data("name") + "，";
+            });
+            ids = ids.substr(0, ids.length - 1);
+            confirm("您初始化品类选择的是“" + names.substr(0, names.length - 1) + "”，确认下一步吗？", function () {
+                Global.post("/Default/SetClientProcess", { ids: ids }, function (data) {
                     _self.isPost = false;
                     location.href = "/Default/Index";
                 });

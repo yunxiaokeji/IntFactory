@@ -7,60 +7,68 @@
         .main-content { margin-left:0px;}
     </style>
 
-    <link href="/modules/css/default/guidestep.css" rel="stylesheet" />
+    <link href="/modules/css/guidestep.css" rel="stylesheet" />
 }
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/home/bindmobile"], function (ObjectJS) {
-            ObjectJS.init();
+            ObjectJS.init('@(ViewBag.IsShow)');
         });
     </script>
 }
 <div class="step-body">
     <ul class="step-header">
         <li class="step hover">1</li>
-        <li class="mLeft5 hover">初始化流程</li>
-        <li class="iconfont step-ico hover">&#xe656</li>
-
+        <li class="mLeft5 hover">初始化品类和流程</li>
+      @*<li class="iconfont step-ico hover">&#xe656</li>
         <li class="step hover">2</li>
-        <li class="mLeft5 hover">初始化品类</li>
+        <li class="mLeft5 hover">初始化品类</li>*@
         <li class="iconfont step-ico hover">&#xe656</li>
-
-        <li class="step">3</li>
+        <li class="step">2</li>
         <li class="mLeft5">绑定手机</li>
-        <li class="iconfont step-ico">&#xe656</li>
-
-        <li class="step">4</li>
-        <li class="mLeft5">配置提示</li>
+        @*<li class="iconfont step-ico">&#xe656</li>
+        <li class="step">3</li>
+        <li class="mLeft5">配置提示</li>*@
     </ul>
-    <div class="step-content">
+    <div class="step-content" style="background-color:#fff;">
         <div class="step-desc">
             <h1>温馨提示</h1>
             <p>
                 为了更好的使用系统，建议您绑定手机，可用于系统登录、找回密码等操作<br />
-                绑定成功后，我们还将再送您<span class="font18 blue">1个月</span>免费试用哦!
+@*                绑定成功后，我们还将再送您<span class="font18 blue">1个月</span>免费试用哦!*@
             </p>
         </div>
-        <div class="mTop20 mBottom10 mLeft20">
-            <ul class="table-add" style="border:none;">
-                 <li>
+        <div>
+            <ul class="table-add" style="border:none; padding-bottom:30px; padding-top:30px;">
+                <li>
                     <span class="width80">手机号：</span>
-                    <span><input type="text" id="mobilePhone" /></span>
-                     <span class="validation color666">（*密码初始为手机号）</span>
+                    <span><input type="text" id="mobilePhone" maxlength="11" /></span>
+                    <span class="validation red"></span>
                 </li>
                 <li>
                     <span class="width80">验证码：</span>
-                    <span><input type="text" id="BindMobileCode" style="width:62px;" /></span>
-                    <span><input type="button" class="btn mLeft5" id="SendBindMobileCode" value="获取验证码"/></span>
+                    <span><input type="text" id="BindMobileCode" maxlength="6" style="width:62px;" /></span>
+                    <span><input type="button" class="btn mLeft5" id="SendBindMobileCode" value="获取验证码"></span>
                 </li>
+                @if (ViewBag.IsShow == 0)
+                {
+                    <li>
+                        <span class="width80">密码：</span>
+                        <span><input type="password" id="pwd" maxlength="20" /></span>
+                        <span class="red" id="validationPwd"></span>
+                    </li>
+                    <li>
+                        <span class="width80">确认密码：</span>
+                        <span><input type="password" id="confirmPwd" maxlength="20" /></span>
+                        <span class="red" id="validationConfirmPwd"></span>
+                    </li>
+                }
                 <li>
                     <span class="width80"></span>
-                    <span><input type="button" id="saveLoginMobile" class="btn mLeft5" value="绑定"/></span>
+                    <span><input type="button" id="saveLoginMobile" class="btn" value="绑定"/></span>
+                   @* <span class="continue" id="btnSubmit">不绑定，直接跳过</span>*@
                 </li>
             </ul>
-        </div>
-        <div class="step-bottom">
-            <div class="btn right" id="btnSubmit">跳过</div>
         </div>
     </div>
 </div>

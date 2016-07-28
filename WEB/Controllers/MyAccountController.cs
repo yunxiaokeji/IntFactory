@@ -301,15 +301,18 @@ namespace YXERP.Controllers
             if (!string.IsNullOrEmpty( CurrentUser.LoginName) )
             {
                 bool bl = Common.Common.ValidateMobilePhoneCode(bindMobile, code);
-                if (!bl){
+                if (!bl)
+                {
                     result = 2;
                 }
                 else
                 {
-                    if (option == 1){
-                        flag = OrganizationBusiness.UpdateAccountBindMobile(CurrentUser.UserID, bindMobile, CurrentUser.AgentID, CurrentUser.ClientID);
+                    if (option == 1)
+                    {
+                        flag = OrganizationBusiness.UpdateAccountBindMobile(bindMobile, "", false, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
                     }
-                    else{
+                    else
+                    {
                         flag = OrganizationBusiness.ClearAccountBindMobile(CurrentUser.UserID, CurrentUser.AgentID);
                     }
 
@@ -321,7 +324,8 @@ namespace YXERP.Controllers
                     }
                 }
             }
-            else {
+            else 
+            {
                 result = 3;
             }
             

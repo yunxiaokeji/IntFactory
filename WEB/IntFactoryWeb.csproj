@@ -194,7 +194,7 @@
     <Content Include="DLL\Newtonsoft.Json.dll" />
     <Content Include="DLL\Qiniu.4.0.dll" />
     <Content Include="modules\css\customer.css" />
-    <Content Include="modules\css\default\guidestep.css" />
+    <Content Include="modules\css\guidestep.css" />
     <Content Include="modules\css\myaccount\weixin.css" />
     <Content Include="modules\css\orders.css" />
     <Content Include="modules\css\default\order_create.css" />

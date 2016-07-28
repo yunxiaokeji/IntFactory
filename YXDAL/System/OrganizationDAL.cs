@@ -249,12 +249,13 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateAccountBindMobile", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool AccountBindMobile(string userid, string bindMobile, string pwd, string agentid, string clientid)
+        public bool AccountBindMobile(string userid, string bindMobile, bool isFirst, string pwd, string agentid, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@UserID",userid),
                                        new SqlParameter("@BindMobile",bindMobile),
                                        new SqlParameter("@Pwd",pwd),
+                                       new SqlParameter("@IsFirst",isFirst?1:0),
                                        new SqlParameter("@AgentID",agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };

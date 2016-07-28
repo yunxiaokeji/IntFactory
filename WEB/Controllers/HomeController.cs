@@ -94,7 +94,7 @@ namespace YXERP.Controllers
 
         public ActionResult Logout(int Status = 0)
         {
-            HttpCookie cook = Request.Cookies["cloudsales"];
+            HttpCookie cook = Request.Cookies["intfactory_system"];
             if (cook != null)
             {
                 cook["status"] = "0";
@@ -307,7 +307,7 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Home/Index");
             }
-            HttpCookie cook = Request.Cookies["cloudsales"];
+            HttpCookie cook = Request.Cookies["intfactory_system"];
             if (cook != null)
             {
                 if (cook["status"] == "1")
@@ -494,7 +494,6 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Home/Login");
             }
-
             return View();
         }
 
@@ -509,7 +508,7 @@ namespace YXERP.Controllers
             string operateip = Common.Common.GetRequestIP();
             var userToken = WeiXin.Sdk.Token.GetAccessToken(code);
 
-            if (string.IsNullOrEmpty( userToken.errcode) )
+            if (string.IsNullOrEmpty(userToken.errcode))
             {
                 var model = OrganizationBusiness.GetUserByOtherAccount(EnumAccountType.WeiXin, userToken.unionid, operateip);
                 //已注册
@@ -579,7 +578,6 @@ namespace YXERP.Controllers
                     }
                 }
             }
-
             return Redirect("/Home/Login");
         }
 
@@ -601,9 +599,13 @@ namespace YXERP.Controllers
                         Session["ClientManager"] = model;
 
                         if (string.IsNullOrEmpty(state))
+                        {
                             return Redirect("/Home/Index");
+                        }
                         else
+                        {
                             return Redirect(state);
+                        }
                     }
                     else
                     {
@@ -629,7 +631,6 @@ namespace YXERP.Controllers
             return Redirect("/Home/Login");
         }
 
-
         //登录
         public JsonResult UserLogin(string userName, string pwd, string remember, int bindAccountType)
         {
@@ -649,7 +650,7 @@ namespace YXERP.Controllers
                     if (model.Status.Value ==1)
                     {
                         //保持登录状态
-                        HttpCookie cook = new HttpCookie("cloudsales");
+                        HttpCookie cook = new HttpCookie("intfactory_system");
                         cook["username"] = userName;
                         cook["pwd"] = pwd;
                         cook["status"] = remember;
@@ -657,11 +658,13 @@ namespace YXERP.Controllers
                         Response.Cookies.Add(cook);
 
                         //将阿里账户绑定到已有账户
-                        if (bindAccountType == 1) {
-                            result=BindAliMember(model);
+                        if (bindAccountType == 1) 
+                        {
+                            result = BindAliMember(model);
                         }
                         //将微信账户绑定到已有账户
-                        else if (bindAccountType == 2) {
+                        else if (bindAccountType == 2) 
+                        {
                             result = BindWeiXin(model);
                         }
                         else
@@ -674,7 +677,8 @@ namespace YXERP.Controllers
                     }
                     else
                     {
-                        if (model.Status.Value == 9){
+                        if (model.Status.Value == 9)
+                        {
                             result = 9;
                         }
                     }
@@ -840,14 +844,17 @@ namespace YXERP.Controllers
                         string operateip = Common.Common.GetRequestIP();
                         int outResult;
                         IntFactoryEntity.Users user = IntFactoryBusiness.OrganizationBusiness.GetUserByUserName(loginName, loginPWD, out outResult, operateip);
-                        if (user != null){
+                        if (user != null)
+                        {
                             Session["ClientManager"] = user;
                         }
 
                         Common.Common.ClearMobilePhoneCode(loginName);
                     }
                     else
+                    {
                         result = 0;
+                    }
                 }
             }
 

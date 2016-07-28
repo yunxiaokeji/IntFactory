@@ -434,19 +434,18 @@ namespace IntFactoryBusiness.Manage
             }
         }
 
-        public static int SetClientProcess(int type, string userid, string clientid)
+        public static int SetClientProcess(string ids, string userid, string clientid)
         {
             var model = GetClientDetail(clientid);
             if (model.GuideStep != 1)
             {
                 return model.GuideStep;
             }
-            bool bl = ClientDAL.BaseProvider.SetClientProcess(type, userid, clientid);
+            bool bl = ClientDAL.BaseProvider.SetClientProcess(ids, userid, clientid);
 
             Clients[model.ClientID] = GetClientDetailBase(model.ClientID);
 
             return Clients[model.ClientID].GuideStep;
-
         }
 
         public static int SetClientCategory(string ids, string userid, string clientid)
