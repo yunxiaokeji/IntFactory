@@ -27,6 +27,12 @@ namespace YXERP.Controllers
             else
             {
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+
+                if (currentUser.Client.GuideStep != 0)
+                {
+                    return Redirect("/Default/Index");
+                }
+
                 var agent = IntFactoryBusiness.AgentsBusiness.GetAgentDetail(currentUser.AgentID);
                 ViewBag.RemainDay = Math.Ceiling((agent.EndTime - DateTime.Now).TotalDays);
                 ViewBag.RemainDate = agent.EndTime.Date.ToString("yyyy-MM-dd");
@@ -585,7 +591,7 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(userToken.errcode))
             {
-                var model = OrganizationBusiness.GetUserByWeiXinID(userToken.unionid, operateip);
+                var model = OrganizationBusiness.GetUserByOtherAccount(EnumAccountType.WeiXin, userToken.unionid, operateip);
                 //已注册
                 if (model != null)
                 {

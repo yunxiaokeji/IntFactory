@@ -29,6 +29,7 @@ define(function (require, exports, module) {
     Verify.prototype.initType = function () {
         var _this = this;
         _this.setting.type = [];
+        _this.setting.type["words"] = /^(\w*[a-zA-Z]+\w*)$/;
         _this.setting.type["word"] = /^[\w\d]+$/;
         _this.setting.type["mobilephone"] = /^1[3|5|6|8]\d{9}$/;
         _this.setting.type["mobile"] = /^(?:\(?[0\+]?\d{1,3}\)?)[\s-]?(?:0|\d{1,4})[\s-]?(?:(?:13\d{9})|(?:\d{7,8}))$/;
