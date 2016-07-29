@@ -44,35 +44,7 @@ namespace IntFactoryBusiness
 
                 model.SourceTypeStr = CommonBusiness.GetEnumDesc((EnumOrderSourceType)model.SourceType);
 
-                if (model.OrderStatus == 1 && model.Status != (int)EnumOrderStageStatus.DDH)
-                {
-                    if (model.PlanTime <= DateTime.Now)
-                    {
-                        model.WarningStatus = 2;
-                        model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
-                        model.WarningDays = (DateTime.Now - model.PlanTime).Days;
-                        model.UseDays = (model.PlanTime - model.OrderTime).Days;
-                    }
-                    else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
-                    {
-                        model.WarningStatus = 1;
-                        model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
-                        model.WarningDays = (model.PlanTime - DateTime.Now).Days;
-                        model.UseDays = (DateTime.Now - model.OrderTime).Days;
-                    }
-                    else
-                    {
-                        model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
-                        model.WarningDays = (model.PlanTime - DateTime.Now).Days;
-                        model.UseDays = (DateTime.Now - model.OrderTime).Days;
-                    }
-                }
-                else if (model.OrderStatus == 2)
-                {
-                    model.WarningStatus = 3;
-                    model.UseDays = (model.PlanTime - model.OrderTime).Days;
-                    model.WarningDays = (DateTime.Now - model.EndTime).Days;
-                }
+                GetWarningData(model);
 
                 list.Add(model);
             }
@@ -177,39 +149,44 @@ namespace IntFactoryBusiness
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
 
-                if (model.OrderStatus == 1)
-                {
-                    if (model.PlanTime <= DateTime.Now)
-                    {
-                        model.WarningStatus = 2;
-                        model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
-                        model.WarningDays = (DateTime.Now - model.PlanTime).Days;
-                        model.UseDays = (model.PlanTime - model.OrderTime).Days;
-                    }
-                    else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
-                    {
-                        model.WarningStatus = 1;
-                        model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
-                        model.WarningDays = (model.PlanTime - DateTime.Now).Days;
-                        model.UseDays = (DateTime.Now - model.OrderTime).Days;
-                    }
-                    else
-                    {
-                        model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
-                        model.WarningDays = (model.PlanTime - DateTime.Now).Days;
-                        model.UseDays = (DateTime.Now - model.OrderTime).Days;
-                    }
-                }
-                else if(model.OrderStatus==2)
-                {
-                    model.WarningStatus = 3;
-                    model.UseDays = (model.PlanTime - model.OrderTime).Days;
-                    model.WarningDays = (DateTime.Now - model.EndTime).Days;
-                }
+                GetWarningData(model);
 
                 list.Add(model);
             }
             return list;
+        }
+
+        public void GetWarningData(OrderEntity model)
+        {
+            if (model.OrderStatus == 1 && model.Status != (int)EnumOrderStageStatus.DDH)
+            {
+                if (model.PlanTime <= DateTime.Now)
+                {
+                    model.WarningStatus = 2;
+                    model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
+                    model.WarningDays = (DateTime.Now - model.PlanTime).Days;
+                    model.UseDays = (model.PlanTime - model.OrderTime).Days;
+                }
+                else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
+                {
+                    model.WarningStatus = 1;
+                    model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                    model.WarningDays = (model.PlanTime - DateTime.Now).Days;
+                    model.UseDays = (DateTime.Now - model.OrderTime).Days;
+                }
+                else
+                {
+                    model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                    model.WarningDays = (model.PlanTime - DateTime.Now).Days;
+                    model.UseDays = (DateTime.Now - model.OrderTime).Days;
+                }
+            }
+            else if (model.OrderStatus == 2)
+            {
+                model.WarningStatus = 3;
+                model.UseDays = (model.PlanTime - model.OrderTime).Days;
+                model.WarningDays = (DateTime.Now - model.EndTime).Days;
+            }
         }
 
         public int GetNeedOrderCount(string ownerID,int orderType, string clientID)
@@ -238,8 +215,28 @@ namespace IntFactoryBusiness
                 model.FillData(dr);
 
                 model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
-
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+                GetWarningData(model);
+                list.Add(model);
+            }
+            return list;
+        }
+
+        public List<OrderEntity> GetNeedsOrderByCustomerID(string keyWords, string customerid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
+        {
+            List<OrderEntity> list = new List<OrderEntity>();
+            string condition = "CustomerID='" + customerid + "' and Status = 0 ";
+            if (!string.IsNullOrEmpty(keyWords))
+            {
+                condition += " and ( OrderCode like '%" + keyWords + "%' or GoodsCode like '%" + keyWords + "%' or MobileTele like '%" + keyWords + "%' or PersonName like '%" + keyWords + "%')";
+            }
+            DataTable dt = CommonBusiness.GetPagerData("Orders", "*", condition, "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderEntity model = new OrderEntity();
+                model.FillData(dr);
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
 
                 list.Add(model);
             }
@@ -264,25 +261,6 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<OrderEntity> GetNeedsOrderByCustomerID(string keyWords,string customerid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
-        {
-            List<OrderEntity> list = new List<OrderEntity>();
-            string condition="CustomerID='" + customerid + "' and Status = 0 ";
-            if (!string.IsNullOrEmpty(keyWords))
-            {
-                condition += " and ( OrderCode like '%" + keyWords + "%' or GoodsCode like '%" + keyWords + "%' or MobileTele like '%" + keyWords + "%' or PersonName like '%" + keyWords + "%')";
-            }
-            DataTable dt = CommonBusiness.GetPagerData("Orders", "*",condition , "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
-            foreach (DataRow dr in dt.Rows)
-            {
-                OrderEntity model = new OrderEntity();
-                model.FillData(dr);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
-
-                list.Add(model);
-            }
-            return list;
-        }
 
         public OrderEntity GetOrderByID(string orderid)
         {
@@ -506,95 +484,6 @@ namespace IntFactoryBusiness
 
             }
             return model;
-        }
-
-        public static List<ReplyEntity> GetReplys(string guid, string stageID,int mark, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
-        {
-            List<ReplyEntity> list = new List<ReplyEntity>();
-            string whereSql = " Status<>9 and GUID='" + guid + "' ";
-            if (mark == 0 && !string.IsNullOrEmpty(stageID))
-            {
-                whereSql += " and StageID='" + stageID + "' ";
-            }
-            else
-            {
-                if (mark != -1)
-                {
-                    whereSql += " and Mark=" + mark + " ";
-                }
-            }
-
-            
-            DataTable dt = CommonBusiness.GetPagerData("OrderReply", "*", whereSql, "AutoID", "CreateTime desc ", pageSize, pageIndex, out totalCount, out pageCount, false);
-
-            foreach (DataRow dr in dt.Rows)
-            {
-                ReplyEntity model = new ReplyEntity();
-                model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
-                if (!string.IsNullOrEmpty(model.FromReplyID))
-                {
-                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
-                }
-                list.Add(model);
-            }
-
-            return list;
-
-        }
-
-        public static List<ReplyEntity> GetReplys(string guid, int mark, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
-        {
-            List<ReplyEntity> list = new List<ReplyEntity>();
-            string whereSql = " Status<>9 and GUID='" + guid + "' ";
-            if (mark != -1)
-            {
-                whereSql += " and Mark=" + mark + " ";
-            }
-
-            DataTable dt = CommonBusiness.GetPagerData("OrderReply", "*", whereSql, "AutoID", "CreateTime desc ", pageSize, pageIndex, out totalCount, out pageCount, false);
-
-            foreach (DataRow dr in dt.Rows)
-            {
-                ReplyEntity model = new ReplyEntity();
-                model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
-                if (!string.IsNullOrEmpty(model.FromReplyID))
-                {
-                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
-                }
-                list.Add(model);
-            }
-
-            return list;
-
-        }
-
-        public static List<ReplyEntity> GetReplys(string guid, string stageID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
-        {
-            List<ReplyEntity> list = new List<ReplyEntity>();
-            string whereSql = " Status<>9 and GUID='" + guid + "' ";
-            if (!string.IsNullOrEmpty(stageID))
-            {
-                whereSql += " and StageID='" + stageID + "' ";
-            }
-
-            DataTable dt = CommonBusiness.GetPagerData("OrderReply", "*", whereSql, "AutoID", "CreateTime desc ", pageSize, pageIndex, out totalCount, out pageCount, false);
-
-            foreach (DataRow dr in dt.Rows)
-            {
-                ReplyEntity model = new ReplyEntity();
-                model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
-                if (!string.IsNullOrEmpty(model.FromReplyID))
-                {
-                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
-                }
-                list.Add(model);
-            }
-
-            return list;
-
         }
 
         public static List<OrderEntity> GetOrderPlans(string ownerID, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)

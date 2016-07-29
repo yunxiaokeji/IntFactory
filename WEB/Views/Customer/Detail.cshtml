@@ -4,6 +4,7 @@
 @section css{
     <link href="/modules/css/customer.css" rel="stylesheet" />
     <link href="/modules/css/task.css" rel="stylesheet" />
+    <link href="/modules/css/orders.css" rel="stylesheet" />
 }
 
 @section scripts{
@@ -81,61 +82,54 @@
                  
             </ul> 
             <div class="clear"></div>
-            <ul id="reply-imgs" class="accessory hide task-file upload-files-">
-
-            </ul>
+            <ul id="reply-imgs" class="accessory hide task-file upload-files-"></ul>
             <div class="clear"></div>
         </div>
 
         <div class="talk-title mLeft10">全部备忘</div>
-
-        <table class="content-list" id="replyList">
-            
-        </table>
-
+        <table class="content-list" id="replyList"></table>
         <div class="mTop10" id="pagerReply"></div>
     </div>
     @*日志*@
     <div class="nav-partdiv hide" id="navLog">
-        <div class="log-body" id="customerLog">
-
-        </div>
-        <div id="pagerLogs" class="mTop10">
-
-        </div>
+        <div class="log-body" id="customerLog"></div>
+        <div id="pagerLogs" class="mTop10"></div>
     </div>
     <div class="nav-partdiv hide" id="navOppor">
-        <table class="table-list-order mTop10">
-            <tr class="tr-header">
-                <td colspan="15">
-                    <div class="right mBottom10 searth-module hide  @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" data-text="关键字搜索..." data-width="260"> </div>
-                </td>
-            </tr>
-               
+        <div class="right searth-module" data-text="关键字搜索..." data-width="260"></div>
+        <table class="table-items-detail">
+            <tr class="hide table-header">
+            <td class="tLeft">款式</td>
+            <td>成本</td>
+            <td>客户</td>
+            <td>到期日期</td>
+        </tr>
         </table>         
-        <div id="pagerOppors" class="mTop10"></div>
+        <div id="pagerOppor" class="mTop10"></div>
     </div>
     <div class="nav-partdiv hide" id="navOrder">
-         <table class="table-list-order mTop10">
-             <tr class="tr-header">
-                 <td colspan="15">
-                    <div class="right mBottom10 searth-module hide  @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" data-text="关键字搜索..." data-width="260"> </div>
-                </td>
-             </tr>
-            
-        </table>
-        <div id="pagerOrders" class="mTop10"></div>
+        <div class="right searth-module" data-text="关键字搜索..." data-width="260"></div>
+        <table class="table-items-detail">
+            <tr class="hide table-header">
+            <td class="tLeft">款式</td>
+            <td>成本</td>
+            <td>客户</td>
+            <td>到期日期</td>
+        </tr>
+        </table>         
+        <div id="pagerOrder" class="mTop10"></div>
     </div>
     <div class="nav-partdiv hide" id="navDHOrder">
-         <table class="table-list-order mTop10">
-             <tr class="tr-header">
-                <td colspan="15">
-                    <div class="right mBottom10 searth-module hide  @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))" data-text="关键字搜索..." data-width="260"> </div>
-                </td>
-             </tr>
-             
-         </table>
-         <div id="pagerDHOrders" class="mTop10"></div>
+        <div class="right searth-module" data-text="关键字搜索..." data-width="260"></div>
+        <table class="table-items-detail">
+            <tr class="hide table-header">
+            <td class="tLeft">款式</td>
+            <td>成本</td>
+            <td>客户</td>
+            <td>到期日期</td>
+        </tr>
+        </table>         
+        <div id="pagerDHOrder" class="mTop10"></div>
     </div>
 </div>
 <ul class="dropdown-ul hide" style="width:65px;">
