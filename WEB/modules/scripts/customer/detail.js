@@ -9,12 +9,22 @@
     require("pager");
     require("colormark");
     
+    var Params = {
+        keyWords: "",
+        customerid: "",
+        filterType: 1,
+        ordertype:1,
+        pagesize: 10,
+        pageindex: 1
+    };
     var ObjectJS = {}, CacheIems = [];
-    
+    ObjectJS.isLoading = true;
+    ObjectJS.keyWords = "";
     //初始化
     ObjectJS.init = function (customerid, MDToken, navid) {
         var _self = this;
         _self.guid = customerid;
+        Params.customerid = customerid;
         _self.ColorList = "";
         var replyId = "";
 
@@ -45,10 +55,6 @@
         $("#addContact").hide();       
 
     }
-
-    ObjectJS.isLoading = true;
-
-    ObjectJS.keyWords = "";
 
     //基本信息
     ObjectJS.bindCustomerInfo = function (model) {
@@ -95,6 +101,16 @@
                 $(".dropdown-ul").hide();
             }
         });
+
+        //关键字搜索
+        //require.async("search", function () {
+        //    $(".searth-module").searchKeys(function (keyWords) {
+        //        Params.keyWords = keyWords;
+        //        Params.pageindex = 1;
+        //        _self.getList();
+
+        //    });
+        //});
 
         //编辑客户信息
         $("#updateCustomer").click(function () {
@@ -214,16 +230,13 @@
             if (!ObjectJS.isLoading) {
                 return;
             }           
-
             var _this = $(this);
             _this.siblings().removeClass("hover");
             _this.addClass("hover");
             $(".nav-partdiv").hide();
             $(".task-replys").hide();
             $("#" + _this.data("id")).show();
-
             $("#addContact").hide();
-            $(".searth-module").hide();
 
             if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) { //日志               
                 _this.data("first", "1");
@@ -237,51 +250,31 @@
                     _this.data("first", "1");
                     _self.getContacts(model.CustomerID);
                 }
+            } else if (_this.data("id") == "navOppor") { //需求
+                Params.filterType = 1;
+                if ((!_this.data("first") || _this.data("first") == 0)) {
+                    _this.data("first", "1");
+
+                    Params.keyWords = "";
+                    _self.getList();
+                }
             } else if (_this.data("id") == "navOrder") { //订单
-                $(".searth-module").show();
-                $(".search-ipt,.search-ico").remove();
+                Params.filterType = 2;
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
-                    _self.getOrders(ObjectJS.keyWords,model.CustomerID, 1);
+
+                    Params.keyWords = "";
+                    _self.getList();
                 }
-                //关键字搜索
-                require.async("search", function () {
-                    $(".searth-module").searchKeys(function (keyWords) {                       
-                        _self.getOrders(keyWords, model.CustomerID, 1);
-
-                    });
-                });
-            } else if (_this.data("id") == "navOppor") { //机会
-                $(".searth-module").show();
-                $(".search-ipt,.search-ico").remove();
-                if ((!_this.data("first") || _this.data("first") == 0)) {
-                    _this.data("first", "1");
-                    _self.getOpportunitys(ObjectJS.keyWords, model.CustomerID, 1);
-                }
-                //关键字搜索
-                require.async("search", function () {
-                    $(".searth-module").searchKeys(function (keyWords) {                        
-                        _self.getOpportunitys(keyWords, model.CustomerID, 1);
-
-                    });
-                });
-
             } else if (_this.data("id") == "navDHOrder") { //大货单
-                $(".searth-module").show();
-                $(".search-ipt,.search-ico").remove();
+                Params.filterType = 3;
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
-                    _self.getDHOrders(ObjectJS.keyWords, model.CustomerID, 1);
+
+                    Params.keyWords = "";
+                    _self.getList();
                 }
-                //关键字搜索
-                require.async("search", function () {
-                    $(".searth-module").searchKeys(function (keyWords) {                        
-                        _self.getDHOrders(keyWords,model.CustomerID, 1);
-                       
-                    });
-                });
             }
-            
         });
 
         $("#editContact").click(function () {
@@ -367,171 +360,88 @@
         });
     }
 
-    //获取订单
-    ObjectJS.getOrders = function (keyWords,customerid, page) {
+    //获取订单列表
+    ObjectJS.getList = function () {
         var _self = this;
-        $("#navOrder .tr-header").nextAll().remove();
-        $("#navOrder .tr-header").after("<tr><td colspan='12'><div class='data-loading' ><div></td></tr>");
         ObjectJS.isLoading = false;
-        Global.post("/Orders/GetOrdersByCustomerID", {
-            keyWords:keyWords,
-            customerid: customerid,
-            ordertype: 1,
-            pagesize: 10,
-            pageindex: page
-        }, function (data) {
-            $("#navOrder .tr-header").nextAll().remove();
-            if (data.items.length > 0) {
-                doT.exec("template/orders/customerorders.html", function (template) {
-                    var innerhtml = template(data.items);
-
-                    innerhtml = $(innerhtml);
-
-                    innerhtml.find(".mark").markColor({
-                        isAll: false,
-                        data:_self.ColorList,
-                        onChange: function (obj, callback) {
-                            _self.markOrders(obj.data("id"), obj.data("value"), callback);
-                        }
-                    });
-
-                    $("#navOrder .table-list-order").append(innerhtml);
-                });
+        var targetid = "navOppor";
+        var action = "GetNeedsOrderByCustomerID";
+        if (Params.filterType != 1) {
+            action = "GetOrdersByCustomerID";
+            if (Params.filterType == 3) {
+                Params.ordertype = 2;
+                targetid = "navDHOrder";
             } else {
-                $("#navOrder .tr-header").after("<tr><td colspan='13'><div class='nodata-txt' >暂无订单!<div></td></tr>");
+                Params.ordertype = 1;
+                targetid = "navOrder";
             }
-            $("#pagerOrders").paginate({
-                total_count: data.totalCount,
-                count: data.pageCount,
-                start: page,
-                display: 5,
-                border: true,
-                border_color: '#fff',
-                text_color: '#333',
-                background_color: '#fff',
-                border_hover_color: '#ccc',
-                text_hover_color: '#000',
-                background_hover_color: '#efefef',
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                float: "left",
-                onChange: function (page) {
-                    _self.getOrders(keyWords,customerid, page);
-                }
-            });
+        }
+        
+        var _target = $("#" + targetid + " .table-header")
+        _target.nextAll().remove();
+        _target.after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
+
+        Global.post("/Orders/" + action, Params, function (data) {
             ObjectJS.isLoading = true;
+
+            ObjectJS.bindList(data, _target);
         });
     }
 
-    //获取大货订单
-    ObjectJS.getDHOrders = function (keyWords,customerid, page) {
+    //加载列表
+    ObjectJS.bindList = function (data, _target) {
         var _self = this;
-        $("#navDHOrder .tr-header").nextAll().remove();
-        $("#navDHOrder .tr-header").after("<tr><td colspan='12'><div class='data-loading' ><div></td></tr>");
-        ObjectJS.isLoading = false;
-        Global.post("/Orders/GetOrdersByCustomerID", {
-            keyWords:keyWords,
-            customerid: customerid,
-            ordertype: 2,
-            pagesize: 10,
-            pageindex: page
-        }, function (data) {
-            $("#navDHOrder .tr-header").nextAll().remove();
-            if (data.items.length > 0) {
-                doT.exec("template/orders/customerorders.html", function (template) {
-                    var innerhtml = template(data.items);
+        _target.nextAll().remove();
 
-                    innerhtml = $(innerhtml);
-                    innerhtml.find(".mark").markColor({
-                        isAll: false,
-                        data:_self.ColorList,
-                        onChange: function (obj, callback) {
-                            _self.markOrders(obj.data("id"), obj.data("value"), callback);
-                        }
-                    });
+        if (data.items.length > 0) {
+            doT.exec("template/orders/orders.html", function (template) {
+                var innerhtml = template(data.items);
+                innerhtml = $(innerhtml);
+                _target.after(innerhtml);
 
-                    $("#navDHOrder .tr-header").after(innerhtml);
+                innerhtml.find('.order-progress-item').each(function () {
+                    var _this = $(this);
+                    _this.css({ "width": _this.data('width') });
                 });
-            } else {
-                $("#navDHOrder .tr-header").after("<tr><td colspan='13'><div class='nodata-txt' >暂无订单!<div></td></tr>");
-            }
-            $("#pagerDHOrders").paginate({
-                total_count: data.totalCount,
-                count: data.pageCount,
-                start: page,
-                display: 5,
-                border: true,
-                border_color: '#fff',
-                text_color: '#333',
-                background_color: '#fff',
-                border_hover_color: '#ccc',
-                text_hover_color: '#000',
-                background_hover_color: '#efefef',
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                float: "left",
-                onChange: function (page) {
-                    _self.getDHOrders(keyWords,customerid, page);
-                }
-            });
-            ObjectJS.isLoading = true;
-        });
-    }
-
-    //获取需求
-    ObjectJS.getOpportunitys = function (keyWords,customerid, page) {
-        var _self = this;
-        $("#navOppor .tr-header").nextAll().remove();
-        $("#navOppor .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
-        ObjectJS.isLoading = false;
-        Global.post("/Orders/GetNeedsOrderByCustomerID", {
-            keyWords:keyWords,
-            customerid: customerid,
-            pagesize: 10,
-            pageindex: page
-        }, function (data) {
-            $("#navOppor .tr-header").nextAll().remove();
-            if (data.items.length > 0) {
-                doT.exec("template/orders/customeroppors.html", function (template) {
-                    var innerhtml = template(data.items);
-
-                    innerhtml = $(innerhtml);
-
-                    innerhtml.find(".mark").markColor({
-                        isAll: false,
-                        data:_self.ColorList,
-                        onChange: function (obj, callback) {
-                            _self.markOrders(obj.data("id"), obj.data("value"), callback);
-                        }
-                    });
-                    $("#navOppor .tr-header").after(innerhtml);
+                innerhtml.find('.progress-tip,.top-lump').each(function () {
+                    var _this = $(this);
+                    _this.css({ "left": (_this.parent().width() - _this.width()) / 2 });
                 });
-            } else {
-                $("#navOppor .tr-header").after("<tr><td colspan='11'><div class='nodata-txt' >暂无需求!<div></td></tr>");
-            }
-            $("#pagerOppors").paginate({
-                total_count: data.totalCount,
-                count: data.pageCount,
-                start: page,
-                display: 5,
-                border: true,
-                border_color: '#fff',
-                text_color: '#333',
-                background_color: '#fff',
-                border_hover_color: '#ccc',
-                text_hover_color: '#000',
-                background_hover_color: '#efefef',
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                float: "left",
-                onChange: function (page) {
-                    _self.getOpportunitys(keyWords,customerid, page);
-                }
+                innerhtml.find('.layer-line').css({ width: 0, left: "160px" });
+
+                innerhtml.find(".mark").markColor({
+                    isAll: false,
+                    data: _self.ColorList,
+                    onChange: function (obj, callback) {
+                        _self.markOrders(obj.data("id"), obj.data("value"), callback);
+                    }
+                });
+
             });
-            ObjectJS.isLoading = true;
+        }
+        else {
+            _target.after("<tr><td colspan='11'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+        }
+
+        var pagerid = "pagerOppor";
+        if (Params.filterType == 2) {
+            pagerid = "pagerOrder";
+        } else if (Params.filterType == 3) {
+            pagerid = "pagerDHOrder";
+        }
+        $("#" + pagerid).paginate({
+            total_count: data.totalCount,
+            count: data.pageCount,
+            start: Params.pageindex,
+            display: 5,
+            border: true,
+            rotate: true,
+            images: false,
+            mouse: 'slide',
+            onChange: function (page) {
+                Params.pageindex = page;
+                _self.getList();
+            }
         });
     }
 
