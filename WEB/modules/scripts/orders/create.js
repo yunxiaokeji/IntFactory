@@ -11,6 +11,11 @@
         var _self = this;
         _self.customerid = customerid;
         _self.clientid = clientid;
+
+        if ($(".category-item").length == 1) {
+            $(".category-item").addClass("hover");
+        }
+
         if (categoryitem != null) {
             var categoryitems = JSON.parse(categoryitem.replace(/&quot;/g, '"'));
             ObjectJS.categoryitems = categoryitems;
@@ -40,6 +45,12 @@
             if (!VerifyObject.isPass()) {
                 return false;
             }
+
+            if ($(".category-item.hover").length != 1) {
+                alert("请选择加工品类");
+                return;
+            }
+
             _self.saveModel();
         });
         
@@ -54,11 +65,8 @@
                 dataText: "CategoryName",
                 width: 78,
                 onChange: function (data) {
-
                     ObjectJS.bigCategoryValue = data.value;
-
                     ObjectJS.bindCategory(data);
-
                 }
             });
         });
@@ -70,6 +78,15 @@
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 $(".ico-radiobox").removeClass("hover");
+                _this.addClass("hover");
+            }
+        });
+
+        //切换品类
+        $(".category-item").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                $(".category-item").removeClass("hover");
                 _this.addClass("hover");
             }
         });
@@ -152,14 +169,14 @@
             PersonName: $("#name").val().trim(),
             OrderType: $(".ico-radiobox.hover").data('type'),
             PlanTime: $("#iptCreateTime").val() == null ? "" : $("#iptCreateTime").val(),
-            BigCategoryID: _self.bigCategoryValue.trim(),
+            BigCategoryID: $(".category-item.hover").data("id"),
             CategoryID: _self.categoryValue.trim(),
             CityCode: CityObject.getCityCode(),
             ExpressCode: $("#expressCode").val().trim(),
             Address: $("#address").val().trim(),
             OrderImage: images,
             PlanPrice: $("#planPrice").val().trim(),
-            PlanQuantity: $("#planQuantity").val().trim(),
+            PlanQuantity: 1,
             MobileTele: $("#contactMobile").val().trim(),
             Remark: $("#remark").val().trim()
         };

@@ -34,6 +34,7 @@ namespace YXERP.Controllers
 
         public ActionResult OrderProcess()
         {
+            ViewBag.Categorys = SystemBusiness.BaseBusiness.GetProcessCategorys();
             return View();
         }
 
@@ -211,7 +212,7 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.ProcessID))
             {
-                model.ProcessID = new SystemBusiness().CreateOrderProcess(model.ProcessName, model.ProcessType, model.CategoryType, model.PlanDays, model.IsDefault, CurrentUser.UserID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                model.ProcessID = new SystemBusiness().CreateOrderProcess(model.ProcessName, model.ProcessType, model.CategoryID, model.PlanDays, model.IsDefault, CurrentUser.UserID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
             }
             else
             {
@@ -549,9 +550,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateDepotSeatStatus(string id, int status)
+        public JsonResult UpdateDepotSeatStatus(string id, string wareid, int status)
         {
-            bool bl = new SystemBusiness().UpdateDepotSeatStatus(id, (IntFactoryEnum.EnumStatus)status, CurrentUser.UserID, CurrentUser.ClientID);
+            bool bl = new SystemBusiness().UpdateDepotSeatStatus(id, wareid, (IntFactoryEnum.EnumStatus)status, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("Status", bl);
             return new JsonResult
             {
@@ -562,7 +563,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateDepotSeatSort(string depotid, string wareid, int type)
         {
-            bool bl = new SystemBusiness().UpdateDepotSeatSort(depotid, wareid, type);
+            bool bl = new SystemBusiness().UpdateDepotSeatSort(depotid, wareid, type, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -700,26 +701,14 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrderCategorys()
-        {
-
-            var list = new SystemBusiness().GetOrderCategorys(CurrentUser.ClientID);
-            JsonDictionary.Add("items", list);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
         public JsonResult GetClientOrderCategorys()
         {
-            var list = new ProductsBusiness().GetClientCategorysByPID("", IntFactoryEnum.EnumCategoryType.Order, CurrentUser.ClientID).Where(m => m.Status == 1).ToList();
+            var list = new ProductsBusiness().GetChildCategorysByID("", IntFactoryEnum.EnumCategoryType.Order).Where(m => m.Status == 1).ToList();
             foreach (var item in list)
             {
                 if (item.ChildCategory == null || item.ChildCategory.Count == 0)
                 {
-                    item.ChildCategory = new ProductsBusiness().GetClientCategorysByPID(item.CategoryID, IntFactoryEnum.EnumCategoryType.Order, CurrentUser.ClientID).Where(m => m.Status == 1).ToList();
+                    item.ChildCategory = new ProductsBusiness().GetChildCategorysByID(item.CategoryID, IntFactoryEnum.EnumCategoryType.Order).Where(m => m.Status == 1).ToList();
                 }
             }
             JsonDictionary.Add("items", list);
@@ -729,6 +718,7 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         #endregion
 
         #endregion

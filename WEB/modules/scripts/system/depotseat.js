@@ -241,6 +241,7 @@ define(function (require, exports, module) {
         var _self = this;
         Global.post("/System/UpdateDepotSeatStatus", {
             id: id,
+            wareid: Params.wareid,
             status: status ? 0 : 1
         }, function (data) {
             if (data.result == "10001") {

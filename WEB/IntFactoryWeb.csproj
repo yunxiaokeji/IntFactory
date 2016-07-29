@@ -210,7 +210,6 @@
     <Content Include="modules\css\inquire\common.css" />
     <Content Include="modules\css\inquire\online-pay.css" />
     <Content Include="modules\css\myaccount\feedbacklist.css" />
-    <Content Include="modules\css\order\create.css" />
     <Content Include="modules\css\order\platemakingprocess.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task.css" />
@@ -323,6 +322,7 @@
     <Content Include="modules\plug\colormark\style.css" />
     <Content Include="modules\plug\detaillayer\detaillayer.html" />
     <Content Include="modules\plug\detaillayer\detaillayer.js" />
+    <Content Include="modules\template\orders\order-baseinfo.html" />
     <Content Include="modules\template\products\product-baseinfo.html" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.js" />
@@ -547,7 +547,6 @@
     <Content Include="modules\template\home\index-task.html" />
     <Content Include="modules\template\orders\update_order_totalmoney.html" />
     <Content Include="modules\template\orders\cutoutdoc.html" />
-    <Content Include="modules\template\orders\副本 orders.html" />
     <Content Include="modules\template\organization\staff-detail.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\products\sales-and-attr.html" />
@@ -970,10 +969,7 @@
     <Content Include="modules\template\system\teamuser.html" />
     <Content Include="modules\template\system\teams.html" />
     <Content Include="modules\template\system\warehouse-detail.html" />
-    <Content Include="modules\template\system\ordertype-detail.html" />
-    <Content Include="modules\template\system\ordertypes.html" />
     <Content Include="modules\template\system\team-detail.html" />
-    <Content Include="modules\template\system\opportunitystages.html" />
     <Content Include="Views\Products\ConfirmPurchase.cshtml" />
     <Content Include="Views\Products\Purchases.cshtml" />
     <Content Include="Views\Products\DocDetail.cshtml" />

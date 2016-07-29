@@ -2,12 +2,12 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-<tr class="list-item">
+<tr class="list-item" data-id="{%=item.CategoryID%}">
     <td class=""><a href="/System/OrderStages/{%=item.ProcessID%}"> {%=item.ProcessName%}</a></td>
    <!-- <td class="center">{%=item.PlanDays%}</td>-->
     <td class="center">{%=item.ProcessType==1?"打样":"大货"%}</td>
-    <td class="center">{%= item.CategoryType==1?"梭织":"毛织" %}</td>
-    <td class='center'>{%=(item.Owner ? item.Owner.Name:"--")%}</td>
+    <td class="center">{%= item.CategoryName||"--"%}</td>
+    <td class='center'>{%= item.OwnerName||"--"%}</td>
     <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     <td class="center red">{%=item.IsDefault==1?"默认":""%}</td>
     <td class="center dropdown" data-type="{%=item.IsDefault%}" data-id="{%=item.ProcessID%}">

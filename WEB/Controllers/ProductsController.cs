@@ -360,7 +360,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetChildOrderCategorysByID(string categoryid)
         {
-            var list = new ProductsBusiness().GetClientCategorysByPID(categoryid, EnumCategoryType.Order, CurrentUser.ClientID);
+            var list = new ProductsBusiness().GetChildCategorysByID(categoryid, EnumCategoryType.Order);
             JsonDictionary.Add("Items", list);
             return new JsonResult
             {
@@ -403,7 +403,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetOrderCategoryDetailsByID(string categoryid, string orderid)
         {
-            var model = new ProductsBusiness().GetOrderCategoryDetailsByID(categoryid, orderid);
+            var model = new ProductsBusiness().GetCategoryByID(categoryid);
             JsonDictionary.Add("Model", model);
             return new JsonResult
             {

@@ -141,7 +141,7 @@ namespace YXERP.Controllers
                 return Redirect("/Home/Login");
             }
             ViewBag.Model = model;
-            var list = new ProductsBusiness().GetClientCategorysByPID("", EnumCategoryType.Order, id);
+            var list = new ProductsBusiness().GetChildCategorysByID("", EnumCategoryType.Order);
             ViewBag.Items = list;
             return View();
         }
@@ -968,7 +968,7 @@ namespace YXERP.Controllers
         public JsonResult GetChildOrderCategorysByID(string categoryid, string clientid)
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            var list = new ProductsBusiness().GetClientCategorysByPID(categoryid, EnumCategoryType.Order, clientid);
+            var list = new ProductsBusiness().GetChildCategorysByID(categoryid, EnumCategoryType.Order);
             JsonDictionary.Add("Items", list);
             return new JsonResult
             {
