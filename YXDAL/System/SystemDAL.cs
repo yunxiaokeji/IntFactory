@@ -54,16 +54,6 @@ namespace IntFactoryDAL
             return GetDataSet(sqlText, paras, CommandType.Text, "Stages|Items");
         }
 
-        public DataTable GetOrderCategorys(string clientid)
-        {
-            string sqlText = "select o.* from OrderCategory o join Category c on o.CategoryID=c.CategoryID where c.Status=1 and o.ClientID=@ClientID";
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@ClientID",clientid)
-                                   };
-
-            return GetDataTable(sqlText, paras, CommandType.Text);
-        }
-
         public DataTable GetTeams(string agentid)
         {
             SqlParameter[] paras = { 
@@ -147,21 +137,26 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
         }
 
-        public bool CreateOrderProcess(string id, string name, int type, int categoryType, int days, int isdefault, string ownerid, string userid, string clientid)
+        public bool CreateOrderProcess(string id, string name, int type, string categoryid, int days, int isdefault, string ownerid, string userid, string clientid, out string otherProcessID)
         {
             string sqlText = "P_CreateOrderProcess";
+            otherProcessID = "";
             SqlParameter[] paras = { 
+                                     new SqlParameter("@OtherProcessID",SqlDbType.NVarChar,64),
                                      new SqlParameter("@ProcessID" , id),
                                      new SqlParameter("@ProcessName" , name),
                                      new SqlParameter("@ProcessType" , type),
-                                     new SqlParameter("@CategoryType" , categoryType),
+                                     new SqlParameter("@CategoryID" , categoryid),
                                      new SqlParameter("@PlanDays" , days),
                                      new SqlParameter("@IsDefault" , isdefault),
                                      new SqlParameter("@OwnerID" , ownerid),
                                      new SqlParameter("@UserID" , userid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
-            return ExecuteNonQuery(sqlText, paras, CommandType.StoredProcedure) > 0;
+            paras[0].Direction = ParameterDirection.Output;
+            bool bl = ExecuteNonQuery(sqlText, paras, CommandType.StoredProcedure) > 0;
+            otherProcessID = paras[0].Value.ToString();
+            return bl;
         }
 
         public bool CreateOrderStage(string stageid, string name, int sort, int mark, int hours, string pid, string processid, string userid, string clientid, out int result)
@@ -342,7 +337,6 @@ namespace IntFactoryDAL
             bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
             return bl;
         }
-
 
         public bool UpdateOrderCategory(string categoryid, string pid, int status, string clientid)
         {

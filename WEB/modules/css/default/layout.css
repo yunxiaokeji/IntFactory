@@ -49,7 +49,7 @@ header .companyname:hover { color: #fff; }
 
 /*一级菜单*/
 header .menu { height:50px; margin-left:0px;  }
-header .menu a{  height:50px; line-height:50px;text-align:center; width:70px; display:inline-block; position:relative; margin-right:20px; }
+header .menu a{  height:50px; line-height:50px;text-align:center;  padding-left:10px; display:inline-block; position:relative; margin-right:20px; }
 header .menu .ico{ width:16px; height:16px; margin-top:18px; margin-left:10px; float:left; }
 header .menu .name{ margin-left:5px; color:#BFD2F2; font-size:14px; float:left;}
 header .menu .point { width:6px; height:6px; border-radius:3px; background-color:#f8aa9b; float:left; display:inline-block; margin-top:18px; margin-left:3px; }
@@ -183,6 +183,8 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .table-list tr:not(:first-child):hover { background-color: #f6f6f6; }
 .table-list tr:not(:first-child) td{ padding:5px; line-height:35px; border-bottom:solid 1px #eee; max-width:500px; color:#333; 
                                      white-space:nowrap; overflow: hidden; text-overflow:ellipsis; }
+
+.table-list tr td:first-child{ text-indent:20px;}
 
 .table-list td a{ color:#4a98e7;  vertical-align:middle;}
 .table-list td a:hover{ color:red; text-decoration:underline; }
@@ -397,7 +399,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 /*下拉菜单样式*/
 .dropdown { cursor:pointer; }
 .dropdown-ul { padding:10px 0; border:solid 1px #ccc; border-radius:5px; position:absolute; background-color:#fff; overflow:auto; box-shadow:0 0 5px #999; }
-.dropdown-ul li{ padding:0 20px; height:25px; line-height:25px; cursor:pointer;text-align:center; }
+.dropdown-ul li{ padding:0 20px; height:25px; line-height:25px; cursor:pointer;}
 .dropdown-ul li:hover{  background-color:#eee; color:#318ae4; }
 
 
@@ -452,19 +454,16 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
     font-size:40px;
 }
 
-/*表格样式-带详情*/
+/*表格样式1-带详情*/
 .table-items-detail { width:100%; border-spacing:0px; box-sizing:border-box;}
 .table-items-detail td{ text-align:center; padding:0px 10px; }
 
 .table-items-detail .table-header { background-color:#f1f1f1; height:35px; }
 .table-items-detail .table-header td{ border-top:solid 1px #ddd;  border-bottom:solid 1px #ddd; color:#333; }
-/*.table-items-detail .table-header td:first-child{ border-left:solid 1px #ddd;}
-.table-items-detail .table-header td:last-child{ border-right:solid 1px #ddd;}*/
 
 .table-items-detail .item-header { background-color:#f1f1f1; height:40px; }
 .table-items-detail .item-header td{ border-top:solid 1px #ddd;  border-bottom:solid 1px #ddd; color:#333; }
-/*.table-items-detail .item-header td:first-child{ border-left:solid 1px #ddd;}
-.table-items-detail .item-header td:last-child{ border-right:solid 1px #ddd;}*/
+
 
 .table-items-detail .item { height:50px;}
 .table-items-detail .item.last td {  border-bottom:solid 1px #ddd; }

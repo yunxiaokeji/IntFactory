@@ -31,7 +31,7 @@
         <li data-id="2" class="item">已超期</li>
     </ul>
 </div>
-<div class="content-body pBottom50">
+<div class="content-body">
     <div class="search-body left">
         <ul class="search-item search-entrustclientid" style="margin-top:0;">
             <li class="column-name">分类：</li>
@@ -92,15 +92,18 @@
             </li>
         </ul>
     </div>
+</div>
+<div class="mLeft20 mRight20">
     <table class="table-items-detail">
         <tr class="hide table-header">
-            <td class="tLeft">款式</td>
+            <td class="tLeft bLeft">款式</td>
             <td>成本</td>
             <td>客户</td>
-            <td>到期日期</td>
+            <td class="bRight">到期日期</td>
         </tr>
     </table>
-    <ul class="batch-operate mTop20 left">
+    <div style="background-color:#fff;margin-top:20px;">
+    <ul class="batch-operate mTop10 mBottom20 left">
         <li class="width100">
             <span class="ico-check pLeft5 mTop5" id="checkAll">批量操作</span>
         </li>
@@ -108,7 +111,9 @@
             <a href="javascript:void(0);" class="btn @(ExpandClass.IsLimits(HttpContext.Current,"102019004"))" id="batchChangeOwner">更换负责人</a>
         </li>
     </ul>
-    <div id="pager" class="mTop20"></div>
+    <div id="pager" class="mTop10"></div>
+    <div class="clear"></div>
+    </div>
 </div>
 <div class="order-layer">
     <div class="layer-header">

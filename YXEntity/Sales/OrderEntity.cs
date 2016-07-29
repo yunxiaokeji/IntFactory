@@ -268,6 +268,8 @@ namespace IntFactoryEntity
 
         public int UseDays { get; set; }
 
+        public string ProcessCategoryName { get; set; }
+
         public string CategoryName { get; set; }
 
         public int TurnTimes { get; set; }

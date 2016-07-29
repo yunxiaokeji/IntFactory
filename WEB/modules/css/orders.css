@@ -1,12 +1,10 @@
 ﻿
-.table-items-detail .orderitem { height:140px; }
-.table-items-detail .orderitem td{ border-bottom:solid 1px #ddd; }
+.table-items-detail .orderitem { height:140px;background-color:#fff; }
+.table-items-detail .orderitem td{ border-bottom:solid 1px #ddd;}
 
 .table-items-detail .order-goodscode { width:300px; float:left; margin-left:10px; font-weight:bold; display:inline-block; height:25px; line-height:25px; text-align:left; }
 .table-items-detail .view-detail { color:#666; font-size:20px; cursor:pointer; }
-
 .table-items-detail .order-image{ width:120px; }
-.table-items-detail .order-image a { }
 .table-items-detail .order-image img{ max-width:120px; max-height:120px; vertical-align:middle; }
 
 .table-items-detail .order-costinfo { padding-left:20px; }
@@ -207,3 +205,4 @@
 .center-range li input { width:50px;margin:0 5px;}
 .center-range li div:last-child span{ color:#777;cursor:pointer;display:block;float:left;}
 .center-range li div:last-child span:hover{color:#4a98e7;}
+

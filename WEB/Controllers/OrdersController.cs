@@ -85,9 +85,9 @@ namespace YXERP.Controllers
 
         public ActionResult Create(string cid)
         {
-            var list = new ProductsBusiness().GetClientCategorysByPID("", EnumCategoryType.Order, CurrentUser.ClientID);
             ViewBag.CID = cid;
-            ViewBag.Items = list;
+            ViewBag.Items = ProductsBusiness.BaseBusiness.GetChildCategorysByID("", EnumCategoryType.Order);
+            ViewBag.Categorys = ProductsBusiness.BaseBusiness.GetClientProcessCategorys(CurrentUser.ClientID);
             return View();
         }
 

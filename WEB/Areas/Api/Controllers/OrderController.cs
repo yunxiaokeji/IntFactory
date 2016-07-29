@@ -91,7 +91,7 @@ namespace YXERP.Areas.Api.Controllers
             }
             obj.Add("plateMakings", plates);
             //订单品类
-            var category = new ProductsBusiness().GetOrderCategoryDetailsByID(item.CategoryID, item.OrderID);
+            var category = new ProductsBusiness().GetCategoryByID(item.CategoryID);
             var attrLists = new List<Dictionary<string, object>>();
             var saleAttrs = new List<Dictionary<string, object>>();
             foreach (var attr in category.AttrLists) {

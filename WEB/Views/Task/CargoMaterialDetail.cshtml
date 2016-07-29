@@ -32,20 +32,19 @@
                 if (isRoot)
                 {
                     <td class="center tr-price"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Price.ToString("f2"))" class="price width50" value="@(detail.Price.ToString("f2"))" /></td>
-                    <td class="center tr-quantity">@((detail.Quantity*order.PlanQuantity).ToString("f3"))</td>
-                    <td class="center tr-loss">@((detail.LossRate*(detail.Quantity*order.PlanQuantity)).ToString("f3"))</td>
-                    <td class="center tr-lossrate"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.LossRate.ToString("f3"))" class="loss-rate width50" value="@(detail.LossRate.ToString("f3"))" /></td>
+                    <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Price.ToString("f2"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" /></td>
+                    <td class="center tr-loss"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Loss.ToString("f3"))" class="loss width50" value="@((detail.Loss).ToString("f3"))" /></td>
+                    <td class="center tr-lossrate">@(detail.LossRate.ToString("f3"))</td>
                 }
                 else
                 {
                     <td class="tr-price center"><label class="price">@(detail.Price.ToString("f2"))</label></td>
-                    <td class="center tr-quantity">@((detail.Quantity*order.PlanQuantity).ToString("f3"))</td>
-                    <td class="center tr-loss">@((detail.LossRate*(detail.Quantity*order.PlanQuantity)).ToString("f3"))</td>
+                    <td class="center tr-quantity">@((detail.Quantity).ToString("f3"))</td>
+                    <td class="center tr-loss">@(detail.Loss.ToString("f3"))</td>
                     <td class="center tr-lossrate">@(detail.LossRate.ToString("f3"))</td>                   
                 }
-                    <td class="center amount-count">@(((detail.Quantity*order.PlanQuantity)+(detail.LossRate*(detail.Quantity*order.PlanQuantity))).ToString("f3"))</td>
-                    /*小计=(单价*消耗量)+(单价*损耗量)*/
-                    <td class="tRight amount">@(((detail.Price*detail.Quantity*order.PlanQuantity)+(detail.LossRate*(detail.Quantity*order.PlanQuantity)*detail.Price)).ToString("f3"))</td>   
+                    <td class="center amount-count">@((detail.Quantity+detail.Loss))</td>
+                    <td class="tRight amount">@(((detail.Quantity+detail.Loss)*detail.Price).ToString("f3"))</td>   
                 }
               </tr>
             }
@@ -62,7 +61,7 @@
       if (isRoot)
         {
             <a href="javascript:void(0);"  id="btnEffectiveOrderProduct" class="btn right mTop10 mRight10">生成采购单</a>
-            <div id="btnChooseProduct" class="btn-add right mTop10 mRight10">快捷添加材料</div> 
+            <div id="btnChooseProduct" class="btn-add right mTop10 mRight10">快捷选择材料</div> 
             <a href="/Orders/ChooseMaterial?id=@(order.OrderID)&tid=@(task.TaskID)" id="btn-addMaterial"  class="right font14 hRed mRight10" style="margin-top:15px;">选择材料</a>                                                     
         }
     }

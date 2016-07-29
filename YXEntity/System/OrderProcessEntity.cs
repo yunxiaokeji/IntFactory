@@ -110,6 +110,12 @@ namespace IntFactoryEntity
 
         public Users Owner { get; set; }
 
+        public string OwnerName { get; set; }
+
+        public string CategoryID { get; set; }
+
+        public string CategoryName { get; set; }
+
         public List<OrderStageEntity> OrderStages { get; set; }
 
         public void FillData(System.Data.DataRow dr)
