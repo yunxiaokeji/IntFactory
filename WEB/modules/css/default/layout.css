@@ -131,7 +131,6 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .search-header .search-tab-status li:hover{ background-color:#ccc; color:#fff;}
 .search-header .search-tab-status li.hover{ background-color:#4a98e7; color:#fff;}
 
-
 .content-body{ overflow:auto; background-color:#fff; clear:both; margin:0 20px; padding:10px 0; box-shadow:0px 10px 10px #ddd; }
 
 .content-items{ overflow:auto; clear:both; margin:0 20px; }
@@ -184,7 +183,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .table-list tr:not(:first-child) td{ padding:5px; line-height:35px; border-bottom:solid 1px #eee; max-width:500px; color:#333; 
                                      white-space:nowrap; overflow: hidden; text-overflow:ellipsis; }
 
-.table-list tr td:first-child{ text-indent:20px;}
+.table-list tr td:first-child{ text-indent:12px;}
 
 .table-list td a{ color:#4a98e7;  vertical-align:middle;}
 .table-list td a:hover{ color:red; text-decoration:underline; }
