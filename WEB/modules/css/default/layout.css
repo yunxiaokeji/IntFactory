@@ -452,7 +452,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
     font-size:40px;
 }
 
-/*表格样式-带详情*/
+/*表格样式1-带详情*/
 .table-items-detail { width:100%; border-spacing:0px; box-sizing:border-box;}
 .table-items-detail td{ text-align:center; padding:0px 10px; }
 
@@ -479,3 +479,20 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .table-items-detail a { color:#333; }
 .table-items-detail a:hover { color:red; }
 .table-items-detail td img { max-width:120px;max-height:120px;}
+
+
+/**/
+.table-items-detail .object-item{ height:140px;background-color:#fff; }
+.table-items-detail .object-item td{ border-bottom:solid 1px #ddd;}
+
+.table-items-detail .object-image{ width:120px; }
+.table-items-detail .object-image img{ max-width:120px; max-height:120px; vertical-align:middle; }
+
+.table-items-detail .object-costinfo { padding-left:20px; }
+.table-items-detail .object-costinfo div{ height:35px; line-height:35px; color:#333; }
+.table-items-detail .object-costinfo .column-title { display:inline-block; height:35px; line-height:35px; width:80px; color:#666; }
+
+.table-items-detail .object-customer { width: 270px; padding-left:10px; border-left:solid 1px #ddd;}
+.table-items-detail .object-customer div{ height:45px; line-height:45px; color:#333; }
+.table-items-detail .object-customer a,.table-items-detail .order-customer span{ display:inline-block; height:45px; line-height:45px; float:left;}
+.table-items-detail .object-customer .column-title { width:60px; margin-left:5px;}

@@ -398,7 +398,7 @@
 
 
 /*任务列表样式*/
-.table-items-detail .taskitem { height:140px; }
+.table-items-detail .taskitem { height:140px;background-color:#fff;}
 .table-items-detail .taskitem td{ border-bottom:solid 1px #ddd; }
 .table-items-detail .order-image{ width:120px; }
 .table-items-detail .order-image img{ max-width:120px; max-height:120px; vertical-align:middle; }

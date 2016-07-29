@@ -3,11 +3,13 @@
 	var item = $data[i];
     var totalDay=(item.UseDays==0?1:item.UseDays)+(item.WarningDays==0?1:item.WarningDays);    
 %}
+
     <tr class="line-item">
-        <td colspan="10"></td>
+        <td colspan="10">
+        </td>
     </tr>
     <tr class="item-header">
-        <td colspan="2">
+        <td colspan="2" class="bLeft">
             <span data-id="{%=item.OrderID%}" data-userid="{%=item.OwnerID%}" class="iconfont checkbox left mTop3"></span>
             
             <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="order-goodscode long" title='{%=(item.GoodsName + item.IntGoodsCode)?(item.GoodsName+ " " + item.IntGoodsCode): item.OrderCode%}'>
@@ -30,17 +32,17 @@
         <td class="width300 tLeft bold">
             负责人：{%=(item.Owner ? item.Owner.Name:"--")%}
         </td>
-        <td class="bold">
+        <td class="bold bRight">
             下单日期：{%=item.CreateTime.toDate("yyyy-MM-dd")%}
         </td>
     </tr>
-    <tr class="item orderitem">
-        <td class="order-image">
+    <tr class="item object-item">
+        <td class="object-image bLeft">
             <a href="/Orders/OrderDetail/{%=item.OrderID%}" >
                 <img src="{%= item.OrderImage||'/modules/images/img-noimg.png' %}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" />
             </a> 
         </td>  
-        <td class="order-costinfo tLeft">
+        <td class="object-costinfo tLeft">
             <div>
                 {% if(item.OrderStatus==0){ %}
                     <span class="column-title">期望报价：</span>
@@ -76,7 +78,7 @@
                 <span style="color:#49b3f5;">{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</span>
             </div>
         </td>
-        <td class="order-customer tLeft">
+        <td class="object-customer tLeft">
            <div class="mTop5">
                 <span class="iconfont left">&#xe601;</span><span class="column-title">客户：</span>
                 {% if(item.CustomerID != ""){%}
@@ -94,7 +96,7 @@
                 {%=item.MobileTele||"--"%}
             </div>     
         </td>   
-        <td class="order-time">
+        <td class="order-time bRight">
             {% if(item.OrderStatus==0){ %}
                 <div class="mTop10 left">
                     <div class="order-progress left">                    
