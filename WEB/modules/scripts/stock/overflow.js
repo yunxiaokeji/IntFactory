@@ -141,7 +141,15 @@ define(function (require, exports, module) {
         });
         //删除
         $("#delete").click(function () {
-            location.href = "/Stock/OverflowDetail/" + _self.docid;
+            confirm("报溢单删除后不可恢复,确认删除吗？", function () {
+                Global.post("/Stock/DeleteOverflowDoc", { docid: _self.docid }, function (data) {
+                    if (data.status) {
+                        location.href = "/Stock/Overflow";
+                    } else {
+                        alert("删除失败！");
+                    }
+                });
+            });
         });
 
     }
