@@ -193,7 +193,7 @@
 
     Objects.processPlate = function (orderid, OriginalID, ordertype) {        
         Global.post("/Task/GetPlateMakings", {
-            orderID: orderid
+            orderID: ordertype == 1 ? orderid : OriginalID
         }, function (data) {
             if (data.items.length > 0) {
                 doT.exec("template/orders/processplate.html", function (template) {

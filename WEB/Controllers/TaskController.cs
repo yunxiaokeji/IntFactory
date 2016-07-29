@@ -308,16 +308,28 @@ namespace YXERP.Controllers
             };
         }
 
+        //获取任务详情
+        public JsonResult GetTaskDetail(string id) {
+            var item = TaskBusiness.GetTaskDetail(id);
+            JsonDictionary.Add("item", item);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         //获取任务讨论
         public JsonResult GetReplys(string guid, string stageID, int pageSize, int pageIndex)
         {
             int pageCount = 0;
             int totalCount = 0;
-
             var list = TaskBusiness.GetTaskReplys(guid, stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
+
             return new JsonResult
             {
                 Data = JsonDictionary,

@@ -323,6 +323,7 @@
     <Content Include="modules\plug\colormark\style.css" />
     <Content Include="modules\plug\detaillayer\detaillayer.html" />
     <Content Include="modules\plug\detaillayer\detaillayer.js" />
+    <Content Include="modules\template\orders\order-baseinfo.html" />
     <Content Include="modules\template\products\product-baseinfo.html" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.js" />
@@ -547,7 +548,6 @@
     <Content Include="modules\template\home\index-task.html" />
     <Content Include="modules\template\orders\update_order_totalmoney.html" />
     <Content Include="modules\template\orders\cutoutdoc.html" />
-    <Content Include="modules\template\orders\副本 orders.html" />
     <Content Include="modules\template\organization\staff-detail.html" />
     <Content Include="modules\template\products\uselogs.html" />
     <Content Include="modules\template\products\sales-and-attr.html" />
