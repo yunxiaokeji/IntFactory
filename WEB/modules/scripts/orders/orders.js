@@ -530,7 +530,7 @@
 
         $("#checkAll").addClass("ico-check").removeClass("ico-checked");
         $(".table-header").nextAll().remove();
-        $(".table-header").after("<tr><td colspan='11'><div class='data-loading'><div></td></tr>");
+        $(".table-header").after("<tr><td colspan='11' style='padding:0;'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Orders/GetOrders", { filter: JSON.stringify(Params) }, function (data) {
             _self.bindList(data);
@@ -587,7 +587,7 @@
         }
         else
         {
-            $(".table-header").after("<tr><td colspan='11'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+            $(".table-header").after("<tr><td colspan='11' style='padding:0;'><div class='nodata-txt' >暂无数据!<div></td></tr>");
         }
 
         //加载完成
