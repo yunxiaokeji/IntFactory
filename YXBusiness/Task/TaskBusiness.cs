@@ -323,7 +323,7 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        public bool UpdateTaskColorMark(string taskid, int mark, string operateid, string ip, string agentid, string clientid)
+        public static bool UpdateTaskColorMark(string taskid, int mark, string operateid, string ip, string agentid, string clientid)
         {
             bool bl = CommonBusiness.Update("OrderTask", "ColorMark", mark, "TaskID='" + taskid + "'");
             if (bl)

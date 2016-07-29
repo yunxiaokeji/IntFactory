@@ -116,7 +116,6 @@
                     }
                 }
                  <li>
-                    
                 @{
                     if (!taskModel.IsTaskOwner)
                     {
@@ -249,6 +248,11 @@
                  <li data-btn="addOtherCost" data-id="navCosts" class="default-check">加工成本</li>
             }
            
+        }
+        @{
+            if(order.OrderType==2){
+            <li data-id="navGoods">下单明细</li>
+            }
         }
         <li data-id="orderTaskLogs">日志</li>
     </ul>

@@ -20,7 +20,7 @@
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn?1:0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")');
+                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn ? 1 : 0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")');
             });
         });
     </script>
@@ -38,7 +38,7 @@
                 Html.RenderPartial("MaterialDetail", taskModel);
             }
             else if (task.Mark == 21)
-            {   
+            {
                 //大货材料
                 Html.RenderPartial("CargoMaterialDetail", taskModel);
             }
@@ -48,7 +48,7 @@
                 Html.RenderPartial("PlateDetail", taskModel);
             }
             else if (task.Mark == 22)
-            {   
+            {
                 //大货制版
                 Html.RenderPartial("PlateDetail", taskModel);
             }
@@ -73,12 +73,60 @@
                 Html.RenderPartial("SewnDoc");
             }
             //加工成本
-            if(task.Mark==16)
+            if (task.Mark == 16)
             {
                 Html.RenderPartial("ProcessCostDoc");
             }
         }
-        
+        @{
+            if (order.OrderType == 2)
+            {
+                <div id="navGoods" class="nav-partdiv hide">
+                    <table class="table-list mTop20">
+                        <tr class="tr-header">
+                            <td class="tLeft width200">规格</td>
+                            <td class="width200">下单数量</td>
+                            <td class="width200">裁片/织片数量</td>
+                            <td class="width200">缝制/套口数量</td>
+                            <td class="width200">发货数量</td>
+                            <td class="width200">剩余未发</td>
+                            <td class="">单价</td>
+                            <td class="tRight">小计</td>
+                        </tr>
+                        @if (order.OrderGoods.Count > 0)
+                        {
+                            foreach (var detail in order.OrderGoods)
+                            { 
+                            <tr class="item cart-item" >
+                                <td>@(detail.Remark)</td>
+                                <td class="center good1">@(detail.Quantity)</td>
+                                <td class="center good2">@(detail.CutQuantity)</td>
+                                <td class="center good3">@(detail.Complete)</td>
+                                <td class="center good4">@(detail.SendQuantity)</td>
+                                <td class="center good5">@(detail.Complete - detail.SendQuantity)</td>
+                                <td class="center">@(order.FinalPrice.ToString("f2"))</td>
+                                <td class="tRight good6">@((detail.TotalMoney).ToString("f2"))</td>
+                            </tr>                
+                            }
+                            <tr class="total-item bold" >
+                                <td class="">合计：</td>
+                                <td class="center" data-class="good1"></td>
+                                <td class="center" data-class="good2"></td>
+                                <td class="center" data-class="good3"></td>
+                                <td class="center" data-class="good4"></td>
+                                <td class="center" data-class="good5"></td>
+                                <td class="center"></td>
+                                <td class="tRight" data-class="good6"></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr><td colspan="7"><div class="nodata-txt">暂无明细</div></td></tr>
+                        }
+                    </table>
+                </div>
+            }
+        }
         <div id="orderTaskLogs" class="mTop15 hide">
             <div class="log-body" id="taskLogList"></div>
             <div id="pagerLogs" class="mTop10"></div>
