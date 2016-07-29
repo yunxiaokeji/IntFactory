@@ -557,15 +557,7 @@
                     }
                     return false;
                 });
-
-                innerhtml.find(".mark").markColor({
-                    isAll: false,
-                    data: _self.ColorList,
-                    onChange: function (obj, callback) {
-                        _self.markOrders(obj.data("id"), obj.data("value"), callback);
-                    }
-                });
-
+                $(".table-header").after(innerhtml);
                 innerhtml.find(".view-detail").click(function () {
                     _self.getDetail($(this).data("id"), $(this).data('code'));
                     $('.object-item').removeClass('looking-view');
@@ -583,7 +575,14 @@
                 });
                 innerhtml.find('.layer-line').css({ width: 0, left: "160px" });
 
-                $(".table-header").after(innerhtml);
+                innerhtml.find(".mark").markColor({
+                    isAll: false,
+                    data: _self.ColorList,
+                    onChange: function (obj, callback) {
+                        _self.markOrders(obj.data("id"), obj.data("value"), callback);
+                    }
+                });
+
             });
         }
         else

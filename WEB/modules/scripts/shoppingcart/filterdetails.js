@@ -123,7 +123,6 @@ define(function (require, exports, module) {
                 }
 
                 for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
-
                     var bl = true, vales = model.ProductDetails[i].ProductDetailID, unitid = model.ProductDetails[i].UnitID;
                     $(".salesattr li.hover").each(function () {
                         if (vales.indexOf($(this).data("id")) < 0) {
