@@ -210,7 +210,6 @@
     <Content Include="modules\css\inquire\common.css" />
     <Content Include="modules\css\inquire\online-pay.css" />
     <Content Include="modules\css\myaccount\feedbacklist.css" />
-    <Content Include="modules\css\order\create.css" />
     <Content Include="modules\css\order\platemakingprocess.css" />
     <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task.css" />
@@ -970,10 +969,7 @@
     <Content Include="modules\template\system\teamuser.html" />
     <Content Include="modules\template\system\teams.html" />
     <Content Include="modules\template\system\warehouse-detail.html" />
-    <Content Include="modules\template\system\ordertype-detail.html" />
-    <Content Include="modules\template\system\ordertypes.html" />
     <Content Include="modules\template\system\team-detail.html" />
-    <Content Include="modules\template\system\opportunitystages.html" />
     <Content Include="Views\Products\ConfirmPurchase.cshtml" />
     <Content Include="Views\Products\Purchases.cshtml" />
     <Content Include="Views\Products\DocDetail.cshtml" />

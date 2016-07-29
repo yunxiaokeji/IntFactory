@@ -1,5 +1,6 @@
 ﻿@{
-    ViewBag.Title = "阶段流程管理";
+    ViewBag.Title = "流程管理";
+    var list = (List<IntFactoryEntity.ProcessCategoryEntity>)ViewBag.Categorys;
 }
 <style>
     .process-items ul{ float:left;}
@@ -8,30 +9,39 @@
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/system/orderprocess"], function (obj) {
-            obj.init();
+            obj.init('@Html.ToJSONString(list)');
         });
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">阶段流程管理</span>
-    <div class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"108020801"))" id="createModel">新建阶段流程</div>
+    <span class="header-title left">流程管理</span>
+    <div class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"108020801"))" id="createModel">新建流程</div>
 </div>
 <div class="search-box">
     <div class="search-header">
-        <ul class="search-tab search-status">
-            <li data-id="-1" class="hover">全部</li>
-            <li data-id="1" class="">打样流程</li>
+        <ul class="search-tab search-type">
+            <li data-id="1" class="hover">打样流程</li>
             <li data-id="2" class="">大货流程</li>
         </ul>
     </div>
 </div>
-<div class="content-body">
+<div class="content-body" style="padding-bottom:50px;">
+    <div class="search-body mTop10">
+        <ul class="search-item search-category">
+            <li class="column-name">品类：</li>
+            <li class="item hover" data-id="">全部</li>
+            @foreach (var item in list)
+            {
+                 <li class="item" data-id="@(item.CategoryID)">@(item.Name)</li>
+            }
+        </ul>
+    </div>
     <table class="table-list">
         <tr class="tr-header">
             <td class="tLeft">名称</td>
             @*<td class="">周期（天）</td>*@
             <td class="width150">订单阶段</td>
-            <td class="width100">类型</td>
+            <td class="width100">品类</td>
             <td class="width150">负责人</td>
             <td class="width150">创建时间</td>
             <td class="width100"></td>
@@ -42,9 +52,8 @@
 <ul class="dropdown-ul hide"  style="width:105px;">
     <li class="" id="updateOwner">更换负责人</li>
     <li class="" id="updateDefault">设为默认</li>
-    <li class="" id="setStages">配置流程</li>
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020101"))" id="updateObject">编辑</li>
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020102"))" id="deleteObject">删除</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current, "108020801"))" id="updateObject">编辑</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020802"))" id="deleteObject">删除</li>
 </ul>
 
 

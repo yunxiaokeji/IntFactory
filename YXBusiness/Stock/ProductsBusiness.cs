@@ -533,26 +533,21 @@ namespace IntFactoryBusiness
             return null;
         }
 
-        public List<Category> GetClientCategorysByPID(string categoryid, EnumCategoryType type, string clientid)
+        public List<ProcessCategory> GetClientProcessCategorys(string clientid)
         {
             var dal = new ProductsDAL();
-            DataTable dt = dal.GetClientCategorysByPID(categoryid, (int)type, clientid);
+            DataTable dt = dal.GetClientProcessCategorys(clientid);
 
-            List<Category> list = new List<Category>();
+            List<ProcessCategory> list = new List<ProcessCategory>();
 
             foreach (DataRow dr in dt.Rows)
             {
-                Category model = new Category();
+                ProcessCategory model = new ProcessCategory();
                 model.FillData(dr);
                 list.Add(model);
 
             }
             return list;
-        }
-
-        public Category GetOrderCategoryDetailsByID(string categoryid, string orderid)
-        {
-            return GetCategoryByID(categoryid);
         }
 
         public string AddCategory(string categoryCode, string categoryName, string pid, int type, int status, List<string> attrlist, List<string> saleattr, string description, string operateid)

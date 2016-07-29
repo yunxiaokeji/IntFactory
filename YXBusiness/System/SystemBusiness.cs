@@ -248,7 +248,8 @@ namespace IntFactoryBusiness
             {
                 OrderProcessEntity model = new OrderProcessEntity();
                 model.FillData(dr);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, agentid);
+                model.OwnerName = OrganizationBusiness.GetUserByUserID(model.OwnerID, agentid).Name;
+                model.CategoryName = GetProcessCategoryByID(model.CategoryID).Name;
                 list.Add(model);
             }
             OrderProcess.Add(clientid, list);
@@ -268,11 +269,11 @@ namespace IntFactoryBusiness
             DataTable dt = SystemDAL.BaseProvider.GetOrderProcessByID(processid);
             if (dt.Rows.Count > 0)
             {
-                
                 model.FillData(dt.Rows[0]);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, agentid);
+                model.OwnerName = OrganizationBusiness.GetUserByUserID(model.OwnerID, agentid).Name;
+                model.CategoryName = GetProcessCategoryByID(model.CategoryID).Name;
 
-                OrderProcess[clientid].Add(model);
+                list.Add(model);
             }
             return model;
         }
@@ -337,21 +338,6 @@ namespace IntFactoryBusiness
             }
 
             return model;
-        }
-
-        public List<OrderCategory> GetOrderCategorys(string clientid)
-        {
-            List<OrderCategory> list = new List<OrderCategory>();
-
-            DataTable dt = SystemDAL.BaseProvider.GetOrderCategorys(clientid);
-            foreach (DataRow dr in dt.Rows)
-            {
-                var model = new OrderCategory();
-                model.FillData(dr);
-                list.Add(model);
-            }
-
-            return list;
         }
 
         public List<TeamEntity> GetTeams(string agentid)
@@ -505,22 +491,24 @@ namespace IntFactoryBusiness
                 {
                     model.StageItem = new List<StageItemEntity>();
                 }
-                model.StageItem.Add(new StageItemEntity()
+                else if (model.StageItem.Where(m => m.ItemID.ToLower() == itemid).Count() == 0)
                 {
-                    ItemID = itemid,
-                    ItemName = name,
-                    StageID = stageid,
-                    ClientID = clientid,
-                    CreateTime = DateTime.Now
-                });
+                    model.StageItem.Add(new StageItemEntity()
+                    {
+                        ItemID = itemid,
+                        ItemName = name,
+                        StageID = stageid,
+                        ClientID = clientid,
+                        CreateTime = DateTime.Now
+                    });
+                }
 
                 return itemid;
             }
             return "";
         }
 
-        public int CreateLableColor(string colorName, string colorValue, 
-            string agentid, string clientid, string userid,
+        public int CreateLableColor(string colorName, string colorValue, string agentid, string clientid, string userid,
             int status = 0, EnumMarkType lableType = EnumMarkType.Customer)
         {
             string procName = "P_InsertCustomerColor";
@@ -532,89 +520,55 @@ namespace IntFactoryBusiness
             {
                 procName = "P_InsertTaskColor";
             }
-            int result = LableColorDAL.BaseProvider.InsertLableColor(procName, colorName, colorValue, agentid,
-                clientid, userid, status);
+            int result = LableColorDAL.BaseProvider.InsertLableColor(procName, colorName, colorValue, agentid, clientid, userid, status);
             if (result > 0)
             {
-                if (!CustomColor.ContainsKey(clientid))
+                var list = GetLableColor(clientid, lableType);
+                if (list.Where(m => m.ColorID == result).Count() == 0)
                 {
-                    GetLableColor(clientid,lableType);
-                }               
-                else
-                {
-                    if (lableType == EnumMarkType.Customer)
+                    list.Add(new LableColorEntity()
                     {
-                        CustomColor[clientid].Add(new LableColorEntity()
-                        {
-                            AgentID = agentid,
-                            ColorID = result,
-                            ColorValue = colorValue,
-                            ColorName = colorName,
-                            ClientID = clientid,
-                            CreateUserID = userid,
-                            CreateTime = DateTime.Now,
-                            Status = 0
-                        });
-                    }
-                    else if (lableType == EnumMarkType.Orders)
-                    {
-                        OrderColor[clientid].Add(new LableColorEntity()
-                        {
-                            AgentID = agentid,
-                            ColorID = result,
-                            ColorValue = colorValue,
-                            ColorName = colorName,
-                            ClientID = clientid,
-                            CreateUserID = userid,
-                            CreateTime = DateTime.Now,
-                            Status = 0
-                        });
-                    }
-                    else if (lableType == EnumMarkType.Tasks)
-                    {
-                        TaskColor[clientid].Add(new LableColorEntity()
-                        {
-                            AgentID = agentid,
-                            ColorID = result,
-                            ColorValue = colorValue,
-                            ColorName = colorName,
-                            ClientID = clientid,
-                            CreateUserID = userid,
-                            CreateTime = DateTime.Now,
-                            Status = 0
-                        });
-                    }                    
+                        AgentID = agentid,
+                        ColorID = result,
+                        ColorValue = colorValue,
+                        ColorName = colorName,
+                        ClientID = clientid,
+                        CreateUserID = userid,
+                        CreateTime = DateTime.Now,
+                        Status = 0
+                    });
                 }
             }
             return result;
         }
 
-        public string CreateOrderProcess(string name, int type, int categoryType, int days, int isdefault, string ownerid, string userid, string agentid, string clientid)
+        public string CreateOrderProcess(string name, int type, string categoryid, int days, int isdefault, string ownerid, string userid, string agentid, string clientid)
         {
             string id = Guid.NewGuid().ToString().ToLower();
-            bool bl = SystemDAL.BaseProvider.CreateOrderProcess(id, name, type, categoryType, days, isdefault, ownerid, userid, clientid);
+            string otherProcessID = "";
+            bool bl = SystemDAL.BaseProvider.CreateOrderProcess(id, name, type, categoryid, days, isdefault, ownerid, userid, clientid, out otherProcessID);
             if (bl)
             {
-                if(!OrderProcess.ContainsKey(clientid))
+                if (!OrderProcess.ContainsKey(clientid))
                 {
                     GetOrderProcess(agentid, clientid);
                 }
-                OrderProcess[clientid].Add(
-                    new OrderProcessEntity()
+                var model = GetOrderProcessByID(id, agentid, clientid);
+                if (OrderProcess[clientid].Where(m => m.ProcessID.ToLower() == id).Count() == 0)
+                {
+                    OrderProcess[clientid].Add(model);
+                }
+                
+                if (!string.IsNullOrEmpty(otherProcessID))
+                {
+                    var oModel = GetOrderProcessByID(otherProcessID, agentid, clientid);
+
+                    if (OrderProcess[clientid].Where(m => m.ProcessID.ToLower() == otherProcessID.ToLower()).Count() == 0)
                     {
-                        ProcessID = id,
-                        ProcessName = name,
-                        ProcessType = type,
-                        CategoryType = categoryType,
-                        PlanDays = days,
-                        CreateTime = DateTime.Now,
-                        OwnerID = ownerid,
-                        Owner = OrganizationBusiness.GetUserByUserID(ownerid, agentid),
-                        IsDefault = 0,
-                        Status = 1,
-                        ClientID = clientid
+                        OrderProcess[clientid].Add(oModel);
                     }
-                );
+                }
+                
                 return id;
             }
             return "";
@@ -631,30 +585,33 @@ namespace IntFactoryBusiness
                 {
                     GetOrderStages(processid, agentid, clientid);
                 }
-
-                var list = OrderStages[processid].Where(m => m.Sort >= sort && m.Status == 1).ToList();
-                foreach (var model in list)
+                else
                 {
-                    model.Sort += 1;
+                    var list = OrderStages[processid].Where(m => m.Sort >= sort && m.Status == 1).ToList();
+
+                    foreach (var model in list)
+                    {
+                        model.Sort += 1;
+                    }
+
+                    OrderStages[processid].Add(new OrderStageEntity()
+                    {
+                        StageID = stageid.ToLower(),
+                        StageName = name,
+                        Sort = sort,
+                        PID = pid,
+                        Mark = mark,
+                        MaxHours = hours,
+                        MarkStr = CommonBusiness.GetEnumDesc<EnumOrderStageMark>((EnumOrderStageMark)mark),
+                        Status = 1,
+                        CreateTime = DateTime.Now,
+                        ProcessID = processid,
+                        OwnerID = userid,
+                        StageItem = new List<StageItemEntity>(),
+                        Owner = OrganizationBusiness.GetUserByUserID(userid, agentid),
+                        ClientID = clientid
+                    });
                 }
-
-                OrderStages[processid].Add(new OrderStageEntity()
-                {
-                    StageID = stageid.ToLower(),
-                    StageName = name,
-                    Sort = sort,
-                    PID = pid,
-                    Mark = mark,
-                    MaxHours = hours,
-                    MarkStr = CommonBusiness.GetEnumDesc<EnumOrderStageMark>((EnumOrderStageMark)mark),
-                    Status = 1,
-                    CreateTime = DateTime.Now,
-                    ProcessID=processid,
-                    OwnerID = userid,
-                    StageItem = new List<StageItemEntity>(),
-                    Owner = OrganizationBusiness.GetUserByUserID(userid, agentid),
-                    ClientID = clientid
-                });
 
                 return stageid;
             }
@@ -672,17 +629,19 @@ namespace IntFactoryBusiness
                 {
                     GetTeams(agentid);
                 }
-
-                Teams[agentid].Add(new TeamEntity()
+                else
                 {
-                    TeamID = teamid.ToLower(),
-                    TeamName = teamname,
-                    Status = 1,
-                    CreateTime = DateTime.Now,
-                    CreateUserID = userid,
-                    ClientID = clientid,
-                    Users = new List<Users>()
-                });
+                    Teams[agentid].Add(new TeamEntity()
+                    {
+                        TeamID = teamid.ToLower(),
+                        TeamName = teamname,
+                        Status = 1,
+                        CreateTime = DateTime.Now,
+                        CreateUserID = userid,
+                        ClientID = clientid,
+                        Users = new List<Users>()
+                    });
+                }
 
                 return teamid;
             }
@@ -698,36 +657,40 @@ namespace IntFactoryBusiness
                 {
                     GetWareHouses(clientid);
                 }
-                var model = new WareHouse()
+                else
                 {
-                    WareID = id,
-                    WareCode = warecode,
-                    Name = name,
-                    ShortName = shortname,
-                    CityCode = citycode,
-                    Status = status,
-                    Description = description,
-                    ClientID = clientid,
-                    DepotSeats = new List<DepotSeat>()
-                };
-                WareHouses[clientid].Add(model);
+                    var model = new WareHouse()
+                    {
+                        WareID = id,
+                        WareCode = warecode,
+                        Name = name,
+                        ShortName = shortname,
+                        CityCode = citycode,
+                        Status = status,
+                        Description = description,
+                        ClientID = clientid,
+                        DepotSeats = new List<DepotSeat>()
+                    };
+                    WareHouses[clientid].Add(model);
+                }
                 return id.ToString();
             }
-
-            
 
             return string.Empty;
         }
 
         public string AddDepotSeat(string depotcode, string wareid, string name, int status, string description, string operateid, string clientid)
         {
-            var id = Guid.NewGuid().ToString();
+            var id = Guid.NewGuid().ToString().ToLower();
             var bl = SystemDAL.BaseProvider.AddDepotSeat(id, depotcode, wareid, name, status, description, operateid, clientid);
             if (bl)
             {
                 var model = GetWareByID(wareid, clientid);
-                model.DepotSeats.Add(new DepotSeat() { DepotID = id, DepotCode = depotcode, Name = name, ClientID = clientid, Status = 1, WareID = wareid, Description = description });
-                return id.ToString();
+                if (model.DepotSeats.Where(m => m.DepotID.ToLower() == id).Count() == 0)
+                {
+                    model.DepotSeats.Add(new DepotSeat() { DepotID = id, DepotCode = depotcode, Name = name, ClientID = clientid, Status = 1, WareID = wareid, Description = description });
+                }
+                return id;
             }
             return string.Empty;
         }
@@ -750,27 +713,9 @@ namespace IntFactoryBusiness
             bool result = LableColorDAL.BaseProvider.UpdateLableColor(tableName, agentid, clientid, colorid, colorName, colorValue, updateuserid);
             if (result)
             {
-                if (!CustomColor.ContainsKey(clientid))
-                {
-                    GetLableColor(clientid, lableType);
-                }
-                else
-                {
-                    var model = CustomColor[clientid].Find(m => m.ColorID == colorid);
-                    if (lableType == EnumMarkType.Orders)
-                    {
-                        model = OrderColor[clientid].Find(m => m.ColorID == colorid);
-                    }
-                    else if (lableType == EnumMarkType.Tasks)
-                    {
-                        model = TaskColor[clientid].Find(m => m.ColorID == colorid);
-                    }
-
-                    model.ColorValue = colorValue;
-                    model.ColorName = colorName;
-                    model.UpdateTime = DateTime.Now;
-                    model.UpdateUserID = updateuserid;                    
-                }
+                var model = GetLableColorColorID(clientid, colorid, lableType);
+                model.ColorValue = colorValue;
+                model.ColorName = colorName;
             }
             return result ? 1 : 0;
         }
@@ -804,34 +749,18 @@ namespace IntFactoryBusiness
             bool result = LableColorDAL.BaseProvider.DeleteLableColor(tableName, status, colorid, agentid, clientid, updateuserid);
             if (result)
             {
-                if (!CustomColor.ContainsKey(clientid))
-                {
-                    GetLableColor(clientid, lableType);
-                }
-                else
-                {
-                    if (lableType == EnumMarkType.Customer)
-                    {
-                        CustomColor[clientid].Remove(model);
-                    }
-                    else if (lableType == EnumMarkType.Orders)
-                    {
-                        OrderColor[clientid].Remove(model);
-                    }
-                    else if (lableType == EnumMarkType.Tasks)
-                    {
-                        TaskColor[clientid].Remove(model);
-                    }
-                }
-            } return result ? 1 : 0;
+                var list = GetLableColor(clientid, lableType);
+                list.Remove(model);
+            }
+            return result ? 1 : 0;
         }
 
         public bool UpdateOrderProcess(string processid, string name, int days, string userid, string ip, string agentid, string clientid)
         {
-            var model = GetOrderProcessByID(processid, agentid, clientid);
             bool bl = SystemDAL.BaseProvider.UpdateOrderProcess(processid, name, days);
             if (bl)
             {
+                var model = GetOrderProcessByID(processid, agentid, clientid);
                 model.ProcessName = name;
                 model.PlanDays = days;
             }
@@ -898,11 +827,10 @@ namespace IntFactoryBusiness
 
         public bool UpdateOrderStage(string stageid, string stagename, int mark, int hours,string processid, string userid, string ip, string agentid, string clientid)
         {
-            var model = GetOrderStageByID(stageid, processid, agentid, clientid);
-
             bool bl = SystemDAL.BaseProvider.UpdateOrderStage(stageid, stagename, mark, hours,clientid);
             if (bl)
             {
+                var model = GetOrderStageByID(stageid, processid, agentid, clientid);
                 model.StageName = stagename;
                 model.Mark = mark;
                 model.MaxHours = hours;
@@ -913,15 +841,11 @@ namespace IntFactoryBusiness
 
         public bool DeleteOrderStage(string stageid, string processid, string userid, string ip, string agentid, string clientid)
         {
-            var model = GetOrderStageByID(stageid, processid, agentid, clientid);
-            //新订单和内置不能删除
-            //if (model.Mark != 0)
-            //{
-            //    return false;
-            //}
             bool bl = SystemDAL.BaseProvider.DeleteOrderStage(stageid, processid, userid, clientid);
             if (bl)
             {
+                var model = GetOrderStageByID(stageid, processid, agentid, clientid);
+
                 OrderStages[processid].Remove(model);
 
                 var list = OrderStages[processid].Where(m => m.Sort > model.Sort && m.Status == 1).ToList();
@@ -959,11 +883,11 @@ namespace IntFactoryBusiness
 
         public bool UpdateTeam(string teamid, string name, string userid, string ip, string agentid, string clientid)
         {
-            var model = GetTeamByID(teamid, agentid);
 
             bool bl = CommonBusiness.Update("Teams", "TeamName", name, "TeamID='" + teamid + "'");
             if (bl)
             {
+                var model = GetTeamByID(teamid, agentid);
                 model.TeamName = name;
             }
             return bl;
@@ -971,11 +895,10 @@ namespace IntFactoryBusiness
 
         public bool DeleteTeam(string teamid, string userid, string ip, string agentid, string clientid)
         {
-            var model = GetTeamByID(teamid, agentid);
-
             bool bl = SystemDAL.BaseProvider.DeleteTeam(teamid, userid, agentid);
             if (bl)
             {
+                var model = GetTeamByID(teamid, agentid);
                 var list = OrganizationBusiness.GetUsers(agentid).Where(m => m.TeamID == teamid).ToList();
                 foreach (var user in list)
                 {
@@ -988,12 +911,10 @@ namespace IntFactoryBusiness
 
         public bool UpdateUserTeamID(string userid, string teamid, string agentid, string operateid, string ip, string clientid)
         {
-            var model = OrganizationBusiness.GetUserByUserID(userid, agentid);
-            
             bool bl = SystemDAL.BaseProvider.UpdateUserTeamID(userid, teamid, operateid, agentid);
             if (bl)
             {
-                
+                var model = OrganizationBusiness.GetUserByUserID(userid, agentid);
                 if (string.IsNullOrEmpty(teamid))
                 {
                     var team = GetTeamByID(model.TeamID, agentid);
@@ -1059,9 +980,16 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateDepotSeatStatus(string id, EnumStatus status, string operateid, string clientid)
+        public bool UpdateDepotSeatStatus(string id, string wareid, EnumStatus status, string operateid, string clientid)
         {
-            return CommonBusiness.Update("DepotSeat", "Status", (int)status, " DepotID='" + id + "'");
+            
+            bool bl = CommonBusiness.Update("DepotSeat", "Status", (int)status, " DepotID='" + id + "'");
+            if (bl)
+            {
+                var model = GetDepotByID(id, wareid, clientid);
+                model.Status = (int)status;
+            }
+            return bl;
         }
 
         public bool DeleteDepotSeat(string depotid, string wareid, string operateid, string clientid)
@@ -1076,9 +1004,11 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateDepotSeatSort(string depotid, string wareid, int type)
+        public bool UpdateDepotSeatSort(string depotid, string wareid, int type, string clientid)
         {
-            return SystemDAL.BaseProvider.UpdateDepotSeatSort(depotid, wareid, type);
+            bool bl = SystemDAL.BaseProvider.UpdateDepotSeatSort(depotid, wareid, type);
+
+            return bl;
         }
 
         #endregion

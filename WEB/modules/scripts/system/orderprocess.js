@@ -6,13 +6,14 @@
         Easydialog = require("easydialog");
     require("switch");
     var Params = {
-        Type: -1
+        Type: 1
     };
 
     var ObjectJS = {};
     //初始化
-    ObjectJS.init = function () {
+    ObjectJS.init = function (categorys) {
         var _self = this;
+        _self.categorys = JSON.parse(categorys.replace(/&quot;/g, '"'));
         _self.bindEvent();
         _self.getList();
     }
@@ -27,7 +28,7 @@
             }
         });
 
-        $(".search-status li").click(function () {
+        $(".search-type li").click(function () {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
@@ -36,6 +37,25 @@
                 _self.getList();
             }
         });
+
+        $(".search-category .item").click(function () {
+            var _this = $(this);
+            _this.siblings().removeClass("hover");
+            _this.addClass("hover");
+            if (_this.data("id")) {
+                $(".table-list .list-item").hide();
+                if ($(".table-list .list-item[data-id='" + _this.data("id") + "']").length > 0) {
+                    $(".nodate-box").remove();
+                    $(".table-list .list-item[data-id='" + _this.data("id") + "']").show();
+                } else {
+                    $(".tr-header").after("<tr class='nodate-box'><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                }
+            } else {
+                $(".nodate-box").remove();
+                $(".table-list .list-item").show();
+            }
+        });
+
         //添加
         $("#createModel").click(function () {
             var _this = $(this);
@@ -118,7 +138,7 @@
             Easydialog.open({
                 container: {
                     id: "show-model-detail",
-                    header: !model ? "新建阶段流程" : "编辑阶段流程",
+                    header: !model ? "新建流程" : "编辑流程",
                     content: html,
                     yesFn: function () {
                         if (!VerifyObject.isPass()) {
@@ -128,8 +148,8 @@
                         var entity = {};
                         entity.ProcessID = model ? model.ProcessID : "";
                         entity.ProcessName = $("#processName").val().trim();
-                        entity.ProcessType = $("#processType").find(".hover").data("value");
-                        entity.CategoryType = $("#categoryType").find(".hover").data("value");
+                        entity.ProcessType = model ? model.ProcessType : $("#processType").find(".hover").data("value");
+                        entity.CategoryID = $("#processCategory").data("id");
                         entity.PlanDays = 0;//$("#planDays").val().trim();
                         entity.IsDefault = 0;
                         _self.saveModel(entity);
@@ -146,14 +166,17 @@
                 regText: "data-text"
             });
 
+            $("#processName").focus();
+
             if (model && model.ProcessID) {
                 $(".ico-radiobox").removeClass("hover");
                 $("#processType").find(".ico-radiobox[data-value='" + model.ProcessType + "']").addClass("hover");
-                $("#categoryType").find(".ico-radiobox[data-value='" + model.CategoryType + "']").addClass("hover");
+                $("#processType").find(".ico-radiobox[data-value!='" + model.ProcessType + "']").parent().remove()
                 $("#processName").val(model.ProcessName);
                 $("#planDays").val(model.PlanDays);
-                
-                $("#show-model-detail .create").hide();
+
+                $("#processCategory").data("id", model.CategoryID).html(model.CategoryName);
+
             } else {
                 $(".radiobox").click(function () {
                     var _this = $(this);
@@ -161,27 +184,36 @@
                         _this.find(".ico-radiobox").addClass("hover");
                         _this.siblings().find(".ico-radiobox").removeClass("hover");
                     }
-
-                    $("#show-model-detail .process-items").hide();
-                    $("#show-model-detail .process-items[data-order='" + $("#processType").find(".hover").data("value") + "'][data-type='" + $("#categoryType").find(".hover").data("value") + "']").show();
                 });
-                $("#show-model-detail .process-items").first().show();
+                //品类下拉
+                require.async("dropdown", function () {
+                    $("#processCategory").dropdown({
+                        prevText: "",
+                        defaultText: _self.categorys[0].Name,
+                        defaultValue: _self.categorys[0].CategoryID,
+                        data: _self.categorys,
+                        dataValue: "CategoryID",
+                        dataText: "Name",
+                        width: 78,
+                        isposition: true,
+                        onChange: function (data) {
+
+                        }
+                    });
+                });
             }
-
-            $("#processName").focus();
-            
-
         }); 
     }
     //获取列表
     ObjectJS.getList = function () {
         var _self = this;
         $(".tr-header").nextAll().remove();
-        $(".tr-header").after("<tr><td colspan='6'><div class='data-loading'><div></td></tr>");
+        $(".tr-header").after("<tr><td colspan='10'><div class='data-loading'><div></td></tr>");
         Global.post("/System/GetOrderProcess", { type: Params.Type }, function (data) {
             _self.bindList(data.items);
         });
     }
+
     //加载列表
     ObjectJS.bindList = function (items) {
         var _self = this;
@@ -209,22 +241,16 @@
                     });
                 });
 
-                //绑定启用插件
-                innerhtml.find(".status").switch({
-                    open_title: "点击启用",
-                    close_title: "点击禁用",
-                    value_key: "value",
-                    change: function (data, callback) {
-                        _self.editIsChoose(data, data.data("id"), data.data("value"), callback);
-                    }
-                });
-
                 $(".tr-header").after(innerhtml);
+
+                $(".search-category .item.hover").click();
             });
         }
         else {
-            $(".tr-header").after("<tr><td colspan='6'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+            $(".tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
         }
+
+        
     }
 
     //保存实体

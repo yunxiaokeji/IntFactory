@@ -73,10 +73,12 @@ namespace IntFactoryEntity
     }
 
 
-    public partial class OrderCategory
+    public partial class ProcessCategory
     {
         [Property("Lower")] 
         public string CategoryID { get; set; }
+
+        public string Name { get; set; }
 
         public void FillData(System.Data.DataRow dr)
         {
