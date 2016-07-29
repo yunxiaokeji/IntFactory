@@ -269,7 +269,8 @@
         ObjectJS.isLoading = false;
         
         $(".table-header").nextAll().remove();
-        $(".table-header").after("<tr><td colspan='10'><div class='data-loading'><div></td></tr>");
+        $(".table-header").after("<tr><td style='padding:0;' colspan='10'><div class='data-loading'><div></td></tr>");
+
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".table-header").nextAll().remove();
 
@@ -298,7 +299,7 @@
                 });
             }
             else {
-                $(".table-header").after("<tr><td colspan='11'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                $(".table-header").after("<tr><td colspan='10' style='padding:0;'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
 
             $("#pager").paginate({

@@ -464,7 +464,6 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .table-items-detail .item-header { background-color:#f1f1f1; height:40px; }
 .table-items-detail .item-header td{ border-top:solid 1px #ddd;  border-bottom:solid 1px #ddd; color:#333; }
 
-
 .table-items-detail .item { height:50px;}
 .table-items-detail .item.last td {  border-bottom:solid 1px #ddd; }
 
