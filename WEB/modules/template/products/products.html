@@ -3,7 +3,7 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td class="width80">
+    <td class="width80" style="text-indent:5px;">
         <a href="/Products/ChooseDetail?pid={%=item.ProductID%}" target="_blank">
             <img onerror="$(this).attr('src','/modules/images/img-noimg.png')" alt="略缩图" src="{%=item.ProductImage?item.ProductImage:'/modules/images/img-noimg.png'%}" /></a>
     </td>
