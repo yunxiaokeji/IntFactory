@@ -4,6 +4,8 @@
 
 .table-items-detail .order-goodscode { width:300px; float:left; margin-left:10px; font-weight:bold; display:inline-block; height:25px; line-height:25px; text-align:left; }
 .table-items-detail .view-detail { color:#666; font-size:20px; cursor:pointer; }
+.table-items-detail .order-image{ width:120px; }
+.table-items-detail .order-image img{ max-width:120px; max-height:120px; vertical-align:middle; }
 
 .table-items-detail .order-costinfo { padding-left:20px; }
 .table-items-detail .order-costinfo div{ height:35px; line-height:35px; color:#333; }

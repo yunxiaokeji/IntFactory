@@ -3,10 +3,8 @@
 	var item = $data[i];
     var totalDay=(item.UseDays==0?1:item.UseDays)+(item.WarningDays==0?1:item.WarningDays);    
 %}
-
     <tr class="line-item">
-        <td colspan="10">
-        </td>
+        <td colspan="10"></td>
     </tr>
     <tr class="item-header">
         <td colspan="2" class="bLeft">
@@ -36,13 +34,13 @@
             下单日期：{%=item.CreateTime.toDate("yyyy-MM-dd")%}
         </td>
     </tr>
-    <tr class="item object-item">
-        <td class="object-image bLeft">
+    <tr class="item orderitem">
+        <td class="order-image bLeft">
             <a href="/Orders/OrderDetail/{%=item.OrderID%}" >
                 <img src="{%= item.OrderImage||'/modules/images/img-noimg.png' %}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" />
             </a> 
         </td>  
-        <td class="object-costinfo tLeft">
+        <td class="order-costinfo tLeft">
             <div>
                 {% if(item.OrderStatus==0){ %}
                     <span class="column-title">期望报价：</span>
@@ -78,7 +76,7 @@
                 <span style="color:#49b3f5;">{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</span>
             </div>
         </td>
-        <td class="object-customer tLeft">
+        <td class="order-customer tLeft">
            <div class="mTop5">
                 <span class="iconfont left">&#xe601;</span><span class="column-title">客户：</span>
                 {% if(item.CustomerID != ""){%}
