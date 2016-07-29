@@ -103,7 +103,7 @@
         $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
 
         Global.post("/Task/GetPlateMakings", {
-            orderID: _self.model.OrderType == 1 ? _self.orderid : _self.model.OrderID,
+            orderID: _self.model.OrderType == 1 ? _self.model.OrderID : _self.model.OriginalID,
             taskID: ""
         }, function (data) {
             $(".tb-plates .tr-header").nextAll().remove();
@@ -412,29 +412,45 @@
                 $("#bindOriginalOrder").click();
             }//合价完成
             else if (_self.status == 2) {
-                doT.exec("template/orders/sureprice.html", function (template) {
-                    var innerText = template();
-                    Easydialog.open({
-                        container: {
-                            id: "show-surequantity",
-                            header: "确认打样价格",
-                            content: innerText,
-                            yesFn: function () {
-                                var price = $("#iptFinalPrice").val().trim();
-                                if (!price.isDouble() || price <= 0) {
-                                    alert("价格必须为大于0的数字！");
-                                    return false;
-                                }
-                                _self.updateOrderStatus(3, 0, price);
-                            },
-                            callback: function () {
+                var DetailLayer = require("detaillayer");
+                doT.exec("template/orders/order-baseinfo.html", function (template) {
+                    var innerHtml = template(_self.model);
+                    innerHtml = $(innerHtml);
+                    DetailLayer.create({
+                        content: innerHtml,
+                        title:"订单明细",
+                        yesFn: function () {
+                            $(".confim-dialog").remove();
+                            doT.exec("template/orders/sureprice.html", function (template) {
+                                var innerText = template();
+                                Easydialog.open({
+                                    container: {
+                                        id: "show-surequantity",
+                                        header: "确认打样价格",
+                                        content: innerText,
+                                        yesFn: function () {
+                                            var price = $("#iptFinalPrice").val().trim();
+                                            if (!price.isDouble() || price <= 0) {
+                                                alert("价格必须为大于0的数字！");
+                                                return false;
+                                            }
+                                            _self.updateOrderStatus(3, 0, price);
+                                        },
+                                        callback: function () {
 
-                            }
+                                        }
+                                    }
+                                });
+                                $("#iptFinalPrice").focus();
+                                $("#iptFinalPrice").val((($("#productMoney").text() * 1 + $("#lblCostMoney").text() * 1) * (1 + $("#profitPrice").text() / 100)).toFixed(2))
+                            });
+
                         }
                     });
-                    $("#iptFinalPrice").focus();
-                    $("#iptFinalPrice").val((($("#productMoney").text() * 1 + $("#lblCostMoney").text() * 1) * (1 + $("#profitPrice").text() / 100)).toFixed(2))
                 });
+
+                
+
             } //大货下单
             else if (_self.status == 3) {
                 _self.createDHOrder(false);

@@ -438,7 +438,6 @@
     //保存产品
     Product.savaProduct = function () {
         var _self = this, attrlist = "", valuelist = "", attrvaluelist = "";
-
         var bl = true;
 
         $(".product-attr").each(function () {

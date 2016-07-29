@@ -104,6 +104,9 @@
         //事件绑定
         ObjectJS.bindBaseEvent();
 
+        if (ObjectJS.orderType == 2) {
+            ObjectJS.getAmount();
+        }
     };
 
     //#region任务基本信息操作
@@ -376,18 +379,15 @@
         var confirmMsg = '确定标记完成';
         if (mark == 11) {
             if ($("#navProducts .table-list tr").length == 2) {
-                alert("材料没有添加,不能标记任务完成");
-                return;
+                confirmMsg="材料没有添加,不能标记任务完成";
             }
         }
         else if (mark == 12) {
             if ($("#platemakingBody .table-list").length == 0) {
-                alert("制版没有设置,不能标记任务完成");
-                return;
+                confirmMsg="制版没有设置,不能标记任务完成";
             }
             else if (!ObjectJS.isPlate) {
-                alert("制版没有设置,不能标记任务完成");
-                return;
+                confirmMsg="制版没有设置,不能标记任务完成";
             }
         }
         else if (mark == 15 || mark == 25) {
@@ -410,8 +410,6 @@
                 confirmMsg = '还没车缝,确定标记完成';
             }
         }
-        
-        
         confirm(confirmMsg+"?", function () {
             $("#FinishTask").val("完成中...").attr("disabled", "disabled");
             ObjectJS.isLoading = false;
@@ -764,6 +762,24 @@
 
             });
             ObjectJS.isLoading = true;
+        });
+    }
+
+    //汇总
+    ObjectJS.getAmount = function () {
+        //订单明细汇总
+        $(".total-item td").each(function () {
+            var _this = $(this), _total = 0;
+            if (_this.data("class")) {
+                $("." + _this.data("class")).each(function () {
+                    _total += $(this).html() * 1;
+                });
+                if (_this.data("class") == "moneytotal") {
+                    _this.html(_total.toFixed(2));
+                } else {
+                    _this.html(_total);
+                }
+            }
         });
     }
     //#endregion
@@ -1394,7 +1410,7 @@
             $("#btn-updateTaskRemark").html("编辑制版");
         }
 
-        Global.post("/Task/UpdateOrderPlateAttr", {
+        Global.post("/Task/UpdateOrderPlatehtml", {
             orderID: ObjectJS.orderid,
             taskID: ObjectJS.taskid,
             platehtml: encodeURI($("#platemakingBody").html())
@@ -1443,7 +1459,7 @@
         $(".tb-plates").html("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
       
         Global.post("/Task/GetPlateMakings", {
-            orderID:ObjectJS.orderid
+            orderID: ObjectJS.orderType == 1 ? ObjectJS.orderid : ObjectJS.originalID
         }, function (data) {
             $(".tb-plates").html('');
 
@@ -1519,7 +1535,7 @@
                             Title: $("#plateTitle").val(),
                             Remark: $("#plateRemark").val(),
                             Icon: $("#plateIcon").val(),
-                            OrderID: ObjectJS.orderid,
+                            OrderID:ObjectJS.orderType == 1 ? ObjectJS.orderid : ObjectJS.originalID,
                             TaskID: ObjectJS.taskid,
                             Type: $("#selectType").val()
                         }
