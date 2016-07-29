@@ -70,7 +70,7 @@
         @foreach (var item in model.Details)
         { 
             <tr class="item" data-id="@(item.AutoID)" >
-                <td class="width50"><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" onerror="$(this).attr('src','/modules/images/img-noimg.png')" target="_blank">
+                <td class="width50" style="text-indent:5px;"><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" onerror="$(this).attr('src','/modules/images/img-noimg.png')" target="_blank">
                     <img src="@(string.IsNullOrEmpty( item.Imgs)?item.ProductImage:item.Imgs)" /></a>
                 </td>
                 <td><a href="/Products/ChooseDetail?pid=@(item.ProductID)&did=@(item.ProductDetailID)" target="_blank">@(item.ProductName)</a></td>
