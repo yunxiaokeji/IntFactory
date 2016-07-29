@@ -104,6 +104,9 @@
         //事件绑定
         ObjectJS.bindBaseEvent();
 
+        if (ObjectJS.orderType == 2) {
+            ObjectJS.getAmount();
+        }
     };
 
     //#region任务基本信息操作
@@ -766,6 +769,24 @@
             ObjectJS.isLoading = true;
         });
     }
+
+    //汇总
+    ObjectJS.getAmount = function () {
+        //订单明细汇总
+        $(".total-item td").each(function () {
+            var _this = $(this), _total = 0;
+            if (_this.data("class")) {
+                $("." + _this.data("class")).each(function () {
+                    _total += $(this).html() * 1;
+                });
+                if (_this.data("class") == "moneytotal") {
+                    _this.html(_total.toFixed(2));
+                } else {
+                    _this.html(_total);
+                }
+            }
+        });
+    }
     //#endregion
 
     // #region任务材料操作
@@ -1394,7 +1415,7 @@
             $("#btn-updateTaskRemark").html("编辑制版");
         }
 
-        Global.post("/Task/UpdateOrderPlateAttr", {
+        Global.post("/Task/UpdateOrderPlatehtml", {
             orderID: ObjectJS.orderid,
             taskID: ObjectJS.taskid,
             platehtml: encodeURI($("#platemakingBody").html())

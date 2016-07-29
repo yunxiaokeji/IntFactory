@@ -227,8 +227,11 @@ namespace YXERP.Controllers
 
             //操作权限
             taskModel.IsRoot = (task.Status != 8 && (task.FinishStatus == 1 || task.LockStatus==2) && (taskModel.IsEditTask || taskModel.IsTaskOwner) );
-
             ViewBag.TaskModel = taskModel;
+            if (order.OrderType == 2) {
+               order.OrderGoods=OrdersBusiness.BaseBusiness.GetOrderGoods(order.OrderID);
+            }
+
             return View();
         }
 
@@ -241,10 +244,10 @@ namespace YXERP.Controllers
                     nowDate = DateTime.Now.ToString("yyyy-MM-dd");
                 }
             }
-
             ViewBag.NowDate = nowDate;
             ViewBag.IsMy = 1;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
+
             return View();
         }
 
@@ -252,6 +255,7 @@ namespace YXERP.Controllers
         {
             ViewBag.IsMy = 2;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
+
             return View("MyTask");
         }
 
@@ -261,17 +265,12 @@ namespace YXERP.Controllers
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
             return View("MyTask");
         }
-
-        public ActionResult PlatePrint(string id)
-        {
-            var order = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
-            ViewBag.Order = order;
-            return View();
-        }
         #endregion
 
         #region ajax
-        public JsonResult GetTasks(string keyWords, bool isMy, int isParticipate, string userID, int taskType, int colorMark, int status, int finishStatus,int invoiceStatus,int preFinishStatus,
+        //获取任务列表
+        public JsonResult GetTasks(string keyWords, bool isMy, int isParticipate, string userID, int taskType, int colorMark, 
+            int status, int finishStatus,int invoiceStatus,int preFinishStatus,
             string beginDate, string endDate,string beginEndDate,string endEndDate,
             int orderType, string orderProcessID, string orderStageID, 
             int taskOrderColumn, int isAsc, int pageSize, int pageIndex, string listType)
@@ -309,33 +308,16 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrderProcess() {
-            var list = SystemBusiness.BaseBusiness.GetOrderProcess(CurrentUser.AgentID, CurrentUser.ClientID);
-            
-            JsonDictionary.Add("items", list);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult GetOrderStages(string id){
-            var list = SystemBusiness.BaseBusiness.GetOrderStages(id,CurrentUser.AgentID, CurrentUser.ClientID);
-
-            JsonDictionary.Add("items", list);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult GetTaskDetail(string id)
+        //获取任务讨论
+        public JsonResult GetReplys(string guid, string stageID, int pageSize, int pageIndex)
         {
-            var item = TaskBusiness.GetTaskDetail(id);
-            JsonDictionary.Add("item", item);
+            int pageCount = 0;
+            int totalCount = 0;
 
+            var list = TaskBusiness.GetTaskReplys(guid, stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -343,6 +325,7 @@ namespace YXERP.Controllers
             };
         }
 
+        //获取下单明细
         public JsonResult GetOrderGoods(string id)
         {
             var list = OrdersBusiness.BaseBusiness.GetOrderGoods(id);
@@ -360,8 +343,8 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = LogBusiness.GetLogs(id, EnumLogObjectType.OrderTask, PageSize, pageindex, ref totalCount, ref pageCount, CurrentUser.AgentID);
-
+            var list = LogBusiness.GetLogs(id, EnumLogObjectType.OrderTask, PageSize, pageindex, 
+                ref totalCount, ref pageCount, CurrentUser.AgentID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -373,10 +356,12 @@ namespace YXERP.Controllers
             };
         }
 
+        //获取加工成本
         public JsonResult GetOrderCosts(string orderid)
         {
             var list = OrdersBusiness.BaseBusiness.GetOrderCosts(orderid, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
+
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -384,11 +369,12 @@ namespace YXERP.Controllers
             };
         }
 
+        //获取工艺说明
         public JsonResult GetPlateMakings(string orderID)
         {
             var list = TaskBusiness.GetPlateMakings(orderID);
-
             JsonDictionary.Add("items", list);
+
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -396,13 +382,49 @@ namespace YXERP.Controllers
             };
         }
 
+        //保存任务讨论
+        public JsonResult SavaReply(string entity, string taskID, string attchmentEntity)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            ReplyEntity model = serializer.Deserialize<ReplyEntity>(entity);
+            model.Attachments = serializer.Deserialize<List<IntFactoryEntity.Attachment>>(attchmentEntity);
+            string replyID = OrdersBusiness.CreateReply(model.GUID, model.StageID, model.Mark, model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
+
+            if (model.Attachments.Count > 0)
+            {
+                TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);
+            }
+            List<ReplyEntity> list = new List<ReplyEntity>();
+            if (!string.IsNullOrEmpty(replyID))
+            {
+                model.ReplyID = replyID;
+                model.CreateTime = DateTime.Now;
+                model.CreateUser = CurrentUser;
+                model.CreateUserID = CurrentUser.UserID;
+                model.AgentID = CurrentUser.AgentID;
+                if (!string.IsNullOrEmpty(model.FromReplyUserID) && !string.IsNullOrEmpty(model.FromReplyAgentID))
+                {
+                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
+                }
+                list.Add(model);
+            }
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        //设置任务到期时间
         public JsonResult UpdateTaskEndTime(string id, string endTime)
         {
             int result = 0;
             DateTime? endDate = null;
             if (!string.IsNullOrEmpty(endTime)) endDate = DateTime.Parse(endTime);
-
-            TaskBusiness.UpdateTaskEndTime(id, endDate, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            TaskBusiness.UpdateTaskEndTime(id, endDate, CurrentUser.UserID, 
+                Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID, out result);
             JsonDictionary.Add("result", result);
 
             return new JsonResult
@@ -412,6 +434,7 @@ namespace YXERP.Controllers
             };
         }
 
+        //标记任务完成
         public JsonResult FinishTask(string id)
         {
             int result = 0;
@@ -425,6 +448,7 @@ namespace YXERP.Controllers
             };
         }
 
+        //添加任务成员
         public JsonResult AddTaskMembers(string id, string memberIDs)
         {
             int result = 0;
@@ -438,6 +462,7 @@ namespace YXERP.Controllers
             };
         }
 
+        //移除任务成员
         public JsonResult RemoveTaskMember(string id, string memberID)
         {
             bool flag = TaskBusiness.RemoveTaskMember(id, memberID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID);
@@ -450,56 +475,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateTaskColorMark(string ids, int mark)
-        {
-            bool bl = false;
-            string[] list = ids.Split(',');
-            foreach (var id in list)
-            {
-                if (!string.IsNullOrEmpty(id) && new TaskBusiness().UpdateTaskColorMark(id, mark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID))
-                {
-                    bl = true;
-                }
-            }
-
-            JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        //[ValidateInput(false)]
-        //public JsonResult UpdateOrderPlateAttr(string orderID, string taskID, string valueIDs, string platehtml)
-        //{
-        //    int result = 0;
-        //    valueIDs = valueIDs.Trim('|');
-
-        //    result = OrdersBusiness.BaseBusiness.UpdateOrderPlateAttr(orderID, taskID, valueIDs, platehtml, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID) ? 1 : 0;
-        //    JsonDictionary.Add("result", result);
-
-        //    return new JsonResult
-        //    {
-        //        Data = JsonDictionary,
-        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-        //    };
-        //}
-        [ValidateInput(false)]
-        public JsonResult UpdateOrderPlateAttr(string orderID, string taskID, string platehtml)
-        {
-            int result = 0;
-            result = OrdersBusiness.BaseBusiness.UpdateOrderPlateAttr(orderID, taskID, platehtml, 
-                CurrentUser.UserID, string.Empty, CurrentUser.AgentID, CurrentUser.ClientID) ? 1 : 0;
-            JsonDictionary.Add("result", result);
-
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
+        //设置任务负责人
         public JsonResult UpdateTaskOwner(string taskid, string userid)
         {
             int result = 0;
@@ -513,37 +489,75 @@ namespace YXERP.Controllers
             };
         }
 
+        //设置任务成员权限
         public JsonResult UpdateMemberPermission(string taskID, string memberID, int type)
         {
-
             bool flag = IntFactoryBusiness.TaskBusiness.UpdateMemberPermission(taskID, memberID, (TaskMemberPermissionType)type,
                                                                                CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
-
             JsonDictionary.Add("result", flag ? 1 : 0);
 
-            return new JsonResult { 
-                Data=JsonDictionary,
-                JsonRequestBehavior=JsonRequestBehavior.AllowGet
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-
         }
 
-        public JsonResult LockTask(string taskID) 
+       //锁定任务
+        public JsonResult LockTask(string taskID)
         {
             int result;
 
             TaskBusiness.LockTask(taskID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
 
-            JsonDictionary.Add("result",result);
+            JsonDictionary.Add("result", result);
 
             return new JsonResult
             {
-                 Data = result,
-                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                Data = result,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-            
+
         }
 
+        //设置任务颜色标记
+        public JsonResult UpdateTaskColorMark(string ids, int mark)
+        {
+            bool bl = false;
+            string[] list = ids.Split(',');
+            foreach (var id in list)
+            {
+                if (!string.IsNullOrEmpty(id) && TaskBusiness.UpdateTaskColorMark(id, mark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID))
+                {
+                    bl = true;
+                }
+            }
+            JsonDictionary.Add("status", bl);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        //设置制版信息
+        [ValidateInput(false)]
+        public JsonResult UpdateOrderPlatehtml(string orderID, string taskID, string platehtml)
+        {
+            int result = 0;
+            result = OrdersBusiness.BaseBusiness.UpdateOrderPlateAttr(orderID, taskID, platehtml, 
+                CurrentUser.UserID, string.Empty, CurrentUser.AgentID, CurrentUser.ClientID) ? 1 : 0;
+            JsonDictionary.Add("result", result);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        //保存工艺说明
         public JsonResult SavePlateMaking(string plate)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -562,16 +576,16 @@ namespace YXERP.Controllers
                 flag = IntFactoryBusiness.TaskBusiness.UpdatePlateMaking(model,
                     CurrentUser.UserID, string.Empty, CurrentUser.AgentID, CurrentUser.ClientID);
             }
-
             JsonDictionary.Add("result", flag ? 1 : 0);
+
             return new JsonResult
             {
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-
         }
 
+        //删除工艺说明
         public JsonResult DeletePlateMaking(string plateID,string taskID,string title)
         {
             bool flag = IntFactoryBusiness.TaskBusiness.DeletePlateMaking(plateID,taskID,title,
@@ -586,10 +600,12 @@ namespace YXERP.Controllers
 
         }
 
+        //删除加工成本
         public JsonResult DeleteOrderCost(string orderid, string autoid)
         {
             var bl = OrdersBusiness.BaseBusiness.DeleteOrderCost(orderid, autoid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
+
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -597,6 +613,7 @@ namespace YXERP.Controllers
             };
         }
 
+        //新增加工成本
         public JsonResult CreateOrderCutOutDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark, string taskid = "")
         {
             string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
@@ -608,28 +625,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult CreateOrderSewnDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
-        {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("id", id);
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult CreateOrderSendDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
-        {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
-            JsonDictionary.Add("id", id);
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
+        //新增加工成本
         public JsonResult CreateOrderCost(string orderid, decimal price, string remark)
         {
             var bl = OrdersBusiness.BaseBusiness.CreateOrderCost(orderid, price, remark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
@@ -641,70 +637,29 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetReplys(string guid, string stageID, int pageSize, int pageIndex)
+        //添加车缝录入、裁剪录入
+        public JsonResult CreateOrderSewnDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
-            int pageCount = 0;
-            int totalCount = 0;
-
-            var list = TaskBusiness.GetTaskReplys(guid, stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
-            JsonDictionary.Add("items", list);
-            JsonDictionary.Add("totalCount", totalCount);
-            JsonDictionary.Add("pageCount", pageCount);
-            return new JsonResult
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("id", id);
+            return new JsonResult()
             {
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
 
-        public JsonResult SavaReply(string entity, string taskID, string attchmentEntity)
+        //添加大货订单发货、打样订单发货
+        public JsonResult CreateOrderSendDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            ReplyEntity model = serializer.Deserialize<ReplyEntity>(entity);
-            model.Attachments = serializer.Deserialize<List<IntFactoryEntity.Attachment>>(attchmentEntity);
-            string replyID = "";
-            replyID = OrdersBusiness.CreateReply(model.GUID, model.StageID, model.Mark, model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
-            
-            //string movePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Tasks/" + DateTime.Now.ToString("yyyyMM") + "/";
-            //string uploadTempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
-            //DirectoryInfo directory = new DirectoryInfo(Server.MapPath(movePath));
-            //if (!directory.Exists)
-            //{
-            //    directory.Create();
-            //}
-
-            //foreach (var attachments in model.Attachments)
-            //{
-            //    attachments.ServerUrl = "http://o9h6bx3r4.bkt.clouddn.com/";
-            //}
-            if (model.Attachments.Count > 0) 
-            {
-                TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);            
-            }
-
-            List<ReplyEntity> list = new List<ReplyEntity>();
-            if (!string.IsNullOrEmpty(replyID))
-            {
-
-                model.ReplyID = replyID;
-                model.CreateTime = DateTime.Now;
-                model.CreateUser = CurrentUser;
-                model.CreateUserID = CurrentUser.UserID;
-                model.AgentID = CurrentUser.AgentID;
-                if (!string.IsNullOrEmpty(model.FromReplyUserID) && !string.IsNullOrEmpty(model.FromReplyAgentID))
-                {
-                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
-                }
-                list.Add(model);
-            }
-            JsonDictionary.Add("items", list);
-            return new JsonResult
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            JsonDictionary.Add("id", id);
+            return new JsonResult()
             {
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-
         #endregion
 
         public bool IsSeeRoot(TaskEntity task, IntFactoryEntity.OrderEntity order) {

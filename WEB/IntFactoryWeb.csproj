@@ -1061,7 +1061,6 @@
     <Content Include="Views\Task\PlateDetail.cshtml" />
     <Content Include="Views\Home\BindAccount.cshtml" />
     <Content Include="Views\Home\AliSelectLogin.cshtml" />
-    <Content Include="Views\Task\PlatePrint.cshtml" />
     <Content Include="Views\Orders\Orders.cshtml" />
     <Content Include="Views\Orders\OrderSuccess.cshtml" />
     <Content Include="Views\Orders\OrderLayer.cshtml" />
