@@ -267,10 +267,9 @@
     ObjectJS.getList = function () {
 
         ObjectJS.isLoading = false;
-
+        
         $(".table-header").nextAll().remove();
-        $(".table-header").after("<tr><td colspan='11'><div class='data-loading'><div></td></tr>");
-
+        $(".table-header").after("<tr><td colspan='10'><div class='data-loading'><div></td></tr>");
         Global.post("/Task/GetTasks", Params, function (data) {
             $(".table-header").nextAll().remove();
 

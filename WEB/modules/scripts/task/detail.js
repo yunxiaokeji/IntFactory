@@ -820,7 +820,7 @@
         });
 
         //编辑损耗率
-        $("#navProducts .loss-rate").change(function () {
+        $("#navProducts .loss").change(function () {
             if (!ObjectJS.isLoading) {
                 return;
             }
@@ -898,6 +898,12 @@
     ObjectJS.editQuantity = function (ele) {
         var _self = this;
         ObjectJS.isLoading = false;
+        ObjectJS.isLoading = false;
+        ele.data('value', ele.val());
+        var lossRata = ((ele.parents('tr').find('.tr-loss').find("input").val() * 1) / (ele.val() * 1)).toFixed(3);
+        var amount = (ele.val() * 1) + (ele.parents('tr').find('.tr-loss').find("input").val() * 1);
+        ele.parents('tr').find('.tr-lossrate').html(lossRata);
+        ele.parents('tr').find('.amount-count').html(amount);
         Global.post("/Orders/UpdateProductQuantity", {
             orderid: _self.guid,
             autoid: ele.data("id"),
@@ -916,15 +922,14 @@
         });
     }
 
-    //更改损耗率
+    //更改损耗量
     ObjectJS.editLossRate = function (ele) {
         var _self = this;
         ObjectJS.isLoading = false;
-
         ele.data('value', ele.val());
-        var loss = ((ele.val() * 1) * (ele.parents('tr').find('.tr-quantity').html() * 1)).toFixed(3);
-        var amount = (loss*1) + (ele.parents('tr').find('.tr-quantity').html() * 1);
-        ele.parents('tr').find('.tr-loss').html(loss);
+        var lossRata = ((ele.val() * 1) / (ele.parents('tr').find('.tr-quantity').find("input").val() * 1)).toFixed(3);
+        var amount = (ele.val() * 1) + (ele.parents('tr').find('.tr-quantity').find("input").val() * 1);
+        ele.parents('tr').find('.tr-lossrate').html(lossRata);
         ele.parents('tr').find('.amount-count').html(amount);
 
         Global.post("/Orders/UpdateProductLoss", {
@@ -944,7 +949,7 @@
             ObjectJS.isLoading = true;
         });
     }
-    
+
     //生成采购单
     ObjectJS.effectiveOrderProduct = function () {
         ObjectJS.isLoading = false;
@@ -978,7 +983,7 @@
                 amount += _this.html() * 1;
             }
             else if (ObjectJS.materialMark == 2) {
-                _this.html(((_this.prevAll(".tr-quantity").html() * 1 + _this.prevAll(".tr-loss").html() * 1) * _this.prevAll(".tr-price").find(".price").val()).toFixed(3));
+                _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find(".price").val()).toFixed(3));
                 amount += _this.html() * 1;
             }
         });
