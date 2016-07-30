@@ -47,7 +47,7 @@
             @*<li data-id="navLog">操作日志</li>*@
         </ul>
     </div>
-    <table class="table-list mTop20 nav-partdiv" id="navProduct">
+    <table class="table-list mTop20 nav-partdiv pBottom50" id="navProduct">
         <tr class="tr-header">
             <td class="tLeft">材料名称</td>
             <td class="">编码</td>
@@ -86,18 +86,6 @@
                 <td class="tRight">@(item.TotalMoney.ToString("f2"))</td>
             </tr>
         }
-        <tr class="amount-item">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="tRight">合计：</td>
-            <td class="tRight">@(model.TotalMoney.ToString("f2"))</td>
-        </tr>
     </table>
     <div id="navLog" class="hide nav-partdiv">
         <div class="log-body">
@@ -106,7 +94,7 @@
         <div class="mTop20" id="pager"></div>
     </div>
 
-    <table id="navStorageIn" class="nav-partdiv table-items-detail mTop20 hide">
+    <table id="navStorageIn" class="nav-partdiv table-items-detail mTop20 hide pBottom50">
         <tr class="table-header">
             <td class="tLeft">单号</td>
             <td class="">总金额</td>
