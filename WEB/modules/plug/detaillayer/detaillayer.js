@@ -6,6 +6,11 @@
         _this.setting = $.fn.extend({}, _this.default, option);
         _this.init();
     };
+
+    PlugJS.close = function () {
+        $(".confim-dialog").remove();
+    };
+
     PlugJS.prototype.default = {
         width: 400,
         content: "",
@@ -26,7 +31,7 @@
                 _this.setting.yesFn && _this.setting.yesFn();
             });
             innerHtml.find('#btnClose').click(function () {
-                $(".confim-dialog").remove();
+                PlugJS.close();
             });
             $('body').append(innerHtml);
             var height = ($(window).height() - $('.confim-main').height()) / 2;
@@ -44,6 +49,10 @@
             $(".confim-dialog").remove();
         }
     });
+
+    exports.close = function () {
+        return PlugJS.close();
+    };
 
     exports.create = function (option) {
         return new PlugJS(option);

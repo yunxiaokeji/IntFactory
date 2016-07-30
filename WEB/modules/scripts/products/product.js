@@ -437,6 +437,7 @@
     }
     //保存产品
     Product.savaProduct = function () {
+
         var _self = this, attrlist = "", valuelist = "", attrvaluelist = "";
         var bl = true;
 
@@ -530,7 +531,7 @@
                         }
                     }
                 }
-                $(".confim-dialog").remove();
+                DetailLayer.close();
             } else if (data.result == 2) {
                 alert("材料编码已存在");
             } else {

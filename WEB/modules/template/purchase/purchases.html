@@ -15,6 +15,8 @@
     <td class="tLeft">采购单号：{%=item.DocCode%}</td>
     <td>编码</td>
     <td>数量</td>
+    <td>入库数</td>
+    <td>入库金额</td>
     <td>采购价</td>
     <td>总金额</td>
     <td class="">
@@ -41,6 +43,8 @@
          <td class="bBottom tLeft"><a href="/Products/ChooseDetail?pid={%=detailItem.ProductID%}&did={%=detailItem.ProductDetailID%}" target="_blank">{%=detailItem.ProductName+"&nbsp;&nbsp;"%}<span class="color999">{%=detailItem.Remark%}</span></a></td>
          <td class="bBottom">{%=detailItem.DetailsCode?detailItem.DetailsCode: detailItem.ProductCode%}</td>
          <td class="bBottom">{%=detailItem.Quantity.toFixed(2)%}</td>
+         <td class="bBottom">{%=detailItem.Complete.toFixed(2)%}</td>
+         <td class="bBottom">{%=(detailItem.Complete*detailItem.Price).toFixed(2)%}</td>
          <td class="bBottom">{%=detailItem.TotalMoney.toFixed(2)%}</td>
          {%
          if(k==0)
