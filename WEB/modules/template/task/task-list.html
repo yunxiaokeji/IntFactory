@@ -3,11 +3,8 @@
 	var item = $data[i];
     var totalDay=(item.UseDays==0?1:item.UseDays)+(item.WarningDays==0?1:item.WarningDays);
 %}
-    <tr class="line-item">
-        <td colspan="10"></td>
-    </tr>
     <tr class="item-header">
-        <td colspan="2" class="bLeft">
+        <td colspan="2" class="">
             <span class="mark left" data-id="{%=item.TaskID%}" data-value="{%= item.ColorMark %}"></span>
             <a href="/Task/Detail/{%=item.TaskID%}" class="left bold mLeft10">
                 任务名称：{%=item.Title==""?"--":item.Title%}
@@ -16,12 +13,12 @@
         <td class="width300 tLeft bold">
             负责人：{%=(item.Owner ? item.Owner.Name:"--")%}
         </td>
-        <td class="bold bRight">
+        <td class="bold">
             任务派发日期：{%=item.CreateTime.toDate("yyyy-MM-dd")%}
         </td>
     </tr>
     <tr class="item orderitem">
-        <td class="order-image bLeft">
+        <td class="order-image">
             <a href="/Task/Detail/{%=item.TaskID%}" >
                 <img src="{%= item.OrderImg||'/modules/images/img-noimg.png' %}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" />
             </a> 
@@ -89,7 +86,7 @@
                 </div>   
             {% }%}  
         </td>   
-        <td class="order-time bRight">
+        <td class="order-time">
             {% if(item.FinishStatus==0){ %}
                 <div class="mTop10 left">
                     <div class="order-progress left">                    
@@ -140,6 +137,5 @@
                 </div>
             {% } %}    
         </td>
-  
     </tr>
 {% } %}

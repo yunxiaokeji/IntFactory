@@ -3,9 +3,6 @@
 	var item = $data[i];
     var totalDay=(item.UseDays==0?1:item.UseDays)+(item.WarningDays==0?1:item.WarningDays);    
 %}
-    <tr class="line-item">
-        <td colspan="10"></td>
-    </tr>
     <tr class="item-header">
         <td colspan="2">
             <span data-id="{%=item.OrderID%}" data-userid="{%=item.OwnerID%}" class="iconfont checkbox left mTop3"></span>
