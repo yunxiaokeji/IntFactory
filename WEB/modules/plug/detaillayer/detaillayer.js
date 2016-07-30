@@ -50,6 +50,10 @@
         }
     });
 
+    exports.close = function () {
+        return PlugJS.close();
+    };
+
     exports.create = function (option) {
         return new PlugJS(option);
     };
