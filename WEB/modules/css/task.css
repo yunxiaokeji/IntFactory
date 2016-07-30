@@ -1,4 +1,5 @@
 ﻿
+/*                  任务详情页样式                               */
 .taskContent { 
     background-color: #fff; 
     margin: 0 20px; 
@@ -45,12 +46,17 @@
     border:1px solid #eee;
 }
 
-.task-member .removeTaskMember {
-    font-size:16px;
-    font-weight:bold;
+.content-title ul li { 
+    float:left; 
+    height:50px; 
+    border-left:solid 1px #eee; 
+    font-size:14px; 
+    color:#666; 
+    padding:0 20px; 
 }
-
-.pager-bgcolor {height:50px;background-color:#fff;margin-top:20px;margin-bottom:-60px; }
+.content-title ul .iconfont { 
+    font-size:20px;
+}
 
 /*任务样图信息*/
 .order-imgs-div {
@@ -266,191 +272,6 @@
     background-color:#2F73B8;
 }
 
-/*任务讨论*/
-.task-replys {
-    width:800px;
-}
-.task-replys .txt-content {
-    height:100px;
-}
-.task-replys .btn-save { 
-    position:absolute; 
-    right:0; 
-    bottom:0px; 
-}
- .talk-title { 
-    border-bottom: solid 1px #ccc; 
-    height:40px; 
-    line-height:40px; 
-    color:#666; 
-}
-.taskreply-box {
-    height:30px;
-    overflow:hidden;
-    border:1px solid  #ddd;
-    padding:10px 10px 0px 10px;
-    border-radius:3px;
-}
-.taskreply-box .reply-content {
-    border:none;
-    height:100px;
-    width:100%;
-    border-bottom:1px solid #ddd;
-}
-.taskreply-box-hover {
-    height:auto;
-    border: 1px solid #666;
-    overflow:visible;
-}
-.reply-box .iconfont,.taskreply-box .iconfont { 
-    font-size:22px;
-    height:28px;
-    line-height:30px;
-    color:#999;
-    cursor:pointer;
-    margin-top:5px;
-    background-color:#fff;
-    border:0;
-}
-.reply-box .iconfont:hover,.taskreply-box .iconfont:hover { 
-    color:#4a98e7;
-}
-.task-replys .content-list {
-    width:100%;
-}
-.accessory { 
-    margin-top:10px;
-}
-.accessory li{ 
-   position:relative;
-   float:left;
-   margin-right:40px;
-   border:1px solid #ddd;
-   width:120px;
-   height:80px;
-   text-align:center;
-   line-height:80px;
-   margin-bottom:20px;
-   padding:1px;
-}
-.accessory li img{ 
-    max-width:120px;
-    max-height:80px;
-}
-.accessory li .delete{ 
-    background: url(/modules/images/ico-delete.png) no-repeat;
-    height: 20px;
-    min-width: 20px;
-    line-height: 20px;
-    cursor: pointer;
-    position:absolute;
-    right:-10px;    
-    top:-10px;
-}
-
-.task-replys .content-list td{ 
-    border-bottom:dashed 1px #ccc; 
-}
-.task-replys .content-list .user-avatar { 
-    width:35px; 
-    padding-top:20px; 
-    vertical-align:top; 
-}
-.task-replys .content-list .user-avatar img{ 
-    width:24px; 
-    height:24px; 
-    border-radius:12px;  
-    vertical-align:top; 
-}
-.task-replys .content-list tr:not(:first-child) td {
-    height:35px;
-}
-.task-replys .content-list .reply-box {
-    border:1px solid  #ddd;
-    padding:10px 10px 10px 10px;
-    border-radius:3px;
-}
-.task-replys .content-list .reply-box:hover {
-    border: 1px solid #666;
-}
-.task-replys .content-list .reply-box textarea {
-    width:100%;
-    border:none;
-    height:60px;
-    border-bottom:1px solid #ddd;  
-}
-
-/*title*/
-.content-title ul li { 
-    float:left; 
-    height:50px; 
-    border-left:solid 1px #eee; 
-    font-size:14px; 
-    color:#666; 
-    padding:0 20px; 
-}
-.content-title ul .iconfont { 
-    font-size:20px;
-}
-
-.list-item .title-layer { text-overflow: inherit !important;}
-.list-item .list-hint-info { padding:2px 8px;background-color:red;color:#fff;border-radius:5px;height:18px;line-height:18px;margin-right:10px;}
-
-
-/*任务列表样式*/
-.table-items-detail .taskitem { height:140px;background-color:#fff;}
-.table-items-detail .taskitem td{ border-bottom:solid 1px #ddd; }
-.table-items-detail .order-image{ width:120px; }
-.table-items-detail .order-image img{ max-width:120px; max-height:120px; vertical-align:middle; }
-
-.table-items-detail .task-info { padding-left:20px; }
-.table-items-detail .task-info div{ height:35px; line-height:35px; color:#333; }
-.table-items-detail .task-info .column-title { display:inline-block; height:35px; line-height:35px; width:80px; color:#666; }
-
-.table-items-detail .pre-task { width: 270px; padding-left:10px; border-left:solid 1px #ddd;}
-.table-items-detail .pre-task div{ height:45px; line-height:45px; color:#333; }
-.table-items-detail .pre-task a,.table-items-detail .pre-task span{ display:inline-block; height:45px; line-height:45px; float:left;}
-.table-items-detail .pre-task .column-title {  width:60px; margin-left:5px;}
-
-.table-items-detail .order-time { width:160px; padding:0 50px; border-left:solid 1px #ddd; }
-
-.order-progress { margin-top: 15px; width: 160px; position: relative; }
-.order-progress .layer-line { width: 160px; height: 4px; left: 0; top: 0; z-index: 9999; transition: 3.5s; -webkit-transition: 3.5s; -moz-transition: 3.5s; 
-                                  position: absolute; background-color: rgba(255,255,255,0.8); }
-.order-progress .order-progress-item { width: 80px; height: 4px; min-width: 5px; max-width: 155px; background-color: #5994e6; float: left; position: relative; }
-.order-progress .order-progress-use { width: 100px; background-color: #5994e6; border-top-left-radius: 2px; border-bottom-left-radius: 2px; }
-
-.order-progress .order-progress-have { width: 60px; background-color: #ccc; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }
-
-.order-progress .order-progress-exceed { width: 60px; background-color: #f35353; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }
-
-.order-progress .order-progress-warn { width: 60px; background-color: #ffa200; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }
-
-.order-progress .order-progress-complete { width: 60px; background-color: #2F73B8; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }
-
-.order-progress .top-lump { border-top: solid 4px #49b3f5; border-left: solid 2px transparent; border-right: solid 2px transparent; 
-                                width: 0; height: 0; position: absolute; left: 40px; top: -10px; }
-.order-progress .progress-tip { background-color: #49b3f5; padding: 2px 0; min-width: 54px; text-align: center; white-space: nowrap; 
-                                    border-radius: 2px; color: #fff; position: absolute; top: -29px; }
-
-.color-progress { height: 4px; width: 160px; background-color: #ccc; }
-.order-progress-use .top-lump { border-top-color: #49b3f5; }
-
-.order-progress-use .progress-tip { background-color: #49b3f5; }
-
-.order-progress-have .top-lump { border-top-color: #ddd; }
-
-.order-progress-have .progress-tip { background-color: #ddd; }
-.order-progress-exceed .top-lump { border-top-color: #f35353; }
-
-.order-progress-exceed .progress-tip { background-color: #f35353; }
-.order-progress-warn .top-lump { border-top-color: #ffa200; }
-
-.order-progress-warn .progress-tip { background-color: #ffa200; }
-
-.order-progress-complete .top-lump { border-top-color: #2F73B8; }
-.order-progress-complete .progress-tip { background-color: #2F73B8; }
-
 /*成员列表样式*/
 .memberlist .member-title {line-height:30px;height:30px;margin-bottom:5px;padding-bottom:5px;}
 
@@ -471,6 +292,7 @@
 .member-items td i { font-style:normal;vertical-align:middle;}
 .member-items i img { width:22px;height:22px;border-radius:50%;vertical-align:middle;}
 .memberlist .membername { width:100px;display:inline-block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.task-member .removeTaskMember { font-size: 16px; font-weight: bold; }
 .removeTaskMember { color:#999;}
 .removeTaskMember:hover {color:#4a98e7; }
 .task-members .iconfont { font-size: 24px; color: #888; margin-right: 5px; }
@@ -478,19 +300,4 @@
 .plate-show-ico { margin: 10px 0 0 82px; }
 .plate-show-ico img { max-width: 60px; max-height: 60px; width: 60px; }
 
-/*上传*/
-/*.upload-file {margin-right:10px;}*/
-.upload-file li { float:left;position:relative;margin-right:20px;margin-bottom:10px;}
-.upload-file li img{ width:35px;height:40px;margin-right:3px;}
-.upload-file div{ font-size:10px;color:#aaa;line-height:20px;cursor:pointer;}
-.upload-file div span{ color:#aaa;}
-.upload-file 
 
-/*回复*/
-.logo-upload {width:60px;height:60px;float:left;margin-right:10px;position:absolute;z-index:100;}
-.logo-upload img{ margin:10px 0 0 13px;}
-.upload-lump {position:relative;left:13px;top:10px;width:35px;height:40px;}
-.information-upload { background-color:#fafafa;position:relative;margin-left:60px;}
-.information-upload .filename{color:#222;margin-top:7px;}
-.popup-download { height:60px;background-color:rgba(204,204,204,0.9);width:111px;z-index:100;top:0;left:60px;position:absolute;
-                  font-size:28px !important;text-align:center;color:#fff !important;line-height:60px !important;}
