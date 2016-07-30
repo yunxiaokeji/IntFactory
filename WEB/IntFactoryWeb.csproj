@@ -193,6 +193,7 @@
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
     <Content Include="DLL\Newtonsoft.Json.dll" />
     <Content Include="DLL\Qiniu.4.0.dll" />
+    <Content Include="modules\css\common\order-task-list.css" />
     <Content Include="modules\css\customer.css" />
     <Content Include="modules\css\guidestep.css" />
     <Content Include="modules\css\myaccount\weixin.css" />
@@ -211,7 +212,6 @@
     <Content Include="modules\css\inquire\online-pay.css" />
     <Content Include="modules\css\myaccount\feedbacklist.css" />
     <Content Include="modules\css\order\platemakingprocess.css" />
-    <Content Include="modules\css\stock\stock.css" />
     <Content Include="modules\css\task.css" />
     <Content Include="modules\images\author-image.png" />
     <Content Include="modules\images\bg-loginBackground.png" />

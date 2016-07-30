@@ -20,13 +20,13 @@
             任务派发日期：{%=item.CreateTime.toDate("yyyy-MM-dd")%}
         </td>
     </tr>
-    <tr class="item taskitem">
+    <tr class="item orderitem">
         <td class="order-image bLeft">
             <a href="/Task/Detail/{%=item.TaskID%}" >
                 <img src="{%= item.OrderImg||'/modules/images/img-noimg.png' %}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" />
             </a> 
         </td>  
-        <td class="task-info tLeft">
+        <td class="order-costinfo tLeft">
             <div>
                 <span class="column-title">任务编码：</span>
                 <a href="/Task/Detail/{%=item.TaskID%}" class="bold">
@@ -46,7 +46,7 @@
                 {%=item.OrderType==1?"打样":"大货"%}
             </div>
         </td>
-        <td class="pre-task tLeft">
+        <td class="order-customer tLeft">
             <div class="mTop5">
                 <span class="column-title">上级任务：</span>
                 {%=item.PreTitle||"--"%}
