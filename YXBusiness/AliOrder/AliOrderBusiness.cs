@@ -37,7 +37,7 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 下载阿里打样订单
         /// </summary>
-        public static bool DownFentOrders(DateTime gmtFentStart, DateTime gmtFentEnd, string token, string refreshToken, string userID, string agentID, string clientID, ref int successCount, ref int total,out string error, AlibabaSdk.AliOrderDownType aliOrderDownType = AlibabaSdk.AliOrderDownType.Auto)
+        public static bool DownFentOrders(DateTime gmtFentStart, DateTime gmtFentEnd, string token, string refreshToken, string userID, string clientID, ref int successCount, ref int total,out string error, AlibabaSdk.AliOrderDownType aliOrderDownType = AlibabaSdk.AliOrderDownType.Auto)
         {
             error = string.Empty;
             DateTime orderCreateTime=DateTime.Now;
@@ -109,7 +109,7 @@ namespace IntFactoryBusiness
                        HttpUtility.UrlDecode(order.buyerName), order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.ProofOrder, string.Empty, string.Empty,
                         order.fentPrice, order.bulkCount, order.gmtReleasedExpect, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
                         string.Empty, order.buyerAddress, string.Empty, string.Empty,
-                        userID, agentID, clientID, order.fentGoodsCode);
+                        userID,clientID, order.fentGoodsCode);
 
                     //新增订单失败
                     if (string.IsNullOrEmpty(orderID))
@@ -133,7 +133,7 @@ namespace IntFactoryBusiness
 
             if (totalCount == 1000)
             {
-                DownFentOrders(orderCreateTime, gmtFentEnd, token, refreshToken, userID, agentID, clientID, ref successCount, ref total, out error, aliOrderDownType);
+                DownFentOrders(orderCreateTime, gmtFentEnd, token, refreshToken, userID, clientID, ref successCount, ref total, out error, aliOrderDownType);
             }
 
             return true;
@@ -142,7 +142,7 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 下载阿里大货订单
         /// </summary>
-        public static bool DownBulkOrders(DateTime gmtBulkStart, DateTime gmtBulkEnd, string token, string refreshToken, string userID, string agentID, string clientID, ref int successCount, ref int total,out string error, AlibabaSdk.AliOrderDownType aliOrderDownType = AlibabaSdk.AliOrderDownType.Auto)
+        public static bool DownBulkOrders(DateTime gmtBulkStart, DateTime gmtBulkEnd, string token, string refreshToken, string userID, string clientID, ref int successCount, ref int total,out string error, AlibabaSdk.AliOrderDownType aliOrderDownType = AlibabaSdk.AliOrderDownType.Auto)
         {
             successCount = 0;
             total = 0;
@@ -213,7 +213,7 @@ namespace IntFactoryBusiness
                         HttpUtility.UrlDecode(order.buyerName), order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.LargeOrder, string.Empty, string.Empty,
                         order.bulkPrice, order.bulkCount, order.gmtReleasedExpect, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
                         string.Empty, order.buyerAddress, string.Empty, string.Empty,
-                        userID, agentID, clientID, order.bulkGoodsCode);
+                        userID, clientID, order.bulkGoodsCode);
 
                     //新增订单失败
                     if (string.IsNullOrEmpty(orderID))
@@ -236,7 +236,7 @@ namespace IntFactoryBusiness
 
             if (totalCount == 1000)
             {
-                DownFentOrders(orderCreateTime, gmtBulkEnd, token, refreshToken, userID, agentID, clientID, ref successCount, ref total, out error, aliOrderDownType);
+                DownFentOrders(orderCreateTime, gmtBulkEnd, token, refreshToken, userID, clientID, ref successCount, ref total, out error, aliOrderDownType);
             }
 
             return true;
@@ -246,7 +246,6 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 批量更新打样订单
         /// </summary>
-        /// <param name="agentID"></param>
         /// <param name="token"></param>
         /// <param name="refreshToken"></param>
         /// <returns></returns>
@@ -448,7 +447,6 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 获取阿里订单下载计划详情
         /// </summary>
-        /// <param name="agentID"></param>
         /// <returns></returns>
         public AliOrderDownloadPlan GetAliOrderDownloadPlanDetail(string clientID)
         {
@@ -465,9 +463,9 @@ namespace IntFactoryBusiness
 
         }
     
-        public bool AddAliOrderDownloadPlan(string userID, string memberID, string token, string refreshToken, string agentID, string clientID)
+        public bool AddAliOrderDownloadPlan(string userID, string memberID, string token, string refreshToken, string clientID)
         {
-            bool flag = AliOrderDAL.BaseProvider.AddAliOrderDownloadPlan(userID, memberID, token, refreshToken, agentID, clientID);
+            bool flag = AliOrderDAL.BaseProvider.AddAliOrderDownloadPlan(userID, memberID, token, refreshToken, clientID);
 
             return flag;
         }
@@ -508,30 +506,6 @@ namespace IntFactoryBusiness
         #endregion
 
         #region 阿里订单下载日志
-        /// <summary>
-        /// 获取阿里订单下载日志列表
-        /// </summary>
-        /// <param name="orderType"></param>
-        /// <param name="isSuccess">下载结果 1：成功；0：失败</param>
-        /// <param name="downType">下载类型 1：自动；2手动</param>
-        /// <param name="startTime"></param>
-        /// <param name="endTime"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="totalCount"></param>
-        /// <param name="pageCount"></param>
-        /// <param name="agentid"></param>
-        /// <param name="clientid"></param>
-        /// <returns></returns>
-        public List<AliOrderUpdateLog> GetAliOrderDownloadLogs(EnumOrderType orderType, int isSuccess, int downType, DateTime startTime, DateTime endTime, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string agentID, string clientID)
-        {
-            List<AliOrderUpdateLog> list = new List<AliOrderUpdateLog>();
-            DataTable dt = AliOrderDAL.BaseProvider.GetAliOrderUpdateLogs((int)orderType, isSuccess, downType,
-                startTime, endTime, pageSize,
-                pageIndex, ref totalCount, ref pageCount, agentID, clientID);
-
-            return list;
-        }
 
         /// <summary>
         /// 新增阿里订单下载日志
@@ -543,14 +517,12 @@ namespace IntFactoryBusiness
         /// <param name="endTime"></param>
         /// <param name="totalCount"></param>
         /// <param name="successCount"></param>
-        /// <param name="agentID"></param>
         /// <param name="clientID"></param>
         /// <returns></returns>
-        public bool AddAliOrderDownloadLog(EnumOrderType orderType, bool isSuccess,AlibabaSdk.AliOrderDownType downType, DateTime startTime, DateTime endTime, int successCount, int totalCount,string remark, string agentID, string clientID)
+        public bool AddAliOrderDownloadLog(EnumOrderType orderType, bool isSuccess, AlibabaSdk.AliOrderDownType downType, DateTime startTime, DateTime endTime, int successCount, int totalCount, string remark, string clientID)
         {
             bool flag = AliOrderDAL.BaseProvider.AddAliOrderUpdateLog((int)orderType, isSuccess?1:0,(int)downType,
-                startTime, endTime, successCount, totalCount,remark,
-                agentID, clientID);
+                startTime, endTime, successCount, totalCount, remark, clientID);
 
             return flag;
         }

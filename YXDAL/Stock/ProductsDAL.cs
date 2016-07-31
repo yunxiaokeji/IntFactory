@@ -457,7 +457,7 @@ namespace IntFactoryDAL
 
         public string AddProduct(string productCode, string productName, string generalName, string prodiverid, string unitid,
                          string categoryid, int status, int ispublic, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price,
-                         decimal weight, int isallow, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid,ref int result)
+                         decimal weight, int isallow, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid,ref int result)
         {
             string id = "";
             SqlParameter[] paras = { 
@@ -477,7 +477,6 @@ namespace IntFactoryDAL
                                        new SqlParameter("@Price",price),
                                        new SqlParameter("@Weight",weight),
                                        new SqlParameter("@IsAllow",isallow),
-                                       new SqlParameter("@EffectiveDays",effectiveDays),
                                        new SqlParameter("@DiscountValue",discountValue),
                                        new SqlParameter("@ProductImg",productImg),
                                        new SqlParameter("@ShapeCode",shapeCode),

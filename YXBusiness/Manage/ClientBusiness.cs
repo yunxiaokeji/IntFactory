@@ -69,20 +69,17 @@ namespace IntFactoryBusiness.Manage
                     sqlWhere += " and len(a.AliMemberID)>0 ";
                 }
             }
-            string sqlColumn = @" a.AutoID,a.ClientID,a.ClientCode,a.CompanyName,a.Logo,a.Industry,
-                                a.CityCode,a.Address,a.PostalCode,a.ContactName,a.MobilePhone,a.OfficePhone,
-                                a.Status,b.EndTime,b.UserQuantity,a.TotalIn,a.TotalOut,a.FreezeMoney,
-                                a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,a.AliMemberID ";
+            string sqlColumn = @" a.* ";
             bool isAsc=false;
             if (string.IsNullOrEmpty(orderBy))
             {
                 orderBy = "a.AutoID";
             }
-            else { 
-                isAsc=orderBy.IndexOf(" asc")>-1?true:false; 
+            else {
+                isAsc = orderBy.IndexOf(" asc") > -1 ? true : false; 
                 orderBy = orderBy.Replace(" desc", "").Replace(" asc", "");
             }
-            DataTable dt = CommonBusiness.GetPagerData("Clients a  join Agents b on a.ClientID=b.ClientID", sqlColumn, sqlWhere, orderBy, pageSize, pageIndex, out totalCount, out pageCount, isAsc);
+            DataTable dt = CommonBusiness.GetPagerData("Clients a", sqlColumn, sqlWhere, orderBy, pageSize, pageIndex, out totalCount, out pageCount, isAsc);
             List<Clients> list = new List<Clients>();
             Clients model; 
             foreach (DataRow item in dt.Rows)
@@ -361,8 +358,7 @@ namespace IntFactoryBusiness.Manage
         /// <returns></returns>
         public static bool InsertClientAuthorizeLog(ClientAuthorizeLog model)
         {
-            return ClientDAL.BaseProvider.InsertClientAuthorizeLog(model.ClientID,model.AgentID,model.OrderID,
-                model.UserQuantity, model.BeginTime, model.EndTime, model.Type);
+            return ClientDAL.BaseProvider.InsertClientAuthorizeLog(model.ClientID, model.OrderID, model.UserQuantity, model.BeginTime, model.EndTime, model.Type);
         }
         #endregion
 

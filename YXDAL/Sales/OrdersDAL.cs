@@ -612,7 +612,7 @@ namespace IntFactoryDAL
         }
 
         public bool EditOrder(string orderid, string goodsCode, string goodsName, string personName, string mobileTele, string cityCode, string address,
-                                string postalcode, string typeid, int expresstype, string remark, string operateid, string clientid, out int result)
+                                string postalcode, int expresstype, string remark, string operateid, string clientid, out int result)
         {
             result = 0;
             SqlParameter[] paras = { 
@@ -625,7 +625,6 @@ namespace IntFactoryDAL
                                      new SqlParameter("@CityCode" , cityCode),
                                      new SqlParameter("@Address" , address),
                                      new SqlParameter("@PostalCode" , postalcode),
-                                     new SqlParameter("@TypeID" , typeid),
                                      new SqlParameter("@ExpressType" , expresstype),
                                      new SqlParameter("@Remark" , remark),
                                      new SqlParameter("@UserID" , operateid),

@@ -17,9 +17,9 @@ namespace IntFactoryBusiness
 
         #region 查询
 
-        public List<UpcomingsEntity> GetClientUpcomings(string userid, string agentid, string clientid)
+        public List<UpcomingsEntity> GetClientUpcomings(string userid, string clientid)
         {
-            DataTable dt = new LogDAL().GetClientUpcomings(userid, agentid, clientid);
+            DataTable dt = new LogDAL().GetClientUpcomings(userid, clientid);
             List<UpcomingsEntity> list = new List<UpcomingsEntity>();
 
             foreach (DataRow dr in dt.Rows)
@@ -37,7 +37,7 @@ namespace IntFactoryBusiness
         /// 获取日志
         /// </summary>
         /// <returns></returns>
-        public static List<LogEntity> GetLogs(string guid, EnumLogObjectType type, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string agentid)
+        public static List<LogEntity> GetLogs(string guid, EnumLogObjectType type, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientid)
         {
             string tablename = "";
             switch (type)
@@ -60,7 +60,7 @@ namespace IntFactoryBusiness
             {
                 LogEntity model = new LogEntity();
                 model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientid);
 
                 list.Add(model);
             }
@@ -78,9 +78,9 @@ namespace IntFactoryBusiness
         /// <param name="status">登录结果</param>
         /// <param name="systemtype">系统类型</param>
         /// <param name="operateip">登录IP</param>
-        public static async void AddLoginLog(string loginname, bool status, EnumSystemType systemtype, string operateip, string userid, string agentid, string clientid)
+        public static async void AddLoginLog(string loginname, bool status, EnumSystemType systemtype, string operateip, string userid, string clientid)
         {
-            await LogDAL.AddLoginLog(loginname, status ? 1 : 0, (int)systemtype, operateip, userid, agentid, clientid);
+            await LogDAL.AddLoginLog(loginname, status ? 1 : 0, (int)systemtype, operateip, userid, clientid);
         }
         
         /// <summary>
@@ -102,7 +102,7 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 记录日志
         /// </summary>
-        public static async void AddLog(string logguid, EnumLogObjectType type, string remark, string userid, string operateip, string guid, string agentid, string clientid)
+        public static async void AddLog(string logguid, EnumLogObjectType type, string remark, string userid, string operateip, string guid, string clientid)
         {
             string tablename = "OperateLog";
             switch (type)
@@ -120,12 +120,12 @@ namespace IntFactoryBusiness
                     tablename = "OperateLog";
                     break;
             }
-            await LogDAL.AddLog(tablename, logguid, remark, userid, operateip, guid, agentid, clientid);
+            await LogDAL.AddLog(tablename, logguid, remark, userid, operateip, guid, clientid);
         }
 
-        public static async void AddActionLog(EnumSystemType systemtype, EnumLogObjectType objecttype, EnumLogType actiontype,  string operateip, string userid, string agentid, string clientid)
+        public static async void AddActionLog(EnumSystemType systemtype, EnumLogObjectType objecttype, EnumLogType actiontype, string operateip, string userid, string clientid)
         {
-            await LogDAL.AddActionLog((int)systemtype, (int)objecttype, (int)actiontype, operateip, userid, agentid, clientid);
+            await LogDAL.AddActionLog((int)systemtype, (int)objecttype, (int)actiontype, operateip, userid, clientid);
         }
 
 
