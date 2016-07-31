@@ -27,109 +27,30 @@ namespace IntFactoryEntity
 	{
 		public Menu()
 		{}
-		#region Model
-		private int _autoid;
-		private string _menucode;
-		private string _name;
-		private string _area="";
-		private string _controller="";
-		private string _view="";
-		private string _icopath="";
-		private int? _type=1;
-		private int? _ishide=0;
-		private string _pcode="";
-		private int? _sort=null;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string MenuCode
-		{
-			set{ _menucode=value;}
-			get{return _menucode;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name
-		{
-			set{ _name=value;}
-			get{return _name;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Area
-		{
-			set{ _area=value;}
-			get{return _area;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Controller
-		{
-			set{ _controller=value;}
-			get{return _controller;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-        public string View
-		{
-			set{ _view=value;}
-			get{return _view;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string IcoPath
-		{
-			set{ _icopath=value;}
-			get{return _icopath;}
-		}
+
+        public int AutoID { get; set; }
+
+        public string MenuCode { get; set; }
+
+        public string Name { get; set; }
+
+        public string Area { get; set; }
+
+        public string Controller { get; set; }
+
+        public string View { get; set; }
+
+        public string IcoPath { get; set; }
 
         public string IcoHover { get; set; }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Type
-		{
-			set{ _type=value;}
-			get{return _type;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? IsHide
-		{
-			set{ _ishide=value;}
-			get{return _ishide;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string PCode
-		{
-			set{ _pcode=value;}
-			get{return _pcode;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Sort
-		{
-			set{ _sort=value;}
-			get{return _sort;}
-		}
+        public int Type { get; set; }
+
+        public int IsHide { get; set; }
+
+        public string PCode { get; set; }
+
+        public int Sort { get; set; }
 
         public int Layer { get; set; }
 
@@ -138,8 +59,6 @@ namespace IntFactoryEntity
         public int IsMenu { get; set; }
 
         public int IsLimit { get; set; }
-
-		#endregion Model
 
         public string Remark { get; set; }
 

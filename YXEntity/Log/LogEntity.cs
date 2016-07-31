@@ -7,6 +7,7 @@ namespace IntFactoryEntity
 {
     public class LogEntity
     {
+        [Property("Lower")]
         public string LogGUID { get; set; }
 
         public string Remark { get; set; }
@@ -17,7 +18,7 @@ namespace IntFactoryEntity
 
         public Users CreateUser { get; set; }
 
-        public string AgentID { get; set; }
+        public string ClientID { get; set; }
 
         public void FillData(System.Data.DataRow dr)
         {

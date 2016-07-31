@@ -31,8 +31,6 @@ namespace IntFactoryEntity
 
         public string CreateUserID { get; set; }
 
-        public string AgentID { get; set; }
-
         public string ClientID { get; set; }
 
 

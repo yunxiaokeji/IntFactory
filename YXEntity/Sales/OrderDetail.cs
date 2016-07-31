@@ -25,26 +25,8 @@ namespace IntFactoryEntity
 	{
         public OrderDetail()
 		{}
-		#region Model
-		private int _autoid;
-		private string _productid;
-		private decimal _price=0M;
-		private decimal _totalmoney=0M;
-		private decimal _taxmoney=0M;
-		private decimal _taxrate=1M;
-        private decimal _lossrate = 0M;
-		private decimal _returnprice=0M;
-		private decimal _returnmoney=0M;
-		private string _batchcode="";
-		private string _clientid;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+
+		public int AutoID{ set; get; }
 
         [Property("Lower")]
         public string OrderID { get; set; }
@@ -55,108 +37,31 @@ namespace IntFactoryEntity
 		/// 
 		/// </summary>
         [Property("Lower")]
-		public string ProductID
-		{
-			set{ _productid=value;}
-			get{return _productid;}
-		}
+		public string ProductID{ set; get; }
 
         [Property("Lower")]
         public string UnitID { get; set; }
 
-        public int IsBigUnit { get; set; }
+        public string UnitName { get; set; }
 
-        public decimal LossRate 
-        {
-            set { _lossrate = value; }
-            get { return _lossrate; }
-        }
-
-		/// <summary>
-		/// 
-		/// </summary>
         public decimal Quantity { set; get; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal Price
-		{
-			set{ _price=value;}
-			get{return _price;}
-		}
+
+        public decimal Price { get; set; }
+
         public decimal Loss { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public decimal TotalMoney
-		{
-			set{ _totalmoney=value;}
-			get{return _totalmoney;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal TaxMoney
-		{
-			set{ _taxmoney=value;}
-			get{return _taxmoney;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal TaxRate
-		{
-			set{ _taxrate=value;}
-			get{return _taxrate;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal ReturnPrice
-		{
-			set{ _returnprice=value;}
-			get{return _returnprice;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal ReturnMoney
-		{
-			set{ _returnmoney=value;}
-			get{return _returnmoney;}
-		}
+		public decimal TotalMoney{ set; get; }
 
         public string WareID { get; set; }
 
         public string DepotID { get; set; }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public string BatchCode
-		{
-			set{ _batchcode=value;}
-			get{return _batchcode;}
-		}
-        [Property("Lower")]
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-
-        public int ApplyQuantity { get; set; }
-
-        public int ReturnQuantity { get; set; }
-
-        public int Status { get; set; }
-
         public string Remark { get; set; }
 
         public string ProductName { get; set; }
-
-        public string UnitName { get; set; }
 
         public string ImgS { get; set; }
 
@@ -166,6 +71,8 @@ namespace IntFactoryEntity
 
         public string ProductCode { get; set; }
 
+        public string ProviderID { get; set; }
+
         public string ProviderName { get; set; }
 
         public string ProviderMobileTele { get; set; }
@@ -173,7 +80,7 @@ namespace IntFactoryEntity
         public string ProviderAddress { get; set; }
 
         public string ProviderCityCode { get; set; }
-		#endregion Model
+
         /// <summary>
         /// 填充数据
         /// </summary>

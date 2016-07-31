@@ -25,24 +25,8 @@ namespace IntFactoryEntity
 	{
         public ProductStock()
 		{}
-		#region Model
-		private int _autoid;
-		private string _productid;
-		private string _produceddate;
-        private decimal _stockin = 0;
-        private decimal _stockout = 0;
-		private string _batchcode="";
-		private string _warecode="";
-		private string _depotcode="";
-		private string _clientid;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+
+		public int AutoID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -52,52 +36,24 @@ namespace IntFactoryEntity
 		/// 
 		/// </summary>
         [Property("Lower")] 
-		public string ProductID
-		{
-			set{ _productid=value;}
-			get{return _productid;}
-		}
+		public string ProductID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string ProducedDate
-		{
-			set{ _produceddate=value;}
-			get{return _produceddate;}
-		}
+		public string ProducedDate{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-        public decimal StockIn
-		{
-			set{ _stockin=value;}
-			get{return _stockin;}
-		}
+        public decimal StockIn{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-        public decimal StockOut
-		{
-			set{ _stockout=value;}
-			get{return _stockout;}
-		}
+        public decimal StockOut{ set; get; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-        public string BatchCode
-		{
-			set{ _batchcode=value;}
-			get{return _batchcode;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string WareCode
-		{
-			set{ _warecode=value;}
-			get{return _warecode;}
-		}
+		public string WareCode{ set; get; }
 
         [Property("Lower")] 
         public string DepotID { get; set; }
@@ -108,11 +64,7 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public string DepotCode
-		{
-			set{ _depotcode=value;}
-			get{return _depotcode;}
-		}
+		public string DepotCode{ set; get; }
 
         public string SaleAttrValue { get; set; }
 
@@ -126,12 +78,7 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-		#endregion Model
+		public string ClientID{ set; get; }
 
         public decimal LogicOut { get; set; }
 

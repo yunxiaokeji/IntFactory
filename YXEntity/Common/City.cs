@@ -26,111 +26,30 @@ namespace IntFactoryEntity
 	{
         public CityEntity()
 		{}
-		#region Model
-		private int _autoid;
-		private string _citycode;
-		private string _name;
-		private int? _level=0;
-		private string _pcode="";
-		private string _countrycode="";
-		private string _country="";
-		private string _province="";
-		private string _city="";
-		private string _counties="";
-		private string _postalcode="";
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CityCode
-		{
-			set{ _citycode=value;}
-			get{return _citycode;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name
-		{
-			set{ _name=value;}
-			get{return _name;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Level
-		{
-			set{ _level=value;}
-			get{return _level;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string PCode
-		{
-			set{ _pcode=value;}
-			get{return _pcode;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CountryCode
-		{
-			set{ _countrycode=value;}
-			get{return _countrycode;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Country
-		{
-			set{ _country=value;}
-			get{return _country;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Province
-		{
-			set{ _province=value;}
-			get{return _province;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string City
-		{
-			set{ _city=value;}
-			get{return _city;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Counties
-		{
-			set{ _counties=value;}
-			get{return _counties;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string PostalCode
-		{
-			set{ _postalcode=value;}
-			get{return _postalcode;}
-		}
 
+        public int AutoID { get; set; }
+
+        public string CityCode { get; set; }
+
+        public string Name { get; set; }
+
+        public int Level { get; set; }
+
+        public string PCode { get; set; }
+
+        public string CountryCode { get; set; }
+
+        public string Country { get; set; }
+
+        public string Province { get; set; }
+
+        public string City { get; set; }
+
+        public string Counties { get; set; }
+
+        public string PostalCode { get; set; }
 
         public string Description { get; set; }
-
-		#endregion Model
 
         /// <summary>
         /// 填充数据

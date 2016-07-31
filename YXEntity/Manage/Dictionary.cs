@@ -25,53 +25,24 @@ namespace IntFactoryEntity
 	{
 		public Dictionary()
 		{}
-		#region Model
-		private int _autoid;
-		private string _key;
-		private string _value;
-		private int? _type=0;
-		private string _description="";
+
+		public int AutoID{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+		public string Key{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Key
-		{
-			set{ _key=value;}
-			get{return _key;}
-		}
+		public string Value{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Value
-		{
-			set{ _value=value;}
-			get{return _value;}
-		}
+		public int? Type{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? Type
-		{
-			set{ _type=value;}
-			get{return _type;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Description
-		{
-			set{ _description=value;}
-			get{return _description;}
-		}
-		#endregion Model
+		public string Description{ get; set; }
 
 	}
 }

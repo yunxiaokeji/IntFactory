@@ -42,9 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agents\AgentOrderEntity.cs" />
-    <Compile Include="Agents\AgentOrderDetail.cs" />
-    <Compile Include="Agents\Report_AgentAction_Day.cs" />
+    <Compile Include="Log\Report_AgentAction_Day.cs" />
     <Compile Include="AliOrder\AliOrderDownloadLog.cs" />
     <Compile Include="AliOrder\AliOrderDownloadPlan.cs" />
     <Compile Include="AliOrder\AliOrderUpdateLog.cs" />
@@ -55,7 +53,6 @@
     <Compile Include="Custom\ExtentEntity.cs" />
     <Compile Include="Custom\ReplyEntity.cs" />
     <Compile Include="Custom\ReplyJson.cs" />
-    <Compile Include="Finance\Billing.cs" />
     <Compile Include="Finance\BillingInvoice.cs" />
     <Compile Include="Finance\BillingPay.cs" />
     <Compile Include="Finance\ClientAccountsEntity.cs" />
@@ -63,7 +60,6 @@
     <Compile Include="Finance\StorageBillingInvoice.cs" />
     <Compile Include="Finance\StorageBillingPay.cs" />
     <Compile Include="Log\LogEntity.cs" />
-    <Compile Include="Log\AgentLogEntity.cs" />
     <Compile Include="Log\UpcomingsEntity.cs" />
     <Compile Include="Manage\ClientOrder.cs" />
     <Compile Include="Manage\ClientOrderAccount.cs" />
@@ -85,24 +81,19 @@
     <Compile Include="Stock\GoodsDoc.cs" />
     <Compile Include="Manage\ClientAuthorizeLog.cs" />
     <Compile Include="Manage\ExpressCompany.cs" />
-    <Compile Include="Stock\StorageDocAction.cs" />
     <Compile Include="Manage\ModulesProduct.cs" />
     <Compile Include="System\Department.cs" />
     <Compile Include="Common\Industry.cs" />
     <Compile Include="System\Role.cs" />
-    <Compile Include="System\RolePermission.cs" />
     <Compile Include="System\UserAccounts.cs" />
     <Compile Include="System\UserDepart.cs" />
     <Compile Include="System\UserRole.cs" />
     <Compile Include="System\Users.cs" />
-    <Compile Include="Agents\Agents.cs" />
     <Compile Include="Stock\AttrValue.cs" />
-    <Compile Include="Stock\Brand.cs" />
     <Compile Include="Stock\Category.cs" />
     <Compile Include="System\DepotSeat.cs" />
     <Compile Include="Stock\ProductAttr.cs" />
     <Compile Include="Stock\ProductDetail.cs" />
-    <Compile Include="Stock\ProductImg.cs" />
     <Compile Include="Stock\ProductStock.cs" />
     <Compile Include="Stock\Products.cs" />
     <Compile Include="Stock\ProductStream.cs" />
@@ -122,7 +113,6 @@
     <Compile Include="Manage\Dictionary.cs" />
     <Compile Include="Manage\SystemMenu.cs" />
     <Compile Include="Manage\M_Users.cs" />
-    <Compile Include="Common\Permission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\TeamEntity.cs" />
     <Compile Include="System\OrderStageEntity.cs" />

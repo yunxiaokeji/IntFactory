@@ -25,30 +25,8 @@ namespace IntFactoryEntity
 	{
 		public ProductDetail()
 		{}
-		#region Model
-		private int _autoid;
-		private string _productid;
-		private string _saleattr="";
-		private string _attrvalue="";
-		private string _saleattrvalue="";
 
-		private string _imgs="";
-		private string _imgm="";
-		private int? _status=1;
-		private string _description="";
-		private string _createuserid;
-		private DateTime? _createtime= DateTime.Now;
-		private DateTime? _updatetime= DateTime.Now;
-		private string _operateip="";
-		private string _clientid;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+		public int AutoID{ set; get; }
         /// <summary>
         /// 
         /// </summary>
@@ -63,38 +41,22 @@ namespace IntFactoryEntity
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string ProductID
-		{
-			set{ _productid=value;}
-			get{return _productid;}
-		}
+		public string ProductID{ set; get; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string SaleAttr
-		{
-			set{ _saleattr=value;}
-			get{return _saleattr;}
-		}
+		public string SaleAttr{ set; get; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string AttrValue
-		{
-			set{ _attrvalue=value;}
-			get{return _attrvalue;}
-		}
+		public string AttrValue{ set; get; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string SaleAttrValue
-		{
-			set{ _saleattrvalue=value;}
-			get{return _saleattrvalue;}
-		}
+		public string SaleAttrValue{ set; get; }
 
         /// <summary>
         /// 
@@ -118,94 +80,47 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public string ImgS
-		{
-			set{ _imgs=value;}
-			get{return _imgs;}
-		}
+		public string ImgS{ set; get; }
+
 		/// <summary>
 		/// 
 		/// </summary>
-		public string ImgM
-		{
-			set{ _imgm=value;}
-			get{return _imgm;}
-		}
+        public decimal WarnCount{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-        public decimal WarnCount
-        {
-            set;
-            get;
-        }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Status
-		{
-			set{ _status=value;}
-			get{return _status;}
-		}
+		public int? Status{ set; get; }
 		
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string CreateUserID
-		{
-			set{ _createuserid=value;}
-			get{return _createuserid;}
-		}
+		public string CreateUserID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime? CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
+		public DateTime? CreateTime{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime? UpdateTime
-		{
-			set{ _updatetime=value;}
-			get{return _updatetime;}
-		}
+		public DateTime? UpdateTime{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string OperateIP
-		{
-			set{ _operateip=value;}
-			get{return _operateip;}
-		}
+		public string OperateIP{ set; get; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-		#endregion Model
+		public string ClientID{ set; get; }
 
-
-        public string Description
-        {
-            set { _description = value; }
-            get { return _description; }
-        }
+        public string Description { set; get; }
 
         public string Remark { get; set; }
 
         public string ShapeCode { get; set; }
 
         public decimal Price { get; set; }
-
-        public decimal BigPrice { get; set; }
 
         public decimal Weight { get; set; }
 
@@ -214,8 +129,6 @@ namespace IntFactoryEntity
         public string UnitName { get; set; }
 
         public decimal Quantity { get; set; }
-
-        public string BatchCode { get; set; }
 
         public string DepotCode { get; set; }
 

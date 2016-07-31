@@ -10,12 +10,9 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string ContactID { get; set; }
 
-        
-
         public string Name { get; set; }
 
         public int Type { get; set; }
-
 
         public string CityCode { get; set; }
 
@@ -57,9 +54,6 @@ namespace IntFactoryEntity
 
         [Property("Lower")]
         public string CustomerID { get; set; }
-
-        [Property("Lower")]
-        public string AgentID { get; set; }
 
         [Property("Lower")]
         public string ClientID { get; set; }

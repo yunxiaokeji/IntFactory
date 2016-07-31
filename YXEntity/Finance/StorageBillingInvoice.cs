@@ -25,216 +25,95 @@ namespace IntFactoryEntity
 	{
 		public StorageBillingInvoice()
 		{}
-		#region Model
-		private int _autoid;
-		private string _billingid;
-		private int _type=0;
-		private int _status=1;
-		private string _taxcode="";
-		private string _bankname="";
-		private string _bankaccount="";
-		private string _invoicecode="";
-		private decimal _invoicemoney;
-		private string _invoicetitle="";
-		private string _contactname="";
-		private string _contactphone="";
-		private string _citycode="";
-		private string _address="";
-		private string _remark="";
-		private string _expressid;
-		private string _expresscode;
-		private int _expressstatus=0;
-		private DateTime _expresstime;
-		private DateTime _createtime= DateTime.Now;
-		private string _createuserid;
-		private DateTime _updatetime= DateTime.Now;
-		private string _clientid;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+
+		public int AutoID{ get; set; }
 
         public string InvoiceID { get; set; }
 
         [Property("Lower")] 
-		public string BillingID
-		{
-			set{ _billingid=value;}
-			get{return _billingid;}
-		}
+		public string BillingID{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int Type
-		{
-			set{ _type=value;}
-			get{return _type;}
-		}
+		public int Type{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int Status
-		{
-			set{ _status=value;}
-			get{return _status;}
-		}
+		public int Status{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string TaxCode
-		{
-			set{ _taxcode=value;}
-			get{return _taxcode;}
-		}
+		public string TaxCode{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string BankName
-		{
-			set{ _bankname=value;}
-			get{return _bankname;}
-		}
+		public string BankName{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string BankAccount
-		{
-			set{ _bankaccount=value;}
-			get{return _bankaccount;}
-		}
+		public string BankAccount{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string InvoiceCode
-		{
-			set{ _invoicecode=value;}
-			get{return _invoicecode;}
-		}
+		public string InvoiceCode{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public decimal InvoiceMoney
-		{
-			set{ _invoicemoney=value;}
-			get{return _invoicemoney;}
-		}
+		public decimal InvoiceMoney{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string InvoiceTitle
-		{
-			set{ _invoicetitle=value;}
-			get{return _invoicetitle;}
-		}
+		public string InvoiceTitle{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string ContactName
-		{
-			set{ _contactname=value;}
-			get{return _contactname;}
-		}
+		public string ContactName{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string ContactPhone
-		{
-			set{ _contactphone=value;}
-			get{return _contactphone;}
-		}
+		public string ContactPhone{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string CityCode
-		{
-			set{ _citycode=value;}
-			get{return _citycode;}
-		}
+		public string CityCode{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Address
-		{
-			set{ _address=value;}
-			get{return _address;}
-		}
+		public string Address{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Remark
-		{
-			set{ _remark=value;}
-			get{return _remark;}
-		}
+		public string Remark{ get; set; }
         [Property("Lower")] 
-		public string ExpressID
-		{
-			set{ _expressid=value;}
-			get{return _expressid;}
-		}
+		public string ExpressID{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string ExpressCode
-		{
-			set{ _expresscode=value;}
-			get{return _expresscode;}
-		}
+		public string ExpressCode{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int ExpressStatus
-		{
-			set{ _expressstatus=value;}
-			get{return _expressstatus;}
-		}
+		public int ExpressStatus{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime ExpressTime
-		{
-			set{ _expresstime=value;}
-			get{return _expresstime;}
-		}
+		public DateTime ExpressTime{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
+		public DateTime CreateTime{ get; set; }
+
         [Property("Lower")] 
-		public string CreateUserID
-		{
-			set{ _createuserid=value;}
-			get{return _createuserid;}
-		}
+		public string CreateUserID{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime UpdateTime
-		{
-			set{ _updatetime=value;}
-			get{return _updatetime;}
-		}
+		public DateTime UpdateTime{ get; set; }
 
         public Users CreateUser { get; set; }
 
-        [Property("Lower")]
-        public string AgentID { get; set; }
-
         [Property("Lower")] 
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-		#endregion Model
+		public string ClientID{ get; set; }
 
         public void FillData(System.Data.DataRow dr)
         {

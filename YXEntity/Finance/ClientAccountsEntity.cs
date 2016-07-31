@@ -22,8 +22,7 @@ namespace IntFactoryEntity
         public string CreateUserID { get; set; }
 
         public Users CreateUser { get; set; }
-        [Property("Lower")] 
-        public string AgentID { get; set; }
+
         [Property("Lower")] 
         public string ClientID { get; set; }
 

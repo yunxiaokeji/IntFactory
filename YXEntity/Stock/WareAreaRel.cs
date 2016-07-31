@@ -25,44 +25,20 @@ namespace IntFactoryEntity
 	{
 		public WareAreaRel()
 		{}
-		#region Model
-		private int _autoid;
-		private string _warecode;
-		private string _areacode;
-		private string _clientid;
+
+		public int AutoID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+		public string WareCode{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string WareCode
-		{
-			set{ _warecode=value;}
-			get{return _warecode;}
-		}
+		public string AreaCode{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string AreaCode
-		{
-			set{ _areacode=value;}
-			get{return _areacode;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-		#endregion Model
+        public string ClientID { set; get; }
 
 	}
 }

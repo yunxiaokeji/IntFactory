@@ -26,166 +26,78 @@ namespace IntFactoryEntity.Manage
 	{
 		public M_Users()
 		{}
-		#region Model
-		private int _autoid;
-		private string _userid;
-		private string _loginname;
-		private string _loginpwd;
-		private string _name="";
-		private string _email="";
-		private string _mobilephone="";
-		private string _officephone="";
-		private string _jobs="";
-		private string _avatar="";
-		private int? _isadmin=0;
-		private int? _status=1;
-		private string _description="";
-		private DateTime? _createtime= DateTime.Now;
-        private string _createuserid;
+
 
         public List<Menu> Menus { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+		public int AutoID{ get; set; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-        public string UserID
-		{
-			set{ _userid=value;}
-			get{return _userid;}
-		}
+        public string UserID{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string LoginName
-		{
-			set{ _loginname=value;}
-			get{return _loginname;}
-		}
+		public string LoginName{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string LoginPWD
-		{
-			set{ _loginpwd=value;}
-			get{return _loginpwd;}
-		}
+		public string LoginPWD{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Name
-		{
-			set{ _name=value;}
-			get{return _name;}
-		}
+		public string Name{ get; set; }
 
-        public string RoleID
-        {
-            set;
-            get;
-        }
+        public string RoleID{ get; set; }
 
-        public M_Role Role
-        {
-            set;
-            get;
-        }
+        public M_Role Role{ get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Email
-		{
-			set{ _email=value;}
-			get{return _email;}
-		}
+		public string Email{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string MobilePhone
-		{
-			set{ _mobilephone=value;}
-			get{return _mobilephone;}
-		}
+		public string MobilePhone{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string OfficePhone
-		{
-			set{ _officephone=value;}
-			get{return _officephone;}
-		}
+		public string OfficePhone{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Jobs
-		{
-			set{ _jobs=value;}
-			get{return _jobs;}
-		}
+		public string Jobs{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Avatar
-		{
-			set{ _avatar=value;}
-			get{return _avatar;}
-		}
+		public string Avatar{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? IsAdmin
-		{
-			set{ _isadmin=value;}
-			get{return _isadmin;}
-		}
+		public int? IsAdmin{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? Status
-		{
-			set{ _status=value;}
-			get{return _status;}
-		}
+		public int? Status{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Description
-		{
-			set{ _description=value;}
-			get{return _description;}
-		}
+		public string Description{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime? CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
+		public DateTime? CreateTime{ get; set; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-        public string CreateUserID
-		{
-			set{ _createuserid=value;}
-			get{return _createuserid;}
-		}
+        public string CreateUserID{ get; set; }
 
-        public M_Users CreateUser
-        {
-            set;
-            get;
-        }
-		#endregion Model
+        public M_Users CreateUser{ get; set; }
 
         /// <summary>
         /// 填充数据

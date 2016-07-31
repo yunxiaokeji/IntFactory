@@ -9,8 +9,10 @@ namespace IntFactoryEntity.Manage
     {
         public int AutoID { get; set; }
 
+        [Property("Lower")]
         public string OrderID { get; set; }
 
+        [Property("Lower")]
         public string ClientID { get; set; } 
 
         public decimal RealAmount { get; set; }
@@ -23,10 +25,12 @@ namespace IntFactoryEntity.Manage
 
         public DateTime CreateTime { get; set; }
 
+        [Property("Lower")]
         public string CreateUserID { get; set; }
 
         public DateTime CheckTime { get; set; }
 
+        [Property("Lower")]
         public string CheckUserID { get; set; }
 
         public string AlipayNo { get; set; }
@@ -35,6 +39,7 @@ namespace IntFactoryEntity.Manage
 
 
         public M_Users CheckerUser { get; set; }
+
         public Users CreateUser { get; set; }
         /// <summary>
         /// 填充数据

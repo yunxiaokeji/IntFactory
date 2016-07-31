@@ -25,54 +25,24 @@ namespace IntFactoryEntity
 	{
         public ProvidersEntity()
 		{}
-		#region Model
-		private int _autoid;
-		private string _brandid;
-		private string _name;
-		private string _citycode="";
-		private int _status=1;
-		private string _remark="";
-		private string _createuserid;
-		private DateTime? _createtime= DateTime.Now;
-		private DateTime? _updatetime= DateTime.Now;
-		private string _operateip="";
-		private string _clientid;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+
+		public int AutoID{ set; get; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")]
-        public string ProviderID
-		{
-			set{ _brandid=value;}
-			get{return _brandid;}
-		}
+        public string ProviderID { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Name
-		{
-			set{ _name=value;}
-			get{return _name;}
-		}
+		public string Name{ set; get; }
 
         public string Contact { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public string CityCode
-		{
-			set{ _citycode=value;}
-			get{return _citycode;}
-		}
+		public string CityCode{ set; get; }
 
         public string Address { get; set; }
 
@@ -81,59 +51,33 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public int Status
-		{
-			set{ _status=value;}
-			get{return _status;}
-		}
+		public int Status{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Remark
-		{
-			set{ _remark=value;}
-			get{return _remark;}
-		}
+		public string Remark{ set; get; }
 
         [Property("Lower")] 
-		public string CreateUserID
-		{
-			set{ _createuserid=value;}
-			get{return _createuserid;}
-		}
+		public string CreateUserID{ set; get; }
+
         public Users CreateUser { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime? CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
+		public DateTime? CreateTime{ set; get; }
 
         public string MobileTele { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public string OperateIP
-		{
-			set{ _operateip=value;}
-			get{return _operateip;}
-		}
-        public string AgentID { get; set; }
-
+		public string OperateIP{ set; get; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-		#endregion Model
+		public string ClientID{ set; get; }
 
         /// <summary>
         /// 填充数据

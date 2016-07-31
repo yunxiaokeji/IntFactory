@@ -26,16 +26,10 @@ namespace IntFactoryEntity
     {
         public OrderEntity()
         { }
-        #region Model
-        /// <summary>
-        /// 
-        /// </summary>
+
         public int AutoID { get; set; }
         [Property("Lower")] 
         public string OrderID { get; set; }
-
-        [Property("Lower")] 
-        public string TypeID{ get; set; }
 
         public int OrderType { get; set; }
 
@@ -53,22 +47,13 @@ namespace IntFactoryEntity
 
         public string OrderImage { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public int Status { get; set; }
 
         public string StatusStr { get; set; }
 
         public int OrderStatus { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public int ReturnStatus { get; set; }
-
-        [Property("Lower")]
-        public string StageID { get; set; }
 
         [Property("Lower")]
         public string ProcessID { get; set; }
@@ -148,16 +133,11 @@ namespace IntFactoryEntity
         /// </summary>
         public DateTime CreateTime { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string OperateIP { get; set; }
 
         [Property("Lower")] 
         public string ClientID { get; set; }
 
         public IntFactoryEntity.Manage.Clients Client { get; set; }
-        #endregion Model
 
         /// <summary>
         /// 明细
@@ -183,14 +163,9 @@ namespace IntFactoryEntity
 
         public Users CreateUser { get; set; }
 
-        public DateTime AuditTime { get; set; }
-
         public DateTime PlanTime { get; set; }
 
         public DateTime OrderTime { get; set; }
-
-        [Property("Lower")] 
-        public string AgentID { get; set; }
 
         [Property("Lower")] 
         public string CustomerID { get; set; }
@@ -205,13 +180,9 @@ namespace IntFactoryEntity
 
         public string SendStatusStr { get; set; }
 
-        public int ReplyTimes { get; set; }
-
         public List<OrderStatusEntity> StatusItems { get; set; }
 
         public string Platemaking { get; set; }
-
-        public string PlateRemark { get; set; }
 
         public int TaskCount { get; set; }
 

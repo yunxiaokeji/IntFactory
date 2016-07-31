@@ -9,6 +9,9 @@ namespace IntFactoryEntity
     {
         public int AutoID { get; set; }
 
+        [Property("Lower")]
+        public string OrderID { get; set; }
+
         public decimal Price { get; set; }
 
         public string Remark { get; set; }

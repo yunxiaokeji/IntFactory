@@ -25,62 +25,28 @@ namespace IntFactoryEntity
 	{
 		public UserDepart()
 		{}
-		#region Model
-		private int _autoid;
-		private string _userid;
-		private string _departid;
-		private DateTime? _createtime= DateTime.Now;
-		private string _createuserid;
-		private string _clientid;
+
+		public int AutoID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+		public string UserID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string UserID
-		{
-			set{ _userid=value;}
-			get{return _userid;}
-		}
+		public string DepartID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string DepartID
-		{
-			set{ _departid=value;}
-			get{return _departid;}
-		}
+		public DateTime? CreateTime{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime? CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
+		public string CreateUserID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string CreateUserID
-		{
-			set{ _createuserid=value;}
-			get{return _createuserid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-		#endregion Model
+        public string ClientID { set; get; }
 
 	}
 }

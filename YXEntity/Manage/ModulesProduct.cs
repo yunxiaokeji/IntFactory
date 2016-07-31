@@ -9,8 +9,10 @@ namespace IntFactoryEntity.Manage
     {
         public int AutoID { get; set; }
 
+        [Property("Lower")] 
         public string ProductID { get; set; }
 
+        [Property("Lower")] 
         public string ModulesID { get; set; }
 
         public string  Name { get; set; }
@@ -27,6 +29,7 @@ namespace IntFactoryEntity.Manage
 
         public DateTime CreateTime { get; set; }
 
+        [Property("Lower")] 
         public string CreateUserID { get; set; }
 
         public int Type { get; set; }

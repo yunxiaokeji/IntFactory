@@ -129,7 +129,6 @@ namespace IntFactoryBusiness.Manage
                 model.FillData(row);
 
                 model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
-                //model.IndustryEntity = Manage.IndustryBusiness.GetIndustrys().Where(i => i.IndustryID.ToLower() == model.Industry.ToLower()).FirstOrDefault();
 
                 return model;
             }
@@ -138,6 +137,7 @@ namespace IntFactoryBusiness.Manage
                 return null;
             }
         }
+
         /// <summary>
         /// 获取工厂注册报表
         /// </summary>

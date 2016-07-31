@@ -25,6 +25,7 @@ namespace IntFactoryEntity.Manage
 
         public DateTime CreateTime { get; set; }
 
+        [Property("Lower")]
         public string CreateUserID { get; set; }
 
         public string Content { get; set; }

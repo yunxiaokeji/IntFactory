@@ -27,54 +27,8 @@ namespace IntFactoryEntity
 	{
 		public Products()
 		{}
-		#region Model
-		private int _autoid;
-		private string _productcode;
-		private string _productname="";
-		private string _generalname="";
-		private string _mnemoniccode="";
-		private int? _iscombineproduct=0;
-		private string _brandid;
-		private string _bigunitid;
-		private string _smallunitid;
-		private int? _bigsmallmultiple=1;
-		private string _categorycode="";
-		private string _categorycodelist="";
-		private string _saleattr="";
-		private string _attrlist="";
-		private string _valuelist="";
-		private string _attrvaluelist="";
-		private decimal? _commonprice=0;
-		private decimal _preferentialprice=0;
-		private decimal _preferentialpv=0;
-        private double? _taxrate = 0;
-		private int? _status=1;
-		private DateTime _onlinetime= DateTime.Now;
-		private int? _usetype=0;
-		private int? _isnew=0;
-		private int? _isrecommend=0;
-		private int? _isdiscount=0;
-		private decimal? _discountvalue=1;
-        private decimal _salecount = 0;
-		private decimal? _weight=0;
-		private string _productimage="";
-		private int? _effectivedays=0;
-		private string _shapecode="";
-		private string _prodiverid;
-		private string _description="";
-		private string _createuserid;
-		private DateTime _createtime= DateTime.Now;
-		private DateTime _updatetime= DateTime.Now;
-		private string _operateip="";
-		private string _clientid;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+
+		public int AutoID{ set; get; }
         /// <summary>
         /// 
         /// </summary>
@@ -84,337 +38,141 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public string ProductCode
-		{
-			set{ _productcode=value;}
-			get{return _productcode;}
-		}
+		public string ProductCode{ set; get; }
 		/// <summary>
 		/// 产品名称
 		/// </summary>
-		public string ProductName
-		{
-			set{ _productname=value;}
-			get{return _productname;}
-		}
+		public string ProductName{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string GeneralName
-		{
-			set{ _generalname=value;}
-			get{return _generalname;}
-		}
+		public string GeneralName{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string MnemonicCode
-		{
-			set{ _mnemoniccode=value;}
-			get{return _mnemoniccode;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? IsCombineProduct
-		{
-			set{ _iscombineproduct=value;}
-			get{return _iscombineproduct;}
-		}
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-		public string BrandID
-		{
-			set{ _brandid=value;}
-			get{return _brandid;}
-		}
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-		public string BigUnitID
-		{
-			set{ _bigunitid=value;}
-			get{return _bigunitid;}
-		}
-        public ProductUnit BigUnit { get; set; }
+		public string MnemonicCode{ set; get; }
 
         /// <summary>
         /// 
         /// </summary>
-        [Property("Lower")] 
-		public string SmallUnitID
-		{
-			set{ _smallunitid=value;}
-			get{return _smallunitid;}
-		}
+        [Property("Lower")]
+        public string UnitID { get; set; }
 
         public ProductUnit SmallUnit { get; set; }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? BigSmallMultiple
-		{
-			set{ _bigsmallmultiple=value;}
-			get{return _bigsmallmultiple;}
-		}
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string CategoryID
-		{
-			set{ _categorycode=value;}
-			get{return _categorycode;}
-		}
+		public string CategoryID{ set; get; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string CategoryIDList
-		{
-			set{ _categorycodelist=value;}
-			get{return _categorycodelist;}
-		}
+		public string CategoryIDList{ set; get; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string SaleAttr
-		{
-			set{ _saleattr=value;}
-			get{return _saleattr;}
-		}
+		public string SaleAttr{ set; get; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string AttrList
-		{
-			set{ _attrlist=value;}
-			get{return _attrlist;}
-		}
+		public string AttrList{ set; get; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string ValueList
-		{
-			set{ _valuelist=value;}
-			get{return _valuelist;}
-		}
+		public string ValueList{ set; get; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string AttrValueList
-		{
-			set{ _attrvaluelist=value;}
-			get{return _attrvaluelist;}
-		}
+		public string AttrValueList{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public decimal? CommonPrice
-		{
-			set{ _commonprice=value;}
-			get{return _commonprice;}
-		}
+		public decimal? CommonPrice{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public decimal Price
-		{
-			set{ _preferentialprice=value;}
-			get{return _preferentialprice;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal PV
-		{
-			set{ _preferentialpv=value;}
-			get{return _preferentialpv;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public double? TaxRate
-		{
-			set{ _taxrate=value;}
-			get{return _taxrate;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Status
-		{
-			set{ _status=value;}
-			get{return _status;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime OnlineTime
-		{
-			set{ _onlinetime=value;}
-			get{return _onlinetime;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? UseType
-		{
-			set{ _usetype=value;}
-			get{return _usetype;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? IsNew
-		{
-			set{ _isnew=value;}
-			get{return _isnew;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? IsRecommend
-		{
-			set{ _isrecommend=value;}
-			get{return _isrecommend;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? IsDiscount
-		{
-			set{ _isdiscount=value;}
-			get{return _isdiscount;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? DiscountValue
-		{
-			set{ _discountvalue=value;}
-			get{return _discountvalue;}
-		}
+        public decimal Price { get; set; }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		public double? TaxRate{ set; get; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Status{ set; get; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? IsDiscount{ set; get; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public decimal? DiscountValue{ set; get; }
 
         public int IsAllow { get; set; }
 
-        public int IsAutoSend { get; set; }
-
 		/// <summary>
 		/// 
 		/// </summary>
-        public decimal SaleCount
-        {
-            set;
-            get;
-        }
+        public decimal SaleCount{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public decimal? Weight
-		{
-			set{ _weight=value;}
-			get{return _weight;}
-		}
+		public decimal? Weight{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string ProductImage
-		{
-			set{ _productimage=value;}
-			get{return _productimage;}
-		}
+		public string ProductImage{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? EffectiveDays
-		{
-			set{ _effectivedays=value;}
-			get{return _effectivedays;}
-		}
+		public int? EffectiveDays{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string ShapeCode
-		{
-			set{ _shapecode=value;}
-			get{return _shapecode;}
-		}
+		public string ShapeCode{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        [Property("Lower")] 
-		public string ProdiverID
-		{
-			set{ _prodiverid=value;}
-			get{return _prodiverid;}
-		}
+        [Property("Lower")]
+        public string ProviderID { get; set; }
 
         public ProvidersEntity Providers { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Description
-		{
-			set{ _description=value;}
-			get{return _description;}
-		}
+		public string Description{ set; get; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string CreateUserID
-		{
-			set{ _createuserid=value;}
-			get{return _createuserid;}
-		}
+		public string CreateUserID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
+		public DateTime CreateTime{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime UpdateTime
-		{
-			set{ _updatetime=value;}
-			get{return _updatetime;}
-		}
+		public DateTime UpdateTime{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string OperateIP
-		{
-			set{ _operateip=value;}
-			get{return _operateip;}
-		}
+		public string OperateIP{ set; get; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-
-		#endregion Model
-
-        public string BrandName { get; set; }
+		public string ClientID{ set; get; }
 
         public string ProviderName { get; set; }
 

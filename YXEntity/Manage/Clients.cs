@@ -26,156 +26,70 @@ namespace IntFactoryEntity.Manage
 	{
 		public Clients()
 		{}
-		#region Model
-		private int _autoid;
-        private string _clientid;
-		private string _companyname;
-        private string _industry;
-		private string _citycode="";
-		private string _address="";
-		private string _postalcode="";
-		private string _contactname="";
-		private string _mobilephone="";
-		private string _officephone="";
-		private int _status=0;
-        private int _authorizetype = 0;
-		private DateTime? _createtime= DateTime.Now;
-        private string _createuserid;
 
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+		public int AutoID{ get; set; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-
-        [Property("Lower")] 
-        public string AgentID { set; get; }
+		public string ClientID{ get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public string CompanyName
-		{
-			set{ _companyname=value;}
-			get{return _companyname;}
-		}
+		public string CompanyName{ get; set; }
 
-        public string Logo
-        {
-            set;
-            get;
-        }
+        public string Logo{ get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-        public string Industry
-		{
-			set{ _industry=value;}
-			get{return _industry;}
-		}
+        public string Industry{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string CityCode
-		{
-			set{ _citycode=value;}
-			get{return _citycode;}
-		}
+		public string CityCode{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Address
-		{
-			set{ _address=value;}
-			get{return _address;}
-		}
+		public string Address{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string PostalCode
-		{
-			set{ _postalcode=value;}
-			get{return _postalcode;}
-		}
+		public string PostalCode{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string ContactName
-		{
-			set{ _contactname=value;}
-			get{return _contactname;}
-		}
+		public string ContactName{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string MobilePhone
-		{
-			set{ _mobilephone=value;}
-			get{return _mobilephone;}
-		}
+		public string MobilePhone{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string OfficePhone
-		{
-			set{ _officephone=value;}
-			get{return _officephone;}
-		}
+		public string OfficePhone{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int Status
-		{
-			set{ _status=value;}
-			get{return _status;}
-		}
+		public int Status{ get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int AuthorizeType
-        {
-            set { _authorizetype = value; }
-            get { return _authorizetype; }
-        }
+        public int AuthorizeType{ get; set; }
 
         public string Description { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime? CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
+		public DateTime? CreateTime{ get; set; }
         /// <summary>
         /// 
         /// </summary>
         [Property("Lower")] 
-		public string CreateUserID
-		{
-			set{ _createuserid=value;}
-			get{return _createuserid;}
-		}
-        /// <summary>
-        /// 模块列表
-        /// </summary>
-        //public List<Modules> Modules { get; set; }
+		public string CreateUserID{ get; set; }
 
         public CityEntity City { get; set; }
 
@@ -188,7 +102,6 @@ namespace IntFactoryEntity.Manage
         public DateTime EndTime { get; set; }
 
         public string AliMemberID { get; set; }
-		#endregion Model
 
         public string ClientCode { get; set; }
 

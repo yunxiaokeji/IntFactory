@@ -25,80 +25,23 @@ namespace IntFactoryEntity
 	{
 		public Industry()
 		{}
-		#region Model
-		private int _autoid;
-		private string _industryid;
-		private string _name;
-		private string _description="";
-		private DateTime? _createtime= DateTime.Now;
-		private string _createuserid;
-		private string _clientid;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-		public string IndustryID
-		{
-			set{ _industryid=value;}
-			get{return _industryid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name
-		{
-			set{ _name=value;}
-			get{return _name;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Description
-		{
-			set{ _description=value;}
-			get
-            {
-                if (!string.IsNullOrEmpty(_description))
-                    return _description;
-                else
-                    return string.Empty;
-            }
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-		public string CreateUserID
-		{
-			set{ _createuserid=value;}
-			get{return _createuserid;}
-		}
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-		#endregion Model
+
+        public int AutoID { get; set; }
+
+        [Property("Lower")]
+        public string IndustryID { get; set; }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime CreateTime { get; set; }
+
+        [Property("Lower")]
+        public string CreateUserID { get; set; }
+
+        [Property("Lower")]
+        public string ClientID { get; set; }
 
         /// <summary>
         /// 填充数据
