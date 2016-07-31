@@ -11,90 +11,6 @@ namespace IntFactoryDAL
     {
         public static ProductsDAL BaseProvider = new ProductsDAL();
 
-        #region 品牌
-
-        public DataSet GetBrandList(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientID)
-        {
-            SqlParameter[] paras = { 
-                                       new SqlParameter("@totalCount",SqlDbType.Int),
-                                       new SqlParameter("@pageCount",SqlDbType.Int),
-                                       new SqlParameter("@keyWords",keyWords),
-                                       new SqlParameter("@pageSize",pageSize),
-                                       new SqlParameter("@pageIndex",pageIndex),
-                                       new SqlParameter("@ClientID",clientID)
-                                       
-                                   };
-            paras[0].Value = totalCount;
-            paras[1].Value = pageCount;
-
-            paras[0].Direction = ParameterDirection.InputOutput;
-            paras[1].Direction = ParameterDirection.InputOutput;
-            DataSet ds = GetDataSet("P_GetBrandList", paras, CommandType.StoredProcedure);
-            totalCount = Convert.ToInt32(paras[0].Value);
-            pageCount = Convert.ToInt32(paras[1].Value);
-            return ds;
-
-        }
-
-        public DataTable GetBrandList(string clientID)
-        {
-            SqlParameter[] paras = { new SqlParameter("@clientID", clientID) };
-            DataTable dt = GetDataTable("select BrandID,Name from Brand where ClientID=@clientID and Status<>9", paras, CommandType.Text);
-            return dt;
-
-        }
-
-        public DataTable GetBrandByBrandID(string brandID)
-        {
-            SqlParameter[] paras = { new SqlParameter("@brandID", brandID) };
-            DataTable dt = GetDataTable("select * from Brand where BrandID=@brandID", paras, CommandType.Text);
-            return dt;
-        }
-
-        public string AddBrand(string name, string anotherName, string icoPath, string countryCode, string cityCode, int status, string remark, string brandStyle, string operateIP, string operateID, string clientID)
-        {
-            string brandID = Guid.NewGuid().ToString();
-            string sqlText = "INSERT INTO Brand([BrandID] ,[Name],[AnotherName] ,[IcoPath],[CountryCode],[CityCode],[Status],[Remark],[BrandStyle],[OperateIP],[CreateUserID],ClientID) "
-                                      + "values(@BrandID ,@Name,@AnotherName ,@IcoPath,@CountryCode,@CityCode,@Status,@Remark,@BrandStyle,@OperateIP,@CreateUserID,@ClientID)";
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@BrandID" , brandID),
-                                     new SqlParameter("@Name" , name),
-                                     new SqlParameter("@AnotherName" , anotherName),
-                                     new SqlParameter("@IcoPath" , icoPath),
-                                     new SqlParameter("@CountryCode" , countryCode),
-                                     new SqlParameter("@CityCode" , cityCode),
-                                     new SqlParameter("@Status" , status),
-                                     new SqlParameter("@Remark" , remark),
-                                     new SqlParameter("@BrandStyle" , brandStyle),
-                                     new SqlParameter("@OperateIP" , operateIP),
-                                     new SqlParameter("@CreateUserID" , operateID),
-                                     new SqlParameter("@ClientID" , clientID)
-                                   };
-            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0 ? brandID : "";
-
-        }
-
-        public bool UpdateBrand(string brandID, string name, string anotherName, string countryCode, string cityCode, int status, string icopath, string remark, string brandStyle, string operateIP, string operateID)
-        {
-            string sqlText = "Update Brand set [Name]=@Name,[AnotherName]=@AnotherName ,[CountryCode]=@CountryCode,[CityCode]=@CityCode," +
-                "[Status]=@Status,IcoPath=@IcoPath,[Remark]=@Remark,[BrandStyle]=@BrandStyle,[UpdateTime]=getdate() where [BrandID]=@BrandID";
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@Name" , name),
-                                     new SqlParameter("@AnotherName" , anotherName),
-                                     new SqlParameter("@CountryCode" , countryCode),
-                                     new SqlParameter("@CityCode" , cityCode),
-                                     new SqlParameter("@Status" , status),
-                                     new SqlParameter("@IcoPath" , icopath),
-                                     new SqlParameter("@Remark" , remark),
-                                     new SqlParameter("@BrandStyle" , brandStyle),
-                                     new SqlParameter("@BrandID" , brandID),
-                                   };
-            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
-        }
-
-
-        #endregion
-
         #region 单位
 
         public DataTable GetUnits()
@@ -410,7 +326,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@BeginPrice",beginprice),
                                        new SqlParameter("@EndPrice",endprice),
                                        new SqlParameter("@CategoryID",categoryid),
-                                       new SqlParameter("@ProdiverID",prodiverid),
+                                       new SqlParameter("@ProviderID",prodiverid),
                                        new SqlParameter("@keyWords",keyWords),
                                        new SqlParameter("@pageSize",pageSize),
                                        new SqlParameter("@pageIndex",pageIndex),
@@ -429,7 +345,7 @@ namespace IntFactoryDAL
 
         }
 
-        public DataSet GetProductsAll(string categoryid, string prodiverid, string beginprice, string endprice, int ispublic, string keyWords, string orderby, int isasc, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public DataSet GetProductsAll(string categoryid, string providerid, string beginprice, string endprice, int ispublic, string keyWords, string orderby, int isasc, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
@@ -439,7 +355,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@BeginPrice",beginprice),
                                        new SqlParameter("@EndPrice",endprice),
                                        new SqlParameter("@CategoryID",categoryid),
-                                       new SqlParameter("@ProdiverID",prodiverid),
+                                       new SqlParameter("@ProviderID",providerid),
                                        new SqlParameter("@keyWords",keyWords),
                                        new SqlParameter("@pageSize",pageSize),
                                        new SqlParameter("@pageIndex",pageIndex),
@@ -539,9 +455,9 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public string AddProduct(string productCode, string productName, string generalName, bool iscombineproduct, string prodiverid, string brandid, string bigunitid, string smallunitid, int bigSmallMultiple,
+        public string AddProduct(string productCode, string productName, string generalName, string prodiverid, string unitid,
                          string categoryid, int status, int ispublic, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price,
-                         decimal weight, bool isnew, bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid,ref int result)
+                         decimal weight, int isallow, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid,ref int result)
         {
             string id = "";
             SqlParameter[] paras = { 
@@ -550,12 +466,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ProductCode",productCode),
                                        new SqlParameter("@ProductName",productName),
                                        new SqlParameter("@GeneralName",generalName),
-                                       new SqlParameter("@IsCombineProduct",iscombineproduct),
-                                       new SqlParameter("@ProdiverID",prodiverid),
-                                       new SqlParameter("@BrandID",brandid),
-                                       new SqlParameter("@BigUnitID",bigunitid),
-                                       new SqlParameter("@SmallUnitID",smallunitid),
-                                       new SqlParameter("@BigSmallMultiple",bigSmallMultiple),
+                                       new SqlParameter("@ProviderID",prodiverid),
                                        new SqlParameter("@CategoryID",categoryid),
                                        new SqlParameter("@Status",status),
                                        new SqlParameter("@IsPublic",ispublic),
@@ -565,10 +476,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@CommonPrice",commonprice),
                                        new SqlParameter("@Price",price),
                                        new SqlParameter("@Weight",weight),
-                                       new SqlParameter("@Isnew",isnew ? 1 :0),
-                                       new SqlParameter("@IsRecommend",isRecommend ? 1 : 0),
                                        new SqlParameter("@IsAllow",isallow),
-                                       new SqlParameter("@IsAutoSend",isautosend),
                                        new SqlParameter("@EffectiveDays",effectiveDays),
                                        new SqlParameter("@DiscountValue",discountValue),
                                        new SqlParameter("@ProductImg",productImg),
@@ -588,7 +496,7 @@ namespace IntFactoryDAL
             return id;
         }
 
-        public string AddProductDetails(string productid, string productCode, string shapeCode, string attrlist, string valuelist, string attrvaluelist, decimal price, decimal weight, decimal bigprice, string productImg, string description, string remark, string operateid, string clientid)
+        public string AddProductDetails(string productid, string productCode, string shapeCode, string attrlist, string valuelist, string attrvaluelist, decimal price, decimal weight, string productImg, string description, string remark, string operateid, string clientid)
         {
             string id = "";
             int result = 0;
@@ -596,7 +504,6 @@ namespace IntFactoryDAL
                                        new SqlParameter("@DetailID",SqlDbType.NVarChar,64),
                                        new SqlParameter("@Result",SqlDbType.Int),
                                        new SqlParameter("@ProductCode",productCode),
-                                       new SqlParameter("@BigPrice",bigprice),
                                        new SqlParameter("@ProductID",productid),
                                        new SqlParameter("@AttrList",attrlist),
                                        new SqlParameter("@ValueList",valuelist),
@@ -621,9 +528,9 @@ namespace IntFactoryDAL
             return id;
         }
 
-        public bool UpdateProduct(string productid, string productCode, string productName, string generalName, bool iscombineproduct, string prodiverid, string brandid, string bigunitid, string smallunitid, int bigSmallMultiple,
+        public bool UpdateProduct(string productid, string productCode, string productName, string generalName, string prodiverid, string unitid, 
                             int status, int ispublic, string categoryid, string attrlist, string valuelist, string attrvaluelist, decimal commonprice, decimal price,
-                            decimal weight, bool isnew, bool isRecommend, int isallow, int isautosend, int effectiveDays, decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid,ref int result)
+                            decimal weight, int isallow,  decimal discountValue, string productImg, string shapeCode, string description, string operateid, string clientid,ref int result)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@Result",SqlDbType.Int),
@@ -631,12 +538,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ProductCode",productCode),
                                        new SqlParameter("@ProductName",productName),
                                        new SqlParameter("@GeneralName",generalName),
-                                       new SqlParameter("@IsCombineProduct",iscombineproduct),
-                                       new SqlParameter("@ProdiverID",prodiverid),
-                                       new SqlParameter("@BrandID",brandid),
-                                       new SqlParameter("@BigUnitID",bigunitid),
-                                       new SqlParameter("@SmallUnitID",smallunitid),
-                                       new SqlParameter("@BigSmallMultiple",bigSmallMultiple),
+                                       new SqlParameter("@ProviderID",prodiverid),
                                        new SqlParameter("@Status",status),
                                        new SqlParameter("@IsPublic",ispublic),
                                        new SqlParameter("@CategoryID",categoryid),
@@ -646,11 +548,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@CommonPrice",commonprice),
                                        new SqlParameter("@Price",price),
                                        new SqlParameter("@Weight",weight),
-                                       new SqlParameter("@Isnew",isnew ? 1 :0),
-                                       new SqlParameter("@IsRecommend",isRecommend ? 1 : 0),
                                        new SqlParameter("@IsAllow",isallow),
-                                       new SqlParameter("@IsAutoSend",isautosend),
-                                       new SqlParameter("@EffectiveDays",effectiveDays),
                                        new SqlParameter("@DiscountValue",discountValue),
                                        new SqlParameter("@ProductImg",productImg),
                                        new SqlParameter("@ShapeCode",shapeCode),
@@ -666,14 +564,13 @@ namespace IntFactoryDAL
 
         }
 
-        public bool UpdateProductDetails(string detailid, string productid, string productCode, string shapeCode, decimal bigPrice, string attrlist, string valuelist, string attrvaluelist, decimal price, decimal weight, string description, string remark, string image)
+        public bool UpdateProductDetails(string detailid, string productid, string productCode, string shapeCode, string attrlist, string valuelist, string attrvaluelist, decimal price, decimal weight, string description, string remark, string image)
         {
             int result = 0;
             SqlParameter[] paras = { 
                                        new SqlParameter("@Result",SqlDbType.Int),
                                        new SqlParameter("@DetailID",detailid),
                                        new SqlParameter("@ProductID",productid),
-                                       new SqlParameter("@BigPrice",bigPrice),
                                        new SqlParameter("@ProductCode",productCode),
                                        new SqlParameter("@AttrList",attrlist),
                                        new SqlParameter("@ValueList",valuelist),

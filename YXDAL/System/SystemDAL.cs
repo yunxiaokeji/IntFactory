@@ -54,13 +54,13 @@ namespace IntFactoryDAL
             return GetDataSet(sqlText, paras, CommandType.Text, "Stages|Items");
         }
 
-        public DataTable GetTeams(string agentid)
+        public DataTable GetTeams(string clientid)
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@AgentID",agentid)
+                                       new SqlParameter("@ClientID",clientid)
                                    };
 
-            DataTable dt = GetDataTable("select * from Teams where AgentID=@AgentID and Status=1 ", paras, CommandType.Text);
+            DataTable dt = GetDataTable("select * from Teams where ClientID=@ClientID and Status=1 ", paras, CommandType.Text);
 
             return dt;
         }
@@ -180,14 +180,13 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool CreateTeam(string teamid, string teamname, string userid, string agentid,string clientid)
+        public bool CreateTeam(string teamid, string teamname, string userid,string clientid)
         {
-            string sqlText = "insert into Teams(TeamID,TeamName,AgentID,CreateUserID,ClientID) " +
-                                           " values(@TeamID,@TeamName,@AgentID,@CreateUserID,@ClientID) ";
+            string sqlText = "insert into Teams(TeamID,TeamName,CreateUserID,ClientID) " +
+                                           " values(@TeamID,@TeamName,@CreateUserID,@ClientID) ";
             SqlParameter[] paras = { 
                                      new SqlParameter("@TeamID" , teamid),
                                      new SqlParameter("@TeamName" , teamname),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@CreateUserID" , userid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
@@ -350,23 +349,21 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool DeleteTeam(string teamid, string userid, string agentid)
+        public bool DeleteTeam(string teamid, string userid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@TeamID",teamid),
-                                     new SqlParameter("@UserID",userid),
-                                     new SqlParameter("@AgentID" , agentid)
+                                     new SqlParameter("@UserID",userid)
                                    };
             bool bl = ExecuteNonQuery("P_DeleteTeam", paras, CommandType.StoredProcedure) > 0;
             return bl;
         }
 
-        public bool UpdateUserTeamID(string userid, string teamid, string operateid, string agentid)
+        public bool UpdateUserTeamID(string userid, string teamid, string operateid)
         {
             SqlParameter[] paras = { 
                                          new SqlParameter("@UserID",userid),
                                          new SqlParameter("@TeamID",teamid),
-                                         new SqlParameter("@AgentID" , agentid),
                                          new SqlParameter("@OperateID" , operateid)
                                    };
             bool bl = ExecuteNonQuery("P_UpdateUserTeamID", paras, CommandType.StoredProcedure) > 0;

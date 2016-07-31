@@ -238,14 +238,14 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public static Users GetUserByUserID(string userid, string agentid)
+        public static Users GetUserByUserID(string userid, string clientid)
         {
-            if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(agentid))
+            if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(clientid))
             {
                 return null;
             }
             userid = userid.ToLower();
-            var list = GetUsers(agentid);
+            var list = GetUsers(clientid);
             if (list.Where(u => u.UserID == userid).Count() > 0)
             {
                 return list.Where(u => u.UserID == userid).FirstOrDefault();
@@ -258,11 +258,11 @@ namespace IntFactoryBusiness
                 {
                     model.FillData(dt.Rows[0]);
 
-                    if (agentid == model.AgentID)
+                    if (clientid == model.ClientID)
                     {
-                        model.Department = GetDepartmentByID(model.DepartID, agentid);
-                        model.Role = GetRoleByIDCache(model.RoleID, agentid);
-                        Users[agentid].Add(model);
+                        model.Department = GetDepartmentByID(model.DepartID, clientid);
+                        model.Role = GetRoleByIDCache(model.RoleID, clientid);
+                        Users[clientid].Add(model);
                     }
                 }
                 return model;

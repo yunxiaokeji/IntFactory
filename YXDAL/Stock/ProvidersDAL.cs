@@ -25,11 +25,11 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public string AddProviders(string name, string contact, string mobile, string email, string cityCode, string address, string remark, string operateid, string agentid, string clientid)
+        public string AddProviders(string name, string contact, string mobile, string email, string cityCode, string address, string remark, string operateid, string clientid)
         {
             string id = Guid.NewGuid().ToString();
-            string sqlText = "insert into Providers(ProviderID,Name,Contact,MobileTele,Email,Website,CityCode,Address,Remark,CreateTime,CreateUserID,AgentID,ClientID)"
-                                      + "values(@ProviderID ,@Name,@Contact ,@MobileTele,@Email,'',@CityCode,@Address,@Remark,getdate(),@CreateUserID,@AgentID,@ClientID)";
+            string sqlText = "insert into Providers(ProviderID,Name,Contact,MobileTele,Email,Website,CityCode,Address,Remark,CreateTime,CreateUserID,ClientID)"
+                                      + "values(@ProviderID ,@Name,@Contact ,@MobileTele,@Email,'',@CityCode,@Address,@Remark,getdate(),@CreateUserID,@ClientID)";
             SqlParameter[] paras = { 
                                      new SqlParameter("@ProviderID" , id),
                                      new SqlParameter("@Name" , name),
@@ -40,14 +40,13 @@ namespace IntFactoryDAL
                                      new SqlParameter("@Address" , address),
                                      new SqlParameter("@Remark" , remark),
                                      new SqlParameter("@CreateUserID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0 ? id : "";
 
         }
 
-        public bool UpdateProvider(string providerid, string name, string contact, string mobile, string email, string cityCode, string address, string remark, string operateid, string agentid, string clientid)
+        public bool UpdateProvider(string providerid, string name, string contact, string mobile, string email, string cityCode, string address, string remark, string operateid, string clientid)
         {
             string sqlText = "Update Providers set [Name]=@Name,[Contact]=@Contact ,[MobileTele]=@MobileTele,[CityCode]=@CityCode,[Address]=@Address,[Remark]=@Remark where [ProviderID]=@ProviderID";
             SqlParameter[] paras = { 

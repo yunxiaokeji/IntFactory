@@ -209,22 +209,6 @@ namespace IntFactoryBusiness
             return str;
         }
 
-        public static List<StorageDocAction> GetStorageDocAction(string docid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string agentid)
-        {
-            DataTable dt = CommonBusiness.GetPagerData("StorageDocAction", "*", "DocID='" + docid + "'", "AutoID", pageSize, pageIndex, out totalCount, out pageCount);
-
-            List<StorageDocAction> list = new List<StorageDocAction>();
-            foreach (DataRow dr in dt.Rows)
-            {
-                StorageDocAction model = new StorageDocAction();
-                model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, agentid);
-
-                list.Add(model);
-            }
-            return list;
-        }
-
         public List<Products> GetProductStocks(string keywords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string agentid, string clientid)
         {
             DataSet ds = StockDAL.BaseProvider.GetProductStocks(keywords, pageSize, pageIndex, ref totalCount, ref pageCount, clientid);

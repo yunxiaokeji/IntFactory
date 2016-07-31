@@ -14,8 +14,8 @@ namespace IntFactoryDAL
 
         #region 查询
 
-        public DataSet GetCustomers(int searchtype, int type, int sourcetype, string sourceid, string stageid, int status, int mark, string activityid, string searchuserid, string searchteamid, string searchagentid,
-                                    string begintime, string endtime, string firstname, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
+        public DataSet GetCustomers(int searchtype, int type, int sourcetype, string sourceid, string stageid, int status, int mark, string activityid, string searchuserid, string searchteamid,
+                                    string begintime, string endtime, string firstname, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
@@ -30,7 +30,6 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ActivityID",activityid),
                                        new SqlParameter("@SearchUserID",searchuserid),
                                        new SqlParameter("@SearchTeamID",searchteamid),
-                                       new SqlParameter("@SearchAgentID",searchagentid),
                                        new SqlParameter("@BeginTime",begintime),
                                        new SqlParameter("@EndTime",endtime),
                                        new SqlParameter("@FirstName",firstname),
@@ -39,7 +38,6 @@ namespace IntFactoryDAL
                                        new SqlParameter("@pageSize",pageSize),
                                        new SqlParameter("@pageIndex",pageIndex),
                                        new SqlParameter("@UserID",userid),
-                                       new SqlParameter("@AgentID", agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
             paras[0].Value = totalCount;
@@ -74,29 +72,27 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataSet GetCustomersByKeywords(string keyWords, string userid, string agentid, string clientid)
+        public DataSet GetCustomersByKeywords(string keyWords, string userid,  string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@Keywords",keyWords),
                                        new SqlParameter("@UserID",userid),
-                                       new SqlParameter("@AgentID", agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
             DataSet ds = GetDataSet("P_GetCustomersByKeywords", paras, CommandType.StoredProcedure);
             return ds;
         }
 
-        public DataSet GetCustomerByID(string customerid, string agentid, string clientid)
+        public DataSet GetCustomerByID(string customerid,  string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@CustomerID",customerid),
-                                       new SqlParameter("@AgentID", agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
             return GetDataSet("P_GetCustomerByID", paras, CommandType.StoredProcedure, "Customer");
         }
 
-        public DataSet GetCustomerByMobilePhone(string mobilePhone, string clientid,string name)
+        public DataSet GetCustomerByMobilePhone(string mobilePhone, string clientid, string name)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@MobilePhone",mobilePhone),
@@ -126,15 +122,14 @@ namespace IntFactoryDAL
 
         #region 添加
 
-        public bool CreateCustomer(string customerid, string name, int type, string sourceid, string activityid, string industryid, int extent, string citycode, string address, string contactname, 
-                                   string mobile, string officephone, string email, string jobs, string desc, string ownerid, string operateid, string agentid, string clientid)
+        public bool CreateCustomer(string customerid, string name, int type, string sourceid, string industryid, int extent, string citycode, string address, string contactname, 
+                                   string mobile, string officephone, string email, string jobs, string desc, string ownerid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@CustomerID",customerid),
                                      new SqlParameter("@Name",name),
                                      new SqlParameter("@Type",type),
                                      new SqlParameter("@SourceID",sourceid),
-                                     new SqlParameter("@ActivityID",activityid),
                                      new SqlParameter("@IndustryID" , industryid),
                                      new SqlParameter("@Extent" , extent),
                                      new SqlParameter("@CityCode" , citycode),
@@ -147,14 +142,13 @@ namespace IntFactoryDAL
                                      new SqlParameter("@Description" , desc),
                                      new SqlParameter("@OwnerID" , ownerid),
                                      new SqlParameter("@CreateUserID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_CreateCustomer", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public string CreateReply(string guid, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
+        public string CreateReply(string guid, string content, string userID, string clientid, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
         {
             string replyID = Guid.NewGuid().ToString();
 
@@ -164,7 +158,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@Content",content),
                                      new SqlParameter("@FromReplyID",fromReplyID),
                                      new SqlParameter("@CreateUserID" , userID),
-                                     new SqlParameter("@AgentID" , agentID),
+                                     new SqlParameter("@ClientID" , clientid),
                                      new SqlParameter("@FromReplyUserID" , fromReplyUserID),
                                      new SqlParameter("@FromReplyAgentID" , fromReplyAgentID),
                                    };
@@ -193,7 +187,7 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(tran, "P_AddCustomerReplyAttachment", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool CreateContact(string contactid, string customerid, string name, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string userid, string agentid, string clientid)
+        public bool CreateContact(string contactid, string customerid, string name, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string userid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@ContactID",contactid),
@@ -207,7 +201,6 @@ namespace IntFactoryDAL
                                      new SqlParameter("@Jobs" , jobs),
                                      new SqlParameter("@Description" , desc),
                                      new SqlParameter("@CreateUserID" , userid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
@@ -220,7 +213,7 @@ namespace IntFactoryDAL
         #region 编辑/删除
 
         public bool UpdateCustomer(string customerid, string name, int type, string industryid, int extent, string citycode, string address,
-                                   string mobile, string officephone, string email, string jobs, string desc, string operateid, string agentid, string clientid)
+                                   string mobile, string officephone, string email, string jobs, string desc, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@CustomerID",customerid),
@@ -236,40 +229,25 @@ namespace IntFactoryDAL
                                      new SqlParameter("@Jobs" , jobs),
                                      new SqlParameter("@Description" , desc),
                                      new SqlParameter("@CreateUserID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateCustomer", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateCustomerOwner(string customerid, string userid, string operateid, string agentid, string clientid)
+        public bool UpdateCustomerOwner(string customerid, string userid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@CustomerID",customerid),
                                      new SqlParameter("@UserID",userid),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateCustomerOwner", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateCustomerAgent(string customerid, string newagentid, string operateid, string agentid, string clientid)
-        {
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@CustomerID",customerid),
-                                     new SqlParameter("@NewAgentID",newagentid),
-                                     new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-
-            return ExecuteNonQuery("P_UpdateCustomerAgent", paras, CommandType.StoredProcedure) > 0;
-        }
-
-        public bool UpdateContact(string contactid, string customerid, string name, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string userid, string agentid, string clientid)
+        public bool UpdateContact(string contactid, string customerid, string name, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string userid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@ContactID",contactid),
@@ -283,7 +261,6 @@ namespace IntFactoryDAL
                                      new SqlParameter("@Jobs" , jobs),
                                      new SqlParameter("@Description" , desc),
                                      new SqlParameter("@CreateUserID" , userid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 

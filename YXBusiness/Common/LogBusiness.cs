@@ -14,75 +14,8 @@ namespace IntFactoryBusiness
     public class LogBusiness
     {
         public static LogBusiness BaseBusiness = new LogBusiness();
-        #region Cache
-
-        private static Dictionary<string, AgentActionEntity> _agentActions;
-        private static Dictionary<string, AgentActionEntity> AgentActions 
-        {
-            get 
-            {
-                if (_agentActions == null)
-                {
-                    _agentActions = new Dictionary<string, AgentActionEntity>();
-                }
-                return _agentActions;
-            }
-            set
-            {
-                _agentActions = value;
-            }
-        }
-
-        #endregion
 
         #region 查询
-
-        public AgentActionEntity GetClientActions(string clientid, ref int customercount, ref int ordercount, ref decimal totalmoney)
-        {
-            string datestr = DateTime.Now.ToString("yyyy-MM-dd");
-            if (AgentActions.ContainsKey(clientid))
-            {
-                var obj = AgentActions[clientid];
-                if (obj.Date == datestr)
-                {
-                    return obj;
-                }
-                DataTable dt = new LogDAL().GetClientActions(datestr + " 00:00:00", clientid, ref customercount, ref ordercount, ref totalmoney);
-                AgentActionEntity model = new AgentActionEntity();
-                model.Date = datestr;
-                model.Actions = new List<ActionTypeEntity>();
-                foreach (DataRow dr in dt.Rows)
-                {
-                    ActionTypeEntity entity = new ActionTypeEntity();
-                    entity.FillData(dr);
-                    model.Actions.Add(entity);
-                }
-                model.CustomerCount = customercount;
-                model.OrderCount = ordercount;
-                model.TotalMoney = totalmoney;
-                obj = model;
-                return obj;
-            }
-            else
-            {
-                DataTable dt = new LogDAL().GetClientActions(datestr + " 00:00:00", clientid, ref customercount, ref ordercount, ref totalmoney);
-                AgentActionEntity model = new AgentActionEntity();
-                model.Date = datestr;
-                model.Actions = new List<ActionTypeEntity>();
-                model.CustomerCount = customercount;
-                model.OrderCount = ordercount;
-                model.TotalMoney = totalmoney;
-
-                foreach (DataRow dr in dt.Rows)
-                {
-                    ActionTypeEntity entity = new ActionTypeEntity();
-                    entity.FillData(dr);
-                    model.Actions.Add(entity);
-                }
-                AgentActions.Add(clientid, model);
-                return model;
-            }
-        }
 
         public List<UpcomingsEntity> GetClientUpcomings(string userid, string agentid, string clientid)
         {

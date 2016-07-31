@@ -37,7 +37,7 @@ namespace IntFactoryBusiness
         }
 
         public List<CustomerEntity> GetCustomers(EnumSearchType searchtype, int type, int sourcetype, string sourceid, string stageid, int status, int mark, string activityid, string searchuserid, string searchteamid, string searchagentid,
-                                                 string begintime, string endtime, string firstname, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
+                                                 string begintime, string endtime, string firstname, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
         {
             List<CustomerEntity> list = new List<CustomerEntity>();
             DataSet ds = CustomDAL.BaseProvider.GetCustomers((int)searchtype, type, sourcetype, sourceid, stageid, status, mark, activityid, searchuserid, searchteamid, searchagentid, begintime, endtime, firstname, keyWords, orderBy, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
@@ -46,7 +46,7 @@ namespace IntFactoryBusiness
                 CustomerEntity model = new CustomerEntity();
                 model.FillData(dr);
 
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
                 model.City = CommonBusiness.Citys.Where(m => m.CityCode == model.CityCode).FirstOrDefault();
 
                 list.Add(model);
@@ -89,15 +89,15 @@ namespace IntFactoryBusiness
 
         }
 
-        public List<CustomerEntity> GetCustomersByKeywords(string keywords, string userid, string agentid, string clientid)
+        public List<CustomerEntity> GetCustomersByKeywords(string keywords, string userid, string clientid)
         {
             List<CustomerEntity> list = new List<CustomerEntity>();
-            DataSet ds = CustomDAL.BaseProvider.GetCustomersByKeywords(keywords, userid, agentid, clientid);
+            DataSet ds = CustomDAL.BaseProvider.GetCustomersByKeywords(keywords, userid, clientid);
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 CustomerEntity model = new CustomerEntity();
                 model.FillData(dr);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
                 list.Add(model);
             }
             return list;
@@ -131,7 +131,7 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public List<ContactEntity> GetContactsByCustomerID(string customerid, string agentid)
+        public List<ContactEntity> GetContactsByCustomerID(string customerid, string clientid)
         {
             List<ContactEntity> list = new List<ContactEntity>();
 
@@ -140,7 +140,7 @@ namespace IntFactoryBusiness
             {
                 ContactEntity model = new ContactEntity();
                 model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
                 model.City = CommonBusiness.Citys.Where(m => m.CityCode == model.CityCode).FirstOrDefault();
                 list.Add(model);
             }

@@ -18,12 +18,9 @@ namespace IntFactoryDAL.Manage
             SqlParameter[] paras = { 
                                     new SqlParameter("@ClientID",clientID),
                                    };
-            string sql = @"select a.AutoID,a.ClientID,a.ClientCode,a.CompanyName,a.Logo,a.Industry,a.CityCode,a.Address,a.GuideStep,
-            a.PostalCode,a.ContactName,a.MobilePhone,a.OfficePhone,a.Status,b.EndTime,b.UserQuantity,a.TotalIn,a.TotalOut,a.FreezeMoney,a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,a.AliMemberID 
-            from Clients a  left join Agents b  on a.AgentID=b.AgentID and a.ClientID=b.ClientID where a.ClientID=@ClientID ";
+            string sql = @"select * from Clients  where ClientID=@ClientID ";
 
             return GetDataTable(sql, paras, CommandType.Text);
-            //return GetDataTable("select * from Clients where ClientID=@ClientID", paras, CommandType.Text);
         }
 
         public DataTable GetClientsGrow(int type, string begintime, string endtime)
@@ -111,18 +108,17 @@ namespace IntFactoryDAL.Manage
 
         }
 
-        public bool InsertClientAuthorizeLog(string clientID, string agentID, string orderID, int userQuantity, DateTime? beginTime, DateTime? endTime, int type)
+        public bool InsertClientAuthorizeLog(string clientID, string orderID, int userQuantity, DateTime? beginTime, DateTime? endTime, int type)
         {
             SqlParameter[] parms = { 
                                        new SqlParameter("@ClientiD",clientID),
-                                       new SqlParameter("@AgentID",agentID),
                                        new SqlParameter("@OrderID",orderID),
                                        new SqlParameter("@UserQuantity",userQuantity),
                                        new SqlParameter("@BeginTime",beginTime),
                                        new SqlParameter("@EndTime",endTime),
                                        new SqlParameter("@Type",type),
                                    };
-            string cmdTxt = "insert into ClientAuthorizeLog(ClientiD,AgentID,OrderID,UserQuantity,BeginTime,EndTime,Type) values(@ClientiD,@AgentID,@OrderID,@UserQuantity,@BeginTime,@EndTime,@Type)";
+            string cmdTxt = "insert into ClientAuthorizeLog(ClientiD,OrderID,UserQuantity,BeginTime,EndTime,Type) values(@ClientiD,@OrderID,@UserQuantity,@BeginTime,@EndTime,@Type)";
 
             return ExecuteNonQuery(cmdTxt, parms, CommandType.Text) > 0;
         }
@@ -149,39 +145,39 @@ namespace IntFactoryDAL.Manage
             return ExecuteNonQuery("M_UpdateClient", parms, CommandType.StoredProcedure) > 0;
         }
 
-        public bool ClientAgentAuthorize(string agentID, int userQuantity, DateTime endTime)
+        public bool ClientClientAuthorize(string clientid, int userQuantity, DateTime endTime)
         { 
         SqlParameter[] parms = { 
-                                       new SqlParameter("@AgentID",agentID),
+                                       new SqlParameter("@ClientID",clientid),
                                        new SqlParameter("@UserQuantity",userQuantity),
                                        new SqlParameter("@EndTime",endTime)
                                    };
 
-        string cmdText = "update Agents set  UserQuantity=@UserQuantity,EndTime=@EndTime where AgentID=@AgentID";
+        string cmdText = "update Clients set  UserQuantity=@UserQuantity,EndTime=@EndTime where ClientID=@ClientID";
 
         return ExecuteNonQuery(cmdText, parms, CommandType.Text) > 0;
         }
 
-        public bool AddClientAgentUserQuantity(string agentID, int quantity)
+        public bool AddClientUserQuantity(string clientid, int quantity)
         {
             SqlParameter[] parms = { 
-                                       new SqlParameter("@AgentID",agentID),
+                                       new SqlParameter("@ClientID",clientid),
                                        new SqlParameter("@UserQuantity",quantity)
                                    };
 
-            string cmdText = "update Agents set  UserQuantity+=@UserQuantity where  AgentID=@AgentID";
+            string cmdText = "update Clients set  UserQuantity+=@UserQuantity where  ClientID=@ClientID";
 
             return ExecuteNonQuery(cmdText, parms, CommandType.Text) > 0;
         }
 
-        public bool SetClientAgentEndTime(string agentID, DateTime endTime)
+        public bool SetClientEndTime(string clientid, DateTime endTime)
         {
             SqlParameter[] parms = { 
-                                       new SqlParameter("@AgentID",agentID),
+                                       new SqlParameter("@ClientID",clientid),
                                        new SqlParameter("@EndTime",endTime)
                                    };
 
-            string cmdText = "update Agents set EndTime=@EndTime where  AgentID=@AgentID";
+            string cmdText = "update Clients set EndTime=@EndTime where  ClientID=@ClientID";
 
             return ExecuteNonQuery(cmdText, parms, CommandType.Text) > 0;
         }

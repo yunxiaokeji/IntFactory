@@ -66,9 +66,6 @@ namespace IntFactoryEntity
 
         public int IsDefault { get; set; }
 
-        [Property("Lower")] 
-        public string AgentID { get; set; }
-
         public Users CreateUser { get; set; }
 
         public List<Menu> Menus { get; set; }

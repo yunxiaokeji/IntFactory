@@ -180,6 +180,7 @@ namespace IntFactoryDAL
             return GetDataSet("P_GetTaskDetail", paras, CommandType.StoredProcedure, "OrderTask|TaskMember");
 
         }
+
         public bool UpdateTaskOwner(string taskID, string ownerID, out int result)
         {
             result = 0;
@@ -325,13 +326,12 @@ namespace IntFactoryDAL
             return result == 1;
         }
 
-        public bool AddTaskMembers(string taskID, string memberIDs,string operateID, string agentID,out int result)
+        public bool AddTaskMembers(string taskID, string memberIDs,string operateID,out int result)
         {
             result=0;
             SqlParameter[] paras = { 
                                        new SqlParameter("@Result",SqlDbType.Int),
                                        new SqlParameter("@TaskID",taskID),
-                                       new SqlParameter("@AgentID",agentID),
                                        new SqlParameter("@UserID",operateID),
                                        new SqlParameter("@MemberIDs",memberIDs)
                                    };
@@ -417,7 +417,7 @@ namespace IntFactoryDAL
             return GetDataTable(sqltext, paras, CommandType.Text);
         }
 
-        public bool AddPlateMaking(string title,string remark,string icon,string taskID,int type,string orderID,string userID,string agentID)
+        public bool AddPlateMaking(string title, string remark, string icon, string taskID, int type, string orderID, string userID)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@Title",title),
@@ -426,13 +426,12 @@ namespace IntFactoryDAL
                                      new SqlParameter("@TaskID",taskID),
                                      new SqlParameter("@Type",type),
                                      new SqlParameter("@OrderID",orderID),
-                                     new SqlParameter("@UserID",userID),
-                                     new SqlParameter("@AgentID",agentID)
+                                     new SqlParameter("@UserID",userID)
                                    };
             return ExecuteNonQuery("P_AddPlateMaking", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdatePlateMaking(string plateID, string title, string remark, string icon,int type)
+        public bool UpdatePlateMaking(string plateID, string title, string remark, string icon, int type)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@PlateID",plateID),
