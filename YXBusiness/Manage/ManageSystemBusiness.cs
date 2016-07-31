@@ -232,7 +232,6 @@ namespace IntFactoryEntity.Manage
                 bool bl = SystemDAL.BaseProvider.UpdateUserRole(userid, roleid, operateid);
 
                 return bl;
-
         }
 
     }

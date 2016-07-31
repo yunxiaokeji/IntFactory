@@ -32,23 +32,6 @@ namespace YXERP.Controllers
             }
         }
 
-        Agents CurrentAgent
-        {
-            get
-            {
-                if (CurrentUser == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return AgentsBusiness.GetAgentDetail(CurrentUser.AgentID);
-                }
-
-
-            }
-        }
-
         Clients CurrentClient
         {
             get
@@ -79,7 +62,7 @@ namespace YXERP.Controllers
             }
             else
             {
-                if (CurrentAgent.AuthorizeType == 1)
+                if (CurrentClient.AuthorizeType == 1)
                 {
                     return Redirect("/Auction/BuyUserQuantity");
                 }
@@ -121,22 +104,22 @@ namespace YXERP.Controllers
             }
             else
             {
-                if (CurrentAgent.AuthorizeType == 0)
+                if (CurrentClient.AuthorizeType == 0)
                 {
                     return Redirect("/Auction/BuyNow");
                 }
 
-                if ((CurrentAgent.EndTime - DateTime.Now).Days <= 31)
+                if ((CurrentClient.EndTime - DateTime.Now).Days <= 31)
                 {
                     return Redirect("/Auction/ExtendNow");
                 }
 
-                int remainderMonths = (CurrentAgent.EndTime.Year - DateTime.Now.Year) * 12 + (CurrentAgent.EndTime.Month - DateTime.Now.Month) - 1;
-                if (CurrentAgent.EndTime.Day >= DateTime.Now.Day)
+                int remainderMonths = (CurrentClient.EndTime.Year - DateTime.Now.Year) * 12 + (CurrentClient.EndTime.Month - DateTime.Now.Month) - 1;
+                if (CurrentClient.EndTime.Day >= DateTime.Now.Day)
                     remainderMonths += 1;
                 ViewBag.RemainderMonths = remainderMonths;
 
-                ViewBag.CurrentAgent = CurrentAgent;
+                ViewBag.CurrentAgent = CurrentClient;
 
                 ViewBag.Discount = GetBuyDiscount();
 
@@ -176,19 +159,19 @@ namespace YXERP.Controllers
             }
             else
             {
-                if (CurrentAgent.AuthorizeType == 0)
+                if (CurrentClient.AuthorizeType == 0)
                 {
                     return Redirect("/Auction/BuyNow");
                 }
 
-                if ((CurrentAgent.EndTime - DateTime.Now).Days > 31)
+                if ((CurrentClient.EndTime - DateTime.Now).Days > 31)
                 {
                     return Redirect("/Auction/BuyUserQuantity");
                 }
-                double Days = Math.Ceiling((CurrentAgent.EndTime - DateTime.Now).TotalDays);
+                double Days = Math.Ceiling((CurrentClient.EndTime - DateTime.Now).TotalDays);
                 ViewBag.Days = Days;
-                ViewBag.UserQuantity = OrganizationBusiness.GetUsers(CurrentAgent.AgentID).Count;
-                ViewBag.CurrentAgent = CurrentAgent;
+                ViewBag.UserQuantity = OrganizationBusiness.GetUsers(CurrentClient.ClientID).Count;
+                ViewBag.CurrentAgent = CurrentClient;
 
                 ViewBag.Discount = 10;
                 if (!string.IsNullOrEmpty(CurrentClient.AliMemberID))
@@ -279,7 +262,7 @@ namespace YXERP.Controllers
             {
                 int pageCount = 0;
                 int totalCount = 0;
-                List<ClientOrder> list = ClientOrderBusiness.GetClientOrders(0, -1, string.Empty, string.Empty, CurrentUser.AgentID, CurrentUser.ClientID, int.MaxValue, 1, ref totalCount, ref pageCount);
+                List<ClientOrder> list = ClientOrderBusiness.GetClientOrders(0, -1, string.Empty, string.Empty, CurrentUser.ClientID, int.MaxValue, 1, ref totalCount, ref pageCount);
 
                 if (list.Count > 0)
                 {
@@ -394,7 +377,7 @@ namespace YXERP.Controllers
 
                                 if (flag)
                                 {
-                                    AgentsBusiness.UpdatetAgentCache(order.AgentID);
+                                    ClientBusiness.UpdateClientCache(order.ClientID);
                                     Response.Write("success");  //请不要修改或删除
                                 }
                             }
@@ -443,8 +426,8 @@ namespace YXERP.Controllers
             //购买人数
             if (type == 2)
             {
-                remainderMonths = (CurrentAgent.EndTime.Year - DateTime.Now.Year) * 12 + (CurrentAgent.EndTime.Month - DateTime.Now.Month) - 1;
-                if (CurrentAgent.EndTime.Day >= DateTime.Now.Day)
+                remainderMonths = (CurrentClient.EndTime.Year - DateTime.Now.Year) * 12 + (CurrentClient.EndTime.Month - DateTime.Now.Month) - 1;
+                if (CurrentClient.EndTime.Day >= DateTime.Now.Day)
                     remainderMonths += 1;
 
                 years = remainderMonths / 12 == 0 ? 1 : remainderMonths / 12;
@@ -503,8 +486,8 @@ namespace YXERP.Controllers
             //购买人数
             if (type == 2)
             {
-                remainderMonths = (CurrentAgent.EndTime.Year - DateTime.Now.Year) * 12 + (CurrentAgent.EndTime.Month - DateTime.Now.Month) - 1;
-                if (CurrentAgent.EndTime.Day >= DateTime.Now.Day)
+                remainderMonths = (CurrentClient.EndTime.Year - DateTime.Now.Year) * 12 + (CurrentClient.EndTime.Month - DateTime.Now.Month) - 1;
+                if (CurrentClient.EndTime.Day >= DateTime.Now.Day)
                     remainderMonths += 1;
 
                 years = remainderMonths / 12 == 0 ? 1 : remainderMonths / 12;
@@ -555,7 +538,6 @@ namespace YXERP.Controllers
                 model.Amount = decimal.Parse((float.Parse(model.Amount.ToString()) * remainderYears).ToString("f2"));
                 model.RealAmount = decimal.Parse((float.Parse(model.RealAmount.ToString()) * remainderYears).ToString("f2"));
             }
-            model.AgentID = CurrentUser.AgentID;
             model.ClientID = CurrentUser.ClientID;
             model.CreateUserID = CurrentUser.UserID;
             model.SourceType = 0;
@@ -728,18 +710,18 @@ namespace YXERP.Controllers
                     {
                         result = 1;
                         JsonDictionary.Add("type", order.Type);
-                        JsonDictionary.Add("nowUserCount", CurrentAgent.UserQuantity);
-                        JsonDictionary.Add("nowEndTime", CurrentAgent.EndTime.ToString("yyyy-MM-dd"));
+                        JsonDictionary.Add("nowUserCount", CurrentClient.UserQuantity);
+                        JsonDictionary.Add("nowEndTime", CurrentClient.EndTime.ToString("yyyy-MM-dd"));
 
                         if (order.Type == 1 || order.Type == 3)
                         {
                             JsonDictionary.Add("preUserCount", 0);
-                            JsonDictionary.Add("preEndTime", CurrentAgent.EndTime.AddYears(-order.Years).ToString("yyyy-MM-dd"));
+                            JsonDictionary.Add("preEndTime", CurrentClient.EndTime.AddYears(-order.Years).ToString("yyyy-MM-dd"));
                         }
                         else if (order.Type == 2)
                         {
-                            JsonDictionary.Add("preUserCount", CurrentAgent.UserQuantity - order.UserQuantity);
-                            JsonDictionary.Add("preEndTime", CurrentAgent.EndTime.ToString("yyyy-MM-dd"));
+                            JsonDictionary.Add("preUserCount", CurrentClient.UserQuantity - order.UserQuantity);
+                            JsonDictionary.Add("preEndTime", CurrentClient.EndTime.ToString("yyyy-MM-dd"));
                         }
 
 

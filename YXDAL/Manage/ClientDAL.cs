@@ -42,6 +42,7 @@ namespace IntFactoryDAL.Manage
                                    };
             return GetDataSet("R_GetClientsAgentLogin_Day", paras, CommandType.StoredProcedure);
         }
+
         public DataSet GetClientsAgentActionReport(int type, string begintime, string endtime, string clientId)
         {
             SqlParameter[] paras = { 
@@ -52,6 +53,7 @@ namespace IntFactoryDAL.Manage
                                    };
             return GetDataSet("R_GetClientsAgentAction", paras, CommandType.StoredProcedure);
         }
+
         public DataSet GetClientsVitalityReport(int type, string begintime, string endtime, string clientId)
         {
             SqlParameter[] paras = { 

@@ -27,7 +27,7 @@ namespace YXERP.Areas.Api.Controllers
 
         #region get
 
-        public JsonResult GetTasks(string filter,string userID,string agentID)
+        public JsonResult GetTasks(string filter, string userID, string clientID)
         {
             
             var paras = new FilterTasks();
@@ -43,7 +43,7 @@ namespace YXERP.Areas.Api.Controllers
             if (paras.isMy) {
                 ownerID = userID;
             }
-            var currentUser = OrganizationBusiness.GetUserByUserID(userID,agentID);
+            var currentUser = OrganizationBusiness.GetUserByUserID(userID, clientID);
 
             List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID,paras.isParticipate?1:0, paras.status, paras.finishStatus,-1,-1,
                 paras.colorMark, paras.taskType, paras.beginDate, paras.endDate,string.Empty,string.Empty,
@@ -87,10 +87,10 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetOrderProcess(string userID, string agentID)
+        public JsonResult GetOrderProcess(string userID, string clientID)
         {
-            var currentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
-            var list = SystemBusiness.BaseBusiness.GetOrderProcess(agentID, currentUser.ClientID);
+            var currentUser = OrganizationBusiness.GetUserByUserID(userID, clientID);
+            var list = SystemBusiness.BaseBusiness.GetOrderProcess(currentUser.ClientID);
             List<Dictionary<string, object>> processss = new List<Dictionary<string, object>>();
 
             foreach (var item in list)
@@ -110,12 +110,12 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetOrderStages(string processID, string userID, string agentID)
+        public JsonResult GetOrderStages(string processID, string userID, string clientID)
         {
             if (!string.IsNullOrEmpty(processID))
             {
-                var currentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
-                var list = SystemBusiness.BaseBusiness.GetOrderStages(processID, agentID, currentUser.ClientID);
+                var currentUser = OrganizationBusiness.GetUserByUserID(userID, clientID);
+                var list = SystemBusiness.BaseBusiness.GetOrderStages(processID, currentUser.ClientID);
                 List<Dictionary<string, object>> stages = new List<Dictionary<string, object>>();
 
                 foreach (var item in list)
@@ -137,7 +137,7 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetTaskDetail(string taskID, string userID, string agentID)
+        public JsonResult GetTaskDetail(string taskID, string userID)
         {
             if (!string.IsNullOrEmpty(taskID))
             {
@@ -169,8 +169,8 @@ namespace YXERP.Areas.Api.Controllers
                     task.Add("createTime", item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"));
                     task.Add("ownerUser", GetUserBaseObj(item.Owner));
 
-                    var currentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
-                    var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(item.OrderID, agentID, currentUser.ClientID);
+                    var currentUser = OrganizationBusiness.GetUserByUserID(userID, item.ClientID);
+                    var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(item.OrderID, currentUser.ClientID);
                     Dictionary<string, object> order = new Dictionary<string, object>();
                     if (orderDetail != null)
                     {
@@ -184,7 +184,6 @@ namespace YXERP.Areas.Api.Controllers
                         order.Add("orderImage", orderdetailImg);
                         order.Add("orderImages", orderDetail.OrderImages);
                         order.Add("platemaking", orderDetail.Platemaking);
-                        order.Add("plateRemark", orderDetail.PlateRemark);
                         order.Add("remark", orderDetail.Remark);
                         task.Add("order", order);
                         
@@ -285,12 +284,12 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetOrderInfo(string orderID, string userID, string agentID)
+        public JsonResult GetOrderInfo(string orderID, string userID, string clientID)
         {
             if (!string.IsNullOrEmpty(orderID))
             {
-                var currentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
-                var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(orderID, agentID, currentUser.ClientID);
+                var currentUser = OrganizationBusiness.GetUserByUserID(userID, clientID);
+                var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(orderID,currentUser.ClientID);
                 Dictionary<string, object> order = new Dictionary<string, object>();
                 List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
 
@@ -301,7 +300,6 @@ namespace YXERP.Areas.Api.Controllers
                     order.Add("orderImage", orderDetail.OrderImage);
                     order.Add("orderImages", orderDetail.OrderImages);
                     order.Add("platemaking", orderDetail.Platemaking);
-                    order.Add("plateRemark", orderDetail.PlateRemark);
                     order.Add("remark", orderDetail.Remark);
                     JsonDictionary.Add("order", order);
 
@@ -340,7 +338,7 @@ namespace YXERP.Areas.Api.Controllers
             if (!string.IsNullOrEmpty(endTime)) endDate = DateTime.Parse(endTime);
             CurrentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
 
-            TaskBusiness.UpdateTaskEndTime(taskID, endDate, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            TaskBusiness.UpdateTaskEndTime(taskID, endDate, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID, out result);
             JsonDictionary.Add("result", result);
 
             return new JsonResult
@@ -355,7 +353,7 @@ namespace YXERP.Areas.Api.Controllers
             int result = 0;
             CurrentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
 
-            TaskBusiness.FinishTask(taskID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            TaskBusiness.FinishTask(taskID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID, out result);
             JsonDictionary.Add("result", result);
 
             return new JsonResult
@@ -411,7 +409,7 @@ namespace YXERP.Areas.Api.Controllers
             if (user != null)
             {
                 userObj.Add("userID", user.UserID);
-                userObj.Add("agentID", user.AgentID);
+                userObj.Add("clientID", user.ClientID);
                 userObj.Add("name", user.Name);
                 userObj.Add("avatar", user.Avatar);
             }

@@ -119,7 +119,7 @@ namespace YXERP.Controllers
 
         public JsonResult AccountBindMobile(string BindMobile,string pwd)
         {
-            bool bl = OrganizationBusiness.UpdateAccountBindMobile(BindMobile, pwd, true, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            bool bl = OrganizationBusiness.UpdateAccountBindMobile(BindMobile, pwd, true, CurrentUser.UserID,CurrentUser.ClientID);
             JsonDictionary.Add("result", bl);
             if (bl)
             {

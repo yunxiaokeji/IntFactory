@@ -163,6 +163,9 @@ namespace IntFactoryEntity
         public string LogGUID { get; set; }
 
         public Manage.Clients Client { get; set; }
+
+        public string LoginName { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

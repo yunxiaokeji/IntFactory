@@ -28,7 +28,7 @@ namespace IntFactoryBusiness
         #region 查询
 
         public List<OrderEntity> GetOrders(EnumSearchType searchtype, string entrustClientID, string typeid, int status, EnumOrderSourceType sourceType, int orderStatus, int mark, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid,
-                                                string begintime, string endtime, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid,string clientid)
+                                                string begintime, string endtime, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
             DataSet ds = OrdersDAL.BaseProvider.GetOrders((int)searchtype, entrustClientID, typeid, status, (int)sourceType, orderStatus, mark, paystatus, invoicestatus, returnstatus, searchuserid, searchteamid, begintime, endtime, keyWords,

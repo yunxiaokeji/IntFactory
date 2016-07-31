@@ -106,11 +106,11 @@ namespace IntFactory.Service
                 //下载阿里打样订单
                 var gmtFentEnd = DateTime.Now.AddDays(1);
                 bool flag =AliOrderBusiness.DownFentOrders(item.FentSuccessEndTime, gmtFentEnd, item.Token, item.RefreshToken,
-                    item.UserID, item.AgentID, item.ClientID, ref successCount, ref total, out error);
+                    item.UserID, item.ClientID, ref successCount, ref total, out error);
 
                 //新增阿里打样订单下载日志
                 AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog( EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.FentSuccessEndTime, gmtFentEnd,
-                    successCount, total, item.AgentID, item.ClientID, error);
+                    successCount, total, item.ClientID, error);
 
                 //添加服务日志
                 string log = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:"+item.ClientID+" 下载打样订单结果:" + (flag ? "成功" : "失败")+" 成功订单数:"+successCount;
@@ -124,11 +124,11 @@ namespace IntFactory.Service
                 //下载阿里大货订单列表
                 var gmtBulkEnd = DateTime.Now.AddDays(1);
                 flag = AliOrderBusiness.DownBulkOrders(item.BulkSuccessEndTime, gmtBulkEnd, item.Token, item.RefreshToken,
-                    item.UserID, item.AgentID, item.ClientID, ref successCount, ref total, out error);
+                    item.UserID,item.ClientID, ref successCount, ref total, out error);
 
                 //新增阿里大货订单下载日志
                 AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.BulkSuccessEndTime, gmtBulkEnd,
-                    successCount, total, item.AgentID, item.ClientID, error);
+                    successCount, total, item.ClientID, error);
 
                 //添加服务日志
                 log = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 下载大货订单结果:" + (flag ? "成功" : "失败") + "  成功订单数:"+successCount;

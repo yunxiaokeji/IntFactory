@@ -73,13 +73,13 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.CustomerID))
             {
-                model.CustomerID = new CustomBusiness().CreateCustomer(model.Name, model.Type, model.SourceID, "", model.IndustryID, model.Extent, model.CityCode,
-                                                                       model.Address, model.ContactName, model.MobilePhone, model.OfficePhone, model.Email, model.Jobs, model.Description, CurrentUser.UserID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                model.CustomerID = new CustomBusiness().CreateCustomer(model.Name, model.Type, model.SourceID, model.IndustryID, model.Extent, model.CityCode,
+                                                                       model.Address, model.ContactName, model.MobilePhone, model.OfficePhone, model.Email, model.Jobs, model.Description, CurrentUser.UserID, CurrentUser.UserID, CurrentUser.ClientID);
             }
             else
             {
                 bool bl = new CustomBusiness().UpdateCustomer(model.CustomerID, model.Name, model.Type, model.IndustryID, model.Extent, model.CityCode, model.Address, model.MobilePhone, model.OfficePhone,
-                                                model.Email, model.Jobs, model.Description, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                                                model.Email, model.Jobs, model.Description, CurrentUser.UserID, OperateIP,CurrentUser.ClientID);
                 if (!bl)
                 {
                     model.CustomerID = "";
@@ -101,10 +101,10 @@ namespace YXERP.Controllers
             int pageCount = 0;
             
             List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomers(model.SearchType, model.Type, model.SourceType, 
-                model.SourceID, model.StageID, model.Status, model.Mark, model.ActivityID, model.UserID, 
+                model.SourceID, model.StageID, model.Status, model.Mark, model.UserID, 
                 model.TeamID, model.AgentID, model.BeginTime, model.EndTime,
                 model.FirstName, model.Keywords, model.OrderBy, model.PageSize, model.PageIndex, 
-                ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.ClientID);
 
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
@@ -119,7 +119,7 @@ namespace YXERP.Controllers
         public JsonResult GetCustomersByKeywords(string keywords, int isAll = 0)
         {
 
-            List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomersByKeywords(keywords, isAll == 0 ? CurrentUser.UserID : "", CurrentUser.AgentID, CurrentUser.ClientID);
+            List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomersByKeywords(keywords, isAll == 0 ? CurrentUser.UserID : "",  CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult
             {
@@ -130,7 +130,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetCustomerByID(string customerid)
         {
-            var model = CustomBusiness.BaseBusiness.GetCustomerByID(customerid, CurrentUser.AgentID, CurrentUser.ClientID);
+            var model = CustomBusiness.BaseBusiness.GetCustomerByID(customerid, CurrentUser.ClientID);
             //model.Industrys = IntFactoryBusiness.Manage.IndustryBusiness.GetIndustrys();
             //model.Extents = CustomBusiness.GetExtents();
             JsonDictionary.Add("model", model);
@@ -147,7 +147,7 @@ namespace YXERP.Controllers
             string[] list = ids.Split(',');
             foreach (var id in list)
             {
-                if (!string.IsNullOrEmpty(id) && CustomBusiness.BaseBusiness.UpdateCustomerMark(id, mark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID))
+                if (!string.IsNullOrEmpty(id) && CustomBusiness.BaseBusiness.UpdateCustomerMark(id, mark, CurrentUser.UserID, OperateIP, CurrentUser.ClientID))
                 {
                     bl = true;
                 }
@@ -167,7 +167,7 @@ namespace YXERP.Controllers
             string[] list = ids.Split(',');
             foreach (var id in list)
             {
-                if (!string.IsNullOrEmpty(id) && CustomBusiness.BaseBusiness.UpdateCustomerOwner(id, userid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID))
+                if (!string.IsNullOrEmpty(id) && CustomBusiness.BaseBusiness.UpdateCustomerOwner(id, userid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID))
                 {
                     bl = true;
                 }
@@ -188,7 +188,7 @@ namespace YXERP.Controllers
             string[] list = ids.Split(',');
             foreach (var id in list)
             {
-                if (!string.IsNullOrEmpty(id) && CustomBusiness.BaseBusiness.UpdateCustomerStatus(id, EnumCustomStatus.Loses, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID))
+                if (!string.IsNullOrEmpty(id) && CustomBusiness.BaseBusiness.UpdateCustomerStatus(id, EnumCustomStatus.Loses, CurrentUser.UserID, OperateIP, CurrentUser.ClientID))
                 {
                     bl = true;
                 }
@@ -207,7 +207,7 @@ namespace YXERP.Controllers
             string[] list = ids.Split(',');
             foreach (var id in list)
             {
-                if (!string.IsNullOrEmpty(id) && CustomBusiness.BaseBusiness.UpdateCustomerStatus(id, EnumCustomStatus.Close, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID))
+                if (!string.IsNullOrEmpty(id) && CustomBusiness.BaseBusiness.UpdateCustomerStatus(id, EnumCustomStatus.Close, CurrentUser.UserID, OperateIP, CurrentUser.ClientID))
                 {
                     bl = true;
                 }
@@ -226,7 +226,7 @@ namespace YXERP.Controllers
             string[] list = ids.Split(',');
             foreach (var id in list)
             {
-                if (!string.IsNullOrEmpty(id) && CustomBusiness.BaseBusiness.UpdateCustomerStatus(id, EnumCustomStatus.Normal, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID))
+                if (!string.IsNullOrEmpty(id) && CustomBusiness.BaseBusiness.UpdateCustomerStatus(id, EnumCustomStatus.Normal, CurrentUser.UserID, OperateIP, CurrentUser.ClientID))
                 {
                     bl = true;
                 }
@@ -244,7 +244,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = LogBusiness.GetLogs(customerid, EnumLogObjectType.Customer, 10, pageindex, ref totalCount, ref pageCount, CurrentUser.AgentID);
+            var list = LogBusiness.GetLogs(customerid, EnumLogObjectType.Customer, 10, pageindex, ref totalCount, ref pageCount, CurrentUser.ClientID);
 
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
@@ -273,7 +273,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetContacts(string customerid)
         {
-            var list = CustomBusiness.BaseBusiness.GetContactsByCustomerID(customerid, CurrentUser.AgentID);
+            var list = CustomBusiness.BaseBusiness.GetContactsByCustomerID(customerid, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult
             {
@@ -289,11 +289,11 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.ContactID))
             {
-                model.ContactID = new CustomBusiness().CreateContact(model.CustomerID, model.Name, model.CityCode, model.Address, model.MobilePhone, model.OfficePhone, model.Email, model.Jobs, model.Description, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                model.ContactID = new CustomBusiness().CreateContact(model.CustomerID, model.Name, model.CityCode, model.Address, model.MobilePhone, model.OfficePhone, model.Email, model.Jobs, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
             }
             else
             {
-                bool bl = new CustomBusiness().UpdateContact(model.ContactID, model.CustomerID, model.Name, model.CityCode, model.Address, model.MobilePhone, model.OfficePhone, model.Email, model.Jobs, model.Description, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                bool bl = new CustomBusiness().UpdateContact(model.ContactID, model.CustomerID, model.Name, model.CityCode, model.Address, model.MobilePhone, model.OfficePhone, model.Email, model.Jobs, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
                 if (!bl)
                 {
                     model.ContactID = "";
@@ -320,7 +320,7 @@ namespace YXERP.Controllers
 
         public JsonResult DeleteContact(string id)
         {
-            bool bl = CustomBusiness.BaseBusiness.DeleteContact(id, OperateIP, CurrentUser.UserID, CurrentUser.AgentID);
+            bool bl = CustomBusiness.BaseBusiness.DeleteContact(id, OperateIP, CurrentUser.UserID);
             JsonDictionary.Add("status", bl );
             return new JsonResult
             {
@@ -340,7 +340,7 @@ namespace YXERP.Controllers
             model.Attachments = serializer.Deserialize<List<Attachment>>(attchmentEntity);
             
             string replyID = "";
-            replyID = CustomBusiness.CreateReply(model.GUID, model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
+            replyID = CustomBusiness.CreateReply(model.GUID, model.Content, CurrentUser.UserID, CurrentUser.ClientID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
 
             //string movePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"] + "Customers/" + DateTime.Now.ToString("yyyyMM") + "/";
             //string uploadTempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
@@ -366,7 +366,6 @@ namespace YXERP.Controllers
                 model.CreateTime = DateTime.Now;
                 model.CreateUser = CurrentUser;
                 model.CreateUserID = CurrentUser.UserID;
-                model.AgentID = CurrentUser.AgentID;
                 if (!string.IsNullOrEmpty(model.FromReplyUserID) && !string.IsNullOrEmpty(model.FromReplyAgentID))
                 {
                     model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);

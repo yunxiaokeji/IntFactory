@@ -206,7 +206,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = StockBusiness.BaseBusiness.GetDetailStocks(WareID, Keywords, PageSize, PageIndex, ref totalCount, ref pageCount, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = StockBusiness.BaseBusiness.GetDetailStocks(WareID, Keywords, PageSize, PageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -222,7 +222,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = StockBusiness.BaseBusiness.GetProductStocks(Keywords, PageSize, PageIndex, ref totalCount, ref pageCount, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = StockBusiness.BaseBusiness.GetProductStocks(Keywords, PageSize, PageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -235,7 +235,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetProductDetailStocks(string productid)
         {
-            var list = StockBusiness.BaseBusiness.GetProductDetailStocks(productid, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = StockBusiness.BaseBusiness.GetProductDetailStocks(productid,  CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
 
             return new JsonResult
@@ -276,24 +276,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateStorageDetailBatch(string docid, string autoid, string batch)
-        {
-            var bl = new StockBusiness().UpdateStorageDetailBatch(docid, autoid, batch, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
-            JsonDictionary.Add("status", bl);
-
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
         public JsonResult AuditReturnIn(string docid)
         {
             int result = 0;
             string errinfo = "";
 
-            var bl = StockBusiness.BaseBusiness.AuditReturnIn(docid, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, ref result, ref errinfo);
+            var bl = StockBusiness.BaseBusiness.AuditReturnIn(docid, CurrentUser.UserID, CurrentUser.ClientID, ref result, ref errinfo);
             JsonDictionary.Add("status", bl);
             JsonDictionary.Add("result", result);
             JsonDictionary.Add("errinfo", errinfo);
@@ -306,7 +294,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetProductsByKeywords(string wareid, string keywords)
         {
-            var list = StockBusiness.BaseBusiness.GetProductsByKeywords(wareid, keywords, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = StockBusiness.BaseBusiness.GetProductsByKeywords(wareid, keywords,CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult
             {
@@ -389,7 +377,7 @@ namespace YXERP.Controllers
         {
             int result = 0;
             string errinfo = "";
-            var bl = new StockBusiness().AuditDamagedDoc(docid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, ref result, ref errinfo);
+            var bl = new StockBusiness().AuditDamagedDoc(docid, CurrentUser.UserID, CurrentUser.ClientID, ref result, ref errinfo);
             JsonDictionary.Add("result", result);
             JsonDictionary.Add("errinfo", errinfo);
             return new JsonResult
@@ -427,7 +415,7 @@ namespace YXERP.Controllers
         {
             int result = 0;
             string errinfo = "";
-            var bl = new StockBusiness().AuditOverflowDoc(docid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, ref result, ref errinfo);
+            var bl = new StockBusiness().AuditOverflowDoc(docid, CurrentUser.UserID, CurrentUser.ClientID, ref result, ref errinfo);
             JsonDictionary.Add("result", result);
             JsonDictionary.Add("errinfo", errinfo);
             return new JsonResult
@@ -439,7 +427,7 @@ namespace YXERP.Controllers
 
         public JsonResult SubmitHandOutDoc(string wareid, string remark)
         {
-            var bl = StockBusiness.BaseBusiness.SubmitHandOutDoc(wareid, remark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = StockBusiness.BaseBusiness.SubmitHandOutDoc(wareid, remark, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -476,7 +464,7 @@ namespace YXERP.Controllers
         {
             int result = 0;
             string errinfo = "";//使用报损逻辑
-            var bl = new StockBusiness().AuditDamagedDoc(docid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, ref result, ref errinfo);
+            var bl = new StockBusiness().AuditDamagedDoc(docid, CurrentUser.UserID, CurrentUser.ClientID, ref result, ref errinfo);
             JsonDictionary.Add("result", result);
             JsonDictionary.Add("errinfo", errinfo);
             return new JsonResult

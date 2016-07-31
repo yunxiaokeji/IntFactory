@@ -438,7 +438,7 @@ namespace YXManage.Controllers
                     break;
                 }
                 case 4: {
-                    path = "/Api/Cache/UpdatetAgentCache";
+                    path = "/Api/Cache/UpdatetClientCache";
                     break;
                 }
             }

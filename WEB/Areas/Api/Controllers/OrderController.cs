@@ -46,7 +46,7 @@ namespace YXERP.Areas.Api.Controllers
         //获取订单详情
         public JsonResult GetOrderDetailByID(string orderID,string clientID)
         {
-            var item = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(orderID, clientID, clientID);
+            var item = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(orderID, clientID);
             Dictionary<string, object> obj = new Dictionary<string, object>();
             obj.Add("orderID", item.OrderID);
             obj.Add("goodsName", item.GoodsName);
@@ -141,8 +141,7 @@ namespace YXERP.Areas.Api.Controllers
         public JsonResult CreateDHOrder(string orderID, decimal price, string details, string clientID, string yxOrderID)
         {
             var productDetails = JsonConvert.DeserializeObject< List<IntFactoryEntity.ProductDetail > >(details);
-            string id = OrdersBusiness.BaseBusiness.CreateDHOrder(orderID, 1, 1, price, productDetails,
-                string.Empty, clientID, clientID, yxOrderID);
+            string id = OrdersBusiness.BaseBusiness.CreateDHOrder(orderID, 1, 1, price, productDetails, string.Empty, clientID, yxOrderID);
           JsonDictionary.Add("id",id);
 
           return new JsonResult

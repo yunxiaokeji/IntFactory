@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using IntFactoryEntity;
 using IntFactoryBusiness;
 using IntFactoryEnum;
+using IntFactoryBusiness.Manage;
 
 namespace YXERP.Common
 {
@@ -60,8 +61,8 @@ namespace YXERP.Common
                 return;
             }
 
-            var agent = AgentsBusiness.GetAgentDetail(currentUser.AgentID);
-            if (agent.EndTime < DateTime.Now)
+            var client = ClientBusiness.GetClientDetail(currentUser.ClientID);
+            if (client.EndTime < DateTime.Now)
             {
                 if (filterContext.RequestContext.HttpContext.Request.IsAjaxRequest())
                 {
