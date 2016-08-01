@@ -98,7 +98,8 @@ define(function (require, exports, module) {
                 $(".dropdown-userinfo").fadeOut("1000");
             }
 
-            if (!$(e.target).parents().hasClass("companyname") && !$(e.target).hasClass("companyname")) {
+            if (!$(e.target).parents().hasClass("companyname") && !$(e.target).hasClass("companyname")
+                    && !$(e.target).parents().hasClass("dropdown-companyinfo") && !$(e.target).hasClass("dropdown-companyinfo")) {
                 $(".dropdown-companyinfo").fadeOut("1000");
             }
         });

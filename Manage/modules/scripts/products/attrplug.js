@@ -70,7 +70,7 @@ define(function (require, exports, module) {
                         '<label class="mLeft20"><input type="radio" name="type" id="specification" value="2" />规格</label>' +
                     '</li>';
         }
-        html += '<li><span class="width80 left">描述：</span><textarea id="attrDescription">' + Attr.Description + '</textarea></li></ul>';
+        html += '<li><span class="width80 left">描述：</span><textarea id="attrDescription" placeholder="属性说明或适用分类等描述">' + Attr.Description + '</textarea></li></ul>';
 
         Easydialog.open({
             container: {
@@ -94,6 +94,7 @@ define(function (require, exports, module) {
         
         $("#attrName").focus();
         $("#attrName").val(Attr.AttrName);
+        $("#attrDescription").val(Attr.Description);
 
         VerifyObject = Verify.createVerify({
             element: ".verify",

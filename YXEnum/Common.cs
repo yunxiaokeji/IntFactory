@@ -80,11 +80,7 @@ namespace IntFactoryEnum
         /// <summary>
         /// 所有
         /// </summary>
-        All = 3,
-        /// <summary>
-        /// 委托
-        /// </summary>
-        Entrust = 4
+        All = 3
     }
     /// <summary>
     /// 标签类型
@@ -124,6 +120,7 @@ namespace IntFactoryEnum
     /// </summary>
     public enum EnumRegisterType
     {
+        All = -1,
         /// <summary>
         /// 后台添加
         /// </summary>

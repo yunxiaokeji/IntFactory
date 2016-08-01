@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "仓库设置";
 }
-<link href="/modules/css/system/system.css" rel="stylesheet" />
+<link href="/modules/css/system.css" rel="stylesheet" />
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/system/warehouse"], function (obj) {
@@ -13,10 +13,7 @@
     <span class="header-title left">仓库设置</span>
     @*<div id="addWarehouse" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"108020601"))">新建仓库</div>*@
 </div>
-<div class="content-body mTop20">
-    <div class="search-items mTop10">
-         <div class="right searth-module"> </div> 
-    </div>
+<div class="content-body pBottom50">
     <table class="table-list">
         <tr class="tr-header" id="warehouse-items">
             <td class="tLeft">仓库名称</td>

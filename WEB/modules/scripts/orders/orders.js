@@ -11,13 +11,14 @@
     require("colormark");
 
     var Params = {
+        SearchOrderType:0,
         SearchType: 1,
         TypeID: '',
         Status: -1,
         Mark: -1,
         PayStatus: -1,
-        OrderStatus: 1,
-        InvoiceStatus: -1,
+        OrderStatus: 0,
+        WarningStatus: -1,
         ReturnStatus: -1,
         SourceType: -1,
         UserID: "",
@@ -26,7 +27,7 @@
         Keywords: "",
         BeginTime: "",
         EndTime: "",
-        EntrustClientID: "",
+        EntrustType: "",
         PageIndex: 1,
         PageSize: 10,
         OrderBy: "o.CreateTime desc"
@@ -34,14 +35,16 @@
 
     var ObjectJS = {};
     //初始化
-    ObjectJS.init = function (type, status, model) {
+    ObjectJS.init = function (searchType, type, model) {
         var _self = this;
-        _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));        
+        _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
+        Params.SearchOrderType = searchType;
         Params.SearchType = type;
-        if (status) {
-            Params.OrderStatus = status;
-        }
 
+        //需求单
+        if (searchType > 0) {
+            Params.OrderStatus = 1;
+        }
         _self.getList();
         _self.bindStyle();
         _self.bindEvent(type);
@@ -51,8 +54,7 @@
 
     //绑定样式
     ObjectJS.bindStyle = function () {
-        $(".search-status .item[data-type!=1]").hide();
-        $(".search-status .item[data-id=-1]").show();
+
     }
 
     //绑定事件
@@ -189,7 +191,7 @@
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
                 Params.PageIndex = 1;
-                Params.InvoiceStatus = _this.data("id");
+                Params.WarningStatus = _this.data("id");
                 _self.getList();
             }
         });
@@ -243,7 +245,7 @@
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
                 Params.PageIndex = 1;
-                Params.EntrustClientID = _this.data("id");
+                Params.EntrustType = _this.data("id");
                 _self.getList();
             }
         });

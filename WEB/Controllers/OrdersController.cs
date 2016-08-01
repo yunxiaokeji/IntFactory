@@ -23,64 +23,72 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult MyOrder(string id)
+        public ActionResult MyOrder()
         {
-            ViewBag.Title = "我的订单";
-            ViewBag.Type = (int)EnumSearchType.Myself;
-            int State = 1;
-            if (!string.IsNullOrEmpty(id))
+            if (ExpandClass.IsExistMenu("102010600"))
             {
-                if (id.Equals("need", StringComparison.OrdinalIgnoreCase))
-                {
-                    State = 0;
-                }
+                return Redirect("/Orders/DemandOrders");
             }
+            else if (ExpandClass.IsExistMenu("102010700"))
+            {
+                return Redirect("/Orders/GoodsOrders");
+            }
+            else if (ExpandClass.IsExistMenu("102010800"))
+            {
+                return Redirect("/Orders/Orders");
+            }
+            return Redirect("/Error/NoRoot");
+        }
+
+        public ActionResult DemandOrders()
+        {
+            if (ExpandClass.IsExistMenu("102010601"))
+            {
+                ViewBag.Title = "所有需求单";
+                ViewBag.Type = (int)EnumSearchType.All;
+            }
+            else
+            {
+                ViewBag.Title = "我的需求单";
+                ViewBag.Type = (int)EnumSearchType.Myself;
+            }
+            ViewBag.SearchType = (int)EnumOrderSearchType.Need;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Orders).ToList();
-            ViewBag.State = State;
             return View("Orders");
         }
 
-        public ActionResult BranchOrder()
+        public ActionResult GoodsOrders()
         {
-            ViewBag.Title = "下属订单";
-            ViewBag.Type = (int)EnumSearchType.Branch;
+            if (ExpandClass.IsExistMenu("102010701"))
+            {
+                ViewBag.Title = "所有打样单";
+                ViewBag.Type = (int)EnumSearchType.All;
+            }
+            else
+            {
+                ViewBag.Title = "我的打样单";
+                ViewBag.Type = (int)EnumSearchType.Myself;
+            }
+            ViewBag.SearchType = (int)EnumOrderSearchType.DY;
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Orders).ToList();
             return View("Orders");
         }
 
         public ActionResult Orders(string id)
         {
-            ViewBag.Title = "所有订单";
-            ViewBag.Type = (int)EnumSearchType.All;
-            int State = 1;
-            if (!string.IsNullOrEmpty(id))
+            if (ExpandClass.IsExistMenu("102010801"))
             {
-                if (id.Equals("need", StringComparison.OrdinalIgnoreCase))
-                {
-                    State = 0;
-                }
+                ViewBag.Title = "所有大货单";
+                ViewBag.Type = (int)EnumSearchType.All;
             }
-            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Orders).ToList();
-            ViewBag.State = State;
-            return View();
-        }
-
-        public ActionResult EntrustOrders(string id)
-        {
-            ViewBag.Title = "委托订单列表";
-            ViewBag.Type = (int)EnumSearchType.Entrust;
-
-            int State = 1;
-            if (!string.IsNullOrEmpty(id))
+            else
             {
-                if (id.Equals("need", StringComparison.OrdinalIgnoreCase))
-                {
-                    State = 0;
-                }
+                ViewBag.Title = "我的大货单";
+                ViewBag.Type = (int)EnumSearchType.Myself;
             }
+            ViewBag.SearchType = (int)EnumOrderSearchType.DH;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Orders).ToList();
-            ViewBag.State = State;
-
-            return View();
+            return View("Orders");
         }
 
         public ActionResult Create(string cid)
@@ -225,7 +233,8 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOrders(model.SearchType, model.EntrustClientID, model.TypeID, model.Status, (EnumOrderSourceType)model.SourceType, model.OrderStatus, model.Mark, model.PayStatus, model.InvoiceStatus, model.ReturnStatus, model.UserID, model.TeamID, model.BeginTime, model.EndTime, model.Keywords, model.OrderBy, model.PageSize, model.PageIndex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetOrders(model.SearchOrderType, model.SearchType, model.EntrustType, model.TypeID, model.Status, (EnumOrderSourceType)model.SourceType, model.OrderStatus, model.Mark, 
+                                                             model.PayStatus, model.WarningStatus, model.ReturnStatus, model.UserID, model.TeamID, model.BeginTime, model.EndTime, model.Keywords, model.OrderBy, model.PageSize, model.PageIndex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);

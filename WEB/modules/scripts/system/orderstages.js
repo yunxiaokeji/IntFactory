@@ -7,12 +7,11 @@
 
     var ObjectJS = {};
     //初始化
-    ObjectJS.init = function (processid, processType, categoryType) {
+    ObjectJS.init = function (processid, marks) {
         var _self = this;
         _self.bindEvent();
         _self.processid = processid;
-        _self.processType = processType;
-        _self.categoryType = categoryType;
+        _self.marks = JSON.parse(marks.replace(/&quot;/g, '"'));
         _self.bindElement($(".stages-item"));
         _self.bingStyle();
     }
@@ -121,7 +120,7 @@
     ObjectJS.showLayer = function (id, name, mark, sort, hours) {
         var _self = this;
         doT.exec("template/system/orderstage-detail.html", function (template) {
-            var innerText = template({ CategoryType: _self.categoryType, ProcessType: _self.processType });
+            var innerText = template(_self.marks);
             Easydialog.open({
                 container: {
                     id: "addOrderStage",

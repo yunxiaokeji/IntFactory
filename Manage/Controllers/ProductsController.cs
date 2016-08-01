@@ -412,9 +412,9 @@ namespace YXManage.Controllers
             };
         }
 
-        public JsonResult UpdateCategoryItem(string categoryid, string itemid, string name, int sort)
+        public JsonResult UpdateCategoryItem(string categoryid, string itemid, string name, int sort, string remark)
         {
-            var bl = SystemBusiness.BaseBusiness.UpdateCategoryItem(categoryid, itemid, name, sort);
+            var bl = SystemBusiness.BaseBusiness.UpdateCategoryItem(categoryid, itemid, name, remark, sort);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {

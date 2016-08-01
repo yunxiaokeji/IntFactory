@@ -593,12 +593,6 @@
                 verifyType: "data-type",
                 regText: "data-text"
             });
-
-            //$("#extent").val(model.Extent);
-
-            //$("#industry").val(model.IndustryID);
-
-
             $(".edit-company").hide();
         });
     }

@@ -9,7 +9,7 @@
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/orders/orders"], function (ObjectJS) {
-            ObjectJS.init('@ViewBag.Type', '@(ViewBag.State)', '@Html.ToJSONString(list)');
+            ObjectJS.init('@ViewBag.SearchType', '@ViewBag.Type', '@Html.ToJSONString(list)');
         });
     </script>
 }
@@ -19,18 +19,29 @@
     <div class="btn right mRight10 nolimits" id="downAliOrders">同步阿里订单</div>
 </div>
 <div class="search-header">
-    <ul class="search-tab search-orderstatus">
-        <li data-id="1" class="@(ViewBag.State==1?"hover":"")">进行中</li>
-        <li data-id="0" class="@(ViewBag.State==0?"hover":"")">需求单</li>
-        <li data-id="2" class="">已完成</li>
-        <li data-id="8" class="">已终止</li>
-        <li data-id="-1" >全部订单</li>
-    </ul>
-    <ul class="search-tab-status search-warning">
-        <li data-id="-1" class="item hover">全部</li>
-        <li data-id="1" class="item">快到期</li>
-        <li data-id="2" class="item">已超期</li>
-    </ul>
+    
+    @if (ViewBag.SearchType > 0)
+    {
+        <ul class="search-tab search-orderstatus">
+            <li data-id="1" class="hover">进行中</li>
+            <li data-id="2" class="">已完成</li>
+            <li data-id="8" class="">已终止</li>
+            <li data-id="-1" >全部订单</li>
+        </ul>
+        <ul class="search-tab-status search-warning">
+            <li data-id="-1" class="item hover">全部</li>
+            <li data-id="1" class="item">快到期</li>
+            <li data-id="2" class="item">已超期</li>
+        </ul>
+    }
+    else
+    {
+        <ul class="search-tab search-ordertype">
+            <li data-id="" class="item hover">全部</li>
+            <li data-id="1" data-hide="2" class="item">打样单</li>
+            <li data-id="2" data-hide="1" class="item">大货单</li>
+        </ul>
+    }
 </div>
 <div class="content-body pBottom50">
     <div class="search-body left">
@@ -39,26 +50,28 @@
             <li class="item hover" data-id="">全部</li>
             <li class="item" data-id="1">本厂</li>
             <li class="item" data-id="2">协助</li>
+            <li class="item" data-id="3">委托</li>
         </ul>
-
-        <ul class="search-item search-ordertype">
-            <li class="column-name">类型：</li>
-            <li data-id="" class="item hover">全部</li>
-            <li data-id="1" data-hide="2" class="item">打样单</li>
-            <li data-id="2" data-hide="1" class="item">大货单</li>
-        </ul>
-        <ul class="search-item search-status">
-            <li class="column-name">状态：</li>
-            <li data-id="-1" class="item hover">全部</li>
-            <li data-id="0" class="item" data-type="0">需求单</li>
-            <li data-id="1" data-hide="1" class="item" data-type="1">打样中</li>
-            <li data-id="2" data-hide="1" class="item" data-type="1">核价中</li>
-            <li data-id="3" data-hide="1" class="item" data-type="2">封样封价</li>
-            <li data-id="4" data-hide="2" class="item" data-type="1">待大货</li>
-            <li data-id="5" data-hide="2" class="item" data-type="1">生产中</li>
-            <li data-id="6" data-hide="2" class="item" data-type="1">生产完成</li>
-            <li data-id="7" data-hide="2" class="item" data-type="2">交易结束</li>
-        </ul>
+        @if (ViewBag.SearchType == 1)
+        {
+            <ul class="search-item search-status">
+                <li class="column-name">状态：</li>
+                <li data-id="-1" class="item hover">全部</li>
+                <li data-id="1" data-hide="1" class="item" data-type="1">打样中</li>
+                <li data-id="2" data-hide="1" class="item" data-type="1">核价中</li>
+                <li data-id="3" data-hide="1" class="item hide" data-type="2">封样封价</li>
+            </ul>
+        }
+        else if (ViewBag.SearchType == 2)
+        {
+             <ul class="search-item search-status">
+                <li class="column-name">状态：</li>
+                <li data-id="-1" class="item hover">全部</li>
+                <li data-id="5" data-hide="2" class="item" data-type="1">生产中</li>
+                <li data-id="6" data-hide="2" class="item" data-type="1">生产完成</li>
+                <li data-id="7" data-hide="2" class="item hide" data-type="2">交易结束</li>
+            </ul>
+        }
         <ul class="search-item search-source">
             <li class="column-name">来源：</li>
             <li data-id="-1" class="item hover">全部</li>

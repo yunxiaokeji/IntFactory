@@ -13,11 +13,11 @@
     <span class="header-title left">新建员工</span>
     
 </div>
-<div class="content-body mTop20">
+<div class="content-body mTop20 pBottom50">
     <ul class="table-add">
         <li>
             <span class="column-title">登录账号：</span> 
-            <span><input type="text" maxlength="20" id="loginname" data-empty="账号不能为空！" data-text="格式不正确！" data-type="word" class="input verify" /></span>
+            <span><input type="text" maxlength="20" id="loginname" data-empty="账号不能为空" data-text="账号只能输入字母、数字和下划线，且必须包含字母" data-type="words" class="input verify" /></span>
         </li>
         <li>
             <span class="column-title">姓名：</span>
@@ -64,8 +64,8 @@
 
     </ul>
     <div class="mTop20">
-        <div class="btn @(ExpandClass.IsLimits(HttpContext.Current,"108010302"))" id="btnSave">保存</div>
-        <a class="btn mLeft10" href="/Organization/Users">
+        <div class="btn mLeft20 @(ExpandClass.IsLimits(HttpContext.Current,"108010302"))" id="btnSave">保存</div>
+        <a class="btn-back mLeft10" href="/Organization/Users">
             返回
         </a>
     </div>

@@ -7,6 +7,24 @@ using System.Text;
 namespace IntFactoryEnum
 {
     /// <summary>
+    /// 搜索类型
+    /// </summary>
+    public enum EnumOrderSearchType
+    {
+        /// <summary>
+        /// 需求单
+        /// </summary>
+        Need = 0,
+        /// <summary>
+        /// 打样
+        /// </summary>
+        DY = 1,
+        /// <summary>
+        /// 大货
+        /// </summary>
+        DH = 2
+    }
+    /// <summary>
     /// 订单状态
     /// </summary>
     public enum EnumOrderStageStatus

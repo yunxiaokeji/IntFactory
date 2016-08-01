@@ -274,13 +274,14 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool UpdateOrderProcessDefault(string processid, int type, string clientid)
+        public bool UpdateOrderProcessDefault(string processid, int type, string categoryid, string clientid)
         {
             string sqltext = "P_UpdateOrderProcessDefault";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@ProcessID",processid),
                                      new SqlParameter("@ProcessType",type),
+                                     new SqlParameter("@CategoryID",categoryid),
                                      new SqlParameter("@ClientID",clientid)
                                    };
             bool bl = ExecuteNonQuery(sqltext, paras, CommandType.StoredProcedure) > 0;
@@ -471,12 +472,13 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateCategoryItems(string itemid, string name, int sort)
+        public bool UpdateCategoryItems(string itemid, string name, string remark, int sort)
         {
-            string sqlText = "update CategoryItems set Name=@Name,Sort=@Sort where ItemID=@ItemID";
+            string sqlText = "update CategoryItems set Name=@Name,Sort=@Sort,Remark=@Remark where ItemID=@ItemID";
             SqlParameter[] paras = { 
                                      new SqlParameter("@ItemID" , itemid),
                                      new SqlParameter("@Name" , name),
+                                     new SqlParameter("@Remark" , remark),
                                      new SqlParameter("@Sort" , sort)
                                    };
             return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;

@@ -4,7 +4,7 @@
     
 }
 
-<link href="/modules/css/system/system.css" rel="stylesheet" />
+<link href="/modules/css/system.css" rel="stylesheet" />
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/system/depotseat"], function (obj) {
@@ -13,21 +13,14 @@
     </script>
 }
 <div class="header-box">
-    @*<span class="header-title left">@(model.Name)-货位设置</span>*@
-    <a href="javascript:void(0);" class="btn-add right">新建货位</a>@*@(ExpandClass.IsLimits(HttpContext.Current,"108020604"))*@
-    <a class="back left" href="javascript:if(history.length>1){ history.go(-1);} else{}">
-        <i class="iconfont">&#xe62d;</i> 返回 
-    </a>
+    <a class="btn-back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回 </a>
+    <a href="javascript:void(0);" class="btn-add right mRight10">新建货位</a>
 </div>
 
-<div class="content-body mTop20">
-   @* <div class="search-body">
-         <div class="right searth-module"> </div> 
-    </div>*@
+<div class="content-body mTop20 pBottom50">
     <table class="table-list">
         <tr class="tr-header" id="warehouse-items">
             <td class="width150 tLeft">货位编码</td>
-            @*<td class="tLeft">货位名称</td>*@
             <td class="width100">优先（高）</td>
             <td class="width100">优先（低）</td>
             <td class="width100">启用/禁用</td>

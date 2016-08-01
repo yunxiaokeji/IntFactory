@@ -15,30 +15,11 @@
     <li>
         <span class="width80 left mTop15">操作模块：</span>
         {%
-            var model=$data;
-            if(model.CategoryType==1 && model.ProcessType==1){
+            for(var i=0, j=$data.length; i < j; i++){
+	        var item = $data[i];
         %}
-            <span class="stage-item" data-id="11">材料</span>
-            <span class="stage-item" data-id="12">制版工艺</span>
-            <span class="stage-item" data-id="16">加工成本</span>
-            <span class="stage-item" data-id="15">发货</span>
-        {% } else if(model.CategoryType==1 && model.ProcessType==2){ %}
-            <span class="stage-item" data-id="21">材料</span>
-            <span class="stage-item" data-id="22">制版工艺</span>
-            <span class="stage-item" data-id="23">裁片</span>
-            <span class="stage-item" data-id="24">缝制</span>
-            <span class="stage-item" data-id="25">发货</span>
-        {% } else if(model.CategoryType==2 && model.ProcessType==1){ %}
-            <span class="stage-item" data-id="11">材料</span>
-            <span class="stage-item" data-id="12">制版工艺</span>
-            <span class="stage-item" data-id="16">加工成本</span>
-            <span class="stage-item" data-id="15">发货</span>
-        {% } else if(model.CategoryType==2 && model.ProcessType==2){ %}
-            <span class="stage-item" data-id="21">材料</span>
-            <span class="stage-item" data-id="22">制版工艺</span>
-            <span class="stage-item" data-id="23">织片</span>
-            <span class="stage-item" data-id="24">套口/缝盘</span>
-            <span class="stage-item" data-id="25">发货</span>
+            <span class="stage-item" title="{%=item.Remark%}" data-id="{%=item.Mark%}"><span class="iconfont">&#xe64a;</span>&nbsp;&nbsp;{%=item.Name%}</span>
+            
         {% } %}
     </li>
 </ul>

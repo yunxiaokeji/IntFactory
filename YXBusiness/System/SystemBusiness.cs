@@ -285,24 +285,19 @@ namespace IntFactoryBusiness
                 return OrderStages[processid].OrderBy(m => m.Sort).ToList();
             }
 
+            var model = GetOrderProcessByID(processid, clientid);
+
             List<OrderStageEntity> list = new List<OrderStageEntity>();
             DataSet ds = SystemDAL.BaseProvider.GetOrderStages(processid);
             foreach (DataRow dr in ds.Tables["Stages"].Rows)
             {
-                OrderStageEntity model = new OrderStageEntity();
-                model.FillData(dr);
+                OrderStageEntity item = new OrderStageEntity();
+                item.FillData(dr);
 
-                model.MarkStr = CommonBusiness.GetEnumDesc<EnumOrderStageMark>((EnumOrderStageMark)model.Mark);
+                item.MarkEntity = GetCategoryItemByMark(model.CategoryID, item.Mark, clientid);
 
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, clientid);
-                //model.StageItem = new List<StageItemEntity>();
-                //foreach (DataRow itemdr in ds.Tables["Items"].Select("StageID='" + model.StageID + "'"))
-                //{
-                //    StageItemEntity item = new StageItemEntity();
-                //    item.FillData(itemdr);
-                //    model.StageItem.Add(item);
-                //}
-                list.Add(model);
+                item.Owner = OrganizationBusiness.GetUserByUserID(item.OwnerID, clientid);
+                list.Add(item);
             }
             OrderStages.Add(processid, list);
 
@@ -593,6 +588,8 @@ namespace IntFactoryBusiness
                         model.Sort += 1;
                     }
 
+                    var Process = GetOrderProcessByID(processid, clientid);
+
                     OrderStages[processid].Add(new OrderStageEntity()
                     {
                         StageID = stageid.ToLower(),
@@ -601,7 +598,7 @@ namespace IntFactoryBusiness
                         PID = pid,
                         Mark = mark,
                         MaxHours = hours,
-                        MarkStr = CommonBusiness.GetEnumDesc<EnumOrderStageMark>((EnumOrderStageMark)mark),
+                        MarkEntity = GetCategoryItemByMark(Process.CategoryID, mark, clientid),
                         Status = 1,
                         CreateTime = DateTime.Now,
                         ProcessID = processid,
@@ -803,18 +800,18 @@ namespace IntFactoryBusiness
 
         public bool UpdateOrderProcessDefault(string processid, string userid, string ip, string clientid)
         {
-            var model = GetOrderProcessByID(processid,clientid);
+            var model = GetOrderProcessByID(processid, clientid);
             //默认流程不能删除
             if (model.IsDefault == 1)
             {
                 return true;
             }
-            bool bl = SystemDAL.BaseProvider.UpdateOrderProcessDefault(processid, model.ProcessType, model.ClientID);
+            bool bl = SystemDAL.BaseProvider.UpdateOrderProcessDefault(processid, model.ProcessType, model.CategoryID, model.ClientID);
             if (bl)
             {
                 foreach (var item in OrderProcess[clientid])
                 {
-                    if (item.IsDefault == 1 && item.ProcessType == model.ProcessType)
+                    if (item.IsDefault == 1 && item.ProcessType == model.ProcessType && item.CategoryID == model.CategoryID)
                     {
                         item.IsDefault = 0;
                     }
@@ -830,10 +827,11 @@ namespace IntFactoryBusiness
             if (bl)
             {
                 var model = GetOrderStageByID(stageid, processid, clientid);
+                var Process = GetOrderProcessByID(processid, clientid);
                 model.StageName = stagename;
                 model.Mark = mark;
                 model.MaxHours = hours;
-                model.MarkStr = CommonBusiness.GetEnumDesc<EnumOrderStageMark>((EnumOrderStageMark)model.Mark);
+                model.MarkEntity = GetCategoryItemByMark(Process.CategoryID, mark, clientid);
             }
             return bl;
         }
@@ -1035,25 +1033,25 @@ namespace IntFactoryBusiness
                     switch (item.Mark % 10) 
                     {
                         case 1:
-                            item.Remark = "材料";
+                            item.Desc = "材料";
                             break;
                         case 2:
-                            item.Remark = "制版";
+                            item.Desc = "制版";
                             break;
                         case 3:
-                            item.Remark = "裁片";
+                            item.Desc = "裁片";
                             break;
                         case 4:
-                            item.Remark = "车缝";
+                            item.Desc = "车缝";
                             break;
                         case 5:
-                            item.Remark = "发货";
+                            item.Desc = "发货";
                             break;
                         case 6:
-                            item.Remark = "加工成本";
+                            item.Desc = "加工成本";
                             break;
                         default:
-                            item.Remark = "";
+                            item.Desc = "";
                             break;
                     }
                     model.CategoryItems.Add(item);
@@ -1087,22 +1085,22 @@ namespace IntFactoryBusiness
                     switch (item.Mark % 10)
                     {
                         case 1:
-                            item.Remark = "材料";
+                            item.Desc = "材料";
                             break;
                         case 2:
-                            item.Remark = "制版";
+                            item.Desc = "制版";
                             break;
                         case 3:
-                            item.Remark = "裁片";
+                            item.Desc = "裁片";
                             break;
                         case 4:
-                            item.Remark = "车缝";
+                            item.Desc = "车缝";
                             break;
                         case 5:
-                            item.Remark = "发货";
+                            item.Desc = "发货";
                             break;
                         case 6:
-                            item.Remark = "加工成本";
+                            item.Desc = "加工成本";
                             break;
                         default:
                             item.Remark = "";
@@ -1113,6 +1111,19 @@ namespace IntFactoryBusiness
                 list.Add(model);
             }
             return model;
+        }
+
+        public CategoryItemsEntity GetCategoryItemByMark(string categoryid, int mark, string clientid)
+        {
+            if (mark <= 0)
+            {
+                return null;
+            }
+            if (!string.IsNullOrEmpty(categoryid))
+            {
+                return GetProcessCategoryByID(categoryid).CategoryItems.Where(m => m.Type == 3 && m.Mark == mark).FirstOrDefault();
+            }
+            return null;
         }
 
         public string CreateProcessCategory(string name, string remark, string userid)
@@ -1153,14 +1164,15 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateCategoryItem(string categoryid, string itemid, string name, int sort)
+        public bool UpdateCategoryItem(string categoryid, string itemid, string name, string remark, int sort)
         {
-            bool bl = SystemDAL.BaseProvider.UpdateCategoryItems(itemid, name, sort);
+            bool bl = SystemDAL.BaseProvider.UpdateCategoryItems(itemid, name, remark, sort);
             if (bl)
             {
                 var model = GetProcessCategoryByID(categoryid);
                 var item = model.CategoryItems.Where(m => m.ItemID.ToLower() == itemid.ToLower()).FirstOrDefault();
                 item.Name = name;
+                item.Remark = remark;
                 item.Sort = sort;
             }
             return bl;

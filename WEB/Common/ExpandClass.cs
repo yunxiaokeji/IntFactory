@@ -97,6 +97,23 @@ public static class ExpandClass
         return "nolimits";
     }
 
+    public static bool IsExistMenu(string menucode)
+    {
+        if (HttpContext.Current.Session["ClientManager"] != null)
+        {
+            IntFactoryEntity.Users model = (IntFactoryEntity.Users)HttpContext.Current.Session["ClientManager"];
+            if (model.Role.IsDefault == 1)
+            {
+                return true;
+            }
+            if (model.Menus.Where(m => m.MenuCode == menucode).Count() > 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /// <summary>
     /// 将对象转换成JSON对象
     /// </summary>
