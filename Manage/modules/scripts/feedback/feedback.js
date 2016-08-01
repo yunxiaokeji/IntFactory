@@ -206,7 +206,7 @@ define(function (require, exports, module) {
         Global.post("/FeedBack/UpdateFeedBackStatus", { id: Params.id, status: status,content:$('#Content').val() }, function (data) {
             if (data.result == 1) {
                 alert("保存成功");
-                FeedBack.getFeedBackDetail();
+                FeedBack.getDetail();
             }
             else {
                 alert("保存失败");
