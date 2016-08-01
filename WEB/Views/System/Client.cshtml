@@ -3,63 +3,32 @@
 }
 
 @section css{
-    <link href="/modules/css/system/system.css" rel="stylesheet" />
+    <link href="/modules/css/system.css" rel="stylesheet" />
+    <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
 }
 
 @section scripts{
-<script src="/Scripts/jquery-1.11.1.js"></script>
-<script src="/modules/plug/laydate/laydate.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/system/client"], function (obj) {
             obj.init(@ViewBag.Option);
         });
-
-        $(function () {
-            var begin = {
-                elem: '#orderBeginTime',
-                format: 'YYYY-MM-DD',
-                max: '2099-06-16',
-                istime: false,
-                istoday: false,
-                choose: function (datas) {
-                    end.min = datas; //开始日选好后，重置结束日的最小日期
-                    end.start = datas //将结束日的初始值设定为开始日
-                }
-            };
-
-            var end = {
-                elem: '#orderEndTime',
-                format: 'YYYY-MM-DD',
-                max: '2099-06-16',
-                istime: false,
-                istoday: false,
-                choose: function (datas) {
-                    begin.max = datas; //结束日选好后，重置开始日的最大日期
-                }
-            };
-            laydate(begin);
-            laydate(end);
-        });
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">公司信息</span>
-        <a class="back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">
-        <i class="iconfont">&#xe62d;</i> 返回 
-    </a>
+    <span class="header-title left">企业信息</span>
 </div>
 <div class="content-title">
     <div id="spCustomerName" class="left titlename"></div>
     <div id="updateCustomer" class="left ico-edit iconfont mLeft20"></div>
     
 </div>
-<div class="content-body">
+<div class="content-body pBottom50">
     <ul class="content-info">
         <li><span class="column-title">工厂号：</span><label id="ckey"></label></li>
         <li><span class="column-title">联系人：</span><label id="ContactName"></label> </li>
         <li><span class="column-title">地址：</span><label id="address"></label></li>
         <li><span class="column-title">联系电话：</span><label id="MobilePhone"></label></li>
-        <li><span class="column-title">备注：</span> <label id="lblReamrk"></label></li>
+        <li><span class="column-title">详细地址：</span> <label id="lblReamrk"></label></li>
         <li><span class="column-title">办公电话：</span><label id="OfficePhone"></label></li>
         <li style="width:100%;">
             <span class="column-title left">下单地址：</span>
@@ -75,7 +44,7 @@
         <li class="@(ExpandClass.IsLimits(HttpContext.Current,"101019009"))" data-id="2">订单列表</li>
     </ul>    
 </div>
-<div class="content-body">
+<div class="content-body pBottom50">
     <div class="content-SQXI">
         <ul class="table-add">
             <li>
@@ -90,18 +59,15 @@
         </ul>
 
         <div class="mTop20">
-            <a class="btn btn-buy @(ExpandClass.IsLimits(HttpContext.Current,"108020702"))" href="/Auction/BuyNow" >立即购买</a>
+            <a class="btn mLeft20 btn-buy" target="_blank"  href="/Auction/BuyNow" >立即购买</a>
         </div>
     </div>
     <div class="hide pTop10 content-order">
-        <div id="OrderTypes" class="left"></div>
+        <div id="OrderTypes" class="left mLeft20"></div>
         <div id="OrderStatus" class="left mLeft20"></div>
 
         <div class="left mLeft20">
-            <span class="width80">订单时间：</span><input type="text" id="orderBeginTime"  class="input"  />
-            <span style="padding:0px 5px 0px 3px;">至</span><input type="text" id="orderEndTime"  class="input"  />
-            <span class="btn mLeft10" id="SearchClientOrders">搜索</span>
-
+            <input type="text" id="iptCreateTime" placeholder="订单日期"  class="ipt-date"  />
         </div>
         <div class="clear"></div>
 
@@ -121,72 +87,8 @@
         <div id="pager" class="mTop20"></div>
     </div>
 </div>
-<div id="bfe_overlay" style="margin: 0px; padding: 0px; border: none; width: 100%; height: 100%; opacity: 0.8; z-index: 10000; position: fixed; top: 0px; left: 0px; display: none; background: rgb(51, 51, 51);"></div>
-<div class="update-content-body">
-    <div class="update-title">
-        <span>编辑公司信息</span>
-        <a href="javascript:void(0)" title="关闭窗口" class="close_btn"></a>
-    </div>
-    
-    <ul class="table-add table-boeder" id="company">
-        <li>
-            <span class="width80">公司名称：</span>
-            <input type="text" id="CompanyName" data-empty="* 必填" class="input verify" />
-        </li>
-        <li>
-            <span class="left" style="width:83px;">公司Logo：</span>
-            <label id="Logo-Img" class="btn">选择LOGO</label>
-            <img class="absolute-img-save" id="PosterDisImgone" />
-        </li>       
-        <li>
-            <span class="width80">联系人：</span>
-            <span><input type="text" id="ContactNameone" class="verify" data-empty="联系人不能为空!" /></span>
-        </li>
-        <li>
-            <span class="width80">联系电话：</span>
-            <span><input type="text" id="MobilePhoneone" class="verify"  maxlength="11" data-empty="电话不能为空!" /></span>
-        </li>
-        <li>
-            <span class="width80">办公电话：</span>
-            <span><input type="text" id="OfficePhoneone" /></span>
-        </li>
-        <li>
-            <span class="width80">行业：</span>
-            <span>
-                    <select id="Industryone">
-                    @foreach (IntFactoryEntity.Industry model in (List<IntFactoryEntity.Industry>)ViewBag.Industry)
-                    {
-                        <option value="@(model.IndustryID)" data-name="@(model.Name)">@(model.Name)</option>
-                    }
-                    <option value="">其他行业</option>
-                </select>
-            </span>
-        </li>
-        <li>
-            <span class="width80">地址：</span>
-            <span id="citySpan">
-            
-            </span>
-        </li>
-        <li>
-            <span class="width80"></span>
-            <span><input type="text" placeholder="详细地址..." class="width300" id="Address" /></span>
-        </li>
-        <li>
-            <span class="width80">备注：</span>
-            <textarea id="Description" style="max-width:800px;max-height:600px;"></textarea>
-        </li>
-        
-    </ul>
 
-    <div class="mTop10 btn-save">
-        <span  class="right btn @(ExpandClass.IsLimits(HttpContext.Current,"108020701"))" id="btnSaveClient" >保存</span>
-        
-    </div>
-    
-</div>
-
-<ul class="dropdown-ul hide" style="width:110px;">
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020702"))" id="PayClientOrder">继续付款</li>
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"108020703"))" id="CloseClientOrder">关闭</li>
+<ul class="dropdown-ul hide" style="width:95px;">
+    <li id="PayClientOrder">继续付款</li>
+    <li id="CloseClientOrder">关闭</li>
 </ul>

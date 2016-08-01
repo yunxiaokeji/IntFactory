@@ -113,7 +113,7 @@
             var _this = $(this);
 
             var position = _this.find(".ico-dropdown").offset();
-            $(".dropdown-ul li").data("id", _this.data("id")).data("name", _this.data("name")).data("sort", _this.data("sort"));
+            $(".dropdown-ul li").data("id", _this.data("id")).data("name", _this.data("name")).data("sort", _this.data("sort")).data("remark", _this.data("remark"));
             $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left }).show().mouseleave(function () {
                 $(this).hide();
             });
@@ -123,11 +123,11 @@
         $("#updateObject").click(function () {
             var _this = $(this);
 
-            _self.showCategoryItems(_this.data("id"), _this.data("name"), _this.data("sort"));
+            _self.showCategoryItems(_this.data("id"), _this.data("name"), _this.data("sort"), _this.data("remark"));
         });
     }
 
-    ObjectJS.showCategoryItems = function (id, name, sort) {
+    ObjectJS.showCategoryItems = function (id, name, sort, remark) {
         var _self = this;
         doT.exec("template/products/category-items.html", function (templateFun) {
 
@@ -148,7 +148,8 @@
                             categoryid: _self.categoryid,
                             itemid:id,
                             name: $("#name").val().trim(),
-                            sort: $("#sort").val().trim()
+                            sort: $("#sort").val().trim(),
+                            remark: $("#description").val().trim()
                         }, function (data) {
                             if (data.status) {
                                 location.href = location.href;
@@ -165,7 +166,7 @@
             $("#name").focus();
             $("#name").val(name);
             $("#sort").val(sort);
-
+            $("#description").val(remark);
             VerifyObject = Verify.createVerify({
                 element: ".verify",
                 emptyAttr: "data-empty",

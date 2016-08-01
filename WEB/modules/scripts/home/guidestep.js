@@ -28,7 +28,7 @@
                 alert(Global.againSubmitText);
                 return;
             }
-            _self.isPost = true;
+            
             if ($(".checkbox.hover").length == 0) {
                 alert("请至少选择一种品类");
                 return;
@@ -41,6 +41,7 @@
             });
             ids = ids.substr(0, ids.length - 1);
             confirm("您初始化品类选择的是“" + names.substr(0, names.length - 1) + "”，确认下一步吗？", function () {
+                _self.isPost = true;
                 Global.post("/Default/SetClientProcess", { ids: ids }, function (data) {
                     _self.isPost = false;
                     location.href = "/Default/Index";

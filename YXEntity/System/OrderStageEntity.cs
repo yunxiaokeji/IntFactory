@@ -19,7 +19,7 @@ namespace IntFactoryEntity
 
         public int Mark { get; set; }
 
-        public string MarkStr { get; set; }
+        public CategoryItemsEntity MarkEntity { get; set; }
 
         public int MaxHours { get; set; }
 

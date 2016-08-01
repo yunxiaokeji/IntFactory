@@ -22,7 +22,7 @@ define(function (require, exports, module) {
         clientID: '',
         agentID:'',
         keyWords: '',
-        orderBy: 'a.CreateTime '
+        orderBy: 'CreateTime '
     };
     //新建客户初始化
     Clients.createInit = function (id) {
@@ -106,6 +106,7 @@ define(function (require, exports, module) {
             });
         });
     };
+
     //客户列表初始化
     Clients.init = function () {
         Clients.bindEvent();
@@ -122,13 +123,16 @@ define(function (require, exports, module) {
             });
         });
     };
+
     require.async("dropdown", function () {
         var ClientType = [
-            { ID: "0", Name: "手动创建" },
-            { ID: "1", Name: "阿里" }
+            { ID: "1", Name: "后台" },
+            { ID: "2", Name: "自助" },
+            { ID: "3", Name: "阿里" },
+            { ID: "4", Name: "微信" }
         ];
         $("#ClientType").dropdown({
-            prevText: "客户来源-",
+            prevText: "注册方式-",
             defaultText: "所有",
             defaultValue: "-1",
             data: ClientType,

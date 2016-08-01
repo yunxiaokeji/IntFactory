@@ -124,6 +124,7 @@ namespace IntFactoryEnum
     /// </summary>
     public enum EnumRegisterType
     {
+        All = -1,
         /// <summary>
         /// 后台添加
         /// </summary>

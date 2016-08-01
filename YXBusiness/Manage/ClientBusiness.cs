@@ -48,35 +48,32 @@ namespace IntFactoryBusiness.Manage
 
         #region 查询
 
-        public static List<Clients> GetClients(string keyWords, int type, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public static List<Clients> GetClients(string keyWords, EnumRegisterType type, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
-            string sqlWhere = "a.Status<>9";
+            string sqlWhere = "Status<>9";
             if (!string.IsNullOrEmpty(keyWords))
             {
-                sqlWhere += " and (  a.MobilePhone = '" + keyWords + "' or  a.ClientCode = '" + keyWords + "' ";
+                sqlWhere += " and ( MobilePhone = '" + keyWords + "' or  ClientCode = '" + keyWords + "' ";
                 if (keyWords.Length > 3) {
-                    sqlWhere += " or  a.CompanyName like '%" + keyWords + "%'  ";
+                    sqlWhere += " or CompanyName like '%" + keyWords + "%'  ";
                 }
                 sqlWhere += ")";
             }
-            if (type > -1) {
-                if (type == 0) { 
-                    sqlWhere += " and len(a.AliMemberID)=0 "; 
-                } else {
-                    sqlWhere += " and len(a.AliMemberID)>0 ";
-                }
+            if ((int)type > -1)
+            {
+                sqlWhere += " and RegisterType=  " + (int)type; 
             }
-            string sqlColumn = @" a.* ";
+            string sqlColumn = @" * ";
             bool isAsc=false;
             if (string.IsNullOrEmpty(orderBy))
             {
-                orderBy = "a.AutoID";
+                orderBy = "AutoID";
             }
             else {
                 isAsc = orderBy.IndexOf(" asc") > -1 ? true : false; 
                 orderBy = orderBy.Replace(" desc", "").Replace(" asc", "");
             }
-            DataTable dt = CommonBusiness.GetPagerData("Clients a", sqlColumn, sqlWhere, orderBy, pageSize, pageIndex, out totalCount, out pageCount, isAsc);
+            DataTable dt = CommonBusiness.GetPagerData("Clients", sqlColumn, sqlWhere, orderBy, pageSize, pageIndex, out totalCount, out pageCount, isAsc);
             List<Clients> list = new List<Clients>();
             Clients model; 
             foreach (DataRow item in dt.Rows)
@@ -342,46 +339,20 @@ namespace IntFactoryBusiness.Manage
         #endregion
 
         #region  编辑
-        /// <summary>
-        /// 更新客户信息
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="userid"></param>
-        /// <param name="result"></param>
-        /// <returns></returns>
+
         public static bool UpdateClient(Clients model, string userid)
         {
-
-            if (!string.IsNullOrEmpty(model.Logo) && model.Logo.IndexOf(TempPath) >= 0)
-            {
-                DirectoryInfo directory = new DirectoryInfo(HttpContext.Current.Server.MapPath(FILEPATH));
-                if (!directory.Exists)
-                {
-                    directory.Create();
-                }
-
-                if (model.Logo.IndexOf("?") > 0)
-                {
-                    model.Logo = model.Logo.Substring(0, model.Logo.IndexOf("?"));
-                }
-                FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(model.Logo));
-                model.Logo = FILEPATH + file.Name;
-                if (file.Exists)
-                {
-                    file.MoveTo(HttpContext.Current.Server.MapPath(model.Logo));
-                }
-            }
-
-            bool flag= ClientDAL.BaseProvider.UpdateClient(model.ClientID, model.CompanyName
+            bool flag = ClientDAL.BaseProvider.UpdateClient(model.ClientID, model.CompanyName
                 , model.ContactName, model.MobilePhone, model.Industry
-                , model.CityCode, model.Address, model.Description,model.Logo==null?"":model.Logo,model.OfficePhone
+                , model.CityCode, model.Address, model.Description, model.Logo == null ? "" : model.Logo, model.OfficePhone
                 , userid);
 
             if (flag)
             {
                 if (Clients.ContainsKey(model.ClientID))
+                {
                     Clients[model.ClientID] = GetClientDetailBase(model.ClientID);
-                     //Clients[model.ClientID]=model;
+                }
             }
 
             return flag;

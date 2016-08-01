@@ -2,8 +2,11 @@
     var Global = require("global"),
         doT = require("dot"),
         Upload = require("upload"),
+        Easydialog = require("easydialog"),
         City = require("city"), CityObject,
-        Verify = require("verify"), VerifyObject;
+        Verify = require("verify"), VerifyObject,
+        moment = require("moment");
+    require("daterangepicker");
     require("pager");
 
     var ObjectJS = {};
@@ -36,7 +39,7 @@
         _self.getDetail();
 
         if (option !== 0) {
-            var _this=$(".module-tab li[data-id='" + option + "']");
+            var _this = $(".module-tab li[data-id='" + option + "']");
             _this.addClass("hover").siblings().removeClass("hover");
             if (_this.data("id") == 2) {
                 ObjectJS.getClientOrders();
@@ -64,44 +67,8 @@
         $("#updateCustomer").click(function () {
             if (!ObjectJS.isLoading) {
                 return;
-            }
-            $("#bfe_overlay").show();
-            $(".update-content-body").show();                           
-            _self.getDetail();
-        });
-
-        //取消编辑公司信息
-        $(".close_btn").click(function () {
-            $("#bfe_overlay").hide();
-            $(".update-content-body").hide();
-        });
-
-        $("#bfe_overlay").click(function () {
-            $("#bfe_overlay").hide();
-            $(".update-content-body").hide();
-        });
-
-        var uploader = Upload.uploader({
-            browse_button: 'Logo-Img',
-            container: 'company',
-            drop_element: 'company',
-            file_path: "/Content/UploadFiles/company/",
-            fileType: 1,
-            multi_selection: false,
-            auto_callback: false,
-            init: {
-                "FileUploaded": function (up, file, info) {
-                    var info = JSON.parse(info);
-                    var src = file.server + info.key;
-                    $("#PosterDisImgone").attr("src", src);
-                }
-            }
-        });
-        
-
-        //城市插件
-        CityObject = City.createCity({
-            elementID: "citySpan"
+            }                     
+            _self.editInfo();
         });
 
         //tab切换
@@ -143,30 +110,12 @@
             }
         });
 
-        //保存公司基本信息
-        $("#btnSaveClient").click(function () {
-            if (!VerifyObject.isPass()) {
-                return false;
-            };            
-            ObjectJS.saveModel();
-            ObjectJS.getDetail();
-        });
-
         //搜索
         require.async("dropdown", function () {
             var OrderStatus = [
-                {
-                    ID: "0",
-                    Name: "未支付"
-                },
-                {
-                    ID: "1",
-                    Name: "已支付"
-                },
-                {
-                    ID: "9",
-                    Name: "已关闭"
-                }
+                { ID: "0", Name: "未支付"  },
+                { ID: "1", Name: "已支付"  },
+                { ID: "9", Name: "已关闭" }
             ];
             $("#OrderStatus").dropdown({
                 prevText: "订单状态-",
@@ -186,18 +135,9 @@
             });
 
             var OrderTypes = [
-                {
-                    ID: "1",
-                    Name: "购买系统"
-                },
-                {
-                    ID: "2",
-                    Name: "购买人数"
-                },
-                {
-                    ID: "3",
-                    Name: "续费"
-                }
+                { ID: "1", Name: "购买系统" },
+                { ID: "2", Name: "购买人数" },
+                { ID: "3", Name: "续费" }
             ];
             $("#OrderTypes").dropdown({
                 prevText: "订单类型-",
@@ -218,13 +158,21 @@
 
         });
 
-        $("#SearchClientOrders").click(function () {
-            if (!ObjectJS.isLoading) {
-                return;
+        //日期插件
+        $("#iptCreateTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
             }
+        }, function (start, end, label) {
             ObjectJS.Params.PageIndex = 1;
-            ObjectJS.Params.BeginDate = $("#orderBeginTime").val();
-            ObjectJS.Params.EndDate = $("#orderEndTime").val();
+            ObjectJS.Params.BeginDate = start ? start.format("YYYY-MM-DD") : "";
+            ObjectJS.Params.EndDate = end ? end.format("YYYY-MM-DD") : "";
             ObjectJS.getClientOrders();
         });
 
@@ -270,46 +218,28 @@
         Global.post("/System/GetClientDetail", null, function (data) {
             if (data.Client) {
                 var item = data.Client;
+                ObjectJS.model = data.Client;
                 //基本信息                
                 $("#ckey").html(item.ClientCode);
                 $("#spCustomerName").html(item.CompanyName == "" ? "--" : item.CompanyName);
                 $("#ContactName").html(item.ContactName == "" ? "--" :item.ContactName);
                 $("#MobilePhone").html(item.MobilePhone == "" ? "--" :item.MobilePhone);
                 $("#OfficePhone").html(item.OfficePhone == "" ? "--" : item.OfficePhone);                
-                $("#lblReamrk").html(item.Description == "" ? "--" : item.Description);
-                $("#address").html(item.City ? item.City.Province + " " + item.City.City + " " + item.City.Counties : "--");
+                $("#lblReamrk").html(item.Address || "--");
+                $("#address").html(item.City ? item.City.Description : "--");
                 var s = window.location.href.toString();
                 var http = s.substr(0, s.length - 13);
                 $("#cid").attr("href", http + "Home/SelfOrder/" + item.ClientID).html(http + "Home/SelfOrder/" + item.ClientID);
-                if (item.City)
-                    CityObject.setValue(item.City.CityCode);
-                if (item.Logo)
-                {
+                if (item.Logo){
                     $("#PosterDisImg").show().attr("src", item.Logo);
-                    //$("#CompanyLogo").val(item.Logo);
-                }
-
-                //弹出框编辑信息
-                $("#CompanyName").val(item.CompanyName);
-                $("#ckeyone").html(item.ClientCode);
-                $("#ContactNameone").val(item.ContactName);
-                $("#MobilePhoneone").val(item.MobilePhone);
-                $("#OfficePhoneone").val(item.OfficePhone);
-                $("#Industryone").val(item.Industry);
-                $("#Description").html(item.Description);                
-                if (item.City)
-                    CityObject.setValue(item.City.CityCode);
-                if (item.Logo) {
-                    $("#PosterDisImgone").attr("src", item.Logo);
-                    //$("#CompanyLogo").val(item.Logo);
                 }
 
                 //授权信息
-                var agent = data.Agent;
-                $("#UserQuantity").html(agent.UserQuantity);
-                $("#EndTime").html(agent.EndTime.toDate("yyyy-MM-dd"));
+                var client = data.Client;
+                $("#UserQuantity").html(client.UserQuantity);
+                $("#EndTime").html(client.EndTime.toDate("yyyy-MM-dd"));
                 $("#agentRemainderDays").html(data.Days);
-                if (agent.AuthorizeType == 0)
+                if (client.AuthorizeType == 0)
                 {
                     $(".btn-buy").html("立即购买");
                 }
@@ -329,6 +259,74 @@
         })
     }
 
+    ObjectJS.editInfo = function () {
+        var _self = this;
+        $("#show-contact-detail").empty();
+        doT.exec("template/system/client-detail.html", function (template) {
+            var innerText = template([]);
+            Easydialog.open({
+                container: {
+                    id: "show-model-detail",
+                    header: "编辑企业信息",
+                    content: innerText,
+                    yesFn: function () {
+                        if (!VerifyObject.isPass()) {
+                            return false;
+                        }
+                        _self.saveModel();
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+
+            var item = _self.model;
+
+            //弹出框编辑信息
+            $("#CompanyName").val(item.CompanyName);
+            $("#ckeyone").html(item.ClientCode);
+            $("#ContactNameone").val(item.ContactName);
+            $("#MobilePhoneone").val(item.MobilePhone);
+            $("#OfficePhoneone").val(item.OfficePhone);
+            $("#Industryone").val(item.Industry);
+            $("#Address").val(item.Address);
+            $("#Description").val(item.Description);
+            CityObject = City.createCity({
+                cityCode: item.CityCode,
+                elementID: "citySpan"
+            });
+
+            if (item.Logo) {
+                $("#PosterDisImgone").attr("src", item.Logo);
+            }
+
+            VerifyObject = Verify.createVerify({
+                element: ".verify",
+                emptyAttr: "data-empty",
+                verifyType: "data-type",
+                regText: "data-text"
+            });
+
+            var uploader = Upload.uploader({
+                browse_button: 'updateLogo',
+                file_path: "/Content/UploadFiles/Task/",
+                picture_container: "company",
+                file_container: "company",
+                maxQuantity: 1,
+                maxSize: 5,
+                fileType: 1,
+                init: {
+                    "FileUploaded": function (up, file, info) {
+                        var info = JSON.parse(info);
+                        var src = file.server + info.key;
+                        $("#PosterDisImgone").attr("src", src);
+                    }
+                }
+            });
+        });
+    }
+
     //保存实体
     ObjectJS.saveModel = function () {
         var _self = this;
@@ -339,15 +337,14 @@
             OfficePhone: $("#OfficePhoneone").val(),
             Logo:$("#PosterDisImgone").attr("src"),
             CityCode: CityObject.getCityCode(),
-            Industry: $("#Industryone").val(),
+            Industry: "",
             Address: $("#Address").val(),
             Description:$("#Description").val()
         };
         ObjectJS.isLoading = false;
         Global.post("/System/SaveClient", { entity: JSON.stringify(model) }, function (data) {
             if (data.Result == 1) {
-                $("#bfe_overlay").hide();
-                $(".update-content-body").hide();
+                _self.getDetail();
             };
             ObjectJS.isLoading = true;
         })

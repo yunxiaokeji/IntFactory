@@ -46,6 +46,10 @@ namespace YXERP.Controllers
                 return Redirect("/System/OrderProcess");
             }
             ViewBag.Model = model;
+            if (!string.IsNullOrEmpty(model.CategoryID))
+            {
+                ViewBag.MarkItems = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.CategoryID).CategoryItems.Where(m => m.Type == 3).ToList();
+            }
             ViewBag.Items = new SystemBusiness().GetOrderStages(id,CurrentUser.ClientID);
             return View();
         }
@@ -92,11 +96,14 @@ namespace YXERP.Controllers
 
         public ActionResult Client(string id)
         {
-            ViewBag.Industry =IntFactoryBusiness.Manage.IndustryBusiness.GetIndustrys();
             if (string.IsNullOrEmpty(id))
+            {
                 ViewBag.Option = 0;
+            }
             else
+            {
                 ViewBag.Option = id;
+            }
 
             return View();
         }
@@ -574,9 +581,7 @@ namespace YXERP.Controllers
         #endregion
 
         #region 公司信息
-        /// <summary>
-        /// 获取客户详情
-        /// </summary>
+
         public JsonResult GetClientDetail()
         {
             var client = ClientBusiness.GetClientDetail(CurrentUser.ClientID);
@@ -591,16 +596,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取公司订单列表
-        /// </summary>
-        /// <param name="status"></param>
-        /// <param name="type"></param>
-        /// <param name="beginDate"></param>
-        /// <param name="endDate"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="pageIndex"></param>
-        /// <returns></returns>
         public JsonResult GetClientOrders(int status,int type,string beginDate,string endDate,int pageSize, int pageIndex)
         {
             int pageCount = 0;
@@ -618,9 +613,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 保存公司基本信息
-        /// </summary>
         public JsonResult SaveClient(string entity)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -631,7 +623,7 @@ namespace YXERP.Controllers
             JsonDictionary.Add("Result", flag ? 1 : 0);
 
             if (flag) {
-                CurrentUser.Client = model;
+                CurrentUser.Client = ClientBusiness.GetClientDetail(CurrentUser.ClientID);
                 Session["ClientManager"] = CurrentUser;
             }
             return new JsonResult()
@@ -641,11 +633,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 关闭公司订单
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public JsonResult CloseClientOrder(string id)
         {
             bool flag = ClientOrderBusiness.UpdateClientOrderStatus(id, IntFactoryEnum.EnumClientOrderStatus.Delete);
@@ -659,9 +646,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取公司密钥
-        /// </summary>
         public JsonResult GetAgentKey()
         {
             var client = ClientBusiness.GetClientDetail(CurrentUser.ClientID);
@@ -675,6 +659,7 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         #endregion
 
         #region 订单品类

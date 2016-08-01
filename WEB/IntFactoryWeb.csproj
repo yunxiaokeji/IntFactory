@@ -558,6 +558,7 @@
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\system\orderstage-detail.html" />
     <Content Include="modules\template\system\sources-color.html" />
+    <Content Include="modules\template\system\client-detail.html" />
     <Content Include="modules\template\task\platematring-orderdatail.html" />
     <Content Include="modules\template\task\task-costs.html" />
     <Content Include="modules\template\task\platemarting-add.html" />
@@ -606,7 +607,7 @@
     <Content Include="modules\css\shoppingcart\confirmcart.css" />
     <Content Include="modules\css\base.css" />
     <Content Include="modules\css\stock\products.css" />
-    <Content Include="modules\css\system\system.css" />
+    <Content Include="modules\css\system.css" />
     <Content Include="modules\images\auction\bg-pay-order-active.png" />
     <Content Include="modules\images\auction\bg-pay-order.png" />
     <Content Include="modules\images\auction\bg-select-product-active.png" />
@@ -902,10 +903,6 @@
     <Content Include="modules\scripts\system\sources.js" />
     <Content Include="modules\scripts\system\teams.js" />
     <Content Include="modules\scripts\system\client.js" />
-    <Content Include="modules\template\activity\activity_list.html" />
-    <Content Include="modules\template\activity\activity_card_list.html" />
-    <Content Include="modules\template\activity\activity_reply_list.html" />
-    <Content Include="modules\template\activity\activity_customers.html" />
     <Content Include="modules\template\common\choosemodules.html" />
     <Content Include="modules\template\customer\replys.html" />
     <Content Include="modules\template\customer\customer-detail.html" />
@@ -979,7 +976,6 @@
     <Content Include="Views\Organization\Structure.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\System\Teams.cshtml" />
-    <Content Include="Views\System\Stages.cshtml" />
     <Content Include="Views\System\Warehouse.cshtml" />
     <Content Include="Views\Security\Index.cshtml" />
     <Content Include="Views\System\Target.cshtml" />
@@ -1104,7 +1100,7 @@
     <Content Include="Global.asax" />
     <Content Include="modules\css\default\layout.css" />
     <Content Include="modules\css\home\login.css" />
-    <Content Include="modules\css\system\organization.css" />
+    <Content Include="modules\css\organization.css" />
     <Content Include="modules\css\stock\category.css" />
     <Content Include="modules\css\stock\attrplug.css" />
     <Content Include="modules\css\shoppingcart\filterproducts.css" />

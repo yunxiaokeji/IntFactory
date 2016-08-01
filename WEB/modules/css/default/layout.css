@@ -33,7 +33,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{padding:0;border:non
 header { height:50px; width:100%; background-color:#2F73B8; position:fixed; top:0; z-index:1999; opacity:0.9; box-shadow:0 0 5px #2F73B8;}
 
 header .logo {margin-top:13px; margin-left:10px; }
-header .logo img{ height:26px; }
+header .logo img{ height:26px; width:26px; border-radius:13px; }
 
 header .companyname { width: 150px; font-size: 14px; padding: 16px 0 0 5px; color: #BFD2F2; cursor: pointer; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 header .companyname:hover { color: #fff; }

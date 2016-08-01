@@ -12,6 +12,7 @@ namespace IntFactoryDAL.Manage
         public static ClientDAL BaseProvider = new ClientDAL();
 
         #region 查询
+
         public DataTable GetClientDetail(string clientID)
         {
 
@@ -64,6 +65,7 @@ namespace IntFactoryDAL.Manage
                                    };
             return GetDataSet("R_GetClientsActiveReprot", paras, CommandType.StoredProcedure, "ClientReport|SystemReport");
         }
+
         #endregion
 
         #region 添加
@@ -128,7 +130,8 @@ namespace IntFactoryDAL.Manage
         #endregion
 
         #region 编辑
-        public bool UpdateClient(string clientID, string companyName, string contactName, string mobilePhone, string industry, string cityCode, string address,string description,string logo,string officePhone,string userid)
+
+        public bool UpdateClient(string clientID, string companyName, string contactName, string mobilePhone, string industry, string cityCode, string address, string description, string logo, string officePhone, string userid)
         {
             SqlParameter[] parms = { 
                                        new SqlParameter("@ClientiD",clientID),
@@ -222,6 +225,7 @@ namespace IntFactoryDAL.Manage
 
           return  ExecuteNonQuery("Update Clients set GuideStep=0 where ClientID=@ClientID", parms, CommandType.Text)>0;
         }
+
         #endregion
     }
 }

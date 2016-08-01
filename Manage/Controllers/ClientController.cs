@@ -55,10 +55,10 @@ namespace YXManage.Controllers
         /// <param name="pageIndex"></param>
         /// <param name="keyWords"></param>
         /// <returns></returns>
-        public JsonResult GetClients(int pageIndex, string keyWords,int type=-1, string orderBy = " a.AutoID ")
+        public JsonResult GetClients(int pageIndex, string keyWords, int type = -1, string orderBy = " AutoID ")
         {
             int totalCount = 0, pageCount = 0;
-            var list = ClientBusiness.GetClients(keyWords.Trim(), type,orderBy, PageSize, pageIndex, ref totalCount, ref pageCount);
+            var list = ClientBusiness.GetClients(keyWords.Trim(), (EnumRegisterType)type,orderBy, PageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);

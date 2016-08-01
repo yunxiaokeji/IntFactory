@@ -42,6 +42,8 @@ namespace IntFactoryEntity
 
         public string Remark { get; set; }
 
+        public string Desc { get; set; }
+
         public void FillData(System.Data.DataRow dr)
         {
             dr.FillData(this);
