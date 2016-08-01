@@ -13,21 +13,23 @@ namespace IntFactoryDAL
         public static OrdersDAL BaseProvider = new OrdersDAL();
         #region 查询
 
-        public DataSet GetOrders(int searchtype, string entrustClientID, string typeid, int status, int sourceType, int orderStatus, int mark, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string begintime, string endtime,
+        public DataSet GetOrders(int searchOrderType, int searchtype, string entrustType, string typeid, int status, int sourceType, int orderStatus,
+                                int mark, int paystatus, int warningstatus, int returnstatus, string searchuserid, string searchteamid, string begintime, string endtime,
                                 string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
                                        new SqlParameter("@pageCount",SqlDbType.Int),
+                                       new SqlParameter("@SearchOrderType",searchOrderType),
                                        new SqlParameter("@SearchType",searchtype),
-                                       new SqlParameter("@EntrustClientID",entrustClientID),
+                                       new SqlParameter("@EntrustType",entrustType),
                                        new SqlParameter("@TypeID",typeid),
                                        new SqlParameter("@Status",status),
                                        new SqlParameter("@OrderStatus",orderStatus),
                                        new SqlParameter("@Mark",mark),
                                        new SqlParameter("@SourceType",sourceType),
                                        new SqlParameter("@PayStatus",paystatus),
-                                       new SqlParameter("@InvoiceStatus",invoicestatus),
+                                       new SqlParameter("@WarningStatus",warningstatus),
                                        new SqlParameter("@ReturnStatus",returnstatus),
                                        new SqlParameter("@SearchUserID",searchuserid),
                                        new SqlParameter("@SearchTeamID",searchteamid),

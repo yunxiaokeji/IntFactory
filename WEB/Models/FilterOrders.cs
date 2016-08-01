@@ -11,6 +11,8 @@ namespace YXERP.Models
     [Serializable]
     public class FilterOrders
     {
+        public EnumOrderSearchType SearchOrderType { get; set; }
+
         public EnumSearchType SearchType { get; set; }
 
         public string TypeID { get; set; }
@@ -19,7 +21,7 @@ namespace YXERP.Models
 
         public int PayStatus { get; set; }
 
-        public int InvoiceStatus { get; set; }
+        public int WarningStatus { get; set; }
 
         public int OrderStatus { get; set; }
 
@@ -51,7 +53,7 @@ namespace YXERP.Models
 
         public string OrderBy { get; set; }
 
-        public string EntrustClientID { get; set; }
+        public string EntrustType { get; set; }
 
     }
 }
