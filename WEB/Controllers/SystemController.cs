@@ -40,13 +40,13 @@ namespace YXERP.Controllers
 
         public ActionResult OrderStages(string id)
         {
-            var model = new SystemBusiness().GetOrderProcessByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
+            var model = new SystemBusiness().GetOrderProcessByID(id, CurrentUser.ClientID);
             if (string.IsNullOrEmpty(model.ProcessID))
             {
                 return Redirect("/System/OrderProcess");
             }
             ViewBag.Model = model;
-            ViewBag.Items = new SystemBusiness().GetOrderStages(id, CurrentUser.AgentID, CurrentUser.ClientID);
+            ViewBag.Items = new SystemBusiness().GetOrderStages(id,CurrentUser.ClientID);
             return View();
         }
 
@@ -138,17 +138,16 @@ namespace YXERP.Controllers
             LableColorEntity model = serializer.Deserialize<LableColorEntity>(lablecolor);
             model.CreateUserID = CurrentUser.UserID;
             model.ClientID = CurrentUser.ClientID;
-            model.AgentID = CurrentUser.AgentID;
             model.Status = 0;
             int ColorID = -1;
             if (model.ColorID == 0)
             {
                 ColorID = SystemBusiness.BaseBusiness.CreateLableColor(model.ColorName, model.ColorValue,
-                    model.AgentID, model.ClientID, model.CreateUserID, model.Status, (EnumMarkType)lableType);
+                    model.ClientID, model.CreateUserID, model.Status, (EnumMarkType)lableType);
             }
             else
             {
-                int bl = SystemBusiness.BaseBusiness.UpdateLableColor(model.AgentID, model.ClientID, model.ColorID,
+                int bl = SystemBusiness.BaseBusiness.UpdateLableColor(model.ClientID, model.ColorID,
                     model.ColorName, model.ColorValue, CurrentUser.UserID, (EnumMarkType)lableType);
                 ColorID = bl > 0 ? model.ColorID : bl;
 
@@ -163,7 +162,7 @@ namespace YXERP.Controllers
 
         public JsonResult DeleteColor(int colorid, int lableType)
         {
-            int result = SystemBusiness.BaseBusiness.DeleteLableColor(9, colorid, CurrentUser.AgentID, CurrentUser.ClientID, CurrentUser.UserID, (EnumMarkType)lableType);
+            int result = SystemBusiness.BaseBusiness.DeleteLableColor(9, colorid, CurrentUser.ClientID, CurrentUser.UserID, (EnumMarkType)lableType);
             JsonDictionary.Add("result", result);
             return new JsonResult
             {
@@ -178,7 +177,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetOrderProcess(int type = -1)
         {
-            var list = new SystemBusiness().GetOrderProcess(CurrentUser.AgentID, CurrentUser.ClientID).ToList();
+            var list = new SystemBusiness().GetOrderProcess( CurrentUser.ClientID).ToList();
             if (type > 0)
             {
                 JsonDictionary.Add("items", list.Where(m => m.ProcessType == type).ToList());
@@ -196,7 +195,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetOrderProcessByID(string id)
         {
-            var model = new SystemBusiness().GetOrderProcessByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
+            var model = new SystemBusiness().GetOrderProcessByID(id, CurrentUser.ClientID);
             JsonDictionary.Add("model", model);
             return new JsonResult
             {
@@ -212,18 +211,18 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.ProcessID))
             {
-                model.ProcessID = new SystemBusiness().CreateOrderProcess(model.ProcessName, model.ProcessType, model.CategoryID, model.PlanDays, model.IsDefault, CurrentUser.UserID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                model.ProcessID = new SystemBusiness().CreateOrderProcess(model.ProcessName, model.ProcessType, model.CategoryID, model.PlanDays, model.IsDefault, CurrentUser.UserID, CurrentUser.UserID,CurrentUser.ClientID);
             }
             else
             {
-                bool bl = new SystemBusiness().UpdateOrderProcess(model.ProcessID, model.ProcessName, model.PlanDays, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                bool bl = new SystemBusiness().UpdateOrderProcess(model.ProcessID, model.ProcessName, model.PlanDays, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
                 if (!bl)
                 {
                     model.ProcessID = "";
                 }
 
             }
-            model.Owner = OrganizationBusiness.GetUserByUserID(CurrentUser.UserID, CurrentUser.AgentID);
+            model.Owner = OrganizationBusiness.GetUserByUserID(CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("model", model);
             return new JsonResult
             {
@@ -235,7 +234,7 @@ namespace YXERP.Controllers
         public JsonResult DeleteOrderProcess(string id)
         {
             int result = 0;
-            bool bl = new SystemBusiness().DeleteOrderProcess(id, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, ref result);
+            bool bl = new SystemBusiness().DeleteOrderProcess(id, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, ref result);
             JsonDictionary.Add("result", result);
             return new JsonResult
             {
@@ -246,7 +245,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderProcessOwner(string id, string userid)
         {
-            bool bl = new SystemBusiness().UpdateOrderProcessOwner(id, userid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            bool bl = new SystemBusiness().UpdateOrderProcessOwner(id, userid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -257,7 +256,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderProcessDefault(string id)
         {
-            bool bl = new SystemBusiness().UpdateOrderProcessDefault(id, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            bool bl = new SystemBusiness().UpdateOrderProcessDefault(id, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -275,13 +274,13 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.StageID))
             {
-                model.StageID = new SystemBusiness().CreateOrderStage(model.StageName, model.Sort, model.Mark, model.MaxHours, "", model.ProcessID, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+                model.StageID = new SystemBusiness().CreateOrderStage(model.StageName, model.Sort, model.Mark, model.MaxHours, "", model.ProcessID, CurrentUser.UserID, CurrentUser.ClientID, out result);
 
-                model.Owner = OrganizationBusiness.GetUserByUserID(CurrentUser.UserID, CurrentUser.AgentID);
+                model.Owner = OrganizationBusiness.GetUserByUserID(CurrentUser.UserID, CurrentUser.ClientID);
             }
             else
             {
-                bool bl = new SystemBusiness().UpdateOrderStage(model.StageID, model.StageName, model.Mark, model.MaxHours, model.ProcessID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                bool bl = new SystemBusiness().UpdateOrderStage(model.StageID, model.StageName, model.Mark, model.MaxHours, model.ProcessID, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
                 if (bl)
                 {
                     result = 1;
@@ -299,7 +298,7 @@ namespace YXERP.Controllers
 
         public JsonResult DeleteOrderStage(string id, string processid)
         {
-            bool bl = new SystemBusiness().DeleteOrderStage(id, processid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            bool bl = new SystemBusiness().DeleteOrderStage(id, processid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -310,7 +309,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderStageOwner(string id, string processid, string userid)
         {
-            bool bl = new SystemBusiness().UpdateOrderStageOwner(id, processid, userid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            bool bl = new SystemBusiness().UpdateOrderStageOwner(id, processid, userid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -326,7 +325,7 @@ namespace YXERP.Controllers
         public JsonResult GetTeams()
         {
 
-            var list = new SystemBusiness().GetTeams(CurrentUser.AgentID).ToList();
+            var list = new SystemBusiness().GetTeams(CurrentUser.ClientID).ToList();
             
             JsonDictionary.Add("items", list);
             return new JsonResult
@@ -343,11 +342,11 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.TeamID))
             {
-                model.TeamID = new SystemBusiness().CreateTeam(model.TeamName, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                model.TeamID = new SystemBusiness().CreateTeam(model.TeamName, CurrentUser.UserID, CurrentUser.ClientID);
             }
             else
             {
-                bool bl = new SystemBusiness().UpdateTeam(model.TeamID, model.TeamName, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                bool bl = new SystemBusiness().UpdateTeam(model.TeamID, model.TeamName, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
                 if (!bl)
                 {
                     model.TeamID = "";
@@ -363,7 +362,7 @@ namespace YXERP.Controllers
 
         public JsonResult DeleteTeam(string id)
         {
-            bool bl = new SystemBusiness().DeleteTeam(id, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            bool bl = new SystemBusiness().DeleteTeam(id, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -380,7 +379,7 @@ namespace YXERP.Controllers
             {
                 if (!string.IsNullOrEmpty(userid))
                 {
-                    if (new SystemBusiness().UpdateUserTeamID(userid, teamid, CurrentUser.AgentID, CurrentUser.UserID, OperateIP, CurrentUser.ClientID))
+                    if (new SystemBusiness().UpdateUserTeamID(userid, teamid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID))
                     {
                         bl = true;
                     }
@@ -581,11 +580,9 @@ namespace YXERP.Controllers
         public JsonResult GetClientDetail()
         {
             var client = ClientBusiness.GetClientDetail(CurrentUser.ClientID);
-            var agent = AgentsBusiness.GetAgentDetail(CurrentUser.AgentID);
 
             JsonDictionary.Add("Client", client);
-            JsonDictionary.Add("Agent", agent);
-            JsonDictionary.Add("Days", Math.Ceiling((agent.EndTime - DateTime.Now).TotalDays));
+            JsonDictionary.Add("Days", Math.Ceiling((client.EndTime - DateTime.Now).TotalDays));
             
             return new JsonResult()
             {
@@ -609,7 +606,7 @@ namespace YXERP.Controllers
             int pageCount = 0;
             int totalCount = 0;
 
-            List<ClientOrder> list = ClientOrderBusiness.GetClientOrders(status, type,beginDate,endDate,CurrentUser.AgentID,CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            List<ClientOrder> list = ClientOrderBusiness.GetClientOrders(status, type, beginDate, endDate, CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
@@ -667,16 +664,8 @@ namespace YXERP.Controllers
         /// </summary>
         public JsonResult GetAgentKey()
         {
-            var agent = AgentsBusiness.GetAgentDetail(CurrentUser.AgentID);
+            var client = ClientBusiness.GetClientDetail(CurrentUser.ClientID);
             string key = string.Empty;
-
-            if (string.IsNullOrEmpty(agent.AgentKey))
-            {
-                key = DateTime.Now.Ticks.ToString();
-                AgentsBusiness.UpdateAgentKey(CurrentUser.AgentID, key);
-            }
-            else
-                key = agent.AgentKey;
 
             JsonDictionary.Add("Key",key);
 

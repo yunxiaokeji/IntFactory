@@ -36,17 +36,17 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<CustomerEntity> GetCustomers(EnumSearchType searchtype, int type, int sourcetype, string sourceid, string stageid, int status, int mark, string activityid, string searchuserid, string searchteamid, string searchagentid,
-                                                 string begintime, string endtime, string firstname, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
+        public List<CustomerEntity> GetCustomers(EnumSearchType searchtype, int type, int sourcetype, string sourceid, string stageid, int status, int mark, string activityid, string searchuserid, string searchteamid, 
+                                                 string begintime, string endtime, string firstname, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
         {
             List<CustomerEntity> list = new List<CustomerEntity>();
-            DataSet ds = CustomDAL.BaseProvider.GetCustomers((int)searchtype, type, sourcetype, sourceid, stageid, status, mark, activityid, searchuserid, searchteamid, searchagentid, begintime, endtime, firstname, keyWords, orderBy, pageSize, pageIndex, ref totalCount, ref pageCount, userid, agentid, clientid);
+            DataSet ds = CustomDAL.BaseProvider.GetCustomers((int)searchtype, type, sourcetype, sourceid, stageid, status, mark, activityid, searchuserid, searchteamid, begintime, endtime, firstname, keyWords, orderBy, pageSize, pageIndex, ref totalCount, ref pageCount, userid, clientid);
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 CustomerEntity model = new CustomerEntity();
                 model.FillData(dr);
 
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
                 model.City = CommonBusiness.Citys.Where(m => m.CityCode == model.CityCode).FirstOrDefault();
 
                 list.Add(model);
@@ -65,7 +65,7 @@ namespace IntFactoryBusiness
             {
                 ReplyEntity model = new ReplyEntity();
                 model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
                 if (!string.IsNullOrEmpty(model.FromReplyID))
                 {
                     model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
@@ -89,32 +89,32 @@ namespace IntFactoryBusiness
 
         }
 
-        public List<CustomerEntity> GetCustomersByKeywords(string keywords, string userid, string agentid, string clientid)
+        public List<CustomerEntity> GetCustomersByKeywords(string keywords, string userid, string clientid)
         {
             List<CustomerEntity> list = new List<CustomerEntity>();
-            DataSet ds = CustomDAL.BaseProvider.GetCustomersByKeywords(keywords, userid, agentid, clientid);
+            DataSet ds = CustomDAL.BaseProvider.GetCustomersByKeywords(keywords, userid, clientid);
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 CustomerEntity model = new CustomerEntity();
                 model.FillData(dr);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
                 list.Add(model);
             }
             return list;
         }
 
-        public CustomerEntity GetCustomerByID(string customerid, string agentid, string clientid)
+        public CustomerEntity GetCustomerByID(string customerid,string clientid)
         {
-            DataSet ds = CustomDAL.BaseProvider.GetCustomerByID(customerid, agentid, clientid);
+            DataSet ds = CustomDAL.BaseProvider.GetCustomerByID(customerid, clientid);
             CustomerEntity model = new CustomerEntity();
             if (ds.Tables["Customer"].Rows.Count > 0)
             {
                 model.FillData(ds.Tables["Customer"].Rows[0]);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
 
                 model.City = CommonBusiness.Citys.Where(m => m.CityCode == model.CityCode).FirstOrDefault();
 
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
 
             }
             return model;
@@ -131,7 +131,7 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public List<ContactEntity> GetContactsByCustomerID(string customerid, string agentid)
+        public List<ContactEntity> GetContactsByCustomerID(string customerid, string clientid)
         {
             List<ContactEntity> list = new List<ContactEntity>();
 
@@ -140,7 +140,7 @@ namespace IntFactoryBusiness
             {
                 ContactEntity model = new ContactEntity();
                 model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
                 model.City = CommonBusiness.Citys.Where(m => m.CityCode == model.CityCode).FirstOrDefault();
                 list.Add(model);
             }
@@ -169,7 +169,7 @@ namespace IntFactoryBusiness
             {
                 ReplyEntity model = new ReplyEntity();
                 model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
                 if (!string.IsNullOrEmpty(model.FromReplyID))
                 {
                     model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
@@ -185,11 +185,11 @@ namespace IntFactoryBusiness
 
         #region 添加
 
-        public string CreateCustomer(string name, int type, string sourceid, string activityid, string industryid, int extent, string citycode, string address, 
-                                     string contactname, string mobile, string officephone, string email, string jobs, string desc, string ownerid, string operateid, string agentid, string clientid)
+        public string CreateCustomer(string name, int type, string sourceid, string industryid, int extent, string citycode, string address, 
+                                     string contactname, string mobile, string officephone, string email, string jobs, string desc, string ownerid, string operateid, string clientid)
         {
             string id = Guid.NewGuid().ToString();
-            bool bl = CustomDAL.BaseProvider.CreateCustomer(id, name, type, sourceid, activityid, industryid, extent, citycode, address, contactname, mobile, officephone, email, jobs, desc, ownerid, operateid, agentid, clientid);
+            bool bl = CustomDAL.BaseProvider.CreateCustomer(id, name, type, sourceid, industryid, extent, citycode, address, contactname, mobile, officephone, email, jobs, desc, ownerid, operateid, clientid);
             if (!bl)
             {
                 id = "";
@@ -197,14 +197,14 @@ namespace IntFactoryBusiness
             else
             {
                 //日志
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Customer, EnumLogType.Create, "", operateid, agentid, clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Customer, EnumLogType.Create, "", operateid, clientid);
             }
             return id;
         }
 
-        public static string CreateReply(string guid, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
+        public static string CreateReply(string guid, string content, string userID, string clientid, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
         {
-            return CustomDAL.BaseProvider.CreateReply(guid, content, userID, agentID, fromReplyID, fromReplyUserID, fromReplyAgentID);
+            return CustomDAL.BaseProvider.CreateReply(guid, content, userID, clientid, fromReplyID, fromReplyUserID, fromReplyAgentID);
         }
 
         public static bool AddCustomerReplyAttachments(string customerid, string replyid, List<Attachment> attachments, string userid, string clientid)
@@ -233,10 +233,10 @@ namespace IntFactoryBusiness
             return true;
         }
 
-        public string CreateContact(string customerid,string name, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string operateid, string agentid, string clientid)
+        public string CreateContact(string customerid,string name, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string operateid, string clientid)
         {
             string id = Guid.NewGuid().ToString();
-            bool bl = CustomDAL.BaseProvider.CreateContact(id, customerid, name, citycode, address, mobile, officephone, email, jobs, desc, operateid, agentid, clientid);
+            bool bl = CustomDAL.BaseProvider.CreateContact(id, customerid, name, citycode, address, mobile, officephone, email, jobs, desc, operateid, clientid);
             if (!bl)
             {
                 id = "";
@@ -248,36 +248,30 @@ namespace IntFactoryBusiness
 
         #region 编辑/删除
 
-        public bool UpdateCustomer(string customerid, string name, int type, string industryid, int extent, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string operateid, string ip, string agentid, string clientid)
+        public bool UpdateCustomer(string customerid, string name, int type, string industryid, int extent, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string operateid, string ip, string clientid)
         {
-            bool bl = CustomDAL.BaseProvider.UpdateCustomer(customerid, name, type, industryid, extent, citycode, address, mobile, officephone, email, jobs, desc, operateid, agentid, clientid);
+            bool bl = CustomDAL.BaseProvider.UpdateCustomer(customerid, name, type, industryid, extent, citycode, address, mobile, officephone, email, jobs, desc, operateid, clientid);
             if (bl)
             {
                 string msg = "编辑客户信息";
-                LogBusiness.AddLog(customerid, EnumLogObjectType.Customer, msg, operateid, ip, "", agentid, clientid);
+                LogBusiness.AddLog(customerid, EnumLogObjectType.Customer, msg, operateid, ip, "", clientid);
             }
             return bl;
         }
 
-        public bool UpdateCustomerOwner(string customerid, string userid, string operateid, string ip, string agentid, string clientid)
+        public bool UpdateCustomerOwner(string customerid, string userid, string operateid, string ip, string clientid)
         {
-            bool bl = CustomDAL.BaseProvider.UpdateCustomerOwner(customerid, userid, operateid, agentid, clientid);
+            bool bl = CustomDAL.BaseProvider.UpdateCustomerOwner(customerid, userid, operateid, clientid);
             if (bl)
             {
-                var model = OrganizationBusiness.GetUserByUserID(userid, agentid);
+                var model = OrganizationBusiness.GetUserByUserID(userid, clientid);
                 string msg = "客户负责人更换为：" + model.Name;
-                LogBusiness.AddLog(customerid, EnumLogObjectType.Customer, msg, operateid, ip, userid, agentid, clientid);
+                LogBusiness.AddLog(customerid, EnumLogObjectType.Customer, msg, operateid, ip, userid, clientid);
             }
             return bl;
         }
 
-        public bool UpdateCustomerAgent(string customerid, string newagentid, string operateid, string ip, string agentid, string clientid)
-        {
-            bool bl = CustomDAL.BaseProvider.UpdateCustomerAgent(customerid, newagentid, operateid, agentid, clientid);
-            return bl;
-        }
-
-        public bool UpdateCustomerStatus(string customerid, EnumCustomStatus status, string operateid, string ip, string agentid, string clientid)
+        public bool UpdateCustomerStatus(string customerid, EnumCustomStatus status, string operateid, string ip, string clientid)
         {
 
             bool bl = CommonBusiness.Update("Customer", "Status", (int)status, "CustomerID='" + customerid + "'");
@@ -285,26 +279,26 @@ namespace IntFactoryBusiness
             {
                 var model = CommonBusiness.GetEnumDesc(status);
                 string msg = "客户状态更换为：" + model;
-                LogBusiness.AddLog(customerid, EnumLogObjectType.Customer, msg, operateid, ip, status.ToString(), agentid, clientid);
+                LogBusiness.AddLog(customerid, EnumLogObjectType.Customer, msg, operateid, ip, status.ToString(), clientid);
             }
             return bl;
         }
 
-        public bool UpdateCustomerMark(string customerid, int mark, string operateid, string ip, string agentid, string clientid)
+        public bool UpdateCustomerMark(string customerid, int mark, string operateid, string ip, string clientid)
         {
             bool bl = CommonBusiness.Update("Customer", "Mark", mark, "CustomerID='" + customerid + "'");
             if (bl)
             {
                 var color = SystemBusiness.BaseBusiness.GetLableColorColorID(clientid, mark, EnumMarkType.Customer);
                 string msg = color != null ? "客户更换标签：" + color.ColorName : "标记客户标签";
-                LogBusiness.AddLog(customerid, EnumLogObjectType.Customer, msg, operateid, ip, mark.ToString(), agentid, clientid);
+                LogBusiness.AddLog(customerid, EnumLogObjectType.Customer, msg, operateid, ip, mark.ToString(), clientid);
             }
             return bl;
         }
        
-        public bool UpdateContact(string contactid, string customerid, string name, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string operateid, string agentid, string clientid)
+        public bool UpdateContact(string contactid, string customerid, string name, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string operateid, string clientid)
         {
-            bool bl = CustomDAL.BaseProvider.UpdateContact(contactid, customerid, name, citycode, address, mobile, officephone, email, jobs, desc, operateid, agentid, clientid);
+            bool bl = CustomDAL.BaseProvider.UpdateContact(contactid, customerid, name, citycode, address, mobile, officephone, email, jobs, desc, operateid, clientid);
 
             return bl;
         }
@@ -314,7 +308,7 @@ namespace IntFactoryBusiness
             return CustomDAL.BaseProvider.SetCustomerYXinfo(customerID, name, mobilePhone, clientID, YXAgentID, YXClientID, YXClientCode);
         }
 
-        public bool DeleteContact(string contactid, string ip, string userid, string agentid)
+        public bool DeleteContact(string contactid, string ip, string userid)
         {
             bool bl = CommonBusiness.Update("Contact", "Status", 9, "ContactID='" + contactid + "'");
             return bl;

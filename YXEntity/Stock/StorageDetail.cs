@@ -25,34 +25,12 @@ namespace IntFactoryEntity
 	{
         public StorageDetail()
 		{}
-		#region Model
-		private int _autoid;
-		private string _docid;
-		private string _productid;
-		private decimal _price=0M;
-		private decimal _totalmoney=0M;
-		private decimal _taxmoney=0M;
-		private decimal _taxrate=1M;
-		private decimal _returnprice=0M;
-		private decimal _returnmoney=0M;
-		private string _batchcode="";
-		private string _clientid;
+
+		public int AutoID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DocID
-		{
-			set{ _docid=value;}
-			get{return _docid;}
-		}
+		public string DocID{ set; get; }
 
         [Property("Lower")]
         public string ProductDetailID { set; get; }
@@ -60,15 +38,9 @@ namespace IntFactoryEntity
 		/// 
 		/// </summary>
         [Property("Lower")]
-		public string ProductID
-		{
-			set{ _productid=value;}
-			get{return _productid;}
-		}
+		public string ProductID{ set; get; }
 
         public string UnitID { get; set; }
-
-        public int IsBigUnit { get; set; }
 
 		/// <summary>
 		/// 
@@ -79,71 +51,38 @@ namespace IntFactoryEntity
 		/// <summary>
 		/// 
 		/// </summary>
-		public decimal Price
-		{
-			set{ _price=value;}
-			get{return _price;}
-		}
+		public decimal Price{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public decimal TotalMoney
-		{
-			set{ _totalmoney=value;}
-			get{return _totalmoney;}
-		}
+		public decimal TotalMoney{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public decimal TaxMoney
-		{
-			set{ _taxmoney=value;}
-			get{return _taxmoney;}
-		}
+		public decimal TaxMoney{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public decimal TaxRate
-		{
-			set{ _taxrate=value;}
-			get{return _taxrate;}
-		}
+		public decimal TaxRate{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public decimal ReturnPrice
-		{
-			set{ _returnprice=value;}
-			get{return _returnprice;}
-		}
+		public decimal ReturnPrice{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public decimal ReturnMoney
-		{
-			set{ _returnmoney=value;}
-			get{return _returnmoney;}
-		}
+		public decimal ReturnMoney{ set; get; }
+
         [Property("Lower")] 
         public string WareID { get; set; }
+
         [Property("Lower")] 
         public string DepotID { get; set; }
 
         public string DepotCode { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string BatchCode
-		{
-			set{ _batchcode=value;}
-			get{return _batchcode;}
-		}
+
         [Property("Lower")] 
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
+		public string ClientID{ set; get; }
 
         public int Status { get; set; }
 
@@ -164,11 +103,10 @@ namespace IntFactoryEntity
         public decimal Complete { get; set; }
 
         [Property("Lower")] 
-        public string ProdiverID { get; set; }
+        public string ProviderID { get; set; }
 
         public ProvidersEntity Providers { get; set; }
 
-		#endregion Model
         /// <summary>
         /// 填充数据
         /// </summary>

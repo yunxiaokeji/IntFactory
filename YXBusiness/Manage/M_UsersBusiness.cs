@@ -92,7 +92,7 @@ namespace IntFactoryBusiness
                 }
             }
             //记录登录日志
-            LogBusiness.AddLoginLog(loginname, model != null, IntFactoryEnum.EnumSystemType.Manage, operateip, "", "", "");
+            LogBusiness.AddLoginLog(loginname, model != null, IntFactoryEnum.EnumSystemType.Manage, operateip, "", "");
 
             return model;
         }

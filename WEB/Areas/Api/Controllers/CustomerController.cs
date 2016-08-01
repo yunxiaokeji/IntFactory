@@ -13,14 +13,13 @@ namespace YXERP.Areas.Api.Controllers
         //根据客户ID获取客户信息
         public JsonResult GetCustomerByID(string customerID, string clientID)
         {
-            var item = CustomBusiness.BaseBusiness.GetCustomerByID(customerID, clientID, clientID);
+            var item = CustomBusiness.BaseBusiness.GetCustomerByID(customerID, clientID);
             if (item != null)
             {
                 Dictionary<string, object> customer = new Dictionary<string, object>();
                 customer.Add("customerID", item.CustomerID);
                 customer.Add("name", item.Name);
                 customer.Add("mobilePhone", item.MobilePhone);
-                customer.Add("agentID", item.AgentID);
                 customer.Add("clientID", item.ClientID);
                 customer.Add("yxAgentID", item.YXAgentID);
                 customer.Add("yxClientID", item.YXClientID);
@@ -50,7 +49,6 @@ namespace YXERP.Areas.Api.Controllers
                 customer.Add("customerID", item.CustomerID);
                 customer.Add("name", item.Name);
                 customer.Add("mobilePhone", item.MobilePhone);
-                customer.Add("agentID", item.AgentID);
                 customer.Add("clientID", item.ClientID);
                 customer.Add("yxAgentID", item.YXAgentID);
                 customer.Add("yxClientID", item.YXClientID);

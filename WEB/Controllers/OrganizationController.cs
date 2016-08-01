@@ -33,7 +33,7 @@ namespace YXERP.Controllers
 
         public ActionResult RolePermission(string id)
         {
-            ViewBag.Model = OrganizationBusiness.GetRoleByID(id, CurrentUser.AgentID);
+            ViewBag.Model = OrganizationBusiness.GetRoleByID(id, CurrentUser.ClientID);
             ViewBag.Menus = CommonBusiness.ClientMenus.Where(m => m.PCode == ExpandClass.CLIENT_TOP_CODE).ToList();
             return View();
         }
@@ -41,8 +41,8 @@ namespace YXERP.Controllers
         public ActionResult Users()
         {
             ViewBag.MDToken = string.Empty;
-            ViewBag.Roles = OrganizationBusiness.GetRoles(CurrentUser.AgentID);
-            ViewBag.Departments = OrganizationBusiness.GetDepartments(CurrentUser.AgentID);
+            ViewBag.Roles = OrganizationBusiness.GetRoles(CurrentUser.ClientID);
+            ViewBag.Departments = OrganizationBusiness.GetDepartments(CurrentUser.ClientID);
 
             ViewBag.IsSysAdmin = CurrentUser.Role.IsDefault == 1 ? true : false;
             
@@ -51,14 +51,14 @@ namespace YXERP.Controllers
 
         public ActionResult CreateUser()
         {
-            ViewBag.Roles = OrganizationBusiness.GetRoles(CurrentUser.AgentID);
-            ViewBag.Departments = OrganizationBusiness.GetDepartments(CurrentUser.AgentID);
+            ViewBag.Roles = OrganizationBusiness.GetRoles(CurrentUser.ClientID);
+            ViewBag.Departments = OrganizationBusiness.GetDepartments(CurrentUser.ClientID);
             return View();
         }
 
         public ActionResult Structure()
         {
-            var list = OrganizationBusiness.GetStructureByParentID("6666666666", CurrentUser.AgentID);
+            var list = OrganizationBusiness.GetStructureByParentID("6666666666", CurrentUser.ClientID);
             if (list.Count > 0)
             {
                 ViewBag.Model = list[0];
@@ -78,12 +78,12 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult GetDepartments()
         {
-            var list = OrganizationBusiness.GetDepartments(CurrentUser.AgentID);
+            var list = OrganizationBusiness.GetDepartments(CurrentUser.ClientID);
             foreach (var item in list)
             {
                 if (item.CreateUser == null && !string.IsNullOrEmpty(item.CreateUserID))
                 {
-                    var user = OrganizationBusiness.GetUserByUserID(item.CreateUserID, CurrentUser.AgentID);
+                    var user = OrganizationBusiness.GetUserByUserID(item.CreateUserID, CurrentUser.ClientID);
                     item.CreateUser = new Users() { Name = user.Name };
                 }
             }
@@ -97,7 +97,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetDepartmentByID(string id)
         {
-            var model = OrganizationBusiness.GetDepartmentByID(id, CurrentUser.AgentID);
+            var model = OrganizationBusiness.GetDepartmentByID(id, CurrentUser.ClientID);
             JsonDictionary.Add("model", model);
             return new JsonResult()
             {
@@ -118,11 +118,11 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.DepartID))
             {
-                model.DepartID = new OrganizationBusiness().CreateDepartment(model.Name, model.ParentID, model.Description, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                model.DepartID = new OrganizationBusiness().CreateDepartment(model.Name, model.ParentID, model.Description, CurrentUser.UserID,  CurrentUser.ClientID);
             }
             else
             {
-                bool bl = new OrganizationBusiness().UpdateDepartment(model.DepartID, model.Name, model.Description, CurrentUser.UserID, OperateIP, CurrentUser.AgentID);
+                bool bl = new OrganizationBusiness().UpdateDepartment(model.DepartID, model.Name, model.Description, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
                 if (!bl)
                 {
                     model.DepartID = "";
@@ -143,7 +143,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult DeleteDepartment(string departid)
         {
-            var status = new OrganizationBusiness().UpdateDepartmentStatus(departid, IntFactoryEnum.EnumStatus.Delete, CurrentUser.UserID, OperateIP, CurrentUser.AgentID);
+            var status = new OrganizationBusiness().UpdateDepartmentStatus(departid, IntFactoryEnum.EnumStatus.Delete, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", (int)status);
             return new JsonResult
             {
@@ -158,12 +158,12 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult GetRoles()
         {
-            var list = OrganizationBusiness.GetRoles(CurrentUser.AgentID);
+            var list = OrganizationBusiness.GetRoles(CurrentUser.ClientID);
             foreach (var item in list)
             {
                 if (item.CreateUser == null && !string.IsNullOrEmpty(item.CreateUserID))
                 {
-                    var user = OrganizationBusiness.GetUserByUserID(item.CreateUserID, CurrentUser.AgentID);
+                    var user = OrganizationBusiness.GetUserByUserID(item.CreateUserID, CurrentUser.ClientID);
                     item.CreateUser = new Users() { Name = user.Name };
                 }
             }
@@ -177,7 +177,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetRoleByID(string id)
         {
-            var model = OrganizationBusiness.GetRoleByID(id, CurrentUser.AgentID);
+            var model = OrganizationBusiness.GetRoleByID(id, CurrentUser.ClientID);
             JsonDictionary.Add("model", model);
             return new JsonResult()
             {
@@ -198,11 +198,11 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.RoleID))
             {
-                model.RoleID = new OrganizationBusiness().CreateRole(model.Name, model.ParentID, model.Description, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                model.RoleID = new OrganizationBusiness().CreateRole(model.Name, model.ParentID, model.Description, CurrentUser.UserID,CurrentUser.ClientID);
             }
             else
             {
-                bool bl = new OrganizationBusiness().UpdateRole(model.RoleID, model.Name, model.Description, CurrentUser.UserID, OperateIP, CurrentUser.AgentID);
+                bool bl = new OrganizationBusiness().UpdateRole(model.RoleID, model.Name, model.Description, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
                 if (!bl)
                 {
                     model.RoleID = "";
@@ -224,7 +224,7 @@ namespace YXERP.Controllers
         public JsonResult DeleteRole(string roleid)
         {
             int result = 0;
-            bool bl = new OrganizationBusiness().DeleteRole(roleid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, out result);
+            bool bl = new OrganizationBusiness().DeleteRole(roleid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out result);
             JsonDictionary.Add("status", result);
             return new JsonResult
             {
@@ -241,7 +241,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult UpdateUserPwd(string userID,string loginPwd) 
         {
-            bool bl = OrganizationBusiness.UpdateUserPass(userID, loginPwd, CurrentUser.AgentID);
+            bool bl = OrganizationBusiness.UpdateUserPass(userID, loginPwd);
             JsonDictionary.Add("status",bl);
             return new JsonResult()
             {
@@ -261,12 +261,12 @@ namespace YXERP.Controllers
         {
             bool flag = false;
             int  result = 0;
-            if (!string.IsNullOrEmpty(CurrentUser.LoginName))
+            if (OrganizationBusiness.IsExistAccountType(EnumAccountType.UserName, userID))
             {
-                Users item = IntFactoryBusiness.OrganizationBusiness.GetUserByUserID(userID, CurrentUser.AgentID);
+                Users item = IntFactoryBusiness.OrganizationBusiness.GetUserByUserID(userID, CurrentUser.ClientID);
                 if (OrganizationBusiness.IsExistAccountType(EnumAccountType.Mobile, CurrentUser.UserID))
                 {
-                    flag = OrganizationBusiness.ClearAccountBindMobile(userID, CurrentUser.AgentID);
+                    flag = OrganizationBusiness.ClearAccountBindMobile(userID);
                     if (flag)
                     {
                         result = 1;
@@ -304,9 +304,9 @@ namespace YXERP.Controllers
                 bool flag = false;
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 IntFactoryEntity.Users newItem = serializer.Deserialize<IntFactoryEntity.Users>(entity);
-                IntFactoryEntity.Users item = OrganizationBusiness.GetUserByUserID(userID, CurrentUser.AgentID);
+                IntFactoryEntity.Users item = OrganizationBusiness.GetUserByUserID(userID, CurrentUser.ClientID);
                 flag = OrganizationBusiness.UpdateUserInfo(userID, newItem.Name, item.Jobs, item.Birthday, item.Age.Value, newItem.DepartID,
-                                                            newItem.Email, newItem.MobilePhone, item.OfficePhone, CurrentUser.AgentID);
+                                                            newItem.Email, newItem.MobilePhone, item.OfficePhone, CurrentUser.ClientID);
                 result = flag ? 1 : 0;
             }
             JsonDictionary.Add("result", result);
@@ -347,7 +347,7 @@ namespace YXERP.Controllers
             int result = 0;
 
             var user = OrganizationBusiness.CreateUser(EnumAccountType.UserName, model.LoginName, model.LoginName, model.Name, model.MobilePhone, model.Email, model.CityCode, model.Address, model.Jobs, model.RoleID, model.DepartID, "",
-                CurrentUser.AgentID, CurrentUser.ClientID, CurrentUser.UserID, out result);
+               CurrentUser.ClientID, CurrentUser.UserID, out result);
 
             JsonDictionary.Add("model", user);
             JsonDictionary.Add("result", result);
@@ -376,7 +376,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult GetUsersByParentID(string parentid = "")
         {
-            var list = OrganizationBusiness.GetUsersByParentID(parentid, CurrentUser.AgentID).OrderBy(m => m.FirstName).ToList();
+            var list = OrganizationBusiness.GetUsersByParentID(parentid, CurrentUser.ClientID).OrderBy(m => m.FirstName).ToList();
             JsonDictionary.Add("items", list);
             return new JsonResult()
             {
@@ -396,7 +396,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrganizationBusiness.GetUsers(model.Keywords, model.DepartID, model.RoleID, CurrentUser.AgentID, PageSize, model.PageIndex, ref totalCount, ref pageCount);
+            var list = OrganizationBusiness.GetUsers(model.Keywords, model.DepartID, model.RoleID, CurrentUser.ClientID, PageSize, model.PageIndex, ref totalCount, ref pageCount);
 
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -410,7 +410,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetUserAll()
         {
-            var list = OrganizationBusiness.GetUsers(CurrentUser.AgentID).Where(m => m.Status == 1).OrderBy(m => m.FirstName).ToList();
+            var list = OrganizationBusiness.GetUsers(CurrentUser.ClientID).Where(m => m.Status == 1).OrderBy(m => m.FirstName).ToList();
             JsonDictionary.Add("items", list);
             return new JsonResult()
             {
@@ -421,7 +421,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetUserNoTeam() 
         {
-            var list = OrganizationBusiness.GetUsers(CurrentUser.AgentID).Where(m => m.TeamID == "");
+            var list = OrganizationBusiness.GetUsers(CurrentUser.ClientID).Where(m => m.TeamID == "");
             JsonDictionary.Add("items", list);
             return new JsonResult()
             {
@@ -445,7 +445,7 @@ namespace YXERP.Controllers
             {
                 if (!string.IsNullOrEmpty(userid))
                 {
-                    if (new OrganizationBusiness().UpdateUserParentID(userid, parentid, CurrentUser.AgentID, CurrentUser.UserID, OperateIP))
+                    if (new OrganizationBusiness().UpdateUserParentID(userid, parentid, CurrentUser.ClientID, CurrentUser.UserID, OperateIP))
                     {
                         bl = true;
                     }
@@ -467,7 +467,7 @@ namespace YXERP.Controllers
             {
                 if (!string.IsNullOrEmpty(userid))
                 {
-                    if (new OrganizationBusiness().UpdateUserParentID(userid, parentid, CurrentUser.AgentID, CurrentUser.UserID, OperateIP))
+                    if (new OrganizationBusiness().UpdateUserParentID(userid, parentid, CurrentUser.ClientID, CurrentUser.UserID, OperateIP))
                     {
                         bl = true;
                     }
@@ -490,7 +490,7 @@ namespace YXERP.Controllers
         public JsonResult ChangeUsersParentID(string userid, string olduserid)
         {
 
-            bool bl = new OrganizationBusiness().ChangeUsersParentID(userid, olduserid, CurrentUser.AgentID, CurrentUser.UserID, OperateIP);
+            bool bl = new OrganizationBusiness().ChangeUsersParentID(userid, olduserid, CurrentUser.ClientID, CurrentUser.UserID, OperateIP);
            
             JsonDictionary.Add("status", bl);
             return new JsonResult()
@@ -507,7 +507,7 @@ namespace YXERP.Controllers
         public JsonResult DeleteUserByID(string userid)
         {
             int result = 0;
-            bool bl = new OrganizationBusiness().DeleteUserByID(userid, CurrentUser.AgentID, CurrentUser.UserID, OperateIP, out result);
+            bool bl = new OrganizationBusiness().DeleteUserByID(userid, CurrentUser.ClientID, CurrentUser.UserID, OperateIP, out result);
             
             JsonDictionary.Add("status", bl);
             return new JsonResult()
@@ -520,7 +520,7 @@ namespace YXERP.Controllers
         //编辑员工角色
         public JsonResult UpdateUserRole(string userid,string roleid)
         {
-            bool bl = new OrganizationBusiness().UpdateUserRole(userid, roleid, CurrentUser.AgentID, CurrentUser.UserID, OperateIP);
+            bool bl = new OrganizationBusiness().UpdateUserRole(userid, roleid, CurrentUser.ClientID, CurrentUser.UserID, OperateIP);
 
             JsonDictionary.Add("status", bl);
             return new JsonResult()

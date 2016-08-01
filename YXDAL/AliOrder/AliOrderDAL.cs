@@ -49,43 +49,6 @@ namespace IntFactoryDAL
         #endregion
 
         #region 阿里订单下载日志
-        /// <summary>
-        /// 获取阿里订单下载日志列表
-        /// </summary>
-        /// <param name="orderType"></param>
-        /// <param name="isSuccess">下载结果 1：成功；0：失败</param>
-        /// <param name="downType">下载类型 1：自动；2手动</param>
-        /// <param name="startTime"></param>
-        /// <param name="endTime"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="totalCount"></param>
-        /// <param name="pageCount"></param>
-        /// <param name="agentid"></param>
-        /// <param name="clientid"></param>
-        /// <returns></returns>
-        public DataTable GetAliOrderUpdateLogs(int orderType, int isSuccess, int downType, DateTime startTime, DateTime endTime, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string agentid, string clientid)
-        {
-            SqlParameter[] paras = { 
-                                       new SqlParameter("@totalCount",SqlDbType.Int),
-                                       new SqlParameter("@pageCount",SqlDbType.Int),
-                                       new SqlParameter("@OrderType",orderType),
-                                       new SqlParameter("@pageSize",pageSize),
-                                       new SqlParameter("@pageIndex",pageIndex),
-                                       new SqlParameter("@AgentID", agentid),
-                                       new SqlParameter("@ClientID",clientid)
-                                   };
-            paras[0].Value = totalCount;
-            paras[1].Value = pageCount;
-
-            paras[0].Direction = ParameterDirection.InputOutput;
-            paras[1].Direction = ParameterDirection.InputOutput;
-            DataTable dt = GetDataTable("P_GetOrders", paras, CommandType.StoredProcedure);
-            totalCount = Convert.ToInt32(paras[0].Value);
-            pageCount = Convert.ToInt32(paras[1].Value);
-
-            return dt;
-        }
 
         /// <summary>
         /// 新增阿里订单下载日志
@@ -97,10 +60,9 @@ namespace IntFactoryDAL
         /// <param name="endTime"></param>
         /// <param name="totalCount"></param>
         /// <param name="successCount"></param>
-        /// <param name="agentID"></param>
         /// <param name="clientID"></param>
         /// <returns></returns>
-        public bool AddAliOrderUpdateLog(int orderType, int isSuccess, int downType, DateTime startTime, DateTime endTime, int successCount, int totalCount,string remark, string agentID, string clientID)
+        public bool AddAliOrderUpdateLog(int orderType, int isSuccess, int downType, DateTime startTime, DateTime endTime, int successCount, int totalCount,string remark, string clientID)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@OrderType",orderType),
@@ -111,11 +73,10 @@ namespace IntFactoryDAL
                                        new SqlParameter("@SuccessCount",successCount),
                                        new SqlParameter("@TotalCount",totalCount),
                                        new SqlParameter("@Remark",remark),
-                                       new SqlParameter("@AgentID",agentID),
                                        new SqlParameter("@ClientID",clientID)
                                    };
 
-            string sqlStr = "insert into AliOrderDownloadLog(OrderType,IsSuccess,DownType,StartTime,EndTime,SuccessCount,TotalCount,Remark,AgentID,ClientID) values(@OrderType,@IsSuccess,@DownType,@StartTime,@EndTime,@SuccessCount,@TotalCount,@Remark,@AgentID,@ClientID)";
+            string sqlStr = "insert into AliOrderDownloadLog(OrderType,IsSuccess,DownType,StartTime,EndTime,SuccessCount,TotalCount,Remark,ClientID) values(@OrderType,@IsSuccess,@DownType,@StartTime,@EndTime,@SuccessCount,@TotalCount,@Remark,@ClientID)";
             
             return ExecuteNonQuery(sqlStr, paras, CommandType.Text) > 0;
         }
@@ -139,25 +100,24 @@ namespace IntFactoryDAL
         /// <summary>
         /// 获取阿里订单下载计划详情
         /// </summary>
-        /// <param name="agentID"></param>
+        /// <param name="clientid"></param>
         /// <returns></returns>
-        public DataTable GetAliOrderDownloadPlanDetail(string clientID)
+        public DataTable GetAliOrderDownloadPlanDetail(string clientid)
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@ClientID",clientID)
+                                       new SqlParameter("@ClientID",clientid)
                                    };
 
             DataTable dt = GetDataTable("Select * from AliOrderDownloadPlan where ClientID=@ClientID ", paras, CommandType.Text);
             return dt;
         }
 
-        public bool AddAliOrderDownloadPlan(string userID, string memberID, string token, string refreshToken, string agentID, string clientID)
+        public bool AddAliOrderDownloadPlan(string userID, string memberID, string token, string refreshToken, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@UserID",userID),
                                        new SqlParameter("@MemberID",memberID),
-                                       new SqlParameter("@AgentID",agentID),
-                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@ClientID",clientid),
                                        new SqlParameter("@RefreshToken",refreshToken),
                                        new SqlParameter("@Token",token)
                                    };
@@ -173,10 +133,10 @@ namespace IntFactoryDAL
         /// <param name="token"></param>
         /// <param name="refreshToken"></param>
         /// <returns></returns>
-        public bool UpdateAliOrderDownloadPlanToken(string clientID, string token, string refreshToken)
+        public bool UpdateAliOrderDownloadPlanToken(string clientid, string token, string refreshToken)
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@ClientID",clientid),
                                        new SqlParameter("@RefreshToken",refreshToken),
                                        new SqlParameter("@Token",token)
                                    };
@@ -185,10 +145,10 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(" update AliOrderDownloadPlan set Token=@Token,RefreshToken=@RefreshToken where ClientID=@ClientID", paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateAliOrderDownloadPlanStatus(string clientID, int status, string remark)
+        public bool UpdateAliOrderDownloadPlanStatus(string clientid, int status, string remark)
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@ClientID",clientID),
+                                       new SqlParameter("@ClientID",clientid),
                                        new SqlParameter("@Status",status),
                                        new SqlParameter("@Remark",remark)
                                    };
@@ -197,26 +157,26 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(" update AliOrderDownloadPlan set Status=@Status,@Remark=Remark,UpdateTime=getdate() where ClientID=@ClientID", paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateAliOrderDownloadPlanSuccessTime(string clientID, int orderType, DateTime successTime)
+        public bool UpdateAliOrderDownloadPlanSuccessTime(string clientid, int orderType, DateTime successTime)
         {
             string sqlStr = "";
             if (orderType == 1)
             {
-                sqlStr = " update AliOrderDownloadPlan set FentSuccessEndTime='" + successTime + "' where clientID='" + clientID + "'";
+                sqlStr = " update AliOrderDownloadPlan set FentSuccessEndTime='" + successTime + "' where clientID='" + clientid + "'";
             }
             else
             {
-                sqlStr = " update AliOrderDownloadPlan set BulkSuccessEndTime='" + successTime + "' where clientID='" + clientID + "'";
+                sqlStr = " update AliOrderDownloadPlan set BulkSuccessEndTime='" + successTime + "' where clientID='" + clientid + "'";
             }
 
             return ExecuteNonQuery(sqlStr) > 0;
         }
 
-        public bool DeleteAliOrderDownloadPlan(string clientID)
+        public bool DeleteAliOrderDownloadPlan(string clientid)
         {
             string sqlStr = " delete from AliOrderDownloadPlan ClientID=@ClientID";
             SqlParameter[] paras = { 
-                                       new SqlParameter("@ClientID",clientID)
+                                       new SqlParameter("@ClientID",clientid)
                                    };
 
 

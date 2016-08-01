@@ -9,6 +9,7 @@ namespace IntFactoryEntity.Manage
     {
         public int AutoID { get; set; }
 
+        [Property("Lower")]
         public string OrderID { get; set; }
 
         public int UserQuantity { get; set; }
@@ -27,8 +28,7 @@ namespace IntFactoryEntity.Manage
 
         public int Status { get; set; }
 
-        public string AgentID { get; set; }
-
+        [Property("Lower")]
         public string ClientID { get; set; }
 
         public string ClientCode { get; set; }
@@ -42,12 +42,15 @@ namespace IntFactoryEntity.Manage
         public int PayStatus { get; set; }
 
         public int SourceType { get; set; }
+
         public DateTime CreateTime { get; set; }
 
+        [Property("Lower")]
         public string CreateUserID { get; set; }
 
         public Users CreateUser { get; set; }
 
+        [Property("Lower")]
         public string CheckUserID { get; set; }
 
         public DateTime CheckTime { get; set; }

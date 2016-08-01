@@ -26,71 +26,20 @@ namespace IntFactoryEntity
 	{
 		public Country()
 		{}
-		#region Model
-		private int _autoid;
-		private string _countrycode;
-		private string _name;
-		private string _englishname="";
-		private string _phonecode="";
-		private string _language="";
-		private int? _currency=0;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CountryCode
-		{
-			set{ _countrycode=value;}
-			get{return _countrycode;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name
-		{
-			set{ _name=value;}
-			get{return _name;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EnglishName
-		{
-			set{ _englishname=value;}
-			get{return _englishname;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string PhoneCode
-		{
-			set{ _phonecode=value;}
-			get{return _phonecode;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Language
-		{
-			set{ _language=value;}
-			get{return _language;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Currency
-		{
-			set{ _currency=value;}
-			get{return _currency;}
-		}
-		#endregion Model
+
+        public int AutoID { get; set; }
+
+        public string CountryCode { get; set; }
+
+        public string Name { get; set; }
+
+        public string EnglishName { get; set; }
+
+        public string PhoneCode { get; set; }
+
+		public string Language{ get; set; }
+
+        public int Currency { get; set; }
 
         /// <summary>
         /// 填充数据

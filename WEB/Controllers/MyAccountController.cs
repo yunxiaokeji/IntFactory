@@ -31,7 +31,7 @@ namespace YXERP.Controllers
 
         public ActionResult Index(string id)
         {
-            ViewBag.Departments = OrganizationBusiness.GetDepartments(CurrentUser.AgentID);
+            ViewBag.Departments = OrganizationBusiness.GetDepartments(CurrentUser.ClientID);
 
             return View();
         }
@@ -47,7 +47,7 @@ namespace YXERP.Controllers
         public ActionResult Account()
         {
             var BindMobilePhone = string.Empty;
-            var UserAccounts = OrganizationBusiness.GetUserAccountsByUserID(CurrentUser.UserID, CurrentUser.AgentID);
+            var UserAccounts = OrganizationBusiness.GetUserAccountsByUserID(CurrentUser.UserID, CurrentUser.ClientID);
             var UserAccount = UserAccounts.Find(m => m.AccountType ==(int) EnumAccountType.Mobile);
             if (UserAccount != null)
             {
@@ -128,7 +128,7 @@ namespace YXERP.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             IntFactoryEntity.Users model = serializer.Deserialize<IntFactoryEntity.Users>(entity);
 
-            bool flag = OrganizationBusiness.UpdateUserInfo(CurrentUser.UserID, model.Name, model.Jobs, model.Birthday, 0, model.DepartID, model.Email, model.MobilePhone, model.OfficePhone, CurrentUser.AgentID);
+            bool flag = OrganizationBusiness.UpdateUserInfo(CurrentUser.UserID, model.Name, model.Jobs, model.Birthday, 0, model.DepartID, model.Email, model.MobilePhone, model.OfficePhone, CurrentUser.ClientID);
             JsonDictionary.Add("result", flag?1:0);
 
             if (flag)
@@ -140,7 +140,7 @@ namespace YXERP.Controllers
                 if (CurrentUser.DepartID != model.DepartID)
                 {
                     CurrentUser.DepartID = model.DepartID;
-                    CurrentUser.Department = OrganizationBusiness.GetDepartmentByID(model.DepartID, CurrentUser.AgentID);
+                    CurrentUser.Department = OrganizationBusiness.GetDepartmentByID(model.DepartID, CurrentUser.ClientID);
                 }
                 CurrentUser.Email = model.Email;
                 CurrentUser.MobilePhone = model.MobilePhone;
@@ -177,8 +177,8 @@ namespace YXERP.Controllers
 
                 string key = TempPath + "User/" + id + ".png";
                 UploadAttachment(key, avatar);
-                
-                bool flag= OrganizationBusiness.UpdateAccountAvatar(CurrentUser.UserID, avatar, CurrentUser.AgentID);
+
+                bool flag = OrganizationBusiness.UpdateAccountAvatar(CurrentUser.UserID, avatar, CurrentUser.ClientID);
                 if (flag)
                 {
                     avatar = "http://o9h6bx3r4.bkt.clouddn.com/" + key;
@@ -267,7 +267,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult UpdateUserAccount(string loginName, string loginPwd)
         {
-            bool bl = OrganizationBusiness.UpdateUserAccount(CurrentUser.UserID, loginName, loginPwd, CurrentUser.AgentID, CurrentUser.ClientID);
+            bool bl = OrganizationBusiness.UpdateUserAccount(CurrentUser.UserID, loginName, loginPwd,  CurrentUser.ClientID);
             JsonDictionary.Add("result", bl);
 
             if (bl) {
@@ -284,7 +284,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateUserPass(string loginPwd)
         {
-            bool bl = OrganizationBusiness.UpdateUserPass(CurrentUser.UserID, loginPwd, CurrentUser.AgentID);
+            bool bl = OrganizationBusiness.UpdateUserPass(CurrentUser.UserID, loginPwd);
             JsonDictionary.Add("result", bl);
 
             return new JsonResult()
@@ -296,7 +296,7 @@ namespace YXERP.Controllers
 
         public JsonResult UnBindWeiXin()
         {
-            bool bl = OrganizationBusiness.UnBindOtherAccount(IntFactoryEnum.EnumAccountType.WeiXin, CurrentUser.UserID, "", CurrentUser.AgentID, CurrentUser.ClientID);
+            bool bl = OrganizationBusiness.UnBindOtherAccount(IntFactoryEnum.EnumAccountType.WeiXin, CurrentUser.UserID, "", CurrentUser.ClientID);
             JsonDictionary.Add("result", bl);
             if (bl) 
             {
@@ -327,11 +327,11 @@ namespace YXERP.Controllers
                 {
                     if (option == 1)
                     {
-                        flag = OrganizationBusiness.UpdateAccountBindMobile(bindMobile, "", false, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                        flag = OrganizationBusiness.UpdateAccountBindMobile(bindMobile, "", false, CurrentUser.UserID, CurrentUser.ClientID);
                     }
                     else
                     {
-                        flag = OrganizationBusiness.ClearAccountBindMobile(CurrentUser.UserID, CurrentUser.AgentID);
+                        flag = OrganizationBusiness.ClearAccountBindMobile(CurrentUser.UserID);
                     }
 
                     if (flag)

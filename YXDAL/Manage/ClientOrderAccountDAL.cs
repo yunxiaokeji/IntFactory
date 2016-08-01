@@ -60,7 +60,7 @@ namespace IntFactoryDAL.Manage
                                        new SqlParameter("@Type",type),
                                        new SqlParameter("@ClientID",clientID),
                                        new SqlParameter("@CreateUserID",userID),
-                                        new SqlParameter("@Remark",remark==null?"":remark)
+                                       new SqlParameter("@Remark",remark==null?"":remark)
                                    };
             parms[0].Direction = ParameterDirection.Output;
             ExecuteNonQuery("M_AddClientOrderAccount ", parms, CommandType.StoredProcedure);

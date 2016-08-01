@@ -83,9 +83,6 @@ namespace IntFactoryEntity.Task
         [Property("Lower")]
         public string ClientID { get; set; }
 
-        [Property("Lower")]
-        public string AgentID { get; set; }
-
         public string TaskName { get; set; }
 
         public string Members { get; set; }

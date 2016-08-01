@@ -12,6 +12,7 @@ namespace IntFactoryEntity.Log
     {
         public int AutoID { get; set; }
 
+        [Property("Lower")]
         public string UserID { get; set; }
 
         public string FuncName { get; set; }
@@ -22,6 +23,7 @@ namespace IntFactoryEntity.Log
 
         public int Entity { get; set; }
 
+        [Property("Lower")]
         public string GUID { get; set; }
 
         public string Message { get; set; }

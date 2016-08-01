@@ -25,29 +25,8 @@ namespace IntFactoryEntity
 	{
 		public Productstream()
 		{}
-		#region Model
-		private int _autoid;
-		private string _productid;
-		private string _ordercode;
-		private string _batchcode="";
-		private string _orderdate;
-		private int _ordertype=0;
-		private int _quantity=0;
-		private int _surplusquantity=0;
-		private string _warecode="";
-		private string _depotcode="";
-		private string _createuserid;
-		private DateTime? _createtime= DateTime.Now;
-		private string _operateip="";
-		private string _clientid;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+
+		public int AutoID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -57,111 +36,55 @@ namespace IntFactoryEntity
 		/// 
 		/// </summary>
         [Property("Lower")] 
-        public string ProductID
-		{
-			set{ _productid=value;}
-			get{return _productid;}
-		}
+        public string ProductID{ set; get; }
 
         [Property("Lower")] 
         public string DocID { get; set; }
 
-		public string DocCode
-		{
-			set{ _ordercode=value;}
-			get{return _ordercode;}
-		}
+		public string DocCode{ set; get; }
+
 		/// <summary>
 		/// 
 		/// </summary>
-		public string BatchCode
-		{
-			set{ _batchcode=value;}
-			get{return _batchcode;}
-		}
+        public string DocDate{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-        public string DocDate
-		{
-			set{ _orderdate=value;}
-			get{return _orderdate;}
-		}
+		public int DocType{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int DocType
-		{
-			set{ _ordertype=value;}
-			get{return _ordertype;}
-		}
+		public int Quantity{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int Quantity
-		{
-			set{ _quantity=value;}
-			get{return _quantity;}
-		}
+		public int SurplusQuantity{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int SurplusQuantity
-		{
-			set{ _surplusquantity=value;}
-			get{return _surplusquantity;}
-		}
+		public string WareID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string WareID
-		{
-			set{ _warecode=value;}
-			get{return _warecode;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DepotID
-		{
-			set{ _depotcode=value;}
-			get{return _depotcode;}
-		}
+		public string DepotID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
         [Property("Lower")] 
-        public string CreateUserID
-		{
-			set{ _createuserid=value;}
-			get{return _createuserid;}
-		}
+        public string CreateUserID{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime? CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
+		public DateTime? CreateTime{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string OperateIP
-		{
-			set{ _operateip=value;}
-			get{return _operateip;}
-		}
+		public string OperateIP{ set; get; }
 		/// <summary>
 		/// 
 		/// </summary>
-        [Property("Lower")] 
-        public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-		#endregion Model
+        [Property("Lower")]
+        public string ClientID { set; get; }
 
 	}
 }

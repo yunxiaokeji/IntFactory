@@ -104,7 +104,7 @@ namespace YXERP.Controllers
 
         public ActionResult OrderDetail(string id)
         {
-            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
+            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.ClientID);
 
             if (model == null || string.IsNullOrEmpty(model.OrderID))
             {
@@ -112,7 +112,7 @@ namespace YXERP.Controllers
             }
             if (model.Status == 0 || model.Status == 4)
             {
-                ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.AgentID, CurrentUser.ClientID);
+                ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.ClientID);
             }
             model.IsSelf = model.ClientID == CurrentUser.ClientID;
             ViewBag.Model = model;
@@ -130,7 +130,7 @@ namespace YXERP.Controllers
 
         public ActionResult OrderLayer(string id)
         {
-            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
+            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.ClientID);
 
             if (model == null || string.IsNullOrEmpty(model.OrderID))
             {
@@ -138,7 +138,7 @@ namespace YXERP.Controllers
             }
             if (model.Status == 0)
             {
-                ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.AgentID, CurrentUser.ClientID);
+                ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.ClientID);
             }
 
             return PartialView(model);
@@ -180,7 +180,7 @@ namespace YXERP.Controllers
 
         public ActionResult FentOrderReport(string id)
         {
-            var model = OrdersBusiness.BaseBusiness.GetOrderForFentReport(id, CurrentUser.AgentID, CurrentUser.ClientID);
+            var model = OrdersBusiness.BaseBusiness.GetOrderForFentReport(id, CurrentUser.ClientID);
             var client = ClientBusiness.GetClientDetail(model.ClientID);  
             ViewBag.Model = model;
             ViewBag.Client = client;
@@ -191,7 +191,7 @@ namespace YXERP.Controllers
         {   
             var taskid="";
             var type = 1;
-            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
+            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.ClientID);
             var list = StockBusiness.GetGoodsDocByOrderID(id, taskid, (EnumDocType)type, CurrentUser.ClientID);
             ViewBag.Model = model;
             ViewBag.List = list;
@@ -200,7 +200,7 @@ namespace YXERP.Controllers
 
         public ActionResult ApplyReturn(string id)
         {
-            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.AgentID, CurrentUser.ClientID);
+            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.ClientID);
 
             if (model == null || string.IsNullOrEmpty(model.OrderID))
             {
@@ -225,7 +225,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOrders(model.SearchType, model.EntrustClientID, model.TypeID, model.Status, (EnumOrderSourceType)model.SourceType, model.OrderStatus, model.Mark, model.PayStatus, model.InvoiceStatus, model.ReturnStatus, model.UserID, model.TeamID, model.AgentID, model.BeginTime, model.EndTime, model.Keywords, model.OrderBy, model.PageSize, model.PageIndex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetOrders(model.SearchType, model.EntrustClientID, model.TypeID, model.Status, (EnumOrderSourceType)model.SourceType, model.OrderStatus, model.Mark, model.PayStatus, model.InvoiceStatus, model.ReturnStatus, model.UserID, model.TeamID, model.BeginTime, model.EndTime, model.Keywords, model.OrderBy, model.PageSize, model.PageIndex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -241,7 +241,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOrders(keywords, 10, 1, ref totalCount, ref pageCount, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetOrders(keywords, 10, 1, ref totalCount, ref pageCount, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -257,7 +257,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOrdersByCustomerID(keyWords, customerid, ordertype, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetOrdersByCustomerID(keyWords, customerid, ordertype, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID,CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -273,7 +273,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOrdersByOriginalID(originalid, ordertype, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetOrdersByOriginalID(originalid, ordertype, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID,CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -289,7 +289,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetNeedsOrderByCustomerID(keyWords, customerid, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetNeedsOrderByCustomerID(keyWords, customerid, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID,CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -329,7 +329,7 @@ namespace YXERP.Controllers
 
             string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID, model.GoodsCode, model.Title, model.PersonName, model.MobileTele, EnumOrderSourceType.FactoryOrder,
                                                                     (EnumOrderType)model.OrderType, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity, model.PlanTime,
-                                                                     model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                                                                     model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
             {
@@ -343,7 +343,7 @@ namespace YXERP.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderGoodsModel model = serializer.Deserialize<OrderGoodsModel>(entity);
 
-            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, ordertype, discount, price, model.OrderGoods, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, ordertype, discount, price, model.OrderGoods, CurrentUser.UserID,CurrentUser.ClientID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
             {
@@ -354,7 +354,7 @@ namespace YXERP.Controllers
 
         public JsonResult CreateOrderCutOutDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark, string taskid="")
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid,taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid,taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID,  CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {
@@ -365,7 +365,7 @@ namespace YXERP.Controllers
 
         public JsonResult CreateOrderSewnDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid,taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {
@@ -376,7 +376,7 @@ namespace YXERP.Controllers
 
         public JsonResult CreateOrderSendDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid,taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid,taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {
@@ -387,7 +387,7 @@ namespace YXERP.Controllers
 
         public JsonResult CreateOrderSend(string orderid,string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid,taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid,taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {
@@ -402,7 +402,7 @@ namespace YXERP.Controllers
             string[] list = ids.Split(',');
             foreach (var id in list)
             {
-                if (!string.IsNullOrEmpty(id) && OrdersBusiness.BaseBusiness.UpdateOrderOwner(id, userid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID))
+                if (!string.IsNullOrEmpty(id) && OrdersBusiness.BaseBusiness.UpdateOrderOwner(id, userid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID))
                 {
                     bl = true;
                 }
@@ -424,7 +424,7 @@ namespace YXERP.Controllers
 
             int result = 0;
 
-            var bl = OrdersBusiness.BaseBusiness.EditOrder(model.OrderID, model.IntGoodsCode, model.GoodsName, model.PersonName, model.MobileTele, model.CityCode, model.Address, model.PostalCode, model.TypeID, model.ExpressType, model.Remark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            var bl = OrdersBusiness.BaseBusiness.EditOrder(model.OrderID, model.IntGoodsCode, model.GoodsName, model.PersonName, model.MobileTele, model.CityCode, model.Address, model.PostalCode, model.ExpressType, model.Remark, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out result);
             JsonDictionary.Add("status", bl);
             JsonDictionary.Add("result", result);
             return new JsonResult
@@ -436,7 +436,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderPrice(string orderid, string autoid, string name, decimal price)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderPrice(orderid, autoid, name, price, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderPrice(orderid, autoid, name, price, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -447,7 +447,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateProductQuantity(string orderid, string autoid, string name, decimal quantity)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateProductQuantity(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateProductQuantity(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -458,7 +458,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateProductLoss(string orderid, string autoid, string name, decimal quantity)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateProductLoss(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateProductLoss(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -469,7 +469,7 @@ namespace YXERP.Controllers
 
         public JsonResult DeleteProduct(string orderid, string autoid, string name)
         {
-            var bl = OrdersBusiness.BaseBusiness.DeleteProduct(orderid, autoid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.DeleteProduct(orderid, autoid, name, CurrentUser.UserID, OperateIP,CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -480,7 +480,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderProcess(string orderid, string processid, string name)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderProcess(orderid, processid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderProcess(orderid, processid, name, CurrentUser.UserID, OperateIP,CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -491,7 +491,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderCategoryID(string orderid, string pid, string categoryid,string name)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderCategoryID(orderid, pid, categoryid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderCategoryID(orderid, pid, categoryid, name, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -507,7 +507,7 @@ namespace YXERP.Controllers
             {
                 time = Convert.ToDateTime(time).ToString("yyyy-MM-dd") + " 23:59:59";
             }
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStageStatus)status, time, price, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out errinfo);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderStatus(orderid, (EnumOrderStageStatus)status, time, price, CurrentUser.UserID, OperateIP,CurrentUser.ClientID, out errinfo);
             JsonDictionary.Add("status", bl);
             JsonDictionary.Add("errinfo", errinfo);
             return new JsonResult
@@ -523,7 +523,7 @@ namespace YXERP.Controllers
             string[] list = ids.Split(',');
             foreach (var id in list)
             {
-                if (!string.IsNullOrEmpty(id) && OrdersBusiness.BaseBusiness.UpdateOrderMark(id, mark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID))
+                if (!string.IsNullOrEmpty(id) && OrdersBusiness.BaseBusiness.UpdateOrderMark(id, mark, CurrentUser.UserID, OperateIP, CurrentUser.ClientID))
                 {
                     bl = true;
                 }
@@ -539,7 +539,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateProfitPrice(string orderid, decimal profit)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateProfitPrice(orderid, profit, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateProfitPrice(orderid, profit, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -550,7 +550,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderDiscount(string orderid, decimal discount, decimal price)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderDiscount(orderid, discount, price, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderDiscount(orderid, discount, price, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -561,8 +561,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderTotalMoney(string orderid, decimal totalMoney)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderTotalMoney(orderid, totalMoney,
-                CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderTotalMoney(orderid, totalMoney, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -573,7 +572,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderClient(string orderid, string clientid, string name)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderClient(orderid, clientid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderClient(orderid, clientid, name, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -584,7 +583,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderOriginalID(string orderid, string originalorderid, string name)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderOriginalID(orderid, originalorderid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderOriginalID(orderid, originalorderid, name, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -595,7 +594,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderCustomer(string orderid, string customerid, string name)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderCustomer(orderid, customerid, name, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderCustomer(orderid, customerid, name, CurrentUser.UserID, OperateIP,CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -606,7 +605,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderImages(string orderid, string images)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderImages(orderid, images, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderImages(orderid, images, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -617,7 +616,7 @@ namespace YXERP.Controllers
 
         public JsonResult DeleteOrder(string orderid)
         {
-            var bl = OrdersBusiness.BaseBusiness.DeleteOrder(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.DeleteOrder(orderid, CurrentUser.UserID, OperateIP,  CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -628,7 +627,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderOver(string orderid)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderOver(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderOver(orderid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -642,7 +641,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = LogBusiness.GetLogs(orderid, EnumLogObjectType.Orders, 10, pageindex, ref totalCount, ref pageCount, CurrentUser.AgentID);
+            var list = LogBusiness.GetLogs(orderid, EnumLogObjectType.Orders, 10, pageindex, ref totalCount, ref pageCount, CurrentUser.ClientID);
 
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
@@ -658,7 +657,7 @@ namespace YXERP.Controllers
         public JsonResult EffectiveOrderProduct(string orderid)
         {
             int result = 0;
-            var bl = OrdersBusiness.BaseBusiness.EffectiveOrderProduct(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            var bl = OrdersBusiness.BaseBusiness.EffectiveOrderProduct(orderid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out result);
             JsonDictionary.Add("status", bl);
             JsonDictionary.Add("result", result);
             return new JsonResult
@@ -671,7 +670,7 @@ namespace YXERP.Controllers
         public JsonResult ApplyReturnOrder(string orderid)
         {
             int result = 0;
-            var bl = OrdersBusiness.BaseBusiness.ApplyReturnOrder(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            var bl = OrdersBusiness.BaseBusiness.ApplyReturnOrder(orderid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out result);
             JsonDictionary.Add("status", bl);
             JsonDictionary.Add("result", result);
             return new JsonResult
@@ -683,7 +682,7 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateReturnQuantity(string orderid, string autoid, string name, int quantity)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateReturnQuantity(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateReturnQuantity(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -695,7 +694,7 @@ namespace YXERP.Controllers
         public JsonResult ApplyReturnProduct(string orderid)
         {
             int result = 0;
-            var bl = OrdersBusiness.BaseBusiness.ApplyReturnProduct(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            var bl = OrdersBusiness.BaseBusiness.ApplyReturnProduct(orderid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out result);
             JsonDictionary.Add("status", bl);
             JsonDictionary.Add("result", result);
             return new JsonResult
@@ -730,7 +729,7 @@ namespace YXERP.Controllers
         public JsonResult CreateOrderCustomer(string orderid)
         {
             int result = 0;
-            var bl = OrdersBusiness.BaseBusiness.CreateOrderCustomer(orderid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            var bl = OrdersBusiness.BaseBusiness.CreateOrderCustomer(orderid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out result);
             JsonDictionary.Add("status", bl);
             JsonDictionary.Add("result", result);
             return new JsonResult
@@ -767,21 +766,21 @@ namespace YXERP.Controllers
                         if (downOrderType == 1)
                         {
                             flag = AliOrderBusiness.DownFentOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
-                                CurrentUser.AgentID, CurrentUser.ClientID, ref successCount, ref total, out error, AlibabaSdk.AliOrderDownType.Hand);
+                               CurrentUser.ClientID, ref successCount, ref total, out error, AlibabaSdk.AliOrderDownType.Hand);
 
                             //新增阿里打样订单下载日志
                             AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
-                                successCount, total, error, plan.AgentID, plan.ClientID);
+                                successCount, total, error, plan.ClientID);
                         }
                         else
                         {
 
                             flag = AliOrderBusiness.DownBulkOrders(downStartTime, downEndTime, token, refreshToken, CurrentUser.UserID,
-                                CurrentUser.AgentID, CurrentUser.ClientID, ref successCount, ref total, out error, AlibabaSdk.AliOrderDownType.Hand);
+                                 CurrentUser.ClientID, ref successCount, ref total, out error, AlibabaSdk.AliOrderDownType.Hand);
 
                             //新增阿里大货订单下载日志
                             AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Hand, downStartTime, downEndTime,
-                                successCount, total, plan.AgentID, error, plan.ClientID);
+                                successCount, total, error, plan.ClientID);
                         }
 
                         result = flag ? 1 : 0;
@@ -789,7 +788,7 @@ namespace YXERP.Controllers
                         //拉取订单记录日期
                         if (flag)
                         {
-                            LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.PullOrder, EnumLogType.Create, "", OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                            LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.PullOrder, EnumLogType.Create, "", OperateIP, CurrentUser.ClientID);
                         }
                         JsonDictionary.Add("totalOrderCount", total);
                         JsonDictionary.Add("successOrderCount", successCount);
@@ -845,7 +844,7 @@ namespace YXERP.Controllers
 
         public JsonResult CreateOrderCost(string orderid, decimal price, string remark)
         {
-            var bl = OrdersBusiness.BaseBusiness.CreateOrderCost(orderid, price, remark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.CreateOrderCost(orderid, price, remark, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -867,7 +866,7 @@ namespace YXERP.Controllers
 
         public JsonResult DeleteOrderCost(string orderid, string autoid)
         {
-            var bl = OrdersBusiness.BaseBusiness.DeleteOrderCost(orderid, autoid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.DeleteOrderCost(orderid, autoid, CurrentUser.UserID, OperateIP,  CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -882,11 +881,11 @@ namespace YXERP.Controllers
             int result=0;
             if (status == 2)
             {
-                bl = TaskBusiness.UnLockTask(taskid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+                bl = TaskBusiness.UnLockTask(taskid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out result);
             }
             else 
             {
-                bl = TaskBusiness.LockTask(taskid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+                bl = TaskBusiness.LockTask(taskid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out result);
             }
             JsonDictionary.Add("status", bl);
             return new JsonResult
@@ -916,11 +915,11 @@ namespace YXERP.Controllers
             
             if (string.IsNullOrEmpty(models.RangeID))
             {
-                string id = IntFactoryBusiness.OrdersBusiness.AddOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+                string id = IntFactoryBusiness.OrdersBusiness.AddOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
                 JsonDictionary.Add("id", id);                
             }else
-            { 
-               bool bl = IntFactoryBusiness.OrdersBusiness.UpdateOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            {
+                bool bl = IntFactoryBusiness.OrdersBusiness.UpdateOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
                 JsonDictionary.Add("id", bl?"1":"");                
             }
 

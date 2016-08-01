@@ -110,7 +110,6 @@ namespace IntFactoryEntity.Manage
         /// 根据ID获取角色
         /// </summary>
         /// <param name="roleid"></param>
-        /// <param name="agentid"></param>
         /// <returns></returns>
         public static M_Role GetRoleByIDCache(string roleid)
         {
@@ -121,7 +120,6 @@ namespace IntFactoryEntity.Manage
         /// 获取角色详情（权限明细）
         /// </summary>
         /// <param name="roleid"></param>
-        /// <param name="agentid"></param>
         /// <returns></returns>
         public static M_Role GetRoleByID(string roleid)
         {
@@ -175,7 +173,6 @@ namespace IntFactoryEntity.Manage
         /// <param name="description">描述</param>
         /// <param name="operateid">操作人</param>
         /// <param name="ip">IP</param>
-        /// <param name="agentid">代理商ID</param>
         /// <returns></returns>
         public bool UpdateRole(string roleid, string name, string description, string operateid)
         {
@@ -196,7 +193,6 @@ namespace IntFactoryEntity.Manage
         /// <param name="roleid"></param>
         /// <param name="operateid"></param>
         /// <param name="ip"></param>
-        /// <param name="agentid"></param>
         /// <param name="result">0 失败 1成功 10002 存在员工</param>
         /// <returns></returns>
         public bool DeleteRole(string roleid, string operateid, string ip, out int result)
@@ -228,7 +224,6 @@ namespace IntFactoryEntity.Manage
         /// </summary>
         /// <param name="userid"></param>
         /// <param name="roleid"></param>
-        /// <param name="agentid"></param>
         /// <param name="operateid"></param>
         /// <param name="ip"></param>
         /// <returns></returns>
@@ -237,7 +232,6 @@ namespace IntFactoryEntity.Manage
                 bool bl = SystemDAL.BaseProvider.UpdateUserRole(userid, roleid, operateid);
 
                 return bl;
-
         }
 
     }

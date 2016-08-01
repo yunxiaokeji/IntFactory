@@ -34,7 +34,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult SubmitPurchase(string wareid, string remark)
         {
-            var bl = StockBusiness.CreateStorageDoc(wareid, remark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = StockBusiness.CreateStorageDoc(wareid, remark, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -135,30 +135,8 @@ namespace YXERP.Controllers
         {
             int result = 0;
             string errinto = "";
-            bool bl = new StockBusiness().AuditStorageIn(docid, doctype, isover, details, remark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, ref result, ref errinto);
+            bool bl = new StockBusiness().AuditStorageIn(docid, doctype, isover, details, remark, CurrentUser.UserID, OperateIP,CurrentUser.ClientID, ref result, ref errinto);
             JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
-        /// 获取单据日志
-        /// </summary>
-        /// <param name="keyWords"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="totalCount"></param>
-        /// <param name="status"></param>
-        /// <returns></returns>
-        public JsonResult GetStorageDocLog(string docid, int pageIndex, int totalCount)
-        {
-            int pageCount = 0;
-            List<StorageDocAction> list = StockBusiness.GetStorageDocAction(docid, 10, pageIndex, ref totalCount, ref pageCount, CurrentUser.AgentID);
-            JsonDictionary.Add("Items", list);
-            JsonDictionary.Add("TotalCount", totalCount);
-            JsonDictionary.Add("PageCount", pageCount);
             return new JsonResult
             {
                 Data = JsonDictionary,

@@ -67,14 +67,14 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public string AddProviders(string name, string contact, string mobile, string email, string cityCode, string address, string remark, string operateid, string agentid, string clientid)
+        public string AddProviders(string name, string contact, string mobile, string email, string cityCode, string address, string remark, string operateid, string clientid)
         {
-            return dal.AddProviders(name, contact, mobile, email, cityCode, address, remark, operateid, agentid, clientid);
+            return dal.AddProviders(name, contact, mobile, email, cityCode, address, remark, operateid, clientid);
         }
 
-        public bool UpdateProvider(string providerid, string name, string contact, string mobile, string email, string cityCode, string address, string remark, string operateid, string agentid, string clientid)
+        public bool UpdateProvider(string providerid, string name, string contact, string mobile, string email, string cityCode, string address, string remark, string operateid, string clientid)
         {
-            return dal.UpdateProvider(providerid, name, contact, mobile, email, cityCode, address, remark, operateid, agentid, clientid);
+            return dal.UpdateProvider(providerid, name, contact, mobile, email, cityCode, address, remark, operateid, clientid);
         }
 
         public bool UpdateProviderStatus(string providerid, EnumStatus status, string ip, string operateid)

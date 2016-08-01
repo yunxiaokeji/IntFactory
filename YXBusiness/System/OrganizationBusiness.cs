@@ -126,21 +126,21 @@ namespace IntFactoryBusiness
 
                 model.LogGUID = Guid.NewGuid().ToString();
 
-                model.Department = GetDepartmentByID(model.DepartID, model.AgentID);
-                model.Role = GetRoleByIDCache(model.RoleID, model.AgentID);
+                model.Department = GetDepartmentByID(model.DepartID, model.ClientID);
+                model.Role = GetRoleByIDCache(model.RoleID, model.ClientID);
                 
                 //处理缓存
-                if (!Users.ContainsKey(model.AgentID))
+                if (!Users.ContainsKey(model.ClientID))
                 {
-                    GetUsers(model.AgentID);
+                    GetUsers(model.ClientID);
                 }
-                if (Users[model.AgentID].Where(u => u.UserID == model.UserID).Count() == 0)
+                if (Users[model.ClientID].Where(u => u.UserID == model.UserID).Count() == 0)
                 {
-                    Users[model.AgentID].Add(model);
+                    Users[model.ClientID].Add(model);
                 }
                 else
                 {
-                    var user = Users[model.AgentID].Where(u => u.UserID == model.UserID).FirstOrDefault();
+                    var user = Users[model.ClientID].Where(u => u.UserID == model.UserID).FirstOrDefault();
                     user.LogGUID = model.LogGUID;
                 }
 
@@ -166,11 +166,11 @@ namespace IntFactoryBusiness
             //记录登录日志
             if (model != null)
             {
-                LogBusiness.AddLoginLog(loginname, true, model.Client.AgentID == model.AgentID ? IntFactoryEnum.EnumSystemType.Client : IntFactoryEnum.EnumSystemType.Agent, operateip, model.UserID, model.AgentID, model.ClientID);
+                LogBusiness.AddLoginLog(loginname, true, IntFactoryEnum.EnumSystemType.Client, operateip, model.UserID, model.ClientID);
             }
             else
             {
-                LogBusiness.AddLoginLog(loginname, false, IntFactoryEnum.EnumSystemType.Client, operateip, "", "", "");
+                LogBusiness.AddLoginLog(loginname, false, IntFactoryEnum.EnumSystemType.Client, operateip, "", "");
             }
 
             return model;
@@ -187,21 +187,21 @@ namespace IntFactoryBusiness
 
                 model.LogGUID = Guid.NewGuid().ToString();
 
-                model.Department = GetDepartmentByID(model.DepartID, model.AgentID);
-                model.Role = GetRoleByIDCache(model.RoleID, model.AgentID);
+                model.Department = GetDepartmentByID(model.DepartID, model.ClientID);
+                model.Role = GetRoleByIDCache(model.RoleID, model.ClientID);
                 model.Client = Manage.ClientBusiness.GetClientDetail(model.ClientID);
                 //处理缓存
-                if (!Users.ContainsKey(model.AgentID))
+                if (!Users.ContainsKey(model.ClientID))
                 {
-                    GetUsers(model.AgentID);
+                    GetUsers(model.ClientID);
                 }
-                if (Users[model.AgentID].Where(u => u.UserID == model.UserID).Count() == 0)
+                if (Users[model.ClientID].Where(u => u.UserID == model.UserID).Count() == 0)
                 {
-                    Users[model.AgentID].Add(model);
+                    Users[model.ClientID].Add(model);
                 }
                 else
                 {
-                    var user = Users[model.AgentID].Where(u => u.UserID == model.UserID).FirstOrDefault();
+                    var user = Users[model.ClientID].Where(u => u.UserID == model.UserID).FirstOrDefault();
                     user.LogGUID = model.LogGUID;
                 }
 
@@ -229,23 +229,23 @@ namespace IntFactoryBusiness
             //记录登录日志
             if (model != null)
             {
-                LogBusiness.AddLoginLog(account, true, Manage.ClientBusiness.GetClientDetail(model.ClientID).AgentID == model.AgentID ? IntFactoryEnum.EnumSystemType.Client : IntFactoryEnum.EnumSystemType.Agent, operateip, model.UserID, model.AgentID, model.ClientID);
+                LogBusiness.AddLoginLog(account, true, IntFactoryEnum.EnumSystemType.Client, operateip, model.UserID, model.ClientID);
             }
             else
             {
-                LogBusiness.AddLoginLog(account, false, IntFactoryEnum.EnumSystemType.Client, operateip, "", "", "");
+                LogBusiness.AddLoginLog(account, false, IntFactoryEnum.EnumSystemType.Client, operateip, "", "");
             }
             return model;
         }
 
-        public static Users GetUserByUserID(string userid, string agentid)
+        public static Users GetUserByUserID(string userid, string clientid)
         {
-            if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(agentid))
+            if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(clientid))
             {
                 return null;
             }
             userid = userid.ToLower();
-            var list = GetUsers(agentid);
+            var list = GetUsers(clientid);
             if (list.Where(u => u.UserID == userid).Count() > 0)
             {
                 return list.Where(u => u.UserID == userid).FirstOrDefault();
@@ -258,25 +258,25 @@ namespace IntFactoryBusiness
                 {
                     model.FillData(dt.Rows[0]);
 
-                    if (agentid == model.AgentID)
+                    if (clientid == model.ClientID)
                     {
-                        model.Department = GetDepartmentByID(model.DepartID, agentid);
-                        model.Role = GetRoleByIDCache(model.RoleID, agentid);
-                        Users[agentid].Add(model);
+                        model.Department = GetDepartmentByID(model.DepartID, clientid);
+                        model.Role = GetRoleByIDCache(model.RoleID, clientid);
+                        Users[clientid].Add(model);
                     }
                 }
                 return model;
             }
         }
 
-        public static List<UserAccounts> GetUserAccountsByUserID(string userid, string agentid)
+        public static List<UserAccounts> GetUserAccountsByUserID(string userid, string clientid)
         {
-            if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(agentid))
+            if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(clientid))
             {
                 return null;
             }
 
-            DataTable dt = new OrganizationDAL().GetUserAccountsByUserID(userid, agentid);
+            DataTable dt = new OrganizationDAL().GetUserAccountsByUserID(userid, clientid);
             List <UserAccounts > list = new List<UserAccounts>();
             UserAccounts model;
             foreach (DataRow item in dt.Rows)
@@ -299,9 +299,9 @@ namespace IntFactoryBusiness
             return Convert.ToInt32(obj) > 0;
         }
 
-        public static List<Users> GetUsers(string keyWords, string departID, string roleID, string agentid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public static List<Users> GetUsers(string keyWords, string departID, string roleID, string clientid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
-            string whereSql = "AgentID='" + agentid + "' and Status<>9";
+            string whereSql = "ClientID='" + clientid + "' and Status<>9";
 
             if (!string.IsNullOrEmpty(keyWords))
                 whereSql += " and ( Name like '%" + keyWords + "%' or MobilePhone like '%" + keyWords + "%' or Email like '%" + keyWords + "%')";
@@ -320,9 +320,9 @@ namespace IntFactoryBusiness
                 model = new Users();
                 model.FillData(item);
 
-                model.CreateUser = GetUserByUserID(model.CreateUserID, model.AgentID);
-                model.Department = GetDepartmentByID(model.DepartID, model.AgentID);
-                model.Role = GetRoleByIDCache(model.RoleID, model.AgentID);
+                model.CreateUser = GetUserByUserID(model.CreateUserID, model.ClientID);
+                model.Department = GetDepartmentByID(model.DepartID, model.ClientID);
+                model.Role = GetRoleByIDCache(model.RoleID, model.ClientID);
 
                 list.Add(model);
             }
@@ -330,53 +330,53 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public static List<Users> GetUsers(string agentid)
+        public static List<Users> GetUsers(string clientid)
         {
-            if (string.IsNullOrEmpty(agentid))
+            if (string.IsNullOrEmpty(clientid))
             {
                 return new List<Users>();
             }
-            if (!Users.ContainsKey(agentid))
+            if (!Users.ContainsKey(clientid))
             {
                 List<Users> list = new List<IntFactoryEntity.Users>();
-                DataTable dt = OrganizationDAL.BaseProvider.GetUsers(agentid);
+                DataTable dt = OrganizationDAL.BaseProvider.GetUsers(clientid);
                 foreach (DataRow dr in dt.Rows)
                 {
                     Users model = new Users();
                     model.FillData(dr);
 
-                    model.Department = GetDepartmentByID(model.DepartID, agentid);
-                    model.Role = GetRoleByIDCache(model.RoleID, agentid);
+                    model.Department = GetDepartmentByID(model.DepartID, clientid);
+                    model.Role = GetRoleByIDCache(model.RoleID, clientid);
 
                     list.Add(model);
                 }
-                Users.Add(agentid, list);
+                Users.Add(clientid, list);
                 return list;
             }
-            return Users[agentid].ToList();
+            return Users[clientid].ToList();
         }
 
-        public static List<Users> GetUsersByParentID(string parentid, string agentid)
+        public static List<Users> GetUsersByParentID(string parentid, string clientid)
         {
-            var users = GetUsers(agentid).Where(m => m.ParentID == parentid && m.Status == 1).ToList();
+            var users = GetUsers(clientid).Where(m => m.ParentID == parentid && m.Status == 1).ToList();
             return users;
         }
 
-        public static List<Users> GetStructureByParentID(string parentid, string agentid)
+        public static List<Users> GetStructureByParentID(string parentid, string clientid)
         {
-            var users = GetUsersByParentID(parentid, agentid);
+            var users = GetUsersByParentID(parentid, clientid);
             foreach (var user in users)
             {
-                user.ChildUsers = GetStructureByParentID(user.UserID, agentid);
+                user.ChildUsers = GetStructureByParentID(user.UserID, clientid);
             }
             return users;
         }
 
-        public static List<Department> GetDepartments(string agentid)
+        public static List<Department> GetDepartments(string clientid)
         {
-            if (!Departments.ContainsKey(agentid))
+            if (!Departments.ContainsKey(clientid))
             {
-                DataTable dt = new OrganizationDAL().GetDepartments(agentid);
+                DataTable dt = new OrganizationDAL().GetDepartments(clientid);
                 List<Department> list = new List<Department>();
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -384,10 +384,10 @@ namespace IntFactoryBusiness
                     model.FillData(dr);
                     list.Add(model);
                 }
-                Departments.Add(agentid, list);
+                Departments.Add(clientid, list);
                 return list;
             }
-            return Departments[agentid].Where(m => m.Status == 1).ToList();
+            return Departments[clientid].Where(m => m.Status == 1).ToList();
         }
 
         public static Department GetDepartmentByID(string departid, string agendid)
@@ -395,11 +395,11 @@ namespace IntFactoryBusiness
             return GetDepartments(agendid).Where(d => d.DepartID == departid).FirstOrDefault();
         }
 
-        public static List<Role> GetRoles(string agentid)
+        public static List<Role> GetRoles(string clientid)
         {
-            if (!Roles.ContainsKey(agentid))
+            if (!Roles.ContainsKey(clientid))
             {
-                DataTable dt = new OrganizationDAL().GetRoles(agentid);
+                DataTable dt = new OrganizationDAL().GetRoles(clientid);
                 List<Role> list = new List<Role>();
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -407,21 +407,21 @@ namespace IntFactoryBusiness
                     model.FillData(dr);
                     list.Add(model);
                 }
-                Roles.Add(agentid, list);
+                Roles.Add(clientid, list);
                 return list;
             }
-            return Roles[agentid].Where(m => m.Status == 1).ToList();
+            return Roles[clientid].Where(m => m.Status == 1).ToList();
         }
 
-        public static Role GetRoleByIDCache(string roleid, string agentid)
+        public static Role GetRoleByIDCache(string roleid, string clientid)
         {
-            return GetRoles(agentid).Where(r => r.RoleID == roleid).FirstOrDefault();
+            return GetRoles(clientid).Where(r => r.RoleID == roleid).FirstOrDefault();
         }
 
-        public static Role GetRoleByID(string roleid, string agentid)
+        public static Role GetRoleByID(string roleid, string clientid)
         {
             Role model = null;
-            DataSet ds = OrganizationDAL.BaseProvider.GetRoleByID(roleid, agentid);
+            DataSet ds = OrganizationDAL.BaseProvider.GetRoleByID(roleid);
             if (ds.Tables.Contains("Role") && ds.Tables["Role"].Rows.Count > 0)
             {
                 model = new Role();
@@ -441,14 +441,14 @@ namespace IntFactoryBusiness
 
         #region 添加
 
-        public string CreateDepartment(string name, string parentid, string description, string operateid, string agentid, string clientid)
+        public string CreateDepartment(string name, string parentid, string description, string operateid, string clientid)
         {
             string departid = Guid.NewGuid().ToString();
-            bool bl = OrganizationDAL.BaseProvider.CreateDepartment(departid, name, parentid, description, operateid, agentid, clientid);
+            bool bl = OrganizationDAL.BaseProvider.CreateDepartment(departid, name, parentid, description, operateid, clientid);
             if (bl)
             {
                 //处理缓存
-                var departs = GetDepartments(agentid);
+                var departs = GetDepartments(clientid);
                 departs.Add(new Department()
                 {
                     DepartID = departid,
@@ -457,23 +457,22 @@ namespace IntFactoryBusiness
                     CreateTime = DateTime.Now,
                     CreateUserID = operateid,
                     Status = 1,
-                    AgentID = agentid,
                     ClientID = clientid
                 });
-                Departments[agentid] = departs;
+                Departments[clientid] = departs;
                 return departid;
             }
             return "";
         }
 
-        public string CreateRole(string name, string parentid, string description, string operateid, string agentid, string clientid)
+        public string CreateRole(string name, string parentid, string description, string operateid, string clientid)
         {
             string roleid = Guid.NewGuid().ToString();
-            bool bl = OrganizationDAL.BaseProvider.CreateRole(roleid, name, parentid, description, operateid, agentid, clientid);
+            bool bl = OrganizationDAL.BaseProvider.CreateRole(roleid, name, parentid, description, operateid, clientid);
             if (bl)
             {
                 //处理缓存
-                var roles = GetRoles(agentid);
+                var roles = GetRoles(clientid);
                 roles.Add(new Role()
                 {
                     RoleID = roleid,
@@ -483,17 +482,16 @@ namespace IntFactoryBusiness
                     CreateUserID = operateid,
                     Status = 1,
                     IsDefault = 0,
-                    AgentID = agentid,
                     ClientID = clientid
                 });
-                Roles[agentid] = roles;
+                Roles[clientid] = roles;
                 return roleid;
             }
             return "";
         }
 
         public static Users CreateUser(EnumAccountType accountType, string loginname, string loginpwd, string name, string mobile, string email, string citycode, string address, string jobs,
-                               string roleid, string departid, string parentid, string agentid, string clientid, string operateid, out int result)
+                               string roleid, string departid, string parentid, string clientid, string operateid, out int result)
         {
             string userid = Guid.NewGuid().ToString();
 
@@ -501,18 +499,18 @@ namespace IntFactoryBusiness
 
             Users user = null;
 
-            DataTable dt = OrganizationDAL.BaseProvider.CreateUser((int)accountType, userid, loginname, loginpwd, name, mobile, email, citycode, address, jobs, roleid, departid, parentid, agentid, clientid, operateid, out result);
+            DataTable dt = OrganizationDAL.BaseProvider.CreateUser((int)accountType, userid, loginname, loginpwd, name, mobile, email, citycode, address, jobs, roleid, departid, parentid, clientid, operateid, out result);
             if (dt.Rows.Count > 0)
             {
                 user = new Users();
                 user.FillData(dt.Rows[0]);
 
-                var cache = GetUsers(user.AgentID).Where(m => m.UserID == user.UserID).FirstOrDefault();
+                var cache = GetUsers(clientid).Where(m => m.UserID == user.UserID).FirstOrDefault();
                 if (cache == null || string.IsNullOrEmpty(cache.UserID))
                 {
-                    user.Role = GetRoleByID(user.RoleID, user.AgentID);
-                    user.Department = GetDepartmentByID(user.DepartID, user.AgentID);
-                    Users[user.AgentID].Add(user);
+                    user.Role = GetRoleByID(user.RoleID, clientid);
+                    user.Department = GetDepartmentByID(user.DepartID, clientid);
+                    Users[clientid].Add(user);
                 }
                 else 
                 {
@@ -520,7 +518,7 @@ namespace IntFactoryBusiness
                 }
 
                 //日志
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.User, EnumLogType.Create, "", operateid, user.AgentID, user.ClientID);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.User, EnumLogType.Create, "", operateid, user.ClientID);
             }
             return user;
         }
@@ -529,24 +527,18 @@ namespace IntFactoryBusiness
 
         #region 编辑/删除
 
-        public static bool UpdateUserAccount(string userid, string loginName, string loginPwd, string agentid, string clientid)
+        public static bool UpdateUserAccount(string userid, string loginName, string loginPwd, string clientid)
         {
             loginPwd = CloudSalesTool.Encrypt.GetEncryptPwd(loginPwd, loginName);
-            bool flag = OrganizationDAL.BaseProvider.UpdateUserAccount(userid, loginName, loginPwd, agentid, clientid);
+            bool flag = OrganizationDAL.BaseProvider.UpdateUserAccount(userid, loginName, loginPwd, clientid);
 
             if (flag)
             {
-                if (Users.ContainsKey(agentid))
-                {
-                    List<Users> users = Users[agentid];
-                    Users u = users.Find(m => m.UserID == userid);
-                    u.LoginName = loginName;
-                }
             }
             return flag;
         }
 
-        public static bool UpdateUserPass(string userid, string loginPwd, string agentid)
+        public static bool UpdateUserPass(string userid, string loginPwd)
         {
             loginPwd = CloudSalesTool.Encrypt.GetEncryptPwd(loginPwd, "");
             bool flag = OrganizationDAL.BaseProvider.UpdateUserPass(userid, loginPwd);
@@ -562,16 +554,16 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        public static bool UpdateUserInfo(string userid, string name, string jobs, DateTime birthday, int age, string departID, string email, string mobilePhone, string officePhone, string agentid)
+        public static bool UpdateUserInfo(string userid, string name, string jobs, DateTime birthday, int age, string departID, string email, string mobilePhone, string officePhone, string clientid)
         {
             bool flag = OrganizationDAL.BaseProvider.UpdateUserInfo(userid, name, jobs, birthday, age, departID, email, mobilePhone, officePhone);
 
            //清除缓存
            if (flag)
            {
-               if (Users.ContainsKey(agentid))
+               if (Users.ContainsKey(clientid))
                {
-                   List<Users> users = Users[agentid];
+                   List<Users> users = Users[clientid];
                    Users u = users.Find(m => m.UserID == userid);
                    u.Name = name;
                    u.Jobs = jobs;
@@ -586,16 +578,16 @@ namespace IntFactoryBusiness
            return flag;
         }
 
-        public static bool UpdateAccountAvatar(string userid, string avatar, string agentid)
+        public static bool UpdateAccountAvatar(string userid, string avatar, string clientid)
         {
             bool flag = OrganizationDAL.BaseProvider.UpdateAccountAvatar(userid, avatar);
 
             //清除缓存
             if (flag)
             {
-                if (Users.ContainsKey(agentid))
+                if (Users.ContainsKey(clientid))
                 {
-                    List<Users> users = Users[agentid];
+                    List<Users> users = Users[clientid];
                     Users u = users.Find(m => m.UserID == userid);
                     u.Avatar = avatar;
                 }
@@ -603,15 +595,15 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        public static bool UpdateAccountBindMobile(string mobile, string pwd, bool isFirst, string userid, string agentid, string clientid)
+        public static bool UpdateAccountBindMobile(string mobile, string pwd, bool isFirst, string userid, string clientid)
         {
             string loginpwd = CloudSalesTool.Encrypt.GetEncryptPwd(pwd, pwd);
-            bool flag = OrganizationDAL.BaseProvider.AccountBindMobile(userid, mobile, isFirst, loginpwd, agentid, clientid);
+            bool flag = OrganizationDAL.BaseProvider.AccountBindMobile(userid, mobile, isFirst, loginpwd, clientid);
 
             //清除缓存
             if (flag)
             {
-                Users u = OrganizationBusiness.GetUserByUserID(userid, agentid);
+                Users u = OrganizationBusiness.GetUserByUserID(userid, clientid);
                 u.MobilePhone = mobile;
 
                 if (isFirst)
@@ -625,9 +617,9 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        public static bool BindOtherAccount(EnumAccountType accountType, string userid, string account, string agentid, string clientid)
+        public static bool BindOtherAccount(EnumAccountType accountType, string userid, string account, string clientid)
         {
-            bool flag = OrganizationDAL.BaseProvider.BindOtherAccount((int)accountType, userid, account, agentid, clientid);
+            bool flag = OrganizationDAL.BaseProvider.BindOtherAccount((int)accountType, userid, account, clientid);
 
             //清除缓存
             if (flag)
@@ -641,9 +633,9 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        public static bool UnBindOtherAccount(EnumAccountType accountType, string userid, string account, string agentid, string clientid)
+        public static bool UnBindOtherAccount(EnumAccountType accountType, string userid, string account, string clientid)
         {
-            bool flag = OrganizationDAL.BaseProvider.UnBindOtherAccount((int)accountType, userid, account, agentid, clientid);
+            bool flag = OrganizationDAL.BaseProvider.UnBindOtherAccount((int)accountType, userid, account, clientid);
 
             //清除缓存
             if (flag)
@@ -652,28 +644,28 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        public static bool ClearAccountBindMobile(string userid, string agentid)
+        public static bool ClearAccountBindMobile(string userid)
         {
             bool flag = OrganizationDAL.BaseProvider.ClearAccountBindMobile(userid);
 
             return flag;
         }
 
-        public bool UpdateDepartment(string departid, string name, string description, string operateid, string operateip, string agentid)
+        public bool UpdateDepartment(string departid, string name, string description, string operateid, string operateip, string clientid)
         {
             var dal = new OrganizationDAL();
-            bool bl = dal.UpdateDepartment(departid, name, description, agentid);
+            bool bl = dal.UpdateDepartment(departid, name, description);
             if (bl)
             {
                 //处理缓存
-                var model = GetDepartments(agentid).Where(d => d.DepartID == departid).FirstOrDefault();
+                var model = GetDepartments(clientid).Where(d => d.DepartID == departid).FirstOrDefault();
                 model.Name = name;
                 model.Description = description;
             }
             return bl;
         }
 
-        public EnumResultStatus UpdateDepartmentStatus(string departid, EnumStatus status, string operateid, string operateip, string agentid)
+        public EnumResultStatus UpdateDepartmentStatus(string departid, EnumStatus status, string operateid, string operateip, string clientid)
         {
             if (status == EnumStatus.Delete)
             {
@@ -683,9 +675,9 @@ namespace IntFactoryBusiness
                     return EnumResultStatus.Exists;
                 }
             }
-            if (CommonBusiness.Update("Department", "Status", (int)status, "DepartID='" + departid + "' and AgentID='" + agentid + "'"))
+            if (CommonBusiness.Update("Department", "Status", (int)status, "DepartID='" + departid + "'"))
             {
-                var model = GetDepartments(agentid).Where(d => d.DepartID == departid).FirstOrDefault();
+                var model = GetDepartments(clientid).Where(d => d.DepartID == departid).FirstOrDefault();
                 model.Status = (int)status;
                 return EnumResultStatus.Success;
             }
@@ -695,25 +687,25 @@ namespace IntFactoryBusiness
             }
         }
 
-        public bool UpdateRole(string roleid, string name, string description, string operateid, string ip, string agentid)
+        public bool UpdateRole(string roleid, string name, string description, string operateid, string ip, string clientid)
         {
-            bool bl = OrganizationDAL.BaseProvider.UpdateRole(roleid, name, description, agentid);
+            bool bl = OrganizationDAL.BaseProvider.UpdateRole(roleid, name, description);
             if (bl)
             {
                 //处理缓存
-                var model = GetRoles(agentid).Where(d => d.RoleID == roleid).FirstOrDefault();
+                var model = GetRoles(clientid).Where(d => d.RoleID == roleid).FirstOrDefault();
                 model.Name = name;
                 model.Description = description;
             }
             return bl;
         }
 
-        public bool DeleteRole(string roleid, string operateid, string ip, string agentid, out int result)
+        public bool DeleteRole(string roleid, string operateid, string ip, string clientid, out int result)
         {
-            bool bl = OrganizationDAL.BaseProvider.DeleteRole(roleid, agentid, out result);
+            bool bl = OrganizationDAL.BaseProvider.DeleteRole(roleid, out result);
             if (bl)
             {
-                var model = GetRoles(agentid).Where(d => d.RoleID == roleid).FirstOrDefault();
+                var model = GetRoles(clientid).Where(d => d.RoleID == roleid).FirstOrDefault();
                 model.Status = 9;
             }
             return bl;
@@ -724,30 +716,30 @@ namespace IntFactoryBusiness
             return OrganizationDAL.BaseProvider.UpdateRolePermission(roleid, permissions, operateid);
         }
 
-        public bool UpdateUserParentID(string userid, string parentid, string agentid, string operateid, string ip)
+        public bool UpdateUserParentID(string userid, string parentid, string clientid, string operateid, string ip)
         {
-            bool bl = OrganizationDAL.BaseProvider.UpdateUserParentID(userid, parentid, agentid);
+            bool bl = OrganizationDAL.BaseProvider.UpdateUserParentID(userid, parentid, clientid);
             if (bl)
             {
-                var user = GetUserByUserID(userid, agentid);
+                var user = GetUserByUserID(userid, clientid);
                 user.ParentID = parentid;
             }
             return bl;
         }
 
-        public bool ChangeUsersParentID(string userid, string olduserid, string agentid, string operateid, string ip)
+        public bool ChangeUsersParentID(string userid, string olduserid, string clientid, string operateid, string ip)
         {
-            bool bl = OrganizationDAL.BaseProvider.ChangeUsersParentID(userid, olduserid, agentid);
+            bool bl = OrganizationDAL.BaseProvider.ChangeUsersParentID(userid, olduserid, clientid);
             if (bl)
             {
                 //新员工
-                var user = GetUserByUserID(userid, agentid);
+                var user = GetUserByUserID(userid, clientid);
                 //被替换员工
-                var oldUser = GetUserByUserID(olduserid, agentid);
+                var oldUser = GetUserByUserID(olduserid, clientid);
 
                 user.ParentID = oldUser.ParentID;
                 oldUser.ParentID = "";
-                var list = GetUsersByParentID(olduserid, agentid);
+                var list = GetUsersByParentID(olduserid, clientid);
                 foreach (var model in list)
                 {
                     model.ParentID = userid;
@@ -757,16 +749,16 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool DeleteUserByID(string userid, string agentid, string operateid, string ip, out int result)
+        public bool DeleteUserByID(string userid, string clientid, string operateid, string ip, out int result)
         {
-            bool bl = OrganizationDAL.BaseProvider.DeleteUserByID(userid, agentid, out result);
+            bool bl = OrganizationDAL.BaseProvider.DeleteUserByID(userid, clientid, out result);
             if (bl)
             {
-                var user = GetUserByUserID(userid, agentid);
+                var user = GetUserByUserID(userid, clientid);
                 user.Status = 9;
                 user.ParentID = "";
 
-                var list = GetUsersByParentID(userid, agentid);
+                var list = GetUsersByParentID(userid, clientid);
                 foreach (var model in list)
                 {
                     model.ParentID = "";
@@ -776,16 +768,16 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateUserRole(string userid, string roleid, string agentid, string operateid, string ip)
+        public bool UpdateUserRole(string userid, string roleid, string clientid, string operateid, string ip)
         {
-            var user = GetUserByUserID(userid, agentid);
+            var user = GetUserByUserID(userid, clientid);
             if (user.RoleID.ToLower() != roleid.ToLower())
             {
-                bool bl = OrganizationDAL.BaseProvider.UpdateUserRole(userid, roleid, agentid, operateid);
+                bool bl = OrganizationDAL.BaseProvider.UpdateUserRole(userid, roleid, clientid, operateid);
                 if (bl)
                 {
                     user.RoleID = roleid;
-                    user.Role = GetRoleByID(roleid, agentid);
+                    user.Role = GetRoleByID(roleid, clientid);
                 }
                 return bl;
             }

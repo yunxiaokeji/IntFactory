@@ -48,10 +48,7 @@ namespace IntFactoryBusiness.Manage
 
         #region 查询
 
-        /// <summary>
-        /// 获取客户端列表
-        /// </summary>
-        public static List<Clients> GetClients(string keyWords,int type, string orderBy,int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public static List<Clients> GetClients(string keyWords, int type, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             string sqlWhere = "a.Status<>9";
             if (!string.IsNullOrEmpty(keyWords))
@@ -69,20 +66,17 @@ namespace IntFactoryBusiness.Manage
                     sqlWhere += " and len(a.AliMemberID)>0 ";
                 }
             }
-            string sqlColumn = @" a.AutoID,a.ClientID,a.ClientCode,a.CompanyName,a.Logo,a.Industry,
-                                a.CityCode,a.Address,a.PostalCode,a.ContactName,a.MobilePhone,a.OfficePhone,
-                                a.Status,b.EndTime,b.UserQuantity,a.TotalIn,a.TotalOut,a.FreezeMoney,
-                                a.Description,a.AuthorizeType,a.IsDefault,a.AgentID,a.CreateTime,a.CreateUserID,a.AliMemberID ";
+            string sqlColumn = @" a.* ";
             bool isAsc=false;
             if (string.IsNullOrEmpty(orderBy))
             {
                 orderBy = "a.AutoID";
             }
-            else { 
-                isAsc=orderBy.IndexOf(" asc")>-1?true:false; 
+            else {
+                isAsc = orderBy.IndexOf(" asc") > -1 ? true : false; 
                 orderBy = orderBy.Replace(" desc", "").Replace(" asc", "");
             }
-            DataTable dt = CommonBusiness.GetPagerData("Clients a  join Agents b on a.ClientID=b.ClientID", sqlColumn, sqlWhere, orderBy, pageSize, pageIndex, out totalCount, out pageCount, isAsc);
+            DataTable dt = CommonBusiness.GetPagerData("Clients a", sqlColumn, sqlWhere, orderBy, pageSize, pageIndex, out totalCount, out pageCount, isAsc);
             List<Clients> list = new List<Clients>();
             Clients model; 
             foreach (DataRow item in dt.Rows)
@@ -98,9 +92,6 @@ namespace IntFactoryBusiness.Manage
             return list;
         }
 
-        /// <summary>
-        /// 获取客户端详情
-        /// </summary>
         public static Clients GetClientDetail(string clientid)
         {
             if (!Clients.ContainsKey(clientid))
@@ -129,7 +120,6 @@ namespace IntFactoryBusiness.Manage
                 model.FillData(row);
 
                 model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
-                //model.IndustryEntity = Manage.IndustryBusiness.GetIndustrys().Where(i => i.IndustryID.ToLower() == model.Industry.ToLower()).FirstOrDefault();
 
                 return model;
             }
@@ -138,9 +128,7 @@ namespace IntFactoryBusiness.Manage
                 return null;
             }
         }
-        /// <summary>
-        /// 获取工厂注册报表
-        /// </summary>
+
         public static List<ClientsDateEntity> GetClientsGrow(int type, string begintime, string endtime)
         {
             List<ClientsDateEntity> list = new List<ClientsDateEntity>();
@@ -155,9 +143,7 @@ namespace IntFactoryBusiness.Manage
             }
             return list;
         }
-        /// <summary>
-        /// 获取工厂登陆报表
-        /// </summary>
+
         public static List<ClientsBaseEntity> GetClientsLoginReport(int type, string begintime, string endtime)
         {
             List<ClientsBaseEntity> list = new List<ClientsBaseEntity>();
@@ -185,9 +171,7 @@ namespace IntFactoryBusiness.Manage
             }
             return list;
         }
-        /// <summary>
-        /// 获取工厂行为报表
-        /// </summary>
+
         public static List<ClientsBaseEntity> GetClientsAgentActionReport(int type, string begintime, string endtime, string clientId)
         {
             List<ClientsBaseEntity> list = new List<ClientsBaseEntity>();
@@ -219,6 +203,7 @@ namespace IntFactoryBusiness.Manage
             }
             return list;
         }
+
         private static string GetCloumnName(string cloumnName)
         {
             switch (cloumnName) {
@@ -250,9 +235,7 @@ namespace IntFactoryBusiness.Manage
                     return "";
             }
         }
-        /// <summary>
-        /// 获取工厂活跃度报表
-        /// </summary>
+
         public static List<ClientVitalityEntity> GetClientsVitalityReport(int type, string begintime, string endtime, string clientId)
         {
             List<ClientVitalityEntity> list = new List<ClientVitalityEntity>();
@@ -286,9 +269,6 @@ namespace IntFactoryBusiness.Manage
             return list;
         }
 
-        /// <summary>
-        /// 获取客户端授权日志
-        /// </summary>
         public static List<ClientAuthorizeLog> GetClientAuthorizeLogs(string clientID,string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             string sqlWhere =" Status<>9 and ClientID='" + clientID+"' ";
@@ -308,12 +288,6 @@ namespace IntFactoryBusiness.Manage
         #endregion
 
         #region 添加
-        /// <summary>
-        /// 更新客户缓存
-        /// </summary>
-        /// <param name="clientID"></param>
-        /// <param name="client"></param>
-        /// <returns></returns>
         public static bool UpdateClientCache(string clientid,Clients client) {
             if (Clients.ContainsKey(clientid)) 
             {
@@ -323,26 +297,6 @@ namespace IntFactoryBusiness.Manage
             return true;
         }
 
-
-        /// <summary>
-        /// 注册智能工厂
-        /// </summary>
-        /// <param name="registerType">来源类型</param>
-        /// <param name="accountType">账号类型</param>
-        /// <param name="account">账号</param>
-        /// <param name="loginPwd">密码</param>
-        /// <param name="clientName">客户名称</param>
-        /// <param name="contactName">联系人</param>
-        /// <param name="mobile">联系方式</param>
-        /// <param name="email">邮箱</param>
-        /// <param name="industry">行业</param>
-        /// <param name="citycode">城市</param>
-        /// <param name="address">地址</param>
-        /// <param name="remark">备注</param>
-        /// <param name="companyid">第三方公司ID</param>
-        /// <param name="operateid">操作人</param>
-        /// <param name="result">返回结果 0失败 1成功 2账号已存在</param>
-        /// <returns>客户端ID</returns>
         public static string InsertClient(EnumRegisterType registerType, EnumAccountType accountType, string account, string loginPwd, string clientName, string contactName, string mobile, string email, string industry, string citycode, string address, string remark,
                                           string companyid, string operateid, out int result, out string userid)
         {
@@ -353,17 +307,21 @@ namespace IntFactoryBusiness.Manage
             return clientid;
         }
 
+        public static bool AddClientUserQuantity(string clientid, int quantity)
+        {
+            return ClientDAL.BaseProvider.AddClientUserQuantity(clientid, quantity);
+        }
 
-        /// <summary>
-        /// 添加客户授权日志
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        public static bool SetClientEndTime(string clientid, DateTime endTime)
+        {
+            return ClientDAL.BaseProvider.SetClientEndTime(clientid, endTime);
+        }
+
         public static bool InsertClientAuthorizeLog(ClientAuthorizeLog model)
         {
-            return ClientDAL.BaseProvider.InsertClientAuthorizeLog(model.ClientID,model.AgentID,model.OrderID,
-                model.UserQuantity, model.BeginTime, model.EndTime, model.Type);
+            return ClientDAL.BaseProvider.InsertClientAuthorizeLog(model.ClientID, model.OrderID, model.UserQuantity, model.BeginTime, model.EndTime, model.Type);
         }
+
         #endregion
 
         #region 删
@@ -430,7 +388,7 @@ namespace IntFactoryBusiness.Manage
 
         }
 
-        public static void UpdatetClientCache(string clientID)
+        public static void UpdateClientCache(string clientID)
         {
             if (Clients.ContainsKey(clientID))
             {

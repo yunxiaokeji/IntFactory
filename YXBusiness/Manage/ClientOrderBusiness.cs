@@ -26,7 +26,7 @@ namespace IntFactoryBusiness.Manage
 
             try
             {
-                bool bl = ClientOrderDAL.BaseProvider.AddClientOrder(orderID, model.UserQuantity, model.Years, model.Amount, model.RealAmount,model.Type, model.AgentID, model.ClientID, model.CreateUserID,model.PayType,model.SystemType, model.SourceType,tran);
+                bool bl = ClientOrderDAL.BaseProvider.AddClientOrder(orderID, model.UserQuantity, model.Years, model.Amount, model.RealAmount,model.Type, model.ClientID, model.CreateUserID,model.PayType,model.SystemType, model.SourceType,tran);
                 if (bl)
                 {
                     //单据明细
@@ -89,7 +89,7 @@ namespace IntFactoryBusiness.Manage
             {
                 DataRow row = dt.Rows[0];
                 model.FillData(row);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
                 if (string.IsNullOrEmpty(model.CreateUser.Name))
                 {
                     M_Users mUser = M_UsersBusiness.GetUserDetail(model.CreateUserID);
@@ -100,7 +100,7 @@ namespace IntFactoryBusiness.Manage
                 }
                 if (!string.IsNullOrEmpty(model.CheckUserID))
                 {
-                    model.CheckUser = OrganizationBusiness.GetUserByUserID(model.CheckUserID, model.AgentID);
+                    model.CheckUser = OrganizationBusiness.GetUserByUserID(model.CheckUserID, model.ClientID);
                     if (string.IsNullOrEmpty(model.CheckUser.Name))
                     {
                         M_Users mUser = M_UsersBusiness.GetUserDetail(model.CheckUserID);
@@ -115,16 +115,14 @@ namespace IntFactoryBusiness.Manage
             return model;
         }
 
-        public static List<ClientOrder> GetClientOrders(int status, int type, string beginDate, string endDate, string agentID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public static List<ClientOrder> GetClientOrders(int status, int type, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
-            //DataTable dt = ClientOrderDAL.BaseProvider.GetClientOrders(status,type, beginDate, endDate, agentID, clientID, pageSize,pageIndex,ref totalCount,ref pageCount);
-
-            List<ClientOrder> list = GetBase("",status, type, beginDate, endDate, agentID, clientID,0, pageSize, pageIndex, ref totalCount, ref pageCount);
+            List<ClientOrder> list = GetBase("",status, type, beginDate, endDate, clientID,0, pageSize, pageIndex, ref totalCount, ref pageCount);
             return list;
         }
-        public static List<ClientOrder> GetBase(string keyWords, int status, int type, string beginDate, string endDate, string agentID, string clientID, int userType, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public static List<ClientOrder> GetBase(string keyWords, int status, int type, string beginDate, string endDate, string clientID, int userType, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
-            DataTable dt = ClientOrderDAL.BaseProvider.GetClientOrders(keyWords,status, type, beginDate, endDate, agentID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            DataTable dt = ClientOrderDAL.BaseProvider.GetClientOrders(keyWords,status, type, beginDate, endDate,clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
             List<ClientOrder> list = new List<ClientOrder>();
             if (dt.Rows.Count > 0)
             {
@@ -134,7 +132,7 @@ namespace IntFactoryBusiness.Manage
                     model.FillData(row);
                     if (!string.IsNullOrEmpty(model.CheckUserID))
                     {
-                        model.CheckUser = OrganizationBusiness.GetUserByUserID(model.CheckUserID, model.AgentID);
+                        model.CheckUser = OrganizationBusiness.GetUserByUserID(model.CheckUserID, model.ClientID);
                         if (string.IsNullOrEmpty(model.CheckUser.Name))
                         {
                             M_Users mUser = M_UsersBusiness.GetUserDetail(model.CheckUserID);
@@ -143,7 +141,7 @@ namespace IntFactoryBusiness.Manage
                             }
                         }                        
                     }
-                    model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                    model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
                     if (string.IsNullOrEmpty(model.CreateUser.Name))
                     {
                         M_Users mUser = M_UsersBusiness.GetUserDetail(model.CreateUserID);

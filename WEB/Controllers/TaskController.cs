@@ -28,7 +28,7 @@ namespace YXERP.Controllers
             string error;
 
             AliOrderBusiness.DownFentOrders(DateTime.Now.AddMonths(-1), DateTime.Now.AddDays(1), token, refreshToken,
-                CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID,
+                CurrentUser.UserID, CurrentUser.ClientID,
                 ref successCount, ref total, out  error, AlibabaSdk.AliOrderDownType.Hand);
 
             JsonDictionary.Add("result", successCount);
@@ -64,11 +64,11 @@ namespace YXERP.Controllers
                 //下载阿里打样订单
                 var gmtFentEnd = DateTime.Now;
                 bool flag = AliOrderBusiness.DownFentOrders(item.FentSuccessEndTime, gmtFentEnd, item.Token, item.RefreshToken,
-                    item.UserID, item.AgentID, item.ClientID, ref successCount, ref total, out error);
+                    item.UserID, item.ClientID, ref successCount, ref total, out error);
 
                 //新增阿里打样订单下载日志
                 AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.FentSuccessEndTime, gmtFentEnd,
-                    successCount, total, item.AgentID, item.ClientID, error);
+                    successCount, total, item.ClientID, error);
 
                 //添加服务日志
                 string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 下载打样订单结果:" + (flag ? "成功" : "失败");
@@ -80,11 +80,11 @@ namespace YXERP.Controllers
                 //下载阿里大货订单列表
                 var gmtBulkEnd = DateTime.Now;
                 flag = AliOrderBusiness.DownBulkOrders(item.BulkSuccessEndTime, gmtBulkEnd, item.Token, item.RefreshToken,
-                    item.UserID, item.AgentID, item.ClientID, ref successCount, ref total, out error);
+                    item.UserID, item.ClientID, ref successCount, ref total, out error);
 
                 //新增阿里大货订单下载日志
                 AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.BulkSuccessEndTime, gmtBulkEnd,
-                    successCount, total, item.AgentID, item.ClientID, error);
+                    successCount, total, item.ClientID, error);
 
                 //添加服务日志
                 state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 下载大货订单结果:" + (flag ? "成功" : "失败");
@@ -165,7 +165,7 @@ namespace YXERP.Controllers
             taskModel.Task = task;
 
             //任务对应的订单详情
-            var order = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(task.OrderID, CurrentUser.AgentID, CurrentUser.ClientID);
+            var order = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(task.OrderID, CurrentUser.ClientID);
 
             if (order.Details == null){
                 order.Details = new List<IntFactoryEntity.OrderDetail>();
@@ -355,8 +355,8 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = LogBusiness.GetLogs(id, EnumLogObjectType.OrderTask, PageSize, pageindex, 
-                ref totalCount, ref pageCount, CurrentUser.AgentID);
+            var list = LogBusiness.GetLogs(id, EnumLogObjectType.OrderTask, PageSize, pageindex,
+                ref totalCount, ref pageCount, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -400,7 +400,7 @@ namespace YXERP.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             ReplyEntity model = serializer.Deserialize<ReplyEntity>(entity);
             model.Attachments = serializer.Deserialize<List<IntFactoryEntity.Attachment>>(attchmentEntity);
-            string replyID = OrdersBusiness.CreateReply(model.GUID, model.StageID, model.Mark, model.Content, CurrentUser.UserID, CurrentUser.AgentID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
+            string replyID = OrdersBusiness.CreateReply(model.GUID, model.StageID, model.Mark, model.Content, CurrentUser.UserID, CurrentUser.ClientID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
 
             if (model.Attachments.Count > 0)
             {
@@ -413,7 +413,6 @@ namespace YXERP.Controllers
                 model.CreateTime = DateTime.Now;
                 model.CreateUser = CurrentUser;
                 model.CreateUserID = CurrentUser.UserID;
-                model.AgentID = CurrentUser.AgentID;
                 if (!string.IsNullOrEmpty(model.FromReplyUserID) && !string.IsNullOrEmpty(model.FromReplyAgentID))
                 {
                     model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
@@ -436,7 +435,7 @@ namespace YXERP.Controllers
             DateTime? endDate = null;
             if (!string.IsNullOrEmpty(endTime)) endDate = DateTime.Parse(endTime);
             TaskBusiness.UpdateTaskEndTime(id, endDate, CurrentUser.UserID, 
-                Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID, out result);
+                Common.Common.GetRequestIP(), CurrentUser.ClientID, out result);
             JsonDictionary.Add("result", result);
 
             return new JsonResult
@@ -450,7 +449,7 @@ namespace YXERP.Controllers
         public JsonResult FinishTask(string id)
         {
             int result = 0;
-            TaskBusiness.FinishTask(id, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID,out result);
+            TaskBusiness.FinishTask(id, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID,out result);
             JsonDictionary.Add("result", result);
 
             return new JsonResult
@@ -464,7 +463,7 @@ namespace YXERP.Controllers
         public JsonResult AddTaskMembers(string id, string memberIDs)
         {
             int result = 0;
-            bool flag= TaskBusiness.AddTaskMembers(id,memberIDs, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID,out result);
+            bool flag= TaskBusiness.AddTaskMembers(id,memberIDs, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID,out result);
             JsonDictionary.Add("result", flag?1:0);
 
             return new JsonResult
@@ -477,7 +476,7 @@ namespace YXERP.Controllers
         //移除任务成员
         public JsonResult RemoveTaskMember(string id, string memberID)
         {
-            bool flag = TaskBusiness.RemoveTaskMember(id, memberID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.AgentID, CurrentUser.ClientID);
+            bool flag = TaskBusiness.RemoveTaskMember(id, memberID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID);
             JsonDictionary.Add("result", flag ? 1 : 0);
 
             return new JsonResult
@@ -491,7 +490,7 @@ namespace YXERP.Controllers
         public JsonResult UpdateTaskOwner(string taskid, string userid)
         {
             int result = 0;
-            bool bl = TaskBusiness.UpdateTaskOwner(taskid, userid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            bool bl = TaskBusiness.UpdateTaskOwner(taskid, userid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out result);
             JsonDictionary.Add("result", bl);
 
             return new JsonResult
@@ -504,8 +503,7 @@ namespace YXERP.Controllers
         //设置任务成员权限
         public JsonResult UpdateMemberPermission(string taskID, string memberID, int type)
         {
-            bool flag = IntFactoryBusiness.TaskBusiness.UpdateMemberPermission(taskID, memberID, (TaskMemberPermissionType)type,
-                                                                               CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            bool flag = IntFactoryBusiness.TaskBusiness.UpdateMemberPermission(taskID, memberID, (TaskMemberPermissionType)type, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("result", flag ? 1 : 0);
 
             return new JsonResult
@@ -520,7 +518,7 @@ namespace YXERP.Controllers
         {
             int result;
 
-            TaskBusiness.LockTask(taskID, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID, out result);
+            TaskBusiness.LockTask(taskID, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out result);
 
             JsonDictionary.Add("result", result);
 
@@ -539,7 +537,7 @@ namespace YXERP.Controllers
             string[] list = ids.Split(',');
             foreach (var id in list)
             {
-                if (!string.IsNullOrEmpty(id) && TaskBusiness.UpdateTaskColorMark(id, mark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID))
+                if (!string.IsNullOrEmpty(id) && TaskBusiness.UpdateTaskColorMark(id, mark, CurrentUser.UserID, OperateIP, CurrentUser.ClientID))
                 {
                     bl = true;
                 }
@@ -559,7 +557,7 @@ namespace YXERP.Controllers
         {
             int result = 0;
             result = OrdersBusiness.BaseBusiness.UpdateOrderPlateAttr(orderID, taskID, platehtml, 
-                CurrentUser.UserID, string.Empty, CurrentUser.AgentID, CurrentUser.ClientID) ? 1 : 0;
+                CurrentUser.UserID, string.Empty, CurrentUser.ClientID) ? 1 : 0;
             JsonDictionary.Add("result", result);
 
             return new JsonResult
@@ -578,15 +576,12 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.PlateID))
             {
-                model.AgentID = CurrentUser.AgentID;
                 model.CreateUserID = CurrentUser.UserID;
-                flag= IntFactoryBusiness.TaskBusiness.AddPlateMaking(model,
-                    CurrentUser.UserID,string.Empty,CurrentUser.AgentID,CurrentUser.ClientID);
+                flag = IntFactoryBusiness.TaskBusiness.AddPlateMaking(model, CurrentUser.UserID, string.Empty, CurrentUser.ClientID);
             }
             else
             {
-                flag = IntFactoryBusiness.TaskBusiness.UpdatePlateMaking(model,
-                    CurrentUser.UserID, string.Empty, CurrentUser.AgentID, CurrentUser.ClientID);
+                flag = IntFactoryBusiness.TaskBusiness.UpdatePlateMaking(model, CurrentUser.UserID, string.Empty,  CurrentUser.ClientID);
             }
             JsonDictionary.Add("result", flag ? 1 : 0);
 
@@ -600,8 +595,7 @@ namespace YXERP.Controllers
         //删除工艺说明
         public JsonResult DeletePlateMaking(string plateID,string taskID,string title)
         {
-            bool flag = IntFactoryBusiness.TaskBusiness.DeletePlateMaking(plateID,taskID,title,
-                CurrentUser.UserID,string.Empty,CurrentUser.AgentID,CurrentUser.ClientID);
+            bool flag = IntFactoryBusiness.TaskBusiness.DeletePlateMaking(plateID, taskID, title, CurrentUser.UserID, string.Empty, CurrentUser.ClientID);
 
             JsonDictionary.Add("result", flag ? 1 : 0);
             return new JsonResult
@@ -615,7 +609,7 @@ namespace YXERP.Controllers
         //删除加工成本
         public JsonResult DeleteOrderCost(string orderid, string autoid)
         {
-            var bl = OrdersBusiness.BaseBusiness.DeleteOrderCost(orderid, autoid, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.DeleteOrderCost(orderid, autoid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
 
             return new JsonResult
@@ -628,7 +622,7 @@ namespace YXERP.Controllers
         //新增加工成本
         public JsonResult CreateOrderCutOutDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark, string taskid = "")
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {
@@ -640,7 +634,7 @@ namespace YXERP.Controllers
         //新增加工成本
         public JsonResult CreateOrderCost(string orderid, decimal price, string remark)
         {
-            var bl = OrdersBusiness.BaseBusiness.CreateOrderCost(orderid, price, remark, CurrentUser.UserID, OperateIP, CurrentUser.AgentID, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.CreateOrderCost(orderid, price, remark, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -652,7 +646,7 @@ namespace YXERP.Controllers
         //添加车缝录入、裁剪录入
         public JsonResult CreateOrderSewnDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {
@@ -664,7 +658,7 @@ namespace YXERP.Controllers
         //添加大货订单发货、打样订单发货
         public JsonResult CreateOrderSendDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {

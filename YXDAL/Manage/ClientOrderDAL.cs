@@ -15,7 +15,7 @@ namespace IntFactoryDAL.Manage
 
         #region 添加
 
-        public  bool AddClientOrder(string orderID, int userQuantity, int years, decimal amount, decimal realAmount,int type, string agentID, string clientiD, string createUserID,int payType,int systemType,int sourceType, SqlTransaction tran)
+        public  bool AddClientOrder(string orderID, int userQuantity, int years, decimal amount, decimal realAmount,int type, string clientiD, string createUserID,int payType,int systemType,int sourceType, SqlTransaction tran)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderID),
@@ -23,8 +23,7 @@ namespace IntFactoryDAL.Manage
                                      new SqlParameter("@Years" , years),
                                      new SqlParameter("@Amount" , amount),
                                      new SqlParameter("@RealAmount" ,realAmount),
-                                      new SqlParameter("@Type" , type),
-                                     new SqlParameter("@AgentID" , agentID),
+                                     new SqlParameter("@Type" , type),
                                      new SqlParameter("@ClientiD" , clientiD),
                                      new SqlParameter("@CreateUserID" , createUserID),
                                      new SqlParameter("@PayType" , payType),
@@ -74,7 +73,7 @@ namespace IntFactoryDAL.Manage
 
             return GetDataTable(cmdText, paras, CommandType.Text);
         }
-        public DataTable GetClientOrders(string keyWords, int status, int type, string beginDate, string endDate, string agentID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public DataTable GetClientOrders(string keyWords, int status, int type, string beginDate, string endDate, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
                                     new SqlParameter("@totalCount",SqlDbType.Int),
@@ -84,7 +83,6 @@ namespace IntFactoryDAL.Manage
                                      new SqlParameter("@Type",type),
                                      new SqlParameter("@BeginDate",beginDate),
                                      new SqlParameter("@EndDate",endDate),
-                                     new SqlParameter("@AgentID",agentID),
                                      new SqlParameter("@ClientID",clientID),                                   
                                     new SqlParameter("@pageSize",pageSize),
                                     new SqlParameter("@pageIndex",pageIndex)

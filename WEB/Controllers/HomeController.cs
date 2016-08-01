@@ -33,12 +33,12 @@ namespace YXERP.Controllers
                     return Redirect("/Default/Index");
                 }
 
-                var agent = IntFactoryBusiness.AgentsBusiness.GetAgentDetail(currentUser.AgentID);
-                ViewBag.RemainDay = Math.Ceiling((agent.EndTime - DateTime.Now).TotalDays);
-                ViewBag.RemainDate = agent.EndTime.Date.ToString("yyyy-MM-dd");
+                var client = ClientBusiness.GetClientDetail(currentUser.ClientID);
+                ViewBag.RemainDay = Math.Ceiling((client.EndTime - DateTime.Now).TotalDays);
+                ViewBag.RemainDate = client.EndTime.Date.ToString("yyyy-MM-dd");
 
-                ViewBag.BuyPeople = agent.UserQuantity;
-                ViewBag.UsePeople = OrganizationBusiness.GetUsers(agent.AgentID).FindAll(m=>m.Status!=9).Count;
+                ViewBag.BuyPeople = client.UserQuantity;
+                ViewBag.UsePeople = OrganizationBusiness.GetUsers(client.ClientID).FindAll(m => m.Status != 9).Count;
 
                 if (currentUser.Role != null)
                 {
@@ -121,8 +121,8 @@ namespace YXERP.Controllers
             if (Session["ClientManager"] != null)
             {
                 var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-                var agent = IntFactoryBusiness.AgentsBusiness.GetAgentDetail(currentUser.AgentID);
-                ViewBag.EndTime = agent.EndTime.ToString("yyyy-MM-dd");
+                var client = ClientBusiness.GetClientDetail(currentUser.ClientID);
+                ViewBag.EndTime = client.EndTime.ToString("yyyy-MM-dd");
             }
 
             return View();
@@ -157,148 +157,6 @@ namespace YXERP.Controllers
             ViewBag.Model = model;
             ViewBag.Order = order;
             return View();
-        }
-
-        public JsonResult GetAgentActionData()
-        {
-            int customercount = 0, ordercount = 0;
-            decimal totalmoney = 0;
-            IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-            var model = LogBusiness.BaseBusiness.GetClientActions(CurrentUser.ClientID, ref customercount, ref ordercount, ref totalmoney);
-
-            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            JsonDictionary.Add("model", model);
-
-            int myNeedOrders = 0;
-            int cooperationNeedOrders = 0;
-            int delegateNeedOrders = 0;
-
-            int myFentOrder = 0;
-            int doMyFentOrder = 0;
-            int cooperationFentOrders = 0;
-            int doCooperationFentOrders = 0;
-            int delegateFentOrders = 0;
-            int doDelegateFentOrders = 0;
-
-            int myBulkOrder = 0;
-            int doMyBulkOrder = 0;
-            int cooperationBulkOrders = 0;
-            int doCooperationBulkOrders = 0;
-            int delegateBulkOrders = 0;
-            int doDelegateBulkOrders = 0;
-            foreach (var action in model.Actions) {
-                if (action.OrderType == 1)
-                {
-                    if (action.Status == 0)
-                    {
-                        if (action.ObjectType == 6)
-                        {
-                            myNeedOrders += action.OrderCount;
-                        }
-                        else if (action.ObjectType == 5)
-                        {
-                            cooperationNeedOrders += action.OrderCount;
-                        }
-                        else if (action.ObjectType == 4)
-                        {
-                            delegateNeedOrders += action.OrderCount;
-                        }
-                    }
-                    else
-                    {
-
-                        if (action.ObjectType == 6)
-                        {
-                            myFentOrder += action.OrderCount;
-                            if (action.Status == 2)
-                            {
-                                doMyFentOrder += action.OrderCount;
-                            }
-                        }
-                        else if (action.ObjectType == 5)
-                        {
-                            cooperationFentOrders += action.OrderCount;
-                            if (action.Status == 2)
-                            doCooperationFentOrders += action.OrderCount;
-                        }
-                        else if (action.ObjectType == 4)
-                        {
-                            delegateFentOrders += action.OrderCount;
-                            if (action.Status == 2)
-                            doDelegateFentOrders += action.OrderCount;
-                        }
-
-                    }
-                }
-                else
-                {
-                    if (action.Status == 0)
-                    {
-                        if (action.ObjectType == 6)
-                        {
-                            myNeedOrders += action.OrderCount;
-                        }
-                        else if (action.ObjectType == 5)
-                        {
-                            cooperationNeedOrders += action.OrderCount;
-                        }
-                        else if (action.ObjectType == 4)
-                        {
-                            delegateNeedOrders += action.OrderCount;
-                        }
-                    }
-                    else
-                    {
-                        if (action.ObjectType == 6)
-                        {
-                            myBulkOrder += action.OrderCount;
-                            if (action.Status == 2)
-                            {
-                                doMyBulkOrder += action.OrderCount;
-                            }
-                        }
-                        else if (action.ObjectType == 5)
-                        {
-                            cooperationBulkOrders += action.OrderCount;
-                            if (action.Status == 2)
-                                doCooperationBulkOrders += action.OrderCount;
-                        }
-                        else if (action.ObjectType == 4)
-                        {
-                            delegateBulkOrders += action.OrderCount;
-                            if (action.Status == 2)
-                                doDelegateBulkOrders += action.OrderCount;
-                        }
-                    }
-                }
-            }
-
-            JsonDictionary.Add("customercount", model.CustomerCount);
-            JsonDictionary.Add("ordercount", model.OrderCount);
-            JsonDictionary.Add("totalmoney", model.TotalMoney.ToString("C"));
-            JsonDictionary.Add("myOrders", myNeedOrders);
-            JsonDictionary.Add("cooperationOrders", cooperationNeedOrders);
-            JsonDictionary.Add("delegateOrders", delegateNeedOrders);
-
-            JsonDictionary.Add("myFentOrder", myFentOrder);
-            JsonDictionary.Add("doMyFentOrder",doMyFentOrder);
-            JsonDictionary.Add("cooperationFentOrders", cooperationFentOrders);
-            JsonDictionary.Add("doCooperationFentOrders",doCooperationFentOrders);
-            JsonDictionary.Add("delegateFentOrders", delegateFentOrders);
-            JsonDictionary.Add("doDelegateFentOrders",doDelegateFentOrders);
-
-            JsonDictionary.Add("myBulkOrder", myBulkOrder);
-            JsonDictionary.Add("doMyBulkOrder",doMyBulkOrder);
-            JsonDictionary.Add("cooperationBulkOrders", cooperationBulkOrders);
-            JsonDictionary.Add("doCooperationBulkOrders",doCooperationBulkOrders);
-            JsonDictionary.Add("delegateBulkOrders", delegateBulkOrders);
-            JsonDictionary.Add("doDelegateBulkOrders",doDelegateBulkOrders);
-
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
         }
 
         public ActionResult Login(string ReturnUrl, int Status = 0, int BindAccountType=0)
@@ -471,7 +329,7 @@ namespace YXERP.Controllers
                     if (!string.IsNullOrEmpty(clientid))
                     {
                         var current = OrganizationBusiness.GetUserByOtherAccount(EnumAccountType.Ali, member.memberId, operateip);
-                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, access_token, refresh_token, current.AgentID, current.ClientID);
+                        AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(current.UserID, member.memberId, access_token, refresh_token, current.ClientID);
 
                         Session.Remove("AliTokenInfo");
                         Session["ClientManager"] = current;
@@ -592,7 +450,7 @@ namespace YXERP.Controllers
                 if (model == null)
                 {
                     model = (Users)Session["ClientManager"];
-                    bool flag = OrganizationBusiness.BindOtherAccount(EnumAccountType.WeiXin, model.UserID, userToken.unionid, model.AgentID, model.ClientID);
+                    bool flag = OrganizationBusiness.BindOtherAccount(EnumAccountType.WeiXin, model.UserID, userToken.unionid, model.ClientID);
                 }
                 else
                 {
@@ -737,10 +595,10 @@ namespace YXERP.Controllers
                         string refresh_token = tokenArr[1];
                         string memberId = tokenArr[2];
 
-                        bool flag = AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(model.UserID, memberId, access_token, refresh_token, model.AgentID, model.ClientID);
+                        bool flag = AliOrderBusiness.BaseBusiness.AddAliOrderDownloadPlan(model.UserID, memberId, access_token, refresh_token,  model.ClientID);
                         if (flag)
                         {
-                            flag = OrganizationBusiness.BindOtherAccount(EnumAccountType.Ali, model.UserID, memberId, model.AgentID, model.ClientID);
+                            flag = OrganizationBusiness.BindOtherAccount(EnumAccountType.Ali, model.UserID, memberId, model.ClientID);
                             if (flag)
                             {
                                 Session["ClientManager"] = model;
@@ -777,7 +635,7 @@ namespace YXERP.Controllers
                 {
                     string access_token = tokenArr[0];
                     string unionid = tokenArr[2];
-                    bool flag = OrganizationBusiness.BindOtherAccount(EnumAccountType.WeiXin, model.UserID, unionid, model.AgentID, model.ClientID);
+                    bool flag = OrganizationBusiness.BindOtherAccount(EnumAccountType.WeiXin, model.UserID, unionid, model.ClientID);
                     if (flag)
                     {
                         Session["ClientManager"] = model;
@@ -950,9 +808,9 @@ namespace YXERP.Controllers
             if (Session["ClientManager"] != null)
             {
                 var CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-                var agent = AgentsBusiness.GetAgentDetail(CurrentUser.AgentID);
-                remainderDays = Math.Ceiling((agent.EndTime - DateTime.Now).TotalDays);
-                authorizeType = agent.AuthorizeType;
+                var client = ClientBusiness.GetClientDetail(CurrentUser.ClientID);
+                remainderDays = Math.Ceiling((client.EndTime - DateTime.Now).TotalDays);
+                authorizeType = client.AuthorizeType;
             }
             JsonDictionary.Add("remainderDays", remainderDays);
             JsonDictionary.Add("authorizeType", authorizeType);
@@ -985,7 +843,7 @@ namespace YXERP.Controllers
 
             string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID, model.GoodsCode, model.Title, model.PersonName, model.MobileTele, EnumOrderSourceType.SelfOrder,
                                                                     (EnumOrderType)model.OrderType, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity, model.PlanTime,
-                                                                     model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, "", model.AgentID, model.ClientID);
+                                                                     model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, "", model.ClientID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
             {

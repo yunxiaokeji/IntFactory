@@ -37,11 +37,10 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public DataTable GetClientUpcomings(string userid, string agentid, string clientid)
+        public DataTable GetClientUpcomings(string userid, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@UserID",userid),
-                                       new SqlParameter("@AgentID",agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
 
@@ -50,17 +49,16 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public static Task<bool> AddLoginLog(string loginname, int status, int systemtype, string operateip, string userid, string agentid, string clientid)
+        public static Task<bool> AddLoginLog(string loginname, int status, int systemtype, string operateip, string userid, string clientid)
         {
-            string sqlText = "insert into Log_Login(LoginName,SystemType,Status,CreateTime,OperateIP,UserID,AgentID,ClientID) "+
-                            " values(@LoginName,@SystemType,@Status,GETDATE(),@OperateIP,@UserID,@AgentID,@ClientID)";
+            string sqlText = "insert into Log_Login(LoginName,SystemType,Status,CreateTime,OperateIP,UserID,ClientID) "+
+                            " values(@LoginName,@SystemType,@Status,GETDATE(),@OperateIP,@UserID,@ClientID)";
             SqlParameter[] paras = { 
                                      new SqlParameter("@LoginName" , loginname),
                                      new SqlParameter("@SystemType" , systemtype),
                                      new SqlParameter("@Status" , status),
                                      new SqlParameter("@OperateIP" , operateip),
                                      new SqlParameter("@UserID" , userid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             return Task.Run(() => { return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0; });
@@ -95,32 +93,30 @@ namespace IntFactoryDAL
             return Task.Run(() => { return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0; });
         }
 
-        public static Task<bool> AddLog(string tablename, string Logguid, string remark, string userid, string operateip, string guid, string agentid, string clientid)
+        public static Task<bool> AddLog(string tablename, string Logguid, string remark, string userid, string operateip, string guid,  string clientid)
         {
-            string sqlText = "insert into " + tablename + "(LogGUID,Remark,CreateUserID,OperateIP,GUID,AgentID,ClientID) values(@LogGUID,@Remark,@CreateUserID,@OperateIP,@GUID,@AgentID,@ClientID)";
+            string sqlText = "insert into " + tablename + "(LogGUID,Remark,CreateUserID,OperateIP,GUID,ClientID) values(@LogGUID,@Remark,@CreateUserID,@OperateIP,@GUID,@ClientID)";
             SqlParameter[] paras = { 
                                      new SqlParameter("@LogGUID" , Logguid),
                                      new SqlParameter("@Remark" , remark),
                                      new SqlParameter("@CreateUserID" , userid),
                                      new SqlParameter("@OperateIP" , operateip),
                                      new SqlParameter("@GUID" , guid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             return Task.Run(() => { return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0; });
         }
 
-        public static Task<bool> AddActionLog(int systemtype, int objecttype, int actiontype, string operateip, string userid, string agentid, string clientid)
+        public static Task<bool> AddActionLog(int systemtype, int objecttype, int actiontype, string operateip, string userid,  string clientid)
         {
-            string sqlText = "insert into Log_Action(SystemType,ObjectType,ActionType,CreateTime,OperateIP,UserID,AgentID,ClientID) " +
-                            " values(@SystemType,@ObjectType,@ActionType,GETDATE(),@OperateIP,@UserID,@AgentID,@ClientID)";
+            string sqlText = "insert into Log_Action(SystemType,ObjectType,ActionType,CreateTime,OperateIP,UserID,ClientID) " +
+                            " values(@SystemType,@ObjectType,@ActionType,GETDATE(),@OperateIP,@UserID,@ClientID)";
             SqlParameter[] paras = { 
                                      new SqlParameter("@SystemType" , systemtype),
                                      new SqlParameter("@ObjectType" , objecttype),
                                      new SqlParameter("@ActionType" , actiontype),
                                      new SqlParameter("@OperateIP" , operateip),
                                      new SqlParameter("@UserID" , userid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             return Task.Run(() => { return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0; });

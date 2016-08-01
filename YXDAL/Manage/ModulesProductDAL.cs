@@ -11,7 +11,6 @@ namespace IntFactoryDAL.Manage
     public class ModulesProductDAL:BaseDAL
     {
         public static ModulesProductDAL BaseProvider = new ModulesProductDAL();
-        #region 查询
         public DataTable GetModulesProductDetail(int id)
         {
 
@@ -20,9 +19,6 @@ namespace IntFactoryDAL.Manage
                                    };
             return GetDataTable("select * from ModulesProduct where AutoID=@AutoID and Status<>9", paras, CommandType.Text);
         }
-        #endregion
-
-        #region 添加
 
         public bool InsertModulesProduct(int period, int periodQuantity, int userQuantity, decimal price, 
                                    string description,int type,int userType,  string userid)
@@ -43,9 +39,6 @@ namespace IntFactoryDAL.Manage
             return ExecuteNonQuery(cmdTxt, parms, CommandType.Text) > 0;
         }
 
-        #endregion
-
-        #region 编辑
        public bool UpdateModulesProduct(int autoID, int period, int periodQuantity, int userQuantity, decimal price, 
                                    string description,int type,int userType)
         {
@@ -65,9 +58,6 @@ namespace IntFactoryDAL.Manage
             return ExecuteNonQuery(cmdTxt, parms, CommandType.Text) > 0;
         }
 
-        #endregion
-
-        #region 删
        public bool DeleteModulesProduct(int id)
        {
            SqlParameter[] parms = {
@@ -78,6 +68,5 @@ namespace IntFactoryDAL.Manage
 
            return ExecuteNonQuery(cmdTxt, parms, CommandType.Text) > 0;
        }
-        #endregion
     }
 }

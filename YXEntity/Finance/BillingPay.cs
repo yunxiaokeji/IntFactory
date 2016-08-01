@@ -25,117 +25,37 @@ namespace IntFactoryEntity
 	{
 		public BillingPay()
 		{}
-		#region Model
-		private int _autoid;
-		private string _billingid;
-		private int _type=0;
-		private int _status=1;
-		private int _paytype=0;
-		private decimal _paymoney=0M;
-		private DateTime _paytime= DateTime.Now;
-		private string _remark="";
-		private DateTime _createtime= DateTime.Now;
-		private string _createuserid="";
-		private DateTime _updatetime= DateTime.Now;
-		private string _clientid;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+
+		public int AutoID{ get; set; }
+
         [Property("Lower")] 
-		public string BillingID
-		{
-			set{ _billingid=value;}
-			get{return _billingid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int Type
-		{
-			set{ _type=value;}
-			get{return _type;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int Status
-		{
-			set{ _status=value;}
-			get{return _status;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int PayType
-		{
-			set{ _paytype=value;}
-			get{return _paytype;}
-		}
+		public string BillingID{ get; set; }
+
+		public int Type{ get; set; }
+
+		public int Status{ get; set; }
+
+		public int PayType{ get; set; }
 
         public string PayTypeStr { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal PayMoney
-		{
-			set{ _paymoney=value;}
-			get{return _paymoney;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime PayTime
-		{
-			set{ _paytime=value;}
-			get{return _paytime;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Remark
-		{
-			set{ _remark=value;}
-			get{return _remark;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
-        [Property("Lower")] 
-		public string CreateUserID
-		{
-			set{ _createuserid=value;}
-			get{return _createuserid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime UpdateTime
-		{
-			set{ _updatetime=value;}
-			get{return _updatetime;}
-		}
-        [Property("Lower")]
-        public string AgentID { get; set; }
+
+		public decimal PayMoney{ get; set; }
+
+		public DateTime PayTime{ get; set; }
+
+		public string Remark{ get; set; }
+
+		public DateTime CreateTime{ get; set; }
 
         [Property("Lower")] 
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
+		public string CreateUserID{ get; set; }
+
+		public DateTime UpdateTime{ get; set; }
+
+        [Property("Lower")] 
+		public string ClientID{ get; set; }
 
         public Users CreateUser { get; set; }
-		#endregion Model
 
         public void FillData(System.Data.DataRow dr)
         {

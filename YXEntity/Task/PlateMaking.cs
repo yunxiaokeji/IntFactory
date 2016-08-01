@@ -29,9 +29,6 @@ namespace IntFactoryEntity.Task
         public int Type { get; set; }
 
         [Property("Lower")]
-        public string AgentID { get; set; }
-
-        [Property("Lower")]
         public string CreateUserID { get; set; }
 
         public DateTime CreateTime { get; set; }

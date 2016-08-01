@@ -178,38 +178,35 @@ namespace YXManage.Controllers
         {
             bool flag = false;
             var client = ClientBusiness.GetClientDetail(clientID);
-            var agent = AgentsBusiness.GetAgentDetail(client.AgentID);
             ClientAuthorizeLog log = new ClientAuthorizeLog();
 
             log.CreateUserID = CurrentUser.UserID;
             log.ClientID = clientID;
-            log.AgentID = client.AgentID;
             log.OrderID = string.Empty;
             
             if (serviceType == 1)//赠送
             {
                 if (giveType == 1)//赠送人数
                 {
-                    flag = AgentsBusiness.AddClientAgentUserQuantity(client.AgentID, userQuantity);
+                    flag = ClientBusiness.AddClientUserQuantity(client.ClientID, userQuantity);
 
-                    log.BeginTime = agent.EndTime;
-                    log.EndTime = agent.EndTime;
+                    log.BeginTime = client.EndTime;
+                    log.EndTime = client.EndTime;
                     log.UserQuantity = userQuantity;
                     log.Type = 2;
                 }
                 else//赠送时间
                 {
-                    log.BeginTime = agent.EndTime;
-                    flag = AgentsBusiness.SetClientAgentEndTime(client.AgentID, DateTime.Parse(endTime));
+                    log.BeginTime = client.EndTime;
+                    flag = ClientBusiness.SetClientEndTime(client.ClientID, DateTime.Parse(endTime));
 
                     log.EndTime = DateTime.Parse(endTime);
-                    log.UserQuantity = agent.UserQuantity;
+                    log.UserQuantity = client.UserQuantity;
                     log.Type = 3;
                 }
-                ClientBusiness.UpdatetClientCache(client.ClientID);
-                AgentsBusiness.UpdatetAgentCache(client.AgentID);
+                ClientBusiness.UpdateClientCache(client.ClientID);
                 ClientBusiness.InsertClientAuthorizeLog(log);
-                ClearClientCache(client.AgentID);
+                ClearClientCache(client.ClientID);
             }
             else//购买生成订单
             {
@@ -219,23 +216,23 @@ namespace YXManage.Controllers
 
                 if (buyType == 2)//购买人数
                 {
-                    remainderMonths = (agent.EndTime.Year - DateTime.Now.Year) * 12 + (agent.EndTime.Month - DateTime.Now.Month) - 1;
-                    if (agent.EndTime.Day >= DateTime.Now.Day)
+                    remainderMonths = (client.EndTime.Year - DateTime.Now.Year) * 12 + (client.EndTime.Month - DateTime.Now.Month) - 1;
+                    if (client.EndTime.Day >= DateTime.Now.Day)
                         remainderMonths += 1;
 
                     years = remainderMonths / 12 == 0 ? 1 : remainderMonths / 12;
 
-                    log.BeginTime = agent.EndTime;
-                    log.EndTime = agent.EndTime;
+                    log.BeginTime = client.EndTime;
+                    log.EndTime = client.EndTime;
                     log.UserQuantity = userQuantity;
                 }
                 else
                 {
                     years = buyUserYears;
 
-                    log.BeginTime = agent.EndTime;
-                    log.EndTime = agent.EndTime.AddYears(years);
-                    log.UserQuantity = agent.UserQuantity;
+                    log.BeginTime = client.EndTime;
+                    log.EndTime = client.EndTime.AddYears(years);
+                    log.UserQuantity = client.UserQuantity;
                 }
 
                 int pageCount = 0;
@@ -261,7 +258,6 @@ namespace YXManage.Controllers
                     model.Amount = decimal.Parse((float.Parse(model.Amount.ToString()) * remainderYears).ToString("f2"));
                     model.RealAmount = model.Amount;
                 }
-                model.AgentID = client.AgentID;
                 model.ClientID = client.ClientID;
                 model.CreateUserID = CurrentUser.UserID;
 
@@ -298,12 +294,12 @@ namespace YXManage.Controllers
         /// <summary>
         /// 根据订单clientID获取订单
         /// </summary> 
-        public JsonResult GetClientOrders(string keyWords,string agentID, string clientID, int status, int type, string beginDate, string endDate, int pageSize, int pageIndex, int userType=0)
+        public JsonResult GetClientOrders(string keyWords, string clientID, int status, int type, string beginDate, string endDate, int pageSize, int pageIndex, int userType=0)
         {
             int pageCount = 0;
             int totalCount = 0;
 
-            List<ClientOrder> list = ClientOrderBusiness.GetBase(keyWords.Trim(),status, type, beginDate, endDate, agentID, clientID, userType, pageSize, pageIndex, ref totalCount, ref pageCount);
+            List<ClientOrder> list = ClientOrderBusiness.GetBase(keyWords.Trim(), status, type, beginDate, endDate, clientID, userType, pageSize, pageIndex, ref totalCount, ref pageCount);
             JsonDictionary.Add("Items", list);
             JsonDictionary.Add("TotalCount", totalCount);
             JsonDictionary.Add("PageCount", pageCount);
@@ -369,10 +365,10 @@ namespace YXManage.Controllers
         /// <param name="id"></param>
         /// <param name="agentID"></param>
         /// <returns></returns> 
-        public JsonResult PayOrderAndAuthorizeClient(string id, string agentID)
+        public JsonResult PayOrderAndAuthorizeClient(string id)
         {
             //订单支付及后台客户授权
-            ClientOrder order=ClientOrderBusiness.GetClientOrderInfo(id);
+            ClientOrder order = ClientOrderBusiness.GetClientOrderInfo(id);
             if (order.Status == 0)
             {
                 bool flag = ClientOrderBusiness.PayOrderAndAuthorizeClient(id, CurrentUser.UserID, -1, EnumOrderPayType.Cash);
@@ -380,9 +376,8 @@ namespace YXManage.Controllers
 
                 if (flag)
                 {
-                    ClientBusiness.UpdatetClientCache(order.ClientID);
-                    AgentsBusiness.UpdatetAgentCache(agentID);
-                    ClearClientCache(agentID);
+                    ClientBusiness.UpdateClientCache(order.ClientID);
+                    ClearClientCache(order.ClientID);
                 }
             }else {
                 JsonDictionary.Add("Result", order .Status== 1 ? 1001 : 1002);

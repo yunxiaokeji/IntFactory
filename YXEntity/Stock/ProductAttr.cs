@@ -9,6 +9,7 @@ namespace IntFactoryEntity
 		public ProductAttr()
 		{}
 
+        [Property("Lower")]
         public string AttrID { get; set; }
 
         public string AttrName { get; set; }
@@ -22,6 +23,7 @@ namespace IntFactoryEntity
         /// </summary>
         public List<AttrValue> AttrValues { get; set; }
 
+        [Property("Lower")]
         public string CategoryID { get; set; }
 
         /// <summary>

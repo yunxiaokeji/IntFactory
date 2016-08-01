@@ -26,97 +26,45 @@ namespace IntFactoryEntity.Manage
 	{
 		public M_Role()
 		{}
-		#region Model
-		private int _autoid;
-		private string _roleid;
-		private string _name;
-		private string _parentid;
-		private int? _status=0;
-		private string _description="";
-		private DateTime? _createtime= DateTime.Now;
-		private string _createuserid;
-		private string _clientid;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+
+		public int AutoID{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
         [Property("Lower")] 
-		public string RoleID
-		{
-			set{ _roleid=value;}
-			get{return _roleid;}
-		}
+		public string RoleID{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Name
-		{
-			set{ _name=value;}
-			get{return _name;}
-		}
+		public string Name{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string ParentID
-		{
-			set{ _parentid=value;}
-			get{return _parentid;}
-		}
+		public string ParentID{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? Status
-		{
-			set{ _status=value;}
-			get{return _status;}
-		}
+		public int? Status{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Description
-		{
-			set{ _description=value;}
-			get{return _description;}
-		}
+		public string Description{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime? CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
+		public DateTime? CreateTime{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
         [Property("Lower")] 
-		public string CreateUserID
-		{
-			set{ _createuserid=value;}
-			get{return _createuserid;}
-		}
+		public string CreateUserID{ get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
         [Property("Lower")] 
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-		#endregion Model
+		public string ClientID{ get; set; }
 
         public int IsDefault { get; set; }
-
-        [Property("Lower")] 
-        public string AgentID { get; set; }
 
         public Users CreateUser { get; set; }
 

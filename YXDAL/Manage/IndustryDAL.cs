@@ -9,14 +9,9 @@ namespace IntFactoryDAL.Manage
 {
     public class IndustryDAL : BaseDAL
     {
-        #region 查询
 
         public DataTable GetIndustrys(string clientid = "")
         {
-
-            //SqlParameter[] paras = { 
-            //                        new SqlParameter("@ClientID",clientid)
-            //                       };
             return GetDataTable("select * from Industry where Status<>9");
         }
 
@@ -28,7 +23,6 @@ namespace IntFactoryDAL.Manage
                                    };
             return GetDataTable("select * from Industry where IndustryID=@IndustryID and Status<>9",paras,CommandType.Text);
         }
-        #endregion
 
         #region 添加
 

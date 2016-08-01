@@ -26,129 +26,49 @@ namespace IntFactoryEntity
     {
         public GoodsDoc()
         { }
-        #region Model
-        private int _autoid;
-        private string _docid;
-        private int _doctype;
-        private int _status = 0;
-        private int? _returnstatus = 0;
-        private string _prodiverid;
-        private decimal _totalmoney = 0M;
-        private decimal? _taxmoney = 0M;
-        private decimal? _taxrate = 1M;
-        private decimal? _returnmoney = 0M;
-        private string _originalcode = "";
-        private string _countrycode = "";
-        private string _citycode = "";
-        private string _address = "";
-        private string _postalcode = "000000";
-        private decimal? _weight = 0M;
-        private decimal? _fee = 0M;
-        private decimal? _freight = 0M;
-        private int? _conveyancetype = 0;
-        private string _conveyancecompany;
-        private string _conveyancecode = "";
-        private string _personname = "";
-        private string _mobiletele = "";
-        private string _feedback = "";
-        private string _createuserid;
-        private DateTime _createtime = DateTime.Now;
-        private DateTime _updatetime = DateTime.Now;
-        private string _operateip = "";
-        private string _clientid;
-        /// <summary>
-        /// 
-        /// </summary>
-        public int AutoID
-        {
-            set { _autoid = value; }
-            get { return _autoid; }
-        }
+
+        public int AutoID{ set; get; }
+
         [Property("Lower")] 
-        public string DocID
-        {
-            set { _docid = value; }
-            get { return _docid; }
-        }
+        public string DocID{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public int DocType
-        {
-            set { _doctype = value; }
-            get { return _doctype; }
-        }
+        public int DocType{ set; get; }
 
         public string DocTypeStr { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int Status
-        {
-            set { _status = value; }
-            get { return _status; }
-        }
+        public int Status{ set; get; }
 
         public string StatusStr { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int? ReturnStatus
-        {
-            set { _returnstatus = value; }
-            get { return _returnstatus; }
-        }
-
-        [Property("Lower")]
-        public string ProviderID
-        {
-            set { _prodiverid = value; }
-            get { return _prodiverid; }
-        }
-
-        public string ProviderName { get; set; }
+        public int? ReturnStatus{ set; get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public decimal TotalMoney
-        {
-            set { _totalmoney = value; }
-            get { return _totalmoney; }
-        }
+        public decimal TotalMoney{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public decimal? TaxMoney
-        {
-            set { _taxmoney = value; }
-            get { return _taxmoney; }
-        }
+        public decimal? TaxMoney{ set; get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public decimal? TaxRate
-        {
-            set { _taxrate = value; }
-            get { return _taxrate; }
-        }
+        public decimal? TaxRate{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public decimal? ReturnMoney
-        {
-            set { _returnmoney = value; }
-            get { return _returnmoney; }
-        }
+        public decimal? ReturnMoney{ set; get; }
 
-        public string OriginalCode
-        {
-            set { _originalcode = value; }
-            get { return _originalcode; }
-        }
+        public string OriginalCode{ set; get; }
 
         [Property("Lower")] 
         public string OriginalID { get; set; }
@@ -156,142 +76,72 @@ namespace IntFactoryEntity
         /// <summary>
         /// 
         /// </summary>
-        public string CountryCode
-        {
-            set { _countrycode = value; }
-            get { return _countrycode; }
-        }
+        public string CountryCode{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public string CityCode
-        {
-            set { _citycode = value; }
-            get { return _citycode; }
-        }
+        public string CityCode{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public string Address
-        {
-            set { _address = value; }
-            get { return _address; }
-        }
+        public string Address{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public string PostalCode
-        {
-            set { _postalcode = value; }
-            get { return _postalcode; }
-        }
+        public string PostalCode{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public decimal? Weight
-        {
-            set { _weight = value; }
-            get { return _weight; }
-        }
+        public decimal? Weight{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public decimal? Fee
-        {
-            set { _fee = value; }
-            get { return _fee; }
-        }
+        public decimal? Fee{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public decimal? Freight
-        {
-            set { _freight = value; }
-            get { return _freight; }
-        }
+        public decimal? Freight{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public int? ExpressType
-        {
-            set { _conveyancetype = value; }
-            get { return _conveyancetype; }
-        }
+        public int? ExpressType{ set; get; }
+
         [Property("Lower")] 
-        public string ExpressID
-        {
-            set { _conveyancecompany = value; }
-            get { return _conveyancecompany; }
-        }
+        public string ExpressID{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public string ExpressCode
-        {
-            set { _conveyancecode = value; }
-            get { return _conveyancecode; }
-        }
+        public string ExpressCode{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public string PersonName
-        {
-            set { _personname = value; }
-            get { return _personname; }
-        }
+        public string PersonName{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public string MobileTele
-        {
-            set { _mobiletele = value; }
-            get { return _mobiletele; }
-        }
+        public string MobileTele{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public string FeedBack
-        {
-            set { _feedback = value; }
-            get { return _feedback; }
-        }
+        public string FeedBack{ set; get; }
+
         [Property("Lower")] 
-        public string CreateUserID
-        {
-            set { _createuserid = value; }
-            get { return _createuserid; }
-        }
+        public string CreateUserID{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public DateTime CreateTime
-        {
-            set { _createtime = value; }
-            get { return _createtime; }
-        }
+        public DateTime CreateTime{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public DateTime UpdateTime
-        {
-            set { _updatetime = value; }
-            get { return _updatetime; }
-        }
+        public DateTime UpdateTime{ set; get; }
         /// <summary>
         /// 
         /// </summary>
-        public string OperateIP
-        {
-            set { _operateip = value; }
-            get { return _operateip; }
-        }
+        public string OperateIP{ set; get; }
+
         [Property("Lower")] 
-        public string ClientID
-        {
-            set { _clientid = value; }
-            get { return _clientid; }
-        }
-        #endregion Model
+        public string ClientID{ set; get; }
 
         /// <summary>
         /// 单据明细

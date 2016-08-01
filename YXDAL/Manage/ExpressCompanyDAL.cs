@@ -11,7 +11,6 @@ namespace IntFactoryDAL.Manage
     public class ExpressCompanyDAL: BaseDAL
     {
         public static ExpressCompanyDAL BaseProvider = new ExpressCompanyDAL();
-        #region 查询
 
         public DataTable GetExpressCompanys()
         {
@@ -26,9 +25,6 @@ namespace IntFactoryDAL.Manage
                                    };
             return GetDataTable("select * from ExpressCompany where ExpressID=@ExpressID and Status<>9", paras, CommandType.Text);
         }
-        #endregion
-
-        #region 添加
 
         public bool InsertExpressCompany(string name, string website,string userid)
         {
@@ -45,9 +41,6 @@ namespace IntFactoryDAL.Manage
             return ExecuteNonQuery(cmdTxt, parms, CommandType.Text) > 0;
         }
 
-        #endregion
-
-        #region 编辑
         public bool UpdateExpressCompany(string id,string name, string website)
         {
             SqlParameter[] parms = { 
@@ -61,9 +54,6 @@ namespace IntFactoryDAL.Manage
             return ExecuteNonQuery(cmdTxt, parms, CommandType.Text) > 0;
         }
 
-        #endregion
-
-        #region 删
        public bool DeleteExpressCompany(string id)
        {
            SqlParameter[] parms = {
@@ -74,6 +64,6 @@ namespace IntFactoryDAL.Manage
 
            return ExecuteNonQuery(cmdTxt, parms, CommandType.Text) > 0;
        }
-        #endregion
+
     }
 }

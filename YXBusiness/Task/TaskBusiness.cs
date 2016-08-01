@@ -74,8 +74,8 @@ namespace IntFactoryBusiness
             {
                 TaskEntity model = new TaskEntity();
                 model.FillData(dr);
-                //model.Stage = SystemBusiness.BaseBusiness.GetOrderStageByID(model.StageID, model.ProcessID, model.AgentID, model.ClientID);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
 
                 if (model.FinishStatus == 1)
                 {
@@ -125,7 +125,7 @@ namespace IntFactoryBusiness
             {
                 TaskEntity model = new TaskEntity();
                 model.FillData(dr);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
 
                 if (orders.Rows.Count > 0)
                 {
@@ -192,7 +192,7 @@ namespace IntFactoryBusiness
             {
                 model = new TaskEntity();
                 model.FillData(taskTB.Rows[0]);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
 
                 DataTable memberTB = ds.Tables["TaskMember"];
                 model.TaskMembers = new List<IntFactoryEntity.Task.TaskMember>();
@@ -202,7 +202,7 @@ namespace IntFactoryBusiness
                     {
                         TaskMember member = new TaskMember();
                         member.FillData(m);
-                        member.Member = OrganizationBusiness.GetUserByUserID(member.MemberID, member.AgentID);
+                        member.Member = OrganizationBusiness.GetUserByUserID(member.MemberID, model.ClientID);
                         model.TaskMembers.Add(member);
                     }
                 }
@@ -225,7 +225,7 @@ namespace IntFactoryBusiness
             {
                 TaskEntity model = new TaskEntity();
                 model.FillData(dr);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.AgentID);
+                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
 
                 list.Add(model);
             }
@@ -244,7 +244,7 @@ namespace IntFactoryBusiness
             {
                 ReplyEntity model = new ReplyEntity();
                 model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.AgentID);
+                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
                 if (!string.IsNullOrEmpty(model.FromReplyID))
                 {
                     model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
@@ -276,15 +276,15 @@ namespace IntFactoryBusiness
         /// <param name="taskID"></param>
         /// <param name="OwnerID"></param>
         /// <returns></returns>
-        public static bool UpdateTaskOwner(string taskID, string ownerID, string operateid, string ip, string agentid, string clientid,out int result)
+        public static bool UpdateTaskOwner(string taskID, string ownerID, string operateid, string ip, string clientid, out int result)
         {
-            bool flag= TaskDAL.BaseProvider.UpdateTaskOwner(taskID, ownerID,out result);
+            bool flag = TaskDAL.BaseProvider.UpdateTaskOwner(taskID, ownerID, out result);
 
             if (flag)
             {
-                var user = OrganizationBusiness.GetUserByUserID(ownerID, agentid);
+                var user = OrganizationBusiness.GetUserByUserID(ownerID, clientid);
                 string msg = "将任务负责人更改为:"+(user!=null?user.Name:ownerID);
-                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
             }
 
             return flag;
@@ -310,26 +310,26 @@ namespace IntFactoryBusiness
         /// <param name="taskID"></param>
         /// <param name="endTime"></param>
         /// <returns></returns>
-        public static bool UpdateTaskEndTime(string taskID, DateTime? endTime, string operateid, string ip, string agentid, string clientid,out int result)
+        public static bool UpdateTaskEndTime(string taskID, DateTime? endTime, string operateid, string ip, string clientid, out int result)
         {
             bool flag = TaskDAL.BaseProvider.UpdateTaskEndTime(taskID, endTime, operateid,out result);
             if (flag)
             {
                 string msg = "将任务截至日期设为：" + (endTime == null ? "未指定日期" : endTime.Value.Date.ToString("yyyy-MM-dd"));
-                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, agentid, clientid);
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, clientid);
             }
 
             return flag;
         }
 
-        public static bool UpdateTaskColorMark(string taskid, int mark, string operateid, string ip, string agentid, string clientid)
+        public static bool UpdateTaskColorMark(string taskid, int mark, string operateid, string ip, string clientid)
         {
             bool bl = CommonBusiness.Update("OrderTask", "ColorMark", mark, "TaskID='" + taskid + "'");
             if (bl)
             {
                 string msg = "标记任务颜色";
-                LogBusiness.AddLog(taskid, EnumLogObjectType.OrderTask, msg, operateid, ip, mark.ToString(), agentid, clientid);
+                LogBusiness.AddLog(taskid, EnumLogObjectType.OrderTask, msg, operateid, ip, mark.ToString(), clientid);
             }
             return bl;
         }
@@ -339,15 +339,15 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="taskID"></param>
         /// <returns></returns>
-        public static bool FinishTask(string taskID,string operateid, string ip, string agentid, string clientid, out int result)
+        public static bool FinishTask(string taskID, string operateid, string ip, string clientid, out int result)
         {
             bool flag= TaskDAL.BaseProvider.FinishTask(taskID, operateid, out result);
 
             if (flag)
             {
                 string msg = "将任务标记为完成";
-                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, agentid, clientid);
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, clientid);
             }
 
             return flag;
@@ -360,24 +360,23 @@ namespace IntFactoryBusiness
         /// <param name="memberIDs"></param>
         /// <param name="operateid"></param>
         /// <param name="ip"></param>
-        /// <param name="agentid"></param>
         /// <param name="clientid"></param>
         /// <returns></returns>
-        public static bool AddTaskMembers(string taskID, string memberIDs, string operateid, string ip, string agentid, string clientid,out int result)
+        public static bool AddTaskMembers(string taskID, string memberIDs, string operateid, string ip, string clientid,out int result)
         {
             memberIDs =memberIDs.Trim(',');
-            bool flag = TaskDAL.BaseProvider.AddTaskMembers(taskID, memberIDs, operateid, agentid,out result);
+            bool flag = TaskDAL.BaseProvider.AddTaskMembers(taskID, memberIDs, operateid, out result);
 
             if (flag)
             {
                 var userName=string.Empty;
                 foreach(var m in memberIDs.Split(',') )
                 {
-                    var user = OrganizationBusiness.GetUserByUserID(m, agentid);
+                    var user = OrganizationBusiness.GetUserByUserID(m, clientid);
                     userName += (user != null ? user.Name : "")+",";
                 }
                 string msg = "添加任务成员" + userName.Trim(',');
-                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
             }
 
             return flag;
@@ -390,21 +389,20 @@ namespace IntFactoryBusiness
         /// <param name="memberID"></param>
         /// <param name="operateid"></param>
         /// <param name="ip"></param>
-        /// <param name="agentid"></param>
         /// <param name="clientid"></param>
         /// <returns></returns>
-        public static bool RemoveTaskMember(string taskID,string memberID, string operateid, string ip, string agentid, string clientid)
+        public static bool RemoveTaskMember(string taskID,string memberID, string operateid, string ip,  string clientid)
         {
             bool flag = TaskDAL.BaseProvider.RemoveTaskMember(taskID, memberID);
 
             if (flag)
             {
                 var userName = string.Empty;
-                var user = OrganizationBusiness.GetUserByUserID(memberID, agentid);
+                var user = OrganizationBusiness.GetUserByUserID(memberID, clientid);
                 userName += user != null ? user.Name : "";
 
                 string msg = "删除任务成员" + userName.Trim(',');
-                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
             }
 
             return flag;
@@ -413,26 +411,18 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 更新任务成员权限
         /// </summary>
-        /// <param name="taskID"></param>
-        /// <param name="memberID"></param>
-        /// <param name="taskMemberPermissionType"></param>
-        /// <param name="operateid"></param>
-        /// <param name="ip"></param>
-        /// <param name="agentid"></param>
-        /// <param name="clientid"></param>
-        /// <returns></returns>
-        public static bool UpdateMemberPermission(string taskID, string memberID, TaskMemberPermissionType taskMemberPermissionType, string operateid, string ip, string agentid, string clientid)
+        public static bool UpdateMemberPermission(string taskID, string memberID, TaskMemberPermissionType taskMemberPermissionType, string operateid, string ip, string clientid)
         {
             bool flag = TaskDAL.BaseProvider.UpdateMemberPermission(taskID, memberID, (int)taskMemberPermissionType);
 
             if (flag)
             {
                 var userName = string.Empty;
-                var user = OrganizationBusiness.GetUserByUserID(memberID, agentid);
+                var user = OrganizationBusiness.GetUserByUserID(memberID, clientid);
                 userName += user != null ? user.Name : "";
 
                 string msg = "将任务成员" + userName.Trim(',') + "的权限更新为:" + (taskMemberPermissionType == TaskMemberPermissionType.See?"查看":"编辑");
-                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
             }
 
             return flag;
@@ -441,8 +431,6 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 将任务标记未完成
         /// </summary>
-        /// <param name="taskID"></param>
-        /// <returns></returns>
         public static bool UnFinishTask(string taskID)
         {
             return TaskDAL.BaseProvider.UnFinishTask(taskID);
@@ -451,22 +439,15 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 将任务锁定
         /// </summary>
-        /// <param name="taskID"></param>
-        /// <param name="operateid"></param>
-        /// <param name="ip"></param>
-        /// <param name="agentid"></param>
-        /// <param name="clientid"></param>
-        /// <param name="result"></param>
-        /// <returns></returns>
-        public static bool LockTask(string taskID, string operateid, string ip, string agentid, string clientid, out int result)
+        public static bool LockTask(string taskID, string operateid, string ip, string clientid, out int result)
         {
             bool flag = TaskDAL.BaseProvider.LockTask(taskID, operateid, out result);
 
             if (flag)
             {
                 string msg = "将任务锁定";
-                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, agentid, clientid);
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, clientid);
             }
 
             return flag;
@@ -478,18 +459,17 @@ namespace IntFactoryBusiness
         /// <param name="taskID"></param>
         /// <param name="operateid"></param>
         /// <param name="ip"></param>
-        /// <param name="agentid"></param>
         /// <param name="clientid"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool UnLockTask(string taskID, string operateid, string ip, string agentid, string clientid, out int result)
+        public static bool UnLockTask(string taskID, string operateid, string ip,  string clientid, out int result)
         {
             bool flag = TaskDAL.BaseProvider.UnLockTask(taskID, operateid, out result);
             if (flag)
             {
                 string msg = "将任务解锁";
-                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, agentid, clientid);
+                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, clientid);
             }
 
             return flag;
@@ -561,15 +541,15 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="plate"></param>
         /// <returns></returns>
-        public static bool AddPlateMaking(PlateMaking plate, string operateid, string ip, string agentid, string clientid)
+        public static bool AddPlateMaking(PlateMaking plate, string operateid, string ip, string clientid)
         {
             bool flag= TaskDAL.BaseProvider.AddPlateMaking(plate.Title, plate.Remark, plate.Icon,
-                plate.TaskID,plate.Type,plate.OrderID,plate.CreateUserID,plate.AgentID);
+                plate.TaskID, plate.Type, plate.OrderID, plate.CreateUserID);
 
             if (flag)
             {
                 string msg = "新增工艺说明："+plate.Title;
-                LogBusiness.AddLog(plate.TaskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+                LogBusiness.AddLog(plate.TaskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
             }
 
             return flag;
@@ -580,14 +560,14 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="plate"></param>
         /// <returns></returns>
-        public static bool UpdatePlateMaking(PlateMaking plate, string operateid, string ip, string agentid, string clientid)
+        public static bool UpdatePlateMaking(PlateMaking plate, string operateid, string ip, string clientid)
         {
             bool flag= TaskDAL.BaseProvider.UpdatePlateMaking(plate.PlateID,plate.Title,plate.Remark,plate.Icon,plate.Type);
 
             if (flag)
             {
                 string msg = "编辑工艺说明为：" + plate.Title;
-                LogBusiness.AddLog(plate.TaskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+                LogBusiness.AddLog(plate.TaskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
             }
 
             return flag;
@@ -598,14 +578,14 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="plateID"></param>
         /// <returns></returns>
-        public static bool DeletePlateMaking(string plateID,string taskid,string title, string operateid, string ip, string agentid, string clientid)
+        public static bool DeletePlateMaking(string plateID, string taskid, string title, string operateid, string ip, string clientid)
         {
             bool flag= TaskDAL.BaseProvider.DeletePlateMaking(plateID);
 
             if (flag)
             {
                 string msg = "删除工艺说明：" + title;
-                LogBusiness.AddLog(taskid, EnumLogObjectType.OrderTask, msg, operateid, ip, "", agentid, clientid);
+                LogBusiness.AddLog(taskid, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
             }
 
             return flag;

@@ -9,6 +9,7 @@ namespace IntFactoryEntity.Manage
     {
         public int AutoID { get; set; }
 
+        [Property("Lower")]
         public string ExpressID { get; set; }
 
         public string Name { get; set; }
@@ -17,6 +18,7 @@ namespace IntFactoryEntity.Manage
 
         public DateTime CreateTime { get; set; }
 
+        [Property("Lower")]
         public string CreateUserID { get; set; }
 
         /// <summary>

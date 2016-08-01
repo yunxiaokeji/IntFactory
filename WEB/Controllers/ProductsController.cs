@@ -221,11 +221,11 @@ namespace YXERP.Controllers
             string id = "";
             if (string.IsNullOrEmpty(model.ProviderID))
             {
-                id = ProvidersBusiness.BaseBusiness.AddProviders(model.Name, model.Contact, model.MobileTele, "", model.CityCode, model.Address, model.Remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                id = ProvidersBusiness.BaseBusiness.AddProviders(model.Name, model.Contact, model.MobileTele, "", model.CityCode, model.Address, model.Remark, CurrentUser.UserID, CurrentUser.ClientID);
             }
             else
             {
-                bool bl = ProvidersBusiness.BaseBusiness.UpdateProvider(model.ProviderID, model.Name, model.Contact, model.MobileTele, "", model.CityCode, model.Address, model.Remark, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID);
+                bool bl = ProvidersBusiness.BaseBusiness.UpdateProvider(model.ProviderID, model.Name, model.Contact, model.MobileTele, "", model.CityCode, model.Address, model.Remark, CurrentUser.UserID, CurrentUser.ClientID);
                 if (bl)
                 {
                     id = model.ProviderID;
@@ -442,16 +442,16 @@ namespace YXERP.Controllers
             string id = "";
             if (string.IsNullOrEmpty(model.ProductID))
             {
-                id = new ProductsBusiness().AddProduct(model.ProductCode, model.ProductName, model.GeneralName, model.IsCombineProduct.Value == 1, model.ProdiverID, model.BrandID, model.BigUnitID, model.SmallUnitID,
-                                                        model.BigSmallMultiple.Value, model.CategoryID, model.Status.Value, model.IsPublic, model.AttrList, model.ValueList, model.AttrValueList,
-                                                        model.CommonPrice.Value, model.Price, model.Weight.Value, model.IsNew.Value == 1, model.IsRecommend.Value == 1, model.IsAllow, model.IsAutoSend, model.EffectiveDays.Value,
-                                                        model.DiscountValue.Value, model.ProductImage, model.ShapeCode, model.Description, model.ProductDetails, CurrentUser.UserID, CurrentUser.AgentID, CurrentUser.ClientID,ref result);
+                id = new ProductsBusiness().AddProduct(model.ProductCode, model.ProductName, model.GeneralName,  model.ProviderID, model.UnitID,
+                                                        model.CategoryID, model.Status.Value, model.IsPublic, model.AttrList, model.ValueList, model.AttrValueList,
+                                                        model.CommonPrice.Value, model.Price, model.Weight.Value,  model.IsAllow,
+                                                        model.DiscountValue.Value, model.ProductImage, model.ShapeCode, model.Description, model.ProductDetails, CurrentUser.UserID, CurrentUser.ClientID, ref result);
             }
             else
             {
-                bool bl = new ProductsBusiness().UpdateProduct(model.ProductID, model.ProductCode, model.ProductName, model.GeneralName, model.IsCombineProduct.Value == 1, model.ProdiverID, model.BrandID, model.BigUnitID, model.SmallUnitID,
-                                                        model.BigSmallMultiple.Value, model.Status.Value, model.IsPublic, model.CategoryID, model.AttrList, model.ValueList, model.AttrValueList,
-                                                        model.CommonPrice.Value, model.Price, model.Weight.Value, model.IsNew.Value == 1, model.IsRecommend.Value == 1, model.IsAllow, model.IsAutoSend, model.EffectiveDays.Value,
+                bool bl = new ProductsBusiness().UpdateProduct(model.ProductID, model.ProductCode, model.ProductName, model.GeneralName, model.ProviderID, model.UnitID,
+                                                        model.Status.Value, model.IsPublic, model.CategoryID, model.AttrList, model.ValueList, model.AttrValueList,
+                                                        model.CommonPrice.Value, model.Price, model.Weight.Value,  model.IsAllow, 
                                                         model.DiscountValue.Value, model.ProductImage, model.ShapeCode, model.Description, CurrentUser.UserID, CurrentUser.ClientID,ref result);
                 if (bl)
                 {
@@ -564,38 +564,6 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-        /// <summary>
-        /// 编辑产品是否新品
-        /// </summary>
-        /// <param name="productid"></param>
-        /// <param name="isnew"></param>
-        /// <returns></returns>
-        public JsonResult UpdateProductIsNew(string productid, bool isnew)
-        {
-            bool bl = new ProductsBusiness().UpdateProductIsNew(productid, isnew, OperateIP, CurrentUser.UserID);
-            JsonDictionary.Add("Status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-        /// <summary>
-        /// 编辑产品是否推荐
-        /// </summary>
-        /// <param name="productid"></param>
-        /// <param name="isRecommend"></param>
-        /// <returns></returns>
-        public JsonResult UpdateProductIsRecommend(string productid, bool isRecommend)
-        {
-            bool bl = new ProductsBusiness().UpdateProductIsRecommend(productid, isRecommend, OperateIP, CurrentUser.UserID);
-            JsonDictionary.Add("Status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
 
         /// <summary>
         /// 产品编码是否存在
@@ -640,11 +608,11 @@ namespace YXERP.Controllers
             if (string.IsNullOrEmpty(model.ProductDetailID))
             {
                 id = new ProductsBusiness().AddProductDetails(model.ProductID, model.DetailsCode, model.ShapeCode, model.SaleAttr, model.AttrValue, model.SaleAttrValue,
-                                                              model.Price, model.Weight, model.BigPrice, model.ImgS, model.Description, model.Remark, CurrentUser.UserID, CurrentUser.ClientID);
+                                                              model.Price, model.Weight, model.ImgS, model.Description, model.Remark, CurrentUser.UserID, CurrentUser.ClientID);
             }
             else
             {
-                bool bl = new ProductsBusiness().UpdateProductDetails(model.ProductDetailID, model.ProductID, model.DetailsCode, model.ShapeCode, model.BigPrice, model.SaleAttr, model.AttrValue, model.SaleAttrValue,
+                bool bl = new ProductsBusiness().UpdateProductDetails(model.ProductDetailID, model.ProductID, model.DetailsCode, model.ShapeCode, model.SaleAttr, model.AttrValue, model.SaleAttrValue,
                                                               model.Price, model.Weight, model.Description, model.Remark, model.ImgS, CurrentUser.UserID, CurrentUser.ClientID); 
                 if (bl)
                 {
@@ -678,7 +646,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetProductDetails(string wareid, string keywords)
         {
-            var list = new ProductsBusiness().GetProductDetails(wareid, keywords, CurrentUser.AgentID, CurrentUser.ClientID);
+            var list = new ProductsBusiness().GetProductDetails(wareid, keywords, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult
             {

@@ -62,19 +62,12 @@ namespace IntFactoryEntity
 
         public List<ContactEntity> Contacts { get; set; }
 
-        public DateTime AllocationTime { get; set; }
-
-        public DateTime OrderTime { get; set; }
-
         public DateTime CreateTime { get; set; }
 
         [Property("Lower")]
         public string CreateUserID { get; set; }
 
         public Users CreateUser { get; set; }
-
-        [Property("Lower")]
-        public string AgentID { get; set; }
 
         [Property("Lower")]
         public string ClientID { get; set; }
@@ -109,7 +102,6 @@ namespace IntFactoryEntity
         /// 编辑加载列表用
         /// </summary>
         public List<ExtentEntity> Extents { get; set; }
-
 
         public int ReplyTimes { get; set; }
 

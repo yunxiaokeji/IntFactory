@@ -320,12 +320,9 @@ namespace YXERP.Controllers
         /// 获取下属列表
         /// </summary>
         /// <returns></returns>
-        public JsonResult GetUserBranchs(string userid, string agentid)
+        public JsonResult GetUserBranchs(string userid)
         {
-            if (string.IsNullOrEmpty(agentid))
-            {
-                agentid = CurrentUser.AgentID;
-            }
+
             if (string.IsNullOrEmpty(userid))
             {
                 userid = CurrentUser.UserID;
@@ -334,7 +331,7 @@ namespace YXERP.Controllers
             {
                 userid = "6666666666";
             }
-            var list = OrganizationBusiness.GetStructureByParentID(userid, agentid);
+            var list = OrganizationBusiness.GetStructureByParentID(userid, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult()
             {
@@ -347,13 +344,9 @@ namespace YXERP.Controllers
         /// 获取团队
         /// </summary>
         /// <returns></returns>
-        public JsonResult GetTeams(string agentid)
+        public JsonResult GetTeams()
         {
-            if (string.IsNullOrEmpty(agentid))
-            {
-                agentid = CurrentUser.AgentID;
-            }
-            var list = SystemBusiness.BaseBusiness.GetTeams(agentid);
+            var list = SystemBusiness.BaseBusiness.GetTeams(CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult()
             {

@@ -136,9 +136,9 @@ namespace IntFactoryBusiness
                     {
                         details.UnitName = new ProductsBusiness().GetUnitByID(details.UnitID).UnitName;
                     }
-                    if (!string.IsNullOrEmpty(details.ProdiverID))
+                    if (!string.IsNullOrEmpty(details.ProviderID))
                     {
-                        details.Providers = new ProvidersBusiness().GetProviderByID(details.ProdiverID);
+                        details.Providers = new ProvidersBusiness().GetProviderByID(details.ProviderID);
                     }
                     model.Details.Add(details);
                 }
@@ -209,23 +209,7 @@ namespace IntFactoryBusiness
             return str;
         }
 
-        public static List<StorageDocAction> GetStorageDocAction(string docid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string agentid)
-        {
-            DataTable dt = CommonBusiness.GetPagerData("StorageDocAction", "*", "DocID='" + docid + "'", "AutoID", pageSize, pageIndex, out totalCount, out pageCount);
-
-            List<StorageDocAction> list = new List<StorageDocAction>();
-            foreach (DataRow dr in dt.Rows)
-            {
-                StorageDocAction model = new StorageDocAction();
-                model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, agentid);
-
-                list.Add(model);
-            }
-            return list;
-        }
-
-        public List<Products> GetProductStocks(string keywords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string agentid, string clientid)
+        public List<Products> GetProductStocks(string keywords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientid)
         {
             DataSet ds = StockDAL.BaseProvider.GetProductStocks(keywords, pageSize, pageIndex, ref totalCount, ref pageCount, clientid);
 
@@ -239,7 +223,7 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<ProductDetail> GetProductDetailStocks(string productid, string agentid, string clientid)
+        public List<ProductDetail> GetProductDetailStocks(string productid,  string clientid)
         {
             DataTable dt = StockDAL.BaseProvider.GetProductDetailStocks(productid, clientid);
 
@@ -254,7 +238,7 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<ProductStock> GetDetailStocks(string wareid, string keywords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string agentid, string clientid)
+        public List<ProductStock> GetDetailStocks(string wareid, string keywords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientid)
         {
             DataSet ds = StockDAL.BaseProvider.GetDetailStocks(wareid, keywords, pageSize, pageIndex, ref totalCount, ref pageCount, clientid);
 
@@ -268,7 +252,7 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<ProductStock> GetProductsByKeywords(string wareid, string keywords, string agentid, string clientid)
+        public List<ProductStock> GetProductsByKeywords(string wareid, string keywords, string clientid)
         {
             DataSet ds = StockDAL.BaseProvider.GetProductsByKeywords(wareid, keywords, clientid);
 
@@ -298,9 +282,9 @@ namespace IntFactoryBusiness
 
         #region 添加
 
-        
 
-        public static bool CreateStorageDoc(string wareid, string remark, string userid, string operateip, string agentid, string clientid)
+
+        public static bool CreateStorageDoc(string wareid, string remark, string userid, string operateip, string clientid)
         {
 
             string guid = Guid.NewGuid().ToString();
@@ -308,7 +292,7 @@ namespace IntFactoryBusiness
             if (bl)
             {
                 //日志
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.StockIn, EnumLogType.Create, "", userid, agentid, clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.StockIn, EnumLogType.Create, "", userid, clientid);
             }
             return bl;
         }
@@ -323,13 +307,13 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 出库按报损逻辑
         /// </summary>
-        public bool SubmitHandOutDoc(string wareid, string remark, string userid, string operateip, string agentid, string clientid)
+        public bool SubmitHandOutDoc(string wareid, string remark, string userid, string operateip, string clientid)
         {
             string guid = Guid.NewGuid().ToString();
             bool bl = StockDAL.SubmitDamagedDoc(guid, (int)EnumDocType.SGCK, 0, remark, wareid, userid, operateip, clientid);
             if (bl)
             {
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.StockOut, EnumLogType.Create, "", userid, agentid, clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.StockOut, EnumLogType.Create, "", userid, clientid);
             }
             return bl;
         }
@@ -344,9 +328,6 @@ namespace IntFactoryBusiness
         #endregion
 
         #region 编辑、删除
-
-
-        
 
         public bool DeleteDoc(string docid, string userid, string operateip, string clientid)
         {
@@ -363,30 +344,25 @@ namespace IntFactoryBusiness
             return new StockDAL().UpdateStorageDetailWare(docid, autoid, wareid, depotid);
         }
 
-        public bool UpdateStorageDetailBatch(string docid, string autoid, string batch, string userid, string operateip, string clientid)
+        public bool AuditStorageIn(string docid, int doctype, int isover, string details, string remark, string userid, string operateip,string clientid, ref int result, ref string errinfo)
         {
-            return new StockDAL().UpdateStorageDetailBatch(docid, autoid, batch);
-        }
-
-        public bool AuditStorageIn(string docid, int doctype, int isover, string details, string remark, string userid, string operateip, string agentid, string clientid, ref int result, ref string errinfo)
-        {
-            bool bl = new StockDAL().AuditStorageIn(docid, doctype, isover, details, remark, userid, operateip, agentid, clientid, ref result, ref errinfo);
+            bool bl = new StockDAL().AuditStorageIn(docid, doctype, isover, details, remark, userid, operateip, clientid, ref result, ref errinfo);
             return bl;
         }
 
-        public bool AuditReturnIn(string docid, string userid, string agentid, string clientid, ref int result, ref string errinfo)
+        public bool AuditReturnIn(string docid, string userid,string clientid, ref int result, ref string errinfo)
         {
-            return StockDAL.BaseProvider.AuditReturnIn(docid, userid, agentid, clientid, ref result, ref errinfo);
+            return StockDAL.BaseProvider.AuditReturnIn(docid, userid,  clientid, ref result, ref errinfo);
         }
 
-        public bool AuditDamagedDoc(string docid, string userid, string agentid, string clientid, ref int result, ref string errinfo)
+        public bool AuditDamagedDoc(string docid, string userid, string clientid, ref int result, ref string errinfo)
         {
-            return StockDAL.BaseProvider.AuditDamagedDoc(docid, userid, agentid, clientid, ref result, ref errinfo);
+            return StockDAL.BaseProvider.AuditDamagedDoc(docid, userid,  clientid, ref result, ref errinfo);
         }
 
-        public bool AuditOverflowDoc(string docid, string userid, string agentid, string clientid, ref int result, ref string errinfo)
+        public bool AuditOverflowDoc(string docid, string userid, string clientid, ref int result, ref string errinfo)
         {
-            return StockDAL.BaseProvider.AuditOverflowDoc(docid, userid, agentid, clientid, ref result, ref errinfo);
+            return StockDAL.BaseProvider.AuditOverflowDoc(docid, userid, clientid, ref result, ref errinfo);
         }
 
         #endregion

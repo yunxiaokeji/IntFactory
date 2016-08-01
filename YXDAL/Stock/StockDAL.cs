@@ -227,17 +227,6 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
         }
 
-        public bool UpdateStorageDetailBatch(string docid, string autoid, string batch)
-        {
-            string sql = "update StorageDetail set BatchCode=@BatchCode where DocID=@DocID and AutoID=@AutoID and Status=0";
-            SqlParameter[] paras = { 
-                                         new SqlParameter("@DocID",docid),
-                                         new SqlParameter("@BatchCode",batch),
-                                         new SqlParameter("@AutoID",autoid)
-                                   };
-            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
-        }
-
         public bool UpdateStorageStatus(string docid, int status, string remark, string userid, string operateip, string clientid)
         {
             SqlParameter[] paras = { 
@@ -251,7 +240,7 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateStorageStatus", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool AuditStorageIn(string docid, int doctype, int isover, string details, string remark, string userid, string operateip, string agentid, string clientid, ref int result, ref string errinfo)
+        public bool AuditStorageIn(string docid, int doctype, int isover, string details, string remark, string userid, string operateip, string clientid, ref int result, ref string errinfo)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@Result",SqlDbType.Int),
@@ -264,7 +253,6 @@ namespace IntFactoryDAL
                                      new SqlParameter("@Remark",remark),
                                      new SqlParameter("@UserID",userid),
                                      new SqlParameter("@OperateIP",operateip),
-                                     new SqlParameter("@AgentID",agentid),
                                      new SqlParameter("@ClientID",clientid)
                                    };
             paras[0].Value = result;
@@ -277,14 +265,13 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool AuditReturnIn(string docid, string userid, string agentid, string clientid, ref int result, ref string errinfo)
+        public bool AuditReturnIn(string docid, string userid,string clientid, ref int result, ref string errinfo)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@Result",SqlDbType.Int),
                                        new SqlParameter("@ErrInfo",SqlDbType.NVarChar,500),
                                        new SqlParameter("@DocID",docid),
                                        new SqlParameter("@UserID",userid),
-                                       new SqlParameter("@AgentID",agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
             paras[0].Value = result;
@@ -298,14 +285,13 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool AuditDamagedDoc(string docid, string userid, string agentid, string clientid, ref int result, ref string errinfo)
+        public bool AuditDamagedDoc(string docid, string userid, string clientid, ref int result, ref string errinfo)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@Result",SqlDbType.Int),
                                        new SqlParameter("@ErrInfo",SqlDbType.NVarChar,500),
                                        new SqlParameter("@DocID",docid),
                                        new SqlParameter("@UserID",userid),
-                                       new SqlParameter("@AgentID",agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
             paras[0].Value = result;
@@ -319,14 +305,13 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool AuditOverflowDoc(string docid, string userid, string agentid, string clientid, ref int result, ref string errinfo)
+        public bool AuditOverflowDoc(string docid, string userid, string clientid, ref int result, ref string errinfo)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@Result",SqlDbType.Int),
                                        new SqlParameter("@ErrInfo",SqlDbType.NVarChar,500),
                                        new SqlParameter("@DocID",docid),
                                        new SqlParameter("@UserID",userid),
-                                       new SqlParameter("@AgentID",agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
             paras[0].Value = result;

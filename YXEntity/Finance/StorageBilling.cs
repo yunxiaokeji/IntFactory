@@ -26,172 +26,51 @@ namespace IntFactoryEntity
 	{
 		public StorageBilling()
 		{}
-		#region Model
-		private int _autoid;
-		private string _billingid;
-		private string _billingcode;
-		private string _docid;
-		private string _doccode;
-		private decimal _totalmoney;
-		private int _type;
-		private int _status=1;
-		private int _paystatus=0;
-		private DateTime _paytime;
-		private decimal _paymoney=0M;
-		private int _invoicestatus=0;
-		private DateTime _invoicetime;
-		private string _remark="";
-		private DateTime _createtime= DateTime.Now;
-		private string _createuserid;
-		private DateTime _updatetime= DateTime.Now;
-		private string _clientid;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int AutoID
-		{
-			set{ _autoid=value;}
-			get{return _autoid;}
-		}
+		public int AutoID{ get; set; }
+
         [Property("Lower")] 
-		public string BillingID
-		{
-			set{ _billingid=value;}
-			get{return _billingid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string BillingCode
-		{
-			set{ _billingcode=value;}
-			get{return _billingcode;}
-		}
+		public string BillingID{ get; set; }
+
+		public string BillingCode{ get; set; }
+
         [Property("Lower")] 
-		public string DocID
-		{
-			set{ _docid=value;}
-			get{return _docid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DocCode
-		{
-			set{ _doccode=value;}
-			get{return _doccode;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal TotalMoney
-		{
-			set{ _totalmoney=value;}
-			get{return _totalmoney;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int Type
-		{
-			set{ _type=value;}
-			get{return _type;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int Status
-		{
-			set{ _status=value;}
-			get{return _status;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int PayStatus
-		{
-			set{ _paystatus=value;}
-			get{return _paystatus;}
-		}
+		public string DocID{ get; set; }
+
+		public string DocCode{ get; set; }
+
+		public decimal TotalMoney{ get; set; }
+
+		public int Type{ get; set; }
+
+		public int Status{ get; set; }
+
+		public int PayStatus{ get; set; }
+
         public string PayStatusStr { get; set; }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime PayTime
-		{
-			set{ _paytime=value;}
-			get{return _paytime;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal PayMoney
-		{
-			set{ _paymoney=value;}
-			get{return _paymoney;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int InvoiceStatus
-		{
-			set{ _invoicestatus=value;}
-			get{return _invoicestatus;}
-		}
+		public DateTime PayTime{ get; set; }
+
+		public decimal PayMoney{ get; set; }
+
+		public int InvoiceStatus{ get; set; }
+
         public string InvoiceStatusStr { get; set; }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime InvoiceTime
-		{
-			set{ _invoicetime=value;}
-			get{return _invoicetime;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Remark
-		{
-			set{ _remark=value;}
-			get{return _remark;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
+		public DateTime InvoiceTime{ get; set; }
+
+		public string Remark{ get; set; }
+
+		public DateTime CreateTime{ get; set; }
+
         [Property("Lower")] 
-		public string CreateUserID
-		{
-			set{ _createuserid=value;}
-			get{return _createuserid;}
-		}
+		public string CreateUserID{ get; set; }
 
         public Users CreateUser { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime UpdateTime
-		{
-			set{ _updatetime=value;}
-			get{return _updatetime;}
-		}
 
-        [Property("Lower")]
-        public string AgentID { get; set; }
+		public DateTime UpdateTime{ get; set; }
 
         [Property("Lower")] 
-		public string ClientID
-		{
-			set{ _clientid=value;}
-			get{return _clientid;}
-		}
-		#endregion Model
+		public string ClientID{ get; set; }
 
         public List<StorageBillingPay> StorageBillingPays { get; set; }
 

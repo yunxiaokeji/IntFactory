@@ -12,7 +12,6 @@ namespace IntFactoryDAL.Manage
     {
         public static FeedBackDAL BaseProvider = new FeedBackDAL();
 
-        #region 添加
 
         public bool InsertFeedBack(string title, string contactName, string mobilePhone, int type, string filePath, string remark,
                                    string createUserID)
@@ -30,7 +29,6 @@ namespace IntFactoryDAL.Manage
             string cmdText = "insert into feedback(Title,ContactName,MobilePhone,Type,FilePath,Remark,CreateUserID) values(@Title,@ContactName,@MobilePhone,@Type,@FilePath,@Remark,@CreateUserID)";
             return ExecuteNonQuery(cmdText, parms, CommandType.Text) > 0;
         }
-        #endregion
 
         public DataTable GetFeedBackDetail(string id)
         {

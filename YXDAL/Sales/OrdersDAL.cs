@@ -13,8 +13,8 @@ namespace IntFactoryDAL
         public static OrdersDAL BaseProvider = new OrdersDAL();
         #region 查询
 
-        public DataSet GetOrders(int searchtype, string entrustClientID, string typeid, int status, int sourceType, int orderStatus, int mark, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string searchagentid, string begintime, string endtime,
-                                string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string agentid, string clientid)
+        public DataSet GetOrders(int searchtype, string entrustClientID, string typeid, int status, int sourceType, int orderStatus, int mark, int paystatus, int invoicestatus, int returnstatus, string searchuserid, string searchteamid, string begintime, string endtime,
+                                string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
@@ -31,7 +31,6 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ReturnStatus",returnstatus),
                                        new SqlParameter("@SearchUserID",searchuserid),
                                        new SqlParameter("@SearchTeamID",searchteamid),
-                                       new SqlParameter("@SearchAgentID",searchagentid),
                                        new SqlParameter("@BeginTime",begintime),
                                        new SqlParameter("@EndTime",endtime),
                                        new SqlParameter("@Keywords",keyWords),
@@ -39,7 +38,6 @@ namespace IntFactoryDAL
                                        new SqlParameter("@pageSize",pageSize),
                                        new SqlParameter("@pageIndex",pageIndex),
                                        new SqlParameter("@UserID",userid),
-                                       new SqlParameter("@AgentID", agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
             paras[0].Value = totalCount;
@@ -166,11 +164,10 @@ namespace IntFactoryDAL
             return (int)ExecuteScalar(sql, paras, CommandType.Text);
         }
 
-        public DataSet GetOrderByID(string orderid, string agentid, string clientid)
+        public DataSet GetOrderByID(string orderid, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@OrderID",orderid),
-                                       new SqlParameter("@AgentID", agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
 
@@ -178,11 +175,10 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataSet GetOrderForFentReport(string orderid, string agentid, string clientid)
+        public DataSet GetOrderForFentReport(string orderid,  string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@OrderID",orderid),
-                                       new SqlParameter("@AgentID", agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
 
@@ -190,11 +186,10 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataSet GetOrderBaseInfoByID(string orderid, string agentid, string clientid)
+        public DataSet GetOrderBaseInfoByID(string orderid, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@OrderID",orderid),
-                                       new SqlParameter("@AgentID", agentid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
 
@@ -255,7 +250,7 @@ namespace IntFactoryDAL
 
         public bool CreateOrder(string orderid, string ordercode, string aliOrderCode, string goodscode, string title, string customerid, string name, string mobile,
                                 int sourcetype, int ordertype, string bigcategoryid, string categoryid, decimal price, int quantity, string planTime,
-                                string orderimg, string orderimages, string citycode, string address, string expressCode, string remark, string operateid, string agentid, string clientid)
+                                string orderimg, string orderimages, string citycode, string address, string expressCode, string remark, string operateid, string clientid)
         {
             int result = 0;
             SqlParameter[] paras = { 
@@ -282,7 +277,6 @@ namespace IntFactoryDAL
                                      new SqlParameter("@ExpressCode" , expressCode),
                                      new SqlParameter("@Remark" , remark),
                                      new SqlParameter("@UserID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             paras[0].Direction = ParameterDirection.Output;
@@ -351,7 +345,7 @@ namespace IntFactoryDAL
 
         
 
-        public string CreateReply(string guid,string stageID,int mark, string content, string userID, string agentID, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
+        public string CreateReply(string guid,string stageID,int mark, string content, string userID, string clientid, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
         {
             string replyID = Guid.NewGuid().ToString();
 
@@ -363,7 +357,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@Content",content),
                                      new SqlParameter("@FromReplyID",fromReplyID),
                                      new SqlParameter("@CreateUserID" , userID),
-                                     new SqlParameter("@AgentID" , agentID),
+                                     new SqlParameter("@ClientID" , clientid),
                                      new SqlParameter("@FromReplyUserID" , fromReplyUserID),
                                      new SqlParameter("@FromReplyAgentID" , fromReplyAgentID),
                                    };
@@ -371,14 +365,13 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_CreateOrderReply", paras, CommandType.StoredProcedure) > 0 ? replyID : string.Empty;
         }
 
-        public bool CreateOrderCost(string orderid, decimal price, string remark, string operateid, string agentid, string clientid)
+        public bool CreateOrderCost(string orderid, decimal price, string remark, string operateid,  string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@Price",price),
                                      new SqlParameter("@Remark",remark),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
@@ -388,102 +381,95 @@ namespace IntFactoryDAL
 
         #region 编辑、删除
 
-        public bool UpdateOrderOwner(string orderid, string userid, string operateid, string agentid, string clientid)
+        public bool UpdateOrderOwner(string orderid, string userid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@UserID",userid),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderOwner", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderPrice(string orderid, string autoid, decimal price, string operateid, string agentid, string clientid)
+        public bool UpdateOrderPrice(string orderid, string autoid, decimal price, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@AutoID",autoid),
                                      new SqlParameter("@Price",price),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderPrice", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateProductQuantity(string orderid, string autoid, decimal quantity, string operateid, string agentid, string clientid)
+        public bool UpdateProductQuantity(string orderid, string autoid, decimal quantity, string operateid,string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@AutoID",autoid),
                                      new SqlParameter("@Quantity",quantity),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderProductQuantity", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateProductLoss(string orderid, string autoid, decimal quantity, string operateid, string agentid, string clientid)
+        public bool UpdateProductLoss(string orderid, string autoid, decimal quantity, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@AutoID",autoid),
                                      new SqlParameter("@Quantity",quantity),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderProductLoss", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool DeleteProduct(string orderid, string autoid, string operateid, string agentid, string clientid)
+        public bool DeleteProduct(string orderid, string autoid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@AutoID",autoid),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_DeleteOrderProduct", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderProcess(string orderid, string processid, string operateid, string agentid, string clientid)
+        public bool UpdateOrderProcess(string orderid, string processid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@ProcessID",processid),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderProcess", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderCategoryID(string orderid, string pid, string categoryid, string operateid, string agentid, string clientid)
+        public bool UpdateOrderCategoryID(string orderid, string pid, string categoryid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@PID",pid),
                                      new SqlParameter("@CategoryID",categoryid),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderCategoryID", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderStatus(string orderid, int status, string time, decimal price, string operateid, string agentid, string clientid, out string errinfo)
+        public bool UpdateOrderStatus(string orderid, int status, string time, decimal price, string operateid,string clientid, out string errinfo)
         {
             errinfo = "";
             SqlParameter[] paras = { 
@@ -494,7 +480,6 @@ namespace IntFactoryDAL
                                      new SqlParameter("@FinalPrice",price),
                                      new SqlParameter("@DocCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
@@ -506,86 +491,81 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool UpdateProfitPrice(string orderid, decimal profit, string operateid, string agentid, string clientid)
+        public bool UpdateProfitPrice(string orderid, decimal profit, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@Profit",profit),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateProfitPrice", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderDiscount(string orderid, decimal discount, decimal price, string operateid, string agentid, string clientid)
+        public bool UpdateOrderDiscount(string orderid, decimal discount, decimal price, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@Discount",discount),
                                      new SqlParameter("@Price",price),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderDiscount", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderTotalMoney(string orderid, decimal totalMoney, string operateid, string agentid, string clientid)
+        public bool UpdateOrderTotalMoney(string orderid, decimal totalMoney, string operateid, string clientid)
         {
+            return true; //无效，暂留
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@TotalMoney",totalMoney),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderTotalMoney", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderClient(string orderid, string  newclientid, string operateid, string agentid, string clientid)
+        public bool UpdateOrderClient(string orderid, string  newclientid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@NewClientID",newclientid),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderClient", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderOriginalID(string orderid, string originalorderid, string operateid, string agentid, string clientid)
+        public bool UpdateOrderOriginalID(string orderid, string originalorderid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@OriginalID",originalorderid),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderOriginalID", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderCustomer(string orderid, string customerid, string operateid, string agentid, string clientid)
+        public bool UpdateOrderCustomer(string orderid, string customerid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@CustomerID",customerid),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderCustomer", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderImages(string orderid, string image, string images, string agentid, string clientid)
+        public bool UpdateOrderImages(string orderid, string image, string images, string clientid)
         {
             string sql = "Update Orders set OrderImage=@OrderImage,OrderImages=@OrderImages where OrderID=@OrderID and ClientID=@ClientID";
             sql += " update OrderTask set OrderImg=@OrderImage where OrderID=@OrderID and ClientID=@ClientID ";
@@ -593,26 +573,10 @@ namespace IntFactoryDAL
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@OrderImage",image),
                                      new SqlParameter("@OrderImages" , images),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
-        }
-
-        public bool UpdateOrderPlateAttr(string orderid, string taskID, string valueIDS, string platehtml, string createUserID, string agentID, string clientID)
-        {
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@OrderID",orderid),
-                                     new SqlParameter("@TaskID",taskID),
-                                     new SqlParameter("@Platehtml",platehtml),
-                                     new SqlParameter("@ValueIDS",valueIDS),
-                                     new SqlParameter("@CreateUserID",createUserID),
-                                     new SqlParameter("@AgentID",agentID),
-                                     new SqlParameter("@ClientID",clientID)
-                                   };
-
-            return ExecuteNonQuery("P_UpdateOrderPlateAttr", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool UpdateOrderPlateAttr(string orderid, string platehtml)
@@ -625,24 +589,22 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderPlateAttr", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool DeleteOrder(string orderid, string operateid, string agentid, string clientid)
+        public bool DeleteOrder(string orderid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_DeleteOrder", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderOver(string orderid, string operateid, string agentid, string clientid)
+        public bool UpdateOrderOver(string orderid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
@@ -650,7 +612,7 @@ namespace IntFactoryDAL
         }
 
         public bool EditOrder(string orderid, string goodsCode, string goodsName, string personName, string mobileTele, string cityCode, string address,
-                                string postalcode, string typeid, int expresstype, string remark, string operateid, string agentid, string clientid, out int result)
+                                string postalcode, int expresstype, string remark, string operateid, string clientid, out int result)
         {
             result = 0;
             SqlParameter[] paras = { 
@@ -663,11 +625,9 @@ namespace IntFactoryDAL
                                      new SqlParameter("@CityCode" , cityCode),
                                      new SqlParameter("@Address" , address),
                                      new SqlParameter("@PostalCode" , postalcode),
-                                     new SqlParameter("@TypeID" , typeid),
                                      new SqlParameter("@ExpressType" , expresstype),
                                      new SqlParameter("@Remark" , remark),
                                      new SqlParameter("@UserID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             paras[0].Direction = ParameterDirection.Output;
@@ -676,7 +636,7 @@ namespace IntFactoryDAL
             return result == 1;
         }
 
-        public bool EffectiveOrderProduct(string orderid, string operateid, string agentid, string clientid, out int result)
+        public bool EffectiveOrderProduct(string orderid, string operateid, string clientid, out int result)
         {
             result = 0;
             SqlParameter[] paras = { 
@@ -684,7 +644,6 @@ namespace IntFactoryDAL
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@BillingCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             paras[0].Direction = ParameterDirection.Output;
@@ -693,14 +652,13 @@ namespace IntFactoryDAL
             return result == 1;
         }
 
-        public bool ApplyReturnOrder(string orderid, string operateid, string agentid, string clientid, out int result)
+        public bool ApplyReturnOrder(string orderid, string operateid, string clientid, out int result)
         {
             result = 0;
             SqlParameter[] paras = { 
                                      new SqlParameter("@Result",result),
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             paras[0].Direction = ParameterDirection.Output;
@@ -709,28 +667,26 @@ namespace IntFactoryDAL
             return result == 1;
         }
 
-        public bool UpdateReturnQuantity(string orderid, string autoid, int quantity, string operateid, string agentid, string clientid)
+        public bool UpdateReturnQuantity(string orderid, string autoid, int quantity, string operateid,string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@AutoID",autoid),
                                      new SqlParameter("@Quantity",quantity),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
             return ExecuteNonQuery("P_UpdateReturnQuantity", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool ApplyReturnProduct(string orderid, string operateid, string agentid, string clientid, out int result)
+        public bool ApplyReturnProduct(string orderid, string operateid, string clientid, out int result)
         {
             result = 0;
             SqlParameter[] paras = { 
                                      new SqlParameter("@Result",result),
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             paras[0].Direction = ParameterDirection.Output;
@@ -739,20 +695,7 @@ namespace IntFactoryDAL
             return result == 1;
         }
 
-        public bool UpdateOpportunityStage(string opportunityid, string stageid, string operateid, string agentid, string clientid)
-        {
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@OpportunityID",opportunityid),
-                                     new SqlParameter("@StageID",stageid),
-                                     new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-
-            return ExecuteNonQuery("P_UpdateOpportunityStage", paras, CommandType.StoredProcedure) > 0;
-        }
-
-        public bool CreateOrderCustomer(string orderid, string operateid, string agentid, string clientid, out string customerid, out int result)
+        public bool CreateOrderCustomer(string orderid, string operateid, string clientid, out string customerid, out int result)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@CustomerID",SqlDbType.NVarChar,64),
@@ -769,13 +712,12 @@ namespace IntFactoryDAL
             return !string.IsNullOrEmpty(customerid);
         }
 
-        public bool DeleteOrderCost(string orderid, string autoid, string operateid, string agentid, string clientid)
+        public bool DeleteOrderCost(string orderid, string autoid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@AutoID",autoid),
                                      new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@AgentID" , agentid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
 
@@ -809,7 +751,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@ClientID",clientid)
                                    };
 
-            string sql = "insert OrderPriceRange(RangeID,MinQuantity,Price,OrderID,CreateUserID,ClientID,AgentID) values(@RangeID,@MinQuantity,@Price,@OrderID,@UserID,@ClientID,@ClientID)";
+            string sql = "insert OrderPriceRange(RangeID,MinQuantity,Price,OrderID,CreateUserID,ClientID) values(@RangeID,@MinQuantity,@Price,@OrderID,@UserID,@ClientID)";
 
             return ExecuteNonQuery(sql, paras, CommandType.Text) > 0?rangeID:string.Empty;
         }
