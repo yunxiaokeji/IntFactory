@@ -64,11 +64,6 @@ define(function (require, exports, module) {
             var _this = $(this);
             if (!_this.hasClass("hover")) {
 
-                //不带type进入材料详情可直接添加报损、报溢、采购单
-                if (_self.ordertype == 0 && _self.saveType == 3) {
-                    ObjectJS.getDepotsByID(_this.data('id'));
-                }
-
                 _this.addClass("hover");
                 _this.siblings().removeClass("hover");
 
@@ -129,7 +124,6 @@ define(function (require, exports, module) {
                             bl = false;
                         }
                     });
-
                     if (bl) {
                         $("#addcart").prop("disabled", false).removeClass("addcartun");
                         _self.detailid = model.ProductDetails[i].ProductDetailID;
@@ -144,6 +138,10 @@ define(function (require, exports, module) {
                             $("#productimg").attr("src", model.ProductDetails[i].ProductImage);
                         }
                         $("#productStockQuantity").text(model.ProductDetails[i].StockIn - model.ProductDetails[i].LogicOut);
+                        //不带type进入材料详情可直接添加报损、报溢、采购单
+                        if (_self.ordertype == 0 && _self.saveType == 3) {
+                            ObjectJS.getDepotsByID(_this.data('id'));
+                        }
                         return;
                     } else {
                         $("#addcart").prop("disabled", true).addClass("addcartun");
@@ -269,7 +267,6 @@ define(function (require, exports, module) {
             $("#damaged").click(function () {
                 $("#addDoc").html("加入" + $(this).text().trim());
                 $("#addDocAndBack").html("加入" + $(this).text().trim() + "并返回");
-
                 if ($("#productStockQuantity").text() * 1 <= 0) {
                     $(".quickly-add-stock").hide();
                 } else {
@@ -328,7 +325,7 @@ define(function (require, exports, module) {
             Global.post("/Stock/GetDeoptByProductDetailID", { did: id }, function (data) {
                 var depots = data.depots;
                 cacheDepot[id] = depots;
-                if (depots.length > 0) {
+                if (depots.length > 0 && $("#productStockQuantity").text() * 1>0) {
                     _self.depotID = depots[0].DepotID;
                     $(".damaged-dropdown").dropdown({
                         prevText: "货位－",
@@ -349,7 +346,7 @@ define(function (require, exports, module) {
             });
         } else {
             var depots = cacheDepot[id];
-            if (depots.length > 0) {
+            if (depots.length > 0 && $("#productStockQuantity").text() * 1 > 0) {
                 _self.depotID = depots[0].DepotID;
                 $(".damaged-dropdown").dropdown({
                     prevText: "货位－",
@@ -413,10 +410,10 @@ define(function (require, exports, module) {
     ObjectJS.bindDetail = function (model) {
         var _self = this;
         _self.productid = model.ProductID;
-
         //绑定子产品详情
         for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
             if (model.ProductDetails[i].ProductDetailID == _self.detailid) {
+                console.log(model.ProductDetails[i]);
                 var productdetailid = model.ProductDetails[i].ProductDetailID;
                 $(".attr-item").find("li[data-id='" + productdetailid + "']").addClass("hover");
 

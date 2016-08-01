@@ -541,10 +541,10 @@ namespace IntFactoryBusiness
         /// </summary>
         /// <param name="plate"></param>
         /// <returns></returns>
-        public static bool AddPlateMaking(PlateMaking plate, string operateid, string ip, string clientid)
+        public static bool AddPlateMaking(PlateMaking plate, string operateid, string ip, string clientid,string plateID)
         {
             bool flag= TaskDAL.BaseProvider.AddPlateMaking(plate.Title, plate.Remark, plate.Icon,
-                plate.TaskID, plate.Type, plate.OrderID, plate.CreateUserID);
+                plate.TaskID, plate.Type, plate.OrderID, plate.CreateUserID, plateID);
 
             if (flag)
             {

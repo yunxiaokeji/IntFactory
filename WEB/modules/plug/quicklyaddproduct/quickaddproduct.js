@@ -46,9 +46,8 @@
                             ProductName: $("#productName").val().trim(),
                             GeneralName: '',//$("#generalName").val().trim(),
                             IsCombineProduct: 0,
-                            ProdiverID: $("#prodiver").data("id"),
-                            BigUnitID: _self.unitID,//$("#bigUnit").val().trim(),
-                            SmallUnitID: _self.unitID,
+                            ProviderID: $("#prodiver").data("id"),
+                            UnitID: _self.unitID,//$("#bigUnit").val().trim(),
                             BigSmallMultiple: 1,
                             CategoryID: _self.categoryID ? _self.categoryID : "",
                             Status: 1,
@@ -236,6 +235,12 @@
             },
             select: function (item) {
 
+            }
+        });
+
+        $(".autocomplete-text").change(function () {
+            if ($(this).val().trim() == "") {
+                $("#prodiver").data('id', '');
             }
         });
 

@@ -396,11 +396,11 @@
                     <td>@(detail.Remark)</td>
                     <td class="center">@(detail.UnitName)</td>
                     <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
-                    <td class="center tr-quantity"><label class="quantity">@((detail.Quantity * model.PlanQuantity).ToString("f3"))</label></td>
-                    <td class="center tr-loss"><label class="loss">@((detail.Loss * model.PlanQuantity).ToString("f3"))</label></td>
-                    <td class="center">@(detail.LossRate.ToString("f3"))</td>
-                    <td class="center">@(((detail.Quantity * model.PlanQuantity) + (detail.Loss * model.PlanQuantity)).ToString("f3"))</td>
-                    <td class="tRight moneytotal">@((detail.TotalMoney * model.PlanQuantity).ToString("f3"))</td>
+                    <td class="center tr-quantity"><label class="quantity">@((detail.Quantity ).ToString("f3"))</label></td>
+                    <td class="center tr-loss"><label class="loss">@((detail.Loss).ToString("f3"))</label></td>
+                    <td class="center">@((detail.Loss/detail.Quantity).ToString("f3"))</td>
+                    <td class="center">@((detail.Quantity+detail.Loss))</td>
+                    <td class="tRight moneytotal">@(((detail.Quantity+detail.Loss)*detail.Price).ToString("f3"))</td>
                 </tr>
                 }
             <tr class="total-item bold">

@@ -417,9 +417,11 @@ namespace IntFactoryDAL
             return GetDataTable(sqltext, paras, CommandType.Text);
         }
 
-        public bool AddPlateMaking(string title, string remark, string icon, string taskID, int type, string orderID, string userID)
+        public bool AddPlateMaking(string title, string remark, string icon, string taskID, int type, string orderID, string userID,string plateID)
         {
+
             SqlParameter[] paras = { 
+                                     new SqlParameter("@PlateID",plateID),
                                      new SqlParameter("@Title",title),
                                      new SqlParameter("@Remark",remark),
                                      new SqlParameter("@Icon",icon),

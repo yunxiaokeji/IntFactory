@@ -148,7 +148,7 @@ define(function (require, exports, module) {
     ObjectJS.getList = function () {
         var _self = this;
         $(".table-header").nextAll().remove();
-        $(".table-header").after("<tr><td colspan='7'><div class='data-loading'><div></td></tr>");
+        $(".table-header").after("<tr><td colspan='10'><div class='data-loading'><div></td></tr>");
         var url = "/Purchase/GetPurchases",
             template = "template/purchase/purchases.html";
 

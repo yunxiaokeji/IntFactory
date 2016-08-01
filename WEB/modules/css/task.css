@@ -205,10 +205,10 @@
     height:24px; 
     min-width:24px;
     cursor:pointer;
-    background:url(../../images/btn-add.png) no-repeat; 
+    background:url(/modules/images/btn-add.png) no-repeat; 
 }
 .platemakingContent .btn-remove{
-     background:url(../../images/btn-remove.png) no-repeat; 
+     background:url(/modules/images/btn-remove.png) no-repeat; 
      height:24px; 
      min-width:24px;
      cursor:pointer;

@@ -158,12 +158,10 @@
                                                                 "FileUploaded": function (up, file, info) {
                                                                     var info = JSON.parse(info);
                                                                     _this.siblings("img").attr("src", file.server + info.key);
-                                                                    _this.siblings("img").attr("data", file.server + info.key);
+                                                                    _this.siblings("img").data("src", file.server + info.key);
                                                                 }
                                                             }
                                                         });
-
-
                                                     });
                                                     //价格必须大于0的数字
                                                     innerText.find(".price,.bigprice").change(function () {
@@ -258,7 +256,7 @@
                                                     "FileUploaded": function (up, file, info) {
                                                         var info = JSON.parse(info);
                                                         _this.siblings("img").attr("src", file.server + info.key);
-                                                        _this.siblings("img").attr("data", file.server + info.key);
+                                                        _this.siblings("img").data("src", file.server + info.key);
                                                     }
                                                 }
                                             });
@@ -461,9 +459,8 @@
             ProductName: $("#productName").val().trim(),
             GeneralName: '',//$("#generalName").val().trim(),
             IsCombineProduct: 0,
-            ProdiverID: $("#prodiver").data("id"),
-            BigUnitID: $("#smallUnit").val().trim(),//$("#bigUnit").val().trim(),
-            SmallUnitID: $("#smallUnit").val().trim(),
+            ProviderID: $("#prodiver").data("id"),
+            UnitID: $("#smallUnit").val() ? $("#smallUnit").val().trim() : "",//$("#bigUnit").val().trim(),
             BigSmallMultiple: 1,
             CategoryID: _self.categoryID ? _self.categoryID : "",
             Status: $("#status").prop("checked") ? 1 : 0,
@@ -484,6 +481,7 @@
             ShapeCode: $("#shapeCode").val(),
             Description: encodeURI(editor.getContent())
         };
+
         //快捷添加子产品
         if (!_self.ProductID) {
             var details = [];
@@ -492,7 +490,7 @@
                 var modelDetail = {
                     DetailsCode: _this.find(".code").val(),
                     ShapeCode: "",
-                    ImgS: _this.find("img").data("src"),
+                    ImgS: _this.find("img").data("src") || '',
                     SaleAttr: _this.data("attr"),
                     AttrValue: _this.data("value"),
                     SaleAttrValue: _this.data("attrvalue"),
@@ -824,8 +822,8 @@
             $("#" + list[i].split(':')[0]).val(list[i].split(':')[1]);
         }
 
-        $("#prodiver").val(model.ProdiverID);
-        $("#smallUnit").val(model.SmallUnitID);
+        $("#prodiver").data('id', model.ProviderID);
+        $("#smallUnit").val(model.UnitID);
         //$("#bigUnit").val(model.BigUnitID);
 
         //$("#bigSmallMultiple").val(model.BigSmallMultiple);
@@ -1276,13 +1274,13 @@
         var _self = this, count = 1;
         doT.exec("template/products/productdetails_add.html", function (templateFun) {
             var html = templateFun(model.Category.SaleAttrs);
-
             Easydialog.open({
                 container: {
                     id: "productdetails-add-div",
                     header: !id ? "添加材料子规格" : "编辑材料子规格",
                     content: html,
                     yesFn: function () {
+                        console.log(!DetailsVerify.isPass('#imgSLurl'));
                         if (!DetailsVerify.isPass('#imgSLurl')) {
                             return false;
                         }

@@ -224,7 +224,6 @@ define(function (require, exports, module) {
     ObjectJS.initDetail = function (docid, wareid) {
         var _self = this;
         _self.docid = docid;
-        
         Global.post("/System/GetDepotSeatsByWareID", { wareid: wareid }, function (data) {
             CacheDepot[wareid] = data.Items;
             $(".detail-item").each(function () {
@@ -274,6 +273,7 @@ define(function (require, exports, module) {
         var _self = this;
         depotbox.empty();
         var depot = $("<select data-id='" + autoid + "' data-wareid='" + wareid + "'></select>");
+        
         for (var i = 0, j = depots.length; i < j; i++) {
             depot.append($("<option value='" + depots[i].DepotID + "' >" + depots[i].DepotCode + "</option>"))
         }

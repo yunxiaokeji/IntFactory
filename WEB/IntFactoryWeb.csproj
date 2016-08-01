@@ -567,6 +567,7 @@
     <Content Include="modules\plug\showtaskdetail\task-detail.html" />
     <Content Include="modules\template\task\platemarting-list.html" />
     <Content Include="modules\template\task\set-endtime.html" />
+    <Content Include="modules\template\task\platemarting-quickly-add.html" />
     <Content Include="Views\System\OrderProcess.cshtml" />
     <Content Include="Areas\Api\Views\Web.config" />
     <Content Include="modules\css\iconfont\iconfont.eot" />
