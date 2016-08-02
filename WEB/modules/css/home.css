@@ -212,7 +212,7 @@ border-bottom:2px solid #4a98e7;
     border-radius:50%;
 }
 
-.order-item { overflow:auto; border-top:1px solid #ddd; border-bottom:1px solid #ddd;  margin-bottom:20px; background-color:#fff; box-shadow:0 5px 3px #ddd; }
+.order-item { overflow:auto; border-top:1px solid #ddd; border-bottom:1px solid #ddd;  margin:20px 0; background-color:#fff; box-shadow:0 0px 5px #ddd; }
 .order-item span{ color:#333; display:inline-block; }
 .order-item .iconfont { color: #8b8b8b; }
 

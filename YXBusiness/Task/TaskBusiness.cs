@@ -177,9 +177,9 @@ namespace IntFactoryBusiness
             return TaskDAL.BaseProvider.GetNoAcceptTaskCount(ownerID, orderType, clientID);
         }
 
-        public static int GetexceedTaskCount(string ownerID, int orderType, string clientID)
+        public static int GetExceedTaskCount(string ownerID, int orderType, string clientID)
         {
-            return TaskDAL.BaseProvider.GetexceedTaskCount(ownerID, orderType, clientID);
+            return TaskDAL.BaseProvider.GetExceedTaskCount(ownerID, orderType, clientID);
         }
 
         public static TaskEntity GetTaskDetail(string taskID)

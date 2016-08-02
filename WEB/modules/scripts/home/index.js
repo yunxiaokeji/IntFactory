@@ -24,7 +24,7 @@
         filterTimeType: 1,//根据时间
         pageSize: 5,
         pageIndex: 1,
-        userID:"",
+        userID: "",
     }
 
     var ObjectJS = {};
@@ -35,27 +35,29 @@
         ObjectJS.remainDate = remainDate;
         ObjectJS.orderLevel = orderLevel;
         ObjectJS.taskLevel = taskLevel;
-        
+
         ObjectJS.orderMarks = JSON.parse(orderMarks.replace(/&quot;/g, '"'));
         ObjectJS.tastMarks = JSON.parse(tastMarks.replace(/&quot;/g, '"'));
 
-        if (orderLevel == 0 && taskLevel==0) {
-            $(".main-content").hide();
+        if (orderLevel == "0" && taskLevel == "0") {
+            return;
         }
 
-        if (orderLevel == 1) {
+        if (orderLevel == "-1") {
             $(".report-title").html('所有订单');
             $("#chooseBranch").show();
-        }else if (orderLevel == 0) {
-            $(".report-title").hide();
+        } else if (orderLevel == "0") {
+            $(".report-title").remove();
             $(".report-title-task").addClass("hover");
             Paras.moduleType = 2;
-        } 
+        } else {
 
-        if (taskLevel == 1) {
+        }
+
+        if (taskLevel == "-1") {
             $(".report-title-task").html('所有任务');
             $("#chooseBranch").show();
-        }else if (taskLevel == 0) {
+        } else if (taskLevel == 0) {
             $(".report-title-task").hide();            
         }
         
@@ -134,14 +136,14 @@
                         $(".task-status").show();
                         $("#taskType").show();                        
 
-                        if (ObjectJS.taskLevel == 1) {
+                        if (ObjectJS.taskLevel == "-1") {
                             $("#chooseBranch").show();                            
                         } else {
                             $("#chooseBranch").hide();
                         }
                         
                     } else {
-                        if (ObjectJS.orderLevel == 1) {
+                        if (ObjectJS.orderLevel == "-1") {
                             $("#chooseBranch").show();
                         } else {
                             $("#chooseBranch").hide();
@@ -160,7 +162,7 @@
         });
 
         /*负责人筛选*/
-        if (ObjectJS.orderLevel == 1 || ObjectJS.taskLevel == 1) {
+        if (ObjectJS.orderLevel == "-1" || ObjectJS.taskLevel == "-1") {
             require.async("choosebranch", function () {
                 $("#chooseBranch").chooseBranch({
                     prevText: "人员筛选-",

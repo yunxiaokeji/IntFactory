@@ -134,12 +134,11 @@ namespace IntFactoryBusiness
         }
 
         public List<OrderEntity> GetOrdersByPlanTime(string startPlanTime, string endPlanTime, int orderType, int filterType, int orderStatus,
-            string userID, string clientID, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+            string userID, string clientID, string andWhere, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataTable dt = OrdersDAL.BaseProvider.GetOrdersByPlanTime(startPlanTime, endPlanTime, 
-                orderType, filterType, orderStatus,
-                userID, clientID,pageSize,pageIndex,ref totalCount,ref pageCount);
+            DataTable dt = OrdersDAL.BaseProvider.GetOrdersByPlanTime(startPlanTime, endPlanTime, orderType, filterType, orderStatus,
+                userID, clientID, andWhere, pageSize, pageIndex, ref totalCount, ref pageCount);
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -188,14 +187,9 @@ namespace IntFactoryBusiness
             }
         }
 
-        public int GetNeedOrderCount(string ownerID,int orderType, string clientID)
+        public int GetExceedOrderCount(string ownerID, string orderType, string clientID)
         {
-            return OrdersDAL.BaseProvider.GetNeedOrderCount(ownerID, orderType, clientID);
-        }
-
-        public int GetexceedOrderCount(string ownerID, int orderType, string clientID)
-        {
-            return OrdersDAL.BaseProvider.GetexceedOrderCount(ownerID, orderType, clientID);
+            return OrdersDAL.BaseProvider.GetExceedOrderCount(ownerID, orderType, clientID);
         }
 
         public List<OrderEntity> GetOrdersByCustomerID(string keyWords, string customerid, int ordertype, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
@@ -259,7 +253,6 @@ namespace IntFactoryBusiness
             }
             return list;
         }
-
 
         public OrderEntity GetOrderByID(string orderid)
         {

@@ -93,9 +93,9 @@
         </td>   
         <td class="order-time">
             {% if(item.OrderStatus==0){ %}
-                <div class="mTop10 left">
+                <div class="left">
                     <div class="order-progress left">                    
-                        <div class="center pTop20 red">
+                        <div class="center red">
                             未处理
                         </div>                       
                         <div class="center mTop20">交货日期：{%=item.PlanTime.toDate("yyyy-MM-dd")<="1900-01-01"||item.PlanTime.toDate("yyyy-MM-dd")=="2040-01-01"?"未设置":item.PlanTime.toDate("yyyy-MM-dd")%}</div>
@@ -103,7 +103,7 @@
                     </div>
                 </div>    
             {% }else{ %}
-                <div class="mTop40 left">
+                <div class="mTop20 left">
                     <div class="order-progress left">
                         <div class="layer-line"></div>
                         <div class="order-progress-use order-progress-item" data-width="{%=(item.UseDays==0?1:item.UseDays)/totalDay*100+'%'%}">
