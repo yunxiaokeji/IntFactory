@@ -544,7 +544,7 @@ namespace IntFactoryBusiness
         public static bool AddPlateMaking(PlateMaking plate, string operateid, string ip, string clientid,string plateID)
         {
             bool flag= TaskDAL.BaseProvider.AddPlateMaking(plate.Title, plate.Remark, plate.Icon,
-                plate.TaskID, plate.Type, plate.OrderID, plate.CreateUserID, plateID);
+                plate.TaskID, plate.TypeName, plate.OrderID, plate.CreateUserID, plateID);
 
             if (flag)
             {
@@ -562,7 +562,7 @@ namespace IntFactoryBusiness
         /// <returns></returns>
         public static bool UpdatePlateMaking(PlateMaking plate, string operateid, string ip, string clientid)
         {
-            bool flag= TaskDAL.BaseProvider.UpdatePlateMaking(plate.PlateID,plate.Title,plate.Remark,plate.Icon,plate.Type);
+            bool flag= TaskDAL.BaseProvider.UpdatePlateMaking(plate.PlateID,plate.Title,plate.Remark,plate.Icon,plate.TypeName);
 
             if (flag)
             {

@@ -85,7 +85,7 @@ namespace YXERP.Areas.Api.Controllers
                 plate.Add("icon", p.Icon);
                 plate.Add("title", p.Title);
                 plate.Add("remark", p.Remark);
-                plate.Add("type", p.Type);
+                plate.Add("type", p.TypeName);
 
                 plates.Add(plate);
             }

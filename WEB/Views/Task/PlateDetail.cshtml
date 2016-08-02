@@ -6,7 +6,7 @@
  }
 
 <div class="platemakingContent hide" id="platemakingContent">
-    <div class="talk-title" style="margin:0 10px;" >制版信息
+    <div class="talk-title" style="margin:0 10px;font-size:16px;" >制版信息
         <a class="right" href="/Orders/PlateMakingProcess/@order.OrderID" target="_blank" id="btn-platePrint">
             <span class="iconfont">&#xe658;</span>
         </a>
@@ -41,8 +41,8 @@
                     添加制版
                 </div>
             }
-            <div class="btn right mTop10" style="display:@(hasPlate?"block":"none")"  id="btn-updateTaskRemark">编辑制版</div>
-            <div class="left btn-add mTop10" style="display:@(hasPlate?"block":"none")" id="btn-addColumn">
+            <div class="btn right mTop10 mRight10" style="display:@(hasPlate?"block":"none")"  id="btn-updateTaskRemark">编辑制版</div>
+            <div class="left btn-add mTop10 mLeft10" style="display:@(hasPlate?"block":"none")" id="btn-addColumn">
                 添加制版
             </div>
         }
@@ -51,11 +51,11 @@
 
     @{
         <div class="mTop30 plate">
-            <div class="talk-title" style="margin:0 10px;" >工艺说明
+            <div class="talk-title" style="margin:0 10px;font-size:16px;" >工艺说明
                 @{
                     if (isRoot)
                     {
-                    <div class="btn-add right" id="btnAddPalte">工艺说明录入</div>
+                    <div class="right btn-add" id="addPlateType">添加工艺类型</div>
                     <div class="clear"></div>
                     }
                 }

@@ -18,6 +18,10 @@
     var PlateMarkingType = [];//制版工艺类型缓存
     var ObjectJS = {};
     var ChooseProduct = null;
+
+    var plateMartingItem = [
+            
+    ];
     ///taskid：任务id
     ///orderid:订单id
     ///stageid：订单阶段id
@@ -29,7 +33,7 @@
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
         if (bigCategoryID != "") {
             Global.post("/Task/GetProcessCategoryByID", { categoryid: bigCategoryID }, function (data) {
-                console.log(data);
+                plateMartingItem = data.items;
             });
         }
         if (attrValues != "")
@@ -373,10 +377,7 @@
                 }
                 ObjectJS.isLoading = true;
             });
-
         }
-
-
     }
 
     //标记任务完成
@@ -480,7 +481,6 @@
                 //列表删除任务成员
                 ObjectJS.bindRemoveTaskMember();
             }
-
             ObjectJS.isLoading = true;
         });
     }
@@ -1437,14 +1437,120 @@
 
     //制版工艺说明
     ObjectJS.initPlateMaking = function () {
-        $("#btnAddPalte").click(function () {
-            ObjectJS.addPlateMaking();            
-        });
+        if ($("#addPlateType").length > 0) {
+            $("#addPlateType").click(function () {
+                ObjectJS.choosePlateTypeAdd();
+            });
+        }   
 
+        if ($("#btnAddPalte").length > 0) {
+            $("#btnAddPalte").click(function () {
+                if(btnAddPalte)
+                ObjectJS.addPlateMaking();
+            });
+        }
         $("#setObjectPlate").click(function () {
             var index = $(this).data("index");
             var item = PlateMakings[index];
-            ObjectJS.savePlateMaking(item);
+            console.log(item);
+            var _htmlTr = $(".tb-plates .dropdown[data-index='" + index + "']").parents('tr');
+            DoT.exec("template/task/platemarting-quickly-add.html", function (templateFun) {
+                var innerHtml = templateFun();
+                innerHtml = $(innerHtml);
+                innerHtml.find('.txt-name').val(item.Title);
+                innerHtml.find('.desc').val(item.Remark);
+                innerHtml.find('.plate-ico-img').data('src', item.Icon);
+                innerHtml.find('.plate-ico-img').attr('src', item.Icon);
+                innerHtml.find('.txt-name').val(item.Title);
+
+
+                innerHtml.find('.save-plate').click(function () {
+                    var _thisTr = $(this).parents('tr');
+                    if (!_thisTr.find('.txt-name').val().trim()) {
+                        alert("工艺名称不能为空");
+                        return false;
+                    }
+                    var Plate = {
+                        PlateID: item.PlateID,
+                        Title: _thisTr.find('.txt-name').val() || '',
+                        Remark: _thisTr.find('.desc').val() || '',
+                        Icon: _thisTr.find('.plate-ico-img').data('src') || '',
+                        OrderID: ObjectJS.orderType == 1 ? ObjectJS.orderid : ObjectJS.originalID,
+                        TaskID: ObjectJS.taskid,
+                        TypeName: item.TypeName
+                    };
+                    Global.post("/Task/SavePlateMaking", { plate: JSON.stringify(Plate) }, function (data) {
+                        if (data.result == 0) {
+                            alert("保存失败，请重试");
+                        } else {
+                            /*修改制版处理缓存*/
+                            item.Icon = Plate.Icon;
+                            item.Remark = Plate.Remark;
+                            item.Title = Plate.Title;
+
+                            var plateHtml = '<td class="tLeft item bBottom"><img style="width:30px;height:30px;text-indent:0;" src="' + (_thisTr.find('.plate-ico-img').data('src') || '') + '" /></td>';
+                            plateHtml += '<td class="center item bBottom">' + (_thisTr.find('.txt-name').val() || '') + '</td>';
+                            plateHtml += '<td class="tLeft item show-all-txt bBottom" style="line-height:150%;">' + _thisTr.find('.desc').val() || '' + '</td>';
+                            plateHtml += '<td class="center item width150 bBottom">' + new Date().toString('yyyy-MM-dd hh:mm:ss') + '</td>';
+                            plateHtml += '<td class="center item dropdown width150 bBottom" data-id="' + data.id + '" data-index="' + index + '" data-title="' + (_thisTr.find('.desc').val() || '') + '"><span class="ico-dropdown"></span></td>';
+                            plateHtml = $(plateHtml);
+                            _thisTr.attr('id', 'tr-plate-' + data.id);
+                            _thisTr.html(plateHtml);
+                            _thisTr.find(".dropdown").click(function () {
+                                var _this = $(this);
+                                var position = _this.find(".ico-dropdown").position();
+                                $("#setPlateMaking li").data("id", _this.data("id")).data("index", _this.data("index")).data("title", _this.data("title"));
+                                $("#setPlateMaking").css({ "top": position.top + 20, "left": position.left - 40 }).show().mouseleave(function () {
+                                    $(this).hide();
+                                });
+                            });
+                        }
+                    });
+                });
+
+                innerHtml.find('.cencal-plate').click(function () {
+                    var _thisTr = $(this).parents('tr');
+                    var plateHtml = '<td class="tLeft item bBottom"><img style="width:30px;height:30px;text-indent:0;" src="' + item.Icon + '" /></td>';
+                    plateHtml += '<td class="center item bBottom">' + item.Title + '</td>';
+                    plateHtml += '<td class="tLeft item show-all-txt bBottom" style="line-height:150%;">' + item.Remark + '</td>';
+                    plateHtml += '<td class="center item width150 bBottom">' + item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss') + '</td>';
+                    plateHtml += '<td class="center item dropdown width150 bBottom" data-id="' + item.PlateID + '" data-index="' + index + '" data-title="' + item.Title + '"><span class="ico-dropdown"></span></td>';
+                    plateHtml = $(plateHtml);
+                    _thisTr.attr('id', 'tr-plate-' + item.PlateID);
+                    _thisTr.html(plateHtml);
+                    _thisTr.find(".dropdown").click(function () {
+                        var _this = $(this);
+                        var position = _this.find(".ico-dropdown").position();
+                        $("#setPlateMaking li").data("id", _this.data("id")).data("index", _this.data("index")).data("title", _this.data("title"));
+                        $("#setPlateMaking").css({ "top": position.top + 20, "left": position.left - 40 }).show().mouseleave(function () {
+                            $(this).hide();
+                        });
+                    });
+
+                    $(this).parents('tr').html(_htmlTr);
+                });
+
+                _htmlTr.html(innerHtml);
+
+                if (Upload == null) {
+                    Upload = require("upload");
+                }
+                //工艺说明录入上传附件
+                var uploader = Upload.uploader({
+                    browse_button: innerHtml.find('.add-img').attr('id'),
+                    file_path: "/Content/UploadFiles/Product/",
+                    multi_selection: false,
+                    auto_callback: false,
+                    fileType: 1,
+                    init: {
+                        "FileUploaded": function (up, file, info) {
+                            var info = JSON.parse(info);
+                            innerHtml.find('.plate-ico-img').attr("src", file.server + info.key);
+                            innerHtml.find('.plate-ico-img').data("src", file.server + info.key);
+                        }
+                    }
+                });
+            });
         });
 
         $("#deleteObject").click(function () {
@@ -1456,14 +1562,13 @@
 
     //获取制版工艺说明
     ObjectJS.getPlateMakings = function () {
+        
         $(".tb-plates").html('');
         $(".tb-plates").html("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
-      
         Global.post("/Task/GetPlateMakings", {
             orderID: ObjectJS.orderType == 1 ? ObjectJS.orderid : ObjectJS.originalID
         }, function (data) {
             $(".tb-plates").html('');
-
             if (data.items.length > 0) {
                 DoT.exec("template/task/platemarting-list.html", function (template) {
                     PlateMakings = data.items;
@@ -1475,98 +1580,7 @@
                     $(".typetitle:first td").css("line-height", "40px");
                     html.find(".add-plate").click(function () {
                         var _this = $(this);
-                        if (_this.parents().prev().find('.save-plate').length > 0) {
-                            alert("请先保存上一次编辑信息");
-                            return false;
-                        }
-                        DoT.exec("template/task/platemarting-quickly-add.html", function (templateFun) {
-                            var innerHtml = templateFun();
-                            innerHtml = $(innerHtml);
-                            innerHtml.find('.save-plate').click(function () {
-                                var _thisTr = $(this).parents('tr');
-                                if (!_thisTr.find('.txt-name').val().trim()) {
-                                    alert("工艺名称不能为空");
-                                    return false;
-                                }
-                                var Plate = {
-                                    PlateID: '',
-                                    Title: _thisTr.find('.txt-name').val() || '',
-                                    Remark: _thisTr.find('.desc').val() || '',
-                                    Icon: _thisTr.find('.plate-ico-img').data('src') || '',
-                                    OrderID: ObjectJS.orderType == 1 ? ObjectJS.orderid : ObjectJS.originalID,
-                                    TaskID: ObjectJS.taskid,
-                                    Type: _this.data('type')
-                                };
-                                
-                                Global.post("/Task/SavePlateMaking", { plate: JSON.stringify(Plate) }, function (data) {
-                                    if (data.result == 0) {
-                                        alert("保存失败，请重试");
-                                    } else {
-                                        /*缓存制版信息*/
-                                        var cachePlate = {
-                                            PlateID: data.id,
-                                            Title: (_thisTr.find('.txt-name').val() || ''),
-                                            Remark: _thisTr.find('.desc').val() || '',
-                                            Icon: (_thisTr.find('.plate-ico-img').data('src') || ''),
-                                            OrderID: ObjectJS.orderType == 1 ? ObjectJS.orderid : ObjectJS.originalID,
-                                            TaskID: ObjectJS.taskid,
-                                            Type: _this.data('type')
-                                        };
-                                        var index = 0;
-                                        $(".tb-plates tr .dropdown").each(function () {
-                                            if ($(this).data('index') > index) {
-                                                index = $(this).data('index');
-                                            }
-                                        });
-                                        index += 1;
-                                        PlateMakings[index] = cachePlate;
-                                        var plateHtml = '<td class="tLeft item bBottom"><img style="width:30px;height:30px;text-indent:0;" src="' + (_thisTr.find('.plate-ico-img').data('src') || '') + '" /></td>';
-                                        plateHtml += '<td class="center item bBottom">' + (_thisTr.find('.txt-name').val() || '') + '</td>';
-                                        plateHtml += '<td class="tLeft item show-all-txt bBottom" style="line-height:150%;">' + _thisTr.find('.desc').val() || '' + '</td>';
-                                        plateHtml += '<td class="center item width150 bBottom">' + new Date().toString('yyyy-MM-dd hh:mm:ss') + '</td>';
-                                        plateHtml += '<td class="center item dropdown width150 bBottom" data-id="' + data.id + '" data-index="' + index + '" data-title="' + (_thisTr.find('.desc').val() || '') + '"><span class="ico-dropdown"></span></td>';
-                                        plateHtml = $(plateHtml); 
-                                        _thisTr.attr('id', 'tr-plate-' + data.id);
-                                        _thisTr.html(plateHtml);
-                                        _thisTr.find(".dropdown").click(function () {
-                                            var _this = $(this);
-                                            var position = _this.find(".ico-dropdown").position();
-                                            $("#setPlateMaking li").data("id", _this.data("id")).data("index", _this.data("index")).data("title", _this.data("title"));
-                                            $("#setPlateMaking").css({ "top": position.top + 20, "left": position.left - 40 }).show().mouseleave(function () {
-                                                $(this).hide();
-                                            });
-                                        });
-                                    }
-                                });
-                            });
-
-                            innerHtml.find('.cencal-plate').click(function () {
-                                $(this).parents('tr').remove();
-                            });
-
-                            _this.parents('tr').before(innerHtml);
-
-                            //工艺说明录入上传附件
-                            var uploader = Upload.uploader({
-                                browse_button: innerHtml.find('.add-img').attr('id'),
-                                file_path: "/Content/UploadFiles/Product/",
-                                multi_selection: false,
-                                auto_callback: false,
-                                fileType: 1,
-                                init: {
-                                    "FileUploaded": function (up, file, info) {
-                                        var info = JSON.parse(info);
-                                        innerHtml.find('.plate-ico-img').attr("src", file.server + info.key);
-                                        innerHtml.find('.plate-ico-img').data("src", file.server + info.key);
-                                    }
-                                }
-                            });
-
-                            if (Upload == null) {
-                                Upload = require("upload");
-                            }
-                        });
-
+                        ObjectJS.qulicklyAddPlateMarkings(_this);
                     });
 
                     if ($("#btnAddPalte").length == 1) {
@@ -1583,78 +1597,239 @@
                     else {
                         html.find(".ico-dropdown").remove();
                     }
-
                 });
             }
             else {
-                var addPlateMartingHtml = $('<div class="create-first"><span class="plus">+</span>添加工艺</div>');
-
-                addPlateMartingHtml.unbind().bind("click", function () {
-                    var plateMartingItem = [
-                        {type:"1",text:"裁剪"},
-                        {type:"2",text:"粘衬"},
-                        {type:"3",text:"缝制工艺"},
-                        {type:"4",text:"成衣整烫"},
-                        {type:"5",text:"成衣检验"},
-                        {type:"6",text:"成品包装"}
-                    ];
-
-                    var innerHtml = '<ul id="setTaskPlateMarting" class="role-items">';
-                    for (var i = 0; len = plateMartingItem.length, i < len; i++) {
-                        var item = plateMartingItem[i];
-                        innerHtml += '<li class="role-item" data-type="' + item.type + '" data-text="' + item.text + '">' + item.text + '</li>';
-                    }
-                    innerHtml += '</ul>';
-                    
-                    Easydialog.open({
-                        container: {
-                            id: "initAddPlateMarting",
-                            header: "新增制版类型",
-                            content: innerHtml,
-                            yesFn: function () {
-                                var items = [];
-                                $("#setTaskPlateMarting li").each(function () {
-                                    if ($(this).hasClass('hover')) {
-                                        items.push({ type: $(this).data('type'), text: $(this).data('text') });
-                                    }
-                                });
-                                if (items.length > 0) {
-                                    for (var i = 0; i < items.length; i++) {
-                                        var item = items[i];
-                                    }
-                                    '<tr class="table-header tr-header"> <td class="font14 tLeft width80 bold">裁剪</td> <td class="bold">名称</td>  <td class="tLeft bold">描述</td> <td class="width150 bold">创建时间</td> <td class="center width150 bold">操作</td> </tr>';
-                                }
-                            }
-                        }
+                if ($("#btnAddPalte").length > 0) {
+                    var addPlateMartingHtml = $('<tr><td><div id="showPlateType" class="create-first"><span class="plus">+</span>添加工艺</div></td></tr>');
+                    addPlateMartingHtml.bind("click", function () {
+                        ObjectJS.choosePlateTypeAdd();
                     });
-                    $("#setTaskPlateMarting .role-item").click(function () {
-                        if (!$(this).hasClass("hover"))
-                            $(this).addClass("hover");
-                        else
-                            $(this).removeClass("hover");
-                    });
-                });
-                $(".tb-plates").html(addPlateMartingHtml);
+                    $(".tb-plates").html(addPlateMartingHtml);
+                } else {
+                    $(".tb-plates").html('<tr><td><div class="nodata-txt">暂无数据</div></td></tr>');
+                }
             }
         });
     }
 
+    //快捷添加一条制版工艺说明
+    ObjectJS.qulicklyAddPlateMarkings = function (_this) {
+        if (_this.parents().prev().find('.save-plate').length > 0) {
+            alert("请先保存上一次编辑信息");
+            return false;
+        }
+        DoT.exec("template/task/platemarting-quickly-add.html", function (templateFun) {
+            var innerHtml = templateFun();
+            innerHtml = $(innerHtml);
+            innerHtml = $("<tr class='list-item'></tr>").append(innerHtml);
+            innerHtml.find('.save-plate').click(function () {
+                var _thisTr = $(this).parents('tr');
+                if (!_thisTr.find('.txt-name').val().trim()) {
+                    alert("工艺名称不能为空");
+                    return false;
+                }
+                var Plate = {
+                    PlateID: '',
+                    Title: _thisTr.find('.txt-name').val() || '',
+                    Remark: _thisTr.find('.desc').val() || '',
+                    Icon: _thisTr.find('.plate-ico-img').data('src') || '',
+                    OrderID: ObjectJS.orderType == 1 ? ObjectJS.orderid : ObjectJS.originalID,
+                    TaskID: ObjectJS.taskid,
+                    TypeName: _thisTr.next().find('.add-plate').data('typename') || ''
+                };
+
+                Global.post("/Task/SavePlateMaking", { plate: JSON.stringify(Plate) }, function (data) {
+                    if (data.result == 0) {
+                        alert("保存失败，请重试");
+                    } else {
+                        /*缓存制版信息*/
+                        var cachePlate = {
+                            PlateID: data.id,
+                            Title: (_thisTr.find('.txt-name').val() || ''),
+                            Remark: _thisTr.find('.desc').val() || '',
+                            Icon: (_thisTr.find('.plate-ico-img').data('src') || ''),
+                            OrderID: ObjectJS.orderType == 1 ? ObjectJS.orderid : ObjectJS.originalID,
+                            TaskID: ObjectJS.taskid,
+                            TypeName: _thisTr.next().find('.add-plate').data('typename') || ''
+                        };
+                        var index = 0;
+                        $(".tb-plates tr .dropdown").each(function () {
+                            if ($(this).data('index') > index) {
+                                index = $(this).data('index');
+                            }
+                        });
+                        index += 1;
+                        PlateMakings[index] = cachePlate;
+                        var plateHtml = '<td class="tLeft item bBottom"><img style="width:30px;height:30px;text-indent:0;" src="' + (_thisTr.find('.plate-ico-img').data('src') || '') + '" /></td>';
+                        plateHtml += '<td class="center item bBottom">' + (_thisTr.find('.txt-name').val() || '') + '</td>';
+                        plateHtml += '<td class="tLeft item show-all-txt bBottom" style="line-height:150%;">' + _thisTr.find('.desc').val() || '' + '</td>';
+                        plateHtml += '<td class="center item width150 bBottom">' + new Date().toString('yyyy-MM-dd hh:mm:ss') + '</td>';
+                        plateHtml += '<td class="center item dropdown width150 bBottom" data-id="' + data.id + '" data-index="' + index + '" data-title="' + (_thisTr.find('.desc').val() || '') + '"><span class="ico-dropdown"></span></td>';
+                        plateHtml = $(plateHtml);
+                        _thisTr.attr('id', 'tr-plate-' + data.id);
+                        _thisTr.html(plateHtml);
+                        _thisTr.find(".dropdown").click(function () {
+                            var _this = $(this);
+                            var position = _this.find(".ico-dropdown").position();
+                            $("#setPlateMaking li").data("id", _this.data("id")).data("index", _this.data("index")).data("title", _this.data("title"));
+                            $("#setPlateMaking").css({ "top": position.top + 20, "left": position.left - 40 }).show().mouseleave(function () {
+                                $(this).hide();
+                            });
+                        });
+                    }
+                });
+            });
+
+            innerHtml.find('.cencal-plate').click(function () {
+                $(this).parents('tr').remove();
+            });
+
+            _this.parents('tr').before(innerHtml);
+
+            if (Upload == null) {
+                Upload = require("upload");
+            }
+            //工艺说明录入上传附件
+            var uploader = Upload.uploader({
+                browse_button: innerHtml.find('.add-img').attr('id'),
+                file_path: "/Content/UploadFiles/Product/",
+                multi_selection: false,
+                auto_callback: false,
+                fileType: 1,
+                init: {
+                    "FileUploaded": function (up, file, info) {
+                        var info = JSON.parse(info);
+                        innerHtml.find('.plate-ico-img').attr("src", file.server + info.key);
+                        innerHtml.find('.plate-ico-img').data("src", file.server + info.key);
+                    }
+                }
+            });
+        });
+    };
+
+    //选择制版工艺类型并添加
+    ObjectJS.choosePlateTypeAdd = function () {
+        var innerHtml = '<ul id="setTaskPlateMarting" class="role-items">';
+        for (var i = 0; len = plateMartingItem.length, i < len; i++) {
+            var item = plateMartingItem[i];
+            innerHtml += '<li class="role-item" data-text="' + item.Name + '">' + item.Name + '</li>';
+        }
+        innerHtml += '<li style="border:none !important;cursor:auto;"><input id="layoutPlateType" max-length=20 type="text" placeholder="自定义" style="width:60px;text-align:center;" /></li>';
+        innerHtml += '</ul>';
+
+        Easydialog.open({
+            container: {
+                id: "initAddPlateMarting",
+                header: "新增制版类型",
+                content: innerHtml,
+                yesFn: function () {
+                    var isContinue = true;
+                    var existsText="";
+                    var items = [];
+                    $("#setTaskPlateMarting li.hover").each(function () {
+                        var _this = $(this);
+                        items.push({ type: _this.data('type'), text: _this.data('text') });
+                        $(".tb-plates .table-header").each(function () {
+                            if (_this.text().trim() == $(this).find('.plate-name').text().trim()) {
+                                isContinue = false;
+                                existsText=_this.text().trim();
+                                return false;
+                            }
+                        });
+                    });
+
+                    if (!isContinue) {
+                        alert("制版类型<span class='red'>" + existsText + "</span>已存在");
+                        return false;
+                    }
+                    if (items.length > 0) {
+                        var innerAddHtml = "";
+                        for (var i = 0; i < items.length; i++) {
+                            var item = items[i];
+                            innerAddHtml += '<tr class="table-header tr-header"><td class="font14 tLeft width80 bold plate-name">' + item.text + '</td> <td class="bold">名称</td>  <td class="tLeft bold">描述</td><td class="width150 bold">创建时间</td><td class="center width150 bold">操作</td></tr>';
+                            innerAddHtml += '<tr class="list-item"><td colspan="5" class="center" style="padding:0;"><div class="add-plate font14 color999 hand hBlue" style="text-indent:0;border-top:1px dashed #ccc;border-bottom:1px dashed #ccc;line-height:40px;" data-typename="' + item.text + '">+添加' + item.text + '</div></td></tr>';
+                        }
+                        innerAddHtml = $(innerAddHtml);
+                        innerAddHtml.find('.add-plate').click(function () {
+                            ObjectJS.qulicklyAddPlateMarkings($(this));
+                        });
+                        var addPlateType = $('<div class="right btn-add mRight20" id="addPlateType">添加工艺类型</div>');
+                        if ($("#addPlateType").length == 0) {
+                            addPlateType.click(function () {
+                                ObjectJS.choosePlateTypeAdd();
+                            });
+                            $("#btnAddPalte").after(addPlateType);
+                        }
+
+                        $("#showPlateType").parents('tr').remove();
+                        $(".tb-plates").append(innerAddHtml);
+                    }
+                }
+            }
+        });
+
+        $("#setTaskPlateMarting #layoutPlateType").change(function () {
+            var _this = $(this);
+            var isContinue = true;
+            if (!_this.val().trim()) {
+                alert("制版类型不能为空");
+                _this.val('');
+                return false;
+            }
+
+            $("#setTaskPlateMarting .role-item").each(function () {
+                if (_this.val().trim() == $(this).text().trim()) {
+                    isContinue = false;
+                    return false;
+                }
+            });
+            $(".tb-plates .table-header").each(function () {
+                if (_this.val().trim() == $(this).find('.plate-name').text().trim()) {
+                    isContinue = false;
+                    return false;
+                }
+            });
+            if (!isContinue) {
+                alert("制版类型已存在");
+                return false;
+            }
+            var roleItem = $('<li class="role-item" data-type="10" data-text="' + _this.val().trim() + '">' + _this.val().trim() + '</li>');
+            roleItem.click(function () {
+                if (!$(this).hasClass("hover"))
+                    $(this).addClass("hover");
+                else
+                    $(this).removeClass("hover");
+            });
+            _this.parent().before(roleItem);
+            _this.val('');
+        });
+
+        $("#setTaskPlateMarting .role-item").click(function () {
+            if (!$(this).hasClass("hover"))
+                $(this).addClass("hover");
+            else
+                $(this).removeClass("hover");
+        });
+    };
+
     //新增工艺说明
     ObjectJS.addPlateMaking = function () {
         var item = {
-            PlateID:"",
+            PlateID: "",
             Title: "",
             Remark: "",
             Icon: "",
             OrderID: "",
             TaskID: "",
-            Type:1
+            TypeName: plateMartingItem[0].Name
         }
         ObjectJS.savePlateMaking(item);
     }
 
     //保存工艺说明
     ObjectJS.savePlateMaking = function (item) {
+        item.plateType = plateMartingItem;
         DoT.exec("template/task/platemarting-add.html", function (template) {
             var html = template([item]);
             Easydialog.open({
@@ -1678,9 +1853,9 @@
                             Icon: $("#plateIcon").val(),
                             OrderID: ObjectJS.orderType == 1 ? ObjectJS.orderid : ObjectJS.originalID,
                             TaskID: ObjectJS.taskid,
-                            Type: $("#selectType").val()
+                            TypeName: $("#selectType").val()
                         };
-         
+                    
                         Global.post("/Task/SavePlateMaking", { plate: JSON.stringify(Plate) }, function (data) {
                             if (data.result == 0) {
                                 alert("保存失败");
@@ -1693,7 +1868,7 @@
                 }
             });
 
-            $("#selectType").val(item.Type);
+            $("#selectType").val(item.TypeName);
 
             var icoUrl = item.Icon;
             if (icoUrl != '') {

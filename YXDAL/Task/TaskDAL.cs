@@ -382,7 +382,7 @@ namespace IntFactoryDAL
         #region PlateMaking
         public DataTable GetPlateMakings(string orderID)
         {
-            string sqltext = "select * from PlateMaking where OrderID=@OrderID and status<>9  order by Type asc, createtime asc";
+            string sqltext = "select * from PlateMaking where OrderID=@OrderID and status<>9  order by TypeName asc, createtime asc";
 
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderID)
@@ -417,7 +417,7 @@ namespace IntFactoryDAL
             return GetDataTable(sqltext, paras, CommandType.Text);
         }
 
-        public bool AddPlateMaking(string title, string remark, string icon, string taskID, int type, string orderID, string userID,string plateID)
+        public bool AddPlateMaking(string title, string remark, string icon, string taskID, string typeName, string orderID, string userID,string plateID)
         {
 
             SqlParameter[] paras = { 
@@ -426,21 +426,21 @@ namespace IntFactoryDAL
                                      new SqlParameter("@Remark",remark),
                                      new SqlParameter("@Icon",icon),
                                      new SqlParameter("@TaskID",taskID),
-                                     new SqlParameter("@Type",type),
+                                     new SqlParameter("@TypeName",typeName),
                                      new SqlParameter("@OrderID",orderID),
                                      new SqlParameter("@UserID",userID)
                                    };
             return ExecuteNonQuery("P_AddPlateMaking", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdatePlateMaking(string plateID, string title, string remark, string icon, int type)
+        public bool UpdatePlateMaking(string plateID, string title, string remark, string icon, string typeName)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@PlateID",plateID),
                                      new SqlParameter("@Title",title),
                                      new SqlParameter("@Remark",remark),
                                      new SqlParameter("@Icon",icon),
-                                     new SqlParameter("@Type",type)
+                                     new SqlParameter("@TypeName",typeName),
                                    };
 
             return ExecuteNonQuery("P_UpdatePlateMaking", paras, CommandType.StoredProcedure) > 0;
