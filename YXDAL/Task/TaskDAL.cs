@@ -140,7 +140,7 @@ namespace IntFactoryDAL
             return (int)ExecuteScalar(sql, paras, CommandType.Text);
         }
 
-        public int GetexceedTaskCount(string ownerID, int orderType, string clientID)
+        public int GetExceedTaskCount(string ownerID, int orderType, string clientID)
         {
             SqlParameter[] paras = {
                                        new SqlParameter("@ClientID",clientID),

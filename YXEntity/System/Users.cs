@@ -41,9 +41,10 @@ namespace IntFactoryEntity
         [Property("Lower")]
 		public string UserID{ set; get; }
 
-		/// <summary>
-		/// 
-		/// </summary>
+
+        public string LoginName { get; set; }
+
+
 		public string LoginPWD{ set; get; }
 		/// <summary>
 		/// 
@@ -163,8 +164,6 @@ namespace IntFactoryEntity
         public string LogGUID { get; set; }
 
         public Manage.Clients Client { get; set; }
-
-        public string LoginName { get; set; }
 
         /// <summary>
         /// 填充数据

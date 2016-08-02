@@ -9,7 +9,8 @@
     <script type="text/javascript">
        seajs.use(["scripts/home/index"], function (obj) {
            obj.init('@ViewBag.orderLevel', '@ViewBag.taskLevel', '@ViewBag.RemainDay', '@ViewBag.RemainDate',
-               '@(Html.ToJSONString((List<IntFactoryEntity.LableColorEntity>)ViewBag.OrderMarks))', '@(Html.ToJSONString((List<IntFactoryEntity.LableColorEntity>)ViewBag.TaskMarks))');
+               '@(Html.ToJSONString((List<IntFactoryEntity.LableColorEntity>)ViewBag.OrderMarks))', 
+               '@(Html.ToJSONString((List<IntFactoryEntity.LableColorEntity>)ViewBag.TaskMarks))');
        });
     </script>
 }
@@ -28,8 +29,8 @@
             @(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))
         </div>      
         <div class="mLeft15 left mTop8 font16 mRight20 select-time select-time-right">></div>
-        <div class="left mRight15 mTop3" id="orderType" style="background-color:#fff"></div>
-        <div class="right mRight15 mTop3 hide" id="chooseBranch" style="background-color:#fff"></div>
+        <div class="left mTop3" id="orderType" style="background-color:#fff"></div>
+        <div class="right mLeft15 mRight15 mTop3 hide" id="chooseBranch" style="background-color:#fff"></div>
     </div>   
     <div class="clear"></div>    
 </div>
@@ -101,6 +102,7 @@
         </ul>
     </div>
 </div>
+
 <div class="clear"></div>
 <div class="index-list">
     <div class="order-list">

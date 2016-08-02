@@ -18,8 +18,8 @@ namespace YXERP.Controllers
     {
         public ActionResult Index()
         {
-            int orderLevel = 0;
-            int taskLevel = 0;
+            string orderLevel = "0";
+            string taskLevel = "0";
             if (Session["ClientManager"] == null)
             {
                 return Redirect("/Home/Login");
@@ -43,23 +43,27 @@ namespace YXERP.Controllers
                 if (currentUser.Role != null)
                 {
                     //所有订单
-                    if (currentUser.Menus.FindAll(m => m.MenuCode == "102010300").Count > 0)
+                    if (ExpandClass.IsExistMenu("102010300"))
                     {
-                        orderLevel = 1;
+                        orderLevel = "-1";
                     }
-                    else if (currentUser.Menus.FindAll(m => m.MenuCode == "102010100").Count > 0)
+                    else if (ExpandClass.IsExistMenu("102010601") || ExpandClass.IsExistMenu("102010701") || ExpandClass.IsExistMenu("102010801"))
                     {
-                        orderLevel = 2;
-                    }                                     
+                        orderLevel = "-1";
+                    }
+                    else if (ExpandClass.IsExistMenu("102010600") || ExpandClass.IsExistMenu("102010700") || ExpandClass.IsExistMenu("102010800"))
+                    {
+                        orderLevel = "1";
+                    }
 
                     //所有任务
-                    if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
+                    if (ExpandClass.IsExistMenu("109010200"))
                     {
-                        taskLevel = 1;
+                        taskLevel = "-1";
                     }
-                    else if (currentUser.Menus.FindAll(m => m.MenuCode == "109010100").Count > 0)
+                    else
                     {
-                        taskLevel = 2;
+                        taskLevel = "1";
                     } 
                 }
                 ViewBag.OrderMarks = SystemBusiness.BaseBusiness.GetLableColor(currentUser.ClientID, EnumMarkType.Orders);
@@ -711,11 +715,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 发送手机验证码
-        /// </summary>
-        /// <param name="mobilePhone"></param>
-        /// <returns></returns>
         public JsonResult SendMobileMessage(string mobilePhone)
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
@@ -739,12 +738,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 验证手机验证码
-        /// </summary>
-        /// <param name="mobilePhone"></param>
-        /// <param name="code"></param>
-        /// <returns></returns>
         public JsonResult ValidateMobilePhoneCode(string mobilePhone, string code)
         {
             bool bl = Common.Common.ValidateMobilePhoneCode(mobilePhone, code);
@@ -866,7 +859,7 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public JsonResult GetOrdersOrTasksReportData(int orderType, int filterTimeType, int moduleType, int taskType,string userID)
+        public JsonResult GetOrdersOrTasksReportData(int orderType, int filterTimeType, int moduleType, int taskType, string userID)
         {
             Dictionary<string, Object> resultObj = new Dictionary<string, object>();
             int result = 0;
@@ -895,44 +888,50 @@ namespace YXERP.Controllers
                     nowDate = nowDate.Date.AddDays(15);
                 }
 
+                List<OrderEntity> orderItems = new List<OrderEntity>();
+                List<IntFactoryEntity.Task.TaskEntity> taskItems = new List<IntFactoryEntity.Task.TaskEntity>();
 
                 int getTotalCount=0;
                 int pageCount = 0;
-                string userid= currentUser.UserID;
+
                 if (moduleType == 1)
                 {
+                    bool isDYAll = ExpandClass.IsExistMenu("102010701");
+                    bool isDHAll = ExpandClass.IsExistMenu("102010801");
+                    string orderWhere = "";
+
                     //所有订单
-                    if (currentUser.Menus.FindAll(m => m.MenuCode == "102010300").Count > 0)
+                    if (ExpandClass.IsExistMenu("102010300"))
                     {
-                        userid = string.Empty;
+
                     }
+                    else if (!isDYAll && isDHAll)
+                    {
+                        orderWhere = " and (o.OrderType=2 or ((o.OwnerID='" + currentUser.UserID + "' or o.CreateUserID='" + currentUser.UserID + "'))) ";
+                    }
+                    else if (isDYAll && !isDHAll)
+                    {
+                        orderWhere = " and (o.OrderType=1 or ((OwnerID='" + currentUser.UserID + "' or o.CreateUserID='" + currentUser.UserID + "'))) ";
+                    }
+                    else
+                    {
+                        userID = currentUser.UserID;
+                    }
+
+                    orderItems = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(beginTime, endTime, orderType, -1, -1,
+                                        userID, currentUser.ClientID, orderWhere, int.MaxValue, 1, ref getTotalCount, ref pageCount);
                 }
                 else
                 {
                     //所有任务
-                    if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
+                    if (!ExpandClass.IsExistMenu("109010200"))
                     {
-                        userid = string.Empty;
+                        userID = currentUser.UserID;
                     }
-                }
-                if (!string.IsNullOrEmpty(userID)) {
-                    userid = userID;
-                }
 
-                List<OrderEntity> orderItems=new List<OrderEntity>();
-                List<IntFactoryEntity.Task.TaskEntity> taskItems = new List<IntFactoryEntity.Task.TaskEntity>();
-
-                if (moduleType == 1)
-                {
-                    orderItems = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(beginTime, endTime,
-                                        orderType, -1, -1,
-                                        userid, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
-                }
-                else 
-                {
                     taskItems = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(beginTime, endTime,
                     orderType, -1, -1, -1, taskType,
-                    userid, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
+                    userID, currentUser.ClientID, int.MaxValue, 1, ref getTotalCount, ref pageCount);
                 }
 
                 var totalExceedCount = 0;
@@ -1030,33 +1029,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrdersOrTasksDataList(int filterType, string filterTime, 
-           int moduleType, int orderType,int taskType,string userID,
+        public JsonResult GetOrdersOrTasksDataList(int filterType, string filterTime,
+           int moduleType, int orderType, int taskType, string userID,
            int pageSize, int pageIndex, int preFinishStatus) 
         {
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
-            string userid = currentUser.UserID;
-            if (moduleType == 1)
-            {
-                //所有订单
-                if (currentUser.Menus.FindAll(m => m.MenuCode == "102010300").Count > 0)
-                {
-                    userid = string.Empty;
-                }
-            }
-            else
-            {
-                //所有任务
-                if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
-                {
-                    userid = string.Empty;
-                }
-            }
-            if (!string.IsNullOrEmpty(userID))
-            {
-                userid = userID;
-            }
 
             string startTime = string.Empty;
             int orderStatus = 0;
@@ -1067,7 +1045,7 @@ namespace YXERP.Controllers
                 orderStatus = -1;
                 finishStatus = -1;
             }
-            else 
+            else
             {
                 if (filterType != -1)
                 {
@@ -1078,20 +1056,59 @@ namespace YXERP.Controllers
 
             int getTotalCount = 0;
             int pageCount = 0;
+
             if (moduleType == 1)
             {
-                var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(startTime, startTime,
-                    orderType, filterType, orderStatus,
-                    userid, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
+               
+                string orderWhere = "";
+                //所有订单
+                if (!ExpandClass.IsExistMenu("102010300"))
+                {
+                    if (orderStatus == 0)
+                    {
+                        if (!ExpandClass.IsExistMenu("102010601"))
+                        {
+                            userID = currentUser.UserID;
+                        }
+                    }
+                    else
+                    {
+                        bool isDYAll = ExpandClass.IsExistMenu("102010701");
+                        bool isDHAll = ExpandClass.IsExistMenu("102010801");
+
+                        if (!isDYAll && isDHAll)
+                        {
+                            orderWhere = " and (o.OrderType=2 or ((o.OwnerID='" + currentUser.UserID + "' or o.CreateUserID='" + currentUser.UserID + "'))) ";
+                        }
+                        else if (isDYAll && !isDHAll)
+                        {
+                            orderWhere = " and (o.OrderType=1 or ((OwnerID='" + currentUser.UserID + "' or o.CreateUserID='" + currentUser.UserID + "'))) ";
+                        }
+                        else
+                        {
+                            userID = currentUser.UserID;
+                        }
+                    }
+                }
+
+                var list = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrdersByPlanTime(startTime, startTime, orderType, filterType, orderStatus,
+                   userID, currentUser.ClientID, orderWhere, pageSize, pageIndex, ref getTotalCount, ref pageCount);
                 JsonDictionary.Add("items", list);
             }
             else
             {
+                //所有任务
+                if (!ExpandClass.IsExistMenu("109010200"))
+                {
+                    userID = currentUser.UserID;
+                }
+
                 var list = IntFactoryBusiness.TaskBusiness.GetTasksByEndTime(startTime, startTime,
                     orderType, filterType, finishStatus, preFinishStatus, taskType,
-                    userid, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
+                    userID, currentUser.ClientID, pageSize, pageIndex, ref getTotalCount, ref pageCount);
                 JsonDictionary.Add("items", list);
             }
+
             JsonDictionary.Add("getNeedTotalCount", getTotalCount);
             JsonDictionary.Add("pageCount", pageCount);
             if (!string.IsNullOrEmpty(filterTime))
@@ -1111,36 +1128,67 @@ namespace YXERP.Controllers
             Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
             var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
             var total = 0;
-            string userid = currentUser.UserID;
+            
             if (moduleType == 1)
             {
-                //所有订单
-                if (currentUser.Menus.FindAll(m => m.MenuCode == "102010300").Count > 0)
+                bool isDYAll = ExpandClass.IsExistMenu("102010701");
+                bool isDHAll = ExpandClass.IsExistMenu("102010801");
+                string orderWhere = "";
+                //订单权限控制
+                if (orderType == -1 )
                 {
-                    userid = string.Empty;
+                    //所有订单
+                    if (ExpandClass.IsExistMenu("102010300"))
+                    {
+                        orderWhere = "-1";
+                    }
+                    else if (isDYAll && isDHAll) //所有大货单和打样单
+                    {
+                        orderWhere = "-1";
+                    }
+                    else if (!isDYAll && isDHAll)
+                    {
+                        orderWhere = " and (OrderType=2 or ((OwnerID='" + currentUser.UserID + "' or CreateUserID='" + currentUser.UserID + "'))) ";
+                    }
+                    else if (isDYAll && !isDHAll)
+                    {
+                        orderWhere = " and (OrderType=1 or ((OwnerID='" + currentUser.UserID + "' or CreateUserID='" + currentUser.UserID + "'))) ";
+                    }
+                    else
+                    {
+                        userID = currentUser.UserID;
+                    }
                 }
+                else if (orderType == 1)
+                {
+                    if (!isDYAll)
+                    {
+                        userID = currentUser.UserID;
+                    }
+                    orderWhere = " and OrderType=1 ";
+                }
+                else if (orderType == 2)
+                {
+                    if (!isDHAll)
+                    {
+                        userID = currentUser.UserID;
+                    }
+                    orderWhere = " and OrderType=2 ";
+                }
+
+                total = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetExceedOrderCount(userID, orderWhere, currentUser.ClientID);   
             }
             else
             {
-                //所有任务
-                if (currentUser.Menus.FindAll(m => m.MenuCode == "109010200").Count > 0)
+                //任务权限控制
+                if (!ExpandClass.IsExistMenu("109010200"))
                 {
-                    userid = string.Empty;
+                    userID = currentUser.UserID;
                 }
-            }
-            if (!string.IsNullOrEmpty(userID))
-            {
-                userid = userID;
+
+                total = IntFactoryBusiness.TaskBusiness.GetExceedTaskCount(userID, orderType, currentUser.ClientID);
             }
 
-            if (moduleType == 1)
-            {
-                total = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetexceedOrderCount(userid, orderType, currentUser.ClientID);   
-            }
-            else
-            {
-                total = IntFactoryBusiness.TaskBusiness.GetexceedTaskCount(userid, orderType, currentUser.ClientID);
-            }
             JsonDictionary.Add("result", total);
 
             return new JsonResult

@@ -11,6 +11,7 @@ namespace IntFactoryDAL
     public class OrdersDAL : BaseDAL
     {
         public static OrdersDAL BaseProvider = new OrdersDAL();
+
         #region 查询
 
         public DataSet GetOrders(int searchOrderType, int searchtype, string entrustType, string typeid, int status, int sourceType, int orderStatus,
@@ -96,9 +97,8 @@ namespace IntFactoryDAL
         }
 
 
-        public DataTable GetOrdersByPlanTime(string startPlanTime, string endPlanTime,
-            int orderType, int filterType, int orderStatus,
-            string userID, string clientID,int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public DataTable GetOrdersByPlanTime(string startPlanTime, string endPlanTime, int orderType, int filterType, int orderStatus,
+            string userID, string clientID, string andWhere, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
@@ -108,6 +108,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@StartPlanTime",startPlanTime),
                                        new SqlParameter("@EndPlanTime",endPlanTime),
                                        new SqlParameter("@OrderType",orderType),
+                                       new SqlParameter("@AndWhere",andWhere),
                                        new SqlParameter("@OrderStatus",orderStatus),
                                        new SqlParameter("@FilterType",filterType),
                                        new SqlParameter("@UserID",userID),
@@ -125,42 +126,21 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public int GetNeedOrderCount(string ownerID, int orderType, string clientID)
+        public int GetExceedOrderCount(string ownerID, string orderType, string clientID)
         {
             SqlParameter[] paras = {
                                        new SqlParameter("@ClientID",clientID),
-                                       new SqlParameter("@OwnerID",ownerID),
-                                       new SqlParameter("@OrderType",orderType)
+                                       new SqlParameter("@OwnerID",ownerID)
                                    };
 
-            string sql = "select count(orderid) from orders where OrderStatus=0 and status<>9 and ClientID=@ClientID";
-            if (orderType != -1) {
-                sql += " and OrderType=@OrderType";
+            string sql = "select count(orderid) from orders where OrderStatus=1 and status<>9 and PlanTime<getdate() and (ClientID=@ClientID or EntrustClientID=@ClientID)";
+            if (orderType != "-1")
+            {
+                sql += orderType;
             }
             if (!string.IsNullOrEmpty(ownerID))
             {
-                sql += " and OwnerID=@OwnerID";
-            }
-
-            return (int)ExecuteScalar(sql, paras, CommandType.Text);
-        }
-
-        public int GetexceedOrderCount(string ownerID, int orderType, string clientID)
-        {
-            SqlParameter[] paras = {
-                                       new SqlParameter("@ClientID",clientID),
-                                       new SqlParameter("@OwnerID",ownerID),
-                                       new SqlParameter("@OrderType",orderType)
-                                   };
-
-            string sql = "select count(orderid) from orders where OrderStatus=1 and status<>9 and PlanTime<getdate() and ClientID=@ClientID";
-            if (orderType != -1)
-            {
-                sql += " and OrderType=@OrderType";
-            }
-            if (!string.IsNullOrEmpty(ownerID))
-            {
-                sql += " and OwnerID=@OwnerID";
+                sql += " and (OwnerID=@OwnerID or CreateUserID=@OwnerID)";
             }
 
             return (int)ExecuteScalar(sql, paras, CommandType.Text);

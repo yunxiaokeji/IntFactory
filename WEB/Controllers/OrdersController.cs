@@ -905,7 +905,6 @@ namespace YXERP.Controllers
         }
 
         /*价格区间设置*/
-
         public JsonResult GetOrderPriceRanges(string orderid)
         {
             var obj = IntFactoryBusiness.OrdersBusiness.GetOrderPriceRanges(orderid);

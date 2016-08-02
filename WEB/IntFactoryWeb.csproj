@@ -1046,7 +1046,6 @@
     <Content Include="Views\Home\SelfOrder.cshtml" />
     <Content Include="Views\System\OrderCategory.cshtml" />
     <Content Include="Views\Home\OrderSuccess.cshtml" />
-    <Content Include="Views\Orders\EntrustOrders.cshtml" />
     <Content Include="Views\Shared\_LayoutContent.cshtml" />
     <Content Include="Views\Task\MaterialDetail.cshtml" />
     <Content Include="Views\Orders\DocDetail.cshtml" />

@@ -2,7 +2,9 @@
 
     require("pager");
 
-    var Global = require("global");
+    var Global = require("global"),
+    moment = require("moment");
+    require("daterangepicker");
 
     var doT = require("dot");
     
@@ -18,7 +20,6 @@
         pageIndex: 1
     };
 
-    //string keywords,string userID, string beginDate, string endDate, int type, int status, int pageSize, int pageIndex, out int totalCount, out int pageCount
     ObjectJS.init = function () {
 
         ObjectJS.getFeedBackList();
@@ -40,12 +41,24 @@
             }
         })
         
-        $("#btnSearch").click(function () {
-            Params.pageIndex = 1;
-            Params.beginDate = $("#BeginTime").val();
-            Params.endDate = $("#EndTime").val();
+
+        //日期插件
+        $("#iptCreateTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
+            }
+        }, function (start, end, label) {
+            Params.PageIndex = 1;
+            Params.beginDate = start ? start.format("YYYY-MM-DD") : "";
+            Params.endDate = end ? end.format("YYYY-MM-DD") : "";
             ObjectJS.getFeedBackList();
-        })
+        });
 
         $(".sort-item").click(function () {
             var _this=$(this);
