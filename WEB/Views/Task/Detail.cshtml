@@ -5,7 +5,6 @@
     var order = taskModel.Order;
     var productAttr = taskModel.ProductAttr;
     var attrValues = productAttr.AttrValues == null ? "" : Html.ToJSONString(productAttr.AttrValues);
-
     ViewBag.Title = "任务详情" + "-" + task.Title;
 }
 
@@ -20,14 +19,14 @@
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn ? 1 : 0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")');
+                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn ? 1 : 0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")', '@order.BigCategoryID');
             });
         });
     </script>
 }
 @{Html.RenderPartial("DetailBase", taskModel);}
 
-<div class="taskContent" style="padding-bottom:60px;">
+<div class="taskContent" style="padding-bottom:60px;@(task.Mark==12||task.Mark==22?"padding-left:0;padding-right:0;":"")">
     <div id="navTask" class="talk-body nav-partdiv">
         @{Html.RenderPartial("TaskReply");}
 

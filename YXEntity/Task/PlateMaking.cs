@@ -26,7 +26,7 @@ namespace IntFactoryEntity.Task
 
         public int Status { get; set; }
 
-        public int Type { get; set; }
+        public string TypeName { get; set; }
 
         [Property("Lower")]
         public string CreateUserID { get; set; }

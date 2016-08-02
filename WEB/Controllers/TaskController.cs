@@ -573,11 +573,12 @@ namespace YXERP.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             PlateMaking model = serializer.Deserialize<PlateMaking>(plate);
             bool flag = false;
-
             if (string.IsNullOrEmpty(model.PlateID))
             {
+                string plateID = Guid.NewGuid().ToString();
                 model.CreateUserID = CurrentUser.UserID;
-                flag = IntFactoryBusiness.TaskBusiness.AddPlateMaking(model, CurrentUser.UserID, string.Empty, CurrentUser.ClientID);
+                flag = IntFactoryBusiness.TaskBusiness.AddPlateMaking(model, CurrentUser.UserID, string.Empty, CurrentUser.ClientID, plateID);
+                JsonDictionary.Add("id", plateID);
             }
             else
             {
@@ -687,6 +688,17 @@ namespace YXERP.Controllers
             return false;
         }
 
+        public JsonResult GetProcessCategoryByID(string categoryid)
+        {
+            ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(categoryid);
+            List<CategoryItemsEntity> items = item.CategoryItems.FindAll(m => m.Type == 4).ToList();
+            JsonDictionary.Add("items", items);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
     }
 }

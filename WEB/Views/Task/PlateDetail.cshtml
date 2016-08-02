@@ -6,14 +6,14 @@
  }
 
 <div class="platemakingContent hide" id="platemakingContent">
-    <div class="talk-title" >制版信息
+    <div class="talk-title" style="margin:0 10px;font-size:16px;" >制版信息
         <a class="right" href="/Orders/PlateMakingProcess/@order.OrderID" target="_blank" id="btn-platePrint">
             <span class="iconfont">&#xe658;</span>
         </a>
         <div class="clear"></div>
     </div>
 
-    <div id="platemakingBody" class="mTop10 platemakingBody">
+    <div id="platemakingBody" class="mTop10 platemakingBody" style="margin:0 10px;" >
     @{
         if (!string.IsNullOrEmpty(order.Platemaking))
         {
@@ -41,8 +41,8 @@
                     添加制版
                 </div>
             }
-            <div class="btn right mTop10" style="display:@(hasPlate?"block":"none")"  id="btn-updateTaskRemark">编辑制版</div>
-            <div class="left btn-add mTop10" style="display:@(hasPlate?"block":"none")" id="btn-addColumn">
+            <div class="btn right mTop10 mRight10" style="display:@(hasPlate?"block":"none")"  id="btn-updateTaskRemark">编辑制版</div>
+            <div class="left btn-add mTop10 mLeft10" style="display:@(hasPlate?"block":"none")" id="btn-addColumn">
                 添加制版
             </div>
         }
@@ -51,23 +51,23 @@
 
     @{
         <div class="mTop30 plate">
-            <div class="talk-title" >工艺说明
+            <div class="talk-title" style="margin:0 10px;font-size:16px;" >工艺说明
                 @{
                     if (isRoot)
                     {
-                    <div class="btn-add right" id="btnAddPalte">工艺说明录入</div>
+                    <div class="right btn-add" id="addPlateType">添加工艺类型</div>
                     <div class="clear"></div>
                     }
                 }
             </div>
-            <table class="table-list mTop10 tb-plates"></table>
+            <table class="table-items-detail mTop10 tb-plates"></table>
         </div>
     }
 </div>
 
 @{if (isRoot)
   {
-<ul class="dropdown-ul hide" id="setPlateMaking" style="width:90px;">
+<ul class="dropdown-ul hide" id="setPlateMaking" style="width:65px;">
     <li id="setObjectPlate">编辑</li>
     <li id="deleteObject">删除</li>
 </ul> 

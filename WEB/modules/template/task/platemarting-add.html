@@ -1,5 +1,6 @@
 ﻿{%
 	for(var i=0, j=$data.length; i < j; i++){
+    var isNew=false;
 	var item = $data[i];
 %}
 <ul class="easydialog-create" id="plateBox">
@@ -11,13 +12,23 @@
     </li>
     <li>
         <span class="width80">类型：</span>
-        <select id="selectType">           
-            <option value="1">裁剪</option>
-            <option value="2">粘衬</option>
-            <option value="3">缝制工艺</option>
-            <option value="4">成衣整烫</option>
-            <option value="5">成衣检验</option>
-            <option value="6">成品包装</option>
+        <select id="selectType">        
+            {%
+                for(var k=0;k<item.plateType.length;k++)
+                {
+                    var type=item.plateType[k];
+                    if(!isNew&&!!item.PlateID){
+                        if(item.TypeName.trim()!=type.Name){
+                            isNew=true;
+                        }
+                    }
+            %}   
+                    <option value="{%=type.Name%}">{%=type.Name%}</option>
+            {%}
+            if(isNew){
+            %}
+                <option value="{%=item.TypeName.trim()%}">{%=item.TypeName.trim()%}</option>
+            {%}%}
         </select>
     </li>
     <li>

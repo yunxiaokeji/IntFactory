@@ -13,7 +13,7 @@
     <td class='center'><div class="status" data-id="{%=item.ProductID%}" data-value="{%=item.Status==1%}"></div></td>
     <td class='center'>{%=item.IsPublicStr%}</td>
     <td style="padding-left:10px;">{%=item.CategoryName?item.CategoryName:"--"%}</td>
-    <td>{%=item.ProviderName%}</td>
+    <td>{%=item.ProviderName?item.ProviderName:"--"%}</td>
     <td class="center">
         <a class="ico-edit iconfont" title="编辑" href="ProductDetail/{%=item.ProductID%}"></a>
         <a class="iconfont mLeft20 ico-del font20 hRed delete-product mTop1" title="删除" data-id="{%=item.ProductID%}"></a>
