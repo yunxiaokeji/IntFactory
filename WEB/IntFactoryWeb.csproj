@@ -323,6 +323,7 @@
     <Content Include="modules\plug\detaillayer\detaillayer.html" />
     <Content Include="modules\plug\detaillayer\detaillayer.js" />
     <Content Include="modules\template\orders\order-baseinfo.html" />
+    <Content Include="modules\template\orders\createorder-checkattr.html" />
     <Content Include="modules\template\products\product-baseinfo.html" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.js" />
@@ -541,8 +542,6 @@
     <Content Include="modules\template\orders\send_orders.html" />
     <Content Include="modules\template\orders\sure_plan_time.html" />
     <Content Include="modules\template\orders\orders_originalid.html" />
-    <Content Include="modules\template\orders\cutout-details.html" />
-    <Content Include="modules\template\orders\send-details.html" />
     <Content Include="modules\template\orders\senddydocs.html" />
     <Content Include="modules\template\home\index-task.html" />
     <Content Include="modules\template\orders\update_order_totalmoney.html" />
@@ -926,9 +925,7 @@
     <Content Include="modules\template\myaccount\setloginname.html" />
     <Content Include="modules\template\orders\order-detail.html" />
     <Content Include="modules\template\orders\orders.html" />
-    <Content Include="modules\template\orders\customerorders.html" />
     <Content Include="modules\plug\sharemingdao\demo.js" />
-    <Content Include="modules\template\orders\customeroppors.html" />
     <Content Include="modules\template\products\provider_detail.html" />
     <Content Include="modules\template\products\providers.html" />
     <Content Include="modules\template\sharemingdao\sharetype.html" />

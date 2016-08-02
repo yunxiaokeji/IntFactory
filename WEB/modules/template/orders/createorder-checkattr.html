@@ -1,0 +1,47 @@
+﻿{%
+	var model = $data;
+%}
+
+{%
+    for(var i=0, j=model.SaleAttrs.length; i < j; i++){
+	    var attr = model.AttrLists[i];
+%}
+    <li data-id="{%=attr.AttrID%}" data-text="{%= attr.AttrName%}" class="productsalesattr">
+        <span class="column-title left">{%= attr.AttrName%}：</span>
+        <div class="left" style="width:90%;">
+        {%
+        for(var ii=0, jj=attr.AttrValues.length; ii < jj; ii++){
+	        var value = attr.AttrValues[ii];
+        %}
+            <span class="mRight10 hand check-box">
+                <span class="checkbox iconfont mTop3" data-attrid="{%= attr.AttrID%}" data-type="1" data-text="{%=value.ValueName%}" data-id="{%=value.ValueID%}"></span>
+                {%=value.ValueName%}
+            </span> 
+           
+        {% } %}
+        </div>
+        <div class="clear"></div>
+    </li>
+{% } %}
+{%
+    for(var i=0, j=model.SaleAttrs.length; i < j; i++){
+	    var attr = model.SaleAttrs[i];
+%}
+    <li data-id="{%=attr.AttrID%}" data-text="{%= attr.AttrName%}" class="productsalesattr">
+        <span class="column-title left">{%= attr.AttrName%}：</span>
+        <div class="left" style="width:90%;">
+        {%
+        for(var ii=0, jj=attr.AttrValues.length; ii < jj; ii++){
+	        var value = attr.AttrValues[ii];
+        %}
+            <span class="mRight10 hand check-box"> 
+                <span class="checkbox iconfont mTop3" data-attrid="{%= attr.AttrID%}"  data-type="2" data-text="{%=value.ValueName%}" data-id="{%=value.ValueID%}"></span>
+                {%=value.ValueName%}
+            </span> 
+           
+        {% } %}
+        </div>
+        <div class="clear"></div>
+    </li>
+{% } %}
+
