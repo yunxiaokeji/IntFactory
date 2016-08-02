@@ -50,38 +50,38 @@
             </div>
             {%if(item.PreFinishStatus==2 ){%}
                 <div style="color:#067BE4">
-                    <span class="column-title">任务进度：</span>
+                    <span class="column-title">上级任务进度：</span>
                     已完成
                 </div>
                 <div>
-                    <span class="column-title">完成日期：</span>
+                    <span class="column-title">上级完成日期：</span>
                     {%=item.PCompleteTime.toDate("yyyy-MM-dd")%}
                 </div>   
             {% }else if (item.PreFinishStatus==1){%}
                 <div style="color:#02C969">
-                    <span class="column-title">任务进度：</span>
+                    <span class="column-title">上级任务进度：</span>
                     进行中
                 </div>
                 <div>
-                    <span class="column-title">结束日期：</span>
+                    <span class="column-title">上级结束日期：</span>
                     {%=item.PEndTime.toDate("yyyy-MM-dd")%}
                 </div>   
             {% }else if (item.PreFinishStatus==0){%}
                 <div style="color:red">
-                    <span class="column-title">任务进度：</span>
+                    <span class="column-title">上级任务进度：</span>
                     未接受
                 </div>
                 <div>
-                    <span class="column-title">结束日期：</span>
+                    <span class="column-title">上级结束日期：</span>
                     {%=item.PEndTime.toDate("yyyy-MM-dd")<="1900-01-01"||item.PEndTime.toDate("yyyy-MM-dd")>="2040-01-01"?"未设置":item.PEndTime.toDate("yyyy-MM-dd")%}
                 </div>   
                 {% }else{%}
                 <div style="color:red">
-                    <span class="column-title">任务进度：</span>
+                    <span class="column-title">上级任务进度：</span>
                     --
                 </div>
                 <div>
-                    <span class="column-title">结束日期：</span>
+                    <span class="column-title">上级结束日期：</span>
                     --
                 </div>   
             {% }%}  
