@@ -14,7 +14,7 @@
     {% if(TypeName!=item.TypeName){
     %}
     <tr class="table-header tr-header">
-        <td class="font14 tLeft width80 bold plate-name">{%=item.TypeName%}</td>
+        <td class="font14 tLeft width300 bold plate-name" data-name="{%=item.TypeName%}">工艺类型：{%=item.TypeName%}</td>
         <td class="bold">名称</td>                    
         <td class="tLeft bold">描述</td>
         <td class="width150 bold">创建时间</td>
@@ -40,9 +40,9 @@ if(isLast==1){
 isLast=0;
 %}
 <tr class="list-item">
-    <td colspan="5" class="center" style="padding:0;">
-       <div class="add-plate font14 color999 hand hBlue" data-typeName="{%=TypeName%}" style="text-indent:0;border-top:1px dashed #ccc;border-bottom:1px dashed #ccc;line-height:40px;">+添加{%=item.TypeName%}</div>
+    <td colspan="5" class="center" style="padding:0 0 5px 0;">
+       <div class="add-plate font16 color999 hand hBlue" data-typeName="{%=TypeName%}" style="text-indent:0;line-height:40px;">+添加{%=item.TypeName%}工艺</div>
     </td>
 </tr>
 {%}%}
-{% } %}
+{%} %}

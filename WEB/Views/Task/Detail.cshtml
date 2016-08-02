@@ -28,7 +28,7 @@
 
 <div class="taskContent" style="padding-bottom:60px;@(task.Mark==12||task.Mark==22?"padding-left:0;padding-right:0;":"")">
     <div id="navTask" class="talk-body nav-partdiv">
-        @{Html.RenderPartial("TaskReply");}
+        @{Html.RenderPartial("TaskReply",task.Mark);}
 
         @{
             if (task.Mark == 11)

@@ -26,7 +26,6 @@
         seajs.use(["scripts/orders/fentorderreport"], function (obj) {
             obj.init('@order.Platemaking', '@order.Price.ToString("f2")', '@(order.CostPrice.ToString("f2"))', '@(order.FinalPrice.ToString("f2"))', '@((order.ProfitPrice * 100).ToString("f2"))','@(order.OrderImage)');
         });
-
     </script>
 
 </head>
@@ -184,13 +183,14 @@
    </div>      
    
     
-    <div class="btn-ok" style="cursor:pointer;width:1100px;" title="预览">
-        <i class="iconfont font22 mLeft20">&#xe605;</i>
-        <span class="mTop22 font14">预览</span>
+    <div class="btn-ok mLeft20 mTop22" style="cursor:pointer;float:left;" title="预览">
+        <i class="iconfont font22">&#xe605;</i>
+        <span class="font14">预览</span>
     </div>
-    <div class="export mLeft50 hide">  
-        <span class="iconfont font22 right print" style="cursor:pointer;margin-right:-20px;">&#xe658;</span>
-        <span class="iconfont font18 mLeft80 color666 get-back" style="cursor:pointer;position:absolute"><i class="iconfont mRight5">&#xe62d;</i><span class="font14">返回</span></span>
+    <div class="export hide left mLeft20">  
+        <span class="iconfont font22 print left" style="margin-top:8px;cursor:pointer;margin-right:10px;">&#xe658;</span>
+        <span class="color666 get-back left" style="cursor:pointer;"><i class="iconfont font18 mRight5">&#xe62d;</i><span class="font14">返回</span></span>
+        <div class="clear"></div>
     </div>
     
  </div>

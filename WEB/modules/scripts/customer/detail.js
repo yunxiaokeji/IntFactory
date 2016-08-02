@@ -397,6 +397,7 @@
             doT.exec("template/orders/orders.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
+                innerhtml.find('.checkbox,.view-detail').remove();
                 _target.after(innerhtml);
 
                 innerhtml.find('.order-progress-item').each(function () {

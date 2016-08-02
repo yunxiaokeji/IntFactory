@@ -1,6 +1,6 @@
 ﻿
 
-<div class="mTop20 task-replys" id="taskReplys">
+<div class="mTop20 task-replys @(Model==12||Model==22?"mLeft10":"")" id="taskReplys">
     <div class="taskreply-box" id="reply-box">
         <textarea id="txtContent" class="reply-content msg-" placeholder="发表评论"></textarea><br />
         <div id="reply-attachment" class="iconfont left" style="width:25px;">&#xe65a;</div>
@@ -15,7 +15,7 @@
 
     <div class="talk-title"> 全部讨论</div>
 
-    <table class="content-list" id="replyList"></table>
+    <table class="content-list" id="replyList" style="margin:0;"></table>
 
     <div class="mTop10" id="pagerReply"></div>
 </div>
