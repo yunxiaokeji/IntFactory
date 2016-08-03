@@ -26,8 +26,11 @@
     ///finishStatus：任务完成状态
     ///attrValues:订单品类属性
     ///orderType:订单类型
-    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID, orderPlanTime, bigCategoryID) {
+    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID, orderPlanTime, bigCategoryID, orderProducts) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
+        if (orderProducts) {
+            ObjectJS.orderProducts = JSON.parse(orderProducts.replace(/&quot;/g, '"'));
+        }
         if (bigCategoryID != "") {
             Global.post("/Task/GetProcessCategoryByID", { categoryid: bigCategoryID }, function (data) {
                 plateMartingItem = data.items;
@@ -57,7 +60,7 @@
         //材料任务
         if ($("#btn-addMaterial").length == 1) {
             ObjectJS.materialMark = 1;
-            if (ObjectJS.mark == 21) {
+            if (ObjectJS.mark == 11 && ObjectJS.orderType == 2) {
                 ObjectJS.materialMark = 2;
             }
             ObjectJS.initTaskProduct();
@@ -82,19 +85,19 @@
                 ObjectJS.isPlate = false;
             }
         }
-        if (ObjectJS.mark === 23) {
+        if (ObjectJS.mark === 13 && ObjectJS.orderType==2) {
             CutoutDoc = require("scripts/task/cutoutdoc");
             CutoutDoc.initCutoutDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
         }
-        else if (ObjectJS.mark === 24) {
+        else if (ObjectJS.mark === 14 && ObjectJS.orderType == 2) {
             SewnDoc = require("scripts/task/sewndoc");
             SewnDoc.initSewnDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
         }
-        else if (ObjectJS.mark === 25) {
+        else if (ObjectJS.mark === 15 && ObjectJS.orderType == 2) {
             SendOrders = require("scripts/task/sendorders");
             SendOrders.initSendOrders(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
         }
-        else if (ObjectJS.mark === 15) {
+        else if (ObjectJS.mark === 15 && ObjectJS.orderType == 1) {
             SendDYOrders = require("scripts/task/senddyorders");
             SendDYOrders.initSendDYOrders(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
         }
@@ -194,6 +197,33 @@
                 }
             }
             else if (_this.data("id") == "navCutoutDoc") {
+                $("#btnMaterialOrder").show();
+                //材料录入
+                $("#btnMaterialOrder").unbind().click(function () {
+                    DoT.exec("template/task/material-add.html", function (template) {
+                        var innerHtml = template(ObjectJS.orderProducts);
+                        Easydialog.open({
+                            container: {
+                                id: "showMaterial",
+                                header: "材料录入",
+                                content: innerHtml,
+                                yesFn: function () {
+
+                                }
+                            }
+                        });
+                        $(".quantity").change(function () {
+                            var _this = $(this);
+                            if (!_this.val().isDouble() || _this.val() <= 0) {
+                                _this.val(0);
+                                return false;
+                            }
+                            if (_this.val() > _this.parents('tr').find('.purchase-count').text() * 1) {
+                                alert("录入材料量大于采购量");
+                            }
+                        });
+                    });
+                });
                 CutoutDoc.getCutoutDoc();
             }
             else if (_this.data("id") == "navSewnDoc") {
@@ -972,7 +1002,7 @@
         var amount = 0;
         $(".amount").each(function () {
             var _this = $(this);
-
+            
             if (ObjectJS.materialMark == 0) {
                 amount += _this.html() * 1;
             }

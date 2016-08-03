@@ -26,7 +26,6 @@
         else {
             Easydialog = easydialog;
         }
-
         ObjectJS.orderid = orderid;
         ObjectJS.taskid = taskid;
         Common.orderid =orderid;
@@ -51,7 +50,6 @@
     //裁剪录入
     ObjectJS.cutOutGoods = function () {
         var _self = this;
-        
         DoT.exec("template/orders/cutoutgoods.html", function (template) {
             var innerText = template(Common.OrderGoods);
             Easydialog.open({

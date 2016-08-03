@@ -18,7 +18,7 @@
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn ? 1 : 0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")', '@order.BigCategoryID');
+                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn ? 1 : 0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")', '@order.BigCategoryID', '@(task.Mark == 13&&order.OrderType==2?Html.ToJSONString(order.Details):"")');
             });
         });
     </script>
@@ -30,42 +30,42 @@
         @{Html.RenderPartial("TaskReply",task.Mark);}
 
         @{
-            if (task.Mark == 11)
+            if (task.Mark == 11 && order.OrderType == 1)
             {
                 //打样材料
                 Html.RenderPartial("MaterialDetail", taskModel);
             }
-            else if (task.Mark == 21)
+            else if (task.Mark == 11 && order.OrderType == 2)
             {
                 //大货材料
                 Html.RenderPartial("CargoMaterialDetail", taskModel);
             }
-            else if (task.Mark == 12)
+            else if (task.Mark == 12 && order.OrderType == 1)
             {
                 //打样制版
                 Html.RenderPartial("PlateDetail", taskModel);
             }
-            else if (task.Mark == 22)
+            else if (task.Mark == 12 && order.OrderType == 2)
             {
                 //大货制版
                 Html.RenderPartial("PlateDetail", taskModel);
             }
-            else if (task.Mark == 15)
+            else if (task.Mark == 15 && order.OrderType == 1)
             {
                 //打样发货
                 Html.RenderPartial("SendDYDoc");
             }
-            else if (task.Mark == 25)
+            else if (task.Mark == 15 && order.OrderType == 2)
             {
                 //大货发货
                 Html.RenderPartial("SendDoc");
             }
-            else if (task.Mark == 23)
+            else if (task.Mark == 13&&order.OrderType==2)
             {
                 //大货裁片
                 Html.RenderPartial("CutoutDoc");
             }
-            else if (task.Mark == 24)
+            else if (task.Mark == 14 && order.OrderType == 2)
             {
                 //大货车缝
                 Html.RenderPartial("SewnDoc");
@@ -98,7 +98,7 @@
                             <tr class="item cart-item" >
                                 <td>@(detail.Remark)</td>
                                 <td class="center good1">@(detail.Quantity)</td>
-                                <td class="center good2">@(detail.CutQuantity)</td>
+                                <td class="good2 center">@(detail.CutQuantity)</td>
                                 <td class="center good3">@(detail.Complete)</td>
                                 <td class="center good4">@(detail.SendQuantity)</td>
                                 <td class="center good5">@(detail.Complete - detail.SendQuantity)</td>
