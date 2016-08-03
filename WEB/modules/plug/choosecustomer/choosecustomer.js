@@ -45,7 +45,10 @@ define(function (require, exports, module) {
                             if (_this.hasClass("ico-checked")) {
                                 var model = {
                                     id: _this.data("id"),
-                                    name: _this.data("name")
+                                    name: _this.data("name"),
+                                    city: _this.data("city"),
+                                    mobile: _this.data("mobile"),
+                                    address: _this.data("address")
                                 };
                                 list.push(model);
                             }
@@ -70,24 +73,28 @@ define(function (require, exports, module) {
             $("#choosecustomerSearch").searchKeys(function (keyWords) {
                 if (keyWords) {
                     $(".customerlist-all .customerlist-items").empty();
+                    $(".customerlist-all .customerlist-items").append("<li class='data-loading'></li>");
                     Global.post("/Customer/GetCustomersByKeywords", {
                         keywords: keyWords,
                         isAll: _self.setting.isAll ? 1 : 0
                     }, function (data) {
                         $(".customerlist-all .customerlist-items").empty();
-
-                        doT.exec("/plug/choosecustomer/customers.html", function (template) {
-                            var innerHtml = template(data.items);
-                            innerHtml = $(innerHtml);
-                            innerHtml.click(function () {
-                                var _this = $(this);
-                                if (!_this.hasClass("ico-checked")) {
-                                    _this.siblings().find(".check").removeClass("ico-checked").addClass("ico-check");
-                                    _this.find(".check").removeClass("ico-check").addClass("ico-checked");
-                                }
+                        if (data.items.length > 0) {
+                            doT.exec("/plug/choosecustomer/customers.html", function (template) {
+                                var innerHtml = template(data.items);
+                                innerHtml = $(innerHtml);
+                                innerHtml.click(function () {
+                                    var _this = $(this);
+                                    if (!_this.hasClass("ico-checked")) {
+                                        _this.siblings().find(".check").removeClass("ico-checked").addClass("ico-check");
+                                        _this.find(".check").removeClass("ico-check").addClass("ico-checked");
+                                    }
+                                });
+                                $(".customerlist-all .customerlist-items").append(innerHtml);
                             });
-                            $(".customerlist-all .customerlist-items").append(innerHtml);
-                        });
+                        } else {
+                            $(".customerlist-all .customerlist-items").append("<li class='nodata-txt'>找不到客户</li>");
+                        }
                     });
                     
                 } else {

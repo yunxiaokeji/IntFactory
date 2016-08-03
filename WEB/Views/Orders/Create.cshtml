@@ -21,6 +21,10 @@
     .category-item { height:25px; line-height:25px; border:solid 1px #ccc; margin-right:10px; padding:0 15px; cursor:pointer; }
     .category-item:hover { border:solid 1px #4a98e7; }
     .category-item.hover { border:solid 1px #4a98e7; background-color:#4a98e7;color:#fff; }
+
+    .child-product-table { border-top:solid 1px #ddd; border-left:solid 1px #ddd; width:85%; margin-left:100px; }
+    .child-product-table .tr-header{ background-color:#eee; }
+    .child-product-table td{ border-right:solid 1px #ddd; }
 </style>
 
 @section css{
@@ -94,8 +98,11 @@
                 &nbsp;大货
             </div>
         </li>
+        <li id="childGoodsQuantity">
+
+        </li>
         <li>
-            <span class="column-title">期望价格：</span>
+            <span class="column-title">价格：</span>
             <span><input type="text" maxlength="10" id="planPrice"  data-empty="必填" data-type="double" class="input verify" /></span>
         </li>
         <li>
@@ -134,6 +141,10 @@
             
             <span class="column-title">姓名：</span> 
             <span><input type="text" maxlength="50" id="name" data-empty="必填" class="input verify" /></span>
+            @if (string.IsNullOrEmpty(ViewBag.CID))
+            {
+                <a class="btn-link mLeft5" href="javascript:void(0);" id="changeCustomer">选择已有客户</a>
+            }
         </li>
         <li>
             <span class="column-title">联系电话：</span> 

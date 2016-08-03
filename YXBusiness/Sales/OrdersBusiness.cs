@@ -526,7 +526,7 @@ namespace IntFactoryBusiness
         #region 添加
 
         public string CreateOrder(string customerid, string goodscode, string title, string name, string mobile, EnumOrderSourceType sourceType, EnumOrderType ordertype,
-                                  string bigcategoryid, string categoryid, decimal price, int quantity, DateTime planTime, string orderimgs, string citycode,
+                                  List<OrderGoodsEntity> details, string bigcategoryid, string categoryid, decimal price, int quantity, DateTime planTime, string orderimgs, string citycode,
                                   string address, string expressCode, string remark, string operateid, string clientid, string aliOrderCode = "")
         {
             string id = Guid.NewGuid().ToString();
@@ -553,19 +553,40 @@ namespace IntFactoryBusiness
 
             bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, aliOrderCode, goodscode, title, customerid, name, mobile, (int)sourceType, (int)ordertype, bigcategoryid, categoryid, price, quantity, planTime < DateTime.Now ? DateTime.Now.AddDays(7).ToString() : planTime.ToString(),
                                                         firstimg, allimgs, citycode, address, expressCode, remark, operateid, clientid);
-            if (!bl)
+            if (bl)
             {
-                return "";
+                if (ordertype == EnumOrderType.LargeOrder && details.Count > 0)
+                {
+                    SqlConnection conn = new SqlConnection(BaseDAL.ConnectionString);
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+                    SqlTransaction tran = conn.BeginTransaction();
+                    foreach (var model in details)
+                    {
+                        if (!OrdersDAL.BaseProvider.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
+                        {
+                            tran.Rollback();
+                            conn.Dispose();
+                            return "";
+                        }
+                    }
+                    tran.Commit();
+                    conn.Dispose();
+                }
+                if (sourceType == EnumOrderSourceType.FactoryOrder)
+                {
+                    //日志
+                    LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Orders, EnumLogType.Create, "", operateid, clientid);
+                }
+                return id;
             }
-            else if (sourceType == EnumOrderSourceType.FactoryOrder)
-            {
-                //日志
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Orders, EnumLogType.Create, "", operateid, clientid);
-            }
-            return id;
+
+            return "";
         }
 
-        public string CreateDHOrder(string orderid, int ordertype, decimal discount, decimal price, List<ProductDetail> details, string operateid, string clientid, string yxOrderID = "")
+        public string CreateDHOrder(string orderid, int ordertype, decimal discount, decimal price, List<OrderGoodsEntity> details, string operateid, string clientid, string yxOrderID = "")
         {
             var dal = new OrdersDAL();
             string id = Guid.NewGuid().ToString().ToLower();
@@ -595,7 +616,7 @@ namespace IntFactoryBusiness
                     {
                         foreach (var model in details)
                         {
-                            if (!dal.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.Description, operateid, clientid, tran))
+                            if (!dal.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
                             {
                                 tran.Rollback();
                                 conn.Dispose();
@@ -614,7 +635,7 @@ namespace IntFactoryBusiness
                 {
                     foreach (var model in details)
                     {
-                        if (!dal.AddOrderGoods(orderid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.Description, operateid, clientid, tran))
+                        if (!dal.AddOrderGoods(orderid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
                         {
                             tran.Rollback();
                             conn.Dispose();

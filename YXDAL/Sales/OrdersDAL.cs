@@ -285,7 +285,7 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool AddOrderGoods(string orderid, string saleattr, string attrvalues, string saleattrvalue, decimal quantity, string remark, string operateid, string clientid, SqlTransaction tran)
+        public bool AddOrderGoods(string orderid, string saleattr, string attrvalues, string saleattrvalue, decimal quantity, string xRemark, string yRemark, string xyRemark, string remark, string operateid, string clientid, SqlTransaction tran)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
@@ -293,6 +293,9 @@ namespace IntFactoryDAL
                                      new SqlParameter("@ValueList",attrvalues),
                                      new SqlParameter("@AttrValueList",saleattrvalue),
                                      new SqlParameter("@Quantity",quantity),
+                                     new SqlParameter("@XRemark",xRemark),
+                                     new SqlParameter("@YRemark",yRemark),
+                                     new SqlParameter("@XYRemark",xyRemark),
                                      new SqlParameter("@Description",remark),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)
@@ -324,8 +327,6 @@ namespace IntFactoryDAL
 
             return bl;
         }
-
-        
 
         public string CreateReply(string guid,string stageID,int mark, string content, string userID, string clientid, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
         {

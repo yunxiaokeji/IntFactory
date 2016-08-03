@@ -4,11 +4,13 @@
         doT = require("dot"),
         City = require("city"), CityObject,
         Verify = require("verify"), VerifyObject,
+        ChooseCustomer = require("choosecustomer"),
         moment = require("moment");
 
-    var ObjectJS = {}, CacheCategory = [];
+    var ObjectJS = {}, CacheCategory = [], CacheItems = [];
+
     //初始化
-    ObjectJS.init = function (customerid,clientid,categoryitem) {
+    ObjectJS.init = function (customerid, clientid, categoryitem) {
         var _self = this;
         _self.customerid = customerid;
         _self.clientid = clientid;
@@ -112,17 +114,28 @@
             verifyType: "data-type",
             regText: "data-text"
         });
+
         CityObject = City.createCity({
             cityCode: citycode,
             elementID: "city"
         });
-        //切换类型
-        $(".customtype").click(function () {
-            var _this = $(this);
-            if (!_this.hasClass("ico-checked")) {
-                $(".customtype").removeClass("ico-checked").addClass("ico-check");
-                _this.addClass("ico-checked").removeClass("ico-check");
-            }
+
+        //更换客户
+        $("#changeCustomer").click(function () {
+            ChooseCustomer.create({
+                title: "选择客户",
+                isAll: true,
+                callback: function (items) {
+                    if (items.length > 0) {
+                        $("#name").val(items[0].name);
+                        $("#contactMobile").val(items[0].mobile);
+                        $("#address").val(items[0].address);
+                        if (items[0].city) {
+                            CityObject.setValue(items[0].city + "");
+                        }
+                    }
+                }
+            });
         });
     }
 
@@ -130,6 +143,8 @@
     ObjectJS.showAttrForOrder = function () {
         var _self = this;
         $(".productsalesattr").remove();
+        $("#childGoodsQuantity").empty();
+        CacheItems = [];
         if ($(".ico-radiobox.hover").data('type') == 2) {
             doT.exec("template/orders/createorder-checkattr.html", function (template) {
                 var innerhtml = template(CacheCategory[_self.categoryValue.trim()]);
@@ -144,7 +159,7 @@
                         _this.addClass("hover");
                     }
 
-                    var bl = false, details = [], isFirst = true;
+                    var bl = false, details = [], isFirst = true, xattr = [], yattr = [];
                     $(".productsalesattr").each(function () {
                         bl = false;
                         var _attr = $(this), attrdetail = details;
@@ -164,6 +179,7 @@
                                 model.names = "【" + _attr.data("text") + "：" + _value.data("text") + "】";
                                 model.layer = 1;
                                 details.push(model);
+                                
                             } else {
                                 for (var i = 0, j = attrdetail.length; i < j; i++) {
                                     if (attrdetail[i].ids.indexOf(_value.data("attrid")) < 0) {
@@ -180,6 +196,13 @@
                                     }
                                 }
                             }
+                            //处理二维表
+                            if (_value.data("type") == 1 && xattr.indexOf("【" + _value.data("text") + "】") < 0) {
+                                xattr.push("【" + _value.data("text") + "】");
+                            } else if (_value.data("type") == 2 && yattr.indexOf("【" + _value.data("text") + "】") < 0) {
+                                yattr.push("【" + _value.data("text") + "】");
+                            }
+
                         });
                         isFirst = false;
                     });
@@ -191,25 +214,54 @@
                             var model = details[i];
                             if (model.layer == layer) {
                                 items.push(model);
+                                CacheItems[model.xyRemark] = model;
                             }
                         }
-                        console.log(items);
-                        return;
-                       
+                        var tableModel = {};
+                        tableModel.xAttr = xattr;
+                        tableModel.yAttr = yattr;
+                        tableModel.items = items;
+
                         //加载子产品
                         doT.exec("template/orders/orders_child_list.html", function (templateFun) {
-                            var innerText = templateFun(items);
+                            var innerText = templateFun(tableModel);
                             innerText = $(innerText);
                             $("#childGoodsQuantity").append(innerText);
                             //数量必须大于0的数字
                             innerText.find(".quantity").change(function () {
                                 var _this = $(this);
                                 if (!_this.val().isInt() || _this.val() <= 0) {
-                                    _this.val("1");
+                                    _this.val("0");
                                 }
+
+                                var total = 0;
+                                $(".child-product-table .tr-item").each(function () {
+                                    var _tr = $(this), totaly = 0;
+                                    if (!_tr.hasClass("total")) {
+                                        _tr.find(".quantity").each(function () {
+                                            var _this = $(this);
+                                            if (_this.val() > 0) {
+                                                totaly += _this.val() * 1;
+                                            }
+                                        });
+                                        _tr.find(".total-y").text(totaly);
+                                    } else {
+                                        _tr.find(".total-y").each(function () {
+                                            var _td = $(this), totalx = 0;
+                                            $(".child-product-table .quantity[data-x='" + _td.data("x") + "']").each(function () {
+                                                var _this = $(this);
+                                                if (_this.val() > 0) {
+                                                    totalx += _this.val() * 1;
+                                                }
+                                            });
+                                            total += totalx;
+                                            _td.text(totalx);
+                                        });
+                                        _tr.find(".total-xy").text(total);
+                                    }
+                                });
                             });
                         });
-
                     }
                 });
 
@@ -279,8 +331,30 @@
             PlanPrice: $("#planPrice").val().trim(),
             PlanQuantity: 1,
             MobileTele: $("#contactMobile").val().trim(),
-            Remark: $("#remark").val().trim()
+            Remark: $("#remark").val().trim(),
+            OrderGoods:[]
         };
+
+        //大货单遍历下单明细
+        if ($(".ico-radiobox.hover").data('type') == 2) {
+            $(".child-product-table .quantity").each(function () {
+                var _this = $(this);
+                if (_this.val() > 0) {
+                    var item = CacheItems[_this.data("remark")];
+                    model.OrderGoods.push({
+                        SaleAttr: item.saleAttr,
+                        AttrValue: item.attrValue,
+                        SaleAttrValue: item.ids,
+                        Quantity: _this.val(),
+                        XRemark: item.xRemark,
+                        YRemark: item.yRemark,
+                        XYRemark: item.xyRemark,
+                        Remark: item.names
+                    });
+                }
+            });
+        }
+
         Global.post("/Orders/CreateOrder", { entity: JSON.stringify(model) }, function (data) {
             if (data.id) {
                 location.href = "/Orders/OrderDetail/" + data.id;

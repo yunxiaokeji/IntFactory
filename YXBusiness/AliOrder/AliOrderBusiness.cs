@@ -106,8 +106,8 @@ namespace IntFactoryBusiness
                     var order = orderListResult.fentOrderList[j];
 
                     string orderID = OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
-                       HttpUtility.UrlDecode(order.buyerName), order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.ProofOrder, string.Empty, string.Empty,
-                        order.fentPrice, order.bulkCount, order.gmtReleasedExpect, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
+                       HttpUtility.UrlDecode(order.buyerName), order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.ProofOrder, null,string.Empty, string.Empty,
+                       order.fentPrice, order.bulkCount, order.gmtReleasedExpect, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
                         string.Empty, order.buyerAddress, string.Empty, string.Empty,
                         userID,clientID, order.fentGoodsCode);
 
@@ -210,7 +210,7 @@ namespace IntFactoryBusiness
                     var order = orderListResult.bulkOrderList[j];
 
                     string orderID = OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
-                        HttpUtility.UrlDecode(order.buyerName), order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.LargeOrder, string.Empty, string.Empty,
+                        HttpUtility.UrlDecode(order.buyerName), order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.LargeOrder, null, string.Empty, string.Empty,
                         order.bulkPrice, order.bulkCount, order.gmtReleasedExpect, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
                         string.Empty, order.buyerAddress, string.Empty, string.Empty,
                         userID, clientID, order.bulkGoodsCode);
