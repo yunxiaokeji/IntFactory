@@ -151,9 +151,9 @@
                                     $(".attr-item").each(function () {
                                         var _this = $(this);
                                         if (_this.find('.drop-item').data('id') != "|") {
-                                            _descCustomize += "[" + _this.find(".salesattr").text() + _this.find('.drop-item').data('name') + "]";
+                                            _descCustomize += "【" + _this.find(".salesattr").text() + _this.find('.drop-item').data('name') + "】";
                                         } else {
-                                            _descCustomize += "[" + _this.find(".salesattr").text() + _this.find(".drop-item").parent().next().val().trim() + "]";
+                                            _descCustomize += "【" + _this.find(".salesattr").text() + _this.find(".drop-item").parent().next().val().trim() + "】";
                                         }
                                     });
                                     $("#iptRemark").val(_descCustomize);
@@ -165,7 +165,7 @@
                                 });
                                 var attrValues = sale.AttrValues;
                                 /*第一次读取获取描述*/
-                                _desc += "[" + sale.AttrName + "：" + attrValues[0].ValueName + "]";
+                                _desc += "【" + sale.AttrName + "：" + attrValues[0].ValueName + "】";
                                 $("#dropdown-attr" + sale.AttrID + "").dropdown({
                                     prevText: sale.AttrName + "-",
                                     defaultText: attrValues[0].ValueName,
@@ -188,9 +188,9 @@
                                         $(".attr-item").each(function () {
                                             var _this = $(this);
                                             if (_this.find('.drop-item').data('id') == '|') {
-                                                description += "[" + _this.find('.salesattr').text() + _this.find('.customize').val() + "]";
+                                                description += "【" + _this.find('.salesattr').text() + _this.find('.customize').val() + "】";
                                             } else {
-                                                description += "[" + _this.find('.salesattr').text() + _this.find('.drop-item').data('name') + "]";
+                                                description += "【" + _this.find('.salesattr').text() + _this.find('.drop-item').data('name') + "】";
                                             }
                                         });
                                         $("#iptRemark").val(description);

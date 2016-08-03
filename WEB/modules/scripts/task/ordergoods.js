@@ -25,14 +25,12 @@
         var $tr_header = $("#" + id + " .tr-header");
         $tr_header.nextAll().remove();
         $tr_header.after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
-
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             taskid: _self.taskid,
             type: type==22?2:type
         }, function (data) {
             $tr_header.nextAll().remove();
-
             if (data.items.length > 0) {
                 var templateHtml = "template/orders/cutoutdoc.html";
                 if (type == 2) {
@@ -45,12 +43,18 @@
                 DoT.exec(templateHtml, function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
-                    
-                    if (type != 2) {
-                        innerhtml.click(function () {
-                            _self.getGoodsDocDetail(this, type == 22 ? 2 : 1);
-                        });
-                    }
+
+                    innerhtml.find('.quantity').change(function () {
+                        var _this = $(this);
+                        if (!_this.val().isDouble() || _this.val() <= 0) {
+                            _this.val(0);
+                        }
+                    });
+                    //if (type != 2) {
+                    //    innerhtml.click(function () {
+                    //        _self.getGoodsDocDetail(this, type == 22 ? 2 : 1);
+                    //    });
+                    //}
 
                     $tr_header.after(innerhtml);
 

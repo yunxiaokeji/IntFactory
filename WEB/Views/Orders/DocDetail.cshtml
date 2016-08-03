@@ -32,7 +32,7 @@
         <li><span class="column-title">快递单号：</span>@(model.ExpressCode)</li>
         <li style="width:100%;"><span class="column-title">备注：</span>@(model.Remark)</li>
     </ul>
-    <div class="order-imgs-div right">
+    <div class="order-imgs-div right mRight20">
         <div class="order-imgs">
             <img id="orderImage" onerror="document.getElementById('orderImage').src='/modules/images/img-noimg.png'" src="@( string.IsNullOrEmpty(model.DocImage) ? "/modules/images/img-noimg.png" : model.DocImage)" />
         </div>

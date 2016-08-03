@@ -10,12 +10,15 @@
 </tr>
 {%}%}
 <tr class="item-header">
-    <td class="tLeft">规格</td>
+    <td class="tLeft bLeft">规格</td>
     <td>数量</td>
+    {%if(item.DocType==11){%}
+    <td class="tLeft">车缝退回</td>
+    {%}%}
     <td>小计</td>
     <td>登记时间</td>
     <td>登记人</td>
-    <td>操作</td>
+    <td class="bRight">操作</td>
 </tr>
 {%
 for(var j=0;j<item.Details.length;j++)
@@ -29,6 +32,13 @@ var detail=item.Details[j];
     <td class="center bBottom">
         {%=detail.Quantity%}
     </td>
+    {%if(item.DocType==11){%}
+    <td class="tLeft bBottom">
+        <div class="left mTop5">0.00</div>
+        <div class="left mLeft10"><input class="quantity" type="text" style="width:80px;" value="0" /></div>
+        <div class="clear"></div>
+    </td>
+    {%}%}
     {%
     if(j==0)
     {
@@ -51,6 +61,6 @@ var detail=item.Details[j];
     <td colspan="6"></td>
 </tr>
 <tr class="item">
-    <td colspan="2"></td>
+    <td colspan="1"></td>
     <td class="center font16">合计：<span class="total-count font16"></span></td>
 </tr>

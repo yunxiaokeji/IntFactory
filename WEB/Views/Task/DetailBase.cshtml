@@ -256,19 +256,19 @@
             {
                 <li  data-id="platemakingContent" class="default-check">制版</li>
             }
-            else if(task.Mark==15)
+            else if(task.Mark==15&&order.OrderType==1)
             {
                 <li  data-id="navSendDYDoc" data-btn="btnSendDYOrder" class="default-check">发货</li>
             }
-            else if(task.Mark==25)
+            else if (task.Mark == 15 && order.OrderType == 2)
             {
                 <li data-btn="btnSendOrder" data-id="navSendDoc" class="default-check">发货</li>
             }
-            else if(task.Mark==23)
+            else if (task.Mark == 13 && order.OrderType == 2)
             {
                 <li data-btn="btnCutoutOrder" data-id="navCutoutDoc" class="default-check">裁剪</li>
             }
-            else if(task.Mark==24)
+            else if (task.Mark == 14 && order.OrderType == 2)
             {
                 <li data-btn="btnSewnOrder"  data-id="navSewnDoc" class="default-check">车缝</li>
             }
@@ -280,7 +280,7 @@
         }
         @{
             if(order.OrderType==2){
-            <li data-id="navGoods">下单明细</li>
+                <li data-id="navGoods">下单明细</li>
             }
         }
         <li data-id="orderTaskLogs">日志</li>
@@ -289,19 +289,20 @@
      @{
          if (taskModel.IsRoot)
          {
-             if (task.Mark == 23 && order.CutStatus != 2)
+             if (task.Mark == 13 && order.CutStatus != 2&&order.OrderType==2)
             {
-                 <div class="btn part-btn right" id="btnCutoutOrder" style="display:none;">裁剪录入</div>                
+                 <div class="btn part-btn right" id="btnCutoutOrder" style="display:none;">裁剪录入</div>  
+                 <div class="btn part-btn right mRight10" id="btnMaterialOrder">材料录入</div>                       
             }
-            else if (task.Mark == 24)
+             else if (task.Mark == 14 && order.OrderType == 2)
             {
                 <div class="btn part-btn right"  id="btnSewnOrder" style="display:none;">车缝录入</div>
             }
-            else if (task.Mark == 15)
+             else if (task.Mark == 15 && order.OrderType == 1)
             {
                 <div class="btn part-btn right" id="btnSendDYOrder" style="display:none;">订单发货</div>
             }
-             else if (task.Mark == 25 && order.SendStatus != 2)
+             else if (task.Mark == 15 && order.SendStatus != 2 && order.OrderType == 2)
             {
                 <div class="btn part-btn right hide" id="btnSendOrder" style="display:none;">订单发货</div>
             }
