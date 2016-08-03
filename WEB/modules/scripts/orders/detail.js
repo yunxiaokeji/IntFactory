@@ -48,10 +48,8 @@
 
         $(".order-info").css("width", $(".content-title").width() - 400);
 
-        if (_self.status == 0 && _self.model.OrderType == 1) {
+        if (_self.status == 0) {
             $("#changeOrderStatus").html("转为订单");
-        } else if (_self.status == 0 && _self.model.OrderType == 2) {
-            $("#changeOrderStatus").html("绑定打样款号");
         } else if (_self.status == 1) {
             $("#changeOrderStatus").html("完成打样");
         } else if (_self.status == 2) {
@@ -90,41 +88,37 @@
             $("#navEngravingInfo").html("<div class='nodata-txt'>暂无制版信息<div>");
         }
         //样图
-        _self.bindOrderImages(model.OrderImages);
-
-        _self.getPlateMakings();        
-    }
-
-    //获取制版工艺说明
-    ObjectJS.getPlateMakings = function () {
-        var _self = this;
-
-        $(".tb-plates .tr-header").nextAll().remove();
-        $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
-
-        Global.post("/Task/GetPlateMakings", {
-            orderID: _self.model.OrderType == 1 ? _self.model.OrderID : _self.model.OriginalID,
-            taskID: ""
-        }, function (data) {
-            $(".tb-plates .tr-header").nextAll().remove();
-            if (data.items.length > 0) {                
-                doT.exec("template/task/platematring-orderdatail.html", function (template) {
-                    PlateMakings = data.items;
-                    var html = template(data.items);
-                    html = $(html);
-                    html.find(".dropdown").remove();
-                    $(".tb-plates").append(html);
-                });
-            }
-            else {            
-                $(".tb-plates").append("<tr><td colspan='5'><div class='nodata-txt'>暂无工艺说明<div></td></tr>");
-            }
-        });
+        _self.bindOrderImages(model.OrderImages);       
     }
 
     //绑定事件
     ObjectJS.bindEvent = function () {
         var _self = this;
+
+        $(document).click(function (e) {
+            //隐藏下拉
+            if (!$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown")) {
+                $(".dropdown-ul").hide();
+            }
+        });
+
+        $("#btnOperateTask").click(function () {
+            var _this = $(this);
+            var position = _this.position();
+            $("#ddlOperateTask").css({ "top": position.top + 30, "right":20 }).show().mouseleave(function () {
+                $(this).hide();
+            });
+            return false;
+        });
+
+        $("#btnOperateMore").click(function () {
+            var _this = $(this);
+            var position = _this.position();
+            $("#ddlOperateOrder").css({ "top": position.top + 30, "right": 20 }).show().mouseleave(function () {
+                $(this).hide();
+            });
+            return false;
+        });
 
         //更换流程
         $("#changeProcess").click(function () {
@@ -288,7 +282,7 @@
             require.async("tip", function () {
                 $(".repeatorder-times").Tip({
                     width: "100",
-                    msg: "翻单次数：" + $(".repeatorder-times").data('turntime') + "次"
+                    msg: "第" + $(".repeatorder-times").data('turntime') + "次翻单"
                 });
             })
         }
@@ -685,17 +679,9 @@
             _self.addOtherCosts();
         })
 
-        $("#plateMarking").show();
-
         //切换模块
         $(".module-tab li").click(function () {
             var _this = $(this);
-            
-            //操作按钮
-            $(".part-btn").hide();
-            if (_this.data("btn")) {
-                $("#" + _this.data("btn")).show();
-            }
             _this.siblings().removeClass("hover");
             _this.addClass("hover");
             $(".nav-partdiv").hide();
@@ -704,24 +690,21 @@
             if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getLogs(1);
-            } else if (_this.data("id") == "navEngraving" || _this.data("id") == "navProducts") {
-                if (_this.data("mark")) {
-                    if (_this.data("id") == "navEngraving") {
-                        $("#plateMarking").show();
-                    }
-                    $("#navOrderTalk").show();
-                    _self.mark = _this.data("mark");
-                }
-            } else if (_this.data("id") == "navSendDoc" && (!_this.data("first") || _this.data("first") == 0)) {
+            } else if (_this.data("id") == "tab12" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                _self.getPlateMakings();
+            } else if (_this.data("id") == "tab11" && (!_this.data("first") || _this.data("first") == 0)) {
+
+            } else if (_this.data("id") == "tab15" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getSendDoc();
-            } else if (_this.data("id") == "navCutoutDoc" && (!_this.data("first") || _this.data("first") == 0)) {
+            } else if (_this.data("id") == "tab13" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getCutoutDoc();
-            } else if (_this.data("id") == "navSewnDoc" && (!_this.data("first") || _this.data("first") == 0)) {
+            } else if (_this.data("id") == "tab14" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getSewnDoc();
-            } else if (_this.data("id") == "navCosts" && (!_this.data("first") || _this.data("first") == 0)) {
+            } else if (_this.data("id") == "tab16" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getCosts();
             } else if (_this.data("id") == "navPays" && (!_this.data("first") || _this.data("first") == 0)) {
@@ -732,6 +715,8 @@
                 _self.getDHOrders(_self.orderid, 1);
             }
         });
+
+        $(".module-tab li").first().click();
     }
 
     //加载缓存
@@ -748,6 +733,34 @@
 
         Global.post("/Plug/GetExpress", {}, function (data) {
             _self.express = data.items;
+        });
+    }
+
+
+    //获取制版工艺说明
+    ObjectJS.getPlateMakings = function () {
+        var _self = this;
+
+        $(".tb-plates .tr-header").nextAll().remove();
+        $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
+
+        Global.post("/Task/GetPlateMakings", {
+            orderID: _self.model.OrderType == 1 ? _self.model.OrderID : _self.model.OriginalID,
+            taskID: ""
+        }, function (data) {
+            $(".tb-plates .tr-header").nextAll().remove();
+            if (data.items.length > 0) {
+                doT.exec("template/task/platematring-orderdatail.html", function (template) {
+                    PlateMakings = data.items;
+                    var html = template(data.items);
+                    html = $(html);
+                    html.find(".dropdown").remove();
+                    $(".tb-plates").append(html);
+                });
+            }
+            else {
+                $(".tb-plates").append("<tr><td colspan='5'><div class='nodata-txt'>暂无工艺说明<div></td></tr>");
+            }
         });
     }
 
@@ -1740,15 +1753,15 @@
 
     //发货记录
     ObjectJS.getSendDoc = function () {
-        var _self = this;
-        $("#navSendDoc .tr-header").nextAll().remove();
-        $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
+        var _self = this, _box = $("#tab15 .tr-header");
+        _box.nextAll().remove();
+        _box.after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             taskid:'',
             type: 2
         }, function (data) {
-            $("#navSendDoc .tr-header").nextAll().remove();
+            _box.nextAll().remove();
             if (data.items.length > 0) {
                 var templateInner = "senddocs";
                 if (ObjectJS.model.OrderType == 1)
@@ -1759,7 +1772,7 @@
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
-                    $("#navSendDoc .tr-header").after(innerhtml);
+                    _box.after(innerhtml);
 
                     if (templateInner == "senddocs") {
                         var total = 0;
@@ -1771,7 +1784,7 @@
                     }
                 });
             } else {
-                $("#navSendDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                _box.after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
             /*有数据隐藏表头*/
             if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
@@ -1785,20 +1798,20 @@
 
     //裁剪记录
     ObjectJS.getCutoutDoc = function () {
-        var _self = this;
-        $("#navCutoutDoc .tr-header").nextAll().remove();
-        $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
+        var _self = this, _box = $("#tab13 .tr-header");
+        _box.nextAll().remove();
+        _box.after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             taskid: '',
             type: 1
         }, function (data) {
-            $("#navCutoutDoc .tr-header").nextAll().remove();
+            _box.nextAll().remove();
             if (data.items.length > 0) {
                 doT.exec("template/orders/cutoutdoc.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
-                    $("#navCutoutDoc .tr-header").after(innerhtml);
+                    _box.after(innerhtml);
                     var total = 0;
                     innerhtml.find('.cut1').each(function () {
                         var _this = $(this);
@@ -1807,7 +1820,7 @@
                     innerhtml.find('.total-count').html(total);
                 });
             } else {
-                $("#navCutoutDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                _box.after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
             /*有数据隐藏表头*/
             if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
@@ -1821,21 +1834,21 @@
 
     //缝制记录
     ObjectJS.getSewnDoc = function () {
-        var _self = this;
-        $("#navSewnDoc .tr-header").nextAll().remove();
-        $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
+        var _self = this, _box = $("#tab14 .tr-header");
+        _box.nextAll().remove();
+        _box.after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetGoodsDocByOrderID", {
             orderid: _self.orderid,
             taskid: '',
             type: 11
         }, function (data) {
-            $("#navSewnDoc .tr-header").nextAll().remove();
+            _box.nextAll().remove();
             if (data.items.length > 0) {
                 doT.exec("template/orders/cutoutdoc.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
-                    $("#navSewnDoc .tr-header").after(innerhtml);
+                    _box.after(innerhtml);
                     var total = 0;
                     innerhtml.find('.cut1').each(function () {
                         var _this = $(this);
@@ -1844,7 +1857,7 @@
                     innerhtml.find('.total-count').html(total);
                 });
             } else {
-                $("#navSewnDoc .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                _box.after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         });
         /*有数据隐藏表头*/
@@ -1857,13 +1870,13 @@
 
     //其他成本
     ObjectJS.getCosts = function () {
-        var _self = this;
-        $("#navCosts .tr-header").nextAll().remove();
-        $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
+        var _self = this, _box = $("#tab16 .tr-header");
+        _box.nextAll().remove();
+        _box.after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetOrderCosts", {
             orderid: _self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID
         }, function (data) {
-            $("#navCosts .tr-header").nextAll().remove();
+            _box.nextAll().remove();
             if (data.items.length > 0) {
                 doT.exec("template/orders/orderCosts.html", function (template) {
                     var innerhtml = template(data.items);
@@ -1873,7 +1886,7 @@
                         $(this).text($(this).text() * $("#navCosts").data("quantity"))
                     });
 
-                    $("#navCosts .tr-header").after(innerhtml);
+                    _box.after(innerhtml);
                     innerhtml.find(".ico-del").click(function () {
                         var _this = $(this);
                         confirm("删除后不可恢复，确认删除吗？", function () {
@@ -1891,7 +1904,7 @@
 
                 });
             } else {
-                $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!</div></td></tr>");
+                _box.after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!</div></td></tr>");
             }
         });
     }

@@ -7,7 +7,7 @@
         ChooseCustomer = require("choosecustomer"),
         moment = require("moment");
 
-    var ObjectJS = {}, CacheCategory = [], CacheItems = [];
+    var ObjectJS = {}, CacheCategory = [], CacheChildCategory = [], CacheItems = [];
 
     //初始化
     ObjectJS.init = function (customerid, clientid, categoryitem) {
@@ -22,6 +22,9 @@
         if (categoryitem != null) {
             var categoryitems = JSON.parse(categoryitem.replace(/&quot;/g, '"'));
             ObjectJS.categoryitems = categoryitems;
+            for (var i = 0; i < categoryitems.length; i++) {
+                CacheChildCategory[categoryitems[i].CategoryID] = categoryitems[i].ChildCategory;
+            }
             _self.bigCategoryValue = _self.categoryitems[0].CategoryID;
             _self.categoryValue = "";
         }
@@ -276,36 +279,36 @@
         var isOnce = true;
 
         $('.ordercategory').empty();
-        Global.post("/Home/GetChildOrderCategorysByID", { categoryid: item.value, clientid: _self.clientid }, function (data) {
-            var items = data.Items;
 
-            for (var i = 0; i < items.length; i++) {
-                if (!CacheCategory[items[i].CategoryID]) {
-                    CacheCategory[items[i].CategoryID] = items[i];
+        var items = CacheChildCategory[_self.bigCategoryValue];
+
+        for (var i = 0; i < items.length; i++) {
+            if (!CacheCategory[items[i].CategoryID]) {
+                CacheCategory[items[i].CategoryID] = items[i];
+            }
+        }
+        if (isOnce) {
+            _self.categoryValue = items[0].CategoryID;
+            _self.showAttrForOrder();
+            isOnce = false;
+        }
+
+        require.async("dropdown", function () {
+            $(".ordercategory").dropdown({
+                prevText: "",
+                defaultText: items[0].CategoryName,
+                defaultValue: items[0].CategoryID,
+                data: items,
+                dataValue: "CategoryID",
+                dataText: "CategoryName",
+                width: 78,
+                onChange: function (data) {
+                    _self.categoryValue = data.value;
+                    _self.showAttrForOrder();
                 }
-            }
-            if (isOnce) {
-                _self.categoryValue = items[0].CategoryID;
-                _self.showAttrForOrder();
-                isOnce = false;
-            }
-
-            require.async("dropdown", function () {
-                $(".ordercategory").dropdown({
-                    prevText: "",
-                    defaultText: items[0].CategoryName,
-                    defaultValue: items[0].CategoryID,
-                    data: items,
-                    dataValue: "CategoryID",
-                    dataText: "CategoryName",
-                    width: 78,
-                    onChange: function (data) {
-                        _self.categoryValue = data.value;
-                        _self.showAttrForOrder();
-                    }
-                });
             });
         });
+
     }
 
     //保存实体
