@@ -121,13 +121,9 @@
                 }
             });
 
-            $(".processplates").each(function () {
+            $(".processplates.hover").each(function () {
                 _this = $(this);
-                if (_this.hasClass("hover")) {
-                    var id = _this.parent().attr("id");
-                    $("#" + id).remove();
-                    $("." + id).remove();
-                }
+                $(".processplate tr[data-name=" + _this.data('name') + "]").remove();
             });
 
             $(".operation").show();

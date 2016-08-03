@@ -20,7 +20,6 @@
         seajs.use(["scripts/orders/detail"], function (obj) {
             obj.init('@(model.OrderID)', '@(model.Status)', '@Html.ToJSONString(model)', '@Html.ToJSONString(list)');
         });
-        
     </script>
 }
 
@@ -126,7 +125,7 @@
     </ul>
 </div>
 
-<div class="content-body" style="padding-left:10px;">
+<div class="content-body" style="padding:10px;">
     <div class="order-imgs-div left">
         <div class="order-imgs">
             <img id="orderImage" src="@(string.IsNullOrEmpty(model.OrderImage) ? "" : model.OrderImage)" data-self="@(model.IsSelf ? 1 : 0)" />
@@ -226,7 +225,7 @@
         {
             <span title="更换流程" class="iconfont change-ico left mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess">&#xe60b;</span>
         }
-        <div class="left info mLeft20">负责人：@(model.OrderProcess != null && model.OrderProcess.Owner != null ? model.OrderProcess.Owner.Name : "")</div>
+        <div class="left info mLeft20">负责人：@(model.OrderProcess != null && !string.IsNullOrEmpty(model.OrderProcess.OwnerName) ? model.OrderProcess.OwnerName : "")</div>
         @if (model.IsSelf)
         {
             if (string.IsNullOrEmpty(model.CategoryID))
@@ -299,7 +298,7 @@
     <a id="plateMarking" href="/Orders/PlateMakingProcess/@(model.OrderID)" target="_blank" class="btn part-btn right mLeft20">制版打印</a>
 </div>
 
-<div class="content-body pBottom50 " style="padding-left:10px;">
+<div class="content-body" style="padding:0 0 50px 0;">
     <div id="navProducts" class="nav-partdiv hide">
         <table class="table-list mTop20">
             <tr class="tr-header">
@@ -320,7 +319,7 @@
                 <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
                     <td class="width80">
                         <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">
-                            <img src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
+                            <img style="text-indent:0;" src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
                         </a>
                     </td>
                     <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
@@ -374,10 +373,10 @@
     </table>
 
     <div class="nav-partdiv  mTop10" id="navEngraving">
-        <div class="table-title">制版信息</div>
+        <div class="table-title" style="font-size:16px;text-indent:10px;">制版信息</div>
         <div id="navEngravingInfo"></div>
-        <div class="mTop20 table-title">工艺说明</div>
-        <table class="table-list mTop10 tb-plates"></table>
+        <div class="mTop20 table-title" style="font-size:16px;text-indent:10px;">工艺说明</div>
+        <table class="table-items-detail mTop10 tb-plates"></table>
     </div>
 
     <table id="navPays" class="nav-partdiv table-list mTop20 hide">

@@ -15,13 +15,10 @@
     
     var CacheAttrValues = [];//订单品类属性缓存
     var PlateMakings = [];//制版工艺说明
-    var PlateMarkingType = [];//制版工艺类型缓存
     var ObjectJS = {};
     var ChooseProduct = null;
 
-    var plateMartingItem = [
-            
-    ];
+    var plateMartingItem = [];//制版工艺类型缓存
     ///taskid：任务id
     ///orderid:订单id
     ///stageid：订单阶段id
@@ -1014,11 +1011,6 @@
         $("#btn-updateTaskRemark").click(function () {
             ObjectJS.updateOrderPlatemaking();
         });
-
-        $("#btn-platePrint").Tip({
-            width: "50",
-            msg: "制版工艺"
-        });
     };
 
     //文档点击的隐藏事件
@@ -1452,7 +1444,6 @@
         $("#setObjectPlate").click(function () {
             var index = $(this).data("index");
             var item = PlateMakings[index];
-            console.log(item);
             var _htmlTr = $(".tb-plates .dropdown[data-index='" + index + "']").parents('tr');
             DoT.exec("template/task/platemarting-quickly-add.html", function (templateFun) {
                 var innerHtml = templateFun();
@@ -1574,8 +1565,10 @@
                     PlateMakings = data.items;
                     var html = template(data.items);
                     html = $(html);
+                    if (ObjectJS.finishStatus != 1 || $("#addPlateType").length == 0) {
+                        html.find('.add-plate').remove();
+                    }
                     $(".tb-plates").append(html);
-
                     $(".typetitle td").css({"background-color":"#eee","color":"#333","line-height":"30px"});
                     $(".typetitle:first td").css("line-height", "40px");
                     html.find(".add-plate").click(function () {
@@ -1583,7 +1576,7 @@
                         ObjectJS.qulicklyAddPlateMarkings(_this);
                     });
 
-                    if ($("#btnAddPalte").length == 1) {
+                    if ($("#addPlateType").length == 1) {
                         html.find(".dropdown").click(function () {
                             var _this = $(this);
                             var position = _this.find(".ico-dropdown").position();
@@ -1600,7 +1593,7 @@
                 });
             }
             else {
-                if ($("#btnAddPalte").length > 0) {
+                if ($("#addPlateType").length > 0) {
                     var addPlateMartingHtml = $('<tr><td><div id="showPlateType" class="create-first"><span class="plus">+</span>添加工艺</div></td></tr>');
                     addPlateMartingHtml.bind("click", function () {
                         ObjectJS.choosePlateTypeAdd();
@@ -1731,7 +1724,7 @@
                         var _this = $(this);
                         items.push({ type: _this.data('type'), text: _this.data('text') });
                         $(".tb-plates .table-header").each(function () {
-                            if (_this.text().trim() == $(this).find('.plate-name').text().trim()) {
+                            if (_this.text().trim() == $(this).find('.plate-name').data('name')) {
                                 isContinue = false;
                                 existsText=_this.text().trim();
                                 return false;
@@ -1747,8 +1740,8 @@
                         var innerAddHtml = "";
                         for (var i = 0; i < items.length; i++) {
                             var item = items[i];
-                            innerAddHtml += '<tr class="table-header tr-header"><td class="font14 tLeft width80 bold plate-name">' + item.text + '</td> <td class="bold">名称</td>  <td class="tLeft bold">描述</td><td class="width150 bold">创建时间</td><td class="center width150 bold">操作</td></tr>';
-                            innerAddHtml += '<tr class="list-item"><td colspan="5" class="center" style="padding:0;"><div class="add-plate font14 color999 hand hBlue" style="text-indent:0;border-top:1px dashed #ccc;border-bottom:1px dashed #ccc;line-height:40px;" data-typename="' + item.text + '">+添加' + item.text + '</div></td></tr>';
+                            innerAddHtml += '<tr class="table-header tr-header"><td class="font14 tLeft width300 bold plate-name" data-name="'+item.text+'">工艺类型：' + item.text + '</td> <td class="bold">名称</td>  <td class="tLeft bold">描述</td><td class="width150 bold">创建时间</td><td class="center width150 bold">操作</td></tr>';
+                            innerAddHtml += '<tr class="list-item"><td colspan="5" class="center" style="padding:0 0 5px 0;"><div class="add-plate font16 color999 hand hBlue" style="text-indent:0;line-height:50px;" data-typename="' + item.text + '">+添加' + item.text + '工艺</div></td></tr>';
                         }
                         innerAddHtml = $(innerAddHtml);
                         innerAddHtml.find('.add-plate').click(function () {
@@ -1784,8 +1777,9 @@
                     return false;
                 }
             });
+
             $(".tb-plates .table-header").each(function () {
-                if (_this.val().trim() == $(this).find('.plate-name').text().trim()) {
+                if (_this.val().trim() == $(this).find('.plate-name').data('name')) {
                     isContinue = false;
                     return false;
                 }
@@ -1794,7 +1788,7 @@
                 alert("制版类型已存在");
                 return false;
             }
-            var roleItem = $('<li class="role-item" data-type="10" data-text="' + _this.val().trim() + '">' + _this.val().trim() + '</li>');
+            var roleItem = $('<li class="role-item hover" data-type="10" data-text="' + _this.val().trim() + '">' + _this.val().trim() + '</li>');
             roleItem.click(function () {
                 if (!$(this).hasClass("hover"))
                     $(this).addClass("hover");
