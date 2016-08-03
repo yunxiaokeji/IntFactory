@@ -5,10 +5,10 @@
 	var item = $data[i];
 %}
     <li data-first="{%=item.FirstName%}">
-        <span class="check ico-check mTop5" data-id="{%=item.CustomerID%}" data-name="{%=item.Name%}"></span>
-		<span style="width:360px;" class="long">{%=item.Name%}</span>
-        <span class="width100 center long">{%= item.MobilePhone%}</span>
-        <span class="width150 center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</span>
-        
+        <span class="check ico-check mTop5" data-id="{%=item.CustomerID%}" data-name="{%=item.Name%}" data-city="{%=item.CityCode%}" data-mobile="{%= item.MobilePhone %}" data-address="{%=item.Address%}"></span>
+		<span style="width:150px;" class="long">{%=item.Name%}</span>
+        <span class="width120 long">{%= item.MobilePhone||"--"%}</span>
+        <span style="width:280px;" title="{%=(item.City?item.City.Description:'')+ item.Address%}" class="long">{%=((item.City?item.City.Description:"") + item.Address)||"--"%}</span>
+        <span class="width100 center">{%=item.CreateTime.toDate("yyyy-MM-dd")%}</span>
 	</li>
 {% } %}

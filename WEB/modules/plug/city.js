@@ -100,7 +100,6 @@ define(function (require, exports, module) {
         if (cityCode.length != 6) {
             return;
         }
-       
         var _self = this, _province = cityCode.substr(0, 2), _city = cityCode.substr(2, 2), _county = cityCode.substr(4, 2);
         var province = _self.province.find("option[value^='" + _province + "']");
         province.prop("selected", "selected");

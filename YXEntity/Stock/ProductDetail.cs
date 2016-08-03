@@ -91,28 +91,6 @@ namespace IntFactoryEntity
 		/// </summary>
 		public int? Status{ set; get; }
 		
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-		public string CreateUserID{ set; get; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime{ set; get; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? UpdateTime{ set; get; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string OperateIP{ set; get; }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Property("Lower")] 
-		public string ClientID{ set; get; }
 
         public string Description { set; get; }
 

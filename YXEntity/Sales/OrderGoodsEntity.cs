@@ -91,6 +91,28 @@ namespace IntFactoryEntity
         public int SendQuantity { set; get; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        [Property("Lower")]
+        public string SaleAttr { set; get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Property("Lower")]
+        public string AttrValue { set; get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Property("Lower")]
+        public string SaleAttrValue { set; get; }
+
+        public string XRemark { get; set; }
+
+        public string YRemark { get; set; }
+
+        public string XYRemark { get; set; }
+
+        /// <summary>
         /// 填充数据
         /// </summary>
         /// <param name="dr"></param>

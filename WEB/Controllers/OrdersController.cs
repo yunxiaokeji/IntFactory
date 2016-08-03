@@ -337,7 +337,7 @@ namespace YXERP.Controllers
             OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
 
             string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID, model.GoodsCode, model.Title, model.PersonName, model.MobileTele, EnumOrderSourceType.FactoryOrder,
-                                                                    (EnumOrderType)model.OrderType, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity, model.PlanTime,
+                                                                    (EnumOrderType)model.OrderType, model.OrderGoods, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity, model.PlanTime,
                                                                      model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
@@ -350,7 +350,7 @@ namespace YXERP.Controllers
         public JsonResult CreateDHOrder(string entity, int ordertype, decimal discount, decimal price)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            OrderGoodsModel model = serializer.Deserialize<OrderGoodsModel>(entity);
+            OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
 
             string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, ordertype, discount, price, model.OrderGoods, CurrentUser.UserID,CurrentUser.ClientID);
             JsonDictionary.Add("id", orderid);

@@ -97,7 +97,7 @@ namespace IntFactoryBusiness
             {
                 CustomerEntity model = new CustomerEntity();
                 model.FillData(dr);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
+                model.City = CommonBusiness.GetCityByCode(model.CityCode);
                 list.Add(model);
             }
             return list;

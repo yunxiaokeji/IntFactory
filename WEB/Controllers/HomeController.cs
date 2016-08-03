@@ -828,23 +828,6 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult CreateOrder(string entity)
-        {
-            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            IntFactoryEntity.OrderEntity model = serializer.Deserialize<IntFactoryEntity.OrderEntity>(entity);
-
-            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID, model.GoodsCode, model.Title, model.PersonName, model.MobileTele, EnumOrderSourceType.SelfOrder,
-                                                                    (EnumOrderType)model.OrderType, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity, model.PlanTime,
-                                                                     model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, "", model.ClientID);
-            JsonDictionary.Add("id", orderid);
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
         public ActionResult FeedBack()
         {
             if (Session["ClientManager"] != null)
