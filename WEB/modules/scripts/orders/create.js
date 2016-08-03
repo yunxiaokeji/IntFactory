@@ -1,6 +1,7 @@
 ﻿define(function (require, exports, module) {
     var Upload = require("upload"), ProductIco, ImgsIco,
         Global = require("global"),
+        doT = require("dot"),
         City = require("city"), CityObject,
         Verify = require("verify"), VerifyObject,
         moment = require("moment");
@@ -79,6 +80,8 @@
             if (!_this.hasClass("hover")) {
                 $(".ico-radiobox").removeClass("hover");
                 _this.addClass("hover");
+
+                _self.showAttrForOrder();
             }
         });
 
@@ -123,6 +126,98 @@
         });
     }
 
+    //确认下单明细
+    ObjectJS.showAttrForOrder = function () {
+        var _self = this;
+        $(".productsalesattr").remove();
+        if ($(".ico-radiobox.hover").data('type') == 2) {
+            doT.exec("template/orders/createorder-checkattr.html", function (template) {
+                var innerhtml = template(CacheCategory[_self.categoryValue.trim()]);
+                innerhtml = $(innerhtml);
+
+                //组合产品
+                innerhtml.find(".check-box").click(function () {
+                    var _this = $(this).find(".checkbox");
+                    if (_this.hasClass("hover")) {
+                        _this.removeClass("hover");
+                    } else {
+                        _this.addClass("hover");
+                    }
+
+                    var bl = false, details = [], isFirst = true;
+                    $(".productsalesattr").each(function () {
+                        bl = false;
+                        var _attr = $(this), attrdetail = details;
+                        //组合规格
+                        _attr.find(".checkbox.hover").each(function () {
+                            bl = true;
+                            var _value = $(this);
+                            //首个规格
+                            if (isFirst) {
+                                var model = {};
+                                model.ids = _attr.data("id") + ":" + _value.data("id");
+                                model.saleAttr = _attr.data("id");
+                                model.attrValue = _value.data("id");
+                                model.xRemark = _value.data("type") == 1 ? ("【" + _value.data("text") + "】") : "";
+                                model.yRemark = _value.data("type") == 2 ? ("【" + _value.data("text") + "】") : "";
+                                model.xyRemark = "【" + _value.data("text") + "】";
+                                model.names = "【" + _attr.data("text") + "：" + _value.data("text") + "】";
+                                model.layer = 1;
+                                details.push(model);
+                            } else {
+                                for (var i = 0, j = attrdetail.length; i < j; i++) {
+                                    if (attrdetail[i].ids.indexOf(_value.data("attrid")) < 0) {
+                                        var model = {};
+                                        model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.data("id");
+                                        model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
+                                        model.attrValue = attrdetail[i].attrValue + "," + _value.data("id");
+                                        model.xRemark = attrdetail[i].xRemark + (_value.data("type") == 1 ? ("【" + _value.data("text") + "】") : "");
+                                        model.yRemark = attrdetail[i].yRemark + (_value.data("type") == 2 ? ("【" + _value.data("text") + "】") : "");
+                                        model.xyRemark = attrdetail[i].xyRemark + "【" + _value.data("text") + "】";
+                                        model.names = attrdetail[i].names + "【" + _attr.data("text") + "：" + _value.data("text") + "】";
+                                        model.layer = attrdetail[i].layer + 1;
+                                        details.push(model);
+                                    }
+                                }
+                            }
+                        });
+                        isFirst = false;
+                    });
+                    $("#childGoodsQuantity").empty();
+                    //选择所有属性
+                    if (bl) {
+                        var layer = $(".productsalesattr").length, items = [];
+                        for (var i = 0, j = details.length; i < j; i++) {
+                            var model = details[i];
+                            if (model.layer == layer) {
+                                items.push(model);
+                            }
+                        }
+                        console.log(items);
+                        return;
+                       
+                        //加载子产品
+                        doT.exec("template/orders/orders_child_list.html", function (templateFun) {
+                            var innerText = templateFun(items);
+                            innerText = $(innerText);
+                            $("#childGoodsQuantity").append(innerText);
+                            //数量必须大于0的数字
+                            innerText.find(".quantity").change(function () {
+                                var _this = $(this);
+                                if (!_this.val().isInt() || _this.val() <= 0) {
+                                    _this.val("1");
+                                }
+                            });
+                        });
+
+                    }
+                });
+
+                $("#checkOrderType").after(innerhtml);
+            });          
+        }
+    };
+
     //绑定小品类
     ObjectJS.bindCategory = function (item) {
         var _self = this;
@@ -132,8 +227,14 @@
         Global.post("/Home/GetChildOrderCategorysByID", { categoryid: item.value, clientid: _self.clientid }, function (data) {
             var items = data.Items;
 
+            for (var i = 0; i < items.length; i++) {
+                if (!CacheCategory[items[i].CategoryID]) {
+                    CacheCategory[items[i].CategoryID] = items[i];
+                }
+            }
             if (isOnce) {
                 _self.categoryValue = items[0].CategoryID;
+                _self.showAttrForOrder();
                 isOnce = false;
             }
 
@@ -148,10 +249,10 @@
                     width: 78,
                     onChange: function (data) {
                         _self.categoryValue = data.value;
+                        _self.showAttrForOrder();
                     }
                 });
             });
-
         });
     }
 

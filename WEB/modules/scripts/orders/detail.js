@@ -1759,10 +1759,6 @@
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
-                    innerhtml.click(function () {
-                        _self.getGoodsDocDetail(this, 2);
-                    });
-
                     $("#navSendDoc .tr-header").after(innerhtml);
 
                     if (templateInner == "senddocs") {
@@ -1839,10 +1835,6 @@
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
-                    innerhtml.click(function () {
-                        _self.getGoodsDocDetail(this, 1);
-                    });
-
                     $("#navSewnDoc .tr-header").after(innerhtml);
                     var total = 0;
                     innerhtml.find('.cut1').each(function () {
@@ -1903,37 +1895,6 @@
             }
         });
     }
-
-    //展开单据明细
-    ObjectJS.getGoodsDocDetail = function (item, type) {
-        var _this = $(item), url = "";
-        if (type == 1) {
-            url = "template/orders/cutout-details.html";
-        } else if (type == 2) {
-            url = "template/orders/send-details.html";
-        }
-        if (!_this.data("first") || _this.data("first") == 0) {
-            _this.data("first", 1).data("status", "open");
-            
-            Global.post("/Orders/GetGoodsDocDetail", {
-                docid: _this.data("id")
-            }, function (data) {
-                doT.exec(url, function (template) {
-                    var innerhtml = template(data.model.Details);
-                    innerhtml = $(innerhtml);
-                    _this.after(innerhtml);
-                });
-            });
-        } else {
-            if (_this.data("status") == "open") {
-                _this.data("status", "close");
-                _this.nextAll("tr[data-pid='" + _this.data("id") + "']").hide();
-            } else {
-                _this.data("status", "open");
-                _this.nextAll("tr[data-pid='" + _this.data("id") + "']").show();
-            }
-        }
-    };
 
     //获取大货订单
     ObjectJS.getDHOrders = function (originalid, page) {

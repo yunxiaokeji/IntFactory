@@ -88,9 +88,9 @@
         </td>   
         <td class="order-time">
             {% if(item.FinishStatus==0){ %}
-                <div class="mTop10 left">
+                <div class="left">
                     <div class="order-progress left">                    
-                        <div class="center pTop20 red">
+                        <div class="center red">
                             未接受
                         </div>                       
                         <div class="center mTop20">结束日期：未设置</div>
@@ -98,7 +98,7 @@
                     </div>
                 </div>    
             {% }else if(item.FinishStatus==1){ %}
-                <div class="mTop40">
+                <div class="mTop20">
                     <div class="order-progress left">
                         <div class="layer-line"></div>
                         <div class="order-progress-use order-progress-item" data-width="{%=(item.UseDays==0?1:item.UseDays)/totalDay*100+'%'%}">
