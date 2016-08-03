@@ -9,7 +9,7 @@
 		<span class="name long">{%=item.ProcessName%}</span>
         <span class="width100 center">{%= item.ProcessType==1?"打样":"大货" %}</span>
          <span class="width100 center">{%= item.CategoryType==1?"梭织":"毛织" %}</span>
-        <span class="width100 center">{%= item.Owner?item.Owner.Name:"--" %}</span>
+        <span class="width100 center">{%= item.OwnerName?item.OwnerName:"--" %}</span>
 
 	</li>
 {% } %}
