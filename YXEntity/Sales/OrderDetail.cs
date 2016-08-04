@@ -50,6 +50,12 @@ namespace IntFactoryEntity
 
         public decimal Loss { get; set; }
 
+        public decimal PurchaseQuantity { get; set; }
+
+        public decimal InQuantity { get; set; }
+
+        public decimal UseQuantity { get; set; }
+
 		/// <summary>
 		/// 
 		/// </summary>
