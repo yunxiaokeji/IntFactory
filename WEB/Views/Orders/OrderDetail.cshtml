@@ -152,7 +152,7 @@
 
                 @if (model.IsSelf && model.OrderStatus < 2)
                 {
-                    <span title="更换客户" class="iconfont change-ico left mLeft10" data-customerid="@(model.CustomerID)" data-id="@(model.OrderID)" id="changeCustomer">&#xe60b;</span>
+                    <span title="更换客户" class="iconfont change-ico left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-customerid="@(model.CustomerID)" data-id="@(model.OrderID)" id="changeCustomer">&#xe60b;</span>
                 }
             </li>
             <li>

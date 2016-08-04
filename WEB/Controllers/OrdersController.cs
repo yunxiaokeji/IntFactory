@@ -122,8 +122,8 @@ namespace YXERP.Controllers
             {
                 ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.ClientID);
             }
-            ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
-            ViewBag.taskDescs = item.CategoryItems.FindAll(m => m.Type == 3);
+            
+
             model.IsSelf = model.ClientID == CurrentUser.ClientID;
             if (model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID))
             {
@@ -134,8 +134,9 @@ namespace YXERP.Controllers
                 ViewBag.Client = ClientBusiness.GetClientDetail(model.ClientID);
             }
             ViewBag.Model = model;
-            ViewBag.Tabs = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID).CategoryItems.Where(m => m.Type == 1 && m.OrderType == model.OrderType).ToList();
-            ViewBag.Modules = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID).CategoryItems.Where(m => m.Type == 3).ToList();
+            ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
+            ViewBag.Tabs = item.CategoryItems.Where(m => m.Type == 1 && m.OrderType == model.OrderType).ToList();
+            ViewBag.Modules = item.CategoryItems.Where(m => m.Type == 3).ToList();
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Orders).ToList();
 
             if (model.OrderType == 1)
