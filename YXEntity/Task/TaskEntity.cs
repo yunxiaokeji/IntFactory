@@ -89,6 +89,8 @@ namespace IntFactoryEntity.Task
 
         public List<TaskMember> TaskMembers { get; set; }
 
+        public List<CategoryItemsEntity> TaskDescs { get; set; }
+
         /// <summary>
         /// 预警状态 0：正常 1：快到期 2：已超期
         /// </summary>

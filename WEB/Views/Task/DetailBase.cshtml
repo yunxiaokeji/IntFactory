@@ -2,6 +2,7 @@
     var taskModel =(YXERP.Models.TaskModel)Model;
     var task = taskModel.Task;
     var order = taskModel.Order;
+    var taskDescs = task.TaskDescs;
  }
 
 <div class="header-box">
@@ -218,7 +219,7 @@
         </ul>
     </div>
     <div class="clear"></div>
-    <ul class="stage-items mTop20 @(ExpandClass.IsLimits(HttpContext.Current, "102010503"))">
+    <ul class="stage-items mTop20">
         @{
             foreach (var stage in order.Tasts)
             { 
@@ -240,41 +241,39 @@
     <ul class="module-tab">
         <li  class="@(task.Mark==0?"default-check":"")" data-id="taskReplys">讨论</li>
         @{
+            //材料
             if(task.Mark==11)
             {
-                <li  data-id="navProducts" class="default-check">材料</li>
+                <li  data-id="navProducts" class="default-check">@(taskDescs.Find(m=>m.Mark==11).Name)</li>
             }
-            else if(task.Mark==21)
-            {
-                <li  data-id="navProducts" class="default-check">材料</li>
-            }
+            //制版
             else if(task.Mark==12)
             {
-                <li  data-id="platemakingContent" class="default-check">制版</li>
+                <li  data-id="platemakingContent" class="default-check">@(taskDescs.Find(m=>m.Mark==12).Name)</li>
             }
-            else if(task.Mark==22)
-            {
-                <li  data-id="platemakingContent" class="default-check">制版</li>
-            }
+            //发货
             else if(task.Mark==15&&order.OrderType==1)
             {
-                <li  data-id="navSendDYDoc" data-btn="btnSendDYOrder" class="default-check">发货</li>
+                <li  data-id="navSendDYDoc" data-btn="btnSendDYOrder" class="default-check">@(taskDescs.Find(m=>m.Mark==15).Name)</li>
             }
             else if (task.Mark == 15 && order.OrderType == 2)
             {
-                <li data-btn="btnSendOrder" data-id="navSendDoc" class="default-check">发货</li>
+                <li data-btn="btnSendOrder" data-id="navSendDoc" class="default-check">@(taskDescs.Find(m=>m.Mark==15).Name)</li>
             }
+            //裁剪
             else if (task.Mark == 13 && order.OrderType == 2)
             {
-                <li data-btn="btnCutoutOrder" data-id="navCutoutDoc" class="default-check">裁剪</li>
+                <li data-btn="btnCutoutOrder" data-id="navCutoutDoc" class="default-check">@(taskDescs.Find(m=>m.Mark==13).Name)</li>
             }
+            //车缝
             else if (task.Mark == 14 && order.OrderType == 2)
             {
-                <li data-btn="btnSewnOrder"  data-id="navSewnDoc" class="default-check">车缝</li>
+                <li data-btn="btnSewnOrder"  data-id="navSewnDoc" class="default-check">@(taskDescs.Find(m=>m.Mark==14).Name)</li>
             }
+            //加工成本
             else if(task.Mark==16)
             {
-                 <li data-btn="addOtherCost" data-id="navCosts" class="default-check">加工成本</li>
+                 <li data-btn="addOtherCost" data-id="navCosts" class="default-check">@(taskDescs.Find(m=>m.Mark==16).Name)</li>
             }
            
         }
@@ -289,26 +288,30 @@
      @{
          if (taskModel.IsRoot)
          {
+             //裁剪
              if (task.Mark == 13 && order.CutStatus != 2&&order.OrderType==2)
             {
-                 <div class="btn part-btn right" id="btnCutoutOrder" style="display:none;">裁剪录入</div>  
+                 <div class="btn part-btn right" id="btnCutoutOrder" style="display:none;">@(taskDescs.Find(m=>m.Mark==13).Name)录入</div>  
                  <div class="btn part-btn right mRight10" id="btnMaterialOrder">用料登记</div>                       
             }
+            //车缝
              else if (task.Mark == 14 && order.OrderType == 2)
             {
-                <div class="btn part-btn right"  id="btnSewnOrder" style="display:none;">车缝录入</div>
+                <div class="btn part-btn right"  id="btnSewnOrder" style="display:none;">@(taskDescs.Find(m=>m.Mark==14).Name)录入</div>
             }
+            //发货
              else if (task.Mark == 15 && order.OrderType == 1)
             {
-                <div class="btn part-btn right" id="btnSendDYOrder" style="display:none;">订单发货</div>
+                <div class="btn part-btn right" id="btnSendDYOrder" style="display:none;">订单@(taskDescs.Find(m=>m.Mark==15).Name)</div>
             }
              else if (task.Mark == 15 && order.SendStatus != 2 && order.OrderType == 2)
             {
-                <div class="btn part-btn right hide" id="btnSendOrder" style="display:none;">订单发货</div>
+                <div class="btn part-btn right hide" id="btnSendOrder" style="display:none;">订单@(taskDescs.Find(m=>m.Mark==15).Name)</div>
             }
+            //加工成本
             else if(task.Mark==16)
             {
-                <div class="btn part-btn right" id="addOtherCost" style="display:none;">添加加工成本</div>
+                <div class="btn part-btn right" id="addOtherCost" style="display:none;">添加@(taskDescs.Find(m=>m.Mark==16).Name)</div>
             }
         }
      }

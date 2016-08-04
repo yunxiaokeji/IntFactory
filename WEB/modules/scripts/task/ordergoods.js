@@ -20,7 +20,7 @@
     };
 
     //获取订单明细
-    ObjectJS.getGetGoodsDoc = function (id, type) {
+    ObjectJS.getGetGoodsDoc = function (id, type, taskDesc) {
         var _self = this;
         var $tr_header = $("#" + id + " .tr-header");
         $tr_header.nextAll().remove();
@@ -41,6 +41,7 @@
                 }
 
                 DoT.exec(templateHtml, function (template) {
+                    data.items.taskDesc = taskDesc;
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
@@ -54,12 +55,6 @@
                         });
                         return false;
                     });
-
-                    //if (type != 2) {
-                    //    innerhtml.click(function () {
-                    //        _self.getGoodsDocDetail(this, type == 22 ? 2 : 1);
-                    //    });
-                    //}
 
                     $tr_header.after(innerhtml);
 

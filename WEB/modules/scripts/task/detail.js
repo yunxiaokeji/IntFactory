@@ -89,8 +89,16 @@
             CutoutDoc.initCutoutDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
         }
         else if (ObjectJS.mark === 14 && ObjectJS.orderType == 2) {
+            var taskDesc="车缝";
+            for (var i = 0; i < task.TaskDescs.length; i++) {
+                var item = task.TaskDescs[i];
+                if (item.Mark == 14) {
+                    taskDesc = item.Name|| '车缝';
+                    break;
+                }
+            }
             SewnDoc = require("scripts/task/sewndoc");
-            SewnDoc.initSewnDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
+            SewnDoc.initSewnDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, taskDesc);
         }
         else if (ObjectJS.mark === 15 && ObjectJS.orderType == 2) {
             SendOrders = require("scripts/task/sendorders");

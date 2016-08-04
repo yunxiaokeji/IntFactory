@@ -7,7 +7,7 @@
     var ObjectJS = {};
     var Controller = "Task";
     //车缝
-    ObjectJS.initSewnDoc = function (orderid, taskid, global, doT, easydialog) {
+    ObjectJS.initSewnDoc = function (orderid, taskid, global, doT, easydialog,taskDesc) {
         if (global == null) {
             Global = require("global");
         }
@@ -28,10 +28,10 @@
         }
         ObjectJS.orderid = orderid;
         ObjectJS.taskid = taskid;
+        ObjectJS.taskDesc = taskDesc;
         Common.orderid =orderid;
         Common.taskid = taskid;
         Common.init(Global, DoT);
-
         if ($("#btnSewnOrder").length == 1) {
             //车缝录入
             $("#btnSewnOrder").click(function () {
@@ -82,7 +82,7 @@
 
     //车缝记录
     ObjectJS.getSewnDoc = function () {
-        Common.getGetGoodsDoc("navSewnDoc", 11);
+        Common.getGetGoodsDoc("navSewnDoc", 11, ObjectJS.taskDesc);
     }
 
     //车缝录入
@@ -94,7 +94,7 @@
             Easydialog.open({
                 container: {
                     id: "showSewnGoods",
-                    header: "大货单车缝登记",
+                    header: "大货单" + ObjectJS.taskDesc + "登记",
                     content: innerText,
                     yesFn: function () {
                         var details = ""
@@ -118,7 +118,7 @@
                                 remark: $("#expressRemark").val().trim()
                             }, function (data) {
                                 if (data.id) {
-                                    alert("车缝登记成功!");
+                                    alert("" + ObjectJS.taskDesc + "登记成功!");
                                     
                                     if ($("#showSewnGoods .check").hasClass("ico-checked")) {
                                         $("#btnSewnOrder").remove();
@@ -130,12 +130,12 @@
                                     alert("您没有操作权限!")
                                 }
                                 else {
-                                    alert("车缝登记失败！");
+                                    alert("" + ObjectJS.taskDesc + "登记失败！");
                                 }
                             });
                         }
                         else {
-                            alert("请输入车缝数量");
+                            alert("请输入" + ObjectJS.taskDesc + "数量");
                             return false;
                         }
                     },

@@ -2,7 +2,7 @@
 <div style="max-height:300px; overflow:auto;">
 <table  class="table-list">
 <tr class="tr-header">
-    <td class="tLeft">规格</td>
+    <td class="tLeft" style="text-indent:0;">规格</td>
     <td class="">下单量</td>
     <td class="">已裁剪</td>
     <td class="">裁剪数量</td>
@@ -12,7 +12,7 @@
 	var item = $data[i];
 %}
 <tr data-id="{%=item.AutoID%}" class="list-item">
-    <td class="">{%=item.Remark%}</td>
+    <td class=""  style="text-indent:0;">{%=item.Remark%}</td>
     <td class="center">{%=item.Quantity%}</td>
     <td class="center">{%=item.CutQuantity%}</td>
     <td class="center"><input class="width60 quantity" data-max="{%=item.Quantity-item.CutQuantity%}" type="text" value="0" /></td>

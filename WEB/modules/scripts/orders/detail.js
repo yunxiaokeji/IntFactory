@@ -1837,7 +1837,6 @@
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
                     $("#navCutoutDoc .tr-header").after(innerhtml);
-                    alert('b');
                     var total = 0;
                     innerhtml.find('.cut1').each(function () {
                         var _this = $(this);

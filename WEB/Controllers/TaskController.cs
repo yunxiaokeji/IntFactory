@@ -141,8 +141,6 @@ namespace YXERP.Controllers
 
             List<string> fails = new List<string>();
             AliOrderBusiness.UpdateAliFentOrders("2fb14a22-c6a0-4de6-830c-b95624dfdee4", "dd80ba5e-4aa8-4b0f-90f1-f78b95d4ab9f", "be462dcd-1baf-4665-8444-1646d8350c8c", out fails);
-
-            
             return new JsonResult()
             {
                 Data = JsonDictionary,
@@ -167,9 +165,9 @@ namespace YXERP.Controllers
             //任务对应的订单详情
             var order = OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.ClientID);
             ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(order.BigCategoryID);
-            ViewBag.plateMarkItems = item.CategoryItems.FindAll(m => m.Type == 4).ToList();
-            task.Title = item.CategoryItems.Find(m => m.Type == 3 && m.Mark == task.Mark).Name;
 
+            ViewBag.plateMarkItems = item.CategoryItems.FindAll(m => m.Type == 4).ToList();
+            taskModel.Task.TaskDescs = item.CategoryItems.FindAll(m => m.Type == 3);
             if (order.Details == null){
                 order.Details = new List<IntFactoryEntity.OrderDetail>();
             }
