@@ -413,7 +413,6 @@ define(function (require, exports, module) {
         //绑定子产品详情
         for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
             if (model.ProductDetails[i].ProductDetailID == _self.detailid) {
-                console.log(model.ProductDetails[i]);
                 var productdetailid = model.ProductDetails[i].ProductDetailID;
                 $(".attr-item").find("li[data-id='" + productdetailid + "']").addClass("hover");
 

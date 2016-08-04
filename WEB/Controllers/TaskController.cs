@@ -382,6 +382,18 @@ namespace YXERP.Controllers
             };
         }
 
+        //获取材料列表
+        public JsonResult GetOrderDetailsByOrderID(string orderid)
+        {
+            var list = OrdersBusiness.BaseBusiness.GetOrderDetailsByOrderID(orderid);
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         //获取工艺说明
         public JsonResult GetPlateMakings(string orderID)
         {
@@ -670,6 +682,7 @@ namespace YXERP.Controllers
             };
         }
         
+        //面料登记
         public JsonResult CreateProductUseQuantity(string orderID, string details)
         {
             int result = 0;

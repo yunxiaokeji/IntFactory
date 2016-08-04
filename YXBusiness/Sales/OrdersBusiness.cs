@@ -521,6 +521,19 @@ namespace IntFactoryBusiness
             }
             return list;
         }
+
+        public List<OrderDetail> GetOrderDetailsByOrderID(string orderid)
+        {
+            List<OrderDetail> list = new List<OrderDetail>();
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderDetailsByOrderID(orderid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderDetail model = new OrderDetail();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
         #endregion
 
         #region 添加
