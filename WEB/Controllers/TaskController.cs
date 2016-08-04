@@ -645,7 +645,7 @@ namespace YXERP.Controllers
             };
         }
 
-        //添加车缝录入、车缝退回录入、裁剪录入
+        //添加车缝录入、裁剪录入
         public JsonResult CreateOrderSewnDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
             string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.ClientID);
@@ -657,6 +657,19 @@ namespace YXERP.Controllers
             };
         }
 
+        //车缝退回
+        public JsonResult CreateGoodsDocReturn(string orderID, string taskID, int docType, string details, string originalID)
+        {
+            int result = 0;
+            OrdersBusiness.BaseBusiness.CreateGoodsDocReturn(orderID, taskID, (EnumDocType)docType, details, originalID, CurrentUser.ClientID, ref result);
+            JsonDictionary.Add("result", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        
         //添加大货订单发货、打样订单发货
         public JsonResult CreateOrderSendDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {

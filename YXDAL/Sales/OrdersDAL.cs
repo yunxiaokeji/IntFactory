@@ -348,6 +348,25 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_CreateOrderReply", paras, CommandType.StoredProcedure) > 0 ? replyID : string.Empty;
         }
 
+        public bool CreateGoodsDocReturn(string guid, string orderID, string taskID, int docType, string details, string originalID, string clientID, ref int result)
+        {
+            SqlParameter[] paras ={ 
+                new SqlParameter("@Result",result),
+                new SqlParameter("@DocID",guid),
+                new SqlParameter("@OrderID",orderID),
+                new SqlParameter("@TaskID",taskID),
+                new SqlParameter("@DocType",docType),
+                new SqlParameter("@DocCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
+                new SqlParameter("@GoodDetails",details),
+                new SqlParameter("@OriginalID",originalID),
+                new SqlParameter("@ClientID",clientID)
+            };
+            paras[0].Direction = ParameterDirection.Output;
+            ExecuteNonQuery("P_CreateGoodsDocReturn", paras, CommandType.StoredProcedure);
+            result = Convert.ToInt32(paras[0].Value);
+            return result == 1;
+        }
+
         public bool CreateOrderCost(string orderid, decimal price, string remark, string operateid,  string clientid)
         {
             SqlParameter[] paras = { 
