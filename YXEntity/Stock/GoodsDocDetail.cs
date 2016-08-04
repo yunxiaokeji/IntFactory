@@ -50,6 +50,8 @@ namespace IntFactoryEntity
         public int Complete { set; get; }
 
         public int SurplusQuantity { get; set; }
+
+        public int ReturnQuantity { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -58,14 +60,7 @@ namespace IntFactoryEntity
 		/// 
 		/// </summary>
 		public decimal TotalMoney{ set; get; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal TaxMoney{ set; get; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal TaxRate{ set; get; }
+
 		/// <summary>
 		/// 
 		/// </summary>

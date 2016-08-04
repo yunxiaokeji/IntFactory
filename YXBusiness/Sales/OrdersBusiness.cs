@@ -551,7 +551,7 @@ namespace IntFactoryBusiness
                 }
             }
 
-            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, aliOrderCode, goodscode, title, customerid, name, mobile, (int)sourceType, (int)ordertype, bigcategoryid, categoryid, price, quantity, planTime < DateTime.Now ? DateTime.Now.AddDays(7).ToString() : planTime.ToString(),
+            bool bl = OrdersDAL.BaseProvider.CreateOrder(id, code, aliOrderCode, goodscode, title, customerid, name, mobile, (int)sourceType, (int)ordertype, bigcategoryid, categoryid, price, quantity, planTime < DateTime.Now ? "" : planTime.ToString(),
                                                         firstimg, allimgs, citycode, address, expressCode, remark, operateid, clientid);
             if (bl)
             {

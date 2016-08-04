@@ -132,37 +132,6 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult SelfOrder(string id)
-        {
-
-            if (string.IsNullOrEmpty(id))
-            {
-                return Redirect("/Home/Login");
-            }
-            var model = ClientBusiness.GetClientDetail(id);
-            if (model == null || string.IsNullOrEmpty(model.ClientID))
-            {
-                return Redirect("/Home/Login");
-            }
-            ViewBag.Model = model;
-            var list = new ProductsBusiness().GetChildCategorysByID("", EnumCategoryType.Order);
-            ViewBag.Items = list;
-            return View();
-        }
-
-        public ActionResult OrderSuccess(string id)
-        {
-            var order = OrdersBusiness.BaseBusiness.GetOrderByID(id);
-            if (order == null || string.IsNullOrEmpty(order.OrderID))
-            {
-                return Redirect("/Home/Login");
-            }
-            var model = ClientBusiness.GetClientDetail(order.ClientID);
-            ViewBag.Model = model;
-            ViewBag.Order = order;
-            return View();
-        }
-
         public ActionResult Login(string ReturnUrl, int Status = 0, int BindAccountType=0)
         {
             if (Session["ClientManager"] != null)
@@ -814,18 +783,6 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
 
-        }
-
-        public JsonResult GetChildOrderCategorysByID(string categoryid, string clientid)
-        {
-            Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-            var list = new ProductsBusiness().GetChildCategorysByID(categoryid, EnumCategoryType.Order);
-            JsonDictionary.Add("Items", list);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
         }
 
         public ActionResult FeedBack()

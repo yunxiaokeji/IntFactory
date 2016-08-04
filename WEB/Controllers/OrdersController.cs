@@ -125,11 +125,21 @@ namespace YXERP.Controllers
             ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
             ViewBag.taskDescs = item.CategoryItems.FindAll(m => m.Type == 3);
             model.IsSelf = model.ClientID == CurrentUser.ClientID;
+            if (model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID))
+            {
+                ViewBag.Client = ClientBusiness.GetClientDetail(model.EntrustClientID);
+            }
+            else if (!model.IsSelf)
+            {
+                ViewBag.Client = ClientBusiness.GetClientDetail(model.ClientID);
+            }
             ViewBag.Model = model;
-            
+            ViewBag.Tabs = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID).CategoryItems.Where(m => m.Type == 1 && m.OrderType == model.OrderType).ToList();
+            ViewBag.Modules = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID).CategoryItems.Where(m => m.Type == 3).ToList();
+            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Orders).ToList();
+
             if (model.OrderType == 1)
             {
-                ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Orders).ToList();
                 return View();
             }
             else
