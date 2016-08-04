@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "库存报损";
+    ViewBag.Title = "用料登记";
 }
 @section css{
     <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
@@ -14,9 +14,9 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">报损单列表</span>
-    <a href="javascript:void(0);" id="btnCreate" class="btn-add mLeft20 right">提交报损单（@(ViewBag.DamagedCount )）</a>
-    <a class="btnccc right" href="/Stock/ChooseBSProducts">选择报损材料</a>
+    <span class="header-title left">用料申请单列表</span>
+    <a href="javascript:void(0);" id="btnCreate" class="btn-add mLeft20 right">新建用料申请单（@(ViewBag.DamagedCount )）</a>
+    <a class="btnccc right" href="/Stock/ChooseBSProducts">选择材料</a>
 </div>
 <div class="search-box">
     <div class="search-header">
@@ -32,18 +32,18 @@
     <div class="search-items">
         @*<div id="wares" class="left"></div>*@
         <div class="left">
-            <input placeholder="报损日期" type="text" id="iptCreateTime" class="ipt-date hand" readonly="true" />
+            <input placeholder="用料登记日期" type="text" id="iptCreateTime" class="ipt-date hand" readonly="true" />
         </div>
-        <div class="right searth-module" data-text="报损单号搜索..." data-width="160"> </div> 
+        <div class="right searth-module" data-text="用料登记单号搜索..." data-width="160"> </div> 
     </div>
     <table class="table-items-detail">
        <tr class="table-header tr-header">
-            <td class="tLeft">报损单号</td>
+            <td class="tLeft">用料申请单号</td>
             <td>编码</td>
             <td>货位</td>
             <td>数量</td>
             <td class="">操作人</td>
-            <td class="">报损日期</td>
+            <td class="">申请日期</td>
             <td class="">状态</td>
         </tr>
     </table>

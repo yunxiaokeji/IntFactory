@@ -33,7 +33,7 @@ define(function (require, exports, module) {
 
         $("#btnChooseProduct").click(function () {
             ChooseProduct.create({
-                title: "选择报损材料",
+                title: "选择用料登记",
                 type: 3, //1采购 2出库 3报损 4报溢 5调拨
                 wareid: _self.wareid,
                 callback: function (products) {
@@ -89,10 +89,10 @@ define(function (require, exports, module) {
         //提交订单
         $("#btnconfirm").click(function () {
             if ($(".cart-item").length == 0) {
-                alert("请选择报损材料！");
+                alert("请选择材料！");
                 return;
             }
-            confirm("报损单提交后不可编辑，确认提交吗？", function () {
+            confirm("用料登记单提交后不可编辑，确认提交吗？", function () {
                 _self.submitOrder();
             });
 
@@ -119,7 +119,7 @@ define(function (require, exports, module) {
         var _self = this;
         //单据明细
         if ($(".cart-item").length == 0) {
-            alert("请选择报损材料！");
+            alert("请选择材料！");
             return;
         }
         Global.post("/Stock/SubmitDamagedDoc", {
