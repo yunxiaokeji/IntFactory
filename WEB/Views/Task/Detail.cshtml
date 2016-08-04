@@ -4,6 +4,7 @@
     var order = taskModel.Order;
     var productAttr = taskModel.ProductAttr;
     var attrValues = productAttr.AttrValues == null ? "" : Html.ToJSONString(productAttr.AttrValues);
+    var taskDescs = task.TaskDescs;
     ViewBag.Title = "任务详情" + "-" + task.Title;
 }
 
@@ -18,7 +19,7 @@
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn ? 1 : 0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")', '@order.BigCategoryID', '@(task.Mark == 13&&order.OrderType==2?Html.ToJSONString(order.Details):"")');
+                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn ? 1 : 0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")', '@(task.Mark==11&&task.OrderType==2?Html.ToJSONString((List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.plateMarkItems):"")', '@(task.Mark == 13&&order.OrderType==2?Html.ToJSONString(order.Details):"")');
             });
         });
     </script>
@@ -63,7 +64,7 @@
             else if (task.Mark == 13&&order.OrderType==2)
             {
                 //大货裁片
-                Html.RenderPartial("CutoutDoc");
+                Html.RenderPartial("CutoutDoc", taskDescs.Find(m => m.Mark == 13).Name);
             }
             else if (task.Mark == 14 && order.OrderType == 2)
             {
@@ -84,8 +85,8 @@
                         <tr class="tr-header">
                             <td class="tLeft width200">规格</td>
                             <td class="width200">下单数量</td>
-                            <td class="width200">裁片/织片数量</td>
-                            <td class="width200">缝制/套口数量</td>
+                            <td class="width200">@(taskDescs.Find(m=>m.Mark==13).Name)数量</td>
+                            <td class="width200">@(taskDescs.Find(m=>m.Mark==14).Name)数量</td>
                             <td class="width200">发货数量</td>
                             <td class="width200">剩余未发</td>
                             <td class="">单价</td>
@@ -137,7 +138,14 @@
     <li id="btn-setNormalColumn">设为标码</li>
     <li id="btn-removeColumn">删除此列</li>
 </ul>
-
+@{  
+    //车缝退回
+    if (task.Mark == 14 && order.OrderType == 2){
+        <ul class="dropdown-ul hide" id="setReturnSewn" style="width:100px;">
+            <li id="btnSaveSwen">@(taskDescs.Find(m=>m.Mark==14).Name)退回</li>
+        </ul>
+    }
+}
 <div class="enlarge-image-bgbox hide">
     <div class="close-enlarge-image iconfont">&#xe606;</div> 
     <span id="zoomInButton" class="zoom-botton iconfont mRight50">&#xe642;</span>

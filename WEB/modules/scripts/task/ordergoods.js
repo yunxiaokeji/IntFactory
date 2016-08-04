@@ -20,7 +20,7 @@
     };
 
     //获取订单明细
-    ObjectJS.getGetGoodsDoc = function (id, type) {
+    ObjectJS.getGetGoodsDoc = function (id, type, taskDesc) {
         var _self = this;
         var $tr_header = $("#" + id + " .tr-header");
         $tr_header.nextAll().remove();
@@ -41,20 +41,20 @@
                 }
 
                 DoT.exec(templateHtml, function (template) {
+                    data.items.taskDesc = taskDesc;
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
-                    innerhtml.find('.quantity').change(function () {
+                    innerhtml.find(".ico-dropdown").click(function () {
                         var _this = $(this);
-                        if (!_this.val().isDouble() || _this.val() <= 0) {
-                            _this.val(0);
-                        }
+                        ObjectJS.docID = _this.data('id');
+                        var position = _this.position();
+                        $("#setReturnSewn li").data("columnname", _this.data("columnname"));
+                        $("#setReturnSewn").css({ "top": position.top + 20, "left": position.left - 70 }).show().mouseleave(function () {
+                            $(this).hide();
+                        });
+                        return false;
                     });
-                    //if (type != 2) {
-                    //    innerhtml.click(function () {
-                    //        _self.getGoodsDocDetail(this, type == 22 ? 2 : 1);
-                    //    });
-                    //}
 
                     $tr_header.after(innerhtml);
 

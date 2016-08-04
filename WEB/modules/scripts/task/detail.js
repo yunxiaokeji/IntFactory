@@ -26,16 +26,15 @@
     ///finishStatus：任务完成状态
     ///attrValues:订单品类属性
     ///orderType:订单类型
-    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID, orderPlanTime, bigCategoryID, orderProducts) {
+    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID, orderPlanTime, plateMarkItems, orderProducts) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
         if (orderProducts) {
             ObjectJS.orderProducts = JSON.parse(orderProducts.replace(/&quot;/g, '"'));
         }
-        if (bigCategoryID != "") {
-            Global.post("/Task/GetProcessCategoryByID", { categoryid: bigCategoryID }, function (data) {
-                plateMartingItem = data.items;
-            });
+        if (plateMarkItems) {
+            plateMartingItem = JSON.parse(plateMarkItems.replace(/quot;/g, '"'));
         }
+
         if (attrValues != "")
             CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
         ObjectJS.orderid = task.OrderID;
@@ -90,8 +89,16 @@
             CutoutDoc.initCutoutDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
         }
         else if (ObjectJS.mark === 14 && ObjectJS.orderType == 2) {
+            var taskDesc="车缝";
+            for (var i = 0; i < task.TaskDescs.length; i++) {
+                var item = task.TaskDescs[i];
+                if (item.Mark == 14) {
+                    taskDesc = item.Name|| '车缝';
+                    break;
+                }
+            }
             SewnDoc = require("scripts/task/sewndoc");
-            SewnDoc.initSewnDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
+            SewnDoc.initSewnDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, taskDesc);
         }
         else if (ObjectJS.mark === 15 && ObjectJS.orderType == 2) {
             SendOrders = require("scripts/task/sendorders");
@@ -205,7 +212,7 @@
                         Easydialog.open({
                             container: {
                                 id: "showMaterial",
-                                header: "材料录入",
+                                header: "用料登记",
                                 content: innerHtml,
                                 yesFn: function () {
 
@@ -1049,6 +1056,7 @@
             //隐藏制版列操作下拉框
             if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
                 $("#setPlateInfo").hide();
+                $("#setReturnSewn").hide();
             };
         });
     }

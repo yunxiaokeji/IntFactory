@@ -33,7 +33,7 @@ namespace IntFactoryEntity
 		public string DocID{ set; get; }
 
         [Property("Lower")]
-        public string ProductDetailID { set; get; }
+        public string GoodsDetailID { set; get; }
 		/// <summary>
 		/// 
 		/// </summary>

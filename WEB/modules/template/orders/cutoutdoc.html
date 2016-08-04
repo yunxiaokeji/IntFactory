@@ -13,19 +13,27 @@
     <td class="tLeft bLeft">规格</td>
     <td>数量</td>
     {%if(item.DocType==11){%}
-    <td class="tLeft">车缝退回</td>
+    <td class="tLeft btn-swen-box-{%=item.DocID%}">
+        {%=$data.taskDesc%}退回
+    </td>
     {%}%}
     <td>小计</td>
     <td>登记时间</td>
     <td>登记人</td>
-    <td class="bRight">操作</td>
+    <td class="bRight">
+        操作
+        {%if(item.DocType==11){%}
+        <div class="iconfont dropdown right" data-status="0"><span data-id="{%=item.DocID%}" class="ico-dropdown mTop3" style="display:block;"></span></div>
+        <div class="clear"></div>
+        {%}%}
+    </td>
 </tr>
 {%
 for(var j=0;j<item.Details.length;j++)
 {
-var detail=item.Details[j];
+    var detail=item.Details[j];
 %}
-<tr class="item">
+<tr class="item" data-id="{%=detail.GoodsDetailID%}">
     <td class="tLeft bBottom bLeft">
         {%=detail.Remark%}
     </td>
@@ -33,10 +41,8 @@ var detail=item.Details[j];
         {%=detail.Quantity%}
     </td>
     {%if(item.DocType==11){%}
-    <td class="tLeft bBottom">
-        <div class="left mTop5">0.00</div>
-        <div class="left mLeft10"><input class="quantity" type="text" style="width:80px;" value="0" /></div>
-        <div class="clear"></div>
+    <td class="tLeft bBottom input-swen-box-{%=item.DocID%}">
+        <div class="mLeft2" style="display:inline-block;">0.00</div>
     </td>
     {%}%}
     {%

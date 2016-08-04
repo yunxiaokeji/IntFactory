@@ -388,7 +388,7 @@
                 <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
                     <td class="width80">
                         <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">
-                          <img src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
+                          <img src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" style="text-indent:0;" />
                         </a>
                     </td>
                     <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
@@ -497,3 +497,6 @@
          
     </div>
 </div>
+<ul class="dropdown-ul hide" id="setReturnSewn" style="width:100px;">
+    <li id="btnSaveSwen">车缝退回</li>
+</ul>

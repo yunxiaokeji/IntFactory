@@ -2,17 +2,20 @@
 <div style="max-height:300px;min-width:400px; overflow:auto;">
 <table  class="table-list" style="text-indent:0;">
 <tr class="tr-header">
-    <td class="tLeft" style="text-indent:0">规格</td>
+    <td class="tLeft" style="text-indent:0">材料名称</td>
+    <td>规格</td>
     <td class="">采购量</td>
     <td class="">已用数</td>
-    <td class="">录入数</td>
+    <td class="">登记数</td>
 </tr>
 {%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
+    console.log(item);
 %}
 <tr data-id="{%=item.ProductDetailID%}" class="list-item">
-    <td class="" style="text-indent:0">{%=item.Remark%}</td>
+    <td style="text-indent:0">{%=item.ProductName%}</td>
+    <td class="center" >{%=item.Remark%}</td>
     <td class="center purchase-count">{%=item.Quantity*1+item.Loss*1%}</td>
     <td class="center">0</td>
     <td class="center"><input class="width50 quantity" data-maxquantity="{%=item.Quantity*1+item.Loss*1%}" type="text" value="0" /></td>

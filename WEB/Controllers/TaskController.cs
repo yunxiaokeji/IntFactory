@@ -141,8 +141,6 @@ namespace YXERP.Controllers
 
             List<string> fails = new List<string>();
             AliOrderBusiness.UpdateAliFentOrders("2fb14a22-c6a0-4de6-830c-b95624dfdee4", "dd80ba5e-4aa8-4b0f-90f1-f78b95d4ab9f", "be462dcd-1baf-4665-8444-1646d8350c8c", out fails);
-
-            
             return new JsonResult()
             {
                 Data = JsonDictionary,
@@ -166,7 +164,10 @@ namespace YXERP.Controllers
 
             //任务对应的订单详情
             var order = OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.ClientID);
+            ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(order.BigCategoryID);
 
+            ViewBag.plateMarkItems = item.CategoryItems.FindAll(m => m.Type == 4).ToList();
+            taskModel.Task.TaskDescs = item.CategoryItems.FindAll(m => m.Type == 3);
             if (order.Details == null){
                 order.Details = new List<IntFactoryEntity.OrderDetail>();
             }
@@ -644,7 +645,7 @@ namespace YXERP.Controllers
             };
         }
 
-        //添加车缝录入、裁剪录入
+        //添加车缝录入、车缝退回录入、裁剪录入
         public JsonResult CreateOrderSewnDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
             string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.ClientID);
@@ -686,18 +687,6 @@ namespace YXERP.Controllers
             }
 
             return false;
-        }
-
-        public JsonResult GetProcessCategoryByID(string categoryid)
-        {
-            ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(categoryid);
-            List<CategoryItemsEntity> items = item.CategoryItems.FindAll(m => m.Type == 4).ToList();
-            JsonDictionary.Add("items", items);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
         }
 
     }
