@@ -671,6 +671,13 @@ namespace IntFactoryBusiness
             return "";
         }
 
+        public bool CreateGoodsDocReturn(string orderID, string taskID, EnumDocType docType, string details, string originalID, string clientID,ref int result)
+        {
+            string id = Guid.NewGuid().ToString();
+            bool b1 = OrdersDAL.BaseProvider.CreateGoodsDocReturn(id, orderID, taskID, (int)docType, details, originalID, clientID,ref result);
+            return b1;
+        }
+
         public static string CreateReply(string guid,string stageID,int mark, string content, string userID, string clientid, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
         {
             return OrdersDAL.BaseProvider.CreateReply(guid, stageID, mark, content, userID, clientid, fromReplyID, fromReplyUserID, fromReplyAgentID);

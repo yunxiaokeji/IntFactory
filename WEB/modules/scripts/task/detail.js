@@ -84,9 +84,17 @@
                 ObjectJS.isPlate = false;
             }
         }
-        if (ObjectJS.mark === 13 && ObjectJS.orderType==2) {
+        if (ObjectJS.mark === 13 && ObjectJS.orderType == 2) {
+            var taskDesc = "裁剪";
+            for (var i = 0; i < task.TaskDescs.length; i++) {
+                var item = task.TaskDescs[i];
+                if (item.Mark == 13) {
+                    taskDesc = item.Name || '裁剪';
+                    break;
+                }
+            }
             CutoutDoc = require("scripts/task/cutoutdoc");
-            CutoutDoc.initCutoutDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
+            CutoutDoc.initCutoutDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, taskDesc);
         }
         else if (ObjectJS.mark === 14 && ObjectJS.orderType == 2) {
             var taskDesc="车缝";

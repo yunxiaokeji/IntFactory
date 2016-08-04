@@ -74,13 +74,14 @@ namespace IntFactoryEnum
         BY = 4,
         [DescriptionAttribute("调拨单")]
         DB = 5,
-        [DescriptionAttribute("退货单")]
-        TH = 6,
+        [DescriptionAttribute("车缝退回")]
+        CFTH = 6,
         [DescriptionAttribute("手工出库单")]
         SGCK = 7,
+        [DescriptionAttribute("退货单")]
+        TH = 6,
         [DescriptionAttribute("车缝单")]
         Sewn = 11,
-        
     }
     /// <summary>
     /// 单据状态

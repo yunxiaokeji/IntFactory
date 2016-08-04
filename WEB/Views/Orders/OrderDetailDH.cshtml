@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "订单详情页";
-    var model = (IntFactoryEntity.OrderEntity)ViewBag.Model;    
+    var model = (IntFactoryEntity.OrderEntity)ViewBag.Model;
+    var taskDescs = (List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.taskDescs;
 }
 @section css{
     <link href="/modules/css/orders.css" rel="stylesheet" />
@@ -253,12 +254,12 @@
 
     </div>
     <div class="clear"></div>
-    <ul class="stage-items mTop20 @(ExpandClass.IsLimits(HttpContext.Current, "102010503"))">
+    <ul class="stage-items mTop20">
         @if (model.OrderStatus > 0 && model.Status != 4)
         {
             foreach (var stage in model.Tasts)
             { 
-                <li data-stageid="@(stage.StageID)" data-orderid="@(model.OrderID)" data-lock="@(ExpandClass.IsLimits(HttpContext.Current, "102019034"))" data-limit="@(ExpandClass.IsLimits(HttpContext.Current, "102019022"))" 
+                <li data-stageid="@(stage.StageID)" data-orderid="@(model.OrderID)" 
                     data-self="@(model.IsSelf ? 1 : 0)" data-mark="@(stage.Mark)" data-taskid="@(stage.TaskID)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
                     <span class="long">@(stage.Title)</span>
                     <span class="long">负责人：@(stage.Owner.Name)</span>
@@ -289,8 +290,8 @@
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016"))" data-id="navGoods">订单明细</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))" data-id="navProducts" data-mark="3">材料成本</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" data-id="navCosts" data-btn="addOtherCost">加工成本</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" data-btn="btnCutoutOrder" data-id="navCutoutDoc">裁片</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" data-btn="btnSewnOrder" data-id="navSewnDoc">车缝</li>
+        <li class="" data-btn="btnCutoutOrder" data-id="navCutoutDoc">@(taskDescs.Find(m=>m.Mark==13).Name)</li>
+        <li class="" data-btn="btnSewnOrder" data-id="navSewnDoc">@(taskDescs.Find(m=>m.Mark==14).Name)</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" data-btn="btnSendOrder" data-id="navSendDoc">发货</li>
         <li class="navPays @(ExpandClass.IsLimits(HttpContext.Current, "102019017"))" data-btn="addPay" data-id="navPays">付款记录</li>
         <li data-id="navLog">日志</li>
