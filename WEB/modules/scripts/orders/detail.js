@@ -46,8 +46,6 @@
         //隐藏按钮
         $(".part-btn").hide();
 
-        $(".order-info").css("width", $(".content-title").width() - 400);
-
         if (_self.status == 0) {
             $("#changeOrderStatus").html("转为订单");
         } else if (_self.status == 1) {
@@ -62,20 +60,6 @@
             $("#changeOrderStatus").html("订单发货");
         } else if (_self.status == 6) {
             $("#changeOrderStatus").html("交易结束");
-        }
-
-
-        //状态
-        $(".status-items li").each(function () {
-            var _this = $(this), status = _this.data("status");
-            if (status <= _self.status) {
-                _this.find("span").css("color", "#3D90F0");
-                _this.find(".status-bg,.status-line").css("background-color", "#3D90F0");
-            }            
-        });
-
-        for (var i = 0; i < model.StatusItems.length; i++) {
-            $(".status-items li[data-status='" + model.StatusItems[i].Status + "']").find(".status-time-text").html(model.StatusItems[i].CreateTime.toDate("yyyy-MM-dd"));
         }
 
         if (model.Platemaking) {
@@ -102,6 +86,7 @@
             }
         });
 
+        //更多操作
         $("#btnOperateTask").click(function () {
             var _this = $(this);
             var position = _this.position();
@@ -111,6 +96,7 @@
             return false;
         });
 
+        //更多操作
         $("#btnOperateMore").click(function () {
             var _this = $(this);
             var position = _this.position();
@@ -118,6 +104,59 @@
                 $(this).hide();
             });
             return false;
+        });
+
+        //开始订单
+        $("#btnBeginOrder").click(function () {
+            if (!_self.model.IntGoodsCode) {
+                alert("款式编码不能为空");
+                return;
+            }
+            if (!_self.model.GoodsName) {
+                alert("款式名称不能为空");
+                return;
+            }
+            if (!_self.model.CategoryID) {
+                alert("需求单尚未绑定订单类别，不能转为订单");
+                return;
+            }
+            if (!_self.model.ProcessID) {
+                alert("需求单尚未绑定流程，不能转为订单");
+                return;
+            }
+            if (_self.model.OrderType == 1) {
+                doT.exec("template/orders/sure_plan_time.html", function (template) {
+                    var innerText = template();
+                    Easydialog.open({
+                        container: {
+                            id: "show_sure_plan_time",
+                            header: "确认开始打样单",
+                            content: innerText,
+                            yesFn: function () {
+                                var time = $("#iptPlanTime").val().trim();
+                                if (!time) {
+                                    alert("请确认交货日期！");
+                                    return false;
+                                }
+                                _self.updateOrderStatus(1, time, 0);
+                            },
+                            callback: function () {
+
+                            }
+                        }
+                    });
+                    laydate({
+                        elem: '#iptPlanTime',
+                        format: 'YYYY-MM-DD',
+                        min: laydate.now(),
+                        max: "",
+                        istime: false,
+                        istoday: true
+                    });
+                    var date = (new Date(_self.model.PlanTime.toDate("yyyy-MM-dd")).getTime() - new Date().getTime()) < 0 ? new Date().toString('yyyy-MM-dd') : _self.model.PlanTime.toDate("yyyy-MM-dd");
+                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : date);
+                });
+            }
         });
 
         //更换流程
@@ -370,37 +409,7 @@
             var _this = $(this);
             //开始打样
             if (_self.model.OrderType == 1 && _self.status == 0) {
-                doT.exec("template/orders/sure_plan_time.html", function (template) {
-                    var innerText = template();
-                    Easydialog.open({
-                        container: {
-                            id: "show_sure_plan_time",
-                            header: "确认打样单交货日期",
-                            content: innerText,
-                            yesFn: function () {
-                                var time = $("#iptPlanTime").val().trim();
-                                if (!time) {
-                                    alert("请确认交货日期！");
-                                    return false;
-                                }
-                                _self.updateOrderStatus(1, time, 0);
-                            },
-                            callback: function () {
-
-                            }
-                        }
-                    });
-                    laydate({
-                        elem: '#iptPlanTime',
-                        format: 'YYYY-MM-DD',
-                        min: laydate.now(),
-                        max: "",
-                        istime: false,
-                        istoday: true
-                    });
-                    var date = (new Date(_self.model.PlanTime.toDate("yyyy-MM-dd")).getTime() - new Date().getTime()) < 0 ? new Date().toString('yyyy-MM-dd') : _self.model.PlanTime.toDate("yyyy-MM-dd");
-                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : date);
-                });
+                
             } //开始大货(无)
             else if (_self.model.OrderType == 2 && _self.status == 0) {
                 $("#bindOriginalOrder").click();
@@ -582,7 +591,7 @@
             });
         });
 
-        //绑定品类
+        //绑定分类
         $("#changeOrderCategory").click(function () {
             Global.post("/System/GetClientOrderCategorys", {}, function (data) {
                 doT.exec("template/orders/choose-order-category.html", function (template) {
@@ -591,15 +600,15 @@
                     Easydialog.open({
                         container: {
                             id: "bindOrderCategoryBox",
-                            header: "绑定订单品类",
+                            header: "绑定订单类别",
                             content: innerText,
                             yesFn: function () {
                                 if ($("#bindOrderCategoryBox li.hover").length == 0) {
-                                    alert("请选择品类！");
+                                    alert("请选择类别！");
                                     return false;
                                 }
                                 var _hover = $("#bindOrderCategoryBox li.hover");
-                                confirm("订单品类绑定后不可更换，确认绑定" + _hover.data("name") + "吗？", function () {
+                                confirm("确认绑定“" + _hover.data("name") + "”吗？", function () {
                                     Global.post("/Orders/UpdateOrderCategoryID", {
                                         orderid: _self.orderid,
                                         pid: _hover.data("pid"),

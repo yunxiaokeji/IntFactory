@@ -31,18 +31,19 @@
         ? "协助工厂："+ViewBag.Client.CompanyName+"-"+ViewBag.Client.ClientCode : "本厂订单")
         <span id="btnOperateMore" class="btn-dropdown right mLeft10">更多操作</span>
         <a class="btn-back right mLeft10" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a>
-        @if (model.IsSelf)
+        @if (model.IsSelf && model.Status == 0)
         {
-             if (model.OrderStatus <= 2 && model.Status != 1)
-             {
-                <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="changeOrderStatus"></div>
-             }
-        } 
+            <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnBeginOrder">转为订单</div>
+        }
+        else if (model.IsSelf && model.Status == 2)
+        { 
+            <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnEndOrder">完成核价</div>
+        }
     </div>
 </div>
 
 <div class="content-title">
-    <div class="left titlename">款式：@(model.IntGoodsCode) @(model.GoodsName)</div>
+    <div class="left titlename">款式编码：@(model.IntGoodsCode)</div>
     @if (model.IsSelf && model.OrderStatus < 2)
     {
         <div id="updateOrderInfo" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
@@ -51,7 +52,11 @@
         @if (!string.IsNullOrEmpty(model.CategoryID))
         {
             <li title="订单类别">
-                类别：@(model.CategoryName)
+                <span class="left font14">类别：@(model.CategoryName)</span> 
+                @if (model.IsSelf && model.Status == 0)
+                {
+                    <i title="更换负责人" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOrderCategory">&#xe60b;</i>
+                }
             </li>
         }
         else if (model.IsSelf && string.IsNullOrEmpty(model.CategoryID))
@@ -68,7 +73,7 @@
             <span class="left"> 负责人：</span><label class="left" id="lblOwner">@(model.Owner != null ? model.Owner.Name : "--")</label>
             @if (model.IsSelf)
             {
-                <span title="更换负责人" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner">&#xe60b;</span>
+                <i title="更换负责人" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner">&#xe60b;</i>
             }
         </li>
         @if (model.Status > 0)
@@ -91,24 +96,26 @@
 </div>
 
 <div class="content-body" style="padding:10px;">
-    <div class="order-imgs-div left">
-        <div class="order-imgs">
-            <img id="orderImage" src="@(string.IsNullOrEmpty(model.OrderImage) ? "" : model.OrderImage)" data-self="@(model.IsSelf ? 1 : 0)" />
-            @if (model.SourceType == 3)
-            {
-               <span class="aliorder">
-                  阿里款号：@(model.GoodsCode)
-                  <i class="iconfont right">&#xe631;</i>
-               </span>
-            }
-        </div>
-        <ul class="order-imgs-list" >
-            
-        </ul>
-    </div>
     <div class="order-info">
-        <div class="clear"></div>
+        <div class="order-imgs-div left">
+            <div class="order-imgs">
+                <img id="orderImage" src="@(string.IsNullOrEmpty(model.OrderImage) ? "" : model.OrderImage)" data-self="@(model.IsSelf ? 1 : 0)" />
+                @if (model.SourceType == 3)
+                {
+                   <span class="aliorder">
+                      阿里款号：@(model.GoodsCode)
+                      <i class="iconfont right">&#xe631;</i>
+                   </span>
+                }
+            </div>
+            <ul class="order-imgs-list" >
+            
+            </ul>
+        </div>
         <ul class="moneyinfo left @(ExpandClass.IsLimits(HttpContext.Current, "102010502"))">
+            <li>
+                <label class="bold font16">@(string.IsNullOrEmpty(model.GoodsName)?"暂无款式名称":model.GoodsName)</label>
+            </li>
             <li>
                 <span class="column-title">期望价格：</span>
                 <label>@(model.PlanPrice)</label>
@@ -140,7 +147,7 @@
         </ul>
         <ul class="cutomerinfo right @(ExpandClass.IsLimits(HttpContext.Current, "102010501"))">
             <li>
-                <span class="column-title">客户名称：</span> 
+                <span class="column-title bold">客户名称：</span> 
                 @if (!string.IsNullOrEmpty(model.CustomerID))
                 {
                     <a href="/Customer/Detail/@(model.CustomerID)" class="left">@(model.Customer.Name)</a> 
@@ -188,7 +195,7 @@
         {
             <span title="更换流程" class="iconfont change-ico left mLeft5" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess">&#xe60b;</span>
         }
-        <div class="left info mLeft20">负责人：@(model.OrderProcess != null && !string.IsNullOrEmpty(model.OrderProcess.OwnerName) ? model.OrderProcess.OwnerName : "")</div>
+        <div class="left info mLeft20">流程负责人：@(model.OrderProcess != null && !string.IsNullOrEmpty(model.OrderProcess.OwnerName) ? model.OrderProcess.OwnerName : "")</div>
 
         <ul class="status-desc right">
             <li class="over"><span>已完成</span></li>
@@ -366,7 +373,7 @@
                 
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="addOtherCost">添加加工成本</li>
     }
-    <li class="@(ExpandClass.IsLimits(HttpContext.Current,"102019002"))" id="addPay">收款登记</li>
+    <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="addPay">收款登记</li>
 </ul>
 
 <ul id="ddlOperateOrder" class="dropdown-ul hide" style="">
@@ -377,7 +384,7 @@
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnchangeclient" >订单委托</li>
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btndelete" >删除</li>
         }
-        else if(!string.IsNullOrEmpty(model.EntrustClientID))
+        else if (!string.IsNullOrEmpty(model.EntrustClientID))
         {
            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnreturn" >退回委托</li>
         }

@@ -45,7 +45,8 @@ define(function (require, exports, module) {
                             if (_this.hasClass("ico-checked")) {
                                 var model = {
                                     id: _this.data("id"),
-                                    name: _this.data("name")
+                                    name: _this.data("name"),
+                                    categoryid: _this.data("categoryid")
                                 };
                                 list.push(model);
                             }
