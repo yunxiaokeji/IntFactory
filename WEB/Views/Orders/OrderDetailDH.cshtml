@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "订单详情页";
     var model = (IntFactoryEntity.OrderEntity)ViewBag.Model;
-    var taskDescs = (List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.taskDescs;
+    var taskDescs = (List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.Modules;
 }
 @section css{
     <link href="/modules/css/orders.css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         <div class="left titlename">订单编号：@(model.OrderCode)</div>
         @if (model.IsSelf && model.OrderStatus < 2)
         {
-             <div id="updateOrderInfo" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019026"))"></div>
+             <div id="updateOrderInfo" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
         }
 
         @if (model.IsSelf)
@@ -37,66 +37,19 @@
             {
                 if (string.IsNullOrEmpty(model.EntrustClientID))
                 {
-                    <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019003"))" id="btndelete" >删除</div>
-                    <div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019007"))" id="btnchangeclient" >订单委托</div>
+                    <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btndelete" >删除</div>
+                    <div class="btn mRight10 right @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnchangeclient" >订单委托</div>
                 }
                 else
                 {
-                    <div class="btn right mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019005"))" id="btnreturn" >退回委托</div>
+                    <div class="btn right mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnreturn" >退回委托</div>
                 }
             }
             else if (model.OrderStatus == 1)
             {
-                 <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019027"))" id="btnOverOrder" >终止订单</div>
+                 <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnOverOrder" >终止订单</div>
             }
         }
-        <ul class="right status-items mRight50">
-            <li data-status="0">
-                
-                <span class="status-bg"></span>
-                <span class="width60">需求单</span>
-            </li>
-            <li data-status="4">
-                
-                <span class="status-line"></span>
-                <span class="status-time-text mRight5">&nbsp;</span>
-            </li>
-            <li data-status="4">
-                
-                <span class="status-bg"></span>
-                <span class="width60">待大货</span>
-            </li>
-            <li data-status="5">
-                
-                <span class="status-line"></span>
-                <span class="status-time-text mRight5">&nbsp;</span>
-            </li>
-            <li data-status="5">
-                
-                <span class="status-bg"></span>
-                <span class="width60">生产中</span>
-            </li>
-            <li data-status="6">
-                 
-                <span class="status-line"></span>
-                <span class="status-time-text mRight5">&nbsp;</span>
-            </li>
-            <li data-status="6">
-                
-                <span class="status-bg"></span>
-                <span class="width60">生产完成</span>
-            </li>
-            <li data-status="7">
-                
-                <span class="status-line"></span>
-                <span class="status-time-text mRight5">&nbsp;</span>
-            </li>
-            <li data-status="7">
-                
-                <span class="status-bg"></span>
-                <span class="width60">交易结束</span>
-            </li>
-        </ul>
     </div>
 </div>
 
@@ -109,7 +62,7 @@
             <a href="/Orders/OrderDetail/@(model.OriginalID)" class="font14">@(model.OriginalCode)</a>
             @if (string.IsNullOrEmpty(model.OriginalID) && model.IsSelf)
             {
-                <div class="btn @(ExpandClass.IsLimits(HttpContext.Current, "102019018"))" id="bindOriginalOrder">绑定打样款号</div> 
+                <div class="btn @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="bindOriginalOrder">绑定打样款号</div> 
             }
         </li>
         <li title="订单品类">
@@ -151,15 +104,15 @@
         </div>
         <div class="clear"></div>
         <ul class="left moneyinfo @(ExpandClass.IsLimits(HttpContext.Current, "102010502"))">
-             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))">
+             <li class="">
                 <span class="column-title">材料成本：</span>
                 <label>@((model.Price * model.PlanQuantity).ToString("f2"))</label>
             </li>
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))">
+            <li class="">
                 <span class="column-title">加工成本：</span>
                 <label id="lblCostMoney">@((model.CostPrice * model.PlanQuantity).ToString("f2"))</label>
             </li>
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
+            <li class="">
                 <span class="column-title">单价：</span>
                 <label class="left">@(model.FinalPrice.ToString("f2"))</label>
                 @if (model.IsSelf && model.Status ==4)
@@ -167,11 +120,11 @@
                     <div id="updateOrderDiscount" title="编辑订单折扣" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019023"))"></div>
                 }
             </li>
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016"))">
+            <li class="">
                 <span class="column-title">加工数量：</span>
                 <label id="planQuantity">@(model.PlanQuantity)</label>
             </li>
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016")) @(ExpandClass.IsLimits(HttpContext.Current, "102019015"))">
+            <li class="">
                 <span class="column-title">总金额：</span>
                 <label id="totalMoney" class="left">@(model.TotalMoney.ToString("f2"))</label>
                 @if (model.IsSelf && model.Status < 7 && model.Status >4)
@@ -179,13 +132,13 @@
                     <div id="updateOrderTotalMoney" title="编辑订单总金额" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019023"))"></div>
                 }
             </li>
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">
+            <li class="">
                 <span class="column-title">付款金额：</span>
                 <label id="infoPayMoney">@(model.PayMoney.ToString("f2"))</label>
             </li>
         </ul>
         <ul class="cutomerinfo left @(ExpandClass.IsLimits(HttpContext.Current, "102010501"))">
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019029"))">
+            <li class="">
                 <span class="column-title">客户名称：</span> 
                 @if (!string.IsNullOrEmpty(model.CustomerID))
                 {
@@ -198,22 +151,22 @@
 
                 @if (model.IsSelf && model.OrderStatus < 2)
                 {
-                    <span title="更换客户" class="iconfont change-ico left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019033"))" data-customerid="@(model.CustomerID)" data-id="@(model.OrderID)" id="changeCustomer">&#xe60b;</span>
+                    <span title="更换客户" class="iconfont change-ico left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-customerid="@(model.CustomerID)" data-id="@(model.OrderID)" id="changeCustomer">&#xe60b;</span>
                 }
             </li>
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019030"))">
+            <li class="">
                 <span class="column-title">联系人：</span>
                 <label>@(model.PersonName)</label>
             </li>
-             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019031"))">
+             <li class="">
                 <span class="column-title">联系方式：</span>
                 <label>@(model.MobileTele)</label>
             </li>  
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019032"))">
-                <span class="column-title">收货地区：</span>
+            <li class="">
+                <span class="column-title">城市地区：</span>
                 <label>@(model.City != null ? (model.City.Province + " " + model.City.City + " " + model.City.Counties) : "")</label>
             </li>
-            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019032"))">
+            <li class="">
                 <span class="column-title">详细地址：</span>
                 <label>@(model.Address)</label>
             </li>
@@ -230,7 +183,7 @@
         <div class="left info">订单流程：@(model.OrderProcess.ProcessName)</div>
         @if (model.IsSelf && (model.OrderStatus == 0 || model.Status == 4))
         {
-            <span title="更换流程" class="change-ico iconfont left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019006"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess">&#xe60b;</span>
+            <span title="更换流程" class="change-ico iconfont left mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)" id="changeProcess">&#xe60b;</span>
         }
         <div class="left info mLeft20">负责人：@(model.OrderProcess != null && !string.IsNullOrEmpty(model.OrderProcess.OwnerName) ? model.OrderProcess.OwnerName : "")</div>
 
@@ -242,7 +195,7 @@
             }
             else if (model.OrderGoods.Count == 0 && !string.IsNullOrEmpty(model.OriginalID))
             {
-                <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019020"))" id="confirmDHOrder">确认大货明细</div>
+                <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="confirmDHOrder">确认大货明细</div>
             }
         }
 
@@ -286,32 +239,30 @@
 
 <div class="module-header">
     <ul class="module-tab left">
-        <li data-id="navEngraving" class="hover" data-mark="2">制版工艺</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019016"))" data-id="navGoods">订单明细</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019013"))" data-id="navProducts" data-mark="3">材料成本</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" data-id="navCosts" data-btn="addOtherCost">加工成本</li>
-        <li class="" data-btn="btnCutoutOrder" data-id="navCutoutDoc">@(taskDescs.Find(m=>m.Mark==13).Name)</li>
-        <li class="" data-btn="btnSewnOrder" data-id="navSewnDoc">@(taskDescs.Find(m=>m.Mark==14).Name)</li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" data-btn="btnSendOrder" data-id="navSendDoc">发货</li>
-        <li class="navPays @(ExpandClass.IsLimits(HttpContext.Current, "102019017"))" data-btn="addPay" data-id="navPays">付款记录</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102010502"))" data-id="navGoods">订单明细</li>
+        @foreach (var tab in (List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.Tabs)
+        {
+             <li data-id="tab@(tab.Mark)" class="@(ExpandClass.IsLimits(HttpContext.Current, "102010502"))">@(tab.Name)</li>
+        }
+        <li class="navPays @(ExpandClass.IsLimits(HttpContext.Current, "102010502"))" data-btn="addPay" data-id="navPays">付款记录</li>
         <li data-id="navLog">日志</li>
     </ul>
     @if (model.IsSelf)
     {
-        <div id="addPay" class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019017"))">收款登记</div>
+        <div id="addPay" class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))">收款登记</div>
         if (model.Status == 5)
         { 
-            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019012"))" id="btnSendOrder">订单发货</div>
-            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019011"))" id="btnSewnOrder">车缝录入</div>
-            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019010"))" id="btnCutoutOrder">裁片录入</div>
-            <div class="btn-add part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019014"))" id="addOtherCost">添加加工成本</div>
+            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnSendOrder">订单发货</div>
+            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnSewnOrder">车缝录入</div>
+            <div class="btn part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnCutoutOrder">裁片录入</div>
+            <div class="btn-add part-btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="addOtherCost">添加加工成本</div>
         }
     }
     <a id="plateMarking" href="/Orders/PlateMakingProcess/@(model.OrderID)" target="_blank" class="btn part-btn right mLeft20">制版打印</a>
 </div>
 
 <div class="content-body pBottom50">
-     <table id="navCosts" class="table-list mTop20 nav-partdiv hide" data-quantity="@(model.PlanQuantity)">
+     <table id="tab16" class="table-list mTop20 nav-partdiv hide" data-quantity="@(model.PlanQuantity)">
         <tr class="tr-header">
             <td class="tLeft">描述</td>
             <td class="">金额</td>
@@ -367,7 +318,7 @@
         </table>
     </div>
 
-    <div id="navProducts" class="nav-partdiv hide">
+    <div id="tab11" class="nav-partdiv hide">
         <table class="table-list mTop20">
             <tr class="tr-header">
                 <td class="tLeft">样图</td>
@@ -378,7 +329,6 @@
                 <td class="tLeft">单价</td>
                 <td class="">消耗量</td>
                 <td class="">损耗量</td>
-                <td class="">损耗率</td>
                 <td>采购量</td>
                 <td class="tRight">小计</td>
             </tr>
@@ -399,13 +349,12 @@
                     <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                     <td class="center tr-quantity"><label class="quantity">@((detail.Quantity ).ToString("f3"))</label></td>
                     <td class="center tr-loss"><label class="loss">@((detail.Loss).ToString("f3"))</label></td>
-                    <td class="center">@((detail.Loss/detail.Quantity).ToString("f3"))</td>
                     <td class="center">@((detail.Quantity+detail.Loss))</td>
                     <td class="tRight moneytotal">@(((detail.Quantity+detail.Loss)*detail.Price).ToString("f3"))</td>
                 </tr>
                 }
             <tr class="total-item bold">
-                <td colspan="9"></td>
+                <td colspan="8"></td>
                 <td class="tRight">成本合计：</td>
                 <td class="tRight" data-class="moneytotal"></td>
             </tr>
@@ -430,14 +379,14 @@
         </tr>
     </table>
 
-    <div class="nav-partdiv mTop10" id="navEngraving">
+    <div class="nav-partdiv mTop10 hide" id="tab12">
          <div class="table-title" style="font-size:16px;text-indent:10px;">制版信息</div>
         <div id="navEngravingInfo"></div>
        <div class="mTop20 table-title" style="font-size:16px;text-indent:10px;">工艺说明</div>
         <table class="table-items-detail mTop10 tb-plates"></table>
     </div>
 
-    <table id="navSendDoc" class="nav-partdiv table-items-detail mTop20 hide">
+    <table id="tab15" class="nav-partdiv table-items-detail mTop20 hide">
         <tr class="table-header tr-header">
             <td class="tLeft">规格</td>
             <td class="width200">数量</td>
@@ -450,7 +399,7 @@
         </tr>
     </table>
 
-    <div id="navCutoutDoc" class="nav-partdiv mTop20 hide">
+    <div id="tab13" class="nav-partdiv mTop20 hide">
         <table class="table-items-detail">
             <tr class="table-header tr-header">
                 <td class="tLeft">规格</td>
@@ -463,7 +412,7 @@
         </table>
     </div>
 
-    <table id="navSewnDoc" class="nav-partdiv table-items-detail mTop20 hide">
+    <table id="tab14" class="nav-partdiv table-items-detail mTop20 hide">
         <tr class="table-header tr-header">
             <td class="tLeft">规格</td>
             <td>数量</td>
