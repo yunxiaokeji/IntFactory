@@ -5,17 +5,17 @@
 %}
     {% if(TypeName!=item.TypeName){ %}
     <tr class="mTop20 typetitle tr-header">
-        <td  class="font14 pLeft10 item tLeft bold">工艺类型：{%=item.TypeName%}</td>
+        <td  class="font14 pLeft10 item tLeft bold width300">工艺类型：{%=item.TypeName%}</td>
         <td class="width200 item bold">名称</td>                    
-        <td style="min-width:400px;" class="item bold">描述</td>
-        <td class="item bold">创建时间</td>  
+        <td class="item bold">描述</td>
+        <td class="item bold width200">创建时间</td>  
     </tr>
     {% TypeName=item.TypeName } %}
     
     <tr class="list-item" id="tr-plate-{%=item.PlateID%}">
         <td class="tLeft item bBottom"><img style="width:30px;height:30px;" src="{%=item.Icon?item.Icon:'/modules/images/img-noimg.png'%}" /></td>
         <td class="center item bBottom">{%=item.Title%}</td>        
-        <td class="item show-all-txt bBottom" style="line-height:150%;">{%=item.Remark%}</td>
+        <td class="item bBottom" style="line-height:150%;word-break:break-all;">{%=item.Remark%}</td>
         <td class='center item bBottom'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     </tr>
 {% } %}
