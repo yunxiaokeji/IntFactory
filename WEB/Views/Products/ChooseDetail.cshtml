@@ -67,11 +67,11 @@
                                     @{
                                     if (model.SaleAttrs.Count == 1)
                                     {
-                                         @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('[', ' ').Replace(']', ' ').Replace(model.SaleAttrs[0].AttrName + ":", string.Empty).Replace(model.SaleAttrs[0].AttrName + "：", string.Empty))
+                                         @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('【', ' ').Replace('】', ' ').Replace(model.SaleAttrs[0].AttrName + ":", string.Empty).Replace(model.SaleAttrs[0].AttrName + "：", string.Empty))
                                     }
                                     else
                                     {
-                                        @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('[', ' ').Replace(']', ' '))
+                                        @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('【', ' ').Replace('】', ' '))
                                     }
                                     }
                                     </li>

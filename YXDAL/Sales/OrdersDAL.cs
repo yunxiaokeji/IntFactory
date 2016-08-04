@@ -157,6 +157,14 @@ namespace IntFactoryDAL
             return ds;
         }
 
+        public DataTable GetOrderDetailsByOrderID(string orderid)
+        { 
+            SqlParameter[] paras={
+                                    new SqlParameter("@OrderID",orderid)
+                                 };
+            return GetDataTable("select * from OrderDetail where OrderID=@OrderID", paras, CommandType.Text);
+        }
+
         public DataSet GetOrderForFentReport(string orderid,  string clientid)
         {
             SqlParameter[] paras = { 

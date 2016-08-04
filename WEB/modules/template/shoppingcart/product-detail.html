@@ -27,12 +27,12 @@
                                     {
                                     %}
                                         <li class="cart-value" data-id="{%=detail.ProductDetailID%}">
-                                        {%=(detail.Description=="" ? "默认规格" : detail.Description.replace('[', ' ').replace(']', ' ').replace(model.SaleAttrs[0].AttrName+":",' ').replace(model.SaleAttrs[0].AttrName+"：",' '))%}
+                                        {%=(detail.Description=="" ? "默认规格" : detail.Description.replace('【', ' ').replace('】', ' ').replace(model.SaleAttrs[0].AttrName+":",' ').replace(model.SaleAttrs[0].AttrName+"：",' '))%}
                                         </li>
                                     {%}else{
                                     %}
                                         <li class="cart-value" data-id="{%=detail.ProductDetailID%}">
-                                            {%=(detail.Description=="" ? "默认规格" : detail.Description.replace(/\[/g, ' ').replace(/\]/g, ' '))%}
+                                            {%=(detail.Description=="" ? "默认规格" : detail.Description.replace(/\【/g, ' ').replace(/\】/g, ' '))%}
                                        </li>
                                     {%}%}
                              </li>  

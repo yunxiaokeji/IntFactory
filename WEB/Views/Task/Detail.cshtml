@@ -19,7 +19,7 @@
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn ? 1 : 0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")', '@(task.Mark==11&&task.OrderType==2?Html.ToJSONString((List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.plateMarkItems):"")', '@(task.Mark == 13&&order.OrderType==2?Html.ToJSONString(order.Details):"")');
+                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn ? 1 : 0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")', '@(task.Mark==11&&task.OrderType==2?Html.ToJSONString((List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.plateMarkItems):"")');
             });
         });
     </script>

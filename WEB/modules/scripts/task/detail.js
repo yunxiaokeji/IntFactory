@@ -26,11 +26,8 @@
     ///finishStatus：任务完成状态
     ///attrValues:订单品类属性
     ///orderType:订单类型
-    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID, orderPlanTime, plateMarkItems, orderProducts) {
+    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID, orderPlanTime, plateMarkItems) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
-        if (orderProducts) {
-            ObjectJS.orderProducts = JSON.parse(orderProducts.replace(/&quot;/g, '"'));
-        }
         if (plateMarkItems) {
             plateMartingItem = JSON.parse(plateMarkItems.replace(/quot;/g, '"'));
         }
@@ -215,54 +212,53 @@
                 $("#btnMaterialOrder").show();
                 //材料录入
                 $("#btnMaterialOrder").unbind().click(function () {
-                    DoT.exec("template/task/material-add.html", function (template) {
-                        var innerHtml = template(ObjectJS.orderProducts);
-                        Easydialog.open({
-                            container: {
-                                id: "showMaterial",
-                                header: "用料登记",
-                                content: innerHtml,
-                                yesFn: function () {
-                                    var details = "";
-                                    var isContinue = false;
-                                    $("#showMaterial .table-list .list-item").each(function () {
-                                        var _thisTr = $(this);
-                                        if (_thisTr.find('.quantity').val() * 1 > 0) {
-                                            details += _thisTr.data('id') + '|' + _thisTr.find('.quantity').val() + ',';
-                                        }
-                                    });
-                                    if (details.length > 0) {
-                                        Global.post("/Task/CreateProductUseQuantity", {
-                                            orderID: ObjectJS.orderid,
-                                            details: details
-                                        }, function (data) {
-                                            if (data.result == 1) {
-                                                alert("登记成功");
-                                            } else if (data.result == 2) {
-                                                alert("登记数量入库数");
-                                                return false;
-                                            } else {
-                                                alert("网络异常，请重试");
-                                                return false;
+                    Global.post("/Task/GetOrderDetailsByOrderID", { orderid: ObjectJS.orderid }, function (data) {
+                        DoT.exec("template/task/material-add.html", function (template) {
+                            var innerHtml = template(data.items);
+                            Easydialog.open({
+                                container: {
+                                    id: "showMaterial",
+                                    header: "用料登记",
+                                    content: innerHtml,
+                                    yesFn: function () {
+                                        var details = "";
+                                        var isContinue = false;
+                                        $("#showMaterial .table-list .list-item").each(function () {
+                                            var _thisTr = $(this);
+                                            if (_thisTr.find('.quantity').val() * 1 > 0) {
+                                                details += _thisTr.data('id') + '|' + _thisTr.find('.quantity').val() + ',';
                                             }
                                         });
-                                    } else {
-                                        isContinue = true;
-                                        alert("登记数量必须大于0");
-                                        return false;
+                                        if (details.length > 0) {
+                                            Global.post("/Task/CreateProductUseQuantity", {
+                                                orderID: ObjectJS.orderid,
+                                                details: details
+                                            }, function (data) {
+                                                if (data.result == 1) {
+                                                    alert("登记成功");
+                                                } else {
+                                                    alert("网络异常，请重试");
+                                                    return false;
+                                                }
+                                            });
+                                        } else {
+                                            isContinue = true;
+                                            alert("登记数量必须大于0");
+                                            return false;
+                                        }
                                     }
                                 }
-                            }
-                        });
-                        $(".quantity").change(function () {
-                            var _this = $(this);
-                            if (!_this.val().isDouble() || _this.val() <= 0) {
-                                _this.val(0);
-                                return false;
-                            }
-                            if (_this.val() > _this.parents('tr').find('.purchase-count').text() * 1) {
-                                //alert("录入材料量大于采购量");
-                            }
+                            });
+                            $(".quantity").change(function () {
+                                var _this = $(this);
+                                if (!_this.val().isDouble() || _this.val() <= 0) {
+                                    _this.val(0);
+                                    return false;
+                                }
+                                if (_this.val() > _this.parents('tr').find('.purchase-count').text() * 1) {
+                                    //alert("录入材料量大于采购量");
+                                }
+                            });
                         });
                     });
                 });
@@ -1044,7 +1040,6 @@
         var amount = 0;
         $(".amount").each(function () {
             var _this = $(this);
-            
             if (ObjectJS.materialMark == 0) {
                 amount += _this.html() * 1;
             }
@@ -1053,7 +1048,7 @@
                 amount += _this.html() * 1;
             }
             else if (ObjectJS.materialMark == 2) {
-                _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1 + _this.prevAll(".tr-loss").find("input").val() * 1) * _this.prevAll(".tr-price").find(".price").val()).toFixed(3));
+                _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1 ) * _this.prevAll(".tr-price").find(".price").val()).toFixed(3));
                 amount += _this.html() * 1;
             }
         });
