@@ -694,6 +694,12 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool CreateProductUseQuantity(ref int result, ref string errInfo, string orderID, string details, string userID, string operateIP, string clientID)
+        {
+            bool b1 = OrdersDAL.BaseProvider.CreateProductUseQuantity(ref result, ref errInfo, orderID, details, userID, operateIP, clientID);
+            return b1;
+        }
+
         #endregion
 
         #region 编辑、删除

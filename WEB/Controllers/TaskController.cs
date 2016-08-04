@@ -670,6 +670,19 @@ namespace YXERP.Controllers
             };
         }
         
+        public JsonResult CreateProductUseQuantity(string orderID, string details)
+        {
+            int result = 0;
+            string errInfo = string.Empty;
+            OrdersBusiness.BaseBusiness.CreateProductUseQuantity(ref result, ref errInfo, orderID, details, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID);
+            JsonDictionary.Add("result",result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         //添加大货订单发货、打样订单发货
         public JsonResult CreateOrderSendDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {

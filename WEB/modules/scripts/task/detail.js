@@ -223,7 +223,34 @@
                                 header: "用料登记",
                                 content: innerHtml,
                                 yesFn: function () {
-
+                                    var details = "";
+                                    var isContinue = false;
+                                    $("#showMaterial .table-list .list-item").each(function () {
+                                        var _thisTr = $(this);
+                                        if (_thisTr.find('.quantity').val() * 1 > 0) {
+                                            details += _thisTr.data('id') + '|' + _thisTr.find('.quantity').val() + ',';
+                                        }
+                                    });
+                                    if (details.length > 0) {
+                                        Global.post("/Task/CreateProductUseQuantity", {
+                                            orderID: ObjectJS.orderid,
+                                            details: details
+                                        }, function (data) {
+                                            if (data.result == 1) {
+                                                alert("登记成功");
+                                            } else if (data.result == 2) {
+                                                alert("登记数量入库数");
+                                                return false;
+                                            } else {
+                                                alert("网络异常，请重试");
+                                                return false;
+                                            }
+                                        });
+                                    } else {
+                                        isContinue = true;
+                                        alert("登记数量必须大于0");
+                                        return false;
+                                    }
                                 }
                             }
                         });
@@ -234,7 +261,7 @@
                                 return false;
                             }
                             if (_this.val() > _this.parents('tr').find('.purchase-count').text() * 1) {
-                                alert("录入材料量大于采购量");
+                                //alert("录入材料量大于采购量");
                             }
                         });
                     });

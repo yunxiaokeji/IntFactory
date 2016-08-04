@@ -174,7 +174,6 @@
                     onChange: function (data) {
                         Paras.userID = data.userid;
                         Paras.pageIndex = 1;
-
                         ObjectJS.getReportList();
                         ObjectJS.getDataList();
                         ObjectJS.getTaskOrOrderEcceedCount();

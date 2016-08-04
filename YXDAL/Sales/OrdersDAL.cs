@@ -351,19 +351,40 @@ namespace IntFactoryDAL
         public bool CreateGoodsDocReturn(string guid, string orderID, string taskID, int docType, string details, string originalID, string clientID, ref int result)
         {
             SqlParameter[] paras ={ 
-                new SqlParameter("@Result",result),
-                new SqlParameter("@DocID",guid),
-                new SqlParameter("@OrderID",orderID),
-                new SqlParameter("@TaskID",taskID),
-                new SqlParameter("@DocType",docType),
-                new SqlParameter("@DocCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
-                new SqlParameter("@GoodDetails",details),
-                new SqlParameter("@OriginalID",originalID),
-                new SqlParameter("@ClientID",clientID)
-            };
+                                    new SqlParameter("@Result",result),
+                                    new SqlParameter("@DocID",guid),
+                                    new SqlParameter("@OrderID",orderID),
+                                    new SqlParameter("@TaskID",taskID),
+                                    new SqlParameter("@DocType",docType),
+                                    new SqlParameter("@DocCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
+                                    new SqlParameter("@GoodDetails",details),
+                                    new SqlParameter("@OriginalID",originalID),
+                                    new SqlParameter("@ClientID",clientID)
+                                  };
             paras[0].Direction = ParameterDirection.Output;
             ExecuteNonQuery("P_CreateGoodsDocReturn", paras, CommandType.StoredProcedure);
             result = Convert.ToInt32(paras[0].Value);
+            return result == 1;
+        }
+
+        public bool CreateProductUseQuantity(ref int result,ref string errInfo,string orderID,string details,string userID,string operateIP,string clientID)
+        {
+            SqlParameter[] paras = { 
+                                    new SqlParameter("@Result",result),
+                                    new SqlParameter("@ErrInfo",SqlDbType.NVarChar,500),
+                                    new SqlParameter("@OrderID",orderID),
+                                    new SqlParameter("@ProductsDetails",details),
+                                    new SqlParameter("@DocCode",DateTime.Now.ToString("yyyyMMddmmhhssfff")),
+                                    new SqlParameter("@UserID",userID),
+                                    new SqlParameter("@OperateIP",operateIP),
+                                    new SqlParameter("@ClientID",clientID)
+                                   };
+            paras[0].Direction = ParameterDirection.Output;
+            paras[1].Value = errInfo;
+            paras[1].Direction = ParameterDirection.Output;
+            ExecuteNonQuery("P_CreateProductUseQuantity", paras, CommandType.StoredProcedure);
+            result = Convert.ToInt32(paras[0].Value);
+            errInfo = paras[1].Value.ToString();
             return result == 1;
         }
 
