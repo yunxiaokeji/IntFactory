@@ -783,9 +783,9 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderProcess(string orderid, string processid, string name, string operateid, string ip, string clientid)
+        public bool UpdateOrderProcess(string orderid, string processid, string categoryid, string name, string operateid, string ip, string clientid)
         {
-            bool bl = OrdersDAL.BaseProvider.UpdateOrderProcess(orderid, processid, operateid, clientid);
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderProcess(orderid, processid, categoryid, operateid, clientid);
             if (bl)
             {
                 string msg = "订单流程更换为：" + name;
@@ -799,7 +799,7 @@ namespace IntFactoryBusiness
             bool bl = OrdersDAL.BaseProvider.UpdateOrderCategoryID(orderid, pid, categoryid, operateid, clientid);
             if (bl)
             {
-                string msg = "绑定订单品类：" + name;
+                string msg = "更换订单类别：" + name;
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, categoryid, clientid);
             }
             return bl;
@@ -978,28 +978,6 @@ namespace IntFactoryBusiness
             if (bl)
             {
                 string msg = "退回委托";
-                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", clientid);
-            }
-            return bl;
-        }
-
-        public bool UpdateReturnQuantity(string orderid, string autoid, string name, int quantity, string operateid, string ip, string clientid)
-        {
-            bool bl = OrdersDAL.BaseProvider.UpdateReturnQuantity(orderid, autoid, quantity, operateid, clientid);
-            if (bl)
-            {
-                string msg = "修改产品" + name + "退货数量：" + quantity;
-                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, autoid, clientid);
-            }
-            return bl;
-        }
-
-        public bool ApplyReturnProduct(string orderid, string operateid, string ip, string clientid, out int result)
-        {
-            bool bl = OrdersDAL.BaseProvider.ApplyReturnProduct(orderid, operateid, clientid, out result);
-            if (bl)
-            {
-                string msg = "申请退货";
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", clientid);
             }
             return bl;

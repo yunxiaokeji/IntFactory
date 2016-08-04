@@ -475,10 +475,11 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_DeleteOrderProduct", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderProcess(string orderid, string processid, string operateid, string clientid)
+        public bool UpdateOrderProcess(string orderid, string processid, string categoryid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@CategoryID",categoryid),
                                      new SqlParameter("@ProcessID",processid),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)
@@ -694,34 +695,6 @@ namespace IntFactoryDAL
                                    };
             paras[0].Direction = ParameterDirection.Output;
             ExecuteNonQuery("P_ApplyReturnOrder", paras, CommandType.StoredProcedure);
-            result = Convert.ToInt32(paras[0].Value);
-            return result == 1;
-        }
-
-        public bool UpdateReturnQuantity(string orderid, string autoid, int quantity, string operateid,string clientid)
-        {
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@OrderID",orderid),
-                                     new SqlParameter("@AutoID",autoid),
-                                     new SqlParameter("@Quantity",quantity),
-                                     new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-
-            return ExecuteNonQuery("P_UpdateReturnQuantity", paras, CommandType.StoredProcedure) > 0;
-        }
-
-        public bool ApplyReturnProduct(string orderid, string operateid, string clientid, out int result)
-        {
-            result = 0;
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@Result",result),
-                                     new SqlParameter("@OrderID",orderid),
-                                     new SqlParameter("@OperateID" , operateid),
-                                     new SqlParameter("@ClientID" , clientid)
-                                   };
-            paras[0].Direction = ParameterDirection.Output;
-            ExecuteNonQuery("P_ApplyReturnProduct", paras, CommandType.StoredProcedure);
             result = Convert.ToInt32(paras[0].Value);
             return result == 1;
         }

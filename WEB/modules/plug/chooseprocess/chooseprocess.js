@@ -30,35 +30,38 @@ define(function (require, exports, module) {
 
         var _self = this;
 
-        doT.exec("/plug/chooseprocess/chooseprocess.html", function (template) {
-            var innerHtml = template({});
+        Global.post("/Orders/GetClientProcessCategory", {}, function (data) {
+            doT.exec("/plug/chooseprocess/chooseprocess.html", function (template) {
+                var innerHtml = template(data.items);
 
-            Easydialog.open({
-                container: {
-                    id: "choose-customer-add",
-                    header: _self.setting.title,
-                    content: innerHtml,
-                    yesFn: function () {
-                        var list = [];
-                        $(".customerlist-all .customerlist-items .check").each(function () {
-                            var _this = $(this);
-                            if (_this.hasClass("ico-checked")) {
-                                var model = {
-                                    id: _this.data("id"),
-                                    name: _this.data("name")
-                                };
-                                list.push(model);
-                            }
-                        })
-                        _self.setting.callback && _self.setting.callback(list);
-                    },
-                    callback: function () {
+                Easydialog.open({
+                    container: {
+                        id: "choose-customer-add",
+                        header: _self.setting.title,
+                        content: innerHtml,
+                        yesFn: function () {
+                            var list = [];
+                            $(".customerlist-all .customerlist-items .checkbox").each(function () {
+                                var _this = $(this);
+                                if (_this.hasClass("hover")) {
+                                    var model = {
+                                        id: _this.data("id"),
+                                        name: _this.data("name"),
+                                        categoryid: _this.data("categoryid")
+                                    };
+                                    list.push(model);
+                                }
+                            })
+                            _self.setting.callback && _self.setting.callback(list);
+                        },
+                        callback: function () {
 
+                        }
                     }
-                }
+                });
+                //绑定事件
+                _self.bindEvent();
             });
-            //绑定事件
-            _self.bindEvent();
         });
     };
 
@@ -74,13 +77,25 @@ define(function (require, exports, module) {
                 var innerHtml = template(data.items);
                 innerHtml = $(innerHtml);
                 innerHtml.click(function () {
-                    var _this = $(this);
-                    if (!_this.hasClass("ico-checked")) {
-                        _this.siblings().find(".check").removeClass("ico-checked").addClass("ico-check");
-                        _this.find(".check").removeClass("ico-check").addClass("ico-checked");
+                    var _this = $(this).find(".checkbox");
+                    if (!_this.hasClass("hover")) {
+                        $(".customerlist-all .customerlist-items .checkbox").removeClass("hover");
+                        _this.addClass("hover");
                     }
                 });
                 $(".customerlist-all .customerlist-items").append(innerHtml);
+            });
+
+            $(".chooseprocess-header .process-category").click(function () {
+                var _this = $(this);
+                if (!_this.hasClass("hover")) {
+                    $(".chooseprocess-header .process-category").removeClass("hover");
+                    _this.addClass("hover");
+
+                    $(".customerlist-all .customerlist-items .checkbox").removeClass("hover");
+                    $(".customerlist-all .customerlist-items li").hide();
+                    $(".customerlist-all .customerlist-items li[data-id='" + _this.data("id") + "']").show();
+                }
             });
         });
     }

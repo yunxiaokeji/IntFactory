@@ -123,7 +123,6 @@ namespace YXERP.Controllers
                 ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.ClientID);
             }
             
-
             model.IsSelf = model.ClientID == CurrentUser.ClientID;
             if (model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID))
             {
@@ -500,9 +499,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateOrderProcess(string orderid, string processid, string name)
+        public JsonResult UpdateOrderProcess(string orderid, string processid, string categoryid, string name)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderProcess(orderid, processid, name, CurrentUser.UserID, OperateIP,CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderProcess(orderid, processid, categoryid, name, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -702,31 +701,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateReturnQuantity(string orderid, string autoid, string name, int quantity)
-        {
-            var bl = OrdersBusiness.BaseBusiness.UpdateReturnQuantity(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
-            JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult ApplyReturnProduct(string orderid)
-        {
-            int result = 0;
-            var bl = OrdersBusiness.BaseBusiness.ApplyReturnProduct(orderid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out result);
-            JsonDictionary.Add("status", bl);
-            JsonDictionary.Add("result", result);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult GetGoodsDocByOrderID(string orderid, int type, string taskid="")
+        public JsonResult GetGoodsDocByOrderID(string orderid, int type, string taskid = "")
         {
             var list = StockBusiness.GetGoodsDocByOrderID(orderid,taskid, (EnumDocType)type, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
@@ -910,6 +885,17 @@ namespace YXERP.Controllers
                 bl = TaskBusiness.LockTask(taskid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out result);
             }
             JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetClientProcessCategory()
+        {
+            var list = ProductsBusiness.BaseBusiness.GetClientProcessCategorys(CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
             return new JsonResult
             {
                 Data = JsonDictionary,

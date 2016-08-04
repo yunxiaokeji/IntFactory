@@ -9,6 +9,7 @@
 
 /*title*/
 .content-title ul li { float:left; height:50px; border-left:solid 1px #eee; font-size:14px; color:#666; padding:0 20px; }
+.content-title ul li span{ font-size:14px; color:#666; }
 .content-title ul .iconfont { font-size:20px; }
 
 /*样图信息*/
@@ -48,14 +49,13 @@
 
 
 /*订单信息*/
-.order-info { float:left; margin-left:20px; overflow:auto; }
-.order-info .name{ height:40px; line-height:40px; width:100%; background-color:#f7f7f7; color:#666;font-size:14px;text-indent:10px; }
+.order-info { overflow:auto; }
 
-.order-info .moneyinfo { width:220px; margin-top:20px; margin-right:20px; }
-.order-info .moneyinfo li{ line-height:35px; clear:both;padding:5px; border-bottom:solid 1px #eee; overflow:auto; }
+.order-info .moneyinfo { width:220px; margin-left:30px; }
+.order-info .moneyinfo li{ line-height:35px; clear:both;padding:5px; overflow:auto; }
 .order-info .moneyinfo li .column-title{ width:80px; float:left; color:#666; }
 
-.order-info .cutomerinfo { margin-top:20px; width:420px; }
+.order-info .cutomerinfo {  border-left:solid 1px #f6f6f6; margin-top:20px; padding:0 50px 20px 50px; max-width:400px; }
 .order-info .cutomerinfo li{ line-height:35px; clear:both; padding:5px;  }
 .order-info .cutomerinfo li .column-title{ width:80px; float:left; color:#666; }
 
@@ -138,7 +138,6 @@
 .repeatorder-times {width:20px;height:20px;border-radius:50%;border:1px solid #ccc;text-align:center;line-height:20px;margin-top:12px;color:#fff;background-color:#ccc;}
 
 /*价格区间设置*/
-.price-range-set { color:#4a98e7;}
 .center-range { width:457px;margin-top:-15px;}
 .center-range li { height:30px;margin-top:2px;padding:10px 0px 10px 0px;}
 .center-range li input { width:50px;margin:0 5px;}
