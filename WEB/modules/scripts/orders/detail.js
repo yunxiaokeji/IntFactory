@@ -1901,6 +1901,9 @@
                         total += parseInt(_this.text());
                     });
                     innerhtml.find('.total-count').html(total);
+
+                    _box.after(innerhtml);
+
                 });
             } else {
                 _box.after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
