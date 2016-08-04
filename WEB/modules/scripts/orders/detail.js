@@ -36,31 +36,12 @@
         var _self = this;
 
         $(".sample-report").click(function () {
-            if ($(this).data("type")=="1") {
+            if ($(this).data("type") == "1") {
                 window.open("/Orders/FentOrderReport/" + model.OrderID);
             } else {
                 window.open("/Orders/PlateMakingProcess/" + model.OrderID);
             }            
         });
-
-        //隐藏按钮
-        $(".part-btn").hide();
-
-        if (_self.status == 0) {
-            $("#changeOrderStatus").html("转为订单");
-        } else if (_self.status == 1) {
-            $("#changeOrderStatus").html("完成打样");
-        } else if (_self.status == 2) {
-            $("#changeOrderStatus").html("完成核价");
-        } else if (_self.status == 3) {
-            $("#changeOrderStatus").html("大货下单");
-        } else if (_self.status == 4) {
-            $("#changeOrderStatus").html("开始订单");
-        } else if (_self.status == 5) {
-            $("#changeOrderStatus").html("订单发货");
-        } else if (_self.status == 6) {
-            $("#changeOrderStatus").html("交易结束");
-        }
 
         if (model.Platemaking) {
             $("#navEngravingInfo").html(decodeURI(model.Platemaking));  
@@ -159,8 +140,8 @@
             }
         });
 
-        //更换流程
-        $("#changeProcess").click(function () {
+        //更换品类流程
+        $(".btn-change-process-category").click(function () {
             var _this = $(this);
             ChooseProcess.create({
                 title: "更换流程",
@@ -169,6 +150,7 @@
                     if (items.length > 0) {
                         if (_this.data("processid") != items[0].id) {
                             Global.post("/Orders/UpdateOrderProcess", {
+                                categoryid: items[0].categoryid,
                                 processid: items[0].id,
                                 orderid: _this.data("id"),
                                 name: items[0].name
@@ -407,11 +389,8 @@
         //更改订单状态
         $("#changeOrderStatus").click(function () {
             var _this = $(this);
-            //开始打样
-            if (_self.model.OrderType == 1 && _self.status == 0) {
-                
-            } //开始大货(无)
-            else if (_self.model.OrderType == 2 && _self.status == 0) {
+            //开始大货(无)
+            if (_self.model.OrderType == 2 && _self.status == 0) {
                 $("#bindOriginalOrder").click();
             }//合价完成
             else if (_self.status == 2) {

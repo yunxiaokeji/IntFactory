@@ -4,12 +4,11 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-    <li data-first="{%=item.FirstName%}">
-        <span class="check ico-check mTop5" data-id="{%=item.ProcessID%}" data-name="{%=item.ProcessName%}" data-categoryid="{%=item.CategoryID%}"></span>
+    <li data-id="{%=item.CategoryID%}">
+        <span class="checkbox iconfont mTop5" data-id="{%=item.ProcessID%}" data-name="{%=item.ProcessName%}" data-categoryid="{%=item.CategoryID%}"></span>
 		<span class="name long">{%=item.ProcessName%}</span>
         <span class="width100 center">{%= item.ProcessType==1?"打样":"大货" %}</span>
-         <span class="width100 center">{%= item.CategoryName %}</span>
-        <span class="width100 center">{%= item.OwnerName?item.OwnerName:"--" %}</span>
-
+        <span class="width120 center">{%= item.CategoryName %}</span>
+        <span class="width120 center">{%= item.OwnerName?item.OwnerName:"--" %}</span>
 	</li>
 {% } %}

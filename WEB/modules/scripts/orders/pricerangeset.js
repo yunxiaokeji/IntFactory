@@ -13,7 +13,7 @@
     };
 
     ObjectJS.bindEvent = function () {
-        $(".price-range-set").click(function () {   
+        $("#set-price-range").click(function () {
             ObjectJS.getPriceRange();
         });   
     };

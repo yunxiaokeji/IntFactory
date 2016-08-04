@@ -1,16 +1,21 @@
 ﻿
 <div class="chooseprocess-header">
-
+    {%
+	    for(var i=0, j=$data.length; i < j; i++){
+	    var item = $data[i];
+    %}
+         <span class="process-category" data-id="{%=item.CategoryID%}">{%=item.Name%}</span>
+    {% } %}
 </div>
 <div class="chooseprocess-body">
-    <div class="choosecustomer left">
+    <div class="chooseprocess left">
         <ul class="fillter-type">
             <li class="customer-header">
-                <span class="check">&nbsp;</span>
+                <span class="width20">&nbsp;</span>
 	            <span class="name">流程名称</span>
                 <span class="width100 center">订单阶段</span>
-                <span class="width100 center">类型</span>
-                <span class="width100 center">负责人</span>
+                <span class="width120 center">类型</span>
+                <span class="width120 center">负责人</span>
                 
             </li>
         </ul>

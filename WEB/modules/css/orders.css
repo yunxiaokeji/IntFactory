@@ -138,7 +138,6 @@
 .repeatorder-times {width:20px;height:20px;border-radius:50%;border:1px solid #ccc;text-align:center;line-height:20px;margin-top:12px;color:#fff;background-color:#ccc;}
 
 /*价格区间设置*/
-.price-range-set { color:#4a98e7;}
 .center-range { width:457px;margin-top:-15px;}
 .center-range li { height:30px;margin-top:2px;padding:10px 0px 10px 0px;}
 .center-range li input { width:50px;margin:0 5px;}
