@@ -17,9 +17,9 @@
 <tr data-id="{%=item.ProductDetailID%}" class="list-item">
     <td style="text-indent:0">{%=item.ProductName%}</td>
     <td class="center" >{%=item.Remark%}</td>
-    <td class="center purchase-count">{%=item.Quantity*1+item.Loss*1%}</td>
-    <td class="center">0</td>
-    <td class="center">0</td>
+    <td class="center purchase-count">{%=item.PurchaseQuantity%}</td>
+    <td class="center">{%=item.InQuantity%}</td>
+    <td class="center">{%=item.UseQuantity%}</td>
     <td class="center"><input class="width50 quantity" data-maxquantity="{%=item.Quantity*1+item.Loss*1%}" type="text" value="0" /></td>
 </tr>
 {% } %}
