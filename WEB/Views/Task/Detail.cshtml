@@ -18,7 +18,7 @@
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn ? 1 : 0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")', '@order.BigCategoryID', '@(task.Mark == 13&&order.OrderType==2?Html.ToJSONString(order.Details):"")');
+                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn ? 1 : 0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")', '@(Html.ToJSONString((List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.plateMarkItems))', '@(task.Mark == 13&&order.OrderType==2?Html.ToJSONString(order.Details):"")');
             });
         });
     </script>
@@ -136,6 +136,10 @@
 <ul class="dropdown-ul hide" id="setPlateInfo" style="width:100px;">
     <li id="btn-setNormalColumn">设为标码</li>
     <li id="btn-removeColumn">删除此列</li>
+</ul>
+
+<ul class="dropdown-ul hide" id="setReturnSewn" style="width:100px;">
+    <li id="btnSaveSwen">车缝退回</li>
 </ul>
 
 <div class="enlarge-image-bgbox hide">

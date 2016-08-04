@@ -166,6 +166,9 @@ namespace YXERP.Controllers
 
             //任务对应的订单详情
             var order = OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.ClientID);
+            ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(order.BigCategoryID);
+            ViewBag.plateMarkItems = item.CategoryItems.FindAll(m => m.Type == 4).ToList();
+            task.Title = item.CategoryItems.Find(m => m.Type == 3 && m.Mark == task.Mark).Name;
 
             if (order.Details == null){
                 order.Details = new List<IntFactoryEntity.OrderDetail>();
@@ -644,7 +647,7 @@ namespace YXERP.Controllers
             };
         }
 
-        //添加车缝录入、裁剪录入
+        //添加车缝录入、车缝退回录入、裁剪录入
         public JsonResult CreateOrderSewnDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
         {
             string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, CurrentUser.UserID, CurrentUser.ClientID);
@@ -686,18 +689,6 @@ namespace YXERP.Controllers
             }
 
             return false;
-        }
-
-        public JsonResult GetProcessCategoryByID(string categoryid)
-        {
-            ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(categoryid);
-            List<CategoryItemsEntity> items = item.CategoryItems.FindAll(m => m.Type == 4).ToList();
-            JsonDictionary.Add("items", items);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
         }
 
     }

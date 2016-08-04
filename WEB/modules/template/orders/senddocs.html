@@ -25,7 +25,7 @@ for(var j=0,jj=item.Details.length;j<jj;j++)
     var detail=item.Details[j];
 %}
 <tr class="item">
-    <td class="tLeft bBottom bLeft">
+    <td class="tLeft bBottom">
         {%=detail.Remark%}
     </td>
     <td class="center bBottom">
@@ -46,7 +46,7 @@ for(var j=0,jj=item.Details.length;j<jj;j++)
     </td>
     <td class="center bBottom bLeft" rowspan="{%=jj%}">{%=item.CreateUser.Name%}</td>
     <td class="center bBottom bLeft" rowspan="{%=jj%}">{%=item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}</td>
-    <td class="center bRight bBottom bLeft" rowspan="{%=jj%}"><a href="/Orders/DocDetail/{%=item.DocID%}" target="_blank">查看详情</a></td>
+    <td class="center bBottom bLeft" rowspan="{%=jj%}"><a href="/Orders/DocDetail/{%=item.DocID%}" target="_blank">查看详情</a></td>
     {%}%}
 </tr>
 {%}}%}

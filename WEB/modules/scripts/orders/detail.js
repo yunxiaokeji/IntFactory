@@ -687,6 +687,44 @@
 
         $("#plateMarking").show();
 
+        //车缝退回操作
+        $("#btnSaveSwen").click(function () {
+            var id = ObjectJS.docID;
+            if ($(".btn-save-" + id).length <= 0) {
+                var _save = $('<div class="hand btn-link mLeft10 btn-save-' + id + '" style="display:inline-block;" data-id="' + id + '">保存</div>');
+                var _cancel = $('<div class="hand btn-link mLeft10 btn-cancel-' + id + '" style="display:inline-block;" data-id="' + id + '">取消</div>');
+                var _input = $('<div style="display:inline-block;" class="mLeft10 swen-quantity-' + id + '"><input class="mLeft10 quantity" type="text" style="width:40px;" value="0" /></div>');
+
+                _cancel.click(function () {
+                    $(".btn-save-" + id).remove();
+                    $(".btn-cancel-" + id).remove();
+                    $(".swen-quantity-" + id).remove();
+                });
+                _save.click(function () {
+                    var models = [];
+                    $(".swen-quantity-" + $(this).data('id') + " .quantity").each(function () {
+                        var _this = $(this);
+                        var model = {
+                            ProductDetailID: _this.parents('tr').data('id'),
+                            Quantity: _this.val()
+                        };
+                        models.push(model);
+                    });
+                    $(".btn-save-" + id).remove();
+                    $(".btn-cancel-" + id).remove();
+                    $(".swen-quantity-" + id).remove();
+                });
+                _input.find('.quantity').change(function () {
+                    var _this = $(this);
+                    if (!_this.val().isDouble() || _this.val() <= 0) {
+                        _this.val(0);
+                    }
+                });
+                $(".btn-swen-box-" + id).append(_save).append(_cancel);
+                $(".input-swen-box-" + id).append(_input);
+            }
+        });
+
         //切换模块
         $(".module-tab li").click(function () {
             var _this = $(this);
@@ -1799,6 +1837,7 @@
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
                     $("#navCutoutDoc .tr-header").after(innerhtml);
+                    alert('b');
                     var total = 0;
                     innerhtml.find('.cut1').each(function () {
                         var _this = $(this);
@@ -1834,7 +1873,16 @@
                 doT.exec("template/orders/cutoutdoc.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
-
+                    innerhtml.find(".ico-dropdown").click(function () {
+                        var _this = $(this);
+                        ObjectJS.docID = _this.data('id');
+                        var position = _this.position();
+                        $("#setReturnSewn li").data("columnname", _this.data("columnname"));
+                        $("#setReturnSewn").css({ "top": position.top + 20, "left": position.left - 70 }).show().mouseleave(function () {
+                            $(this).hide();
+                        });
+                        return false;
+                    });
                     $("#navSewnDoc .tr-header").after(innerhtml);
                     var total = 0;
                     innerhtml.find('.cut1').each(function () {
