@@ -122,6 +122,8 @@ namespace YXERP.Controllers
             {
                 ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.ClientID);
             }
+            ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
+            ViewBag.taskDescs = item.CategoryItems.FindAll(m => m.Type == 3);
             model.IsSelf = model.ClientID == CurrentUser.ClientID;
             ViewBag.Model = model;
             

@@ -4,8 +4,8 @@
 <tr class="tr-header">
     <td class="tLeft" style="text-indent:0;">规格</td>
     <td class="">下单量</td>
-    <td class="">已裁剪</td>
-    <td class="">裁剪数量</td>
+    <td class="">已{%=$data.taskDesc%}</td>
+    <td class="">{%=$data.taskDesc%}数量</td>
 </tr>
 {%
 	for(var i=0, j=$data.length; i < j; i++){

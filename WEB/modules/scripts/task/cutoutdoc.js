@@ -7,7 +7,7 @@
     var Controller = "Task";
     var ObjectJS = {};
     //裁剪
-    ObjectJS.initCutoutDoc = function (orderid, taskid, global, doT, easydialog) {
+    ObjectJS.initCutoutDoc = function (orderid, taskid, global, doT, easydialog, taskDesc) {
         if (global == null) {
             Global = require("global");
         }
@@ -28,6 +28,7 @@
         }
         ObjectJS.orderid = orderid;
         ObjectJS.taskid = taskid;
+        ObjectJS.taskDesc = taskDesc;
         Common.orderid =orderid;
         Common.taskid = taskid;
         Common.init(Global, DoT);
@@ -51,11 +52,12 @@
     ObjectJS.cutOutGoods = function () {
         var _self = this;
         DoT.exec("template/orders/cutoutgoods.html", function (template) {
+            Common.OrderGoods.taskDesc = ObjectJS.taskDesc;
             var innerText = template(Common.OrderGoods);
             Easydialog.open({
                 container: {
                     id: "showCutoutGoods",
-                    header: "大货单裁剪登记",
+                    header: "大货单" + ObjectJS.taskDesc + "登记",
                     content: innerText,
                     yesFn: function () {
                         var details = ""
@@ -80,7 +82,7 @@
                             },
                             function (data) {
                                 if (data.id) {
-                                    alert("裁剪登记成功!");
+                                    alert("" + ObjectJS.taskDesc + "登记成功!");
                                     
                                     if ($("#showCutoutGoods .check").hasClass("ico-checked")) {
                                         $("#btnCutoutOrder").remove();
@@ -92,12 +94,12 @@
                                     alert("您没有操作权限!")
                                 }
                                 else {
-                                    alert("裁剪登记失败！");
+                                    alert("" + ObjectJS.taskDesc + "登记失败！");
                                 }
                             });
                         }
                         else {
-                            alert("请输入裁剪数量");
+                            alert("请输入" + ObjectJS.taskDesc + "数量");
                             return false;
                         }
                     }
