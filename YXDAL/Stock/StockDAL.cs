@@ -54,7 +54,7 @@ namespace IntFactoryDAL
         public DataSet GetGoodsDocByOrderID(string orderid,string taskid, int doctype, string clientid)
         {
             SqlParameter[] paras = { 
-                                       new SqlParameter("@OriginalID", orderid) ,
+                                       new SqlParameter("@OrderID", orderid) ,
                                        new SqlParameter("@TaskID", taskid) ,
                                        new SqlParameter("@DocType", doctype) ,
                                        new SqlParameter("@ClientID", clientid) 
