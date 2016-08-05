@@ -316,16 +316,6 @@ namespace IntFactoryBusiness
                     }
                     
                 }
-                model.StatusItems = new List<OrderStatusEntity>();
-                if (model.Status > 0 && ds.Tables["Status"].Rows.Count > 0)
-                {
-                    foreach (DataRow dr in ds.Tables["Status"].Rows)
-                    {
-                        OrderStatusEntity status = new IntFactoryEntity.OrderStatusEntity();
-                        status.FillData(dr);
-                        model.StatusItems.Add(status);
-                    }
-                }
 
                 model.City = CommonBusiness.GetCityByCode(model.CityCode);
 
@@ -936,7 +926,6 @@ namespace IntFactoryBusiness
             }
             return bl;
         }
-
 
         public bool UpdateOrderPlateAttr(string orderid, string taskid, string platehtml, string operateid, string ip, string clientid)
         {
