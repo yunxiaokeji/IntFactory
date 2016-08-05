@@ -1,8 +1,38 @@
-﻿
+﻿{%
+	var item = $data;
+%}
 <ul class="easydialog-create">
+    <li>
+        <span class="width80">款式编码：</span>
+        <span>{%=item.IntGoodsCode%}</span>
+    </li>
+    <li>
+        <span class="width80">款式名称：</span>
+        <span>{%=item.GoodsName%}</span>
+    </li>
+    <li>
+        <span class="width80">客户名称：</span>
+        <span>{%=item.Customer?item.Customer.Name:"--"%}</span>
+    </li>
+    <li>
+        <span class="width80">品类流程：</span>
+        <span>{%=item.ProcessCategoryName +" > " +item.OrderProcess.ProcessName%}</span>
+    </li>
+    <li>
+        <span class="width80">订单类别：</span>
+        <span>{%=item.CategoryName%}</span>
+    </li>
+    <li>
+        <span class="width80">负责人：</span>
+        <span>{%=item.Owner ? item.Owner.Name : "--"%}</span>
+    </li>
     <li>
         <span class="width80">交货日期：</span>
         <span><input type="text" class="hand" readonly="true" id="iptPlanTime"  value="" /></span> 
+    </li>
+    <li>
+        <span class="width80 red">注意：</span>
+        <span class="red">转为订单后，品类流程、订单类别、交货日期不可变更</span>
     </li>
 </ul>
 

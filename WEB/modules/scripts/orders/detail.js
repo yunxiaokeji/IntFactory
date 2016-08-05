@@ -19,7 +19,8 @@
     ObjectJS.init = function (orderid, status, model,list) {
         var _self = this;
         _self.orderid = orderid;
-        _self.status = status;        
+        _self.status = status;
+        _self.isLoading = false;
         _self.model = JSON.parse(model.replace(/&quot;/g, '"'));
         if (list) {
             _self.ColorList = JSON.parse(list.replace(/&quot;/g, '"'));
@@ -106,19 +107,20 @@
             }
             if (_self.model.OrderType == 1) {
                 doT.exec("template/orders/sure_plan_time.html", function (template) {
-                    var innerText = template();
+                    var innerText = template(_self.model);
                     Easydialog.open({
                         container: {
                             id: "show_sure_plan_time",
-                            header: "确认开始打样单",
+                            header: "需求单转为订单",
                             content: innerText,
+                            yesText: "确认转为订单",
                             yesFn: function () {
                                 var time = $("#iptPlanTime").val().trim();
                                 if (!time) {
                                     alert("请确认交货日期！");
                                     return false;
                                 }
-                                _self.updateOrderStatus(1, time, 0);
+                                _self.updateOrderBegin(time);
                             },
                             callback: function () {
 
@@ -136,14 +138,23 @@
                     var date = (new Date(_self.model.PlanTime.toDate("yyyy-MM-dd")).getTime() - new Date().getTime()) < 0 ? new Date().toString('yyyy-MM-dd') : _self.model.PlanTime.toDate("yyyy-MM-dd");
                     $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : date);
                 });
+            } else {
+
             }
         });
 
         //更换品类流程
         $(".btn-change-process-category").click(function () {
+
+            if (_self.isLoading) {
+                alert("数据处理中，请稍后");
+                return false;
+            }
+            _self.isLoading = true;
+
             var _this = $(this);
             ChooseProcess.create({
-                title: "更换流程",
+                title: "更换品类流程",
                 type: _self.model.OrderType,
                 callback: function (items) {
                     if (items.length > 0) {
@@ -164,6 +175,7 @@
                     }
                 }
             });
+            _self.isLoading = false;
         });
 
         //设置利润比例
@@ -568,6 +580,12 @@
 
         //绑定分类
         $("#changeOrderCategory").click(function () {
+
+            if (_self.isLoading) {
+                alert("数据处理中，请稍后");
+                return false;
+            }
+            _self.isLoading = true;
             Global.post("/System/GetClientOrderCategorys", {}, function (data) {
                 doT.exec("template/orders/choose-order-category.html", function (template) {
                     var innerText = template(data.items);
@@ -578,12 +596,12 @@
                             header: "绑定订单类别",
                             content: innerText,
                             yesFn: function () {
-                                if ($("#bindOrderCategoryBox li.hover").length == 0) {
+                                if ($("#bindOrderCategoryBox li .ico-radiobox.hover").length == 0) {
                                     alert("请选择类别！");
                                     return false;
                                 }
-                                var _hover = $("#bindOrderCategoryBox li.hover");
-                                confirm("确认绑定“" + _hover.data("name") + "”吗？", function () {
+                                var _hover = $("#bindOrderCategoryBox li .ico-radiobox.hover").parent();
+                                confirm("确认绑定类别“" + _hover.data("name") + "”吗？", function () {
                                     Global.post("/Orders/UpdateOrderCategoryID", {
                                         orderid: _self.orderid,
                                         pid: _hover.data("pid"),
@@ -605,12 +623,14 @@
                     });
 
                     $("#bindOrderCategoryBox li").click(function () {
-                        var _this = $(this);
+                        var _this = $(this).find(".ico-radiobox");
                         if (!_this.hasClass("hover")) {
-                            $("#bindOrderCategoryBox li").removeClass("hover");
+                            $("#bindOrderCategoryBox li .ico-radiobox").removeClass("hover");
                             _this.addClass("hover");
                         }
                     });
+
+                    _self.isLoading = false;
                 });
             });
         });
@@ -757,7 +777,6 @@
             _self.express = data.items;
         });
     }
-
 
     //获取制版工艺说明
     ObjectJS.getPlateMakings = function () {
@@ -1516,7 +1535,8 @@
             profit: profit / 100
         }, function (data) {
             if (data.status) {
-                location.href = location.href;
+                $("#profitPrice").text((profit * 1).toFixed(2));
+                _self.model.ProfitPrice = profit / 100;
             } else {
                 alert("利润比例设置失败，可能因为订单状态已改变，请刷新页面后重试！");
             }
@@ -1622,6 +1642,21 @@
             $("#extent").val(model.Extent);
 
             $("#industry").val(model.IndustryID);
+        });
+    }
+
+    //开始订单
+    ObjectJS.updateOrderBegin = function (time) {
+        var _self = this;
+        Global.post("/Orders/UpdateOrderBegin", {
+            orderid: _self.orderid,
+            time: time ? time : ""
+        }, function (data) {
+            if (!data.status) {
+                alert(data.errinfo);
+            } else {
+                location.href = location.href;
+            }
         });
     }
 

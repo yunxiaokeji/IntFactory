@@ -10,7 +10,7 @@ button::-moz-focus-inner { border: 0; padding: 0; margin: 0; }
 .easyDialog_wrapper .close_btn {float:right; background:#fff url(ico-close.png) no-repeat; height:16px; width:16px;  }
 .easyDialog_wrapper .close_btn:hover { background:url(ico-close-hover.png) no-repeat; }
 
-.easyDialog_wrapper .easyDialog_text { padding-top:15px; font-size:12px; line-height: 22px; }
+.easyDialog_wrapper .easyDialog_text { padding-top:10px; font-size:12px; line-height: 22px; }
 
 .easyDialog_wrapper { padding: 10px 20px; *zoom: 1; }
 
