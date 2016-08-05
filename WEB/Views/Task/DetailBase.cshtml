@@ -2,7 +2,7 @@
     var taskModel =(YXERP.Models.TaskModel)Model;
     var task = taskModel.Task;
     var order = taskModel.Order;
-    var taskDescs = task.TaskDescs;
+    var taskDescs = (List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.Modules;
  }
 
 <div class="header-box">
@@ -227,7 +227,7 @@
                     <span class="long">@(stage.Title)</span>
                     <span class="long">负责人：@(stage.Owner.Name)</span>
                     @if(stage.StageID==task.StageID){
-                            <span style="background-color:#4a98e7;color:#fff;position:absolute;right:10px;top:5px;text-align:center;width:58px;line-height:20px;height:20px;border-radius:5px;">当前任务</span>
+                            <span style="background-color:#4a98e7;color:#fff;position:absolute;right:5px;top:5px;text-align:center;width:30px;line-height:20px;height:20px;border-radius:5px;">当前</span>
                     }
                     @if (stage.LockStatus == 2)
                     {
