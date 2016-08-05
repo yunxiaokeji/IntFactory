@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "新建报损单";
+    ViewBag.Title = "新建用料登记单";
     var ware = (List<IntFactoryEntity.WareHouse>)ViewBag.Ware;
     var product=(List<IntFactoryEntity.ProductDetail>)ViewBag.Items;
 }
@@ -12,9 +12,9 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">新建报损单</span>
+    <span class="header-title left">用料登记</span>
     <div class="btn-add right mLeft20" id="btnChooseProduct">快捷选择材料</div>
-    <a href="/Stock/ChooseBSProducts" class="right font14 mTop4 btn-link" id="addChooseProduct">选择报损材料</a>
+    <a href="/Stock/ChooseBSProducts" class="right font14 mTop4 btn-link" id="addChooseProduct">材料用料</a>
     <div class="clear"></div>
 </div>
 <div class="content-body mTop20">
@@ -54,7 +54,7 @@
         <input type="text" placeholder="备注" id="remark" class="width500 mTop10 right">
         <div class="clear"></div>
         <div class="mTop20">
-            <div class="btn right" id="btnconfirm">提交报损单</div>
+            <div class="btn right" id="btnconfirm">提交用料申请</div>
         </div>
     </div>
 </div>

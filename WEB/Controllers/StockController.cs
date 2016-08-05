@@ -194,7 +194,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Type = (int)EnumDocType.BS;
             ViewBag.GUID = CurrentUser.UserID;
-            ViewBag.Title = "选择报损产品";
+            ViewBag.Title = "登记用料";
 
             return View("FilterProducts");
         }

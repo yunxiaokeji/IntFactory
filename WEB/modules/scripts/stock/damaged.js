@@ -136,7 +136,7 @@ define(function (require, exports, module) {
         });
         //删除
         $("#delete").click(function () {
-            confirm("报损单删除后不可恢复,确认删除吗？", function () {
+            confirm("用料登记单删除后不可恢复,确认删除吗？", function () {
                 Global.post("/Stock/DeleteDamagedDoc", { docid: _self.docid }, function (data) {
                     if (data.status) {
                         location.href = "/Stock/Damaged";
@@ -221,7 +221,7 @@ define(function (require, exports, module) {
         _self.docid = docid;
         
         $("#btnInvalid").click(function () {
-            confirm("报损单作废后不可恢复,确认作废吗？", function () {
+            confirm("用料登记单作废后不可恢复,确认作废吗？", function () {
                 Global.post("/Stock/InvalidDamagedDoc", { docid: _self.docid }, function (data) {
                     if (data.status) {
                         location.href = "/Stock/Damaged";
@@ -233,7 +233,7 @@ define(function (require, exports, module) {
         });
 
         $("#btnDelete").click(function () {
-            confirm("报损单删除后不可恢复,确认删除吗？", function () {
+            confirm("用料登记单删除后不可恢复,确认删除吗？", function () {
                 Global.post("/Stock/DeleteDamagedDoc", { docid: _self.docid }, function (data) {
                     if (data.status) {
                         location.href = "/Stock/Damaged";
@@ -245,7 +245,7 @@ define(function (require, exports, module) {
         });
 
         $("#btnAudit").click(function () {
-            confirm("确认审核报损单吗？", function () {
+            confirm("确认审核用料登记单吗？", function () {
                 Global.post("/Stock/AuditDamagedDoc", { docid: _self.docid }, function (data) {
                     if (data.result == 1) {
                         location.href = "/Stock/Damaged";

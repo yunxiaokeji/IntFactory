@@ -85,7 +85,6 @@ define(function (require, exports, module) {
                                         }
                                         else {
                                             _this.parents("tr.item").remove();
-                                            ObjectJS.getProductAmount();
                                         }
                                     });
                                 } else {
@@ -106,7 +105,7 @@ define(function (require, exports, module) {
                         if (opts.ordertype == 1) {
                             obj.find(".btnconfirm").attr("href", "/Products/ConfirmPurchase").html("返回采购单");;
                         } else if (opts.ordertype == 3) {
-                            obj.find(".btnconfirm").attr("href", "/Stock/CreateDamaged").html("返回报损单");;
+                            obj.find(".btnconfirm").attr("href", "/Stock/CreateDamaged").html("返回用料登记单");;
                         } else if (opts.ordertype == 4) {
                             obj.find(".btnconfirm").attr("href", "/Stock/CreateOverflow").html("返回报溢单");;
                         } else if (opts.ordertype == 11) { //订单
