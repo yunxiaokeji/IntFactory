@@ -13,7 +13,7 @@
     <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/orders/detail"], function (obj) {
-            obj.init('@(model.OrderID)', '@(model.Status)', '@Html.ToJSONString(model)', '@(Html.ToJSONString(taskDescs))');
+            obj.init('@(model.OrderID)', '@(model.Status)', '@Html.ToJSONString(model)', '@(Html.ToJSONString(modules))');
         });
     </script>
 }
