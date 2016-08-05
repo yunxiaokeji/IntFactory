@@ -2,7 +2,7 @@
     var taskModel =(YXERP.Models.TaskModel)Model;
     var task = taskModel.Task;
     var order = taskModel.Order;
-    var taskDescs = task.TaskDescs;
+    var taskDescs = (List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.Modules;
  }
 
 <div class="header-box">

@@ -26,11 +26,14 @@
     ///finishStatus：任务完成状态
     ///attrValues:订单品类属性
     ///orderType:订单类型
-    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID, orderPlanTime, plateMarkItems) {
+    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID, orderPlanTime, plateMarkItems,taskDescs) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
         if (plateMarkItems) {
-            plateMartingItem = JSON.parse(plateMarkItems.replace(/quot;/g, '"'));
+            plateMartingItem = JSON.parse(plateMarkItems.replace(/&quot;/g, '"'));
         }
+        
+        /*任务模块别名*/
+        var taskModeleDescs = JSON.parse(taskDescs.replace(/&quot;/g, '"'));
 
         if (attrValues != "")
             CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
@@ -83,8 +86,8 @@
         }
         if (ObjectJS.mark === 13 && ObjectJS.orderType == 2) {
             var taskDesc = "裁剪";
-            for (var i = 0; i < task.TaskDescs.length; i++) {
-                var item = task.TaskDescs[i];
+            for (var i = 0; i < taskModeleDescs.length; i++) {
+                var item = taskModeleDescs[i];
                 if (item.Mark == 13) {
                     taskDesc = item.Name || '裁剪';
                     break;
@@ -95,8 +98,8 @@
         }
         else if (ObjectJS.mark === 14 && ObjectJS.orderType == 2) {
             var taskDesc="车缝";
-            for (var i = 0; i < task.TaskDescs.length; i++) {
-                var item = task.TaskDescs[i];
+            for (var i = 0; i < taskModeleDescs.length; i++) {
+                var item = task.taskModeleDescs[i];
                 if (item.Mark == 14) {
                     taskDesc = item.Name|| '车缝';
                     break;

@@ -167,7 +167,7 @@ namespace YXERP.Controllers
             ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(order.BigCategoryID);
 
             ViewBag.plateMarkItems = item.CategoryItems.FindAll(m => m.Type == 4).ToList();
-            taskModel.Task.TaskDescs = item.CategoryItems.FindAll(m => m.Type == 3);
+            ViewBag.Modules = item.CategoryItems.FindAll(m => m.Type == 3);
             if (order.Details == null){
                 order.Details = new List<IntFactoryEntity.OrderDetail>();
             }
