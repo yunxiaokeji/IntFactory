@@ -10,14 +10,6 @@
 .taskContent .taskBaseInfo li {
     line-height:55px;
 }
-.taskOperate {
-    margin-top:9px;
-    padding-bottom:14px;
-    border-bottom:1px solid #eee; 
-}
-.taskOperate .taskEndTime {
-    width:120px;
-}
 .taskDetail {
     padding-right:10px;
 }

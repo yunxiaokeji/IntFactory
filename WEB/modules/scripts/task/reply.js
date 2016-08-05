@@ -185,7 +185,7 @@
             successItems: '.upload-files-' + replyId + ' li',
             file_path: "/Content/UploadFiles/Task/",
             maxQuantity: 10,
-            maxSize: 5,
+            maxSize: 15,
             fileType: 3,
             init: {}
         });

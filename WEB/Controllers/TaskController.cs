@@ -248,7 +248,7 @@ namespace YXERP.Controllers
             ViewBag.NowDate = nowDate;
             ViewBag.IsMy = 1;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
-
+            ViewBag.UserID = CurrentUser.UserID;
             return View();
         }
 
@@ -256,7 +256,7 @@ namespace YXERP.Controllers
         {
             ViewBag.IsMy = 2;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
-
+            ViewBag.UserID = CurrentUser.UserID;
             return View("MyTask");
         }
 
@@ -264,6 +264,7 @@ namespace YXERP.Controllers
         {
             ViewBag.IsMy = 0;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
+            ViewBag.UserID = CurrentUser.UserID;
             return View("MyTask");
         }
         #endregion

@@ -6,12 +6,13 @@
 @section css{
     <link href="/modules/css/task.css" rel="stylesheet" />
     <link href="/modules/css/common/order-task-list.css" rel="stylesheet" />
+    <script src="/modules/plug/laydate/laydate.js"></script>
     <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
 }
 @section scripts{
     <script type="text/javascript">
        seajs.use(["scripts/task/list"], function (obj) {
-           obj.init('@ViewBag.IsMy', '@NowDate','@Html.ToJSONString(model)');
+           obj.init('@ViewBag.IsMy', '@NowDate', '@Html.ToJSONString(model)', '@ViewBag.UserID');
        });
     </script>
 }

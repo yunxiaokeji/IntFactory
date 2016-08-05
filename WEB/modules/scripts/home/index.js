@@ -30,12 +30,12 @@
     var ObjectJS = {};
     ObjectJS.orderFilter = -1;
 
-    ObjectJS.init = function (orderLevel, taskLevel, remainDay, remainDate, orderMarks, tastMarks) {
+    ObjectJS.init = function (orderLevel, taskLevel, remainDay, remainDate, orderMarks, tastMarks,currentUserID) {
         ObjectJS.remainDay = remainDay;
         ObjectJS.remainDate = remainDate;
         ObjectJS.orderLevel = orderLevel;
         ObjectJS.taskLevel = taskLevel;
-
+        ObjectJS.currentUserID = currentUserID;
         ObjectJS.orderMarks = JSON.parse(orderMarks.replace(/&quot;/g, '"'));
         ObjectJS.tastMarks = JSON.parse(tastMarks.replace(/&quot;/g, '"'));
 
@@ -539,6 +539,102 @@
         }
     }
 
+    //更改任务到期时间
+    ObjectJS.updateTaskEndTime = function (taskid, maxhours) {
+        if (maxhours == 0) {
+            Easydialog = require("easydialog");
+            DoT.exec("/template/task/set-endtime.html", function (template) {
+                var innerHtml = template();
+                Easydialog.open({
+                    container: {
+                        id: "show-model-setRole",
+                        header: "设置任务到期时间",
+                        content: innerHtml,
+                        yesFn: function () {
+                            var showMsg = "任务到期时间不可逆，确定设置?";
+                            var planTime = new Date(ObjectJS.planTime).getTime();
+                            var endTime = new Date($("#UpdateTaskEndTime").val()).getTime();
+
+                            //判断该任务的订单是否超期
+                            var isExceed = new Date().getTime() < planTime ? true : false;
+
+                            if (planTime < endTime && isExceed) {
+                                showMsg = "已超出订单交货时间,确定设置?";
+                            }
+                            if ($("#UpdateTaskEndTime").val() == "") {
+                                alert("任务到期时间不能为空");
+                                return;
+                            }
+                            confirm(showMsg, function () {
+                                Global.post("/Task/UpdateTaskEndTime", {
+                                    id: taskid,
+                                    endTime: $("#UpdateTaskEndTime").val()
+                                }, function (data) {
+                                    if (data.result == 0) {
+                                        alert("操作无效");
+                                    }
+                                    else if (data.result == 2) {
+                                        alert("任务已接受,不能操作");
+                                    }
+                                    else if (data.result == 3) {
+                                        alert("没有权限操作");
+                                    }
+                                    else {
+                                        alert("接受成功");
+                                        $(".btn-accept[data-id=" + taskid + "]").next(0).html('结束日期：' + new Date($("#UpdateTaskEndTime").val()).toString('yyyy-MM-dd'));
+                                        $(".btn-accept[data-id=" + taskid + "]").parents('ul').find('.accept-status').html('进行中').css({ "color": "#02C969" });
+                                        $(".btn-accept[data-id=" + taskid + "]").parents('ul').find('.accept-date').html(new Date().toString('yyyy-MM-dd'));
+                                        $(".btn-accept[data-id=" + taskid + "]").unbind().html("进行中").removeClass('btn').removeClass('btn-accept').css({ "color": "#02C969" });
+                                    }
+                                });
+                            });
+
+                        }
+                    }
+                });
+
+                var myDate = new Date();
+                var minDate = myDate.toLocaleDateString();
+                minDate = minDate + " 23:59:59"
+                //if (ObjectJS.planTime <= minDate) {
+                //    ObjectJS.planTime = '';
+                //}
+                //更新任务到期日期
+                var taskEndTime = {
+                    elem: '#UpdateTaskEndTime',
+                    format: 'YYYY/MM/DD hh:mm:ss',
+                    min: minDate,
+                    //max: ObjectJS.planTime,
+                    istime: true,
+                    istoday: false
+                };
+                laydate(taskEndTime);
+            });
+        }
+        else {
+            Global.post("/Task/UpdateTaskEndTime", {
+                id: taskid,
+                endTime: ""
+            }, function (data) {
+                if (data.result == 0) {
+                    alert("操作无效");
+                }
+                else if (data.result == 2) {
+                    alert("任务已接受,不能操作");
+                }
+                else if (data.result == 3) {
+                    alert("没有权限操作");
+                }
+                else {
+                    $(".btn-accept[data-id=" + taskid + "]").next(0).html('--');
+                    $(".btn-accept[data-id=" + taskid + "]").parents('ul').find('.accept-status').html('进行中').css({ "color": "#02C969" });
+                    $(".btn-accept[data-id=" + taskid + "]").parents('ul').find('.accept-date').html(new Date().toString('yyyy-MM-dd'));
+                    $(".btn-accept[data-id=" + taskid + "]").unbind().html("进行中").removeClass('btn').removeClass('btn-accept').css({ "color": "#02C969" });
+                }
+            });
+        }
+    }
+
     /*拼接列表数据*/
     ObjectJS.createDataListHtml = function (data) {
         var _self = this;
@@ -560,8 +656,19 @@
         }
         else {            
             DoT.exec(url, function (template) {
+                items.currentUserID = ObjectJS.currentUserID;
                 var innerText = template(items);
-                innerText = $(innerText);               
+                innerText = $(innerText);
+                if (Paras.moduleType == 2) {
+                    /*任务讨论浮层*/
+                    require.async("showtaskdetail", function () {
+                        innerText.find('.show-task-reply').showtaskdetail();
+                    });
+                    innerText.find('.btn-accept').click(function () {
+                        ObjectJS.updateTaskEndTime($(this).data('id'), $(this).data('maxhours'));
+                    });
+                }
+
                 $(".order-layerbox").append(innerText);                
                 innerText.find('.order-progress-item').each(function () {
                     var _this = $(this);

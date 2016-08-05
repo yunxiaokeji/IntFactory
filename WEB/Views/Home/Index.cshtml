@@ -4,13 +4,15 @@
 }
 @section css{
     <link href="/modules/css/home.css" rel="stylesheet" />
+    <script src="/modules/plug/laydate/laydate.js"></script>
 }
 @section scripts{
     <script type="text/javascript">
        seajs.use(["scripts/home/index"], function (obj) {
            obj.init('@ViewBag.orderLevel', '@ViewBag.taskLevel', '@ViewBag.RemainDay', '@ViewBag.RemainDate',
                '@(Html.ToJSONString((List<IntFactoryEntity.LableColorEntity>)ViewBag.OrderMarks))', 
-               '@(Html.ToJSONString((List<IntFactoryEntity.LableColorEntity>)ViewBag.TaskMarks))');
+               '@(Html.ToJSONString((List<IntFactoryEntity.LableColorEntity>)ViewBag.TaskMarks))',
+               '@ViewBag.UserID');
        });
     </script>
 }

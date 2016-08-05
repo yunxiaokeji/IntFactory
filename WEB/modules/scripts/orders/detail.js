@@ -29,7 +29,6 @@
         _self.bindEvent();
         _self.getAmount();
         _self.bingCache();
-
     }
 
     ObjectJS.bindStyle = function (model) {
