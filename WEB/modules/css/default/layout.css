@@ -359,7 +359,12 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 /*删除-垃圾箱*/
 .ico-del:before { content:"\e651"}
 .ico-del { display:inline-block; color:#4a98e7; cursor:pointer; vertical-align:middle; }
-.ico-del.hover { color:#2F73B8; }
+.ico-del:hover { color:#2F73B8; }
+
+/*讨论*/
+.ico-reply:before { content: "\e611"; }
+.ico-reply { display:inline-block; color:#999; cursor:pointer; vertical-align:middle; }
+.ico-reply:hover{ color:#666; }
 
 /*关闭*/
 .ico-close{ background:url(/modules/images/ico-close.png) no-repeat; height:24px; min-width:24px; line-height:24px; 
@@ -419,6 +424,7 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .checkbox { width:16px; height:16px; display:inline-block; background-color:#fff; color:#fff; border:solid 1px #ccc; text-align:center; border-radius:2px; 
                 cursor:pointer; box-shadow:0 0 1px #ccc inset; font-size:14px !important; line-height:16px !important;vertical-align:middle; }
 .checkbox.hover {border:solid 1px #4a98e7; background-color:#4a98e7; }
+
 
 /*单选框*/
 .ico-radiobox { width:20px; height:20px; display:inline-block; background-color:#fff; border:solid 1px #4a98e7; text-align:center; border-radius:11px;

@@ -31,7 +31,6 @@
         if (plateMarkItems) {
             plateMartingItem = JSON.parse(plateMarkItems.replace(/&quot;/g, '"'));
         }
-        
         /*任务模块别名*/
         var taskModeleDescs = JSON.parse(taskDescs.replace(/&quot;/g, '"'));
 
@@ -99,7 +98,7 @@
         else if (ObjectJS.mark === 14 && ObjectJS.orderType == 2) {
             var taskDesc="车缝";
             for (var i = 0; i < taskModeleDescs.length; i++) {
-                var item = task.taskModeleDescs[i];
+                var item = taskModeleDescs[i];
                 if (item.Mark == 14) {
                     taskDesc = item.Name|| '车缝';
                     break;

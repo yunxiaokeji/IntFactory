@@ -149,8 +149,6 @@ define(function (require, exports, module) {
                         assign: 'txtContent',
                         path: '/modules/plug/qqface/arclist/'	//表情存放的路径
                     });
-
-
                     //转移
                     if (defaultParas.self == 1) {
                         $("#changeTaskOwner").click(function () {
@@ -181,7 +179,7 @@ define(function (require, exports, module) {
                     }
                     else {
                         $("#changeTaskOwner").hide();
-                        $(".tast-link-controller").attr("href", "javascript:void(0)")
+                        $(".tast-link-controller").attr("href", "javascript:void(0)");
                     }
 
                     //初始化任务讨论

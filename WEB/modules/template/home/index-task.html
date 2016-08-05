@@ -36,7 +36,7 @@
                     <img src="{%= item.Order.OrderImage||'/modules/images/img-noimg.png' %}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" />
                 </a> 
             </li>  
-            <li class="order-info">
+            <li class="order-info" style="position:relative;">
                 <div class="bold font14">
                     <span class="column-title font14">任务名称：</span>
                     {%=item.Title==""?"--":item.Title%}
@@ -53,6 +53,11 @@
                     <span class="column-title">订单类型：</span>
                     {%=item.OrderType==1?"打样":"大货"%}
                 </div>
+                <span style="position:absolute;right:-26px;top:-32px"
+                class="iconfont ico-reply right font20 show-task-reply stage-items {%=(item.FinishStatus == 0 ? 'normal' : item.FinishStatus == 1 ? 'ing' : 'over')%}"
+               data-stageid="{%=item.StageID%}" data-lock="no"
+                    data-orderid="{%=item.OrderID%}" data-taskid="{%=item.TaskID%}" data-mark="{%=item.Mark%}">
+                </span>
             </li>  
             <li class="order-time right">
                 {% if(item.FinishStatus==0){ %}
@@ -112,7 +117,7 @@
                 </div>
                 {%if(item.PreFinishStatus==2 ){%}
                     <div style="color:#067BE4">
-                        <span class="column-title">任务进度：</span>
+                        <span class="column-title">上级进度：</span>
                         已完成
                     </div>
                     <div>
@@ -121,7 +126,7 @@
                     </div>   
                 {% }else if (item.PreFinishStatus==1){%}
                     <div style="color:#02C969">
-                        <span class="column-title">任务进度：</span>
+                        <span class="column-title">上级进度：</span>
                         进行中
                     </div>
                     <div>
@@ -130,7 +135,7 @@
                     </div>   
                 {% }else if (item.PreFinishStatus==0){%}
                     <div style="color:red">
-                        <span class="column-title">任务进度：</span>
+                        <span class="column-title">上级进度：</span>
                         未接受
                     </div>
                     <div>
@@ -139,7 +144,7 @@
                     </div>   
                  {% }else{%}
                     <div style="color:red">
-                        <span class="column-title">任务进度：</span>
+                        <span class="column-title">上级进度：</span>
                         --
                     </div>
                     <div>

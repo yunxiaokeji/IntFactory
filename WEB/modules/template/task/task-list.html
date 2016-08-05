@@ -9,6 +9,10 @@
             <a href="/Task/Detail/{%=item.TaskID%}" class="left bold mLeft10">
                 任务名称：{%=item.Title==""?"--":item.Title%}
             </a>
+            <span class="iconfont ico-reply right font20 show-task-reply stage-items {%=(item.FinishStatus == 0 ? 'normal' : item.FinishStatus == 1 ? 'ing' : 'over')%}"
+               data-stageid="{%=item.StageID%}" data-lock="no"
+                    data-orderid="{%=item.OrderID%}" data-taskid="{%=item.TaskID%}" data-mark="{%=item.Mark%}">
+            </span>
         </td>
         <td class="width300 tLeft bold">
             负责人：{%=(item.Owner ? item.Owner.Name:"--")%}

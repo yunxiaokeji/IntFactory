@@ -28,7 +28,6 @@
         _self.bindEvent();
         _self.getAmount();
         _self.bingCache();
-
     }
 
     ObjectJS.bindStyle = function (model) {
@@ -430,9 +429,6 @@
                         }
                     });
                 });
-
-                
-
             } //大货下单
             else if (_self.status == 3) {
                 _self.createDHOrder(false);

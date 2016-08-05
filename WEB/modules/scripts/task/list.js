@@ -6,7 +6,6 @@
         require("daterangepicker");
         require("pager");
         require("colormark");
-
     var Params = {
         isMy: true,//是否获取我的任务
         userID: "",
@@ -279,6 +278,10 @@
                     var innerhtml = template(data.items);
 
                     innerhtml = $(innerhtml);
+                    /*任务讨论浮层*/
+                    require.async("showtaskdetail", function () {
+                        innerhtml.find('.show-task-reply').showtaskdetail();
+                    });
                     $(".table-header").after(innerhtml);
                     innerhtml.find('.order-progress-item').each(function () {
                         var _this = $(this);

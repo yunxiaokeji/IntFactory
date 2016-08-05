@@ -20,7 +20,7 @@
     <script type="text/javascript">
         $(function () {
             seajs.use(["scripts/task/detail"], function (obj) {
-                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn ? 1 : 0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")', '@(task.Mark==11&&task.OrderType==2?Html.ToJSONString(plateItems):"")', '@(Html.ToJSONString(taskDescs))');
+                obj.init('@attrValues', '@order.OrderImages', '@(taskModel.IsWarn ? 1 : 0)', '@Html.ToJSONString(task)', '@order.OriginalID', '@order.PlanTime.ToString("yyyy-MM-dd hh:mm:ss")', '@(task.Mark==12? Html.ToJSONString(plateItems):"")', '@(Html.ToJSONString(taskDescs))');
             });
         });
     </script>

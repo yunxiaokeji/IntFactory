@@ -561,7 +561,14 @@
         else {            
             DoT.exec(url, function (template) {
                 var innerText = template(items);
-                innerText = $(innerText);               
+                innerText = $(innerText);
+                if (Paras.moduleType == 2) {
+                    /*任务讨论浮层*/
+                    require.async("showtaskdetail", function () {
+                        innerText.find('.show-task-reply').showtaskdetail();
+                    });
+                }
+
                 $(".order-layerbox").append(innerText);                
                 innerText.find('.order-progress-item').each(function () {
                     var _this = $(this);
