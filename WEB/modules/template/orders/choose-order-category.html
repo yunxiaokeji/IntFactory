@@ -9,8 +9,8 @@
 	        for(var ii=0, ji=item.ChildCategory.length; ii < ji; ii++){
 	        var child = item.ChildCategory[ii];
          %}
-            <li class="category-item" data-pid="{%=item.CategoryID%}" data-name="{%=child.CategoryName%}" data-id="{%=child.CategoryID%}">
-                {%=child.CategoryName%}
+            <li class="category-item" data-pid="{%=item.CategoryID%}" data-name="{%=item.CategoryName +' > '+child.CategoryName%}" data-id="{%=child.CategoryID%}">
+                <span class="ico-radiobox left mTop3"><span></span></span> <span class="left mLeft5"> {%=child.CategoryName%} </span>
             </li>
         {% } %}
     </ul>

@@ -63,11 +63,9 @@
 .order-remark .title{ color:#999; }
 
 /*订单品类*/
-.category-header { border-bottom:solid 1px #ccc; }
+.category-header { font-size:14px; border-bottom:solid 1px #eee; }
 .category-items { width:600px; overflow:auto; margin-bottom:10px; }
-.category-items li{ padding:0 10px; height:30px; float:left; line-height:30px; border:solid 1px #ccc; margin:5px 5px; text-align:center; cursor:pointer; }
-.category-items li:hover{ border-color:#2F73B8; color:#2F73B8;}
-.category-items li.hover{ border-color:#2F73B8; color:#fff; background-color:#2F73B8;}
+.category-items li{ height:30px; float:left; line-height:30px; margin:5px 10px 0 0; cursor:pointer; }
 
 /*订单阶段任务*/
 .process-stages { background-color:#fff; margin:20px; padding:10px; overflow:auto;  }
@@ -76,21 +74,16 @@
 
 .process-info .info{ font-size:16px; height:25px; line-height:25px;}
 
-.status-desc li{ float:left; padding:0 6px; margin:5px 20px 10px 0; border-left:solid 1px #ccc; border-left-width:10px; }
-.status-desc  li.ing{ border-color: #45BF67;}
-.status-desc  li.over{ border-color: #3A7DE5;}
-
 .process-stages .stage-items { }
-.process-stages .stage-items  li{ float:left; width:120px; cursor:pointer; padding:5px 10px; position:relative;
-                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc; border-left-width:10px; }
+.process-stages .stage-items  li{ float:left; width:150px; cursor:pointer; padding:5px 10px; position:relative;
+                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc;}
 
 .process-stages .stage-items  li:hover{ background-color:#eee;}
 
 .process-stages .stage-items  li.ing{ border-color: #45BF67;}
 .process-stages .stage-items  li.over{ border-color: #3A7DE5;}
 
-.process-stages .stage-items  li span{ display:block; font-size:12px; height:25px; line-height:25px; width:120px; color:#333;}
-.process-stages .stage-items  li .status { color:#999; }
+.process-stages .stage-items  li span{ display:block; font-size:12px; height:25px; line-height:25px; width:150px; color:#333;}
 .process-stages .stage-items  li.ing .status { color: #45BF67;}
 .process-stages .stage-items  li.over .status { color: #3A7DE5;}
 

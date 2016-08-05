@@ -501,6 +501,26 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderCategoryID", paras, CommandType.StoredProcedure) > 0;
         }
 
+        public bool UpdateOrderBegin(string orderid, string time, string operateid, string clientid, out string errinfo)
+        {
+            errinfo = "";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@ErrorInfo",SqlDbType.NVarChar,100),
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@PlanTime",time),
+                                     new SqlParameter("@DocCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            paras[0].Value = errinfo;
+            paras[0].Direction = ParameterDirection.InputOutput;
+            bool bl = ExecuteNonQuery("P_UpdateOrderBegin", paras, CommandType.StoredProcedure) > 0;
+            errinfo = paras[0].Value.ToString();
+
+            return bl;
+        }
+
         public bool UpdateOrderStatus(string orderid, int status, string time, decimal price, string operateid,string clientid, out string errinfo)
         {
             errinfo = "";

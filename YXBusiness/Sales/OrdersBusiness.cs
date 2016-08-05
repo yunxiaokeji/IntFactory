@@ -287,7 +287,6 @@ namespace IntFactoryBusiness
                     model.SendStatusStr = "--";
                 }
 
-
                 if (!string.IsNullOrEmpty(model.BigCategoryID))
                 {
                     var category = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
@@ -814,6 +813,20 @@ namespace IntFactoryBusiness
             {
                 string msg = "标记订单颜色";
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, mark.ToString(), clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderBegin(string orderid, string time, string operateid, string ip, string clientid, out string errinfo)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderBegin(orderid, time, operateid, clientid, out errinfo);
+            if (bl)
+            {
+                string msg = "需求单转为订单，交货日期为：" + time;
+
+
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", clientid);
+                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Orders, EnumLogType.Update, "", operateid, clientid);
             }
             return bl;
         }

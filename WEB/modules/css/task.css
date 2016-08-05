@@ -26,11 +26,7 @@
     display:inline-block;
     color:#999;
 }
-.taskFinishStatus{  
-    color:#999; 
-    font-size:16px;
-    line-height:18px; 
-}
+
 .task-time {
     padding:5px 6px;
     border-radius:5px;
@@ -46,17 +42,9 @@
     border:1px solid #eee;
 }
 
-.content-title ul li { 
-    float:left; 
-    height:50px; 
-    border-left:solid 1px #eee; 
-    font-size:14px; 
-    color:#666; 
-    padding:0 20px; 
-}
-.content-title ul .iconfont { 
-    font-size:20px;
-}
+.content-title ul li { float: left; height: 50px; border-left: solid 1px #eee; font-size: 14px; color: #666; padding: 0 20px; }
+.content-title ul li span{ font-size:14px; color:#666; }
+.content-title ul .iconfont { font-size: 20px; }
 
 /*任务样图信息*/
 .order-imgs-div {
@@ -279,19 +267,14 @@
 
 .process-info .info{ font-size:16px; height:25px; line-height:25px;}
 
-.status-desc li{ float:left; padding:0 6px; margin:5px 20px 10px 0; border-left:solid 1px #ccc; border-left-width:10px; }
-.status-desc  li.ing{ border-color: #45BF67;}
-.status-desc  li.over{ border-color: #3A7DE5;}
-
 .process-stages .stage-items { }
-.process-stages .stage-items  li{ float:left; width:120px;padding:5px 10px; position:relative;
-                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc; border-left-width:10px; }
+.process-stages .stage-items  li{ float:left; width:150px;padding:5px 10px; position:relative;
+                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc;  }
 
 .process-stages .stage-items  li.ing{ border-color: #45BF67;}
 .process-stages .stage-items  li.over{ border-color: #3A7DE5;}
 
-.process-stages .stage-items  li span{ display:block; font-size:12px; height:25px; line-height:25px; width:120px; color:#333;}
-.process-stages .stage-items  li .status { color:#999; }
+.process-stages .stage-items  li span{ display:block; font-size:12px; height:25px; line-height:25px; width:150px; color:#333;}
 .process-stages .stage-items  li.ing .status { color: #45BF67;}
 .process-stages .stage-items  li.over .status { color: #3A7DE5;}
 

@@ -521,6 +521,23 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UpdateOrderBegin(string orderid, string time)
+        {
+            string errinfo = "";
+            if (!string.IsNullOrEmpty(time))
+            {
+                time = Convert.ToDateTime(time).ToString("yyyy-MM-dd") + " 23:59:59";
+            }
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderBegin(orderid, time, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out errinfo);
+            JsonDictionary.Add("status", bl);
+            JsonDictionary.Add("errinfo", errinfo);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult UpdateOrderStatus(string orderid, int status, string time, decimal price)
         {
             string errinfo = "";
