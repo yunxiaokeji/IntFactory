@@ -1,4 +1,5 @@
 ﻿
+
 /*                   订单详情-订单状态记录                          */
 .status-items {  }
 .status-items li{ float:left;  position:relative; height:40px; margin-left:-24px; }
@@ -128,7 +129,12 @@
 .typetitle:first-child {height:46px;}
 
 /*翻单次数*/
-.repeatorder-times {width:20px;height:20px;border-radius:50%;border:1px solid #ccc;text-align:center;line-height:20px;margin-top:12px;color:#fff;background-color:#ccc;}
+.repeatorder-times {width:20px;height:20px;border-radius:50%;border:1px solid #ccc;text-align:center;line-height:20px;margin-top:14px;color:#fff;background-color:#ccc;}
+
+/*下单明细*/
+.child-product-table { border-top:solid 1px #ddd; border-left:solid 1px #ddd; }
+.child-product-table .tr-header{ background-color:#eee; }
+.child-product-table td{ border-right:solid 1px #ddd; }
 
 /*价格区间设置*/
 .center-range { width:457px;margin-top:-15px;}

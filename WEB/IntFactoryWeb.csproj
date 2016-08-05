@@ -322,7 +322,6 @@
     <Content Include="modules\plug\colormark\style.css" />
     <Content Include="modules\plug\detaillayer\detaillayer.html" />
     <Content Include="modules\plug\detaillayer\detaillayer.js" />
-    <Content Include="modules\template\orders\order-baseinfo.html" />
     <Content Include="modules\template\orders\createorder-checkattr.html" />
     <Content Include="modules\template\products\product-baseinfo.html" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />

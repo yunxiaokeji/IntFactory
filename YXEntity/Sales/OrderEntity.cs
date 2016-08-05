@@ -45,6 +45,8 @@ namespace IntFactoryEntity
 
         public int PlanQuantity { get; set; }
 
+        public int SendQuantity { get; set; }
+
         public string OrderImage { get; set; }
 
         public int Status { get; set; }

@@ -38,7 +38,11 @@
         }
         else if (model.IsSelf && model.Status == 2)
         { 
-            <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnEndOrder">完成核价</div>
+            <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="changeOrderStatus">完成核价</div>
+        }
+        else if (model.IsSelf && model.Status == 3)
+        { 
+            <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="changeOrderStatus">大货下单</div>
         }
     </div>
 </div>
@@ -84,11 +88,6 @@
                 <i title="更换负责人" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner">&#xe60b;</i>
             }
         </li>
-
-        @if (model.OrderStatus == 2)
-        {
-           
-        }
     </ul>
 </div>
 
@@ -115,7 +114,7 @@
             </li>
             <li>
                 <span class="column-title">期望价格：</span>
-                <label>@(model.PlanPrice)</label>
+                <label>@(model.PlanPrice.ToString("f2"))</label>
             </li>
             <li>
                 <span class="column-title">材料成本：</span>
@@ -361,10 +360,10 @@
     </li>
     @if (model.OrderStatus == 1)
     {    
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m=>m.Mark==16).FirstOrDefault().Name)" id="addOtherCost">
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m=>m.Mark==16).FirstOrDefault().Name)录入" id="addOtherCost">
             @(modules.Where(m=>m.Mark==16).FirstOrDefault().Name)录入
         </li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m=>m.Mark==15).FirstOrDefault().Name)" id="btnSendDYOrder">
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m=>m.Mark==15).FirstOrDefault().Name)录入" id="btnSendDYOrder">
             @(modules.Where(m=>m.Mark==15).FirstOrDefault().Name)录入
         </li>
     }

@@ -263,29 +263,29 @@
          if (taskModel.IsRoot)
          {
              //裁剪
-             if (task.Mark == 13 && order.CutStatus != 2&&order.OrderType==2)
+            if (task.Mark == 13 && order.CutStatus != 2&&order.OrderType==2)
             {
-                 <div class="btn part-btn right" id="btnCutoutOrder" style="display:none;">@(taskDescs.Find(m=>m.Mark==13).Name)录入</div>  
+                 <div class="btn part-btn right" id="btnCutoutOrder">@(taskDescs.Find(m=>m.Mark==13).Name)录入</div>  
                  <div class="btn part-btn right mRight10" id="btnMaterialOrder">用料登记</div>                       
             }
             //车缝
              else if (task.Mark == 14 && order.OrderType == 2)
             {
-                <div class="btn part-btn right"  id="btnSewnOrder" style="display:none;">@(taskDescs.Find(m=>m.Mark==14).Name)录入</div>
+                <div class="btn part-btn right"  id="btnSewnOrder">@(taskDescs.Find(m=>m.Mark==14).Name)录入</div>
             }
             //发货
              else if (task.Mark == 15 && order.OrderType == 1)
             {
-                <div class="btn part-btn right" id="btnSendDYOrder" style="display:none;">订单@(taskDescs.Find(m=>m.Mark==15).Name)</div>
+                <div class="btn part-btn right" id="btnSendDYOrder">订单@(taskDescs.Find(m=>m.Mark==15).Name)</div>
             }
              else if (task.Mark == 15 && order.SendStatus != 2 && order.OrderType == 2)
             {
-                <div class="btn part-btn right hide" id="btnSendOrder" style="display:none;">订单@(taskDescs.Find(m=>m.Mark==15).Name)</div>
+                <div class="btn part-btn right hide" id="btnSendOrder">订单@(taskDescs.Find(m=>m.Mark==15).Name)</div>
             }
             //加工成本
             else if(task.Mark==16)
             {
-                <div class="btn part-btn right" id="addOtherCost" style="display:none;">添加@(taskDescs.Find(m=>m.Mark==16).Name)</div>
+                <div class="btn part-btn right" id="addOtherCost">添加@(taskDescs.Find(m=>m.Mark==16).Name)</div>
             }
         }
      }
