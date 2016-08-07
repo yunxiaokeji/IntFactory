@@ -46,28 +46,29 @@
 
 <div class="content-title">
     <div class="left repeatorder-times hand" data-turntime="@(model.TurnTimes == null ? 1 : model.TurnTimes)">@(model.TurnTimes == null ? 1 : model.TurnTimes)</div>
-    <div class="left mLeft10 titlename">款式编码：@(model.IntGoodsCode)</div>
+     @if (!string.IsNullOrEmpty(model.OriginalID))
+     {
+          <div class="left mLeft10 titlename">款式编码：<a href="/Orders/OrderDetail/@(model.OriginalID)" class="font14">@(model.IntGoodsCode)</a></div>      
+     }
+     else
+     {
+         <div class="left mLeft10 titlename">款式编码：@(model.IntGoodsCode)</div> 
+         if (model.Status == 0)
+         {   
+             <div class="btn left mLeft10 mTop10 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="bindOriginalOrder">绑定已有款式</div>   
+         }   
+     }
+    
     @if (model.IsSelf && model.OrderStatus < 2)
     {
         <div id="updateOrderInfo" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
     }
     <ul class="right">
-        <li title="来源打样单">
-            @if (string.IsNullOrEmpty(model.OriginalID) && model.IsSelf)
-            {
-                <div class="btn @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="bindOriginalOrder">绑定已有款式</div> 
-            }
-            else
-            {
-                <span>打样单：</span>
-                <a href="/Orders/OrderDetail/@(model.OriginalID)" class="font14">@(model.OriginalCode)</a>
-            }
-        </li>
         <li>
-            <span class="left">品类：@(model.ProcessCategoryName)</span>
+            <span class="left">加工品类：@(model.ProcessCategoryName)</span>
             @if (model.IsSelf && model.OrderStatus == 0 && string.IsNullOrEmpty(model.OriginalID))
             {
-                <i title="更换订单品类" class="iconfont change-ico left mTop2 mLeft5 btn-change-process-category" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)">&#xe60b;</i>
+                <i title="更换订单加工品类" class="iconfont change-ico left mTop2 mLeft5 btn-change-process-category" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)">&#xe60b;</i>
             }
         </li>
         <li title="订单类别">
@@ -118,7 +119,7 @@
             </li>
             <li class="">
                 <span class="column-title">加工成本(单)：</span>
-                <label id="lblCostMoney">@((model.CostPrice*model.PlanQuantity).ToString("f2"))</label>
+                <label id="lblCostMoney">@((model.CostPrice * model.PlanQuantity).ToString("f2"))</label>
             </li>
             <li class="">
                 <span class="column-title">单价：</span>
@@ -134,7 +135,7 @@
             </li>
             <li class="">
                 <span class="column-title">订单金额：</span>
-                <label id="totalMoney" class="left">@((model.FinalPrice*model.PlanQuantity).ToString("f2"))</label>
+                <label id="totalMoney" class="left">@((model.FinalPrice * model.PlanQuantity).ToString("f2"))</label>
                 @*@if (model.IsSelf && model.Status < 7 && model.Status > 4)
                 { 
                     <div id="updateOrderTotalMoney" title="编辑订单总金额" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
