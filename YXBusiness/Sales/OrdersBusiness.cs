@@ -53,13 +53,17 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<OrderEntity> GetOrders(string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientid)
+        public List<OrderEntity> GetOrders(string keyWords,string categoryid,int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
             string where = " ClientID='" + clientid + "' and  OrderType=1 and Status= " + (int)EnumOrderStageStatus.FYFJ;
             if (!string.IsNullOrEmpty(keyWords))
             {
                 where += "and (OrderCode like '%" + keyWords + "%' or Title like '%" + keyWords + "%' or PersonName like '%" + keyWords + "%' or IntGoodsCode like '%" + keyWords + "%' or GoodsCode like '%" + keyWords + "%')";
+            }
+            if (!string.IsNullOrEmpty(categoryid))
+            {
+                where += " and (CategoryID='" + categoryid + "')";
             }
             DataTable dt = CommonBusiness.GetPagerData("Orders", "*", where, "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
             foreach (DataRow dr in dt.Rows)

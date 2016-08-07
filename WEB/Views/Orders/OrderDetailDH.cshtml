@@ -53,7 +53,7 @@
     }
     <ul class="right">
         <li title="来源打样单">
-            @if (string.IsNullOrEmpty(model.OriginalID) && model.IsSelf && model.OrderGoods.Count == 0)
+            @if (string.IsNullOrEmpty(model.OriginalID) && model.IsSelf)
             {
                 <div class="btn @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="bindOriginalOrder">绑定已有款式</div> 
             }

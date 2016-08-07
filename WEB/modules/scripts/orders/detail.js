@@ -355,6 +355,7 @@
             var _this = $(this);
             ChooseOrder.create({
                 title: "绑定打样订单",
+                categoryid: _self.model.OrderGoods.length > 0 ? _self.model.CategoryID : "",
                 callback: function (items) {
                     if (items.length > 0) {
                         Global.post("/Orders/UpdateOrderOriginalID", {
@@ -1709,11 +1710,15 @@
                             Easydialog.close();
                             Global.post("/Finance/SaveOrderBillingPay", { entity: JSON.stringify(entity) }, function (data) {
                                 if (data.status) {
-                                    alert("收款登记成功!");
-                                    $("#infoPayMoney").html(($("#infoPayMoney").html() * 1 + entity.PayMoney * 1).toFixed(2));
+                                    alert("登记成功!");
+                                    if (entity.Type == 2) {
+                                        $("#infoPayMoney").html(($("#infoPayMoney").html() * 1 + entity.PayMoney * 1).toFixed(2));
+                                    } else {
+                                        $("#infoPayMoney").html(($("#infoPayMoney").html() * 1 - entity.PayMoney * 1).toFixed(2));
+                                    }
                                     _self.getPays()
                                 } else {
-                                    alert("网络异常,请稍后重试!");
+                                    alert("登记失败,请稍后重试!");
                                 }
                             });
                         });
