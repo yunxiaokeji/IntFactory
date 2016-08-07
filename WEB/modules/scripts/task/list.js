@@ -289,7 +289,7 @@
                             }
                             if ($("#UpdateTaskEndTime").val() == "") {
                                 alert("任务到期时间不能为空");
-                                return;
+                                return false;
                             }
                             confirm(showMsg, function () {
                                 Global.post("/Task/UpdateTaskEndTime", {
@@ -307,7 +307,7 @@
                                     }
                                     else {
                                         alert("接受成功");
-                                        $(".btn-accept[data-id=" + taskid + "]").next(0).html('结束日期：' + new Date($("#UpdateTaskEndTime").val()).toString('yyyy-MM-dd'));
+                                        $(".btn-accept[data-id=" + taskid + "]").next().html('结束日期：' + new Date($("#UpdateTaskEndTime").val()).toString('yyyy-MM-dd'));
                                         $(".btn-accept[data-id=" + taskid + "]").parents('tr').find('.accept-status').html('进行中').css({ "color": "#02C969" });
                                         $(".btn-accept[data-id=" + taskid + "]").parents('tr').find('.accept-date').html(new Date().toString('yyyy-MM-dd'));
                                         $(".btn-accept[data-id=" + taskid + "]").unbind().html("进行中").removeClass('btn').removeClass('btn-accept').css({ "color": "#02C969" });

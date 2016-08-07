@@ -179,7 +179,6 @@ define(function (require, exports, module) {
                     }
                     else {
                         $("#changeTaskOwner").hide();
-                        $(".tast-link-controller").attr("href", "javascript:void(0)");
                     }
 
                     //初始化任务讨论
