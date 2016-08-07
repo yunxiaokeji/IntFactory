@@ -70,7 +70,7 @@
             else if (task.Mark == 14 && order.OrderType == 2)
             {
                 //大货车缝
-                Html.RenderPartial("SewnDoc");
+                Html.RenderPartial("SewnDoc", taskDescs.Find(m => m.Mark == 14).Name);
             }
             //加工成本
             if (task.Mark == 16)
