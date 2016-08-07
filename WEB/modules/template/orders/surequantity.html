@@ -1,48 +1,69 @@
 ﻿{%
 	var model = $data;
 %}
-<div class="cart-attrs" id="saleattr">
-    <ul class="table-add product-add" >
-        <li data-id="{%=model.AttrLists[0].AttrID%}" data-text="{%=model.AttrLists[0].AttrName%}" class="productsalesattr">
-            <span class="column-name">{%= model.AttrLists[0].AttrName%}：</span>
-            {%
-            for(var ii=0, jj=model.AttrLists[0].AttrValues.length; ii < jj; ii++){
-	            var value = model.AttrLists[0].AttrValues[ii];
-            %}
-                <label class="mRight10"><input type="checkbox" class="attritem" data-id="{%=model.AttrLists[0].AttrID%}" data-text="{%=value.ValueName%}" value="{%=value.ValueID%}" />{%=value.ValueName%}</label> 
- 
-            {% } %}
-        </li>
-    {%
-        for(var i=0, j=model.SaleAttrs.length; i < j; i++){
-	        var attr = model.SaleAttrs[i];
-    %}
-        <li data-id="{%=attr.AttrID%}" data-text="{%= attr.AttrName%}" class="productsalesattr">
-            <span class="column-name">{%= attr.AttrName%}：</span>
-            {%
-            for(var ii=0, jj=attr.AttrValues.length; ii < jj; ii++){
-	            var value = attr.AttrValues[ii];
-            %}
-                <label class="mRight10"><input type="checkbox" class="attritem" data-id="{%= attr.AttrID%}" data-text="{%=value.ValueName%}" value="{%=value.ValueID%}" />{%=value.ValueName%}</label> 
- 
-            {% } %}
-        </li>
-    {% } %}
-        <li id="childGoodsQuantity" style="max-height:200px;  overflow:auto;">
+
+<ul class="easydialog-create" style="max-width:800px;" id="createOrderQuantity" >
+{%
+    for(var i=0, j=model.SaleAttrs.length; i < j; i++){
+	    var attr = model.AttrLists[i];
+%}
+    <li data-id="{%=attr.AttrID%}" data-text="{%= attr.AttrName%}" class="productsalesattr">
+        <span class="width80 left">{%= attr.AttrName%}：</span>
+        <div class="left" style="width:90%;">
+        {%
+        for(var ii=0, jj=attr.AttrValues.length; ii < jj; ii++){
+	        var value = attr.AttrValues[ii];
+        %}
+            <span class="mRight10 hand check-box">
+                <span class="checkbox iconfont mTop2" data-attrid="{%= attr.AttrID%}" data-type="1" data-text="{%=value.ValueName%}" data-id="{%=value.ValueID%}"></span>
+                {%=value.ValueName%}
+            </span> 
+           
+        {% } %}
+        </div>
+        <div class="clear"></div>
+    </li>
+{% } %}
+{%
+    for(var i=0, j=model.SaleAttrs.length; i < j; i++){
+	    var attr = model.SaleAttrs[i];
+%}
+    <li data-id="{%=attr.AttrID%}" data-text="{%= attr.AttrName%}" class="productsalesattr">
+        <span class="width80 left">{%= attr.AttrName%}：</span>
+        <div class="left" style="width:90%;">
+        {%
+        for(var ii=0, jj=attr.AttrValues.length; ii < jj; ii++){
+	        var value = attr.AttrValues[ii];
+        %}
+            <span class="mRight10 hand check-box"> 
+                <span class="checkbox iconfont mTop2" data-attrid="{%= attr.AttrID%}"  data-type="2" data-text="{%=value.ValueName%}" data-id="{%=value.ValueID%}"></span>
+                {%=value.ValueName%}
+            </span> 
+           
+        {% } %}
+        </div>
+        <div class="clear"></div>
+    </li>
+{% } %}
+    <li id="childGoodsQuantity" style="max-height:200px;  overflow:auto;">
          
-        </li>
-        <li>
-            <span>样衣报价：</span>
-            <label id="lblOrderFinalPrice"></label>
-        </li>
-        <li>
-            <span>下单折扣：</span>
-            <input type="text" value="1.00" class="width60" data-value="1.00" id="iptOrderDiscount" />
-        </li>
-        <li>
-            <span>单件金额：</span>
-            <input type="text" class="width60" data-value="" id="iptOrderNewPrice" />
-        </li>
-    </ul>
-</div>
+    </li>
+    <li>
+        <span class="width80">打样报价：</span>
+        <label id="lblOrderFinalPrice"></label>
+    </li>
+    <li>
+        <span class="width80">下单折扣：</span>
+        <input type="text" value="1.00" class="width60" data-value="1.00" id="iptOrderDiscount" />
+    </li>
+    <li>
+        <span class="width80">大货单价：</span>
+        <input type="text" class="width60" data-value="" id="iptOrderNewPrice" />
+    </li>
+    <li>
+        <span class="width80 red">注意：</span>
+        
+        <label class="red">下单数量提交后不可编辑，请仔细核对</label>
+    </li>
+</ul>
 

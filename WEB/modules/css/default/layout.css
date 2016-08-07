@@ -423,12 +423,12 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .checkbox:before { content:"\e626"}
 .checkbox { width:16px; height:16px; display:inline-block; background-color:#fff; color:#fff; border:solid 1px #ccc; text-align:center; border-radius:2px; 
                 cursor:pointer; box-shadow:0 0 1px #ccc inset; font-size:14px !important; line-height:16px !important;vertical-align:middle; }
-.checkbox.hover {border:solid 2px #4a98e7; background-color:#4a98e7; }
+.checkbox.hover {border:solid 1px #4a98e7; background-color:#4a98e7; }
 
 
 /*单选框*/
 .ico-radiobox { width:20px; height:20px; display:inline-block; background-color:#fff; border:solid 1px #ccc; text-align:center; border-radius:11px;
-                cursor:pointer; box-shadow:0 0 1px #ddd inset; line-height:20px !important;}
+                cursor:pointer; box-shadow:0 0 2px #ddd inset; line-height:20px !important;}
 
 .ico-radiobox.hover span{ background-color:#4a98e7; display:inline-block; height:12px; width:12px; border-radius:6px; margin-top:4px; }
 

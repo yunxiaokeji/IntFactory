@@ -230,7 +230,7 @@ namespace YXERP.Controllers
             taskModel.IsRoot = (task.Status != 8 && (task.FinishStatus == 1 || task.LockStatus==2) && (taskModel.IsEditTask || taskModel.IsTaskOwner) );
             ViewBag.TaskModel = taskModel;
             if (order.OrderType == 2) {
-               order.OrderGoods=OrdersBusiness.BaseBusiness.GetOrderGoods(order.OrderID);
+                order.OrderGoods = OrdersBusiness.BaseBusiness.GetOrderGoods(order.OrderID);
             }
 
             return View();

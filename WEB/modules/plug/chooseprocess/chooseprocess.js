@@ -23,6 +23,7 @@ define(function (require, exports, module) {
     PlugJS.prototype.default = {
         title:"选择流程", //标题
         type: 1,
+        categoryid: "",
         callback: null   //回调
     };
 
@@ -49,7 +50,9 @@ define(function (require, exports, module) {
                                         name: _this.data("name"),
                                         categoryid: _this.data("categoryid")
                                     };
-                                    list.push(model);
+                                    if (!_self.setting.categoryid || _self.setting.categoryid == _this.data("categoryid")) {
+                                        list.push(model);
+                                    }
                                 }
                             })
                             _self.setting.callback && _self.setting.callback(list);
@@ -84,6 +87,12 @@ define(function (require, exports, module) {
                     }
                 });
                 $(".customerlist-all .customerlist-items").append(innerHtml);
+
+                if (_self.setting.categoryid) {
+                    $(".customerlist-all .customerlist-items li[data-id!='" + _self.setting.categoryid + "']").remove();
+                    $(".chooseprocess-header .process-category[data-id!='" + _self.setting.categoryid + "']").remove();
+                    $(".chooseprocess-header .process-category[data-id='" + _self.setting.categoryid + "']").addClass("hover");
+                }
             });
 
             $(".chooseprocess-header .process-category").click(function () {

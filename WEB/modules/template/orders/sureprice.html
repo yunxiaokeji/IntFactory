@@ -1,8 +1,38 @@
-﻿
+﻿{%
+    var item=$data;
+%}
 <ul class="easydialog-create">
     <li>
-        <span class="width80">价格：</span>
+        <span class="width80">款式编码：</span>
+        <span class="{%=item.IntGoodsCode?'':'red'%}">{%=item.IntGoodsCode?item.IntGoodsCode:"未设置"%}</span>
+    </li>
+    <li>
+        <span class="width80">款式名称：</span>
+        <span class="{%=item.GoodsName?'':'red'%}">{%=item.GoodsName?item.GoodsName:"未设置"%}</span>
+    </li>
+    <li>
+        <span class="width80">客户名称：</span>
+        <span>{%=item.Customer?item.Customer.Name:"--"%}</span>
+    </li>
+    <li>
+        <span class="width80">材料成本：</span>
+        <span>{%=item.Price%}</span>
+    </li>
+    <li>
+        <span class="width80">加工成本：</span>
+        <span>{%=item.CostPrice%}</span>
+    </li>
+    <li>
+        <span class="width80">利润比例：</span>
+        <span>{%=(item.ProfitPrice * 100).toFixed(2)%}%</span>
+    </li>
+    <li>
+        <span class="width80">最终报价：</span>
         <span><input type="text" maxlength="10" id="iptFinalPrice"  value="" /></span> 
+    </li>
+    <li>
+        <span class="width80 red">注意：</span>
+        <span class="red">核价后订单结束，请确认数据是否输入正确</span>
     </li>
 </ul>
 

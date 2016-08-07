@@ -26,7 +26,7 @@
     ///finishStatus：任务完成状态
     ///attrValues:订单品类属性
     ///orderType:订单类型
-    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID, orderPlanTime, plateMarkItems,taskDescs) {
+    ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID, orderPlanTime, plateMarkItems, taskDescs) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
         if (plateMarkItems) {
             plateMartingItem = JSON.parse(plateMarkItems.replace(/&quot;/g, '"'));
@@ -121,9 +121,7 @@
         }
 
         TalkReply = require("scripts/task/reply");
-        TalkReply.initTalkReply(ObjectJS, 'task',1);
-
-        $(".part-btn").hide();
+        TalkReply.initTalkReply(ObjectJS, 'task', 1);
 
         //事件绑定
         ObjectJS.bindBaseEvent();
@@ -187,10 +185,6 @@
             _this.addClass("hover").siblings().removeClass("hover");
             $("#navTask").children().hide();
             $("#" + _this.data("id")).show();
-            $(".part-btn").hide();
-            if (_this.data("btn")) {
-                $("#" + _this.data("btn")).show();
-            }
 
             if (_this.data("id") == "orderTaskLogs") {
                 if (!_this.data("isget")) {                    
@@ -1787,12 +1781,13 @@
                 header: "新增制版类型",
                 content: innerHtml,
                 yesFn: function () {
-                    var isContinue = true;
+                   
                     var existsText="";
                     var items = [];
                     $("#setTaskPlateMarting li.hover").each(function () {
                         var _this = $(this);
-                        items.push({ type: _this.data('type'), text: _this.data('text') });
+                        var isContinue = true;
+                        
                         $(".tb-plates .table-header").each(function () {
                             if (_this.text().trim() == $(this).find('.plate-name').data('name')) {
                                 isContinue = false;
@@ -1800,18 +1795,18 @@
                                 return false;
                             }
                         });
+                        if (isContinue) {
+                            items.push({ type: _this.data('type'), text: _this.data('text') });
+                        }
                     });
 
-                    if (!isContinue) {
-                        alert("制版类型<span class='red'>" + existsText + "</span>已存在");
-                        return false;
-                    }
+                    
                     if (items.length > 0) {
                         var innerAddHtml = "";
                         for (var i = 0; i < items.length; i++) {
                             var item = items[i];
                             innerAddHtml += '<tr class="table-header tr-header"><td class="font14 tLeft width300 bold plate-name" data-name="'+item.text+'">工艺类型：' + item.text + '</td> <td class="bold">名称</td>  <td class="tLeft bold">描述</td><td class="width150 bold">创建时间</td><td class="center width150 bold">操作</td></tr>';
-                            innerAddHtml += '<tr class="list-item"><td colspan="5" class="center" style="padding:0 0 5px 0;"><div class="add-plate font16 color999 hand hBlue" style="text-indent:0;line-height:50px;" data-typename="' + item.text + '">+添加' + item.text + '工艺</div></td></tr>';
+                            innerAddHtml += '<tr class="list-item"><td colspan="5" class="center" style="padding:0 0 5px 0;"><div class="add-plate font16 hand hBlue" style="text-indent:0;line-height:50px;" data-typename="' + item.text + '">+添加' + item.text + '工艺</div></td></tr>';
                         }
                         innerAddHtml = $(innerAddHtml);
                         innerAddHtml.find('.add-plate').click(function () {

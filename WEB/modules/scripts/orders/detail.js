@@ -14,7 +14,7 @@
     require("pager");
     require("colormark");
 
-    var ObjectJS = {};
+    var ObjectJS = {}, CacheItems = [];;
 
     ObjectJS.init = function (orderid, status, model,list) {
         var _self = this;
@@ -105,42 +105,38 @@
                 alert("需求单尚未绑定流程，不能转为订单");
                 return;
             }
-            if (_self.model.OrderType == 1) {
-                doT.exec("template/orders/sure_plan_time.html", function (template) {
-                    var innerText = template(_self.model);
-                    Easydialog.open({
-                        container: {
-                            id: "show_sure_plan_time",
-                            header: "需求单转为订单",
-                            content: innerText,
-                            yesText: "确认转为订单",
-                            yesFn: function () {
-                                var time = $("#iptPlanTime").val().trim();
-                                if (!time) {
-                                    alert("请确认交货日期！");
-                                    return false;
-                                }
-                                _self.updateOrderBegin(time);
-                            },
-                            callback: function () {
-
+            doT.exec("template/orders/sure_plan_time.html", function (template) {
+                var innerText = template(_self.model);
+                Easydialog.open({
+                    container: {
+                        id: "show_sure_plan_time",
+                        header: "需求单转为订单",
+                        content: innerText,
+                        yesText: "确认转为订单",
+                        yesFn: function () {
+                            var time = $("#iptPlanTime").val().trim();
+                            if (!time) {
+                                alert("请确认交货日期！");
+                                return false;
                             }
-                        }
-                    });
-                    laydate({
-                        elem: '#iptPlanTime',
-                        format: 'YYYY-MM-DD',
-                        min: laydate.now(),
-                        max: "",
-                        istime: false,
-                        istoday: true
-                    });
-                    var date = (new Date(_self.model.PlanTime.toDate("yyyy-MM-dd")).getTime() - new Date().getTime()) < 0 ? new Date().toString('yyyy-MM-dd') : _self.model.PlanTime.toDate("yyyy-MM-dd");
-                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : date);
-                });
-            } else {
+                            _self.updateOrderBegin(time);
+                        },
+                        callback: function () {
 
-            }
+                        }
+                    }
+                });
+                laydate({
+                    elem: '#iptPlanTime',
+                    format: 'YYYY-MM-DD',
+                    min: laydate.now(),
+                    max: "",
+                    istime: false,
+                    istoday: true
+                });
+                var date = (new Date(_self.model.PlanTime.toDate("yyyy-MM-dd")).getTime() - new Date().getTime()) < 0 ? new Date().toString('yyyy-MM-dd') : _self.model.PlanTime.toDate("yyyy-MM-dd");
+                $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : date);
+            });
         });
 
         //更换品类流程
@@ -156,6 +152,7 @@
             ChooseProcess.create({
                 title: "更换品类流程",
                 type: _self.model.OrderType,
+                categoryid: (_self.model.OrderType == 2 && _self.model.OriginalID) ? _self.model.BigCategoryID : "",
                 callback: function (items) {
                     if (items.length > 0) {
                         if (_this.data("processid") != items[0].id) {
@@ -307,7 +304,13 @@
 
         //确认大货明细
         $("#confirmDHOrder").click(function () {
-            _self.createDHOrder(true);
+            if (!_self.model.OriginalID) {
+                confirm("您尚未绑定打样单，确认大货明细后不能再绑定打样单，且订单类别不可变更，确认继续操作吗？", function () {
+                    _self.createDHOrder(true);
+                });
+            } else {
+                _self.createDHOrder(true);
+            }
         });
 
         if ($(".repeatorder-times").length > 0) {
@@ -400,83 +403,33 @@
         //更改订单状态
         $("#changeOrderStatus").click(function () {
             var _this = $(this);
-            //开始大货(无)
-            if (_self.model.OrderType == 2 && _self.status == 0) {
-                $("#bindOriginalOrder").click();
-            }//合价完成
-            else if (_self.status == 2) {
-                var DetailLayer = require("detaillayer");
-                doT.exec("template/orders/order-baseinfo.html", function (template) {
-                    var innerHtml = template(_self.model);
-                    innerHtml = $(innerHtml);
-                    DetailLayer.create({
-                        content: innerHtml,
-                        title:"订单明细",
-                        yesFn: function () {
-                            $(".confim-dialog").remove();
-                            doT.exec("template/orders/sureprice.html", function (template) {
-                                var innerText = template();
-                                Easydialog.open({
-                                    container: {
-                                        id: "show-surequantity",
-                                        header: "确认打样价格",
-                                        content: innerText,
-                                        yesFn: function () {
-                                            var price = $("#iptFinalPrice").val().trim();
-                                            if (!price.isDouble() || price <= 0) {
-                                                alert("价格必须为大于0的数字！");
-                                                return false;
-                                            }
-                                            _self.updateOrderStatus(3, 0, price);
-                                        },
-                                        callback: function () {
-
-                                        }
-                                    }
-                                });
-                                $("#iptFinalPrice").focus();
-                                $("#iptFinalPrice").val((($("#productMoney").text() * 1 + $("#lblCostMoney").text() * 1) * (1 + $("#profitPrice").text() / 100)).toFixed(2))
-                            });
-
-                        }
-                    });
-                });
-            } //大货下单
-            else if (_self.status == 3) {
-                _self.createDHOrder(false);
-            }//开始生产
-            else if (_self.status == 4) {
-                doT.exec("template/orders/sure_plan_time.html", function (template) {
-                    var innerText = template();
+            if (_self.status == 2) {
+                doT.exec("template/orders/sureprice.html", function (template) {
+                    var innerText = template(_self.model);
                     Easydialog.open({
                         container: {
-                            id: "show_sure_plan_time",
-                            header: "确认大货单交货日期",
+                            id: "show-surequantity",
+                            header: "订单核价",
                             content: innerText,
                             yesFn: function () {
-                                var time = $("#iptPlanTime").val().trim();
-                                if (!time) {
-                                    alert("请确认交货日期！");
+                                var price = $("#iptFinalPrice").val().trim();
+                                if (!price.isDouble() || price <= 0) {
+                                    alert("价格必须为大于0的数字！");
                                     return false;
                                 }
-                                _self.updateOrderStatus(5, time, 0);
+                                _self.updateOrderStatus(3, 0, price);
                             },
                             callback: function () {
 
                             }
                         }
                     });
-                    laydate({
-                        elem: '#iptPlanTime',
-                        format: 'YYYY-MM-DD',
-                        min: laydate.now(),
-                        max: "",
-                        istime: false,
-                        istoday: true
-                    });
-                    var date = (new Date(_self.model.PlanTime.toDate("yyyy-MM-dd")).getTime() - new Date().getTime()) < 0 ? new Date().toString('yyyy-MM-dd') : _self.model.PlanTime.toDate("yyyy-MM-dd");
-                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : date);
+                    $("#iptFinalPrice").focus();
+                    $("#iptFinalPrice").val((($("#productMoney").text() * 1 + $("#lblCostMoney").text() * 1) * (1 + $("#profitPrice").text() / 100)).toFixed(2))
                 });
+            } //大货下单
+            else if (_self.status == 3) {
+                _self.createDHOrder(false);
             }//发货
             else if (_self.status == 5) {
                 _self.sendGoods();
@@ -501,22 +454,22 @@
 
         //裁剪录入
         $("#btnCutoutOrder").click(function () {
-            _self.cutOutGoods();
+            _self.cutOutGoods($(this));
         });
 
         //车缝录入
         $("#btnSewnOrder").click(function () {
-            _self.sewnGoods();
+            _self.sewnGoods($(this));
         });
 
         //发货录入
         $("#btnSendDYOrder").click(function () {
-            _self.sendOrders();
+            _self.sendOrders($(this));
         });
 
-        //打样单发货
+        //发货
         $("#btnSendOrder").click(function () {
-            _self.sendGoods();
+            _self.sendGoods($(this));
         });
 
         //付款登记
@@ -593,7 +546,7 @@
                     Easydialog.open({
                         container: {
                             id: "bindOrderCategoryBox",
-                            header: "绑定订单类别",
+                            header: "更换订单类别",
                             content: innerText,
                             yesFn: function () {
                                 if ($("#bindOrderCategoryBox li .ico-radiobox.hover").length == 0) {
@@ -680,7 +633,7 @@
 
         //添加成本
         $("#addOtherCost").click(function () {
-            _self.addOtherCosts();
+            _self.addOtherCosts($(this));
         })
 
         //车缝退回操作
@@ -806,7 +759,7 @@
     }
 
     //添加成本
-    ObjectJS.addOtherCosts = function () {
+    ObjectJS.addOtherCosts = function (btnObject) {
         var _self = this;
         doT.exec("template/orders/add-order-cost.html", function (template) {
             var innerText = template({});
@@ -814,7 +767,7 @@
             Easydialog.open({
                 container: {
                     id: "addOrderCostBox",
-                    header: "添加成本",
+                    header: btnObject.data("name"),
                     content: innerText,
                     yesFn: function () {
                         if (!$("#iptCostPrice").val() || $("#iptCostPrice").val() * 1 <= 0) {
@@ -831,7 +784,7 @@
                             remark: $("#iptCostDescription").val()
                         }, function (data) {
                             if (data.status) {
-                                alert("成本添加成功！");
+                                alert("保存成功！");
                                 $("#lblCostMoney").text(($("#lblCostMoney").text() * 1 + $("#iptCostPrice").val() * 1).toFixed(2));
                                 _self.getCosts();
                             } else {
@@ -1034,35 +987,40 @@
                     content: innerText,
                     yesFn: function () {
 
-                        var details = [];
-                        $(".child-product-table .list-item").each(function () {
+                        var orderModel = {};
+                        orderModel.OrderID = _self.orderid;
+                        orderModel.OrderGoods = [];
+                        $(".child-product-table .quantity").each(function () {
                             var _this = $(this);
-                            var modelDetail = {
-                                SaleAttr: _this.data("attr"),
-                                AttrValue: _this.data("value"),
-                                SaleAttrValue: _this.data("attrvalue"),
-                                Quantity: _this.find(".quantity").val(),
-                                Description: _this.data("name")
-                            };
-                            details.push(modelDetail);
+                            if (_this.val() > 0) {
+                                var item = CacheItems[_this.data("remark")];
+                                orderModel.OrderGoods.push({
+                                    SaleAttr: item.saleAttr,
+                                    AttrValue: item.attrValue,
+                                    SaleAttrValue: item.ids,
+                                    Quantity: _this.val(),
+                                    XRemark: item.xRemark,
+                                    YRemark: item.yRemark,
+                                    XYRemark: item.xyRemark,
+                                    Remark: item.names
+                                });
+                            }
                         });
-                        if (details.length > 0) {
-                            var orderModel = {};
-                            orderModel.OrderID = _self.orderid;
-                            orderModel.OrderGoods = details;
-                            Global.post("/Orders/CreateDHOrder", {
-                                entity: JSON.stringify(orderModel),
-                                ordertype: _self.model.OrderType,
-                                discount: $("#iptOrderDiscount").val().trim(),
-                                price: $("#iptOrderNewPrice").val().trim()
-                            }, function (data) {
-                                if (data.id) {
-                                    alert("大货下单成功!", "/Orders/OrderDetail/" + data.id);
-                                } else {
-                                    alert("大货下单失败，请刷新页面重试！");
-                                }
-                            });
-                        }
+
+                        Global.post("/Orders/CreateDHOrder", {
+                            entity: JSON.stringify(orderModel),
+                            ordertype: _self.model.OrderType,
+                            discount: $("#iptOrderDiscount").val().trim(),
+                            price: $("#iptOrderNewPrice").val().trim()
+                        }, function (data) {
+                            if (data.id) {
+                                alert("大货下单成功!", "/Orders/OrderDetail/" + data.id);
+                            } else {
+                                alert("大货下单失败，请刷新页面重试！");
+                            }
+                        });
+                        
+
                     },
                     callback: function () {
 
@@ -1099,55 +1057,83 @@
                     _this.val(_this.data("value"));
                 } else if (_this.val() > _self.model.FinalPrice) {
                     confirm("大货价格大于样衣报价，确认继续吗？", function () {
-                        $("#iptOrderDiscount").val((_this.val() / _self.model.FinalPrice).toFixed(2));
+                        if (_self.model.FinalPrice == 0) {
+                            $("#iptOrderDiscount").val(1);
+                        } else {
+                            $("#iptOrderDiscount").val((_this.val() / _self.model.FinalPrice).toFixed(2));
+                        }
                         _this.data("value", _this.val());
                     }, function () {
                         _this.val(_this.data("value"));
                     });
                 } else {
-                    $("#iptOrderDiscount").val((_this.val() / _self.model.FinalPrice).toFixed(2));
+                    if (_self.model.FinalPrice == 0) {
+                        $("#iptOrderDiscount").val(1);
+                    } else {
+                        $("#iptOrderDiscount").val((_this.val() / _self.model.FinalPrice).toFixed(2));
+                    }
                     _this.data("value", _this.val());
                 }
 
             });
+            innerText = $(innerText);
+            ///组合产品
+            $("#createOrderQuantity").find(".check-box").click(function () {
+                var _this = $(this).find(".checkbox");
+                if (_this.hasClass("hover")) {
+                    _this.removeClass("hover");
+                } else {
+                    _this.addClass("hover");
+                }
 
-            //组合下单规格
-            $(".productsalesattr .attritem").click(function () {
-                var bl = false, details = [], isFirst = true;
+                var bl = false, details = [], isFirst = true, xattr = [], yattr = [];
                 $(".productsalesattr").each(function () {
                     bl = false;
                     var _attr = $(this), attrdetail = details;
                     //组合规格
-                    _attr.find("input:checked").each(function () {
+                    _attr.find(".checkbox.hover").each(function () {
                         bl = true;
                         var _value = $(this);
                         //首个规格
                         if (isFirst) {
                             var model = {};
-                            model.ids = _attr.data("id") + ":" + _value.val();
+                            model.ids = _attr.data("id") + ":" + _value.data("id");
                             model.saleAttr = _attr.data("id");
-                            model.attrValue = _value.val();
-                            model.names = "[" + _attr.data("text") + "：" + _value.data("text") + "]";
+                            model.attrValue = _value.data("id");
+                            model.xRemark = _value.data("type") == 1 ? ("【" + _value.data("text") + "】") : "";
+                            model.yRemark = _value.data("type") == 2 ? ("【" + _value.data("text") + "】") : "";
+                            model.xyRemark = "【" + _value.data("text") + "】";
+                            model.names = "【" + _attr.data("text") + "：" + _value.data("text") + "】";
                             model.layer = 1;
-                            model.guid = Global.guid();
                             details.push(model);
+
                         } else {
                             for (var i = 0, j = attrdetail.length; i < j; i++) {
-                                if (attrdetail[i].ids.indexOf(_value.data("id")) < 0) {
+                                if (attrdetail[i].ids.indexOf(_value.data("attrid")) < 0) {
                                     var model = {};
-                                    model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.val();
+                                    model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.data("id");
                                     model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
-                                    model.attrValue = attrdetail[i].attrValue + "," + _value.val();
-                                    model.names = attrdetail[i].names + " [" + _attr.data("text") + "：" + _value.data("text") + "]";
+                                    model.attrValue = attrdetail[i].attrValue + "," + _value.data("id");
+                                    model.xRemark = attrdetail[i].xRemark + (_value.data("type") == 1 ? ("【" + _value.data("text") + "】") : "");
+                                    model.yRemark = attrdetail[i].yRemark + (_value.data("type") == 2 ? ("【" + _value.data("text") + "】") : "");
+                                    model.xyRemark = attrdetail[i].xyRemark + "【" + _value.data("text") + "】";
+                                    model.names = attrdetail[i].names + "【" + _attr.data("text") + "：" + _value.data("text") + "】";
                                     model.layer = attrdetail[i].layer + 1;
-                                    model.guid = Global.guid();
                                     details.push(model);
                                 }
                             }
                         }
+                        //处理二维表
+                        if (_value.data("type") == 1 && xattr.indexOf("【" + _value.data("text") + "】") < 0) {
+                            xattr.push("【" + _value.data("text") + "】");
+                        } else if (_value.data("type") == 2 && yattr.indexOf("【" + _value.data("text") + "】") < 0) {
+                            yattr.push("【" + _value.data("text") + "】");
+                        }
+
                     });
                     isFirst = false;
                 });
+                $("#childGoodsQuantity").empty();
                 //选择所有属性
                 if (bl) {
                     var layer = $(".productsalesattr").length, items = [];
@@ -1155,41 +1141,61 @@
                         var model = details[i];
                         if (model.layer == layer) {
                             items.push(model);
+                            CacheItems[model.xyRemark] = model;
                         }
                     }
-                    $("#childGoodsQuantity").empty();
+                    var tableModel = {};
+                    tableModel.xAttr = xattr;
+                    tableModel.yAttr = yattr;
+                    tableModel.items = items;
+
                     //加载子产品
                     doT.exec("template/orders/orders_child_list.html", function (templateFun) {
-                        var innerText = templateFun(items);
+                        var innerText = templateFun(tableModel);
                         innerText = $(innerText);
                         $("#childGoodsQuantity").append(innerText);
-
-                        Easydialog.toPosition();
-
                         //数量必须大于0的数字
                         innerText.find(".quantity").change(function () {
                             var _this = $(this);
                             if (!_this.val().isInt() || _this.val() <= 0) {
-                                _this.val("1");
+                                _this.val("0");
                             }
-                        });
 
-                        //绑定启用插件
-                        innerText.find(".ico-del").click(function () {
-                            var _this = $(this);
-                            confirm("确认删除此规格吗？", function () {
-                                _this.parents("tr.list-item").remove();
-                            })
+                            var total = 0;
+                            $(".child-product-table .tr-item").each(function () {
+                                var _tr = $(this), totaly = 0;
+                                if (!_tr.hasClass("total")) {
+                                    _tr.find(".quantity").each(function () {
+                                        var _this = $(this);
+                                        if (_this.val() > 0) {
+                                            totaly += _this.val() * 1;
+                                        }
+                                    });
+                                    _tr.find(".total-y").text(totaly);
+                                } else {
+                                    _tr.find(".total-y").each(function () {
+                                        var _td = $(this), totalx = 0;
+                                        $(".child-product-table .quantity[data-x='" + _td.data("x") + "']").each(function () {
+                                            var _this = $(this);
+                                            if (_this.val() > 0) {
+                                                totalx += _this.val() * 1;
+                                            }
+                                        });
+                                        total += totalx;
+                                        _td.text(totalx);
+                                    });
+                                    _tr.find(".total-xy").text(total);
+                                }
+                            });
                         });
                     });
-
                 }
             });
         });
     }
 
     //裁剪录入
-    ObjectJS.cutOutGoods = function () {
+    ObjectJS.cutOutGoods = function (btnObject) {
         var _self = this;
         
         doT.exec("template/orders/cutoutgoods.html", function (template) {
@@ -1197,7 +1203,7 @@
             Easydialog.open({
                 container: {
                     id: "showCutoutGoods",
-                    header: "大货单裁片登记",
+                    header: btnObject.data("name"),
                     content: innerText,
                     yesFn: function () {
                         var details = ""
@@ -1267,7 +1273,7 @@
     };
 
     //车缝录入
-    ObjectJS.sewnGoods = function () {
+    ObjectJS.sewnGoods = function (btnObject) {
         var _self = this;
         doT.exec("template/orders/sewn-goods.html", function (template) {
             var innerText = template(_self.model.OrderGoods);
@@ -1275,7 +1281,7 @@
             Easydialog.open({
                 container: {
                     id: "showSewnGoods",
-                    header: "大货单缝制登记",
+                    header: btnObject.data("name"),
                     content: innerText,
                     yesFn: function () {
                         var details = ""
@@ -1344,7 +1350,7 @@
     };
 
     //发货
-    ObjectJS.sendGoods = function () {
+    ObjectJS.sendGoods = function (btnObject) {
         var _self = this;
         doT.exec("template/orders/sendordergoods.html", function (template) {
             var innerText = template(_self.model.OrderGoods);
@@ -1352,7 +1358,7 @@
             Easydialog.open({
                 container: {
                     id: "showSendOrderGoods",
-                    header: "大货单发货",
+                    header: btnObject.data("name"),
                     content: innerText,
                     yesFn: function () {
 
@@ -1443,7 +1449,7 @@
     };
 
     //打样单发货
-    ObjectJS.sendOrders = function () {
+    ObjectJS.sendOrders = function (btnObject) {
         var _self = this;
         doT.exec("template/orders/send_orders.html", function (template) {
             var innerText = template(_self.model.OrderGoods);
@@ -1451,7 +1457,7 @@
             Easydialog.open({
                 container: {
                     id: "showSendOrderGoods",
-                    header: "打样单发货",
+                    header: btnObject.data("name"),
                     content: innerText,
                     yesFn: function () {
                         if (!$("#expressid").data("id") || !$("#expressCode").val()) {
@@ -1951,7 +1957,7 @@
                     innerhtml = $(innerhtml);
 
                     innerhtml.find(".cost-price").each(function () {
-                        $(this).text($(this).text() * $("#navCosts").data("quantity"))
+                        $(this).text($(this).text() * $("#tab16").data("quantity"))
                     });
 
                     _box.after(innerhtml);
