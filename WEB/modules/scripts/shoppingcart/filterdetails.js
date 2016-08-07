@@ -56,6 +56,7 @@ define(function (require, exports, module) {
         }
         $(".product-name").css("width", $(".content-body").width() - 500);
     }
+
     //绑定事件
     ObjectJS.bindEvent = function (model) {
         var _self = this;
@@ -254,41 +255,27 @@ define(function (require, exports, module) {
             });
 
             //采购
-            $("#purchases").click(function () {
-                $("#addDoc").html("加入" + $(this).text().trim());
-                $("#addDocAndBack").html("加入" + $(this).text().trim() + "并返回");
-                $(".damaged-dropdown").hide();
-                $(".quickly-add-stock").show();
-                $(".dropdown-ul").hide();
-                _self.saveType = $(this).data('type');
-            });
-
-            //报损
-            $("#damaged").click(function () {
-                $("#addDoc").html("加入" + $(this).text().trim());
-                $("#addDocAndBack").html("加入" + $(this).text().trim() + "并返回");
-                if ($("#productStockQuantity").text() * 1 <= 0) {
-                    $(".quickly-add-stock").hide();
-                } else {
-                    if ($(".sales-item li.hover").data('id')) {
-                        ObjectJS.getDepotsByID($(".sales-item li.hover").data('id'));
+            $("#purchases,#damaged,#overflow").click(function () {
+                $("#addDoc").html($(this).text().trim());
+                $("#addDocAndBack").html($(this).text().trim() + "并返回");
+                if ($(this).data('type') == 3) {
+                    if ($("#productStockQuantity").text() * 1 <= 0) {
+                        $(".quickly-add-stock").hide();
+                    } else {
+                        if ($(".sales-item li.hover").data('id')) {
+                            ObjectJS.getDepotsByID($(".sales-item li.hover").data('id'));
+                        }
+                        $(".quickly-add-stock").show();
+                        $(".damaged-dropdown").show();
                     }
+                } else {
                     $(".quickly-add-stock").show();
+                    $(".damaged-dropdown").hide();
                 }
-                $(".damaged-dropdown").show();
                 $(".dropdown-ul").hide();
                 _self.saveType = $(this).data('type');
             });
 
-            //报溢
-            $("#overflow").click(function () {
-                $("#addDoc").html("加入" + $(this).text().trim());
-                $("#addDocAndBack").html("加入" + $(this).text().trim() + "并返回");
-                $(".damaged-dropdown").hide();
-                $(".quickly-add-stock").show();
-                $(".dropdown-ul").hide();
-                _self.saveType = $(this).data('type');
-            });
             //加入单据
             $("#addDoc").click(function () {
                 var _this = $(this);
