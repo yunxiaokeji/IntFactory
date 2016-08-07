@@ -55,10 +55,10 @@
     }
     <ul class="right">
         <li>
-            <span class="left">品类：@(model.ProcessCategoryName)</span>
+            <span class="left">加工品类：@(model.ProcessCategoryName)</span>
             @if (model.IsSelf && model.OrderStatus == 0)
             {
-                <i title="更换订单品类" class="iconfont change-ico left mTop2 mLeft5 btn-change-process-category" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)">&#xe60b;</i>
+                <i title="更换订单加工品类" class="iconfont change-ico left mTop2 mLeft5 btn-change-process-category" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)">&#xe60b;</i>
             }
         </li>
         @if (!string.IsNullOrEmpty(model.CategoryID))
@@ -182,7 +182,8 @@
         <span class="title">详细需求：</span> @(model.Remark.Trim())
     </div>
 </div>
-
+@if (!string.IsNullOrEmpty( model.ProcessID))
+{
 <div class="process-stages">
     <div class="process-info">
         <div class="left info">订单流程：@(model.OrderProcess.ProcessName)</div>
@@ -224,8 +225,8 @@
         }
     </ul>
 </div>
-
-<div class="module-header">
+}
+<div class="module-header mTop20">
     <ul class="module-tab left">
         @foreach (var tab in (List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.Tabs)
         {

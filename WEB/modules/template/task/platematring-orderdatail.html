@@ -4,11 +4,11 @@
 	var item = $data[i];
 %}
     {% if(TypeName!=item.TypeName){ %}
-    <tr class="mTop20 typetitle tr-header">
-        <td  class="font14 pLeft10 item tLeft bold width300">工艺类型：{%=item.TypeName%}</td>
-        <td class="width200 item bold">名称</td>                    
-        <td class="item bold tLeft">描述</td>
-        <td class="item bold width200">创建时间</td>  
+    <tr class="mTop20 item-header">
+        <td class="font14 pLeft10 tLeft bold width300">工艺类型：{%=item.TypeName%}</td>
+        <td class="width200 bold">名称</td>                    
+        <td class="bold tLeft">描述</td>
+        <td class="bold width200">创建时间</td>  
     </tr>
     {% TypeName=item.TypeName } %}
     

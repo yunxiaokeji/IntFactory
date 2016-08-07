@@ -257,12 +257,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetDYOrders(string keywords)
+        public JsonResult GetDYOrders(string keywords, string categoryid)
         {
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOrders(keywords, 10, 1, ref totalCount, ref pageCount, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetOrders(keywords, categoryid, 10, 1, ref totalCount, ref pageCount, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
