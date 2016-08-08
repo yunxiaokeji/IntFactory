@@ -6,11 +6,11 @@
 
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
-    <script src="/modules/plug/umeditor/umeditor.config.js"></script>
+    <script src="/modules/plug/umeditor/ueditor.config.js"></script>
     <script src="/modules/plug/umeditor/umeditor.min.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/products/product"], function (product) {
-            var um = UM.getEditor('remark');
+            var um = UE.getEditor('remark');
             product.init(um, '@(ViewBag.Type)', '@(ViewBag.GUID)', '@(ViewBag.TID)');
         });
     </script>
@@ -96,22 +96,11 @@
         <li class="color666">
             组合设置子产品
         </li>
-@*        @foreach (IntFactoryEntity.ProductAttr attr in model.SaleAttrs)
-        {
-            <li data-id="@attr.AttrID" data-text="@attr.AttrName" class="productsalesattr">
-                <span class="column-name">@attr.AttrName：</span>
-                @foreach (IntFactoryEntity.AttrValue value in attr.AttrValues)
-                {
-                    <label class="mRight10"><input type="checkbox" class="attritem" data-id="@attr.AttrID" data-text="@value.ValueName" value="@value.ValueID" />@value.ValueName</label> 
-                }
-                <label class="mLeft10"><input type="text" id="attrLayout" placeholder="自定义" style="width:50px;text-align:center;" /></label>
-            </li>
-        }*@
         <li class="child-product-li">
          
         </li>
         <li>
-            <span class="column-name">说明：</span><div id="remark"></div>
+            <span class="column-name">说明：</span><div style="margin-left:80px;" id="remark"></div>
         </li>
 
     </ul>
