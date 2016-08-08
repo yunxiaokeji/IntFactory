@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using System.Web.Script.Serialization;
 using IntFactoryBusiness;
 using IntFactoryEntity;
+using IntFactoryEnum;
 using Newtonsoft.Json;
 namespace YXERP.Areas.Api.Controllers
 {
@@ -150,6 +151,20 @@ namespace YXERP.Areas.Api.Controllers
               JsonRequestBehavior = JsonRequestBehavior.AllowGet
           };
         }
+        public JsonResult CreateOrder(string entity, string clientid, string opearid)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
 
+            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID, model.GoodsCode, model.Title, model.PersonName, model.MobileTele, EnumOrderSourceType.FactoryOrder,
+                                                                    (EnumOrderType)model.OrderType, model.OrderGoods, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity, model.PlanTime,
+                                                                     model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, opearid, clientid);
+            JsonDictionary.Add("id", orderid);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
     }
 }
