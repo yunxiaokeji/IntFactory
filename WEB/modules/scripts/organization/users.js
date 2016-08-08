@@ -180,7 +180,7 @@
             var _this = $(this);
             var userid = _this.data("id");
             var tr = $(".list-item .dropdown[data-id=" + _this.data("id") + "]").parent();
-            var showmsg = "确认重置帐号：<span class='red'>" + tr.find('.name').html() + "<span>&nbsp;的密码?";
+            var showmsg = "确认重置员工：<span class='red'>" + tr.find('.name').html() + "<span>&nbsp;的密码?";
             confirm(showmsg, function () {
                 Global.post("/Organization/UpdateUserPwd", {
                     userID:userid,
@@ -411,6 +411,13 @@
             }
         });
 
+        $("#confirmpass").change(function () {
+            var _this = $(this);
+            if (_this.val() != $("#loginpass").val()) {
+                alert("确认密码与原密码不一致");
+            }
+        });
+
         $("#btnSave").click(function () {
             if (!VerifyObject.isPass()) {
                 return false;
@@ -418,6 +425,16 @@
 
             if ($("#loginname").val().trim().length < 6) {
                 alert("账号长度不能低于6位！");
+                return false;
+            }
+
+            if ($("#loginpass").val().trim().length < 6) {
+                alert("密码长度不能低于6位！");
+                return false;
+            }
+
+            if ($("#confirmpass").val() != $("#loginpass").val()) {
+                alert("确认密码与原密码不一致");
                 return false;
             }
 
@@ -437,6 +454,7 @@
 
         var model = {
             LoginName: $("#loginname").val().trim(),
+            LoginPWD: $("#loginpass").val().trim(),
             Name: $("#name").val().trim(),
             RoleID: $("#role").val().trim(),
             DepartID: $("#departments").val().trim(),
@@ -448,12 +466,11 @@
         };
         Global.post("/Organization/SaveUser", { entity: JSON.stringify(model) }, function (data) {
             if (data.model && data.model.UserID) {
-                confirm("员工保存成功,初始密码为登录账号,是否继续添加员工?", function () {
+                confirm("员工保存成功,是否继续添加员工?", function () {
                     location.href = location.href;
                 }, function () {
                     location.href = "/Organization/Users";
                 });
-
             } else if (data.result == 2) {
                 alert("员工保存失败，登录账号已存在！");
             } else if (data.result == 3) {
