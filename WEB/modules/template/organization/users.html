@@ -4,7 +4,7 @@
 %}
 <tr class="list-item">
     <td class="{%=item.Role ?'':'red'%}">{%=item.LoginName%}</td>
-    <td class="{%=item.Role ?'':'red'%} staff-name">{%=item.Name%}</td>
+    <td class="{%=item.Role ?'':'red'%} name">{%=item.Name%}</td>
     <td class="center mobile">{%=item.MobilePhone||"--"%}</td>
     <td class="email">{%=item.Email%}</td>
     <td class='center department' data-id="{%=item.DepartID%}">{%=(item.Department ? item.Department.Name:"--")%}</td>
