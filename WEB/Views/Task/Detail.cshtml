@@ -142,7 +142,7 @@
 @{  
     //车缝退回
     if (task.Mark == 14 && order.OrderType == 2){
-        <ul class="dropdown-ul hide" id="setReturnSewn" style="width:100px;">
+        <ul class="dropdown-ul hide" id="setReturnSewn">
             <li id="btnSaveSwen">@(taskDescs.Find(m=>m.Mark==14).Name)退回</li>
         </ul>
     }

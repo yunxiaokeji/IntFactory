@@ -5,7 +5,6 @@
         Verify = require("verify"), VerifyObject, DetailsVerify, editor, VerifyProdiver,
         doT = require("dot"),
         Easydialog = require("easydialog");
-    var DetailLayer = require("detaillayer");
     require("pager");
     require("switch");
     require("autocomplete");
@@ -143,11 +142,17 @@
                 model.price = $("#price").val();
                 doT.exec("template/products/product-baseinfo.html", function (template) {
                     var innerHtml = template(model);
-                    innerHtml = $(innerHtml);
-                    DetailLayer.create({
-                        content: innerHtml,
-                        yesFn: function () {
-                            Product.savaProduct();
+                    Easydialog.open({
+                        container: {
+                            id: "show-surequantity",
+                            header: "确认材料信息",
+                            content: innerHtml,
+                            yesFn: function () {
+                                _self.savaProduct();
+                            },
+                            callback: function () {
+
+                            }
                         }
                     });
                 });
@@ -340,23 +345,22 @@
                         if (_self.saveType == 1) {
                             location.href = "/Orders/ChooseMaterial?id=" + _self.guid + "&tid=" + _self.tid;
                         } else {
-                            location.href = "/Products/ProductAdd";
+                            location.href = location.href;
                         }
                     } else if (_self.type == "1") {
                         if (_self.saveType == 1) {
                             location.href = "/Products/ChooseProducts?id=" + _self.guid;
                         } else {
-                            location.href = "/Products/ProductAdd";
+                            location.href = location.href;
                         }
                     } else {
                         if (_self.saveType == 1) {
                             location.href = "/Products/ProductDetail/" + data.ID;
                         } else {
-                            location.href = "/Products/ProductAdd";
+                            location.href = location.href;
                         }
                     }
                 }
-                DetailLayer.close();
             } else if (data.result == 2) {
                 alert("材料编码已存在");
             } else {
@@ -622,7 +626,7 @@
                                 if (data.result == 1) {
                                     _this.parents('tr').remove();
                                 } else if (data.result == 10002) {
-                                    alert("该材料存在入库信息");
+                                    alert("材料正在使用");
                                 } else {
                                     alert("删除失败");
                                 }
@@ -1035,28 +1039,7 @@
             if (!_self.categoryID && $("#productMenuChange").val()) {
                 alert("材料类别选择有误，请重新选择");
             } else {
-                var model = {};
-                model.productName = $("#productName").val().trim();
-                model.productCode = $("#productCode").val().trim();
-                if ($("#productMenuChange").length > 0) {
-                    model.productCatoryName = _self.categoryID ? $("#productMenuChange").val() : "";
-                } else {
-                    model.hideTip = 1;
-                    model.productCatoryName = $(".category-name").text().trim();
-                }
-                model.prodiverName = $("#prodiver").data("id") ? $(".autocomplete-text").val() : "";
-                model.smallUnit = $("#smallUnit option:selected").text();
-                model.price = $("#price").val();
-                doT.exec("template/products/product-baseinfo.html", function (template) {
-                    var innerHtml = template(model);
-                    innerHtml = $(innerHtml);
-                    DetailLayer.create({
-                        content: innerHtml,
-                        yesFn: function () {
-                            Product.savaProduct();
-                        }
-                    });
-                });
+                Product.savaProduct();
             }
         });
 

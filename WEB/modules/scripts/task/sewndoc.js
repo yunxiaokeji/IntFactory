@@ -128,6 +128,7 @@
         var _self = this;
         Global.post("/Task/GetOrderGoods", { id: ObjectJS.orderid }, function (data) {
             DoT.exec("template/orders/sewn-goods.html", function (template) {
+                data.list.taskDesc = ObjectJS.taskDesc;
                 var innerText = template(data.list);
                 Easydialog.open({
                     container: {

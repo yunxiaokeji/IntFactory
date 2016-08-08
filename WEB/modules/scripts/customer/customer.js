@@ -352,7 +352,7 @@
                     if (!_this.hasClass("hover")) {
                         _this.addClass("hover");
                     } else {
-                        this.removeClass("hover");
+                        _this.removeClass("hover");
                     }
                     return false;
                 });

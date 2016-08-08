@@ -4,23 +4,31 @@
 <div class="author-box">
     <div class="author-content">
         <div class="left author-image">
-            <img src="/modules/images/author-image.png" />
+            <img src="/modules/images/{%=item.remainDay>0?'author-image.png':'img-nouse.png'%}" />
         </div>
         <div class="left autnor-msg mLeft20">
             <ul>
-                <li>您的剩余使用时间还有<span class="blue">{%=item.remainDay%}</span>天</li>
-                <li>系统将在<span class="red">{%=item.remainDate%}</span>暂停使用</li>
+                {% if(item.remainDay*1>0){%}
+                    <li>您的剩余使用时间还有<span class="blue">{%=item.remainDay%}</span>天</li>
+                    <li>系统将在<span class="red">{%=item.remainDate%}</span>暂停使用</li>                    
+                {% }else{ %}
+                    <li><div class="title mTop20 font18">您的授权截止日期是:</div></li>
+                    <li><span style="color:red;font-size:20px;">{%=item.remainDate%}</span></li>
+                    <li>现已授权超期</li>
+                {%}%}
                 <li>为了不影响您的使用请及时续费</li>
             </ul>
         </div>
         <div class="clear"></div>
     </div>
     <div class="author-footer">
-        <div id="ExtendNow">立即续费</div>
-        <div class="mLeft10 hand no-hint">
-            <span class="author-lump"></span>
-            <span class="right color" style="margin-top:-1px;">不再提醒</span>
-            <div class="clear"></div>
-        </div>
+        <div id="ExtendNow" class="renewal">立即续费</div>
+        {% if(item.remainDay*1>0){%}
+            <div class="mLeft10 hand no-hint">
+                <span class="author-lump"></span>
+                <span class="right color" style="margin-top:-1px;">不再提醒</span>
+                <div class="clear"></div>
+            </div>
+        {%}%}
     </div>
 </div>

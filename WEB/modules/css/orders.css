@@ -1,6 +1,6 @@
 ﻿
 
-/*                   订单详情-订单状态记录                          */
+/*订单详情-订单状态记录*/
 .status-items {  }
 .status-items li{ float:left;  position:relative; height:40px; margin-left:-24px; }
 .status-items span { line-height:16px; display:block; color:#999; text-align:center; }
@@ -23,7 +23,7 @@
 .order-imgs-list li.hover{ border-color:red;}
 .order-imgs-list img{ width:48px; height:48px;}
 .order-imgs-list .edit-orderimages,#addOrderImages { font-size:40px; width:48px; height:48px;  color:#999; line-height:40px; text-align:center; }
-#addOrderImages{ width:48px; height:48px;border:solid 2px #eee; margin-right:6px; margin-bottom:5px; cursor:pointer; position:relative;}
+#addOrderImages{ width:48px; height:48px;border:solid 2px #eee; margin-right:6px; margin-bottom:5px; cursor:pointer; position:relative;display:inline-block;}
 .order-imgs-list #addOrderImages .edit-orderimages { line-height:0;padding-bottom:8px;border:none;background:transparent;}
 .order-imgs-list .ico-delete { position:absolute; top:-8px; right:-8px; background-color:#fff; border-radius:10px; }
 

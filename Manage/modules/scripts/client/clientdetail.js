@@ -195,13 +195,13 @@ define(function (require, exports, module) {
         });
 
         $('#delClient').click(function () {
-            if (confirm("确定删除?")) {
+            if (confirm("客户删除后数据全部清空，包括但不限于客户、订单、任务、材料和员工等数据，确定删除?")) {
                 Global.post("/Client/DeleteClient", { id: Clients.Params.clientID }, function (data) {
                     if (data.Result == 1) {
                         location.href = "/Client/Index";
                     }
                     else {
-                        alert("删除失败");
+                        alert("此客户端授权未到期，不能注销");
                     }
                 });
             }
@@ -258,6 +258,7 @@ define(function (require, exports, module) {
             $(".edit-company").hide();
         });
     }
+
     Clients.setIndustry = function (model) {
         $('#industry').html($('#industrytemp').html());
         $('#industry').val(model.Industry || '');
@@ -298,6 +299,7 @@ define(function (require, exports, module) {
         });
 
     }
+
     Clients.saveModel = function (model) {
         var _self = this;
 
@@ -307,6 +309,7 @@ define(function (require, exports, module) {
             } 
         });
     }
+
     Clients.editAuthorize = function (model,type) {
         var _self = this;
         $("#show-contact-detail").empty();
@@ -339,6 +342,7 @@ define(function (require, exports, module) {
             
         });
     }
+
     Clients.setAuthorize = function (type) {
         var endTime = {
             elem: '#endTime',
@@ -365,6 +369,7 @@ define(function (require, exports, module) {
             }
         });
     }
+
     Clients.saveAuthorize = function (type) {
         //客户授权
         var paras =
@@ -391,6 +396,7 @@ define(function (require, exports, module) {
             }
         });
     }
+
     //客户详情
     Clients.getClientDetail = function (id) {
         Global.post("/Client/GetClientDetail", { id: id }, function (data) {

@@ -32,7 +32,7 @@
 
     ObjectJS.init = function (orderLevel, taskLevel, remainDay, remainDate, orderMarks, tastMarks,currentUserID) {
         ObjectJS.remainDay = remainDay;
-        ObjectJS.remainDate = remainDate;
+        ObjectJS.remainDate = remainDate;        
         ObjectJS.orderLevel = orderLevel;
         ObjectJS.taskLevel = taskLevel;
         ObjectJS.currentUserID = currentUserID;
@@ -315,7 +315,7 @@
                     EasyDialog.open({
                         container: {
                             id: "author-box",
-                            header: "授权快到期",
+                            header:ObjectJS.remainDay>0?"授权快到期":"授权已超期",
                             content: innerHtml
                         }
                     });

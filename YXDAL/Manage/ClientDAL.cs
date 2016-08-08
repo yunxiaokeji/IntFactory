@@ -226,6 +226,15 @@ namespace IntFactoryDAL.Manage
           return  ExecuteNonQuery("Update Clients set GuideStep=0 where ClientID=@ClientID", parms, CommandType.Text)>0;
         }
 
+        public bool DeleteClient(string clientid)
+        {
+            SqlParameter[] parms = { 
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+
+            return ExecuteNonQuery("M_DeleteClient", parms, CommandType.StoredProcedure) > 0;
+        }
+
         #endregion
     }
 }

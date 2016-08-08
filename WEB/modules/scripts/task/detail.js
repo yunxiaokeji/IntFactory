@@ -30,7 +30,7 @@
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
         if (plateMarkItems) {
             plateMartingItem = JSON.parse(plateMarkItems.replace(/&quot;/g, '"'));
-        }
+        } console.log(task);
         /*任务模块别名*/
         var taskModeleDescs = JSON.parse(taskDescs.replace(/&quot;/g, '"'));
 
@@ -53,6 +53,7 @@
         ObjectJS.isPlate = true;//任务是否制版
         ObjectJS.mark = task.Mark;//任务标记 用于做标记任务完成的限制条件
         ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
+        ObjectJS.lockStatus = task.LockStatus;
         ObjectJS.isLoading = true;
 
         //材料任务
@@ -902,7 +903,13 @@
                 return;
             }
             var _this = $(this);
-
+            if (ObjectJS.orderType == 2) {
+                var count = (_this.parents('tr').find('.purchase-count').text() * 1) + (_this.parents('tr').find('.inquantity').text() * 1);
+                if (count > 0) {
+                    alert("材料存在使用记录，无法删除！");
+                    return false;
+                }
+            }
             confirm("确认从清单中移除此材料吗？", function () {
                 Global.post("/Orders/DeleteProduct", {
                     orderid: ObjectJS.orderid,
@@ -910,7 +917,7 @@
                     name: _this.data("name")
                 }, function (data) {
                     if (!data.status) {
-                        alert("系统异常，请重新操作！");
+                        alert("材料存在使用记录，无法删除！");
                     }
                     else {
                         _this.parents("tr.item").remove();
@@ -1629,7 +1636,7 @@
                     PlateMakings = data.items;
                     var html = template(data.items);
                     html = $(html);
-                    if (ObjectJS.finishStatus != 1 || $("#addPlateType").length == 0) {
+                    if ($("#addPlateType").length == 0) {
                         html.find('.add-plate').remove();
                     }
                     $(".tb-plates").append(html);
