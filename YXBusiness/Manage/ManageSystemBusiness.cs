@@ -229,9 +229,9 @@ namespace IntFactoryEntity.Manage
         /// <returns></returns>
         public bool UpdateUserRole(string userid, string roleid, string operateid, string ip)
         {
-                bool bl = SystemDAL.BaseProvider.UpdateUserRole(userid, roleid, operateid);
+            bool bl = SystemDAL.BaseProvider.UpdateUserRole(userid, roleid, operateid);
 
-                return bl;
+            return bl;
         }
 
     }

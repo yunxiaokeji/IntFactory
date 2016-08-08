@@ -15,7 +15,7 @@ namespace IntFactoryBusiness
 
     public class M_UsersBusiness
     {
-         #region 查询
+        #region 查询
         /// <summary>
         /// 根据账号密码获取信息
         /// </summary>
