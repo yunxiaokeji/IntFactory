@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using IntFactoryBusiness;
 using IntFactoryBusiness.Manage;
+using IntFactoryEntity;
+using IntFactoryEnum;
+
 namespace YXERP.Areas.Api.Controllers
 {
     [YXERP.Common.ApiAuthorize]
@@ -16,7 +19,7 @@ namespace YXERP.Areas.Api.Controllers
             var item = ClientBusiness.GetClientDetail(clientID);
             Dictionary<string, object> obj = new Dictionary<string, object>();
             
-            if (!string.IsNullOrEmpty(item.ClientID)) {
+            if (item!=null && !string.IsNullOrEmpty(item.ClientID)) {
                 obj.Add("clientID", item.ClientID);
                 obj.Add("clientCode", item.ClientCode);
                 obj.Add("companyName", item.CompanyName);
@@ -27,6 +30,29 @@ namespace YXERP.Areas.Api.Controllers
             }
             JsonDictionary.Add("client",obj);
 
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        //获取分类
+        public ActionResult GetClientCategorys(string categoryID, EnumCategoryType type)
+        {
+            List<Category> obj = ProductsBusiness.BaseBusiness.GetChildCategorysByID(categoryID, EnumCategoryType.Order);
+            JsonDictionary.Add("result",obj);
+                return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        //获取加工品类
+        public ActionResult GetProcessCategorys(string clientID)
+        {
+            List<ProcessCategory> obj = ProductsBusiness.BaseBusiness.GetClientProcessCategorys(clientID);
+            JsonDictionary.Add("result", obj);
             return new JsonResult
             {
                 Data = JsonDictionary,

@@ -362,7 +362,7 @@ border-bottom:2px solid #4a98e7;
     font-size:12px;
 }
 .author-footer div {display:inline-block;}
-.author-footer div:not(:last-child) { 
+.author-footer .renewal { 
     width:120px;
     line-height:50px;
     text-align:center;

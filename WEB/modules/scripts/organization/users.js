@@ -180,19 +180,40 @@
             var _this = $(this);
             var userid = _this.data("id");
             var tr = $(".list-item .dropdown[data-id=" + _this.data("id") + "]").parent();
-            var showmsg = "确认重置员工：<span class='red'>" + tr.find('.name').html() + "<span>&nbsp;的密码?";
-            confirm(showmsg, function () {
-                Global.post("/Organization/UpdateUserPwd", {
-                    userID:userid,
-                    loginPwd: ObjectJS.loginName
-                }, function (data) {
-                    if (data.status) {
-                        alert("密码重置成功");
-                    } else {
-                        alert("服务器繁忙！请稍后再试");
+            var html = "<div>";
+            html += "<div><span style='display:inline-block;width:80px;'>密码：</span><input id='passLayer' type='password' /></div>";
+            html += "<div class='mTop5'><span style='display:inline-block;width:80px;'>确认密码：</span><input id='confirmPassLayer' type='password' /></div>";
+            html += "</div>";
+            Easydialog.open({
+                container: {
+                    id: "resetPassLayer",
+                    header: "重置密码",
+                    content: html,
+                    yesFn: function () {
+                        console.log($("#resetPassLayer").val());
+                        console.log($("#passLayer").val());
+
+                        if (!$("#passLayer").val() || $("#passLayer").val().trim().length < 6) {
+                            alert("密码不能小于6位数");
+                            return false;
+                        } else if ($("#confirmPassLayer").val() != $("#passLayer").val()) {
+                            alert("密码不一致,请重新输入");
+                            return false;
+                        } else {
+                            Global.post("/Organization/UpdateUserPwd", {
+                                userID: userid,
+                                loginPwd: $("#passLayer").val()
+                            }, function (data) {
+                                if (data.status) {
+                                    alert("密码重置成功");
+                                } else {
+                                    alert("服务器繁忙！请稍后再试");
+                                    return false;
+                                }
+                            });
+                        }
                     }
-                });
-                
+                }
             });
         });
         
@@ -227,12 +248,11 @@
         //编辑员工基本信息
         $("#editBaseInfo").click(function () {
             var _this = $(this);
-
             doT.exec("template/organization/staff-detail.html", function (template) {
                 var tr = $(".list-item .dropdown[data-id=" + _this.data("id") + "]").parent();
                 var staff = {
+                    account: tr.find('.account').html(),
                     name: tr.find('.name').html(),
-                    staffName: tr.find('.staff-name').html(),
                     mobilePhone: tr.find('.mobile').html(),
                     email:tr.find('.email').html()
                 };
@@ -307,7 +327,6 @@
 
 
             })
-
         })
 
     }
@@ -411,6 +430,13 @@
             }
         });
 
+        $("#confirmpass").change(function () {
+            var _this = $(this);
+            if (_this.val() != $("#loginpass").val()) {
+                alert("确认密码与原密码不一致");
+            }
+        });
+
         $("#btnSave").click(function () {
             if (!VerifyObject.isPass()) {
                 return false;
@@ -423,6 +449,11 @@
 
             if ($("#loginpass").val().trim().length < 6) {
                 alert("密码长度不能低于6位！");
+                return false;
+            }
+
+            if ($("#confirmpass").val() != $("#loginpass").val()) {
+                alert("确认密码与原密码不一致");
                 return false;
             }
 
