@@ -13,7 +13,7 @@
                         {%=(model.SaleAttrs.length == 1?model.SaleAttrs[0].AttrName+"：":"规格：")%}
                     </li> 
                     <li class="cart-attrValues">
-                        <ul style="max-height:160px; min-height:100px; overflow-y:auto;">
+                        <ul style="max-height:160px; overflow-y:auto;">
                             {%
                             for(var ii=0, jj=model.ProductDetails.length; ii < jj; ii++){
 	                            var detail = model.ProductDetails[ii];
