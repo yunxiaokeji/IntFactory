@@ -42,10 +42,10 @@
             var _this = $(this);
             _this.siblings().removeClass("hover");
             _this.addClass("hover");
+            $(".nodate-box").remove();
             if (_this.data("id")) {
                 $(".table-list .list-item").hide();
                 if ($(".table-list .list-item[data-id='" + _this.data("id") + "']").length > 0) {
-                    $(".nodate-box").remove();
                     $(".table-list .list-item[data-id='" + _this.data("id") + "']").show();
                 } else {
                     $(".tr-header").after("<tr class='nodate-box'><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
