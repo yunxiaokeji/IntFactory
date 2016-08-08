@@ -30,7 +30,7 @@
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
         if (plateMarkItems) {
             plateMartingItem = JSON.parse(plateMarkItems.replace(/&quot;/g, '"'));
-        }
+        } console.log(task);
         /*任务模块别名*/
         var taskModeleDescs = JSON.parse(taskDescs.replace(/&quot;/g, '"'));
 
@@ -53,6 +53,7 @@
         ObjectJS.isPlate = true;//任务是否制版
         ObjectJS.mark = task.Mark;//任务标记 用于做标记任务完成的限制条件
         ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
+        ObjectJS.lockStatus = task.LockStatus;
         ObjectJS.isLoading = true;
 
         //材料任务
@@ -1635,7 +1636,7 @@
                     PlateMakings = data.items;
                     var html = template(data.items);
                     html = $(html);
-                    if (ObjectJS.finishStatus != 1 || $("#addPlateType").length == 0) {
+                    if ($("#addPlateType").length == 0) {
                         html.find('.add-plate').remove();
                     }
                     $(".tb-plates").append(html);

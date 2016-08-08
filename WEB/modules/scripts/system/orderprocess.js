@@ -40,19 +40,21 @@
 
         $(".search-category .item").click(function () {
             var _this = $(this);
-            _this.siblings().removeClass("hover");
-            _this.addClass("hover");
-            if (_this.data("id")) {
-                $(".table-list .list-item").hide();
-                if ($(".table-list .list-item[data-id='" + _this.data("id") + "']").length > 0) {
+            if (!_this.hasClass('hover')) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+                if (_this.data("id")) {
+                    $(".table-list .list-item").hide();
                     $(".nodate-box").remove();
-                    $(".table-list .list-item[data-id='" + _this.data("id") + "']").show();
+                    if ($(".table-list .list-item[data-id='" + _this.data("id") + "']").length > 0) {
+                        $(".table-list .list-item[data-id='" + _this.data("id") + "']").show();
+                    } else {
+                        $(".tr-header").after("<tr class='nodate-box'><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                    }
                 } else {
-                    $(".tr-header").after("<tr class='nodate-box'><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                    $(".nodate-box").remove();
+                    $(".table-list .list-item").show();
                 }
-            } else {
-                $(".nodate-box").remove();
-                $(".table-list .list-item").show();
             }
         });
 
@@ -144,7 +146,6 @@
                         if (!VerifyObject.isPass()) {
                             return false;
                         }
-
                         var entity = {};
                         entity.ProcessID = model ? model.ProcessID : "";
                         entity.ProcessName = $("#processName").val().trim();

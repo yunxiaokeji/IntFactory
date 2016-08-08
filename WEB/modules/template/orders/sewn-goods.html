@@ -5,8 +5,8 @@
     <td class="tLeft">规格</td>
     <td class="">下单量</td>
     <td class="">已裁剪</td>
-    <td class="">已车缝</td>
-    <td class="">车缝数量</td>
+    <td class="">已{%=$data.taskDesc||"车缝"%}</td>
+    <td class="">{%=$data.taskDesc||"车缝"%}数量</td>
 </tr>
 {%
 	for(var i=0, j=$data.length; i < j; i++){
