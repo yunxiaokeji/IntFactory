@@ -622,7 +622,7 @@
                                 if (data.result == 1) {
                                     _this.parents('tr').remove();
                                 } else if (data.result == 10002) {
-                                    alert("该材料存在入库信息");
+                                    alert("材料正在使用");
                                 } else {
                                     alert("删除失败");
                                 }
