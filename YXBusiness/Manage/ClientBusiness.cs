@@ -329,7 +329,7 @@ namespace IntFactoryBusiness.Manage
         /// <returns></returns>
         public static bool DeleteClient(string clientID)
         {
-            bool flag= CommonBusiness.Update("Clients", "Status", 9, " ClientID='" + clientID + "'");
+            bool flag = ClientDAL.BaseProvider.DeleteClient(clientID);
 
             if (flag)
                 Clients.Remove(clientID);

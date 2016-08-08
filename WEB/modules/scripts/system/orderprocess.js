@@ -43,9 +43,9 @@
             if (!_this.hasClass('hover')) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
+            $(".nodate-box").remove();
                 if (_this.data("id")) {
                     $(".table-list .list-item").hide();
-                    $(".nodate-box").remove();
                     if ($(".table-list .list-item[data-id='" + _this.data("id") + "']").length > 0) {
                         $(".table-list .list-item[data-id='" + _this.data("id") + "']").show();
                     } else {
