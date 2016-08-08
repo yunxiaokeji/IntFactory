@@ -346,7 +346,7 @@ namespace YXERP.Controllers
 
             int result = 0;
 
-            var user = OrganizationBusiness.CreateUser(EnumAccountType.UserName, model.LoginName, model.LoginName, model.Name, model.MobilePhone, model.Email, model.CityCode, model.Address, model.Jobs, model.RoleID, model.DepartID, "",
+            var user = OrganizationBusiness.CreateUser(EnumAccountType.UserName, model.LoginName, model.LoginPWD, model.Name, model.MobilePhone, model.Email, model.CityCode, model.Address, model.Jobs, model.RoleID, model.DepartID, "",
                CurrentUser.ClientID, CurrentUser.UserID, out result);
 
             JsonDictionary.Add("model", user);

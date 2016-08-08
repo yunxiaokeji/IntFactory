@@ -421,6 +421,11 @@
                 return false;
             }
 
+            if ($("#loginpass").val().trim().length < 6) {
+                alert("密码长度不能低于6位！");
+                return false;
+            }
+
             if ($("#loginname").data("status") == 1) {
                 alert("账号已存在，请重新输入！");
                 return false;
@@ -437,6 +442,7 @@
 
         var model = {
             LoginName: $("#loginname").val().trim(),
+            LoginPWD: $("#loginpass").val().trim(),
             Name: $("#name").val().trim(),
             RoleID: $("#role").val().trim(),
             DepartID: $("#departments").val().trim(),
@@ -448,12 +454,11 @@
         };
         Global.post("/Organization/SaveUser", { entity: JSON.stringify(model) }, function (data) {
             if (data.model && data.model.UserID) {
-                confirm("员工保存成功,初始密码为登录账号,是否继续添加员工?", function () {
+                confirm("员工保存成功,是否继续添加员工?", function () {
                     location.href = location.href;
                 }, function () {
                     location.href = "/Organization/Users";
                 });
-
             } else if (data.result == 2) {
                 alert("员工保存失败，登录账号已存在！");
             } else if (data.result == 3) {
