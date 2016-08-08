@@ -305,7 +305,7 @@
 
     //授权快到期提示
     ObjectJS.authorWarn = function () {
-        if (ObjectJS.remainDay <= 2000) {
+        if (ObjectJS.remainDay <= 20) {
             var authorWarn = Global.getCookie('authorWarn');
             if (authorWarn != "1") {
                 var data = { remainDay: ObjectJS.remainDay, remainDate: ObjectJS.remainDate };
@@ -315,7 +315,7 @@
                     EasyDialog.open({
                         container: {
                             id: "author-box",
-                            header:ObjectJS.remainDay<0?"授权快到期":"授权已超期",
+                            header:ObjectJS.remainDay>0?"授权快到期":"授权已超期",
                             content: innerHtml
                         }
                     });
