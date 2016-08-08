@@ -902,7 +902,13 @@
                 return;
             }
             var _this = $(this);
-
+            if (ObjectJS.orderType == 2) {
+                var count = (_this.parents('tr').find('.purchase-count').text() * 1) + (_this.parents('tr').find('.inquantity').text() * 1);
+                if (count > 0) {
+                    alert("材料存在使用记录，无法删除！");
+                    return false;
+                }
+            }
             confirm("确认从清单中移除此材料吗？", function () {
                 Global.post("/Orders/DeleteProduct", {
                     orderid: ObjectJS.orderid,
@@ -910,7 +916,7 @@
                     name: _this.data("name")
                 }, function (data) {
                     if (!data.status) {
-                        alert("系统异常，请重新操作！");
+                        alert("材料存在使用记录，无法删除！");
                     }
                     else {
                         _this.parents("tr.item").remove();

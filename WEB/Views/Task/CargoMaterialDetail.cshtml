@@ -29,8 +29,8 @@
                         <td>@(detail.ProductCode)</td>
                     <td>@(detail.Remark)</td>
                     <td class="center">@(detail.UnitName)</td>
-                    <td class="center"><label>@(detail.PurchaseQuantity.ToString("f3"))</label></td>
-                    <td class="center"><label>@(detail.InQuantity.ToString("f3"))</label></td> 
+                    <td class="center"><label class="purchase-count">@(detail.PurchaseQuantity.ToString("f3"))</label></td>
+                    <td class="center"><label class="inquantity">@(detail.InQuantity.ToString("f3"))</label></td> 
              @{                  
                 if (isRoot)
                 {
