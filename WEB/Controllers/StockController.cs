@@ -186,7 +186,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Type = (int)EnumDocType.BY;
             ViewBag.GUID = CurrentUser.UserID;
-            ViewBag.Title = "选择报溢产品";
+            ViewBag.Title = "选择报溢材料";
             return View("FilterProducts");
         }
 
@@ -194,7 +194,7 @@ namespace YXERP.Controllers
         {
             ViewBag.Type = (int)EnumDocType.BS;
             ViewBag.GUID = CurrentUser.UserID;
-            ViewBag.Title = "登记用料";
+            ViewBag.Title = "选择消耗材料";
 
             return View("FilterProducts");
         }
@@ -238,23 +238,6 @@ namespace YXERP.Controllers
             var list = StockBusiness.BaseBusiness.GetProductDetailStocks(productid,  CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
 
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult GetDeoptByProductDetailID(string did)
-        {
-            List<DepotSeat> items = new List<DepotSeat>();
-            List<ProductStock> stockItems = StockBusiness.BaseBusiness.GetProductByDetailID(did);
-            foreach (var item in stockItems)
-            {
-                DepotSeat depot = SystemBusiness.BaseBusiness.GetDepotByID(item.DepotID, item.WareID, CurrentUser.ClientID);
-                items.Add(depot);
-            }
-            JsonDictionary.Add("depots", items);
             return new JsonResult
             {
                 Data = JsonDictionary,

@@ -77,7 +77,7 @@ namespace YXManage.Controllers
             {
                 return Redirect("ProductList");
             }
-            var model = new ProductsBusiness().GetProductByIDForDetails(type, did, pid, "");
+            var model = new ProductsBusiness().GetProductByIDForDetails(pid, "");
             if (model == null || string.IsNullOrEmpty(model.ProductID))
             {
                 return Redirect("ProductList");

@@ -38,6 +38,10 @@
             guid: guid,
             tid: tid
         });
+        
+        Global.post("/System/GetDepotSeatsByWareID", {}, function (data) {
+            _self.depots = data.Items;
+        });
     }
 
     //获取分类信息和下级分类
@@ -311,27 +315,6 @@
                 } else {
                     $("#productlist").append("<div class='nodata-txt'>暂无数据</div>");
                 }
-                //$("#toppager").paginate({
-                //    total_count: data.TotalCount,
-                //    count: data.PageCount,
-                //    start: Params.PageIndex,
-                //    display: 5,
-                //    border: true,
-                //    border_color: '#fff',
-                //    text_color: '#333',
-                //    background_color: '#fff',
-                //    border_hover_color: '#ccc',
-                //    text_hover_color: '#000',
-                //    background_hover_color: '#efefef',
-                //    rotate: true,
-                //    images: false,
-                //    mouse: 'slide',
-                //    float: "left",
-                //    onChange: function (page) {
-                //        Params.PageIndex = page;
-                //        ObjectJS.getProducts();
-                //    }
-                //});
             });
     }
 
@@ -344,7 +327,7 @@
         var _self = this;
         var objCache = {};
         //缓存产品信息
-        if (!CacheProduct[did]) {
+        if (!CacheProduct[pid]) {
             isLoadding = true;
             Global.post("/Products/GetProductByIDForDetails", {
                 productid: pid,
@@ -352,9 +335,9 @@
                 type: _self.type
             }, function (data) {
                 isLoadding = false;
-                CacheProduct[did] = data.Item;
+                CacheProduct[pid] = data.Item;
                 doT.exec("template/shoppingcart/product-detail.html", function (templateFun) {
-                    var html = templateFun(CacheProduct[did]);
+                    var html = templateFun(CacheProduct[pid]);
                     Easydialog.open({
                         container: {
                             id: "product-add-div",
@@ -365,39 +348,33 @@
                             }
                         }
                     });
-                    if (_self.type == 3) {
-                        if (CacheProduct[did].Depots) {
-                            if (CacheProduct[did].Depots.length > 0) {
-                                _self.depotid = CacheProduct[did].Depots[0].DepotID;
-                                require.async("dropdown", function () {
-                                    $(".depot-dropdown").dropdown({
-                                        prevText: "货位-",
-                                        defaultText: CacheProduct[did].Depots[0].DepotCode,
-                                        defaultValue: CacheProduct[did].Depots[0].DepotID,
-                                        data: CacheProduct[did].Depots,
-                                        dataText: "DepotCode",
-                                        dataValue: "DepotID",
-                                        width: 120,
-                                        isposition: true,
-                                        onChange: function (dataValue) {
-                                            _self.depotid = dataValue.value;
-                                        }
-                                        //defaultText:data.Depots[0].
-                                    });
-                                });
-                            } else {
-                                $(".add-product-list").hide();
+                    
+                    _self.depotid = _self.depots[0].DepotID;
+                    require.async("dropdown", function () {
+                        $(".depot-dropdown").dropdown({
+                            prevText: "货位-",
+                            defaultText: _self.depots[0].DepotCode,
+                            defaultValue: _self.depots[0].DepotID,
+                            data: _self.depots,
+                            dataText: "DepotCode",
+                            dataValue: "DepotID",
+                            width: 120,
+                            isposition: true,
+                            onChange: function (dataValue) {
+                                _self.depotid = dataValue.value;
+                                _self.showDepotStock(pid);
                             }
-                        }
-                    }
+                        });
+                    });
+
                     Easydialog.toPosition();
-                    _self.bindDetail(CacheProduct[did], did);
-                    _self.bindDetailEvent(CacheProduct[did], pid, did)
+                    _self.bindDetail(CacheProduct[pid], did);
+                    _self.bindDetailEvent(CacheProduct[pid], pid, did)
                 });
             });
         } else {
             doT.exec("template/shoppingcart/product-detail.html", function (templateFun) {
-                var html = templateFun(CacheProduct[did]);
+                var html = templateFun(CacheProduct[pid]);
                 Easydialog.open({
                     container: {
                         id: "product-add-div",
@@ -409,39 +386,26 @@
                         }
                     }
                 });
-                if (_self.type == 3) {
-                    if (CacheProduct[did].Depots) {
-                        if (CacheProduct[did].Depots.length > 0) {
-                            _self.depotid = CacheProduct[did].Depots[0].DepotID;
-                            require.async("dropdown", function () {
-                                $(".depot-dropdown").dropdown({
-                                    prevText: "货位-",
-                                    defaultText: CacheProduct[did].Depots[0].DepotCode,
-                                    defaultValue: CacheProduct[did].Depots[0].DepotID,
-                                    data: CacheProduct[did].Depots,
-                                    dataText: "DepotCode",
-                                    dataValue: "DepotID",
-                                    width: 120,
-                                    isposition: true,
-                                    onChange: function (dataValue) {
-                                        _self.depotid = dataValue.value;
-                                    }
-                                });
-                            });
-                            $(".depot-dropdown").show();
-                            $(".add-product-list").show();
-                        } else {
-                            $(".depot-dropdown").hide();
-                            $(".add-product-list").hide();
+                _self.depotid = _self.depots[0].DepotID;
+                require.async("dropdown", function () {
+                    $(".depot-dropdown").dropdown({
+                        prevText: "货位-",
+                        defaultText: _self.depots[0].DepotCode,
+                        defaultValue: _self.depots[0].DepotID,
+                        data: _self.depots,
+                        dataText: "DepotCode",
+                        dataValue: "DepotID",
+                        width: 120,
+                        isposition: true,
+                        onChange: function (dataValue) {
+                            _self.depotid = dataValue.value;
+                            _self.showDepotStock(pid);
                         }
-                    } else {
-                        $(".depot-dropdown").hide();
-                        $(".add-product-list").hide();
-                    }
-                }
+                    });
+                });
                 Easydialog.toPosition();
-                _self.bindDetail(CacheProduct[did], did);
-                _self.bindDetailEvent(CacheProduct[did], pid, did)
+                _self.bindDetail(CacheProduct[pid], did);
+                _self.bindDetailEvent(CacheProduct[pid], pid, did)
             });
         }
     }
@@ -456,84 +420,19 @@
             if (!_this.hasClass("hover")) {
                 _this.addClass("hover");
                 _this.siblings().removeClass("hover");
-                if (_self.type == 3) {
-                    if (!cacheDepot[_this.data('id')]) {
-                        Global.post("/Stock/GetDeoptByProductDetailID", { did: _this.data('id') }, function (data) {
-                            var depots = data.depots;
-                            cacheDepot[_this.data('id')] = depots;
-                            if (depots.length > 0) {
-                                _self.depotID = depots[0].DepotID;
-                                $(".depot-dropdown").dropdown({
-                                    prevText: "货位－",
-                                    defaultText: depots[0].DepotCode,
-                                    defaultValue: depots[0].DepotID,
-                                    data: depots,
-                                    dataText: "DepotCode",
-                                    dataValue: "DepotID",
-                                    width: 120,
-                                    isposition: true,
-                                    onChange: function (data) {
-                                        _self.depotid = data.value;
-                                    }
-                                });
-                                $(".depot-dropdown").show();
-                                $(".add-product-list").show();
-                            } else {
-                                $(".depot-dropdown").hide();
-                                $(".add-product-list").hide();
-                            }
-                        });
-                    } else {
-                        var depots = cacheDepot[_this.data('id')];
-                        if (depots.length > 0) {
-                            _self.depotID = depots[0].DepotID;
-                            $(".depot-dropdown").dropdown({
-                                prevText: "货位－",
-                                defaultText: depots[0].DepotCode,
-                                defaultValue: depots[0].DepotID,
-                                data: depots,
-                                dataText: "DepotCode",
-                                dataValue: "DepotID",
-                                width: 120,
-                                isposition: true,
-                                onChange: function (data) {
-                                    _self.depotid = data.value;
-                                }
-                            });
-                            $(".depot-dropdown").show();
-                            $(".add-product-list").show();
-                        } else {
-                            $(".depot-dropdown").hide();
-                            $(".add-product-list").hide();
-                        }
-                    }
-                }
                 for (var i = 0, j = model.ProductDetails.length; i < j; i++) {
-                    var bl = true, vales = model.ProductDetails[i].ProductDetailID, unitid = model.ProductDetails[i].UnitID;
-                    $(".salesattr li.hover").each(function () {
-                        if (vales.indexOf($(this).data("id")) < 0) {
-                            bl = false;
-                        }
-                    });
-
-                    if (bl) {
-                        $("#addcart").prop("disabled", false).removeClass("addcartun");
+                    if (_this.data("id") == model.ProductDetails[i].ProductDetailID) {
                         _self.detailid = model.ProductDetails[i].ProductDetailID;
-                        if ($("#small").hasClass("hover")) {
-                            $("#price").html("￥" + model.ProductDetails[i].Price.toFixed(2));
-                        } else {
-                            $("#price").html("￥" + model.ProductDetails[i].BigPrice.toFixed(2));
-                        }
+                        $("#price").html("￥" + model.ProductDetails[i].Price.toFixed(2));
                         if (model.ProductDetails[i].ImgS) {
                             $("#productimg").attr("src", model.ProductDetails[i].ImgS);
                         } else {
                             $("#productimg").attr("src", model.ProductImage);
                         }
                         $("#productStockQuantity").text(model.ProductDetails[i].StockIn - model.ProductDetails[i].LogicOut);
+                        _self.showDepotStock(pid);
                         return;
-                    } else {
-                        $("#addcart").prop("disabled", true).addClass("addcartun");
-                    }
+                    } 
                 }
             }
         });
@@ -544,16 +443,6 @@
                 $(this).val("1");
             } else if ($(this).val() < 0) {
                 $(this).val("1");
-            }
-        });
-        //+1
-        $("#quantityadd").click(function () {
-            $("#quantity").val($("#quantity").val() * 1 + 1);
-        });
-        //-1
-        $("#quantityreduce").click(function () {
-            if ($("#quantity").val() != "1") {
-                $("#quantity").val($("#quantity").val() * 1 - 1);
             }
         });
 
@@ -567,18 +456,13 @@
             temp.animate({ top: cart.top, left: cart.left }, 500, function () {
                 temp.remove();
                 var remark = "";
-                $("#saleattr ul.salesattr").each(function () {
-                    var _this = $(this);
-                    remark += "[" + _this.find(".cart-attrkey").html() + _this.find("li.hover").html() + "]";
-                });
                 Global.post("/ShoppingCart/AddShoppingCart", {
                     productid: pid,
                     detailsid: _self.detailid,
                     quantity: $("#quantity").val(),
-                    unitid: $("#unit li.hover").data("id"),
-                    isBigUnit: $("#unit li.hover").data("value"),
+                    unitid: $("#small").data("id"),
                     ordertype: _self.type,
-                    depotid: _self.depotid ? _self.depotid : "",
+                    depotid: _self.depotid || "",
                     guid: _self.guid,
                     remark: remark
                 }, function (data) {
@@ -607,6 +491,23 @@
             }
         }
     }
+
+    //获取货位库存
+    ObjectJS.showDepotStock = function (pid) {
+        var _self = this;
+        $("#productDepotQuantity").text("0.00");
+        for (var i = 0, j = CacheProduct[pid].ProductDetails.length; i < j; i++) {
+            if (CacheProduct[pid].ProductDetails[i].ProductDetailID == _self.detailid) {
+                var model = CacheProduct[pid].ProductDetails[i];
+                for (var ii = 0, jj = model.DetailStocks.length; ii < jj; ii++) {
+                    if (model.DetailStocks[ii].DepotID == _self.depotid) {
+                        $("#productDepotQuantity").text(model.DetailStocks[ii].StockIn - model.DetailStocks[ii].LogicOut);
+                        return;
+                    }
+                }
+            }
+        }
+    };
 
     module.exports = ObjectJS;
 });

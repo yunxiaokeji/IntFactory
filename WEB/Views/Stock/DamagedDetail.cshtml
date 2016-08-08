@@ -1,6 +1,6 @@
 ﻿@{
     var model = (IntFactoryEntity.StorageDoc)ViewBag.Model;
-    ViewBag.Title = "审核用料登记单";
+    ViewBag.Title = "审核材料消耗单";
 }
 
 @section scripts{
@@ -11,7 +11,7 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">用料登记单号：@(model.DocCode)</span>
+    <span class="header-title left">材料消耗单号：@(model.DocCode)</span>
     <a class="btn-back right mLeft10" href="/Stock/Damaged">返回</a>
     <div class="btnccc right @(ExpandClass.IsLimits(HttpContext.Current,"103030304"))" id="btnDelete">删除</div>
     <div class="btn right mRight10 @(ExpandClass.IsLimits(HttpContext.Current,"103030302"))" id="btnAudit">审核</div>

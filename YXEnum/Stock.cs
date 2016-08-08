@@ -39,7 +39,7 @@ namespace IntFactoryEnum
         RKDetail = 101,
         [DescriptionAttribute("出库单")]
         CK = 2,
-        [DescriptionAttribute("报损单")]
+        [DescriptionAttribute("消耗单")]
         BS = 3,
         [DescriptionAttribute("报溢单")]
         BY = 4,

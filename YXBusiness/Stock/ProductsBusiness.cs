@@ -726,25 +726,12 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public Products GetProductByIDForDetails(int type,string did,string productid, string clientid)
+        public Products GetProductByIDForDetails(string productid, string clientid)
         {
             var dal = new ProductsDAL();
             DataSet ds = dal.GetProductByIDForDetails(productid, clientid);
            
             Products model = new Products();
-
-            List<DepotSeat> items = new List<DepotSeat>();
-            //获取货位信息
-            if (type == 3)
-            {
-                List<ProductStock> stockItems = StockBusiness.BaseBusiness.GetProductByDetailID(did);
-                foreach (var item in stockItems)
-                {
-                    DepotSeat depot = SystemBusiness.BaseBusiness.GetDepotByID(item.DepotID, item.WareID, clientid);
-                    items.Add(depot);
-                }
-            }
-            model.Depots = items;
 
             if (ds.Tables.Contains("Product") && ds.Tables["Product"].Rows.Count > 0)
             {
@@ -766,31 +753,25 @@ namespace IntFactoryBusiness
                     }
                 }
 
-                foreach (DataRow attrtr in ds.Tables["Attrs"].Rows)
+                if (!string.IsNullOrEmpty(model.CategoryID))
                 {
-                    ProductAttr attrModel = new ProductAttr();
-                    attrModel.FillData(attrtr);
-                    attrModel.AttrValues = new List<AttrValue>();
-
-                    //参数
-                    if (attrModel.Type == (int)EnumAttrType.Parameter)
+                    var category = GetCategoryByID(model.CategoryID);
+                    foreach (var attr in category.AttrLists)
                     {
-                        foreach (DataRow valuetr in ds.Tables["Values"].Select("AttrID='" + attrModel.AttrID + "'"))
+                        ProductAttr attrModel = new ProductAttr();
+                        attrModel.AttrName = attr.AttrName;
+                        attrModel.AttrValues = new List<AttrValue>();
+                        foreach (var value in attr.AttrValues)
                         {
-                            AttrValue valueModel = new AttrValue();
-                            valueModel.FillData(valuetr);
-                            if (model.AttrValueList.IndexOf(valueModel.ValueID) >= 0)
+                            if (model.AttrValueList.IndexOf(value.ValueID) >= 0)
                             {
-                                attrModel.AttrValues.Add(valueModel);
+                                attrModel.AttrValues.Add(value);
                                 model.AttrLists.Add(attrModel);
                                 break;
                             }
                         }
                     }
-                    else
-                    {
-                        model.SaleAttrs.Add(attrModel);
-                    }
+                    model.SaleAttrs = category.SaleAttrs;
                 }
 
                 model.ProductDetails = new List<ProductDetail>();
@@ -798,6 +779,13 @@ namespace IntFactoryBusiness
                 {
                     ProductDetail detail = new ProductDetail();
                     detail.FillData(item);
+                    detail.DetailStocks = new List<ProductStock>();
+                    foreach (var stocktr in ds.Tables["Stocks"].Select("ProductDetailID='" + detail.ProductDetailID + "'"))
+                    {
+                        ProductStock stock = new ProductStock();
+                        stock.FillData(stocktr);
+                        detail.DetailStocks.Add(stock);
+                    }
                     model.ProductDetails.Add(detail);
                 }
             }

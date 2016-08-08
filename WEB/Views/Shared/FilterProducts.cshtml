@@ -27,7 +27,7 @@
     }
         else if (Convert.ToInt32(ViewBag.Type) == 3)
     {
-        <a class="btn-back right mLeft20" href="/Stock/CreateDamaged">返回用料申请单</a>
+        <a class="btn-back right mLeft20" href="/Stock/CreateDamaged">返回消耗单</a>
         <span class="btn-add right mLeft20" id="btnQulicklyAddMaterial">快捷添加材料</span> 
         <a class="btn999 right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
     }
@@ -69,20 +69,6 @@
                 </ul>
             </li>
         </ul>
-@*        <ul class="attr-item" id="attr-price">
-            <li class="attrkey">价格：</li>
-            <li class="attrValues">
-                <ul>
-                    <li class="hover price" data-begin="" data-end="">不限</li>
-                    <li class="price" data-begin="0" data-end="49">0-49</li>
-                    <li class="price" data-begin="50" data-end="99">50-99</li>
-                    <li class="price" data-begin="100" data-end="199">100-199</li>
-                    <li class="price" data-begin="200" data-end="499">200-499</li>
-                    <li class="price" data-begin="500" data-end="999">500-999</li>
-                    <li class="price" data-begin="1000" data-end="">1000以上</li>
-                </ul>
-            </li>
-        </ul>*@
     </div>
     <ul class="search-sort">
         <li>排序</li>

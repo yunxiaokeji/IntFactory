@@ -9,11 +9,11 @@
         <h1 class="color999" style="background-color:#efefef;line-height:40px;text-indent:1em;margin-bottom:10px;">{%=model.ProductName%}</h1>
         <div class="cart-attrs" id="saleattr">
                 <ul class="cart-attr-item salesattr">
-                    <li class="attrkey">
+                    <li class="cart-attrkey">
                         {%=(model.SaleAttrs.length == 1?model.SaleAttrs[0].AttrName+"：":"规格：")%}
                     </li> 
                     <li class="cart-attrValues">
-                        <ul style="height:200px;overflow-y:auto;">
+                        <ul style="max-height:160px; min-height:100px; overflow-y:auto;">
                             {%
                             for(var ii=0, jj=model.ProductDetails.length; ii < jj; ii++){
 	                            var detail = model.ProductDetails[ii];
@@ -42,23 +42,21 @@
                 </ul>
             <div class="clear"></div>
             <ul class="cart-attr-item">
-                <li class="cart-attrkey">单&nbsp;&nbsp;&nbsp;&nbsp;位：</li>
-                <li class="cart-attrValues">
-                    <ul id="unit">
-                        <li class="cart-value hover" style="cursor:text;" id="small" data-value="0" data-id="{%=model.SmallUnit.UnitID%}">{%=model.SmallUnit.UnitName%}</li>
-                    </ul>
+                <li class="cart-attrkey">单位：</li>
+                <li class="cart-attrValues" id="small" data-id="{%=model.SmallUnit.UnitID%}">
+                    {%=model.SmallUnit.UnitName%}
                 </li>
             </ul>
             <ul class="cart-attr-item">
-                <li class="cart-attrkey">单&nbsp;&nbsp;&nbsp;&nbsp;价：</li>
+                <li class="cart-attrkey">单价：</li>
                 <li id="price" class="cart-attrValues">
                     {%=model.Price.toFixed(2)%}
                 </li>
             </ul>
             <ul class="cart-attr-item">
-                <li class="cart-attrkey">库&nbsp;&nbsp;&nbsp;&nbsp;存：</li>
+                <li class="cart-attrkey">库存：</li>
                 <li id="productStockQuantity" class="cart-attrValues">
-                    {%=model.Price.toFixed(2)%}
+                    0.00
                 </li>
             </ul>
             <div class="clear"></div>
@@ -66,18 +64,13 @@
         <div class="clear"></div>
 
         <div class="choose-div">
-            <div class="left mTop10 mRight10">
-                <div class="depot-dropdown"></div>
+            <div>
+                <div class="depot-dropdown left"></div>
+                <input type="text" class="choose-quantity left mLeft10 mTop1" value="1" id="quantity" />
+                <label class="mLeft10 left mTop5">货位库存：</label><label class="mTop5 left" id="productDepotQuantity">0.00</label>  
             </div>
-            <div class="choose-quantity left add-product-list">
-                <input type="text" value="1" id="quantity" />
-                <span class="quantity-add" id="quantityadd">+</span>
-                <span class="quantity-reduce" id="quantityreduce">-</span>
-            </div>
-            <div class="left mLeft10 add-product-list">
-                <input type="button" class="addcart" id="addcart" value="加入清单" />
-            </div>
-            
+            <div class="clear"></div>
+            <div class="addcart mTop10 " id="addcart" >加入清单</div>
             <div class="clear"></div>
         </div>
         

@@ -103,18 +103,19 @@ namespace YXERP.Controllers
         /// <param name="did"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public ActionResult ChooseDetail(string pid, string did, int type = 0, string guid = "",string tid="")
+        public ActionResult ChooseDetail(string pid, string did, int type = 0, string guid = "", string tid = "")
         {
             if (string.IsNullOrEmpty(pid))
             {
                 return Redirect("ProductList");
             }
-            var model = new ProductsBusiness().GetProductByIDForDetails(type, did, pid, CurrentUser.ClientID);
+            var model = new ProductsBusiness().GetProductByIDForDetails(pid, CurrentUser.ClientID);
             if (model == null || string.IsNullOrEmpty(model.ProductID))
             {
                 return Redirect("ProductList");
             }
-            ViewBag.Depots = model.Depots;
+            var ware = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID)[0];
+            ViewBag.Depots = ware.DepotSeats;
             ViewBag.Model = model;
             ViewBag.DetailID = did;
             ViewBag.OrderType = type;
@@ -513,7 +514,7 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public JsonResult GetProductByIDForDetails(int type, string did, string productid)
         {
-            var model = new ProductsBusiness().GetProductByIDForDetails(type, did, productid, CurrentUser.ClientID);
+            var model = new ProductsBusiness().GetProductByIDForDetails(productid, CurrentUser.ClientID);
             JsonDictionary.Add("Item", model);
             return new JsonResult
             {
