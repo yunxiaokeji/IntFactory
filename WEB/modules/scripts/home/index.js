@@ -32,7 +32,7 @@
 
     ObjectJS.init = function (orderLevel, taskLevel, remainDay, remainDate, orderMarks, tastMarks,currentUserID) {
         ObjectJS.remainDay = remainDay;
-        ObjectJS.remainDate = remainDate;
+        ObjectJS.remainDate = remainDate;        
         ObjectJS.orderLevel = orderLevel;
         ObjectJS.taskLevel = taskLevel;
         ObjectJS.currentUserID = currentUserID;
@@ -305,7 +305,7 @@
 
     //授权快到期提示
     ObjectJS.authorWarn = function () {
-        if (ObjectJS.remainDay <= 20) {
+        if (ObjectJS.remainDay <= 2000) {
             var authorWarn = Global.getCookie('authorWarn');
             if (authorWarn != "1") {
                 var data = { remainDay: ObjectJS.remainDay, remainDate: ObjectJS.remainDate };
@@ -315,7 +315,7 @@
                     EasyDialog.open({
                         container: {
                             id: "author-box",
-                            header: "授权快到期",
+                            header:ObjectJS.remainDay<0?"授权快到期":"授权已超期",
                             content: innerHtml
                         }
                     });
