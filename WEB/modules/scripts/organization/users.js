@@ -180,7 +180,7 @@
             var _this = $(this);
             var userid = _this.data("id");
             var tr = $(".list-item .dropdown[data-id=" + _this.data("id") + "]").parent();
-            var showmsg = "确认重置帐号：<span class='red'>" + tr.find('.name').html() + "<span>&nbsp;的密码?";
+            var showmsg = "确认重置员工：<span class='red'>" + tr.find('.name').html() + "<span>&nbsp;的密码?";
             confirm(showmsg, function () {
                 Global.post("/Organization/UpdateUserPwd", {
                     userID:userid,

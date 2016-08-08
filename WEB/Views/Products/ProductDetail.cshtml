@@ -9,11 +9,11 @@
 
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
-    <script src="/modules/plug/umeditor/umeditor.config.js"></script>
+    <script src="/modules/plug/umeditor/ueditor.config.js"></script>
     <script src="/modules/plug/umeditor/umeditor.min.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/products/product"], function (product) {
-            var um = UM.getEditor('remark', {
+            var um = UE.getEditor('remark', {
                 autoHeightEnabled: true
             });
             product.initEdit('@Html.ToJSONString(model)', um);
@@ -111,7 +111,7 @@
                 <span class="column-name">是否公开：</span><label><input type="checkbox" id="isPublic" />是<span class="red">(谨慎操作:材料公开后其他厂商也可以查看和选购)</span> </label> 
             </li>
             <li>
-                <span class="column-name">材料说明：</span><div id="remark"></div>
+                <span class="column-name">材料说明：</span><div style="margin-left:80px;" id="remark"></div>
             </li>
 
         </ul>
