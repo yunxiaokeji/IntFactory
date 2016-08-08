@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using IntFactoryBusiness;
 using IntFactoryEntity;
 using Newtonsoft.Json;
+using IntFactoryEnum;
 namespace YXERP.Areas.Api.Controllers
 {
     [YXERP.Common.ApiAuthorize]
@@ -151,5 +152,42 @@ namespace YXERP.Areas.Api.Controllers
           };
         }
 
+
+        public JsonResult GetGoodsDocByOrderID(string orderID, int type, string taskID,string clientID)
+        {
+            var list = StockBusiness.GetGoodsDocByOrderID(orderID, taskID, (EnumDocType)type, clientID);
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetOrderCosts(string orderID, string userID, string clientID)
+        {
+            var list = OrdersBusiness.BaseBusiness.GetOrderCosts(orderID, clientID);
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        //获取工艺说明
+        public JsonResult GetPlateMakings(string orderID)
+        {
+            var list = TaskBusiness.GetPlateMakings(orderID);
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
     }
 }

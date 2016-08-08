@@ -12,6 +12,7 @@ using IntFactoryBusiness;
 using IntFactoryEntity.Task;
 using IntFactoryEnum;
 using Newtonsoft.Json.Converters;
+using IntFactoryEntity;
 namespace YXERP.Areas.Api.Controllers
 {
     [YXERP.Common.ApiAuthorize]
@@ -175,6 +176,8 @@ namespace YXERP.Areas.Api.Controllers
                     if (orderDetail != null)
                     {
                         order.Add("orderID", orderDetail.OrderID);
+                        order.Add("originalID", orderDetail.OriginalID);
+                        order.Add("orderType", orderDetail.OrderType);
                         order.Add("orderCode", orderDetail.OrderCode);
                         string orderdetailImg = string.Empty;
                         if (!string.IsNullOrEmpty(orderDetail.OrderImage))
@@ -202,9 +205,16 @@ namespace YXERP.Areas.Api.Controllers
 
                             details.Add(detail);
                         }
-                        
                     }
-
+                    var moduleName = string.Empty;
+                    if (item.Mark > 0)
+                    {
+                        ProcessCategoryEntity processCategory = SystemBusiness.BaseBusiness.GetProcessCategoryByID(orderDetail.BigCategoryID);
+                        var categoryItems = processCategory.CategoryItems.FindAll(m => m.Type == 3);
+                        var categoryItem = categoryItems.Find(m => m.Mark == item.Mark);
+                        moduleName = categoryItem != null ? categoryItem.Name : string.Empty;
+                    }
+                    JsonDictionary.Add("moduleName", moduleName);
                     JsonDictionary.Add("task", task);
                     JsonDictionary.Add("domainUrl", domainUrl);
                     JsonDictionary.Add("materialList", details);
@@ -218,7 +228,7 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetTaskReplys(string orderID, string stageID, string userID, string agentID, int pageSize = 10, int pageIndex = 1)
+        public JsonResult GetTaskReplys(string orderID, string stageID, string userID, string clientID, int pageSize = 10, int pageIndex = 1)
         {
             if (!string.IsNullOrEmpty(orderID) && !string.IsNullOrEmpty(stageID))
             {
@@ -254,13 +264,13 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetTaskLogs(string taskID, string userID, string agentID, int pageindex = 1)
+        public JsonResult GetTaskLogs(string taskID, string userID, string clientID, int pageindex = 1)
         {
             if (!string.IsNullOrEmpty(taskID))
             {
                 int totalCount = 0;
                 int pageCount = 0;
-                var list = LogBusiness.GetLogs(taskID, EnumLogObjectType.OrderTask, PageSize, pageindex, ref totalCount, ref pageCount, agentID);
+                var list = LogBusiness.GetLogs(taskID, EnumLogObjectType.OrderTask, PageSize, pageindex, ref totalCount, ref pageCount, clientID);
 
                 List<Dictionary<string, object>> logs = new List<Dictionary<string, object>>();
                 foreach (var item in list)
@@ -331,12 +341,12 @@ namespace YXERP.Areas.Api.Controllers
         #endregion
 
         #region update
-        public JsonResult UpdateTaskEndTime(string taskID, string endTime, string userID, string agentID)
+        public JsonResult UpdateTaskEndTime(string taskID, string endTime, string userID, string clientID)
         {
             int result = 0;
             DateTime? endDate = null;
             if (!string.IsNullOrEmpty(endTime)) endDate = DateTime.Parse(endTime);
-            CurrentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
+            CurrentUser = OrganizationBusiness.GetUserByUserID(userID, clientID);
 
             TaskBusiness.UpdateTaskEndTime(taskID, endDate, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID, out result);
             JsonDictionary.Add("result", result);
@@ -348,10 +358,10 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult FinishTask(string taskID, string userID, string agentID)
+        public JsonResult FinishTask(string taskID, string userID, string clientID)
         {
             int result = 0;
-            CurrentUser = OrganizationBusiness.GetUserByUserID(userID, agentID);
+            CurrentUser = OrganizationBusiness.GetUserByUserID(userID, clientID);
 
             TaskBusiness.FinishTask(taskID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID, out result);
             JsonDictionary.Add("result", result);
@@ -364,15 +374,15 @@ namespace YXERP.Areas.Api.Controllers
         }
 
         [ValidateInput(false)]
-        public JsonResult SavaTaskReply(string reply, string userID, string agentID,string taskID)
+        public JsonResult SavaTaskReply(string reply, string userID, string clientID,string taskID)
         {
             var model = JsonConvert.DeserializeObject<IntFactoryEntity.ReplyJson>(reply);
 
             string replyID = OrdersBusiness.CreateReply(model.orderID, model.stageID, model.mark,
-                model.content, userID, agentID, 
+                model.content, userID, clientID, 
                 model.fromReplyID, model.fromReplyUserID, model.fromReplyAgentID);
 
-            TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.attachments, userID, agentID);
+            TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.attachments, userID, clientID);
             if (!string.IsNullOrEmpty(replyID))
             {
                 List<Dictionary<string, object>> replys = new List<Dictionary<string, object>>();
@@ -382,7 +392,7 @@ namespace YXERP.Areas.Api.Controllers
                 replyObj.Add("stageID", model.stageID);
                 replyObj.Add("mark", model.mark);
                 replyObj.Add("content", model.content);
-                replyObj.Add("createUser", GetUserBaseObj(OrganizationBusiness.GetUserByUserID(userID, agentID)));
+                replyObj.Add("createUser", GetUserBaseObj(OrganizationBusiness.GetUserByUserID(userID, clientID)));
                 if (!string.IsNullOrEmpty(model.fromReplyUserID) && !string.IsNullOrEmpty(model.fromReplyAgentID))
                 {
                     replyObj.Add("fromReplyUser", GetUserBaseObj(OrganizationBusiness.GetUserByUserID(model.fromReplyUserID, model.fromReplyAgentID)));
