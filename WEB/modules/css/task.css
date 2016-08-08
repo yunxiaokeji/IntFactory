@@ -261,7 +261,7 @@
 
 .process-stages .stage-items { }
 .process-stages .stage-items  li{ float:left; width:150px;padding:5px 10px; position:relative;
-                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc;  }
+                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc; border-radius:2px; }
 
 .process-stages .stage-items  li.ing{ border-color: #45BF67;}
 .process-stages .stage-items  li.over{ border-color: #3A7DE5;}

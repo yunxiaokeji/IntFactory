@@ -77,7 +77,7 @@
 
 .process-stages .stage-items { }
 .process-stages .stage-items  li{ float:left; width:150px; cursor:pointer; padding:5px 10px; position:relative;
-                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc;}
+                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc;border-radius:2px;}
 
 .process-stages .stage-items  li:hover{ background-color:#eee;}
 
