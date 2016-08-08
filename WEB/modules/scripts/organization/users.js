@@ -411,6 +411,13 @@
             }
         });
 
+        $("#confirmpass").change(function () {
+            var _this = $(this);
+            if (_this.val() != $("#loginpass").val()) {
+                alert("确认密码与原密码不一致");
+            }
+        });
+
         $("#btnSave").click(function () {
             if (!VerifyObject.isPass()) {
                 return false;
@@ -423,6 +430,11 @@
 
             if ($("#loginpass").val().trim().length < 6) {
                 alert("密码长度不能低于6位！");
+                return false;
+            }
+
+            if ($("#confirmpass").val() != $("#loginpass").val()) {
+                alert("确认密码与原密码不一致");
                 return false;
             }
 

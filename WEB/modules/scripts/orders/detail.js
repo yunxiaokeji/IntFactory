@@ -711,7 +711,6 @@
                 _self.getDHOrders(_self.orderid, 1);
             }
         });
-
         $(".module-tab li").first().click();
     }
 
@@ -1831,6 +1830,7 @@
         }, function (data) {
             _box.nextAll().remove();
             if (data.items.length > 0) {
+                $("#tab15 .table-header").hide();
                 var templateInner = "senddocs";
                 if (ObjectJS.model.OrderType == 1)
                 {
@@ -1852,16 +1852,10 @@
                     }
                 });
             } else {
+                $("#tab15 .table-header").show();
                 _box.after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
-            /*有数据隐藏表头*/
-            if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
-                $(".table-header").hide();
-            } else {
-                $(".table-header").show();
-            }
         });
-        
     }
 
     //裁剪记录
@@ -1876,6 +1870,7 @@
         }, function (data) {
             _box.nextAll().remove();
             if (data.items.length > 0) {
+                $("#tab13 .table-header").hide();
                 doT.exec("template/orders/cutoutdoc.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
@@ -1888,13 +1883,8 @@
                     innerhtml.find('.total-count').html(total);
                 });
             } else {
+                $("#tab13 .table-header").show();
                 _box.after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
-            }
-            /*有数据隐藏表头*/
-            if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
-                $(".table-header").hide();
-            } else {
-                $(".table-header").show();
             }
         });
 
@@ -1912,6 +1902,7 @@
         }, function (data) {
             _box.nextAll().remove();
             if (data.items.length > 0) {
+                $("#tab14 .table-header").hide();
                 doT.exec("template/orders/cutoutdoc.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
@@ -1936,15 +1927,10 @@
 
                 });
             } else {
+                $("#tab14 .table-header").show();
                 _box.after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         });
-        /*有数据隐藏表头*/
-        if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
-            $(".table-header").hide();
-        } else {
-            $(".table-header").show();
-        }
     }
 
     //其他成本
