@@ -66,7 +66,7 @@ namespace IntFactoryEntity
 
         public int IsDefault { get; set; }
 
-        public Users CreateUser { get; set; }
+        public CacheUserEntity CreateUser { get; set; }
 
         public List<Menu> Menus { get; set; }
 

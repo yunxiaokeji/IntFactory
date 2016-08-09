@@ -36,8 +36,6 @@ namespace IntFactoryEntity.Task
         [Property("Lower")]
         public string StageID { get; set; }
 
-        
-
         public OrderStageEntity Stage { get; set; }
 
         [Property("Lower")]

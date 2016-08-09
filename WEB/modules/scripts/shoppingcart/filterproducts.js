@@ -31,16 +31,17 @@
         _self.guid = guid;
         _self.tid = tid;
         Params.DocType = type;
-        _self.getChildCategory("");
+
+        Global.post("/System/GetDepotSeatsByWareID", {}, function (data) {
+            _self.depots = data.Items;
+            _self.getChildCategory("");
+        });
+
         _self.bindEvent();
         $(".content-body").createCart({
             ordertype: type,
             guid: guid,
             tid: tid
-        });
-        
-        Global.post("/System/GetDepotSeatsByWareID", {}, function (data) {
-            _self.depots = data.Items;
         });
     }
 

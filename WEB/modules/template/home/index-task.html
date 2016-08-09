@@ -64,7 +64,7 @@
                     <div class="mTop10 left">
                         <div class="order-progress left center">                    
                         {%
-                            if($data.currentUserID==item.Owner.UserID)
+                            if($data.currentUserID==item.OwnerID)
                             {
                         %}
                             <div class="center btn btn-accept" data-id="{%=item.TaskID%}" data-maxhours="{%=item.MaxHours%}">

@@ -63,7 +63,7 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string ClientID { set; get; }
 
-        public Users CreateUser { get; set; }
+        public CacheUserEntity CreateUser { get; set; }
 
         public void FillData(System.Data.DataRow dr)
         {
