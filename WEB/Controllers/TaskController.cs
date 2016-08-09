@@ -225,13 +225,9 @@ namespace YXERP.Controllers
             {
                 taskModel.FinishDay = (int)Math.Ceiling((task.CompleteTime - task.AcceptTime).TotalDays);
             }
-
             //操作权限
             taskModel.IsRoot = (task.Status != 8 && (task.FinishStatus == 1 || task.LockStatus==2) && (taskModel.IsEditTask || taskModel.IsTaskOwner) );
             ViewBag.TaskModel = taskModel;
-            if (order.OrderType == 2) {
-                order.OrderGoods = OrdersBusiness.BaseBusiness.GetOrderGoods(order.OrderID);
-            }
 
             return View();
         }

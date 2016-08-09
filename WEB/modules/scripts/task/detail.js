@@ -193,6 +193,12 @@
                     _this.data("isget", "1");
                 }
             }
+            else if (_this.data("id") == "navGoods") {
+                if (!_this.data("isget")) {
+                    ObjectJS.getOrderGoods();
+                    _this.data("isget", "1");
+                }
+            }
             else if (_this.data("id") == "platemakingContent") {
                 if (!_this.data("isget")) {
                     ObjectJS.getPlateMakings();
@@ -1676,6 +1682,21 @@
             }
         });
     }
+
+    //获取下单明细
+    ObjectJS.getOrderGoods = function () {
+        return false;
+        $("#navGoods .tr-header").nextAll().remove();
+        $("#navGoods .tr-header").after($("<tr><td colspan='8'><div class='data-loading'></div></td></tr>"));
+        Global.post("/Task/GetOrderGoods", { id: ObjectJS.orderid }, function (data) {
+            $("#navGoods .tr-header").nextAll().remove();
+            if (data.list.length > 0) {
+                console.log(data);
+            } else {
+                $("#navGoods .tr-header").after($("<tr><td colspan='8'><div class='nodata-txt'>暂无数据！</div></td></tr>"));
+            }
+        });
+    };
 
     //快捷添加一条制版工艺说明
     ObjectJS.qulicklyAddPlateMarkings = function (_this) {
