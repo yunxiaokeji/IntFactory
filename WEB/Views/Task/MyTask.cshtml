@@ -6,10 +6,12 @@
 @section css{
     <link href="/modules/css/task.css" rel="stylesheet" />
     <link href="/modules/css/common/order-task-list.css" rel="stylesheet" />
-    <script src="/modules/plug/laydate/laydate.js"></script>
     <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
 }
 @section scripts{
+    <script src="/modules/plug/laydate/laydate.js"></script>
+    <script src="/Scripts/jquery-1.11.1.js"></script>
+    <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
        seajs.use(["scripts/task/list"], function (obj) {
            obj.init('@ViewBag.IsMy', '@NowDate', '@Html.ToJSONString(model)', '@ViewBag.UserID');
@@ -103,5 +105,15 @@
     </table>
     <div id="pager" class="mTop10"></div>
 </div>
+<div class="enlarge-image-bgbox hide">
+    <div class="close-enlarge-image iconfont">&#xe606;</div> 
+    <span id="zoomInButton" class="zoom-botton iconfont mRight50">&#xe642;</span>
+    <span id="zoomOutButton" class="zoom-botton iconfont">&#xe641;</span>
+</div>
 
+<div id="pageContent" class="enlarge-image-box hide">
+    <div class="left-enlarge-image"></div>
+    <div class="right-enlarge-image"></div>
+    <div class="enlarge-image-item"></div>
+</div>
 

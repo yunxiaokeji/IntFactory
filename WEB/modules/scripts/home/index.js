@@ -3,6 +3,7 @@
     var Tip = require("tip");
     var DoT = require("dot");
     var EasyDialog = null;
+    var Pager = require("pager");
     require("colormark");
 
     var OrderListCache = null;

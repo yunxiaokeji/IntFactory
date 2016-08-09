@@ -375,4 +375,68 @@ border-bottom:2px solid #4a98e7;
 .author-footer div:first-child { background-color:#4a98e7;color:#fff;border:1px solid #3a98e7;margin:0 10px 0 360px;}
 
 
+/*切换图片*/
+.enlarge-image-bgbox {
+    width:100%;
+    height:100%; 
+    position:fixed;
+    top:0; 
+    left:0; 
+    background-color:#666;
+    z-index:9999; 
+    opacity:0.9; 
+
+}
+.enlarge-image-bgbox .iconfont{ 
+    float:right; 
+    color:#fff; 
+    font-size:20px; 
+    margin:10px 10px 0 0; 
+    cursor:pointer; 
+}
+.enlarge-image-bgbox .iconfont:hover{ 
+    color:#4a98e7;  
+}
+.enlarge-image-box{ 
+    position:fixed; 
+    top:40px; 
+    bottom:40px; 
+    left:100px; 
+    right:100px; 
+    z-index:19999; 
+
+}
+.left-enlarge-image,.right-enlarge-image {
+    position:fixed;
+    width:40px;
+    height:100px; 
+    cursor:pointer;
+    cursor:pointer;
+
+}
+.left-enlarge-image {
+     left:100px;  
+     background:url('/modules/images/ico-prev-image.png') no-repeat;
+     background-size:cover;
+}
+.left-enlarge-image:hover {  
+    background:url('/modules/images/ico-prev-image-hover.png') no-repeat;
+    background-size:cover;
+}
+.right-enlarge-image { 
+    right:100px; 
+    background:url('/modules/images/ico-next-image.png') no-repeat;
+    background-size:cover; 
+}
+.right-enlarge-image:hover {  
+    background:url('/modules/images/ico-next-image-hover.png') no-repeat;
+    background-size:cover; 
+}
+.enlarge-image-item{
+    position:fixed;
+    top:40px;
+    bottom:40px;
+    left:200px;
+    right:200px; 
+}
 

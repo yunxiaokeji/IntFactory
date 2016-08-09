@@ -278,7 +278,6 @@
                 path: '/modules/plug/qqface/arclist/'	//表情存放的路径
             });
         });        
-
         //绑定图片放大功能
         var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
         replys.find(".orderImage-repay").click(function () {
