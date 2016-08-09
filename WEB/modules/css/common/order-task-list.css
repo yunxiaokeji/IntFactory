@@ -3,7 +3,9 @@
 .table-items-detail .orderitem td{ border-bottom:solid 1px #ddd;}
 
 .table-items-detail .order-goodscode { width:300px; float:left; margin-left:10px; font-weight:bold; display:inline-block; height:25px; line-height:25px; text-align:left; }
-.table-items-detail .view-detail { color:#666; font-size:20px; cursor:pointer; }
+.table-items-detail .view-detail { color:#4a98e7; font-size:20px; cursor:pointer; }
+.table-items-detail .view-detail:hover { color:#2F73B8;}
+
 .table-items-detail .order-image{ width:120px; }
 .table-items-detail .order-image img{ max-width:120px; max-height:120px; vertical-align:middle; }
 

@@ -395,9 +395,10 @@
 
         if (data.items.length > 0) {
             doT.exec("template/orders/orders.html", function (template) {
+                data.items.customerShow = 1;
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
-                innerhtml.find('.checkbox,.view-detail').remove();
+
                 _target.after(innerhtml);
 
                 innerhtml.find('.order-progress-item').each(function () {
