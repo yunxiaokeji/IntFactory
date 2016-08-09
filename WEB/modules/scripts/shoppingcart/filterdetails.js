@@ -213,7 +213,7 @@ define(function (require, exports, module) {
                     var model = _self.model.ProductDetails[i];
                     for (var ii = 0, jj = model.DetailStocks.length; ii < jj; ii++) {
                         if (model.DetailStocks[ii].DepotID == _self.depotID) {
-                            $("#productDepotQuantity").text(model.DetailStocks[ii].StockIn - model.DetailStocks[ii].LogicOut);
+                            $("#productDepotQuantity").text(model.DetailStocks[ii].StockIn - model.DetailStocks[ii].StockOut);
                             return;
                         }
                     }

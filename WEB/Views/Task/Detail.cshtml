@@ -27,7 +27,7 @@
 }
 @{Html.RenderPartial("DetailBase", taskModel);}
 
-<div class="taskContent" style="padding-bottom:60px;@(task.Mark==12||task.Mark==22?"padding-left:0;padding-right:0;":"")">
+<div class="taskContent" style="padding:0 0 60px 0;@(task.Mark==12||task.Mark==22?"padding-left:0;padding-right:0;":"")">
     <div id="navTask" class="talk-body nav-partdiv">
         @{Html.RenderPartial("TaskReply");}
 
