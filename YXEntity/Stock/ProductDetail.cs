@@ -15,6 +15,7 @@
 *└──────────────────────────────────┘
 */
 using System;
+using System.Collections.Generic;
 namespace IntFactoryEntity
 {
 	/// <summary>
@@ -113,6 +114,8 @@ namespace IntFactoryEntity
         public string ProductImage { get; set; }
 
         public string ProviderName { get; set; }
+
+        public List<ProductStock> DetailStocks { get; set; }
 
         /// <summary>
         /// 填充数据

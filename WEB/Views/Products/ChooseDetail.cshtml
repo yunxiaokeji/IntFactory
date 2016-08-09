@@ -1,13 +1,8 @@
 ﻿@{
     IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
     var model = (IntFactoryEntity.Products)ViewBag.Model;
-    var depots=new List<IntFactoryEntity.DepotSeat>();
+    var depots = (List<IntFactoryEntity.DepotSeat>)ViewBag.Depots;
     var type = ViewBag.OrderType;
-    var allDepots = ViewBag.Depots;
-    if (type==1||type == 3 || type == 4 || type == 11)
-    {
-        depots = (List<IntFactoryEntity.DepotSeat>)ViewBag.Depots;
-    }
     ViewBag.Title = model.ProductName;
 }
 @section css{
@@ -50,41 +45,38 @@
                 @*<li class="commonprice">￥@(model.CommonPrice.Value.ToString("f2"))</li>*@
             </ul>
             <div class="attrs" id="saleattr">
-                
-                    <ul class="attr-item salesattr">
-                        <li class="attrkey">
-                            @(model.SaleAttrs.Count == 1 ? model.SaleAttrs[0].AttrName + "：" : "规格：")                      
-                         </li> 
-                        <li class="attrValues">
-                            <ul class="sales-item">
-                                @foreach (var detail in model.ProductDetails)
+                <ul class="attr-item salesattr">
+                    <li class="attrkey">
+                        @(model.SaleAttrs.Count == 1 ? model.SaleAttrs[0].AttrName + "：" : "规格：")                      
+                        </li> 
+                    <li class="attrValues">
+                        <ul class="sales-item">
+                            @foreach (var detail in model.ProductDetails)
+                            {
+                                if (model.ProductDetails.Count > 1 && detail.IsDefault == 1 && (detail.LogicOut == 0 && detail.StockOut == 0 && detail.StockIn == 0))
                                 {
-                                    if (model.ProductDetails.Count > 1 && detail.IsDefault == 1 && (detail.LogicOut == 0 && detail.StockOut == 0 && detail.StockIn == 0))
-                                    {
-                                        continue;
-                                    }
-                                    <li class="value" data-id="@detail.ProductDetailID">
-                                    @{
-                                    if (model.SaleAttrs.Count == 1)
-                                    {
-                                         @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('【', ' ').Replace('】', ' ').Replace(model.SaleAttrs[0].AttrName + ":", string.Empty).Replace(model.SaleAttrs[0].AttrName + "：", string.Empty))
-                                    }
-                                    else
-                                    {
-                                        @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('【', ' ').Replace('】', ' '))
-                                    }
-                                    }
-                                    </li>
+                                    continue;
                                 }
-                            </ul>
-                        </li>
-                    </ul>
+                                <li class="value" data-id="@detail.ProductDetailID">
+                                @{
+                                if (model.SaleAttrs.Count == 1)
+                                {
+                                   @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('【', ' ').Replace('】', ' ').Replace(model.SaleAttrs[0].AttrName + ":", string.Empty).Replace(model.SaleAttrs[0].AttrName + "：", string.Empty))
+                                }
+                                else
+                                {
+                                    @(string.IsNullOrEmpty(detail.Description) ? "默认规格" : detail.Description.Replace('【', ' ').Replace('】', ' '))
+                                }
+                                }
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
                 <ul class="attr-item">
                     <li class="attrkey">单位：</li>
                     <li class="attrValues">
-                        <ul id="unit">
-                            <li class="hover" style="cursor:text;" id="small" data-value="0" data-id="@(model.SmallUnit.UnitID)">@(model.SmallUnit.UnitName)</li>
-                        </ul>
+                       <label  class="mLeft20" id="small" data-id="@(model.SmallUnit.UnitID)">@(model.SmallUnit.UnitName)</label>
                     </li>
                 </ul>
                  <ul class="attr-item">
@@ -93,34 +85,20 @@
                         <label class="mLeft20" id="productStockQuantity">0</label>
                     </li>
                 </ul>
-                @{
-                    if (type == 0)
-                    {
-                        <div class="mRight5">
-                            <ul class="quickly-add-stock hide">
-                                <li class="mBottom10">
-                                    <input type="text" class="width50 stock-count" value="1" />
-                                    <span class="btn mLeft10" id="addDoc" data-type="1">--</span>
-                                    <span id="addDocAndBack" class="btnccc mLeft10" data-type="2">--</span>
-                                    <span class="damaged-dropdown left mRight10"></span>
-                                </li>
-                            </ul>
-                            <span id="sortAddStockDepot"></span>
-                        </div>
-                    }
-                }
            </div>
-            <div class="choose-div hide">
-                <div class="mTop10 left">
-                    <div class="depot-dropdown mRight10"></div>                
+           <div class="choose-div hide">
+                <div class="mTop10">
+                    <div class="depot-dropdown left"></div>      
+                    
+                    <input type="text" class="width60 mLeft10 mTop1 left" value="1" id="quantity" />     
+                    
+                    <label class="mLeft10 left mTop5">货位库存：</label><label class="mTop5 left" id="productDepotQuantity">0.00</label>     
                 </div>
-                <div class="choose-quantity left">
-                    <input type="text" value="1" id="quantity" />
-                    <span class="quantity-add" id="quantityadd">+</span>
-                    <span class="quantity-reduce" id="quantityreduce">-</span>
-                </div>
-                <div class="left mLeft10">
-                    <input type="button" class="addcart" id="addcart" value="加入清单" />
+               <div class="clear"></div>
+                <div class="mTop10">
+                    <div class="addcart" id="addcart">加入清单</div>
+                    <div class="addcart hide left" id="addDoc"></div>
+                    <div id="addDocAndBack" class="mLeft10 add-return hide left">立即提交单据</div>
                 </div>
             </div>
         </div>
@@ -167,7 +145,7 @@
     
 </div>
 <ul class="dropdown-ul hide" style="width:90px;">
-    <li id="purchases" data-type="1">添加采购</li>
-    <li id="damaged" data-type="3">用料登记</li>
-    <li id="overflow" data-type="4">添加报溢</li>
+    <li id="purchases" data-type="1">加入采购</li>
+    <li id="damaged" data-type="3">消耗登记</li>
+    <li id="overflow" data-type="4">材料报溢</li>
 </ul>

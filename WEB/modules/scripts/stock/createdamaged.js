@@ -33,7 +33,7 @@ define(function (require, exports, module) {
 
         $("#btnChooseProduct").click(function () {
             ChooseProduct.create({
-                title: "选择用料登记",
+                title: "选择消耗材料",
                 type: 3, //1采购 2出库 3报损 4报溢 5调拨
                 wareid: _self.wareid,
                 callback: function (products) {
@@ -92,7 +92,7 @@ define(function (require, exports, module) {
                 alert("请选择材料！");
                 return;
             }
-            confirm("用料登记单提交后不可编辑，确认提交吗？", function () {
+            confirm("材料消耗单提交后不可编辑，确认提交吗？", function () {
                 _self.submitOrder();
             });
 

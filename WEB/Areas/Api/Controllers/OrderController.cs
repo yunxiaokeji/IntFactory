@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using System.Web.Script.Serialization;
 using IntFactoryBusiness;
 using IntFactoryEntity;
+using IntFactoryEnum;
 using Newtonsoft.Json;
+using IntFactoryEnum;
 namespace YXERP.Areas.Api.Controllers
 {
     [YXERP.Common.ApiAuthorize]
@@ -150,6 +152,57 @@ namespace YXERP.Areas.Api.Controllers
               JsonRequestBehavior = JsonRequestBehavior.AllowGet
           };
         }
+        public JsonResult CreateOrder(string entity, string clientid, string opearid)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
 
+            string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID, model.GoodsCode, model.Title, model.PersonName, model.MobileTele, EnumOrderSourceType.FactoryOrder,
+                                                                    (EnumOrderType)model.OrderType, model.OrderGoods, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity, model.PlanTime,
+                                                                     model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, opearid, clientid);
+            JsonDictionary.Add("id", orderid);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetGoodsDocByOrderID(string orderID, int type, string taskID,string clientID)
+        {
+            var list = StockBusiness.GetGoodsDocByOrderID(orderID, taskID, (EnumDocType)type, clientID);
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetOrderCosts(string orderID, string userID, string clientID)
+        {
+            var list = OrdersBusiness.BaseBusiness.GetOrderCosts(orderID, clientID);
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        //获取工艺说明
+        public JsonResult GetPlateMakings(string orderID)
+        {
+            var list = TaskBusiness.GetPlateMakings(orderID);
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
     }
 }

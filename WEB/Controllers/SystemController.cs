@@ -81,7 +81,8 @@ namespace YXERP.Controllers
 
         public ActionResult Warehouse()
         {
-            return View();
+            var list = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
+            return Redirect("/System/DepotSeat/" + list[0].WareID);
         }
 
         public ActionResult DepotSeat(string id = "")
@@ -524,6 +525,10 @@ namespace YXERP.Controllers
 
         public JsonResult GetDepotSeatsByWareID(string wareid)
         {
+            if (string.IsNullOrEmpty(wareid))
+            {
+                wareid = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID)[0].WareID;
+            }
             List<DepotSeat> list = new SystemBusiness().GetDepotSeatsByWareID(wareid, CurrentUser.ClientID);
             JsonDictionary.Add("Items", list);
             return new JsonResult

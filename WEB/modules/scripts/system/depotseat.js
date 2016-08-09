@@ -150,59 +150,66 @@ define(function (require, exports, module) {
     ObjectJS.getList = function () {
         var _self = this;
         $("#warehouse-items").nextAll().remove();
+        $("#warehouse-items").after("<tr><td colspan='8'><div class='data-loading'><div></td></tr>");
         Global.post("/System/GetDepotSeats", Params, function (data) {
-            doT.exec("template/system/depotseats.html", function (templateFun) {
-                var innerText = templateFun(data.Items);
-                innerText = $(innerText);
-                $("#warehouse-items").after(innerText);
 
-                //下拉事件
-                innerText.find(".dropdown").click(function () {
-                    var _this = $(this);
+            $("#warehouse-items").nextAll().remove();
 
-                    var position = _this.find(".ico-dropdown").position();
-                    $(".dropdown-ul li").data("id", _this.data("id"));
-                    $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 55 }).show().mouseleave(function () {
-                        $(this).hide();
+            if (data.Items.length > 0) {
+                doT.exec("template/system/depotseats.html", function (templateFun) {
+                    var innerText = templateFun(data.Items);
+                    innerText = $(innerText);
+                    $("#warehouse-items").after(innerText);
+
+                    //下拉事件
+                    innerText.find(".dropdown").click(function () {
+                        var _this = $(this);
+
+                        var position = _this.find(".ico-dropdown").position();
+                        $(".dropdown-ul li").data("id", _this.data("id"));
+                        $(".dropdown-ul").css({ "top": position.top + 20, "left": position.left - 55 }).show().mouseleave(function () {
+                            $(this).hide();
+                        });
                     });
-                });
 
-                //绑定启用插件
-                innerText.find(".status").switch({
-                    open_title: "点击启用",
-                    close_title: "点击禁用",
-                    value_key: "value",
-                    change: function (data,callback) {
-                        _self.editStatus(data, data.data("id"), data.data("value"), callback);
-                    }
-                });
-                innerText.find(".sort-up,.sort-down").click(function () {
-                    var _this = $(this);
-                    Global.post("/System/UpdateDepotSeatSort", {
-                        depotid: _this.data("id"),
-                        wareid: Params.wareid,
-                        type: _this.data("type")
-                    }, function (data) {
-                        if (data.status) {
-                            var parent = _this.parents(".list-item");
-                            if (_this.data("type") == 0) {
-                                parent.insertBefore(parent.prev());
-                            } else {
-                                parent.insertAfter(parent.next());
-                            }
-                            _self.hideUpDown();
-                        } else {
-                            alert("优先级调整失败", function () {
-                                location.href = location.href;
-                            });
+                    //绑定启用插件
+                    innerText.find(".status").switch({
+                        open_title: "点击启用",
+                        close_title: "点击禁用",
+                        value_key: "value",
+                        change: function (data, callback) {
+                            _self.editStatus(data, data.data("id"), data.data("value"), callback);
                         }
-                    })
+                    });
+                    innerText.find(".sort-up,.sort-down").click(function () {
+                        var _this = $(this);
+                        Global.post("/System/UpdateDepotSeatSort", {
+                            depotid: _this.data("id"),
+                            wareid: Params.wareid,
+                            type: _this.data("type")
+                        }, function (data) {
+                            if (data.status) {
+                                var parent = _this.parents(".list-item");
+                                if (_this.data("type") == 0) {
+                                    parent.insertBefore(parent.prev());
+                                } else {
+                                    parent.insertAfter(parent.next());
+                                }
+                                _self.hideUpDown();
+                            } else {
+                                alert("优先级调整失败", function () {
+                                    location.href = location.href;
+                                });
+                            }
+                        })
+                    });
+
+                    _self.hideUpDown();
                 });
 
-                _self.hideUpDown();
-            });
+            } else {
 
-            
+            }
 
             $("#pager").paginate({
                 total_count: data.TotalCount,

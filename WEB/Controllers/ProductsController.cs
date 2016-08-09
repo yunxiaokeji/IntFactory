@@ -27,29 +27,16 @@ namespace YXERP.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 品牌列表
-        /// </summary>
-        /// <returns></returns>
         public ActionResult Brand() 
         {
             return View();
         }
 
-
-        /// <summary>
-        /// 产品属性
-        /// </summary>
-        /// <returns></returns>
         public ActionResult Attr() 
         {
             return View();
         }
 
-        /// <summary>
-        /// 添加产品
-        /// </summary>
-        /// <returns></returns>
         public ActionResult ProductAdd(string type = "", string guid = "", string tid = "") 
         {
             if (string.IsNullOrEmpty(type)) 
@@ -64,11 +51,6 @@ namespace YXERP.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 产品详情页
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public ActionResult ProductDetail(string id)
         {
             var model = new ProductsBusiness().GetProductByID(id, CurrentUser.ClientID);
@@ -77,10 +59,6 @@ namespace YXERP.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 产品列表
-        /// </summary>
-        /// <returns></returns>
         public ActionResult ProductList() 
         {
             return View();
@@ -96,25 +74,19 @@ namespace YXERP.Controllers
             return View("FilterProducts");
         }
 
-        /// <summary>
-        /// 加入购物车详情页
-        /// </summary>
-        /// <param name="pid"></param>
-        /// <param name="did"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public ActionResult ChooseDetail(string pid, string did, int type = 0, string guid = "",string tid="")
+        public ActionResult ChooseDetail(string pid, string did, int type = 0, string guid = "", string tid = "")
         {
             if (string.IsNullOrEmpty(pid))
             {
                 return Redirect("ProductList");
             }
-            var model = new ProductsBusiness().GetProductByIDForDetails(type, did, pid, CurrentUser.ClientID);
+            var model = new ProductsBusiness().GetProductByIDForDetails(pid, CurrentUser.ClientID);
             if (model == null || string.IsNullOrEmpty(model.ProductID))
             {
                 return Redirect("ProductList");
             }
-            ViewBag.Depots = model.Depots;
+            var ware = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID)[0];
+            ViewBag.Depots = ware.DepotSeats;
             ViewBag.Model = model;
             ViewBag.DetailID = did;
             ViewBag.OrderType = type;
@@ -133,10 +105,6 @@ namespace YXERP.Controllers
             return View("Purchases");
         }
 
-        /// <summary>
-        /// 采购单确认页面
-        /// </summary>
-        /// <returns></returns>
         public ActionResult ConfirmPurchase(string id)
         {
             var wares = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
@@ -146,11 +114,6 @@ namespace YXERP.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 我的采购详情
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public ActionResult DocDetail(string id)
         {
             var model = StockBusiness.GetStorageDetail(id, CurrentUser.ClientID);
@@ -162,11 +125,6 @@ namespace YXERP.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 采购审核页面
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public ActionResult AuditDetail(string id)
         {
             ViewBag.Model = StockBusiness.GetStorageDetail(id, CurrentUser.ClientID);
@@ -263,90 +221,8 @@ namespace YXERP.Controllers
 
         #endregion
 
-        #region 品牌
-
-        //public JsonResult SavaBrand(string brand)
-        //{
-        //    JavaScriptSerializer serializer = new JavaScriptSerializer();
-        //    Brand model = serializer.Deserialize<Brand>(brand);
-
-        //    string brandID = "";
-        //    if (string.IsNullOrEmpty(model.BrandID))
-        //    {
-        //        brandID = new ProductsBusiness().AddBrand(model.Name, model.AnotherName, model.IcoPath, model.CountryCode, model.CityCode, model.Status.Value, model.Remark, model.BrandStyle, OperateIP, CurrentUser.UserID, CurrentUser.ClientID);
-        //    }
-        //    else
-        //    {
-        //        bool bl = new ProductsBusiness().UpdateBrand(model.BrandID, model.Name, model.AnotherName, model.CountryCode, model.CityCode, model.IcoPath, model.Status.Value, model.Remark, model.BrandStyle, OperateIP, CurrentUser.UserID);
-        //        if (bl)
-        //        {
-        //            brandID = model.BrandID;
-        //        }
-        //    }
-        //    JsonDictionary.Add("ID", brandID);
-        //    return new JsonResult
-        //    {
-        //        Data = JsonDictionary,
-        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-        //    };
-        //}
-
-        //public JsonResult GetBrandList(string keyWords, int pageSize, int pageIndex, int totalCount)
-        //{
-        //    int pageCount = 0;
-        //    List<Brand> list = new ProductsBusiness().GetBrandList(keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
-        //    JsonDictionary.Add("Items", list);
-        //    JsonDictionary.Add("TotalCount", totalCount);
-        //    JsonDictionary.Add("PageCount", pageCount);
-        //    return new JsonResult
-        //    {
-        //        Data = JsonDictionary,
-        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-        //    };
-        //}
-
-        //public JsonResult UpdateBrandStatus(string brandID, int status)
-        //{
-        //    bool bl = new ProductsBusiness().UpdateBrandStatus(brandID, (EnumStatus)status, OperateIP, CurrentUser.UserID);
-        //    JsonDictionary.Add("Status", bl);
-        //    return new JsonResult
-        //    {
-        //        Data = JsonDictionary,
-        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-        //    };
-        //}
-
-        //public JsonResult DeleteBrand(string brandID)
-        //{
-        //    bool bl = new ProductsBusiness().UpdateBrandStatus(brandID, EnumStatus.Delete, OperateIP, CurrentUser.UserID);
-        //    JsonDictionary.Add("Status", bl);
-        //    return new JsonResult
-        //    {
-        //        Data = JsonDictionary,
-        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-        //    };
-        //}
-
-        //public JsonResult GetBrandDetail(string id)
-        //{
-        //    Brand model = new ProductsBusiness().GetBrandByBrandID(id);
-        //    JsonDictionary.Add("model", model);
-        //    return new JsonResult
-        //    {
-        //        Data = JsonDictionary,
-        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-        //    };
-        //}
-
-        #endregion
-
         #region 分类
 
-        /// <summary>
-        /// 获取下级分类
-        /// </summary>
-        /// <param name="categoryid"></param>
-        /// <returns></returns>
         public JsonResult GetChildCategorysByID(string categoryid)
         {
             var list = new ProductsBusiness().GetChildCategorysByID(categoryid, EnumCategoryType.Product);
@@ -369,11 +245,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取分类详情
-        /// </summary>
-        /// <param name="categoryid"></param>
-        /// <returns></returns>
         public JsonResult GetCategoryByID(string categoryid)
         {
             var model = new ProductsBusiness().GetCategoryByID(categoryid);
@@ -385,11 +256,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取分类详情(带属性)
-        /// </summary>
-        /// <param name="categoryid"></param>
-        /// <returns></returns>
         public JsonResult GetCategoryDetailsByID(string categoryid)
         {
             var model = new ProductsBusiness().GetCategoryByID(categoryid);
@@ -416,11 +282,6 @@ namespace YXERP.Controllers
 
         #region 产品
 
-        /// <summary>
-        /// 保存产品
-        /// </summary>
-        /// <param name="product"></param>
-        /// <returns></returns>
         public JsonResult SavaProduct(string product)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -467,10 +328,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取产品列表
-        /// </summary>
-        /// <returns></returns>
         public JsonResult GetProductList(string filter)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -490,11 +347,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取产品信息
-        /// </summary>
-        /// <param name="productid"></param>
-        /// <returns></returns>
         public JsonResult GetProductByID(string productid) 
         {
             var model = new ProductsBusiness().GetProductByID(productid, CurrentUser.ClientID);
@@ -506,14 +358,9 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取产品信息（加入购物车）
-        /// </summary>
-        /// <param name="productid"></param>
-        /// <returns></returns>
         public JsonResult GetProductByIDForDetails(int type, string did, string productid)
         {
-            var model = new ProductsBusiness().GetProductByIDForDetails(type, did, productid, CurrentUser.ClientID);
+            var model = new ProductsBusiness().GetProductByIDForDetails(productid, CurrentUser.ClientID);
             JsonDictionary.Add("Item", model);
             return new JsonResult
             {
@@ -522,10 +369,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取仓库、货位信息(2016-7-22)
-        /// </summary>
-        /// <returns></returns>
         public JsonResult GetWareHouses()
         {
             List<WareHouse> items = SystemBusiness.BaseBusiness.GetWareHouses(CurrentUser.ClientID);
@@ -548,12 +391,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 编辑产品状态
-        /// </summary>
-        /// <param name="productid"></param>
-        /// <param name="status"></param>
-        /// <returns></returns>
         public JsonResult UpdateProductStatus(string productid, int status)
         {
             bool bl = new ProductsBusiness().UpdateProductStatus(productid, (EnumStatus)status, OperateIP, CurrentUser.UserID);
@@ -565,11 +402,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 产品编码是否存在
-        /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
         public JsonResult IsExistsProductCode(string code)
         {
             bool bl = new ProductsBusiness().IsExistProductCode(code, CurrentUser.ClientID);
@@ -581,11 +413,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 保存子产品
-        /// </summary>
-        /// <param name="product"></param>
-        /// <returns></returns>
         public JsonResult SavaProductDetail(string product)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -627,12 +454,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 编辑子产品状态
-        /// </summary>
-        /// <param name="productdetailid"></param>
-        /// <param name="status"></param>
-        /// <returns></returns>
         public JsonResult UpdateProductDetailsStatus(string productdetailid, int status)
         {
             bool bl = new ProductsBusiness().UpdateProductDetailsStatus(productdetailid, (EnumStatus)status, OperateIP, CurrentUser.UserID);
@@ -671,9 +492,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 删除产品
-        /// </summary>
         public JsonResult DeleteProductByID(string pid) 
         {
             int result;
@@ -686,9 +504,6 @@ namespace YXERP.Controllers
             };
         }
 
-        /// <summary>
-        /// 删除子产品
-        /// </summary>
         public JsonResult DeleteProductDetailByID(string did)
         {
             int result;

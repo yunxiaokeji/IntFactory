@@ -419,7 +419,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ProductID", productid),
                                        new SqlParameter("@ClientID", clientid) 
                                    };
-            DataSet ds = GetDataSet("P_GetProductByIDForDetails", paras, CommandType.StoredProcedure, "Product|Details|Providers|Attrs|Values");
+            DataSet ds = GetDataSet("P_GetProductByIDForDetails", paras, CommandType.StoredProcedure, "Product|Details|Providers|Stocks");
             return ds;
         }
 
