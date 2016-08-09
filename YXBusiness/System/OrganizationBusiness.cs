@@ -21,9 +21,6 @@ namespace IntFactoryBusiness
         private static Dictionary<string, List<Department>> _cacheDeparts;
         private static Dictionary<string, List<Role>> _cacheRoles;
 
-        /// <summary>
-        /// 缓存用户信息
-        /// </summary>
         private static Dictionary<string, List<Users>> Users
         {
             get 
@@ -40,9 +37,6 @@ namespace IntFactoryBusiness
             }
         }
 
-        /// <summary>
-        /// 缓存部门信息
-        /// </summary>
         private static Dictionary<string, List<Department>> Departments
         {
             get
@@ -59,9 +53,6 @@ namespace IntFactoryBusiness
             }
         }
 
-        /// <summary>
-        /// 缓存角色信息
-        /// </summary>
         private static Dictionary<string, List<Role>> Roles
         {
             get
@@ -234,6 +225,19 @@ namespace IntFactoryBusiness
             else
             {
                 LogBusiness.AddLoginLog(account, false, IntFactoryEnum.EnumSystemType.Client, operateip, "", "");
+            }
+            return model;
+        }
+
+        public static CacheUserEntity GetUserCacheByUserID(string userid, string clientid)
+        {
+            var user = GetUserByUserID(userid, clientid);
+            CacheUserEntity model = new CacheUserEntity();
+            model.UserID = userid;
+            if (user != null && !string.IsNullOrEmpty(user.UserID))
+            {
+                model.Name = user.Name;
+                model.Avatar = user.Avatar;
             }
             return model;
         }

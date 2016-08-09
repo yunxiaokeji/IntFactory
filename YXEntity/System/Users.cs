@@ -35,9 +35,7 @@ namespace IntFactoryEntity
 		/// 
 		/// </summary>
 		public int AutoID{ set; get; }
-		/// <summary>
-		/// 
-		/// </summary>
+
         [Property("Lower")]
 		public string UserID{ set; get; }
 
