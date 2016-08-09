@@ -157,7 +157,7 @@ namespace YXERP.Areas.Api.Controllers
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
-
+            //string qiniuImgUrl =Common.Common.UploadAttachment(model.OrderImage);
             string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID, model.GoodsCode, model.Title, model.PersonName, model.MobileTele, EnumOrderSourceType.FactoryOrder,
                                                                     (EnumOrderType)model.OrderType, model.OrderGoods, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity, model.PlanTime,
                                                                      model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, opearid, clientid);
