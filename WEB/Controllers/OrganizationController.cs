@@ -83,8 +83,7 @@ namespace YXERP.Controllers
             {
                 if (item.CreateUser == null && !string.IsNullOrEmpty(item.CreateUserID))
                 {
-                    var user = OrganizationBusiness.GetUserByUserID(item.CreateUserID, CurrentUser.ClientID);
-                    item.CreateUser = new Users() { Name = user.Name };
+                    item.CreateUser = OrganizationBusiness.GetUserCacheByUserID(item.CreateUserID, CurrentUser.ClientID);
                 }
             }
             JsonDictionary.Add("items", list);
@@ -163,8 +162,7 @@ namespace YXERP.Controllers
             {
                 if (item.CreateUser == null && !string.IsNullOrEmpty(item.CreateUserID))
                 {
-                    var user = OrganizationBusiness.GetUserByUserID(item.CreateUserID, CurrentUser.ClientID);
-                    item.CreateUser = new Users() { Name = user.Name };
+                    item.CreateUser = OrganizationBusiness.GetUserCacheByUserID(item.CreateUserID, CurrentUser.ClientID);
                 }
             }
             JsonDictionary.Add("items", list);
@@ -177,7 +175,7 @@ namespace YXERP.Controllers
 
         public JsonResult GetRoleByID(string id)
         {
-            var model = OrganizationBusiness.GetRoleByID(id, CurrentUser.ClientID);
+            var model = OrganizationBusiness.GetRoleByIDCache(id, CurrentUser.ClientID);
             JsonDictionary.Add("model", model);
             return new JsonResult()
             {

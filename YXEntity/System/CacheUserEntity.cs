@@ -5,6 +5,7 @@ using System.Text;
 
 namespace IntFactoryEntity
 {
+    [Serializable]
     public class CacheUserEntity
     {
         [Property("Lower")]

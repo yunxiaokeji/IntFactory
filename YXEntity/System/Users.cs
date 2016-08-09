@@ -145,7 +145,7 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string TeamID { get; set; }
 
-        public Users CreateUser { get; set; }
+        public CacheUserEntity CreateUser { get; set; }
 
         [Property("Lower")] 
         public string DepartID { get; set; }
