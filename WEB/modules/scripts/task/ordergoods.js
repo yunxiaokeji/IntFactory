@@ -116,6 +116,35 @@
     ObjectJS.getOrderGoods = function () {
         Global.post("/Task/GetOrderGoods", { id: ObjectJS.orderid }, function (data) {
             ObjectJS.OrderGoods = data.list;
+            $("#navGoods .tr-header").nextAll().remove();
+            if (data.list.length > 0) {
+                DoT.exec("template/task/task-ordergoods.html", function (template) {
+                    var innerHtml = template(data.list);
+                    innerHtml = $(innerHtml);
+                    $("#navGoods .tr-header").after(innerHtml);
+                    ObjectJS.getAmount();
+                });
+            } else {
+                $("#navGoods .tr-header").after($("<tr><td colspan='8'><div class='nodata-txt'>暂无明细</div></td></tr>"));
+            }
+        });
+    }
+
+    //汇总
+    ObjectJS.getAmount = function () {
+        //订单明细汇总
+        $(".total-item td").each(function () {
+            var _this = $(this), _total = 0;
+            if (_this.data("class")) {
+                $("." + _this.data("class")).each(function () {
+                    _total += $(this).html() * 1;
+                });
+                if (_this.data("class") == "moneytotal") {
+                    _this.html(_total.toFixed(2));
+                } else {
+                    _this.html(_total);
+                }
+            }
         });
     }
 

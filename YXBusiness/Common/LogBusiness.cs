@@ -60,7 +60,7 @@ namespace IntFactoryBusiness
             {
                 LogEntity model = new LogEntity();
                 model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientid);
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, clientid);
 
                 list.Add(model);
             }

@@ -37,7 +37,7 @@
                 <span class="column-title">客户名称：</span> 
                 @if (!string.IsNullOrEmpty(model.CustomerID))
                 {
-                    <a target="_blank" href="/Customer/Detail/@(model.CustomerID)">@(model.Customer.Name)</a> 
+                    <a target="_blank" href="/Customer/Detail/@(model.CustomerID)">@(model.CustomerName)</a> 
                 }
             </li>
             <li>

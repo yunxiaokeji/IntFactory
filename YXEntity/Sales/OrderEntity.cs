@@ -161,9 +161,9 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string OwnerID { get; set; }
 
-        public Users Owner { get; set; }
+        public CacheUserEntity Owner { get; set; }
 
-        public Users CreateUser { get; set; }
+        public CacheUserEntity CreateUser { get; set; }
 
         public DateTime PlanTime { get; set; }
 
@@ -173,8 +173,6 @@ namespace IntFactoryEntity
         public string CustomerID { get; set; }
 
         public string CustomerName { get; set; }
-
-        public CustomerEntity Customer { get; set; }
 
         public int SendStatus { get; set; }
 

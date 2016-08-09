@@ -63,14 +63,25 @@ define(function (require, exports, module) {
 
         //获取任务详情
         var drawTaskDetail = function () {
+
+            if ($("#taskDetailContent").length > 0) {
+                $("#taskDetailContent").data("taskid", defaultParas.taskid);
+                $("#taskDetailContent").empty();
+            } else {
+                $("body").append('<div class="task-layer-box" id="taskDetailContent" data-taskid="' + defaultParas.taskid + '"></div>');
+            }
+            $("#taskDetailContent").append("<div class='data-loading' ><div>");
+            $("#taskDetailContent").animate({ width: '500px' }, 200);
+
             doT.exec("plug/showtaskdetail/task-detail.html", function (template) {
-                Global.post("/task/GetTaskDetail", { id: defaultParas.taskid }, function (data) {
+                Global.post("/Task/GetTaskDetail", { id: defaultParas.taskid }, function (data) {
                     //获取任务详情内容
                     var item = data.item;
                     var items = [item];
                     var innerhtml = template(items);
-                    $("#taskDetailContent").remove();
-                    $("body").append(innerhtml);
+
+                    $("#taskDetailContent").empty();
+                    $("#taskDetailContent").append(innerhtml);
 
                     $("#btnLockTask").hide();
 
@@ -97,7 +108,6 @@ define(function (require, exports, module) {
                                             status: 2
                                         }, function (result) {
                                             if (result.status) {
-                                                //alert("任务重启成功");
                                                 window.location = window.location;
                                                 _this.data("lock", 2).html("锁定任务");
                                             } else {
@@ -113,7 +123,6 @@ define(function (require, exports, module) {
                                             status: 1
                                         }, function (result) {
                                             if (result.status) {
-                                                //alert("任务锁定成功");
                                                 window.location = window.location;
                                                 _this.data("lock", 1).html("重启任务");
                                             } else {
@@ -127,7 +136,6 @@ define(function (require, exports, module) {
                             $("#btnLockTask").remove();
                         }
                     }
-                    $("#taskDetailContent").animate({ width: '500px' }, 200);
 
                     //隐藏下拉
                     $(document).click(function (e) {

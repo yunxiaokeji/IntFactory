@@ -28,9 +28,10 @@
     ///orderType:订单类型
     ObjectJS.init = function (attrValues, orderimages, isWarn, task, originalID, orderPlanTime, plateMarkItems, taskDescs) {
         var task = JSON.parse(task.replace(/&quot;/g, '"'));
+
         if (plateMarkItems) {
             plateMartingItem = JSON.parse(plateMarkItems.replace(/&quot;/g, '"'));
-        } console.log(task);
+        } 
         /*任务模块别名*/
         var taskModeleDescs = JSON.parse(taskDescs.replace(/&quot;/g, '"'));
 
@@ -39,6 +40,7 @@
         ObjectJS.orderid = task.OrderID;
         ObjectJS.guid = task.OrderID;
         ObjectJS.originalID = originalID;
+        ObjectJS.processID = task.ProcessID;
         ObjectJS.taskid = task.TaskID;
         ObjectJS.stageid = task.StageID;
         ObjectJS.orderType = task.OrderType;
@@ -77,6 +79,9 @@
 
         //统计材料列表总金额
         ObjectJS.getProductAmount();
+
+        //获取订单所有任务阶段
+        ObjectJS.getAllTaskStages();
 
         //判断制版任务是否已执行
         if (ObjectJS.mark == 12 || ObjectJS.mark == 22) {
@@ -126,10 +131,6 @@
 
         //事件绑定
         ObjectJS.bindBaseEvent();
-
-        if (ObjectJS.orderType == 2) {
-            ObjectJS.getAmount();
-        }
     };
 
     //#region任务基本信息操作
@@ -190,6 +191,12 @@
             if (_this.data("id") == "orderTaskLogs") {
                 if (!_this.data("isget")) {                    
                     ObjectJS.getLogs(1);
+                    _this.data("isget", "1");
+                }
+            }
+            else if (_this.data("id") == "navGoods") {
+                if (!_this.data("isget")) {
+                    ObjectJS.getOrderGoods();
                     _this.data("isget", "1");
                 }
             }
@@ -797,12 +804,12 @@
     ObjectJS.getLogs = function (page) {
         var _self = this;
         $("#taskLogList").empty();
+        $("#taskLogList").append($("<div class='data-loading'></div>"));
         ObjectJS.isLoading=false
         Global.post("/Task/GetOrderTaskLogs", {
             id: _self.taskid,
             pageindex: page
         }, function (data) {
-
             if (data.items.length > 0) {
                 DoT.exec("template/common/logs.html", function (template) {
                     var innerhtml = template(data.items);
@@ -813,7 +820,6 @@
             else {
                 $("#taskLogList").html("<div class='nodata-txt'>暂无日志!</div>");
             }
-
             $("#pagerLogs").paginate({
                 total_count: data.totalCount,
                 count: data.pageCount,
@@ -827,7 +833,6 @@
                 onChange: function (page) {
                     _self.getLogs(page);
                 }
-
             });
             ObjectJS.isLoading = true;
         });
@@ -1676,6 +1681,42 @@
             }
         });
     }
+
+    //获取下单明细
+    ObjectJS.getOrderGoods = function () {
+        $("#navGoods .tr-header").nextAll().remove();
+        $("#navGoods .tr-header").after($("<tr><td colspan='8'><div class='data-loading'></div></td></tr>"));
+        Global.post("/Task/GetOrderGoods", { id: ObjectJS.orderid }, function (data) {
+            $("#navGoods .tr-header").nextAll().remove();
+            if (data.list.length > 0) {
+                DoT.exec("template/task/task-ordergoods.html", function (template) {
+                    var innerHtml = template(data.list);
+                    innerHtml = $(innerHtml);
+                    $("#navGoods .tr-header").after(innerHtml);
+                    ObjectJS.getAmount();
+                });
+            } else {
+                $("#navGoods .tr-header").after($("<tr><td colspan='8'><div class='nodata-txt'>暂无明细</div></td></tr>"));
+            }
+        });
+    };
+
+    //获取订单所有任务流程
+    ObjectJS.getAllTaskStages = function () {
+        $(".process-stages .stage-items").append($("<div class='data-loading'></div>"));
+        Global.post("/Task/GetOrderStages", { orderid: ObjectJS.orderid }, function (data) {
+            if (data.items.length > 0) {
+                DoT.exec("template/task/task-stage.html", function (template) {
+                    data.items.stageID = ObjectJS.stageid;
+                    var innerHtml = template(data.items);
+                    innerHtml = $(innerHtml);
+                    $(".process-stages .stage-items").html(innerHtml);
+                });
+            } else {
+                $(".process-stages").remove();
+            }
+        });
+    };
 
     //快捷添加一条制版工艺说明
     ObjectJS.qulicklyAddPlateMarkings = function (_this) {

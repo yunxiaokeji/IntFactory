@@ -1817,7 +1817,6 @@
     ObjectJS.getLogs = function (page) {
         var _self = this;        
         $("#orderLog").empty();
-       // $("#orderLog").nextAll().remove();
         $("#orderLog").after("<div class='data-loading' ></div>");
         Global.post("/Orders/GetOrderLogs", {
             orderid: _self.orderid,

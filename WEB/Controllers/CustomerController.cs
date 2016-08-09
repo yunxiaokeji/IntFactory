@@ -364,11 +364,11 @@ namespace YXERP.Controllers
 
                 model.ReplyID = replyID;
                 model.CreateTime = DateTime.Now;
-                model.CreateUser = CurrentUser;
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(CurrentUser.UserID, CurrentUser.ClientID); 
                 model.CreateUserID = CurrentUser.UserID;
                 if (!string.IsNullOrEmpty(model.FromReplyUserID) && !string.IsNullOrEmpty(model.FromReplyAgentID))
                 {
-                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
+                    model.FromReplyUser = OrganizationBusiness.GetUserCacheByUserID(model.FromReplyUserID, model.FromReplyAgentID);
                 }
                 list.Add(model);
             }
