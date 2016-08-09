@@ -16,7 +16,7 @@ namespace IntFactoryEntity
 
         public string CreateUserID { get; set; }
 
-        public Users CreateUser { get; set; }
+        public CacheUserEntity CreateUser { get; set; }
 
         public string ClientID { get; set; }
 

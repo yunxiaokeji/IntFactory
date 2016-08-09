@@ -28,7 +28,7 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string ClientID { get; set; }
 
-        public Users CreateUser { get; set; }
+        public CacheUserEntity CreateUser { get; set; }
 
         public DateTime CreateTime { get; set; }
 
@@ -41,7 +41,7 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string FromReplyAgentID { get; set; }
 
-        public Users FromReplyUser { get; set; }
+        public CacheUserEntity FromReplyUser { get; set; }
 
         public List<Attachment> Attachments { get; set; }
 

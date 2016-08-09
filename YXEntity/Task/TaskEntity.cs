@@ -36,12 +36,10 @@ namespace IntFactoryEntity.Task
         [Property("Lower")]
         public string StageID { get; set; }
 
-        public OrderStageEntity Stage { get; set; }
-
         [Property("Lower")]
         public string OwnerID { get; set; }
 
-        public Users Owner { get; set; }
+        public CacheUserEntity Owner { get; set; }
 
         public DateTime EndTime { get; set; }
 
@@ -74,9 +72,6 @@ namespace IntFactoryEntity.Task
         public DateTime PCompleteTime { get; set; }
 
         public DateTime CreateTime { get; set; }
-
-        [Property("Lower")]
-        public string CreateUserID { get; set; }
 
         [Property("Lower")]
         public string ClientID { get; set; }

@@ -233,9 +233,10 @@ namespace IntFactoryBusiness
         {
             var user = GetUserByUserID(userid, clientid);
             CacheUserEntity model = new CacheUserEntity();
-            model.UserID = userid;
             if (user != null && !string.IsNullOrEmpty(user.UserID))
             {
+                model.UserID = userid;
+                model.ClientID = clientid;
                 model.Name = user.Name;
                 model.Avatar = user.Avatar;
             }

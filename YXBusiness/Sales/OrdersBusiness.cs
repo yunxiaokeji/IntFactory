@@ -40,7 +40,7 @@ namespace IntFactoryBusiness
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
 
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
 
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
 
@@ -71,7 +71,7 @@ namespace IntFactoryBusiness
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
 
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
 
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
 
@@ -148,7 +148,7 @@ namespace IntFactoryBusiness
             {
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
 
                 GetWarningData(model);
@@ -211,7 +211,7 @@ namespace IntFactoryBusiness
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
 
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
                 GetWarningData(model);
                 list.Add(model);
@@ -233,7 +233,7 @@ namespace IntFactoryBusiness
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
 
                 list.Add(model);
             }
@@ -249,7 +249,7 @@ namespace IntFactoryBusiness
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
 
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
 
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
 
@@ -277,8 +277,8 @@ namespace IntFactoryBusiness
             {
                 
                 model.FillData(ds.Tables["Order"].Rows[0]);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, model.ClientID);
 
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
 
@@ -314,7 +314,7 @@ namespace IntFactoryBusiness
                     {
                         IntFactoryEntity.Task.TaskEntity task = new IntFactoryEntity.Task.TaskEntity();
                         task.FillData(dr);
-                        task.Owner = OrganizationBusiness.GetUserByUserID(task.OwnerID, model.ClientID);
+                        task.Owner = OrganizationBusiness.GetUserCacheByUserID(task.OwnerID, model.ClientID);
                         model.Tasts.Add(task);
                     }
                     
@@ -354,46 +354,6 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public OrderEntity GetOrderBaseInfoByID(string orderid,  string clientid)
-        {
-            DataSet ds = OrdersDAL.BaseProvider.GetOrderBaseInfoByID(orderid, clientid);
-            OrderEntity model = new OrderEntity();
-            if (ds.Tables["Order"].Rows.Count > 0)
-            {
-
-                model.FillData(ds.Tables["Order"].Rows[0]);
-
-                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
-                if (!string.IsNullOrEmpty(model.BigCategoryID))
-                {
-                    var category = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
-                    model.ProcessCategoryName = category == null ? "" : category.Name;
-                }
-                if (!string.IsNullOrEmpty(model.CategoryID))
-                {
-                    var category = ProductsBusiness.BaseBusiness.GetCategoryByID(model.CategoryID);
-                    var pcategory = ProductsBusiness.BaseBusiness.GetCategoryByID(category.PID);
-                    model.CategoryName = pcategory.CategoryName + " > " + category.CategoryName;
-                }
-
-                model.Details = new List<OrderDetail>();
-                if (ds.Tables["Details"].Rows.Count > 0)
-                {
-                    foreach (DataRow dr in ds.Tables["Details"].Rows)
-                    {
-                        OrderDetail detail = new OrderDetail();
-                        detail.FillData(dr);
-                        if (!string.IsNullOrEmpty(detail.UnitID))
-                        {
-                            detail.UnitName = new ProductsBusiness().GetUnitByID(detail.UnitID).UnitName;
-                        }
-                        model.Details.Add(detail);
-                    }
-                }
-            }
-            return model;
-        }
-
         public OrderEntity GetOrderForFentReport(string orderid, string clientid)
         {
             DataSet ds = OrdersDAL.BaseProvider.GetOrderForFentReport(orderid, clientid);
@@ -412,10 +372,16 @@ namespace IntFactoryBusiness
                     model.SendStatusStr = "--";
                 }
 
-
+                if (!string.IsNullOrEmpty(model.BigCategoryID))
+                {
+                    var category = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
+                    model.ProcessCategoryName = category == null ? "" : category.Name;
+                }
                 if (!string.IsNullOrEmpty(model.CategoryID))
                 {
-                    model.CategoryName = ProductsBusiness.BaseBusiness.GetCategoryByID(model.BigCategoryID).CategoryName + ">" + ProductsBusiness.BaseBusiness.GetCategoryByID(model.CategoryID).CategoryName;
+                    var category = ProductsBusiness.BaseBusiness.GetCategoryByID(model.CategoryID);
+                    var pcategory = ProductsBusiness.BaseBusiness.GetCategoryByID(category.PID);
+                    model.CategoryName = pcategory.CategoryName + " > " + category.CategoryName;
                 }
 
                 model.Tasts = new List<IntFactoryEntity.Task.TaskEntity>();
@@ -425,7 +391,7 @@ namespace IntFactoryBusiness
                     {
                         IntFactoryEntity.Task.TaskEntity task = new IntFactoryEntity.Task.TaskEntity();
                         task.FillData(dr);
-                        task.Owner = OrganizationBusiness.GetUserByUserID(task.OwnerID, model.ClientID);
+                        task.Owner = OrganizationBusiness.GetUserCacheByUserID(task.OwnerID, model.ClientID);
                         model.Tasts.Add(task);
                     }
 
@@ -465,8 +431,6 @@ namespace IntFactoryBusiness
 
                     model.OrderCoss.Add(cos);
                 }
-
-
             }
             return model;
         }
@@ -480,7 +444,7 @@ namespace IntFactoryBusiness
             {
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
 
                 list.Add(model);
             }
@@ -502,7 +466,8 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<OrderGoodsEntity> GetOrderGoods(string orderid) {
+        public List<OrderGoodsEntity> GetOrderGoods(string orderid)
+        {
             List<OrderGoodsEntity> list = new List<OrderGoodsEntity>();
             DataTable dt = OrdersDAL.BaseProvider.GetOrderGoods(orderid);
             foreach (DataRow dr in dt.Rows)
@@ -527,8 +492,6 @@ namespace IntFactoryBusiness
             }
             return list;
         }
-
-
 
         #endregion
 

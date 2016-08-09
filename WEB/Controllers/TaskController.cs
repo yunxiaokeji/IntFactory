@@ -30,18 +30,20 @@ namespace YXERP.Controllers
             taskModel.Task = task;
 
             //任务对应的订单详情
-            var order = OrdersBusiness.BaseBusiness.GetOrderByID(task.OrderID, CurrentUser.ClientID);
+            var order = task.Order;
             ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(order.BigCategoryID);
 
             ViewBag.plateMarkItems = item.CategoryItems.FindAll(m => m.Type == 4).ToList();
             ViewBag.Modules = item.CategoryItems.FindAll(m => m.Type == 3);
-            if (order.Details == null){
+            if (order.Details == null)
+            {
                 order.Details = new List<IntFactoryEntity.OrderDetail>();
             }
             taskModel.Order = order;
 
             //判断查看权限
-            if(!IsSeeRoot(task,order)){
+            if (!IsSeeRoot(task, order))
+            {
                 Response.Write("<script>alert('您无查看任务权限');location.href='/Task/MyTask';</script>");
                 Response.End();
             }
@@ -82,7 +84,7 @@ namespace YXERP.Controllers
             //订单的品类属性
             taskModel.ProductAttr = new IntFactoryEntity.ProductAttr();
             //制版任务
-            if (task.Mark == 12 || task.Mark==22)
+            if (task.Mark == 12 || task.Mark == 22)
             {
                 taskModel.ProductAttr = new ProductsBusiness().GetTaskPlateAttrByCategoryID(order.CategoryID);
             }
@@ -174,8 +176,9 @@ namespace YXERP.Controllers
         }
 
         //获取任务详情
-        public JsonResult GetTaskDetail(string id) {
-            var item = TaskBusiness.GetTaskDetail(id);
+        public JsonResult GetTaskDetail(string id) 
+        {
+            var item = TaskBusiness.GetTaskByID(id);
             JsonDictionary.Add("item", item);
 
             return new JsonResult
@@ -288,11 +291,11 @@ namespace YXERP.Controllers
             {
                 model.ReplyID = replyID;
                 model.CreateTime = DateTime.Now;
-                model.CreateUser = CurrentUser;
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(CurrentUser.UserID, CurrentUser.ClientID);
                 model.CreateUserID = CurrentUser.UserID;
                 if (!string.IsNullOrEmpty(model.FromReplyUserID) && !string.IsNullOrEmpty(model.FromReplyAgentID))
                 {
-                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
+                    model.FromReplyUser = OrganizationBusiness.GetUserCacheByUserID(model.FromReplyUserID, model.FromReplyAgentID);
                 }
                 list.Add(model);
             }
@@ -576,11 +579,12 @@ namespace YXERP.Controllers
         }
         #endregion
 
-        public bool IsSeeRoot(TaskEntity task, IntFactoryEntity.OrderEntity order) {
+        public bool IsSeeRoot(TaskEntity task, IntFactoryEntity.OrderEntity order) 
+        {
             if (task.OwnerID.Equals(CurrentUser.UserID, StringComparison.OrdinalIgnoreCase)) {
                 return true;
             }
-            else if(task.TaskMembers.Find(m=>m.MemberID.ToLower()==CurrentUser.UserID.ToLower())!=null)
+            else if (task.TaskMembers.Find(m => m.MemberID.ToLower() == CurrentUser.UserID.ToLower()) != null)
             {
                 return true;
             }

@@ -43,20 +43,7 @@ namespace IntFactoryBusiness
         #endregion
 
         #region 查
-        /// <summary>
-        /// 获取任务列表
-        /// </summary>
-        /// <param name="keyWords"></param>
-        /// <param name="ownerID"></param>
-        /// <param name="finishStatus">-1：所有；0：进行中；1：已完成</param>
-        /// <param name="beginDate"></param>
-        /// <param name="EndDate"></param>
-        /// <param name="clientID"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="TotalCount"></param>
-        /// <param name="PageCount"></param>
-        /// <returns></returns>
+
         public static List<TaskEntity> GetTasks(string keyWords, string ownerID, int isParticipate, int status, int finishStatus, int invoiceStatus,int preFinishStatus,
             int colorMark, int taskType, string beginDate, string endDate, string beginEndDate, string endEndDate,
             int orderType, string orderProcessID, string orderStageID,
@@ -75,7 +62,7 @@ namespace IntFactoryBusiness
                 TaskEntity model = new TaskEntity();
                 model.FillData(dr);
 
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
 
                 if (model.FinishStatus == 1)
                 {
@@ -125,7 +112,7 @@ namespace IntFactoryBusiness
             {
                 TaskEntity model = new TaskEntity();
                 model.FillData(dr);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
 
                 if (orders.Rows.Count > 0)
                 {
@@ -182,18 +169,31 @@ namespace IntFactoryBusiness
             return TaskDAL.BaseProvider.GetExceedTaskCount(ownerID, orderType, clientID);
         }
 
+        public static TaskEntity GetTaskByID(string taskid)
+        {
+            TaskEntity model = new TaskEntity();
+            DataTable dt = TaskDAL.BaseProvider.GetTaskByID(taskid);
+            if (dt.Rows.Count > 0)
+            {
+                model.FillData(dt.Rows[0]);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
+            }
+            return model;
+        }
+
         public static TaskEntity GetTaskDetail(string taskID)
         {
             TaskEntity model = null;
             DataSet ds = TaskDAL.BaseProvider.GetTaskDetail(taskID);
 
             DataTable taskTB = ds.Tables["OrderTask"];
-            if (taskTB.Rows.Count == 1)
+            if (taskTB.Rows.Count > 0)
             {
                 model = new TaskEntity();
                 model.FillData(taskTB.Rows[0]);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
 
+                //成员
                 DataTable memberTB = ds.Tables["TaskMember"];
                 model.TaskMembers = new List<IntFactoryEntity.Task.TaskMember>();
                 if (memberTB.Rows.Count > 0)
@@ -202,9 +202,24 @@ namespace IntFactoryBusiness
                     {
                         TaskMember member = new TaskMember();
                         member.FillData(m);
-                        member.Member = OrganizationBusiness.GetUserByUserID(member.MemberID, model.ClientID);
+                        member.Member = OrganizationBusiness.GetUserCacheByUserID(member.MemberID, model.ClientID);
                         model.TaskMembers.Add(member);
                     }
+                }
+
+                //订单基本信息
+                model.Order = new OrderEntity();
+                model.Order.FillData(ds.Tables["Order"].Rows[0]);
+                if (!string.IsNullOrEmpty(model.Order.BigCategoryID))
+                {
+                    var category = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.Order.BigCategoryID);
+                    model.Order.ProcessCategoryName = category == null ? "" : category.Name;
+                }
+                if (!string.IsNullOrEmpty(model.Order.CategoryID))
+                {
+                    var category = ProductsBusiness.BaseBusiness.GetCategoryByID(model.Order.CategoryID);
+                    var pcategory = ProductsBusiness.BaseBusiness.GetCategoryByID(category.PID);
+                    model.Order.CategoryName = pcategory.CategoryName + " > " + category.CategoryName;
                 }
             }
 
@@ -225,7 +240,7 @@ namespace IntFactoryBusiness
             {
                 TaskEntity model = new TaskEntity();
                 model.FillData(dr);
-                model.Owner = OrganizationBusiness.GetUserByUserID(model.OwnerID, model.ClientID);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
 
                 list.Add(model);
             }
@@ -244,10 +259,10 @@ namespace IntFactoryBusiness
             {
                 ReplyEntity model = new ReplyEntity();
                 model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, model.ClientID);
                 if (!string.IsNullOrEmpty(model.FromReplyID))
                 {
-                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
+                    model.FromReplyUser = OrganizationBusiness.GetUserCacheByUserID(model.FromReplyUserID, model.FromReplyAgentID);
                 }
 
                 model.Attachments = new List<Attachment>();
@@ -530,7 +545,8 @@ namespace IntFactoryBusiness
             PlateMaking item=new PlateMaking();
             DataTable dt = TaskDAL.BaseProvider.GetPlateMakingDetail(plateID);
 
-            if (dt.Rows.Count == 1) {
+            if (dt.Rows.Count == 1) 
+            {
                 item.FillData(dt.Rows[0]);
             }
             return item;

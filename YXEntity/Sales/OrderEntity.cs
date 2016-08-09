@@ -161,9 +161,9 @@ namespace IntFactoryEntity
         [Property("Lower")]
         public string OwnerID { get; set; }
 
-        public Users Owner { get; set; }
+        public CacheUserEntity Owner { get; set; }
 
-        public Users CreateUser { get; set; }
+        public CacheUserEntity CreateUser { get; set; }
 
         public DateTime PlanTime { get; set; }
 

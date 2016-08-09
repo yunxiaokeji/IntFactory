@@ -47,7 +47,7 @@ namespace YXERP.Areas.Api.Controllers
         //获取订单详情
         public JsonResult GetOrderDetailByID(string orderID,string clientID)
         {
-            var item = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(orderID, clientID);
+            var item = OrdersBusiness.BaseBusiness.GetOrderByID(orderID, clientID);
             Dictionary<string, object> obj = new Dictionary<string, object>();
             obj.Add("orderID", item.OrderID);
             obj.Add("goodsName", item.GoodsName);

@@ -121,7 +121,7 @@ namespace YXERP.Areas.Api.Controllers
                     task.Add("createTime", item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"));
                     task.Add("ownerUser", GetUserBaseObj(item.Owner));
 
-                    var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(item.OrderID, clientID);
+                    var orderDetail = item.Order;
                     Dictionary<string, object> order = new Dictionary<string, object>();
                     if (orderDetail != null)
                     {
@@ -248,7 +248,7 @@ namespace YXERP.Areas.Api.Controllers
         {
             if (!string.IsNullOrEmpty(orderID))
             {
-                var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(orderID,clientID);
+                var orderDetail = OrdersBusiness.BaseBusiness.GetOrderByID(orderID, clientID);
                 Dictionary<string, object> order = new Dictionary<string, object>();
                 List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
 
@@ -341,10 +341,10 @@ namespace YXERP.Areas.Api.Controllers
                 replyObj.Add("stageID", model.stageID);
                 replyObj.Add("mark", model.mark);
                 replyObj.Add("content", model.content);
-                replyObj.Add("createUser", GetUserBaseObj(OrganizationBusiness.GetUserByUserID(userID, clientID)));
+                replyObj.Add("createUser", GetUserBaseObj(OrganizationBusiness.GetUserCacheByUserID(userID, clientID)));
                 if (!string.IsNullOrEmpty(model.fromReplyUserID) && !string.IsNullOrEmpty(model.fromReplyAgentID))
                 {
-                    replyObj.Add("fromReplyUser", GetUserBaseObj(OrganizationBusiness.GetUserByUserID(model.fromReplyUserID, model.fromReplyAgentID)));
+                    replyObj.Add("fromReplyUser", GetUserBaseObj(OrganizationBusiness.GetUserCacheByUserID(model.fromReplyUserID, model.fromReplyAgentID)));
                 }
                 replyObj.Add("attachments", model.attachments);
                 replyObj.Add("createTime", DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
@@ -362,7 +362,7 @@ namespace YXERP.Areas.Api.Controllers
         #endregion
 
         #region common
-        public Dictionary<string, object> GetUserBaseObj(IntFactoryEntity.Users user) 
+        public Dictionary<string, object> GetUserBaseObj(IntFactoryEntity.CacheUserEntity user) 
         {
             Dictionary<string, object> userObj = new Dictionary<string, object>();
             if (user != null)
