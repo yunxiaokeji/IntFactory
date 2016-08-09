@@ -282,15 +282,6 @@ namespace IntFactoryBusiness
 
                 model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
 
-                if (model.Status == 2)
-                {
-                    model.SendStatusStr = CommonBusiness.GetEnumDesc((EnumSendStatus)model.SendStatus);
-                }
-                else if (model.Status < 2)
-                {
-                    model.SendStatusStr = "--";
-                }
-
                 if (!string.IsNullOrEmpty(model.BigCategoryID))
                 {
                     var category = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
@@ -304,8 +295,6 @@ namespace IntFactoryBusiness
                 }
 
                 model.OrderProcess = SystemBusiness.BaseBusiness.GetOrderProcessByID(model.ProcessID, model.ClientID);
-                                
-                model.OrderProcess.OrderStages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID,  model.ClientID);
 
                 model.Tasts = new List<IntFactoryEntity.Task.TaskEntity>();
                 if (model.Status > 0 && ds.Tables["Tasks"].Rows.Count > 0)
@@ -317,16 +306,14 @@ namespace IntFactoryBusiness
                         task.Owner = OrganizationBusiness.GetUserCacheByUserID(task.OwnerID, model.ClientID);
                         model.Tasts.Add(task);
                     }
-                    
+                }
+                else
+                {
+                    model.OrderProcess.OrderStages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, model.ClientID);
                 }
 
                 model.City = CommonBusiness.GetCityByCode(model.CityCode);
 
-                if (ds.Tables["Customer"].Rows.Count > 0)
-                {
-                    model.Customer = new CustomerEntity();
-                    model.Customer.FillData(ds.Tables["Customer"].Rows[0]);
-                }
                 model.Details = new List<OrderDetail>();
                 foreach (DataRow dr in ds.Tables["Details"].Rows)
                 {
@@ -359,17 +346,7 @@ namespace IntFactoryBusiness
             OrderEntity model = new OrderEntity();
             if (ds.Tables["Order"].Rows.Count > 0)
             {
-
                 model.FillData(ds.Tables["Order"].Rows[0]);
-
-                if (model.Status == 2)
-                {
-                    model.SendStatusStr = CommonBusiness.GetEnumDesc((EnumSendStatus)model.SendStatus);
-                }
-                else if (model.Status < 2)
-                {
-                    model.SendStatusStr = "--";
-                }
 
                 if (!string.IsNullOrEmpty(model.BigCategoryID))
                 {
@@ -397,12 +374,6 @@ namespace IntFactoryBusiness
                 }
 
                 model.City = CommonBusiness.GetCityByCode(model.CityCode);
-
-                if (ds.Tables["Customer"].Rows.Count > 0)
-                {
-                    model.Customer = new CustomerEntity();
-                    model.Customer.FillData(ds.Tables["Customer"].Rows[0]);
-                }
 
                 model.Details = new List<OrderDetail>();
                 foreach (DataRow dr in ds.Tables["Details"].Rows)

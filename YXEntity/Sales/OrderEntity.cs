@@ -174,8 +174,6 @@ namespace IntFactoryEntity
 
         public string CustomerName { get; set; }
 
-        public CustomerEntity Customer { get; set; }
-
         public int SendStatus { get; set; }
 
         public int PurchaseStatus { get; set; }

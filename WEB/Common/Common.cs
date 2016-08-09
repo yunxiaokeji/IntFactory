@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Qiniu.Conf;
+using Qiniu.IO;
+using Qiniu.RS;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -111,6 +114,53 @@ namespace YXERP.Common
             return week;
         }
 
+
+
+        public static string UploadAttachment(string filepath, string files = "orders")
+        {
+            string allFilePath = "";
+            Config.Init();
+            IOClient target = new IOClient();
+            PutExtra extra = new PutExtra();
+            //设置上传的空间
+            string bucket = System.Configuration.ConfigurationManager.AppSettings["QN-Bucket"] ?? "zngc-intfactory";
+            string url = bucket == "zngc-intfactory" ? "o9h6bx3r4.bkt.clouddn.com" : "o9vwxv40j.bkt.clouddn.com";
+            //普通上传,只需要设置上传的空间名就可以了,第二个参数可以设定token过期时间
+            PutPolicy put = new PutPolicy(bucket, 3600);
+
+            //调用Token()方法生成上传的Token
+            string upToken = put.Token();
+            //上传文件的路径
+            if (!string.IsNullOrEmpty(filepath))
+            {
+                string[] filepaths=filepath.Split(',');
+                foreach (string file in filepaths)
+                {
+                    if (!string.IsNullOrEmpty(file))
+                    { 
+                        var fileExtension = file.Substring(file.LastIndexOf(".") + 1).ToLower();
+                        var key = files + (DateTime.Now.Year + "." + DateTime.Now.Month + "." + DateTime.Now.Day + "/") + GetTimeStamp() + "." + fileExtension;
+                  
+                        //调用PutFile()方法上传
+                        PutRet ret = target.PutFile(upToken, key, file, extra);
+                        if (ret.OK)
+                        {
+                            allFilePath += url+ret.key+",";
+                        }
+                    }  
+                }
+            }
+            return allFilePath.TrimEnd(',');
+        }
+        /// <summary>  
+        /// 获取时间戳  
+        /// </summary>  
+        /// <returns></returns>  
+        public static string GetTimeStamp()
+        {
+            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(ts.TotalSeconds).ToString();
+        } 
         #region 缓存
 
         #region 用户登录密码错误缓存

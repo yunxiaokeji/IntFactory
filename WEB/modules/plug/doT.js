@@ -139,8 +139,8 @@
             return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
         };
         var guid = S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4();
-        url = this.basepath + url + "?" + guid;//this.version;
-        //url = this.basepath + url + this.version;
+        //url = this.basepath + url + "?" + guid;//this.version;
+        url = this.basepath + url + this.version;
         if (doT.cache[url]) {
             callback(doT.cache[url]);
         } else {
