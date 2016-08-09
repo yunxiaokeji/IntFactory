@@ -9,12 +9,12 @@
         <tr class="tr-header">
             <td class="tLeft">材料名称</td>
             <td class="tLeft">编码</td>
-            <td class="tLeft">规格</td>
             <td class="width80">单位</td>
-            <td>预计采购量</td>
-            <td>入库量</td>
+            <td>已采购</td>
+            <td>已入库</td>
+            <td>消耗量</td>
             <td>单价</td>
-            <td class="">消耗量</td>
+            <td class="">采购量</td>
 @*            <td>损耗率</td>
             <td>采购量</td>*@
             <td class="tRight">小计</td>
@@ -25,12 +25,17 @@
             foreach (var detail in order.Details)
             { 
                 <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
-                    <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
+                    <td>
+                        <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank" class="hRed">
+                            @(detail.ProductName)
+                            <span class="color999">@(detail.Remark)</span>
+                        </a>
+                    </td>
                         <td>@(detail.ProductCode)</td>
-                    <td>@(detail.Remark)</td>
                     <td class="center">@(detail.UnitName)</td>
                     <td class="center"><label class="purchase-count">@(detail.PurchaseQuantity.ToString("f3"))</label></td>
-                    <td class="center"><label class="inquantity">@(detail.InQuantity.ToString("f3"))</label></td> 
+                    <td class="center"><label class="inquantity">@(detail.InQuantity.ToString("f3"))</label></td>
+                    <td class="center"><label class="usequantity">@(detail.UseQuantity.ToString("f3"))</label></td> 
              @{                  
                 if (isRoot)
                 {
@@ -48,8 +53,7 @@
                     <td class="tRight amount">@(((detail.Quantity)*detail.Price).ToString("f3"))</td>
                     @*<td class="center tr-loss">@(detail.Loss.ToString("f3"))</td>
                     <td class="center tr-lossrate">@((detail.Loss/detail.Quantity).ToString("f3"))</td>*@                   
-                }
-                       
+                }   
                 }
               </tr>
             }
@@ -59,12 +63,7 @@
             <td colspan="7"></td>
             <td class="tRight">成本合计：</td>
             <td class="tRight"><label id="amount"></label></td>     
-            @{
-                if(isRoot)
-                {
-                    <td></td>
-                }   
-             }
+            <td></td>
         </tr>
     </table>
 

@@ -158,7 +158,6 @@
                                 }, function (data) {
                                     if (data.id) {
                                         alert("" + ObjectJS.taskDesc + "登记成功!");
-
                                         if ($("#showSewnGoods .check").hasClass("ico-checked")) {
                                             $("#btnSewnOrder").remove();
                                         }

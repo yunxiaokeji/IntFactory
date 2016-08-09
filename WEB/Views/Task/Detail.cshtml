@@ -90,39 +90,7 @@
                             <td class="width200">@(taskDescs.Find(m=>m.Mark==14).Name)数量</td>
                             <td class="width200">发货数量</td>
                             <td class="width200">剩余未发</td>
-                            <td class="">单价</td>
-                            <td class="">小计</td>
                         </tr>
-                        @if (order.OrderGoods.Count > 0)
-                        {
-                            foreach (var detail in order.OrderGoods)
-                            { 
-                            <tr class="item cart-item" >
-                                <td class="center">@(detail.Remark)</td>
-                                <td class="center good1">@(detail.Quantity)</td>
-                                <td class="good2 center">@(detail.CutQuantity)</td>
-                                <td class="center good3">@(detail.Complete)</td>
-                                <td class="center good4">@(detail.SendQuantity)</td>
-                                <td class="center good5">@(detail.Complete - detail.SendQuantity)</td>
-                                <td class="center">@(order.FinalPrice.ToString("f2"))</td>
-                                <td class="good6 center">@((detail.TotalMoney).ToString("f2"))</td>
-                            </tr>                
-                            }
-                            <tr class="total-item bold" >
-                                <td class="center">合计：</td>
-                                <td class="center" data-class="good1"></td>
-                                <td class="center" data-class="good2"></td>
-                                <td class="center" data-class="good3"></td>
-                                <td class="center" data-class="good4"></td>
-                                <td class="center" data-class="good5"></td>
-                                <td class="center"></td>
-                                <td class="center" data-class="good6"></td>
-                            </tr>
-                        }
-                        else
-                        {
-                            <tr><td colspan="7"><div class="nodata-txt">暂无明细</div></td></tr>
-                        }
                     </table>
                 </div>
             }

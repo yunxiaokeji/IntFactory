@@ -116,6 +116,17 @@
     ObjectJS.getOrderGoods = function () {
         Global.post("/Task/GetOrderGoods", { id: ObjectJS.orderid }, function (data) {
             ObjectJS.OrderGoods = data.list;
+            $("#navGoods .tr-header").nextAll().remove();
+            if (data.list.length > 0) {
+                DoT.exec("template/task/task-ordergoods.html", function (template) {
+                    var innerHtml = template(data.list);
+                    innerHtml = $(innerHtml);
+                    $("#navGoods .tr-header").after(innerHtml);
+                    ObjectJS.getAmount();
+                });
+            } else {
+                $("#navGoods .tr-header").after($("<tr><td colspan='8'><div class='nodata-txt'>暂无明细</div></td></tr>"));
+            }
         });
     }
 
