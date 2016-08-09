@@ -31,16 +31,17 @@
         _self.guid = guid;
         _self.tid = tid;
         Params.DocType = type;
-        _self.getChildCategory("");
+
+        Global.post("/System/GetDepotSeatsByWareID", {}, function (data) {
+            _self.depots = data.Items;
+            _self.getChildCategory("");
+        });
+
         _self.bindEvent();
         $(".content-body").createCart({
             ordertype: type,
             guid: guid,
             tid: tid
-        });
-        
-        Global.post("/System/GetDepotSeatsByWareID", {}, function (data) {
-            _self.depots = data.Items;
         });
     }
 
@@ -501,7 +502,7 @@
                 var model = CacheProduct[pid].ProductDetails[i];
                 for (var ii = 0, jj = model.DetailStocks.length; ii < jj; ii++) {
                     if (model.DetailStocks[ii].DepotID == _self.depotid) {
-                        $("#productDepotQuantity").text(model.DetailStocks[ii].StockIn - model.DetailStocks[ii].LogicOut);
+                        $("#productDepotQuantity").text(model.DetailStocks[ii].StockIn - model.DetailStocks[ii].StockOut);
                         return;
                     }
                 }
