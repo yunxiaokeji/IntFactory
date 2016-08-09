@@ -64,7 +64,7 @@ define(function (require, exports, module) {
         //获取任务详情
         var drawTaskDetail = function () {
             doT.exec("plug/showtaskdetail/task-detail.html", function (template) {
-                Global.post("/task/GetTaskDetail", { id: defaultParas.taskid }, function (data) {
+                Global.post("/Task/GetTaskDetail", { id: defaultParas.taskid }, function (data) {
                     //获取任务详情内容
                     var item = data.item;
                     var items = [item];
@@ -97,7 +97,6 @@ define(function (require, exports, module) {
                                             status: 2
                                         }, function (result) {
                                             if (result.status) {
-                                                //alert("任务重启成功");
                                                 window.location = window.location;
                                                 _this.data("lock", 2).html("锁定任务");
                                             } else {
@@ -113,7 +112,6 @@ define(function (require, exports, module) {
                                             status: 1
                                         }, function (result) {
                                             if (result.status) {
-                                                //alert("任务锁定成功");
                                                 window.location = window.location;
                                                 _this.data("lock", 1).html("重启任务");
                                             } else {
@@ -127,7 +125,10 @@ define(function (require, exports, module) {
                             $("#btnLockTask").remove();
                         }
                     }
-                    $("#taskDetailContent").animate({ width: '500px' }, 200);
+                    $("#taskDetailContent").animate({ width: '500px' }, 200, function () {
+                        //初始化任务讨论
+                        TalkReply.initTalkReply(defaultParas);
+                    });
 
                     //隐藏下拉
                     $(document).click(function (e) {
@@ -179,10 +180,7 @@ define(function (require, exports, module) {
                     }
                     else {
                         $("#changeTaskOwner").hide();
-                    }
-
-                    //初始化任务讨论
-                    TalkReply.initTalkReply(defaultParas);
+                    } 
                 });
             });
         }
