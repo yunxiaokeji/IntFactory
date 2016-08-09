@@ -63,14 +63,25 @@ define(function (require, exports, module) {
 
         //获取任务详情
         var drawTaskDetail = function () {
+
+            if ($("#taskDetailContent").length > 0) {
+                $("#taskDetailContent").data("taskid", defaultParas.taskid);
+                $("#taskDetailContent").empty();
+            } else {
+                $("body").append('<div class="task-layer-box" id="taskDetailContent" data-taskid="' + defaultParas.taskid + '"></div>');
+            }
+            $("#taskDetailContent").append("<div class='data-loading' ><div>");
+            $("#taskDetailContent").animate({ width: '500px' }, 200);
+
             doT.exec("plug/showtaskdetail/task-detail.html", function (template) {
                 Global.post("/Task/GetTaskDetail", { id: defaultParas.taskid }, function (data) {
                     //获取任务详情内容
                     var item = data.item;
                     var items = [item];
                     var innerhtml = template(items);
-                    $("#taskDetailContent").remove();
-                    $("body").append(innerhtml);
+
+                    $("#taskDetailContent").empty();
+                    $("#taskDetailContent").append(innerhtml);
 
                     $("#btnLockTask").hide();
 
@@ -125,10 +136,6 @@ define(function (require, exports, module) {
                             $("#btnLockTask").remove();
                         }
                     }
-                    $("#taskDetailContent").animate({ width: '500px' }, 200, function () {
-                        //初始化任务讨论
-                        TalkReply.initTalkReply(defaultParas);
-                    });
 
                     //隐藏下拉
                     $(document).click(function (e) {
@@ -180,7 +187,10 @@ define(function (require, exports, module) {
                     }
                     else {
                         $("#changeTaskOwner").hide();
-                    } 
+                    }
+
+                    //初始化任务讨论
+                    TalkReply.initTalkReply(defaultParas);
                 });
             });
         }
