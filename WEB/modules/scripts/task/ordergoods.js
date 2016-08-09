@@ -130,6 +130,24 @@
         });
     }
 
+    //汇总
+    ObjectJS.getAmount = function () {
+        //订单明细汇总
+        $(".total-item td").each(function () {
+            var _this = $(this), _total = 0;
+            if (_this.data("class")) {
+                $("." + _this.data("class")).each(function () {
+                    _total += $(this).html() * 1;
+                });
+                if (_this.data("class") == "moneytotal") {
+                    _this.html(_total.toFixed(2));
+                } else {
+                    _this.html(_total);
+                }
+            }
+        });
+    }
+
     //加载快递公司列表
     ObjectJS.getExpress = function () {
         Global.post("/Plug/GetExpress", {}, function (data) {

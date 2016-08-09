@@ -83,7 +83,6 @@
                             function (data) {
                                 if (data.id) {
                                     alert("" + ObjectJS.taskDesc + "登记成功!");
-                                    
                                     if ($("#showCutoutGoods .check").hasClass("ico-checked")) {
                                         $("#btnCutoutOrder").remove();
                                     }
