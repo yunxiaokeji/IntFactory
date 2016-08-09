@@ -65,10 +65,10 @@ namespace IntFactoryBusiness
             {
                 ReplyEntity model = new ReplyEntity();
                 model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, model.ClientID);
                 if (!string.IsNullOrEmpty(model.FromReplyID))
                 {
-                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
+                    model.FromReplyUser = OrganizationBusiness.GetUserCacheByUserID(model.FromReplyUserID, model.FromReplyAgentID);
                 }
 
                 if (attachments.Rows.Count > 0)
@@ -169,10 +169,10 @@ namespace IntFactoryBusiness
             {
                 ReplyEntity model = new ReplyEntity();
                 model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, model.ClientID);
                 if (!string.IsNullOrEmpty(model.FromReplyID))
                 {
-                    model.FromReplyUser = OrganizationBusiness.GetUserByUserID(model.FromReplyUserID, model.FromReplyAgentID);
+                    model.FromReplyUser = OrganizationBusiness.GetUserCacheByUserID(model.FromReplyUserID, model.FromReplyAgentID);
                 }
                 list.Add(model);
             }

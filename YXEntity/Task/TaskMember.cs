@@ -12,7 +12,7 @@ namespace IntFactoryEntity.Task
         [Property("Lower")]
         public string MemberID { get; set; }
 
-        public Users Member{ get; set; }
+        public CacheUserEntity Member{ get; set; }
 
         [Property("Lower")]
         public string TaskID { get; set; }

@@ -14,5 +14,7 @@ namespace IntFactoryEntity
         public string Name { set; get; }
 
         public string Avatar { set; get; }
+
+        public string ClientID { get; set; }
     }
 }

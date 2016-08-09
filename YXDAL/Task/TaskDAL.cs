@@ -12,15 +12,6 @@ namespace IntFactoryDAL
     {
         public static TaskDAL BaseProvider = new TaskDAL();
 
-        public bool CreateTask(string orderID)
-        {
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@OrderID",orderID)
-                                   };
-
-            return ExecuteNonQuery("P_CreateTask", paras, CommandType.StoredProcedure) > 0;
-        }
-
         public DataTable GetTasks(string keyWords, string ownerID, int isParticipate, int status, int finishStatus, int invoiceStatus, int preFinishStatus,
             int colorMark, int taskType, string beginDate, string endDate, string beginEndDate, string endEndDate,
             int orderType, string orderProcessID, string orderStageID, int taskOrderColumn, int isAsc, string clientID,
@@ -171,13 +162,21 @@ namespace IntFactoryDAL
 
         }
 
+        public DataTable GetTaskByID(string taskid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@TaskID",taskid)
+                                   };
+            return GetDataTable("select * from OrderTask where TaskID=@TaskID ", paras, CommandType.Text);
+        }
+
         public DataSet GetTaskDetail(string taskID)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@TaskID",taskID)
                                    };
 
-            return GetDataSet("P_GetTaskDetail", paras, CommandType.StoredProcedure, "OrderTask|TaskMember");
+            return GetDataSet("P_GetTaskDetail", paras, CommandType.StoredProcedure, "OrderTask|TaskMember|Order");
 
         }
 
