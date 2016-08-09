@@ -28,16 +28,20 @@ namespace YXERP.Controllers
             //任务详情
             var task = TaskBusiness.GetTaskDetail(id);
             taskModel.Task = task;
-
+           
             //任务对应的订单详情
             var order = task.Order;
             ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(order.BigCategoryID);
 
             ViewBag.plateMarkItems = item.CategoryItems.FindAll(m => m.Type == 4).ToList();
             ViewBag.Modules = item.CategoryItems.FindAll(m => m.Type == 3);
-            if (order.Details == null)
+            if (task.Mark == 11)
             {
-                order.Details = new List<IntFactoryEntity.OrderDetail>();
+                order.Details = OrdersBusiness.BaseBusiness.GetOrderDetailsByOrderID(task.OrderID);
+                if (order.Details == null)
+                {
+                    order.Details = new List<IntFactoryEntity.OrderDetail>();
+                }
             }
             taskModel.Order = order;
 
@@ -94,7 +98,6 @@ namespace YXERP.Controllers
             {
                 taskModel.FinishDay = (int)Math.Ceiling((task.CompleteTime - task.AcceptTime).TotalDays);
             }
-
             //操作权限
             taskModel.IsRoot = (task.Status != 8 && (task.FinishStatus == 1 || task.LockStatus==2) && (taskModel.IsEditTask || taskModel.IsTaskOwner) );
             ViewBag.TaskModel = taskModel;
@@ -230,6 +233,19 @@ namespace YXERP.Controllers
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
 
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        //获取订单所有任务阶段流程
+        public JsonResult GetOrderStages(string orderid)
+        {
+
+            var items = TaskBusiness.GetTasksByOrderID(orderid);
+            JsonDictionary.Add("items", items);
             return new JsonResult
             {
                 Data = JsonDictionary,

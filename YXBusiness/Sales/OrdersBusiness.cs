@@ -322,7 +322,6 @@ namespace IntFactoryBusiness
                     if (!string.IsNullOrEmpty(detail.UnitID))
                     {
                         detail.UnitName = new ProductsBusiness().GetUnitByID(detail.UnitID).UnitName;
-                        
                     }
                     model.Details.Add(detail);
                 }
@@ -459,6 +458,10 @@ namespace IntFactoryBusiness
             {
                 OrderDetail model = new OrderDetail();
                 model.FillData(dr);
+                if (!string.IsNullOrEmpty(model.UnitID))
+                {
+                    model.UnitName = new ProductsBusiness().GetUnitByID(model.UnitID).UnitName;
+                }
                 list.Add(model);
             }
             return list;

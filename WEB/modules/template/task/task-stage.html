@@ -1,0 +1,16 @@
+﻿{%
+for(var i=0;i<$data.length;i++)
+{
+var item=$data[i];
+%}
+<li class="{%=item.FinishStatus == 0 ? 'normal' : item.FinishStatus == 1 ? 'ing' : 'over'%} task-item">
+    <span class="long bold">{%=item.Title%}</span>
+    <span class="long status">状态：{%=item.FinishStatus == 0 ? "未接受" : item.FinishStatus == 1 ? "进行中" : "已完成"%}</span>
+    <span class="long">负责人：{%=item.Owner.Name%}</span>
+    <span class="long">开始日期：{%=item.FinishStatus == 0 ? "--" : item.AcceptTime.toDate("yyyy-MM-dd")%}</span>
+    <span class="long">结束日期：{%=item.FinishStatus == 0 ? "--" : item.FinishStatus == 1 ? item.EndTime.toDate("yyyy-MM-dd") : item.CompleteTime.toDate("yyyy-MM-dd")%}</span>
+    {%if(item.StageID==$data.stageID){%}
+        <span style="background-color:#4a98e7;color:#fff;position:absolute;right:10px;top:5px; width:40px; text-align:center; line-height:20px;height:20px;border-radius:2px;">当前</span>
+    {%}%}
+</li>  
+{%}%}
