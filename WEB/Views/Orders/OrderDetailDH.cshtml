@@ -159,7 +159,7 @@
                 <span class="column-title bold">客户名称：</span> 
                 @if (!string.IsNullOrEmpty(model.CustomerID))
                 {
-                    <a href="/Customer/Detail/@(model.CustomerID)" class="left">@(model.Customer.Name)</a> 
+                    <a href="/Customer/Detail/@(model.CustomerID)" class="left">@(model.CustomerName)</a> 
                 }
                 else if (model.IsSelf)
                 {
