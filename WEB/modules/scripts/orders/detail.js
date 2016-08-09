@@ -651,24 +651,61 @@
                     $(".swen-quantity-" + id).remove();
                 });
                 _save.click(function () {
-                    var models = [];
-                    $(".swen-quantity-" + $(this).data('id') + " .quantity").each(function () {
-                        var _this = $(this);
-                        var model = {
-                            ProductDetailID: _this.parents('tr').data('id'),
-                            Quantity: _this.val()
-                        };
-                        models.push(model);
-                    });
-                    $(".btn-save-" + id).remove();
-                    $(".btn-cancel-" + id).remove();
-                    $(".swen-quantity-" + id).remove();
+                    var _thisBtn = $(this);
+                    if (_thisBtn.data('isSubmit') != 1) {
+                        var details = "";
+                        $(".swen-quantity-" + $(this).data('id') + " .quantity").each(function () {
+                            var _this = $(this);
+                            if (_this.val() > 0) {
+                                details += _this.parents('tr').data('id') + "|" + _this.val() + ",";
+                            }
+                        });
+                        if (details.length > 0) {
+                            _thisBtn.text("保存中...");
+                            _thisBtn.data('isSubmit', 1);
+                            Global.post("/Task/CreateGoodsDocReturn", {
+                                orderID: $(".stage-items li[data-mark=14]").data('orderid'),
+                                taskID: $(".stage-items li[data-mark=14]").data('taskid'),
+                                docType: 6,
+                                details: details,
+                                originalID: id
+                            }, function (data) {
+                                _thisBtn.text("保存");
+                                _thisBtn.data('isSubmit', 0);
+                                if (data.result == 1) {
+                                    alert("车缝退回成功");
+                                    $(".swen-quantity-" + id).each(function () {
+                                        var quantity = ($(this).prev().text() * 1) + ($(this).find('input').val() * 1);
+                                        $(this).prev().text(quantity.toFixed(2));
+                                    });
+                                    $(".btn-save-" + id).remove();
+                                    $(".btn-cancel-" + id).remove();
+                                    $(".swen-quantity-" + id).remove();
+                                } else if (data.result == 2) {
+                                    alert("退回数不能多于车缝数");
+                                } else {
+                                    alert("网络繁忙，请重试");
+                                }
+                            });
+                        } else {
+                            alert("请输入退回数量");
+                        }
+                    }
                 });
                 _input.find('.quantity').change(function () {
                     var _this = $(this);
-                    if (!_this.val().isDouble() || _this.val() <= 0) {
+                    if (!_this.val().isDouble() || _this.val() * 1 <= 0) {
                         _this.val(0);
+                        return false;
                     }
+                    var swenTotal = _this.parents('tr').find('.swen-total').text() * 1;
+                    var swenQuantity = _this.val() * 1 + _this.parent().prev().text() * 1;
+                    if (swenTotal < swenQuantity) {
+                        alert("退回数不能多于车缝数");
+                        _this.val(0);
+                        return false;
+                    }
+                    return false;
                 });
                 $(".btn-swen-box-" + id).append(_save).append(_cancel);
                 $(".input-swen-box-" + id).append(_input);

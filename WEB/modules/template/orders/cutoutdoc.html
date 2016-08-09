@@ -10,7 +10,7 @@
 </tr>
 {%}%}
 <tr class="item-header">
-    <td class="tLeft bLeft">规格</td>
+    <td class="tLeft">规格</td>
     <td>数量</td>
     {%if(item.DocType==11){%}
     <td class="tLeft btn-swen-box-{%=item.DocID%}">
@@ -20,7 +20,7 @@
     <td>小计</td>
     <td>登记时间</td>
     <td>登记人</td>
-    <td class="bRight">
+    <td class="">
         操作
         {%if(item.DocType==11){%}
         <div class="iconfont dropdown right" data-status="0"><span data-id="{%=item.DocID%}" class="ico-dropdown mTop3" style="display:block;"></span></div>
@@ -34,7 +34,7 @@ for(var j=0;j<item.Details.length;j++)
     var detail=item.Details[j];
 %}
 <tr class="item" data-id="{%=detail.GoodsDetailID%}">
-    <td class="tLeft bBottom bLeft">
+    <td class="tLeft bBottom">
         {%=detail.Remark%}
     </td>
     <td class="center bBottom swen-total">
@@ -58,7 +58,7 @@ for(var j=0;j<item.Details.length;j++)
     <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
         {%=item.CreateUser.Name%}
     </td>
-    <td class="center bBottom bRight bLeft" rowspan="{%=item.Details.length%}"><a href="/Orders/DocDetail/{%=item.DocID%}" target="_blank">查看详情</a></td>
+    <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}"><a href="/Orders/DocDetail/{%=item.DocID%}" target="_blank">查看详情</a></td>
     {%}%}
 </tr>
 {%}%}
