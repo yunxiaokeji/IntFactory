@@ -17,6 +17,16 @@ namespace YXERP.Controllers
     public class TaskController : BaseController
     {
         #region view
+        public JsonResult send()
+        {
+           string result= Common.ApiCloudPush.BasePush.SendPush("您的任务已完成，请注意查看", CurrentUser.UserID);
+           result +="UserID:"+ CurrentUser.UserID;
+           return new JsonResult
+           {
+               Data = result,
+               JsonRequestBehavior = JsonRequestBehavior.AllowGet
+           };
+        }
         public ActionResult Detail(string id)
         {
             if (string.IsNullOrEmpty(id))
