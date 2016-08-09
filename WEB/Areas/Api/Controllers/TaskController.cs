@@ -121,7 +121,6 @@ namespace YXERP.Areas.Api.Controllers
                     task.Add("createTime", item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"));
                     task.Add("ownerUser", GetUserBaseObj(item.Owner));
 
-                    var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(item.OrderID, clientID);
                     var orderDetail = item.Order;
                     Dictionary<string, object> order = new Dictionary<string, object>();
                     if (orderDetail != null)
@@ -249,7 +248,7 @@ namespace YXERP.Areas.Api.Controllers
         {
             if (!string.IsNullOrEmpty(orderID))
             {
-                var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(orderID,clientID);
+                var orderDetail = OrdersBusiness.BaseBusiness.GetOrderByID(orderID, clientID);
                 Dictionary<string, object> order = new Dictionary<string, object>();
                 List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
 
