@@ -187,7 +187,7 @@ namespace IntFactoryBusiness
             TaskEntity model = null;
             DataSet ds = TaskDAL.BaseProvider.GetTaskDetail(taskID);
 
-            DataTable taskTB= ds.Tables["OrderTask"];
+            DataTable taskTB = ds.Tables["OrderTask"];
             if (taskTB.Rows.Count == 1)
             {
                 model = new TaskEntity();
