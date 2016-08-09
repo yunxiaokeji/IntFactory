@@ -8,7 +8,6 @@ using IntFactoryBusiness;
 using IntFactoryEntity;
 using IntFactoryEnum;
 using Newtonsoft.Json;
-using IntFactoryEnum;
 namespace YXERP.Areas.Api.Controllers
 {
     [YXERP.Common.ApiAuthorize]
@@ -152,6 +151,8 @@ namespace YXERP.Areas.Api.Controllers
               JsonRequestBehavior = JsonRequestBehavior.AllowGet
           };
         }
+
+        //
         public JsonResult CreateOrder(string entity, string clientid, string opearid)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -168,6 +169,57 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
+        //获取订单流程
+        public JsonResult GetOrderProcess(string userID, string clientID)
+        {
+            var list = SystemBusiness.BaseBusiness.GetOrderProcess(clientID);
+            List<Dictionary<string, object>> processss = new List<Dictionary<string, object>>();
+
+            foreach (var item in list)
+            {
+                Dictionary<string, object> processs = new Dictionary<string, object>();
+                processs.Add("processID", item.ProcessID);
+                processs.Add("type", item.ProcessType);
+                processs.Add("processName", item.ProcessName);
+                processss.Add(processs);
+            }
+
+            JsonDictionary.Add("processs", processss);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        //获取流程阶段
+        public JsonResult GetOrderStages(string processID, string userID, string clientID)
+        {
+            if (!string.IsNullOrEmpty(processID))
+            {
+                var list = SystemBusiness.BaseBusiness.GetOrderStages(processID, clientID);
+                List<Dictionary<string, object>> stages = new List<Dictionary<string, object>>();
+
+                foreach (var item in list)
+                {
+                    Dictionary<string, object> stage = new Dictionary<string, object>();
+                    stage.Add("stageID", item.StageID);
+                    stage.Add("processID", item.ProcessID);
+                    stage.Add("stageName", item.StageName);
+                    stage.Add("mark", item.Mark);
+                    stages.Add(stage);
+                }
+
+                JsonDictionary.Add("processStages", stages);
+            }
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        //获取大货明细
         public JsonResult GetGoodsDocByOrderID(string orderID, int type, string taskID,string clientID)
         {
             var list = StockBusiness.GetGoodsDocByOrderID(orderID, taskID, (EnumDocType)type, clientID);
@@ -180,6 +232,7 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
+        //获取订单加工成本
         public JsonResult GetOrderCosts(string orderID, string userID, string clientID)
         {
             var list = OrdersBusiness.BaseBusiness.GetOrderCosts(orderID, clientID);
