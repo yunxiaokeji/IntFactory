@@ -30,7 +30,6 @@ namespace YXERP.Areas.Api.Controllers
 
         public JsonResult GetTasks(string filter, string userID, string clientID)
         {
-            
             var paras = new FilterTasks();
             if (!string.IsNullOrEmpty(filter)){
                 paras = JsonConvert.DeserializeObject<FilterTasks>(filter);
@@ -44,12 +43,10 @@ namespace YXERP.Areas.Api.Controllers
             if (paras.isMy) {
                 ownerID = userID;
             }
-            var currentUser = OrganizationBusiness.GetUserByUserID(userID, clientID);
-
             List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID,paras.isParticipate?1:0, paras.status, paras.finishStatus,-1,-1,
                 paras.colorMark, paras.taskType, paras.beginDate, paras.endDate,string.Empty,string.Empty,
                 paras.orderType, paras.orderProcessID, paras.orderStageID,
-                (EnumTaskOrderColumn)paras.taskOrderColumn, paras.isAsc, currentUser.ClientID,
+                (EnumTaskOrderColumn)paras.taskOrderColumn, paras.isAsc, clientID,
                 paras.pageSize, paras.pageIndex, ref totalCount, ref pageCount);
 
 
@@ -63,10 +60,14 @@ namespace YXERP.Areas.Api.Controllers
                 task.Add("mark", item.Mark);
                 task.Add("colorMark", item.ColorMark);
                 task.Add("finishStatus", item.FinishStatus);
+                task.Add("preTitle", item.PreTitle);
+                task.Add("preFinishStatus", item.PreFinishStatus);
+                task.Add("pEndTime", item.PEndTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.PEndTime.ToString("yyyy-MM-dd hh:mm:ss") : "");
                 task.Add("orderType", item.OrderType);
-                var orderImg =string.Empty;
-                if (!string.IsNullOrEmpty(item.OrderImg)) { 
-                    orderImg=domainUrl+ item.OrderImg;
+                var orderImg = item.OrderImg;
+                if (!string.IsNullOrEmpty(item.OrderImg) && !item.OrderImg.Contains("bkt.clouddn.com"))
+                {
+                    orderImg = domainUrl + item.OrderImg;
                 }
                 task.Add("orderImg", orderImg);
                 task.Add("acceptTime", item.AcceptTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.AcceptTime.ToString("yyyy-MM-dd hh:mm:ss"):"");
@@ -88,57 +89,7 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetOrderProcess(string userID, string clientID)
-        {
-            var currentUser = OrganizationBusiness.GetUserByUserID(userID, clientID);
-            var list = SystemBusiness.BaseBusiness.GetOrderProcess(currentUser.ClientID);
-            List<Dictionary<string, object>> processss = new List<Dictionary<string, object>>();
-
-            foreach (var item in list)
-            {
-                Dictionary<string, object> processs = new Dictionary<string, object>();
-                processs.Add("processID", item.ProcessID);
-                processs.Add("type", item.ProcessType);
-                processs.Add("processName", item.ProcessName);
-                processss.Add(processs);
-            }
-
-            JsonDictionary.Add("processs", processss);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult GetOrderStages(string processID, string userID, string clientID)
-        {
-            if (!string.IsNullOrEmpty(processID))
-            {
-                var currentUser = OrganizationBusiness.GetUserByUserID(userID, clientID);
-                var list = SystemBusiness.BaseBusiness.GetOrderStages(processID, currentUser.ClientID);
-                List<Dictionary<string, object>> stages = new List<Dictionary<string, object>>();
-
-                foreach (var item in list)
-                {
-                    Dictionary<string, object> stage = new Dictionary<string, object>();
-                    stage.Add("stageID", item.StageID);
-                    stage.Add("processID", item.ProcessID);
-                    stage.Add("stageName", item.StageName);
-                    stage.Add("mark", item.Mark);
-                    stages.Add(stage);
-                }
-
-                JsonDictionary.Add("processStages", stages);
-            }
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult GetTaskDetail(string taskID, string userID)
+        public JsonResult GetTaskDetail(string taskID, string userID,string clientID)
         {
             if (!string.IsNullOrEmpty(taskID))
             {
@@ -170,8 +121,7 @@ namespace YXERP.Areas.Api.Controllers
                     task.Add("createTime", item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"));
                     task.Add("ownerUser", GetUserBaseObj(item.Owner));
 
-                    var currentUser = OrganizationBusiness.GetUserByUserID(userID, item.ClientID);
-                    var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(item.OrderID, currentUser.ClientID);
+                    var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(item.OrderID, clientID);
                     Dictionary<string, object> order = new Dictionary<string, object>();
                     if (orderDetail != null)
                     {
@@ -298,8 +248,7 @@ namespace YXERP.Areas.Api.Controllers
         {
             if (!string.IsNullOrEmpty(orderID))
             {
-                var currentUser = OrganizationBusiness.GetUserByUserID(userID, clientID);
-                var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(orderID,currentUser.ClientID);
+                var orderDetail = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(orderID,clientID);
                 Dictionary<string, object> order = new Dictionary<string, object>();
                 List<Dictionary<string, object>> details = new List<Dictionary<string, object>>();
 

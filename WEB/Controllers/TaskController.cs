@@ -16,140 +16,7 @@ namespace YXERP.Controllers
 {
     public class TaskController : BaseController
     {
-        // GET: /Task/
-        //string token = "ef588f83-bf39-418b-8f5c-103f9208a63d";
-        string token = "c5e5e1c5-94de-4ae4-9bc3-a259bb1b32fe";
-        string refreshToken = "be462dcd-1baf-4665-8444-1646d8350c8c";
-        List<string> codes = new List<string>();
-        public JsonResult pullFentDataList()
-        {
-            int successCount = 0;
-            int total = 0;
-            string error;
-
-            AliOrderBusiness.DownFentOrders(DateTime.Now.AddMonths(-1), DateTime.Now.AddDays(1), token, refreshToken,
-                CurrentUser.UserID, CurrentUser.ClientID,
-                ref successCount, ref total, out  error, AlibabaSdk.AliOrderDownType.Hand);
-
-            JsonDictionary.Add("result", successCount);
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult PullBulkGoodsCodes()
-        {
-           var  result=AlibabaSdk.OrderBusiness.PullBulkGoodsCodes(DateTime.Now.AddMonths(-6), DateTime.Now.AddDays(1), token);
-
-           JsonDictionary.Add("result", result);
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult ExecuteDownAliOrdersPlan()
-        {
-            int successCount = 0, total = 0;
-            //获取阿里订单下载计划列表
-            var list = AliOrderBusiness.BaseBusiness.GetAliOrderDownloadPlans();
-
-            foreach (var item in list)
-            {
-                string error;
-
-                //下载阿里打样订单
-                var gmtFentEnd = DateTime.Now;
-                bool flag = AliOrderBusiness.DownFentOrders(item.FentSuccessEndTime, gmtFentEnd, item.Token, item.RefreshToken,
-                    item.UserID, item.ClientID, ref successCount, ref total, out error);
-
-                //新增阿里打样订单下载日志
-                AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.ProofOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.FentSuccessEndTime, gmtFentEnd,
-                    successCount, total, item.ClientID, error);
-
-                //添加服务日志
-                string state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 下载打样订单结果:" + (flag ? "成功" : "失败");
-                if (!flag)
-                    state += "  原因：" + error;
-                WriteLog(state);
-
-
-                //下载阿里大货订单列表
-                var gmtBulkEnd = DateTime.Now;
-                flag = AliOrderBusiness.DownBulkOrders(item.BulkSuccessEndTime, gmtBulkEnd, item.Token, item.RefreshToken,
-                    item.UserID, item.ClientID, ref successCount, ref total, out error);
-
-                //新增阿里大货订单下载日志
-                AliOrderBusiness.BaseBusiness.AddAliOrderDownloadLog(EnumOrderType.LargeOrder, flag, AlibabaSdk.AliOrderDownType.Auto, item.BulkSuccessEndTime, gmtBulkEnd,
-                    successCount, total, item.ClientID, error);
-
-                //添加服务日志
-                state = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "    ClientID:" + item.ClientID + " 下载大货订单结果:" + (flag ? "成功" : "失败");
-                if (!flag)
-                    state += "  原因：" + error;
-                WriteLog(state);
-            }
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        /// <summary>
-        /// 添加服务日志
-        /// </summary>
-        public void WriteLog(string str, int logType = 1)
-        {
-            string fileName = DateTime.Now.ToString("yyyy-MM-dd");
-            string fileExtention = ".txt";
-            string directoryName = "downaliorders";
-            FileStream fs = null;
-            if (logType == 2)
-                directoryName = "updatealiorders";
-
-            if (!Directory.Exists(@"c:\log\" + directoryName))
-            {
-                Directory.CreateDirectory(@"c:\log\" + directoryName);
-            }
-
-            fs = new FileStream(@"c:\log\" + directoryName + "\\" + fileName + fileExtention, FileMode.OpenOrCreate, FileAccess.Write);
-
-            StreamWriter sw = new StreamWriter(fs);
-            sw.BaseStream.Seek(0, SeekOrigin.End);
-            sw.WriteLine("WindowsService: Service Started" + str + "\n");
-
-            sw.Flush();
-            sw.Close();
-            fs.Close();
-        }
-
-        public JsonResult BatchUpdateFentList()
-        {
-            //List<AlibabaSdk.MutableOrder> list=new List<AlibabaSdk.MutableOrder>();
-            //AlibabaSdk.MutableOrder item = new AlibabaSdk.MutableOrder();
-            //item.fentGoodsCode = "UUU0080G4G002SS00081";
-            //item.status = "b";
-            //item.statusDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            //item.statusDesc = "bbbbbbbb";
-            //list.Add(item);
-            //AlibabaSdk.OrderBusiness.BatchUpdateFentList(list, token);
-
-
-            List<string> fails = new List<string>();
-            AliOrderBusiness.UpdateAliFentOrders("2fb14a22-c6a0-4de6-830c-b95624dfdee4", "dd80ba5e-4aa8-4b0f-90f1-f78b95d4ab9f", "be462dcd-1baf-4665-8444-1646d8350c8c", out fails);
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
         #region view
-
         public ActionResult Detail(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -461,6 +328,9 @@ namespace YXERP.Controllers
             int result = 0;
             TaskBusiness.FinishTask(id, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID,out result);
             JsonDictionary.Add("result", result);
+            if (result == 1) {
+                Common.ApiCloudPush.BasePush.SendPush("bbbbb", CurrentUser.UserID);
+            }
 
             return new JsonResult
             {
