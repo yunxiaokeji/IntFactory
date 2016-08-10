@@ -40,7 +40,7 @@ namespace YXERP.Common.Alipay
             partner = "2088221773616920";
 			
             //收款支付宝账号，一般情况下收款账号就是签约账号
-            seller_email = "761069859@qq.com";
+            seller_email = "payment@intfactory.cn";
 
             //交易安全检验码，由数字和字母组成的32位字符串
             key = "f1nwlmvaahsj7qe4ahwnjt53c7fql9xr";

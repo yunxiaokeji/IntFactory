@@ -27,6 +27,31 @@ namespace YXERP.Controllers
                JsonRequestBehavior = JsonRequestBehavior.AllowGet
            };
         }
+        public JsonResult sendWXPush()
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            string url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=aOItC6GHWUdiNVLTagFM3wRoub4VhGSMVuXLMSdO6lwFdiJy2Rww8-aaqShaZP9P9cU4i_9XaeBOk04TbgUe3Oi_jIEDHTzAQeO__UYKiwYpf8FfVnI96NE2rigUyeObKDJjAHAFYE";
+            string paras = "";
+            Dictionary<string, string> parasObj = new Dictionary<string, string>();
+            parasObj.Add("touser", "oiPw5s2wCyHcxBKWN-_w6nDgGCjk");
+            parasObj.Add("template_id", "IJx0o_kXBfNhTmCkQrsZ42MSON0MX9wfyGUTLoVYZfQ");
+            Dictionary<string, object> dataObj = new Dictionary<string, object>();
+            Dictionary<string, string> valueObj = new Dictionary<string, string>() { { "value", "恭喜你购买成功" }, { "color", "#173177" } };
+            dataObj.Add("first", "{\"value\":\"111111111111111\"}");
+            dataObj.Add("keyword1", "{\"value\":\"111111111111111\"}");
+            dataObj.Add("keyword2", "{\"value\":\"111111111111111\"}");
+            dataObj.Add("keyword3", "{\"value\":\""+DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")+"\"}");
+            dataObj.Add("remark", "{\"value\":\"111111111111111\"}");
+            parasObj.Add("data", serializer.Serialize(dataObj));
+            paras = serializer.Serialize(parasObj);
+            string result = WeiXin.Sdk.HttpRequest.SendPush(url, paras);
+
+            return new JsonResult
+            {
+                Data = result,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         public ActionResult Detail(string id)
         {
             if (string.IsNullOrEmpty(id))

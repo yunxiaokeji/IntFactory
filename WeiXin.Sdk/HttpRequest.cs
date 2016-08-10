@@ -93,6 +93,51 @@ namespace WeiXin.Sdk
 
         }
 
+        public static string SendPush(string url,string paras)
+        {
+            string strResult = string.Empty;
+            try
+            {
+                byte[] postData = Encoding.UTF8.GetBytes(paras);
+                Uri uri = new Uri(url);
+                HttpWebRequest httpWebRequest = WebRequest.Create(uri) as HttpWebRequest;
+
+                httpWebRequest.Method = "POST";
+                httpWebRequest.KeepAlive = false;
+                httpWebRequest.AllowAutoRedirect = true;
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.UserAgent = "Ocean/NET-SDKClient";
+                httpWebRequest.ContentLength = postData.Length;
+
+                System.IO.Stream outputStream = httpWebRequest.GetRequestStream();
+                outputStream.Write(postData, 0, postData.Length);
+                outputStream.Close();
+                HttpWebResponse response = httpWebRequest.GetResponse() as HttpWebResponse;
+                Stream responseStream = response.GetResponseStream();
+
+                System.Text.Encoding encode = Encoding.UTF8;
+                StreamReader reader = new StreamReader(response.GetResponseStream(), encode);
+                strResult = reader.ReadToEnd();
+
+                reader.Close();
+                response.Close();
+            }
+            catch (System.Net.WebException webException)
+            {
+                HttpWebResponse response = webException.Response as HttpWebResponse;
+                Stream responseStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                strResult = reader.ReadToEnd();
+
+                reader.Close();
+                response.Close();
+            }
+
+
+            return strResult;
+
+        }
+
         public static string GetEnumDesc<T>(T Enumtype)
         {
             if (Enumtype == null) throw new ArgumentNullException("Enumtype");
