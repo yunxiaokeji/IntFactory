@@ -317,7 +317,6 @@
                 <td class="tLeft">样图</td>
                 <td class="tLeft">材料名称</td>
                 <td class="tLeft">编码</td>
-                <td class="tLeft">规格</td>
                 <td class="width80">单位</td>
                 <td class="tLeft">单价</td>
                 <td class="">消耗量</td>
@@ -335,9 +334,12 @@
                           <img src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" style="text-indent:0;" />
                         </a>
                     </td>
-                    <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
+                    <td>
+                        <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">                        
+                            @(detail.ProductName) <span class="color999">@(detail.Remark)</span>
+                        </a>
+                    </td>
                     <td>@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
-                    <td>@(detail.Remark)</td>
                     <td class="center">@(detail.UnitName)</td>
                     <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                     <td class="center tr-quantity"><label class="quantity">@((detail.Quantity).ToString("f3"))</label></td>
@@ -347,8 +349,8 @@
                 </tr>
                 }
             <tr class="total-item bold">
-                <td colspan="8"></td>
-                <td class="tRight">成本合计：</td>
+                <td colspan="7"></td>
+                <td class="tRight">合计：</td>
                 <td class="tRight" data-class="moneytotal"></td>
             </tr>
             }
@@ -373,10 +375,10 @@
     </table>
 
     <div class="nav-partdiv mTop10 hide" id="tab12">
-         <div class="table-title" style="font-size:16px;text-indent:10px;">制版信息</div>
-        <div id="navEngravingInfo"></div>
+        <div class="table-title" style="font-size:16px;text-indent:10px;">制版信息</div>
+        <div id="navEngravingInfo" class="platemaking-content"></div>
        <div class="mTop20 table-title" style="font-size:16px;text-indent:10px;">工艺说明</div>
-        <table class="table-items-detail mTop10 tb-plates"></table>
+        <table class="table-items-detail tb-plates"></table>
     </div>
 
     <table id="tab15" class="nav-partdiv table-items-detail mTop20 hide">
@@ -418,12 +420,6 @@
 
     @*日志*@
     <div class="nav-partdiv hide" id="navLog">
-        <div class="log-body" id="orderLog">
-
-        </div>
-        <div id="pagerLogs" class="mTop10">
-
-        </div>
     </div>
 </div>
 

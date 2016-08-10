@@ -32,6 +32,9 @@
         }, function (data) {
             $tr_header.nextAll().remove();
             if (data.items.length > 0) {
+
+                $tr_header.hide();
+
                 var templateHtml = "template/orders/cutoutdoc.html";
                 if (type == 2) {
                     templateHtml = "template/orders/senddydocs.html"
@@ -67,65 +70,27 @@
                 });
             }
             else {
+                $tr_header.show();
                 $tr_header.after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
-            }
-            /*有数据隐藏表头*/
-            if (!$(".table-items-detail").find('div').hasClass('nodata-txt')) {
-                $(".table-header").hide();
-            } else {
-                $(".table-header").show();
             }
         });
     };
 
-    //获取单据明细
-    ObjectJS.getGoodsDocDetail = function (item, type) {
-        var _this = $(item), url = "";
-        if (type == 1) {
-            url = "template/orders/cutout-details.html";
-        }
-        else if (type == 2) {
-            url = "template/orders/send-details.html";
-        }
-
-        if (!_this.data("first") || _this.data("first") == 0) {
-            _this.data("first", 1).data("status", "open");
-
-            Global.post("/Orders/GetGoodsDocDetail", {
-                docid: _this.data("id")
-            }, function (data) {
-                DoT.exec(url, function (template) {
-                    var innerhtml = template(data.model.Details);
-                    innerhtml = $(innerhtml);
-                    _this.after(innerhtml);
-                });
-            });
-        }
-        else {
-            if (_this.data("status") == "open") {
-                _this.data("status", "close");
-                _this.nextAll("tr[data-pid='" + _this.data("id") + "']").hide();
-            } else {
-                _this.data("status", "open");
-                _this.nextAll("tr[data-pid='" + _this.data("id") + "']").show();
-            }
-        }
-    };
-
-    //获取订单明细
     ObjectJS.getOrderGoods = function () {
+        $("#navGoods .table-header").nextAll().remove();
+        $("#navGoods .table-header").after($("<tr><td colspan='8'><div class='data-loading'></div></td></tr>"));
         Global.post("/Task/GetOrderGoods", { id: ObjectJS.orderid }, function (data) {
             ObjectJS.OrderGoods = data.list;
-            $("#navGoods .tr-header").nextAll().remove();
+            $("#navGoods .table-header").nextAll().remove();
             if (data.list.length > 0) {
                 DoT.exec("template/task/task-ordergoods.html", function (template) {
                     var innerHtml = template(data.list);
                     innerHtml = $(innerHtml);
-                    $("#navGoods .tr-header").after(innerHtml);
+                    $("#navGoods .table-header").after(innerHtml);
                     ObjectJS.getAmount();
                 });
             } else {
-                $("#navGoods .tr-header").after($("<tr><td colspan='8'><div class='nodata-txt'>暂无明细</div></td></tr>"));
+                $("#navGoods .table-header").after($("<tr><td colspan='8'><div class='nodata-txt'>暂无明细</div></td></tr>"));
             }
         });
     }

@@ -15,6 +15,7 @@ using Qiniu.IO.Resumable;
 using Qiniu.RS;
 using Qiniu.RPC;
 using Qiniu.Conf;
+using IntFactoryEnum;
 namespace YXERP.Controllers
 {
     public class PlugController : Controller
@@ -360,6 +361,32 @@ namespace YXERP.Controllers
             var list = IntFactoryBusiness.Manage.ExpressCompanyBusiness.GetExpressCompanys();
             JsonDictionary.Add("items", list);
             return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        /// <summary>
+        /// 获取日志
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <param name="type"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
+        public JsonResult GetObjectLogs(string guid, EnumLogObjectType type, int pageSize, int pageIndex)
+        {
+            int totalCount = 0;
+            int pageCount = 0;
+
+            var list = LogBusiness.GetLogs(guid, type, pageSize, pageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
+
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+
+            return new JsonResult
             {
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet

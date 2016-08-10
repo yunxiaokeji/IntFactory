@@ -14,7 +14,7 @@ namespace IntFactoryDAL
 
         #region 查询
 
-        public DataSet GetCustomers(int searchtype, int type, int sourcetype, string sourceid, string stageid, int status, int mark, string activityid, string searchuserid, string searchteamid,
+        public DataSet GetCustomers(int searchtype, int type, int sourcetype, string sourceid, string stageid, int status, int mark, string searchuserid, string searchteamid,
                                     string begintime, string endtime, string firstname, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
         {
             SqlParameter[] paras = { 
@@ -27,7 +27,6 @@ namespace IntFactoryDAL
                                        new SqlParameter("@StageID",stageid),
                                        new SqlParameter("@Status",status),
                                        new SqlParameter("@Mark",mark),
-                                       new SqlParameter("@ActivityID",activityid),
                                        new SqlParameter("@SearchUserID",searchuserid),
                                        new SqlParameter("@SearchTeamID",searchteamid),
                                        new SqlParameter("@BeginTime",begintime),

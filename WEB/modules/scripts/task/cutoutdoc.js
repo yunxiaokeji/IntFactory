@@ -38,7 +38,6 @@
             $("#btnCutoutOrder").click(function () {
                 ObjectJS.cutOutGoods();
             });
-            //获取订单大货明细
             Common.getOrderGoods();
         }
     }

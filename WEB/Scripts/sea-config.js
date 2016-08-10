@@ -40,6 +40,8 @@ seajs.config({
         "verify": "plug/verify.js",
         //城市地区
         "city": "plug/city.js",
+        //日志
+        "logs": "plug/logs/logs.js",
         //上传
         //"upload": "plug/upload/upload.js",
         "upload": "plug/qiniustorage/qiniu/qiniu.js",

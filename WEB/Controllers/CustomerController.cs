@@ -102,7 +102,7 @@ namespace YXERP.Controllers
             
             List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomers(model.SearchType, model.Type, model.SourceType, 
                 model.SourceID, model.StageID, model.Status, model.Mark, model.UserID, 
-                model.TeamID, model.AgentID, model.BeginTime, model.EndTime,
+                model.TeamID, model.BeginTime, model.EndTime,
                 model.FirstName, model.Keywords, model.OrderBy, model.PageSize, model.PageIndex, 
                 ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.ClientID);
 
@@ -232,24 +232,6 @@ namespace YXERP.Controllers
                 }
             }
             JsonDictionary.Add("status", bl);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        public JsonResult GetCustomerLogs(string customerid, int pageindex)
-        {
-            int totalCount = 0;
-            int pageCount = 0;
-
-            var list = LogBusiness.GetLogs(customerid, EnumLogObjectType.Customer, 10, pageindex, ref totalCount, ref pageCount, CurrentUser.ClientID);
-
-            JsonDictionary.Add("items", list);
-            JsonDictionary.Add("totalCount", totalCount);
-            JsonDictionary.Add("pageCount", pageCount);
-
             return new JsonResult
             {
                 Data = JsonDictionary,
