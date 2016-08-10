@@ -13,26 +13,19 @@
     };
 
     ObjectJS.bindEvent = function () {
-        $("#set-price-range").click(function () {
+        $("#setPriceRange").click(function () {
             ObjectJS.getPriceRange();
         });   
     };
 
     ObjectJS.getPriceRange = function () {
         ObjectJS.isLoading = false;
-        $(".center-range").append('<div class="data-loading"><div>');
+        $(".pirce-range-box").html('<div class="data-loading"><div>');
         Global.post("/Orders/GetOrderPriceRanges", { orderid: ObjectJS.orderID }, function (data) {
-            $(".data-loading").remove();
             doT.exec("template/orders/pricerangge.html", function (template) {
                 var innerText = template(data.items);
-                Easydialog.open({
-                    container: {
-                        id: "show-model-detail",
-                        header: "优惠设置",
-                        content: innerText
-                    }
-                });
-                    
+                innerText = $(innerText);
+                $(".pirce-range-box").html(innerText);
                 ObjectJS.addPriceRange();
                 ObjectJS.bindUpdatePriceRange(".update");
                 ObjectJS.deletePriceRange();
@@ -44,9 +37,11 @@
     ObjectJS.addPriceRange = function () {
         $(".add-range").click(function () {
             if (!ObjectJS.isLoading) {
+                alert("数据提交中，请稍等");
                 return;
             }
-            if ($(".center-range li:last").data("rangeid")=="") {
+            if ($(".center-range li:last").data("rangeid") == "") {
+                alert("请保存后再试.");
                 return;
             }
             $(".no-data").remove();

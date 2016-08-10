@@ -136,8 +136,7 @@
 .child-product-table td{ border-right:solid 1px #ddd; }
 
 /*价格区间设置*/
-.center-range { width:457px;margin-top:-15px;}
-.center-range li { height:30px;margin-top:2px;padding:10px 0px 10px 0px;}
+.center-range li {margin-top:2px;padding:10px 0px 10px 0px;}
 .center-range li input { width:50px;margin:0 5px;}
 .center-range li div:last-child span{ color:#777;cursor:pointer;display:block;float:left;}
 .center-range li div:last-child span:hover{color:#4a98e7;}

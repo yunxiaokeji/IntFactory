@@ -141,6 +141,7 @@
                 <span class="column-title">付款金额：</span>
                 <label id="infoPayMoney">@(model.PayMoney.ToString("f2"))</label>
             </li>
+            <li class="pirce-range-box hide" style="width:500px;min-height:100px;max-height:150px;overflow-y:auto;border:1px solid #ccc;"></li>
         </ul>
         <ul class="cutomerinfo right @(ExpandClass.IsLimits(HttpContext.Current, "102010501"))">
             <li>
@@ -176,6 +177,7 @@
                 <label>@(model.Address)</label>
             </li>
          </ul>
+        <div class="clear"></div>
     </div>
    
     <div class="clear"></div>
