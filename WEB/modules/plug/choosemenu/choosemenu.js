@@ -97,8 +97,8 @@
                         };
                         $(this).html("请选择");
                         _menuContent.find('ul').empty();
-                        var item = cacheData[id];
                         var id = $(this).data("id");
+                        var item = cacheData[id];
                         if (!item) {
                             $.post("/Products/GetChildCategorysByID", {
                                 categoryid: id

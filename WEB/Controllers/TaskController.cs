@@ -253,8 +253,7 @@ namespace YXERP.Controllers
         //获取订单所有任务阶段流程
         public JsonResult GetOrderStages(string orderid)
         {
-
-            var items = TaskBusiness.GetTasksByOrderID(orderid);
+            var items = TaskBusiness.GetTasksByOrderID(orderid).OrderBy(m => m.Sort);
             JsonDictionary.Add("items", items);
             return new JsonResult
             {
