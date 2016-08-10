@@ -927,7 +927,6 @@
                         file_path: "/Content/UploadFiles/Task/",
                         picture_container: "order-imgs-box",
                         file_container: "reply-files",
-                        image_view: "?imageView2/1/w/120/h/80",
                         maxQuantity: 10,
                         maxSize: 5,
                         draggable:true,
