@@ -60,7 +60,7 @@
 .order-info .cutomerinfo li{ line-height:35px; clear:both; padding:5px;  }
 .order-info .cutomerinfo li .column-title{ width:80px; float:left; color:#666; }
 
-.order-remark { margin-top:20px; padding:10px; border:solid 1px #eee; line-height:25px; }
+.order-remark { margin-top:20px; padding:10px; border:solid 1px #eee; line-height:25px;word-break:break-all; }
 .order-remark .title{ color:#999; }
 
 /*订单品类*/
