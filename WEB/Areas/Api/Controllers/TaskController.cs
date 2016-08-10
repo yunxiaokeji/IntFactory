@@ -27,7 +27,6 @@ namespace YXERP.Areas.Api.Controllers
         #endregion
 
         #region get
-
         public JsonResult GetTasks(string filter, string userID, string clientID)
         {
             var paras = new FilterTasks();
@@ -121,7 +120,7 @@ namespace YXERP.Areas.Api.Controllers
                     task.Add("createTime", item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"));
                     task.Add("ownerUser", GetUserBaseObj(item.Owner));
 
-                    var orderDetail = item.Order;
+                    var orderDetail = OrdersBusiness.BaseBusiness.GetOrderByID(item.OrderID);
                     Dictionary<string, object> order = new Dictionary<string, object>();
                     if (orderDetail != null)
                     {
@@ -139,21 +138,24 @@ namespace YXERP.Areas.Api.Controllers
                         order.Add("platemaking", orderDetail.Platemaking);
                         order.Add("remark", orderDetail.Remark);
                         task.Add("order", order);
-                        
-                        foreach (var d in orderDetail.Details)
-                        {
-                            Dictionary<string, object> detail = new Dictionary<string, object>();
-                            detail.Add("code", d.DetailsCode);
-                            detail.Add("productImage", d.ProductImage);
-                            detail.Add("productName", d.ProductName);
-                            detail.Add("remark", d.Remark);
-                            detail.Add("unitName", d.UnitName);
-                            detail.Add("price", d.Price);
-                            detail.Add("quantity", d.Quantity);
-                            detail.Add("loss", d.Loss);
-                            detail.Add("totalMoney", d.TotalMoney);
 
-                            details.Add(detail);
+                        if (orderDetail.Details != null)
+                        {
+                            foreach (var d in orderDetail.Details)
+                            {
+                                Dictionary<string, object> detail = new Dictionary<string, object>();
+                                detail.Add("code", d.DetailsCode);
+                                detail.Add("productImage", d.ProductImage);
+                                detail.Add("productName", d.ProductName);
+                                detail.Add("remark", d.Remark);
+                                detail.Add("unitName", d.UnitName);
+                                detail.Add("price", d.Price);
+                                detail.Add("quantity", d.Quantity);
+                                detail.Add("loss", d.Loss);
+                                detail.Add("totalMoney", d.TotalMoney);
+
+                                details.Add(detail);
+                            }
                         }
                     }
                     var moduleName = string.Empty;
