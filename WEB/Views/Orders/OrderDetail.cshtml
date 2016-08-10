@@ -135,13 +135,19 @@
             <li>
                 <span class="column-title">最终报价：</span>
                 <label>@(model.FinalPrice.ToString("f2"))</label>
-                <label class="btn-link mLeft5 hand" id="setPriceRange">添加报价</label>
+                @if (model.IsSelf && model.OrderStatus == 2)
+                {
+                    <label class="btn-link mLeft5 hand" id="setPriceRange">添加报价</label>
+                }
             </li>
             <li>
                 <span class="column-title">付款金额：</span>
                 <label id="infoPayMoney">@(model.PayMoney.ToString("f2"))</label>
             </li>
-            <li class="pirce-range-box hide" style="width:500px;min-height:100px;max-height:150px;overflow-y:auto;border:1px solid #ccc;"></li>
+            @if (model.IsSelf && model.OrderStatus == 2)
+            {
+                <li class="pirce-range-box hide" style="width:500px;min-height:100px;max-height:150px;overflow-y:auto;border:1px solid #ccc;border-radius:5px;"></li>
+            }
         </ul>
         <ul class="cutomerinfo right @(ExpandClass.IsLimits(HttpContext.Current, "102010501"))">
             <li>

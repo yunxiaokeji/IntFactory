@@ -14,6 +14,7 @@
 
     ObjectJS.bindEvent = function () {
         $("#setPriceRange").click(function () {
+            $(".pirce-range-box").show();
             ObjectJS.getPriceRange();
         });   
     };
