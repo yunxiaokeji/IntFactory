@@ -153,7 +153,7 @@ namespace IntFactoryDAL
 
         public  DataTable GetTasksByOrderID(string orderID)
         {
-            string sqltext = "select * from  OrderTask where OrderID=@OrderID and status<>9";
+            string sqltext = "select * from  OrderTask where OrderID=@OrderID and status<>9 order by Sort";
             SqlParameter[] paras = { 
                                        new SqlParameter("@OrderID",orderID)
                                    };
