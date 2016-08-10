@@ -4,19 +4,19 @@
     var item=$data[i];
 %}
 <tr class="item cart-item" >
-    <td class="center">{%=item.Remark%}</td>
-    <td class="center good1">{%=item.Quantity%}</td>
-    <td class="good2 center">{%=item.CutQuantity%}</td>
-    <td class="center good3">{%=item.Complete%}</td>
-    <td class="center good4">{%=item.SendQuantity%}</td>
-    <td class="center good5">{%=item.Complete - item.SendQuantity%}</td>
+    <td class="bBottom">{%=item.Remark%}</td>
+    <td class="good1 bLeft bBottom">{%=item.Quantity%}</td>
+    <td class="good2 center bLeft bBottom">{%=item.CutQuantity%}</td>
+    <td class="good3 bLeft bBottom">{%=item.Complete%}</td>
+    <td class="good4 bLeft bBottom">{%=item.SendQuantity%}</td>
+    <td class="good5 bLeft bBottom">{%=item.Complete - item.SendQuantity%}</td>
 </tr>                
 {%}%}
-<tr class="total-item bold" >
-    <td class="center">合计：</td>
-    <td class="center" data-class="good1"></td>
-    <td class="center" data-class="good2"></td>
-    <td class="center" data-class="good3"></td>
-    <td class="center" data-class="good4"></td>
-    <td class="center" data-class="good5"></td>
+<tr class="total-item bold item" >
+    <td class="bBottom">合计：</td>
+    <td class="bBottom bLeft" data-class="good1"></td>
+    <td class="bBottom bLeft" data-class="good2"></td>
+    <td class="bBottom bLeft" data-class="good3"></td>
+    <td class="bBottom bLeft" data-class="good4"></td>
+    <td class="bBottom bLeft" data-class="good5"></td>
 </tr>
