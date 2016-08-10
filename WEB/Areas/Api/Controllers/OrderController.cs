@@ -257,6 +257,5 @@ namespace YXERP.Areas.Api.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-
     }
 }
