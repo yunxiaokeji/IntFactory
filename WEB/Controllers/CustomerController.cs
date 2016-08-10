@@ -102,7 +102,7 @@ namespace YXERP.Controllers
             
             List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomers(model.SearchType, model.Type, model.SourceType, 
                 model.SourceID, model.StageID, model.Status, model.Mark, model.UserID, 
-                model.TeamID, model.AgentID, model.BeginTime, model.EndTime,
+                model.TeamID, model.BeginTime, model.EndTime,
                 model.FirstName, model.Keywords, model.OrderBy, model.PageSize, model.PageIndex, 
                 ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.ClientID);
 

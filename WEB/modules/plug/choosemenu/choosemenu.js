@@ -180,12 +180,8 @@
 
         $(document).click(function (e) {
             var ele = $(e.target);
-            if (
-                   !ele.parents().hasClass('change-menu-body') 
-                && !ele.hasClass('change-menu-body')
-                && !ele.parents().hasClass('change-menu-content')
-                && !ele.hasClass('gategory-item')
-                ) {
+            if (!ele.parents().hasClass('change-menu-body') && !ele.hasClass('change-menu-body')
+                && !ele.parents().hasClass('change-menu-content')&& !ele.hasClass('gategory-item')) {
                 $(".change-menu-body").hide();
             }
         });

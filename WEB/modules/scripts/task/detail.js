@@ -1513,8 +1513,9 @@
 
         if ($("#btnAddPalte").length > 0) {
             $("#btnAddPalte").click(function () {
-                if(btnAddPalte)
-                ObjectJS.addPlateMaking();
+                if (btnAddPalte) {
+                    ObjectJS.addPlateMaking();
+                }
             });
         }
         $("#setObjectPlate").click(function () {
@@ -1578,7 +1579,7 @@
                 innerHtml.find('.cencal-plate').click(function () {
                     var _thisTr = $(this).parents('tr');
                     var plateHtml = '<td class="tLeft item bBottom"><img style="width:30px;height:30px;text-indent:0;" src="' + item.Icon + '" /></td>';
-                    plateHtml += '<td class="center item bBottom">' + item.Title + '</td>';
+                    plateHtml += '<td class="tLeft item bBottom">' + item.Title + '</td>';
                     plateHtml += '<td class="tLeft item show-all-txt bBottom" style="line-height:150%;">' + item.Remark + '</td>';
                     plateHtml += '<td class="center item width150 bBottom">' + item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss') + '</td>';
                     plateHtml += '<td class="center item dropdown width150 bBottom" data-id="' + item.PlateID + '" data-index="' + index + '" data-title="' + item.Title + '"><span class="ico-dropdown"></span></td>';
@@ -1767,7 +1768,7 @@
                         index += 1;
                         PlateMakings[index] = cachePlate;
                         var plateHtml = '<td class="tLeft item bBottom"><img style="width:30px;height:30px;text-indent:0;" src="' + (_thisTr.find('.plate-ico-img').data('src') || '') + '" /></td>';
-                        plateHtml += '<td class="center item bBottom">' + (_thisTr.find('.txt-name').val() || '') + '</td>';
+                        plateHtml += '<td class="tLeft item bBottom">' + (_thisTr.find('.txt-name').val() || '') + '</td>';
                         plateHtml += '<td class="tLeft item show-all-txt bBottom" style="line-height:150%;">' + _thisTr.find('.desc').val() || '' + '</td>';
                         plateHtml += '<td class="center item width150 bBottom">' + new Date().toString('yyyy-MM-dd hh:mm:ss') + '</td>';
                         plateHtml += '<td class="center item dropdown width150 bBottom" data-id="' + data.id + '" data-index="' + index + '" data-title="' + (_thisTr.find('.desc').val() || '') + '"><span class="ico-dropdown"></span></td>';
@@ -1826,7 +1827,7 @@
         Easydialog.open({
             container: {
                 id: "initAddPlateMarting",
-                header: "新增制版类型",
+                header: "选择工艺类型",
                 content: innerHtml,
                 yesFn: function () {
                    
@@ -1853,14 +1854,14 @@
                         var innerAddHtml = "";
                         for (var i = 0; i < items.length; i++) {
                             var item = items[i];
-                            innerAddHtml += '<tr class="table-header tr-header"><td class="font14 tLeft width300 bold plate-name" data-name="'+item.text+'">工艺类型：' + item.text + '</td> <td class="bold">名称</td>  <td class="tLeft bold">描述</td><td class="width150 bold">创建时间</td><td class="center width150 bold">操作</td></tr>';
-                            innerAddHtml += '<tr class="list-item"><td colspan="5" class="center" style="padding:0 0 5px 0;"><div class="add-plate font16 hand hBlue" style="text-indent:0;line-height:50px;" data-typename="' + item.text + '">+添加' + item.text + '工艺</div></td></tr>';
+                            innerAddHtml += '<tr class="table-header tr-header"><td class="font14 tLeft width300 bold plate-name"  colspan="2" data-name="' + item.text + '">工艺类型：' + item.text + '</td> <td class="tLeft bold">描述</td><td class="width150 bold">创建时间</td><td class="center width150 bold">操作</td></tr>';
+                            innerAddHtml += '<tr class="list-item"><td colspan="5" class="center" style="padding:0 0 5px 0;"><div class="add-plate font16 hand hBlue" style="text-indent:0;line-height:50px;" data-typename="' + item.text + '">+添加' + item.text + '</div></td></tr>';
                         }
                         innerAddHtml = $(innerAddHtml);
                         innerAddHtml.find('.add-plate').click(function () {
                             ObjectJS.qulicklyAddPlateMarkings($(this));
                         });
-                        var addPlateType = $('<div class="right btn-add mRight20" id="addPlateType">添加工艺类型</div>');
+                        var addPlateType = $('<div class="right btn-add mRight20" id="addPlateType">选择工艺类型</div>');
                         if ($("#addPlateType").length == 0) {
                             addPlateType.click(function () {
                                 ObjectJS.choosePlateTypeAdd();

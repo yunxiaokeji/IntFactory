@@ -14,8 +14,8 @@
     {% if(TypeName!=item.TypeName){
     %}
     <tr class="table-header tr-header">
-        <td class="font14 tLeft width300 bold plate-name" data-name="{%=item.TypeName%}">工艺类型：{%=item.TypeName%}</td>
-        <td class="bold">名称</td>                    
+        <td class="font14 tLeft width150 bold plate-name" data-name="{%=item.TypeName%}">工艺类型：{%=item.TypeName%}</td>
+        <td class="bold tLeft width150">名称</td>                    
         <td class="tLeft bold">描述</td>
         <td class="width150 bold">创建时间</td>
         <td class="center width150 bold">操作</td>
@@ -28,7 +28,7 @@
             <span id="trPlate{%=Math.random()%}" class="btn-add add-img mLeft20" style="text-indent:0;float:left;display:none;">添加图片</span>
             <div class="clear"></div>
         </td>
-        <td class="center item bBottom">{%=item.Title%}</td>        
+        <td class="item tLeft bBottom">{%=item.Title%}</td>        
         <td class="tLeft item bBottom" style="word-break:break-all;line-height:150%;">{%=item.Remark%}</td>
         <td class='center item width150 bBottom'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
         <td class="center item dropdown width150 bBottom" data-id="{%=item.PlateID%}" data-index="{%=i%}" data-title="{%=item.Title%}">
@@ -41,7 +41,7 @@ isLast=0;
 %}
 <tr class="list-item">
     <td colspan="5" class="center" style="padding:0 0 5px 0;">
-       <div class="add-plate font16 hand hBlue" data-typeName="{%=TypeName%}" style="text-indent:0;line-height:40px;">+添加{%=item.TypeName%}工艺</div>
+       <div class="add-plate font16 hand hBlue" data-typeName="{%=TypeName%}" style="text-indent:0;line-height:40px;">+添加{%=item.TypeName%}</div>
     </td>
 </tr>
 {%}%}

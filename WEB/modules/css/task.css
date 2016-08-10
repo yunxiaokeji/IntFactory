@@ -148,32 +148,20 @@
 }
 
 /*制版属性*/
-.platemakingContent {
-    margin:10px 0px;
-}
-.platemakingContent .iconfont{
-    color:#666;
-    font-size:24px;
-}
-.platemakingContent .print-plate {
-    line-height:24px;
-    vertical-align:text-bottom;
-    color:#4a98e7;
-    display:inline-block;
-    margin-left:2px;
-}
-.platemakingBody {
-    border-top:1px solid #eee;
-    border-left:1px solid #eee;
-}
-.platemakingBody td {
-    border-bottom:1px solid #eee;
-    border-right:1px solid #eee;
-}
+.platemakingContent { margin: 10px 0px; }
+.platemakingContent .iconfont { color: #666; font-size: 24px; }
 
-.platemakingContent .td-normal-plate {
-    background-color:#eee;
-}
+.platemakingContent .print-plate { line-height: 24px; vertical-align: text-bottom; color: #4a98e7; display: inline-block; margin-left: 2px; }
+
+.platemakingBody { border-top: 1px solid #eee; border-left: 1px solid #eee; }
+.platemakingBody .tr-header{ background-color:#f6f6f6; }
+.platemakingBody .tr-header span:first-child{ float:left; display:inline-block; }
+.platemakingBody .tr-header .ico-dropdown{ margin-top:2px; }
+.platemakingBody td { border-bottom: 1px solid #eee; border-right: 1px solid #eee; }
+
+.platemakingContent .td-normal-plate { background-color: #4a98e7; }
+.platemakingContent .td-normal-plate span:first-child{ color:#fff;}
+.platemakingContent .td-normal-plate .ico-dropdown{ display:none;}
 
 .platemakingContent .tbContent {
     cursor:pointer;

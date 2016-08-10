@@ -36,11 +36,11 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<CustomerEntity> GetCustomers(EnumSearchType searchtype, int type, int sourcetype, string sourceid, string stageid, int status, int mark, string activityid, string searchuserid, string searchteamid, 
+        public List<CustomerEntity> GetCustomers(EnumSearchType searchtype, int type, int sourcetype, string sourceid, string stageid, int status, int mark, string searchuserid, string searchteamid, 
                                                  string begintime, string endtime, string firstname, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
         {
             List<CustomerEntity> list = new List<CustomerEntity>();
-            DataSet ds = CustomDAL.BaseProvider.GetCustomers((int)searchtype, type, sourcetype, sourceid, stageid, status, mark, activityid, searchuserid, searchteamid, begintime, endtime, firstname, keyWords, orderBy, pageSize, pageIndex, ref totalCount, ref pageCount, userid, clientid);
+            DataSet ds = CustomDAL.BaseProvider.GetCustomers((int)searchtype, type, sourcetype, sourceid, stageid, status, mark, searchuserid, searchteamid, begintime, endtime, firstname, keyWords, orderBy, pageSize, pageIndex, ref totalCount, ref pageCount, userid, clientid);
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 CustomerEntity model = new CustomerEntity();

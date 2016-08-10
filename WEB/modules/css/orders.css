@@ -142,4 +142,12 @@
 .center-range li div:last-child span{ color:#777;cursor:pointer;display:block;float:left;}
 .center-range li div:last-child span:hover{color:#4a98e7;}
 
+/*制版*/
+.platemaking-content { border-left: 1px solid #eee; }
+.platemaking-content .tr-header{ background-color:#f6f6f6; }
+.platemaking-content .tr-header span:first-child{ float:left; display:inline-block; }
+.platemaking-content .tr-header .ico-dropdown{ margin-top:2px; }
+.platemaking-content td { border-bottom: 1px solid #eee; border-right: 1px solid #eee; }
+
+
 
