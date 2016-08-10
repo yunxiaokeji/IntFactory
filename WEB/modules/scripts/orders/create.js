@@ -153,6 +153,144 @@
                 var innerhtml = template(CacheCategory[_self.categoryValue.trim()]);
                 innerhtml = $(innerhtml);
 
+                //自定义产品
+                innerhtml.find('.change-attr').change(function () {
+                    var _this = $(this);
+                    var isContinue = true;
+                    _this.parents('.attr-box').find('.check-box').each(function () {
+                        if (!_this.val().trim()) {
+                            alert("自定义规格不能为空");
+                            isContinue = false;
+                            return false;
+                        }
+                        if (_this.val().trim() == $(this).text().trim()) {
+                            alert("该规格已存在");
+                            isContinue = false;
+                            return false;
+                        }
+                    });
+                    if (isContinue) {
+                        var checkBoxHtml = $('<span class="mRight10 hand check-box"><span class="checkbox iconfont mTop3" data-attrid="' + _this.data('id') + '"  data-type="' + _this.data('type') + '" data-text="' + _this.val().trim() + '" data-id="|"></span> ' + _this.val().trim() + '</span>');
+                        checkBoxHtml.click(function () {
+                            var _this = $(this).find(".checkbox");
+                            if (_this.hasClass("hover")) {
+                                _this.removeClass("hover");
+                            } else {
+                                _this.addClass("hover");
+                            }
+
+                            var bl = false, details = [], isFirst = true, xattr = [], yattr = [];
+                            $(".productsalesattr").each(function () {
+                                bl = false;
+                                var _attr = $(this), attrdetail = details;
+                                //组合规格
+                                _attr.find(".checkbox.hover").each(function () {
+                                    bl = true;
+                                    var _value = $(this);
+                                    //首个规格
+                                    if (isFirst) {
+                                        var model = {};
+                                        model.ids = _attr.data("id") + ":" + _value.data("id");
+                                        model.saleAttr = _attr.data("id");
+                                        model.attrValue = _value.data("id");
+                                        model.xRemark = _value.data("type") == 1 ? ("【" + _value.data("text") + "】") : "";
+                                        model.yRemark = _value.data("type") == 2 ? ("【" + _value.data("text") + "】") : "";
+                                        model.xyRemark = "【" + _value.data("text") + "】";
+                                        model.names = "【" + _attr.data("text") + "：" + _value.data("text") + "】";
+                                        model.layer = 1;
+                                        details.push(model);
+
+                                    } else {
+                                        for (var i = 0, j = attrdetail.length; i < j; i++) {
+                                            if (attrdetail[i].ids.indexOf(_value.data("attrid")) < 0) {
+                                                var model = {};
+                                                model.ids = attrdetail[i].ids + "," + _attr.data("id") + ":" + _value.data("id");
+                                                model.saleAttr = attrdetail[i].saleAttr + "," + _attr.data("id");
+                                                model.attrValue = attrdetail[i].attrValue + "," + _value.data("id");
+                                                model.xRemark = attrdetail[i].xRemark + (_value.data("type") == 1 ? ("【" + _value.data("text") + "】") : "");
+                                                model.yRemark = attrdetail[i].yRemark + (_value.data("type") == 2 ? ("【" + _value.data("text") + "】") : "");
+                                                model.xyRemark = attrdetail[i].xyRemark + "【" + _value.data("text") + "】";
+                                                model.names = attrdetail[i].names + "【" + _attr.data("text") + "：" + _value.data("text") + "】";
+                                                model.layer = attrdetail[i].layer + 1;
+                                                details.push(model);
+                                            }
+                                        }
+                                    }
+                                    //处理二维表
+                                    if (_value.data("type") == 1 && xattr.indexOf("【" + _value.data("text") + "】") < 0) {
+                                        xattr.push("【" + _value.data("text") + "】");
+                                    } else if (_value.data("type") == 2 && yattr.indexOf("【" + _value.data("text") + "】") < 0) {
+                                        yattr.push("【" + _value.data("text") + "】");
+                                    }
+
+                                });
+                                isFirst = false;
+                            });
+                            $("#childGoodsQuantity").empty();
+                            //选择所有属性
+                            if (bl) {
+                                var layer = $(".productsalesattr").length, items = [];
+                                for (var i = 0, j = details.length; i < j; i++) {
+                                    var model = details[i];
+                                    if (model.layer == layer) {
+                                        items.push(model);
+                                        CacheItems[model.xyRemark] = model;
+                                    }
+                                }
+                                var tableModel = {};
+                                tableModel.xAttr = xattr;
+                                tableModel.yAttr = yattr;
+                                tableModel.items = items;
+
+                                //加载子产品
+                                doT.exec("template/orders/orders_child_list.html", function (templateFun) {
+                                    var innerText = templateFun(tableModel);
+                                    innerText = $(innerText);
+                                    $("#childGoodsQuantity").append(innerText);
+                                    //数量必须大于0的数字
+                                    innerText.find(".quantity").change(function () {
+                                        var _this = $(this);
+                                        if (!_this.val().isInt() || _this.val() <= 0) {
+                                            _this.val("0");
+                                        }
+
+                                        var total = 0;
+                                        $(".child-product-table .tr-item").each(function () {
+                                            var _tr = $(this), totaly = 0;
+                                            if (!_tr.hasClass("total")) {
+                                                _tr.find(".quantity").each(function () {
+                                                    var _this = $(this);
+                                                    if (_this.val() > 0) {
+                                                        totaly += _this.val() * 1;
+                                                    }
+                                                });
+                                                _tr.find(".total-y").text(totaly);
+                                            } else {
+                                                _tr.find(".total-y").each(function () {
+                                                    var _td = $(this), totalx = 0;
+                                                    $(".child-product-table .quantity[data-x='" + _td.data("x") + "']").each(function () {
+                                                        var _this = $(this);
+                                                        if (_this.val() > 0) {
+                                                            totalx += _this.val() * 1;
+                                                        }
+                                                    });
+                                                    total += totalx;
+                                                    _td.text(totalx);
+                                                });
+                                                _tr.find(".total-xy").text(total);
+                                            }
+                                        });
+                                    });
+                                });
+                            }
+                        });
+                        _this.parent().before(checkBoxHtml);
+                        checkBoxHtml.click();
+                        $("#checkOrderType").after(innerhtml);
+                        _this.val('');
+                    }
+                });
+
                 //组合产品
                 innerhtml.find(".check-box").click(function () {
                     var _this = $(this).find(".checkbox");

@@ -8,7 +8,7 @@
 %}
     <li data-id="{%=attr.AttrID%}" data-text="{%= attr.AttrName%}" class="productsalesattr">
         <span class="column-title left">{%= attr.AttrName%}：</span>
-        <div class="left" style="width:90%;">
+        <div class="left attr-box" style="width:90%;">
         {%
         for(var ii=0, jj=attr.AttrValues.length; ii < jj; ii++){
 	        var value = attr.AttrValues[ii];
@@ -19,6 +19,9 @@
             </span> 
            
         {% } %}
+            <span>
+                <input class="change-attr center width50" data-id="{%=attr.AttrID%}" data-type="1" type="text" placeholder="自定义" />
+            </span>
         </div>
         <div class="clear"></div>
     </li>
@@ -29,7 +32,7 @@
 %}
     <li data-id="{%=attr.AttrID%}" data-text="{%= attr.AttrName%}" class="productsalesattr">
         <span class="column-title left">{%= attr.AttrName%}：</span>
-        <div class="left" style="width:90%;">
+        <div class="left attr-box" style="width:90%;">
         {%
         for(var ii=0, jj=attr.AttrValues.length; ii < jj; ii++){
 	        var value = attr.AttrValues[ii];
@@ -40,6 +43,9 @@
             </span> 
            
         {% } %}
+            <span>
+                <input class="change-attr center width50" data-id="{%=attr.AttrID%}" data-type="2" type="text" placeholder="自定义" />
+            </span>
         </div>
         <div class="clear"></div>
     </li>
