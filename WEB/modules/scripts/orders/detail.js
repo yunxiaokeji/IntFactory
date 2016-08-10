@@ -723,7 +723,13 @@
 
             if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
-                _self.getLogs(1);
+                require.async("logs", function () {
+                    $("#navLog").getObjectLogs({
+                        guid: _self.orderid,
+                        type: 2, /*1 客户 2订单 10任务 */
+                        pageSize: 10
+                    });
+                });
             } else if (_this.data("id") == "tab12" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getPlateMakings();
@@ -1948,50 +1954,6 @@
                 $("#navPays .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         }); 
-    }
-
-    //获取日志
-    ObjectJS.getLogs = function (page) {
-        var _self = this;        
-        $("#orderLog").empty();
-        $("#orderLog").after("<div class='data-loading' ></div>");
-        Global.post("/Orders/GetOrderLogs", {
-            orderid: _self.orderid,
-            pageindex: page
-        }, function (data) {
-            if (data.items.length>0) {
-                doT.exec("template/common/logs.html", function (template) {
-                    var innerhtml = template(data.items);
-                    innerhtml = $(innerhtml);
-                    $("#orderLog").append(innerhtml);
-                });
-                $(".data-loading").remove();
-            } else {
-                $(".data-loading").remove();
-                $("#orderLog").after("<div class='nodata-txt' >暂无日志!</div>");
-            }
-            
-            $("#pagerLogs").paginate({
-                total_count: data.totalCount,
-                count: data.pageCount,
-                start: page,
-                display: 5,
-                border: true,
-                border_color: '#fff',
-                text_color: '#333',
-                background_color: '#fff',
-                border_hover_color: '#ccc',
-                text_hover_color: '#000',
-                background_hover_color: '#efefef',
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                float: "left",
-                onChange: function (page) {
-                    _self.getLogs(page);
-                }
-            });
-        });
     }
 
     //发货记录

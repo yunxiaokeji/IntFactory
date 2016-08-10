@@ -190,8 +190,14 @@
 
             if (_this.data("id") == "orderTaskLogs") {
                 if (!_this.data("isget")) {                    
-                    ObjectJS.getLogs(1);
                     _this.data("isget", "1");
+                    require.async("logs", function () {
+                        $("#orderTaskLogs").getObjectLogs({
+                            guid: ObjectJS.taskid,
+                            type: 10, /*1 客户 2订单 10任务 */
+                            pageSize: 10
+                        });
+                    });
                 }
             }
             else if (_this.data("id") == "navGoods") {
@@ -798,44 +804,6 @@
         });
 
 
-    }
-
-    //获取任务日志
-    ObjectJS.getLogs = function (page) {
-        var _self = this;
-        $("#taskLogList").empty();
-        $("#taskLogList").append($("<div class='data-loading'></div>"));
-        ObjectJS.isLoading=false
-        Global.post("/Task/GetOrderTaskLogs", {
-            id: _self.taskid,
-            pageindex: page
-        }, function (data) {
-            if (data.items.length > 0) {
-                DoT.exec("template/common/logs.html", function (template) {
-                    var innerhtml = template(data.items);
-                    innerhtml = $(innerhtml);
-                    $("#taskLogList").html(innerhtml);
-                });
-            }
-            else {
-                $("#taskLogList").html("<div class='nodata-txt'>暂无日志!</div>");
-            }
-            $("#pagerLogs").paginate({
-                total_count: data.totalCount,
-                count: data.pageCount,
-                start: page,
-                display: 5,
-                border: true,
-                rotate: true,
-                images: false,
-                mouse: 'slide',
-                float: "left",
-                onChange: function (page) {
-                    _self.getLogs(page);
-                }
-            });
-            ObjectJS.isLoading = true;
-        });
     }
 
     //汇总

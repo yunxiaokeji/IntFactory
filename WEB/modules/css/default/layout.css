@@ -250,14 +250,6 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .tab-nav-ul li:hover{ position: relative; height: 32px; line-height: 35px; border-bottom: 3px solid #73ABE4; color:#318ae4; }
 .tab-nav-ul .hover { position: relative; height: 32px; line-height: 35px; border-bottom: 3px solid #4a98e7; color:#318ae4;  }
 
-/*日志样式*/
-.log-body { margin:0 20px; }
-.log-body .log-item {width:99%; line-height:30px; overflow:auto; border-bottom:dashed 1px #eee; margin-top:10px; }
-.log-body .createuser { vertical-align:middle; }
-.log-body .createuser img { float:left; height:30px; width:30px; border-radius:15px; margin-top:15px; }
-.log-body .createuser h2 { float:left; vertical-align:middle; line-height:60px; width:60px; margin-left:10px; }
-.log-body .createtime { color:#999; }
-
 /*讨论备忘*/
 .task-replys { width: 800px; }
 .task-replys .txt-content { height: 100px; }

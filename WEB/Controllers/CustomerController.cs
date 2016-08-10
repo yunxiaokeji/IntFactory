@@ -239,24 +239,6 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetCustomerLogs(string customerid, int pageindex)
-        {
-            int totalCount = 0;
-            int pageCount = 0;
-
-            var list = LogBusiness.GetLogs(customerid, EnumLogObjectType.Customer, 10, pageindex, ref totalCount, ref pageCount, CurrentUser.ClientID);
-
-            JsonDictionary.Add("items", list);
-            JsonDictionary.Add("totalCount", totalCount);
-            JsonDictionary.Add("pageCount", pageCount);
-
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
         public JsonResult GetClientByKeywords(string keywords)
         {
             int totalCount = 0, pageCount = 0;

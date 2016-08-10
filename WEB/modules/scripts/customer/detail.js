@@ -245,7 +245,13 @@
 
             if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) { //日志               
                 _this.data("first", "1");
-                _self.getLogs(model.CustomerID, 1);
+                require.async("logs", function () {
+                    $("#navLog").getObjectLogs({
+                        guid: _self.guid,
+                        type: 1, /*1 客户 2订单 10任务 */
+                        pageSize: 10
+                    });
+                });
             } else if (_this.data("id") == "taskReplys" && (!_this.data("first") || _this.data("first") == 0)) { //备忘
                 _this.data("first", "1");
                 CustomerReply.initTalkReply(_self, "customer");

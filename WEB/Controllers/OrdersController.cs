@@ -670,24 +670,6 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrderLogs(string orderid, int pageindex)
-        {
-            int totalCount = 0;
-            int pageCount = 0;
-
-            var list = LogBusiness.GetLogs(orderid, EnumLogObjectType.Orders, 10, pageindex, ref totalCount, ref pageCount, CurrentUser.ClientID);
-
-            JsonDictionary.Add("items", list);
-            JsonDictionary.Add("totalCount", totalCount);
-            JsonDictionary.Add("pageCount", pageCount);
-
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
         public JsonResult EffectiveOrderProduct(string orderid)
         {
             int result = 0;

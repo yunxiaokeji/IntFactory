@@ -257,24 +257,6 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrderTaskLogs(string id, int pageindex)
-        {
-            int totalCount = 0;
-            int pageCount = 0;
-
-            var list = LogBusiness.GetLogs(id, EnumLogObjectType.OrderTask, PageSize, pageindex,
-                ref totalCount, ref pageCount, CurrentUser.ClientID);
-            JsonDictionary.Add("items", list);
-            JsonDictionary.Add("totalCount", totalCount);
-            JsonDictionary.Add("pageCount", pageCount);
-
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
         //获取订单所有任务阶段流程
         public JsonResult GetOrderStages(string orderid)
         {
