@@ -249,7 +249,6 @@
                 <td class="tLeft">样图</td>
                 <td class="tLeft">材料名称</td>
                 <td class="tLeft">编码</td>
-                <td class="tLeft">规格</td>
                 <td class="width80">单位</td>
                 <td class="">消耗量</td>
                 <td class="">单价</td>
@@ -265,9 +264,12 @@
                             <img style="text-indent:0;" src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
                         </a>
                     </td>
-                    <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">@(detail.ProductName)</a></td>
+                    <td>
+                        <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">                        
+                            @(detail.ProductName) <span class="color999">@(detail.Remark)</span>
+                        </a>
+                    </td>
                     <td>@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
-                    <td>@(detail.Remark)</td>
                     <td class="center">@(detail.UnitName)</td>
                     <td class="center tr-quantity"><label class="quantity">@(detail.Quantity.ToString("f3"))</label></td>
                     <td class="tr-price center"><label class="price">@(detail.Price.ToString("f2"))</label></td>
@@ -275,7 +277,6 @@
                 </tr>
                 }
                 <tr class="total-item bold">
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
