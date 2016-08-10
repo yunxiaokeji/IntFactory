@@ -258,27 +258,5 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        //获取订单流程
-        public JsonResult GetOrderProcess(string userID, string clientID)
-        {
-            var list = SystemBusiness.BaseBusiness.GetOrderProcess(clientID);
-            List<Dictionary<string, object>> processss = new List<Dictionary<string, object>>();
-
-            foreach (var item in list)
-            {
-                Dictionary<string, object> processs = new Dictionary<string, object>();
-                processs.Add("processID", item.ProcessID);
-                processs.Add("type", item.ProcessType);
-                processs.Add("processName", item.ProcessName);
-                processss.Add(processs);
-            }
-
-            JsonDictionary.Add("processs", processss);
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
     }
 }
