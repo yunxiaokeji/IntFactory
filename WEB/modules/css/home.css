@@ -216,6 +216,8 @@ border-bottom:2px solid #4a98e7;
 .order-item span{ color:#333; display:inline-block; }
 .order-item .iconfont { color: #8b8b8b; }
 
+.order-item .order-header .view-detail { font-size:16px; color:#4a98e7; font-weight:500; cursor:pointer; }
+
 .order-item .order-header { height:25px; background-color:#f3f3f3; padding:5px 0; }
 .order-item .order-header li{ display:inline-block; line-height:25px; margin:0 10px; font-weight:bold; color:#333; font-size:13px;}
 
@@ -439,4 +441,34 @@ border-bottom:2px solid #4a98e7;
     left:200px;
     right:200px; 
 }
+
+/*订单浮层*/
+.order-layer { width:500px; background-color:#fff; position:fixed; top:50px; bottom:0px; right:-505px; z-index:10000;  border-left:solid 1px #eee; box-shadow:0 0 5px #ccc;}
+
+.order-layer .layer-header{ height:40px; line-height:40px; background-color:#f5f5f5; font-size:14px; text-indent:15px; color:#666; }
+.order-layer .layer-header .iconfont{ font-size:24px; cursor:pointer;  color:#999;}
+.order-layer .layer-header .iconfont:hover{ color:#2F73B8;}
+
+.order-layer-item { width:460px; padding:0 20px 50px; position:absolute; top:40px; bottom:0; overflow:auto; }
+.order-layer-item h1 { border-bottom:solid 1px #eee; height:35px; line-height:35px; font-size:14px; color:#666; }
+
+.order-layer-item ul { margin-bottom:30px; }
+.order-layer-item ul li{ height:30px; line-height:30px; margin-top:5px; }
+.order-layer-item ul .column-title{ width:80px; display:inline-block; float:left; color:#999; }
+
+.order-layer-item .stage-items { }
+.order-layer-item .stage-items  li{ float:left; width:170px; cursor:pointer; padding:5px 10px; height:50px;
+                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc; border-left-width:8px; }
+
+.order-layer-item .stage-items  li:hover{ background-color:#eee;}
+
+.order-layer-item .stage-items  li.ing{ border-color: #45BF67;}
+.order-layer-item .stage-items  li.over{ border-color: #3A7DE5;}
+
+.order-layer-item .stage-items  li span{ display:block; font-size:12px; height:25px; line-height:25px; width:120px; color:#333;}
+.order-layer-item .stage-items  li .status { color:#999; }
+.order-layer-item .stage-items  li.ing .status { color: #45BF67;}
+.order-layer-item .stage-items  li.over .status { color: #3A7DE5;}
+
+.order-layer .data-loading { margin-top:200px; }
 

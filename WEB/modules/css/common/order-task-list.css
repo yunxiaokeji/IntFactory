@@ -6,7 +6,7 @@
 .table-items-detail .view-detail { color:#4a98e7; font-size:20px; cursor:pointer; }
 .table-items-detail .view-detail:hover { color:#2F73B8;}
 
-.table-items-detail .order-image{ width:120px; }
+.table-items-detail .order-image{ width:120px; position:relative; }
 .table-items-detail .order-image img{ max-width:120px; max-height:120px; vertical-align:middle; }
 
 .table-items-detail .order-costinfo { padding-left:20px; }

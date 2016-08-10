@@ -76,15 +76,15 @@
 .process-info .info{ font-size:16px; height:25px; line-height:25px;}
 
 .process-stages .stage-items { }
-.process-stages .stage-items  li{ float:left; width:150px; cursor:pointer; padding:5px 10px; position:relative;
-                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc;border-radius:2px;}
+.process-stages .stage-items  li{ float:left; width:130px; cursor:pointer; padding:5px 10px; position:relative;
+                   margin-right:10px; margin-bottom:10px; border:solid 1px #ccc;border-radius:2px;}
 
 .process-stages .stage-items  li:hover{ background-color:#eee;}
 
 .process-stages .stage-items  li.ing{ border-color: #45BF67;}
 .process-stages .stage-items  li.over{ border-color: #3A7DE5;}
 
-.process-stages .stage-items  li span{ display:block; font-size:12px; height:25px; line-height:25px; width:150px; color:#333;}
+.process-stages .stage-items  li span{ display:block; font-size:12px; height:25px; line-height:25px; width:130px; color:#333;}
 .process-stages .stage-items  li.ing .status { color: #45BF67;}
 .process-stages .stage-items  li.over .status { color: #3A7DE5;}
 

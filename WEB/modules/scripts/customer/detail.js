@@ -100,6 +100,11 @@
             if (!$(e.target).parents().hasClass("dropdown") && !$(e.target).hasClass("dropdown")) {
                 $(".dropdown-ul").hide();
             }
+
+            if (!$(e.target).parents().hasClass("order-layer") && !$(e.target).hasClass("order-layer")) {
+                $(".order-layer").animate({ right: "-505px" }, 200);
+                $(".object-item").removeClass('looking-view');
+            }
         });
 
         //关键字搜索
@@ -401,6 +406,13 @@
 
                 _target.after(innerhtml);
 
+                innerhtml.find(".view-detail").click(function () {
+                    _self.getDetail($(this).data("id"), $(this).data('code'));
+                    $('.object-item').removeClass('looking-view');
+                    $(this).parents('.object-item').addClass('looking-view');
+                    return false;
+                });
+
                 innerhtml.find('.order-progress-item').each(function () {
                     var _this = $(this);
                     _this.css({ "width": _this.data('width') });
@@ -635,6 +647,28 @@
         });
     }
 
+    ObjectJS.getDetail = function (id, orderCode) {
+
+        $(".order-layer-item").hide();
+        if ($(".order-layer").css("right") == "-505px" || $(".order-layer").css("right") == "-505") {
+            $(".order-layer").animate({ right: "0px" }, 200);
+        }
+        $(".order-layer").append("<div class='data-loading'><div>");
+
+        if ($("#" + id).length > 0) {
+            $(".order-layer").find(".data-loading").remove();
+            $("#" + id).show();
+        } else {
+            $.get("/Orders/OrderLayer", { id: id }, function (html) {
+                $(".order-layer").find(".data-loading").remove();
+                $(".order-layer").append(html);
+
+            });
+        }
+        var detail = "<a class='font14 mLeft5' href='/Orders/OrderDetail/" + id + "'>" + orderCode + "</a>";
+        $(".order-layer").find('.layer-header').find('a').remove();
+        $(".order-layer").find('.layer-header').append(detail);
+    }
 
     module.exports = ObjectJS;
 });

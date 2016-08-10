@@ -1,81 +1,33 @@
 ﻿
-/*客户列表卡片样式*/
-.content-body hr {height:20px;background-color:#F2F4F8;border:0;margin-left:-10px;margin-right:-10px; }
-.list-customer .hover{border:1px solid #007aff;height:146px;}
-.list-customer .hover .check {display:inline-block;}
-.list-card { width:326px;height:146px;border:1px solid #fff; border-spacing:0px;background-color:#fff;float:left;padding:10px 10px 0 10px;}
-.list-card:hover{border:1px solid #007aff;}
-.list-card:hover .check{display:block;cursor:pointer;border:1px solid #4a98e7;}
-.list-card .check{ float:right;width:20px;height:20px;border:1px solid #bfbfbf;margin-top:5px;margin-right:5px;
-                    border-radius:2px; color:#fff;}
-.list-card .icon-check{background-color:#4a98e7;color:#fff;font-size:18px;border:1px solid #4a98e7;}
+/*订单浮层*/
+.order-layer { width:500px; background-color:#fff; position:fixed; top:50px; bottom:0px; right:-505px;  border-left:solid 1px #eee; box-shadow:0 0 5px #ccc;}
 
-.list-card .message{ height:25px; line-height:25px; margin:5px 0 10px 5px;}
-.list-card .message .message-name{ width:205px;margin-top:-3px; }
-.list-card .message-name a{ font-size:16px;line-height:26px;color:#2162A5; }
-.list-card .message .list-mark{ line-height:23px;margin-top:5px;}
+.order-layer .layer-header{ height:40px; line-height:40px; background-color:#f5f5f5; font-size:14px; text-indent:15px; color:#666; }
+.order-layer .layer-header .iconfont{ font-size:24px; cursor:pointer;  color:#999;}
+.order-layer .layer-header .iconfont:hover{ color:#2F73B8;}
 
-.list-card .info li{ margin-left:5px;height:20px; margin-top:5px;color:#898989;}
-.list-card .info .iconfont { font-size:14px;color:#999;margin-right:10px;}
-.list-card .info .photo{width:20px;height:20px;border-radius:10px; float:left;}
-.list-card .info span { display:inline-block; line-height:25px;font-size:14px;}
+.order-layer-item { width:460px; padding:0 20px 50px; position:absolute; top:40px; bottom:0; overflow:auto; }
+.order-layer-item h1 { border-bottom:solid 1px #eee; height:35px; line-height:35px; font-size:14px; color:#666; }
 
-.list-card .order-count { border-top:solid 1px #bfbfbf;border-top-style:dashed; height:40px; 
-                          margin-top:5px;width:313px;margin-left:6px;}
-.list-card .order-count li:not(:first-child) { float:left;height:30px; line-height:40px; text-align:center;width:30%;}
-.list-card .order-count a {text-decoration:underline;}
-.list-card .order-count a:hover { color:red;}
-.color-leftzuoyou{width:0; height:0; border-top:10px solid transparent;border-bottom:10px solid transparent;cursor: pointer;}
-.point-white {  background-color: #fff;width: 4px;height: 4px;border-radius: 50%;top: 8px;position: absolute;left: 5px;}
+.order-layer-item ul { margin-bottom:30px; }
+.order-layer-item ul li{ height:30px; line-height:30px; margin-top:5px; }
+.order-layer-item ul .column-title{ width:80px; display:inline-block; float:left; color:#999; }
 
-/*筛选项-标记筛选*/
-.search-item-color { clear:both; overflow:auto; margin:10px 0; }
-.search-item-color li{ float:left; margin-right:20px; cursor:pointer;}
-.search-item-color .column-name{ padding:2px 5px; color:#999; font-size:12px; }
-.search-item-color .item{ width:12px; height:12px;  border-radius:7px; margin-top:5px;}
-.search-item-color .item.hover{ width:20px; height:20px;border-radius:11px; margin-top:2px;}
+.order-layer-item .stage-items { }
+.order-layer-item .stage-items  li{ float:left; width:170px; cursor:pointer; padding:5px 10px; height:50px;
+                   margin-right:20px; margin-bottom:10px; border:solid 1px #ccc; border-left-width:8px; }
 
-.search-item-color .mark-all { background:url('/modules/plug/mark/ico-ball.png') no-repeat; background-size:cover;border:solid 1px #fff; }
-.search-item-color .mark0 { background-color:#FFF; border:solid 1px #ccc; }
-.search-item-color .mark1 { background-color:#FF7C7C; border:solid 1px #FF7C7C; }
-.search-item-color .mark2 { background-color:#3BB3FF; border:solid 1px #3BB3FF; }
-.search-item-color .mark3 { background-color:#9F74FF; border:solid 1px #9F74FF; }
-.search-item-color .mark4 { background-color:#FFC85D; border:solid 1px #FFC85D; }
-.search-item-color .mark5 { background-color:#FFF65F; border:solid 1px #FFF65F; }
+.order-layer-item .stage-items  li:hover{ background-color:#eee;}
 
-/*筛选项-字母筛选*/
-.search-body .search-letter {clear:both; overflow:auto; margin:10px 0; }
-.search-body .search-letter li{float:left; margin-right:15px; cursor:pointer;font-size:12px;color:#5F6D6C;padding:2px 5px;}
-.search-body .search-letter .hover{border:1px solid #4A99E8;padding:1px 4px;color:#4A99E8;}
+.order-layer-item .stage-items  li.ing{ border-color: #45BF67;}
+.order-layer-item .stage-items  li.over{ border-color: #3A7DE5;}
 
-/*客户表格卡片样式*/
-.table-list-order .createimg { margin-left:-20px;width:30px;}
-.order-information { margin-top:15px;}
-.order-information li {line-height:25px;margin-bottom:8px;height:20px;}
-.order-information-a { margin-top:10px;}
-.order-information-a li { line-height:25px;margin-bottom:8px;height:30px;}
-.table-list-order { width: 100%; border-spacing: 0px;}
+.order-layer-item .stage-items  li span{ display:block; font-size:12px; height:25px; line-height:25px; width:120px; color:#333;}
+.order-layer-item .stage-items  li .status { color:#999; }
+.order-layer-item .stage-items  li.ing .status { color: #45BF67;}
+.order-layer-item .stage-items  li.over .status { color: #3A7DE5;}
 
-.table-list-order .tr-header{ height:35px;  }
-.table-list-order .tr-header td{ height:35px; border-bottom:solid 2px #eee; font-size:13px; color:#999; padding:0 5px;
-                           white-space:nowrap; overflow: hidden; text-overflow:ellipsis; }
-
-.table-list-order tr:not(:first-child){ height:35px; cursor:pointer; }
-.table-list-order tr:not(:first-child):hover { background-color: #f6f6f6; }
-.table-list-order tr:not(:first-child) td{ padding:5px; line-height:35px; border-bottom:solid 1px #eee; color:#333; 
-                                    white-space:nowrap; overflow: hidden; text-overflow:ellipsis;  }
-           
-.table-list-order td a{ color:#4a98e7;  vertical-align:middle;}
-.table-list-order td a:hover{ color:red; text-decoration:underline; }
-           
-.table-list-order tr .order-img{ width:120px;height:120px;display:inline-block;  vertical-align:middle;margin:10px 15px 10px 0;}
-           
-.table-list-order .ico-check { vertical-align:middle; }
-.table-list-order .ico-checked { vertical-align:middle; }
-.table-list-order .show-all-txt {
-    word-wrap: break-word;
-    white-space:normal !important;
-}
+.order-layer .data-loading { margin-top:200px; }
 
 /*切换图片*/
 .enlarge-image-bgbox {

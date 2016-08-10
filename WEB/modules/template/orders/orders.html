@@ -6,10 +6,10 @@
     <tr class="item-header">
         <td colspan="2">
             {%if(!$data.customerShow){%}
-                <span data-id="{%=item.OrderID%}" data-userid="{%=item.OwnerID%}" class="iconfont checkbox left mTop3"></span>
-            {%}else{%}
-                <span class="mark left mTop4" data-id="{%=item.OrderID%}" data-value="{%= item.Mark %}"></span>
+                 <span data-id="{%=item.OrderID%}" data-userid="{%=item.OwnerID%}" class="iconfont checkbox left mRight10 mTop3"></span>
             {%}%}
+            <span class="mark left mTop4" data-id="{%=item.OrderID%}" data-value="{%= item.Mark %}"></span>
+            
             <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="order-goodscode long" title='{%=(item.GoodsName + item.IntGoodsCode)?(item.GoodsName+ " " + item.IntGoodsCode): item.OrderCode%}'>
                 {%=(item.GoodsName + item.IntGoodsCode)?(item.GoodsName+ " " + item.IntGoodsCode): item.OrderCode%}
             </a>
@@ -21,10 +21,7 @@
                     </div>
                 </div>
             {% } %}
-            {%if(!$data.customerShow){%}
             <span class="iconfont view-detail right" data-id="{%=item.OrderID%}" data-code="{%=item.OrderCode%}">&#xe627;</span>
-            <span class="mark right mTop4 mRight10" data-id="{%=item.OrderID%}" data-value="{%= item.Mark %}"></span>
-            {%}%}
         </td>
         <td class="width300 tLeft bold">
             负责人：{%=(item.Owner ? item.Owner.Name:"--")%}
