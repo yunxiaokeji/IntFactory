@@ -120,6 +120,7 @@ namespace YXERP.Controllers
             }
             
             model.IsSelf = model.ClientID == CurrentUser.ClientID;
+            
             if (model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID))
             {
                 ViewBag.Client = ClientBusiness.GetClientDetail(model.EntrustClientID);
@@ -133,6 +134,19 @@ namespace YXERP.Controllers
             ViewBag.Tabs = item.CategoryItems.Where(m => m.Type == 1 && m.OrderType == model.OrderType).ToList();
             ViewBag.Modules = item.CategoryItems.Where(m => m.Type == 3).ToList();
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Orders).ToList();
+
+            if (model.IsSelf && string.IsNullOrEmpty(model.EntrustClientID))
+            {
+                ViewBag.IsDoClient = true;
+            }
+            else if (!model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID))
+            {
+                ViewBag.IsDoClient = true;
+            }
+            else
+            {
+                ViewBag.IsDoClient = false;
+            }
 
             if (model.OrderType == 1)
             {
@@ -148,13 +162,9 @@ namespace YXERP.Controllers
         {
             var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, CurrentUser.ClientID);
 
-            if (model == null || string.IsNullOrEmpty(model.OrderID))
+            if (model == null)
             {
-                return Redirect("/Orders/Orders");
-            }
-            if (model.Status == 0)
-            {
-                ViewBag.Stages = SystemBusiness.BaseBusiness.GetOrderStages(model.ProcessID, CurrentUser.ClientID);
+                model = new OrderEntity();
             }
 
             return PartialView(model);
@@ -919,7 +929,8 @@ namespace YXERP.Controllers
             {
                 string id = IntFactoryBusiness.OrdersBusiness.AddOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
                 JsonDictionary.Add("id", id);                
-            }else
+            }
+            else
             {
                 bool bl = IntFactoryBusiness.OrdersBusiness.UpdateOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
                 JsonDictionary.Add("id", bl?"1":"");                

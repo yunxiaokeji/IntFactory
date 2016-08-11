@@ -1,4 +1,4 @@
-﻿<ul class="center-range center mBottom10"> 
+﻿<ul class="center-range center"> 
 {%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
@@ -22,8 +22,8 @@
          </div>
         
         <div class="right center">            
-            <span class="update ico-edit iconfont font14"></span>            
-            <span class="mLeft10 mTop1 delete iconfont font16 mTop1">&#xe651;</span>            
+            <span class="update">保存</span>            
+            <span class="mLeft10 delete">删除</span>            
         </div>         
     </li>    
     
@@ -32,6 +32,7 @@
     <li class="center no-data mTop30" style="border-bottom:1px solid #ededed;">暂无数据</li>
     {%}%}
 </ul>
-<div class="tLeft">
-    <div class="btn-add add-range">新增</div>
+<div class="">
+    <span class="left btn-link mLeft4 hand font14 add-range">新增</span>
+    <span class="right btn-link hand font14 close-range mRight4">关闭</span>
 </div>
