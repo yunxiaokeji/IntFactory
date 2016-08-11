@@ -99,14 +99,15 @@
                 alert("请先设置账号,然后取消绑定");
                 return;
             }
-
-            Global.post("/MyAccount/UnBindWeiXin", null, function (data) {
-                if (data.result) {
-                    location.href = location.href + "?" + (new Date().getMilliseconds());
-                }
-                else {
-                    alert("取消绑定失败");
-                }
+            confirm("确定要取消绑定微信号?", function () {
+                Global.post("/MyAccount/UnBindWeiXin", null, function (data) {
+                    if (data.result) {
+                        location.href = location.href + "?" + (new Date().getMilliseconds());
+                    }
+                    else {
+                        alert("取消绑定失败");
+                    }
+                });
             });
         });
 

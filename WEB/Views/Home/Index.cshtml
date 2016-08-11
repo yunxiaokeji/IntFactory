@@ -20,13 +20,13 @@
 }
 
 <div class="index-report-header">
-    <div class="left order-type">
+    <div class="left order-type mTop10">
         <span class="report-title hover" data-id="1">我的订单</span>
         <span class="report-title-task " data-id="2">我的任务</span>
     </div>
 
-    <div class="right" style="margin-right:-30px;">
-        <div class="left font14" style="line-height:43px;margin-top:-4px">交货时间:</div>
+    <div class="right">
+        <div class="left font14" style="line-height:43px;margin-top:-4px;">交货时间:</div>
 
         <div class="mLeft10 left mTop8 font16 select-time select-time-left"><</div>        
         <div class="mLeft15 left mTop8 time-now" data-before="@(DateTime.Now.AddDays(-15).ToString("MM.dd"))—@(DateTime.Now.AddDays(-1).ToString("MM.dd"))" data-after="@(DateTime.Now.AddDays(15).ToString("MM.dd"))—@(DateTime.Now.AddDays(29).ToString("MM.dd"))" data-now="@(DateTime.Now.ToString("MM.dd"))—@(DateTime.Now.AddDays(14).ToString("MM.dd"))" style="line-height:20px;">
@@ -34,7 +34,7 @@
         </div>      
         <div class="mLeft15 left mTop8 font16 mRight20 select-time select-time-right">></div>
         <div class="left mTop3" id="orderType" style="background-color:#fff"></div>
-        <div class="right mLeft15 mRight15 mTop3 hide" id="chooseBranch" style="background-color:#fff"></div>
+        <div class="right mLeft15 mTop3 hide" id="chooseBranch" style="background-color:#fff"></div>
     </div>   
     <div class="clear"></div>    
 </div>
