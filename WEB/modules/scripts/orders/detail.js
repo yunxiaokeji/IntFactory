@@ -152,7 +152,8 @@
             ChooseProcess.create({
                 title: "更换品类流程",
                 type: _self.model.OrderType,
-                categoryid: (_self.model.OrderType == 2 && _self.model.OriginalID) ? _self.model.BigCategoryID : "",
+                categoryid: _self.model.BigCategoryID,
+                isClearOther: _self.model.OrderType == 2 && _self.model.OriginalID,
                 callback: function (items) {
                     if (items.length > 0) {
                         if (_this.data("processid") != items[0].id) {
@@ -965,7 +966,7 @@
 
                 $(".close-enlarge-image").unbind().click(function () {
                     $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
-                    $(".enlarge-image-item").empty();
+                    $(".enlarge-image-item").empty()
                 });
                 $(".enlarge-image-bgbox").unbind().click(function () {
                     $(".enlarge-image-bgbox,.enlarge-image-box").fadeOut();
