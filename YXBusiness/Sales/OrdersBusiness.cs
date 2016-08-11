@@ -550,7 +550,9 @@ namespace IntFactoryBusiness
             {
                 conn.Open();
             }
+
             SqlTransaction tran = conn.BeginTransaction();
+            
             try
             {
                 //打样单
