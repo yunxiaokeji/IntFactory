@@ -26,7 +26,7 @@
                 下单日期：{%=item.CreateTime.toDate("yyyy-MM-dd")%}
             </li>
             <li class="right long" style="width:255px;">
-                负责人：{%=(item.Owner ? item.Owner.Name:"--")%}
+                负责人：{%=(item.Owner && item.Owner.Name||"--")%}
             </li>
             <li class="right">
                 <span class="iconfont view-detail right" style="font-size:18px;" data-id="{%=item.OrderID%}" data-code="{%=item.OrderCode%}">&#xe627;</span>

@@ -3,6 +3,7 @@
     var model = (IntFactoryEntity.OrderEntity)ViewBag.Model;
     var list = (List<IntFactoryEntity.LableColorEntity>)ViewBag.list;
     var modules = (List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.Modules;
+    bool IsDoClient = ViewBag.IsDoClient;
 }
 
 @section css{
@@ -27,12 +28,12 @@
 <div class="header-box">
     <div class="header-title">
         订单编号：@(model.OrderCode)&nbsp;&nbsp;
-        @(!model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID) 
-        ? "委托工厂："+ViewBag.Client.CompanyName+"-"+ViewBag.Client.ClientCode : model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID) 
+        @(model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID) 
+        ? "委托工厂："+ViewBag.Client.CompanyName+"-"+ViewBag.Client.ClientCode : !model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID) 
         ? "协助工厂："+ViewBag.Client.CompanyName+"-"+ViewBag.Client.ClientCode : "本厂订单")
         <span id="btnOperateMore" class="btn-dropdown right mLeft10">更多操作</span>
         <a class="btn-back right mLeft10" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a>
-        @if (model.IsSelf && model.Status == 0)
+        @if (IsDoClient && model.Status == 0)
         {
             <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnBeginOrder">转为订单</div>
         }
@@ -40,7 +41,7 @@
         { 
             <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="changeOrderStatus">完成核价</div>
         }
-        else if (model.IsSelf && model.Status == 3)
+        else if (model.Status == 3)
         { 
             <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="changeOrderStatus">大货下单</div>
         }
@@ -56,7 +57,7 @@
     <ul class="right">
         <li>
             <span class="left">加工品类：@(model.ProcessCategoryName)</span>
-            @if (model.IsSelf && model.OrderStatus == 0)
+            @if (IsDoClient && model.OrderStatus == 0)
             {
                 <i title="更换订单加工品类" class="iconfont change-ico left mTop2 mLeft5 btn-change-process-category" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)">&#xe60b;</i>
             }
@@ -83,7 +84,7 @@
         </li>
         <li>
             <span class="left"> 负责人：</span><label class="left" id="lblOwner">@(model.Owner != null ? model.Owner.Name : "--")</label>
-            @if (model.IsSelf)
+            @if (IsDoClient)
             {
                 <i title="更换负责人" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner">&#xe60b;</i>
             }
@@ -95,7 +96,7 @@
     <div class="order-info">
         <div class="order-imgs-div left">
             <div class="order-imgs">
-                <img id="orderImage" src="@(string.IsNullOrEmpty(model.OrderImage) ? "" : model.OrderImage)" data-self="@(model.IsSelf ? 1 : 0)" />
+                <img id="orderImage" src="@(string.IsNullOrEmpty(model.OrderImage) ? "" : model.OrderImage)" data-self="1" />
                 @if (model.SourceType == 3)
                 {
                    <span class="aliorder">
@@ -195,7 +196,7 @@
 <div class="process-stages">
     <div class="process-info">
         <div class="left info">订单流程：@(model.OrderProcess.ProcessName)</div>
-        @if (model.IsSelf && model.OrderStatus == 0)
+        @if (IsDoClient && model.OrderStatus == 0)
         {
             <span title="更换流程" class="iconfont change-ico left mLeft5 btn-change-process-category" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)">&#xe60b;</span>
         }
@@ -207,7 +208,7 @@
         {
             foreach (var stage in model.Tasts)
             { 
-                <li data-stageid="@(stage.StageID)" data-self="@(model.IsSelf ? 1 : 0)" data-lock="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-limit="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" 
+                <li data-stageid="@(stage.StageID)" data-self="@(IsDoClient ? 1 : 0)" data-lock="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-limit="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" 
                     data-orderid="@(model.OrderID)" data-taskid="@(stage.TaskID)" data-mark="@(stage.Mark)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
                     <span class="long bold">@(stage.Title)</span>
                     <span class="long status">状态：@(stage.FinishStatus == 0 ? "未接受" : stage.FinishStatus == 1 ? "进行中" : "已完成")</span>
@@ -244,10 +245,9 @@
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102010502"))" data-id="navDHOrder">下单记录</li>
         <li data-id="navLog">日志</li>
     </ul>
-    @if (model.IsSelf)
-    {
-        <span id="btnOperateTask" class="btn-dropdown right">操作</span>
-    }
+
+    <span id="btnOperateTask" class="btn-dropdown right">操作</span>
+
 </div>
 
 <div class="content-body" style="padding:0 0 50px 0;">

@@ -29,11 +29,12 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataSet GetUserByOtherAccount(int accountType, string account)
+        public DataSet GetUserByOtherAccount(int accountType, string account, string projectid = "")
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@AccountType",accountType),
-                                       new SqlParameter("@Account",account)
+                                       new SqlParameter("@Account",account),
+                                       new SqlParameter("@ProjectID",projectid)
                                    };
             return GetDataSet("P_GetUserByOtherAccount", paras, CommandType.StoredProcedure, "User|Permission");//|Department|Role
 
@@ -256,13 +257,14 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_AccountBindMobile", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool BindOtherAccount(int accountType, string userid, string account, string clientid)
+        public bool BindOtherAccount(int accountType, string userid, string account, string clientid, string projectid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@AccountType",accountType),
                                        new SqlParameter("@UserID",userid),
                                        new SqlParameter("@Account",account),
-                                       new SqlParameter("@ClientID",clientid)
+                                       new SqlParameter("@ClientID",clientid),
+                                       new SqlParameter("@ProjectID",projectid)
                                    };
 
             return ExecuteNonQuery("P_BindOtherAccount", paras, CommandType.StoredProcedure) > 0;

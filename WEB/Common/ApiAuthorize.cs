@@ -14,7 +14,6 @@ namespace YXERP.Common
     {
         public static string AppKey = "BC6802E9-285C-471C-8172-3867C87803E2";
         public static string AppSecret = "9F8AF979-8A3B-4E23-B19C-AB8702988466";
-
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             string signature = HttpContext.Current.Request["signature"];

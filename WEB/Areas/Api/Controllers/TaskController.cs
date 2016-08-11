@@ -61,7 +61,7 @@ namespace YXERP.Areas.Api.Controllers
                 task.Add("finishStatus", item.FinishStatus);
                 task.Add("preTitle", item.PreTitle);
                 task.Add("preFinishStatus", item.PreFinishStatus);
-                task.Add("pEndTime", item.PEndTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.PEndTime.ToString("yyyy-MM-dd hh:mm:ss") : "");
+                task.Add("pEndTime", item.PEndTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.PEndTime.ToString("yyyy-MM-dd") : "");
                 task.Add("orderType", item.OrderType);
                 var orderImg = item.OrderImg;
                 if (!string.IsNullOrEmpty(item.OrderImg) && !item.OrderImg.Contains("bkt.clouddn.com"))
@@ -69,10 +69,10 @@ namespace YXERP.Areas.Api.Controllers
                     orderImg = domainUrl + item.OrderImg;
                 }
                 task.Add("orderImg", orderImg);
-                task.Add("acceptTime", item.AcceptTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.AcceptTime.ToString("yyyy-MM-dd hh:mm:ss"):"");
-                task.Add("endTime",item.EndTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.EndTime.ToString("yyyy-MM-dd hh:mm:ss"):"");
-                task.Add("completeTime",item.CompleteTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.CompleteTime.ToString("yyyy-MM-dd hh:mm:ss"):"");
-                task.Add("createTime", item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"));
+                task.Add("acceptTime", item.AcceptTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.AcceptTime.ToString("yyyy-MM-dd"):"");
+                task.Add("endTime",item.EndTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.EndTime.ToString("yyyy-MM-dd"):"");
+                task.Add("completeTime",item.CompleteTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.CompleteTime.ToString("yyyy-MM-dd"):"");
+                task.Add("createTime", item.CreateTime.ToString("yyyy-MM-dd"));
                 tasks.Add(task);
             }
 
