@@ -167,7 +167,7 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public static Users GetUserByOtherAccount(EnumAccountType accountType, string account, string operateip)
+        public static Users GetUserByOtherAccount(EnumAccountType accountType, string account, string operateip, string projectid="")
         {
             DataSet ds = new OrganizationDAL().GetUserByOtherAccount((int)accountType, account);
             Users model = null;
@@ -606,9 +606,9 @@ namespace IntFactoryBusiness
             return flag;
         }
 
-        public static bool BindOtherAccount(EnumAccountType accountType, string userid, string account, string clientid)
+        public static bool BindOtherAccount(EnumAccountType accountType, string userid, string account, string clientid,string projectid="")
         {
-            bool flag = OrganizationDAL.BaseProvider.BindOtherAccount((int)accountType, userid, account, clientid);
+            bool flag = OrganizationDAL.BaseProvider.BindOtherAccount((int)accountType, userid, account, clientid,projectid);
 
             //清除缓存
             if (flag)
