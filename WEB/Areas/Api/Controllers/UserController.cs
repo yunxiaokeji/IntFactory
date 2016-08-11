@@ -117,7 +117,7 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public static JsonResult BindWeiXinMP(string unionid, string openid, string userID, string clientID)
+        public  JsonResult BindWeiXinMP(string unionid, string openid, string userID, string clientID)
         {
             string operateip = Common.Common.GetRequestIP();
             Dictionary<string, object> resultObj = new Dictionary<string, object>();

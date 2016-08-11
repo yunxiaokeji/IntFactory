@@ -169,7 +169,7 @@ namespace IntFactoryBusiness
 
         public static Users GetUserByOtherAccount(EnumAccountType accountType, string account, string operateip, string projectid="")
         {
-            DataSet ds = new OrganizationDAL().GetUserByOtherAccount((int)accountType, account);
+            DataSet ds = new OrganizationDAL().GetUserByOtherAccount((int)accountType, account, projectid);
             Users model = null;
             if (ds.Tables.Contains("User") && ds.Tables["User"].Rows.Count > 0)
             {
