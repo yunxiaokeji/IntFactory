@@ -60,7 +60,7 @@
                 alert("请保存后再试.");
                 return;
             }
-            $(".no-data").remove();
+            $(".center-range .nodata-txt").remove();
             doT.exec("template/orders/addpricerange.html", function (template) {
                 var innerText = template({});
                 innerText = $(innerText);

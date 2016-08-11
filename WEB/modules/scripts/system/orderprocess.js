@@ -33,6 +33,8 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
+                $(".search-category .item").removeClass('hover')
+                                            .eq(0).addClass('hover');
                 Params.Type = _this.data("id");
                 _self.getList();
             }
