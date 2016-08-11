@@ -138,10 +138,10 @@
                     <label>
                         @(model.FinalPrice.ToString("f2"))
                     </label>
-                    <label class="btn-link mLeft5 hand" id="setPriceRange">展开报价</label>                    
                 @if (model.IsSelf && model.OrderStatus == 2)
                 {
-                        <div class="pirce-range-box hide" style="width:500px;border:1px solid #eee;border-radius:5px;position:absolute;right:-500px;top:0px;padding:5px;"></div>
+                    <label class="btn-link mLeft5 hand" id="setPriceRange">展开报价</label>                    
+                    <div class="pirce-range-box hide" style="width:500px;border:1px solid #eee;border-radius:5px;position:absolute;right:-500px;top:0px;padding:5px;"></div>
                 }
             </li>
             <li>
@@ -191,7 +191,7 @@
         <span class="title">详细需求：</span> @(model.Remark.Trim())
     </div>
 </div>
-@if (!string.IsNullOrEmpty( model.ProcessID))
+@if (!string.IsNullOrEmpty(model.ProcessID))
 {
 <div class="process-stages">
     <div class="process-info">
@@ -364,15 +364,15 @@
 
 <ul id="ddlOperateTask" class="dropdown-ul hide" style="">
     <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))">
-         <a id="plateMarking" href="/Orders/PlateMakingProcess/@(model.OrderID)" target="_blank">@(modules.Where(m=>m.Mark==12).FirstOrDefault().Name)打印</a>
+         <a id="plateMarking" href="/Orders/PlateMakingProcess/@(model.OrderID)" target="_blank">@(modules.Where(m => m.Mark == 12).FirstOrDefault().Name)打印</a>
     </li>
     @if (model.OrderStatus == 1)
     {    
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m=>m.Mark==16).FirstOrDefault().Name)录入" id="addOtherCost">
-            @(modules.Where(m=>m.Mark==16).FirstOrDefault().Name)录入
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 16).FirstOrDefault().Name)录入" id="addOtherCost">
+            @(modules.Where(m => m.Mark == 16).FirstOrDefault().Name)录入
         </li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m=>m.Mark==15).FirstOrDefault().Name)录入" id="btnSendDYOrder">
-            @(modules.Where(m=>m.Mark==15).FirstOrDefault().Name)录入
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 15).FirstOrDefault().Name)录入" id="btnSendDYOrder">
+            @(modules.Where(m => m.Mark == 15).FirstOrDefault().Name)录入
         </li>
     }
     <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="addPay">收款登记</li>
@@ -399,10 +399,6 @@
     else
     {
         <li class="sample-report" data-type="1">打样报价</li>
-        if (model.IsSelf && model.OrderStatus == 2)
-        {
-           <li id="set-price-range">优惠设置</li>  
-        }
     }
 </ul>
 
