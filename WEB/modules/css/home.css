@@ -4,8 +4,7 @@
 .main-content { margin-left: 0; }
 
 /*首页头部筛选条件*/
-.index-report-header { height: 45px; background-color: #f2f4f8; padding: 0 15px; width: 1118px; margin: 25px auto -34px auto; }
-.index-report-header .order-type { margin-left: -15px; }
+.index-report-header { height: 45px; background-color: #f2f4f8;width: 1148px; margin:25px auto 0 auto; }
 .index-report-header .order-type span {
     width:80px;
     text-align:center;
@@ -39,7 +38,7 @@
 /*首页统计模块样式*/
 .index-report {
     width:1148px;
-    margin:25px auto;
+    margin:0 auto 25px auto;
     background-color:#fff;
     padding-bottom:5px;
 }
