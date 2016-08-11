@@ -13,68 +13,86 @@
     };
 
     ObjectJS.bindEvent = function () {
-        $("#set-price-range").click(function () {
-            ObjectJS.getPriceRange();
+        $("#setPriceRange").click(function () {
+            var _this = $(this);
+            if (_this.data('isget')==1) {
+                _this.data('isget', 0);
+                $(".pirce-range-box").fadeOut();
+                _this.text('展开报价');
+            } else {
+                _this.data('isget', 1);
+                _this.text('收起报价');
+                $(".pirce-range-box").fadeIn();
+                ObjectJS.getPriceRange();
+            }
         });   
     };
 
     ObjectJS.getPriceRange = function () {
         ObjectJS.isLoading = false;
-        $(".center-range").append('<div class="data-loading"><div>');
+        $(".pirce-range-box").html('<div class="data-loading"><div>');
         Global.post("/Orders/GetOrderPriceRanges", { orderid: ObjectJS.orderID }, function (data) {
-            $(".data-loading").remove();
             doT.exec("template/orders/pricerangge.html", function (template) {
                 var innerText = template(data.items);
-                Easydialog.open({
-                    container: {
-                        id: "show-model-detail",
-                        header: "优惠设置",
-                        content: innerText
-                    }
+                innerText = $(innerText);
+                innerText.find(".close-range").click(function () {
+                    $(".pirce-range-box").fadeOut();
+                    $("#setPriceRange").data('isget', 0);
+                    $("#setPriceRange").text('展开报价');
                 });
-                    
+
+                $(".pirce-range-box").html(innerText);
                 ObjectJS.addPriceRange();
                 ObjectJS.bindUpdatePriceRange(".update");
                 ObjectJS.deletePriceRange();
             });
             ObjectJS.isLoading = true;
-        })
+        });
     }
 
     ObjectJS.addPriceRange = function () {
         $(".add-range").click(function () {
             if (!ObjectJS.isLoading) {
+                alert("数据提交中，请稍等");
                 return;
             }
-            if ($(".center-range li:last").data("rangeid")=="") {
+            if ($(".center-range li:last").data("rangeid") == "") {
+                alert("请保存后再试.");
                 return;
             }
             $(".no-data").remove();
             doT.exec("template/orders/addpricerange.html", function (template) {
-                var innerText = template({});                
+                var innerText = template({});
+                innerText = $(innerText);
+                innerText.find(".cancel-price-range").click(function () {
+                    $(this).parent().parent().remove();
+                    $(".center-range li:last").find(".max-number").val('无上限');
+                });
                 var minNumber = 0;
                 if ($(".center-range li").length > 0) {
-                    minNumber = $(".center-range li:last").find(".max-number").data("num");
-                }                
+                    minNumber = $(".center-range li:last").find(".min-number").val() * 1;
+                    $(".center-range li:last").find(".max-number").val(minNumber);
+                }
                 $(".center-range").append(innerText);
-                $(".center-range li:last").find(".min-number").val(Number(minNumber) + 1);                
-                
+                $(".center-range li:last").find(".min-number").val(minNumber + 1);
+
                 ObjectJS.bindUpdatePriceRange(".update,.save-price-range");
-                ObjectJS.deletePriceRange();  
-                $(".cancel-price-range").click(function () {
-                    $(this).parent().parent().remove();
-                });
+                ObjectJS.deletePriceRange(); 
             });
         });
     }   
        
     ObjectJS.bindUpdatePriceRange = function (save) {        
         $(".min-number").change(function () {
-            ObjectJS.validateData(this, ".min-number");
-        });
-
-        $(".max-number").change(function () {
-            ObjectJS.validateData(this, ".max-number");
+            var _this = $(this);
+            var prevObj = _this.parent().parent().prev();
+            var isContinue = true;
+            if (prevObj.find('.min-number').val() && (_this.val() * 1 <= prevObj.find('.min-number').val() * 1)) {
+                alert("数量必须大于上一区间启始值");
+                _this.val((prevObj.find('.max-number').val() * 1) + 1);
+            } else {
+                //prevObj.find('.max-number').val((_this.val() * 1 - 1));
+            }
         });
 
         $(".price").change(function () {
@@ -107,20 +125,20 @@
                 OrderID: ObjectJS.orderID
             };
             Global.post("/Orders/SavePriceRange", {model: JSON.stringify(model)}, function (obj) {
-                if (obj.id != "") {
+                if (obj.id) {
                     if (obj.id == "1") {
                         _this.find(".min-number").val(minNumber).data("num", minNumber);
                         _this.find(".price").val(price).data("num", price);
-                        _this.prev().find(".max-number").val(Number(minNumber) - 1).data("num", Number(minNumber) - 1);  
+                        _this.prev().find(".max-number").val(Number(minNumber) - 1).data("num", Number(minNumber) - 1);
                     } else {
                         _this.data("rangeid", obj.id);
                         _this.find(".min-number").val(minNumber).data("num", minNumber);
                         _this.prev().find(".max-number").val(Number(minNumber) - 1).data("num", Number(minNumber) - 1);
                         _this.find(".price").val(price).data("num", price);
-                        _this.find(".max-number").val(maxNumber).data("num", maxNumber).attr("disabled", "disabled");     
+                        _this.find(".max-number").val(maxNumber).data("num", maxNumber).attr("disabled", "disabled");
 
                         $(".save-price-range,.cancel-price-range").hide();
-                        $(".update,.delete").show();                        
+                        $(".update,.delete").show();
                     }
                 } else {
                     alert("网络连接失败");

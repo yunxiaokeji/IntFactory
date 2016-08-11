@@ -919,7 +919,8 @@ namespace YXERP.Controllers
             {
                 string id = IntFactoryBusiness.OrdersBusiness.AddOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
                 JsonDictionary.Add("id", id);                
-            }else
+            }
+            else
             {
                 bool bl = IntFactoryBusiness.OrdersBusiness.UpdateOrderPriceRange(models, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
                 JsonDictionary.Add("id", bl?"1":"");                
