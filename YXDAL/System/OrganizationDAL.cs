@@ -29,7 +29,7 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataSet GetUserByOtherAccount(int accountType, string account, string projectid = "")
+        public DataSet GetUserByOtherAccount(int accountType, string account, string projectid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@AccountType",accountType),
