@@ -1822,7 +1822,7 @@
                         var innerAddHtml = "";
                         for (var i = 0; i < items.length; i++) {
                             var item = items[i];
-                            innerAddHtml += '<tr class="table-header tr-header"><td class="font14 tLeft width300 bold plate-name"  colspan="2" data-name="' + item.text + '">工艺类型：' + item.text + '</td> <td class="tLeft bold">描述</td><td class="width150 bold">创建时间</td><td class="center width150 bold">操作</td></tr>';
+                            innerAddHtml += '<tr class="table-header tr-header"><td class="font14 tLeft width150 bold plate-name"  data-name="' + item.text + '">工艺类型：' + item.text + '</td><td class="tLeft width150 bold">名称</td> <td class="tLeft bold">描述</td><td class="width150 bold">创建时间</td><td class="center width150 bold">操作</td></tr>';
                             innerAddHtml += '<tr class="list-item"><td colspan="5" class="center" style="padding:0 0 5px 0;"><div class="add-plate font16 hand hBlue" style="text-indent:0;line-height:50px;" data-typename="' + item.text + '">+添加' + item.text + '</div></td></tr>';
                         }
                         innerAddHtml = $(innerAddHtml);
