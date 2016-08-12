@@ -1495,6 +1495,7 @@
         $("#setObjectPlate").click(function () {
             var index = $(this).data("index");
             var item = PlateMakings[index];
+
             var _htmlTr = $(".tb-plates .dropdown[data-index='" + index + "']").parents('tr');
             DoT.exec("template/task/platemarting-quickly-add.html", function (templateFun) {
                 var innerHtml = templateFun();
@@ -1504,7 +1505,6 @@
                 innerHtml.find('.plate-ico-img').data('src', item.Icon);
                 innerHtml.find('.plate-ico-img').attr('src', item.Icon);
                 innerHtml.find('.txt-name').val(item.Title);
-
 
                 innerHtml.find('.save-plate').click(function () {
                     var _thisTr = $(this).parents('tr');
@@ -1531,9 +1531,9 @@
                             item.Title = Plate.Title;
 
                             var plateHtml = '<td class="tLeft item bBottom"><img style="width:30px;height:30px;text-indent:0;" src="' + (_thisTr.find('.plate-ico-img').data('src') || '') + '" /></td>';
-                            plateHtml += '<td class="center item bBottom">' + (_thisTr.find('.txt-name').val() || '') + '</td>';
+                            plateHtml += '<td class="tLeft item bBottom">' + (_thisTr.find('.txt-name').val() || '') + '</td>';
                             plateHtml += '<td class="tLeft item show-all-txt bBottom" style="line-height:150%;">' + _thisTr.find('.desc').val() || '' + '</td>';
-                            plateHtml += '<td class="center item width150 bBottom">' + new Date().toString('yyyy-MM-dd hh:mm:ss') + '</td>';
+                            plateHtml += '<td class="center item width150 bBottom">' + (item.CreateTime ? item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss') : new Date().toString('yyyy-MM-dd hh:mm:ss')) + '</td>';
                             plateHtml += '<td class="center item dropdown width150 bBottom" data-id="' + data.id + '" data-index="' + index + '" data-title="' + (_thisTr.find('.desc').val() || '') + '"><span class="ico-dropdown"></span></td>';
                             plateHtml = $(plateHtml);
                             _thisTr.attr('id', 'tr-plate-' + data.id);
@@ -1725,6 +1725,7 @@
                     } else {
                         /*缓存制版信息*/
                         var cachePlate = {
+                            CreateTime: '/Date(' + new Date().getTime() + ')/',
                             PlateID: data.id,
                             Title: (_thisTr.find('.txt-name').val() || ''),
                             Remark: _thisTr.find('.desc').val() || '',
@@ -1744,7 +1745,7 @@
                         var plateHtml = '<td class="tLeft item bBottom"><img style="width:30px;height:30px;text-indent:0;" src="' + (_thisTr.find('.plate-ico-img').data('src') || '') + '" /></td>';
                         plateHtml += '<td class="tLeft item bBottom">' + (_thisTr.find('.txt-name').val() || '') + '</td>';
                         plateHtml += '<td class="tLeft item show-all-txt bBottom" style="line-height:150%;">' + _thisTr.find('.desc').val() || '' + '</td>';
-                        plateHtml += '<td class="center item width150 bBottom">' + new Date().toString('yyyy-MM-dd hh:mm:ss') + '</td>';
+                        plateHtml += '<td class="center item width150 bBottom">' + cachePlate.CreateTime.toDate('yyyy-MM-dd hh:mm:ss') + '</td>';
                         plateHtml += '<td class="center item dropdown width150 bBottom" data-id="' + data.id + '" data-index="' + index + '" data-title="' + (_thisTr.find('.desc').val() || '') + '"><span class="ico-dropdown"></span></td>';
                         plateHtml = $(plateHtml);
                         _thisTr.attr('id', 'tr-plate-' + data.id);

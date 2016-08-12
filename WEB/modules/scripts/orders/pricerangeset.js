@@ -17,12 +17,12 @@
             var _this = $(this);
             if (_this.data('isget')==1) {
                 _this.data('isget', 0);
-                $(".pirce-range-box").fadeOut();
+                $(".price-range-box").fadeOut();
                 _this.text('展开报价');
             } else {
                 _this.data('isget', 1);
                 _this.text('收起报价');
-                $(".pirce-range-box").fadeIn();
+                $(".price-range-box").fadeIn();
                 ObjectJS.getPriceRange();
             }
         });   
@@ -30,13 +30,13 @@
 
     ObjectJS.getPriceRange = function () {
         ObjectJS.isLoading = false;
-        $(".pirce-range-box").html('<div class="data-loading"><div>');
+        $(".price-range-box").html('<div class="data-loading"><div>');
         Global.post("/Orders/GetOrderPriceRanges", { orderid: ObjectJS.orderID }, function (data) {
             doT.exec("template/orders/pricerangge.html", function (template) {
                 var innerText = template(data.items);
                 innerText = $(innerText);
                 innerText.find(".close-range").click(function () {
-                    $(".pirce-range-box").fadeOut();
+                    $(".price-range-box").fadeOut();
                     $("#setPriceRange").data('isget', 0);
                     $("#setPriceRange").text('展开报价');
                 });
@@ -70,7 +70,7 @@
                     });
                 });
 
-                $(".pirce-range-box").html(innerText);
+                $(".price-range-box").html(innerText);
                 ObjectJS.bindUpdatePriceRange(innerText.find(".update"));
                 ObjectJS.deletePriceRange();
             });
