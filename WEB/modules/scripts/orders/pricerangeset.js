@@ -65,20 +65,20 @@
                         $(".center-range").append(innerHtml);
                         $(".center-range li:last").find(".min-number").val(minNumber + 1);
 
-                        ObjectJS.bindUpdatePriceRange(".update,.save-price-range");
+                        ObjectJS.bindUpdatePriceRange(innerHtml.find(".update,.save-price-range"));
                         ObjectJS.deletePriceRange();
                     });
                 });
 
                 $(".pirce-range-box").html(innerText);
-                ObjectJS.bindUpdatePriceRange(".update");
+                ObjectJS.bindUpdatePriceRange(innerText.find(".update"));
                 ObjectJS.deletePriceRange();
             });
             ObjectJS.isLoading = true;
         });
     }
        
-    ObjectJS.bindUpdatePriceRange = function (save) {        
+    ObjectJS.bindUpdatePriceRange = function (obj) {        
         $(".min-number").change(function () {
             var _this = $(this);
             if (!_this.val().isDouble()) {
@@ -101,7 +101,7 @@
             }
         });
         
-        $(save).click(function () {   
+        obj.click(function () {   
             var _this = $(this).parent().parent();
             var rangeid = _this.data("rangeid");
             var minNumber = _this.find(".min-number").val().trim();
