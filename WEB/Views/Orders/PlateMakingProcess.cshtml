@@ -40,12 +40,10 @@
     </script>
 </head>
 <body>
-    <div class="report">
-                
+    <div class="report">                
         <div class="process left mBottom30">
             <table style="width:955px;">
-                <tr class="head" style="height:50px">
-                   
+                <tr class="head" style="height:50px">                   
                     <td class="no-border-left" colspan="6">
                         <div class="titlename">
                             @(currentUser.Client.CompanyName)生产工艺单                            
@@ -53,6 +51,28 @@
                     </td>                
                 </tr>
                 <tr>
+                    <td>
+                        <table class="no-border img-order">
+                            <tr>
+                                <td class="no-border-top no-border-left">前片图片</td>
+                                <td class="no-border-top">后片图片</td>
+                            </tr>
+                            <tr id="img">
+                                <td class="no-border-left order-image" id="OneImgBox">
+                                    <div id="img-one">
+                                        <img src="@(string.IsNullOrEmpty(orderImages[0])?"/modules/images/none-img.png":orderImages[0])" />
+                                    </div>
+                                    <div id="upLoadOneImg" class="layer-upload iconfont btn">&#xe60b;</div>                        
+                                </td>
+                                <td class="order-image" id="TwoImgBox">
+                                    <div id="img-two">
+                                        <img src="@(string.IsNullOrEmpty(orderImages[1])?"/modules/images/none-img.png":orderImages[1])" />
+                                    </div>
+                                    <div id="upLoadTwoImg" class="layer-upload btn iconfont">&#xe60b;</div>                        
+                                </td>
+                            </tr>
+                        </table>
+                    </td>               
                     <td>款号：</td>
                     <td>@(order.IntGoodsCode==""?order.OrderCode:order.IntGoodsCode)</td>
                     <td>采购负责人：</td>
@@ -62,10 +82,6 @@
                         <div class="clear"></div>
                         <span class="span hide"></span>
                     </td>
-                    <td>下单日期：</td>
-                    <td>@(order.OrderTime.ToString("yyyy-MM-dd"))</td>
-                </tr>
-                <tr>
                     <td>销售负责人：</td>
                     <td>
                         <input class="input" type="text" value="" />
@@ -80,10 +96,6 @@
                         <div class="clear"></div>
                         <span class="span hide"></span>
                     </td>
-                    <td>合同货期：</td>
-                    <td>@(order.PlanTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : order.PlanTime.ToString("yyyy-MM-dd"))</td>
-                </tr>
-                <tr>
                     <td>理单负责人：</td>
                     <td>
                         <input class="input" type="text" value="" />
@@ -98,6 +110,44 @@
                         <div class="clear"></div>
                         <span class="span hide"></span>
                     </td>
+                   @* <td>下单日期：</td>
+                    <td>@(order.OrderTime.ToString("yyyy-MM-dd"))</td>*@
+               
+                    @*<td>销售负责人：</td>
+                    <td>
+                        <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
+                        <span class="span hide"></span>
+                    </td>
+                    <td>纸样师负责人：</td>
+                    <td>
+                        <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
+                        <span class="span hide"></span>
+                    </td>*@
+                    @*<td>合同货期：</td>
+                    <td>@(order.PlanTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : order.PlanTime.ToString("yyyy-MM-dd"))</td>*@
+               
+                    @*<td>理单负责人：</td>
+                    <td>
+                        <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
+                        <span class="span hide"></span>
+                    </td>
+                    <td>QC负责人：</td>
+                    <td>
+                        <input class="input" type="text" value="" />
+                        <i class="iconfont blue change-owner hand">&#xe60b;</i>
+                        <div class="clear"></div>
+                        <span class="span hide"></span>
+                    </td>*@
+                    <td>下单日期：</td>
+                    <td>@(order.OrderTime.ToString("yyyy-MM-dd"))</td>
+                    <td>合同货期：</td>
+                    <td>@(order.PlanTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : order.PlanTime.ToString("yyyy-MM-dd"))</td>
                     <td class="no-border-right">准确资料签章：</td>       
                     <td class="no-border-left"></td>         
                 </tr>
@@ -140,7 +190,7 @@
 
                 </table>
                 
-                <table class="no-border img-order">
+                @*<table class="no-border img-order">
                 <tr>
                     <td class="no-border-top no-border-left">前片图片</td>
                     <td class="no-border-top">后片图片</td>
@@ -159,7 +209,7 @@
                         <div id="upLoadTwoImg" class="layer-upload btn iconfont">&#xe60b;</div>                        
                     </td>
                 </tr>
-            </table>
+            </table>*@
             }            
             <div class="clear"></div>
             <table class="navproducts no-border" data-id="navproducts">
