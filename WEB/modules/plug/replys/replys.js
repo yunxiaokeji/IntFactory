@@ -101,12 +101,9 @@
                 msg: "上传附件最多10个"
             });
 
-            
-
             if (!Reply.noGet) {
                 ObjectJS.getTaskReplys(1);
             }
-
         });
     }
 
