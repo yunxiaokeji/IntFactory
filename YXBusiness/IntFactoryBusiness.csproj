@@ -33,7 +33,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\WEB\DLL\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -47,6 +52,7 @@
     <Compile Include="Agents\AgentsBusiness.cs" />
     <Compile Include="AliOrder\AliOrderBusiness.cs" />
     <Compile Include="Common\LogBusiness.cs" />
+    <Compile Include="Common\WeiXinMPPush.cs" />
     <Compile Include="Common\ReplyBusiness.cs" />
     <Compile Include="Custom\CustomBusiness.cs" />
     <Compile Include="Finance\FinanceBusiness.cs" />
@@ -94,7 +100,6 @@
       <Name>CloudSalesTool</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -61,15 +61,22 @@
                     header: "大货单发货",
                     content: innerText,
                     yesFn: function () {
-                        var details = ""
-                        
+                        var details = "", bl = true;
                         $("#showSendOrderGoods .list-item").each(function () {
                             var _this = $(this);
                             var quantity = _this.find(".quantity").val();
                             if (quantity > 0) {
+                                if (quantity > _this.find(".quantity").data("max")) {
+                                    bl = false;
+                                }
                                 details += _this.data("id") + "-" + quantity + ",";
                             }
                         });
+
+                        if (!bl) {
+                            alert("数量输入过大");
+                            return false;
+                        }
 
                         if (details.length > 0) {
                             if ((!$("#expressid").data("id") || !$("#expressCode").val())
@@ -77,39 +84,37 @@
                                 alert("请完善快递信息!");
                                 return false;
                             }
-                        }
-                        else if (!$("#showSendOrderGoods .check").hasClass("ico-checked")) {
-                            alert("请输入发货数量");
+
+                            Global.post("/" + Controller + "/CreateOrderSendDoc", {
+                                orderid: _self.orderid,
+                                taskid: _self.taskid,
+                                doctype: 2,
+                                isover: 0,
+                                expressid: $("#expressid").data("id"),
+                                expresscode: $("#expressCode").val(),
+                                details: details,
+                                remark: $("#expressRemark").val().trim()
+                            }, function (data) {
+                                if (data.id) {
+                                    alert("发货成功!");
+
+                                    if ($("#showSendOrderGoods .check").hasClass("ico-checked")) {
+                                        $("#btnSendOrder").remove();
+                                    }
+                                    Common.getGetGoodsDoc("navSendDoc", 22);
+                                    Common.getOrderGoods();
+                                }
+                                else if (data.result == "10001") {
+                                    alert("您没有操作权限!")
+                                }
+                                else {
+                                    alert("发货失败！");
+                                }
+                            });
+                        } else {
+                            alert("请输入数量");
                             return false;
                         }
-
-                        Global.post("/" + Controller + "/CreateOrderSendDoc", {
-                            orderid: _self.orderid,
-                            taskid: _self.taskid,
-                            doctype: 2,
-                            isover: $("#showSendOrderGoods .check").hasClass("ico-checked") ? 1 : 0,
-                            expressid: $("#expressid").data("id"),
-                            expresscode: $("#expressCode").val(),
-                            details: details,
-                            remark: $("#expressRemark").val().trim()
-                        }, function (data) {
-                            if (data.id) {
-                                alert("发货成功!");
-                                
-                                if ($("#showSendOrderGoods .check").hasClass("ico-checked")) {
-                                    $("#btnSendOrder").remove();
-                                }
-                                Common.getGetGoodsDoc("navSendDoc", 22);
-                                Common.getOrderGoods();
-                            }
-                            else if (data.result == "10001") {
-                                alert("您没有操作权限!")
-                            }
-                            else {
-                                alert("发货失败！");
-                            }
-                        });
-
                     }
                 }
             });
@@ -142,8 +147,10 @@
 
             $("#showSendOrderGoods").find(".quantity").blur(function () {
                 var _this = $(this);
-                if (!_this.val()) {
-                    _this.val("0");
+                if (_this.val() > _this.data("max")) {
+                    _this.addClass("bRed");
+                } else {
+                    _this.removeClass("bRed");
                 }
             });
             $("#showSendOrderGoods").find(".quantity").keyup(function () {
@@ -153,10 +160,6 @@
                 }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
-                }
-                else if (_this.val() > _this.data("max")) {
-                    _this.val(_this.data("max"));
-                    alert("输入发货数量过大");
                 }
             });
         });

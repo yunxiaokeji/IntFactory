@@ -158,6 +158,16 @@ namespace IntFactoryDAL
 
         }
 
+        public DataSet GetPushTaskByPreTaskID(string taskid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@TaskID",taskid)
+                                   };
+
+            return GetDataSet("P_GetPushTaskByPreTaskID", paras, CommandType.StoredProcedure, "OrderTask");
+
+        }
+
         public bool UpdateTaskOwner(string taskID, string ownerID, out int result)
         {
             result = 0;

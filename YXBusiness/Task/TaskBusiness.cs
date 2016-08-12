@@ -221,6 +221,20 @@ namespace IntFactoryBusiness
             return list;
         }
 
+
+        public static TaskEntity GetPushTaskByPreTaskID(string taskid) { 
+            TaskEntity model = null;
+            DataSet ds = TaskDAL.BaseProvider.GetPushTaskByPreTaskID(taskid);
+            DataTable taskTB = ds.Tables["OrderTask"];
+            if (taskTB.Rows.Count == 1)
+            {
+                model = new TaskEntity();
+                model.FillData(taskTB.Rows[0]);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
+            }
+
+            return model;
+        }
         #endregion
 
         #region 改
@@ -302,6 +316,12 @@ namespace IntFactoryBusiness
                 string msg = "将任务标记为完成";
                 LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
                 LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, clientid);
+
+                //通知任务完成消息通知给它下级任务
+                TaskEntity task = GetPushTaskByPreTaskID(taskID);
+                if (task != null) {
+                    WeiXinMPPush.BasePush.SendTaskFinishPush(task.OpenID, task.PreTitle, task.Title, task.Owner.Name);
+                }
             }
 
             return flag;
