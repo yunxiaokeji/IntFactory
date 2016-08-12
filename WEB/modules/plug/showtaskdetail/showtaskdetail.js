@@ -5,7 +5,7 @@ define(function (require, exports, module) {
     var Global = require("global"),
         ChooseUser = require("chooseuser");
     var doT = require("dot");
-    var TalkReply = require("scripts/task/reply");
+    var TalkReply = require("replys");
 
     (function ($) {
         //默认参数
@@ -189,8 +189,12 @@ define(function (require, exports, module) {
                         $("#changeTaskOwner").hide();
                     }
 
-                    //初始化任务讨论
-                    TalkReply.initTalkReply(defaultParas);
+                    TalkReply.initTalkReply({
+                        element: ".taskContent .talk-body",
+                        guid: defaultParas.taskid,
+                        type: 10, /*1 客户 2订单 10任务 */
+                        pageSize: 10
+                    });
                 });
             });
         }
