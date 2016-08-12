@@ -65,7 +65,7 @@
                         $(".center-range").append(innerHtml);
                         $(".center-range li:last").find(".min-number").val(minNumber + 1);
 
-                        ObjectJS.bindUpdatePriceRange(innerHtml.find(".update,.save-price-range"));
+                        ObjectJS.bindUpdatePriceRange(innerHtml.find(".update"));
                         ObjectJS.deletePriceRange();
                     });
                 });
@@ -101,6 +101,12 @@
             }
         });
         
+        obj.parent().find('.edit-range').click(function () {
+            var _this = $(this);
+            _this.parent().find('.delete,.update').show();
+            _this.hide();
+        });
+
         obj.click(function () {   
             var _this = $(this).parent().parent();
             var rangeid = _this.data("rangeid");
@@ -124,19 +130,16 @@
             };
             Global.post("/Orders/SavePriceRange", {model: JSON.stringify(model)}, function (obj) {
                 if (obj.id) {
-                    if (obj.id == "1") {
-                        _this.find(".min-number").val(minNumber).data("num", minNumber);
-                        _this.find(".price").val(price).data("num", price);
-                        _this.prev().find(".max-number").val(Number(minNumber) - 1).data("num", Number(minNumber) - 1);
-                    } else {
-                        _this.data("rangeid", obj.id);
-                        _this.find(".min-number").val(minNumber).data("num", minNumber);
-                        _this.prev().find(".max-number").val(Number(minNumber) - 1).data("num", Number(minNumber) - 1);
-                        _this.find(".price").val(price).data("num", price);
-                        _this.find(".max-number").val(maxNumber).data("num", maxNumber).attr("disabled", "disabled");
+                    _this.find(".min-number").val(minNumber).data("num", minNumber);
+                    _this.find(".price").val(price).data("num", price);
+                    _this.prev().find(".max-number").val(Number(minNumber) - 1).data("num", Number(minNumber) - 1);
+                    _this.find('.edit-range').show();
+                    _this.find('.delete,.update').hide();
 
-                        $(".save-price-range,.cancel-price-range").hide();
-                        $(".update,.delete").show();
+                    if (obj.id != "1") {
+                        _this.data("rangeid", obj.id);
+                        _this.find(".max-number").val(maxNumber).data("num", maxNumber);
+                        _this.find(".cancel-price-range").remove();
                     }
                 } else {
                     alert("网络连接失败");
