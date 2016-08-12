@@ -11,14 +11,10 @@ namespace IntFactoryEntity
         public string replyID { get; set; }
 
         [Property("Lower")]
-        public string orderID { get; set; }
+        public string taskID { get; set; }
 
         public string content { get; set; }
 
-        [Property("Lower")]
-        public string stageID { get; set; }
-
-        public int mark { get; set; }
 
         [Property("Lower")]
         public string fromReplyID { get; set; }

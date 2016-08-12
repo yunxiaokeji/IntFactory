@@ -89,28 +89,6 @@ namespace IntFactoryDAL
             return ds;
         }
 
-        public DataSet GetTaskReplys(string guid, string stageid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
-        {
-            SqlParameter[] paras = { 
-                                       new SqlParameter("@totalCount",SqlDbType.Int),
-                                       new SqlParameter("@pageCount",SqlDbType.Int),
-                                       new SqlParameter("@pageSize",pageSize),
-                                       new SqlParameter("@pageIndex",pageIndex),
-                                      new SqlParameter("@OrderID",guid),
-                                       new SqlParameter("@StageID",stageid)
-   
-                                   };
-            paras[0].Value = totalCount;
-            paras[1].Value = pageCount;
-
-            paras[0].Direction = ParameterDirection.InputOutput;
-            paras[1].Direction = ParameterDirection.InputOutput;
-            DataSet ds = GetDataSet("P_GetTaskReplys", paras, CommandType.StoredProcedure, "Replys|Attachments");
-            totalCount = Convert.ToInt32(paras[0].Value);
-            pageCount = Convert.ToInt32(paras[1].Value);
-            return ds;
-        }
-
         public int GetNoAcceptTaskCount(string ownerID,int orderType, string clientID)
         {
             SqlParameter[] paras = {
@@ -197,27 +175,6 @@ namespace IntFactoryDAL
             result = Convert.ToInt32(paras[0].Value);
 
             return result == 1;
-        }
-
-        public bool AddTaskReplyAttachment(string taskid, string replyid, int attachmentType,
-            string serverUrl, string filePath, string fileName, string originalName, string thumbnailName,long size,
-            string userid,string clientid,SqlTransaction tran)
-        {
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@TaskID",taskid),
-                                     new SqlParameter("@ReplyID",replyid),
-                                     new SqlParameter("@Type",attachmentType),
-                                     new SqlParameter("@ServerUrl",serverUrl),
-                                     new SqlParameter("@FilePath",filePath),
-                                     new SqlParameter("@FileName",fileName),
-                                     new SqlParameter("@OriginalName",originalName),
-                                     new SqlParameter("@ThumbnailName",thumbnailName),
-                                     new SqlParameter("@Size",size),
-                                     new SqlParameter("@UserID",userid),
-                                     new SqlParameter("@ClientID",clientid)
-                                   };
-
-            return ExecuteNonQuery(tran, "P_AddTaskReplyAttachment", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool UpdateTaskRemark(string taskID, string remark)

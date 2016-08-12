@@ -126,8 +126,14 @@
             ProcessDYCosts.initProcessCosts(ObjectJS.orderid, Global, DoT, ObjectJS.orderType);
         }
 
-        TalkReply = require("scripts/task/reply");
-        TalkReply.initTalkReply(ObjectJS, 'task', 1);
+        TalkReply = require("replys");
+        TalkReply.initTalkReply({
+            element: "#taskReplys",
+            guid: ObjectJS.taskid,
+            type: 10, /*1 客户 2订单 10任务 */
+            pageSize: 10,
+            noGet: true
+        });
 
         //事件绑定
         ObjectJS.bindBaseEvent();

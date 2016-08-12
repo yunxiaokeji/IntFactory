@@ -250,30 +250,6 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .tab-nav-ul li:hover{ position: relative; height: 32px; line-height: 35px; border-bottom: 3px solid #73ABE4; color:#318ae4; }
 .tab-nav-ul .hover { position: relative; height: 32px; line-height: 35px; border-bottom: 3px solid #4a98e7; color:#318ae4;  }
 
-/*讨论备忘*/
-.task-replys { width: 800px; }
-.task-replys .txt-content { height: 100px; }
-.task-replys .btn-save { position: absolute; right: 0; bottom: 0px; }
-.talk-title { border-bottom: solid 1px #ccc; height: 40px; line-height: 40px; color: #666; }
-.taskreply-box { height: 30px; overflow: hidden; border: 1px solid #ddd; padding: 10px 10px 0px 10px; border-radius: 3px; }
-.taskreply-box .reply-content { border: none; height: 100px; width: 100%; border-bottom: 1px solid #ddd; }
-.taskreply-box-hover { height: auto; border: 1px solid #666; overflow: visible; }
-.reply-box .iconfont, .taskreply-box .iconfont { font-size: 22px; height: 28px; line-height: 30px; color: #999; cursor: pointer; margin-top: 5px; background-color: #fff; border: 0; }
-.reply-box .iconfont:hover, .taskreply-box .iconfont:hover { color: #4a98e7; }
-.task-replys .content-list { width: 100%; }
-.accessory { margin-top: 10px; }
-.accessory li { position: relative; float: left; margin-right: 40px; border: 1px solid #ddd; width: 120px; height: 80px; text-align: center; line-height: 80px; margin-bottom: 20px; padding: 1px; }
-.accessory li img { max-width: 120px; max-height: 80px; }
-.accessory li .delete { background: url(/modules/images/ico-delete.png) no-repeat; height: 20px; min-width: 20px; line-height: 20px; cursor: pointer; position: absolute; right: -10px; top: -10px; }
-
-.task-replys .content-list td { border-bottom: dashed 1px #ccc; }
-.task-replys .content-list .user-avatar { width: 35px; padding-top: 20px; vertical-align: top; }
-.task-replys .content-list .user-avatar img { width: 24px; height: 24px; border-radius: 12px; vertical-align: top; }
-.task-replys .content-list tr:not(:first-child) td { height: 35px; }
-.task-replys .content-list .reply-box { border: 1px solid #ddd; padding: 10px 10px 10px 10px; border-radius: 3px; }
-.task-replys .content-list .reply-box:hover { border: 1px solid #666; }
-.task-replys .content-list .reply-box textarea { width: 100%; border: none; height: 60px; border-bottom: 1px solid #ddd; }
-
 /*上传*/
 /*.upload-file {margin-right:10px;}*/
 .upload-file li { float:left;position:relative;margin-right:20px;margin-bottom:10px;}

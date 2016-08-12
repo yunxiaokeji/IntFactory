@@ -227,23 +227,6 @@ namespace YXERP.Controllers
             };
         }
 
-        //获取任务讨论
-        public JsonResult GetReplys(string guid, string stageID, int pageSize, int pageIndex)
-        {
-            int pageCount = 0;
-            int totalCount = 0;
-            var list = TaskBusiness.GetTaskReplys(guid, stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
-            JsonDictionary.Add("items", list);
-            JsonDictionary.Add("totalCount", totalCount);
-            JsonDictionary.Add("pageCount", pageCount);
-
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
         //获取下单明细
         public JsonResult GetOrderGoods(string id)
         {
@@ -298,40 +281,6 @@ namespace YXERP.Controllers
         public JsonResult GetPlateMakings(string orderID)
         {
             var list = TaskBusiness.GetPlateMakings(orderID);
-            JsonDictionary.Add("items", list);
-
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-        //保存任务讨论
-        public JsonResult SavaReply(string entity, string taskID, string attchmentEntity)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            ReplyEntity model = serializer.Deserialize<ReplyEntity>(entity);
-            model.Attachments = serializer.Deserialize<List<IntFactoryEntity.Attachment>>(attchmentEntity);
-            string replyID = OrdersBusiness.CreateReply(model.GUID, model.StageID, model.Mark, model.Content, CurrentUser.UserID, CurrentUser.ClientID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
-
-            if (model.Attachments.Count > 0)
-            {
-                TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);
-            }
-            List<ReplyEntity> list = new List<ReplyEntity>();
-            if (!string.IsNullOrEmpty(replyID))
-            {
-                model.ReplyID = replyID;
-                model.CreateTime = DateTime.Now;
-                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(CurrentUser.UserID, CurrentUser.ClientID);
-                model.CreateUserID = CurrentUser.UserID;
-                if (!string.IsNullOrEmpty(model.FromReplyUserID) && !string.IsNullOrEmpty(model.FromReplyAgentID))
-                {
-                    model.FromReplyUser = OrganizationBusiness.GetUserCacheByUserID(model.FromReplyUserID, model.FromReplyAgentID);
-                }
-                list.Add(model);
-            }
             JsonDictionary.Add("items", list);
 
             return new JsonResult

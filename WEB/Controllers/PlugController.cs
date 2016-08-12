@@ -16,6 +16,7 @@ using Qiniu.RS;
 using Qiniu.RPC;
 using Qiniu.Conf;
 using IntFactoryEnum;
+using IntFactoryEntity;
 namespace YXERP.Controllers
 {
     public class PlugController : Controller
@@ -386,6 +387,66 @@ namespace YXERP.Controllers
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
 
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetReplys(string guid, EnumLogObjectType type, int pageSize, int pageIndex)
+        {
+            int totalCount = 0;
+            int pageCount = 0;
+
+            var list = ReplyBusiness.GetReplys(guid, type, pageSize, pageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
+
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SavaReply(EnumLogObjectType type, string entity, string attchmentEntity)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            ReplyEntity model = serializer.Deserialize<ReplyEntity>(entity);
+            model.Attachments = serializer.Deserialize<List<Attachment>>(attchmentEntity);
+            string replyID = "";
+
+            switch (type)
+            {
+                case EnumLogObjectType.Customer:
+                    replyID = ReplyBusiness.CreateCustomerReply(model.GUID, model.Content, CurrentUser.UserID, CurrentUser.ClientID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
+                    ReplyBusiness.AddCustomerReplyAttachments(model.GUID, replyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);
+                    break;
+                case EnumLogObjectType.OrderTask:
+                    replyID = ReplyBusiness.CreateTaskReply(model.GUID, model.Content, CurrentUser.UserID, CurrentUser.ClientID, model.FromReplyID, model.FromReplyUserID, model.FromReplyAgentID);
+                    ReplyBusiness.AddTaskReplyAttachments(model.GUID, replyID, model.Attachments, CurrentUser.UserID, CurrentUser.ClientID);
+                    break;
+
+            }
+            
+
+            List<ReplyEntity> list = new List<ReplyEntity>();
+            if (!string.IsNullOrEmpty(replyID))
+            {
+                model.ReplyID = replyID;
+                model.CreateTime = DateTime.Now;
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(CurrentUser.UserID, CurrentUser.ClientID); ;
+                model.CreateUserID = CurrentUser.UserID;
+                if (!string.IsNullOrEmpty(model.FromReplyUserID) && !string.IsNullOrEmpty(model.FromReplyAgentID))
+                {
+                    model.FromReplyUser = OrganizationBusiness.GetUserCacheByUserID(model.FromReplyUserID, model.FromReplyAgentID);
+                }
+                list.Add(model);
+            }
+            JsonDictionary.Add("items", list);
             return new JsonResult
             {
                 Data = JsonDictionary,
