@@ -5,7 +5,7 @@
         doT = require("dot"),
         ChooseUser = require("chooseuser"),
         Easydialog = require("easydialog");
-    var CustomerReply = require("scripts/task/reply");       
+    var CustomerReply = require("replys");       
     require("pager");
     require("colormark");
     
@@ -34,7 +34,12 @@
         } else {
             $(".module-tab li").first().addClass("hover").data("first", "1");
             $("#taskReplys").show();
-            CustomerReply.initTalkReply(_self, "customer");
+            CustomerReply.initTalkReply({
+                element: "#taskReplys",
+                guid: _self.guid,
+                type: 1, /*1 客户 2订单 10任务 */
+                pageSize: 10
+            });
         }
 
         Global.post("/System/GetLableColor", { lableType: 2 }, function (data) {
@@ -239,7 +244,6 @@
             _this.siblings().removeClass("hover");
             _this.addClass("hover");
             $(".nav-partdiv").hide();
-            $(".task-replys").hide();
             $("#" + _this.data("id")).show();
             $("#addContact").hide();
 
@@ -254,7 +258,12 @@
                 });
             } else if (_this.data("id") == "taskReplys" && (!_this.data("first") || _this.data("first") == 0)) { //备忘
                 _this.data("first", "1");
-                CustomerReply.initTalkReply(_self, "customer");
+                CustomerReply.initTalkReply({
+                    element: "#taskReplys",
+                    guid: _self.guid,
+                    type: 1, /*1 客户 2订单 10任务 */
+                    pageSize: 10
+                });
             } else if (_this.data("id") == "navContact") { //联系人
                 $("#addContact").show();
                 if ((!_this.data("first") || _this.data("first") == 0)) {

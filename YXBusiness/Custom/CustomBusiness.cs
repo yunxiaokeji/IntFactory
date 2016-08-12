@@ -54,41 +54,6 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public static List<ReplyEntity> GetCustomerReplys(string guid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
-        {
-            List<ReplyEntity> list = new List<ReplyEntity>();
-
-            DataSet ds = CustomDAL.BaseProvider.GetCustomerReplys(guid, pageSize, pageIndex, ref totalCount, ref pageCount);
-            DataTable replys = ds.Tables["Replys"];
-            DataTable attachments = ds.Tables["Attachments"];
-            foreach (DataRow dr in replys.Rows)
-            {
-                ReplyEntity model = new ReplyEntity();
-                model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, model.ClientID);
-                if (!string.IsNullOrEmpty(model.FromReplyID))
-                {
-                    model.FromReplyUser = OrganizationBusiness.GetUserCacheByUserID(model.FromReplyUserID, model.FromReplyAgentID);
-                }
-
-                if (attachments.Rows.Count > 0)
-                {
-                    model.Attachments=new List<Attachment>();
-                    foreach (DataRow dr2 in attachments.Select(" Guid='" + model.ReplyID + "'"))
-                    {
-                        Attachment attachment = new Attachment();
-                        attachment.FillData(dr2);
-
-                        model.Attachments.Add(attachment);
-                    }
-                }
-                list.Add(model);
-            }
-
-            return list;
-
-        }
-
         public List<CustomerEntity> GetCustomersByKeywords(string keywords, string userid, string clientid)
         {
             List<CustomerEntity> list = new List<CustomerEntity>();
@@ -116,17 +81,6 @@ namespace IntFactoryBusiness
 
                 model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, model.ClientID);
 
-            }
-            return model;
-        }
-
-        public CustomerEntity GetCustomerByMobilePhone(string mobilePhone, string clientid,string name)
-        {
-            DataSet ds = CustomDAL.BaseProvider.GetCustomerByMobilePhone(mobilePhone, clientid,name);
-            CustomerEntity model = new CustomerEntity();
-            if (ds.Tables["Customer"].Rows.Count > 0)
-            {
-                model.FillData(ds.Tables["Customer"].Rows[0]);
             }
             return model;
         }
@@ -159,28 +113,6 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public static List<ReplyEntity> GetReplys(string guid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
-        {
-            List<ReplyEntity> list = new List<ReplyEntity>();
-            string whereSql = " Status<>9 and GUID='" + guid + "' ";
-            DataTable dt = CommonBusiness.GetPagerData("CustomerReply", "*", whereSql, "AutoID", "CreateTime desc ", pageSize, pageIndex, out totalCount, out pageCount, false);
-
-            foreach (DataRow dr in dt.Rows)
-            {
-                ReplyEntity model = new ReplyEntity();
-                model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, model.ClientID);
-                if (!string.IsNullOrEmpty(model.FromReplyID))
-                {
-                    model.FromReplyUser = OrganizationBusiness.GetUserCacheByUserID(model.FromReplyUserID, model.FromReplyAgentID);
-                }
-                list.Add(model);
-            }
-
-            return list;
-
-        }
-
         #endregion
 
         #region 添加
@@ -200,37 +132,6 @@ namespace IntFactoryBusiness
                 LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Customer, EnumLogType.Create, "", operateid, clientid);
             }
             return id;
-        }
-
-        public static string CreateReply(string guid, string content, string userID, string clientid, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
-        {
-            return CustomDAL.BaseProvider.CreateReply(guid, content, userID, clientid, fromReplyID, fromReplyUserID, fromReplyAgentID);
-        }
-
-        public static bool AddCustomerReplyAttachments(string customerid, string replyid, List<Attachment> attachments, string userid, string clientid)
-        {
-            SqlConnection conn = new SqlConnection(CustomDAL.ConnectionString);
-            conn.Open();
-            SqlTransaction tran = conn.BeginTransaction();
-
-
-            foreach (var attachment in attachments)
-            {
-                if (!CustomDAL.BaseProvider.AddCustomerReplyAttachments(customerid, replyid, attachment.Type,
-                    attachment.ServerUrl, attachment.FilePath, attachment.FileName, attachment.OriginalName, attachment.ThumbnailName,attachment.Size,
-                    userid, clientid, tran))
-                {
-                    tran.Rollback();
-                    conn.Dispose();
-
-                    return false;
-                }
-            }
-
-            tran.Commit();
-            conn.Dispose();
-
-            return true;
         }
 
         public string CreateContact(string customerid,string name, string citycode, string address, string mobile, string officephone, string email, string jobs, string desc, string operateid, string clientid)
@@ -311,12 +212,6 @@ namespace IntFactoryBusiness
         public bool DeleteContact(string contactid, string ip, string userid)
         {
             bool bl = CommonBusiness.Update("Contact", "Status", 9, "ContactID='" + contactid + "'");
-            return bl;
-        }
-
-        public bool DeleteReply(string replyid)
-        {
-            bool bl = CommonBusiness.Update("CustomerReply", "Status", 9, "ReplyID='" + replyid + "'");
             return bl;
         }
 

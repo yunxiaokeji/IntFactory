@@ -1,4 +1,5 @@
 ﻿define(function (require, exports, module) {
+    require("plug/replys/style.css");
     var Global = require("global");
     var doT = require("dot");
     var Tip = require("tip");
@@ -6,93 +7,106 @@
     Upload = require("upload");
     var ObjectJS = {};
     var Reply = {};
-    var Controller = "Task";
 
-    ///任务讨论
     //初始化任务讨论列表
-    ObjectJS.initTalkReply = function (reply, moduleType,noGet) {
-        Reply = reply;
-        if (moduleType === "customer") {
-            Controller = moduleType;
-        }
+    ObjectJS.defaults = {
+        element: "#taskReplys",
+        guid: "",
+        type: 1, /*1 客户 2订单 10任务 */
+        pageSize: 10,
+        noGet: false
+    };
 
-        //任务讨论盒子点击
-        $(".taskreply-box").click(function () {
-            $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
-        });
-        
-        ObjectJS.bindReplyAttachment("");
+    ObjectJS.initTalkReply = function (options) {
+        Reply = $.extend({}, ObjectJS.defaults, options);
 
-        //任务讨论盒子隐藏
-        $(document).click(function (e) {
-            if (!$(e.target).parents().hasClass("taskreply-box") && !$(e.target).hasClass("taskreply-box") &&
-                !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace") &&
-                !$(e.target).parents().hasClass("ico-delete") && !$(e.target).hasClass("ico-delete") &&
-                !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload") &&
-                !$(e.target).hasClass("qn-delete") &&
-                !$(e.target).parents().hasClass("alert") && !$(e.target).hasClass("alert")) {
-                $(".taskreply-box").removeClass("taskreply-box-hover");
-            }
-        });
+        ObjectJS.drawObjectReplys();
+    }
 
-        //保存讨论
-        $("#btnSaveTalk").click(function () {            
-            var txt = $("#txtContent");
-            if (txt.val().trim()) {
-                if ($('.taskreply-box .task-file li').find('.mark-progress').length > 0) {
-                    alert("文件上传中，请稍等");
-                    return false;
-                }
+    ObjectJS.drawObjectReplys = function () {
+        $(Reply.element).empty();
+        doT.exec("plug/replys/replys.html", function (template) {
+            var innerhtml = template([]);
+            innerhtml = $(innerhtml);
+            $(Reply.element).append(innerhtml);
 
-                var attchments = [];
-                $('.taskreply-box .task-file li').each(function () {
-                    var _this = $(this);
-                    attchments.push({
-                        "ServerUrl": _this.data("server"),
-                        "Type": _this.data('isimg'),
-                        "FilePath": _this.data('filepath'),
-                        "FileName": _this.data('filename'),
-                        "OriginalName": _this.data('originalname'),
-                        "Size": _this.data("filesize"),
-                        "ThumbnailName": ""
+            //保存讨论
+            $("#btnSaveTalk").click(function () {
+                var txt = $("#txtContent");
+                if (txt.val().trim()) {
+                    if ($('.taskreply-box .task-file li').find('.mark-progress').length > 0) {
+                        alert("文件上传中，请稍等");
+                        return false;
+                    }
+
+                    var attchments = [];
+                    $('.taskreply-box .task-file li').each(function () {
+                        var _this = $(this);
+                        attchments.push({
+                            "ServerUrl": _this.data("server"),
+                            "Type": _this.data('isimg'),
+                            "FilePath": _this.data('filepath'),
+                            "FileName": _this.data('filename'),
+                            "OriginalName": _this.data('originalname'),
+                            "Size": _this.data("filesize"),
+                            "ThumbnailName": ""
+                        });
                     });
-                });
-                var model = {
-                    GUID: Reply.guid,
-                    StageID: Reply.stageid,
-                    mark: Reply.mark,
-                    Content: txt.val().trim(),
-                    FromReplyID: "",
-                    FromReplyUserID: "",
-                    FromReplyAgentID: ""
-                };
-                ObjectJS.saveTaskReply(model, $(this), attchments);
-                txt.val("");
-                $('.taskreply-box .task-file').empty();
-            }
-            else {
-                alert("请输入讨论内容");
-            }
-
-        });
-       
-        //讨论表情
-        $(".taskreply-box .btn-emotion").each(function () {
-            $(this).qqFace({
-                assign: $(this).data("id"),
-                path: '/modules/plug/qqface/arclist/'	//表情存放的路径
+                    var model = {
+                        GUID: Reply.guid,
+                        Content: txt.val().trim(),
+                        FromReplyID: "",
+                        FromReplyUserID: "",
+                        FromReplyAgentID: ""
+                    };
+                    ObjectJS.saveTaskReply(model, $(this), attchments);
+                    txt.val("");
+                    $('.taskreply-box .task-file').empty();
+                }
+                else {
+                    alert("请输入讨论内容");
+                }
             });
-        });
-        
-        //获取讨论
-        if (!noGet) {
-            ObjectJS.getTaskReplys(1);
-        }
 
-        //tip提示
-        $("#reply-attachment").Tip({
-            width: 100,
-            msg: "上传附件最多10个"
+            //任务讨论盒子点击
+            innerhtml.find(".taskreply-box").click(function () {
+                $(this).addClass("taskreply-box-hover").find(".reply-content").focus();
+            });
+
+            ObjectJS.bindReplyAttachment("");
+
+            //任务讨论盒子隐藏
+            $(document).click(function (e) {
+                if (!$(e.target).parents().hasClass("taskreply-box") && !$(e.target).hasClass("taskreply-box") &&
+                    !$(e.target).parents().hasClass("qqFace") && !$(e.target).hasClass("qqFace") &&
+                    !$(e.target).parents().hasClass("ico-delete") && !$(e.target).hasClass("ico-delete") &&
+                    !$(e.target).parents().hasClass("ico-delete-upload") && !$(e.target).hasClass("ico-delete-upload") &&
+                    !$(e.target).hasClass("qn-delete") &&
+                    !$(e.target).parents().hasClass("alert") && !$(e.target).hasClass("alert")) {
+                    $(".taskreply-box").removeClass("taskreply-box-hover");
+                }
+            });
+
+            //讨论表情
+            innerhtml.find(".taskreply-box .btn-emotion").each(function () {
+                $(this).qqFace({
+                    assign: $(this).data("id"),
+                    path: '/modules/plug/qqface/arclist/'	//表情存放的路径
+                });
+            });
+
+            //tip提示
+            $("#reply-attachment").Tip({
+                width: 100,
+                msg: "上传附件最多10个"
+            });
+
+            
+
+            if (!Reply.noGet) {
+                ObjectJS.getTaskReplys(1);
+            }
+
         });
     }
 
@@ -100,17 +114,15 @@
         var _self = this;
         $("#replyList").empty();
         $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='data-loading'><div></td></tr>");
-        Global.post("/" + Controller + "/GetReplys", {
+        Global.post("/Plug/GetReplys", {
             guid: Reply.guid,
-            stageid: Reply.stageid,
-            mark: Reply.mark,
+            type: Reply.type,
             pageSize: 10,
             pageIndex: page
         }, function (data) {
             $("#replyList").empty();
-
             if (data.items.length > 0) {
-                doT.exec("template/customer/replys.html", function (template) {
+                doT.exec("plug/replys/replysitem.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
                     $("#replyList").html(innerhtml);
@@ -118,7 +130,7 @@
                     ObjectJS.bindReplyOperate(innerhtml);
                 });
             } else {
-                $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无评论!<div></td></tr>");
+                $("#replyList").html("<tr><td colspan='2' style='border:none;'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
 
             $("#pagerReply").paginate({
@@ -139,32 +151,26 @@
     }
 
     //保存任务讨论
-    ObjectJS.saveTaskReply = function (model, btnObject,attchments) {
+    ObjectJS.saveTaskReply = function (model, btnObject, attchments) {
         var _self = this;
         var btnName = "";
         if (btnObject) {
             btnName = btnObject.html();
             btnObject.html("保存中...").attr("disabled", "disabled");
         }
-      
-        var params = { entity: JSON.stringify(model), attchmentEntity: JSON.stringify(attchments) };
 
-        if (Controller == "customer") {
-            params.customerID = Reply.guid;
-        }
-        else {
-            params.taskID = Reply.taskid;
-        }
-        Global.post("/" + Controller + "/SavaReply", params, function (data) {
+        var params = { type: Reply.type, entity: JSON.stringify(model), attchmentEntity: JSON.stringify(attchments) };
+
+        Global.post("/Plug/SavaReply", params, function (data) {
             if (btnObject) {
                 btnObject.html(btnName).removeAttr("disabled");
             }
-            
-            doT.exec("template/customer/replys.html", function (template) {
+
+            doT.exec("plug/replys/replysitem.html", function (template) {
                 var innerhtml = template(data.items);
                 innerhtml = $(innerhtml);
                 innerhtml.hide();
-               
+
                 innerhtml.fadeIn(500);
                 $("#replyList .nodata-txt").parent().parent().remove();
                 $("#replyList").prepend(innerhtml);
@@ -175,11 +181,10 @@
     }
 
     //上传附件
-    ObjectJS.bindReplyAttachment = function (replyId)
-    {
+    ObjectJS.bindReplyAttachment = function (replyId) {
         var uploader = Upload.uploader({
             browse_button: 'reply-attachment' + replyId,
-            picture_container: "reply-imgs"+replyId,
+            picture_container: "reply-imgs" + replyId,
             file_container: "reply-files" + replyId,
             image_view: "?imageView2/1/w/120/h/80",
             successItems: '.upload-files-' + replyId + ' li',
@@ -202,16 +207,16 @@
         replys.find(".btn-reply").click(function () {
             var _this = $(this);
             var reply = _this.nextAll(".reply-box");
-            
+
             $("#replyList .reply-box").each(function () {
                 if ($(this).data("replyid") != reply.data("replyid")) {
                     $(this).hide();
                 }
             });
             if (reply.is(":visible")) {
-                reply.slideUp(300);                
+                reply.slideUp(300);
             } else {
-                reply.slideDown(300);                
+                reply.slideDown(300);
             }
 
             reply.find("textarea").focus();
@@ -239,8 +244,7 @@
 
                 var entity = {
                     GUID: _this.data("id"),
-                    StageID: _this.data("stageid"),
-                    Mark: Reply.mark,
+                    Type: Reply.type,
                     Content: $("#Msg_" + _this.data("replyid")).val().trim(),
                     FromReplyID: _this.data("replyid"),
                     FromReplyUserID: _this.data("createuserid"),
@@ -277,7 +281,7 @@
                 assign: $(this).data("id"),
                 path: '/modules/plug/qqface/arclist/'	//表情存放的路径
             });
-        });        
+        });
         //绑定图片放大功能
         var width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
         replys.find(".orderImage-repay").click(function () {
@@ -329,11 +333,11 @@
                 });
             }
         });
-        
+
         //下载图标下滑切换
         replys.find(".upload-file li").hover(function () {
             $(this).find(".popup-download").stop(true).slideDown(300);
-        },function () {
+        }, function () {
             $(this).find(".popup-download").stop(true).slideUp(300);
         });
     }

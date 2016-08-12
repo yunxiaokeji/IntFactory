@@ -47,6 +47,7 @@
     <Compile Include="AliOrder\AliOrderDAL.cs" />
     <Compile Include="BaseDAL.cs" />
     <Compile Include="Common\LogDAL.cs" />
+    <Compile Include="Common\ReplyDAL.cs" />
     <Compile Include="Common\ShoppingCartDAL.cs" />
     <Compile Include="Custom\CustomDAL.cs" />
     <Compile Include="Custom\LableColorDAL.cs" />

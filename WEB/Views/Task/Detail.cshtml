@@ -29,7 +29,9 @@
 
 <div class="taskContent" style="padding:0 0 60px 0;@(task.Mark==12||task.Mark==22?"padding-left:0;padding-right:0;":"")">
     <div id="navTask" class="talk-body nav-partdiv">
-        @{Html.RenderPartial("TaskReply");}
+        <div class="mTop20 mLeft10" id="taskReplys">
+
+        </div>
 
         @{
             if (task.Mark == 11 && order.OrderType == 1)

@@ -325,26 +325,6 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public string CreateReply(string guid,string stageID,int mark, string content, string userID, string clientid, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
-        {
-            string replyID = Guid.NewGuid().ToString();
-
-            SqlParameter[] paras = { 
-                                     new SqlParameter("@ReplyID",replyID),
-                                     new SqlParameter("@GUID",guid),
-                                     new SqlParameter("@StageID",stageID),
-                                     new SqlParameter("@Mark",mark),
-                                     new SqlParameter("@Content",content),
-                                     new SqlParameter("@FromReplyID",fromReplyID),
-                                     new SqlParameter("@CreateUserID" , userID),
-                                     new SqlParameter("@ClientID" , clientid),
-                                     new SqlParameter("@FromReplyUserID" , fromReplyUserID),
-                                     new SqlParameter("@FromReplyAgentID" , fromReplyAgentID),
-                                   };
-
-            return ExecuteNonQuery("P_CreateOrderReply", paras, CommandType.StoredProcedure) > 0 ? replyID : string.Empty;
-        }
-
         public bool CreateGoodsDocReturn(string guid, string orderID, string taskID, int docType, string details, string originalID, string clientID, ref int result)
         {
             SqlParameter[] paras ={ 

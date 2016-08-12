@@ -630,11 +630,6 @@ namespace IntFactoryBusiness
             return b1;
         }
 
-        public static string CreateReply(string guid,string stageID,int mark, string content, string userID, string clientid, string fromReplyID, string fromReplyUserID, string fromReplyAgentID)
-        {
-            return OrdersDAL.BaseProvider.CreateReply(guid, stageID, mark, content, userID, clientid, fromReplyID, fromReplyUserID, fromReplyAgentID);
-        }
-
         public bool CreateOrderCost(string orderid, decimal price, string remark, string operateid, string ip, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.CreateOrderCost(orderid, price, remark, operateid, clientid);
