@@ -537,7 +537,7 @@
     	}else{
     		scaleDiff = originalScale - currentScale;
     	}
-
+        
     	publicMethods.zoom(scaleDiff, {"x":pageX, "y":pageY});	 
     }
     
@@ -905,7 +905,7 @@
 
 function transitionEnd() {
   var el = document.createElement('bootstrap');
-
+    
   var transEndEventNames = {
     'WebkitTransition' : 'webkitTransitionEnd',
     'MozTransition'    : 'transitionend',

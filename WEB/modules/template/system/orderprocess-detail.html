@@ -1,4 +1,6 @@
-﻿
+﻿{%
+    console.log($data);
+%}
 <ul class="easydialog-create">
     <li><span class="left width80">流程名称：</span>
         <input type="text" id="processName" maxlength="20" class="input verify " data-empty="必填" />
@@ -22,7 +24,20 @@
     </li>
     <li id="categoryType">
        <span class="left width80">品类：</span>
-       <div class="left radiobox" id="processCategory"> </div>
+       <div class="left radiobox" id="processCategory">
+           <ul class="role-items">
+               {%
+                   for(var i=0;i<$data.length;i++)
+                   {
+                        var item=$data[i];
+               %}
+               {%if(i==0){%}
+                <li class="role-item" style="margin-left:0;" data-id="{%=item.CategoryID%}">{%=item.Name%}</li>
+               {%}else{%}
+               <li class="role-item" data-id="{%=item.CategoryID%}">{%=item.Name%}</li>
+               {%}}%}
+           </ul>
+       </div>
        <div class="clear"></div>
     </li>
 </ul>
