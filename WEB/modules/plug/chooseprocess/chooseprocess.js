@@ -24,6 +24,7 @@ define(function (require, exports, module) {
         title:"选择流程", //标题
         type: 1,
         categoryid: "",
+        isClearOther: false,
         callback: null   //回调
     };
 
@@ -88,10 +89,15 @@ define(function (require, exports, module) {
                 });
                 $(".customerlist-all .customerlist-items").append(innerHtml);
 
-                if (_self.setting.categoryid) {
+                
+
+                if (_self.setting.isClearOther) {
                     $(".customerlist-all .customerlist-items li[data-id!='" + _self.setting.categoryid + "']").remove();
                     $(".chooseprocess-header .process-category[data-id!='" + _self.setting.categoryid + "']").remove();
-                    $(".chooseprocess-header .process-category[data-id='" + _self.setting.categoryid + "']").addClass("hover");
+                }
+
+                if (_self.setting.categoryid) {
+                    $(".chooseprocess-header .process-category[data-id='" + _self.setting.categoryid + "']").click();
                 }
             });
 
