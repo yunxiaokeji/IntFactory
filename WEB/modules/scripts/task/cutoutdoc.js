@@ -114,10 +114,15 @@
                 }
             });
 
-            $("#showCutoutGoods").find(".quantity").blur(function () {
+            $("#showCutoutGoods").find(".quantity").change(function () {
                 var _this = $(this);
-                if (!_this.val()) {
-                    _this.val("0");
+                if (_this.val() > _this.data("max")) {
+                    _this.addClass("bRed");
+                    confirm("输入数量大于下单数，是否继续？", function () { }, function () {
+                        _this.val(_this.data("max"));
+                    });
+                } else {
+                    _this.removeClass("bRed");
                 }
             });
 
@@ -128,11 +133,6 @@
                 }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
-                }
-                else if (_this.val() > _this.data("max")) {
-                    confirm("输入数量大于下单数，是否继续？", function () { }, function () {
-                        _this.val(_this.data("max"));
-                    });
                 }
             });
 
