@@ -341,4 +341,3 @@
 
     module.exports = ObjectJS;
 });
-

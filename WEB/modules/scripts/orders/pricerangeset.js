@@ -17,12 +17,12 @@
             var _this = $(this);
             if (_this.data('isget')==1) {
                 _this.data('isget', 0);
-                $(".pirce-range-box").fadeOut();
+                $(".price-range-box").fadeOut();
                 _this.text('展开报价');
             } else {
                 _this.data('isget', 1);
                 _this.text('收起报价');
-                $(".pirce-range-box").fadeIn();
+                $(".price-range-box").fadeIn();
                 ObjectJS.getPriceRange();
             }
         });   
@@ -30,13 +30,13 @@
 
     ObjectJS.getPriceRange = function () {
         ObjectJS.isLoading = false;
-        $(".pirce-range-box").html('<div class="data-loading"><div>');
+        $(".price-range-box").html('<div class="data-loading"><div>');
         Global.post("/Orders/GetOrderPriceRanges", { orderid: ObjectJS.orderID }, function (data) {
             doT.exec("template/orders/pricerangge.html", function (template) {
                 var innerText = template(data.items);
                 innerText = $(innerText);
                 innerText.find(".close-range").click(function () {
-                    $(".pirce-range-box").fadeOut();
+                    $(".price-range-box").fadeOut();
                     $("#setPriceRange").data('isget', 0);
                     $("#setPriceRange").text('展开报价');
                 });
@@ -70,7 +70,7 @@
                     });
                 });
 
-                $(".pirce-range-box").html(innerText);
+                $(".price-range-box").html(innerText);
                 ObjectJS.bindUpdatePriceRange(innerText.find(".update"));
                 ObjectJS.deletePriceRange();
             });
@@ -102,9 +102,23 @@
         });
         
         obj.parent().find('.edit-range').click(function () {
-            var _this = $(this);
-            _this.parent().find('.delete,.update').show();
-            _this.hide();
+            var _thisParents = $(this).parent().parent();
+            _thisParents.find('.cancel-edit,.update').show();
+            _thisParents.find('.delete').hide();
+            _thisParents.find('.min-number').removeAttr('disabled');
+            _thisParents.find('.price').removeAttr('disabled');
+
+            $(this).hide();
+        });
+
+        obj.parent().find('.cancel-edit').click(function () {
+            var _thisParents = $(this).parent().parent();
+            _thisParents.find('.min-number').val(_thisParents.find('.min-number').data('num'));
+            _thisParents.find('.price').val(_thisParents.find('.price').data('num'));
+            _thisParents.find('.delete,.edit-range').show();
+            _thisParents.find('.cancel-edit,.update').hide();
+            _thisParents.find('.min-number').attr('disabled', 'disabled');
+            _thisParents.find('.price').attr('disabled', 'disabled');
         });
 
         obj.click(function () {   
@@ -133,9 +147,10 @@
                     _this.find(".min-number").val(minNumber).data("num", minNumber);
                     _this.find(".price").val(price).data("num", price);
                     _this.prev().find(".max-number").val(Number(minNumber) - 1).data("num", Number(minNumber) - 1);
-                    _this.find('.edit-range').show();
-                    _this.find('.delete,.update').hide();
-
+                    _this.find('.delete,.edit-range').show();
+                    _this.find('.cancel-edit,.update').hide();
+                    _this.find('.min-number').attr('disabled', 'disabled');
+                    _this.find('.price').attr('disabled', 'disabled');
                     if (obj.id != "1") {
                         _this.data("rangeid", obj.id);
                         _this.find(".max-number").val(maxNumber).data("num", maxNumber);
