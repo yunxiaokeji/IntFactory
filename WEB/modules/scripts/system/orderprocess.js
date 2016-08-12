@@ -138,7 +138,7 @@
         var _self = this;
 
         doT.exec("template/system/orderprocess-detail.html", function (template) {
-            var html = template([]);
+            var html = template(_self.categorys);
             Easydialog.open({
                 container: {
                     id: "show-model-detail",
@@ -148,11 +148,15 @@
                         if (!VerifyObject.isPass()) {
                             return false;
                         }
+                        if ($("#processCategory .role-item.hover").length == 0) {
+                            alert("请选择品类");
+                            return false;
+                        }
                         var entity = {};
                         entity.ProcessID = model ? model.ProcessID : "";
                         entity.ProcessName = $("#processName").val().trim();
                         entity.ProcessType = model ? model.ProcessType : $("#processType").find(".hover").data("value");
-                        entity.CategoryID = $("#processCategory").data("id");
+                        entity.CategoryID = $("#processCategory .role-item.hover").data("id");
                         entity.PlanDays = 0;//$("#planDays").val().trim();
                         entity.IsDefault = 0;
                         _self.saveModel(entity);
@@ -177,7 +181,6 @@
                 $("#processType").find(".ico-radiobox[data-value!='" + model.ProcessType + "']").parent().remove()
                 $("#processName").val(model.ProcessName);
                 $("#planDays").val(model.PlanDays);
-
                 $("#processCategory").data("id", model.CategoryID).html(model.CategoryName);
 
             } else {
@@ -188,22 +191,13 @@
                         _this.siblings().find(".ico-radiobox").removeClass("hover");
                     }
                 });
-                //品类下拉
-                require.async("dropdown", function () {
-                    $("#processCategory").dropdown({
-                        prevText: "",
-                        defaultText: _self.categorys[0].Name,
-                        defaultValue: _self.categorys[0].CategoryID,
-                        data: _self.categorys,
-                        dataValue: "CategoryID",
-                        dataText: "Name",
-                        width: 78,
-                        isposition: true,
-                        onChange: function (data) {
-
-                        }
-                    });
+                $("#processCategory .role-item").click(function () {
+                    var _this = $(this);
+                    $("#processCategory .role-item").removeClass('hover');
+                    _this.addClass('hover');
                 });
+                $("#categoryType").css({ "line-height": "40px" });
+                $("#processType").addClass('mTop20');
             }
         }); 
     }

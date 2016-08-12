@@ -100,9 +100,11 @@
                         var id = $(this).data("id");
                         var item = cacheData[id];
                         if (!item) {
+                            _menuContent.append('<div class="data-loading"></div>');
                             $.post("/Products/GetChildCategorysByID", {
                                 categoryid: id
                             }, function (callBackData) {
+                                _menuContent.find('.data-loading').remove();
                                 cacheData[id] = callBackData.Items;
                                 bindObj(callBackData.Items, obj, headerData);
                                 !options.onHeaderChange || options.onHeaderChange(menuData);
@@ -131,11 +133,12 @@
                             headerLayer: _this.data("layer")
                         };
                         _menuContent.find('ul').empty();
-
                         if (!item) {
+                            _menuContent.append('<div class="data-loading"></div>');
                             $.post("/Products/GetChildCategorysByID", {
                                 categoryid: _this.data("id")
                             }, function (callBackData) {
+                                _menuContent.find('.data-loading').remove();
                                 cacheData[id] = callBackData.Items;
                                 bindObj(callBackData.Items, obj, headerData);
                             });

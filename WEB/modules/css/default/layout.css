@@ -503,6 +503,30 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
     font-size:40px;
 }
 
+/*品类属性选择层*/
+.role-items { 
+    overflow:auto; 
+}
+.role-items li{
+    width:100px; 
+    height:35px;
+    float:left;
+    line-height:35px;
+    border:solid 1px #ccc; 
+    margin:10px 5px; 
+    text-align:center; 
+    cursor:pointer; 
+}
+.role-items li:hover{ 
+    border-color:#2F73B8; 
+    color:#2F73B8;
+}
+.role-items li.hover{ 
+    border-color:#2F73B8; 
+    color:#fff; 
+    background-color:#2F73B8;
+}
+
 /*表格样式1-带详情*/
 .table-items-detail { width:100%; border-spacing:0px; box-sizing:border-box;}
 .table-items-detail td{ text-align:center; padding:0px 10px; }
