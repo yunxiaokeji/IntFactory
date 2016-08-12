@@ -40,56 +40,55 @@
                     $("#setPriceRange").data('isget', 0);
                     $("#setPriceRange").text('展开报价');
                 });
+                innerText.find('.add-range').click(function () {
+                    if (!ObjectJS.isLoading) {
+                        alert("数据提交中，请稍等");
+                        return;
+                    }
+                    if ($(".center-range li:last").data("rangeid") == "") {
+                        alert("请保存后再试.");
+                        return;
+                    }
+                    $(".center-range .nodata-txt").remove();
+                    doT.exec("template/orders/addpricerange.html", function (template) {
+                        var innerHtml = template({});
+                        innerHtml = $(innerHtml);
+                        innerHtml.find(".cancel-price-range").click(function () {
+                            $(this).parent().parent().remove();
+                            $(".center-range li:last").find(".max-number").val('无上限');
+                        });
+                        var minNumber = 0;
+                        if ($(".center-range li").length > 0) {
+                            minNumber = $(".center-range li:last").find(".min-number").val() * 1;
+                            $(".center-range li:last").find(".max-number").val(minNumber);
+                        }
+                        $(".center-range").append(innerHtml);
+                        $(".center-range li:last").find(".min-number").val(minNumber + 1);
+
+                        ObjectJS.bindUpdatePriceRange(".update,.save-price-range");
+                        ObjectJS.deletePriceRange();
+                    });
+                });
 
                 $(".pirce-range-box").html(innerText);
-                ObjectJS.addPriceRange();
                 ObjectJS.bindUpdatePriceRange(".update");
                 ObjectJS.deletePriceRange();
             });
             ObjectJS.isLoading = true;
         });
     }
-
-    ObjectJS.addPriceRange = function () {
-        $(".add-range").click(function () {
-            if (!ObjectJS.isLoading) {
-                alert("数据提交中，请稍等");
-                return;
-            }
-            if ($(".center-range li:last").data("rangeid") == "") {
-                alert("请保存后再试.");
-                return;
-            }
-            $(".center-range .nodata-txt").remove();
-            doT.exec("template/orders/addpricerange.html", function (template) {
-                var innerText = template({});
-                innerText = $(innerText);
-                innerText.find(".cancel-price-range").click(function () {
-                    $(this).parent().parent().remove();
-                    $(".center-range li:last").find(".max-number").val('无上限');
-                });
-                var minNumber = 0;
-                if ($(".center-range li").length > 0) {
-                    minNumber = $(".center-range li:last").find(".min-number").val() * 1;
-                    $(".center-range li:last").find(".max-number").val(minNumber);
-                }
-                $(".center-range").append(innerText);
-                $(".center-range li:last").find(".min-number").val(minNumber + 1);
-
-                ObjectJS.bindUpdatePriceRange(".update,.save-price-range");
-                ObjectJS.deletePriceRange(); 
-            });
-        });
-    }   
        
     ObjectJS.bindUpdatePriceRange = function (save) {        
         $(".min-number").change(function () {
             var _this = $(this);
+            if (!_this.val().isDouble()) {
+                _this.val(_this.data('num'));
+                return false;
+            }
             var prevObj = _this.parent().parent().prev();
-            var isContinue = true;
             if (prevObj.find('.min-number').val() && (_this.val() * 1 <= prevObj.find('.min-number').val() * 1)) {
                 alert("数量必须大于上一区间启始值");
-                _this.val((prevObj.find('.max-number').val() * 1) + 1);
+                _this.val(_this.data('num'));
             } else {
                 //prevObj.find('.max-number').val((_this.val() * 1 - 1));
             }
@@ -98,7 +97,6 @@
         $(".price").change(function () {
             var pri = $(this).val();
             if (!pri.isMoneyNumber()) {
-                alert("价格有误");
                 $(this).val($(this).data("num"));                
             }
         });
@@ -146,47 +144,6 @@
             });    
         });
     };
-
-    ObjectJS.validateData = function (obj,save) {        
-        var _parentlist = $(obj).parent().parent();
-        var beforenum = 0;
-        if (!_parentlist.data("id") == "0") {
-            beforenum = _parentlist.prev().find(".min-number").val();
-        }        
-        var num = _parentlist.find(save).val();
-        if (save==".min-number") {            
-            var maxnum = _parentlist.find(".max-number").val();
-            if (Number(maxnum)==0) {
-                maxnum = 9999999999;
-            }
-            if (Number(maxnum) <= Number(num)) {
-                alert("数量有误");
-                $(obj).val($(obj).data("num"));                
-            }
-        } else {
-            var minnum = _parentlist.find(".min-number").val();
-            if (Number(minnum) >= Number(num)) {
-                alert("数量有误");
-                $(obj).val($(obj).data("num"));                
-            }
-        }
-
-        var afternum = _parentlist.nextAll().find(".min-number").val();
-        if (!num.isDouble() || !num.isInt() || Number(num) <= 0) {
-            alert("数量有误");
-            $(obj).val($(obj).data("num"));
-        }
-
-        if (Number(beforenum) >= Number(num)) {
-            alert("不能小于其上一个数量");
-            $(obj).val($(obj).data("num"));           
-        }
-
-        if (Number(num) >= Number(afternum)) {
-            alert("不能大于其下一个数量");
-            $(obj).val($(obj).data("num"));            
-        }
-    }
 
     ObjectJS.deletePriceRange = function () {
         $(".delete").unbind().click(function () {            
