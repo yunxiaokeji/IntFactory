@@ -1398,18 +1398,18 @@
                                 details += _this.data("id") + "-" + quantity + ",";
                             }
                         });
-                        if (details.length > 0 || $("#showCutoutGoods .check").hasClass("ico-checked")) {
+                        if (details.length > 0) {
                             Global.post("/Orders/CreateOrderCutOutDoc", {
                                 orderid: _self.orderid,
                                 doctype: 1,
-                                isover: $("#showCutoutGoods .check").hasClass("ico-checked") ? 1 : 0,
+                                isover: 0,
                                 expressid: "",
                                 expresscode: "",
                                 details: details,
                                 remark: $("#expressRemark").val().trim()
                             }, function (data) {
                                 if (data.id) {
-                                    alert("裁片登记成功!", location.href);
+                                    alert("数据录入成功!", location.href);
                                 } else if (data.result == "10001") {
                                     alert("您没有操作权限!")
                                 } else {
@@ -1417,7 +1417,7 @@
                                 }
                             });
                         } else {
-                            alert("请输入裁剪数量");
+                            alert("请输入数量");
                             return false;
                         }
                     },
@@ -1426,18 +1426,12 @@
                     }
                 }
             });
-            $("#showCutoutGoods .check").click(function () {
+            $("#showCutoutGoods").find(".quantity").change(function () {
                 var _this = $(this);
-                if (!_this.hasClass("ico-checked")) {
-                    _this.addClass("ico-checked").removeClass("ico-check");
-                } else {
-                    _this.addClass("ico-check").removeClass("ico-checked");
-                }
-            });
-            $("#showCutoutGoods").find(".quantity").blur(function () {
-                var _this = $(this);
-                if (!_this.val()) {
-                    _this.val("0");
+                if (_this.val() > _this.data("max")) {
+                    confirm("输入数量大于下单数，是否继续？", function () { }, function () {
+                        _this.val(_this.data("max"));
+                    });
                 }
             });
             $("#showCutoutGoods").find(".quantity").keyup(function () {
@@ -1447,11 +1441,7 @@
                 }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
-                } else if (_this.val() > _this.data("max")) {
-                    confirm("输入数量大于下单数，是否继续？", function () { }, function () {
-                        _this.val(_this.data("max"));
-                    });
-                }
+                } 
             });
         });
     };
@@ -1468,26 +1458,33 @@
                     header: btnObject.data("name"),
                     content: innerText,
                     yesFn: function () {
-                        var details = ""
+                        var details = "", bl = true;
                         $("#showSewnGoods .list-item").each(function () {
                             var _this = $(this);
                             var quantity = _this.find(".quantity").val();
                             if (quantity > 0) {
+                                if (quantity > _this.find(".quantity").data("max")) {
+                                    bl = false;
+                                }
                                 details += _this.data("id") + "-" + quantity + ",";
                             }
                         });
+                        if (!bl) {
+                            alert("数量输入过大");
+                            return false;
+                        }
                         if (details.length > 0) {
                             Global.post("/Orders/CreateOrderSewnDoc", {
                                 orderid: _self.orderid,
                                 doctype: 11,
-                                isover: $("#showSewnGoods .check").hasClass("ico-checked") ? 1 : 0,
+                                isover: 0,
                                 expressid: "",
                                 expresscode: "",
                                 details: details,
                                 remark: $("#expressRemark").val().trim()
                             }, function (data) {
                                 if (data.id) {
-                                    alert("缝制登记成功!", location.href);
+                                    alert("数据录入成功!", location.href);
                                 } else if (data.result == "10001") {
                                     alert("您没有操作权限!")
                                 } else {
@@ -1495,7 +1492,7 @@
                                 }
                             });
                         } else {
-                            alert("请输入车缝数量");
+                            alert("请输入数量");
                             return false;
                         }
                     },
@@ -1504,18 +1501,12 @@
                     }
                 }
             });
-            $("#showSewnGoods .check").click(function () {
+            $("#showSewnGoods").find(".quantity").change(function () {
                 var _this = $(this);
-                if (!_this.hasClass("ico-checked")) {
-                    _this.addClass("ico-checked").removeClass("ico-check");
+                if (_this.val() > _this.data("max")) {
+                    _this.addClass("bRed");
                 } else {
-                    _this.addClass("ico-check").removeClass("ico-checked");
-                }
-            });
-            $("#showSewnGoods").find(".quantity").blur(function () {
-                var _this = $(this);
-                if (!_this.val()) {
-                    _this.val("0");
+                    _this.removeClass("bRed");
                 }
             });
             $("#showSewnGoods").find(".quantity").keyup(function () {
@@ -1525,10 +1516,7 @@
                 }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
-                } else if (_this.val() > _this.data("max")) {
-                    _this.val("0");//_this.data("max")
-                    alert("输入车缝数量过大");
-                }
+                } 
             });
         });
     };
@@ -1546,41 +1534,50 @@
                     content: innerText,
                     yesFn: function () {
 
-                        var details = ""
+                        var details = "", bl = true;
                         $("#showSendOrderGoods .list-item").each(function () {
                             var _this = $(this);
                             var quantity = _this.find(".quantity").val();
                             if (quantity > 0) {
+                                if (quantity > _this.find(".quantity").data("max")) {
+                                    bl = false;
+                                }
                                 details += _this.data("id") + "-" + quantity + ",";
                             }
                         });
+
+                        if (!bl) {
+                            alert("数量输入过大");
+                            return false;
+                        }
+
                         if (details.length > 0) {
                             if (!$("#expressid").data("id") || !$("#expressCode").val()) {
                                 alert("请完善快递信息!");
                                 return false;
                             }
-                        } else if (!$("#showSendOrderGoods .check").hasClass("ico-checked")) {
-                            alert("请输入发货数量");
-                            return false;
-                        }
-                        Global.post("/Orders/CreateOrderSendDoc", {
-                            orderid: _self.orderid,
-                            doctype: 2,
-                            isover: $("#showSendOrderGoods .check").hasClass("ico-checked") ? 1 : 0,
-                            expressid: $("#expressid").data("id"),
-                            expresscode: $("#expressCode").val(),
-                            details: details,
-                            remark: $("#expressRemark").val().trim()
-                        }, function (data) {
+                            Global.post("/Orders/CreateOrderSendDoc", {
+                                orderid: _self.orderid,
+                                doctype: 2,
+                                isover: 0,
+                                expressid: $("#expressid").data("id"),
+                                expresscode: $("#expressCode").val(),
+                                details: details,
+                                remark: $("#expressRemark").val().trim()
+                            }, function (data) {
                                 if (data.id) {
-                                    alert("发货成功!", location.href);
+                                    alert("数据录入成功!", location.href);
                                 } else if (data.result == "10001") {
                                     alert("您没有操作权限!")
                                 } else {
-                                    alert("发货失败！");
+                                    alert("数据录入失败！");
                                 }
                             });
-                        
+                        } else {
+                            alert("请输入数量");
+                            return false;
+                        }
+
                     },
                     callback: function () {
 
@@ -1603,18 +1600,13 @@
                     }
                 });
             });
-            $("#showSendOrderGoods .check").click(function () {
+
+            $("#showSendOrderGoods").find(".quantity").change(function () {
                 var _this = $(this);
-                if (!_this.hasClass("ico-checked")) {
-                    _this.addClass("ico-checked").removeClass("ico-check");
+                if (_this.val() > _this.data("max")) {
+                    _this.addClass("bRed");
                 } else {
-                    _this.addClass("ico-check").removeClass("ico-checked");
-                }
-            });
-            $("#showSendOrderGoods").find(".quantity").blur(function () {
-                var _this = $(this);
-                if (!_this.val()) {
-                    _this.val("0");
+                    _this.removeClass("bRed");
                 }
             });
             $("#showSendOrderGoods").find(".quantity").keyup(function () {
@@ -1624,10 +1616,7 @@
                 }
                 if (!_this.val().isInt() || _this.val() <= 0) {
                     _this.val("0");
-                } else if (_this.val() > _this.data("max")) {
-                    _this.val("0");//_this.data("max")
-                    alert("输入发货数量过大");
-                }
+                } 
             });
         });
     };

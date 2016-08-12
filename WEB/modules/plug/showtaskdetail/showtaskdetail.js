@@ -151,12 +151,6 @@ define(function (require, exports, module) {
                             $("#taskDetailContent").animate({ width: '0px' }, 100);
                         }
                     });
-
-                    //绑定讨论表情
-                    $('#btn-emotion').qqFace({
-                        assign: 'txtContent',
-                        path: '/modules/plug/qqface/arclist/'	//表情存放的路径
-                    });
                     //转移
                     if (defaultParas.self == 1) {
                         $("#changeTaskOwner").click(function () {

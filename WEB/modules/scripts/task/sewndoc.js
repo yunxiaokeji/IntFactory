@@ -133,17 +133,24 @@
                 Easydialog.open({
                     container: {
                         id: "showSewnGoods",
-                        header: "大货单" + ObjectJS.taskDesc + "登记",
+                        header: ObjectJS.taskDesc + "录入",
                         content: innerText,
                         yesFn: function () {
-                            var details = ""
+                            var details = "", bl = true;
                             $("#showSewnGoods .list-item").each(function () {
                                 var _this = $(this);
                                 var quantity = _this.find(".quantity").val();
                                 if (quantity > 0) {
+                                    if (quantity > _this.find(".quantity").data("max")) {
+                                        bl = false;
+                                    }
                                     details += _this.data("id") + "-" + quantity + ",";
                                 }
                             });
+                            if (!bl) {
+                                alert("数量输入过大");
+                                return false;
+                            }
 
                             if (details.length > 0) {
                                 Global.post("/" + Controller + "/CreateOrderSewnDoc", {
@@ -192,10 +199,12 @@
                         _this.addClass("ico-check").removeClass("ico-checked");
                     }
                 });
-                $("#showSewnGoods").find(".quantity").blur(function () {
+                $("#showSewnGoods").find(".quantity").change(function () {
                     var _this = $(this);
-                    if (!_this.val()) {
-                        _this.val("0");
+                    if (_this.val() > _this.data("max")) {
+                        _this.addClass("bRed");
+                    } else {
+                        _this.removeClass("bRed");
                     }
                 });
                 $("#showSewnGoods").find(".quantity").keyup(function () {
@@ -205,10 +214,6 @@
                     }
                     if (!_this.val().isInt() || _this.val() <= 0) {
                         _this.val("0");
-                    }
-                    else if (_this.val() > _this.data("max")) {
-                        _this.val(_this.data("max"));
-                        alert("输入车缝数量过大");
                     }
                 });
 
