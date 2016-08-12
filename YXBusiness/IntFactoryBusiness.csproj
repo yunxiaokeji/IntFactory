@@ -53,6 +53,7 @@
     <Compile Include="AliOrder\AliOrderBusiness.cs" />
     <Compile Include="Common\LogBusiness.cs" />
     <Compile Include="Common\WeiXinMPPush.cs" />
+    <Compile Include="Common\ReplyBusiness.cs" />
     <Compile Include="Custom\CustomBusiness.cs" />
     <Compile Include="Finance\FinanceBusiness.cs" />
     <Compile Include="Manage\ClientOrderAccountBusiness.cs" />

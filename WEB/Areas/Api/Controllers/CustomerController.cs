@@ -39,35 +39,6 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        //通过手机号获取客户信息
-        public JsonResult GetCustomerByMobilePhone(string mobilePhone, string clientID,string name="")
-        {
-            var item = CustomBusiness.BaseBusiness.GetCustomerByMobilePhone(mobilePhone, clientID,name);
-            if (item != null)
-            {
-                Dictionary<string, object> customer = new Dictionary<string, object>();
-                customer.Add("customerID", item.CustomerID);
-                customer.Add("name", item.Name);
-                customer.Add("mobilePhone", item.MobilePhone);
-                customer.Add("clientID", item.ClientID);
-                customer.Add("yxAgentID", item.YXAgentID);
-                customer.Add("yxClientID", item.YXClientID);
-                customer.Add("yxClientCode", item.YXClientCode);
-
-                JsonDictionary.Add("customer", customer);
-            }
-            else
-            {
-                JsonDictionary.Add("error_code", 10002);
-            }
-
-            return new JsonResult
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-        
         //关联客户与二当家联系
         public JsonResult SetCustomerYXinfo(string customerID,string name, string mobilePhone, string clientID, string yxAgentID, string yxClientID, string yxClientCode)
         {

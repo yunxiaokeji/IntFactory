@@ -310,6 +310,10 @@
     <Content Include="modules\plug\logs\logs.html" />
     <Content Include="modules\plug\logs\logs.js" />
     <Content Include="modules\plug\logs\style.css" />
+    <Content Include="modules\plug\replys\replys.html" />
+    <Content Include="modules\plug\replys\replys.js" />
+    <Content Include="modules\plug\replys\replysitem.html" />
+    <Content Include="modules\plug\replys\style.css" />
     <Content Include="modules\plug\umeditor\dialogs\anchor\anchor.html" />
     <Content Include="modules\plug\umeditor\dialogs\attachment\attachment.css" />
     <Content Include="modules\plug\umeditor\dialogs\attachment\attachment.html" />
@@ -729,7 +733,6 @@
     <Content Include="modules\scripts\task\cutoutdoc.js" />
     <Content Include="modules\scripts\task\detail.js" />
     <Content Include="modules\scripts\task\processcostdoc.js" />
-    <Content Include="modules\scripts\task\reply.js" />
     <Content Include="modules\scripts\task\list.js" />
     <Content Include="modules\scripts\task\sewndoc.js" />
     <Content Include="modules\scripts\task\sendorders.js" />
@@ -1136,7 +1139,6 @@
     <Content Include="modules\scripts\system\teams.js" />
     <Content Include="modules\scripts\system\client.js" />
     <Content Include="modules\template\common\choosemodules.html" />
-    <Content Include="modules\template\customer\replys.html" />
     <Content Include="modules\template\customer\customer-detail.html" />
     <Content Include="modules\template\common\logs.html" />
     <Content Include="modules\template\customer\contacts.html" />
@@ -1293,7 +1295,6 @@
     <Content Include="Views\Error\NotAccess.cshtml" />
     <Content Include="Views\Task\DetailBase.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Task\TaskReply.cshtml" />
     <Content Include="Views\Customer\Customers.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

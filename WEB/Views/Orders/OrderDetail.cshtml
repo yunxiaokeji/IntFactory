@@ -92,7 +92,7 @@
     </ul>
 </div>
 
-<div class="content-body" style="padding:10px;">
+<div class="content-body" style="padding:10px;overflow:initial;">
     <div class="order-info">
         <div class="order-imgs-div left">
             <div class="order-imgs">
@@ -133,15 +133,19 @@
                     <div id="updateProfitPrice" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
                  }
             </li>
-            <li style="overflow:initial;position:relative;">
+            <li style="overflow:initial;">
+                <div class="left">
                     <span class="column-title">最终报价：</span>
                     <label>
                         @(model.FinalPrice.ToString("f2"))
                     </label>
+                </div>
                 @if (model.IsSelf && model.OrderStatus == 2)
                 {
-                    <label class="btn-link mLeft5 hand" id="setPriceRange">展开报价</label>                    
-                    <div class="pirce-range-box hide" style="width:500px;border:1px solid #eee;border-radius:5px;position:absolute;right:-500px;top:0px;padding:5px;"></div>
+                    <div class="left" style="position:relative;">
+                        <label class="btn-link mLeft5 hand" id="setPriceRange">展开报价</label>                    
+                        <div class="price-range-box hide"></div>
+                    </div>
                 }
             </li>
             <li>

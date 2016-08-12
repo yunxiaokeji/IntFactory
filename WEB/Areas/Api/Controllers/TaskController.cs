@@ -180,22 +180,20 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
-        public JsonResult GetTaskReplys(string orderID, string stageID, string userID, string clientID, int pageSize = 10, int pageIndex = 1)
+        public JsonResult GetTaskReplys(string taskID, string userID, string clientID, int pageSize = 10, int pageIndex = 1)
         {
-            if (!string.IsNullOrEmpty(orderID) && !string.IsNullOrEmpty(stageID))
+            if (!string.IsNullOrEmpty(taskID))
             {
                 int pageCount = 0;
                 int totalCount = 0;
-                var list = TaskBusiness.GetTaskReplys(orderID, stageID, pageSize, pageIndex, ref totalCount, ref pageCount);
+                var list = ReplyBusiness.GetTaskReplys(taskID,  pageSize, pageIndex, ref totalCount, ref pageCount);
                 List<Dictionary<string, object>> replys = new List<Dictionary<string, object>>();
 
                 foreach (var item in list)
                 {
                     Dictionary<string, object> reply = new Dictionary<string, object>();
                     reply.Add("replyID", item.ReplyID);
-                    reply.Add("orderID", item.GUID);
-                    reply.Add("stageID", item.StageID);
-                    reply.Add("mark", item.Mark);
+                    reply.Add("taskID", item.GUID);
                     reply.Add("content", item.Content);
                     reply.Add("createUser", GetUserBaseObj(item.CreateUser));
                     reply.Add("fromReplyUser", GetUserBaseObj(item.FromReplyUser));
@@ -329,19 +327,16 @@ namespace YXERP.Areas.Api.Controllers
         {
             var model = JsonConvert.DeserializeObject<IntFactoryEntity.ReplyJson>(reply);
 
-            string replyID = OrdersBusiness.CreateReply(model.orderID, model.stageID, model.mark,
-                model.content, userID, clientID, 
+            string replyID = ReplyBusiness.CreateTaskReply(model.taskID, model.content, userID, clientID, 
                 model.fromReplyID, model.fromReplyUserID, model.fromReplyAgentID);
 
-            TaskBusiness.AddTaskReplyAttachments(taskID, replyID, model.attachments, userID, clientID);
+            ReplyBusiness.AddTaskReplyAttachments(taskID, replyID, model.attachments, userID, clientID);
             if (!string.IsNullOrEmpty(replyID))
             {
                 List<Dictionary<string, object>> replys = new List<Dictionary<string, object>>();
                 Dictionary<string, object> replyObj = new Dictionary<string, object>();
                 replyObj.Add("replyID", replyID);
-                replyObj.Add("orderID", model.orderID);
-                replyObj.Add("stageID", model.stageID);
-                replyObj.Add("mark", model.mark);
+                replyObj.Add("taskID", model.taskID);
                 replyObj.Add("content", model.content);
                 replyObj.Add("createUser", GetUserBaseObj(OrganizationBusiness.GetUserCacheByUserID(userID, clientID)));
                 if (!string.IsNullOrEmpty(model.fromReplyUserID) && !string.IsNullOrEmpty(model.fromReplyAgentID))

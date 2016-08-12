@@ -13,17 +13,19 @@
      <li data-rangeid="{%=item.RangeID%}"  style="border-bottom:1px solid #ededed;line-height:25px;" data-id="{%=i%}">
          <div class="left">
              <span class="left">当订单数量在</span>
-             <input class="min-number left" data-num="{%=item.MinQuantity%}" type="text" maxlength="10" value="{%=item.MinQuantity%}" />
+             <input class="min-number left center" disabled="disabled" data-num="{%=item.MinQuantity%}" type="text" maxlength="10" value="{%=item.MinQuantity%}" />
              <span class="left">到</span>
-             <input class="max-number left" type="text" data-num="{%=item.MinQuantity%}" disabled="disabled" maxlength="10" value="{%=nextitem.MinQuantity%}" />
+             <input class="max-number left center" type="text" data-num="{%=item.MinQuantity%}" disabled="disabled" maxlength="10" value="{%=nextitem.MinQuantity%}" />
              <span class="left">之间,</span>
-             <input class="price left" data-num="{%=item.Price%}" type="text" maxlength="10" value="{%=item.Price%}" />
+             <input class="price left center" disabled="disabled" data-num="{%=item.Price%}" type="text" maxlength="10" value="{%=item.Price%}" />
              <span>元/件</span>
          </div>
         
-        <div class="right center">            
-            <span class="update">保存</span>            
-            <span class="mLeft10 delete">删除</span>            
+        <div class="left center mLeft10">     
+            <span class="edit-range">编辑</span> 
+            <span class="mLeft10 delete">删除</span>  
+            <span class="update hide">保存</span>     
+            <span class="cancel-edit mLeft10 hide">取消</span>                             
         </div>         
     </li>    
     

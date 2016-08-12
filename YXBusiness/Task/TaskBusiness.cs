@@ -14,33 +14,6 @@ namespace IntFactoryBusiness
 {
     public class TaskBusiness
     {
-        #region 增
-        public static bool AddTaskReplyAttachments(string taskid, string replyid, List<Attachment> attachments,string userid,string clientid)
-        {
-            SqlConnection conn = new SqlConnection(TaskDAL.ConnectionString);
-            conn.Open();
-            SqlTransaction tran = conn.BeginTransaction();
-
-
-            foreach (var attachment in attachments)
-            {
-                if (!TaskDAL.BaseProvider.AddTaskReplyAttachment(taskid,replyid,attachment.Type,
-                    attachment.ServerUrl,attachment.FilePath,attachment.FileName,attachment.OriginalName,attachment.ThumbnailName,attachment.Size,
-                    userid,clientid, tran))
-                {
-                    tran.Rollback();
-                    conn.Dispose();
-
-                    return false;
-                }
-            }
-
-            tran.Commit();
-            conn.Dispose();
-
-            return true;
-        }
-        #endregion
 
         #region 查
 
@@ -248,40 +221,6 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public static List<ReplyEntity> GetTaskReplys(string guid, string stageid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
-        {
-            List<ReplyEntity> list = new List<ReplyEntity>();
-
-            DataSet ds = TaskDAL.BaseProvider.GetTaskReplys(guid, stageid, pageSize, pageIndex, ref totalCount, ref pageCount);
-            DataTable replys = ds.Tables["Replys"];
-            DataTable attachments = ds.Tables["Attachments"];
-            foreach (DataRow dr in replys.Rows)
-            {
-                ReplyEntity model = new ReplyEntity();
-                model.FillData(dr);
-                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, model.ClientID);
-                if (!string.IsNullOrEmpty(model.FromReplyID))
-                {
-                    model.FromReplyUser = OrganizationBusiness.GetUserCacheByUserID(model.FromReplyUserID, model.FromReplyAgentID);
-                }
-
-                model.Attachments = new List<Attachment>();
-                if (attachments.Rows.Count > 0)
-                {
-                    foreach (DataRow dr2 in attachments.Select(" Guid='" + model.ReplyID + "'"))
-                    {
-                        Attachment attachment = new Attachment();
-                        attachment.FillData(dr2);
-
-                        model.Attachments.Add(attachment);
-                    }
-                }
-                list.Add(model);
-            }
-
-            return list;
-
-        }
 
         public static TaskEntity GetPushTaskByPreTaskID(string taskid) { 
             TaskEntity model = null;
