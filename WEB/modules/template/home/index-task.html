@@ -29,6 +29,11 @@
             <li class="right long" style="width:255px;">
                 负责人：{%=(item.Owner ? item.Owner.Name:"--")%}
             </li>
+            <li style="font-weight:normal;"
+                class="iconfont ico-reply right font20 show-task-reply stage-items {%=(item.FinishStatus == 0 ? 'normal' : item.FinishStatus == 1 ? 'ing' : 'over')%}"
+               data-stageid="{%=item.StageID%}" data-lock="no"
+                    data-orderid="{%=item.OrderID%}" data-taskid="{%=item.TaskID%}" data-mark="{%=item.Mark%}">
+            </li>
         </ul>
         <ul class="order-detail">
             <li class="order-image">
@@ -53,11 +58,6 @@
                     <span class="column-title">订单类型：</span>
                     {%=item.OrderType==1?"打样":"大货"%}
                 </div>
-                <span style="position:absolute;right:-26px;top:-32px"
-                class="iconfont ico-reply right font20 show-task-reply stage-items {%=(item.FinishStatus == 0 ? 'normal' : item.FinishStatus == 1 ? 'ing' : 'over')%}"
-               data-stageid="{%=item.StageID%}" data-lock="no"
-                    data-orderid="{%=item.OrderID%}" data-taskid="{%=item.TaskID%}" data-mark="{%=item.Mark%}">
-                </span>
             </li>  
             <li class="order-time right">
                 {% if(item.FinishStatus==0){ %}
