@@ -7,8 +7,7 @@
 
     Objects.init = function (plate, orderid, OriginalID,ordertype) {
         Objects.bindEvent(plate);        
-        Objects.getAmount();
-        Objects.imgOrderTable();
+        Objects.getAmount();        
         Objects.processPlate(orderid, OriginalID, ordertype);
     };
 
@@ -174,18 +173,7 @@
                 }
             }
         });
-    };
-
-    Objects.imgOrderTable = function () {
-        var height = $(".navgoods").height();
-        if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {
-            $(".img-order").height(parseInt(height) + 'px');
-        } else {
-            $(".img-order").height(parseInt(height) + 1 + 'px');
-        }
-
-        $(".img-order img").height(height / 2);
-    };
+    };    
 
     Objects.processPlate = function (orderid, OriginalID, ordertype) {        
         Global.post("/Task/GetPlateMakings", {
@@ -195,7 +183,7 @@
                 doT.exec("template/orders/processplate.html", function (template) {
                     var html = template(data.items);
                     html = $(html);
-                    $(".processplate").prepend(html);
+                    $(".processplate").append(html);
 
                     html.find(".icon-delete").click(function () {
                         if (!$(this).hasClass("hover")) {
