@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Web;
 using IntFactoryBusiness.Manage;
+using IntFactoryEntity.Task;
 
 namespace IntFactoryBusiness
 {
@@ -769,9 +770,18 @@ namespace IntFactoryBusiness
             {
                 string msg = "需求单转为订单，交货日期为：" + time;
 
-
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", clientid);
                 LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Orders, EnumLogType.Update, "", operateid, clientid);
+
+                //订单分配任务消息通知
+                List<TaskEntity> tasks = TaskBusiness.GetPushTasksByOrderID(orderid);
+                if (tasks.Count>0)
+                {
+                    foreach (var task in tasks)
+                    {
+                        WeiXinMPPush.BasePush.SendNewTaskPush(task.OpenID, task.Title,task.EndTime);
+                    }
+                }
             }
             return bl;
         }
