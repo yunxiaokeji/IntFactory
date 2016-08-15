@@ -748,6 +748,8 @@ namespace IntFactoryBusiness
                 var model = OrganizationBusiness.GetUserByUserID(userid, clientid);
                 string msg = "负责人更换为：" + model.Name;
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, userid, clientid);
+
+
             }
             return bl;
         }
