@@ -75,28 +75,10 @@ define(function (require, exports, module) {
                 _self.bindEvent();
             });
         });
-        
     };
     //绑定事件
     PlugJS.prototype.bindEvent = function () {
         var _self = this;
-        //搜索
-        require.async("search", function () {
-            $("#chooseuserSearch").searchKeys(function (keyWords) {
-                _self.keywords = keyWords;
-                if (_self.keywords) {
-                    $(".userlist-items li").hide();
-                    $(".userlist-items li[data-search*=" + _self.keywords.toLowerCase() + "]").show();
-                    
-                } else {
-                    $(".userlist-items li").show();
-                }
-                var key = $("#letterfilter .hover").html();
-                if (key != "全部") {
-                    $(".userlist-items li[data-first!=" + key + "]").hide();
-                }
-            });
-        });
         //字母筛选
         $("#letterfilter a").click(function () {
             var _this = $(this);
@@ -116,9 +98,9 @@ define(function (require, exports, module) {
         });
         //选中成员
         $(".useradd").click(function () {
-            
+
             if (_self.setting.single && $("#userlistChoose li").length > 0) {
-                return;                
+                return;
             }
 
             var id = $(this).data("id");
@@ -139,6 +121,23 @@ define(function (require, exports, module) {
         //清空选中
         $("#clearChoose").click(function () {
             $("#userlistChoose").empty();
+        });
+        //搜索
+        require.async("search", function () {
+            $("#chooseuserSearch").searchKeys(function (keyWords) {
+                _self.keywords = keyWords;
+                if (_self.keywords) {
+                    $(".userlist-items li").hide();
+                    $(".userlist-items li[data-search*=" + _self.keywords.toLowerCase() + "]").show();
+                    
+                } else {
+                    $(".userlist-items li").show();
+                }
+                var key = $("#letterfilter .hover").html();
+                if (key != "全部") {
+                    $(".userlist-items li[data-first!=" + key + "]").hide();
+                }
+            });
         });
     }
 

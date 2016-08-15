@@ -102,7 +102,7 @@
             CutoutDoc.initCutoutDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, taskDesc);
         }
         else if (ObjectJS.mark === 14 && ObjectJS.orderType == 2) {
-            var taskDesc="车缝";
+           var taskDesc="车缝";
             for (var i = 0; i < taskModeleDescs.length; i++) {
                 var item = taskModeleDescs[i];
                 if (item.Mark == 14) {
@@ -299,7 +299,6 @@
                 if (!ObjectJS.isLoading) {
                     return;
                 }
-
                 ObjectJS.finishTask();
             });
         }
@@ -479,22 +478,22 @@
             }
         }
         else if (mark == 15 || mark == 25) {
-            if ($(".nav-partdiv .list-item").length == 0) {
+            if ($("#navSendDoc .item").length == 0) {
                 confirmMsg = '还没发货,确定标记完成';
             }
         }
         else if (mark == 16) {
-            if ($(".nav-partdiv .list-item").length == 0) {
+            if ($("#navCosts .list-item").length == 0) {
                 confirmMsg = '还没录入加工成本,确定标记完成';
             }
         }
-        else if (mark == 23) {
-            if ($(".nav-partdiv .list-item").length == 0) {
+        else if (mark == 13) {
+            if ($("#navCutoutDoc .item").length == 0) {
                 confirmMsg = '还没裁剪,确定标记完成';
             }
         }
-        else if (mark == 24) {
-            if ($(".nav-partdiv .list-item").length == 0) {
+        else if (mark == 14) {
+            if ($("#navSewnDoc .item").length == 0) {
                 confirmMsg = '还没车缝,确定标记完成';
             }
         }

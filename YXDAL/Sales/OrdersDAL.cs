@@ -303,7 +303,7 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool CreateOrderGoodsDoc(string docid, string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark, string operateid, string clientid)
+        public bool CreateOrderGoodsDoc(string docid, string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark,string ownerid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@DocID",docid),
@@ -316,6 +316,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@GoodDetails",details),
                                      new SqlParameter("@Remark",remark),
                                      new SqlParameter("@DocCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
+                                     new SqlParameter("@OwnerID",ownerid),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };

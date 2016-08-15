@@ -3,11 +3,11 @@
     var DoT = null;
     var Easydialog = null;
     var Common = require("scripts/task/ordergoods");
-
+    var ChooseUser = require("chooseuser");
     var ObjectJS = {};
     var Controller = "Task";
     //车缝
-    ObjectJS.initSewnDoc = function (orderid, taskid, global, doT, easydialog,taskDesc) {
+    ObjectJS.initSewnDoc = function (orderid, taskid, global, doT, easydialog, taskDesc) {
         if (global == null) {
             Global = require("global");
         }
@@ -161,7 +161,8 @@
                                     expressid: "",
                                     expresscode: "",
                                     details: details,
-                                    remark: $("#expressRemark").val().trim()
+                                    remark: $("#expressRemark").val().trim(),
+                                    ownerid: $("#showSewnGoods .choose-owner").data('id')
                                 }, function (data) {
                                     if (data.id) {
                                         alert("" + ObjectJS.taskDesc + "登记成功!");
@@ -190,6 +191,28 @@
                     }
                 });
 
+                //默认负责人选择当前登录用户
+                $("#showSewnGoods .owner-name").text($("#currentUser .username").text());
+
+                $("#showSewnGoods .choose-owner").click(function () {
+                    var _this = $(this);
+                    ChooseUser.create({
+                        title: "更换负责人",
+                        type: 1,
+                        single: true,
+                        callback: function (items) {
+                            if (items.length > 0) {
+                                if (_this.data("id") != items[0].id) {
+                                    _this.data("id", items[0].id);
+                                    _this.prev().text(items[0].name);
+                                }
+                                else {
+                                    alert("请选择不同人员进行更换!");
+                                }
+                            }
+                        }
+                    });
+                });
                 $("#showSewnGoods .check").click(function () {
                     var _this = $(this);
                     if (!_this.hasClass("ico-checked")) {
@@ -216,7 +239,6 @@
                         _this.val("0");
                     }
                 });
-
             });
         });
     };
