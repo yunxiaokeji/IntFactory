@@ -7,7 +7,7 @@
     var ObjectJS = {};
     var Controller = "Task";
     //车缝
-    ObjectJS.initSewnDoc = function (orderid, taskid, global, doT, easydialog,taskDesc) {
+    ObjectJS.initSewnDoc = function (orderid, taskid, global, doT, easydialog,taskDesc,taskMembers) {
         if (global == null) {
             Global = require("global");
         }
