@@ -262,13 +262,21 @@
                         _this.val(_this.data("value"));
                     } else if (_this.val() > _self.model.FinalPrice) {
                         confirm("大货价格大于样衣报价，确认继续吗？", function () {
-                            $("#iptDiscount").val((_this.val() / _self.model.OriginalPrice).toFixed(2));
+                            if (_self.model.OriginalPrice == 0) {
+                                $("#iptDiscount").val("1.00");
+                            } else {
+                                $("#iptDiscount").val((_this.val() / _self.model.OriginalPrice).toFixed(2));
+                            }
                             _this.data("value", _this.val());
                         }, function () {
                             _this.val(_this.data("value"));
                         });
                     } else {
-                        $("#iptDiscount").val((_this.val() / _self.model.OriginalPrice).toFixed(2));
+                        if (_self.model.OriginalPrice == 0) {
+                            $("#iptDiscount").val("1.00");
+                        } else {
+                            $("#iptDiscount").val((_this.val() / _self.model.OriginalPrice).toFixed(2));
+                        }
                         _this.data("value", _this.val());
                     }
 
