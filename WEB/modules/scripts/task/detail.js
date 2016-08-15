@@ -102,7 +102,7 @@
             CutoutDoc.initCutoutDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, taskDesc);
         }
         else if (ObjectJS.mark === 14 && ObjectJS.orderType == 2) {
-            var taskDesc="车缝";
+           var taskDesc="车缝";
             for (var i = 0; i < taskModeleDescs.length; i++) {
                 var item = taskModeleDescs[i];
                 if (item.Mark == 14) {
@@ -299,7 +299,6 @@
                 if (!ObjectJS.isLoading) {
                     return;
                 }
-
                 ObjectJS.finishTask();
             });
         }
