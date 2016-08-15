@@ -80,7 +80,7 @@
                                         alert("" + ObjectJS.taskDesc + "退回成功");
                                         $(".swen-quantity-" + id).each(function () {
                                             var quantity = ($(this).prev().text() * 1) + ($(this).find('input').val() * 1);
-                                            $(this).prev().text(quantity.toFixed(2));
+                                            $(this).prev().text(quantity);
                                         });
                                         $(".btn-save-" + id).remove();
                                         $(".btn-cancel-" + id).remove();
