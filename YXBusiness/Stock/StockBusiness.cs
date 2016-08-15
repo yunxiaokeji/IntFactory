@@ -92,8 +92,11 @@ namespace IntFactoryBusiness
                 {
                     model.Express = ExpressCompanyBusiness.GetExpressCompanyDetail(model.ExpressID);
                 }
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientid);
-                model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, clientid);
+                if (!string.IsNullOrEmpty(model.OwnerID))
+                {
+                    model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, clientid);
+                }
                 model.Details = new List<GoodsDocDetail>();
                 if (ds.Tables.Contains("Details"))
                 {
@@ -154,8 +157,7 @@ namespace IntFactoryBusiness
             if (ds.Tables.Contains("Doc") && ds.Tables["Doc"].Rows.Count > 0)
             {
                 model.FillData(ds.Tables["Doc"].Rows[0]);
-                model.CreateUser = OrganizationBusiness.GetUserByUserID(model.CreateUserID, clientid);
-                model.StatusStr = GetDocStatusStr(model.DocType, model.Status);
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, clientid);
 
                 model.DocTypeStr = CommonBusiness.GetEnumDesc<EnumGoodsDocType>((EnumGoodsDocType)model.DocType);
 
@@ -163,8 +165,6 @@ namespace IntFactoryBusiness
                 {
                     model.Express = ExpressCompanyBusiness.GetExpressCompanyDetail(model.ExpressID);
                 }
-
-                //model.WareHouse = SystemBusiness.BaseBusiness.GetWareByID(model.WareID, model.ClientID);
                 model.Details = new List<GoodsDocDetail>();
                 foreach (DataRow item in ds.Tables["Details"].Rows)
                 {

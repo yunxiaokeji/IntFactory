@@ -127,6 +127,9 @@ namespace IntFactoryEntity
 
         [Property("Lower")] 
         public string CreateUserID{ set; get; }
+
+        [Property("Lower")]
+        public string OwnerID { set; get; }
         /// <summary>
         /// 
         /// </summary>
@@ -152,7 +155,10 @@ namespace IntFactoryEntity
 
         public string DocCode { get; set; }
 
-        public Users CreateUser { get; set; }
+        public CacheUserEntity CreateUser { get; set; }
+
+        public CacheUserEntity Owner { get; set; }
+
         [Property("Lower")] 
         public string WareID { get; set; }
 
