@@ -1022,7 +1022,7 @@
     ObjectJS.createDHOrder = function (isExists) {
         var _self = this;
         doT.exec("template/orders/surequantity.html", function (template) {
-            var innerText = template(_self.categoryAttrs);
+            var innerText = template(_self.categoryAttrs);            
             Easydialog.open({
                 container: {
                     id: "show-surequantity",

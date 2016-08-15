@@ -1,20 +1,14 @@
 ﻿{%
     var typeName="";
 	for(var i=0, j=$data.length; i < j; i++){
-	var item = $data[i];
+	var item = $data[i];    
 %}
 
-    {% if(typeName!=item.TypeName){ %}
-    <tr class='typetitle' data-name="{%=item.TypeName%}">
-        <td colspan="11" class='pLeft10 font18 tLeft no-border-top head' style="line-height:46px;"><i class='iconfont icon-delete processplates' data-name="{%=item.TypeName%}">&#xe613;</i>{%=item.TypeName%}</td>
-    </tr>
-    <tr class='proplate' data-name="{%=item.TypeName%}">       
-        <td colspan="2" style="min-width:100px;">名称</td>
-        <td colspan="4" class="">描述</td>
-    </tr>
-    {% typeName=item.TypeName}%}
-    <tr class='proplate' data-name="{%=item.TypeName%}">
-        
+    
+    <tr class='proplate' data-name="{%=item.TypeName%}"> 
+    {% if(typeName!=item.TypeName){%} 
+        <td class='pLeft10 font18 tLeft no-border-top head' style="line-height:46px;"><i class='iconfont icon-delete processplates' data-name="{%=item.TypeName%}">&#xe613;</i><span class="plate-name font18">{%=item.TypeName%}</span></td>  
+    {% typeName=item.TypeName;} %}          
         <td colspan="2" class="pLeft5" style="max-width:150px;word-wrap:break-word;line-height:150%;">{%=item.Title%}</td>
         <td colspan="4" class="tLeft pLeft5" style="max-width:781px; word-wrap:break-word;line-height:150%;width:700px;">{%=item.Remark%}</td>       
     </tr>
