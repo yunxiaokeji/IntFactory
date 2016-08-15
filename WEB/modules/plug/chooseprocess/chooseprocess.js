@@ -51,9 +51,7 @@ define(function (require, exports, module) {
                                         name: _this.data("name"),
                                         categoryid: _this.data("categoryid")
                                     };
-                                    if (!_self.setting.categoryid || _self.setting.categoryid == _this.data("categoryid")) {
-                                        list.push(model);
-                                    }
+                                    list.push(model);
                                 }
                             })
                             _self.setting.callback && _self.setting.callback(list);

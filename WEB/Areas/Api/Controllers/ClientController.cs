@@ -47,7 +47,17 @@ namespace YXERP.Areas.Api.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-
+        //根据categoryID获取分类
+        public ActionResult GetCategoryID(string categoryID)
+        {
+            Category obj = ProductsBusiness.BaseBusiness.GetCategoryByID(categoryID);
+            JsonDictionary.Add("result", obj);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         //获取加工品类
         public ActionResult GetProcessCategorys(string clientID)
         {
