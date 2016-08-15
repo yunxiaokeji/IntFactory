@@ -5,10 +5,12 @@
     
     var Objects = {};
 
-    Objects.init = function (plate, orderid, OriginalID,ordertype) {
+    Objects.init = function (plate, orderid, OriginalID,ordertype,order) {
         Objects.bindEvent(plate);        
         Objects.getAmount();        
-        Objects.processPlate(orderid, OriginalID, ordertype);
+        Objects.processPlate(orderid, OriginalID, ordertype);        
+        Objects.order = JSON.parse(order.replace(/&quot;/g, '"'));
+        //Objects.getOrderRemork(Objects.order);
     };
 
     Objects.bindEvent = function (plate) {
@@ -19,6 +21,15 @@
         };
 
         Objects.removeTaskPlateOperate();             
+        
+        var Sys = {};
+        var ua = navigator.userAgent.toLowerCase();
+
+        if (window.MessageEvent && !document.getBoxObjectFor)
+            Sys.chrome = ua.match(/chrome\/([\d.]+)/)[1];
+        //以下进行测试        
+        
+        if (Sys.chrome) $(".time-order tr").find("td:last").removeClass("no-border-right");
 
         //工艺说明录入上传附件
         Upload.uploader({
@@ -139,7 +150,6 @@
             location.href = location.href;
         })
     };
-
     
     //删除行操作按钮(制版工艺)
     Objects.removeTaskPlateOperate = function () {
@@ -173,7 +183,34 @@
                 }
             }
         });
-    };    
+    };
+
+    Objects.getOrderRemork = function (order) {
+        
+        var tableModel = {}, xattr = [], yattr=[];
+        for (var i = 0; i < order.OrderGoods.length; i++) {
+            xattr.push(order.OrderGoods[i].XRemark);
+            yattr.push(order.OrderGoods[i].YRemark);
+        }
+        tableModel.xAttr = xattr;
+        tableModel.yAttr = yattr;
+        tableModel.items = order.OrderGoods;
+        console.log(tableModel);
+            doT.exec("template/orders/orders_child_list.html", function (template) {
+                var html = template(tableModel);
+                html = $(html);
+                $(".head-table").after(html);
+
+                html.find(".icon-delete").click(function () {
+                    if (!$(this).hasClass("hover")) {
+                        $(this).addClass("hover");
+                    } else {
+                        $(this).removeClass("hover");
+                    }
+                });
+            });
+        
+    }
 
     Objects.processPlate = function (orderid, OriginalID, ordertype) {        
         Global.post("/Task/GetPlateMakings", {
@@ -184,7 +221,6 @@
                     var html = template(data.items);
                     html = $(html);
                     $(".processplate").append(html);
-
                     html.find(".icon-delete").click(function () {
                         if (!$(this).hasClass("hover")) {
                             $(this).addClass("hover");
@@ -192,8 +228,24 @@
                             $(this).removeClass("hover");
                         }
                     });
+
+                    /*获取工艺下有几个步骤*/
+                    var innerHtml=[], name = [], number = [];
+                    html.find(".plate-name").each(function () {
+                        _this = $(this);
+                        innerHtml.push(_this);
+                        name.push(_this.html());                      
+                    });
+                    for (var i = 0; i < name.length; i++) {                        
+                        number.push($(".processplate tr[data-name=" + name[i] + "]").length);                        
+                    }
+                    for (var i = 0; i < innerHtml.length; i++) {
+                        innerHtml[i].parent().attr("rowspan",number[i]);
+                    }
                 });
-            }            
+            } else {
+                $(".processplate").append('<tr><td colspan="11"><div class="nodata-txt"></div></td></tr>');
+            }
         });    
     };
 

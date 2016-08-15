@@ -19,6 +19,7 @@
     {%}%}
     <td>小计</td>
     <td>登记时间</td>
+    <td>操作人</td>
     <td>登记人</td>
     <td class="">
         操作
@@ -54,6 +55,9 @@ for(var j=0;j<item.Details.length;j++)
     </td>
     <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
         {%=item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}
+    </td>
+    <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
+        {%=item.Owner.Name%}
     </td>
     <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
         {%=item.CreateUser.Name%}

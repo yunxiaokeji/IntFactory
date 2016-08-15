@@ -3,7 +3,7 @@
     var DoT = null;
     var Easydialog =null;
     var Common = require("scripts/task/ordergoods");
-
+    var ChooseUser = require("chooseuser");
     var Controller = "Task";
     var ObjectJS = {};
     //裁剪
@@ -29,7 +29,7 @@
         ObjectJS.orderid = orderid;
         ObjectJS.taskid = taskid;
         ObjectJS.taskDesc = taskDesc;
-        Common.orderid =orderid;
+        Common.orderid = orderid;
         Common.taskid = taskid;
         Common.init(Global, DoT);
 
@@ -77,7 +77,8 @@
                                 expressid: "",
                                 expresscode: "",
                                 details: details,
-                                remark: $("#expressRemark").val().trim()
+                                remark: $("#expressRemark").val().trim(),
+                                ownerid:  $("#showCutoutGoods .choose-owner").data('id')
                             },
                             function (data) {
                                 if (data.id) {
@@ -102,6 +103,29 @@
                         }
                     }
                 }
+            });
+           
+            //默认负责人选择当前登录用户
+            $("#showCutoutGoods .owner-name").text($("#currentUser .username").text());
+
+            $("#showCutoutGoods .choose-owner").click(function () {
+                var _this = $(this);
+                ChooseUser.create({
+                    title: "更换负责人",
+                    type: 1,
+                    single: true,
+                    callback: function (items) {
+                        if (items.length > 0) {
+                            if (_this.data("id") != items[0].id) {
+                                _this.data("id", items[0].id);
+                                _this.prev().text(items[0].name);
+                            }
+                            else {
+                                alert("请选择不同人员进行更换!");
+                            }
+                        }
+                    }
+                });
             });
 
             $("#showCutoutGoods .check").click(function () {

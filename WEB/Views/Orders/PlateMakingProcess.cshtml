@@ -35,14 +35,14 @@
     
     <script type="text/javascript">
         seajs.use(["scripts/orders/platemakingprocess"], function (obj) {
-            obj.init('@(order.Platemaking)', "@(order.OrderID)", "@(order.OriginalID)", "@(order.OrderType)");
-        })
+            obj.init('@(order.Platemaking)', "@(order.OrderID)", "@(order.OriginalID)", "@(order.OrderType)", '@Html.ToJSONString(order)');
+        });        
     </script>
 </head>
 <body>
     <div class="report">                
         <div class="process left mBottom30">
-            <table style="width:955px;">
+            <table class="head-table" style="width:955px;">
                 <tr class="head" style="height:50px">                   
                     <td class="no-border-left" colspan="6">
                         <div class="titlename">
@@ -77,7 +77,7 @@
                         <table class="no-border order-information" style="height:250px;width:400px;">
                             <tr>
                                 <td class="width100" >款号：</td>
-                                <td>@(order.IntGoodsCode==""?order.OrderCode:order.IntGoodsCode)</td>
+                                <td style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width:200px">@(order.IntGoodsCode==""?order.OrderCode:order.IntGoodsCode)</td>
                             </tr>
                             <tr>
                                 <td>采购负责人：</td>
@@ -151,7 +151,7 @@
                         <td colspan="7" class="no-border-top no-border-bottom">
                             <table class="no-border goosddoc" data-id="navgoods" style="width:953px;height:100%;">  
                                 <tr>
-                                    <td rowspan="@(order.OrderGoods.Count+2)" class="font18 head no-border-top no-border-left bo-border-bottom" style="height:51px;"><i class="iconfont icon-delete information">&#xe613;</i>下单明细</td>
+                                    <td rowspan="@(order.OrderGoods.Count+2)" class="font18 head no-border-top no-border-left bo-border-bottom pLeft10" style="height:51px;"><i class="iconfont icon-delete information">&#xe613;</i>下单明细</td>
                                     <td class="head no-border-left no-border-top">规格</td>
                                     <td class="head no-border-right no-border-top">下单数量</td>   
                                 </tr>
@@ -165,7 +165,7 @@
                                     </tr>                
                                     }
                                     <tr class="total-items bold" >                                       
-                                        <td class="no-border-left no-border-bottom" >合计：</td>                                    
+                                        <td class="no-border-left" >合计：</td>                                    
                                         <td class="center no-border-right" data-class="good1"></td>  
                                     </tr>
                                 }
@@ -176,15 +176,13 @@
                    
                             </table>
                         </td>  
-                    </tr>        
-
-                </table>              
-               
+                    </tr> 
+                </table>  
             }            
             <div class="clear"></div>
             <table class="navproducts no-border" data-id="navproducts">
                 <tr class="head " style="height:30px;">
-                    <td rowspan="@(order.Details.Count+1)" class="font18  no-border-top tLeft head hight40"><i class="iconfont icon-delete information">&#xe613;</i>物料信息</td>
+                    <td rowspan="@(order.Details.Count+1)" class="font18  no-border-top tLeft head hight40 pLeft10"><i class="iconfont icon-delete information">&#xe613;</i>物料信息</td>
                     <td class="no-border-top width80">材料名称</td>
                     <td class="no-border-top width80">编码</td>
                     <td class="no-border-top width70" colspan="2">规格</td>
@@ -222,17 +220,17 @@
                               
             <table class="navengraving no-border" data-id="navengraving" style="width:955px;">                
                 <tr>
-                    <td class="font18  no-border-top tLeft head hight40 pLeft10"><i class="iconfont icon-delete information ">&#xe613;</i>尺寸信息</td>
+                    <td class="font18 no-border-top tLeft head hight40 pLeft10" style="min-width:120px;"><i class="iconfont icon-delete information ">&#xe613;</i>尺寸信息</td>
                     <td id="Platemak" class="no-border-top" colspan="10"></td>
                 </tr>
             </table>  
            
             <table class="processplate no-border" style="width:955px">
                 <tr>
-                    <td class="no-border-top">工艺</td>
-                    <td class="no-border-top">名称</td>
-                    <td class="no-border-top">描述</td>
-                </tr>
+                    <td class="no-border-top head">工艺</td>
+                    <td colspan="2" class="no-border-top head">名称</td>
+                    <td colspan="4" class="no-border-top head">描述</td>
+                </tr>                
             </table>  
             <table style="width:955px" class="remark no-border">
                 <tr>

@@ -391,7 +391,6 @@
                 callback: function (items) {
                     if (items.length > 0) {
                         if (_this.data("userid") != items[0].id) {
-
                             Global.post("/Orders/UpdateOrderOwner", {
                                 userid: items[0].id,
                                 ids: _this.data("id")
@@ -1030,7 +1029,7 @@
     ObjectJS.createDHOrder = function (isExists) {
         var _self = this;
         doT.exec("template/orders/surequantity.html", function (template) {
-            var innerText = template(_self.categoryAttrs);
+            var innerText = template(_self.categoryAttrs);            
             Easydialog.open({
                 container: {
                     id: "show-surequantity",
@@ -1414,7 +1413,8 @@
                                 expressid: "",
                                 expresscode: "",
                                 details: details,
-                                remark: $("#expressRemark").val().trim()
+                                remark: $("#expressRemark").val().trim(),
+                                ownerid: $("#showCutoutGoods .choose-owner").data('id')
                             }, function (data) {
                                 if (data.id) {
                                     alert("数据录入成功!", location.href);
@@ -1433,6 +1433,29 @@
 
                     }
                 }
+            });
+
+            //默认负责人选择当前登录用户
+            $("#showCutoutGoods .owner-name").text($("#currentUser .username").text());
+
+            $("#showCutoutGoods .choose-owner").click(function () {
+                var _this = $(this);
+                ChooseUser.create({
+                    title: "更换负责人",
+                    type: 1,
+                    single: true,
+                    callback: function (items) {
+                        if (items.length > 0) {
+                            if (_this.data("id") != items[0].id) {
+                                _this.data("id", items[0].id);
+                                _this.prev().text(items[0].name);
+                            }
+                            else {
+                                alert("请选择不同人员进行更换!");
+                            }
+                        }
+                    }
+                });
             });
             $("#showCutoutGoods").find(".quantity").change(function () {
                 var _this = $(this);
@@ -1459,7 +1482,6 @@
         var _self = this;
         doT.exec("template/orders/sewn-goods.html", function (template) {
             var innerText = template(_self.model.OrderGoods);
-
             Easydialog.open({
                 container: {
                     id: "showSewnGoods",
@@ -1489,7 +1511,8 @@
                                 expressid: "",
                                 expresscode: "",
                                 details: details,
-                                remark: $("#expressRemark").val().trim()
+                                remark: $("#expressRemark").val().trim(),
+                                ownerid:$("#showSewnGoods .choose-owner").data('id')
                             }, function (data) {
                                 if (data.id) {
                                     alert("数据录入成功!", location.href);
@@ -1508,6 +1531,28 @@
 
                     }
                 }
+            });
+            //默认负责人选择当前登录用户
+            $("#showSewnGoods .owner-name").text($("#currentUser .username").text());
+
+            $("#showSewnGoods .choose-owner").click(function () {
+                var _this = $(this);
+                ChooseUser.create({
+                    title: "更换负责人",
+                    type: 1,
+                    single: true,
+                    callback: function (items) {
+                        if (items.length > 0) {
+                            if (_this.data("id") != items[0].id) {
+                                _this.data("id", items[0].id);
+                                _this.prev().text(items[0].name);
+                            }
+                            else {
+                                alert("请选择不同人员进行更换!");
+                            }
+                        }
+                    }
+                });
             });
             $("#showSewnGoods").find(".quantity").change(function () {
                 var _this = $(this);
