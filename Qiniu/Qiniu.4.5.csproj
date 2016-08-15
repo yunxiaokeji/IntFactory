@@ -103,8 +103,5 @@
   </Target>
   -->
   <ItemGroup />
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
   <ItemGroup />
 </Project>

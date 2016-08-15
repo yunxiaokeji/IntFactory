@@ -111,7 +111,7 @@
                 }
             }
             SewnDoc = require("scripts/task/sewndoc");
-            SewnDoc.initSewnDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, taskDesc,task.TaskMembers);
+            SewnDoc.initSewnDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, taskDesc);
         }
         else if (ObjectJS.mark === 15 && ObjectJS.orderType == 2) {
             SendOrders = require("scripts/task/sendorders");
