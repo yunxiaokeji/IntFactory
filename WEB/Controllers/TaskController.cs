@@ -568,10 +568,10 @@ namespace YXERP.Controllers
             };
         }
 
-        //新增加工成本
-        public JsonResult CreateOrderCutOutDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark, string taskid = "")
+        //新增裁剪录入
+        public JsonResult CreateOrderCutOutDoc(string orderid, int doctype, int isover, string expressid, string expresscode, string details, string remark,string ownerid, string taskid = "")
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, "", CurrentUser.UserID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, ownerid, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {
@@ -592,7 +592,7 @@ namespace YXERP.Controllers
             };
         }
 
-        //添加车缝录入、裁剪录入
+        //添加车缝录入
         public JsonResult CreateOrderSewnDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark,string ownerid)
         {
             string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark,ownerid, CurrentUser.UserID, CurrentUser.ClientID);
