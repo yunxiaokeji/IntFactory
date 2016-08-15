@@ -18,26 +18,29 @@ namespace IntFactoryBusiness
         public static string WeiXinMPApiUrl = ConfigurationManager.AppSettings["WeiXinMPApiUrl"] ?? "https://api.weixin.qq.com";
         public static string WeiXinMPAppKey = ConfigurationManager.AppSettings["WeiXinMPAppKey"] ?? "wxa69a4127f24be469";
         public static string WeiXinMPAppSecret = ConfigurationManager.AppSettings["WeiXinMPAppSecret"] ?? "28e5342f879a312ff666f0e3b23f6a78";
+        public static string WeiXinMPToken = string.Empty;
+        public static DateTime WeiXinMPTokenExpiresTime =DateTime.Now;
         //任务完成给它下级任务推送通知
         public  void SendTaskFinishPush(string openid,string preTitle, string title, string onwerName)
         {
-            string content = GetPushContent(WeiXinMPPushType.SendTaskFinishPush, openid, preTitle,
-                title, onwerName);
+            string content = GetPushContent(WeiXinMPPushType.SendTaskFinishPush, openid, title,preTitle, onwerName);
+
+            SendPush(content);
+        }
+
+        //新任务推送通知
+        public void SendNewTaskPush(string openid, string title,DateTime endTime)
+        {
+            string content = GetPushContent(WeiXinMPPushType.SendNewTaskPush, openid, title, "","",endTime);
 
             SendPush(content);
         }
 
         //获取推送内容
-        public string GetPushContent(WeiXinMPPushType pushType, string openid, string preTitle, string title, string onwerName)
+        public string GetPushContent(WeiXinMPPushType pushType, string openid, string title, string preTitle="", string onwerName="",DateTime? endTime=null)
         {
             string[] template_ids = new string[] { "IJx0o_kXBfNhTmCkQrsZ42MSON0MX9wfyGUTLoVYZfQ", 
                 "9wgmCkkS2fxIKsPIB2hEYEJcmYkfEiPZVZKokNrWtzs","sb_DkErldHIMGSLH0ta-ca0o43j5GluUL1mOmYbWPAc" };
-            string color = "#173177";
-            string first = string.Empty;
-            string keyword1 = string.Empty;
-            string keyword2 = string.Empty;
-            string keyword3 = string.Empty;
-            string remark = string.Empty;
             Dictionary<string, object> parasObj = new Dictionary<string, object>();
             Dictionary<string, object> dataObj = new Dictionary<string, object>();
             Dictionary<string, object> firstObj = new Dictionary<string, object>() { };
@@ -46,23 +49,25 @@ namespace IntFactoryBusiness
             Dictionary<string, object> keyword3Obj = new Dictionary<string, object>() { };
             Dictionary<string, object> remarkObj = new Dictionary<string, object>() { };
 
-            first = "您好，您有一个上级任务" + preTitle + "已提交完成！";
+            string color = "#173177";
+            string first = "您好，您有一个上级任务" + preTitle + "已提交完成！";
+            string keyword1 = title;
+            string keyword2 = onwerName;
+            string keyword3 = DateTime.Now.ToString("yyyy-MM-dd hh:mm");
+            string remark = "请按时完成任务！";
+            if (pushType == WeiXinMPPushType.SendNewTaskPush) {
+                first = "您收到了一个新任务！";
+                keyword2 = endTime.Value.ToString("yyyy-MM-dd hh:mm");
+                remark = "请尽快处理！";
+            }
             firstObj.Add("value", first);
             firstObj.Add("color", color);
-
-            keyword1 = title;
             keyword1Obj.Add("value", title);
             keyword1Obj.Add("color", color);
-
-            keyword2 = onwerName;
             keyword2Obj.Add("value", keyword2);
             keyword2Obj.Add("color", color);
-
-            keyword3=DateTime.Now.ToString("yyyy-MM-dd hh:mm");
             keyword3Obj.Add("value", keyword3);
             keyword3Obj.Add("color", color);
-
-            remark = "请按时完成任务！";
             remarkObj.Add("value", remark);
             remarkObj.Add("color", color);
 
@@ -88,13 +93,22 @@ namespace IntFactoryBusiness
         }
 
         //获取微信公众号token
-        public string  GetWeiXinMPToken() {
-            string url = string.Format("{0}/cgi-bin/token?grant_type={1}&appid={2}&secret={3}", WeiXinMPApiUrl,
-                "client_credential", WeiXinMPAppKey, WeiXinMPAppSecret);
-            string resultStr = HttGet(url);
-            WeiXinMPToken token =JsonConvert.DeserializeObject<WeiXinMPToken>(resultStr);
+        public string  GetWeiXinMPToken() 
+        {
+            if (string.IsNullOrEmpty(WeiXinMPToken) || WeiXinMPTokenExpiresTime > DateTime.Now)
+            {
+                string url = string.Format("{0}/cgi-bin/token?grant_type={1}&appid={2}&secret={3}", WeiXinMPApiUrl,
+                    "client_credential", WeiXinMPAppKey, WeiXinMPAppSecret);
+                string resultStr = HttGet(url);
+                WeiXinMPToken token = JsonConvert.DeserializeObject<WeiXinMPToken>(resultStr);
+                if (!string.IsNullOrEmpty(token.access_token))
+                {
+                    WeiXinMPTokenExpiresTime = DateTime.Now.AddMinutes(110);
+                    WeiXinMPToken = token.access_token;
+                }
+            }
 
-            return token.access_token;
+            return WeiXinMPToken;
         }
 
         //发起后台请求

@@ -235,6 +235,23 @@ namespace IntFactoryBusiness
 
             return model;
         }
+
+        public static List<TaskEntity> GetPushTasksByOrderID(string orderid)
+        {
+            List<TaskEntity> list = new List<TaskEntity>();
+            DataSet ds = TaskDAL.BaseProvider.GetPushTasksByOrderID(orderid);
+            DataTable taskTB = ds.Tables["OrderTask"];
+            foreach (DataRow dr in taskTB.Rows)
+            {
+                TaskEntity model = new TaskEntity();
+                model.FillData(dr);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
+
+                list.Add(model);
+            }
+
+            return list;
+        }
         #endregion
 
         #region 改
