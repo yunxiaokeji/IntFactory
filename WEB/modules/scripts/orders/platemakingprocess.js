@@ -180,8 +180,10 @@
         
         var tableModel = {}, xattr = [], yattr=[];
         for (var i = 0; i < order.OrderGoods.length; i++) {
-            xattr.push(order.OrderGoods[i].XRemark);
-            yattr.push(order.OrderGoods[i].YRemark);
+            if ($.inArray(order.OrderGoods[i].XRemark, xattr) == -1 ) {
+                xattr.push(order.OrderGoods[i].XRemark);
+                yattr.push(order.OrderGoods[i].YRemark); 
+            }             
         }
         tableModel.xAttr = xattr;
         tableModel.yAttr = yattr;
@@ -199,40 +201,34 @@
                         $(this).removeClass("hover");
                     }
                 });
-                //数量必须大于0的数字
-                html.find(".quantity").change(function () {
-                    var _this = $(this);
-                    if (!_this.val().isInt() || _this.val() <= 0) {
-                        _this.val("0");
-                    }
 
-                    var total = 0;
-                    $(".child-product-table .tr-item").each(function () {
-                        var _tr = $(this), totaly = 0;
-                        if (!_tr.hasClass("total")) {
-                            _tr.find(".quantity").each(function () {
+                var total = 0;
+                $(".child-product-table .tr-item").each(function () {
+                    var _tr = $(this), totaly = 0;
+                    if (!_tr.hasClass("total")) {
+                        _tr.find(".quantity").each(function () {
+                            var _this = $(this);
+                            if (_this.val() > 0) {
+                                totaly += _this.val() * 1;
+                            }
+                        });
+                        _tr.find(".total-y").text(totaly);
+                    } else {
+                        _tr.find(".total-y").each(function () {
+                            var _td = $(this), totalx = 0;
+                            $(".child-product-table .quantity[data-x='" + _td.data("x") + "']").each(function () {
                                 var _this = $(this);
                                 if (_this.val() > 0) {
-                                    totaly += _this.val() * 1;
+                                    totalx += _this.val() * 1;
                                 }
                             });
-                            _tr.find(".total-y").text(totaly);
-                        } else {
-                            _tr.find(".total-y").each(function () {
-                                var _td = $(this), totalx = 0;
-                                $(".child-product-table .quantity[data-x='" + _td.data("x") + "']").each(function () {
-                                    var _this = $(this);
-                                    if (_this.val() > 0) {
-                                        totalx += _this.val() * 1;
-                                    }
-                                });
-                                total += totalx;
-                                _td.text(totalx);
-                            });
-                            _tr.find(".total-xy").text(total);
-                        }
-                    });
+                            total += totalx;
+                            _td.text(totalx);
+                        });
+                        _tr.find(".total-xy").text(total);
+                    }
                 });
+               
             });
         
     }
