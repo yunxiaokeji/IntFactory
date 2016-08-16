@@ -1068,6 +1068,7 @@
             if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
                 $("#setPlateInfo").hide();
                 $("#setReturnSewn").hide();
+                $("#setPlateMaking").hide();
             };
         });
     }
