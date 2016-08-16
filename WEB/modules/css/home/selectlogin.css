@@ -18,8 +18,9 @@ border:1px solid #ccc;
 }
 
 .ali-login {
+    width:230px;
 margin:40px auto;
-padding:60px 80px 20px 80px;
+padding:60px 50px 20px 50px;
 text-align:center;
 border-right:1px solid #ccc;
 }
@@ -36,8 +37,9 @@ cursor:pointer;
 
 
 .bind-account {
+width:200px;
 margin:40px auto;
-padding:60px 60px 20px 60px;
+padding:60px 50px 20px 50px;
 text-align:center;
 }
 
@@ -55,6 +57,16 @@ cursor:pointer;
 margin-top:20px;
 color:#999;
 font-size:14px;
+}
+
+.btn-box .btn{
+margin-bottom:30px;
+padding:12px 35px;
+color:#fff;
+background-color:#5d9cec;
+border-radius:3px;
+font-size:16px;
+cursor:pointer;
 }
 
 .btn:hover { background-color:#2F73B8; }

@@ -3,7 +3,7 @@
 	var item = $data[i];
 %}
 <tr class="list-item hover" data-id="{%=item.DocID%}">
-    <td class=""><a href="/Orders/DocDetail/{%=item.DocID%}" target="_blank">{%=item.DocCode%}</a> </td>
+    <td class="">{%=item.DocCode%}</td>
     <td class="center">{%=item.ExpressCode%}</td>
     <td class="center">{%=item.Express?item.Express.Name:""%}</td>
     <td class='center'>{%=(item.CreateUser ? item.CreateUser.Name:"--")%}</td>
