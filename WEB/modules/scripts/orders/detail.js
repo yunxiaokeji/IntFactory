@@ -14,9 +14,9 @@
     require("pager");
     require("colormark");
 
-    var ObjectJS = {}, CacheItems = [];;
+    var ObjectJS = {}, CacheItems = [];
 
-    ObjectJS.init = function (orderid, status, model,list) {
+    ObjectJS.init = function (orderid, status, model, list) {
         var _self = this;
         _self.orderid = orderid;
         _self.status = status;
@@ -720,6 +720,19 @@
             }
         });
 
+        //编辑数量
+        $("#tab11 .quantity").change(function () {
+            if (ObjectJS.isLoading) {
+                return;
+            }
+
+            if ($(this).val().isDouble() && $(this).val() > 0) {
+                ObjectJS.editQuantity($(this));
+            } else {
+                $(this).val($(this).data("value"));
+            }
+        });
+
         //切换模块
         $(".module-tab li").click(function () {
             var _this = $(this);
@@ -786,14 +799,13 @@
     ObjectJS.getPlateMakings = function () {
         var _self = this;
 
-        $(".tb-plates .tr-header").nextAll().remove();
-        $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
-
+        $(".tb-plates").html('');
+        $(".tb-plates").html("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
         Global.post("/Task/GetPlateMakings", {
             orderID: _self.model.OrderType == 1 ? _self.model.OrderID : _self.model.OriginalID,
             taskID: ""
         }, function (data) {
-            $(".tb-plates .tr-header").nextAll().remove();
+            $(".tb-plates").html('');
             if (data.items.length > 0) {
                 doT.exec("template/task/platematring-orderdatail.html", function (template) {
                     PlateMakings = data.items;
@@ -804,7 +816,7 @@
                 });
             }
             else {
-                $(".tb-plates").append("<tr><td colspan='5'><div class='nodata-txt'>暂无工艺说明<div></td></tr>");
+                $(".tb-plates").append("<tr><td colspan='5'><div class='nodata-txt'>暂无工艺说明</div></td></tr>");
             }
         });
     }
@@ -1387,9 +1399,9 @@
         
         doT.exec("template/orders/cutoutgoods.html", function (template) {
             /*弹出层列表显示信息*/
-            _self.model.OrderGoods.taskDesc = btnObject.data("name");
-
-            var innerText = template(_self.model.OrderGoods);
+            var items = _self.model.OrderGoods.concat([]);
+            items.taskDesc = btnObject.data("name");
+            var innerText = template(items);
             Easydialog.open({
                 container: {
                     id: "showCutoutGoods",
@@ -1480,7 +1492,12 @@
     ObjectJS.sewnGoods = function (btnObject) {
         var _self = this;
         doT.exec("template/orders/sewn-goods.html", function (template) {
-            var innerText = template(_self.model.OrderGoods);
+            var items = _self.model.OrderGoods.concat([]);
+            //车缝任务描述
+            items.taskDesc = btnObject.data("name");
+            //裁剪任务描述
+            items.taskDescCut = btnObject.prev().data("name");
+            var innerText = template(items);
             Easydialog.open({
                 container: {
                     id: "showSewnGoods",
@@ -2226,5 +2243,39 @@
         });
     }
 
+    //更改消耗量
+    ObjectJS.editQuantity = function (ele) {
+        var _self = this;
+        ObjectJS.isLoading = true;
+
+        Global.post("/Orders/UpdateProductQuantity", {
+            orderid: _self.orderid,
+            autoid: ele.data("id"),
+            name: ele.data("name"),
+            quantity: ele.val()
+        }, function (data) {
+            if (!data.status) {
+                ele.val(ele.data("value"));
+                alert("当前订单状态,不能进行修改");
+            }
+            else {
+                ele.data("value", ele.val());
+                _self.getProductAmount();
+            }
+            ObjectJS.isLoading = false;
+        });
+    }
+
+    ObjectJS.getProductAmount = function () {
+        var amount = 0;
+        $("#tab11 .cart-item .moneytotal").each(function () {
+            var _this = $(this);
+            _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(3));
+            amount += _this.html() * 1;
+        });
+
+        $("#tab11 .total-item .moneytotal").html(amount.toFixed(3));
+        $("#productMoney").text(amount.toFixed(3));
+    }
     module.exports = ObjectJS;
 })

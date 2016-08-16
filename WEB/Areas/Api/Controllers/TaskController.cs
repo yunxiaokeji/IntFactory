@@ -311,7 +311,6 @@ namespace YXERP.Areas.Api.Controllers
         {
             int result = 0;
             CurrentUser = OrganizationBusiness.GetUserByUserID(userID, clientID);
-
             TaskBusiness.FinishTask(taskID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID, out result);
             JsonDictionary.Add("result", result);
 
@@ -326,11 +325,10 @@ namespace YXERP.Areas.Api.Controllers
         public JsonResult SavaTaskReply(string reply, string userID, string clientID,string taskID)
         {
             var model = JsonConvert.DeserializeObject<IntFactoryEntity.ReplyJson>(reply);
-
             string replyID = ReplyBusiness.CreateTaskReply(model.taskID, model.content, userID, clientID, 
                 model.fromReplyID, model.fromReplyUserID, model.fromReplyAgentID);
-
             ReplyBusiness.AddTaskReplyAttachments(taskID, replyID, model.attachments, userID, clientID);
+
             if (!string.IsNullOrEmpty(replyID))
             {
                 List<Dictionary<string, object>> replys = new List<Dictionary<string, object>>();

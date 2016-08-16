@@ -8,6 +8,7 @@ using Newtonsoft.Json.Converters;
 using System.Net;
 using System.IO;
 using System.Configuration;
+using IntFactoryEntity.Task;
 
 namespace IntFactoryBusiness
 {
@@ -20,20 +21,60 @@ namespace IntFactoryBusiness
         public static string WeiXinMPAppSecret = ConfigurationManager.AppSettings["WeiXinMPAppSecret"] ?? "28e5342f879a312ff666f0e3b23f6a78";
         public static string WeiXinMPToken = string.Empty;
         public static DateTime WeiXinMPTokenExpiresTime =DateTime.Now;
-        //任务完成给它下级任务推送通知
-        public  void SendTaskFinishPush(string openid,string preTitle, string title, string onwerName)
-        {
-            string content = GetPushContent(WeiXinMPPushType.SendTaskFinishPush, openid, title,preTitle, onwerName);
 
-            SendPush(content);
+        //任务完成给它下级任务推送通知
+        public async void SendTaskFinishPush(string taskid)
+        {
+            await SendAllPush(WeiXinMPPushType.SendTaskFinishPush,taskid);
         }
 
         //新任务推送通知
-        public void SendNewTaskPush(string openid, string title,DateTime endTime)
+        public async void SendNewTasksPush(string orderid)
         {
-            string content = GetPushContent(WeiXinMPPushType.SendNewTaskPush, openid, title, "","",endTime);
+            await SendAllPush(WeiXinMPPushType.SendNewTaskPush, orderid);
+        }
 
-            SendPush(content);
+        //新订单推送通知
+        public async void SendNewOrderPush(string orderid)
+        {
+            await SendAllPush(WeiXinMPPushType.SendNewOrderPush, orderid);
+        }
+
+        public Task<bool> SendAllPush(WeiXinMPPushType pushType, string guid)
+        {
+            string result = string.Empty;
+            if (pushType == WeiXinMPPushType.SendTaskFinishPush)
+            {
+                TaskEntity task = TaskBusiness.GetPushTaskByPreTaskID(guid);
+                if (task != null)
+                {
+                    string content = GetPushContent(WeiXinMPPushType.SendTaskFinishPush, task.OpenID, task.Title, task.PreTitle, task.Owner.Name);
+                    result=SendPush(content);
+                }
+            }
+            else if (pushType == WeiXinMPPushType.SendNewTaskPush)
+            {
+                List<TaskEntity> tasks = TaskBusiness.GetPushTasksByOrderID(guid);
+                if (tasks.Count > 0)
+                {
+                    foreach (var task in tasks)
+                    {
+                        string content = GetPushContent(WeiXinMPPushType.SendNewTaskPush, task.OpenID, task.Title, "", "", task.EndTime);
+                        result=SendPush(content);
+                    }
+                }
+            }
+            else if (pushType == WeiXinMPPushType.SendNewOrderPush)
+            {
+                TaskEntity task = TaskBusiness.GetPushTaskByOrderID(guid);
+                if (task != null)
+                {
+                    string content = GetPushContent(WeiXinMPPushType.SendNewOrderPush, task.OpenID, task.Title, "", "", task.EndTime);
+                    result=SendPush(content);
+                }
+            }
+
+            return Task.Run(() => { return !string.IsNullOrEmpty(result); });
         }
 
         //获取推送内容
@@ -57,6 +98,12 @@ namespace IntFactoryBusiness
             string remark = "请按时完成任务！";
             if (pushType == WeiXinMPPushType.SendNewTaskPush) {
                 first = "您收到了一个新任务！";
+                keyword2 = endTime.Value.ToString("yyyy-MM-dd hh:mm");
+                remark = "请尽快处理！";
+            }
+            else if (pushType == WeiXinMPPushType.SendNewOrderPush)
+            {
+                first = "您有一个新的订单，请尽快处理";
                 keyword2 = endTime.Value.ToString("yyyy-MM-dd hh:mm");
                 remark = "请尽快处理！";
             }

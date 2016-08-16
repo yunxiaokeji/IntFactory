@@ -17,124 +17,6 @@ namespace YXERP.Controllers
     public class TaskController : BaseController
     {
         #region view
-        public JsonResult send()
-        {
-            string result = SendTaskFinishPush("裁剪", "车缝", "牧歌");
-             result = SendNewTaskPush("裁剪", "车缝", "牧歌");
-             SendNewOrderPush("SendNewOrderPush");
-           return new JsonResult
-           {
-               Data = result,
-               JsonRequestBehavior = JsonRequestBehavior.AllowGet
-           };
-        }
-        public string SendTaskFinishPush(string preTitle,string title,string onwername)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            string url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=Z7TCddkFdVkZnPFxgjPaKfhQ47D_PrP0kdEp_860gmHTXoX2-bDyNPSDptEU9H_yAFjCqptjWsoygsNn5Zwk1oA_2M8vRBzz4-sJsB5OVodT2gvrWGEsT_yuilAZ6n0sZNAhABAMAN";
-            string paras = string.Empty;
-            Dictionary<string, object> parasObj = new Dictionary<string, object>();
-            parasObj.Add("touser", "oiPw5s2wCyHcxBKWN-_w6nDgGCjk");
-            parasObj.Add("template_id", "IJx0o_kXBfNhTmCkQrsZ42MSON0MX9wfyGUTLoVYZfQ");
-            Dictionary<string, object> dataObj = new Dictionary<string, object>();
-
-            Dictionary<string, object> firstObj = new Dictionary<string, object>() { };
-            firstObj.Add("value", "您好，您有一个上级任务" + preTitle + "已提交完成！");
-            firstObj.Add("color", "#173177");
-            dataObj.Add("first", firstObj);
-
-            Dictionary<string, object> keyword1Obj = new Dictionary<string, object>() { };
-            keyword1Obj.Add("value", title);
-            keyword1Obj.Add("color", "#173177");
-            dataObj.Add("keyword1", keyword1Obj);
-
-            Dictionary<string, object> keyword2Obj = new Dictionary<string, object>() { };
-            keyword2Obj.Add("value", onwername);
-            keyword2Obj.Add("color", "#173177");
-            dataObj.Add("keyword2", keyword2Obj);
-
-            Dictionary<string, object> keyword3Obj = new Dictionary<string, object>() { };
-            keyword3Obj.Add("value", DateTime.Now.ToString("yyyy-MM-dd hh:mm"));
-            keyword3Obj.Add("color", "#173177");
-            dataObj.Add("keyword3", keyword3Obj);
-
-            Dictionary<string, object> remarkObj = new Dictionary<string, object>() { };
-            remarkObj.Add("value", "请按时完成任务！");
-            remarkObj.Add("color", "#173177");
-            dataObj.Add("remark", remarkObj);
-            parasObj.Add("data", dataObj);
-            paras = serializer.Serialize(parasObj);
-            return WeiXin.Sdk.HttpRequest.SendPush(url, paras);
-        }
-
-        public string SendNewTaskPush(string preTitle, string title, string onwername)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            string url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=Z7TCddkFdVkZnPFxgjPaKfhQ47D_PrP0kdEp_860gmHTXoX2-bDyNPSDptEU9H_yAFjCqptjWsoygsNn5Zwk1oA_2M8vRBzz4-sJsB5OVodT2gvrWGEsT_yuilAZ6n0sZNAhABAMAN";
-            string paras = string.Empty;
-            Dictionary<string, object> parasObj = new Dictionary<string, object>();
-            parasObj.Add("touser", "oiPw5s2wCyHcxBKWN-_w6nDgGCjk");
-            parasObj.Add("template_id", "9wgmCkkS2fxIKsPIB2hEYEJcmYkfEiPZVZKokNrWtzs");
-            Dictionary<string, object> dataObj = new Dictionary<string, object>();
-
-            Dictionary<string, object> firstObj = new Dictionary<string, object>() { };
-            firstObj.Add("value", "您收到了一个新任务！");
-            firstObj.Add("color", "#173177");
-            dataObj.Add("first", firstObj);
-
-            Dictionary<string, object> keyword1Obj = new Dictionary<string, object>() { };
-            keyword1Obj.Add("value", title);
-            keyword1Obj.Add("color", "#173177");
-            dataObj.Add("keyword1", keyword1Obj);
-
-            Dictionary<string, object> keyword2Obj = new Dictionary<string, object>() { };
-            keyword2Obj.Add("value", DateTime.Now.ToString("yyyy-MM-dd hh:mm"));
-            keyword2Obj.Add("color", "#173177");
-            dataObj.Add("keyword2", keyword2Obj);
-
-            Dictionary<string, object> remarkObj = new Dictionary<string, object>() { };
-            remarkObj.Add("value", "请尽快处理！");
-            remarkObj.Add("color", "#173177");
-            dataObj.Add("remark", remarkObj);
-            parasObj.Add("data", dataObj);
-            paras = serializer.Serialize(parasObj);
-            return WeiXin.Sdk.HttpRequest.SendPush(url, paras);
-        }
-
-        public string SendNewOrderPush(string title)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            string url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=Z7TCddkFdVkZnPFxgjPaKfhQ47D_PrP0kdEp_860gmHTXoX2-bDyNPSDptEU9H_yAFjCqptjWsoygsNn5Zwk1oA_2M8vRBzz4-sJsB5OVodT2gvrWGEsT_yuilAZ6n0sZNAhABAMAN";
-            string paras = string.Empty;
-            Dictionary<string, object> parasObj = new Dictionary<string, object>();
-            parasObj.Add("touser", "oiPw5s2wCyHcxBKWN-_w6nDgGCjk");
-            parasObj.Add("template_id", "sb_DkErldHIMGSLH0ta-ca0o43j5GluUL1mOmYbWPAc");
-            Dictionary<string, object> dataObj = new Dictionary<string, object>();
-
-            Dictionary<string, object> firstObj = new Dictionary<string, object>() { };
-            firstObj.Add("value", "OITS积分换礼品");
-            firstObj.Add("color", "#173177");
-            dataObj.Add("first", firstObj);
-
-            Dictionary<string, object> keyword1Obj = new Dictionary<string, object>() { };
-            keyword1Obj.Add("value", title);
-            keyword1Obj.Add("color", "#173177");
-            dataObj.Add("keyword1", keyword1Obj);
-
-            Dictionary<string, object> keyword2Obj = new Dictionary<string, object>() { };
-            keyword2Obj.Add("value", DateTime.Now.ToString("yyyy-MM-dd hh:mm"));
-            keyword2Obj.Add("color", "#173177");
-            dataObj.Add("keyword2", keyword2Obj);
-
-            Dictionary<string, object> remarkObj = new Dictionary<string, object>() { };
-            remarkObj.Add("value", "请尽快处理！");
-            remarkObj.Add("color", "#173177");
-            dataObj.Add("remark", remarkObj);
-            parasObj.Add("data", dataObj);
-            paras = serializer.Serialize(parasObj);
-            return WeiXin.Sdk.HttpRequest.SendPush(url, paras);
-        }
-
         public ActionResult Detail(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -396,9 +278,6 @@ namespace YXERP.Controllers
             int result = 0;
             TaskBusiness.FinishTask(id, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID,out result);
             JsonDictionary.Add("result", result);
-            //if (result == 1) {
-            //    Common.ApiCloudPush.BasePush.SendPush("bbbbb", CurrentUser.UserID);
-            //}
 
             return new JsonResult
             {

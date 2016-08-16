@@ -95,8 +95,8 @@
 
         //取消微信绑定
         $("#unBindWeiXin").click(function () {
-            if (!$("#S_LoginName").html()) {
-                alert("请先设置账号,然后取消绑定");
+            if (!$("#S_LoginName").html() && !$("#S_BindMobile").html()) {
+                alert("您账号和手机都未设置,不能取消微信绑定");
                 return;
             }
             confirm("确定要取消绑定微信号?", function () {

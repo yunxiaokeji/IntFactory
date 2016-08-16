@@ -6,8 +6,7 @@
     choosecustomer.create({});
 */
 define(function (require, exports, module) {
-    var $ = require("jquery"),
-        Global = require("global"),
+    var Global = require("global"),
         doT = require("dot"),
         Easydialog = require("easydialog");
 
@@ -29,10 +28,8 @@ define(function (require, exports, module) {
     PlugJS.prototype.init = function () {
 
         var _self = this;
-
         doT.exec("/plug/choosecustomer/choosecustomer.html", function (template) {
             var innerHtml = template({});
-
             Easydialog.open({
                 container: {
                     id: "choose-customer-add",

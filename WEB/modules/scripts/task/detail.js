@@ -466,15 +466,15 @@
         var confirmMsg = '确定标记完成';
         if (mark == 11) {
             if ($("#navProducts .table-list tr").length == 2) {
-                confirmMsg="材料没有添加,不能标记任务完成";
+                confirmMsg = "材料没有添加,确定标记任务完成";
             }
         }
         else if (mark == 12) {
             if ($("#platemakingBody .table-list").length == 0) {
-                confirmMsg="制版没有设置,不能标记任务完成";
+                confirmMsg = "制版没有设置,确定标记任务完成";
             }
             else if (!ObjectJS.isPlate) {
-                confirmMsg="制版没有设置,不能标记任务完成";
+                confirmMsg = "制版没有设置,确定标记任务完成";
             }
         }
         else if (mark == 15 || mark == 25) {
@@ -1603,7 +1603,6 @@
 
     //获取制版工艺说明
     ObjectJS.getPlateMakings = function () {
-        
         $(".tb-plates").html('');
         $(".tb-plates").html("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
         Global.post("/Task/GetPlateMakings", {
