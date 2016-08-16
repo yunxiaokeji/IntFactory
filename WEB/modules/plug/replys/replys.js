@@ -186,6 +186,7 @@
             image_view: "?imageView2/1/w/120/h/80",
             successItems: '.upload-files-' + replyId + ' li',
             file_path: "/Content/UploadFiles/Task/",
+            max_file_size:"10mb",
             maxQuantity: 10,
             maxSize: 15,
             fileType: 3,

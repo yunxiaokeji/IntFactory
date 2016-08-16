@@ -230,7 +230,7 @@ namespace YXERP.Controllers
                 }
 
             }
-            model.Owner = OrganizationBusiness.GetUserByUserID(CurrentUser.UserID, CurrentUser.ClientID);
+            model.Owner = OrganizationBusiness.GetUserCacheByUserID(CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("model", model);
             return new JsonResult
             {
