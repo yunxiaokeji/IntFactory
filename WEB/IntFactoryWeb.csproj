@@ -542,6 +542,7 @@
     <Content Include="modules\plug\umeditor\ueditor.parse.js" />
     <Content Include="modules\plug\umeditor\ueditor.parse.min.js" />
     <Content Include="modules\template\orders\createorder-checkattr.html" />
+    <Content Include="modules\template\orders\plate-making-list.html" />
     <Content Include="modules\template\products\product-baseinfo.html" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.js" />

@@ -1,0 +1,48 @@
+﻿{%
+        var model= $data;
+        var xAttr=model.xAttr,
+            yAttr=model.yAttr,
+            items=model.items;       
+ %}
+
+<table class="table-list child-product-table">
+    <tr class="tr-header">
+        <td class="tLeft"></td>
+        {%
+	        for(var i=0, j=xAttr.length; i < j; i++){
+	        var item = xAttr[i];
+        %}
+            <td>{%=item%}</td>
+        {% } %}
+        <td>合计</td>
+    </tr>
+    {%
+	    for(var i=0, j=yAttr.length; i < j; i++){
+	    var item = yAttr[i];
+    %}
+    <tr class="tr-item">
+        <td class="center">{%=item%}</td>
+        {%
+	        for(var ii=0, jj=xAttr.length; ii < jj; ii++){
+	        var td = xAttr[ii];
+        %}
+            <td class="center">
+                <input type="text" value="0" data-x="{%=td%}" data-y="{%=item%}" data-remark="{%=td+item%}" class="quantity width80" />
+            </td>
+        {% } %}
+        <td class="center"><label class="total-y bold">0</label></td>
+    </tr>
+    {% } %}
+    <tr class="tr-item total">
+        <td class="center bold">合计</td>
+        {%
+	        for(var ii=0, jj=xAttr.length; ii < jj; ii++){
+	        var td = xAttr[ii];
+        %}
+            <td class="center">
+                <label class="total-y bold" data-x="{%=td%}">0</label>
+            </td>
+        {% } %}
+        <td class="center bold"><label class="total-xy">0</label></td>
+    </tr>
+</table>
