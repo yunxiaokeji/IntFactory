@@ -1213,7 +1213,6 @@
     <Content Include="Views\Orders\OrderDetail.cshtml" />
     <Content Include="Views\Finance\Index.cshtml" />
     <Content Include="Views\Finance\PayableBills.cshtml" />
-    <Content Include="Views\Agents\Index.cshtml" />
     <Content Include="Views\Finance\PayableBillsDetail.cshtml" />
     <Content Include="Views\Finance\ReceivableBills.cshtml" />
     <Content Include="Views\Finance\OrderBillsDetail.cshtml" />
@@ -1554,9 +1553,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Orders\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Accounts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Organization\Index.cshtml" />

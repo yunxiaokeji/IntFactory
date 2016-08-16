@@ -6,8 +6,7 @@
     chooseuser.create({});
 */
 define(function (require, exports, module) {
-    var $ = require("jquery"),
-        Global = require("global"),
+    var Global = require("global"),
         doT = require("dot"),
         Easydialog = require("easydialog");
 

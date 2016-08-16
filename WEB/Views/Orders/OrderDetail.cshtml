@@ -283,7 +283,7 @@
                     </td>
                     <td>@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
                     <td class="center">@(detail.UnitName)</td>
-                    <td class="center tr-quantity"><label class="quantity">@(detail.Quantity.ToString("f3"))</label></td>
+                    <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" /></td>
                     <td class="tr-price center"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                     <td class="tRight moneytotal">@((detail.TotalMoney).ToString("f3"))</td>
                 </tr>
@@ -295,7 +295,7 @@
                     <td></td>
                     <td></td>
                     <td class="tRight">成本合计：</td>
-                    <td class="tRight" data-class="moneytotal"></td>
+                    <td class="tRight moneytotal" data-class="moneytotal"></td>
                 </tr>
             }
             else
@@ -371,7 +371,10 @@
          <a id="plateMarking" href="/Orders/PlateMakingProcess/@(model.OrderID)" target="_blank">@(modules.Where(m => m.Mark == 12).FirstOrDefault().Name)打印</a>
     </li>
     @if (model.OrderStatus == 1)
-    {    
+    {  
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 16).FirstOrDefault().Name)录入">
+           <a href="/Orders/ChooseMaterial?id=@(model.OrderID)">@(modules.Where(m => m.Mark == 11).FirstOrDefault().Name)录入 </a>
+        </li>  
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 16).FirstOrDefault().Name)录入" id="addOtherCost">
             @(modules.Where(m => m.Mark == 16).FirstOrDefault().Name)录入
         </li>
