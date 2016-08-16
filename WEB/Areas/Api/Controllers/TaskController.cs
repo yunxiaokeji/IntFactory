@@ -48,7 +48,7 @@ namespace YXERP.Areas.Api.Controllers
                 (EnumTaskOrderColumn)paras.taskOrderColumn, paras.isAsc, clientID,
                 paras.pageSize, paras.pageIndex, ref totalCount, ref pageCount);
 
-
+            var lables = SystemBusiness.BaseBusiness.GetLableColor(clientID, EnumMarkType.Tasks).ToList();
             List<Dictionary<string, object>> tasks = new List<Dictionary<string, object>>();
             string domainUrl = Request.Url.Scheme + "://" + Request.Url.Host;
             foreach (var item in list)
@@ -58,6 +58,12 @@ namespace YXERP.Areas.Api.Controllers
                 task.Add("title", item.Title);
                 task.Add("mark", item.Mark);
                 task.Add("colorMark", item.ColorMark);
+                string colorValue = string.Empty;
+                var lable=lables.Find(m=>m.ColorID==item.ColorMark);
+                if (lable != null) { 
+                    colorValue=lable.ColorValue;
+                }
+                task.Add("colorValue", colorValue);
                 task.Add("finishStatus", item.FinishStatus);
                 task.Add("preTitle", item.PreTitle);
                 task.Add("preFinishStatus", item.PreFinishStatus);
@@ -280,6 +286,18 @@ namespace YXERP.Areas.Api.Controllers
                     JsonDictionary.Add("materialList", details);
                 }
             }
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetTaskLableColors(string clientID)
+        {
+            var lables = SystemBusiness.BaseBusiness.GetLableColor(clientID, EnumMarkType.Tasks).ToList();
+            JsonDictionary.Add("items", lables);
 
             return new JsonResult
             {
