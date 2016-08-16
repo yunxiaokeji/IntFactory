@@ -13,7 +13,7 @@ define(function (require, exports, module) {
                 var _this = $(this);
                 $.fn.drawSearch(_this, callback);
             })
-        }
+        };
 
         $.fn.drawSearch = function (obj, callback) {
             if (!obj.hasClass("searth-module")) {
@@ -38,7 +38,7 @@ define(function (require, exports, module) {
                     _this.blur();
                 }
             });
-        }
+        };
     })(jQuery)
     module.exports = jQuery;
 });
