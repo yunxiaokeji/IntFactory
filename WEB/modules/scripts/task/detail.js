@@ -1068,6 +1068,7 @@
             if (!$(e.target).parents().hasClass("ico-dropdown") && !$(e.target).hasClass("ico-dropdown")) {
                 $("#setPlateInfo").hide();
                 $("#setReturnSewn").hide();
+                $("#setPlateMaking").hide();
             };
         });
     }
@@ -1531,7 +1532,7 @@
 
                             var plateHtml = '<td class="tLeft item bBottom"><img style="width:30px;height:30px;text-indent:0;" src="' + (_thisTr.find('.plate-ico-img').data('src') || '') + '" /></td>';
                             plateHtml += '<td class="tLeft item bBottom">' + (_thisTr.find('.txt-name').val() || '') + '</td>';
-                            plateHtml += '<td class="tLeft item show-all-txt bBottom" style="line-height:150%;">' + _thisTr.find('.desc').val() || '' + '</td>';
+                            plateHtml += '<td class="tLeft item show-all-txt bBottom" style="word-break:break-all;">' + _thisTr.find('.desc').val() || '' + '</td>';
                             plateHtml += '<td class="center item width150 bBottom">' + (item.CreateTime ? item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss') : new Date().toString('yyyy-MM-dd hh:mm:ss')) + '</td>';
                             plateHtml += '<td class="center item dropdown width150 bBottom" data-id="' + data.id + '" data-index="' + index + '" data-title="' + (_thisTr.find('.desc').val() || '') + '"><span class="ico-dropdown"></span></td>';
                             plateHtml = $(plateHtml);
