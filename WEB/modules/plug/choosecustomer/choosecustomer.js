@@ -27,6 +27,7 @@ define(function (require, exports, module) {
     };
 
     PlugJS.prototype.init = function () {
+
         var _self = this;
         doT.exec("/plug/choosecustomer/choosecustomer.html", function (template) {
             var innerHtml = template({});
@@ -57,7 +58,7 @@ define(function (require, exports, module) {
                     }
                 }
             });
-            //绑定事件            
+            //绑定事件
             _self.bindEvent();
         });
     };
@@ -68,36 +69,36 @@ define(function (require, exports, module) {
         //搜索
         require.async("search", function () {
             $("#choosecustomerSearch").searchKeys(function (keyWords) {
-                    if (keyWords) {
+                if (keyWords) {
+                    $(".customerlist-all .customerlist-items").empty();
+                    $(".customerlist-all .customerlist-items").append("<li class='data-loading'></li>");
+                    Global.post("/Customer/GetCustomersByKeywords", {
+                        keywords: keyWords,
+                        isAll: _self.setting.isAll ? 1 : 0
+                    }, function (data) {
                         $(".customerlist-all .customerlist-items").empty();
-                        $(".customerlist-all .customerlist-items").append("<li class='data-loading'></li>");
-                        Global.post("/Customer/GetCustomersByKeywords", {
-                            keywords: keyWords,
-                            isAll: _self.setting.isAll ? 1 : 0
-                        }, function (data) {
-                            $(".customerlist-all .customerlist-items").empty();
-                            if (data.items.length > 0) {
-                                doT.exec("/plug/choosecustomer/customers.html", function (template) {
-                                    var innerHtml = template(data.items);
-                                    innerHtml = $(innerHtml);
-                                    innerHtml.click(function () {
-                                        var _this = $(this);
-                                        if (!_this.hasClass("ico-checked")) {
-                                            _this.siblings().find(".check").removeClass("ico-checked").addClass("ico-check");
-                                            _this.find(".check").removeClass("ico-check").addClass("ico-checked");
-                                        }
-                                    });
-                                    $(".customerlist-all .customerlist-items").append(innerHtml);
+                        if (data.items.length > 0) {
+                            doT.exec("/plug/choosecustomer/customers.html", function (template) {
+                                var innerHtml = template(data.items);
+                                innerHtml = $(innerHtml);
+                                innerHtml.click(function () {
+                                    var _this = $(this);
+                                    if (!_this.hasClass("ico-checked")) {
+                                        _this.siblings().find(".check").removeClass("ico-checked").addClass("ico-check");
+                                        _this.find(".check").removeClass("ico-check").addClass("ico-checked");
+                                    }
                                 });
-                            } else {
-                                $(".customerlist-all .customerlist-items").append("<li class='nodata-txt'>找不到客户</li>");
-                            }
-                        });
-
-                    } else {
-                        $(".customerlist-items").empty();
-                    }
-                });
+                                $(".customerlist-all .customerlist-items").append(innerHtml);
+                            });
+                        } else {
+                            $(".customerlist-all .customerlist-items").append("<li class='nodata-txt'>找不到客户</li>");
+                        }
+                    });
+                    
+                } else {
+                    $(".customerlist-items").empty();
+                }
+            });
         });
     }
 
