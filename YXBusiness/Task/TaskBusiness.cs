@@ -252,6 +252,20 @@ namespace IntFactoryBusiness
 
             return list;
         }
+
+        public static TaskEntity GetPushTaskByOrderID(string orderid)
+        {
+            TaskEntity model = null;
+            DataSet ds = TaskDAL.BaseProvider.GetPushTaskByOrderID(orderid);
+            DataTable taskTB = ds.Tables["OrderTask"];
+            if (taskTB.Rows.Count == 1)
+            {
+                model = new TaskEntity();
+                model.FillData(taskTB.Rows[0]);
+            }
+
+            return model;
+        }
         #endregion
 
         #region 改
@@ -335,10 +349,7 @@ namespace IntFactoryBusiness
                 LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, clientid);
 
                 //通知任务完成消息通知给它下级任务
-                TaskEntity task = GetPushTaskByPreTaskID(taskID);
-                if (task != null) {
-                    WeiXinMPPush.BasePush.SendTaskFinishPush(task.OpenID, task.PreTitle, task.Title, task.Owner.Name);
-                }
+                WeiXinMPPush.BasePush.SendTaskFinishPush(taskID);
             }
 
             return flag;

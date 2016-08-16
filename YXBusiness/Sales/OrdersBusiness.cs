@@ -749,7 +749,8 @@ namespace IntFactoryBusiness
                 string msg = "负责人更换为：" + model.Name;
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, userid, clientid);
 
-
+                //通知负责人有新任务
+                WeiXinMPPush.BasePush.SendNewOrderPush(orderid);
             }
             return bl;
         }
@@ -776,14 +777,7 @@ namespace IntFactoryBusiness
                 LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Orders, EnumLogType.Update, "", operateid, clientid);
 
                 //订单分配任务消息通知
-                List<TaskEntity> tasks = TaskBusiness.GetPushTasksByOrderID(orderid);
-                if (tasks.Count>0)
-                {
-                    foreach (var task in tasks)
-                    {
-                        WeiXinMPPush.BasePush.SendNewTaskPush(task.OpenID, task.Title,task.EndTime);
-                    }
-                }
+                WeiXinMPPush.BasePush.SendNewTasksPush(orderid);
             }
             return bl;
         }
