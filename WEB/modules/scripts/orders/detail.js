@@ -141,7 +141,6 @@
 
         //更换品类流程
         $(".btn-change-process-category").click(function () {
-
             if (_self.isLoading) {
                 alert("数据处理中，请稍后");
                 return false;
@@ -262,13 +261,21 @@
                         _this.val(_this.data("value"));
                     } else if (_this.val() > _self.model.FinalPrice) {
                         confirm("大货价格大于样衣报价，确认继续吗？", function () {
-                            $("#iptDiscount").val((_this.val() / _self.model.OriginalPrice).toFixed(2));
+                            if (_self.model.OriginalPrice == 0) {
+                                $("#iptDiscount").val("1.00");
+                            } else {
+                                $("#iptDiscount").val((_this.val() / _self.model.OriginalPrice).toFixed(2));
+                            }
                             _this.data("value", _this.val());
                         }, function () {
                             _this.val(_this.data("value"));
                         });
                     } else {
-                        $("#iptDiscount").val((_this.val() / _self.model.OriginalPrice).toFixed(2));
+                        if (_self.model.OriginalPrice == 0) {
+                            $("#iptDiscount").val("1.00");
+                        } else {
+                            $("#iptDiscount").val((_this.val() / _self.model.OriginalPrice).toFixed(2));
+                        }
                         _this.data("value", _this.val());
                     }
 
@@ -665,8 +672,8 @@
                             _thisBtn.text("保存中...");
                             _thisBtn.data('isSubmit', 1);
                             Global.post("/Task/CreateGoodsDocReturn", {
-                                orderID: $(".stage-items li[data-mark=14]").data('orderid'),
-                                taskID: $(".stage-items li[data-mark=14]").data('taskid'),
+                                orderID: ObjectJS.orderid,
+                                taskID: '',
                                 docType: 6,
                                 details: details,
                                 originalID: id
@@ -677,7 +684,7 @@
                                     alert("车缝退回成功");
                                     $(".swen-quantity-" + id).each(function () {
                                         var quantity = ($(this).prev().text() * 1) + ($(this).find('input').val() * 1);
-                                        $(this).prev().text(quantity.toFixed(2));
+                                        $(this).prev().text(quantity);
                                     });
                                     $(".btn-save-" + id).remove();
                                     $(".btn-cancel-" + id).remove();

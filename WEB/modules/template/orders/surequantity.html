@@ -4,7 +4,7 @@
 
 <ul class="easydialog-create" style="max-width:800px;" id="createOrderQuantity" >
 {%
-    for(var i=0, j=model.SaleAttrs.length; i < j; i++){
+    for(var i=0, j=model.AttrLists.length; i < j; i++){
 	    var attr = model.AttrLists[i];
 %}
     <li data-id="{%=attr.AttrID%}" data-text="{%= attr.AttrName%}" class="productsalesattr">

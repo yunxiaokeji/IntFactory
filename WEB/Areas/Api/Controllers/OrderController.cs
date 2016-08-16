@@ -23,6 +23,8 @@ namespace YXERP.Areas.Api.Controllers
                 Dictionary<string, object> obj = new Dictionary<string, object>();
                 obj.Add("orderID", item.OrderID);
                 obj.Add("goodsName", item.GoodsName);
+                obj.Add("categoryID", item.CategoryID);
+                obj.Add("categoryName", item.CategoryName);
                 obj.Add("intGoodsCode", item.IntGoodsCode);
                 obj.Add("finalPrice", item.FinalPrice);
                 obj.Add("orderImage", item.OrderImage);

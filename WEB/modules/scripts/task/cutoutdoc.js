@@ -78,7 +78,7 @@
                                 expresscode: "",
                                 details: details,
                                 remark: $("#expressRemark").val().trim(),
-                                ownerid:  $("#showCutoutGoods .choose-owner").data('id')
+                                ownerid: $("#showCutoutGoods .choose-owner").data('id')
                             },
                             function (data) {
                                 if (data.id) {
