@@ -85,6 +85,12 @@
             }
         });
 
+        //关闭浮层
+        $("#closeLayer").click(function () {
+            $(".order-layer").animate({ right: "-505px" }, 200);
+            $(".object-item").removeClass('looking-view');
+        });
+
         /*根据时间段查询*/
         $(".select-time").addClass("usable");
         $(".select-time-left").click(function () {
