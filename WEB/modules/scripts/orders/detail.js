@@ -1386,9 +1386,10 @@
         
         doT.exec("template/orders/cutoutgoods.html", function (template) {
             /*弹出层列表显示信息*/
-            _self.model.OrderGoods.taskDesc = btnObject.data("name");
+            var items = _self.model.OrderGoods
+            items.taskDesc = btnObject.data("name");
 
-            var innerText = template(_self.model.OrderGoods);
+            var innerText = template(items);
             Easydialog.open({
                 container: {
                     id: "showCutoutGoods",
