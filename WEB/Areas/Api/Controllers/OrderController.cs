@@ -99,38 +99,38 @@ namespace YXERP.Areas.Api.Controllers
             var saleAttrs = new List<Dictionary<string, object>>();
             foreach (var attr in category.AttrLists) {
                 Dictionary<string, object> attrObj= new Dictionary<string, object>();
-                attrObj.Add("attrID", attr.AttrID);
-                attrObj.Add("attrName", attr.AttrName);
+                attrObj.Add("AttrID", attr.AttrID);
+                attrObj.Add("AttrName", attr.AttrName);
                 var attrValues = new List<Dictionary<string, object>>();
                 foreach (var value in attr.AttrValues) {
                     Dictionary<string, object> valueObj = new Dictionary<string, object>();
-                    valueObj.Add("valueID", value.ValueID);
-                    valueObj.Add("valueName", value.ValueName);
+                    valueObj.Add("ValueID", value.ValueID);
+                    valueObj.Add("ValueName", value.ValueName);
 
                     attrValues.Add(valueObj);
                 }
-                attrObj.Add("attrValues", attrValues);
+                attrObj.Add("AttrValues", attrValues);
                 attrLists.Add(attrObj);
             }
             foreach (var attr in category.SaleAttrs)
             {
                 Dictionary<string, object> attrObj = new Dictionary<string, object>();
-                attrObj.Add("attrID", attr.AttrID);
-                attrObj.Add("attrName", attr.AttrName);
+                attrObj.Add("AttrID", attr.AttrID);
+                attrObj.Add("AttrName", attr.AttrName);
                 var attrValues = new List<Dictionary<string, object>>();
                 foreach (var value in attr.AttrValues)
                 {
                     Dictionary<string, object> valueObj = new Dictionary<string, object>();
-                    valueObj.Add("valueID", value.ValueID);
-                    valueObj.Add("valueName", value.ValueName);
+                    valueObj.Add("ValueID", value.ValueID);
+                    valueObj.Add("ValueName", value.ValueName);
 
                     attrValues.Add(valueObj);
                 }
-                attrObj.Add("attrValues", attrValues);
+                attrObj.Add("AttrValues", attrValues);
                 saleAttrs.Add(attrObj);
             }
-            obj.Add("attrLists", attrLists);
-            obj.Add("saleAttrs", saleAttrs);
+            obj.Add("AttrLists", attrLists);
+            obj.Add("SaleAttrs", saleAttrs);
             JsonDictionary.Add("order",obj);
 
             return new JsonResult
