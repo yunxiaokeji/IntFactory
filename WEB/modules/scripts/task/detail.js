@@ -1603,7 +1603,6 @@
 
     //获取制版工艺说明
     ObjectJS.getPlateMakings = function () {
-        
         $(".tb-plates").html('');
         $(".tb-plates").html("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
         Global.post("/Task/GetPlateMakings", {

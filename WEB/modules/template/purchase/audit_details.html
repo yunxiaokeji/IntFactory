@@ -20,7 +20,7 @@
         {
         var detail=item.Details[k];
 %}
-        <tr class="item {%=k==kk-1?'last':''%}">
+    <tr class="item {%=k==kk-1?'last':''%}">
     <td class="tLeft bBottom">
         <a href="/Products/ChooseDetail?pid={%=detail.ProductID%}&did={%=detail.ProductDetailID%}%}" target="_blank">
             {%=detail.ProductName+"&nbsp;&nbsp;"%}<span class="color999">{%=detail.Remark%}</span>
@@ -31,8 +31,15 @@
     </td>
     {%
     if(k==0)
-    {%}
-        <td class="center bBottom bLeft" rowspan="{%=kk%}">{%=detail.TotalMoney.toFixed(2)%}</td>
+    {
+        var totalMoney=0;
+        for(var j=0;j<item.Details.length;j++)
+        {
+            var detail=item.Details[j];
+            totalMoney+=detail.TotalMoney;
+        }
+     %}
+        <td class="center bBottom bLeft" rowspan="{%=kk%}">{%=totalMoney.toFixed(2)%}</td>
         <td class='center bBottom bLeft' rowspan="{%=kk%}">{%=(item.UserName ? item.UserName:"--")%}</td>
         <td class='center bBottom bLeft' rowspan="{%=kk%}">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     {%}%}

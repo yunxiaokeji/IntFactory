@@ -30,7 +30,7 @@ define(function (require, exports, module) {
             _ico.click(function () {
                 var _this = $(this);
                 !!callback && callback(_this.prev().val().trim());
-            })
+            });
             _input.keydown(function (e) {
                 var _this = $(this);
                 if (e.keyCode == 13) {
