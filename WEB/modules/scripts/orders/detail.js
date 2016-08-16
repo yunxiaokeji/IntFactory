@@ -799,14 +799,13 @@
     ObjectJS.getPlateMakings = function () {
         var _self = this;
 
-        $(".tb-plates .tr-header").nextAll().remove();
-        $(".tb-plates .tr-header").after("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
-
+        $(".tb-plates").html('');
+        $(".tb-plates").html("<tr><td colspan='5'><div class='data-loading'><div></td></tr>");
         Global.post("/Task/GetPlateMakings", {
             orderID: _self.model.OrderType == 1 ? _self.model.OrderID : _self.model.OriginalID,
             taskID: ""
         }, function (data) {
-            $(".tb-plates .tr-header").nextAll().remove();
+            $(".tb-plates").html('');
             if (data.items.length > 0) {
                 doT.exec("template/task/platematring-orderdatail.html", function (template) {
                     PlateMakings = data.items;
@@ -817,7 +816,7 @@
                 });
             }
             else {
-                $(".tb-plates").append("<tr><td colspan='5'><div class='nodata-txt'>暂无工艺说明<div></td></tr>");
+                $(".tb-plates").append("<tr><td colspan='5'><div class='nodata-txt'>暂无工艺说明</div></td></tr>");
             }
         });
     }

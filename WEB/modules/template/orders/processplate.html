@@ -9,7 +9,7 @@
     {% if(typeName!=item.TypeName){%} 
         <td class='pLeft10 font18 tLeft no-border-top head' style="line-height:46px;"><i class='iconfont icon-delete processplates' data-name="{%=item.TypeName%}">&#xe613;</i><span class="plate-name font18">{%=item.TypeName%}</span></td>  
     {% typeName=item.TypeName;} %}          
-        <td colspan="2" class="pLeft5" style="max-width:150px;word-wrap:break-word;line-height:150%;">{%=item.Title%}</td>
+        <td colspan="2" class="pLeft5 tLeft" style="max-width:150px;word-wrap:break-word;line-height:150%;"><img style="width:20px;margin-right:5px;max-width:20px;" src='{%=item.Icon==""?"/modules/images/img-noimg.png":item.Icon%}' />{%=item.Title%}</td>
         <td colspan="4" class="tLeft pLeft5" style="max-width:781px; word-wrap:break-word;line-height:150%;width:700px;">{%=item.Remark%}</td>       
     </tr>
 {% } %}

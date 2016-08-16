@@ -20,16 +20,7 @@
             $("#Platemak").html(decodeURI(plate));
         };
 
-        Objects.removeTaskPlateOperate();             
-        
-        var Sys = {};
-        var ua = navigator.userAgent.toLowerCase();
-
-        if (window.MessageEvent && !document.getBoxObjectFor)
-            Sys.chrome = ua.match(/chrome\/([\d.]+)/)[1];
-        //以下进行测试        
-        
-        if (Sys.chrome) $(".time-order tr").find("td:last").removeClass("no-border-right");
+        Objects.removeTaskPlateOperate();   
 
         //工艺说明录入上传附件
         Upload.uploader({
@@ -195,8 +186,8 @@
         tableModel.xAttr = xattr;
         tableModel.yAttr = yattr;
         tableModel.items = order.OrderGoods;
-        console.log(tableModel);
-            doT.exec("template/orders/orders_child_list.html", function (template) {
+        //console.log(tableModel);
+            doT.exec("template/orders/plate-making-list.html", function (template) {
                 var html = template(tableModel);
                 html = $(html);
                 $(".head-table").after(html);
@@ -207,6 +198,40 @@
                     } else {
                         $(this).removeClass("hover");
                     }
+                });
+                //数量必须大于0的数字
+                html.find(".quantity").change(function () {
+                    var _this = $(this);
+                    if (!_this.val().isInt() || _this.val() <= 0) {
+                        _this.val("0");
+                    }
+
+                    var total = 0;
+                    $(".child-product-table .tr-item").each(function () {
+                        var _tr = $(this), totaly = 0;
+                        if (!_tr.hasClass("total")) {
+                            _tr.find(".quantity").each(function () {
+                                var _this = $(this);
+                                if (_this.val() > 0) {
+                                    totaly += _this.val() * 1;
+                                }
+                            });
+                            _tr.find(".total-y").text(totaly);
+                        } else {
+                            _tr.find(".total-y").each(function () {
+                                var _td = $(this), totalx = 0;
+                                $(".child-product-table .quantity[data-x='" + _td.data("x") + "']").each(function () {
+                                    var _this = $(this);
+                                    if (_this.val() > 0) {
+                                        totalx += _this.val() * 1;
+                                    }
+                                });
+                                total += totalx;
+                                _td.text(totalx);
+                            });
+                            _tr.find(".total-xy").text(total);
+                        }
+                    });
                 });
             });
         

@@ -28,10 +28,8 @@ define(function (require, exports, module) {
     PlugJS.prototype.init = function () {
 
         var _self = this;
-
         doT.exec("/plug/choosecustomer/choosecustomer.html", function (template) {
             var innerHtml = template({});
-
             Easydialog.open({
                 container: {
                     id: "choose-customer-add",

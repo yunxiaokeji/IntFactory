@@ -32,11 +32,10 @@
         }, function (data) {
             $tr_header.nextAll().remove();
             if (data.items.length > 0) {
-
                 $tr_header.hide();
-
                 var templateHtml = "template/orders/cutoutdoc.html";
                 if (type == 2) {
+                    $tr_header.show();
                     templateHtml = "template/orders/senddydocs.html"
                 }
                 else if (type == 22) {

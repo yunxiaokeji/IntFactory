@@ -250,6 +250,7 @@
     <Content Include="modules\images\ico-task.png" />
     <Content Include="modules\images\ico-unlock.png" />
     <Content Include="modules\images\ico-username.png" />
+    <Content Include="modules\images\iconback-blue.png" />
     <Content Include="modules\images\iconback.png" />
     <Content Include="modules\images\icondate.png" />
     <Content Include="modules\images\img-noaccess.png" />
@@ -541,6 +542,7 @@
     <Content Include="modules\plug\umeditor\ueditor.parse.js" />
     <Content Include="modules\plug\umeditor\ueditor.parse.min.js" />
     <Content Include="modules\template\orders\createorder-checkattr.html" />
+    <Content Include="modules\template\orders\plate-making-list.html" />
     <Content Include="modules\template\products\product-baseinfo.html" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.js" />
