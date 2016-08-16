@@ -44,14 +44,14 @@
         <div class="process left mBottom30">
             <table class="head-table" style="width:955px;">
                 <tr class="head" style="height:50px">                   
-                    <td class="no-border-left" colspan="6">
+                    <td class="no-border-left" colspan="6" style="border-right:1px solid #000;">
                         <div class="titlename">
                             @(currentUser.Client.CompanyName)生产工艺单                            
                         </div>
                     </td>                
                 </tr>
                 <tr>
-                    <td style="width:318px;">
+                    <td style="width:318px;">                        
                         <table class="no-border img-order ">
                             <tr>
                                 <td class=" no-border-left">前片图片</td>
@@ -77,7 +77,7 @@
                         <table class="no-border order-information" style="height:250px;width:400px;">
                             <tr>
                                 <td class="width100" >款号：</td>
-                                <td style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width:200px">@(order.IntGoodsCode==""?order.OrderCode:order.IntGoodsCode)</td>
+                                <td style="overflow: hidden;text-overflow: ellipsis;max-width:200px">@(order.IntGoodsCode==""?order.OrderCode:order.IntGoodsCode)</td>
                             </tr>
                             <tr>
                                 <td>采购负责人：</td>
@@ -126,29 +126,29 @@
                             </tr>
                         </table>
                     </td>                
-                    <td>
-                        <table class="no-border time-order" style="height:250px;width:235px;">
+                    <td style="border-right:1px solid #000">
+                        <table class="time-order no-border" style="height:250px;width:235px;">
                             <tr>
-                                <td class="no-border-left">下单日期：</td>
+                                <td class="">下单日期：</td>
                                 <td class="no-border-right">@(order.OrderTime.ToString("yyyy-MM-dd"))</td>
                             </tr>
                             <tr>
-                                <td class="no-border-left">合同货期：</td>
+                                <td class="">合同货期：</td>
                                 <td class="no-border-right">@(order.PlanTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : order.PlanTime.ToString("yyyy-MM-dd"))</td>
                             </tr>
                             <tr>
-                                <td class="no-border-right no-border-bottom no-border-left">准确资料签章：</td>       
-                                <td class="no-border-left no-border-right no-border-bottom"></td>       
+                                <td class="no-border-right">准确资料签章：</td>       
+                                <td class="no-border-left no-border-right"></td>       
                             </tr>
                         </table>
-                    </td>                      
+                    </td>                     
                 </tr>
             </table>   
             @if (order.OrderType==2)
             {
                 <table class="navgoods no-border left" id="navgoods">
                     <tr>
-                        <td colspan="7" class="no-border-top no-border-bottom">
+                        <td class="no-border-top no-border-bottom">
                             <table class="no-border goosddoc" data-id="navgoods" style="width:953px;height:100%;">  
                                 <tr>
                                     <td rowspan="@(order.OrderGoods.Count+2)" class="font18 head no-border-top no-border-left bo-border-bottom pLeft10" style="height:51px;"><i class="iconfont icon-delete information">&#xe613;</i>下单明细</td>
@@ -182,7 +182,8 @@
             <div class="clear"></div>
             <table class="navproducts no-border" data-id="navproducts">
                 <tr class="head " style="height:30px;">
-                    <td rowspan="@(order.Details.Count+1)" class="font18  no-border-top tLeft head hight40 pLeft10"><i class="iconfont icon-delete information">&#xe613;</i>物料信息</td>
+                    <td rowspan="@(order.Details.Count+1)" class="font18  no-border-top tLeft head hight40 pLeft10" 
+                        style="max-width:92px;"><i class="iconfont icon-delete information">&#xe613;</i>物料信息</td>
                     <td class="no-border-top width80">材料名称</td>
                     <td class="no-border-top width80">编码</td>
                     <td class="no-border-top width70" colspan="2">规格</td>
@@ -220,7 +221,7 @@
                               
             <table class="navengraving no-border" data-id="navengraving" style="width:955px;">                
                 <tr>
-                    <td class="font18 no-border-top tLeft head hight40 pLeft10" style="min-width:120px;"><i class="iconfont icon-delete information ">&#xe613;</i>尺寸信息</td>
+                    <td class="font18 no-border-top tLeft head hight40 pLeft10" style="max-width:106px;"><i class="iconfont icon-delete information ">&#xe613;</i>尺寸信息</td>
                     <td id="Platemak" class="no-border-top" colspan="10"></td>
                 </tr>
             </table>  

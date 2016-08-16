@@ -21,15 +21,8 @@
         };
 
         Objects.removeTaskPlateOperate();             
-        
-        var Sys = {};
-        var ua = navigator.userAgent.toLowerCase();
 
-        if (window.MessageEvent && !document.getBoxObjectFor)
-            Sys.chrome = ua.match(/chrome\/([\d.]+)/)[1];
-        //以下进行测试        
-        
-        if (Sys.chrome) $(".time-order tr").find("td:last").removeClass("no-border-right");
+            //$(".time-order tr").find("td:last").removeClass("no-border-right");
 
         //工艺说明录入上传附件
         Upload.uploader({
