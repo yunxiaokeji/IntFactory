@@ -4,9 +4,9 @@
 <tr class="tr-header">
     <td class="tLeft" style="text-indent:0">材料名称</td>
     <td class="tLeft">规格</td>
-    <td class="">预计采购数</td>
-    <td class="">入库数</td>
-    <td>使用量</td>
+    <td class="">采购量</td>
+    <td class="">入库量</td>
+    <td>已消耗</td>
     <td class="">数量</td>
 </tr>
 {%
@@ -19,7 +19,7 @@
     <td class="center purchase-count">{%=item.PurchaseQuantity.toFixed(3)%}</td>
     <td class="center">{%=item.InQuantity.toFixed(3)%}</td>
     <td class="center">{%=item.UseQuantity.toFixed(3)%}</td>
-    <td class="center"><input class="width50 quantity" data-maxquantity="{%=item.Quantity*1+item.Loss*1%}" type="text" value="0" /></td>
+    <td class="center"><input class="width50 quantity" type="text" value="0" /></td>
 </tr>
 {% } %}
 </table>

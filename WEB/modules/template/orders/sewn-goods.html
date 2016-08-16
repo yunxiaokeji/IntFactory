@@ -1,10 +1,10 @@
 ﻿
-<div style="max-height:300px; overflow:auto;">
+<div style="max-height:300px; overflow:auto;min-width:520px;">
 <table  class="table-list" >
 <tr class="tr-header">
     <td class="tLeft">规格</td>
     <td class="">下单量</td>
-    <td class="">已裁剪</td>
+    <td class="">已{%=$data.taskDescCut||"裁剪"%}</td>
     <td class="">已{%=$data.taskDesc||"车缝"%}</td>
     <td class="">{%=$data.taskDesc||"车缝"%}数量</td>
 </tr>

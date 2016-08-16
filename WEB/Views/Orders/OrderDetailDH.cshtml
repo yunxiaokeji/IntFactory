@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "订单详情页";
+    ViewBag.Title = "大货单详情页";
     var model = (IntFactoryEntity.OrderEntity)ViewBag.Model;
     var modules = (List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.Modules;
     
@@ -21,7 +21,7 @@
 }
 <div class="header-box">
     <div class="header-title">
-        订单编号：@(model.OrderCode)&nbsp;&nbsp;
+        大货单编号：@(model.OrderCode)&nbsp;&nbsp;
         @(model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID) 
         ? "委托工厂："+ViewBag.Client.CompanyName+"-"+ViewBag.Client.ClientCode : !model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID) 
         ? "协助工厂："+ViewBag.Client.CompanyName+"-"+ViewBag.Client.ClientCode : "本厂订单")

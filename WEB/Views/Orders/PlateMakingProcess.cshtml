@@ -148,7 +148,9 @@
             {
                 <table class="navgoods no-border left" id="navgoods">
                     <tr>
-                        <td rowspan="@(order.OrderGoods.Count+2)" class="font18 head no-border-top bo-border-bottom pLeft10" style="height:51px;min-width:143px"><i class="iconfont icon-delete information">&#xe613;</i>下单明细</td>
+                        <td rowspan="@(order.OrderGoods.Count+1)" class="font18 head no-border-top bo-border-bottom pLeft10" style="height:51px;width:143px"><i class="iconfont icon-delete information">&#xe613;</i>下单明细</td>
+                    </tr>
+                    <tr>
                         <td class="no-border-top no-border-bottom">
                             <table class="no-border goosddoc" data-id="navgoods" style="width:799px;height:100%;">  
                                 <tr>                                    
@@ -183,7 +185,7 @@
             <table class="navproducts no-border" data-id="navproducts">
                 <tr class="head " style="height:30px;">
                     <td rowspan="@(order.Details.Count+1)" class="font18  no-border-top tLeft head hight40 pLeft10" 
-                        style="max-width:92px;"><i class="iconfont icon-delete information">&#xe613;</i>物料信息</td>
+                        style="width:143px;"><i class="iconfont icon-delete information">&#xe613;</i>物料信息</td>
                     <td class="no-border-top width80">材料名称</td>
                     <td class="no-border-top width80">编码</td>
                     <td class="no-border-top width70" colspan="2">规格</td>
@@ -221,14 +223,14 @@
                               
             <table class="navengraving no-border" data-id="navengraving" style="width:955px;">                
                 <tr>
-                    <td class="font18 no-border-top tLeft head hight40 pLeft10" style="max-width:106px;"><i class="iconfont icon-delete information ">&#xe613;</i>尺寸信息</td>
+                    <td class="font18 no-border-top tLeft head hight40 pLeft10" style="width:143px;"><i class="iconfont icon-delete information ">&#xe613;</i>尺寸信息</td>
                     <td id="Platemak" class="no-border-top" colspan="10"></td>
                 </tr>
             </table>  
            
             <table class="processplate no-border" style="width:955px">
                 <tr>
-                    <td class="no-border-top head">工艺</td>
+                    <td class="no-border-top head" style="width:153px;">工艺</td>
                     <td colspan="2" class="no-border-top head">名称</td>
                     <td colspan="4" class="no-border-top head">描述</td>
                 </tr>                

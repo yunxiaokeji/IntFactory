@@ -68,9 +68,9 @@ namespace IntFactoryEntity
         [Property("Lower")] 
 		public string ClientID{ set; get; }
 
-        public Users CreateUser { get; set; }
+        public CacheUserEntity CreateUser { get; set; }
 
-        public Users Owner { get; set; }
+        public CacheUserEntity Owner { get; set; }
 
         public string OwnerName { get; set; }
 

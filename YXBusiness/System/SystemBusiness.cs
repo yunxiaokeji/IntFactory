@@ -239,7 +239,7 @@ namespace IntFactoryBusiness
         {
             if (OrderProcess.ContainsKey(clientid))
             {
-                return OrderProcess[clientid].ToList();
+                return OrderProcess[clientid];
             }
 
             List<OrderProcessEntity> list = new List<OrderProcessEntity>();
@@ -248,7 +248,8 @@ namespace IntFactoryBusiness
             {
                 OrderProcessEntity model = new OrderProcessEntity();
                 model.FillData(dr);
-                model.OwnerName = OrganizationBusiness.GetUserByUserID(model.OwnerID, clientid).Name;
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, clientid);
+                model.OwnerName = model.Owner.Name;
                 model.CategoryName = GetProcessCategoryByID(model.CategoryID).Name;
                 list.Add(model);
             }
@@ -270,7 +271,8 @@ namespace IntFactoryBusiness
             if (dt.Rows.Count > 0)
             {
                 model.FillData(dt.Rows[0]);
-                model.OwnerName = OrganizationBusiness.GetUserByUserID(model.OwnerID, clientid).Name;
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, clientid);
+                model.OwnerName = model.Owner.Name;
                 model.CategoryName = GetProcessCategoryByID(model.CategoryID).Name;
 
                 list.Add(model);
@@ -793,7 +795,8 @@ namespace IntFactoryBusiness
             if (bl)
             {
                 model.OwnerID = ownerid;
-                model.Owner = OrganizationBusiness.GetUserByUserID(ownerid, clientid);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, clientid);
+                model.OwnerName = model.Owner.Name;
             }
             return bl;
         }
