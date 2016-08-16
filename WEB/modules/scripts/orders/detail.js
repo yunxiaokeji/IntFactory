@@ -1399,9 +1399,9 @@
         
         doT.exec("template/orders/cutoutgoods.html", function (template) {
             /*弹出层列表显示信息*/
-            _self.model.OrderGoods.taskDesc = btnObject.data("name");
-            
-            var innerText = template(_self.model.OrderGoods);
+            var items = _self.model.OrderGoods.concat([]);
+            items.taskDesc = btnObject.data("name");
+            var innerText = template(items);
             Easydialog.open({
                 container: {
                     id: "showCutoutGoods",
@@ -1492,11 +1492,12 @@
     ObjectJS.sewnGoods = function (btnObject) {
         var _self = this;
         doT.exec("template/orders/sewn-goods.html", function (template) {
+            var items = _self.model.OrderGoods.concat([]);
             //车缝任务描述
-            _self.model.OrderGoods.taskDesc = btnObject.data("name");
+            items.taskDesc = btnObject.data("name");
             //裁剪任务描述
-            _self.model.OrderGoods.taskDescCut = btnObject.prev().data("name");
-            var innerText = template(_self.model.OrderGoods);
+            items.taskDescCut = btnObject.prev().data("name");
+            var innerText = template(items);
             Easydialog.open({
                 container: {
                     id: "showSewnGoods",
