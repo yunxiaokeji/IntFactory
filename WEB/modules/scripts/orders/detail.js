@@ -1399,10 +1399,9 @@
         
         doT.exec("template/orders/cutoutgoods.html", function (template) {
             /*弹出层列表显示信息*/
-            var items = _self.model.OrderGoods
-            items.taskDesc = btnObject.data("name");
-
-            var innerText = template(items);
+            _self.model.OrderGoods.taskDesc = btnObject.data("name");
+            
+            var innerText = template(_self.model.OrderGoods);
             Easydialog.open({
                 container: {
                     id: "showCutoutGoods",
@@ -1493,6 +1492,7 @@
     ObjectJS.sewnGoods = function (btnObject) {
         var _self = this;
         doT.exec("template/orders/sewn-goods.html", function (template) {
+            _self.model.OrderGoods.taskDesc = btnObject.data("name");
             var innerText = template(_self.model.OrderGoods);
             Easydialog.open({
                 container: {
