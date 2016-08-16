@@ -1493,6 +1493,8 @@
         var _self = this;
         doT.exec("template/orders/sewn-goods.html", function (template) {
             _self.model.OrderGoods.taskDesc = btnObject.data("name");
+            //裁剪描述
+            _self.model.OrderGoods.taskDescCut = btnObject.prev().data("name");
             var innerText = template(_self.model.OrderGoods);
             Easydialog.open({
                 container: {
