@@ -10,7 +10,7 @@
         Objects.getAmount();        
         Objects.processPlate(orderid, OriginalID, ordertype);        
         Objects.order = JSON.parse(order.replace(/&quot;/g, '"'));
-        //Objects.getOrderRemork(Objects.order);
+        Objects.getOrderRemork(Objects.order);
     };
 
     Objects.bindEvent = function (plate) {
@@ -181,14 +181,16 @@
         var tableModel = {}, xattr = [], yattr=[];
         for (var i = 0; i < order.OrderGoods.length; i++) {
             if ($.inArray(order.OrderGoods[i].XRemark, xattr) == -1 ) {
-                xattr.push(order.OrderGoods[i].XRemark);
-                yattr.push(order.OrderGoods[i].YRemark); 
-            }             
+                xattr.push(order.OrderGoods[i].XRemark);                
+            }
+            if ($.inArray(order.OrderGoods[i].YRemark, xattr) == -1) {
+                yattr.push(order.OrderGoods[i].YRemark);
+            }
         }
         tableModel.xAttr = xattr;
         tableModel.yAttr = yattr;
         tableModel.items = order.OrderGoods;
-        //console.log(tableModel);
+        console.log(tableModel);
             doT.exec("template/orders/plate-making-list.html", function (template) {
                 var html = template(tableModel);
                 html = $(html);
