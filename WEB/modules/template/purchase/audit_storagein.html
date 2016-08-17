@@ -12,6 +12,7 @@
 {%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
+    console.log(item);
 %}
 <tr data-id="{%=item.AutoID%}" class="list-item">
     <td class="">{%=item.ProductName%}</td>

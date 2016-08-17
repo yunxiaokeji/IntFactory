@@ -357,8 +357,21 @@ define(function (require, exports, module) {
                     content: innerText,
                     yesFn: function () {
                         var details = ""
+                        var isContinue = false;
                         $("#showAuditStorageIn .list-item").each(function () {
                             var _this = $(this);
+                            if (!_this.find('select').val()) {
+                                isContinue = true;
+                                return false;
+                            }
+                        });
+                        if (isContinue) {
+                            alert("请选择货位");
+                            return false;
+                        }
+                        $("#showAuditStorageIn .list-item").each(function () {
+                            var _this = $(this);
+
                             var quantity = _this.find(".quantity").val();
                             if (quantity > 0) {
                                 details += _this.data("id") + "-" + quantity + ":" + _this.find("select").val() + ",";
