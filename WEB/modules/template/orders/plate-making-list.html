@@ -2,8 +2,7 @@
         var model= $data;
         var xAttr=model.xAttr,
             yAttr=model.yAttr,
-            items=model.items[0];   
-            console.log(items);    
+            items=model.items;     
  %}
 
 <table class="table-list child-product-table">
@@ -28,10 +27,10 @@
 	        var td = xAttr[ii];
         %}
             <td class="center">
-                <div  data-x="{%=td%}" data-y="{%=item%}" data-remark="{%=td+item%}" class="quantity width80">{%=items.Quantity%}</div>
+                <div  data-x="{%=td%}" data-y="{%=item%}" data-remark="{%=td+item%}" class="quantity">{%=items[i].Quantity%}</div>
             </td>
         {% } %}
-        <td class="center"><label class="total-y bold">0</label></td>
+        <td class="center"><label class="total-y bold" data-y="{%=item%}">0</label></td>
     </tr>
     {% } %}
     <tr class="tr-item total">

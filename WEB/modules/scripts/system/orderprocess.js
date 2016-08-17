@@ -148,7 +148,7 @@
                         if (!VerifyObject.isPass()) {
                             return false;
                         }
-                        if ($("#processCategory .role-item.hover").length == 0) {
+                        if ($("#processCategory .role-item.hover").length == 0 && !model) {
                             alert("请选择品类");
                             return false;
                         }

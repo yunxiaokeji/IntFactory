@@ -178,15 +178,20 @@
 
     Objects.getOrderRemork = function (order) {
         
-        var tableModel = {}, xattr = [], yattr=[];
+        var tableModel = {}, xattr = [], yattr = [];xyattr=[];
         for (var i = 0; i < order.OrderGoods.length; i++) {
-            xattr.push(order.OrderGoods[i].XRemark);
-            yattr.push(order.OrderGoods[i].YRemark);
+            if ($.inArray(order.OrderGoods[i].XRemark, xattr) == -1 ) {
+                xattr.push(order.OrderGoods[i].XRemark);                
+            }
+            if ($.inArray(order.OrderGoods[i].YRemark, xattr) == -1) {
+                yattr.push(order.OrderGoods[i].YRemark);
+            }
+            xyattr.push(order.OrderGoods[i].XYRemark);
         }
         tableModel.xAttr = xattr;
         tableModel.yAttr = yattr;
         tableModel.items = order.OrderGoods;
-        //console.log(tableModel);
+        console.log(tableModel);
             doT.exec("template/orders/plate-making-list.html", function (template) {
                 var html = template(tableModel);
                 html = $(html);
@@ -199,40 +204,22 @@
                         $(this).removeClass("hover");
                     }
                 });
-                //数量必须大于0的数字
-                html.find(".quantity").change(function () {
-                    var _this = $(this);
-                    if (!_this.val().isInt() || _this.val() <= 0) {
-                        _this.val("0");
+                var x=[],y=[];
+                $(".quantity").each(function () {
+                    var _this = $(this), remark = _this.data("remark"), xRemark = _this.data("x"), yRemark = _this.data("y");
+                    if ($.inArray(remark, xyattr) == -1) {
+                        _this.html("");
+                    };
+                    if ($.inArray(xRemark, x) == -1) {
+                        x.push(xRemark);
                     }
-
-                    var total = 0;
-                    $(".child-product-table .tr-item").each(function () {
-                        var _tr = $(this), totaly = 0;
-                        if (!_tr.hasClass("total")) {
-                            _tr.find(".quantity").each(function () {
-                                var _this = $(this);
-                                if (_this.val() > 0) {
-                                    totaly += _this.val() * 1;
-                                }
-                            });
-                            _tr.find(".total-y").text(totaly);
-                        } else {
-                            _tr.find(".total-y").each(function () {
-                                var _td = $(this), totalx = 0;
-                                $(".child-product-table .quantity[data-x='" + _td.data("x") + "']").each(function () {
-                                    var _this = $(this);
-                                    if (_this.val() > 0) {
-                                        totalx += _this.val() * 1;
-                                    }
-                                });
-                                total += totalx;
-                                _td.text(totalx);
-                            });
-                            _tr.find(".total-xy").text(total);
-                        }
-                    });
+                    if ($.inArray(yRemark, y) == -1) {
+                        y.push(yRemark);
+                    }
                 });
+                console.log(x,y);
+                Objects.getQuantity(x, "x");
+                Objects.getQuantity(y, "y");                
             });
         
     }
@@ -273,6 +260,33 @@
             }
         });    
     };
+
+    //Objects.getQuantity = function (obj,letter) {
+    //    var quantity = [];
+    //    for (var i = 0; i < obj.length; i++) {
+    //        $(".quantity[data-"+letter+"=" + obj[i] + "]").each(function () {
+    //            var num = $(this).html() * 1;
+    //            if (num == "") {
+    //                num = 0;
+    //            };
+    //            quantity.push(num);
+    //        });
+    //    }
+    //    var number1 = 0, number2 = 0, number3 = 0;
+    //    for (var i = 0; i < quantity.length; i++) {            
+    //        if (i <= 2) {
+    //            number1 += quantity[i];
+    //            $(".total-y[data-"+letter+"=" + obj[0] + "]").html(number1);
+    //        } else if (i <= 5) {
+    //            number2 += quantity[i];
+    //            $(".total-y[data-" + letter + "=" + obj[1] + "]").html(number2);
+    //        } else {
+    //            number3 += quantity[i];
+    //            $(".total-y[data-" + letter + "=" + obj[2] + "]").html(number3);
+    //        }
+    //        $(".total-xy").html(number1 + number2 + number3);
+    //    }
+    //};
 
     module.exports = Objects;
 });
