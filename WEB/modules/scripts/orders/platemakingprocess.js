@@ -10,7 +10,7 @@
         Objects.getAmount();        
         Objects.processPlate(orderid, OriginalID, ordertype);        
         Objects.order = JSON.parse(order.replace(/&quot;/g, '"'));
-        Objects.getOrderRemork(Objects.order);
+        //Objects.getOrderRemork(Objects.order);
     };
 
     Objects.bindEvent = function (plate) {
@@ -261,32 +261,32 @@
         });    
     };
 
-    Objects.getQuantity = function (obj,letter) {
-        var quantity = [];
-        for (var i = 0; i < obj.length; i++) {
-            $(".quantity[data-"+letter+"=" + obj[i] + "]").each(function () {
-                var num = $(this).html() * 1;
-                if (num == "") {
-                    num = 0;
-                };
-                quantity.push(num);
-            });
-        }
-        var number1 = 0, number2 = 0, number3 = 0;
-        for (var i = 0; i < quantity.length; i++) {            
-            if (i <= 2) {
-                number1 += quantity[i];
-                $(".total-y[data-"+letter+"=" + obj[0] + "]").html(number1);
-            } else if (i <= 5) {
-                number2 += quantity[i];
-                $(".total-y[data-" + letter + "=" + obj[1] + "]").html(number2);
-            } else {
-                number3 += quantity[i];
-                $(".total-y[data-" + letter + "=" + obj[2] + "]").html(number3);
-            }
-            $(".total-xy").html(number1 + number2 + number3);
-        }
-    };
+    //Objects.getQuantity = function (obj,letter) {
+    //    var quantity = [];
+    //    for (var i = 0; i < obj.length; i++) {
+    //        $(".quantity[data-"+letter+"=" + obj[i] + "]").each(function () {
+    //            var num = $(this).html() * 1;
+    //            if (num == "") {
+    //                num = 0;
+    //            };
+    //            quantity.push(num);
+    //        });
+    //    }
+    //    var number1 = 0, number2 = 0, number3 = 0;
+    //    for (var i = 0; i < quantity.length; i++) {            
+    //        if (i <= 2) {
+    //            number1 += quantity[i];
+    //            $(".total-y[data-"+letter+"=" + obj[0] + "]").html(number1);
+    //        } else if (i <= 5) {
+    //            number2 += quantity[i];
+    //            $(".total-y[data-" + letter + "=" + obj[1] + "]").html(number2);
+    //        } else {
+    //            number3 += quantity[i];
+    //            $(".total-y[data-" + letter + "=" + obj[2] + "]").html(number3);
+    //        }
+    //        $(".total-xy").html(number1 + number2 + number3);
+    //    }
+    //};
 
     module.exports = Objects;
 });
