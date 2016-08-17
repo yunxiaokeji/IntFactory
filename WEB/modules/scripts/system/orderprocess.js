@@ -33,8 +33,6 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-                $(".search-category .item").removeClass('hover')
-                                            .eq(0).addClass('hover');
                 Params.Type = _this.data("id");
                 _self.getList();
             }
@@ -42,21 +40,20 @@
 
         $(".search-category .item").click(function () {
             var _this = $(this);
-            if (!_this.hasClass('hover')) {
-                _this.siblings().removeClass("hover");
-                _this.addClass("hover");
             $(".nodate-box").remove();
-                if (_this.data("id")) {
-                    $(".table-list .list-item").hide();
-                    if ($(".table-list .list-item[data-id='" + _this.data("id") + "']").length > 0) {
-                        $(".table-list .list-item[data-id='" + _this.data("id") + "']").show();
-                    } else {
-                        $(".tr-header").after("<tr class='nodate-box'><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
-                    }
+            _this.siblings().removeClass("hover");
+            _this.addClass("hover");
+
+            if (_this.data("id")) {
+                $(".table-list .list-item").hide();
+                if ($(".table-list .list-item[data-id='" + _this.data("id") + "']").length > 0) {
+                    $(".table-list .list-item[data-id='" + _this.data("id") + "']").show();
                 } else {
-                    $(".nodate-box").remove();
-                    $(".table-list .list-item").show();
+                    $(".tr-header").after("<tr class='nodate-box'><td colspan='10'><div class='nodata-txt' >暂无数据!<div></td></tr>");
                 }
+            } else {
+                $(".nodate-box").remove();
+                $(".table-list .list-item").show();
             }
         });
 
