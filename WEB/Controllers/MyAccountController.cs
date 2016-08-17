@@ -27,8 +27,6 @@ namespace YXERP.Controllers
         /// </summary>
         public static string FilePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"];
         public static string TempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
-        String Bucket = System.Configuration.ConfigurationManager.AppSettings["QN-Bucket"] ?? "zngc-intfactory"; 
-
         #region view
 
         public ActionResult Index(string id)
@@ -180,7 +178,7 @@ namespace YXERP.Controllers
 
                 string key = TempPath + "User/" + id + ".png";
                 UploadAttachment(key, localFile);
-                avatar = (Bucket == "zngc-intfactory" ? "http://o9h6bx3r4.bkt.clouddn.com/" : "http://o9vwxv40j.bkt.clouddn.com/") + key;
+                avatar = YXERP.Common.Common.QNDomianUrl + key;
                 bool flag = OrganizationBusiness.UpdateAccountAvatar(CurrentUser.UserID, avatar, CurrentUser.ClientID);
                 if (flag)
                 {
@@ -203,11 +201,10 @@ namespace YXERP.Controllers
         {
             Config.Init();
             //设置上传的空间
-
             IOClient target = new IOClient();
             PutExtra extra = new PutExtra();
             //设置上传的空间
-            String bucket = Bucket;
+            string bucket = YXERP.Common.Common.QNBucket;
 
             //普通上传,只需要设置上传的空间名就可以了,第二个参数可以设定token过期时间
             PutPolicy put = new PutPolicy(bucket + ":" + key, 3600);

@@ -9,7 +9,7 @@
             <li>
                 <span class="mark left mTop5" data-id="{%=item.OrderID%}" data-value="{%= item.Mark %}"></span>
                 <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="width200 long mLeft10" title='{%=(item.GoodsName + item.IntGoodsCode)?(item.GoodsName+ " " + item.IntGoodsCode): item.OrderCode%}'>
-                    {%=(item.GoodsName + item.IntGoodsCode)?(item.GoodsName+ " " + item.IntGoodsCode): item.OrderCode%}
+                    {%=(item.GoodsName + item.IntGoodsCode)?(item.IntGoodsCode+ " " + item.GoodsName): item.OrderCode%}
                 </a>
             </li>
             {% if(item.SourceType==3){ %}

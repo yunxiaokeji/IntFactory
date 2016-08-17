@@ -125,7 +125,7 @@ public static class ExpandClass
         JavaScriptSerializer serializer = new JavaScriptSerializer();
         if (data != null && !string.IsNullOrEmpty(data.ToString()))
         {
-            return serializer.Serialize(data).Replace("\t", "").Replace("\n", "");
+            return (serializer.Serialize(data)).Replace(@"\n", "");
         }
         return string.Empty;
     }
