@@ -16,6 +16,7 @@ using Qiniu.IO.Resumable;
 using Qiniu.RS;
 using Qiniu.RPC;
 using IntFactoryEnum;
+using Qiniu.Conf;
 namespace YXERP.Controllers
 {
     
@@ -26,6 +27,7 @@ namespace YXERP.Controllers
         /// </summary>
         public static string FilePath = CloudSalesTool.AppSettings.Settings["UploadFilePath"];
         public static string TempPath = CloudSalesTool.AppSettings.Settings["UploadTempPath"];
+        String Bucket = System.Configuration.ConfigurationManager.AppSettings["QN-Bucket"] ?? "zngc-intfactory"; 
 
         #region view
 
@@ -72,6 +74,7 @@ namespace YXERP.Controllers
 
         public ActionResult WXLogin()
         {
+            ViewBag.redirect_uri = System.Configuration.ConfigurationManager.AppSettings["WeiXinLoginCallBack"] ?? "http://localhost:9999/Home/WeiXinLoginCallBack"; 
             return View();
         }
 
@@ -172,24 +175,23 @@ namespace YXERP.Controllers
                 Bitmap img = new Bitmap(stream);
 
                 var id = CurrentUser.UserID;
-                avatar = TempPath + id + ".png";
-                img.Save(Server.MapPath(avatar));
+                string localFile = TempPath + id + ".png";
+                img.Save(Server.MapPath(localFile));
 
                 string key = TempPath + "User/" + id + ".png";
-                UploadAttachment(key, avatar);
-
+                UploadAttachment(key, localFile);
+                avatar = (Bucket == "zngc-intfactory" ? "http://o9h6bx3r4.bkt.clouddn.com/" : "http://o9vwxv40j.bkt.clouddn.com/") + key;
                 bool flag = OrganizationBusiness.UpdateAccountAvatar(CurrentUser.UserID, avatar, CurrentUser.ClientID);
                 if (flag)
                 {
-                    avatar = "http://o9h6bx3r4.bkt.clouddn.com/" + key;
                     result = 1;
                     CurrentUser.Avatar = avatar;
                     Session["ClientManager"] = CurrentUser;
                 }
             }
-
             JsonDictionary.Add("result",result);
             JsonDictionary.Add("avatar", avatar);
+
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -197,12 +199,15 @@ namespace YXERP.Controllers
             };
         }
 
-        public bool UploadAttachment(string key,string filePath)
+        public bool UploadAttachment(string key,string localFile)
         {
+            Config.Init();
+            //设置上传的空间
+
             IOClient target = new IOClient();
             PutExtra extra = new PutExtra();
             //设置上传的空间
-            String bucket = "zngc-intfactory";
+            String bucket = Bucket;
 
             //普通上传,只需要设置上传的空间名就可以了,第二个参数可以设定token过期时间
             PutPolicy put = new PutPolicy(bucket + ":" + key, 3600);
@@ -210,11 +215,9 @@ namespace YXERP.Controllers
             //调用Token()方法生成上传的Token
             string upToken = put.Token();
 
-            filePath = Server.MapPath(filePath);
+            localFile = Server.MapPath(localFile);
             //调用PutFile()方法上传
-            PutRet ret = target.PutFile(upToken, key, filePath, extra);
-
-
+            PutRet ret = target.PutFile(upToken, key, localFile, extra);
             return ret.OK;
         }
         #endregion
