@@ -217,7 +217,7 @@
                         y.push(yRemark);
                     }
                 });
-                
+                console.log(x,y);
                 Objects.getQuantity(x, "x");
                 Objects.getQuantity(y, "y");                
             });
