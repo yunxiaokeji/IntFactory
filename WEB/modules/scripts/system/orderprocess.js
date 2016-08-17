@@ -90,7 +90,7 @@
             var _this = $(this);
             Global.post("/System/GetOrderProcessByID", { id: _this.data("id") }, function (data) {
                 var model = data.model;
-                _self.createModel(model);
+                _self.createModel(model, 1);
             });
         });
 
@@ -134,7 +134,7 @@
 
     }
     //添加/编辑弹出层
-    ObjectJS.createModel = function (model) {
+    ObjectJS.createModel = function (model,type) {
         var _self = this;
 
         doT.exec("template/system/orderprocess-detail.html", function (template) {
@@ -148,7 +148,7 @@
                         if (!VerifyObject.isPass()) {
                             return false;
                         }
-                        if ($("#processCategory .role-item.hover").length == 0) {
+                        if ($("#processCategory .role-item.hover").length == 0 && type != 1) {
                             alert("请选择品类");
                             return false;
                         }
