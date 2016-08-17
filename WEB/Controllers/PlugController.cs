@@ -205,7 +205,7 @@ namespace YXERP.Controllers
             {
                 Directory.CreateDirectory(uploadPath);
             }
-
+            
             List<Dictionary<string, object>> items = new List<Dictionary<string, object>>();
             bool stage = true;
             if (Request.Files.Count>5)

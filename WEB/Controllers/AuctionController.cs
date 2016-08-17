@@ -16,7 +16,6 @@ namespace YXERP.Controllers
     public class AuctionController : Controller
     {
         Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
-
         IntFactoryEntity.Users CurrentUser
         {
             get
@@ -31,7 +30,6 @@ namespace YXERP.Controllers
                 }
             }
         }
-
         Clients CurrentClient
         {
             get
@@ -48,6 +46,11 @@ namespace YXERP.Controllers
 
             }
         }
+
+        int BuyDiscount = 10;
+        float ProductDiscount = 1F;
+        decimal OrderDiscount = 1M;
+
         #region view
         /// <summary>
         /// 购买系统
@@ -67,7 +70,7 @@ namespace YXERP.Controllers
                     return Redirect("/Auction/BuyUserQuantity");
                 }
 
-                ViewBag.Discount = GetBuyDiscount();
+                ViewBag.Discount = BuyDiscount;
 
                 id = id ?? string.Empty;
                 int result = GetClientOrderInfo(ref id);
@@ -121,7 +124,7 @@ namespace YXERP.Controllers
 
                 ViewBag.CurrentAgent = CurrentClient;
 
-                ViewBag.Discount = GetBuyDiscount();
+                ViewBag.Discount = BuyDiscount;
 
                 id = id ?? string.Empty;
                 int result = GetClientOrderInfo(ref id);
@@ -172,10 +175,7 @@ namespace YXERP.Controllers
                 ViewBag.Days = Days;
                 ViewBag.UserQuantity = OrganizationBusiness.GetUsers(CurrentClient.ClientID).Count;
                 ViewBag.CurrentAgent = CurrentClient;
-
-                ViewBag.Discount = 10;
-                if (!string.IsNullOrEmpty(CurrentClient.AliMemberID))
-                    ViewBag.Discount = 8.8;
+                ViewBag.Discount = BuyDiscount;
 
                 id = id ?? string.Empty;
                 int result = GetClientOrderInfo(ref id);
@@ -419,7 +419,6 @@ namespace YXERP.Controllers
         public JsonResult GetBestWay(int quantity, int years, int type)
         {
             int remainderMonths = 12;//剩余月份
-            float discount = 1F;
             int pageCount = 0;
             int totalCount = 0;
 
@@ -458,16 +457,15 @@ namespace YXERP.Controllers
                 JsonDictionary.Add("Amount", (float.Parse(way.TotalMoney.ToString()) * remainderYears).ToString("f2"));
             }
 
-            if (type == 1 || type == 2)
-            {
-                discount = 0.5F;
-            }
-            else
-            {
-                discount = 0.88F;
-            }
-
-            JsonDictionary.Add("Discount", discount);
+            //if (type == 1 || type == 2)
+            //{
+            //    discount = 0.5F;
+            //}
+            //else
+            //{
+            //    discount = 0.88F;
+            //}
+            JsonDictionary.Add("Discount", ProductDiscount);
 
             return new JsonResult
             {
@@ -506,29 +504,26 @@ namespace YXERP.Controllers
             model.Type = type;
             model.Years = years;
             model.Amount = way.TotalMoney;
+            //if (!string.IsNullOrEmpty(CurrentUser.Client.AliMemberID))
+            //{
+            //    if (type == 1 || type == 2)
+            //    {
+            //        discount = 0.50M;
+            //    }
+            //    else
+            //    {
+            //        discount = 0.88M;
+            //    }
 
-            decimal discount = 1M;
-            if (!string.IsNullOrEmpty(CurrentUser.Client.AliMemberID))
-            {
-                if (type == 1 || type == 2)
-                {
-                    discount = 0.50M;
-                }
-                else
-                {
-                    discount = 0.88M;
-                }
-
-            }
-            else
-            {
-                if (type == 1 || type == 2)
-                {
-                    discount = 0.5M;
-                }
-            }
-
-            model.RealAmount = way.TotalMoney * discount;
+            //}
+            //else
+            //{
+            //    if (type == 1 || type == 2)
+            //    {
+            //        discount = 0.5M;
+            //    }
+            //}
+            model.RealAmount = way.TotalMoney * OrderDiscount;
 
             //购买人数
             float remainderYears = 1;
@@ -802,11 +797,11 @@ namespace YXERP.Controllers
         /// <returns></returns>
         public float GetBuyDiscount()
         {
-            float discount = 5;
-            if (!string.IsNullOrEmpty(CurrentClient.AliMemberID))
-            {
-                discount = 5;
-            }
+            float discount = BuyDiscount;
+            //if (!string.IsNullOrEmpty(CurrentClient.AliMemberID))
+            //{
+            //    discount = 5;
+            //}
 
             return discount;
         }

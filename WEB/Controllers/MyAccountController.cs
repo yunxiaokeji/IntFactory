@@ -171,20 +171,20 @@ namespace YXERP.Controllers
                 avatar = avatar.Split(',')[1];             
                 MemoryStream stream = new MemoryStream(Convert.FromBase64String(avatar));
                 Bitmap img = new Bitmap(stream);
-
-                var id = CurrentUser.UserID;
-                string localFile = TempPath + id + ".png";
+                string localFile = TempPath + CurrentUser.UserID + ".png";
                 img.Save(Server.MapPath(localFile));
 
-                string key = TempPath + "User/" + id + ".png";
+                string key = TempPath + "User/" + CurrentUser.UserID + ".png";
                 UploadAttachment(key, localFile);
-                avatar = YXERP.Common.Common.QNDomianUrl + key;
+
+                avatar = YXERP.Common.Common.QNDomianUrl + key+"?t="+DateTime.Now.Ticks;
                 bool flag = OrganizationBusiness.UpdateAccountAvatar(CurrentUser.UserID, avatar, CurrentUser.ClientID);
                 if (flag)
                 {
                     result = 1;
                     CurrentUser.Avatar = avatar;
                     Session["ClientManager"] = CurrentUser;
+                    System.IO.File.Delete(Server.MapPath(localFile));
                 }
             }
             JsonDictionary.Add("result",result);
