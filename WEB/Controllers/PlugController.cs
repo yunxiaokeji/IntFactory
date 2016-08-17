@@ -39,8 +39,6 @@ namespace YXERP.Controllers
             }
             set { Session["ClientManager"] = value; }
         }
-        //设置上传的空间
-        String bucket = System.Configuration.ConfigurationManager.AppSettings["QN-Bucket"] ?? "zngc-intfactory"; 
         protected Dictionary<string, object> JsonDictionary = new Dictionary<string, object>();
 
         /// <summary>
@@ -62,14 +60,13 @@ namespace YXERP.Controllers
         public JsonResult GetToken()
         {
             Config.Init();
-            //设置上传的空间
-            
             //普通上传,只需要设置上传的空间名就可以了,第二个参数可以设定token过期时间
-            PutPolicy put = new PutPolicy(bucket, 3600);
-
+            PutPolicy put = new PutPolicy(YXERP.Common.Common.QNBucket, 3600);
             //调用Token()方法生成上传的Token
             string upToken = put.Token();
             JsonDictionary.Add("uptoken", upToken);
+            JsonDictionary.Add("qnBucket", YXERP.Common.Common.QNBucket);
+            JsonDictionary.Add("qnDomianUrl", YXERP.Common.Common.QNDomianUrl);
 
             return new JsonResult()
             {
@@ -83,7 +80,7 @@ namespace YXERP.Controllers
             Config.Init();
             //实例化一个RSClient对象，用于操作BucketManager里面的方法
             RSClient client = new RSClient();
-            CallRet ret = client.Delete(new EntryPath(bucket, key));
+            CallRet ret = client.Delete(new EntryPath(YXERP.Common.Common.QNBucket, key));
 
             return ret.OK ? 1 : 0;
         }
@@ -94,12 +91,12 @@ namespace YXERP.Controllers
             IOClient target = new IOClient();
             PutExtra extra = new PutExtra();
             //普通上传,只需要设置上传的空间名就可以了,第二个参数可以设定token过期时间
-            PutPolicy put = new PutPolicy(bucket, 3600);
+            PutPolicy put = new PutPolicy(YXERP.Common.Common.QNBucket, 3600);
 
             //调用Token()方法生成上传的Token
             string upToken = put.Token();
             //上传文件的路径
-            String filePath = "";
+            String filePath = string.Empty;
 
             //调用PutFile()方法上传
             PutRet ret = target.PutFile(upToken, key, filePath, extra);
@@ -284,7 +281,6 @@ namespace YXERP.Controllers
 
         public ActionResult DownLoadFile(string filePath, string fileName, string originalName,string isIE)
         {
-          
             string path = Server.MapPath(filePath + fileName);//服务器文件物理路径
             FileInfo fileInfo = new FileInfo(path);
             if (fileInfo.Exists)
@@ -310,8 +306,6 @@ namespace YXERP.Controllers
             else {
                 return Redirect("/Error/NoFindFile");
             }
-
-            
         }
 
         /// <summary>

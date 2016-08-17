@@ -12,13 +12,12 @@ namespace YXERP.Common
     public class Common
     {
         public static string Version = "20160816";
-        //云销客户端的ClientID、AgentID
-        public static string YXClientID = System.Configuration.ConfigurationManager.AppSettings["YXClientID"] ?? string.Empty;
-        public static string YXAgentID = System.Configuration.ConfigurationManager.AppSettings["YXAgentID"] ?? string.Empty;
-
         //支付宝对接页面
         public static string AlipaySuccessPage = System.Configuration.ConfigurationManager.AppSettings["AlipaySuccessPage"] ?? string.Empty;
         public static string AlipayNotifyPage = System.Configuration.ConfigurationManager.AppSettings["AlipayNotifyPage"] ?? string.Empty;
+        //七牛云存储
+        public static string QNBucket = System.Configuration.ConfigurationManager.AppSettings["QN-Bucket"] ?? "zngc-intfactory";
+        public static string QNDomianUrl = System.Configuration.ConfigurationManager.AppSettings["QNDomianUrl"] ?? "http://o9h6bx3r4.bkt.clouddn.com/"; 
 
        /// <summary>
        /// 获取请求方ip
