@@ -243,6 +243,8 @@ namespace IntFactoryEntity
 
         public string CategoryName { get; set; }
 
+        public string OpenID { get; set; }
+
         public int TurnTimes { get; set; }
         /// <summary>
         /// 填充数据

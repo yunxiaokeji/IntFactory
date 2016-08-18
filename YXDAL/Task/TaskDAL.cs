@@ -164,16 +164,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@TaskID",taskid)
                                    };
 
-            return GetDataSet("P_GetPushTaskByPreTaskID", paras, CommandType.StoredProcedure, "OrderTask");
-        }
-
-        public DataSet GetPushTaskForChangeOrderOwner(string orderid)
-        {
-            SqlParameter[] paras = { 
-                                       new SqlParameter("@OrderID",orderid)
-                                   };
-
-            return GetDataSet("GetPushTaskByOrderID", paras, CommandType.StoredProcedure, "OrderTask");
+            return GetDataSet("P_GetPushTaskForFinishTask", paras, CommandType.StoredProcedure, "OrderTask|Order");
         }
 
         public DataSet GetPushTasksForNewOrder(string orderid)
@@ -182,7 +173,25 @@ namespace IntFactoryDAL
                                        new SqlParameter("@OrderID",orderid)
                                    };
 
-            return GetDataSet("P_GetPushTasksByOrderID", paras, CommandType.StoredProcedure, "OrderTask");
+            return GetDataSet("P_GetPushTasksForNewOrder", paras, CommandType.StoredProcedure, "OrderTask");
+        }
+
+        public DataSet GetPushTaskForChangeOrderOwner(string orderid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@OrderID",orderid)
+                                   };
+
+            return GetDataSet("P_GetPushTaskForChangeOrderOwner", paras, CommandType.StoredProcedure, "OrderTask");
+        }
+
+        public DataSet GetPushTaskForChangeTaskOwner(string taskid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@TaskID",taskid)
+                                   };
+
+            return GetDataSet("P_GetPushTaskForChangeTaskOwner", paras, CommandType.StoredProcedure, "OrderTask");
         }
 
         public bool UpdateTaskOwner(string taskID, string ownerID, out int result)
