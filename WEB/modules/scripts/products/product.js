@@ -65,13 +65,13 @@
 
                 },
                 onCategroyChange: function (items) {
-                    console.log(items);
                     $(".productsalesattr").remove();
                     $(".product-attr").remove();
                     $(".child-product-li .tr-header").nextAll().remove();
+                    _self.categoryID = "";
                     if (items) {
                         _self.categoryID = items.CategoryID;
-                        Global.post("/Products/GetCategoryDetailsByID", { categoryid: id }, function (data) {
+                        Global.post("/Products/GetCategoryDetailsByID", { categoryid: _self.categoryID }, function (data) {
                             doT.exec("template/products/product-property.html", function (template) {
                                 var innerHtml = template(items.AttrLists);
                                 innerHtml = $(innerHtml);
@@ -1186,7 +1186,6 @@
                     header: !id ? "添加材料子规格" : "编辑材料子规格",
                     content: html,
                     yesFn: function () {
-                        console.log(!DetailsVerify.isPass('#imgSLurl'));
                         if (!DetailsVerify.isPass('#imgSLurl')) {
                             return false;
                         }

@@ -167,7 +167,7 @@
                             _desc += itemMD.name;
                         }
                         obj.val(_desc);
-                        !options.onCategroyChange || options.onCategroyChange(CacheCategory[id]);
+                        !options.onCategroyChange || options.onCategroyChange(_this.data('layer') == options.layer ? CacheCategory[id] : "");
                     });
                 }
             }
