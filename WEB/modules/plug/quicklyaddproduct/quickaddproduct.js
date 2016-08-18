@@ -125,15 +125,18 @@
     //绑定事件
     PlugJS.prototype.bindEvent = function () {
         var _self = this;
-        $("#chooseCategory").chooseMenu({
-            isInit: true,
-            onCategroyChange: function (items) {
-                var id = items[items.length - 1].id;
-                _self.categoryID = id;
-                if (id) {
-                    $(".attr-item").remove();
-                    Global.post("/Products/GetCategoryDetailsByID", { categoryid: id }, function (data) {
-                        var sales = data.Model.SaleAttrs;
+        $.post("/Products/GetChildCategorysByID", {
+            categoryid: ''
+        }, function (data) {
+            $("#chooseCategory").chooseMenu({
+                isInit: true,
+                data:data.Items,
+                onCategroyChange: function (items) {
+                    _self.categoryID = "";
+                    if (items) {
+                        _self.categoryID = items.CategoryID;
+                        $(".attr-item").remove();
+                        var sales = items.SaleAttrs;
                         if (sales) {
                             var _desc = "";
                             for (var i = 0; i < sales.length; i++) {
@@ -208,12 +211,12 @@
                             $("#qulicklyAddMaterial").find(".attr-item").hide();
                             $("#iptRemark").prop("disabled", "false").css({ "background-color": "#fff", "border": "1px solid #ccc" });
                         }
-                    });
-                } else {
-                    $("#qulicklyAddMaterial").find(".attr-item").hide();
-                    $("#iptRemark").prop("disabled", false).css({ "background-color": "#fff", "border": "1px solid #ccc" });
+                    } else {
+                        $("#qulicklyAddMaterial").find(".attr-item").hide();
+                        $("#iptRemark").prop("disabled", false).css({ "background-color": "#fff", "border": "1px solid #ccc" });
+                    }
                 }
-            }
+            });
         });
         //选择材料供应商
         $("#prodiver").autocomplete({

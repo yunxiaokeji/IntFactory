@@ -6,7 +6,7 @@
         Verify = require("verify"), VerifyObject,
         ChooseCustomer = require("choosecustomer"),
         moment = require("moment");
-    require("chooseordercategory");
+    require("menu");
     var ObjectJS = {}, CacheCategory = [], CacheChildCategory = [], CacheItems = [];
 
     //初始化

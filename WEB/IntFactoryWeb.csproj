@@ -290,11 +290,9 @@
     <Content Include="modules\images\wechat.jpg" />
     <Content Include="modules\images\ico-wechat.png" />
     <Content Include="modules\images\word.png" />
-    <Content Include="modules\plug\choosemenu\choosemenu.css" />
-    <Content Include="modules\plug\choosemenu\choosemenu.js" />
     <Content Include="modules\plug\choosecolor\spectrum.css" />
     <Content Include="modules\plug\choosecolor\spectrum.js" />
-    <Content Include="modules\plug\chooseordercategory\chooseordercategory.html" />
+    <Content Include="modules\plug\choosemenu\choosemenu.html" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
     <Content Include="modules\plug\chooseproduct\productin.html" />
     <Content Include="modules\plug\colormark\colormark.js" />
@@ -542,8 +540,8 @@
     <Content Include="modules\plug\umeditor\ueditor.config.js" />
     <Content Include="modules\plug\umeditor\ueditor.parse.js" />
     <Content Include="modules\plug\umeditor\ueditor.parse.min.js" />
-    <Content Include="modules\plug\chooseordercategory\chooseordercategory.css" />
-    <Content Include="modules\plug\chooseordercategory\chooseordercategory.js" />
+    <Content Include="modules\plug\choosemenu\choosemenu.css" />
+    <Content Include="modules\plug\choosemenu\choosemenu.js" />
     <Content Include="modules\template\orders\createorder-checkattr.html" />
     <Content Include="modules\template\orders\plate-making-list.html" />
     <Content Include="modules\template\products\product-baseinfo.html" />
