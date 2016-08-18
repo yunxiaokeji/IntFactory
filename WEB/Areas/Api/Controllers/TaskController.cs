@@ -33,16 +33,10 @@ namespace YXERP.Areas.Api.Controllers
             if (!string.IsNullOrEmpty(filter)){
                 paras = JsonConvert.DeserializeObject<FilterTasks>(filter);
             }
-
             int pageCount = 0;
             int totalCount = 0;
-            string ownerID = string.Empty;
-            //我的任务
-            ownerID = paras.userID;
-            if (paras.isMy) {
-                ownerID = userID;
-            }
-            List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID,paras.isParticipate?1:0, paras.status, paras.finishStatus,-1,-1,
+            string ownerID = userID;
+            List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID,paras.filtertype, paras.status, paras.finishStatus,-1,-1,
                 paras.colorMark, paras.taskType, paras.beginDate, paras.endDate,string.Empty,string.Empty,
                 paras.orderType, paras.orderProcessID, paras.orderStageID,
                 (EnumTaskOrderColumn)paras.taskOrderColumn, paras.isAsc, clientID,
@@ -81,12 +75,10 @@ namespace YXERP.Areas.Api.Controllers
                 task.Add("createTime", item.CreateTime.ToString("yyyy-MM-dd"));
                 tasks.Add(task);
             }
-
             JsonDictionary.Add("tasks", tasks);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
 
-           
             return new JsonResult
             {
                 Data = JsonDictionary,
