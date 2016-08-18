@@ -197,10 +197,8 @@ namespace YXERP.Controllers
 
         public ActionResult FentOrderReport(string id)
         {
-            var model = OrdersBusiness.BaseBusiness.GetOrderForFentReport(id, CurrentUser.ClientID);
-            var client = ClientBusiness.GetClientDetail(model.ClientID);  
+            var model = OrdersBusiness.BaseBusiness.GetOrderForFentReport(id, CurrentUser.ClientID);             
             ViewBag.Model = model;
-            ViewBag.Client = client;
             return View();
         }
 

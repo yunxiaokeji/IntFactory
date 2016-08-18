@@ -1,6 +1,6 @@
 ﻿@{
     var order = (IntFactoryEntity.OrderEntity)ViewBag.Model;
-    var client = (IntFactoryEntity.Manage.Clients)ViewBag.Client;
+    var currentUser = (IntFactoryEntity.Users)Session["ClientManager"];
     var list = order.OrderCoss;
     ViewBag.Title = "打样报价";
     Layout = null;
@@ -35,7 +35,7 @@
        <table width="100%" id="tabletoexcel">
         <tr>
             <td colspan="4">
-                <div class="titlename">@(client.CompanyName==""?"--":client.CompanyName)</div>
+                <div class="titlename">@(currentUser.Client.CompanyName)打样报价单</div>
             </td>
         </tr>
         

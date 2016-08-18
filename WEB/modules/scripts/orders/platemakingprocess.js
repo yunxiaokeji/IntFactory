@@ -6,11 +6,10 @@
     var Objects = {};
 
     Objects.init = function (plate, orderid, OriginalID,ordertype,order) {
-        Objects.bindEvent(plate);        
-        Objects.getAmount();        
+        Objects.bindEvent(plate);   
         Objects.processPlate(orderid, OriginalID, ordertype);        
         Objects.order = JSON.parse(order.replace(/&quot;/g, '"'));
-        //Objects.getOrderRemork(Objects.order);
+        Objects.getOrderRemork(Objects.order);
     };
 
     Objects.bindEvent = function (plate) {
@@ -107,18 +106,8 @@
             $(".information").each(function () {
                 _this=$(this);
                 if (_this.hasClass("hover")) {                    
-                    var id = _this.parent().parent().parent().parent().data("id");
-                    if (id == "navgoods") {
-                        $("#" + id).remove();
-                        Objects.imgOrderTable();
-                        $(".img-order tr td").removeClass("no-border-left");
-                        $(".img-order img").removeAttr("style");
-                        $(".img-order img").parent().addClass("no-border-bottom");
-                        $(".navproducts tr:first td").removeClass("no-border-top")
-                    } else {
-                        $("." + id).remove();
-                    };
-                                       
+                    var id = _this.parent().parent().parent().parent().data("id");                    
+                    $("." + id).remove();                                  
                 }
             });
 
@@ -157,46 +146,25 @@
         $("#Platemak table").find("tr:first").find("td:last").css("margin-left", "10%");
     };
 
-    //汇总
-    Objects.getAmount = function () {
-        //订单明细汇总
-        $(" .total-items td").each(function () {
-            var _this = $(this), _total = 0;
-            if (_this.data("class")) {
-                $("." + _this.data("class")).each(function () {
-                    _total += $(this).html() * 1;
-                });
-                if (_this.data("class") == "moneytotal") {
-                    _this.html(_total.toFixed(2));
-                } else {
-                    _this.html(_total);
-                    _this.attr("title", _total);
-                }
-            }
-        });
-    };
-
     Objects.getOrderRemork = function (order) {
         
-        var tableModel = {}, xattr = [], yattr = [];xyattr=[];
-        for (var i = 0; i < order.OrderGoods.length; i++) {
+        var tableModel = {}, xattr = [], yattr = [],xyattr=[],xy=[];
+        for (var i = 0; i < order.OrderGoods.length; i++) {            
             if ($.inArray(order.OrderGoods[i].XRemark, xattr) == -1 ) {
                 xattr.push(order.OrderGoods[i].XRemark);                
             }
-            if ($.inArray(order.OrderGoods[i].YRemark, xattr) == -1) {
+            if ($.inArray(order.OrderGoods[i].YRemark, yattr) == -1) {
                 yattr.push(order.OrderGoods[i].YRemark);
             }
-            xyattr.push(order.OrderGoods[i].XYRemark);
+            xyattr.push({ xy: order.OrderGoods[i].XYRemark, quantity: order.OrderGoods[i].Quantity });
+            xy.push(order.OrderGoods[i].XYRemark);
         }
         tableModel.xAttr = xattr;
         tableModel.yAttr = yattr;
-        tableModel.items = order.OrderGoods;
-        console.log(tableModel);
             doT.exec("template/orders/plate-making-list.html", function (template) {
                 var html = template(tableModel);
                 html = $(html);
-                $(".head-table").after(html);
-
+                $(".plate-list").append(html);
                 html.find(".icon-delete").click(function () {
                     if (!$(this).hasClass("hover")) {
                         $(this).addClass("hover");
@@ -204,22 +172,22 @@
                         $(this).removeClass("hover");
                     }
                 });
-                var x=[],y=[];
+                
                 $(".quantity").each(function () {
-                    var _this = $(this), remark = _this.data("remark"), xRemark = _this.data("x"), yRemark = _this.data("y");
-                    if ($.inArray(remark, xyattr) == -1) {
+                    var _this = $(this), remark = _this.data("remark");
+                    if ($.inArray(remark,xy)==-1) {
                         _this.html("");
-                    };
-                    if ($.inArray(xRemark, x) == -1) {
-                        x.push(xRemark);
-                    }
-                    if ($.inArray(yRemark, y) == -1) {
-                        y.push(yRemark);
+                    } else {
+                        for (var i = 0; i < xyattr.length; i++) {
+                            if (remark==xyattr[i].xy) {
+                                _this.html(xyattr[i].quantity);
+                            }
+                        }
                     }
                 });
-                console.log(x,y);
-                Objects.getQuantity(x, "x");
-                Objects.getQuantity(y, "y");                
+
+                $(".goosddoc tr").find("td:last").addClass("no-border-right");
+                $(".goosddoc").find("tr:last td").addClass("no-border-bottom");
             });
         
     }
@@ -260,33 +228,6 @@
             }
         });    
     };
-
-    //Objects.getQuantity = function (obj,letter) {
-    //    var quantity = [];
-    //    for (var i = 0; i < obj.length; i++) {
-    //        $(".quantity[data-"+letter+"=" + obj[i] + "]").each(function () {
-    //            var num = $(this).html() * 1;
-    //            if (num == "") {
-    //                num = 0;
-    //            };
-    //            quantity.push(num);
-    //        });
-    //    }
-    //    var number1 = 0, number2 = 0, number3 = 0;
-    //    for (var i = 0; i < quantity.length; i++) {            
-    //        if (i <= 2) {
-    //            number1 += quantity[i];
-    //            $(".total-y[data-"+letter+"=" + obj[0] + "]").html(number1);
-    //        } else if (i <= 5) {
-    //            number2 += quantity[i];
-    //            $(".total-y[data-" + letter + "=" + obj[1] + "]").html(number2);
-    //        } else {
-    //            number3 += quantity[i];
-    //            $(".total-y[data-" + letter + "=" + obj[2] + "]").html(number3);
-    //        }
-    //        $(".total-xy").html(number1 + number2 + number3);
-    //    }
-    //};
 
     module.exports = Objects;
 });
