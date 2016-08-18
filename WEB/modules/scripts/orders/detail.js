@@ -1834,7 +1834,7 @@
                 if (_this.data("class") == "moneytotal") {
                     _this.html(_total.toFixed(2));
                 } else {
-                    _this.html(_total);
+                    _this.html(_total.toFixed(2));
                 }
             }
         });

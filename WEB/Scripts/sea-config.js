@@ -87,10 +87,8 @@ seajs.config({
         "qqface": "plug/qqface/qqface.js",
         //显示提示插件
         "tip": "plug/tip/tip.js",
-        //选择材料分类插件
+        //选择分类插件
         "menu": "plug/choosemenu/choosemenu.js",
-        //选择订单分类插件
-        "chooseordercategory": "plug/chooseordercategory/chooseordercategory.js",
         //快速添加材料插件
         "quicklyproduct": "plug/quicklyaddproduct/quickaddproduct.js",
         //显示明细弹出层

@@ -1,8 +1,0 @@
-﻿.change-menu-body {background-color:#fff;padding:10px;position:absolute;border:1px solid #ccc;z-index:99999;}
-.change-menu-body li { font-size:14px;float:left;}
-.change-menu-body .change-menu-header { line-height:30px;height:30px;border-bottom:1px solid #ddd;margin-bottom:20px;}
-.change-menu-header ul li {margin-left:8px;border:1px solid #dedede;margin-top:-1px;background-color:#fff;text-align:center;min-width:70px;padding:0 10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.change-menu-header ul li.hover {border-bottom:none;height:31px;color:#4a98e7;}
-.change-menu-content ul li {min-width:60px;margin-right:10px;line-height:24px;height:24px;padding:3px 10px;border:1px solid #ccc;text-align:center;transition:background-color 0.2s; margin-bottom:14px;
-                            box-shadow:inset 1px 1px 2px #ececec;-webkit-box-shadow:inset 1px 1px 2px #ececec;-moz-box-shadow:inset 1px 1px 2px #ececec}
-.change-menu-content ul li:hover { background-color:#cdcdcd;box-shadow:inset 1px 1px 2px transparent;-webkit-box-shadow:inset 1px 2px transparent;-moz-box-shadow:inset 1px 1px 2px transparent}
