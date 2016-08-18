@@ -750,7 +750,7 @@ namespace IntFactoryBusiness
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, userid, clientid);
 
                 //通知负责人有新任务
-                WeiXinMPPush.BasePush.SendNewOrderPush(orderid);
+                WeiXinMPPush.BasePush.SendChangeOrderOwnerPush(orderid);
             }
             return bl;
         }

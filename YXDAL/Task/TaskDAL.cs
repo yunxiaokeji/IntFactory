@@ -12,7 +12,7 @@ namespace IntFactoryDAL
     {
         public static TaskDAL BaseProvider = new TaskDAL();
 
-        public DataTable GetTasks(string keyWords, string ownerID, int isParticipate, int status, int finishStatus, int invoiceStatus, int preFinishStatus,
+        public DataTable GetTasks(string keyWords, string ownerID, int filterType, int status, int finishStatus, int invoiceStatus, int preFinishStatus,
             int colorMark, int taskType, string beginDate, string endDate, string beginEndDate, string endEndDate,
             int orderType, string orderProcessID, string orderStageID, int taskOrderColumn, int isAsc, string clientID,
             int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
@@ -21,7 +21,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@totalCount",SqlDbType.Int),
                                        new SqlParameter("@pageCount",SqlDbType.Int),
                                        new SqlParameter("@OwnerID",ownerID),
-                                       new SqlParameter("@IsParticipate",isParticipate),
+                                       new SqlParameter("@FilterType",filterType),
                                        new SqlParameter("@Status",status),
                                        new SqlParameter("@FinishStatus",finishStatus),
                                        new SqlParameter("@InvoiceStatus",invoiceStatus),
@@ -158,7 +158,7 @@ namespace IntFactoryDAL
 
         }
 
-        public DataSet GetPushTaskByPreTaskID(string taskid)
+        public DataSet GetPushTaskForFinishTask(string taskid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@TaskID",taskid)
@@ -167,7 +167,7 @@ namespace IntFactoryDAL
             return GetDataSet("P_GetPushTaskByPreTaskID", paras, CommandType.StoredProcedure, "OrderTask");
         }
 
-        public DataSet GetPushTaskByOrderID(string orderid)
+        public DataSet GetPushTaskForChangeOrderOwner(string orderid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@OrderID",orderid)
@@ -176,7 +176,7 @@ namespace IntFactoryDAL
             return GetDataSet("GetPushTaskByOrderID", paras, CommandType.StoredProcedure, "OrderTask");
         }
 
-        public DataSet GetPushTasksByOrderID(string orderid)
+        public DataSet GetPushTasksForNewOrder(string orderid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@OrderID",orderid)

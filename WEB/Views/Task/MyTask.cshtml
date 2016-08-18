@@ -1,7 +1,6 @@
 ﻿@{
     ViewBag.Title = "我的任务";
-    var NowDate = ViewBag.NowDate;
-    var model=(List<IntFactoryEntity.LableColorEntity>)ViewBag.list;
+    var colorList = (List<IntFactoryEntity.LableColorEntity>)ViewBag.list;
 }
 @section css{
     <link href="/modules/css/task.css" rel="stylesheet" />
@@ -14,7 +13,7 @@
     <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
        seajs.use(["scripts/task/list"], function (obj) {
-           obj.init('@ViewBag.IsMy', '@NowDate', '@Html.ToJSONString(model)', '@ViewBag.UserID');
+           obj.init('@ViewBag.filterType', '@ViewBag.UserID', '@Html.ToJSONString(colorList)');
        });
     </script>
 }
@@ -68,10 +67,10 @@
     <div class="search-items">
         <div class="left mRight20" id="chooseBranch"></div>
         <div class="left">
-            <input type="text" id="iptCreateTime" placeholder="创建日期"  class="ipt-date"  />
+            <input type="text" id="taskCreateTime" placeholder="创建日期"  class="ipt-date"  />
         </div>
         <div class="left">
-            <input type="text" id="iptExpireTime" placeholder="到期日期"  class="ipt-date"  />
+            <input type="text" id="taskExpireTime" placeholder="到期日期"  class="ipt-date"  />
         </div>
         <div class="right searth-module" data-text="输入任务标题/任务编码/订单编码..." data-width="260"> </div>
     </div>

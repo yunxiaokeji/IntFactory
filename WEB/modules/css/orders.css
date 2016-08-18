@@ -59,7 +59,7 @@
 .order-info .cutomerinfo li .column-title{ width:80px; float:left; color:#666; }
 
 .order-remark { margin-top:20px; padding:10px; border:solid 1px #eee; line-height:25px;word-break:break-all; }
-.order-remark .title{ color:#999; }
+.order-remark .title{ color:#666; }
 
 /*订单品类*/
 .category-header { font-size:14px; border-bottom:solid 1px #eee; }
@@ -71,7 +71,7 @@
 
 .process-info { border-bottom:solid 1px #eee; overflow:auto; padding:10px 0; }
 
-.process-info .info{ font-size:16px; height:25px; line-height:25px;}
+.process-info .info{ font-size:16px; height:25px; line-height:25px;color:#666;}
 
 .process-stages .stage-items { }
 .process-stages .stage-items  li{ float:left; width:130px; cursor:pointer; padding:5px 10px; position:relative;
