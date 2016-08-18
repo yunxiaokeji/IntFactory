@@ -115,56 +115,57 @@ namespace YXERP.Controllers
                 }
             }
             ViewBag.NowDate = nowDate;
-            ViewBag.IsMy = 1;
+            ViewBag.filterType = 1;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
             ViewBag.UserID = CurrentUser.UserID;
+
             return View();
         }
 
         public ActionResult Participate()
         {
-            ViewBag.IsMy = 2;
+            ViewBag.filterType = 2;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
             ViewBag.UserID = CurrentUser.UserID;
+
             return View("MyTask");
         }
 
         public ActionResult Tasks()
         {
-            ViewBag.IsMy = 0;
+            ViewBag.filterType = -1;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
             ViewBag.UserID = CurrentUser.UserID;
+
             return View("MyTask");
         }
         #endregion
 
         #region ajax
         //获取任务列表
-        public JsonResult GetTasks(string keyWords, bool isMy, int isParticipate, string userID, int taskType, int colorMark, 
-            int status, int finishStatus,int invoiceStatus,int preFinishStatus,
+        public JsonResult GetTasks(string keyWords, int filterType, string userID, int taskType, int colorMark, 
+            int finishStatus,int invoiceStatus,int preFinishStatus,
             string beginDate, string endDate,string beginEndDate,string endEndDate,
-            int orderType, string orderProcessID, string orderStageID, 
-            int taskOrderColumn, int isAsc, int pageSize, int pageIndex, string listType)
+            int orderType, int taskOrderColumn, int isAsc, int pageSize, int pageIndex, string listType)
         {
             int pageCount = 0;
             int totalCount = 0;
-            //所有任务
             string ownerID = string.Empty;
-            //我的任务
-            if (isMy || isParticipate==1)
+            if (filterType==-1)
             {
-                ownerID = CurrentUser.UserID;
-            }//指定用户的任务
-            else{
                 if (!string.IsNullOrEmpty(userID))
                 {
                     ownerID = userID;
                 }
             }
-            
-            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, isParticipate,status, finishStatus,invoiceStatus,preFinishStatus,
+            else
+            {
+                ownerID = CurrentUser.UserID;
+            }
+
+            List<TaskEntity> list = TaskBusiness.GetTasks(keyWords.Trim(), ownerID, filterType, 1, finishStatus, invoiceStatus, preFinishStatus,
                 colorMark, taskType, beginDate, endDate, beginEndDate,endEndDate,
-                orderType, orderProcessID, orderStageID,
+                orderType, "-1", "-1",
                  (EnumTaskOrderColumn)taskOrderColumn, isAsc, CurrentUser.ClientID,
                 pageSize, pageIndex, ref totalCount, ref pageCount);
 

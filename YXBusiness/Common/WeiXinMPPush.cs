@@ -35,9 +35,9 @@ namespace IntFactoryBusiness
         }
 
         //新订单推送通知
-        public async void SendNewOrderPush(string orderid)
+        public async void SendChangeOrderOwnerPush(string orderid)
         {
-            await SendAllPush(WeiXinMPPushType.SendNewOrderPush, orderid);
+            await SendAllPush(WeiXinMPPushType.SendChangeOrderOwnerPush, orderid);
         }
 
         public Task<bool> SendAllPush(WeiXinMPPushType pushType, string guid)
@@ -45,7 +45,7 @@ namespace IntFactoryBusiness
             string result = string.Empty;
             if (pushType == WeiXinMPPushType.SendTaskFinishPush)
             {
-                TaskEntity task = TaskBusiness.GetPushTaskByPreTaskID(guid);
+                TaskEntity task = TaskBusiness.GetPushTaskForFinishTask(guid);
                 if (task != null)
                 {
                     string content = GetPushContent(WeiXinMPPushType.SendTaskFinishPush, task.OpenID, task.Title, task.PreTitle, task.Owner.Name);
@@ -54,7 +54,7 @@ namespace IntFactoryBusiness
             }
             else if (pushType == WeiXinMPPushType.SendNewTaskPush)
             {
-                List<TaskEntity> tasks = TaskBusiness.GetPushTasksByOrderID(guid);
+                List<TaskEntity> tasks = TaskBusiness.GetPushTasksForNewOrder(guid);
                 if (tasks.Count > 0)
                 {
                     foreach (var task in tasks)
@@ -64,12 +64,12 @@ namespace IntFactoryBusiness
                     }
                 }
             }
-            else if (pushType == WeiXinMPPushType.SendNewOrderPush)
+            else if (pushType == WeiXinMPPushType.SendChangeOrderOwnerPush)
             {
-                TaskEntity task = TaskBusiness.GetPushTaskByOrderID(guid);
+                TaskEntity task = TaskBusiness.GetPushTaskForChangeOrderOwner(guid);
                 if (task != null)
                 {
-                    string content = GetPushContent(WeiXinMPPushType.SendNewOrderPush, task.OpenID, task.Title, "", "", task.EndTime);
+                    string content = GetPushContent(WeiXinMPPushType.SendChangeOrderOwnerPush, task.OpenID, task.Title, "", "", task.EndTime);
                     result=SendPush(content);
                 }
             }
@@ -101,7 +101,7 @@ namespace IntFactoryBusiness
                 keyword2 = endTime.Value.ToString("yyyy-MM-dd hh:mm");
                 remark = "请尽快处理！";
             }
-            else if (pushType == WeiXinMPPushType.SendNewOrderPush)
+            else if (pushType == WeiXinMPPushType.SendChangeOrderOwnerPush)
             {
                 first = "您有一个新的订单，请尽快处理";
                 keyword2 = endTime.Value.ToString("yyyy-MM-dd hh:mm");
@@ -245,7 +245,7 @@ namespace IntFactoryBusiness
 
         SendNewTaskPush=1,
 
-        SendNewOrderPush=2
+        SendChangeOrderOwnerPush = 2
     }
 
     //微信公众号token实体

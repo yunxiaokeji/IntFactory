@@ -30,23 +30,22 @@
 </div>
 
 <div class="content-title">
-    
     <div class="left titlename">订单款式：<a class="font14" href="/Orders/OrderDetail/@(order.OrderID)" >@(order.GoodsName+"-"+order.IntGoodsCode)</a></div>
     <ul class="right">
         <li title="任务完成状态">
             <span class="left"> 任务状态：</span>
-            <label class="left color666 font14" >
+            <label class="left content-item" >
                 @( task.FinishStatus==0?"未接受":task.FinishStatus==1?"进行中":(task.FinishStatus==2&&task.LockStatus==2)?"已重启":"已完成" )
             </label>
         </li>
         <li title="订单类型">
-            <span class="left"> 订单类型：</span><label class="left color666 font14" >@(task.OrderType==1?"打样":"大货")</label>
+            <span class="left"> 订单类型：</span><label class="left content-item" >@(task.OrderType==1?"打样":"大货")</label>
         </li>
         <li title="订单交货日期">
-            <span class="left"> 交货日期：</span><label class="left color666 font14" >@(order.PlanTime.ToString("yyyy-MM-dd"))</label>
+            <span class="left"> 交货日期：</span><label class="left content-item" >@(order.PlanTime.ToString("yyyy-MM-dd"))</label>
         </li>
         <li>
-            <span class="left"> 负责人：</span><label class="left">@(task.Owner != null ? task.Owner.Name : "--")</label>
+            <span class="left"> 负责人：</span><label class="left content-item">@(task.Owner != null ? task.Owner.Name : "--")</label>
         </li>
     </ul>
 </div>
@@ -67,16 +66,16 @@
             <ul class=" taskBaseInfo ">
                  <li class="li-plustime"><span class="column-title" id="overplusTime">剩余时间：</span>
                     <span class="task-time" id="time-d">0</span>
-                    <span class="mRight10 color666">天</span>
+                    <span class="mRight10">天</span>
 
                     <span class="task-time" id="time-h">0</span>
-                    <span class="mRight10 color666">时</span>
+                    <span class="mRight10">时</span>
 
                     <span class="task-time" id="time-m">0</span>
-                     <span class="mRight10 color666">分</span>
+                     <span class="mRight10">分</span>
 
                     <span class="task-time" id="time-s">0</span>
-                     <span class="color666">秒</span>
+                     <span>秒</span>
                 </li>
                 <li>
                     <span class="column-title">接受时间：</span>
@@ -187,7 +186,7 @@
         }
              
        <div class="clear"></div>
-       <div class="order-remark">详细需求: @(order.Remark)</div>
+       <div class="order-remark"><span class="title">详细需求：</span>@(order.Remark)</div>
     </div>
   </div>
 

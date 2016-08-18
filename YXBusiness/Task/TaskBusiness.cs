@@ -17,14 +17,14 @@ namespace IntFactoryBusiness
 
         #region 查
 
-        public static List<TaskEntity> GetTasks(string keyWords, string ownerID, int isParticipate, int status, int finishStatus, int invoiceStatus,int preFinishStatus,
+        public static List<TaskEntity> GetTasks(string keyWords, string ownerID, int filterType, int status, int finishStatus, int invoiceStatus, int preFinishStatus,
             int colorMark, int taskType, string beginDate, string endDate, string beginEndDate, string endEndDate,
             int orderType, string orderProcessID, string orderStageID,
             EnumTaskOrderColumn taskOrderColumn,int isAsc, string clientID,
             int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
         {
             List<TaskEntity> list = new List<TaskEntity>();
-            DataTable dt = TaskDAL.BaseProvider.GetTasks(keyWords, ownerID,isParticipate, status, finishStatus, invoiceStatus,preFinishStatus,
+            DataTable dt = TaskDAL.BaseProvider.GetTasks(keyWords, ownerID, filterType, status, finishStatus, invoiceStatus, preFinishStatus,
                 colorMark, taskType, beginDate, endDate, beginEndDate,endEndDate,
                 orderType, orderProcessID, orderStageID,
                 (int)taskOrderColumn, isAsc, clientID, 
@@ -222,9 +222,9 @@ namespace IntFactoryBusiness
         }
 
 
-        public static TaskEntity GetPushTaskByPreTaskID(string taskid) { 
+        public static TaskEntity GetPushTaskForFinishTask(string taskid) { 
             TaskEntity model = null;
-            DataSet ds = TaskDAL.BaseProvider.GetPushTaskByPreTaskID(taskid);
+            DataSet ds = TaskDAL.BaseProvider.GetPushTaskForFinishTask(taskid);
             DataTable taskTB = ds.Tables["OrderTask"];
             if (taskTB.Rows.Count == 1)
             {
@@ -236,10 +236,10 @@ namespace IntFactoryBusiness
             return model;
         }
 
-        public static List<TaskEntity> GetPushTasksByOrderID(string orderid)
+        public static List<TaskEntity> GetPushTasksForNewOrder(string orderid)
         {
             List<TaskEntity> list = new List<TaskEntity>();
-            DataSet ds = TaskDAL.BaseProvider.GetPushTasksByOrderID(orderid);
+            DataSet ds = TaskDAL.BaseProvider.GetPushTasksForNewOrder(orderid);
             DataTable taskTB = ds.Tables["OrderTask"];
             foreach (DataRow dr in taskTB.Rows)
             {
@@ -253,10 +253,10 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public static TaskEntity GetPushTaskByOrderID(string orderid)
+        public static TaskEntity GetPushTaskForChangeOrderOwner(string orderid)
         {
             TaskEntity model = null;
-            DataSet ds = TaskDAL.BaseProvider.GetPushTaskByOrderID(orderid);
+            DataSet ds = TaskDAL.BaseProvider.GetPushTaskForChangeOrderOwner(orderid);
             DataTable taskTB = ds.Tables["OrderTask"];
             if (taskTB.Rows.Count == 1)
             {
